@@ -66,7 +66,6 @@ public class AggregateUtil {
 		"url("
 	};
 
-	private static Pattern _pattern = Pattern.compile(
-		"(@base_url@/css/){2,}");
+	private static Pattern _pattern = Pattern.compile("(@base_url@/css/){2,}");
 
 }
