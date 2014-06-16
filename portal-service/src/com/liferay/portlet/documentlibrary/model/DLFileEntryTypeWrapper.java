@@ -768,8 +768,7 @@ public class DLFileEntryTypeWrapper implements DLFileEntryType,
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructure> getDDMStructures()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructure> getDDMStructures() {
 		return _dlFileEntryType.getDDMStructures();
 	}
 
@@ -777,8 +776,7 @@ public class DLFileEntryTypeWrapper implements DLFileEntryType,
 	public java.lang.String getUnambiguousName(
 		java.util.List<com.liferay.portlet.documentlibrary.model.DLFileEntryType> dlFileEntryTypes,
 		long groupId, java.util.Locale locale)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileEntryType.getUnambiguousName(dlFileEntryTypes, groupId,
 			locale);
 	}

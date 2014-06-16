@@ -275,82 +275,70 @@ public class DLFileRankLocalServiceWrapper implements DLFileRankLocalService,
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileRank addFileRank(
 		long groupId, long companyId, long userId, long fileEntryId,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.service.ServiceContext serviceContext) {
 		return _dlFileRankLocalService.addFileRank(groupId, companyId, userId,
 			fileEntryId, serviceContext);
 	}
 
 	@Override
-	public void checkFileRanks()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void checkFileRanks() {
 		_dlFileRankLocalService.checkFileRanks();
 	}
 
 	@Override
 	public void deleteFileRank(
-		com.liferay.portlet.documentlibrary.model.DLFileRank dlFileRank)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.documentlibrary.model.DLFileRank dlFileRank) {
 		_dlFileRankLocalService.deleteFileRank(dlFileRank);
 	}
 
 	@Override
 	public void deleteFileRank(long fileRankId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlFileRankLocalService.deleteFileRank(fileRankId);
 	}
 
 	@Override
-	public void deleteFileRanksByFileEntryId(long fileEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteFileRanksByFileEntryId(long fileEntryId) {
 		_dlFileRankLocalService.deleteFileRanksByFileEntryId(fileEntryId);
 	}
 
 	@Override
-	public void deleteFileRanksByUserId(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteFileRanksByUserId(long userId) {
 		_dlFileRankLocalService.deleteFileRanksByUserId(userId);
 	}
 
 	@Override
-	public void disableFileRanks(long fileEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void disableFileRanks(long fileEntryId) {
 		_dlFileRankLocalService.disableFileRanks(fileEntryId);
 	}
 
 	@Override
 	public void disableFileRanksByFolderId(long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlFileRankLocalService.disableFileRanksByFolderId(folderId);
 	}
 
 	@Override
-	public void enableFileRanks(long fileEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void enableFileRanks(long fileEntryId) {
 		_dlFileRankLocalService.enableFileRanks(fileEntryId);
 	}
 
 	@Override
 	public void enableFileRanksByFolderId(long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlFileRankLocalService.enableFileRanksByFolderId(folderId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFileRank> getFileRanks(
-		long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long userId) {
 		return _dlFileRankLocalService.getFileRanks(groupId, userId);
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileRank updateFileRank(
 		long groupId, long companyId, long userId, long fileEntryId,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.service.ServiceContext serviceContext) {
 		return _dlFileRankLocalService.updateFileRank(groupId, companyId,
 			userId, fileEntryId, serviceContext);
 	}

@@ -257,34 +257,29 @@ public class ShoppingCartLocalServiceUtil {
 		getService().setBeanIdentifier(beanIdentifier);
 	}
 
-	public static void deleteGroupCarts(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteGroupCarts(long groupId) {
 		getService().deleteGroupCarts(groupId);
 	}
 
-	public static void deleteUserCarts(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteUserCarts(long userId) {
 		getService().deleteUserCarts(userId);
 	}
 
 	public static com.liferay.portlet.shopping.model.ShoppingCart getCart(
 		long userId, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getCart(userId, groupId);
 	}
 
 	public static java.util.Map<com.liferay.portlet.shopping.model.ShoppingCartItem, java.lang.Integer> getItems(
-		long groupId, java.lang.String itemIds)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String itemIds) {
 		return getService().getItems(groupId, itemIds);
 	}
 
 	public static com.liferay.portlet.shopping.model.ShoppingCart updateCart(
 		long userId, long groupId, java.lang.String itemIds,
 		java.lang.String couponCodes, int altShipping, boolean insure)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateCart(userId, groupId, itemIds, couponCodes,
 			altShipping, insure);

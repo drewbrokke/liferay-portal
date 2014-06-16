@@ -691,8 +691,7 @@ public class AnnouncementsEntryWrapper implements AnnouncementsEntry,
 
 	@Override
 	public long getGroupId()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _announcementsEntry.getGroupId();
 	}
 

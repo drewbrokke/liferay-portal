@@ -307,24 +307,21 @@ public class JournalArticleResourceLocalServiceWrapper
 
 	@Override
 	public void deleteArticleResource(long groupId, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalArticleResourceLocalService.deleteArticleResource(groupId,
 			articleId);
 	}
 
 	@Override
 	public com.liferay.portlet.journal.model.JournalArticleResource fetchArticleResource(
-		long groupId, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String articleId) {
 		return _journalArticleResourceLocalService.fetchArticleResource(groupId,
 			articleId);
 	}
 
 	@Override
 	public com.liferay.portlet.journal.model.JournalArticleResource fetchArticleResource(
-		java.lang.String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String uuid, long groupId) {
 		return _journalArticleResourceLocalService.fetchArticleResource(uuid,
 			groupId);
 	}
@@ -332,31 +329,27 @@ public class JournalArticleResourceLocalServiceWrapper
 	@Override
 	public com.liferay.portlet.journal.model.JournalArticleResource getArticleResource(
 		long articleResourcePrimKey)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalArticleResourceLocalService.getArticleResource(articleResourcePrimKey);
 	}
 
 	@Override
 	public long getArticleResourcePrimKey(long groupId,
-		java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String articleId) {
 		return _journalArticleResourceLocalService.getArticleResourcePrimKey(groupId,
 			articleId);
 	}
 
 	@Override
 	public long getArticleResourcePrimKey(java.lang.String uuid, long groupId,
-		java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String articleId) {
 		return _journalArticleResourceLocalService.getArticleResourcePrimKey(uuid,
 			groupId, articleId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.journal.model.JournalArticleResource> getArticleResources(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return _journalArticleResourceLocalService.getArticleResources(groupId);
 	}
 

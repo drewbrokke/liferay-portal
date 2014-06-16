@@ -1103,6 +1103,7 @@
 		<field name="payload" type="String">
 			<hint-collection name="CLOB" />
 		</field>
+		<field name="actionRequired" type="boolean" />
 		<field name="archived" type="boolean" />
 	</model>
 	<model name="com.liferay.portal.model.UserTracker">
@@ -1388,6 +1389,9 @@
 			<hint name="max-length">150</hint>
 			<sanitize content-type="text/plain" modes="ALL" />
 			<validator name="required" />
+		</field>
+		<field name="deckTitle" type="String">
+			<hint-collection name="TEXTAREA" />
 		</field>
 		<field name="urlTitle" type="String">
 			<hint name="max-length">150</hint>

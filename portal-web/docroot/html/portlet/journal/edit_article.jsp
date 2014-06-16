@@ -46,7 +46,7 @@ JournalArticle article = (JournalArticle)request.getAttribute(WebKeys.JOURNAL_AR
 
 long groupId = BeanParamUtil.getLong(article, request, "groupId", scopeGroupId);
 
-long folderId = ParamUtil.getLong(request, "folderId", JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+long folderId = BeanParamUtil.getLong(article, request, "folderId", JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID);
 
 long classNameId = BeanParamUtil.getLong(article, request, "classNameId");
 long classPK = BeanParamUtil.getLong(article, request, "classPK");
@@ -199,26 +199,7 @@ request.setAttribute("edit_article.jsp-toLanguageId", toLanguageId);
 					<c:if test="<%= (article != null) && !article.isNew() %>">
 						<aui:workflow-status id="<%= String.valueOf(article.getArticleId()) %>" showIcon="<%= false %>" showLabel="<%= false %>" status="<%= article.getStatus() %>" version="<%= String.valueOf(article.getVersion()) %>" />
 
-						<div class="article-toolbar toolbar" id="<portlet:namespace />articleToolbar">
-							<div class="btn-group">
-								<c:if test="<%= classNameId == JournalArticleConstants.CLASSNAME_ID_DEFAULT %>">
-									<aui:button data-title='<%= LanguageUtil.get(pageContext, "in-order-to-preview-your-changes,-the-web-content-will-be-saved-as-a-draft") %>' icon="icon-search" name="basicPreviewButton" value="basic-preview" />
-								</c:if>
-
-								<c:if test="<%= JournalArticlePermission.contains(permissionChecker, article, ActionKeys.PERMISSIONS) %>">
-									<aui:button icon="icon-lock" name="articlePermissionsButton" value="permissions" />
-								</c:if>
-
-								<portlet:renderURL var="viewHistoryURL">
-									<portlet:param name="struts_action" value="/journal/view_article_history" />
-									<portlet:param name="redirect" value="<%= currentURL %>" />
-									<portlet:param name="referringPortletResource" value="<%= referringPortletResource %>" />
-									<portlet:param name="articleId" value="<%= article.getArticleId() %>" />
-								</portlet:renderURL>
-
-								<aui:button href="<%= viewHistoryURL %>" icon="icon-time" name="articleHistoryButton" value="view-history" />
-							</div>
-						</div>
+						<liferay-util:include page="/html/portlet/journal/article_toolbar.jsp" />
 					</c:if>
 				</c:if>
 

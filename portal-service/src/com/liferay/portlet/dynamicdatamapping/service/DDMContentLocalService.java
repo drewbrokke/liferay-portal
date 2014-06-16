@@ -288,44 +288,35 @@ public interface DDMContentLocalService extends BaseLocalService,
 		long userId, long groupId, java.lang.String name,
 		java.lang.String description, java.lang.String xml,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteContent(
-		com.liferay.portlet.dynamicdatamapping.model.DDMContent content)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.dynamicdatamapping.model.DDMContent content);
 
-	public void deleteContents(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteContents(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.dynamicdatamapping.model.DDMContent getContent(
 		long contentId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMContent> getContents()
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMContent> getContents(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMContent> getContents();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMContent> getContents(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getContentsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMContent> getContents(
+		long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getContentsCount(long groupId);
 
 	public com.liferay.portlet.dynamicdatamapping.model.DDMContent updateContent(
 		long contentId, java.lang.String name, java.lang.String description,
 		java.lang.String xml,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

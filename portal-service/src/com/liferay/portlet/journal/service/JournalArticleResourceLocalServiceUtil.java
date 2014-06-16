@@ -289,45 +289,38 @@ public class JournalArticleResourceLocalServiceUtil {
 
 	public static void deleteArticleResource(long groupId,
 		java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteArticleResource(groupId, articleId);
 	}
 
 	public static com.liferay.portlet.journal.model.JournalArticleResource fetchArticleResource(
-		long groupId, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String articleId) {
 		return getService().fetchArticleResource(groupId, articleId);
 	}
 
 	public static com.liferay.portlet.journal.model.JournalArticleResource fetchArticleResource(
-		java.lang.String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String uuid, long groupId) {
 		return getService().fetchArticleResource(uuid, groupId);
 	}
 
 	public static com.liferay.portlet.journal.model.JournalArticleResource getArticleResource(
 		long articleResourcePrimKey)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getArticleResource(articleResourcePrimKey);
 	}
 
 	public static long getArticleResourcePrimKey(long groupId,
-		java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String articleId) {
 		return getService().getArticleResourcePrimKey(groupId, articleId);
 	}
 
 	public static long getArticleResourcePrimKey(java.lang.String uuid,
-		long groupId, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String articleId) {
 		return getService().getArticleResourcePrimKey(uuid, groupId, articleId);
 	}
 
 	public static java.util.List<com.liferay.portlet.journal.model.JournalArticleResource> getArticleResources(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return getService().getArticleResources(groupId);
 	}
 

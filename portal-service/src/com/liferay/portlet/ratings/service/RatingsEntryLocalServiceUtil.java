@@ -292,54 +292,46 @@ public class RatingsEntryLocalServiceUtil {
 
 	public static void deleteEntry(long userId, java.lang.String className,
 		long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteEntry(userId, className, classPK);
 	}
 
 	public static com.liferay.portlet.ratings.model.RatingsEntry fetchEntry(
-		long userId, java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, java.lang.String className, long classPK) {
 		return getService().fetchEntry(userId, className, classPK);
 	}
 
 	public static java.util.List<com.liferay.portlet.ratings.model.RatingsEntry> getEntries(
 		long userId, java.lang.String className,
-		java.util.List<java.lang.Long> classPKs)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.util.List<java.lang.Long> classPKs) {
 		return getService().getEntries(userId, className, classPKs);
 	}
 
 	public static java.util.List<com.liferay.portlet.ratings.model.RatingsEntry> getEntries(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return getService().getEntries(className, classPK);
 	}
 
 	public static java.util.List<com.liferay.portlet.ratings.model.RatingsEntry> getEntries(
-		java.lang.String className, long classPK, double score)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK, double score) {
 		return getService().getEntries(className, classPK, score);
 	}
 
 	public static int getEntriesCount(java.lang.String className, long classPK,
-		double score)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		double score) {
 		return getService().getEntriesCount(className, classPK, score);
 	}
 
 	public static com.liferay.portlet.ratings.model.RatingsEntry getEntry(
 		long userId, java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getEntry(userId, className, classPK);
 	}
 
 	public static com.liferay.portlet.ratings.model.RatingsEntry updateEntry(
 		long userId, java.lang.String className, long classPK, double score,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateEntry(userId, className, classPK, score,
 			serviceContext);

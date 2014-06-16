@@ -65,8 +65,7 @@ public class MDRRuleServiceUtil {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String type, java.lang.String typeSettings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addRule(ruleGroupId, nameMap, descriptionMap, type,
 			typeSettings, serviceContext);
@@ -79,30 +78,24 @@ public class MDRRuleServiceUtil {
 		java.lang.String type,
 		com.liferay.portal.kernel.util.UnicodeProperties typeSettings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addRule(ruleGroupId, nameMap, descriptionMap, type,
 			typeSettings, serviceContext);
 	}
 
 	public static void deleteRule(long ruleId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteRule(ruleId);
 	}
 
 	public static com.liferay.portlet.mobiledevicerules.model.MDRRule fetchRule(
-		long ruleId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		long ruleId) throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().fetchRule(ruleId);
 	}
 
 	public static com.liferay.portlet.mobiledevicerules.model.MDRRule getRule(
-		long ruleId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		long ruleId) throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getRule(ruleId);
 	}
 
@@ -111,8 +104,7 @@ public class MDRRuleServiceUtil {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String type, java.lang.String typeSettings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateRule(ruleId, nameMap, descriptionMap, type,
 			typeSettings, serviceContext);
@@ -124,8 +116,7 @@ public class MDRRuleServiceUtil {
 		java.lang.String type,
 		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateRule(ruleId, nameMap, descriptionMap, type,
 			typeSettingsProperties, serviceContext);

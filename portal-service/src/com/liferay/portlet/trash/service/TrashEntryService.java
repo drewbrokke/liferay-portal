@@ -68,11 +68,9 @@ public interface TrashEntryService extends BaseService {
 	*
 	* @param groupId the primary key of the group
 	* @throws PortalException if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteEntries(long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Deletes the trash entries with the primary keys.
@@ -81,11 +79,9 @@ public interface TrashEntryService extends BaseService {
 	* @throws PortalException if a trash entry with the primary key could not
 	be found or if the user did not have permission to delete any one
 	of the trash entries
-	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteEntries(long[] entryIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Deletes the trash entry with the primary key.
@@ -100,11 +96,9 @@ public interface TrashEntryService extends BaseService {
 	* @throws PortalException if a trash entry with the primary key could not
 	be found or if the user did not have permission to delete the
 	trash entry
-	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteEntry(long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Deletes the trash entry with the entity class name and class primary key.
@@ -120,11 +114,9 @@ public interface TrashEntryService extends BaseService {
 	* @throws PortalException if a trash entry with the entity class name and
 	primary key could not be found or if the user did not have
 	permission to delete the entry
-	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteEntry(java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Returns the trash entries with the matching group ID.
@@ -132,7 +124,6 @@ public interface TrashEntryService extends BaseService {
 	* @param groupId the primary key of the group
 	* @return the matching trash entries
 	* @throws PrincipalException if a principal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.trash.model.TrashEntryList getEntries(
@@ -152,7 +143,6 @@ public interface TrashEntryService extends BaseService {
 	* @return the range of matching trash entries ordered by comparator
 	<code>obc</code>
 	* @throws PrincipalException if a system exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.trash.model.TrashEntryList getEntries(
@@ -194,17 +184,14 @@ public interface TrashEntryService extends BaseService {
 	new location, if the user did not have permission to restore the
 	trash entry, if a duplicate trash entry exists at the new
 	location, or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	public void moveEntry(java.lang.String className, long classPK,
 		long destinationContainerModelId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.trash.model.TrashEntry restoreEntry(long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Restores the trash entry to its original location. In order to handle a
@@ -243,21 +230,17 @@ public interface TrashEntryService extends BaseService {
 	the user did not have permission to overwrite an existing trash
 	entry, to rename the trash entry being restored, or to restore
 	the trash entry in general
-	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.portlet.trash.model.TrashEntry restoreEntry(
 		long entryId, long overrideClassPK, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.trash.model.TrashEntry restoreEntry(
 		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.trash.model.TrashEntry restoreEntry(
 		java.lang.String className, long classPK, long overrideClassPK,
 		java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

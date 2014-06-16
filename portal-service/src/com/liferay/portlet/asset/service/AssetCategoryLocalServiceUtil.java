@@ -411,8 +411,7 @@ public class AssetCategoryLocalServiceUtil {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		long vocabularyId, java.lang.String[] categoryProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addCategory(userId, parentCategoryId, titleMap,
 			descriptionMap, vocabularyId, categoryProperties, serviceContext);
@@ -421,8 +420,7 @@ public class AssetCategoryLocalServiceUtil {
 	public static com.liferay.portlet.asset.model.AssetCategory addCategory(
 		long userId, java.lang.String title, long vocabularyId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addCategory(userId, title, vocabularyId, serviceContext);
 	}
@@ -430,8 +428,7 @@ public class AssetCategoryLocalServiceUtil {
 	public static void addCategoryResources(
 		com.liferay.portlet.asset.model.AssetCategory category,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService()
 			.addCategoryResources(category, addGroupPermissions,
 			addGuestPermissions);
@@ -440,198 +437,168 @@ public class AssetCategoryLocalServiceUtil {
 	public static void addCategoryResources(
 		com.liferay.portlet.asset.model.AssetCategory category,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService()
 			.addCategoryResources(category, groupPermissions, guestPermissions);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetCategory deleteCategory(
 		com.liferay.portlet.asset.model.AssetCategory category)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteCategory(category);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetCategory deleteCategory(
 		com.liferay.portlet.asset.model.AssetCategory category,
 		boolean childCategory)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteCategory(category, childCategory);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetCategory deleteCategory(
 		long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteCategory(categoryId);
 	}
 
 	public static void deleteVocabularyCategories(long vocabularyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteVocabularyCategories(vocabularyId);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetCategory fetchCategory(
-		long categoryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long categoryId) {
 		return getService().fetchCategory(categoryId);
 	}
 
-	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getCategories() {
 		return getService().getCategories();
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getCategories(
-		long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classNameId, long classPK) {
 		return getService().getCategories(classNameId, classPK);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getCategories(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return getService().getCategories(className, classPK);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetCategory getCategory(
 		long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getCategory(categoryId);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetCategory getCategory(
 		java.lang.String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getCategory(uuid, groupId);
 	}
 
-	public static long[] getCategoryIds(java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static long[] getCategoryIds(java.lang.String className, long classPK) {
 		return getService().getCategoryIds(className, classPK);
 	}
 
-	public static java.lang.String[] getCategoryNames()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static java.lang.String[] getCategoryNames() {
 		return getService().getCategoryNames();
 	}
 
 	public static java.lang.String[] getCategoryNames(long classNameId,
-		long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classPK) {
 		return getService().getCategoryNames(classNameId, classPK);
 	}
 
 	public static java.lang.String[] getCategoryNames(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return getService().getCategoryNames(className, classPK);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getChildCategories(
-		long parentCategoryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long parentCategoryId) {
 		return getService().getChildCategories(parentCategoryId);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getChildCategories(
 		long parentCategoryId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return getService().getChildCategories(parentCategoryId, start, end, obc);
 	}
 
-	public static int getChildCategoriesCount(long parentCategoryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getChildCategoriesCount(long parentCategoryId) {
 		return getService().getChildCategoriesCount(parentCategoryId);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getEntryCategories(
-		long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId) {
 		return getService().getEntryCategories(entryId);
 	}
 
 	public static java.util.List<java.lang.Long> getSubcategoryIds(
-		long parentCategoryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long parentCategoryId) {
 		return getService().getSubcategoryIds(parentCategoryId);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getVocabularyCategories(
 		long vocabularyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return getService()
 				   .getVocabularyCategories(vocabularyId, start, end, obc);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getVocabularyCategories(
 		long parentCategoryId, long vocabularyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return getService()
 				   .getVocabularyCategories(parentCategoryId, vocabularyId,
 			start, end, obc);
 	}
 
-	public static int getVocabularyCategoriesCount(long vocabularyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getVocabularyCategoriesCount(long vocabularyId) {
 		return getService().getVocabularyCategoriesCount(vocabularyId);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getVocabularyRootCategories(
 		long vocabularyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return getService()
 				   .getVocabularyRootCategories(vocabularyId, start, end, obc);
 	}
 
-	public static int getVocabularyRootCategoriesCount(long vocabularyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getVocabularyRootCategoriesCount(long vocabularyId) {
 		return getService().getVocabularyRootCategoriesCount(vocabularyId);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetCategory mergeCategories(
 		long fromCategoryId, long toCategoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().mergeCategories(fromCategoryId, toCategoryId);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetCategory moveCategory(
 		long categoryId, long parentCategoryId, long vocabularyId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .moveCategory(categoryId, parentCategoryId, vocabularyId,
 			serviceContext);
 	}
 
-	public static void rebuildTree(long groupId, boolean force)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void rebuildTree(long groupId, boolean force) {
 		getService().rebuildTree(groupId, force);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> search(
 		long groupId, java.lang.String name,
-		java.lang.String[] categoryProperties, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String[] categoryProperties, int start, int end) {
 		return getService().search(groupId, name, categoryProperties, start, end);
 	}
 
 	public static com.liferay.portal.kernel.search.BaseModelSearchResult<com.liferay.portlet.asset.model.AssetCategory> searchCategories(
 		long companyId, long groupIds, java.lang.String title,
 		long vocabularyId, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .searchCategories(companyId, groupIds, title, vocabularyId,
 			start, end);
@@ -640,8 +607,7 @@ public class AssetCategoryLocalServiceUtil {
 	public static com.liferay.portal.kernel.search.BaseModelSearchResult<com.liferay.portlet.asset.model.AssetCategory> searchCategories(
 		long companyId, long[] groupIds, java.lang.String title,
 		long[] vocabularyIds, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .searchCategories(companyId, groupIds, title, vocabularyIds,
 			start, end);
@@ -653,8 +619,7 @@ public class AssetCategoryLocalServiceUtil {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		long vocabularyId, java.lang.String[] categoryProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateCategory(userId, categoryId, parentCategoryId,
 			titleMap, descriptionMap, vocabularyId, categoryProperties,

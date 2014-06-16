@@ -277,147 +277,127 @@ public class SocialActivitySetLocalServiceWrapper
 	@Override
 	public com.liferay.portlet.social.model.SocialActivitySet addActivitySet(
 		long activityId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _socialActivitySetLocalService.addActivitySet(activityId);
 	}
 
 	@Override
 	public void decrementActivityCount(long activitySetId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_socialActivitySetLocalService.decrementActivityCount(activitySetId);
 	}
 
 	@Override
 	public void decrementActivityCount(long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_socialActivitySetLocalService.decrementActivityCount(classNameId,
 			classPK);
 	}
 
 	@Override
 	public com.liferay.portlet.social.model.SocialActivitySet getClassActivitySet(
-		long classNameId, long classPK, int type)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classNameId, long classPK, int type) {
 		return _socialActivitySetLocalService.getClassActivitySet(classNameId,
 			classPK, type);
 	}
 
 	@Override
 	public com.liferay.portlet.social.model.SocialActivitySet getClassActivitySet(
-		long userId, long classNameId, long classPK, int type)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, long classNameId, long classPK, int type) {
 		return _socialActivitySetLocalService.getClassActivitySet(userId,
 			classNameId, classPK, type);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialActivitySet> getGroupActivitySets(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, int start, int end) {
 		return _socialActivitySetLocalService.getGroupActivitySets(groupId,
 			start, end);
 	}
 
 	@Override
-	public int getGroupActivitySetsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getGroupActivitySetsCount(long groupId) {
 		return _socialActivitySetLocalService.getGroupActivitySetsCount(groupId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialActivitySet> getRelationActivitySets(
-		long userId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int start, int end) {
 		return _socialActivitySetLocalService.getRelationActivitySets(userId,
 			start, end);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialActivitySet> getRelationActivitySets(
-		long userId, int type, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int type, int start, int end) {
 		return _socialActivitySetLocalService.getRelationActivitySets(userId,
 			type, start, end);
 	}
 
 	@Override
-	public int getRelationActivitySetsCount(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getRelationActivitySetsCount(long userId) {
 		return _socialActivitySetLocalService.getRelationActivitySetsCount(userId);
 	}
 
 	@Override
-	public int getRelationActivitySetsCount(long userId, int type)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getRelationActivitySetsCount(long userId, int type) {
 		return _socialActivitySetLocalService.getRelationActivitySetsCount(userId,
 			type);
 	}
 
 	@Override
 	public com.liferay.portlet.social.model.SocialActivitySet getUserActivitySet(
-		long groupId, long userId, int type)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long userId, int type) {
 		return _socialActivitySetLocalService.getUserActivitySet(groupId,
 			userId, type);
 	}
 
 	@Override
 	public com.liferay.portlet.social.model.SocialActivitySet getUserActivitySet(
-		long groupId, long userId, long classNameId, int type)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long userId, long classNameId, int type) {
 		return _socialActivitySetLocalService.getUserActivitySet(groupId,
 			userId, classNameId, type);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialActivitySet> getUserActivitySets(
-		long userId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int start, int end) {
 		return _socialActivitySetLocalService.getUserActivitySets(userId,
 			start, end);
 	}
 
 	@Override
-	public int getUserActivitySetsCount(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getUserActivitySetsCount(long userId) {
 		return _socialActivitySetLocalService.getUserActivitySetsCount(userId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialActivitySet> getUserGroupsActivitySets(
-		long userId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int start, int end) {
 		return _socialActivitySetLocalService.getUserGroupsActivitySets(userId,
 			start, end);
 	}
 
 	@Override
-	public int getUserGroupsActivitySetsCount(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getUserGroupsActivitySetsCount(long userId) {
 		return _socialActivitySetLocalService.getUserGroupsActivitySetsCount(userId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialActivitySet> getUserViewableActivitySets(
-		long userId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int start, int end) {
 		return _socialActivitySetLocalService.getUserViewableActivitySets(userId,
 			start, end);
 	}
 
 	@Override
-	public int getUserViewableActivitySetsCount(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getUserViewableActivitySetsCount(long userId) {
 		return _socialActivitySetLocalService.getUserViewableActivitySetsCount(userId);
 	}
 
 	@Override
 	public void incrementActivityCount(long activitySetId, long activityId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_socialActivitySetLocalService.incrementActivityCount(activitySetId,
 			activityId);
 	}

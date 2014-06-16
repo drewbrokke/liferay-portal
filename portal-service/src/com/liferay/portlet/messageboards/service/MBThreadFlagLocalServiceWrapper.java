@@ -342,50 +342,43 @@ public class MBThreadFlagLocalServiceWrapper implements MBThreadFlagLocalService
 	public void addThreadFlag(long userId,
 		com.liferay.portlet.messageboards.model.MBThread thread,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_mbThreadFlagLocalService.addThreadFlag(userId, thread, serviceContext);
 	}
 
 	@Override
 	public void deleteThreadFlag(long threadFlagId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_mbThreadFlagLocalService.deleteThreadFlag(threadFlagId);
 	}
 
 	@Override
 	public void deleteThreadFlag(
-		com.liferay.portlet.messageboards.model.MBThreadFlag threadFlag)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.messageboards.model.MBThreadFlag threadFlag) {
 		_mbThreadFlagLocalService.deleteThreadFlag(threadFlag);
 	}
 
 	@Override
-	public void deleteThreadFlagsByThreadId(long threadId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteThreadFlagsByThreadId(long threadId) {
 		_mbThreadFlagLocalService.deleteThreadFlagsByThreadId(threadId);
 	}
 
 	@Override
-	public void deleteThreadFlagsByUserId(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteThreadFlagsByUserId(long userId) {
 		_mbThreadFlagLocalService.deleteThreadFlagsByUserId(userId);
 	}
 
 	@Override
 	public com.liferay.portlet.messageboards.model.MBThreadFlag getThreadFlag(
 		long userId, com.liferay.portlet.messageboards.model.MBThread thread)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbThreadFlagLocalService.getThreadFlag(userId, thread);
 	}
 
 	@Override
 	public boolean hasThreadFlag(long userId,
 		com.liferay.portlet.messageboards.model.MBThread thread)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbThreadFlagLocalService.hasThreadFlag(userId, thread);
 	}
 

@@ -54,6 +54,7 @@ public class BaseBlogsEntryTestCase {
 		serviceContext.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 
 		String title = "Title";
+		String deckTitle = StringPool.BLANK;
 		String description = "Description";
 		String content = "Content";
 		int displayDateMonth = 1;
@@ -70,11 +71,11 @@ public class BaseBlogsEntryTestCase {
 		InputStream smallImageInputStream = null;
 
 		BlogsEntry blogsEntry = BlogsEntryLocalServiceUtil.addEntry(
-			getUserId(), title, description, content, displayDateMonth,
-			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
-			allowPingbacks, allowTrackbacks, trackbacks, smallImage,
-			smallImageURL, smallImageFileName, smallImageInputStream,
-			serviceContext);
+			getUserId(), title, description, deckTitle, content,
+			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
+			displayDateMinute, allowPingbacks, allowTrackbacks, trackbacks,
+			smallImage, smallImageURL, smallImageFileName,
+			smallImageInputStream, serviceContext);
 
 		if (approved) {
 			BlogsEntryLocalServiceUtil.updateStatus(

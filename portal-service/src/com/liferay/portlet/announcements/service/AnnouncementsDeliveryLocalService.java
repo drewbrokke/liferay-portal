@@ -234,44 +234,34 @@ public interface AnnouncementsDeliveryLocalService extends BaseLocalService,
 
 	public com.liferay.portlet.announcements.model.AnnouncementsDelivery addUserDelivery(
 		long userId, java.lang.String type)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteDeliveries(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteDeliveries(long userId);
 
 	public void deleteDelivery(
-		com.liferay.portlet.announcements.model.AnnouncementsDelivery delivery)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.announcements.model.AnnouncementsDelivery delivery);
 
 	public void deleteDelivery(long deliveryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteDelivery(long userId, java.lang.String type)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteDelivery(long userId, java.lang.String type);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.announcements.model.AnnouncementsDelivery getDelivery(
 		long deliveryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.announcements.model.AnnouncementsDelivery> getUserDeliveries(
-		long userId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		long userId) throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.announcements.model.AnnouncementsDelivery getUserDelivery(
 		long userId, java.lang.String type)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.announcements.model.AnnouncementsDelivery updateDelivery(
 		long userId, java.lang.String type, boolean email, boolean sms,
 		boolean website)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

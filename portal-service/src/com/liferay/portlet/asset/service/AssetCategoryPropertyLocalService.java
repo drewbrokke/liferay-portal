@@ -235,54 +235,43 @@ public interface AssetCategoryPropertyLocalService extends BaseLocalService,
 	public com.liferay.portlet.asset.model.AssetCategoryProperty addCategoryProperty(
 		long userId, long categoryId, java.lang.String key,
 		java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteCategoryProperties(long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteCategoryProperties(long entryId);
 
 	public void deleteCategoryProperty(
-		com.liferay.portlet.asset.model.AssetCategoryProperty categoryProperty)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.asset.model.AssetCategoryProperty categoryProperty);
 
 	public void deleteCategoryProperty(long categoryPropertyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.asset.model.AssetCategoryProperty> getCategoryProperties()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.portlet.asset.model.AssetCategoryProperty> getCategoryProperties();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetCategoryProperty> getCategoryProperties(
-		long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long entryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.asset.model.AssetCategoryProperty getCategoryProperty(
 		long categoryPropertyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.asset.model.AssetCategoryProperty getCategoryProperty(
 		long categoryId, java.lang.String key)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetCategoryProperty> getCategoryPropertyValues(
-		long groupId, java.lang.String key)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, java.lang.String key);
 
 	public com.liferay.portlet.asset.model.AssetCategoryProperty updateCategoryProperty(
 		long userId, long categoryPropertyId, java.lang.String key,
 		java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.asset.model.AssetCategoryProperty updateCategoryProperty(
 		long categoryPropertyId, java.lang.String key, java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

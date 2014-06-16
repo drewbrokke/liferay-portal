@@ -233,24 +233,19 @@ public interface RatingsStatsLocalService extends BaseLocalService,
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
 	public com.liferay.portlet.ratings.model.RatingsStats addStats(
-		long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long classNameId, long classPK);
 
-	public void deleteStats(java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteStats(java.lang.String className, long classPK);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.ratings.model.RatingsStats getStats(long statsId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.ratings.model.RatingsStats> getStats(
-		java.lang.String className, java.util.List<java.lang.Long> classPKs)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String className, java.util.List<java.lang.Long> classPKs);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.ratings.model.RatingsStats getStats(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String className, long classPK);
 }

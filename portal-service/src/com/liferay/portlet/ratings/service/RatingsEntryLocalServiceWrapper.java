@@ -311,44 +311,38 @@ public class RatingsEntryLocalServiceWrapper implements RatingsEntryLocalService
 	@Override
 	public void deleteEntry(long userId, java.lang.String className,
 		long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_ratingsEntryLocalService.deleteEntry(userId, className, classPK);
 	}
 
 	@Override
 	public com.liferay.portlet.ratings.model.RatingsEntry fetchEntry(
-		long userId, java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, java.lang.String className, long classPK) {
 		return _ratingsEntryLocalService.fetchEntry(userId, className, classPK);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.ratings.model.RatingsEntry> getEntries(
 		long userId, java.lang.String className,
-		java.util.List<java.lang.Long> classPKs)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.util.List<java.lang.Long> classPKs) {
 		return _ratingsEntryLocalService.getEntries(userId, className, classPKs);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.ratings.model.RatingsEntry> getEntries(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return _ratingsEntryLocalService.getEntries(className, classPK);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.ratings.model.RatingsEntry> getEntries(
-		java.lang.String className, long classPK, double score)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK, double score) {
 		return _ratingsEntryLocalService.getEntries(className, classPK, score);
 	}
 
 	@Override
 	public int getEntriesCount(java.lang.String className, long classPK,
-		double score)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		double score) {
 		return _ratingsEntryLocalService.getEntriesCount(className, classPK,
 			score);
 	}
@@ -356,8 +350,7 @@ public class RatingsEntryLocalServiceWrapper implements RatingsEntryLocalService
 	@Override
 	public com.liferay.portlet.ratings.model.RatingsEntry getEntry(
 		long userId, java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ratingsEntryLocalService.getEntry(userId, className, classPK);
 	}
 
@@ -365,8 +358,7 @@ public class RatingsEntryLocalServiceWrapper implements RatingsEntryLocalService
 	public com.liferay.portlet.ratings.model.RatingsEntry updateEntry(
 		long userId, java.lang.String className, long classPK, double score,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ratingsEntryLocalService.updateEntry(userId, className,
 			classPK, score, serviceContext);
 	}

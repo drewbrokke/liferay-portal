@@ -261,41 +261,35 @@ public class SCProductScreenshotLocalServiceUtil {
 
 	public static void deleteProductScreenshot(
 		com.liferay.portlet.softwarecatalog.model.SCProductScreenshot productScreenshot)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteProductScreenshot(productScreenshot);
 	}
 
 	public static void deleteProductScreenshots(long productEntryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteProductScreenshots(productEntryId);
 	}
 
 	public static com.liferay.portlet.softwarecatalog.model.SCProductScreenshot getProductScreenshot(
 		long productEntryId, int priority)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getProductScreenshot(productEntryId, priority);
 	}
 
 	public static com.liferay.portlet.softwarecatalog.model.SCProductScreenshot getProductScreenshotByFullImageId(
 		long fullImageId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getProductScreenshotByFullImageId(fullImageId);
 	}
 
 	public static com.liferay.portlet.softwarecatalog.model.SCProductScreenshot getProductScreenshotByThumbnailId(
 		long thumbnailId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getProductScreenshotByThumbnailId(thumbnailId);
 	}
 
 	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCProductScreenshot> getProductScreenshots(
-		long productEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long productEntryId) {
 		return getService().getProductScreenshots(productEntryId);
 	}
 

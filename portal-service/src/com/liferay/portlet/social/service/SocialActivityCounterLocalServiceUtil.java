@@ -286,7 +286,6 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @return the added activity counter
 	* @throws PortalException if the group or the previous activity counter
 	could not be found
-	* @throws SystemException if a system exception occurred
 	* @deprecated As of 6.2.0, replaced by {@link #addActivityCounter(long,
 	long, long, String, int, int, long, int)}
 	*/
@@ -295,8 +294,7 @@ public class SocialActivityCounterLocalServiceUtil {
 		long groupId, long classNameId, long classPK, java.lang.String name,
 		int ownerType, int currentValue, int totalValue, int startPeriod,
 		int endPeriod)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addActivityCounter(groupId, classNameId, classPK, name,
 			ownerType, currentValue, totalValue, startPeriod, endPeriod);
@@ -339,7 +337,6 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @return the added activity counter
 	* @throws PortalException if the group or the previous activity counter
 	could not be found
-	* @throws SystemException if a system exception occurred
 	* @deprecated As of 6.2.0, replaced by {@link #addActivityCounter(long,
 	long, long, String, int, int, long, int)}
 	*/
@@ -348,8 +345,7 @@ public class SocialActivityCounterLocalServiceUtil {
 		long groupId, long classNameId, long classPK, java.lang.String name,
 		int ownerType, int currentValue, int totalValue, int startPeriod,
 		int endPeriod, long previousActivityCounterId, int periodLength)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addActivityCounter(groupId, classNameId, classPK, name,
 			ownerType, currentValue, totalValue, startPeriod, endPeriod,
@@ -388,14 +384,12 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @return the added activity counter
 	* @throws PortalException if the group or the previous activity counter
 	could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.social.model.SocialActivityCounter addActivityCounter(
 		long groupId, long classNameId, long classPK, java.lang.String name,
 		int ownerType, int totalValue, long previousActivityCounterId,
 		int periodLength)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addActivityCounter(groupId, classNameId, classPK, name,
 			ownerType, totalValue, previousActivityCounterId, periodLength);
@@ -422,12 +416,10 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param activity the social activity
 	* @throws PortalException if an expected group or expected previous
 	activity counters could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void addActivityCounters(
 		com.liferay.portlet.social.model.SocialActivity activity)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().addActivityCounters(activity);
 	}
 
@@ -453,7 +445,6 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @return the created activity counter
 	* @throws PortalException if the group or a previous activity counter
 	could not be found
-	* @throws SystemException if a system exception occurred
 	* @deprecated As of 6.2.0, replaced by {@link #addActivityCounter(long,
 	long, long, String, int, int, long, int)}
 	*/
@@ -462,8 +453,7 @@ public class SocialActivityCounterLocalServiceUtil {
 		long groupId, long classNameId, long classPK, java.lang.String name,
 		int ownerType, int currentValue, int totalValue, int startPeriod,
 		int endPeriod)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .createActivityCounter(groupId, classNameId, classPK, name,
 			ownerType, currentValue, totalValue, startPeriod, endPeriod);
@@ -505,7 +495,6 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @return the created activity counter
 	* @throws PortalException if the group or the previous activity counter
 	could not be found
-	* @throws SystemException if a system exception occurred
 	* @deprecated As of 6.2.0, replaced by {@link #addActivityCounter(long,
 	long, long, String, int, int, long, int)}
 	*/
@@ -514,8 +503,7 @@ public class SocialActivityCounterLocalServiceUtil {
 		long groupId, long classNameId, long classPK, java.lang.String name,
 		int ownerType, int currentValue, int totalValue, int startPeriod,
 		int endPeriod, long previousActivityCounterId, int periodLength)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .createActivityCounter(groupId, classNameId, classPK, name,
 			ownerType, currentValue, totalValue, startPeriod, endPeriod,
@@ -534,12 +522,10 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param assetEntry the asset entry
 	* @throws PortalException if the new contribution counter could not be
 	created
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteActivityCounters(
 		com.liferay.portlet.asset.model.AssetEntry assetEntry)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteActivityCounters(assetEntry);
 	}
 
@@ -551,11 +537,9 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param classPK the primary key of the entity
 	* @throws PortalException if the entity is an asset and its owner's
 	contribution counter could not be updated
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteActivityCounters(long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteActivityCounters(classNameId, classPK);
 	}
 
@@ -567,12 +551,10 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param classPK the primary key of the entity
 	* @throws PortalException if the entity is an asset and its owner's
 	contribution counter could not be updated
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteActivityCounters(java.lang.String className,
 		long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteActivityCounters(className, classPK);
 	}
 
@@ -589,11 +571,9 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param classPK the primary key of the asset
 	* @throws PortalException if the asset owner's contribution counter could
 	not be updated
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void disableActivityCounters(long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().disableActivityCounters(classNameId, classPK);
 	}
 
@@ -610,12 +590,10 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param classPK the primary key of the asset
 	* @throws PortalException if the asset owner's contribution counter could
 	not be updated
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void disableActivityCounters(java.lang.String className,
 		long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().disableActivityCounters(className, classPK);
 	}
 
@@ -632,11 +610,9 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param classPK the primary key of the asset
 	* @throws PortalException if the asset owner's contribution counter could
 	not be updated
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void enableActivityCounters(long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().enableActivityCounters(classNameId, classPK);
 	}
 
@@ -653,12 +629,10 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param classPK the primary key of the asset
 	* @throws PortalException if the asset owner's contribution counter could
 	not be updated
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void enableActivityCounters(java.lang.String className,
 		long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().enableActivityCounters(className, classPK);
 	}
 
@@ -673,12 +647,10 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param ownerType the owner type
 	* @param endPeriod the end period, <code>-1</code> for the latest one
 	* @return the matching activity counter
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.social.model.SocialActivityCounter fetchActivityCounterByEndPeriod(
 		long groupId, long classNameId, long classPK, java.lang.String name,
-		int ownerType, int endPeriod)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int ownerType, int endPeriod) {
 		return getService()
 				   .fetchActivityCounterByEndPeriod(groupId, classNameId,
 			classPK, name, ownerType, endPeriod);
@@ -695,12 +667,10 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param ownerType the owner type
 	* @param startPeriod the start period
 	* @return the matching activity counter
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.social.model.SocialActivityCounter fetchActivityCounterByStartPeriod(
 		long groupId, long classNameId, long classPK, java.lang.String name,
-		int ownerType, int startPeriod)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int ownerType, int startPeriod) {
 		return getService()
 				   .fetchActivityCounterByStartPeriod(groupId, classNameId,
 			classPK, name, ownerType, startPeriod);
@@ -716,12 +686,10 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param name the counter name
 	* @param ownerType the owner type
 	* @return the matching activity counter
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.social.model.SocialActivityCounter fetchLatestActivityCounter(
 		long groupId, long classNameId, long classPK, java.lang.String name,
-		int ownerType)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int ownerType) {
 		return getService()
 				   .fetchLatestActivityCounter(groupId, classNameId, classPK,
 			name, ownerType);
@@ -740,11 +708,9 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param startOffset the offset for the start period
 	* @param endOffset the offset for the end period
 	* @return the matching activity counters
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.social.model.SocialActivityCounter> getOffsetActivityCounters(
-		long groupId, java.lang.String name, int startOffset, int endOffset)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String name, int startOffset, int endOffset) {
 		return getService()
 				   .getOffsetActivityCounters(groupId, name, startOffset,
 			endOffset);
@@ -766,11 +732,9 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param startOffset the offset for the start period
 	* @param endOffset the offset for the end period
 	* @return the distribution of matching activity counters
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.social.model.SocialActivityCounter> getOffsetDistributionActivityCounters(
-		long groupId, java.lang.String name, int startOffset, int endOffset)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String name, int startOffset, int endOffset) {
 		return getService()
 				   .getOffsetDistributionActivityCounters(groupId, name,
 			startOffset, endOffset);
@@ -790,11 +754,9 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param startPeriod the start period
 	* @param endPeriod the end period
 	* @return the matching activity counters
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.social.model.SocialActivityCounter> getPeriodActivityCounters(
-		long groupId, java.lang.String name, int startPeriod, int endPeriod)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String name, int startPeriod, int endPeriod) {
 		return getService()
 				   .getPeriodActivityCounters(groupId, name, startPeriod,
 			endPeriod);
@@ -816,11 +778,9 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param startPeriod the start period
 	* @param endPeriod the end period
 	* @return the distribution of matching activity counters
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.social.model.SocialActivityCounter> getPeriodDistributionActivityCounters(
-		long groupId, java.lang.String name, int startPeriod, int endPeriod)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String name, int startPeriod, int endPeriod) {
 		return getService()
 				   .getPeriodDistributionActivityCounters(groupId, name,
 			startPeriod, endPeriod);
@@ -853,12 +813,10 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of matching tuples
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portal.kernel.util.Tuple> getUserActivityCounters(
 		long groupId, java.lang.String[] rankingNames,
-		java.lang.String[] selectedNames, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String[] selectedNames, int start, int end) {
 		return getService()
 				   .getUserActivityCounters(groupId, rankingNames,
 			selectedNames, start, end);
@@ -870,11 +828,9 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param groupId the primary key of the group
 	* @param rankingNames the ranking counter names
 	* @return the number of matching users
-	* @throws SystemException if a system exception occurred
 	*/
 	public static int getUserActivityCountersCount(long groupId,
-		java.lang.String[] rankingNames)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String[] rankingNames) {
 		return getService().getUserActivityCountersCount(groupId, rankingNames);
 	}
 
@@ -890,11 +846,9 @@ public class SocialActivityCounterLocalServiceUtil {
 	* @param groupId the primary key of the group
 	* @throws PortalException if the group or an expected previous activity
 	counter could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void incrementUserAchievementCounter(long userId, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().incrementUserAchievementCounter(userId, groupId);
 	}
 

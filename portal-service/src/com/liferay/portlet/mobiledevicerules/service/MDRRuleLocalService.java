@@ -288,8 +288,7 @@ public interface MDRRuleLocalService extends BaseLocalService,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String type, java.lang.String typeSettings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRRule addRule(
 		long ruleGroupId,
@@ -298,63 +297,51 @@ public interface MDRRuleLocalService extends BaseLocalService,
 		java.lang.String type,
 		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRRule copyRule(
 		long ruleId, long ruleGroupId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRRule copyRule(
 		com.liferay.portlet.mobiledevicerules.model.MDRRule rule,
 		long ruleGroupId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteRule(long ruleId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteRule(long ruleId);
 
 	public void deleteRule(
-		com.liferay.portlet.mobiledevicerules.model.MDRRule rule)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.mobiledevicerules.model.MDRRule rule);
 
-	public void deleteRules(long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteRules(long ruleGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.mobiledevicerules.model.MDRRule fetchRule(
-		long ruleId) throws com.liferay.portal.kernel.exception.SystemException;
+		long ruleId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.mobiledevicerules.model.MDRRule getRule(
-		long ruleId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		long ruleId) throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRule> getRules(
-		long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long ruleGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRule> getRules(
-		long ruleGroupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long ruleGroupId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getRulesCount(long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getRulesCount(long ruleGroupId);
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRRule updateRule(
 		long ruleId, java.util.Map<java.util.Locale, java.lang.String> nameMap,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String type, java.lang.String typeSettings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRRule updateRule(
 		long ruleId, java.util.Map<java.util.Locale, java.lang.String> nameMap,
@@ -362,6 +349,5 @@ public interface MDRRuleLocalService extends BaseLocalService,
 		java.lang.String type,
 		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

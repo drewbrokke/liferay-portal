@@ -637,20 +637,17 @@ public class SCProductEntryWrapper implements SCProductEntry,
 	}
 
 	@Override
-	public com.liferay.portlet.softwarecatalog.model.SCProductVersion getLatestVersion()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public com.liferay.portlet.softwarecatalog.model.SCProductVersion getLatestVersion() {
 		return _scProductEntry.getLatestVersion();
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses() {
 		return _scProductEntry.getLicenses();
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCProductScreenshot> getScreenshots()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCProductScreenshot> getScreenshots() {
 		return _scProductEntry.getScreenshots();
 	}
 

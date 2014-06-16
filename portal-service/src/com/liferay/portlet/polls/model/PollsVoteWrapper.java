@@ -502,8 +502,7 @@ public class PollsVoteWrapper implements PollsVote, ModelWrapper<PollsVote> {
 
 	@Override
 	public com.liferay.portlet.polls.model.PollsChoice getChoice()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _pollsVote.getChoice();
 	}
 

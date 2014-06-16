@@ -235,25 +235,20 @@ public interface TrashVersionLocalService extends BaseLocalService,
 	public com.liferay.portlet.trash.model.TrashVersion addTrashVersion(
 		long trashEntryId, java.lang.String className, long classPK,
 		int status,
-		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties);
 
 	public com.liferay.portlet.trash.model.TrashVersion deleteTrashVersion(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String className, long classPK);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.trash.model.TrashVersion fetchVersion(
-		long entryId, java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long entryId, java.lang.String className, long classPK);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.trash.model.TrashVersion> getVersions(
-		long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long entryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.trash.model.TrashVersion> getVersions(
-		long entryId, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long entryId, java.lang.String className);
 }

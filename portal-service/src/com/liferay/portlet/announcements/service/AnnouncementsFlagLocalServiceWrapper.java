@@ -274,36 +274,31 @@ public class AnnouncementsFlagLocalServiceWrapper
 
 	@Override
 	public com.liferay.portlet.announcements.model.AnnouncementsFlag addFlag(
-		long userId, long entryId, int value)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, long entryId, int value) {
 		return _announcementsFlagLocalService.addFlag(userId, entryId, value);
 	}
 
 	@Override
 	public void deleteFlag(
-		com.liferay.portlet.announcements.model.AnnouncementsFlag flag)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.announcements.model.AnnouncementsFlag flag) {
 		_announcementsFlagLocalService.deleteFlag(flag);
 	}
 
 	@Override
 	public void deleteFlag(long flagId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_announcementsFlagLocalService.deleteFlag(flagId);
 	}
 
 	@Override
-	public void deleteFlags(long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteFlags(long entryId) {
 		_announcementsFlagLocalService.deleteFlags(entryId);
 	}
 
 	@Override
 	public com.liferay.portlet.announcements.model.AnnouncementsFlag getFlag(
 		long userId, long entryId, int value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _announcementsFlagLocalService.getFlag(userId, entryId, value);
 	}
 

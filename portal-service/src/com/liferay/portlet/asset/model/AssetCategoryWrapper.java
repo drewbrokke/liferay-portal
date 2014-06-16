@@ -877,15 +877,13 @@ public class AssetCategoryWrapper implements AssetCategory,
 
 	@Override
 	public java.util.List<com.liferay.portlet.asset.model.AssetCategory> getAncestors()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _assetCategory.getAncestors();
 	}
 
 	@Override
 	public java.lang.String getPath(java.util.Locale locale)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _assetCategory.getPath(locale);
 	}
 

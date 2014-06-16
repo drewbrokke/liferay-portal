@@ -342,37 +342,32 @@ public class DLFileVersionLocalServiceWrapper
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileVersion getFileVersion(
 		long fileVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileVersionLocalService.getFileVersion(fileVersionId);
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileVersion getFileVersion(
 		long fileEntryId, java.lang.String version)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileVersionLocalService.getFileVersion(fileEntryId, version);
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileVersion getFileVersionByUuidAndGroupId(
-		java.lang.String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String uuid, long groupId) {
 		return _dlFileVersionLocalService.getFileVersionByUuidAndGroupId(uuid,
 			groupId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFileVersion> getFileVersions(
-		long fileEntryId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long fileEntryId, int status) {
 		return _dlFileVersionLocalService.getFileVersions(fileEntryId, status);
 	}
 
 	@Override
-	public int getFileVersionsCount(long fileEntryId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getFileVersionsCount(long fileEntryId, int status) {
 		return _dlFileVersionLocalService.getFileVersionsCount(fileEntryId,
 			status);
 	}
@@ -380,8 +375,7 @@ public class DLFileVersionLocalServiceWrapper
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileVersion getLatestFileVersion(
 		long fileEntryId, boolean excludeWorkingCopy)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileVersionLocalService.getLatestFileVersion(fileEntryId,
 			excludeWorkingCopy);
 	}
@@ -389,15 +383,13 @@ public class DLFileVersionLocalServiceWrapper
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileVersion getLatestFileVersion(
 		long userId, long fileEntryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileVersionLocalService.getLatestFileVersion(userId,
 			fileEntryId);
 	}
 
 	@Override
-	public void rebuildTree(long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void rebuildTree(long companyId) {
 		_dlFileVersionLocalService.rebuildTree(companyId);
 	}
 

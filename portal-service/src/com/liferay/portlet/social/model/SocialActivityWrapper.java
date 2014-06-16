@@ -617,8 +617,7 @@ public class SocialActivityWrapper implements SocialActivity,
 	}
 
 	@Override
-	public com.liferay.portlet.asset.model.AssetEntry getAssetEntry()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public com.liferay.portlet.asset.model.AssetEntry getAssetEntry() {
 		return _socialActivity.getAssetEntry();
 	}
 

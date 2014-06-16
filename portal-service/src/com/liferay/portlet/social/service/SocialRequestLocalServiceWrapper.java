@@ -355,14 +355,12 @@ public class SocialRequestLocalServiceWrapper
 	* @throws PortalException if the users could not be found, if the users
 	were not from the same company, or if either of the users was the
 	default user
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.social.model.SocialRequest addRequest(
 		long userId, long groupId, java.lang.String className, long classPK,
 		int type, java.lang.String extraData, long receiverUserId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _socialRequestLocalService.addRequest(userId, groupId,
 			className, classPK, type, extraData, receiverUserId);
 	}
@@ -371,11 +369,9 @@ public class SocialRequestLocalServiceWrapper
 	* Removes all the social requests for the receiving user.
 	*
 	* @param receiverUserId the primary key of the receiving user
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	public void deleteReceiverUserRequests(long receiverUserId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteReceiverUserRequests(long receiverUserId) {
 		_socialRequestLocalService.deleteReceiverUserRequests(receiverUserId);
 	}
 
@@ -385,12 +381,10 @@ public class SocialRequestLocalServiceWrapper
 	*
 	* @param requestId the primary key of the social request
 	* @throws PortalException if the social request could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public void deleteRequest(long requestId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_socialRequestLocalService.deleteRequest(requestId);
 	}
 
@@ -398,18 +392,15 @@ public class SocialRequestLocalServiceWrapper
 	* Removes the social request from the database.
 	*
 	* @param request the social request to be removed
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public void deleteRequest(
-		com.liferay.portlet.social.model.SocialRequest request)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.social.model.SocialRequest request) {
 		_socialRequestLocalService.deleteRequest(request);
 	}
 
 	@Override
-	public void deleteRequests(long className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteRequests(long className, long classPK) {
 		_socialRequestLocalService.deleteRequests(className, classPK);
 	}
 
@@ -417,11 +408,9 @@ public class SocialRequestLocalServiceWrapper
 	* Removes all the social requests for the requesting user.
 	*
 	* @param userId the primary key of the requesting user
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	public void deleteUserRequests(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteUserRequests(long userId) {
 		_socialRequestLocalService.deleteUserRequests(userId);
 	}
 
@@ -442,12 +431,10 @@ public class SocialRequestLocalServiceWrapper
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialRequest> getReceiverUserRequests(
-		long receiverUserId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long receiverUserId, int start, int end) {
 		return _socialRequestLocalService.getReceiverUserRequests(receiverUserId,
 			start, end);
 	}
@@ -471,12 +458,10 @@ public class SocialRequestLocalServiceWrapper
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialRequest> getReceiverUserRequests(
-		long receiverUserId, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long receiverUserId, int status, int start, int end) {
 		return _socialRequestLocalService.getReceiverUserRequests(receiverUserId,
 			status, start, end);
 	}
@@ -486,11 +471,9 @@ public class SocialRequestLocalServiceWrapper
 	*
 	* @param receiverUserId the primary key of the receiving user
 	* @return the number of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	public int getReceiverUserRequestsCount(long receiverUserId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getReceiverUserRequestsCount(long receiverUserId) {
 		return _socialRequestLocalService.getReceiverUserRequestsCount(receiverUserId);
 	}
 
@@ -501,11 +484,9 @@ public class SocialRequestLocalServiceWrapper
 	* @param receiverUserId the primary key of the receiving user
 	* @param status the social request's status
 	* @return the number of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	public int getReceiverUserRequestsCount(long receiverUserId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getReceiverUserRequestsCount(long receiverUserId, int status) {
 		return _socialRequestLocalService.getReceiverUserRequestsCount(receiverUserId,
 			status);
 	}
@@ -527,12 +508,10 @@ public class SocialRequestLocalServiceWrapper
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialRequest> getUserRequests(
-		long userId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int start, int end) {
 		return _socialRequestLocalService.getUserRequests(userId, start, end);
 	}
 
@@ -555,12 +534,10 @@ public class SocialRequestLocalServiceWrapper
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialRequest> getUserRequests(
-		long userId, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int status, int start, int end) {
 		return _socialRequestLocalService.getUserRequests(userId, status,
 			start, end);
 	}
@@ -570,11 +547,9 @@ public class SocialRequestLocalServiceWrapper
 	*
 	* @param userId the primary key of the requesting user
 	* @return the number of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	public int getUserRequestsCount(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getUserRequestsCount(long userId) {
 		return _socialRequestLocalService.getUserRequestsCount(userId);
 	}
 
@@ -585,11 +560,9 @@ public class SocialRequestLocalServiceWrapper
 	* @param userId the primary key of the requesting user
 	* @param status the social request's status
 	* @return the number of matching social request
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	public int getUserRequestsCount(long userId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getUserRequestsCount(long userId, int status) {
 		return _socialRequestLocalService.getUserRequestsCount(userId, status);
 	}
 
@@ -606,12 +579,10 @@ public class SocialRequestLocalServiceWrapper
 	* @param status the social request's status
 	* @return <code>true</code> if the request exists; <code>false</code>
 	otherwise
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public boolean hasRequest(long userId, java.lang.String className,
-		long classPK, int type, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classPK, int type, int status) {
 		return _socialRequestLocalService.hasRequest(userId, className,
 			classPK, type, status);
 	}
@@ -630,12 +601,10 @@ public class SocialRequestLocalServiceWrapper
 	* @param status the social request's status
 	* @return <code>true</code> if the social request exists;
 	<code>false</code> otherwise
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public boolean hasRequest(long userId, java.lang.String className,
-		long classPK, int type, long receiverUserId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classPK, int type, long receiverUserId, int status) {
 		return _socialRequestLocalService.hasRequest(userId, className,
 			classPK, type, receiverUserId, status);
 	}
@@ -661,14 +630,12 @@ public class SocialRequestLocalServiceWrapper
 	* @param themeDisplay the theme display
 	* @return the updated social request
 	* @throws PortalException if the social request could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.social.model.SocialRequest updateRequest(
 		long requestId, int status,
 		com.liferay.portal.theme.ThemeDisplay themeDisplay)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _socialRequestLocalService.updateRequest(requestId, status,
 			themeDisplay);
 	}

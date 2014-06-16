@@ -170,14 +170,14 @@ public class DLSettings {
 		return fallbackKeys;
 	}
 
-	static {
-		FallbackKeys fallbackKeys = _getFallbackKeys();
+	private static final String[] _MULTI_VALUED_KEYS = {};
 
+	static {
 		SettingsFactory settingsFactory =
 			SettingsFactoryUtil.getSettingsFactory();
 
-		settingsFactory.registerFallbackKeys(
-			DLConstants.SERVICE_NAME, fallbackKeys);
+		settingsFactory.registerSettingsMetadata(
+			DLConstants.SERVICE_NAME, _getFallbackKeys(), _MULTI_VALUED_KEYS);
 	}
 
 	private TypedSettings _typedSettings;

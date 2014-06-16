@@ -851,22 +851,19 @@ public class DLFileShortcutWrapper implements DLFileShortcut,
 
 	@Override
 	public java.lang.String buildTreePath()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileShortcut.buildTreePath();
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder getDLFolder()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileShortcut.getDLFolder();
 	}
 
 	@Override
 	public com.liferay.portal.kernel.repository.model.Folder getFolder()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileShortcut.getFolder();
 	}
 

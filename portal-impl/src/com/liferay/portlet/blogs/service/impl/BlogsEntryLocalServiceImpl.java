@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -106,6 +107,13 @@ import net.htmlparser.jericho.StartTag;
  */
 public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link #addEntry(long, String,
+	 *             String, String, String, int, int, int, int, int, boolean,
+	 *             boolean, String[], boolean, String, String, InputStream,
+	 *             ServiceContext)}
+	 */
+	@Deprecated
 	@Override
 	public BlogsEntry addEntry(
 			long userId, String title, String description, String content,
@@ -114,6 +122,25 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 			boolean allowTrackbacks, String[] trackbacks, boolean smallImage,
 			String smallImageURL, String smallImageFileName,
 			InputStream smallImageInputStream, ServiceContext serviceContext)
+		throws PortalException {
+
+		return addEntry(
+			userId, title, StringPool.BLANK, description, content,
+			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
+			displayDateMinute, allowPingbacks, allowTrackbacks, trackbacks,
+			smallImage, smallImageURL, smallImageFileName,
+			smallImageInputStream, serviceContext);
+	}
+
+	@Override
+	public BlogsEntry addEntry(
+			long userId, String title, String deckTitle, String description,
+			String content, int displayDateMonth, int displayDateDay,
+			int displayDateYear, int displayDateHour, int displayDateMinute,
+			boolean allowPingbacks, boolean allowTrackbacks,
+			String[] trackbacks, boolean smallImage, String smallImageURL,
+			String smallImageFileName, InputStream smallImageInputStream,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		// Entry
@@ -154,6 +181,7 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		entry.setCreateDate(serviceContext.getCreateDate(now));
 		entry.setModifiedDate(serviceContext.getModifiedDate(now));
 		entry.setTitle(title);
+		entry.setDeckTitle(deckTitle);
 		entry.setUrlTitle(
 			getUniqueUrlTitle(entryId, title, null, serviceContext));
 		entry.setDescription(description);
@@ -990,6 +1018,25 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
+		return updateEntry(
+			userId, entryId, title, StringPool.BLANK, description, content,
+			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
+			displayDateMinute, allowPingbacks, allowTrackbacks, trackbacks,
+			smallImage, smallImageURL, smallImageFileName,
+			smallImageInputStream, serviceContext);
+	}
+
+	@Override
+	public BlogsEntry updateEntry(
+			long userId, long entryId, String title, String deckTitle,
+			String description, String content, int displayDateMonth,
+			int displayDateDay, int displayDateYear, int displayDateHour,
+			int displayDateMinute, boolean allowPingbacks,
+			boolean allowTrackbacks, String[] trackbacks, boolean smallImage,
+			String smallImageURL, String smallImageFileName,
+			InputStream smallImageInputStream, ServiceContext serviceContext)
+		throws PortalException {
+
 		// Entry
 
 		User user = userPersistence.findByPrimaryKey(userId);
@@ -1019,6 +1066,7 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 
 		entry.setModifiedDate(serviceContext.getModifiedDate(null));
 		entry.setTitle(title);
+		entry.setDeckTitle(deckTitle);
 		entry.setUrlTitle(
 			getUniqueUrlTitle(entryId, title, oldUrlTitle, serviceContext));
 		entry.setDescription(description);
@@ -1405,12 +1453,26 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		subscriptionSender.setClassName(entry.getModelClassName());
 		subscriptionSender.setCompanyId(entry.getCompanyId());
 		subscriptionSender.setContextAttribute(
-			"[$BLOGS_ENTRY_CONTENT$]", entry.getContent(), false);
+			"[$BLOGS_ENTRY_CONTENT$]",
+			StringUtil.shorten(HtmlUtil.stripHtml(entry.getContent()), 500),
+			false);
+
+		User user = userPersistence.findByPrimaryKey(entry.getUserId());
+
 		subscriptionSender.setContextAttributes(
+			"[$BLOGS_ENTRY_CREATE_DATE$]",
+			Time.getSimpleDate(entry.getCreateDate(), "yyyy/MM/dd"),
 			"[$BLOGS_ENTRY_DESCRIPTION$]", entry.getDescription(),
+			"[$BLOGS_ENTRY_SITE_NAME$]",
+			groupLocalService.getGroupDescriptiveName(
+				entry.getGroupId(), serviceContext.getLocale()),
 			"[$BLOGS_ENTRY_STATUS_BY_USER_NAME$]", entry.getStatusByUserName(),
 			"[$BLOGS_ENTRY_TITLE$]", entryTitle, "[$BLOGS_ENTRY_URL$]",
-			entryURL);
+			entryURL, "[$BLOGS_ENTRY_USER_PORTRAIT_URL$]",
+			user.getPortraitURL(serviceContext.getThemeDisplay()),
+			"[$BLOGS_ENTRY_USER_URL$]",
+			user.getDisplayURL(serviceContext.getThemeDisplay()));
+
 		subscriptionSender.setContextUserPrefix("BLOGS_ENTRY");
 		subscriptionSender.setEntryTitle(entryTitle);
 		subscriptionSender.setEntryURL(entryURL);

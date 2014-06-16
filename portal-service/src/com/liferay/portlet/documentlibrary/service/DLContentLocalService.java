@@ -238,26 +238,21 @@ public interface DLContentLocalService extends BaseLocalService,
 
 	public com.liferay.portlet.documentlibrary.model.DLContent addContent(
 		long companyId, long repositoryId, java.lang.String path,
-		java.lang.String version, byte[] bytes)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String version, byte[] bytes);
 
 	public com.liferay.portlet.documentlibrary.model.DLContent addContent(
 		long companyId, long repositoryId, java.lang.String path,
-		java.lang.String version, java.io.InputStream inputStream, long size)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String version, java.io.InputStream inputStream, long size);
 
 	public void deleteContent(long companyId, long repositoryId,
 		java.lang.String path, java.lang.String version)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteContents(long companyId, long repositoryId,
-		java.lang.String path)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String path);
 
 	public void deleteContentsByDirectory(long companyId, long repositoryId,
-		java.lang.String dirName)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String dirName);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.documentlibrary.model.DLContent getContent(
@@ -274,25 +269,20 @@ public interface DLContentLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLContent> getContents(
-		long companyId, long repositoryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, long repositoryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLContent> getContents(
-		long companyId, long repositoryId, java.lang.String path)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, long repositoryId, java.lang.String path);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLContent> getContentsByDirectory(
-		long companyId, long repositoryId, java.lang.String dirName)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, long repositoryId, java.lang.String dirName);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasContent(long companyId, long repositoryId,
-		java.lang.String path, java.lang.String version)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String path, java.lang.String version);
 
 	public void updateDLContent(long companyId, long oldRepositoryId,
-		long newRepositoryId, java.lang.String oldPath, java.lang.String newPath)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long newRepositoryId, java.lang.String oldPath, java.lang.String newPath);
 }

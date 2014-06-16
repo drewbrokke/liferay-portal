@@ -15,7 +15,7 @@
 
 		<if>
 			<not>
-				<available file="${plugin.source.dir}/${dependency.visitor.dir}/DependencyVisitor.java" />
+				<available file="src/${dependency.visitor.dir}/DependencyVisitor.java" />
 			</not>
 			<then>
 				<mkdir dir="${dependency.visitor.dir}" />
@@ -25,18 +25,18 @@
 				<if>
 					<os family="unix" />
 					<then>
-						<exec dir="${plugin.source.dir}" executable="/bin/sh" failonerror="true">
+						<exec dir="src" executable="/bin/sh" failonerror="true">
 							<arg line="-c &quot;svn export ${dependency.visitor.svn.url} ${dependency.visitor.dir}&quot;" />
 						</exec>
 					</then>
 					<else>
-						<exec dir="${plugin.source.dir}" executable="cmd.exe" failonerror="true">
+						<exec dir="src" executable="cmd.exe" failonerror="true">
 							<arg line="/c &quot;svn export ${dependency.visitor.svn.url} ${dependency.visitor.dir}&quot;" />
 						</exec>
 					</else>
 				</if>
 
-				<patch dir="${plugin.source.dir}" patchfile="patches/LPS-47293.patch" strip="1" />
+				<patch dir="src" patchfile="patches/LPS-47293.patch" strip="1" />
 			</then>
 		</if>
 

@@ -348,8 +348,7 @@ public class PollsQuestionLocalServiceWrapper
 		int expirationDateHour, int expirationDateMinute, boolean neverExpire,
 		java.util.List<com.liferay.portlet.polls.model.PollsChoice> choices,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _pollsQuestionLocalService.addQuestion(userId, titleMap,
 			descriptionMap, expirationDateMonth, expirationDateDay,
 			expirationDateYear, expirationDateHour, expirationDateMinute,
@@ -359,8 +358,7 @@ public class PollsQuestionLocalServiceWrapper
 	@Override
 	public void addQuestionResources(long questionId,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_pollsQuestionLocalService.addQuestionResources(questionId,
 			addGroupPermissions, addGuestPermissions);
 	}
@@ -368,8 +366,7 @@ public class PollsQuestionLocalServiceWrapper
 	@Override
 	public void addQuestionResources(long questionId,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_pollsQuestionLocalService.addQuestionResources(questionId,
 			groupPermissions, guestPermissions);
 	}
@@ -378,8 +375,7 @@ public class PollsQuestionLocalServiceWrapper
 	public void addQuestionResources(
 		com.liferay.portlet.polls.model.PollsQuestion question,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_pollsQuestionLocalService.addQuestionResources(question,
 			addGroupPermissions, addGuestPermissions);
 	}
@@ -388,59 +384,51 @@ public class PollsQuestionLocalServiceWrapper
 	public void addQuestionResources(
 		com.liferay.portlet.polls.model.PollsQuestion question,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_pollsQuestionLocalService.addQuestionResources(question,
 			groupPermissions, guestPermissions);
 	}
 
 	@Override
 	public void deleteQuestion(long questionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_pollsQuestionLocalService.deleteQuestion(questionId);
 	}
 
 	@Override
 	public void deleteQuestion(
 		com.liferay.portlet.polls.model.PollsQuestion question)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_pollsQuestionLocalService.deleteQuestion(question);
 	}
 
 	@Override
 	public void deleteQuestions(long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_pollsQuestionLocalService.deleteQuestions(groupId);
 	}
 
 	@Override
 	public com.liferay.portlet.polls.model.PollsQuestion getQuestion(
 		long questionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _pollsQuestionLocalService.getQuestion(questionId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.polls.model.PollsQuestion> getQuestions(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return _pollsQuestionLocalService.getQuestions(groupId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.polls.model.PollsQuestion> getQuestions(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, int start, int end) {
 		return _pollsQuestionLocalService.getQuestions(groupId, start, end);
 	}
 
 	@Override
-	public int getQuestionsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getQuestionsCount(long groupId) {
 		return _pollsQuestionLocalService.getQuestionsCount(groupId);
 	}
 
@@ -453,8 +441,7 @@ public class PollsQuestionLocalServiceWrapper
 		int expirationDateHour, int expirationDateMinute, boolean neverExpire,
 		java.util.List<com.liferay.portlet.polls.model.PollsChoice> choices,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _pollsQuestionLocalService.updateQuestion(userId, questionId,
 			titleMap, descriptionMap, expirationDateMonth, expirationDateDay,
 			expirationDateYear, expirationDateHour, expirationDateMinute,

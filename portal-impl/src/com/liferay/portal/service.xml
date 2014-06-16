@@ -2993,6 +2993,7 @@
 		<column name="deliverBy" type="long" />
 		<column name="delivered" type="boolean" />
 		<column name="payload" type="String" />
+		<column name="actionRequired" type="boolean" />
 		<column name="archived" type="boolean" />
 
 		<!-- Order -->
@@ -3012,6 +3013,16 @@
 		</finder>
 		<finder name="U_A" return-type="Collection">
 			<finder-column name="userId" />
+			<finder-column name="archived" />
+		</finder>
+		<finder name="U_D_A" return-type="Collection">
+			<finder-column name="userId" />
+			<finder-column name="delivered" />
+			<finder-column name="actionRequired" />
+		</finder>
+		<finder name="U_A_A" return-type="Collection">
+			<finder-column name="userId" />
+			<finder-column name="actionRequired" />
 			<finder-column name="archived" />
 		</finder>
 

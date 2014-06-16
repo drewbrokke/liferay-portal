@@ -302,22 +302,18 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	* @throws PortalException if the users could not be found, if the users
 	were not from the same company, or if either of the users was the
 	default user
-	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.portlet.social.model.SocialRequest addRequest(
 		long userId, long groupId, java.lang.String className, long classPK,
 		int type, java.lang.String extraData, long receiverUserId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Removes all the social requests for the receiving user.
 	*
 	* @param receiverUserId the primary key of the receiving user
-	* @throws SystemException if a system exception occurred
 	*/
-	public void deleteReceiverUserRequests(long receiverUserId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteReceiverUserRequests(long receiverUserId);
 
 	/**
 	* Removes the social request identified by its primary key from the
@@ -325,33 +321,26 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	*
 	* @param requestId the primary key of the social request
 	* @throws PortalException if the social request could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteRequest(long requestId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Removes the social request from the database.
 	*
 	* @param request the social request to be removed
-	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteRequest(
-		com.liferay.portlet.social.model.SocialRequest request)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.social.model.SocialRequest request);
 
-	public void deleteRequests(long className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteRequests(long className, long classPK);
 
 	/**
 	* Removes all the social requests for the requesting user.
 	*
 	* @param userId the primary key of the requesting user
-	* @throws SystemException if a system exception occurred
 	*/
-	public void deleteUserRequests(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteUserRequests(long userId);
 
 	/**
 	* Returns a range of all the social requests for the receiving user.
@@ -370,12 +359,10 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.social.model.SocialRequest> getReceiverUserRequests(
-		long receiverUserId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long receiverUserId, int start, int end);
 
 	/**
 	* Returns a range of all the social requests with the given status for the
@@ -396,23 +383,19 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.social.model.SocialRequest> getReceiverUserRequests(
-		long receiverUserId, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long receiverUserId, int status, int start, int end);
 
 	/**
 	* Returns the number of social requests for the receiving user.
 	*
 	* @param receiverUserId the primary key of the receiving user
 	* @return the number of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getReceiverUserRequestsCount(long receiverUserId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getReceiverUserRequestsCount(long receiverUserId);
 
 	/**
 	* Returns the number of social requests with the given status for the
@@ -421,11 +404,9 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	* @param receiverUserId the primary key of the receiving user
 	* @param status the social request's status
 	* @return the number of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getReceiverUserRequestsCount(long receiverUserId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getReceiverUserRequestsCount(long receiverUserId, int status);
 
 	/**
 	* Returns a range of all the social requests for the requesting user.
@@ -444,12 +425,10 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.social.model.SocialRequest> getUserRequests(
-		long userId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long userId, int start, int end);
 
 	/**
 	* Returns a range of all the social requests with the given status for the
@@ -470,23 +449,19 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.social.model.SocialRequest> getUserRequests(
-		long userId, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long userId, int status, int start, int end);
 
 	/**
 	* Returns the number of social requests for the requesting user.
 	*
 	* @param userId the primary key of the requesting user
 	* @return the number of matching social requests
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getUserRequestsCount(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getUserRequestsCount(long userId);
 
 	/**
 	* Returns the number of social requests with the given status for the
@@ -495,11 +470,9 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	* @param userId the primary key of the requesting user
 	* @param status the social request's status
 	* @return the number of matching social request
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getUserRequestsCount(long userId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getUserRequestsCount(long userId, int status);
 
 	/**
 	* Returns <code>true</code> if a matching social requests exists in the
@@ -514,12 +487,10 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	* @param status the social request's status
 	* @return <code>true</code> if the request exists; <code>false</code>
 	otherwise
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasRequest(long userId, java.lang.String className,
-		long classPK, int type, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long classPK, int type, int status);
 
 	/**
 	* Returns <code>true</code> if a matching social request exists in the
@@ -535,12 +506,10 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	* @param status the social request's status
 	* @return <code>true</code> if the social request exists;
 	<code>false</code> otherwise
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasRequest(long userId, java.lang.String className,
-		long classPK, int type, long receiverUserId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long classPK, int type, long receiverUserId, int status);
 
 	/**
 	* Updates the social request replacing its status.
@@ -563,11 +532,9 @@ public interface SocialRequestLocalService extends BaseLocalService,
 	* @param themeDisplay the theme display
 	* @return the updated social request
 	* @throws PortalException if the social request could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.portlet.social.model.SocialRequest updateRequest(
 		long requestId, int status,
 		com.liferay.portal.theme.ThemeDisplay themeDisplay)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

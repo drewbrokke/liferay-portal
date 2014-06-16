@@ -113,6 +113,14 @@ public interface DL {
 			PortletRequest portletRequest, long folderId)
 		throws PortalException;
 
+	public String getDownloadURL(
+		FileEntry fileEntry, FileVersion fileVersion, ThemeDisplay themeDisplay,
+		String queryString);
+
+	public String getDownloadURL(
+		FileEntry fileEntry, FileVersion fileVersion, ThemeDisplay themeDisplay,
+		String queryString, boolean appendVersion, boolean absoluteURL);
+
 	public Map<String, String> getEmailDefinitionTerms(
 		PortletRequest portletRequest, String emailFromAddress,
 		String emailFromName);

@@ -276,8 +276,7 @@ public class ShoppingOrderItemLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.portlet.shopping.model.ShoppingOrderItem> getOrderItems(
-		long orderId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long orderId) {
 		return _shoppingOrderItemLocalService.getOrderItems(orderId);
 	}
 

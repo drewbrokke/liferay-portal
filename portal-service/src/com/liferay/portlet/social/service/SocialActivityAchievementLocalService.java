@@ -234,47 +234,37 @@ public interface SocialActivityAchievementLocalService extends BaseLocalService,
 
 	public void addActivityAchievement(long userId, long groupId,
 		com.liferay.portlet.social.model.SocialAchievement achievement)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.social.model.SocialActivityAchievement fetchUserAchievement(
-		long userId, long groupId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long userId, long groupId, java.lang.String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.social.model.SocialActivityAchievement> getGroupAchievements(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.social.model.SocialActivityAchievement> getGroupAchievements(
-		long groupId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, java.lang.String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGroupAchievementsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getGroupAchievementsCount(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGroupAchievementsCount(long groupId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getGroupAchievementsCount(long groupId, java.lang.String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.social.model.SocialActivityAchievement> getGroupFirstAchievements(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGroupFirstAchievementsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getGroupFirstAchievementsCount(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.social.model.SocialActivityAchievement> getUserAchievements(
-		long userId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long userId, long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getUserAchievementsCount(long userId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getUserAchievementsCount(long userId, long groupId);
 }

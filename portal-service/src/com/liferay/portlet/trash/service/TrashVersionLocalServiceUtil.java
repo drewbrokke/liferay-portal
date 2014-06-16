@@ -262,34 +262,29 @@ public class TrashVersionLocalServiceUtil {
 	public static com.liferay.portlet.trash.model.TrashVersion addTrashVersion(
 		long trashEntryId, java.lang.String className, long classPK,
 		int status,
-		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties) {
 		return getService()
 				   .addTrashVersion(trashEntryId, className, classPK, status,
 			typeSettingsProperties);
 	}
 
 	public static com.liferay.portlet.trash.model.TrashVersion deleteTrashVersion(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return getService().deleteTrashVersion(className, classPK);
 	}
 
 	public static com.liferay.portlet.trash.model.TrashVersion fetchVersion(
-		long entryId, java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId, java.lang.String className, long classPK) {
 		return getService().fetchVersion(entryId, className, classPK);
 	}
 
 	public static java.util.List<com.liferay.portlet.trash.model.TrashVersion> getVersions(
-		long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId) {
 		return getService().getVersions(entryId);
 	}
 
 	public static java.util.List<com.liferay.portlet.trash.model.TrashVersion> getVersions(
-		long entryId, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId, java.lang.String className) {
 		return getService().getVersions(entryId, className);
 	}
 

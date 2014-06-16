@@ -518,14 +518,12 @@ public class ShoppingCartWrapper implements ShoppingCart,
 
 	@Override
 	public com.liferay.portlet.shopping.model.ShoppingCoupon getCoupon()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _shoppingCart.getCoupon();
 	}
 
 	@Override
-	public java.util.Map<com.liferay.portlet.shopping.model.ShoppingCartItem, java.lang.Integer> getItems()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.Map<com.liferay.portlet.shopping.model.ShoppingCartItem, java.lang.Integer> getItems() {
 		return _shoppingCart.getItems();
 	}
 

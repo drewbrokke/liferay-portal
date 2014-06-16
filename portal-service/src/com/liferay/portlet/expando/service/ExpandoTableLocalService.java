@@ -234,18 +234,15 @@ public interface ExpandoTableLocalService extends BaseLocalService,
 
 	public com.liferay.portlet.expando.model.ExpandoTable addDefaultTable(
 		long companyId, long classNameId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.expando.model.ExpandoTable addDefaultTable(
 		long companyId, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.expando.model.ExpandoTable addTable(
 		long companyId, long classNameId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* @deprecated As of 6.1.0, replaced by {@link #addTable(long, long,
@@ -254,13 +251,11 @@ public interface ExpandoTableLocalService extends BaseLocalService,
 	@Deprecated
 	public com.liferay.portlet.expando.model.ExpandoTable addTable(
 		long classNameId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.expando.model.ExpandoTable addTable(
 		long companyId, java.lang.String className, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* @deprecated As of 6.1.0, replaced by {@link #addTable(long, String,
@@ -269,70 +264,56 @@ public interface ExpandoTableLocalService extends BaseLocalService,
 	@Deprecated
 	public com.liferay.portlet.expando.model.ExpandoTable addTable(
 		java.lang.String className, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteTable(
-		com.liferay.portlet.expando.model.ExpandoTable table)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.expando.model.ExpandoTable table);
 
 	public void deleteTable(long tableId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteTable(long companyId, long classNameId,
 		java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteTable(long companyId, java.lang.String className,
 		java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteTables(long companyId, long classNameId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteTables(long companyId, long classNameId);
 
-	public void deleteTables(long companyId, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteTables(long companyId, java.lang.String className);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.expando.model.ExpandoTable fetchDefaultTable(
-		long companyId, long classNameId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, long classNameId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.expando.model.ExpandoTable fetchDefaultTable(
-		long companyId, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, java.lang.String className);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.expando.model.ExpandoTable fetchTable(
-		long companyId, long classNameId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, long classNameId, java.lang.String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.expando.model.ExpandoTable getDefaultTable(
 		long companyId, long classNameId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.expando.model.ExpandoTable getDefaultTable(
 		long companyId, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.expando.model.ExpandoTable getTable(long tableId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.expando.model.ExpandoTable getTable(
 		long companyId, long classNameId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* @deprecated As of 6.1.0, replaced by {@link #getTable(long, long,
@@ -342,14 +323,12 @@ public interface ExpandoTableLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.expando.model.ExpandoTable getTable(
 		long classNameId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.expando.model.ExpandoTable getTable(
 		long companyId, java.lang.String className, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* @deprecated As of 6.1.0, replaced by {@link #getTable(long, String,
@@ -359,21 +338,17 @@ public interface ExpandoTableLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.expando.model.ExpandoTable getTable(
 		java.lang.String className, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.expando.model.ExpandoTable> getTables(
-		long companyId, long classNameId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, long classNameId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.expando.model.ExpandoTable> getTables(
-		long companyId, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, java.lang.String className);
 
 	public com.liferay.portlet.expando.model.ExpandoTable updateTable(
 		long tableId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

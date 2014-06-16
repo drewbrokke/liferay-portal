@@ -103,7 +103,7 @@ import com.liferay.portlet.dynamicdatamapping.model.DDMForm;
 import com.liferay.portlet.dynamicdatamapping.model.DDMFormField;
 import com.liferay.portlet.dynamicdatamapping.model.DDMStructure;
 import com.liferay.portlet.dynamicdatamapping.model.DDMTemplate;
-import com.liferay.portlet.dynamicdatamapping.storage.FieldConstants;
+import com.liferay.portlet.dynamicdatamapping.model.LocalizedValue;
 import com.liferay.portlet.dynamicdatamapping.storage.Fields;
 import com.liferay.portlet.dynamicdatamapping.util.DDMUtil;
 import com.liferay.portlet.dynamicdatamapping.util.DDMXMLUtil;
@@ -1798,192 +1798,11 @@ public class JournalArticleLocalServiceImpl
 			JournalArticle article, String ddmTemplateKey, String viewMode,
 			String languageId, int page,
 			PortletRequestModel portletRequestModel, ThemeDisplay themeDisplay)
-		throws PortalException {
+		throws PortalException, SystemException {
 
-		String content = null;
-
-		if (page < 1) {
-			page = 1;
-		}
-
-		int numberOfPages = 1;
-		boolean paginate = false;
-		boolean pageFlow = false;
-
-		boolean cacheable = true;
-
-		Map<String, String> tokens = JournalUtil.getTokens(
-			article.getGroupId(), portletRequestModel, themeDisplay);
-
-		if ((themeDisplay == null) && (portletRequestModel == null)) {
-			tokens.put("company_id", String.valueOf(article.getCompanyId()));
-
-			Group companyGroup = groupLocalService.getCompanyGroup(
-				article.getCompanyId());
-
-			tokens.put(
-				"article_group_id", String.valueOf(article.getGroupId()));
-			tokens.put(
-				"company_group_id", String.valueOf(companyGroup.getGroupId()));
-
-			// Deprecated tokens
-
-			tokens.put("group_id", String.valueOf(article.getGroupId()));
-		}
-
-		tokens.put(
-			"article_resource_pk",
-			String.valueOf(article.getResourcePrimKey()));
-
-		String defaultDDMTemplateKey = article.getTemplateId();
-
-		if (Validator.isNull(ddmTemplateKey)) {
-			ddmTemplateKey = defaultDDMTemplateKey;
-		}
-
-		tokens.put("structure_id", article.getStructureId());
-		tokens.put("template_id", ddmTemplateKey);
-
-		Document document = article.getDocument();
-
-		document = document.clone();
-
-		Element rootElement = document.getRootElement();
-
-		List<Element> pages = rootElement.elements("page");
-
-		if (!pages.isEmpty()) {
-			pageFlow = true;
-
-			String targetPage = null;
-
-			Map<String, String[]> parameters =
-				portletRequestModel.getParameters();
-
-			if (parameters != null) {
-				String[] values = parameters.get("targetPage");
-
-				if ((values != null) && (values.length > 0)) {
-					targetPage = values[0];
-				}
-			}
-
-			Element pageElement = null;
-
-			if (Validator.isNotNull(targetPage)) {
-				targetPage = HtmlUtil.escapeXPathAttribute(targetPage);
-
-				XPath xPathSelector = SAXReaderUtil.createXPath(
-					"/root/page[@id = " + targetPage + "]");
-
-				pageElement = (Element)xPathSelector.selectSingleNode(document);
-			}
-
-			if (pageElement != null) {
-				document = SAXReaderUtil.createDocument(pageElement);
-
-				rootElement = document.getRootElement();
-
-				numberOfPages = pages.size();
-			}
-			else {
-				if (page > pages.size()) {
-					page = 1;
-				}
-
-				pageElement = pages.get(page - 1);
-
-				document = SAXReaderUtil.createDocument(pageElement);
-
-				rootElement = document.getRootElement();
-
-				numberOfPages = pages.size();
-				paginate = true;
-			}
-		}
-
-		JournalUtil.addAllReservedEls(
-			rootElement, tokens, article, languageId, themeDisplay);
-
-		try {
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Transforming " + article.getArticleId() + " " +
-						article.getVersion() + " " + languageId);
-			}
-
-			// Try with specified template first (in the current group and the
-			// global group). If a template is not specified, use the default
-			// one. If the specified template does not exist, use the default
-			// one. If the default one does not exist, throw an exception.
-
-			DDMTemplate ddmTemplate = null;
-
-			try {
-				ddmTemplate = ddmTemplateLocalService.getTemplate(
-					PortalUtil.getSiteGroupId(article.getGroupId()),
-					classNameLocalService.getClassNameId(DDMStructure.class),
-					ddmTemplateKey, true);
-
-				Group companyGroup = groupLocalService.getCompanyGroup(
-					article.getCompanyId());
-
-				if (companyGroup.getGroupId() == ddmTemplate.getGroupId()) {
-					tokens.put(
-						"company_group_id",
-						String.valueOf(companyGroup.getGroupId()));
-				}
-			}
-			catch (NoSuchTemplateException nste) {
-				if (!defaultDDMTemplateKey.equals(ddmTemplateKey)) {
-					ddmTemplate = ddmTemplatePersistence.findByG_C_T(
-						PortalUtil.getSiteGroupId(article.getGroupId()),
-						classNameLocalService.getClassNameId(
-							DDMStructure.class),
-						defaultDDMTemplateKey);
-				}
-				else {
-					throw nste;
-				}
-			}
-
-			String script = ddmTemplate.getScript();
-			String langType = ddmTemplate.getLanguage();
-			cacheable = ddmTemplate.isCacheable();
-
-			content = JournalUtil.transform(
-				themeDisplay, tokens, viewMode, languageId, document,
-				portletRequestModel, script, langType);
-
-			if (!pageFlow) {
-				String[] pieces = StringUtil.split(
-					content, PropsValues.JOURNAL_ARTICLE_TOKEN_PAGE_BREAK);
-
-				if (pieces.length > 1) {
-					if (page > pieces.length) {
-						page = 1;
-					}
-
-					content = pieces[page - 1];
-					numberOfPages = pieces.length;
-					paginate = true;
-				}
-			}
-		}
-		catch (Exception e) {
-			throw new SystemException(e);
-		}
-
-		return new JournalArticleDisplayImpl(
-			article.getCompanyId(), article.getId(),
-			article.getResourcePrimKey(), article.getGroupId(),
-			article.getUserId(), article.getArticleId(), article.getVersion(),
-			article.getTitle(languageId), article.getUrlTitle(),
-			article.getDescription(languageId),
-			article.getAvailableLanguageIds(), content, article.getType(),
-			article.getStructureId(), ddmTemplateKey, article.isSmallImage(),
-			article.getSmallImageId(), article.getSmallImageURL(),
-			numberOfPages, page, paginate, cacheable);
+		return getArticleDisplay(
+			article, ddmTemplateKey, viewMode, languageId, page,
+			portletRequestModel, themeDisplay, false);
 	}
 
 	@Override
@@ -3157,6 +2976,23 @@ public class JournalArticleLocalServiceImpl
 		else {
 			return false;
 		}
+	}
+
+	@Override
+	public boolean isRenderable(
+		JournalArticle article, PortletRequestModel portletRequestModel,
+		ThemeDisplay themeDisplay) {
+
+		try {
+			getArticleDisplay(
+				article, null, Constants.VIEW, article.getDefaultLanguageId(),
+				0, portletRequestModel, themeDisplay, true);
+		}
+		catch (Exception e) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -5767,6 +5603,37 @@ public class JournalArticleLocalServiceImpl
 		newArticle.setContent(contentDocument.formattedString());
 	}
 
+	protected Map<String, String> createFieldsValuesMap(String content) {
+		try {
+			Map<String, String> fieldsValuesMap = new HashMap<String, String>();
+
+			Document document = SAXReaderUtil.read(content);
+
+			Element rootElement = document.getRootElement();
+
+			List<Element> elements = rootElement.elements();
+
+			for (Element element : elements) {
+				String fieldName = element.attributeValue(
+					"name", StringPool.BLANK);
+
+				List<Element> dynamicContentElements = element.elements(
+					"dynamic-content");
+
+				for (Element dynamicContentElement : dynamicContentElements) {
+					String value = dynamicContentElement.getText();
+
+					fieldsValuesMap.put(fieldName, value);
+				}
+			}
+
+			return fieldsValuesMap;
+		}
+		catch (DocumentException de) {
+			throw new SystemException(de);
+		}
+	}
+
 	protected void format(
 			User user, long groupId, String articleId, double version,
 			boolean incrementVersion, Element root, Map<String, byte[]> images)
@@ -6029,6 +5896,206 @@ public class JournalArticleLocalServiceImpl
 		}
 
 		return LocaleUtil.getSiteDefault();
+	}
+
+	protected JournalArticleDisplay getArticleDisplay(
+			JournalArticle article, String ddmTemplateKey, String viewMode,
+			String languageId, int page,
+			PortletRequestModel portletRequestModel, ThemeDisplay themeDisplay,
+			boolean propagateException)
+		throws PortalException, SystemException {
+
+		String content = null;
+
+		if (page < 1) {
+			page = 1;
+		}
+
+		int numberOfPages = 1;
+		boolean paginate = false;
+		boolean pageFlow = false;
+
+		boolean cacheable = true;
+
+		Map<String, String> tokens = JournalUtil.getTokens(
+			article.getGroupId(), portletRequestModel, themeDisplay);
+
+		if ((themeDisplay == null) && (portletRequestModel == null)) {
+			tokens.put("company_id", String.valueOf(article.getCompanyId()));
+
+			Group companyGroup = groupLocalService.getCompanyGroup(
+				article.getCompanyId());
+
+			tokens.put(
+				"article_group_id", String.valueOf(article.getGroupId()));
+			tokens.put(
+				"company_group_id", String.valueOf(companyGroup.getGroupId()));
+
+			// Deprecated tokens
+
+			tokens.put("group_id", String.valueOf(article.getGroupId()));
+		}
+
+		tokens.put(
+			"article_resource_pk",
+			String.valueOf(article.getResourcePrimKey()));
+
+		String defaultDDMTemplateKey = article.getTemplateId();
+
+		if (Validator.isNull(ddmTemplateKey)) {
+			ddmTemplateKey = defaultDDMTemplateKey;
+		}
+
+		tokens.put("structure_id", article.getStructureId());
+		tokens.put("template_id", ddmTemplateKey);
+
+		Document document = article.getDocument();
+
+		document = document.clone();
+
+		Element rootElement = document.getRootElement();
+
+		List<Element> pages = rootElement.elements("page");
+
+		if (!pages.isEmpty()) {
+			pageFlow = true;
+
+			String targetPage = null;
+
+			Map<String, String[]> parameters =
+				portletRequestModel.getParameters();
+
+			if (parameters != null) {
+				String[] values = parameters.get("targetPage");
+
+				if ((values != null) && (values.length > 0)) {
+					targetPage = values[0];
+				}
+			}
+
+			Element pageElement = null;
+
+			if (Validator.isNotNull(targetPage)) {
+				targetPage = HtmlUtil.escapeXPathAttribute(targetPage);
+
+				XPath xPathSelector = SAXReaderUtil.createXPath(
+					"/root/page[@id = " + targetPage + "]");
+
+				pageElement = (Element)xPathSelector.selectSingleNode(document);
+			}
+
+			if (pageElement != null) {
+				document = SAXReaderUtil.createDocument(pageElement);
+
+				rootElement = document.getRootElement();
+
+				numberOfPages = pages.size();
+			}
+			else {
+				if (page > pages.size()) {
+					page = 1;
+				}
+
+				pageElement = pages.get(page - 1);
+
+				document = SAXReaderUtil.createDocument(pageElement);
+
+				rootElement = document.getRootElement();
+
+				numberOfPages = pages.size();
+				paginate = true;
+			}
+		}
+
+		JournalUtil.addAllReservedEls(
+			rootElement, tokens, article, languageId, themeDisplay);
+
+		try {
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Transforming " + article.getArticleId() + " " +
+						article.getVersion() + " " + languageId);
+			}
+
+			// Try with specified template first (in the current group and the
+			// global group). If a template is not specified, use the default
+			// one. If the specified template does not exist, use the default
+			// one. If the default one does not exist, throw an exception.
+
+			DDMTemplate ddmTemplate = null;
+
+			try {
+				ddmTemplate = ddmTemplateLocalService.getTemplate(
+					PortalUtil.getSiteGroupId(article.getGroupId()),
+					classNameLocalService.getClassNameId(DDMStructure.class),
+					ddmTemplateKey, true);
+
+				Group companyGroup = groupLocalService.getCompanyGroup(
+					article.getCompanyId());
+
+				if (companyGroup.getGroupId() == ddmTemplate.getGroupId()) {
+					tokens.put(
+						"company_group_id",
+						String.valueOf(companyGroup.getGroupId()));
+				}
+			}
+			catch (NoSuchTemplateException nste) {
+				if (!defaultDDMTemplateKey.equals(ddmTemplateKey)) {
+					ddmTemplate = ddmTemplatePersistence.findByG_C_T(
+						PortalUtil.getSiteGroupId(article.getGroupId()),
+						classNameLocalService.getClassNameId(
+							DDMStructure.class),
+						defaultDDMTemplateKey);
+				}
+				else {
+					throw nste;
+				}
+			}
+
+			String script = ddmTemplate.getScript();
+			String langType = ddmTemplate.getLanguage();
+			cacheable = ddmTemplate.isCacheable();
+
+			if (propagateException) {
+				content = JournalUtil.doTransform(
+					themeDisplay, tokens, viewMode, languageId, document,
+					portletRequestModel, script, langType);
+			}
+			else {
+				content = JournalUtil.transform(
+					themeDisplay, tokens, viewMode, languageId, document,
+					portletRequestModel, script, langType);
+			}
+
+			if (!pageFlow) {
+				String[] pieces = StringUtil.split(
+					content, PropsValues.JOURNAL_ARTICLE_TOKEN_PAGE_BREAK);
+
+				if (pieces.length > 1) {
+					if (page > pieces.length) {
+						page = 1;
+					}
+
+					content = pieces[page - 1];
+					numberOfPages = pieces.length;
+					paginate = true;
+				}
+			}
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+
+		return new JournalArticleDisplayImpl(
+			article.getCompanyId(), article.getId(),
+			article.getResourcePrimKey(), article.getGroupId(),
+			article.getUserId(), article.getArticleId(), article.getVersion(),
+			article.getTitle(languageId), article.getUrlTitle(),
+			article.getDescription(languageId),
+			article.getAvailableLanguageIds(), content, article.getType(),
+			article.getStructureId(), ddmTemplateKey, article.isSmallImage(),
+			article.getSmallImageId(), article.getSmallImageURL(),
+			numberOfPages, page, paginate, cacheable);
 	}
 
 	protected List<ObjectValuePair<Long, Integer>> getArticleVersionStatuses(
@@ -6517,36 +6584,43 @@ public class JournalArticleLocalServiceImpl
 			serviceContext, workflowContext);
 	}
 
+	protected void updateDDMFormFieldPredefinedValue(
+		DDMFormField ddmFormField, String ddmFormFieldValue) {
+
+		LocalizedValue predefinedValue = ddmFormField.getPredefinedValue();
+
+		for (Locale locale : predefinedValue.getAvailableLocales()) {
+			predefinedValue.addValue(locale, ddmFormFieldValue);
+		}
+	}
+
 	protected void updateDDMStructurePredefinedValues(
 			long ddmStructureId, String content, ServiceContext serviceContext)
 		throws PortalException {
 
-		try {
-			Document document = SAXReaderUtil.read(content);
+		DDMStructure ddmStructure = ddmStructureLocalService.fetchDDMStructure(
+			ddmStructureId);
 
-			Element rootElement = document.getRootElement();
+		DDMForm ddmForm = ddmStructure.getDDMForm();
 
-			List<Element> elements = rootElement.elements();
+		Map<String, DDMFormField> ddmFormFieldsMap =
+			ddmForm.getDDMFormFieldsMap(true);
 
-			for (Element element : elements) {
-				String fieldName = element.attributeValue(
-					"name", StringPool.BLANK);
+		Map<String, String> fieldsValuesMap = createFieldsValuesMap(content);
 
-				List<Element> dynamicContentElements = element.elements(
-					"dynamic-content");
+		for (Map.Entry<String, String> fieldValue :
+				fieldsValuesMap.entrySet()) {
 
-				for (Element dynamicContentElement : dynamicContentElements) {
-					String value = dynamicContentElement.getText();
+			String ddmFormFieldName = fieldValue.getKey();
+			String ddmFormFieldValue = fieldValue.getValue();
 
-					ddmStructureLocalService.updateXSDFieldMetadata(
-						ddmStructureId, fieldName,
-						FieldConstants.PREDEFINED_VALUE, value, serviceContext);
-				}
-			}
+			updateDDMFormFieldPredefinedValue(
+				ddmFormFieldsMap.get(ddmFormFieldName), ddmFormFieldValue);
 		}
-		catch (DocumentException de) {
-			throw new SystemException(de);
-		}
+
+		ddmStructure.updateDDMForm(ddmForm);
+
+		ddmStructureLocalService.updateDDMStructure(ddmStructure);
 	}
 
 	protected void updatePreviousApprovedArticle(JournalArticle article)

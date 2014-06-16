@@ -284,8 +284,7 @@ public class ShoppingCouponLocalServiceWrapper
 		java.lang.String limitSkus, double minOrder, double discount,
 		java.lang.String discountType,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _shoppingCouponLocalService.addCoupon(userId, code, autoCode,
 			name, description, startDateMonth, startDateDay, startDateYear,
 			startDateHour, startDateMinute, endDateMonth, endDateDay,
@@ -296,53 +295,46 @@ public class ShoppingCouponLocalServiceWrapper
 
 	@Override
 	public void deleteCoupon(long couponId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_shoppingCouponLocalService.deleteCoupon(couponId);
 	}
 
 	@Override
 	public void deleteCoupon(
-		com.liferay.portlet.shopping.model.ShoppingCoupon coupon)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.shopping.model.ShoppingCoupon coupon) {
 		_shoppingCouponLocalService.deleteCoupon(coupon);
 	}
 
 	@Override
-	public void deleteCoupons(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteCoupons(long groupId) {
 		_shoppingCouponLocalService.deleteCoupons(groupId);
 	}
 
 	@Override
 	public com.liferay.portlet.shopping.model.ShoppingCoupon getCoupon(
 		long couponId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _shoppingCouponLocalService.getCoupon(couponId);
 	}
 
 	@Override
 	public com.liferay.portlet.shopping.model.ShoppingCoupon getCoupon(
 		java.lang.String code)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _shoppingCouponLocalService.getCoupon(code);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.shopping.model.ShoppingCoupon> search(
 		long groupId, long companyId, java.lang.String code, boolean active,
-		java.lang.String discountType, boolean andOperator, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String discountType, boolean andOperator, int start, int end) {
 		return _shoppingCouponLocalService.search(groupId, companyId, code,
 			active, discountType, andOperator, start, end);
 	}
 
 	@Override
 	public int searchCount(long groupId, long companyId, java.lang.String code,
-		boolean active, java.lang.String discountType, boolean andOperator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean active, java.lang.String discountType, boolean andOperator) {
 		return _shoppingCouponLocalService.searchCount(groupId, companyId,
 			code, active, discountType, andOperator);
 	}
@@ -357,8 +349,7 @@ public class ShoppingCouponLocalServiceWrapper
 		java.lang.String limitCategories, java.lang.String limitSkus,
 		double minOrder, double discount, java.lang.String discountType,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _shoppingCouponLocalService.updateCoupon(userId, couponId, name,
 			description, startDateMonth, startDateDay, startDateYear,
 			startDateHour, startDateMinute, endDateMonth, endDateDay,

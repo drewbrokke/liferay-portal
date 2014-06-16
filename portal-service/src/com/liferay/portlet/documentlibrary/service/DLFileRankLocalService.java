@@ -234,47 +234,35 @@ public interface DLFileRankLocalService extends BaseLocalService,
 
 	public com.liferay.portlet.documentlibrary.model.DLFileRank addFileRank(
 		long groupId, long companyId, long userId, long fileEntryId,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.service.ServiceContext serviceContext);
 
-	public void checkFileRanks()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void checkFileRanks();
 
 	public void deleteFileRank(
-		com.liferay.portlet.documentlibrary.model.DLFileRank dlFileRank)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.documentlibrary.model.DLFileRank dlFileRank);
 
 	public void deleteFileRank(long fileRankId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteFileRanksByFileEntryId(long fileEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteFileRanksByFileEntryId(long fileEntryId);
 
-	public void deleteFileRanksByUserId(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteFileRanksByUserId(long userId);
 
-	public void disableFileRanks(long fileEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void disableFileRanks(long fileEntryId);
 
 	public void disableFileRanksByFolderId(long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void enableFileRanks(long fileEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void enableFileRanks(long fileEntryId);
 
 	public void enableFileRanksByFolderId(long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFileRank> getFileRanks(
-		long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long userId);
 
 	public com.liferay.portlet.documentlibrary.model.DLFileRank updateFileRank(
 		long groupId, long companyId, long userId, long fileEntryId,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.service.ServiceContext serviceContext);
 }

@@ -319,44 +319,37 @@ public class MBThreadFlagLocalServiceUtil {
 	public static void addThreadFlag(long userId,
 		com.liferay.portlet.messageboards.model.MBThread thread,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().addThreadFlag(userId, thread, serviceContext);
 	}
 
 	public static void deleteThreadFlag(long threadFlagId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteThreadFlag(threadFlagId);
 	}
 
 	public static void deleteThreadFlag(
-		com.liferay.portlet.messageboards.model.MBThreadFlag threadFlag)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.messageboards.model.MBThreadFlag threadFlag) {
 		getService().deleteThreadFlag(threadFlag);
 	}
 
-	public static void deleteThreadFlagsByThreadId(long threadId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteThreadFlagsByThreadId(long threadId) {
 		getService().deleteThreadFlagsByThreadId(threadId);
 	}
 
-	public static void deleteThreadFlagsByUserId(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteThreadFlagsByUserId(long userId) {
 		getService().deleteThreadFlagsByUserId(userId);
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBThreadFlag getThreadFlag(
 		long userId, com.liferay.portlet.messageboards.model.MBThread thread)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getThreadFlag(userId, thread);
 	}
 
 	public static boolean hasThreadFlag(long userId,
 		com.liferay.portlet.messageboards.model.MBThread thread)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().hasThreadFlag(userId, thread);
 	}
 

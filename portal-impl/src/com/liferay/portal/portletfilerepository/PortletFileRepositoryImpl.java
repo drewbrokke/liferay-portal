@@ -342,8 +342,26 @@ public class PortletFileRepositoryImpl implements PortletFileRepository {
 	}
 
 	@Override
-	public List<FileEntry> getPortletFileEntries(long groupId, long folderId) {
+	public String getDownloadPortletFileEntryURL(
+		ThemeDisplay themeDisplay, FileEntry fileEntry, String queryString) {
 
+		return getDownloadPortletFileEntryURL(
+			themeDisplay, fileEntry, queryString, true);
+	}
+
+	@Override
+	public String getDownloadPortletFileEntryURL(
+		ThemeDisplay themeDisplay, FileEntry fileEntry, String queryString,
+		boolean absoluteURL) {
+
+		String portletFileEntryURL = getPortletFileEntryURL(
+			themeDisplay, fileEntry, queryString, absoluteURL);
+
+		return HttpUtil.addParameter(portletFileEntryURL, "download", true);
+	}
+
+	@Override
+	public List<FileEntry> getPortletFileEntries(long groupId, long folderId) {
 		return toFileEntries(
 			DLFileEntryLocalServiceUtil.getFileEntries(groupId, folderId));
 	}
@@ -368,8 +386,16 @@ public class PortletFileRepositoryImpl implements PortletFileRepository {
 	}
 
 	@Override
-	public int getPortletFileEntriesCount(long groupId, long folderId) {
+	public List<FileEntry> getPortletFileEntries(
+		long groupId, long folderId, OrderByComparator obc) {
 
+		return toFileEntries(
+			DLFileEntryLocalServiceUtil.getFileEntries(
+				groupId, folderId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, obc));
+	}
+
+	@Override
+	public int getPortletFileEntriesCount(long groupId, long folderId) {
 		return DLFileEntryLocalServiceUtil.getFileEntriesCount(
 			groupId, folderId);
 	}

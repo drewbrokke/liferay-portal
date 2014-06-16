@@ -61,8 +61,7 @@ public class PollsQuestionServiceWrapper implements PollsQuestionService,
 		int expirationDateHour, int expirationDateMinute, boolean neverExpire,
 		java.util.List<com.liferay.portlet.polls.model.PollsChoice> choices,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _pollsQuestionService.addQuestion(titleMap, descriptionMap,
 			expirationDateMonth, expirationDateDay, expirationDateYear,
 			expirationDateHour, expirationDateMinute, neverExpire, choices,
@@ -71,16 +70,14 @@ public class PollsQuestionServiceWrapper implements PollsQuestionService,
 
 	@Override
 	public void deleteQuestion(long questionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_pollsQuestionService.deleteQuestion(questionId);
 	}
 
 	@Override
 	public com.liferay.portlet.polls.model.PollsQuestion getQuestion(
 		long questionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _pollsQuestionService.getQuestion(questionId);
 	}
 
@@ -93,8 +90,7 @@ public class PollsQuestionServiceWrapper implements PollsQuestionService,
 		int expirationDateHour, int expirationDateMinute, boolean neverExpire,
 		java.util.List<com.liferay.portlet.polls.model.PollsChoice> choices,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _pollsQuestionService.updateQuestion(questionId, titleMap,
 			descriptionMap, expirationDateMonth, expirationDateDay,
 			expirationDateYear, expirationDateHour, expirationDateMinute,

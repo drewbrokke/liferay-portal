@@ -286,18 +286,15 @@ public interface AssetTagLocalService extends BaseLocalService,
 	public com.liferay.portlet.asset.model.AssetTag addTag(long userId,
 		java.lang.String name, java.lang.String[] tagProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void addTagResources(com.liferay.portlet.asset.model.AssetTag tag,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void addTagResources(com.liferay.portlet.asset.model.AssetTag tag,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Returns the tags matching the group and names, creating new tags with the
@@ -318,168 +315,135 @@ public interface AssetTagLocalService extends BaseLocalService,
 	* @throws PortalException if a matching group could not be found, if the
 	tag's key or value were invalid, or if a portal exception
 	occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> checkTags(
 		long userId, com.liferay.portal.model.Group group,
 		java.lang.String[] names)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void checkTags(long userId, long groupId, java.lang.String[] names)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.asset.model.AssetTag decrementAssetCount(
 		long tagId, long classNameId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteGroupTags(long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteTag(com.liferay.portlet.asset.model.AssetTag tag)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteTag(long tagId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getEntryTags(
-		long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long entryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getGroupsTags(
-		long[] groupIds)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long[] groupIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getGroupTags(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getGroupTags(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGroupTagsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getGroupTagsCount(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getSocialActivityCounterOffsetTags(
 		long groupId, java.lang.String socialActivityCounterName,
-		int startOffset, int endOffset)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		int startOffset, int endOffset);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getSocialActivityCounterPeriodTags(
 		long groupId, java.lang.String socialActivityCounterName,
-		int startPeriod, int endPeriod)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		int startPeriod, int endPeriod);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.asset.model.AssetTag getTag(long tagId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.asset.model.AssetTag getTag(long groupId,
 		java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long[] getTagIds(long groupId, java.lang.String[] names)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long[] getTagIds(long[] groupIds, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long[] getTagIds(long[] groupIds, java.lang.String[] names)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.lang.String[] getTagNames()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.lang.String[] getTagNames();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.lang.String[] getTagNames(long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.lang.String[] getTagNames(long classNameId, long classPK);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.lang.String[] getTagNames(java.lang.String className,
-		long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long classPK);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getTags()
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getTags(
-		long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getTags();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getTags(
-		long groupId, long classNameId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long classNameId, long classPK);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getTags(
+		long groupId, long classNameId, java.lang.String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getTags(
 		long groupId, long classNameId, java.lang.String name, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException;
+		int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> getTags(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String className, long classPK);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getTagsSize(long groupId, long classNameId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getTagsSize(long groupId, long classNameId, java.lang.String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasTag(long groupId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.asset.model.AssetTag incrementAssetCount(
 		long tagId, long classNameId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void mergeTags(long fromTagId, long toTagId,
 		boolean overrideProperties)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> search(
 		long groupId, java.lang.String name, java.lang.String[] tagProperties,
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTag> search(
 		long[] groupIds, java.lang.String name,
-		java.lang.String[] tagProperties, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String[] tagProperties, int start, int end);
 
 	public com.liferay.portlet.asset.model.AssetTag updateTag(long userId,
 		long tagId, java.lang.String name, java.lang.String[] tagProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

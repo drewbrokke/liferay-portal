@@ -350,8 +350,7 @@ public class MBMailingListLocalServiceWrapper
 		boolean outUseSSL, java.lang.String outUserName,
 		java.lang.String outPassword, boolean allowAnonymous, boolean active,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbMailingListLocalService.addMailingList(userId, groupId,
 			categoryId, emailAddress, inProtocol, inServerName, inServerPort,
 			inUseSSL, inUserName, inPassword, inReadInterval, outEmailAddress,
@@ -361,31 +360,27 @@ public class MBMailingListLocalServiceWrapper
 
 	@Override
 	public void deleteCategoryMailingList(long groupId, long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_mbMailingListLocalService.deleteCategoryMailingList(groupId, categoryId);
 	}
 
 	@Override
 	public void deleteMailingList(long mailingListId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_mbMailingListLocalService.deleteMailingList(mailingListId);
 	}
 
 	@Override
 	public void deleteMailingList(
 		com.liferay.portlet.messageboards.model.MBMailingList mailingList)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_mbMailingListLocalService.deleteMailingList(mailingList);
 	}
 
 	@Override
 	public com.liferay.portlet.messageboards.model.MBMailingList getCategoryMailingList(
 		long groupId, long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbMailingListLocalService.getCategoryMailingList(groupId,
 			categoryId);
 	}
@@ -401,8 +396,7 @@ public class MBMailingListLocalServiceWrapper
 		java.lang.String outUserName, java.lang.String outPassword,
 		boolean allowAnonymous, boolean active,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbMailingListLocalService.updateMailingList(mailingListId,
 			emailAddress, inProtocol, inServerName, inServerPort, inUseSSL,
 			inUserName, inPassword, inReadInterval, outEmailAddress, outCustom,

@@ -305,46 +305,37 @@ public interface SCProductVersionLocalService extends BaseLocalService,
 		java.lang.String directDownloadURL, boolean testDirectDownloadURL,
 		boolean repoStoreArtifact, long[] frameworkVersionIds,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteProductVersion(long productVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteProductVersion(
-		com.liferay.portlet.softwarecatalog.model.SCProductVersion productVersion)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.softwarecatalog.model.SCProductVersion productVersion);
 
-	public void deleteProductVersions(long productEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteProductVersions(long productEntryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.softwarecatalog.model.SCProductVersion getProductVersion(
 		long productVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.softwarecatalog.model.SCProductVersion getProductVersionByDirectDownloadURL(
 		java.lang.String directDownloadURL)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCProductVersion> getProductVersions(
-		long productEntryId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long productEntryId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getProductVersionsCount(long productEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getProductVersionsCount(long productEntryId);
 
 	public com.liferay.portlet.softwarecatalog.model.SCProductVersion updateProductVersion(
 		long productVersionId, java.lang.String version,
 		java.lang.String changeLog, java.lang.String downloadPageURL,
 		java.lang.String directDownloadURL, boolean testDirectDownloadURL,
 		boolean repoStoreArtifact, long[] frameworkVersionIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

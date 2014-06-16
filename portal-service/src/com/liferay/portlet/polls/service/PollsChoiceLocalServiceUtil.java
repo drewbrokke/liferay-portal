@@ -320,8 +320,7 @@ public class PollsChoiceLocalServiceUtil {
 		long userId, long questionId, java.lang.String name,
 		java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addChoice(userId, questionId, name, description,
 			serviceContext);
@@ -329,19 +328,16 @@ public class PollsChoiceLocalServiceUtil {
 
 	public static com.liferay.portlet.polls.model.PollsChoice getChoice(
 		long choiceId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getChoice(choiceId);
 	}
 
 	public static java.util.List<com.liferay.portlet.polls.model.PollsChoice> getChoices(
-		long questionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long questionId) {
 		return getService().getChoices(questionId);
 	}
 
-	public static int getChoicesCount(long questionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getChoicesCount(long questionId) {
 		return getService().getChoicesCount(questionId);
 	}
 
@@ -349,8 +345,7 @@ public class PollsChoiceLocalServiceUtil {
 		long choiceId, long questionId, java.lang.String name,
 		java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateChoice(choiceId, questionId, name, description,
 			serviceContext);

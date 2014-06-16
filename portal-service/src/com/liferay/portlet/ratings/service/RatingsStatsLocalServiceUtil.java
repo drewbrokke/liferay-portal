@@ -260,32 +260,27 @@ public class RatingsStatsLocalServiceUtil {
 	}
 
 	public static com.liferay.portlet.ratings.model.RatingsStats addStats(
-		long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classNameId, long classPK) {
 		return getService().addStats(classNameId, classPK);
 	}
 
-	public static void deleteStats(java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteStats(java.lang.String className, long classPK) {
 		getService().deleteStats(className, classPK);
 	}
 
 	public static com.liferay.portlet.ratings.model.RatingsStats getStats(
 		long statsId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getStats(statsId);
 	}
 
 	public static java.util.List<com.liferay.portlet.ratings.model.RatingsStats> getStats(
-		java.lang.String className, java.util.List<java.lang.Long> classPKs)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, java.util.List<java.lang.Long> classPKs) {
 		return getService().getStats(className, classPKs);
 	}
 
 	public static com.liferay.portlet.ratings.model.RatingsStats getStats(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return getService().getStats(className, classPK);
 	}
 

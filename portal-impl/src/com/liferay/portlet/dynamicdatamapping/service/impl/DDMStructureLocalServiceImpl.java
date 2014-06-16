@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.GroupThreadLocal;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -52,6 +51,8 @@ import com.liferay.portlet.dynamicdatamapping.StructureDuplicateElementException
 import com.liferay.portlet.dynamicdatamapping.StructureDuplicateStructureKeyException;
 import com.liferay.portlet.dynamicdatamapping.StructureNameException;
 import com.liferay.portlet.dynamicdatamapping.StructureXsdException;
+import com.liferay.portlet.dynamicdatamapping.model.DDMForm;
+import com.liferay.portlet.dynamicdatamapping.model.DDMFormField;
 import com.liferay.portlet.dynamicdatamapping.model.DDMStructure;
 import com.liferay.portlet.dynamicdatamapping.model.DDMStructureConstants;
 import com.liferay.portlet.dynamicdatamapping.model.DDMTemplate;
@@ -1318,76 +1319,6 @@ public class DDMStructureLocalServiceImpl
 			structure.getDescriptionMap(), xsd, serviceContext, structure);
 	}
 
-	/**
-	 * Updates the structure matching the structure ID, replacing the metadata
-	 * entry of the named field.
-	 *
-	 * @param  structureId the primary key of the structure
-	 * @param  fieldName the name of the field whose metadata to update
-	 * @param  metadataEntryName the metadata entry's name
-	 * @param  metadataEntryValue the metadata entry's value
-	 * @param  serviceContext the service context to be applied. Can set the
-	 *         structure's modification date.
-	 * @throws PortalException if a matching structure could not be found, if
-	 *         the XSD was not well-formed, or if a portal exception occurred
-	 */
-	@Override
-	public void updateXSDFieldMetadata(
-			long structureId, String fieldName, String metadataEntryName,
-			String metadataEntryValue, ServiceContext serviceContext)
-		throws PortalException {
-
-		DDMStructure ddmStructure = fetchDDMStructure(structureId);
-
-		if (ddmStructure == null) {
-			return;
-		}
-
-		String xsd = ddmStructure.getXsd();
-
-		try {
-			Document document = SAXReaderUtil.read(xsd);
-
-			Element rootElement = document.getRootElement();
-
-			List<Element> dynamicElementElements = rootElement.elements(
-				"dynamic-element");
-
-			for (Element dynamicElementElement : dynamicElementElements) {
-				String dynamicElementElementFieldName = GetterUtil.getString(
-					dynamicElementElement.attributeValue("name"));
-
-				if (!dynamicElementElementFieldName.equals(fieldName)) {
-					continue;
-				}
-
-				List<Element> metadataElements = dynamicElementElement.elements(
-					"meta-data");
-
-				for (Element metadataElement : metadataElements) {
-					List<Element> metadataEntryElements =
-						metadataElement.elements();
-
-					for (Element metadataEntryElement : metadataEntryElements) {
-						String metadataEntryElementName = GetterUtil.getString(
-							metadataEntryElement.attributeValue("name"));
-
-						if (metadataEntryElementName.equals(
-								metadataEntryName)) {
-
-							metadataEntryElement.setText(metadataEntryValue);
-						}
-					}
-				}
-			}
-
-			updateXSD(structureId, document.asXML(), serviceContext);
-		}
-		catch (DocumentException de) {
-			throw new SystemException(de);
-		}
-	}
-
 	protected void appendNewStructureRequiredFields(
 		DDMStructure structure, Document templateDocument) {
 
@@ -1444,16 +1375,9 @@ public class DDMStructureLocalServiceImpl
 			throw new StructureXsdException();
 		}
 
-		String parentXsd = StringPool.BLANK;
+		DDMForm parentDDMForm = getParentDDMForm(parentStructureId);
 
-		DDMStructure parentStructure =
-			ddmStructurePersistence.fetchByPrimaryKey(parentStructureId);
-
-		if (parentStructure != null) {
-			parentXsd = parentStructure.getCompleteXsd();
-		}
-
-		validate(nameMap, parentXsd, xsd);
+		validate(nameMap, parentDDMForm, xsd);
 
 		structure.setModifiedDate(serviceContext.getModifiedDate(null));
 		structure.setParentStructureId(parentStructureId);
@@ -1506,6 +1430,13 @@ public class DDMStructureLocalServiceImpl
 		return structureIds;
 	}
 
+	protected Set<String> getDDMFormFieldsNames(DDMForm ddmForm) {
+		Map<String, DDMFormField> ddmFormFieldsMap =
+			ddmForm.getDDMFormFieldsMap(true);
+
+		return ddmFormFieldsMap.keySet();
+	}
+
 	protected Set<String> getElementNames(Document document) {
 		Set<String> elementNames = new HashSet<String>();
 
@@ -1523,6 +1454,19 @@ public class DDMStructureLocalServiceImpl
 		}
 
 		return elementNames;
+	}
+
+	protected DDMForm getParentDDMForm(long parentStructureId)
+		throws PortalException, SystemException {
+
+		DDMStructure parentStructure =
+			ddmStructurePersistence.fetchByPrimaryKey(parentStructureId);
+
+		if (parentStructure == null) {
+			return null;
+		}
+
+		return parentStructure.getFullHierarchyDDMForm();
 	}
 
 	protected String getStructureKey(String structureKey) {
@@ -1629,6 +1573,18 @@ public class DDMStructureLocalServiceImpl
 		}
 	}
 
+	protected void validate(DDMForm parentDDMForm, Document childDocument)
+		throws PortalException {
+
+		Set<String> parentElementNames = getDDMFormFieldsNames(parentDDMForm);
+
+		for (String childElementName : getElementNames(childDocument)) {
+			if (parentElementNames.contains(childElementName)) {
+				throw new StructureDuplicateElementException();
+			}
+		}
+	}
+
 	protected void validate(Document document) throws PortalException {
 		XPath xPathSelector = SAXReaderUtil.createXPath("//dynamic-element");
 
@@ -1654,18 +1610,6 @@ public class DDMStructureLocalServiceImpl
 		}
 	}
 
-	protected void validate(Document parentDocument, Document childDocument)
-		throws PortalException {
-
-		Set<String> parentElementNames = getElementNames(parentDocument);
-
-		for (String childElementName : getElementNames(childDocument)) {
-			if (parentElementNames.contains(childElementName)) {
-				throw new StructureDuplicateElementException();
-			}
-		}
-	}
-
 	protected void validate(
 			long groupId, long parentStructureId, long classNameId,
 			String structureKey, Map<Locale, String> nameMap, String xsd)
@@ -1685,16 +1629,46 @@ public class DDMStructureLocalServiceImpl
 			throw sdske;
 		}
 
-		String parentXsd = StringPool.BLANK;
+		DDMForm parentDDMForm = getParentDDMForm(parentStructureId);
 
-		DDMStructure parentStructure =
-			ddmStructurePersistence.fetchByPrimaryKey(parentStructureId);
+		validate(nameMap, parentDDMForm, xsd);
+	}
 
-		if (parentStructure != null) {
-			parentXsd = parentStructure.getCompleteXsd();
+	protected void validate(
+			Map<Locale, String> nameMap, DDMForm parentDDMForm, String childXsd)
+		throws PortalException {
+
+		try {
+			Document document = SAXReaderUtil.read(childXsd);
+
+			Element rootElement = document.getRootElement();
+
+			Locale contentDefaultLocale = LocaleUtil.fromLanguageId(
+				rootElement.attributeValue("default-locale"));
+
+			validate(nameMap, contentDefaultLocale);
+
+			validate(document);
+
+			if (parentDDMForm != null) {
+				validate(parentDDMForm, document);
+			}
 		}
-
-		validate(nameMap, parentXsd, xsd);
+		catch (LocaleException le) {
+			throw le;
+		}
+		catch (StructureDuplicateElementException sdee) {
+			throw sdee;
+		}
+		catch (StructureNameException sne) {
+			throw sne;
+		}
+		catch (StructureXsdException sxe) {
+			throw sxe;
+		}
+		catch (Exception e) {
+			throw new StructureXsdException();
+		}
 	}
 
 	protected void validate(
@@ -1721,45 +1695,6 @@ public class DDMStructureLocalServiceImpl
 			le.setTargetAvailableLocales(availableLocales);
 
 			throw le;
-		}
-	}
-
-	protected void validate(
-			Map<Locale, String> nameMap, String parentXsd, String childXsd)
-		throws PortalException {
-
-		try {
-			Document document = SAXReaderUtil.read(childXsd);
-
-			Element rootElement = document.getRootElement();
-
-			Locale contentDefaultLocale = LocaleUtil.fromLanguageId(
-				rootElement.attributeValue("default-locale"));
-
-			validate(nameMap, contentDefaultLocale);
-
-			validate(document);
-
-			if (Validator.isNotNull(parentXsd)) {
-				Document parentDocument = SAXReaderUtil.read(parentXsd);
-
-				validate(parentDocument, document);
-			}
-		}
-		catch (LocaleException le) {
-			throw le;
-		}
-		catch (StructureDuplicateElementException sdee) {
-			throw sdee;
-		}
-		catch (StructureNameException sne) {
-			throw sne;
-		}
-		catch (StructureXsdException sxe) {
-			throw sxe;
-		}
-		catch (Exception e) {
-			throw new StructureXsdException();
 		}
 	}
 

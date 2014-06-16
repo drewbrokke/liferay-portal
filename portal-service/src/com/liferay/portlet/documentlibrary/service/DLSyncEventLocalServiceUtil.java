@@ -260,24 +260,20 @@ public class DLSyncEventLocalServiceUtil {
 	}
 
 	public static com.liferay.portlet.documentlibrary.model.DLSyncEvent addDLSyncEvent(
-		java.lang.String event, java.lang.String type, long typePK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String event, java.lang.String type, long typePK) {
 		return getService().addDLSyncEvent(event, type, typePK);
 	}
 
-	public static void deleteDLSyncEvents()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteDLSyncEvents() {
 		getService().deleteDLSyncEvents();
 	}
 
 	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLSyncEvent> getDLSyncEvents(
-		long modifiedTime)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long modifiedTime) {
 		return getService().getDLSyncEvents(modifiedTime);
 	}
 
-	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLSyncEvent> getLatestDLSyncEvents()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLSyncEvent> getLatestDLSyncEvents() {
 		return getService().getLatestDLSyncEvents();
 	}
 

@@ -387,8 +387,7 @@ public class SCProductVersionLocalServiceUtil {
 		java.lang.String directDownloadURL, boolean testDirectDownloadURL,
 		boolean repoStoreArtifact, long[] frameworkVersionIds,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addProductVersion(userId, productEntryId, version,
 			changeLog, downloadPageURL, directDownloadURL,
@@ -397,45 +396,38 @@ public class SCProductVersionLocalServiceUtil {
 	}
 
 	public static void deleteProductVersion(long productVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteProductVersion(productVersionId);
 	}
 
 	public static void deleteProductVersion(
-		com.liferay.portlet.softwarecatalog.model.SCProductVersion productVersion)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.softwarecatalog.model.SCProductVersion productVersion) {
 		getService().deleteProductVersion(productVersion);
 	}
 
-	public static void deleteProductVersions(long productEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteProductVersions(long productEntryId) {
 		getService().deleteProductVersions(productEntryId);
 	}
 
 	public static com.liferay.portlet.softwarecatalog.model.SCProductVersion getProductVersion(
 		long productVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getProductVersion(productVersionId);
 	}
 
 	public static com.liferay.portlet.softwarecatalog.model.SCProductVersion getProductVersionByDirectDownloadURL(
 		java.lang.String directDownloadURL)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .getProductVersionByDirectDownloadURL(directDownloadURL);
 	}
 
 	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCProductVersion> getProductVersions(
-		long productEntryId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long productEntryId, int start, int end) {
 		return getService().getProductVersions(productEntryId, start, end);
 	}
 
-	public static int getProductVersionsCount(long productEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getProductVersionsCount(long productEntryId) {
 		return getService().getProductVersionsCount(productEntryId);
 	}
 
@@ -444,8 +436,7 @@ public class SCProductVersionLocalServiceUtil {
 		java.lang.String changeLog, java.lang.String downloadPageURL,
 		java.lang.String directDownloadURL, boolean testDirectDownloadURL,
 		boolean repoStoreArtifact, long[] frameworkVersionIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateProductVersion(productVersionId, version, changeLog,
 			downloadPageURL, directDownloadURL, testDirectDownloadURL,

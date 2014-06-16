@@ -1074,8 +1074,7 @@ public class DDMTemplateWrapper implements DDMTemplate,
 
 	@Override
 	public java.lang.String getSmallImageType()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmTemplate.getSmallImageType();
 	}
 

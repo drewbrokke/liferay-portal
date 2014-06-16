@@ -276,9 +276,7 @@ public class ShoppingItemPriceLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.portlet.shopping.model.ShoppingItemPrice> getItemPrices(
-		long itemId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		long itemId) throws com.liferay.portal.kernel.exception.PortalException {
 		return _shoppingItemPriceLocalService.getItemPrices(itemId);
 	}
 

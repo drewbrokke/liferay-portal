@@ -385,8 +385,7 @@ public class SCFrameworkVersionLocalServiceUtil {
 		long userId, java.lang.String name, java.lang.String url,
 		boolean active, int priority,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addFrameworkVersion(userId, name, url, active, priority,
 			serviceContext);
@@ -394,8 +393,7 @@ public class SCFrameworkVersionLocalServiceUtil {
 
 	public static void addFrameworkVersionResources(long frameworkVersionId,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService()
 			.addFrameworkVersionResources(frameworkVersionId,
 			addGroupPermissions, addGuestPermissions);
@@ -403,8 +401,7 @@ public class SCFrameworkVersionLocalServiceUtil {
 
 	public static void addFrameworkVersionResources(long frameworkVersionId,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService()
 			.addFrameworkVersionResources(frameworkVersionId, groupPermissions,
 			guestPermissions);
@@ -413,8 +410,7 @@ public class SCFrameworkVersionLocalServiceUtil {
 	public static void addFrameworkVersionResources(
 		com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion frameworkVersion,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService()
 			.addFrameworkVersionResources(frameworkVersion,
 			addGroupPermissions, addGuestPermissions);
@@ -423,76 +419,64 @@ public class SCFrameworkVersionLocalServiceUtil {
 	public static void addFrameworkVersionResources(
 		com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion frameworkVersion,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService()
 			.addFrameworkVersionResources(frameworkVersion, groupPermissions,
 			guestPermissions);
 	}
 
 	public static void deleteFrameworkVersion(long frameworkVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteFrameworkVersion(frameworkVersionId);
 	}
 
 	public static void deleteFrameworkVersion(
-		com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion frameworkVersion)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion frameworkVersion) {
 		getService().deleteFrameworkVersion(frameworkVersion);
 	}
 
-	public static void deleteFrameworkVersions(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteFrameworkVersions(long groupId) {
 		getService().deleteFrameworkVersions(groupId);
 	}
 
 	public static com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion getFrameworkVersion(
 		long frameworkVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getFrameworkVersion(frameworkVersionId);
 	}
 
 	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion> getFrameworkVersions(
-		long groupId, boolean active)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, boolean active) {
 		return getService().getFrameworkVersions(groupId, active);
 	}
 
 	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion> getFrameworkVersions(
-		long groupId, boolean active, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, boolean active, int start, int end) {
 		return getService().getFrameworkVersions(groupId, active, start, end);
 	}
 
 	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion> getFrameworkVersions(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, int start, int end) {
 		return getService().getFrameworkVersions(groupId, start, end);
 	}
 
-	public static int getFrameworkVersionsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getFrameworkVersionsCount(long groupId) {
 		return getService().getFrameworkVersionsCount(groupId);
 	}
 
-	public static int getFrameworkVersionsCount(long groupId, boolean active)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getFrameworkVersionsCount(long groupId, boolean active) {
 		return getService().getFrameworkVersionsCount(groupId, active);
 	}
 
 	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion> getProductVersionFrameworkVersions(
-		long productVersionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long productVersionId) {
 		return getService().getProductVersionFrameworkVersions(productVersionId);
 	}
 
 	public static com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion updateFrameworkVersion(
 		long frameworkVersionId, java.lang.String name, java.lang.String url,
 		boolean active, int priority)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateFrameworkVersion(frameworkVersionId, name, url,
 			active, priority);

@@ -60,21 +60,18 @@ public class AnnouncementsFlagServiceUtil {
 	}
 
 	public static void addFlag(long entryId, int value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().addFlag(entryId, value);
 	}
 
 	public static void deleteFlag(long flagId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteFlag(flagId);
 	}
 
 	public static com.liferay.portlet.announcements.model.AnnouncementsFlag getFlag(
 		long entryId, int value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getFlag(entryId, value);
 	}
 

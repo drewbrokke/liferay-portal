@@ -290,8 +290,7 @@ public interface MDRActionLocalService extends BaseLocalService,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String type, java.lang.String typeSettings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRAction addAction(
 		long ruleGroupInstanceId,
@@ -300,43 +299,34 @@ public interface MDRActionLocalService extends BaseLocalService,
 		java.lang.String type,
 		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteAction(long actionId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteAction(long actionId);
 
 	public void deleteAction(
-		com.liferay.portlet.mobiledevicerules.model.MDRAction action)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.mobiledevicerules.model.MDRAction action);
 
-	public void deleteActions(long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteActions(long ruleGroupInstanceId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.mobiledevicerules.model.MDRAction fetchAction(
-		long actionId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long actionId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.mobiledevicerules.model.MDRAction getAction(
 		long actionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRAction> getActions(
-		long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long ruleGroupInstanceId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRAction> getActions(
-		long ruleGroupInstanceId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long ruleGroupInstanceId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getActionsCount(long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getActionsCount(long ruleGroupInstanceId);
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRAction updateAction(
 		long actionId,
@@ -344,8 +334,7 @@ public interface MDRActionLocalService extends BaseLocalService,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String type, java.lang.String typeSettings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRAction updateAction(
 		long actionId,
@@ -354,6 +343,5 @@ public interface MDRActionLocalService extends BaseLocalService,
 		java.lang.String type,
 		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

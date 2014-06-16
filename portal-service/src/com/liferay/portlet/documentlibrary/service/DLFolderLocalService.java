@@ -349,8 +349,7 @@ public interface DLFolderLocalService extends BaseLocalService,
 		long parentFolderId, java.lang.String name,
 		java.lang.String description, boolean hidden,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* @deprecated As of 6.2.0, replaced by more general {@link #addFolder(long,
@@ -363,57 +362,46 @@ public interface DLFolderLocalService extends BaseLocalService,
 		long parentFolderId, java.lang.String name,
 		java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteAll(long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.documentlibrary.model.DLFolder deleteFolder(
 		com.liferay.portlet.documentlibrary.model.DLFolder dlFolder)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.documentlibrary.model.DLFolder deleteFolder(
 		com.liferay.portlet.documentlibrary.model.DLFolder dlFolder,
 		boolean includeTrashedEntries)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.documentlibrary.model.DLFolder deleteFolder(
 		long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.documentlibrary.model.DLFolder deleteFolder(
 		long folderId, boolean includeTrashedEntries)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.documentlibrary.model.DLFolder deleteFolder(
 		long userId, long folderId, boolean includeTrashedEntries)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.documentlibrary.model.DLFolder fetchFolder(
-		long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long folderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.documentlibrary.model.DLFolder fetchFolder(
-		long groupId, long parentFolderId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long parentFolderId, java.lang.String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getCompanyFolders(
-		long companyId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCompanyFoldersCount(long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getCompanyFoldersCount(long companyId);
 
 	/**
 	* @deprecated As of 6.2.0, replaced by {@link
@@ -422,14 +410,12 @@ public interface DLFolderLocalService extends BaseLocalService,
 	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object> getFileEntriesAndFileShortcuts(
-		long groupId, long folderId, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long folderId, int status, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object> getFileEntriesAndFileShortcuts(
 		long groupId, long folderId,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition);
 
 	/**
 	* @deprecated As of 6.2.0, replaced by {@link
@@ -439,55 +425,46 @@ public interface DLFolderLocalService extends BaseLocalService,
 	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFileEntriesAndFileShortcutsCount(long groupId, long folderId,
-		int status) throws com.liferay.portal.kernel.exception.SystemException;
+		int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFileEntriesAndFileShortcutsCount(long groupId, long folderId,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.documentlibrary.model.DLFolder getFolder(
 		long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.documentlibrary.model.DLFolder getFolder(
 		long groupId, long parentFolderId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public long getFolderId(long companyId, long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public long getFolderId(long companyId, long folderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Long> getFolderIds(long groupId,
-		long parentFolderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long parentFolderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getFolders(
-		long groupId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long parentFolderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getFolders(
-		long groupId, long parentFolderId, boolean includeMountfolders)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long parentFolderId, boolean includeMountfolders);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getFolders(
 		long groupId, long parentFolderId, boolean includeMountfolders,
-		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getFolders(
 		long groupId, long parentFolderId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.OrderByComparator obc);
 
 	/**
 	* @deprecated As of 6.2.0, replaced by {@link
@@ -498,8 +475,7 @@ public interface DLFolderLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object> getFoldersAndFileEntriesAndFileShortcuts(
 		long groupId, long folderId, int status, boolean includeMountFolders,
-		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc);
 
 	/**
 	* @deprecated As of 6.2.0, replaced by {@link
@@ -511,15 +487,13 @@ public interface DLFolderLocalService extends BaseLocalService,
 	public java.util.List<java.lang.Object> getFoldersAndFileEntriesAndFileShortcuts(
 		long groupId, long folderId, int status, java.lang.String[] mimeTypes,
 		boolean includeMountFolders, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.OrderByComparator obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object> getFoldersAndFileEntriesAndFileShortcuts(
 		long groupId, long folderId, java.lang.String[] mimeTypes,
 		boolean includeMountFolders,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition);
 
 	/**
 	* @deprecated As of 6.2.0, replaced by {@link
@@ -529,8 +503,7 @@ public interface DLFolderLocalService extends BaseLocalService,
 	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFoldersAndFileEntriesAndFileShortcutsCount(long groupId,
-		long folderId, int status, boolean includeMountFolders)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long folderId, int status, boolean includeMountFolders);
 
 	/**
 	* @deprecated As of 6.2.0, replaced by {@link
@@ -541,85 +514,68 @@ public interface DLFolderLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFoldersAndFileEntriesAndFileShortcutsCount(long groupId,
 		long folderId, int status, java.lang.String[] mimeTypes,
-		boolean includeMountFolders)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean includeMountFolders);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFoldersAndFileEntriesAndFileShortcutsCount(long groupId,
 		long folderId, java.lang.String[] mimeTypes,
 		boolean includeMountFolders,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getFoldersCount(long groupId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getFoldersCount(long groupId, long parentFolderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFoldersCount(long groupId, long parentFolderId,
-		boolean includeMountfolders)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean includeMountfolders);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFoldersCount(long groupId, long parentFolderId, int status,
-		boolean includeMountfolders)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean includeMountfolders);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.documentlibrary.model.DLFolder getMountFolder(
 		long repositoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getMountFolders(
 		long groupId, long parentFolderId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.OrderByComparator obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getMountFoldersCount(long groupId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getMountFoldersCount(long groupId, long parentFolderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getNoAssetFolders()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getNoAssetFolders();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public void getSubfolderIds(java.util.List<java.lang.Long> folderIds,
-		long groupId, long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long folderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean hasFolderLock(long userId, long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public boolean hasFolderLock(long userId, long folderId);
 
 	public com.liferay.portal.model.Lock lockFolder(long userId, long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portal.model.Lock lockFolder(long userId, long folderId,
 		java.lang.String owner, boolean inheritable, long expirationTime)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.documentlibrary.model.DLFolder moveFolder(
 		long userId, long folderId, long parentFolderId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void rebuildTree(long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void rebuildTree(long companyId);
 
 	public void unlockFolder(long groupId, long parentFolderId,
 		java.lang.String name, java.lang.String lockUuid)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void unlockFolder(long folderId, java.lang.String lockUuid)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.documentlibrary.model.DLFolder updateFolder(
 		long folderId, long parentFolderId, java.lang.String name,
@@ -627,8 +583,7 @@ public interface DLFolderLocalService extends BaseLocalService,
 		java.util.List<java.lang.Long> fileEntryTypeIds,
 		boolean overrideFileEntryTypes,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.documentlibrary.model.DLFolder updateFolder(
 		long folderId, java.lang.String name, java.lang.String description,
@@ -636,8 +591,7 @@ public interface DLFolderLocalService extends BaseLocalService,
 		java.util.List<java.lang.Long> fileEntryTypeIds,
 		boolean overrideFileEntryTypes,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.documentlibrary.model.DLFolder updateFolderAndFileEntryTypes(
 		long userId, long folderId, long parentFolderId, java.lang.String name,
@@ -645,17 +599,14 @@ public interface DLFolderLocalService extends BaseLocalService,
 		java.util.List<java.lang.Long> fileEntryTypeIds,
 		boolean overrideFileEntryTypes,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void updateLastPostDate(long folderId, java.util.Date lastPostDate)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.documentlibrary.model.DLFolder updateStatus(
 		long userId, long folderId, int status,
 		java.util.Map<java.lang.String, java.io.Serializable> workflowContext,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

@@ -64,8 +64,7 @@ public interface ShoppingItemService extends BaseService {
 
 	public void addBookItems(long groupId, long categoryId,
 		java.lang.String[] isbns)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.shopping.model.ShoppingItem addItem(
 		long groupId, long categoryId, java.lang.String sku,
@@ -80,43 +79,35 @@ public interface ShoppingItemService extends BaseService {
 		java.util.List<com.liferay.portlet.shopping.model.ShoppingItemField> itemFields,
 		java.util.List<com.liferay.portlet.shopping.model.ShoppingItemPrice> itemPrices,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteItem(long itemId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCategoriesItemsCount(long groupId,
-		java.util.List<java.lang.Long> categoryIds)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.util.List<java.lang.Long> categoryIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.shopping.model.ShoppingItem getItem(long itemId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.shopping.model.ShoppingItem> getItems(
-		long groupId, long categoryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long categoryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.shopping.model.ShoppingItem> getItems(
 		long groupId, long categoryId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.OrderByComparator obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getItemsCount(long groupId, long categoryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getItemsCount(long groupId, long categoryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.shopping.model.ShoppingItem[] getItemsPrevAndNext(
 		long itemId, com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.shopping.model.ShoppingItem updateItem(
 		long itemId, long groupId, long categoryId, java.lang.String sku,
@@ -131,6 +122,5 @@ public interface ShoppingItemService extends BaseService {
 		java.util.List<com.liferay.portlet.shopping.model.ShoppingItemField> itemFields,
 		java.util.List<com.liferay.portlet.shopping.model.ShoppingItemPrice> itemPrices,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

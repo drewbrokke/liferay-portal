@@ -31,24 +31,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-
-import org.powermock.core.classloader.annotations.PrepareForTest;
 
 /**
  * @author Pablo Carvalho
  */
-@PrepareForTest({DDMFormXSDDeserializerUtil.class})
 public class DDMFormXSDDeserializerTest extends BaseDDMTest {
-
-	@Before
-	@Override
-	public void setUp() {
-		super.setUp();
-
-		setUpDDMFormXSDDeserializer();
-	}
 
 	@Test
 	public void testAllFieldsTypesDeserialization() throws Exception {
@@ -71,6 +59,38 @@ public class DDMFormXSDDeserializerTest extends BaseDDMTest {
 		testRadioDDMFormField(ddmFormFieldsMap.get("Radio5699"));
 	}
 
+	@Test
+	public void testDefaultLocaleDifferentFromSiteDefaultLocale()
+		throws Exception {
+
+		String xml = readXML(
+			"dynamic-data-mapping-different-default-locale.xml");
+
+		DDMForm ddmForm = DDMFormXSDDeserializerUtil.deserialize(xml);
+
+		Assert.assertEquals(LocaleUtil.BRAZIL, ddmForm.getDefaultLocale());
+
+		Map<String, DDMFormField> ddmFormFieldsMap =
+			ddmForm.getDDMFormFieldsMap(true);
+
+		DDMFormField selectDDMFormField = ddmFormFieldsMap.get("Select5979");
+
+		LocalizedValue selectLabel = selectDDMFormField.getLabel();
+
+		Assert.assertEquals(LocaleUtil.BRAZIL, selectLabel.getDefaultLocale());
+
+		DDMFormFieldOptions ddmFormFieldOptions =
+			selectDDMFormField.getDDMFormFieldOptions();
+
+		for (String optionValue : ddmFormFieldOptions.getOptionsValues()) {
+			LocalizedValue optionLabel = ddmFormFieldOptions.getOptionLabels(
+				optionValue);
+
+			Assert.assertEquals(
+				LocaleUtil.BRAZIL, optionLabel.getDefaultLocale());
+		}
+	}
+
 	protected String readXML(String fileName) throws IOException {
 		Class<?> clazz = getClass();
 
@@ -78,16 +98,6 @@ public class DDMFormXSDDeserializerTest extends BaseDDMTest {
 			"dependencies/" + fileName);
 
 		return StringUtil.read(inputStream);
-	}
-
-	protected void setUpDDMFormXSDDeserializer() {
-		spy(DDMFormXSDDeserializerUtil.class);
-
-		when(
-			DDMFormXSDDeserializerUtil.getDDMFormXSDDeserializer()
-		).thenReturn(
-			_ddmFormXSDDeserializer
-		);
 	}
 
 	protected void testAvailableLocales(DDMForm ddmForm) {
@@ -198,8 +208,5 @@ public class DDMFormXSDDeserializerTest extends BaseDDMTest {
 		Assert.assertEquals(
 			"opcao 1", value1Labels.getValue(LocaleUtil.BRAZIL));
 	}
-
-	private DDMFormXSDDeserializer _ddmFormXSDDeserializer =
-		new DDMFormXSDDeserializerImpl();
 
 }

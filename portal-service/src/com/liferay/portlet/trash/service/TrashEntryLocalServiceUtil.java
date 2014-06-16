@@ -276,7 +276,6 @@ public class TrashEntryLocalServiceUtil {
 	* @param typeSettingsProperties the type settings properties
 	* @return the trashEntry
 	* @throws PortalException if a user with the primary key could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.trash.model.TrashEntry addTrashEntry(
 		long userId, long groupId, java.lang.String className, long classPK,
@@ -284,8 +283,7 @@ public class TrashEntryLocalServiceUtil {
 		int status,
 		java.util.List<com.liferay.portal.kernel.util.ObjectValuePair<java.lang.Long, java.lang.Integer>> statusOVPs,
 		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addTrashEntry(userId, groupId, className, classPK,
 			classUuid, referrerClassName, status, statusOVPs,
@@ -293,8 +291,7 @@ public class TrashEntryLocalServiceUtil {
 	}
 
 	public static void checkEntries()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().checkEntries();
 	}
 
@@ -305,12 +302,10 @@ public class TrashEntryLocalServiceUtil {
 	* @return the trash entry with the primary key
 	* @throws PortalException if a trash entry with the primary key could not
 	be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.trash.model.TrashEntry deleteEntry(
 		long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteEntry(entryId);
 	}
 
@@ -322,18 +317,15 @@ public class TrashEntryLocalServiceUtil {
 	* @return the trash entry with the entity class name and primary key
 	* @throws PortalException if a trash entry with the primary key could not
 	be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.trash.model.TrashEntry deleteEntry(
 		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteEntry(className, classPK);
 	}
 
 	public static com.liferay.portlet.trash.model.TrashEntry deleteEntry(
-		com.liferay.portlet.trash.model.TrashEntry trashEntry)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.trash.model.TrashEntry trashEntry) {
 		return getService().deleteEntry(trashEntry);
 	}
 
@@ -342,11 +334,9 @@ public class TrashEntryLocalServiceUtil {
 	*
 	* @param entryId the primary key of the entry
 	* @return the trash entry with the primary key
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.trash.model.TrashEntry fetchEntry(
-		long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId) {
 		return getService().fetchEntry(entryId);
 	}
 
@@ -356,11 +346,9 @@ public class TrashEntryLocalServiceUtil {
 	* @param className the class name of the entity
 	* @param classPK the primary key of the entity
 	* @return the trash entry with the entity class name and primary key
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.trash.model.TrashEntry fetchEntry(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return getService().fetchEntry(className, classPK);
 	}
 
@@ -369,11 +357,9 @@ public class TrashEntryLocalServiceUtil {
 	*
 	* @param groupId the primary key of the group
 	* @return the trash entries with the group ID
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.trash.model.TrashEntry> getEntries(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return getService().getEntries(groupId);
 	}
 
@@ -385,11 +371,9 @@ public class TrashEntryLocalServiceUtil {
 	* @param end the upper bound of the range of trash entries to return (not
 	inclusive)
 	* @return the range of matching trash entries
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.trash.model.TrashEntry> getEntries(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, int start, int end) {
 		return getService().getEntries(groupId, start, end);
 	}
 
@@ -404,18 +388,15 @@ public class TrashEntryLocalServiceUtil {
 	<code>null</code>)
 	* @return the range of matching trash entries ordered by comparator
 	<code>obc</code>
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.trash.model.TrashEntry> getEntries(
 		long groupId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return getService().getEntries(groupId, start, end, obc);
 	}
 
 	public static java.util.List<com.liferay.portlet.trash.model.TrashEntry> getEntries(
-		long groupId, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String className) {
 		return getService().getEntries(groupId, className);
 	}
 
@@ -424,10 +405,8 @@ public class TrashEntryLocalServiceUtil {
 	*
 	* @param groupId the primary key of the group
 	* @return the number of matching trash entries
-	* @throws SystemException if a system exception occurred
 	*/
-	public static int getEntriesCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getEntriesCount(long groupId) {
 		return getService().getEntriesCount(groupId);
 	}
 
@@ -438,12 +417,10 @@ public class TrashEntryLocalServiceUtil {
 	* @return the trash entry with the primary key
 	* @throws PortalException if a trash entry with the primary key could not
 	be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.trash.model.TrashEntry getEntry(
 		long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getEntry(entryId);
 	}
 
@@ -455,19 +432,16 @@ public class TrashEntryLocalServiceUtil {
 	* @return the trash entry with the entity class name and primary key
 	* @throws PortalException if a trash entry with the primary key could not
 	be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.trash.model.TrashEntry getEntry(
 		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getEntry(className, classPK);
 	}
 
 	public static com.liferay.portal.kernel.search.Hits search(long companyId,
 		long groupId, long userId, java.lang.String keywords, int start,
-		int end, com.liferay.portal.kernel.search.Sort sort)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int end, com.liferay.portal.kernel.search.Sort sort) {
 		return getService()
 				   .search(companyId, groupId, userId, keywords, start, end,
 			sort);
@@ -475,8 +449,7 @@ public class TrashEntryLocalServiceUtil {
 
 	public static com.liferay.portal.kernel.search.BaseModelSearchResult<com.liferay.portlet.trash.model.TrashEntry> searchTrashEntries(
 		long companyId, long groupId, long userId, java.lang.String keywords,
-		int start, int end, com.liferay.portal.kernel.search.Sort sort)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end, com.liferay.portal.kernel.search.Sort sort) {
 		return getService()
 				   .searchTrashEntries(companyId, groupId, userId, keywords,
 			start, end, sort);

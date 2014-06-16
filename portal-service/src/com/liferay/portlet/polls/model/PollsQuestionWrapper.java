@@ -795,27 +795,23 @@ public class PollsQuestionWrapper implements PollsQuestion,
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.polls.model.PollsChoice> getChoices()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.polls.model.PollsChoice> getChoices() {
 		return _pollsQuestion.getChoices();
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.polls.model.PollsVote> getVotes()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.polls.model.PollsVote> getVotes() {
 		return _pollsQuestion.getVotes();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.polls.model.PollsVote> getVotes(
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end) {
 		return _pollsQuestion.getVotes(start, end);
 	}
 
 	@Override
-	public int getVotesCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getVotesCount() {
 		return _pollsQuestion.getVotesCount();
 	}
 

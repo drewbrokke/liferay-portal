@@ -280,38 +280,33 @@ public class JournalArticleImageLocalServiceWrapper
 		java.lang.String articleId, double version,
 		java.lang.String elInstanceId, java.lang.String elName,
 		java.lang.String languageId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalArticleImageLocalService.addArticleImageId(articleImageId,
 			groupId, articleId, version, elInstanceId, elName, languageId);
 	}
 
 	@Override
 	public void deleteArticleImage(
-		com.liferay.portlet.journal.model.JournalArticleImage articleImage)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.journal.model.JournalArticleImage articleImage) {
 		_journalArticleImageLocalService.deleteArticleImage(articleImage);
 	}
 
 	@Override
-	public void deleteArticleImage(long articleImageId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteArticleImage(long articleImageId) {
 		_journalArticleImageLocalService.deleteArticleImage(articleImageId);
 	}
 
 	@Override
 	public void deleteArticleImage(long groupId, java.lang.String articleId,
 		double version, java.lang.String elInstanceId, java.lang.String elName,
-		java.lang.String languageId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String languageId) {
 		_journalArticleImageLocalService.deleteArticleImage(groupId, articleId,
 			version, elInstanceId, elName, languageId);
 	}
 
 	@Override
 	public void deleteImages(long groupId, java.lang.String articleId,
-		double version)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		double version) {
 		_journalArticleImageLocalService.deleteImages(groupId, articleId,
 			version);
 	}
@@ -319,16 +314,14 @@ public class JournalArticleImageLocalServiceWrapper
 	@Override
 	public com.liferay.portlet.journal.model.JournalArticleImage getArticleImage(
 		long articleImageId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalArticleImageLocalService.getArticleImage(articleImageId);
 	}
 
 	@Override
 	public long getArticleImageId(long groupId, java.lang.String articleId,
 		double version, java.lang.String elInstanceId, java.lang.String elName,
-		java.lang.String languageId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String languageId) {
 		return _journalArticleImageLocalService.getArticleImageId(groupId,
 			articleId, version, elInstanceId, elName, languageId);
 	}
@@ -336,30 +329,26 @@ public class JournalArticleImageLocalServiceWrapper
 	@Override
 	public long getArticleImageId(long groupId, java.lang.String articleId,
 		double version, java.lang.String elInstanceId, java.lang.String elName,
-		java.lang.String languageId, boolean tempImage)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String languageId, boolean tempImage) {
 		return _journalArticleImageLocalService.getArticleImageId(groupId,
 			articleId, version, elInstanceId, elName, languageId, tempImage);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.journal.model.JournalArticleImage> getArticleImages(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return _journalArticleImageLocalService.getArticleImages(groupId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.journal.model.JournalArticleImage> getArticleImages(
-		long groupId, java.lang.String articleId, double version)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String articleId, double version) {
 		return _journalArticleImageLocalService.getArticleImages(groupId,
 			articleId, version);
 	}
 
 	@Override
-	public int getArticleImagesCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getArticleImagesCount(long groupId) {
 		return _journalArticleImageLocalService.getArticleImagesCount(groupId);
 	}
 

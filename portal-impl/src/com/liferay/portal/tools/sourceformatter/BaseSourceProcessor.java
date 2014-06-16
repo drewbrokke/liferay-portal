@@ -859,7 +859,7 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 		List<String> exclusions, String fileName, int lineCount,
 		String javaTermName) {
 
-		if (exclusions.isEmpty()) {
+		if (ListUtil.isEmpty(exclusions)) {
 			return false;
 		}
 
@@ -1285,7 +1285,7 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 		"<liferay-ui:error [^>]+>|<liferay-ui:success [^>]+>",
 		Pattern.MULTILINE);
 
-	private String[] _getExcludes() throws IOException {
+	private String[] _getExcludes() {
 		List<String> excludesList = ListUtil.fromString(
 			GetterUtil.getString(
 				System.getProperty("source.formatter.excludes")));

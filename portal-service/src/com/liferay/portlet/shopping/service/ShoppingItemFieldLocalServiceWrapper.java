@@ -276,7 +276,7 @@ public class ShoppingItemFieldLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.portlet.shopping.model.ShoppingItemField> getItemFields(
-		long itemId) throws com.liferay.portal.kernel.exception.SystemException {
+		long itemId) {
 		return _shoppingItemFieldLocalService.getItemFields(itemId);
 	}
 

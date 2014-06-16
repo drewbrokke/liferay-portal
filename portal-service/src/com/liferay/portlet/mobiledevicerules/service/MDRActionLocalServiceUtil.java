@@ -322,8 +322,7 @@ public class MDRActionLocalServiceUtil {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String type, java.lang.String typeSettings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addAction(ruleGroupInstanceId, nameMap, descriptionMap,
 			type, typeSettings, serviceContext);
@@ -336,56 +335,47 @@ public class MDRActionLocalServiceUtil {
 		java.lang.String type,
 		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addAction(ruleGroupInstanceId, nameMap, descriptionMap,
 			type, typeSettingsProperties, serviceContext);
 	}
 
-	public static void deleteAction(long actionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteAction(long actionId) {
 		getService().deleteAction(actionId);
 	}
 
 	public static void deleteAction(
-		com.liferay.portlet.mobiledevicerules.model.MDRAction action)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.mobiledevicerules.model.MDRAction action) {
 		getService().deleteAction(action);
 	}
 
-	public static void deleteActions(long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteActions(long ruleGroupInstanceId) {
 		getService().deleteActions(ruleGroupInstanceId);
 	}
 
 	public static com.liferay.portlet.mobiledevicerules.model.MDRAction fetchAction(
-		long actionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long actionId) {
 		return getService().fetchAction(actionId);
 	}
 
 	public static com.liferay.portlet.mobiledevicerules.model.MDRAction getAction(
 		long actionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getAction(actionId);
 	}
 
 	public static java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRAction> getActions(
-		long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long ruleGroupInstanceId) {
 		return getService().getActions(ruleGroupInstanceId);
 	}
 
 	public static java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRAction> getActions(
-		long ruleGroupInstanceId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long ruleGroupInstanceId, int start, int end) {
 		return getService().getActions(ruleGroupInstanceId, start, end);
 	}
 
-	public static int getActionsCount(long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getActionsCount(long ruleGroupInstanceId) {
 		return getService().getActionsCount(ruleGroupInstanceId);
 	}
 
@@ -395,8 +385,7 @@ public class MDRActionLocalServiceUtil {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String type, java.lang.String typeSettings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateAction(actionId, nameMap, descriptionMap, type,
 			typeSettings, serviceContext);
@@ -409,8 +398,7 @@ public class MDRActionLocalServiceUtil {
 		java.lang.String type,
 		com.liferay.portal.kernel.util.UnicodeProperties typeSettingsProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateAction(actionId, nameMap, descriptionMap, type,
 			typeSettingsProperties, serviceContext);

@@ -331,72 +331,61 @@ public class MBBanLocalServiceWrapper implements MBBanLocalService,
 	@Override
 	public com.liferay.portlet.messageboards.model.MBBan addBan(long userId,
 		long banUserId, com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbBanLocalService.addBan(userId, banUserId, serviceContext);
 	}
 
 	@Override
 	public void checkBan(long groupId, long banUserId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_mbBanLocalService.checkBan(groupId, banUserId);
 	}
 
 	@Override
 	public void deleteBan(long banId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_mbBanLocalService.deleteBan(banId);
 	}
 
 	@Override
 	public void deleteBan(long banUserId,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.service.ServiceContext serviceContext) {
 		_mbBanLocalService.deleteBan(banUserId, serviceContext);
 	}
 
 	@Override
-	public void deleteBan(com.liferay.portlet.messageboards.model.MBBan ban)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteBan(com.liferay.portlet.messageboards.model.MBBan ban) {
 		_mbBanLocalService.deleteBan(ban);
 	}
 
 	@Override
-	public void deleteBansByBanUserId(long banUserId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteBansByBanUserId(long banUserId) {
 		_mbBanLocalService.deleteBansByBanUserId(banUserId);
 	}
 
 	@Override
-	public void deleteBansByGroupId(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteBansByGroupId(long groupId) {
 		_mbBanLocalService.deleteBansByGroupId(groupId);
 	}
 
 	@Override
-	public void expireBans()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void expireBans() {
 		_mbBanLocalService.expireBans();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.messageboards.model.MBBan> getBans(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, int start, int end) {
 		return _mbBanLocalService.getBans(groupId, start, end);
 	}
 
 	@Override
-	public int getBansCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getBansCount(long groupId) {
 		return _mbBanLocalService.getBansCount(groupId);
 	}
 
 	@Override
-	public boolean hasBan(long groupId, long banUserId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public boolean hasBan(long groupId, long banUserId) {
 		return _mbBanLocalService.hasBan(groupId, banUserId);
 	}
 

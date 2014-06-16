@@ -1065,22 +1065,19 @@ public class DLFileEntryWrapper implements DLFileEntry,
 
 	@Override
 	public java.lang.String buildTreePath()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileEntry.buildTreePath();
 	}
 
 	@Override
 	public java.io.InputStream getContentStream()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileEntry.getContentStream();
 	}
 
 	@Override
 	public java.io.InputStream getContentStream(java.lang.String version)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileEntry.getContentStream(version);
 	}
 
@@ -1097,42 +1094,37 @@ public class DLFileEntryWrapper implements DLFileEntry,
 	@Override
 	public java.util.Map<java.lang.String, com.liferay.portlet.dynamicdatamapping.storage.Fields> getFieldsMap(
 		long fileVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileEntry.getFieldsMap(fileVersionId);
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileVersion getFileVersion()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileEntry.getFileVersion();
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileVersion getFileVersion(
 		java.lang.String version)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileEntry.getFileVersion(version);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFileVersion> getFileVersions(
-		int status) throws com.liferay.portal.kernel.exception.SystemException {
+		int status) {
 		return _dlFileEntry.getFileVersions(status);
 	}
 
 	@Override
-	public int getFileVersionsCount(int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getFileVersionsCount(int status) {
 		return _dlFileEntry.getFileVersionsCount(status);
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder getFolder()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileEntry.getFolder();
 	}
 
@@ -1149,8 +1141,7 @@ public class DLFileEntryWrapper implements DLFileEntry,
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileVersion getLatestFileVersion(
 		boolean trusted)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileEntry.getLatestFileVersion(trusted);
 	}
 

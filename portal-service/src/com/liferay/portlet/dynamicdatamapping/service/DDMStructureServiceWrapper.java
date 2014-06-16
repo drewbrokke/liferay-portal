@@ -71,7 +71,6 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @throws PortalException if a user with the primary key could not be
 	found, if the user did not have permission to add the structure,
 	if the XSD was not well-formed, or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure addStructure(
@@ -80,8 +79,7 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String xsd,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.addStructure(userId, groupId, classNameId,
 			nameMap, descriptionMap, xsd, serviceContext);
 	}
@@ -112,7 +110,6 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @throws PortalException if the user did not have permission to add the
 	structure, if the XSD is not well formed, or if a portal
 	exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure addStructure(
@@ -122,8 +119,7 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String xsd, java.lang.String storageType, int type,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.addStructure(groupId, parentStructureId,
 			classNameId, structureKey, nameMap, descriptionMap, xsd,
 			storageType, type, serviceContext);
@@ -157,7 +153,6 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @throws PortalException if a user with the primary key could not be
 	found, if the user did not have permission to add the structure,
 	if the XSD was not well-formed, or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure addStructure(
@@ -167,8 +162,7 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String xsd, java.lang.String storageType, int type,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.addStructure(userId, groupId,
 			parentStructureKey, classNameId, structureKey, nameMap,
 			descriptionMap, xsd, storageType, type, serviceContext);
@@ -189,7 +183,6 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @return the new structure
 	* @throws PortalException if the user did not have permission to add the
 	structure or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure copyStructure(
@@ -197,8 +190,7 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 		java.util.Map<java.util.Locale, java.lang.String> nameMap,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.copyStructure(structureId, nameMap,
 			descriptionMap, serviceContext);
 	}
@@ -207,8 +199,7 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure copyStructure(
 		long structureId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.copyStructure(structureId, serviceContext);
 	}
 
@@ -223,12 +214,10 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @param structureId the primary key of the structure to be deleted
 	* @throws PortalException if the user did not have permission to delete the
 	structure or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public void deleteStructure(long structureId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_ddmStructureService.deleteStructure(structureId);
 	}
 
@@ -244,13 +233,11 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	structure could not be found
 	* @throws PortalException if the user did not have permission to view the
 	structure or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure fetchStructure(
 		long groupId, long classNameId, java.lang.String structureKey)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.fetchStructure(groupId, classNameId,
 			structureKey);
 	}
@@ -258,8 +245,7 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	@Override
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructure> getJournalFolderStructures(
 		long[] groupIds, long journalFolderId, int restrictionType)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.getJournalFolderStructures(groupIds,
 			journalFolderId, restrictionType);
 	}
@@ -271,13 +257,11 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @return the structure with the ID
 	* @throws PortalException if the user did not have permission to view the
 	structure or if a structure with the ID could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure getStructure(
 		long structureId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.getStructure(structureId);
 	}
 
@@ -292,13 +276,11 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @return the matching structure
 	* @throws PortalException if the user did not have permission to view the
 	structure or if a matching structure could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure getStructure(
 		long groupId, long classNameId, java.lang.String structureKey)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.getStructure(groupId, classNameId,
 			structureKey);
 	}
@@ -322,14 +304,12 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @return the matching structure
 	* @throws PortalException if the user did not have permission to view the
 	structure or if a matching structure could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure getStructure(
 		long groupId, long classNameId, java.lang.String structureKey,
 		boolean includeAncestorStructures)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.getStructure(groupId, classNameId,
 			structureKey, includeAncestorStructures);
 	}
@@ -340,12 +320,10 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	*
 	* @param groupId the primary key of the group
 	* @return the structures in the group that the user has permission to view
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructure> getStructures(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return _ddmStructureService.getStructures(groupId);
 	}
 
@@ -355,12 +333,10 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	*
 	* @param groupIds the primary key of the groups
 	* @return the structures in the groups that the user has permission to view
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructure> getStructures(
-		long[] groupIds)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long[] groupIds) {
 		return _ddmStructureService.getStructures(groupIds);
 	}
 
@@ -373,19 +349,16 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	related model
 	* @return the structures matching the groups and class name ID that the
 	user has permission to view
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructure> getStructures(
-		long[] groupIds, long classNameId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long[] groupIds, long classNameId) {
 		return _ddmStructureService.getStructures(groupIds, classNameId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructure> getStructures(
-		long[] groupIds, long classNameId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long[] groupIds, long classNameId, int start, int end) {
 		return _ddmStructureService.getStructures(groupIds, classNameId, start,
 			end);
 	}
@@ -417,14 +390,12 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @param orderByComparator the comparator to order the structures
 	(optionally <code>null</code>)
 	* @return the range of matching structures ordered by the comparator
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructure> search(
 		long companyId, long[] groupIds, long[] classNameIds,
 		java.lang.String keywords, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator) {
 		return _ddmStructureService.search(companyId, groupIds, classNameIds,
 			keywords, start, end, orderByComparator);
 	}
@@ -462,7 +433,6 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @param orderByComparator the comparator to order the structures
 	(optionally <code>null</code>)
 	* @return the range of matching structures ordered by the comparator
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructure> search(
@@ -470,8 +440,7 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 		java.lang.String name, java.lang.String description,
 		java.lang.String storageType, int type, boolean andOperator, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator) {
 		return _ddmStructureService.search(companyId, groupIds, classNameIds,
 			name, description, storageType, type, andOperator, start, end,
 			orderByComparator);
@@ -488,12 +457,10 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @param keywords the keywords (space separated), which may occur in the
 	structure's name or description (optionally <code>null</code>)
 	* @return the number of matching structures
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public int searchCount(long companyId, long[] groupIds,
-		long[] classNameIds, java.lang.String keywords)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long[] classNameIds, java.lang.String keywords) {
 		return _ddmStructureService.searchCount(companyId, groupIds,
 			classNameIds, keywords);
 	}
@@ -516,14 +483,12 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @param andOperator whether every field must match its keywords, or just
 	one field
 	* @return the number of matching structures
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public int searchCount(long companyId, long[] groupIds,
 		long[] classNameIds, java.lang.String name,
 		java.lang.String description, java.lang.String storageType, int type,
-		boolean andOperator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean andOperator) {
 		return _ddmStructureService.searchCount(companyId, groupIds,
 			classNameIds, name, description, storageType, type, andOperator);
 	}
@@ -547,7 +512,6 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @return the updated structure
 	* @throws PortalException if the user did not have permission to update the
 	structure or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure updateStructure(
@@ -557,8 +521,7 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String xsd,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.updateStructure(groupId, parentStructureId,
 			classNameId, structureKey, nameMap, descriptionMap, xsd,
 			serviceContext);
@@ -579,7 +542,6 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 	* @return the updated structure
 	* @throws PortalException if the user did not have permission to update the
 	structure or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure updateStructure(
@@ -588,8 +550,7 @@ public class DDMStructureServiceWrapper implements DDMStructureService,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String xsd,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureService.updateStructure(structureId,
 			parentStructureId, nameMap, descriptionMap, xsd, serviceContext);
 	}

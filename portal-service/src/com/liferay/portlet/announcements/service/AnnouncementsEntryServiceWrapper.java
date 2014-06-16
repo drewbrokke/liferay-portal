@@ -63,8 +63,7 @@ public class AnnouncementsEntryServiceWrapper
 		int expirationDateMonth, int expirationDateDay, int expirationDateYear,
 		int expirationDateHour, int expirationDateMinute, int priority,
 		boolean alert)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _announcementsEntryService.addEntry(plid, classNameId, classPK,
 			title, content, url, type, displayDateMonth, displayDateDay,
 			displayDateYear, displayDateHour, displayDateMinute,
@@ -87,8 +86,7 @@ public class AnnouncementsEntryServiceWrapper
 		int displayDateHour, int displayDateMinute, int expirationDateMonth,
 		int expirationDateDay, int expirationDateYear, int expirationDateHour,
 		int expirationDateMinute, int priority, boolean alert)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _announcementsEntryService.addEntry(plid, classNameId, classPK,
 			title, content, url, type, displayDateMonth, displayDateDay,
 			displayDateYear, displayDateHour, displayDateMinute,
@@ -98,16 +96,14 @@ public class AnnouncementsEntryServiceWrapper
 
 	@Override
 	public void deleteEntry(long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_announcementsEntryService.deleteEntry(entryId);
 	}
 
 	@Override
 	public com.liferay.portlet.announcements.model.AnnouncementsEntry getEntry(
 		long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _announcementsEntryService.getEntry(entryId);
 	}
 
@@ -119,8 +115,7 @@ public class AnnouncementsEntryServiceWrapper
 		int displayDateMinute, boolean displayImmediately,
 		int expirationDateMonth, int expirationDateDay, int expirationDateYear,
 		int expirationDateHour, int expirationDateMinute, int priority)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _announcementsEntryService.updateEntry(entryId, title, content,
 			url, type, displayDateMonth, displayDateDay, displayDateYear,
 			displayDateHour, displayDateMinute, displayImmediately,

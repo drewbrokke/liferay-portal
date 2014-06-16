@@ -261,72 +261,60 @@ public class DLFileRankLocalServiceUtil {
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileRank addFileRank(
 		long groupId, long companyId, long userId, long fileEntryId,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.service.ServiceContext serviceContext) {
 		return getService()
 				   .addFileRank(groupId, companyId, userId, fileEntryId,
 			serviceContext);
 	}
 
-	public static void checkFileRanks()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void checkFileRanks() {
 		getService().checkFileRanks();
 	}
 
 	public static void deleteFileRank(
-		com.liferay.portlet.documentlibrary.model.DLFileRank dlFileRank)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.documentlibrary.model.DLFileRank dlFileRank) {
 		getService().deleteFileRank(dlFileRank);
 	}
 
 	public static void deleteFileRank(long fileRankId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteFileRank(fileRankId);
 	}
 
-	public static void deleteFileRanksByFileEntryId(long fileEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteFileRanksByFileEntryId(long fileEntryId) {
 		getService().deleteFileRanksByFileEntryId(fileEntryId);
 	}
 
-	public static void deleteFileRanksByUserId(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteFileRanksByUserId(long userId) {
 		getService().deleteFileRanksByUserId(userId);
 	}
 
-	public static void disableFileRanks(long fileEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void disableFileRanks(long fileEntryId) {
 		getService().disableFileRanks(fileEntryId);
 	}
 
 	public static void disableFileRanksByFolderId(long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().disableFileRanksByFolderId(folderId);
 	}
 
-	public static void enableFileRanks(long fileEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void enableFileRanks(long fileEntryId) {
 		getService().enableFileRanks(fileEntryId);
 	}
 
 	public static void enableFileRanksByFolderId(long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().enableFileRanksByFolderId(folderId);
 	}
 
 	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLFileRank> getFileRanks(
-		long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long userId) {
 		return getService().getFileRanks(groupId, userId);
 	}
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileRank updateFileRank(
 		long groupId, long companyId, long userId, long fileEntryId,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.service.ServiceContext serviceContext) {
 		return getService()
 				   .updateFileRank(groupId, companyId, userId, fileEntryId,
 			serviceContext);

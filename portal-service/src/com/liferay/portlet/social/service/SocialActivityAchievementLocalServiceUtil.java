@@ -266,59 +266,49 @@ public class SocialActivityAchievementLocalServiceUtil {
 
 	public static void addActivityAchievement(long userId, long groupId,
 		com.liferay.portlet.social.model.SocialAchievement achievement)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().addActivityAchievement(userId, groupId, achievement);
 	}
 
 	public static com.liferay.portlet.social.model.SocialActivityAchievement fetchUserAchievement(
-		long userId, long groupId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, long groupId, java.lang.String name) {
 		return getService().fetchUserAchievement(userId, groupId, name);
 	}
 
 	public static java.util.List<com.liferay.portlet.social.model.SocialActivityAchievement> getGroupAchievements(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return getService().getGroupAchievements(groupId);
 	}
 
 	public static java.util.List<com.liferay.portlet.social.model.SocialActivityAchievement> getGroupAchievements(
-		long groupId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String name) {
 		return getService().getGroupAchievements(groupId, name);
 	}
 
-	public static int getGroupAchievementsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getGroupAchievementsCount(long groupId) {
 		return getService().getGroupAchievementsCount(groupId);
 	}
 
 	public static int getGroupAchievementsCount(long groupId,
-		java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String name) {
 		return getService().getGroupAchievementsCount(groupId, name);
 	}
 
 	public static java.util.List<com.liferay.portlet.social.model.SocialActivityAchievement> getGroupFirstAchievements(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return getService().getGroupFirstAchievements(groupId);
 	}
 
-	public static int getGroupFirstAchievementsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getGroupFirstAchievementsCount(long groupId) {
 		return getService().getGroupFirstAchievementsCount(groupId);
 	}
 
 	public static java.util.List<com.liferay.portlet.social.model.SocialActivityAchievement> getUserAchievements(
-		long userId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, long groupId) {
 		return getService().getUserAchievements(userId, groupId);
 	}
 
-	public static int getUserAchievementsCount(long userId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getUserAchievementsCount(long userId, long groupId) {
 		return getService().getUserAchievementsCount(userId, groupId);
 	}
 

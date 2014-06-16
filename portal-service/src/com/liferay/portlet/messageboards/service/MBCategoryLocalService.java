@@ -288,8 +288,7 @@ public interface MBCategoryLocalService extends BaseLocalService,
 		long userId, long parentCategoryId, java.lang.String name,
 		java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.messageboards.model.MBCategory addCategory(
 		long userId, long parentCategoryId, java.lang.String name,
@@ -303,191 +302,154 @@ public interface MBCategoryLocalService extends BaseLocalService,
 		java.lang.String outPassword, boolean allowAnonymous,
 		boolean mailingListActive,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void addCategoryResources(long categoryId,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void addCategoryResources(long categoryId,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void addCategoryResources(
 		com.liferay.portlet.messageboards.model.MBCategory category,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void addCategoryResources(
 		com.liferay.portlet.messageboards.model.MBCategory category,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteCategories(long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteCategory(long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteCategory(
 		com.liferay.portlet.messageboards.model.MBCategory category)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteCategory(
 		com.liferay.portlet.messageboards.model.MBCategory category,
 		boolean includeTrashedEntries)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getCategories(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getCategories(
-		long groupId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getCategories(
-		long groupId, long parentCategoryId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long parentCategoryId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getCategories(
-		long groupId, long parentCategoryId, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long parentCategoryId, int status, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getCategories(
 		long groupId, long excludedCategoryId, long parentCategoryId,
-		int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		int status, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getCategories(
-		long groupId, long[] parentCategoryIds, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long[] parentCategoryIds, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getCategories(
-		long groupId, long[] parentCategoryIds, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long[] parentCategoryIds, int status, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getCategories(
 		long groupId, long[] excludedCategoryIds, long[] parentCategoryIds,
-		int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		int status, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object> getCategoriesAndThreads(
-		long groupId, long categoryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long categoryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCategoriesCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getCategoriesCount(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCategoriesCount(long groupId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getCategoriesCount(long groupId, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCategoriesCount(long groupId, long parentCategoryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getCategoriesCount(long groupId, long parentCategoryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCategoriesCount(long groupId, long parentCategoryId,
-		int status) throws com.liferay.portal.kernel.exception.SystemException;
+		int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCategoriesCount(long groupId, long excludedCategoryId,
-		long parentCategoryId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long parentCategoryId, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCategoriesCount(long groupId, long[] parentCategoryIds)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getCategoriesCount(long groupId, long[] parentCategoryIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCategoriesCount(long groupId, long[] parentCategoryIds,
-		int status) throws com.liferay.portal.kernel.exception.SystemException;
+		int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCategoriesCount(long groupId, long[] excludedCategoryIds,
-		long[] parentCategoryIds, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long[] parentCategoryIds, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.messageboards.model.MBCategory getCategory(
 		long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getCompanyCategories(
-		long companyId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCompanyCategoriesCount(long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getCompanyCategoriesCount(long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Long> getSubcategoryIds(
 		java.util.List<java.lang.Long> categoryIds, long groupId,
-		long categoryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long categoryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getSubscribedCategories(
-		long groupId, long userId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long userId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getSubscribedCategoriesCount(long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getSubscribedCategoriesCount(long groupId, long userId);
 
 	public void moveCategoriesToTrash(long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.messageboards.model.MBCategory moveCategory(
 		long categoryId, long parentCategoryId, boolean mergeWithParentCategory)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.messageboards.model.MBCategory moveCategoryFromTrash(
 		long userId, long categoryId, long newCategoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.messageboards.model.MBCategory moveCategoryToTrash(
 		long userId, long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void restoreCategoryFromTrash(long userId, long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void subscribeCategory(long userId, long groupId, long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void unsubscribeCategory(long userId, long groupId, long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.messageboards.model.MBCategory updateCategory(
 		long categoryId, long parentCategoryId, java.lang.String name,
@@ -501,11 +463,9 @@ public interface MBCategoryLocalService extends BaseLocalService,
 		java.lang.String outPassword, boolean allowAnonymous,
 		boolean mailingListActive, boolean mergeWithParentCategory,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.messageboards.model.MBCategory updateStatus(
 		long userId, long categoryId, int status)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

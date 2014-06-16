@@ -319,8 +319,7 @@ public class MBDiscussionLocalServiceUtil {
 	public static com.liferay.portlet.messageboards.model.MBDiscussion addDiscussion(
 		long userId, long groupId, long classNameId, long classPK,
 		long threadId, com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addDiscussion(userId, groupId, classNameId, classPK,
 			threadId, serviceContext);
@@ -334,57 +333,49 @@ public class MBDiscussionLocalServiceUtil {
 	public static com.liferay.portlet.messageboards.model.MBDiscussion addDiscussion(
 		long userId, long classNameId, long classPK, long threadId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addDiscussion(userId, classNameId, classPK, threadId,
 			serviceContext);
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBDiscussion fetchDiscussion(
-		long discussionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long discussionId) {
 		return getService().fetchDiscussion(discussionId);
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBDiscussion fetchDiscussion(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return getService().fetchDiscussion(className, classPK);
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBDiscussion getDiscussion(
 		long discussionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getDiscussion(discussionId);
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBDiscussion getDiscussion(
 		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getDiscussion(className, classPK);
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBDiscussion getThreadDiscussion(
 		long threadId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getThreadDiscussion(threadId);
 	}
 
 	public static void subscribeDiscussion(long userId, long groupId,
 		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().subscribeDiscussion(userId, groupId, className, classPK);
 	}
 
 	public static void unsubscribeDiscussion(long userId,
 		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().unsubscribeDiscussion(userId, className, classPK);
 	}
 

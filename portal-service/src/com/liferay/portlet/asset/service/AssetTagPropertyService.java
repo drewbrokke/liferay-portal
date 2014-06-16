@@ -71,12 +71,10 @@ public interface AssetTagPropertyService extends BaseService {
 	* @return the created asset tag property
 	* @throws PortalException if the user did not have permission to update the
 	asset tag, or if the key or value were invalid
-	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.portlet.asset.model.AssetTagProperty addTagProperty(
 		long tagId, java.lang.String key, java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Deletes the asset tag property with the specified ID.
@@ -85,22 +83,19 @@ public interface AssetTagPropertyService extends BaseService {
 	* @throws PortalException if an asset tag property with the primary key
 	could not be found or if the user did not have permission to
 	update the asset tag property
-	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteTagProperty(long tagPropertyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Returns all the asset tag property instances with the specified tag ID.
 	*
 	* @param tagId the primary key of the tag
 	* @return the matching asset tag properties
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTagProperty> getTagProperties(
-		long tagId) throws com.liferay.portal.kernel.exception.SystemException;
+		long tagId);
 
 	/**
 	* Returns asset tag properties with the specified group and key.
@@ -108,12 +103,10 @@ public interface AssetTagPropertyService extends BaseService {
 	* @param companyId the primary key of the company
 	* @param key the key that refers to some value
 	* @return the matching asset tag properties
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTagProperty> getTagPropertyValues(
-		long companyId, java.lang.String key)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, java.lang.String key);
 
 	/**
 	* Updates the asset tag property.
@@ -125,10 +118,8 @@ public interface AssetTagPropertyService extends BaseService {
 	* @throws PortalException if an asset tag property with the primary key
 	could not be found, if the user did not have permission to update
 	the asset tag, or if the key or value were invalid
-	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.portlet.asset.model.AssetTagProperty updateTagProperty(
 		long tagPropertyId, java.lang.String key, java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

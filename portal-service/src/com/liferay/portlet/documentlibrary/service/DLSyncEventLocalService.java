@@ -233,18 +233,14 @@ public interface DLSyncEventLocalService extends BaseLocalService,
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
 	public com.liferay.portlet.documentlibrary.model.DLSyncEvent addDLSyncEvent(
-		java.lang.String event, java.lang.String type, long typePK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String event, java.lang.String type, long typePK);
 
-	public void deleteDLSyncEvents()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteDLSyncEvents();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLSyncEvent> getDLSyncEvents(
-		long modifiedTime)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long modifiedTime);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.documentlibrary.model.DLSyncEvent> getLatestDLSyncEvents()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.portlet.documentlibrary.model.DLSyncEvent> getLatestDLSyncEvents();
 }

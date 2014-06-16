@@ -296,12 +296,10 @@ public class SocialRelationLocalServiceUtil {
 	* @throws PortalException if the users could not be found, if the users
 	were not from the same company, or if either of the users was the
 	default user
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.social.model.SocialRelation addRelation(
 		long userId1, long userId2, int type)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().addRelation(userId1, userId2, type);
 	}
 
@@ -311,11 +309,9 @@ public class SocialRelationLocalServiceUtil {
 	*
 	* @param relationId the primary key of the relation
 	* @throws PortalException if the relation could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteRelation(long relationId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteRelation(relationId);
 	}
 
@@ -328,11 +324,9 @@ public class SocialRelationLocalServiceUtil {
 	* @param type the relation's type
 	* @throws PortalException if the relation or its inverse relation (if
 	applicable) could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteRelation(long userId1, long userId2, int type)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteRelation(userId1, userId2, type);
 	}
 
@@ -343,12 +337,10 @@ public class SocialRelationLocalServiceUtil {
 	* @param relation the relation to be removed
 	* @throws PortalException if the relation is bidirectional and its inverse
 	relation could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteRelation(
 		com.liferay.portlet.social.model.SocialRelation relation)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteRelation(relation);
 	}
 
@@ -356,10 +348,8 @@ public class SocialRelationLocalServiceUtil {
 	* Removes all relations involving the user from the database.
 	*
 	* @param userId the primary key of the user
-	* @throws SystemException if a system exception occurred
 	*/
-	public static void deleteRelations(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteRelations(long userId) {
 		getService().deleteRelations(userId);
 	}
 
@@ -369,11 +359,9 @@ public class SocialRelationLocalServiceUtil {
 	* @param userId1 the user that is the subject of the relation
 	* @param userId2 the user at the other end of the relation
 	* @throws PortalException if the inverse relation could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteRelations(long userId1, long userId2)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteRelations(userId1, userId2);
 	}
 
@@ -396,11 +384,9 @@ public class SocialRelationLocalServiceUtil {
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of matching relations
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.social.model.SocialRelation> getInverseRelations(
-		long userId, int type, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int type, int start, int end) {
 		return getService().getInverseRelations(userId, type, start, end);
 	}
 
@@ -411,10 +397,8 @@ public class SocialRelationLocalServiceUtil {
 	* @param userId the primary key of the user
 	* @param type the relation's type
 	* @return the number of matching relations
-	* @throws SystemException if a system exception occurred
 	*/
-	public static int getInverseRelationsCount(long userId, int type)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getInverseRelationsCount(long userId, int type) {
 		return getService().getInverseRelationsCount(userId, type);
 	}
 
@@ -424,12 +408,10 @@ public class SocialRelationLocalServiceUtil {
 	* @param relationId the primary key of the relation
 	* @return Returns the relation
 	* @throws PortalException if the relation could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.social.model.SocialRelation getRelation(
 		long relationId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getRelation(relationId);
 	}
 
@@ -441,12 +423,10 @@ public class SocialRelationLocalServiceUtil {
 	* @param type the relation's type
 	* @return Returns the relation
 	* @throws PortalException if the relation could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.social.model.SocialRelation getRelation(
 		long userId1, long userId2, int type)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getRelation(userId1, userId2, type);
 	}
 
@@ -469,11 +449,9 @@ public class SocialRelationLocalServiceUtil {
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of relations
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.social.model.SocialRelation> getRelations(
-		long userId, int type, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int type, int start, int end) {
 		return getService().getRelations(userId, type, start, end);
 	}
 
@@ -495,11 +473,9 @@ public class SocialRelationLocalServiceUtil {
 	* @param start the lower bound of the range of results
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of relations
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.social.model.SocialRelation> getRelations(
-		long userId1, long userId2, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId1, long userId2, int start, int end) {
 		return getService().getRelations(userId1, userId2, start, end);
 	}
 
@@ -510,10 +486,8 @@ public class SocialRelationLocalServiceUtil {
 	* @param userId the primary key of the user
 	* @param type the relation's type
 	* @return the number of relations
-	* @throws SystemException if a system exception occurred
 	*/
-	public static int getRelationsCount(long userId, int type)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getRelationsCount(long userId, int type) {
 		return getService().getRelationsCount(userId, type);
 	}
 
@@ -523,10 +497,8 @@ public class SocialRelationLocalServiceUtil {
 	* @param userId1 the user that is the subject of the relation
 	* @param userId2 the user at the other end of the relation
 	* @return the number of relations
-	* @throws SystemException if a system exception occurred
 	*/
-	public static int getRelationsCount(long userId1, long userId2)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getRelationsCount(long userId1, long userId2) {
 		return getService().getRelationsCount(userId1, userId2);
 	}
 
@@ -541,10 +513,8 @@ public class SocialRelationLocalServiceUtil {
 	* @param type the relation's type
 	* @return <code>true</code> if the relation exists; <code>false</code>
 	otherwise
-	* @throws SystemException if a system exception occurred
 	*/
-	public static boolean hasRelation(long userId1, long userId2, int type)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static boolean hasRelation(long userId1, long userId2, int type) {
 		return getService().hasRelation(userId1, userId2, type);
 	}
 
@@ -565,10 +535,8 @@ public class SocialRelationLocalServiceUtil {
 	* @param type the relation's type
 	* @return <code>true</code> if the two users can be in a new relation of
 	the given type; <code>false</code> otherwise
-	* @throws SystemException if a system exception occurred
 	*/
-	public static boolean isRelatable(long userId1, long userId2, int type)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static boolean isRelatable(long userId1, long userId2, int type) {
 		return getService().isRelatable(userId1, userId2, type);
 	}
 

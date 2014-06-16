@@ -87,6 +87,7 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
+			{ "deckTitle", Types.VARCHAR },
 			{ "urlTitle", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
 			{ "content", Types.CLOB },
@@ -102,7 +103,7 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP }
 		};
-	public static final String TABLE_SQL_CREATE = "create table BlogsEntry (uuid_ VARCHAR(75) null,entryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title VARCHAR(150) null,urlTitle VARCHAR(150) null,description STRING null,content TEXT null,displayDate DATE null,allowPingbacks BOOLEAN,allowTrackbacks BOOLEAN,trackbacks TEXT null,smallImage BOOLEAN,smallImageId LONG,smallImageURL STRING null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table BlogsEntry (uuid_ VARCHAR(75) null,entryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title VARCHAR(150) null,deckTitle STRING null,urlTitle VARCHAR(150) null,description STRING null,content TEXT null,displayDate DATE null,allowPingbacks BOOLEAN,allowTrackbacks BOOLEAN,trackbacks TEXT null,smallImage BOOLEAN,smallImageId LONG,smallImageURL STRING null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table BlogsEntry";
 	public static final String ORDER_BY_JPQL = " ORDER BY blogsEntry.displayDate DESC, blogsEntry.createDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY BlogsEntry.displayDate DESC, BlogsEntry.createDate DESC";
@@ -149,6 +150,7 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setTitle(soapModel.getTitle());
+		model.setDeckTitle(soapModel.getDeckTitle());
 		model.setUrlTitle(soapModel.getUrlTitle());
 		model.setDescription(soapModel.getDescription());
 		model.setContent(soapModel.getContent());
@@ -236,6 +238,7 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("title", getTitle());
+		attributes.put("deckTitle", getDeckTitle());
 		attributes.put("urlTitle", getUrlTitle());
 		attributes.put("description", getDescription());
 		attributes.put("content", getContent());
@@ -311,6 +314,12 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String deckTitle = (String)attributes.get("deckTitle");
+
+		if (deckTitle != null) {
+			setDeckTitle(deckTitle);
 		}
 
 		String urlTitle = (String)attributes.get("urlTitle");
@@ -572,6 +581,22 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 	@Override
 	public void setTitle(String title) {
 		_title = title;
+	}
+
+	@JSON
+	@Override
+	public String getDeckTitle() {
+		if (_deckTitle == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _deckTitle;
+		}
+	}
+
+	@Override
+	public void setDeckTitle(String deckTitle) {
+		_deckTitle = deckTitle;
 	}
 
 	@JSON
@@ -1079,6 +1104,7 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 		blogsEntryImpl.setCreateDate(getCreateDate());
 		blogsEntryImpl.setModifiedDate(getModifiedDate());
 		blogsEntryImpl.setTitle(getTitle());
+		blogsEntryImpl.setDeckTitle(getDeckTitle());
 		blogsEntryImpl.setUrlTitle(getUrlTitle());
 		blogsEntryImpl.setDescription(getDescription());
 		blogsEntryImpl.setContent(getContent());
@@ -1242,6 +1268,14 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 			blogsEntryCacheModel.title = null;
 		}
 
+		blogsEntryCacheModel.deckTitle = getDeckTitle();
+
+		String deckTitle = blogsEntryCacheModel.deckTitle;
+
+		if ((deckTitle != null) && (deckTitle.length() == 0)) {
+			blogsEntryCacheModel.deckTitle = null;
+		}
+
 		blogsEntryCacheModel.urlTitle = getUrlTitle();
 
 		String urlTitle = blogsEntryCacheModel.urlTitle;
@@ -1325,7 +1359,7 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1345,6 +1379,8 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 		sb.append(getModifiedDate());
 		sb.append(", title=");
 		sb.append(getTitle());
+		sb.append(", deckTitle=");
+		sb.append(getDeckTitle());
 		sb.append(", urlTitle=");
 		sb.append(getUrlTitle());
 		sb.append(", description=");
@@ -1380,7 +1416,7 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(76);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.portlet.blogs.model.BlogsEntry");
@@ -1421,6 +1457,10 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 		sb.append(
 			"<column><column-name>title</column-name><column-value><![CDATA[");
 		sb.append(getTitle());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>deckTitle</column-name><column-value><![CDATA[");
+		sb.append(getDeckTitle());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>urlTitle</column-name><column-value><![CDATA[");
@@ -1504,6 +1544,7 @@ public class BlogsEntryModelImpl extends BaseModelImpl<BlogsEntry>
 	private Date _createDate;
 	private Date _modifiedDate;
 	private String _title;
+	private String _deckTitle;
 	private String _urlTitle;
 	private String _originalUrlTitle;
 	private String _description;

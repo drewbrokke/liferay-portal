@@ -1063,36 +1063,31 @@ public class DLFolderWrapper implements DLFolder, ModelWrapper<DLFolder> {
 
 	@Override
 	public java.util.List<java.lang.Long> getAncestorFolderIds()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolder.getAncestorFolderIds();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getAncestors()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolder.getAncestors();
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder getParentFolder()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolder.getParentFolder();
 	}
 
 	@Override
 	public java.lang.String getPath()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolder.getPath();
 	}
 
 	@Override
 	public java.lang.String[] getPathArray()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolder.getPathArray();
 	}
 

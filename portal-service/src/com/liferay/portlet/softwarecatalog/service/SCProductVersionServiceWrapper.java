@@ -60,8 +60,7 @@ public class SCProductVersionServiceWrapper implements SCProductVersionService,
 		java.lang.String directDownloadURL, boolean testDirectDownloadURL,
 		boolean repoStoreArtifact, long[] frameworkVersionIds,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _scProductVersionService.addProductVersion(productEntryId,
 			version, changeLog, downloadPageURL, directDownloadURL,
 			testDirectDownloadURL, repoStoreArtifact, frameworkVersionIds,
@@ -70,32 +69,28 @@ public class SCProductVersionServiceWrapper implements SCProductVersionService,
 
 	@Override
 	public void deleteProductVersion(long productVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_scProductVersionService.deleteProductVersion(productVersionId);
 	}
 
 	@Override
 	public com.liferay.portlet.softwarecatalog.model.SCProductVersion getProductVersion(
 		long productVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _scProductVersionService.getProductVersion(productVersionId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCProductVersion> getProductVersions(
 		long productEntryId, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _scProductVersionService.getProductVersions(productEntryId,
 			start, end);
 	}
 
 	@Override
 	public int getProductVersionsCount(long productEntryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _scProductVersionService.getProductVersionsCount(productEntryId);
 	}
 
@@ -105,8 +100,7 @@ public class SCProductVersionServiceWrapper implements SCProductVersionService,
 		java.lang.String changeLog, java.lang.String downloadPageURL,
 		java.lang.String directDownloadURL, boolean testDirectDownloadURL,
 		boolean repoStoreArtifact, long[] frameworkVersionIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _scProductVersionService.updateProductVersion(productVersionId,
 			version, changeLog, downloadPageURL, directDownloadURL,
 			testDirectDownloadURL, repoStoreArtifact, frameworkVersionIds);

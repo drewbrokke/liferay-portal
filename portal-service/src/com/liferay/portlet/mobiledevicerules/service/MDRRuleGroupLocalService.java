@@ -289,55 +289,44 @@ public interface MDRRuleGroupLocalService extends BaseLocalService,
 		java.util.Map<java.util.Locale, java.lang.String> nameMap,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup copyRuleGroup(
 		long ruleGroupId, long groupId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup copyRuleGroup(
 		com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup ruleGroup,
 		long groupId, com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteRuleGroup(long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteRuleGroup(long ruleGroupId);
 
 	public void deleteRuleGroup(
-		com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup ruleGroup)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup ruleGroup);
 
-	public void deleteRuleGroups(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteRuleGroups(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup fetchRuleGroup(
-		long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long ruleGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup getRuleGroup(
 		long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup> getRuleGroups(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup> getRuleGroups(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getRuleGroupsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getRuleGroupsCount(long groupId);
 
 	/**
 	* @deprecated As of 6.2.0, replaced by {@link #search(long, String,
@@ -347,14 +336,13 @@ public interface MDRRuleGroupLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup> search(
 		long groupId, java.lang.String name, boolean andOperator, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException;
+		int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup> search(
 		long groupId, java.lang.String name,
 		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params,
-		boolean andOperator, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean andOperator, int start, int end);
 
 	/**
 	* @deprecated As of 6.2.0, replaced by {@link #searchByKeywords(long,
@@ -364,15 +352,13 @@ public interface MDRRuleGroupLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup> searchByKeywords(
 		long groupId, java.lang.String keywords, boolean andOperator,
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup> searchByKeywords(
 		long groupId, java.lang.String keywords,
 		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params,
-		boolean andOperator, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean andOperator, int start, int end);
 
 	/**
 	* @deprecated As of 6.2.0, replaced by {@link #searchByKeywordsCount(long,
@@ -381,14 +367,12 @@ public interface MDRRuleGroupLocalService extends BaseLocalService,
 	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchByKeywordsCount(long groupId, java.lang.String keywords,
-		boolean andOperator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean andOperator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchByKeywordsCount(long groupId, java.lang.String keywords,
 		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params,
-		boolean andOperator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean andOperator);
 
 	/**
 	* @deprecated As of 6.2.0, replaced by {@link #searchCount(long, String,
@@ -397,20 +381,17 @@ public interface MDRRuleGroupLocalService extends BaseLocalService,
 	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchCount(long groupId, java.lang.String name,
-		boolean andOperator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean andOperator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchCount(long groupId, java.lang.String name,
 		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params,
-		boolean andOperator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean andOperator);
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroup updateRuleGroup(
 		long ruleGroupId,
 		java.util.Map<java.util.Locale, java.lang.String> nameMap,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

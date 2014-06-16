@@ -274,35 +274,30 @@ public class RatingsStatsLocalServiceWrapper implements RatingsStatsLocalService
 
 	@Override
 	public com.liferay.portlet.ratings.model.RatingsStats addStats(
-		long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classNameId, long classPK) {
 		return _ratingsStatsLocalService.addStats(classNameId, classPK);
 	}
 
 	@Override
-	public void deleteStats(java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteStats(java.lang.String className, long classPK) {
 		_ratingsStatsLocalService.deleteStats(className, classPK);
 	}
 
 	@Override
 	public com.liferay.portlet.ratings.model.RatingsStats getStats(long statsId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ratingsStatsLocalService.getStats(statsId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.ratings.model.RatingsStats> getStats(
-		java.lang.String className, java.util.List<java.lang.Long> classPKs)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, java.util.List<java.lang.Long> classPKs) {
 		return _ratingsStatsLocalService.getStats(className, classPKs);
 	}
 
 	@Override
 	public com.liferay.portlet.ratings.model.RatingsStats getStats(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return _ratingsStatsLocalService.getStats(className, classPK);
 	}
 

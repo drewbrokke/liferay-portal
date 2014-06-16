@@ -342,29 +342,25 @@ public class PollsChoiceLocalServiceWrapper implements PollsChoiceLocalService,
 	public com.liferay.portlet.polls.model.PollsChoice addChoice(long userId,
 		long questionId, java.lang.String name, java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _pollsChoiceLocalService.addChoice(userId, questionId, name,
 			description, serviceContext);
 	}
 
 	@Override
 	public com.liferay.portlet.polls.model.PollsChoice getChoice(long choiceId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _pollsChoiceLocalService.getChoice(choiceId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.polls.model.PollsChoice> getChoices(
-		long questionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long questionId) {
 		return _pollsChoiceLocalService.getChoices(questionId);
 	}
 
 	@Override
-	public int getChoicesCount(long questionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getChoicesCount(long questionId) {
 		return _pollsChoiceLocalService.getChoicesCount(questionId);
 	}
 
@@ -373,8 +369,7 @@ public class PollsChoiceLocalServiceWrapper implements PollsChoiceLocalService,
 		long choiceId, long questionId, java.lang.String name,
 		java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _pollsChoiceLocalService.updateChoice(choiceId, questionId,
 			name, description, serviceContext);
 	}

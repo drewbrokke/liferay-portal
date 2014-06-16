@@ -648,8 +648,7 @@ public class PollsChoiceWrapper implements PollsChoice,
 	}
 
 	@Override
-	public int getVotesCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getVotesCount() {
 		return _pollsChoice.getVotesCount();
 	}
 

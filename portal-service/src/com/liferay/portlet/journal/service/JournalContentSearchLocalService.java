@@ -233,72 +233,57 @@ public interface JournalContentSearchLocalService extends BaseLocalService,
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
 	public void checkContentSearches(long companyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteArticleContentSearch(long groupId, boolean privateLayout,
-		long layoutId, java.lang.String portletId, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long layoutId, java.lang.String portletId, java.lang.String articleId);
 
 	public void deleteArticleContentSearches(long groupId,
-		java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String articleId);
 
 	public void deleteLayoutContentSearches(long groupId,
-		boolean privateLayout, long layoutId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean privateLayout, long layoutId);
 
-	public void deleteOwnerContentSearches(long groupId, boolean privateLayout)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteOwnerContentSearches(long groupId, boolean privateLayout);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> getArticleContentSearches()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> getArticleContentSearches();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> getArticleContentSearches(
-		long groupId, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, java.lang.String articleId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> getArticleContentSearches(
-		java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String articleId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Long> getLayoutIds(long groupId,
-		boolean privateLayout, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		boolean privateLayout, java.lang.String articleId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getLayoutIdsCount(long groupId, boolean privateLayout,
-		java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String articleId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getLayoutIdsCount(java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getLayoutIdsCount(java.lang.String articleId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> getPortletContentSearches(
-		java.lang.String portletId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String portletId);
 
 	public com.liferay.portlet.journal.model.JournalContentSearch updateContentSearch(
 		long groupId, boolean privateLayout, long layoutId,
 		java.lang.String portletId, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.journal.model.JournalContentSearch updateContentSearch(
 		long groupId, boolean privateLayout, long layoutId,
 		java.lang.String portletId, java.lang.String articleId, boolean purge)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> updateContentSearch(
 		long groupId, boolean privateLayout, long layoutId,
 		java.lang.String portletId, java.lang.String[] articleIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

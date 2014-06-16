@@ -62,6 +62,7 @@ public class BlogsEntryWrapper implements BlogsEntry, ModelWrapper<BlogsEntry> {
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("title", getTitle());
+		attributes.put("deckTitle", getDeckTitle());
 		attributes.put("urlTitle", getUrlTitle());
 		attributes.put("description", getDescription());
 		attributes.put("content", getContent());
@@ -134,6 +135,12 @@ public class BlogsEntryWrapper implements BlogsEntry, ModelWrapper<BlogsEntry> {
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String deckTitle = (String)attributes.get("deckTitle");
+
+		if (deckTitle != null) {
+			setDeckTitle(deckTitle);
 		}
 
 		String urlTitle = (String)attributes.get("urlTitle");
@@ -439,6 +446,26 @@ public class BlogsEntryWrapper implements BlogsEntry, ModelWrapper<BlogsEntry> {
 	@Override
 	public void setTitle(java.lang.String title) {
 		_blogsEntry.setTitle(title);
+	}
+
+	/**
+	* Returns the deck title of this blogs entry.
+	*
+	* @return the deck title of this blogs entry
+	*/
+	@Override
+	public java.lang.String getDeckTitle() {
+		return _blogsEntry.getDeckTitle();
+	}
+
+	/**
+	* Sets the deck title of this blogs entry.
+	*
+	* @param deckTitle the deck title of this blogs entry
+	*/
+	@Override
+	public void setDeckTitle(java.lang.String deckTitle) {
+		_blogsEntry.setDeckTitle(deckTitle);
 	}
 
 	/**
@@ -1032,8 +1059,7 @@ public class BlogsEntryWrapper implements BlogsEntry, ModelWrapper<BlogsEntry> {
 
 	@Override
 	public java.lang.String getSmallImageType()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _blogsEntry.getSmallImageType();
 	}
 

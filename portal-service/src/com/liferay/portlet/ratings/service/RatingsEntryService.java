@@ -62,11 +62,9 @@ public interface RatingsEntryService extends BaseService {
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
 	public void deleteEntry(java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.ratings.model.RatingsEntry updateEntry(
 		java.lang.String className, long classPK, double score)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

@@ -939,22 +939,19 @@ public class MBCategoryWrapper implements MBCategory, ModelWrapper<MBCategory> {
 
 	@Override
 	public java.util.List<java.lang.Long> getAncestorCategoryIds()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbCategory.getAncestorCategoryIds();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.messageboards.model.MBCategory> getAncestors()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbCategory.getAncestors();
 	}
 
 	@Override
 	public com.liferay.portlet.messageboards.model.MBCategory getParentCategory()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbCategory.getParentCategory();
 	}
 

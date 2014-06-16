@@ -56,8 +56,7 @@ public class ExpandoColumnServiceWrapper implements ExpandoColumnService,
 	@Override
 	public com.liferay.portlet.expando.model.ExpandoColumn addColumn(
 		long tableId, java.lang.String name, int type)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _expandoColumnService.addColumn(tableId, name, type);
 	}
 
@@ -65,23 +64,20 @@ public class ExpandoColumnServiceWrapper implements ExpandoColumnService,
 	public com.liferay.portlet.expando.model.ExpandoColumn addColumn(
 		long tableId, java.lang.String name, int type,
 		java.lang.Object defaultData)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _expandoColumnService.addColumn(tableId, name, type, defaultData);
 	}
 
 	@Override
 	public void deleteColumn(long columnId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_expandoColumnService.deleteColumn(columnId);
 	}
 
 	@Override
 	public com.liferay.portlet.expando.model.ExpandoColumn updateColumn(
 		long columnId, java.lang.String name, int type)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _expandoColumnService.updateColumn(columnId, name, type);
 	}
 
@@ -89,8 +85,7 @@ public class ExpandoColumnServiceWrapper implements ExpandoColumnService,
 	public com.liferay.portlet.expando.model.ExpandoColumn updateColumn(
 		long columnId, java.lang.String name, int type,
 		java.lang.Object defaultData)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _expandoColumnService.updateColumn(columnId, name, type,
 			defaultData);
 	}
@@ -98,8 +93,7 @@ public class ExpandoColumnServiceWrapper implements ExpandoColumnService,
 	@Override
 	public com.liferay.portlet.expando.model.ExpandoColumn updateTypeSettings(
 		long columnId, java.lang.String typeSettings)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _expandoColumnService.updateTypeSettings(columnId, typeSettings);
 	}
 

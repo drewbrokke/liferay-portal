@@ -228,24 +228,17 @@ public interface CounterLocalService extends BaseLocalService,
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<java.lang.String> getNames()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<java.lang.String> getNames();
 
-	public long increment()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public long increment();
 
-	public long increment(java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public long increment(java.lang.String name);
 
-	public long increment(java.lang.String name, int size)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public long increment(java.lang.String name, int size);
 
-	public void rename(java.lang.String oldName, java.lang.String newName)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void rename(java.lang.String oldName, java.lang.String newName);
 
-	public void reset(java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void reset(java.lang.String name);
 
-	public void reset(java.lang.String name, long size)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void reset(java.lang.String name, long size);
 }

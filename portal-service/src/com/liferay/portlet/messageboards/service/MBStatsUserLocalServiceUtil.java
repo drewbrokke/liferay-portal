@@ -260,87 +260,74 @@ public class MBStatsUserLocalServiceUtil {
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBStatsUser addStatsUser(
-		long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long userId) {
 		return getService().addStatsUser(groupId, userId);
 	}
 
 	public static void deleteStatsUser(long statsUserId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteStatsUser(statsUserId);
 	}
 
 	public static void deleteStatsUser(
-		com.liferay.portlet.messageboards.model.MBStatsUser statsUser)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.messageboards.model.MBStatsUser statsUser) {
 		getService().deleteStatsUser(statsUser);
 	}
 
-	public static void deleteStatsUsersByGroupId(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteStatsUsersByGroupId(long groupId) {
 		getService().deleteStatsUsersByGroupId(groupId);
 	}
 
-	public static void deleteStatsUsersByUserId(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteStatsUsersByUserId(long userId) {
 		getService().deleteStatsUsersByUserId(userId);
 	}
 
 	public static java.util.Date getLastPostDateByUserId(long groupId,
-		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		long userId) {
 		return getService().getLastPostDateByUserId(groupId, userId);
 	}
 
-	public static long getMessageCountByGroupId(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static long getMessageCountByGroupId(long groupId) {
 		return getService().getMessageCountByGroupId(groupId);
 	}
 
-	public static long getMessageCountByUserId(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static long getMessageCountByUserId(long userId) {
 		return getService().getMessageCountByUserId(userId);
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBStatsUser getStatsUser(
-		long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long userId) {
 		return getService().getStatsUser(groupId, userId);
 	}
 
 	public static java.util.List<com.liferay.portlet.messageboards.model.MBStatsUser> getStatsUsersByGroupId(
 		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getStatsUsersByGroupId(groupId, start, end);
 	}
 
 	public static int getStatsUsersByGroupIdCount(long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getStatsUsersByGroupIdCount(groupId);
 	}
 
 	public static java.util.List<com.liferay.portlet.messageboards.model.MBStatsUser> getStatsUsersByUserId(
-		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		long userId) {
 		return getService().getStatsUsersByUserId(userId);
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBStatsUser updateStatsUser(
-		long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long userId) {
 		return getService().updateStatsUser(groupId, userId);
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBStatsUser updateStatsUser(
-		long groupId, long userId, java.util.Date lastPostDate)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long userId, java.util.Date lastPostDate) {
 		return getService().updateStatsUser(groupId, userId, lastPostDate);
 	}
 
 	public static com.liferay.portlet.messageboards.model.MBStatsUser updateStatsUser(
-		long groupId, long userId, int messageCount, java.util.Date lastPostDate)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long userId, int messageCount, java.util.Date lastPostDate) {
 		return getService()
 				   .updateStatsUser(groupId, userId, messageCount, lastPostDate);
 	}

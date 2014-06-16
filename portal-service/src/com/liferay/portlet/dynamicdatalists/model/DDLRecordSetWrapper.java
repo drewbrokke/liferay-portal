@@ -850,29 +850,25 @@ public class DDLRecordSetWrapper implements DDLRecordSet,
 
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure getDDMStructure()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecordSet.getDDMStructure();
 	}
 
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure getDDMStructure(
 		long formDDMTemplateId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecordSet.getDDMStructure(formDDMTemplateId);
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.dynamicdatalists.model.DDLRecord> getRecords()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.dynamicdatalists.model.DDLRecord> getRecords() {
 		return _ddlRecordSet.getRecords();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.storage.Fields> getRecordsFieldsList()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecordSet.getRecordsFieldsList();
 	}
 

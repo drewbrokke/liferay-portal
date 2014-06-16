@@ -353,75 +353,63 @@ public class SCLicenseLocalServiceUtil {
 	public static com.liferay.portlet.softwarecatalog.model.SCLicense addLicense(
 		java.lang.String name, java.lang.String url, boolean openSource,
 		boolean active, boolean recommended)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addLicense(name, url, openSource, active, recommended);
 	}
 
 	public static void deleteLicense(long licenseId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteLicense(licenseId);
 	}
 
 	public static void deleteLicense(
-		com.liferay.portlet.softwarecatalog.model.SCLicense license)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.softwarecatalog.model.SCLicense license) {
 		getService().deleteLicense(license);
 	}
 
 	public static com.liferay.portlet.softwarecatalog.model.SCLicense getLicense(
 		long licenseId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getLicense(licenseId);
 	}
 
-	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses() {
 		return getService().getLicenses();
 	}
 
 	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses(
-		boolean active, boolean recommended)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean active, boolean recommended) {
 		return getService().getLicenses(active, recommended);
 	}
 
 	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses(
-		boolean active, boolean recommended, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean active, boolean recommended, int start, int end) {
 		return getService().getLicenses(active, recommended, start, end);
 	}
 
 	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses(
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end) {
 		return getService().getLicenses(start, end);
 	}
 
-	public static int getLicensesCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getLicensesCount() {
 		return getService().getLicensesCount();
 	}
 
-	public static int getLicensesCount(boolean active, boolean recommended)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getLicensesCount(boolean active, boolean recommended) {
 		return getService().getLicensesCount(active, recommended);
 	}
 
 	public static java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getProductEntryLicenses(
-		long productEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long productEntryId) {
 		return getService().getProductEntryLicenses(productEntryId);
 	}
 
 	public static com.liferay.portlet.softwarecatalog.model.SCLicense updateLicense(
 		long licenseId, java.lang.String name, java.lang.String url,
 		boolean openSource, boolean active, boolean recommended)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateLicense(licenseId, name, url, openSource, active,
 			recommended);

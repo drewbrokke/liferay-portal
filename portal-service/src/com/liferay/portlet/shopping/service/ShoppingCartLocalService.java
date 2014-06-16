@@ -230,26 +230,21 @@ public interface ShoppingCartLocalService extends BaseLocalService,
 	*/
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
-	public void deleteGroupCarts(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteGroupCarts(long groupId);
 
-	public void deleteUserCarts(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteUserCarts(long userId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.shopping.model.ShoppingCart getCart(
 		long userId, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.Map<com.liferay.portlet.shopping.model.ShoppingCartItem, java.lang.Integer> getItems(
-		long groupId, java.lang.String itemIds)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, java.lang.String itemIds);
 
 	public com.liferay.portlet.shopping.model.ShoppingCart updateCart(
 		long userId, long groupId, java.lang.String itemIds,
 		java.lang.String couponCodes, int altShipping, boolean insure)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

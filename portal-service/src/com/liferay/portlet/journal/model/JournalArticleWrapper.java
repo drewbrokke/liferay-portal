@@ -1605,15 +1605,13 @@ public class JournalArticleWrapper implements JournalArticle,
 
 	@Override
 	public java.lang.String buildTreePath()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalArticle.buildTreePath();
 	}
 
 	@Override
 	public long getArticleImageId(java.lang.String elInstanceId,
-		java.lang.String elName, java.lang.String languageId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String elName, java.lang.String languageId) {
 		return _journalArticle.getArticleImageId(elInstanceId, elName,
 			languageId);
 	}
@@ -1626,15 +1624,13 @@ public class JournalArticleWrapper implements JournalArticle,
 
 	@Override
 	public com.liferay.portlet.journal.model.JournalArticleResource getArticleResource()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalArticle.getArticleResource();
 	}
 
 	@Override
 	public java.lang.String getArticleResourceUuid()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalArticle.getArticleResourceUuid();
 	}
 
@@ -1654,15 +1650,13 @@ public class JournalArticleWrapper implements JournalArticle,
 
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure getDDMStructure()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalArticle.getDDMStructure();
 	}
 
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMTemplate getDDMTemplate()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalArticle.getDDMTemplate();
 	}
 
@@ -1682,21 +1676,18 @@ public class JournalArticleWrapper implements JournalArticle,
 
 	@Override
 	public com.liferay.portlet.journal.model.JournalFolder getFolder()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalArticle.getFolder();
 	}
 
 	@Override
 	public java.lang.String getSmallImageType()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalArticle.getSmallImageType();
 	}
 
 	@Override
-	public boolean hasApprovedVersion()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public boolean hasApprovedVersion() {
 		return _journalArticle.hasApprovedVersion();
 	}
 

@@ -320,50 +320,42 @@ public class DDMContentLocalServiceUtil {
 		long userId, long groupId, java.lang.String name,
 		java.lang.String description, java.lang.String xml,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addContent(userId, groupId, name, description, xml,
 			serviceContext);
 	}
 
 	public static void deleteContent(
-		com.liferay.portlet.dynamicdatamapping.model.DDMContent content)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.dynamicdatamapping.model.DDMContent content) {
 		getService().deleteContent(content);
 	}
 
-	public static void deleteContents(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteContents(long groupId) {
 		getService().deleteContents(groupId);
 	}
 
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMContent getContent(
 		long contentId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getContent(contentId);
 	}
 
-	public static java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMContent> getContents()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMContent> getContents() {
 		return getService().getContents();
 	}
 
 	public static java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMContent> getContents(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return getService().getContents(groupId);
 	}
 
 	public static java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMContent> getContents(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, int start, int end) {
 		return getService().getContents(groupId, start, end);
 	}
 
-	public static int getContentsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getContentsCount(long groupId) {
 		return getService().getContentsCount(groupId);
 	}
 
@@ -371,8 +363,7 @@ public class DDMContentLocalServiceUtil {
 		long contentId, java.lang.String name, java.lang.String description,
 		java.lang.String xml,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateContent(contentId, name, description, xml,
 			serviceContext);

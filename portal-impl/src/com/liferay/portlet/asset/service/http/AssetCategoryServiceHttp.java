@@ -58,8 +58,7 @@ public class AssetCategoryServiceHttp {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		long vocabularyId, java.lang.String[] categoryProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"addCategory", _addCategoryParameterTypes0);
@@ -78,10 +77,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -97,8 +92,7 @@ public class AssetCategoryServiceHttp {
 	public static com.liferay.portlet.asset.model.AssetCategory addCategory(
 		HttpPrincipal httpPrincipal, java.lang.String title, long vocabularyId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"addCategory", _addCategoryParameterTypes1);
@@ -116,10 +110,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -134,8 +124,7 @@ public class AssetCategoryServiceHttp {
 
 	public static void deleteCategories(HttpPrincipal httpPrincipal,
 		long[] categoryIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"deleteCategories", _deleteCategoriesParameterTypes2);
@@ -151,10 +140,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 		}
@@ -168,8 +153,7 @@ public class AssetCategoryServiceHttp {
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> deleteCategories(
 		HttpPrincipal httpPrincipal, long[] categoryIds,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"deleteCategories", _deleteCategoriesParameterTypes3);
@@ -187,10 +171,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -205,8 +185,7 @@ public class AssetCategoryServiceHttp {
 
 	public static void deleteCategory(HttpPrincipal httpPrincipal,
 		long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"deleteCategory", _deleteCategoryParameterTypes4);
@@ -222,10 +201,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 		}
@@ -238,8 +213,7 @@ public class AssetCategoryServiceHttp {
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getCategories(
 		HttpPrincipal httpPrincipal, java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getCategories", _getCategoriesParameterTypes5);
@@ -257,10 +231,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -275,8 +245,7 @@ public class AssetCategoryServiceHttp {
 
 	public static com.liferay.portlet.asset.model.AssetCategory getCategory(
 		HttpPrincipal httpPrincipal, long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getCategory", _getCategoryParameterTypes6);
@@ -294,10 +263,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -312,8 +277,7 @@ public class AssetCategoryServiceHttp {
 
 	public static java.lang.String getCategoryPath(
 		HttpPrincipal httpPrincipal, long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getCategoryPath", _getCategoryPathParameterTypes7);
@@ -331,10 +295,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -349,8 +309,7 @@ public class AssetCategoryServiceHttp {
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getChildCategories(
 		HttpPrincipal httpPrincipal, long parentCategoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getChildCategories", _getChildCategoriesParameterTypes8);
@@ -368,10 +327,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -387,8 +342,7 @@ public class AssetCategoryServiceHttp {
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getChildCategories(
 		HttpPrincipal httpPrincipal, long parentCategoryId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getChildCategories", _getChildCategoriesParameterTypes9);
@@ -406,10 +360,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -425,8 +375,7 @@ public class AssetCategoryServiceHttp {
 	public static com.liferay.portal.kernel.json.JSONArray getJSONSearch(
 		HttpPrincipal httpPrincipal, long groupId, java.lang.String name,
 		long[] vocabularyIds, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getJSONSearch", _getJSONSearchParameterTypes10);
@@ -444,10 +393,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -463,8 +408,7 @@ public class AssetCategoryServiceHttp {
 	public static com.liferay.portal.kernel.json.JSONObject getJSONVocabularyCategories(
 		HttpPrincipal httpPrincipal, long vocabularyId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getJSONVocabularyCategories",
@@ -483,10 +427,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -503,8 +443,7 @@ public class AssetCategoryServiceHttp {
 		HttpPrincipal httpPrincipal, long groupId, java.lang.String name,
 		long vocabularyId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getJSONVocabularyCategories",
@@ -523,10 +462,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -542,8 +477,7 @@ public class AssetCategoryServiceHttp {
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getVocabularyCategories(
 		HttpPrincipal httpPrincipal, long vocabularyId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getVocabularyCategories",
@@ -562,10 +496,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -581,8 +511,7 @@ public class AssetCategoryServiceHttp {
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getVocabularyCategories(
 		HttpPrincipal httpPrincipal, long parentCategoryId, long vocabularyId,
 		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getVocabularyCategories",
@@ -601,10 +530,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -620,8 +545,7 @@ public class AssetCategoryServiceHttp {
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getVocabularyCategories(
 		HttpPrincipal httpPrincipal, long groupId, java.lang.String name,
 		long vocabularyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getVocabularyCategories",
@@ -636,10 +560,6 @@ public class AssetCategoryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -653,8 +573,7 @@ public class AssetCategoryServiceHttp {
 	}
 
 	public static int getVocabularyCategoriesCount(
-		HttpPrincipal httpPrincipal, long groupId, long vocabularyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		HttpPrincipal httpPrincipal, long groupId, long vocabularyId) {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getVocabularyCategoriesCount",
@@ -669,10 +588,6 @@ public class AssetCategoryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -687,8 +602,7 @@ public class AssetCategoryServiceHttp {
 
 	public static int getVocabularyCategoriesCount(
 		HttpPrincipal httpPrincipal, long groupId, java.lang.String name,
-		long vocabularyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long vocabularyId) {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getVocabularyCategoriesCount",
@@ -703,10 +617,6 @@ public class AssetCategoryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -722,8 +632,7 @@ public class AssetCategoryServiceHttp {
 	public static com.liferay.portlet.asset.model.AssetCategoryDisplay getVocabularyCategoriesDisplay(
 		HttpPrincipal httpPrincipal, long vocabularyId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getVocabularyCategoriesDisplay",
@@ -742,10 +651,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -762,8 +667,7 @@ public class AssetCategoryServiceHttp {
 		HttpPrincipal httpPrincipal, long groupId, java.lang.String name,
 		long vocabularyId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getVocabularyCategoriesDisplay",
@@ -782,10 +686,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -801,8 +701,7 @@ public class AssetCategoryServiceHttp {
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getVocabularyRootCategories(
 		HttpPrincipal httpPrincipal, long vocabularyId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getVocabularyRootCategories",
@@ -821,10 +720,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -839,8 +734,7 @@ public class AssetCategoryServiceHttp {
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> getVocabularyRootCategories(
 		HttpPrincipal httpPrincipal, long groupId, long vocabularyId,
-		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc) {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getVocabularyRootCategories",
@@ -855,10 +749,6 @@ public class AssetCategoryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -872,8 +762,7 @@ public class AssetCategoryServiceHttp {
 	}
 
 	public static int getVocabularyRootCategoriesCount(
-		HttpPrincipal httpPrincipal, long groupId, long vocabularyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		HttpPrincipal httpPrincipal, long groupId, long vocabularyId) {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"getVocabularyRootCategoriesCount",
@@ -888,10 +777,6 @@ public class AssetCategoryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -908,8 +793,7 @@ public class AssetCategoryServiceHttp {
 		HttpPrincipal httpPrincipal, long categoryId, long parentCategoryId,
 		long vocabularyId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"moveCategory", _moveCategoryParameterTypes23);
@@ -927,10 +811,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -946,8 +826,7 @@ public class AssetCategoryServiceHttp {
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategory> search(
 		HttpPrincipal httpPrincipal, long groupId, java.lang.String keywords,
 		long vocabularyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"search", _searchParameterTypes24);
@@ -961,10 +840,6 @@ public class AssetCategoryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -980,8 +855,7 @@ public class AssetCategoryServiceHttp {
 	public static com.liferay.portal.kernel.json.JSONArray search(
 		HttpPrincipal httpPrincipal, long groupId, java.lang.String name,
 		java.lang.String[] categoryProperties, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"search", _searchParameterTypes25);
@@ -999,10 +873,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -1018,8 +888,7 @@ public class AssetCategoryServiceHttp {
 	public static com.liferay.portal.kernel.json.JSONArray search(
 		HttpPrincipal httpPrincipal, long[] groupIds, java.lang.String name,
 		long[] vocabularyIds, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"search", _searchParameterTypes26);
@@ -1037,10 +906,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -1056,8 +921,7 @@ public class AssetCategoryServiceHttp {
 	public static com.liferay.portlet.asset.model.AssetCategoryDisplay searchCategoriesDisplay(
 		HttpPrincipal httpPrincipal, long groupId, java.lang.String title,
 		long vocabularyId, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"searchCategoriesDisplay",
@@ -1076,10 +940,6 @@ public class AssetCategoryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -1095,8 +955,7 @@ public class AssetCategoryServiceHttp {
 	public static com.liferay.portlet.asset.model.AssetCategoryDisplay searchCategoriesDisplay(
 		HttpPrincipal httpPrincipal, long[] groupIds, java.lang.String title,
 		long[] vocabularyIds, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"searchCategoriesDisplay",
@@ -1113,10 +972,6 @@ public class AssetCategoryServiceHttp {
 			catch (Exception e) {
 				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
-				}
-
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
 				}
 
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
@@ -1137,8 +992,7 @@ public class AssetCategoryServiceHttp {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		long vocabularyId, java.lang.String[] categoryProperties,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AssetCategoryServiceUtil.class,
 					"updateCategory", _updateCategoryParameterTypes29);
@@ -1155,10 +1009,6 @@ public class AssetCategoryServiceHttp {
 			catch (Exception e) {
 				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
-				}
-
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
 				}
 
 				throw new com.liferay.portal.kernel.exception.SystemException(e);

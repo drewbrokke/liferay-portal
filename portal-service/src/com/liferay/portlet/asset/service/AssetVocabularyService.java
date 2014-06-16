@@ -72,8 +72,7 @@ public interface AssetVocabularyService extends BaseService {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String settings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.asset.model.AssetVocabulary addVocabulary(
 		java.lang.String title,
@@ -81,14 +80,12 @@ public interface AssetVocabularyService extends BaseService {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String settings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.asset.model.AssetVocabulary addVocabulary(
 		java.lang.String title,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* @deprecated As of 6.2.0, Replaced by {@link #deleteVocabularies(long[],
@@ -96,18 +93,15 @@ public interface AssetVocabularyService extends BaseService {
 	*/
 	@Deprecated
 	public void deleteVocabularies(long[] vocabularyIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> deleteVocabularies(
 		long[] vocabularyIds,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteVocabulary(long vocabularyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* @deprecated As of 7.0.0, with no direct replacement
@@ -116,74 +110,65 @@ public interface AssetVocabularyService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getCompanyVocabularies(
 		long companyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupsVocabularies(
-		long[] groupIds)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long[] groupIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupsVocabularies(
-		long[] groupIds, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long[] groupIds, java.lang.String className);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupsVocabularies(
+		long[] groupIds, java.lang.String className, long classTypePK);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupVocabularies(
 		long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupVocabularies(
 		long groupId, boolean createDefaultVocabulary)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupVocabularies(
 		long groupId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.OrderByComparator obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupVocabularies(
 		long groupId, java.lang.String name, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.OrderByComparator obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupVocabularies(
-		long[] groupIds)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long[] groupIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGroupVocabulariesCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getGroupVocabulariesCount(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGroupVocabulariesCount(long groupId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getGroupVocabulariesCount(long groupId, java.lang.String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGroupVocabulariesCount(long[] groupIds)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getGroupVocabulariesCount(long[] groupIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.asset.model.AssetVocabularyDisplay getGroupVocabulariesDisplay(
 		long groupId, java.lang.String name, int start, int end,
 		boolean addDefaultVocabulary,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.asset.model.AssetVocabularyDisplay getGroupVocabulariesDisplay(
 		long groupId, java.lang.String name, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* @deprecated As of 6.2.0, with no direct replacement
@@ -193,8 +178,7 @@ public interface AssetVocabularyService extends BaseService {
 	public com.liferay.portal.kernel.json.JSONObject getJSONGroupVocabularies(
 		long groupId, java.lang.String name, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* @deprecated As of 7.0.0, replaced by {@link
@@ -204,21 +188,18 @@ public interface AssetVocabularyService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getVocabularies(
 		long[] vocabularyIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.asset.model.AssetVocabulary getVocabulary(
 		long vocabularyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.asset.model.AssetVocabularyDisplay searchVocabulariesDisplay(
 		long groupId, java.lang.String title, int start, int end,
 		boolean addDefaultVocabulary)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* @deprecated As of 6.1.0, {@link #updateVocabulary(long, String, Map, Map,
@@ -231,8 +212,7 @@ public interface AssetVocabularyService extends BaseService {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String settings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.asset.model.AssetVocabulary updateVocabulary(
 		long vocabularyId, java.lang.String title,
@@ -240,6 +220,5 @@ public interface AssetVocabularyService extends BaseService {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String settings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

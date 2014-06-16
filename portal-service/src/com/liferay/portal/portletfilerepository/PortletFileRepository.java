@@ -93,14 +93,24 @@ public interface PortletFileRepository {
 
 	public Repository fetchPortletRepository(long groupId, String portletId);
 
+	public String getDownloadPortletFileEntryURL(
+		ThemeDisplay themeDisplay, FileEntry fileEntry, String queryString);
+
+	public String getDownloadPortletFileEntryURL(
+		ThemeDisplay themeDisplay, FileEntry fileEntry, String queryString,
+		boolean absoluteURL);
+
 	public List<FileEntry> getPortletFileEntries(long groupId, long folderId);
 
 	public List<FileEntry> getPortletFileEntries(
 		long groupId, long folderId, int status);
 
 	public List<FileEntry> getPortletFileEntries(
-			long groupId, long folderId, int status, int start, int end,
-			OrderByComparator obc);
+		long groupId, long folderId, int status, int start, int end,
+		OrderByComparator obc);
+
+	public List<FileEntry> getPortletFileEntries(
+		long groupId, long folderId, OrderByComparator obc);
 
 	public int getPortletFileEntriesCount(long groupId, long folderId);
 

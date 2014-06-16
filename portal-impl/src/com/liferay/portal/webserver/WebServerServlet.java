@@ -1048,9 +1048,18 @@ public class WebServerServlet extends HttpServlet {
 				contentType);
 		}
 		else {
-			ServletResponseUtil.sendFile(
-				request, response, fileName, inputStream, contentLength,
-				contentType);
+			boolean download = ParamUtil.getBoolean(request, "download");
+
+			if (download) {
+				ServletResponseUtil.sendFile(
+					request, response, fileName, inputStream, contentLength,
+					contentType, HttpHeaders.CONTENT_DISPOSITION_ATTACHMENT);
+			}
+			else {
+				ServletResponseUtil.sendFile(
+					request, response, fileName, inputStream, contentLength,
+					contentType);
+			}
 		}
 	}
 
@@ -1194,9 +1203,19 @@ public class WebServerServlet extends HttpServlet {
 			fileName = TrashUtil.getOriginalTitle(fileName);
 		}
 
-		ServletResponseUtil.sendFile(
-			request, response, fileName, fileEntry.getContentStream(),
-			fileEntry.getSize(), fileEntry.getMimeType());
+		boolean download = ParamUtil.getBoolean(request, "download");
+
+		if (download) {
+			ServletResponseUtil.sendFile(
+				request, response, fileName, fileEntry.getContentStream(),
+				fileEntry.getSize(), fileEntry.getMimeType(),
+				HttpHeaders.CONTENT_DISPOSITION_ATTACHMENT);
+		}
+		else {
+			ServletResponseUtil.sendFile(
+				request, response, fileName, fileEntry.getContentStream(),
+				fileEntry.getSize(), fileEntry.getMimeType());
+		}
 	}
 
 	protected void writeImage(

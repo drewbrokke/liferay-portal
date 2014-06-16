@@ -233,36 +233,29 @@ public interface WikiPageResourceLocalService extends BaseLocalService,
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
 	public com.liferay.portlet.wiki.model.WikiPageResource addPageResource(
-		long nodeId, java.lang.String title)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long nodeId, java.lang.String title);
 
 	public void deletePageResource(long nodeId, java.lang.String title)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.wiki.model.WikiPageResource fetchPageResource(
-		long nodeId, java.lang.String title)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long nodeId, java.lang.String title);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.wiki.model.WikiPageResource fetchPageResource(
-		java.lang.String uuid)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String uuid);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.wiki.model.WikiPageResource getPageResource(
 		long pageResourcePrimKey)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.wiki.model.WikiPageResource getPageResource(
 		long nodeId, java.lang.String title)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public long getPageResourcePrimKey(long nodeId, java.lang.String title)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public long getPageResourcePrimKey(long nodeId, java.lang.String title);
 }

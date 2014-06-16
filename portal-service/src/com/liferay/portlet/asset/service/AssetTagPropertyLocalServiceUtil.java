@@ -269,12 +269,10 @@ public class AssetTagPropertyLocalServiceUtil {
 	* @return the created asset tag property
 	* @throws PortalException if a user with the primary key could not be
 	found, or if the key or value were invalid
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.asset.model.AssetTagProperty addTagProperty(
 		long userId, long tagId, java.lang.String key, java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().addTagProperty(userId, tagId, key, value);
 	}
 
@@ -282,10 +280,8 @@ public class AssetTagPropertyLocalServiceUtil {
 	* Deletes the asset tag property with the specified tag ID.
 	*
 	* @param tagId the primary key of the tag
-	* @throws SystemException if a system exception occurred
 	*/
-	public static void deleteTagProperties(long tagId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteTagProperties(long tagId) {
 		getService().deleteTagProperties(tagId);
 	}
 
@@ -293,11 +289,9 @@ public class AssetTagPropertyLocalServiceUtil {
 	* Deletes the asset tag property instance.
 	*
 	* @param tagProperty the asset tag property instance
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteTagProperty(
-		com.liferay.portlet.asset.model.AssetTagProperty tagProperty)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.asset.model.AssetTagProperty tagProperty) {
 		getService().deleteTagProperty(tagProperty);
 	}
 
@@ -307,11 +301,9 @@ public class AssetTagPropertyLocalServiceUtil {
 	* @param tagPropertyId the primary key of the asset tag property instance
 	* @throws PortalException if an asset tag property with the primary key
 	could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteTagProperty(long tagPropertyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteTagProperty(tagPropertyId);
 	}
 
@@ -319,10 +311,8 @@ public class AssetTagPropertyLocalServiceUtil {
 	* Returns all the asset tag property instances.
 	*
 	* @return the asset tag property instances
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.portlet.asset.model.AssetTagProperty> getTagProperties()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static java.util.List<com.liferay.portlet.asset.model.AssetTagProperty> getTagProperties() {
 		return getService().getTagProperties();
 	}
 
@@ -331,10 +321,9 @@ public class AssetTagPropertyLocalServiceUtil {
 	*
 	* @param tagId the primary key of the tag
 	* @return the matching asset tag properties
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.asset.model.AssetTagProperty> getTagProperties(
-		long tagId) throws com.liferay.portal.kernel.exception.SystemException {
+		long tagId) {
 		return getService().getTagProperties(tagId);
 	}
 
@@ -345,12 +334,10 @@ public class AssetTagPropertyLocalServiceUtil {
 	* @return the matching asset tag property
 	* @throws PortalException if an asset tag property with the primary key
 	could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.asset.model.AssetTagProperty getTagProperty(
 		long tagPropertyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getTagProperty(tagPropertyId);
 	}
 
@@ -362,12 +349,10 @@ public class AssetTagPropertyLocalServiceUtil {
 	* @return the matching asset tag property
 	* @throws PortalException if an asset tag property with the tag ID and key
 	could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.asset.model.AssetTagProperty getTagProperty(
 		long tagId, java.lang.String key)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getTagProperty(tagId, key);
 	}
 
@@ -376,10 +361,8 @@ public class AssetTagPropertyLocalServiceUtil {
 	*
 	* @param groupId the primary key of the group
 	* @return the matching asset tag property keys
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.lang.String[] getTagPropertyKeys(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static java.lang.String[] getTagPropertyKeys(long groupId) {
 		return getService().getTagPropertyKeys(groupId);
 	}
 
@@ -389,11 +372,9 @@ public class AssetTagPropertyLocalServiceUtil {
 	* @param groupId the primary key of the group
 	* @param key the key that refers to some value
 	* @return the matching asset tag properties
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.asset.model.AssetTagProperty> getTagPropertyValues(
-		long groupId, java.lang.String key)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String key) {
 		return getService().getTagPropertyValues(groupId, key);
 	}
 
@@ -406,12 +387,10 @@ public class AssetTagPropertyLocalServiceUtil {
 	* @return the updated asset tag property
 	* @throws PortalException if an asset tag property with the primary key
 	could not be found, or if the key or value were invalid
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.asset.model.AssetTagProperty updateTagProperty(
 		long tagPropertyId, java.lang.String key, java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().updateTagProperty(tagPropertyId, key, value);
 	}
 

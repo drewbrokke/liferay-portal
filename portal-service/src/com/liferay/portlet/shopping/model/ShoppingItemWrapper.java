@@ -1225,8 +1225,7 @@ public class ShoppingItemWrapper implements ShoppingItem,
 
 	@Override
 	public java.util.List<com.liferay.portlet.shopping.model.ShoppingItemPrice> getItemPrices()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _shoppingItem.getItemPrices();
 	}
 

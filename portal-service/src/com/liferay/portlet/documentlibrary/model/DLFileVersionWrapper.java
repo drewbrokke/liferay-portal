@@ -1023,15 +1023,13 @@ public class DLFileVersionWrapper implements DLFileVersion,
 
 	@Override
 	public java.lang.String buildTreePath()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileVersion.buildTreePath();
 	}
 
 	@Override
 	public java.io.InputStream getContentStream(boolean incrementCounter)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileVersion.getContentStream(incrementCounter);
 	}
 
@@ -1042,15 +1040,13 @@ public class DLFileVersionWrapper implements DLFileVersion,
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileEntry getFileEntry()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileVersion.getFileEntry();
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder getFolder()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFileVersion.getFolder();
 	}
 

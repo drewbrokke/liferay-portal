@@ -231,23 +231,18 @@ public interface AnnouncementsFlagLocalService extends BaseLocalService,
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
 	public com.liferay.portlet.announcements.model.AnnouncementsFlag addFlag(
-		long userId, long entryId, int value)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long userId, long entryId, int value);
 
 	public void deleteFlag(
-		com.liferay.portlet.announcements.model.AnnouncementsFlag flag)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.announcements.model.AnnouncementsFlag flag);
 
 	public void deleteFlag(long flagId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteFlags(long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteFlags(long entryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.announcements.model.AnnouncementsFlag getFlag(
 		long userId, long entryId, int value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

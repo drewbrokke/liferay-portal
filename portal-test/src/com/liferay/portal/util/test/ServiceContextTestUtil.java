@@ -16,6 +16,7 @@ package com.liferay.portal.util.test;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.theme.ThemeDisplay;
 
 /**
  * @author Manuel de la Peña
@@ -40,6 +41,12 @@ public class ServiceContextTestUtil {
 		serviceContext.setAddGroupPermissions(true);
 		serviceContext.setAddGuestPermissions(true);
 		serviceContext.setCompanyId(TestPropsValues.getCompanyId());
+
+		ThemeDisplay themeDisplay = ThemeDisplayTestUtil.getThemeDisplay(
+			serviceContext.getCompanyId());
+
+		serviceContext.setRequest(themeDisplay.getRequest());
+
 		serviceContext.setScopeGroupId(groupId);
 		serviceContext.setUserId(userId);
 

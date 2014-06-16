@@ -58,8 +58,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		com.liferay.portal.kernel.repository.model.FileEntry fileEntry,
 		com.liferay.portal.kernel.repository.model.FileVersion fileVersion,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.addFileEntry(userId, fileEntry, fileVersion,
 			serviceContext);
 	}
@@ -68,8 +67,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	public void addFolder(long userId,
 		com.liferay.portal.kernel.repository.model.Folder folder,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.addFolder(userId, folder, serviceContext);
 	}
 
@@ -80,8 +78,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		com.liferay.portal.kernel.repository.model.FileVersion destinationFileVersion,
 		com.liferay.portal.kernel.repository.model.FileVersion draftFileVersion,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.cancelCheckOut(userId, fileEntry,
 			sourceFileVersion, destinationFileVersion, draftFileVersion,
 			serviceContext);
@@ -91,47 +88,41 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	public void checkAssetEntry(long userId,
 		com.liferay.portal.kernel.repository.model.FileEntry fileEntry,
 		com.liferay.portal.kernel.repository.model.FileVersion fileVersion)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.checkAssetEntry(userId, fileEntry, fileVersion);
 	}
 
 	@Override
 	public void deleteFileEntry(
 		com.liferay.portal.kernel.repository.model.FileEntry fileEntry)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.deleteFileEntry(fileEntry);
 	}
 
 	@Override
 	public void deleteFolder(
 		com.liferay.portal.kernel.repository.model.Folder folder)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.deleteFolder(folder);
 	}
 
 	@Override
 	public void deleteRepositoryFileEntries(long repositoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.deleteRepositoryFileEntries(repositoryId);
 	}
 
 	@Override
 	public void getFileAsStream(long userId,
 		com.liferay.portal.kernel.repository.model.FileEntry fileEntry,
-		boolean incrementCounter)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean incrementCounter) {
 		_dlAppHelperLocalService.getFileAsStream(userId, fileEntry,
 			incrementCounter);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFileShortcut> getFileShortcuts(
-		long groupId, long folderId, boolean active, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long folderId, boolean active, int status) {
 		return _dlAppHelperLocalService.getFileShortcuts(groupId, folderId,
 			active, status);
 	}
@@ -143,16 +134,14 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	@Deprecated
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFileShortcut> getFileShortcuts(
-		long groupId, long folderId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long folderId, int status) {
 		return _dlAppHelperLocalService.getFileShortcuts(groupId, folderId,
 			status);
 	}
 
 	@Override
 	public int getFileShortcutsCount(long groupId, long folderId,
-		boolean active, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean active, int status) {
 		return _dlAppHelperLocalService.getFileShortcutsCount(groupId,
 			folderId, active, status);
 	}
@@ -163,8 +152,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	*/
 	@Deprecated
 	@Override
-	public int getFileShortcutsCount(long groupId, long folderId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getFileShortcutsCount(long groupId, long folderId, int status) {
 		return _dlAppHelperLocalService.getFileShortcutsCount(groupId,
 			folderId, status);
 	}
@@ -178,8 +166,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	public void moveDependentsToTrash(
 		java.util.List<java.lang.Object> dlFileEntriesAndDLFolders,
 		long trashEntryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.moveDependentsToTrash(dlFileEntriesAndDLFolders,
 			trashEntryId);
 	}
@@ -187,8 +174,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	@Override
 	public void moveFileEntry(
 		com.liferay.portal.kernel.repository.model.FileEntry fileEntry)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.moveFileEntry(fileEntry);
 	}
 
@@ -198,8 +184,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		com.liferay.portal.kernel.repository.model.FileEntry fileEntry,
 		long newFolderId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlAppHelperLocalService.moveFileEntryFromTrash(userId,
 			fileEntry, newFolderId, serviceContext);
 	}
@@ -211,14 +196,12 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	* @param fileEntry the file entry to be moved
 	* @return the moved file entry
 	* @throws PortalException if a user with the primary key could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portal.kernel.repository.model.FileEntry moveFileEntryToTrash(
 		long userId,
 		com.liferay.portal.kernel.repository.model.FileEntry fileEntry)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlAppHelperLocalService.moveFileEntryToTrash(userId, fileEntry);
 	}
 
@@ -228,8 +211,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		com.liferay.portlet.documentlibrary.model.DLFileShortcut dlFileShortcut,
 		long newFolderId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlAppHelperLocalService.moveFileShortcutFromTrash(userId,
 			dlFileShortcut, newFolderId, serviceContext);
 	}
@@ -241,22 +223,19 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	* @param dlFileShortcut the file shortcut to be moved
 	* @return the moved file shortcut
 	* @throws PortalException if a user with the primary key could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFileShortcut moveFileShortcutToTrash(
 		long userId,
 		com.liferay.portlet.documentlibrary.model.DLFileShortcut dlFileShortcut)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlAppHelperLocalService.moveFileShortcutToTrash(userId,
 			dlFileShortcut);
 	}
 
 	@Override
 	public void moveFolder(
-		com.liferay.portal.kernel.repository.model.Folder folder)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.repository.model.Folder folder) {
 		_dlAppHelperLocalService.moveFolder(folder);
 	}
 
@@ -265,8 +244,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		long userId, com.liferay.portal.kernel.repository.model.Folder folder,
 		long parentFolderId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlAppHelperLocalService.moveFolderFromTrash(userId, folder,
 			parentFolderId, serviceContext);
 	}
@@ -278,28 +256,24 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	* @param folder the folder to be moved
 	* @return the moved folder
 	* @throws PortalException if a user with the primary key could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portal.kernel.repository.model.Folder moveFolderToTrash(
 		long userId, com.liferay.portal.kernel.repository.model.Folder folder)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlAppHelperLocalService.moveFolderToTrash(userId, folder);
 	}
 
 	@Override
 	public void registerDLSyncEventCallback(java.lang.String event,
 		com.liferay.portal.kernel.repository.model.FileEntry fileEntry)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.registerDLSyncEventCallback(event, fileEntry);
 	}
 
 	@Override
 	public void registerDLSyncEventCallback(java.lang.String event,
-		com.liferay.portal.kernel.repository.model.Folder folder)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.repository.model.Folder folder) {
 		_dlAppHelperLocalService.registerDLSyncEventCallback(event, folder);
 	}
 
@@ -307,8 +281,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	public void restoreDependentsFromTrash(
 		java.util.List<java.lang.Object> dlFileEntriesAndDLFolders,
 		long trashEntryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.restoreDependentsFromTrash(dlFileEntriesAndDLFolders,
 			trashEntryId);
 	}
@@ -316,16 +289,14 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	@Override
 	public void restoreFileEntryFromTrash(long userId,
 		com.liferay.portal.kernel.repository.model.FileEntry fileEntry)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.restoreFileEntryFromTrash(userId, fileEntry);
 	}
 
 	@Override
 	public void restoreFileShortcutFromTrash(long userId,
 		com.liferay.portlet.documentlibrary.model.DLFileShortcut dlFileShortcut)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.restoreFileShortcutFromTrash(userId,
 			dlFileShortcut);
 	}
@@ -333,8 +304,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	@Override
 	public void restoreFolderFromTrash(long userId,
 		com.liferay.portal.kernel.repository.model.Folder folder)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.restoreFolderFromTrash(userId, folder);
 	}
 
@@ -343,8 +313,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		com.liferay.portal.kernel.repository.model.FileEntry fileEntry,
 		com.liferay.portal.kernel.repository.model.FileVersion fileVersion,
 		long assetClassPk)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlAppHelperLocalService.updateAsset(userId, fileEntry,
 			fileVersion, assetClassPk);
 	}
@@ -355,8 +324,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		com.liferay.portal.kernel.repository.model.FileVersion fileVersion,
 		long[] assetCategoryIds, java.lang.String[] assetTagNames,
 		long[] assetLinkEntryIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlAppHelperLocalService.updateAsset(userId, fileEntry,
 			fileVersion, assetCategoryIds, assetTagNames, assetLinkEntryIds);
 	}
@@ -366,8 +334,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		com.liferay.portal.kernel.repository.model.Folder folder,
 		long[] assetCategoryIds, java.lang.String[] assetTagNames,
 		long[] assetLinkEntryIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlAppHelperLocalService.updateAsset(userId, folder,
 			assetCategoryIds, assetTagNames, assetLinkEntryIds);
 	}
@@ -378,8 +345,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		com.liferay.portal.kernel.repository.model.FileVersion sourceFileVersion,
 		com.liferay.portal.kernel.repository.model.FileVersion destinationFileVersion,
 		long assetClassPk)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.updateFileEntry(userId, fileEntry,
 			sourceFileVersion, destinationFileVersion, assetClassPk);
 	}
@@ -390,8 +356,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		com.liferay.portal.kernel.repository.model.FileVersion sourceFileVersion,
 		com.liferay.portal.kernel.repository.model.FileVersion destinationFileVersion,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.updateFileEntry(userId, fileEntry,
 			sourceFileVersion, destinationFileVersion, serviceContext);
 	}
@@ -400,8 +365,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 	public void updateFolder(long userId,
 		com.liferay.portal.kernel.repository.model.Folder folder,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.updateFolder(userId, folder, serviceContext);
 	}
 
@@ -412,8 +376,7 @@ public class DLAppHelperLocalServiceWrapper implements DLAppHelperLocalService,
 		int oldStatus, int newStatus,
 		com.liferay.portal.service.ServiceContext serviceContext,
 		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlAppHelperLocalService.updateStatus(userId, fileEntry,
 			latestFileVersion, oldStatus, newStatus, serviceContext,
 			workflowContext);

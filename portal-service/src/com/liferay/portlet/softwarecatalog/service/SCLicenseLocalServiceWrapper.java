@@ -391,78 +391,67 @@ public class SCLicenseLocalServiceWrapper implements SCLicenseLocalService,
 	public com.liferay.portlet.softwarecatalog.model.SCLicense addLicense(
 		java.lang.String name, java.lang.String url, boolean openSource,
 		boolean active, boolean recommended)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _scLicenseLocalService.addLicense(name, url, openSource, active,
 			recommended);
 	}
 
 	@Override
 	public void deleteLicense(long licenseId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_scLicenseLocalService.deleteLicense(licenseId);
 	}
 
 	@Override
 	public void deleteLicense(
-		com.liferay.portlet.softwarecatalog.model.SCLicense license)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.softwarecatalog.model.SCLicense license) {
 		_scLicenseLocalService.deleteLicense(license);
 	}
 
 	@Override
 	public com.liferay.portlet.softwarecatalog.model.SCLicense getLicense(
 		long licenseId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _scLicenseLocalService.getLicense(licenseId);
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses() {
 		return _scLicenseLocalService.getLicenses();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses(
-		boolean active, boolean recommended)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean active, boolean recommended) {
 		return _scLicenseLocalService.getLicenses(active, recommended);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses(
-		boolean active, boolean recommended, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean active, boolean recommended, int start, int end) {
 		return _scLicenseLocalService.getLicenses(active, recommended, start,
 			end);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getLicenses(
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end) {
 		return _scLicenseLocalService.getLicenses(start, end);
 	}
 
 	@Override
-	public int getLicensesCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getLicensesCount() {
 		return _scLicenseLocalService.getLicensesCount();
 	}
 
 	@Override
-	public int getLicensesCount(boolean active, boolean recommended)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getLicensesCount(boolean active, boolean recommended) {
 		return _scLicenseLocalService.getLicensesCount(active, recommended);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCLicense> getProductEntryLicenses(
-		long productEntryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long productEntryId) {
 		return _scLicenseLocalService.getProductEntryLicenses(productEntryId);
 	}
 
@@ -470,8 +459,7 @@ public class SCLicenseLocalServiceWrapper implements SCLicenseLocalService,
 	public com.liferay.portlet.softwarecatalog.model.SCLicense updateLicense(
 		long licenseId, java.lang.String name, java.lang.String url,
 		boolean openSource, boolean active, boolean recommended)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _scLicenseLocalService.updateLicense(licenseId, name, url,
 			openSource, active, recommended);
 	}

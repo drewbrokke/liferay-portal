@@ -277,66 +277,57 @@ public class DDMStructureLinkLocalServiceWrapper
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink addStructureLink(
 		long classNameId, long classPK, long structureId,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.service.ServiceContext serviceContext) {
 		return _ddmStructureLinkLocalService.addStructureLink(classNameId,
 			classPK, structureId, serviceContext);
 	}
 
 	@Override
 	public void deleteClassStructureLink(long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_ddmStructureLinkLocalService.deleteClassStructureLink(classPK);
 	}
 
 	@Override
 	public void deleteStructureLink(
-		com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink structureLink)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink structureLink) {
 		_ddmStructureLinkLocalService.deleteStructureLink(structureLink);
 	}
 
 	@Override
 	public void deleteStructureLink(long structureLinkId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_ddmStructureLinkLocalService.deleteStructureLink(structureLinkId);
 	}
 
 	@Override
-	public void deleteStructureStructureLinks(long structureId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteStructureStructureLinks(long structureId) {
 		_ddmStructureLinkLocalService.deleteStructureStructureLinks(structureId);
 	}
 
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink getClassStructureLink(
 		long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureLinkLocalService.getClassStructureLink(classPK);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink> getClassStructureLinks(
-		long classNameId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classNameId) {
 		return _ddmStructureLinkLocalService.getClassStructureLinks(classNameId);
 	}
 
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink getStructureLink(
 		long structureLinkId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureLinkLocalService.getStructureLink(structureLinkId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink> getStructureLinks(
-		long structureId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long structureId, int start, int end) {
 		return _ddmStructureLinkLocalService.getStructureLinks(structureId,
 			start, end);
 	}
@@ -344,8 +335,7 @@ public class DDMStructureLinkLocalServiceWrapper
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink updateStructureLink(
 		long structureLinkId, long classNameId, long classPK, long structureId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStructureLinkLocalService.updateStructureLink(structureLinkId,
 			classNameId, classPK, structureId);
 	}

@@ -61,44 +61,38 @@ public class ExpandoColumnServiceUtil {
 
 	public static com.liferay.portlet.expando.model.ExpandoColumn addColumn(
 		long tableId, java.lang.String name, int type)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().addColumn(tableId, name, type);
 	}
 
 	public static com.liferay.portlet.expando.model.ExpandoColumn addColumn(
 		long tableId, java.lang.String name, int type,
 		java.lang.Object defaultData)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().addColumn(tableId, name, type, defaultData);
 	}
 
 	public static void deleteColumn(long columnId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteColumn(columnId);
 	}
 
 	public static com.liferay.portlet.expando.model.ExpandoColumn updateColumn(
 		long columnId, java.lang.String name, int type)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().updateColumn(columnId, name, type);
 	}
 
 	public static com.liferay.portlet.expando.model.ExpandoColumn updateColumn(
 		long columnId, java.lang.String name, int type,
 		java.lang.Object defaultData)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().updateColumn(columnId, name, type, defaultData);
 	}
 
 	public static com.liferay.portlet.expando.model.ExpandoColumn updateTypeSettings(
 		long columnId, java.lang.String typeSettings)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().updateTypeSettings(columnId, typeSettings);
 	}
 

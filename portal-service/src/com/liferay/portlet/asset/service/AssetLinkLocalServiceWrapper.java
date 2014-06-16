@@ -284,13 +284,11 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	ordering of links
 	* @return the asset link
 	* @throws PortalException if the user could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.portlet.asset.model.AssetLink addLink(long userId,
 		long entryId1, long entryId2, int type, int weight)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _assetLinkLocalService.addLink(userId, entryId1, entryId2, type,
 			weight);
 	}
@@ -299,11 +297,9 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	* Deletes the asset link.
 	*
 	* @param link the asset link
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	public void deleteLink(com.liferay.portlet.asset.model.AssetLink link)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteLink(com.liferay.portlet.asset.model.AssetLink link) {
 		_assetLinkLocalService.deleteLink(link);
 	}
 
@@ -312,12 +308,10 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	*
 	* @param linkId the primary key of the asset link
 	* @throws PortalException if the asset link could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public void deleteLink(long linkId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_assetLinkLocalService.deleteLink(linkId);
 	}
 
@@ -325,11 +319,9 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	* Deletes all links associated with the asset entry.
 	*
 	* @param entryId the primary key of the asset entry
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	public void deleteLinks(long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteLinks(long entryId) {
 		_assetLinkLocalService.deleteLinks(entryId);
 	}
 
@@ -338,11 +330,9 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	*
 	* @param entryId1 the primary key of the first asset entry
 	* @param entryId2 the primary key of the second asset entry
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	public void deleteLinks(long entryId1, long entryId2)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteLinks(long entryId1, long entryId2) {
 		_assetLinkLocalService.deleteLinks(entryId1, entryId2);
 	}
 
@@ -351,12 +341,10 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	*
 	* @param entryId the primary key of the asset entry
 	* @return the asset links whose first entry ID is the given entry ID
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.asset.model.AssetLink> getDirectLinks(
-		long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId) {
 		return _assetLinkLocalService.getDirectLinks(entryId);
 	}
 
@@ -373,12 +361,10 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	{@link com.liferay.portlet.asset.model.AssetLinkConstants}
 	* @return the asset links of the given link type whose first entry ID is
 	the given entry ID
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.asset.model.AssetLink> getDirectLinks(
-		long entryId, int typeId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId, int typeId) {
 		return _assetLinkLocalService.getDirectLinks(entryId, typeId);
 	}
 
@@ -389,12 +375,10 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	* @param entryId the primary key of the asset entry
 	* @return the asset links whose first or second entry ID is the given entry
 	ID
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.asset.model.AssetLink> getLinks(
-		long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId) {
 		return _assetLinkLocalService.getLinks(entryId);
 	}
 
@@ -411,12 +395,10 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	{@link com.liferay.portlet.asset.model.AssetLinkConstants}
 	* @return the asset links of the given link type whose first or second
 	entry ID is the given entry ID
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.asset.model.AssetLink> getLinks(
-		long entryId, int typeId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId, int typeId) {
 		return _assetLinkLocalService.getLinks(entryId, typeId);
 	}
 
@@ -433,20 +415,17 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	{@link com.liferay.portlet.asset.model.AssetLinkConstants}
 	* @return the asset links of the given link type whose second entry ID is
 	the given entry ID
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.portlet.asset.model.AssetLink> getReverseLinks(
-		long entryId, int typeId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId, int typeId) {
 		return _assetLinkLocalService.getReverseLinks(entryId, typeId);
 	}
 
 	@Override
 	public com.liferay.portlet.asset.model.AssetLink updateLink(long userId,
 		long entryId1, long entryId2, int typeId, int weight)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _assetLinkLocalService.updateLink(userId, entryId1, entryId2,
 			typeId, weight);
 	}
@@ -475,13 +454,10 @@ public class AssetLinkLocalServiceWrapper implements AssetLinkLocalService,
 	which is a unidirectional relationship. For more information see
 	{@link com.liferay.portlet.asset.model.AssetLinkConstants}
 	* @throws PortalException if the user could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public void updateLinks(long userId, long entryId, long[] linkEntryIds,
-		int typeId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		int typeId) throws com.liferay.portal.kernel.exception.PortalException {
 		_assetLinkLocalService.updateLinks(userId, entryId, linkEntryIds, typeId);
 	}
 

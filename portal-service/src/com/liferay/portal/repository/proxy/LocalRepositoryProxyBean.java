@@ -16,6 +16,7 @@ package com.liferay.portal.repository.proxy;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.repository.LocalRepository;
+import com.liferay.portal.kernel.repository.capabilities.Capability;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.repository.model.Folder;
@@ -97,6 +98,11 @@ public class LocalRepositoryProxyBean
 	}
 
 	@Override
+	public <T extends Capability> T getCapability(Class<T> capabilityClass) {
+		return _localRepository.getCapability(capabilityClass);
+	}
+
+	@Override
 	public FileEntry getFileEntry(long fileEntryId) throws PortalException {
 		FileEntry fileEntry = _localRepository.getFileEntry(fileEntryId);
 
@@ -155,6 +161,13 @@ public class LocalRepositoryProxyBean
 	@Override
 	public long getRepositoryId() {
 		return _localRepository.getRepositoryId();
+	}
+
+	@Override
+	public <T extends Capability> boolean isCapabilityProvided(
+		Class<T> capabilityClass) {
+
+		return _localRepository.isCapabilityProvided(capabilityClass);
 	}
 
 	@Override

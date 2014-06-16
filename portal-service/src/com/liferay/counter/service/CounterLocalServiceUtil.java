@@ -255,38 +255,31 @@ public class CounterLocalServiceUtil {
 		getService().setBeanIdentifier(beanIdentifier);
 	}
 
-	public static java.util.List<java.lang.String> getNames()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static java.util.List<java.lang.String> getNames() {
 		return getService().getNames();
 	}
 
-	public static long increment()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static long increment() {
 		return getService().increment();
 	}
 
-	public static long increment(java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static long increment(java.lang.String name) {
 		return getService().increment(name);
 	}
 
-	public static long increment(java.lang.String name, int size)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static long increment(java.lang.String name, int size) {
 		return getService().increment(name, size);
 	}
 
-	public static void rename(java.lang.String oldName, java.lang.String newName)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void rename(java.lang.String oldName, java.lang.String newName) {
 		getService().rename(oldName, newName);
 	}
 
-	public static void reset(java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void reset(java.lang.String name) {
 		getService().reset(name);
 	}
 
-	public static void reset(java.lang.String name, long size)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void reset(java.lang.String name, long size) {
 		getService().reset(name, size);
 	}
 

@@ -277,50 +277,43 @@ public class SocialActivitySettingLocalServiceWrapper
 
 	@Override
 	public void deleteActivitySetting(long groupId, java.lang.String className,
-		long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classPK) {
 		_socialActivitySettingLocalService.deleteActivitySetting(groupId,
 			className, classPK);
 	}
 
 	@Override
-	public void deleteActivitySettings(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteActivitySettings(long groupId) {
 		_socialActivitySettingLocalService.deleteActivitySettings(groupId);
 	}
 
 	@Override
 	public com.liferay.portlet.social.model.SocialActivityDefinition getActivityDefinition(
-		long groupId, java.lang.String className, int activityType)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String className, int activityType) {
 		return _socialActivitySettingLocalService.getActivityDefinition(groupId,
 			className, activityType);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialActivityDefinition> getActivityDefinitions(
-		long groupId, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String className) {
 		return _socialActivitySettingLocalService.getActivityDefinitions(groupId,
 			className);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.social.model.SocialActivitySetting> getActivitySettings(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return _socialActivitySettingLocalService.getActivitySettings(groupId);
 	}
 
 	@Override
-	public boolean isEnabled(long groupId, long classNameId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public boolean isEnabled(long groupId, long classNameId) {
 		return _socialActivitySettingLocalService.isEnabled(groupId, classNameId);
 	}
 
 	@Override
-	public boolean isEnabled(long groupId, long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public boolean isEnabled(long groupId, long classNameId, long classPK) {
 		return _socialActivitySettingLocalService.isEnabled(groupId,
 			classNameId, classPK);
 	}
@@ -328,8 +321,7 @@ public class SocialActivitySettingLocalServiceWrapper
 	@Override
 	public void updateActivitySetting(long groupId, java.lang.String className,
 		boolean enabled)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_socialActivitySettingLocalService.updateActivitySetting(groupId,
 			className, enabled);
 	}
@@ -338,8 +330,7 @@ public class SocialActivitySettingLocalServiceWrapper
 	public void updateActivitySetting(long groupId, java.lang.String className,
 		int activityType,
 		com.liferay.portlet.social.model.SocialActivityCounterDefinition activityCounterDefinition)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_socialActivitySettingLocalService.updateActivitySetting(groupId,
 			className, activityType, activityCounterDefinition);
 	}
@@ -347,8 +338,7 @@ public class SocialActivitySettingLocalServiceWrapper
 	@Override
 	public void updateActivitySetting(long groupId, java.lang.String className,
 		long classPK, boolean enabled)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_socialActivitySettingLocalService.updateActivitySetting(groupId,
 			className, classPK, enabled);
 	}
@@ -357,8 +347,7 @@ public class SocialActivitySettingLocalServiceWrapper
 	public void updateActivitySettings(long groupId,
 		java.lang.String className, int activityType,
 		java.util.List<com.liferay.portlet.social.model.SocialActivityCounterDefinition> activityCounterDefinitions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_socialActivitySettingLocalService.updateActivitySettings(groupId,
 			className, activityType, activityCounterDefinitions);
 	}

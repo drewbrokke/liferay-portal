@@ -320,8 +320,7 @@ public class AnnouncementsEntryLocalServiceWrapper
 		int expirationDateMonth, int expirationDateDay, int expirationDateYear,
 		int expirationDateHour, int expirationDateMinute, int priority,
 		boolean alert)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _announcementsEntryLocalService.addEntry(userId, classNameId,
 			classPK, title, content, url, type, displayDateMonth,
 			displayDateDay, displayDateYear, displayDateHour,
@@ -344,8 +343,7 @@ public class AnnouncementsEntryLocalServiceWrapper
 		int displayDateHour, int displayDateMinute, int expirationDateMonth,
 		int expirationDateDay, int expirationDateYear, int expirationDateHour,
 		int expirationDateMinute, int priority, boolean alert)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _announcementsEntryLocalService.addEntry(userId, classNameId,
 			classPK, title, content, url, type, displayDateMonth,
 			displayDateDay, displayDateYear, displayDateHour,
@@ -356,31 +354,27 @@ public class AnnouncementsEntryLocalServiceWrapper
 
 	@Override
 	public void checkEntries()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_announcementsEntryLocalService.checkEntries();
 	}
 
 	@Override
 	public void deleteEntry(
 		com.liferay.portlet.announcements.model.AnnouncementsEntry entry)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_announcementsEntryLocalService.deleteEntry(entry);
 	}
 
 	@Override
 	public void deleteEntry(long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_announcementsEntryLocalService.deleteEntry(entryId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.announcements.model.AnnouncementsEntry> getEntries(
 		long userId, java.util.LinkedHashMap<java.lang.Long, long[]> scopes,
-		boolean alert, int flagValue, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean alert, int flagValue, int start, int end) {
 		return _announcementsEntryLocalService.getEntries(userId, scopes,
 			alert, flagValue, start, end);
 	}
@@ -392,7 +386,7 @@ public class AnnouncementsEntryLocalServiceWrapper
 		int displayDateHour, int displayDateMinute, int expirationDateMonth,
 		int expirationDateDay, int expirationDateYear, int expirationDateHour,
 		int expirationDateMinute, boolean alert, int flagValue, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		int end) {
 		return _announcementsEntryLocalService.getEntries(userId, scopes,
 			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
 			displayDateMinute, expirationDateMonth, expirationDateDay,
@@ -402,8 +396,7 @@ public class AnnouncementsEntryLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.portlet.announcements.model.AnnouncementsEntry> getEntries(
-		long classNameId, long classPK, boolean alert, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classNameId, long classPK, boolean alert, int start, int end) {
 		return _announcementsEntryLocalService.getEntries(classNameId, classPK,
 			alert, start, end);
 	}
@@ -415,7 +408,7 @@ public class AnnouncementsEntryLocalServiceWrapper
 		int displayDateMinute, int expirationDateMonth, int expirationDateDay,
 		int expirationDateYear, int expirationDateHour,
 		int expirationDateMinute, boolean alert, int flagValue, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		int end) {
 		return _announcementsEntryLocalService.getEntries(userId, classNameId,
 			classPKs, displayDateMonth, displayDateDay, displayDateYear,
 			displayDateHour, displayDateMinute, expirationDateMonth,
@@ -426,8 +419,7 @@ public class AnnouncementsEntryLocalServiceWrapper
 	@Override
 	public int getEntriesCount(long userId,
 		java.util.LinkedHashMap<java.lang.Long, long[]> scopes, boolean alert,
-		int flagValue)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int flagValue) {
 		return _announcementsEntryLocalService.getEntriesCount(userId, scopes,
 			alert, flagValue);
 	}
@@ -438,8 +430,7 @@ public class AnnouncementsEntryLocalServiceWrapper
 		int displayDateMonth, int displayDateDay, int displayDateYear,
 		int displayDateHour, int displayDateMinute, int expirationDateMonth,
 		int expirationDateDay, int expirationDateYear, int expirationDateHour,
-		int expirationDateMinute, boolean alert, int flagValue)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int expirationDateMinute, boolean alert, int flagValue) {
 		return _announcementsEntryLocalService.getEntriesCount(userId, scopes,
 			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
 			displayDateMinute, expirationDateMonth, expirationDateDay,
@@ -448,16 +439,14 @@ public class AnnouncementsEntryLocalServiceWrapper
 	}
 
 	@Override
-	public int getEntriesCount(long classNameId, long classPK, boolean alert)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getEntriesCount(long classNameId, long classPK, boolean alert) {
 		return _announcementsEntryLocalService.getEntriesCount(classNameId,
 			classPK, alert);
 	}
 
 	@Override
 	public int getEntriesCount(long userId, long classNameId, long[] classPKs,
-		boolean alert, int flagValue)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean alert, int flagValue) {
 		return _announcementsEntryLocalService.getEntriesCount(userId,
 			classNameId, classPKs, alert, flagValue);
 	}
@@ -467,8 +456,7 @@ public class AnnouncementsEntryLocalServiceWrapper
 		int displayDateMonth, int displayDateDay, int displayDateYear,
 		int displayDateHour, int displayDateMinute, int expirationDateMonth,
 		int expirationDateDay, int expirationDateYear, int expirationDateHour,
-		int expirationDateMinute, boolean alert, int flagValue)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int expirationDateMinute, boolean alert, int flagValue) {
 		return _announcementsEntryLocalService.getEntriesCount(userId,
 			classNameId, classPKs, displayDateMonth, displayDateDay,
 			displayDateYear, displayDateHour, displayDateMinute,
@@ -479,21 +467,18 @@ public class AnnouncementsEntryLocalServiceWrapper
 	@Override
 	public com.liferay.portlet.announcements.model.AnnouncementsEntry getEntry(
 		long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _announcementsEntryLocalService.getEntry(entryId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.announcements.model.AnnouncementsEntry> getUserEntries(
-		long userId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int start, int end) {
 		return _announcementsEntryLocalService.getUserEntries(userId, start, end);
 	}
 
 	@Override
-	public int getUserEntriesCount(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getUserEntriesCount(long userId) {
 		return _announcementsEntryLocalService.getUserEntriesCount(userId);
 	}
 
@@ -505,8 +490,7 @@ public class AnnouncementsEntryLocalServiceWrapper
 		int displayDateHour, int displayDateMinute, boolean displayImmediately,
 		int expirationDateMonth, int expirationDateDay, int expirationDateYear,
 		int expirationDateHour, int expirationDateMinute, int priority)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _announcementsEntryLocalService.updateEntry(userId, entryId,
 			title, content, url, type, displayDateMonth, displayDateDay,
 			displayDateYear, displayDateHour, displayDateMinute,

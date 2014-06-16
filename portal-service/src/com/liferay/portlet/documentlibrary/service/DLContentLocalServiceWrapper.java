@@ -280,8 +280,7 @@ public class DLContentLocalServiceWrapper implements DLContentLocalService,
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLContent addContent(
 		long companyId, long repositoryId, java.lang.String path,
-		java.lang.String version, byte[] bytes)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String version, byte[] bytes) {
 		return _dlContentLocalService.addContent(companyId, repositoryId, path,
 			version, bytes);
 	}
@@ -289,8 +288,7 @@ public class DLContentLocalServiceWrapper implements DLContentLocalService,
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLContent addContent(
 		long companyId, long repositoryId, java.lang.String path,
-		java.lang.String version, java.io.InputStream inputStream, long size)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String version, java.io.InputStream inputStream, long size) {
 		return _dlContentLocalService.addContent(companyId, repositoryId, path,
 			version, inputStream, size);
 	}
@@ -298,23 +296,20 @@ public class DLContentLocalServiceWrapper implements DLContentLocalService,
 	@Override
 	public void deleteContent(long companyId, long repositoryId,
 		java.lang.String path, java.lang.String version)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlContentLocalService.deleteContent(companyId, repositoryId, path,
 			version);
 	}
 
 	@Override
 	public void deleteContents(long companyId, long repositoryId,
-		java.lang.String path)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String path) {
 		_dlContentLocalService.deleteContents(companyId, repositoryId, path);
 	}
 
 	@Override
 	public void deleteContentsByDirectory(long companyId, long repositoryId,
-		java.lang.String dirName)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String dirName) {
 		_dlContentLocalService.deleteContentsByDirectory(companyId,
 			repositoryId, dirName);
 	}
@@ -339,38 +334,33 @@ public class DLContentLocalServiceWrapper implements DLContentLocalService,
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLContent> getContents(
-		long companyId, long repositoryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long companyId, long repositoryId) {
 		return _dlContentLocalService.getContents(companyId, repositoryId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLContent> getContents(
-		long companyId, long repositoryId, java.lang.String path)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long companyId, long repositoryId, java.lang.String path) {
 		return _dlContentLocalService.getContents(companyId, repositoryId, path);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLContent> getContentsByDirectory(
-		long companyId, long repositoryId, java.lang.String dirName)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long companyId, long repositoryId, java.lang.String dirName) {
 		return _dlContentLocalService.getContentsByDirectory(companyId,
 			repositoryId, dirName);
 	}
 
 	@Override
 	public boolean hasContent(long companyId, long repositoryId,
-		java.lang.String path, java.lang.String version)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String path, java.lang.String version) {
 		return _dlContentLocalService.hasContent(companyId, repositoryId, path,
 			version);
 	}
 
 	@Override
 	public void updateDLContent(long companyId, long oldRepositoryId,
-		long newRepositoryId, java.lang.String oldPath, java.lang.String newPath)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long newRepositoryId, java.lang.String oldPath, java.lang.String newPath) {
 		_dlContentLocalService.updateDLContent(companyId, oldRepositoryId,
 			newRepositoryId, oldPath, newPath);
 	}

@@ -1021,45 +1021,38 @@ public class WikiPageWrapper implements WikiPage, ModelWrapper<WikiPage> {
 
 	@Override
 	public com.liferay.portal.kernel.repository.model.Folder addAttachmentsFolder()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _wikiPage.addAttachmentsFolder();
 	}
 
 	@Override
-	public com.liferay.portlet.wiki.model.WikiPage fetchParentPage()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public com.liferay.portlet.wiki.model.WikiPage fetchParentPage() {
 		return _wikiPage.fetchParentPage();
 	}
 
 	@Override
-	public com.liferay.portlet.wiki.model.WikiPage fetchRedirectPage()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public com.liferay.portlet.wiki.model.WikiPage fetchRedirectPage() {
 		return _wikiPage.fetchRedirectPage();
 	}
 
 	@Override
-	public java.util.List<com.liferay.portal.kernel.repository.model.FileEntry> getAttachmentsFileEntries()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portal.kernel.repository.model.FileEntry> getAttachmentsFileEntries() {
 		return _wikiPage.getAttachmentsFileEntries();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portal.kernel.repository.model.FileEntry> getAttachmentsFileEntries(
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end) {
 		return _wikiPage.getAttachmentsFileEntries(start, end);
 	}
 
 	@Override
-	public int getAttachmentsFileEntriesCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getAttachmentsFileEntriesCount() {
 		return _wikiPage.getAttachmentsFileEntriesCount();
 	}
 
 	@Override
-	public long getAttachmentsFolderId()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long getAttachmentsFolderId() {
 		return _wikiPage.getAttachmentsFolderId();
 	}
 
@@ -1069,21 +1062,18 @@ public class WikiPageWrapper implements WikiPage, ModelWrapper<WikiPage> {
 	}
 
 	@Override
-	public java.util.List<com.liferay.portal.kernel.repository.model.FileEntry> getDeletedAttachmentsFileEntries()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portal.kernel.repository.model.FileEntry> getDeletedAttachmentsFileEntries() {
 		return _wikiPage.getDeletedAttachmentsFileEntries();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portal.kernel.repository.model.FileEntry> getDeletedAttachmentsFileEntries(
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end) {
 		return _wikiPage.getDeletedAttachmentsFileEntries(start, end);
 	}
 
 	@Override
-	public int getDeletedAttachmentsFileEntriesCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getDeletedAttachmentsFileEntriesCount() {
 		return _wikiPage.getDeletedAttachmentsFileEntriesCount();
 	}
 
@@ -1093,28 +1083,24 @@ public class WikiPageWrapper implements WikiPage, ModelWrapper<WikiPage> {
 	}
 
 	@Override
-	public long getNodeAttachmentsFolderId()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long getNodeAttachmentsFolderId() {
 		return _wikiPage.getNodeAttachmentsFolderId();
 	}
 
 	@Override
 	public com.liferay.portlet.wiki.model.WikiPage getParentPage()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _wikiPage.getParentPage();
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.wiki.model.WikiPage> getParentPages()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.wiki.model.WikiPage> getParentPages() {
 		return _wikiPage.getParentPages();
 	}
 
 	@Override
 	public com.liferay.portlet.wiki.model.WikiPage getRedirectPage()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _wikiPage.getRedirectPage();
 	}
 

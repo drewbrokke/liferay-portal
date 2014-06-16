@@ -324,8 +324,7 @@ public class MDRRuleGroupInstanceLocalServiceUtil {
 		long groupId, java.lang.String className, long classPK,
 		long ruleGroupId, int priority,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addRuleGroupInstance(groupId, className, classPK,
 			ruleGroupId, priority, serviceContext);
@@ -335,103 +334,87 @@ public class MDRRuleGroupInstanceLocalServiceUtil {
 		long groupId, java.lang.String className, long classPK,
 		long ruleGroupId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addRuleGroupInstance(groupId, className, classPK,
 			ruleGroupId, serviceContext);
 	}
 
-	public static void deleteGroupRuleGroupInstances(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteGroupRuleGroupInstances(long groupId) {
 		getService().deleteGroupRuleGroupInstances(groupId);
 	}
 
-	public static void deleteRuleGroupInstance(long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteRuleGroupInstance(long ruleGroupInstanceId) {
 		getService().deleteRuleGroupInstance(ruleGroupInstanceId);
 	}
 
 	public static void deleteRuleGroupInstance(
-		com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance ruleGroupInstance)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance ruleGroupInstance) {
 		getService().deleteRuleGroupInstance(ruleGroupInstance);
 	}
 
-	public static void deleteRuleGroupInstances(long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteRuleGroupInstances(long ruleGroupId) {
 		getService().deleteRuleGroupInstances(ruleGroupId);
 	}
 
 	public static com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance fetchRuleGroupInstance(
-		long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long ruleGroupInstanceId) {
 		return getService().fetchRuleGroupInstance(ruleGroupInstanceId);
 	}
 
 	public static com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance fetchRuleGroupInstance(
-		java.lang.String className, long classPK, long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK, long ruleGroupId) {
 		return getService()
 				   .fetchRuleGroupInstance(className, classPK, ruleGroupId);
 	}
 
 	public static com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance getRuleGroupInstance(
 		long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getRuleGroupInstance(ruleGroupInstanceId);
 	}
 
 	public static com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance getRuleGroupInstance(
 		java.lang.String className, long classPK, long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getRuleGroupInstance(className, classPK, ruleGroupId);
 	}
 
 	public static java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance> getRuleGroupInstances(
-		long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long ruleGroupId) {
 		return getService().getRuleGroupInstances(ruleGroupId);
 	}
 
 	public static java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance> getRuleGroupInstances(
-		long ruleGroupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long ruleGroupId, int start, int end) {
 		return getService().getRuleGroupInstances(ruleGroupId, start, end);
 	}
 
 	public static java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance> getRuleGroupInstances(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return getService().getRuleGroupInstances(className, classPK);
 	}
 
 	public static java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance> getRuleGroupInstances(
 		java.lang.String className, long classPK, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator) {
 		return getService()
 				   .getRuleGroupInstances(className, classPK, start, end,
 			orderByComparator);
 	}
 
-	public static int getRuleGroupInstancesCount(long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getRuleGroupInstancesCount(long ruleGroupId) {
 		return getService().getRuleGroupInstancesCount(ruleGroupId);
 	}
 
 	public static int getRuleGroupInstancesCount(java.lang.String className,
-		long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classPK) {
 		return getService().getRuleGroupInstancesCount(className, classPK);
 	}
 
 	public static com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance updateRuleGroupInstance(
 		long ruleGroupInstanceId, int priority)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateRuleGroupInstance(ruleGroupInstanceId, priority);
 	}

@@ -234,47 +234,37 @@ public interface DDMStorageLinkLocalService extends BaseLocalService,
 
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStorageLink addStorageLink(
 		long classNameId, long classPK, long structureId,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.service.ServiceContext serviceContext);
 
 	public void deleteClassStorageLink(long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteStorageLink(
-		com.liferay.portlet.dynamicdatamapping.model.DDMStorageLink storageLink)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.dynamicdatamapping.model.DDMStorageLink storageLink);
 
 	public void deleteStorageLink(long storageLinkId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteStructureStorageLinks(long structureId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteStructureStorageLinks(long structureId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStorageLink getClassStorageLink(
 		long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStorageLink getStorageLink(
 		long storageLinkId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStorageLink> getStructureStorageLinks(
-		long structureId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long structureId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getStructureStorageLinksCount(long structureId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getStructureStorageLinksCount(long structureId);
 
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStorageLink updateStorageLink(
 		long storageLinkId, long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

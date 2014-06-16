@@ -1043,21 +1043,18 @@ public class MBThreadWrapper implements MBThread, ModelWrapper<MBThread> {
 
 	@Override
 	public com.liferay.portal.kernel.repository.model.Folder addAttachmentsFolder()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbThread.addAttachmentsFolder();
 	}
 
 	@Override
-	public long getAttachmentsFolderId()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long getAttachmentsFolderId() {
 		return _mbThread.getAttachmentsFolderId();
 	}
 
 	@Override
 	public com.liferay.portlet.messageboards.model.MBCategory getCategory()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbThread.getCategory();
 	}
 
@@ -1067,8 +1064,7 @@ public class MBThreadWrapper implements MBThread, ModelWrapper<MBThread> {
 	}
 
 	@Override
-	public long[] getParticipantUserIds()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long[] getParticipantUserIds() {
 		return _mbThread.getParticipantUserIds();
 	}
 

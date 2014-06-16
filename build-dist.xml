@@ -415,15 +415,14 @@
 			plugins.war.excludes=**/WEB-INF/service/**,**/WEB-INF/src/**
 		</echo>
 
-		<ant dir="${lp.plugins.dir}" target="all" inheritAll="false" />
+		<ant-execute
+			ant.dir="${lp.plugins.dir}"
+			ant.target="all"
+		/>
 
 		<copy todir="${app.server.tcat.dir}/admin/tcat_init/webapps/${lp.version.tcat}">
 			<fileset dir="${lp.plugins.dir}/dist" includes="*.war" />
 		</copy>
-
-		<ant dir="${lp.plugins.dir}" target="clean" inheritAll="false" />
-
-		<ant dir="${lp.plugins.dir}" target="all" inheritAll="false" />
 	</target>
 
 	<target name="build-dist-tcat-admin-webapps-portal">

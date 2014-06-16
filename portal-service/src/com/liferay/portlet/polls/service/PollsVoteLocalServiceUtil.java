@@ -317,37 +317,31 @@ public class PollsVoteLocalServiceUtil {
 	public static com.liferay.portlet.polls.model.PollsVote addVote(
 		long userId, long questionId, long choiceId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().addVote(userId, questionId, choiceId, serviceContext);
 	}
 
 	public static java.util.List<com.liferay.portlet.polls.model.PollsVote> getChoiceVotes(
-		long choiceId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long choiceId, int start, int end) {
 		return getService().getChoiceVotes(choiceId, start, end);
 	}
 
-	public static int getChoiceVotesCount(long choiceId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getChoiceVotesCount(long choiceId) {
 		return getService().getChoiceVotesCount(choiceId);
 	}
 
 	public static java.util.List<com.liferay.portlet.polls.model.PollsVote> getQuestionVotes(
-		long questionId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long questionId, int start, int end) {
 		return getService().getQuestionVotes(questionId, start, end);
 	}
 
-	public static int getQuestionVotesCount(long questionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getQuestionVotesCount(long questionId) {
 		return getService().getQuestionVotesCount(questionId);
 	}
 
 	public static com.liferay.portlet.polls.model.PollsVote getVote(
 		long questionId, long userId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getVote(questionId, userId);
 	}
 

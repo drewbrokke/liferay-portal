@@ -276,51 +276,44 @@ public class WikiPageResourceLocalServiceWrapper
 
 	@Override
 	public com.liferay.portlet.wiki.model.WikiPageResource addPageResource(
-		long nodeId, java.lang.String title)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long nodeId, java.lang.String title) {
 		return _wikiPageResourceLocalService.addPageResource(nodeId, title);
 	}
 
 	@Override
 	public void deletePageResource(long nodeId, java.lang.String title)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_wikiPageResourceLocalService.deletePageResource(nodeId, title);
 	}
 
 	@Override
 	public com.liferay.portlet.wiki.model.WikiPageResource fetchPageResource(
-		long nodeId, java.lang.String title)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long nodeId, java.lang.String title) {
 		return _wikiPageResourceLocalService.fetchPageResource(nodeId, title);
 	}
 
 	@Override
 	public com.liferay.portlet.wiki.model.WikiPageResource fetchPageResource(
-		java.lang.String uuid)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String uuid) {
 		return _wikiPageResourceLocalService.fetchPageResource(uuid);
 	}
 
 	@Override
 	public com.liferay.portlet.wiki.model.WikiPageResource getPageResource(
 		long pageResourcePrimKey)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _wikiPageResourceLocalService.getPageResource(pageResourcePrimKey);
 	}
 
 	@Override
 	public com.liferay.portlet.wiki.model.WikiPageResource getPageResource(
 		long nodeId, java.lang.String title)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _wikiPageResourceLocalService.getPageResource(nodeId, title);
 	}
 
 	@Override
-	public long getPageResourcePrimKey(long nodeId, java.lang.String title)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long getPageResourcePrimKey(long nodeId, java.lang.String title) {
 		return _wikiPageResourceLocalService.getPageResourcePrimKey(nodeId,
 			title);
 	}

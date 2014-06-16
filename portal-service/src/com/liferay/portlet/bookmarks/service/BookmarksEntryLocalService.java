@@ -288,160 +288,127 @@ public interface BookmarksEntryLocalService extends BaseLocalService,
 		long userId, long groupId, long folderId, java.lang.String name,
 		java.lang.String url, java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteEntries(long groupId, long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteEntries(long groupId, long folderId,
 		boolean includeTrashedEntries)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry deleteEntry(
 		com.liferay.portlet.bookmarks.model.BookmarksEntry entry)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry deleteEntry(
 		long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.bookmarks.model.BookmarksEntry> getEntries(
-		long groupId, long folderId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long folderId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.bookmarks.model.BookmarksEntry> getEntries(
-		long groupId, long folderId, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long folderId, int status, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.bookmarks.model.BookmarksEntry> getEntries(
 		long groupId, long folderId, int status, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.bookmarks.model.BookmarksEntry> getEntries(
 		long groupId, long folderId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getEntriesCount(long groupId, long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getEntriesCount(long groupId, long folderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getEntriesCount(long groupId, long folderId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getEntriesCount(long groupId, long folderId, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry getEntry(
 		long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFoldersEntriesCount(long groupId,
-		java.util.List<java.lang.Long> folderIds)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.util.List<java.lang.Long> folderIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.bookmarks.model.BookmarksEntry> getGroupEntries(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.bookmarks.model.BookmarksEntry> getGroupEntries(
-		long groupId, long userId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long userId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGroupEntriesCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getGroupEntriesCount(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGroupEntriesCount(long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getGroupEntriesCount(long groupId, long userId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.bookmarks.model.BookmarksEntry> getNoAssetEntries()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.portlet.bookmarks.model.BookmarksEntry> getNoAssetEntries();
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry moveEntry(
 		long entryId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry moveEntryFromTrash(
 		long userId, long entryId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry moveEntryToTrash(
 		long userId, com.liferay.portlet.bookmarks.model.BookmarksEntry entry)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry moveEntryToTrash(
 		long userId, long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry openEntry(
-		long userId, com.liferay.portlet.bookmarks.model.BookmarksEntry entry)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long userId, com.liferay.portlet.bookmarks.model.BookmarksEntry entry);
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry openEntry(
 		long userId, long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void rebuildTree(long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void rebuildTree(long companyId);
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry restoreEntryFromTrash(
 		long userId, long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portal.kernel.search.Hits search(long groupId,
 		long userId, long creatorUserId, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void subscribeEntry(long userId, long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void unsubscribeEntry(long userId, long entryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void updateAsset(long userId,
 		com.liferay.portlet.bookmarks.model.BookmarksEntry entry,
 		long[] assetCategoryIds, java.lang.String[] assetTagNames,
 		long[] assetLinkEntryIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry updateEntry(
 		long userId, long entryId, long groupId, long folderId,
 		java.lang.String name, java.lang.String url,
 		java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.bookmarks.model.BookmarksEntry updateStatus(
 		long userId, com.liferay.portlet.bookmarks.model.BookmarksEntry entry,
-		int status)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		int status) throws com.liferay.portal.kernel.exception.PortalException;
 }

@@ -539,8 +539,7 @@ public class SCProductVersionWrapper implements SCProductVersion,
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion> getFrameworkVersions()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion> getFrameworkVersions() {
 		return _scProductVersion.getFrameworkVersions();
 	}
 

@@ -233,64 +233,50 @@ public interface MBStatsUserLocalService extends BaseLocalService,
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
 	public com.liferay.portlet.messageboards.model.MBStatsUser addStatsUser(
-		long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long userId);
 
 	public void deleteStatsUser(long statsUserId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteStatsUser(
-		com.liferay.portlet.messageboards.model.MBStatsUser statsUser)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.messageboards.model.MBStatsUser statsUser);
 
-	public void deleteStatsUsersByGroupId(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteStatsUsersByGroupId(long groupId);
 
-	public void deleteStatsUsersByUserId(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteStatsUsersByUserId(long userId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.Date getLastPostDateByUserId(long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.Date getLastPostDateByUserId(long groupId, long userId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public long getMessageCountByGroupId(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public long getMessageCountByGroupId(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public long getMessageCountByUserId(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public long getMessageCountByUserId(long userId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.messageboards.model.MBStatsUser getStatsUser(
-		long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long userId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBStatsUser> getStatsUsersByGroupId(
 		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getStatsUsersByGroupIdCount(long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.messageboards.model.MBStatsUser> getStatsUsersByUserId(
-		long userId) throws com.liferay.portal.kernel.exception.SystemException;
+		long userId);
 
 	public com.liferay.portlet.messageboards.model.MBStatsUser updateStatsUser(
-		long groupId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long userId);
 
 	public com.liferay.portlet.messageboards.model.MBStatsUser updateStatsUser(
-		long groupId, long userId, java.util.Date lastPostDate)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long userId, java.util.Date lastPostDate);
 
 	public com.liferay.portlet.messageboards.model.MBStatsUser updateStatsUser(
-		long groupId, long userId, int messageCount, java.util.Date lastPostDate)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long userId, int messageCount, java.util.Date lastPostDate);
 }

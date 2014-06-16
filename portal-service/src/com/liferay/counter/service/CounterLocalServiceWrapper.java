@@ -264,44 +264,37 @@ public class CounterLocalServiceWrapper implements CounterLocalService,
 	}
 
 	@Override
-	public java.util.List<java.lang.String> getNames()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<java.lang.String> getNames() {
 		return _counterLocalService.getNames();
 	}
 
 	@Override
-	public long increment()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long increment() {
 		return _counterLocalService.increment();
 	}
 
 	@Override
-	public long increment(java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long increment(java.lang.String name) {
 		return _counterLocalService.increment(name);
 	}
 
 	@Override
-	public long increment(java.lang.String name, int size)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long increment(java.lang.String name, int size) {
 		return _counterLocalService.increment(name, size);
 	}
 
 	@Override
-	public void rename(java.lang.String oldName, java.lang.String newName)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void rename(java.lang.String oldName, java.lang.String newName) {
 		_counterLocalService.rename(oldName, newName);
 	}
 
 	@Override
-	public void reset(java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void reset(java.lang.String name) {
 		_counterLocalService.reset(name);
 	}
 
 	@Override
-	public void reset(java.lang.String name, long size)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void reset(java.lang.String name, long size) {
 		_counterLocalService.reset(name, size);
 	}
 

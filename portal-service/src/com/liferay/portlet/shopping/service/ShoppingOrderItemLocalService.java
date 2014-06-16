@@ -234,6 +234,5 @@ public interface ShoppingOrderItemLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.shopping.model.ShoppingOrderItem> getOrderItems(
-		long orderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long orderId);
 }

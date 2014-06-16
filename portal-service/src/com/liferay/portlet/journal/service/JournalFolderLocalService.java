@@ -344,125 +344,101 @@ public interface JournalFolderLocalService extends BaseLocalService,
 		long userId, long groupId, long parentFolderId, java.lang.String name,
 		java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.journal.model.JournalFolder deleteFolder(
 		com.liferay.portlet.journal.model.JournalFolder folder)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.journal.model.JournalFolder deleteFolder(
 		com.liferay.portlet.journal.model.JournalFolder folder,
 		boolean includeTrashedEntries)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.journal.model.JournalFolder deleteFolder(
 		long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.journal.model.JournalFolder deleteFolder(
 		long folderId, boolean includeTrashedEntries)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteFolders(long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.journal.model.JournalFolder fetchFolder(
-		long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long folderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.journal.model.JournalFolder fetchFolder(
-		long groupId, long parentFolderId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long parentFolderId, java.lang.String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.journal.model.JournalFolder fetchFolder(
-		long groupId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, java.lang.String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalFolder> getCompanyFolders(
-		long companyId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long companyId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCompanyFoldersCount(long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getCompanyFoldersCount(long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.journal.model.JournalFolder getFolder(
 		long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalFolder> getFolders(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalFolder> getFolders(
-		long groupId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long parentFolderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalFolder> getFolders(
-		long groupId, long parentFolderId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long parentFolderId, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalFolder> getFolders(
-		long groupId, long parentFolderId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long parentFolderId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalFolder> getFolders(
-		long groupId, long parentFolderId, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long parentFolderId, int status, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object> getFoldersAndArticles(
-		long groupId, long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long folderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object> getFoldersAndArticles(
-		long groupId, long folderId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long folderId, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object> getFoldersAndArticles(
 		long groupId, long folderId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.OrderByComparator obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFoldersAndArticlesCount(long groupId,
-		java.util.List<java.lang.Long> folderIds, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.util.List<java.lang.Long> folderIds, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getFoldersAndArticlesCount(long groupId, long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getFoldersAndArticlesCount(long groupId, long folderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFoldersAndArticlesCount(long groupId, long folderId,
-		int status) throws com.liferay.portal.kernel.exception.SystemException;
+		int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getFoldersCount(long groupId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getFoldersCount(long groupId, long parentFolderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getFoldersCount(long groupId, long parentFolderId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getFoldersCount(long groupId, long parentFolderId, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getInheritedWorkflowFolderId(long folderId)
@@ -470,8 +446,7 @@ public interface JournalFolderLocalService extends BaseLocalService,
 			com.liferay.portlet.journal.NoSuchFolderException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.journal.model.JournalFolder> getNoAssetFolders()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.portlet.journal.model.JournalFolder> getNoAssetFolders();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getOverridedDDMStructuresFolderId(long folderId)
@@ -480,75 +455,60 @@ public interface JournalFolderLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public void getSubfolderIds(java.util.List<java.lang.Long> folderIds,
-		long groupId, long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, long folderId);
 
 	public com.liferay.portlet.journal.model.JournalFolder moveFolder(
 		long folderId, long parentFolderId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.journal.model.JournalFolder moveFolderFromTrash(
 		long userId, long folderId, long parentFolderId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.journal.model.JournalFolder moveFolderToTrash(
 		long userId, long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void rebuildTree(long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void rebuildTree(long companyId);
 
 	public void restoreFolderFromTrash(long userId, long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void subscribe(long userId, long groupId, long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void unsubscribe(long userId, long groupId, long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void updateAsset(long userId,
 		com.liferay.portlet.journal.model.JournalFolder folder,
 		long[] assetCategoryIds, java.lang.String[] assetTagNames,
 		long[] assetLinkEntryIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.journal.model.JournalFolder updateFolder(
 		long userId, long folderId, long parentFolderId, java.lang.String name,
 		java.lang.String description, boolean mergeWithParentFolder,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.journal.model.JournalFolder updateFolder(
 		long userId, long folderId, long parentFolderId, java.lang.String name,
 		java.lang.String description, long[] ddmStructureIds,
 		int restrictionType, boolean mergeWithParentFolder,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void updateFolderDDMStructures(
 		com.liferay.portlet.journal.model.JournalFolder folder,
-		long[] ddmStructureIdsArray)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long[] ddmStructureIdsArray);
 
 	public com.liferay.portlet.journal.model.JournalFolder updateStatus(
 		long userId, com.liferay.portlet.journal.model.JournalFolder folder,
-		int status)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		int status) throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void validateFolderDDMStructures(long folderId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

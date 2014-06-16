@@ -234,5 +234,5 @@ public interface ShoppingItemFieldLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.shopping.model.ShoppingItemField> getItemFields(
-		long itemId) throws com.liferay.portal.kernel.exception.SystemException;
+		long itemId);
 }

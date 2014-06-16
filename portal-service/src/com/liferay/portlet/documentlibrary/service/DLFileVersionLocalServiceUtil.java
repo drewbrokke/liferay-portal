@@ -318,51 +318,43 @@ public class DLFileVersionLocalServiceUtil {
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileVersion getFileVersion(
 		long fileVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getFileVersion(fileVersionId);
 	}
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileVersion getFileVersion(
 		long fileEntryId, java.lang.String version)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getFileVersion(fileEntryId, version);
 	}
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileVersion getFileVersionByUuidAndGroupId(
-		java.lang.String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String uuid, long groupId) {
 		return getService().getFileVersionByUuidAndGroupId(uuid, groupId);
 	}
 
 	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLFileVersion> getFileVersions(
-		long fileEntryId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long fileEntryId, int status) {
 		return getService().getFileVersions(fileEntryId, status);
 	}
 
-	public static int getFileVersionsCount(long fileEntryId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getFileVersionsCount(long fileEntryId, int status) {
 		return getService().getFileVersionsCount(fileEntryId, status);
 	}
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileVersion getLatestFileVersion(
 		long fileEntryId, boolean excludeWorkingCopy)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getLatestFileVersion(fileEntryId, excludeWorkingCopy);
 	}
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileVersion getLatestFileVersion(
 		long userId, long fileEntryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getLatestFileVersion(userId, fileEntryId);
 	}
 
-	public static void rebuildTree(long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void rebuildTree(long companyId) {
 		getService().rebuildTree(companyId);
 	}
 

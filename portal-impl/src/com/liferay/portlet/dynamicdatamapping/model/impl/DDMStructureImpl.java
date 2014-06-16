@@ -30,10 +30,10 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Attribute;
 import com.liferay.portal.kernel.xml.Document;
+import com.liferay.portal.kernel.xml.DocumentException;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
@@ -46,6 +46,7 @@ import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portlet.dynamicdatamapping.StructureFieldException;
 import com.liferay.portlet.dynamicdatamapping.model.DDMForm;
+import com.liferay.portlet.dynamicdatamapping.model.DDMFormField;
 import com.liferay.portlet.dynamicdatamapping.model.DDMStructure;
 import com.liferay.portlet.dynamicdatamapping.model.DDMTemplate;
 import com.liferay.portlet.dynamicdatamapping.service.DDMStructureLocalServiceUtil;
@@ -70,14 +71,25 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		Document document = getDocument();
+		try {
+			DDMForm ddmForm = getDDMForm();
 
-		Element rootElement = document.getRootElement();
+			List<Locale> availableLocales = ddmForm.getAvailableLocales();
 
-		String availableLocales = rootElement.attributeValue(
-			"available-locales");
+			String[] availableLanguageIds = new String[availableLocales.size()];
 
-		return StringUtil.split(availableLocales);
+			for (int i = 0; i < availableLocales.size(); i++) {
+				availableLanguageIds[i] = LocaleUtil.toLanguageId(
+					availableLocales.get(i));
+			}
+
+			return availableLanguageIds;
+		}
+		catch (PortalException pe) {
+			_log.error(pe.getMessage());
+		}
+
+		return null;
 	}
 
 	@Override
@@ -102,59 +114,22 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 	}
 
 	@Override
-	public String getCompleteXsd() throws PortalException {
-		if (getParentStructureId() == 0) {
-			return getXsd();
-		}
-
-		DDMStructure parentStructure =
-			DDMStructureLocalServiceUtil.getStructure(getParentStructureId());
-
-		return _mergeXsds(getXsd(), parentStructure.getCompleteXsd());
-	}
-
-	@Override
 	public DDMForm getDDMForm() throws PortalException {
 		return DDMFormXSDDeserializerUtil.deserialize(getXsd());
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		Document document = getDocument();
+		try {
+			DDMForm ddmForm = getDDMForm();
 
-		if (document == null) {
-			Locale locale = LocaleUtil.getSiteDefault();
-
-			return locale.toString();
+			return LocaleUtil.toLanguageId(ddmForm.getDefaultLocale());
+		}
+		catch (PortalException pe) {
+			_log.error(pe.getMessage());
 		}
 
-		Element rootElement = document.getRootElement();
-
-		return rootElement.attributeValue("default-locale");
-	}
-
-	@Override
-	public Document getDocument() {
-		if (_document == null) {
-			try {
-				_document = SAXReaderUtil.read(getXsd());
-			}
-			catch (Exception e) {
-				StackTraceElement[] stackTraceElements = e.getStackTrace();
-
-				for (StackTraceElement stackTraceElement : stackTraceElements) {
-					String className = stackTraceElement.getClassName();
-
-					if (className.endsWith("DDMStructurePersistenceTest")) {
-						return null;
-					}
-				}
-
-				_log.error(e, e);
-			}
-		}
-
-		return _document;
+		return null;
 	}
 
 	@Override
@@ -317,6 +292,26 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 	@Override
 	public String getFieldType(String fieldName) throws PortalException {
 		return getFieldProperty(fieldName, "type");
+	}
+
+	@Override
+	public DDMForm getFullHierarchyDDMForm()
+		throws PortalException, SystemException {
+
+		DDMForm ddmForm = getDDMForm();
+
+		DDMStructure parentDDMStructure = getParentDDMStructure();
+
+		if (parentDDMStructure != null) {
+			DDMForm ancestorsDDMForm =
+				parentDDMStructure.getFullHierarchyDDMForm();
+
+			List<DDMFormField> ddmFormFields = ddmForm.getDDMFormFields();
+
+			ddmFormFields.addAll(ancestorsDDMForm.getDDMFormFields());
+		}
+
+		return ddmForm;
 	}
 
 	@Override
@@ -555,11 +550,6 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 	}
 
 	@Override
-	public void setDocument(Document document) {
-		_document = document;
-	}
-
-	@Override
 	public void setLocalizedFieldsMap(
 		Map<String, Map<String, Map<String, String>>> localizedFieldsMap) {
 
@@ -586,7 +576,6 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 	public void setXsd(String xsd) {
 		super.setXsd(xsd);
 
-		_document = null;
 		_localizedFieldsMap = null;
 		_localizedPersistentFieldsMap = null;
 		_localizedTransientFieldsMap = null;
@@ -595,6 +584,28 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 	@Override
 	public void updateDDMForm(DDMForm ddmForm) {
 		setXsd(DDMFormXSDSerializerUtil.serialize(ddmForm));
+	}
+
+	protected DDMStructure getParentDDMStructure()
+		throws PortalException, SystemException {
+
+		if (getParentStructureId() == 0) {
+			return null;
+		}
+
+		DDMStructure parentStructure =
+			DDMStructureLocalServiceUtil.getStructure(getParentStructureId());
+
+		return parentStructure;
+	}
+
+	private Document _getDocument() throws PortalException {
+		try {
+			return SAXReaderUtil.read(getXsd());
+		}
+		catch (DocumentException de) {
+			throw new PortalException(de);
+		}
 	}
 
 	private Map<String, String> _getField(Element element, String locale) {
@@ -706,7 +717,7 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 
 		XPath xPathSelector = SAXReaderUtil.createXPath("//dynamic-element");
 
-		List<Node> nodes = xPathSelector.selectNodes(getDocument());
+		List<Node> nodes = xPathSelector.selectNodes(_getDocument());
 
 		for (Node node : nodes) {
 			Element element = (Element)node;
@@ -739,31 +750,7 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 		localizedTransientFieldsMap.put(locale, transientFieldsMap);
 	}
 
-	private String _mergeXsds(String xsd1, String xsd2) {
-		try {
-			Document document1 = SAXReaderUtil.read(xsd1);
-			Document document2 = SAXReaderUtil.read(xsd2);
-
-			Element rootElement1 = document1.getRootElement();
-			Element rootElement2 = document2.getRootElement();
-
-			for (Element element : rootElement1.elements()) {
-				rootElement1.remove(element);
-
-				rootElement2.add(element);
-			}
-
-			return rootElement2.formattedString();
-		}
-		catch (Exception e) {
-			throw new SystemException(e);
-		}
-	}
-
 	private static Log _log = LogFactoryUtil.getLog(DDMStructureImpl.class);
-
-	@CacheField
-	private Document _document;
 
 	@CacheField
 	private Map<String, Map<String, Map<String, String>>> _localizedFieldsMap;

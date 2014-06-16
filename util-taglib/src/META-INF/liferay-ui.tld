@@ -414,6 +414,11 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
+			<name>classTypePK</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
 			<name>contentCallback</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -2518,6 +2523,16 @@
 		<body-content>JSP</body-content>
 		<attribute>
 			<name>arguments</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>escape</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>escapeAttribute</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

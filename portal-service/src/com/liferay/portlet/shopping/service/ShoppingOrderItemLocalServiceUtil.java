@@ -260,8 +260,7 @@ public class ShoppingOrderItemLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.portlet.shopping.model.ShoppingOrderItem> getOrderItems(
-		long orderId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long orderId) {
 		return getService().getOrderItems(orderId);
 	}
 

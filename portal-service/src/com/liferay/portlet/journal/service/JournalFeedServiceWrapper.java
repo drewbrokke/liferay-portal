@@ -63,8 +63,7 @@ public class JournalFeedServiceWrapper implements JournalFeedService,
 		java.lang.String targetPortletId, java.lang.String contentField,
 		java.lang.String feedType, double feedVersion,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalFeedService.addFeed(groupId, feedId, autoFeedId, name,
 			description, type, structureId, templateId, rendererTemplateId,
 			delta, orderByCol, orderByType, targetLayoutFriendlyUrl,
@@ -73,8 +72,7 @@ public class JournalFeedServiceWrapper implements JournalFeedService,
 
 	@Override
 	public void deleteFeed(long feedId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalFeedService.deleteFeed(feedId);
 	}
 
@@ -84,22 +82,19 @@ public class JournalFeedServiceWrapper implements JournalFeedService,
 	@Deprecated
 	@Override
 	public void deleteFeed(long groupId, long feedId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalFeedService.deleteFeed(groupId, feedId);
 	}
 
 	@Override
 	public void deleteFeed(long groupId, java.lang.String feedId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalFeedService.deleteFeed(groupId, feedId);
 	}
 
 	@Override
 	public com.liferay.portlet.journal.model.JournalFeed getFeed(long feedId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalFeedService.getFeed(feedId);
 	}
 
@@ -109,17 +104,14 @@ public class JournalFeedServiceWrapper implements JournalFeedService,
 	@Deprecated
 	@Override
 	public com.liferay.portlet.journal.model.JournalFeed getFeed(long groupId,
-		long feedId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		long feedId) throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalFeedService.getFeed(groupId, feedId);
 	}
 
 	@Override
 	public com.liferay.portlet.journal.model.JournalFeed getFeed(long groupId,
 		java.lang.String feedId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalFeedService.getFeed(groupId, feedId);
 	}
 
@@ -134,8 +126,7 @@ public class JournalFeedServiceWrapper implements JournalFeedService,
 		java.lang.String targetPortletId, java.lang.String contentField,
 		java.lang.String feedType, double feedVersion,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalFeedService.updateFeed(groupId, feedId, name,
 			description, type, structureId, templateId, rendererTemplateId,
 			delta, orderByCol, orderByType, targetLayoutFriendlyUrl,

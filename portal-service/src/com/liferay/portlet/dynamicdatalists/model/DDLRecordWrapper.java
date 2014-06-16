@@ -611,8 +611,7 @@ public class DDLRecordWrapper implements DDLRecord, ModelWrapper<DDLRecord> {
 
 	@Override
 	public java.io.Serializable getFieldDataType(java.lang.String fieldName)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecord.getFieldDataType(fieldName);
 	}
 
@@ -650,37 +649,32 @@ public class DDLRecordWrapper implements DDLRecord, ModelWrapper<DDLRecord> {
 
 	@Override
 	public com.liferay.portlet.dynamicdatalists.model.DDLRecordVersion getLatestRecordVersion()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecord.getLatestRecordVersion();
 	}
 
 	@Override
 	public com.liferay.portlet.dynamicdatalists.model.DDLRecordSet getRecordSet()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecord.getRecordSet();
 	}
 
 	@Override
 	public com.liferay.portlet.dynamicdatalists.model.DDLRecordVersion getRecordVersion()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecord.getRecordVersion();
 	}
 
 	@Override
 	public com.liferay.portlet.dynamicdatalists.model.DDLRecordVersion getRecordVersion(
 		java.lang.String version)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecord.getRecordVersion(version);
 	}
 
 	@Override
 	public int getStatus()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecord.getStatus();
 	}
 

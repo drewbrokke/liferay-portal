@@ -335,15 +335,13 @@ public class DDMStorageLinkWrapper implements DDMStorageLink,
 
 	@Override
 	public java.lang.String getStorageType()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStorageLink.getStorageType();
 	}
 
 	@Override
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructure getStructure()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddmStorageLink.getStructure();
 	}
 

@@ -715,15 +715,13 @@ public class DDLRecordVersionWrapper implements DDLRecordVersion,
 
 	@Override
 	public com.liferay.portlet.dynamicdatalists.model.DDLRecord getRecord()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecordVersion.getRecord();
 	}
 
 	@Override
 	public com.liferay.portlet.dynamicdatalists.model.DDLRecordSet getRecordSet()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ddlRecordVersion.getRecordSet();
 	}
 

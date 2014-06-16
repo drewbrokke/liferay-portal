@@ -342,8 +342,7 @@ public class MBDiscussionLocalServiceWrapper implements MBDiscussionLocalService
 	public com.liferay.portlet.messageboards.model.MBDiscussion addDiscussion(
 		long userId, long groupId, long classNameId, long classPK,
 		long threadId, com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbDiscussionLocalService.addDiscussion(userId, groupId,
 			classNameId, classPK, threadId, serviceContext);
 	}
@@ -357,55 +356,48 @@ public class MBDiscussionLocalServiceWrapper implements MBDiscussionLocalService
 	public com.liferay.portlet.messageboards.model.MBDiscussion addDiscussion(
 		long userId, long classNameId, long classPK, long threadId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbDiscussionLocalService.addDiscussion(userId, classNameId,
 			classPK, threadId, serviceContext);
 	}
 
 	@Override
 	public com.liferay.portlet.messageboards.model.MBDiscussion fetchDiscussion(
-		long discussionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long discussionId) {
 		return _mbDiscussionLocalService.fetchDiscussion(discussionId);
 	}
 
 	@Override
 	public com.liferay.portlet.messageboards.model.MBDiscussion fetchDiscussion(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String className, long classPK) {
 		return _mbDiscussionLocalService.fetchDiscussion(className, classPK);
 	}
 
 	@Override
 	public com.liferay.portlet.messageboards.model.MBDiscussion getDiscussion(
 		long discussionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbDiscussionLocalService.getDiscussion(discussionId);
 	}
 
 	@Override
 	public com.liferay.portlet.messageboards.model.MBDiscussion getDiscussion(
 		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbDiscussionLocalService.getDiscussion(className, classPK);
 	}
 
 	@Override
 	public com.liferay.portlet.messageboards.model.MBDiscussion getThreadDiscussion(
 		long threadId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _mbDiscussionLocalService.getThreadDiscussion(threadId);
 	}
 
 	@Override
 	public void subscribeDiscussion(long userId, long groupId,
 		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_mbDiscussionLocalService.subscribeDiscussion(userId, groupId,
 			className, classPK);
 	}
@@ -413,8 +405,7 @@ public class MBDiscussionLocalServiceWrapper implements MBDiscussionLocalService
 	@Override
 	public void unsubscribeDiscussion(long userId, java.lang.String className,
 		long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_mbDiscussionLocalService.unsubscribeDiscussion(userId, className,
 			classPK);
 	}

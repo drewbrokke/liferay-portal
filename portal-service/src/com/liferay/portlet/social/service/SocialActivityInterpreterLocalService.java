@@ -119,6 +119,5 @@ public interface SocialActivityInterpreterLocalService extends BaseLocalService 
 		com.liferay.portal.service.ServiceContext serviceContext);
 
 	public void updateActivitySet(long activityId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

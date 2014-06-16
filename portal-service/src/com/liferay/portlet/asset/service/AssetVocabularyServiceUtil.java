@@ -69,8 +69,7 @@ public class AssetVocabularyServiceUtil {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String settings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addVocabulary(titleMap, descriptionMap, settings,
 			serviceContext);
@@ -82,8 +81,7 @@ public class AssetVocabularyServiceUtil {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String settings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addVocabulary(title, titleMap, descriptionMap, settings,
 			serviceContext);
@@ -92,8 +90,7 @@ public class AssetVocabularyServiceUtil {
 	public static com.liferay.portlet.asset.model.AssetVocabulary addVocabulary(
 		java.lang.String title,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().addVocabulary(title, serviceContext);
 	}
 
@@ -103,22 +100,19 @@ public class AssetVocabularyServiceUtil {
 	*/
 	@Deprecated
 	public static void deleteVocabularies(long[] vocabularyIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteVocabularies(vocabularyIds);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> deleteVocabularies(
 		long[] vocabularyIds,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteVocabularies(vocabularyIds, serviceContext);
 	}
 
 	public static void deleteVocabulary(long vocabularyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteVocabulary(vocabularyId);
 	}
 
@@ -128,71 +122,66 @@ public class AssetVocabularyServiceUtil {
 	@Deprecated
 	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getCompanyVocabularies(
 		long companyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getCompanyVocabularies(companyId);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupsVocabularies(
-		long[] groupIds)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long[] groupIds) {
 		return getService().getGroupsVocabularies(groupIds);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupsVocabularies(
-		long[] groupIds, java.lang.String className)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long[] groupIds, java.lang.String className) {
 		return getService().getGroupsVocabularies(groupIds, className);
+	}
+
+	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupsVocabularies(
+		long[] groupIds, java.lang.String className, long classTypePK) {
+		return getService()
+				   .getGroupsVocabularies(groupIds, className, classTypePK);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupVocabularies(
 		long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getGroupVocabularies(groupId);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupVocabularies(
 		long groupId, boolean createDefaultVocabulary)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .getGroupVocabularies(groupId, createDefaultVocabulary);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupVocabularies(
 		long groupId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return getService().getGroupVocabularies(groupId, start, end, obc);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupVocabularies(
 		long groupId, java.lang.String name, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return getService().getGroupVocabularies(groupId, name, start, end, obc);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getGroupVocabularies(
-		long[] groupIds)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long[] groupIds) {
 		return getService().getGroupVocabularies(groupIds);
 	}
 
-	public static int getGroupVocabulariesCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getGroupVocabulariesCount(long groupId) {
 		return getService().getGroupVocabulariesCount(groupId);
 	}
 
 	public static int getGroupVocabulariesCount(long groupId,
-		java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String name) {
 		return getService().getGroupVocabulariesCount(groupId, name);
 	}
 
-	public static int getGroupVocabulariesCount(long[] groupIds)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getGroupVocabulariesCount(long[] groupIds) {
 		return getService().getGroupVocabulariesCount(groupIds);
 	}
 
@@ -200,8 +189,7 @@ public class AssetVocabularyServiceUtil {
 		long groupId, java.lang.String name, int start, int end,
 		boolean addDefaultVocabulary,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .getGroupVocabulariesDisplay(groupId, name, start, end,
 			addDefaultVocabulary, obc);
@@ -210,8 +198,7 @@ public class AssetVocabularyServiceUtil {
 	public static com.liferay.portlet.asset.model.AssetVocabularyDisplay getGroupVocabulariesDisplay(
 		long groupId, java.lang.String name, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .getGroupVocabulariesDisplay(groupId, name, start, end, obc);
 	}
@@ -223,8 +210,7 @@ public class AssetVocabularyServiceUtil {
 	public static com.liferay.portal.kernel.json.JSONObject getJSONGroupVocabularies(
 		long groupId, java.lang.String name, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .getJSONGroupVocabularies(groupId, name, start, end, obc);
 	}
@@ -236,23 +222,20 @@ public class AssetVocabularyServiceUtil {
 	@Deprecated
 	public static java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> getVocabularies(
 		long[] vocabularyIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getVocabularies(vocabularyIds);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetVocabulary getVocabulary(
 		long vocabularyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getVocabulary(vocabularyId);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetVocabularyDisplay searchVocabulariesDisplay(
 		long groupId, java.lang.String title, int start, int end,
 		boolean addDefaultVocabulary)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .searchVocabulariesDisplay(groupId, title, start, end,
 			addDefaultVocabulary);
@@ -269,8 +252,7 @@ public class AssetVocabularyServiceUtil {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String settings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateVocabulary(vocabularyId, titleMap, descriptionMap,
 			settings, serviceContext);
@@ -282,8 +264,7 @@ public class AssetVocabularyServiceUtil {
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.lang.String settings,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateVocabulary(vocabularyId, title, titleMap,
 			descriptionMap, settings, serviceContext);

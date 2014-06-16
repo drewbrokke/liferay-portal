@@ -10,7 +10,6 @@
 .sass_cache_*.css
 _sass_cache_*.css
 cobertura.ser
-ivydata-*.properties
 
 **/.sonar
 

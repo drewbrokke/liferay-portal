@@ -63,47 +63,40 @@ public class ShoppingCategoryServiceUtil {
 		long parentCategoryId, java.lang.String name,
 		java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addCategory(parentCategoryId, name, description,
 			serviceContext);
 	}
 
 	public static void deleteCategory(long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteCategory(categoryId);
 	}
 
 	public static java.util.List<com.liferay.portlet.shopping.model.ShoppingCategory> getCategories(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return getService().getCategories(groupId);
 	}
 
 	public static java.util.List<com.liferay.portlet.shopping.model.ShoppingCategory> getCategories(
-		long groupId, long parentCategoryId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long parentCategoryId, int start, int end) {
 		return getService().getCategories(groupId, parentCategoryId, start, end);
 	}
 
-	public static int getCategoriesCount(long groupId, long parentCategoryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getCategoriesCount(long groupId, long parentCategoryId) {
 		return getService().getCategoriesCount(groupId, parentCategoryId);
 	}
 
 	public static com.liferay.portlet.shopping.model.ShoppingCategory getCategory(
 		long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getCategory(categoryId);
 	}
 
 	public static void getSubcategoryIds(
 		java.util.List<java.lang.Long> categoryIds, long groupId,
-		long categoryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long categoryId) {
 		getService().getSubcategoryIds(categoryIds, groupId, categoryId);
 	}
 
@@ -111,8 +104,7 @@ public class ShoppingCategoryServiceUtil {
 		long categoryId, long parentCategoryId, java.lang.String name,
 		java.lang.String description, boolean mergeWithParentCategory,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateCategory(categoryId, parentCategoryId, name,
 			description, mergeWithParentCategory, serviceContext);

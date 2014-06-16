@@ -300,79 +300,63 @@ public interface SCFrameworkVersionLocalService extends BaseLocalService,
 		long userId, java.lang.String name, java.lang.String url,
 		boolean active, int priority,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void addFrameworkVersionResources(long frameworkVersionId,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void addFrameworkVersionResources(long frameworkVersionId,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void addFrameworkVersionResources(
 		com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion frameworkVersion,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void addFrameworkVersionResources(
 		com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion frameworkVersion,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteFrameworkVersion(long frameworkVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteFrameworkVersion(
-		com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion frameworkVersion)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion frameworkVersion);
 
-	public void deleteFrameworkVersions(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteFrameworkVersions(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion getFrameworkVersion(
 		long frameworkVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion> getFrameworkVersions(
-		long groupId, boolean active)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, boolean active);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion> getFrameworkVersions(
-		long groupId, boolean active, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, boolean active, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion> getFrameworkVersions(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getFrameworkVersionsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getFrameworkVersionsCount(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getFrameworkVersionsCount(long groupId, boolean active)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getFrameworkVersionsCount(long groupId, boolean active);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion> getProductVersionFrameworkVersions(
-		long productVersionId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long productVersionId);
 
 	public com.liferay.portlet.softwarecatalog.model.SCFrameworkVersion updateFrameworkVersion(
 		long frameworkVersionId, java.lang.String name, java.lang.String url,
 		boolean active, int priority)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

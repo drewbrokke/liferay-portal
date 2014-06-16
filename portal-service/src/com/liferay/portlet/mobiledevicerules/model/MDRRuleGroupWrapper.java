@@ -741,8 +741,7 @@ public class MDRRuleGroupWrapper implements MDRRuleGroup,
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRule> getRules()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRule> getRules() {
 		return _mdrRuleGroup.getRules();
 	}
 

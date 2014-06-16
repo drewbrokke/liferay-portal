@@ -64,9 +64,34 @@ import java.util.List;
  */
 public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link #addEntry(String, String,
+	 *             String, String, int, int, int, int, int, boolean, boolean,
+	 *             String[], boolean, String, String, InputStream,
+	 *             ServiceContext)}
+	 */
+	@Deprecated
 	@Override
 	public BlogsEntry addEntry(
 			String title, String description, String content,
+			int displayDateMonth, int displayDateDay, int displayDateYear,
+			int displayDateHour, int displayDateMinute, boolean allowPingbacks,
+			boolean allowTrackbacks, String[] trackbacks, boolean smallImage,
+			String smallImageURL, String smallImageFileName,
+			InputStream smallImageInputStream, ServiceContext serviceContext)
+		throws PortalException {
+
+		return addEntry(
+			title, StringPool.BLANK, description, content, displayDateMonth,
+			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
+			allowPingbacks, allowTrackbacks, trackbacks, smallImage,
+			smallImageURL, smallImageFileName, smallImageInputStream,
+			serviceContext);
+	}
+
+	@Override
+	public BlogsEntry addEntry(
+			String title, String deckTitle, String description, String content,
 			int displayDateMonth, int displayDateDay, int displayDateYear,
 			int displayDateHour, int displayDateMinute, boolean allowPingbacks,
 			boolean allowTrackbacks, String[] trackbacks, boolean smallImage,
@@ -79,11 +104,11 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 			ActionKeys.ADD_ENTRY);
 
 		return blogsEntryLocalService.addEntry(
-			getUserId(), title, description, content, displayDateMonth,
-			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
-			allowPingbacks, allowTrackbacks, trackbacks, smallImage,
-			smallImageURL, smallImageFileName, smallImageInputStream,
-			serviceContext);
+			getUserId(), title, deckTitle, description, content,
+			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
+			displayDateMinute, allowPingbacks, allowTrackbacks, trackbacks,
+			smallImage, smallImageURL, smallImageFileName,
+			smallImageInputStream, serviceContext);
 	}
 
 	@Override
@@ -407,15 +432,34 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 			InputStream smallImageInputStream, ServiceContext serviceContext)
 		throws PortalException {
 
+		return updateEntry(
+			entryId, title, StringPool.BLANK, description, content,
+			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
+			displayDateMinute, allowPingbacks, allowTrackbacks, trackbacks,
+			smallImage, smallImageURL, smallImageFileName,
+			smallImageInputStream, serviceContext);
+	}
+
+	@Override
+	public BlogsEntry updateEntry(
+			long entryId, String title, String deckTitle, String description,
+			String content, int displayDateMonth, int displayDateDay,
+			int displayDateYear, int displayDateHour, int displayDateMinute,
+			boolean allowPingbacks, boolean allowTrackbacks,
+			String[] trackbacks, boolean smallImage, String smallImageURL,
+			String smallImageFileName, InputStream smallImageInputStream,
+			ServiceContext serviceContext)
+		throws PortalException {
+
 		BlogsEntryPermission.check(
 			getPermissionChecker(), entryId, ActionKeys.UPDATE);
 
 		return blogsEntryLocalService.updateEntry(
-			getUserId(), entryId, title, description, content, displayDateMonth,
-			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
-			allowPingbacks, allowTrackbacks, trackbacks, smallImage,
-			smallImageURL, smallImageFileName, smallImageInputStream,
-			serviceContext);
+			getUserId(), entryId, title, deckTitle, description, content,
+			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
+			displayDateMinute, allowPingbacks, allowTrackbacks, trackbacks,
+			smallImage, smallImageURL, smallImageFileName,
+			smallImageInputStream, serviceContext);
 	}
 
 	protected String exportToRSS(

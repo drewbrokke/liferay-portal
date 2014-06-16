@@ -236,54 +236,43 @@ public interface JournalArticleImageLocalService extends BaseLocalService,
 		java.lang.String articleId, double version,
 		java.lang.String elInstanceId, java.lang.String elName,
 		java.lang.String languageId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteArticleImage(
-		com.liferay.portlet.journal.model.JournalArticleImage articleImage)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.journal.model.JournalArticleImage articleImage);
 
-	public void deleteArticleImage(long articleImageId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteArticleImage(long articleImageId);
 
 	public void deleteArticleImage(long groupId, java.lang.String articleId,
 		double version, java.lang.String elInstanceId, java.lang.String elName,
-		java.lang.String languageId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String languageId);
 
 	public void deleteImages(long groupId, java.lang.String articleId,
-		double version)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		double version);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.journal.model.JournalArticleImage getArticleImage(
 		long articleImageId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getArticleImageId(long groupId, java.lang.String articleId,
 		double version, java.lang.String elInstanceId, java.lang.String elName,
-		java.lang.String languageId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String languageId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getArticleImageId(long groupId, java.lang.String articleId,
 		double version, java.lang.String elInstanceId, java.lang.String elName,
-		java.lang.String languageId, boolean tempImage)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String languageId, boolean tempImage);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalArticleImage> getArticleImages(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.journal.model.JournalArticleImage> getArticleImages(
-		long groupId, java.lang.String articleId, double version)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, java.lang.String articleId, double version);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getArticleImagesCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getArticleImagesCount(long groupId);
 }

@@ -265,11 +265,9 @@ public class AssetTagStatsLocalServiceUtil {
 	* @param tagId the primary key of the tag
 	* @param classNameId the asset entry's class name ID
 	* @return the asset tag statistics instance
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.asset.model.AssetTagStats addTagStats(
-		long tagId, long classNameId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long tagId, long classNameId) {
 		return getService().addTagStats(tagId, classNameId);
 	}
 
@@ -277,11 +275,9 @@ public class AssetTagStatsLocalServiceUtil {
 	* Deletes the asset tag statistics instance.
 	*
 	* @param tagStats the asset tag statistics instance
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteTagStats(
-		com.liferay.portlet.asset.model.AssetTagStats tagStats)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portlet.asset.model.AssetTagStats tagStats) {
 		getService().deleteTagStats(tagStats);
 	}
 
@@ -291,11 +287,9 @@ public class AssetTagStatsLocalServiceUtil {
 	* @param tagStatsId the primary key of the asset tag statistics instance
 	* @throws PortalException if the assetTagStats with the primary key could
 	not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteTagStats(long tagStatsId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteTagStats(tagStatsId);
 	}
 
@@ -304,10 +298,8 @@ public class AssetTagStatsLocalServiceUtil {
 	* entry matching the class name ID.
 	*
 	* @param classNameId the asset entry's class name ID
-	* @throws SystemException if a system exception occurred
 	*/
-	public static void deleteTagStatsByClassNameId(long classNameId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteTagStatsByClassNameId(long classNameId) {
 		getService().deleteTagStatsByClassNameId(classNameId);
 	}
 
@@ -315,10 +307,8 @@ public class AssetTagStatsLocalServiceUtil {
 	* Deletes all asset tag statistics instances associated with the tag.
 	*
 	* @param tagId the primary key of the tag
-	* @throws SystemException if a system exception occurred
 	*/
-	public static void deleteTagStatsByTagId(long tagId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void deleteTagStatsByTagId(long tagId) {
 		getService().deleteTagStatsByTagId(tagId);
 	}
 
@@ -341,11 +331,9 @@ public class AssetTagStatsLocalServiceUtil {
 	* @param end the upper bound of the range of results (not inclusive)
 	* @return the range of asset tag statistics associated with the asset entry
 	matching the class name ID
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.portlet.asset.model.AssetTagStats> getTagStats(
-		long classNameId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classNameId, int start, int end) {
 		return getService().getTagStats(classNameId, start, end);
 	}
 
@@ -357,11 +345,9 @@ public class AssetTagStatsLocalServiceUtil {
 	* @param classNameId the asset entry's class name ID
 	* @return Returns the asset tag statistics instance with the tag and asset
 	entry  matching the class name ID
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.asset.model.AssetTagStats getTagStats(
-		long tagId, long classNameId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long tagId, long classNameId) {
 		return getService().getTagStats(tagId, classNameId);
 	}
 
@@ -373,12 +359,10 @@ public class AssetTagStatsLocalServiceUtil {
 	* @return the updated asset tag statistics instance
 	* @throws PortalException if an asset tag with the tag ID could not be
 	found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.asset.model.AssetTagStats updateTagStats(
 		long tagId, long classNameId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().updateTagStats(tagId, classNameId);
 	}
 

@@ -320,8 +320,7 @@ public class DDLRecordLocalServiceUtil {
 		long userId, long groupId, long recordSetId, int displayIndex,
 		com.liferay.portlet.dynamicdatamapping.storage.Fields fields,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addRecord(userId, groupId, recordSetId, displayIndex,
 			fields, serviceContext);
@@ -331,8 +330,7 @@ public class DDLRecordLocalServiceUtil {
 		long userId, long groupId, long recordSetId, int displayIndex,
 		java.util.Map<java.lang.String, java.io.Serializable> fieldsMap,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addRecord(userId, groupId, recordSetId, displayIndex,
 			fieldsMap, serviceContext);
@@ -340,41 +338,35 @@ public class DDLRecordLocalServiceUtil {
 
 	public static com.liferay.portlet.dynamicdatalists.model.DDLRecord deleteRecord(
 		com.liferay.portlet.dynamicdatalists.model.DDLRecord record)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteRecord(record);
 	}
 
 	public static void deleteRecord(long recordId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteRecord(recordId);
 	}
 
 	public static com.liferay.portlet.dynamicdatalists.model.DDLRecord deleteRecordLocale(
 		long recordId, java.util.Locale locale,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteRecordLocale(recordId, locale, serviceContext);
 	}
 
 	public static void deleteRecords(long recordSetId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteRecords(recordSetId);
 	}
 
 	public static com.liferay.portlet.dynamicdatalists.model.DDLRecord fetchRecord(
-		long recordId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long recordId) {
 		return getService().fetchRecord(recordId);
 	}
 
 	public static java.util.List<com.liferay.portlet.dynamicdatalists.model.DDLRecord> getCompanyRecords(
 		long companyId, int status, int scope, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator) {
 		return getService()
 				   .getCompanyRecords(companyId, status, scope, start, end,
 			orderByComparator);
@@ -387,8 +379,7 @@ public class DDLRecordLocalServiceUtil {
 	@Deprecated
 	public static java.util.List<com.liferay.portlet.dynamicdatalists.model.DDLRecord> getCompanyRecords(
 		long companyId, int scope, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator) {
 		return getService()
 				   .getCompanyRecords(companyId, scope, start, end,
 			orderByComparator);
@@ -399,34 +390,30 @@ public class DDLRecordLocalServiceUtil {
 	int, int)}
 	*/
 	@Deprecated
-	public static int getCompanyRecordsCount(long companyId, int scope)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getCompanyRecordsCount(long companyId, int scope) {
 		return getService().getCompanyRecordsCount(companyId, scope);
 	}
 
 	public static int getCompanyRecordsCount(long companyId, int status,
-		int scope) throws com.liferay.portal.kernel.exception.SystemException {
+		int scope) {
 		return getService().getCompanyRecordsCount(companyId, status, scope);
 	}
 
 	public static com.liferay.portlet.dynamicdatalists.model.DDLRecordVersion getLatestRecordVersion(
 		long recordId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getLatestRecordVersion(recordId);
 	}
 
 	public static java.lang.Long[] getMinAndMaxCompanyRecordIds(
-		long companyId, int status, int scope)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long companyId, int status, int scope) {
 		return getService()
 				   .getMinAndMaxCompanyRecordIds(companyId, status, scope);
 	}
 
 	public static java.util.List<com.liferay.portlet.dynamicdatalists.model.DDLRecord> getMinAndMaxCompanyRecords(
 		long companyId, int status, int scope, long minRecordId,
-		long maxRecordId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long maxRecordId) {
 		return getService()
 				   .getMinAndMaxCompanyRecords(companyId, status, scope,
 			minRecordId, maxRecordId);
@@ -434,82 +421,70 @@ public class DDLRecordLocalServiceUtil {
 
 	public static com.liferay.portlet.dynamicdatalists.model.DDLRecord getRecord(
 		long recordId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getRecord(recordId);
 	}
 
 	public static java.util.List<com.liferay.portlet.dynamicdatalists.model.DDLRecord> getRecords(
-		long recordSetId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long recordSetId) {
 		return getService().getRecords(recordSetId);
 	}
 
 	public static java.util.List<com.liferay.portlet.dynamicdatalists.model.DDLRecord> getRecords(
 		long recordSetId, int status, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator) {
 		return getService()
 				   .getRecords(recordSetId, status, start, end,
 			orderByComparator);
 	}
 
 	public static java.util.List<com.liferay.portlet.dynamicdatalists.model.DDLRecord> getRecords(
-		long recordSetId, long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long recordSetId, long userId) {
 		return getService().getRecords(recordSetId, userId);
 	}
 
-	public static int getRecordsCount(long recordSetId, int status)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getRecordsCount(long recordSetId, int status) {
 		return getService().getRecordsCount(recordSetId, status);
 	}
 
 	public static com.liferay.portlet.dynamicdatalists.model.DDLRecordVersion getRecordVersion(
 		long recordVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getRecordVersion(recordVersionId);
 	}
 
 	public static com.liferay.portlet.dynamicdatalists.model.DDLRecordVersion getRecordVersion(
 		long recordId, java.lang.String version)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getRecordVersion(recordId, version);
 	}
 
 	public static java.util.List<com.liferay.portlet.dynamicdatalists.model.DDLRecordVersion> getRecordVersions(
 		long recordId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator) {
 		return getService()
 				   .getRecordVersions(recordId, start, end, orderByComparator);
 	}
 
-	public static int getRecordVersionsCount(long recordId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int getRecordVersionsCount(long recordId) {
 		return getService().getRecordVersionsCount(recordId);
 	}
 
 	public static void revertRecordVersion(long userId, long recordId,
 		java.lang.String version,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService()
 			.revertRecordVersion(userId, recordId, version, serviceContext);
 	}
 
 	public static com.liferay.portal.kernel.search.Hits search(
-		com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.search.SearchContext searchContext) {
 		return getService().search(searchContext);
 	}
 
 	public static com.liferay.portal.kernel.search.BaseModelSearchResult<com.liferay.portlet.dynamicdatalists.model.DDLRecord> searchDDLRecords(
-		com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.search.SearchContext searchContext) {
 		return getService().searchDDLRecords(searchContext);
 	}
 
@@ -518,8 +493,7 @@ public class DDLRecordLocalServiceUtil {
 		com.liferay.portlet.dynamicdatalists.model.DDLRecordVersion recordVersion,
 		long[] assetCategoryIds, java.lang.String[] assetTagNames,
 		java.util.Locale locale)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService()
 			.updateAsset(userId, record, recordVersion, assetCategoryIds,
 			assetTagNames, locale);
@@ -530,8 +504,7 @@ public class DDLRecordLocalServiceUtil {
 		com.liferay.portlet.dynamicdatamapping.storage.Fields fields,
 		boolean mergeFields,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateRecord(userId, recordId, majorVersion, displayIndex,
 			fields, mergeFields, serviceContext);
@@ -542,8 +515,7 @@ public class DDLRecordLocalServiceUtil {
 		java.util.Map<java.lang.String, java.io.Serializable> fieldsMap,
 		boolean mergeFields,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateRecord(userId, recordId, displayIndex, fieldsMap,
 			mergeFields, serviceContext);
@@ -552,8 +524,7 @@ public class DDLRecordLocalServiceUtil {
 	public static com.liferay.portlet.dynamicdatalists.model.DDLRecord updateStatus(
 		long userId, long recordVersionId, int status,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateStatus(userId, recordVersionId, status, serviceContext);
 	}

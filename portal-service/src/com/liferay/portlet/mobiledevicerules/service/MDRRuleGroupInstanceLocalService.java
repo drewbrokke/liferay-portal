@@ -288,83 +288,66 @@ public interface MDRRuleGroupInstanceLocalService extends BaseLocalService,
 		long groupId, java.lang.String className, long classPK,
 		long ruleGroupId, int priority,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance addRuleGroupInstance(
 		long groupId, java.lang.String className, long classPK,
 		long ruleGroupId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteGroupRuleGroupInstances(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteGroupRuleGroupInstances(long groupId);
 
-	public void deleteRuleGroupInstance(long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteRuleGroupInstance(long ruleGroupInstanceId);
 
 	public void deleteRuleGroupInstance(
-		com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance ruleGroupInstance)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance ruleGroupInstance);
 
-	public void deleteRuleGroupInstances(long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteRuleGroupInstances(long ruleGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance fetchRuleGroupInstance(
-		long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long ruleGroupInstanceId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance fetchRuleGroupInstance(
-		java.lang.String className, long classPK, long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String className, long classPK, long ruleGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance getRuleGroupInstance(
 		long ruleGroupInstanceId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance getRuleGroupInstance(
 		java.lang.String className, long classPK, long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance> getRuleGroupInstances(
-		long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long ruleGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance> getRuleGroupInstances(
-		long ruleGroupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long ruleGroupId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance> getRuleGroupInstances(
-		java.lang.String className, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		java.lang.String className, long classPK);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance> getRuleGroupInstances(
 		java.lang.String className, long classPK, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getRuleGroupInstancesCount(long ruleGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public int getRuleGroupInstancesCount(long ruleGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getRuleGroupInstancesCount(java.lang.String className,
-		long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long classPK);
 
 	public com.liferay.portlet.mobiledevicerules.model.MDRRuleGroupInstance updateRuleGroupInstance(
 		long ruleGroupInstanceId, int priority)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

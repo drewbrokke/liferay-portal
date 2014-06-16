@@ -347,8 +347,7 @@ public class JournalFeedLocalServiceWrapper implements JournalFeedLocalService,
 		java.lang.String targetPortletId, java.lang.String contentField,
 		java.lang.String feedFormat, double feedVersion,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalFeedLocalService.addFeed(userId, groupId, feedId,
 			autoFeedId, name, description, type, structureId, templateId,
 			rendererTemplateId, delta, orderByCol, orderByType,
@@ -360,8 +359,7 @@ public class JournalFeedLocalServiceWrapper implements JournalFeedLocalService,
 	public void addFeedResources(
 		com.liferay.portlet.journal.model.JournalFeed feed,
 		boolean addGroupPermissions, boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalFeedLocalService.addFeedResources(feed, addGroupPermissions,
 			addGuestPermissions);
 	}
@@ -370,8 +368,7 @@ public class JournalFeedLocalServiceWrapper implements JournalFeedLocalService,
 	public void addFeedResources(
 		com.liferay.portlet.journal.model.JournalFeed feed,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalFeedLocalService.addFeedResources(feed, groupPermissions,
 			guestPermissions);
 	}
@@ -379,8 +376,7 @@ public class JournalFeedLocalServiceWrapper implements JournalFeedLocalService,
 	@Override
 	public void addFeedResources(long feedId, boolean addGroupPermissions,
 		boolean addGuestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalFeedLocalService.addFeedResources(feedId, addGroupPermissions,
 			addGuestPermissions);
 	}
@@ -388,86 +384,74 @@ public class JournalFeedLocalServiceWrapper implements JournalFeedLocalService,
 	@Override
 	public void addFeedResources(long feedId,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalFeedLocalService.addFeedResources(feedId, groupPermissions,
 			guestPermissions);
 	}
 
 	@Override
 	public void deleteFeed(com.liferay.portlet.journal.model.JournalFeed feed)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalFeedLocalService.deleteFeed(feed);
 	}
 
 	@Override
 	public void deleteFeed(long feedId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalFeedLocalService.deleteFeed(feedId);
 	}
 
 	@Override
 	public void deleteFeed(long groupId, java.lang.String feedId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalFeedLocalService.deleteFeed(groupId, feedId);
 	}
 
 	@Override
 	public com.liferay.portlet.journal.model.JournalFeed fetchFeed(
-		long groupId, java.lang.String feedId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String feedId) {
 		return _journalFeedLocalService.fetchFeed(groupId, feedId);
 	}
 
 	@Override
 	public com.liferay.portlet.journal.model.JournalFeed getFeed(long feedId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalFeedLocalService.getFeed(feedId);
 	}
 
 	@Override
 	public com.liferay.portlet.journal.model.JournalFeed getFeed(long groupId,
 		java.lang.String feedId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalFeedLocalService.getFeed(groupId, feedId);
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.journal.model.JournalFeed> getFeeds()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.journal.model.JournalFeed> getFeeds() {
 		return _journalFeedLocalService.getFeeds();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.journal.model.JournalFeed> getFeeds(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return _journalFeedLocalService.getFeeds(groupId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.journal.model.JournalFeed> getFeeds(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, int start, int end) {
 		return _journalFeedLocalService.getFeeds(groupId, start, end);
 	}
 
 	@Override
-	public int getFeedsCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getFeedsCount(long groupId) {
 		return _journalFeedLocalService.getFeedsCount(groupId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.journal.model.JournalFeed> search(
 		long companyId, long groupId, java.lang.String keywords, int start,
-		int end, com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int end, com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return _journalFeedLocalService.search(companyId, groupId, keywords,
 			start, end, obc);
 	}
@@ -477,24 +461,21 @@ public class JournalFeedLocalServiceWrapper implements JournalFeedLocalService,
 		long companyId, long groupId, java.lang.String feedId,
 		java.lang.String name, java.lang.String description,
 		boolean andOperator, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return _journalFeedLocalService.search(companyId, groupId, feedId,
 			name, description, andOperator, start, end, obc);
 	}
 
 	@Override
 	public int searchCount(long companyId, long groupId,
-		java.lang.String keywords)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String keywords) {
 		return _journalFeedLocalService.searchCount(companyId, groupId, keywords);
 	}
 
 	@Override
 	public int searchCount(long companyId, long groupId,
 		java.lang.String feedId, java.lang.String name,
-		java.lang.String description, boolean andOperator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String description, boolean andOperator) {
 		return _journalFeedLocalService.searchCount(companyId, groupId, feedId,
 			name, description, andOperator);
 	}
@@ -510,8 +491,7 @@ public class JournalFeedLocalServiceWrapper implements JournalFeedLocalService,
 		java.lang.String targetPortletId, java.lang.String contentField,
 		java.lang.String feedFormat, double feedVersion,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalFeedLocalService.updateFeed(groupId, feedId, name,
 			description, type, structureId, templateId, rendererTemplateId,
 			delta, orderByCol, orderByType, targetLayoutFriendlyUrl,

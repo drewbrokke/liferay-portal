@@ -795,8 +795,7 @@ public class AssetVocabularyWrapper implements AssetVocabulary,
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.asset.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.asset.model.AssetCategory> getCategories() {
 		return _assetVocabulary.getCategories();
 	}
 
@@ -808,6 +807,11 @@ public class AssetVocabularyWrapper implements AssetVocabulary,
 	@Override
 	public long[] getSelectedClassNameIds() {
 		return _assetVocabulary.getSelectedClassNameIds();
+	}
+
+	@Override
+	public long[] getSelectedClassTypePKs() {
+		return _assetVocabulary.getSelectedClassTypePKs();
 	}
 
 	/**
@@ -823,15 +827,13 @@ public class AssetVocabularyWrapper implements AssetVocabulary,
 	public java.lang.String getUnambiguousTitle(
 		java.util.List<com.liferay.portlet.asset.model.AssetVocabulary> vocabularies,
 		long groupId, java.util.Locale locale)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _assetVocabulary.getUnambiguousTitle(vocabularies, groupId,
 			locale);
 	}
 
 	@Override
-	public boolean hasMoreThanOneCategorySelected(long[] categoryIds)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public boolean hasMoreThanOneCategorySelected(long[] categoryIds) {
 		return _assetVocabulary.hasMoreThanOneCategorySelected(categoryIds);
 	}
 
@@ -841,11 +843,17 @@ public class AssetVocabularyWrapper implements AssetVocabulary,
 	}
 
 	@Override
+	public boolean isAssociatedToClassNameIdAndClassTypePK(long classNameId,
+		long classTypePK) {
+		return _assetVocabulary.isAssociatedToClassNameIdAndClassTypePK(classNameId,
+			classTypePK);
+	}
+
+	@Override
 	public boolean isMissingRequiredCategory(long classNameId,
-		long[] categoryIds)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long classTypePK, long[] categoryIds) {
 		return _assetVocabulary.isMissingRequiredCategory(classNameId,
-			categoryIds);
+			classTypePK, categoryIds);
 	}
 
 	@Override
@@ -853,9 +861,18 @@ public class AssetVocabularyWrapper implements AssetVocabulary,
 		return _assetVocabulary.isMultiValued();
 	}
 
+	/**
+	* @deprecated As of 7.0.0, replaced by {@link #isRequired(long, long)}
+	*/
+	@Deprecated
 	@Override
 	public boolean isRequired(long classNameId) {
 		return _assetVocabulary.isRequired(classNameId);
+	}
+
+	@Override
+	public boolean isRequired(long classNameId, long classTypePK) {
+		return _assetVocabulary.isRequired(classNameId, classTypePK);
 	}
 
 	/**

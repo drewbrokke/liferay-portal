@@ -242,31 +242,25 @@ public interface AssetTagPropertyLocalService extends BaseLocalService,
 	* @return the created asset tag property
 	* @throws PortalException if a user with the primary key could not be
 	found, or if the key or value were invalid
-	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.portlet.asset.model.AssetTagProperty addTagProperty(
 		long userId, long tagId, java.lang.String key, java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Deletes the asset tag property with the specified tag ID.
 	*
 	* @param tagId the primary key of the tag
-	* @throws SystemException if a system exception occurred
 	*/
-	public void deleteTagProperties(long tagId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteTagProperties(long tagId);
 
 	/**
 	* Deletes the asset tag property instance.
 	*
 	* @param tagProperty the asset tag property instance
-	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteTagProperty(
-		com.liferay.portlet.asset.model.AssetTagProperty tagProperty)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.asset.model.AssetTagProperty tagProperty);
 
 	/**
 	* Deletes the asset tag property with the specified ID.
@@ -274,32 +268,27 @@ public interface AssetTagPropertyLocalService extends BaseLocalService,
 	* @param tagPropertyId the primary key of the asset tag property instance
 	* @throws PortalException if an asset tag property with the primary key
 	could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteTagProperty(long tagPropertyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Returns all the asset tag property instances.
 	*
 	* @return the asset tag property instances
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.portlet.asset.model.AssetTagProperty> getTagProperties()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.portlet.asset.model.AssetTagProperty> getTagProperties();
 
 	/**
 	* Returns all the asset tag property instances with the specified tag ID.
 	*
 	* @param tagId the primary key of the tag
 	* @return the matching asset tag properties
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTagProperty> getTagProperties(
-		long tagId) throws com.liferay.portal.kernel.exception.SystemException;
+		long tagId);
 
 	/**
 	* Returns the asset tag property with the specified ID.
@@ -308,13 +297,11 @@ public interface AssetTagPropertyLocalService extends BaseLocalService,
 	* @return the matching asset tag property
 	* @throws PortalException if an asset tag property with the primary key
 	could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.asset.model.AssetTagProperty getTagProperty(
 		long tagPropertyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Returns the asset tag property with the specified tag ID and key.
@@ -324,24 +311,20 @@ public interface AssetTagPropertyLocalService extends BaseLocalService,
 	* @return the matching asset tag property
 	* @throws PortalException if an asset tag property with the tag ID and key
 	could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.asset.model.AssetTagProperty getTagProperty(
 		long tagId, java.lang.String key)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Returns asset tag property keys with the specified group
 	*
 	* @param groupId the primary key of the group
 	* @return the matching asset tag property keys
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.lang.String[] getTagPropertyKeys(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.lang.String[] getTagPropertyKeys(long groupId);
 
 	/**
 	* Returns asset tag properties with the specified group and key.
@@ -349,12 +332,10 @@ public interface AssetTagPropertyLocalService extends BaseLocalService,
 	* @param groupId the primary key of the group
 	* @param key the key that refers to some value
 	* @return the matching asset tag properties
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.asset.model.AssetTagProperty> getTagPropertyValues(
-		long groupId, java.lang.String key)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long groupId, java.lang.String key);
 
 	/**
 	* Updates the asset tag property.
@@ -365,10 +346,8 @@ public interface AssetTagPropertyLocalService extends BaseLocalService,
 	* @return the updated asset tag property
 	* @throws PortalException if an asset tag property with the primary key
 	could not be found, or if the key or value were invalid
-	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.portlet.asset.model.AssetTagProperty updateTagProperty(
 		long tagPropertyId, java.lang.String key, java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

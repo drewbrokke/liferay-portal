@@ -287,32 +287,25 @@ public interface MBThreadFlagLocalService extends BaseLocalService,
 	public void addThreadFlag(long userId,
 		com.liferay.portlet.messageboards.model.MBThread thread,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteThreadFlag(long threadFlagId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteThreadFlag(
-		com.liferay.portlet.messageboards.model.MBThreadFlag threadFlag)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.messageboards.model.MBThreadFlag threadFlag);
 
-	public void deleteThreadFlagsByThreadId(long threadId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteThreadFlagsByThreadId(long threadId);
 
-	public void deleteThreadFlagsByUserId(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteThreadFlagsByUserId(long userId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.messageboards.model.MBThreadFlag getThreadFlag(
 		long userId, com.liferay.portlet.messageboards.model.MBThread thread)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasThreadFlag(long userId,
 		com.liferay.portlet.messageboards.model.MBThread thread)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

@@ -61,34 +61,29 @@ public class AssetCategoryPropertyServiceUtil {
 
 	public static com.liferay.portlet.asset.model.AssetCategoryProperty addCategoryProperty(
 		long entryId, java.lang.String key, java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().addCategoryProperty(entryId, key, value);
 	}
 
 	public static void deleteCategoryProperty(long categoryPropertyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteCategoryProperty(categoryPropertyId);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategoryProperty> getCategoryProperties(
-		long entryId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long entryId) {
 		return getService().getCategoryProperties(entryId);
 	}
 
 	public static java.util.List<com.liferay.portlet.asset.model.AssetCategoryProperty> getCategoryPropertyValues(
-		long companyId, java.lang.String key)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long companyId, java.lang.String key) {
 		return getService().getCategoryPropertyValues(companyId, key);
 	}
 
 	public static com.liferay.portlet.asset.model.AssetCategoryProperty updateCategoryProperty(
 		long userId, long categoryPropertyId, java.lang.String key,
 		java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateCategoryProperty(userId, categoryPropertyId, key,
 			value);
@@ -96,8 +91,7 @@ public class AssetCategoryPropertyServiceUtil {
 
 	public static com.liferay.portlet.asset.model.AssetCategoryProperty updateCategoryProperty(
 		long categoryPropertyId, java.lang.String key, java.lang.String value)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateCategoryProperty(categoryPropertyId, key, value);
 	}

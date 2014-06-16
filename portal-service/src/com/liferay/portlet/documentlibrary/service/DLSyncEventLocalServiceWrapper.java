@@ -274,27 +274,23 @@ public class DLSyncEventLocalServiceWrapper implements DLSyncEventLocalService,
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLSyncEvent addDLSyncEvent(
-		java.lang.String event, java.lang.String type, long typePK)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String event, java.lang.String type, long typePK) {
 		return _dlSyncEventLocalService.addDLSyncEvent(event, type, typePK);
 	}
 
 	@Override
-	public void deleteDLSyncEvents()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteDLSyncEvents() {
 		_dlSyncEventLocalService.deleteDLSyncEvents();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLSyncEvent> getDLSyncEvents(
-		long modifiedTime)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long modifiedTime) {
 		return _dlSyncEventLocalService.getDLSyncEvents(modifiedTime);
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.documentlibrary.model.DLSyncEvent> getLatestDLSyncEvents()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.documentlibrary.model.DLSyncEvent> getLatestDLSyncEvents() {
 		return _dlSyncEventLocalService.getLatestDLSyncEvents();
 	}
 

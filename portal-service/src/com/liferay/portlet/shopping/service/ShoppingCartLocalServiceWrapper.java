@@ -271,29 +271,25 @@ public class ShoppingCartLocalServiceWrapper implements ShoppingCartLocalService
 	}
 
 	@Override
-	public void deleteGroupCarts(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteGroupCarts(long groupId) {
 		_shoppingCartLocalService.deleteGroupCarts(groupId);
 	}
 
 	@Override
-	public void deleteUserCarts(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteUserCarts(long userId) {
 		_shoppingCartLocalService.deleteUserCarts(userId);
 	}
 
 	@Override
 	public com.liferay.portlet.shopping.model.ShoppingCart getCart(
 		long userId, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _shoppingCartLocalService.getCart(userId, groupId);
 	}
 
 	@Override
 	public java.util.Map<com.liferay.portlet.shopping.model.ShoppingCartItem, java.lang.Integer> getItems(
-		long groupId, java.lang.String itemIds)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String itemIds) {
 		return _shoppingCartLocalService.getItems(groupId, itemIds);
 	}
 
@@ -301,8 +297,7 @@ public class ShoppingCartLocalServiceWrapper implements ShoppingCartLocalService
 	public com.liferay.portlet.shopping.model.ShoppingCart updateCart(
 		long userId, long groupId, java.lang.String itemIds,
 		java.lang.String couponCodes, int altShipping, boolean insure)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _shoppingCartLocalService.updateCart(userId, groupId, itemIds,
 			couponCodes, altShipping, insure);
 	}

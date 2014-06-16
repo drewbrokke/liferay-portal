@@ -922,15 +922,13 @@ public class BookmarksEntryWrapper implements BookmarksEntry,
 
 	@Override
 	public java.lang.String buildTreePath()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _bookmarksEntry.buildTreePath();
 	}
 
 	@Override
 	public com.liferay.portlet.bookmarks.model.BookmarksFolder getFolder()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _bookmarksEntry.getFolder();
 	}
 

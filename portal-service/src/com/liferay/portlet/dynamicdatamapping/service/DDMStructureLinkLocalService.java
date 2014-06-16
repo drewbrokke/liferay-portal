@@ -234,48 +234,38 @@ public interface DDMStructureLinkLocalService extends BaseLocalService,
 
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink addStructureLink(
 		long classNameId, long classPK, long structureId,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portal.service.ServiceContext serviceContext);
 
 	public void deleteClassStructureLink(long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteStructureLink(
-		com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink structureLink)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink structureLink);
 
 	public void deleteStructureLink(long structureLinkId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteStructureStructureLinks(long structureId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteStructureStructureLinks(long structureId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink getClassStructureLink(
 		long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink> getClassStructureLinks(
-		long classNameId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long classNameId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink getStructureLink(
 		long structureLinkId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink> getStructureLinks(
-		long structureId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		long structureId, int start, int end);
 
 	public com.liferay.portlet.dynamicdatamapping.model.DDMStructureLink updateStructureLink(
 		long structureLinkId, long classNameId, long classPK, long structureId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

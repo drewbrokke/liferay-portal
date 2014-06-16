@@ -148,6 +148,8 @@ public class UserNotificationEventPersistenceTest {
 
 		newUserNotificationEvent.setPayload(RandomTestUtil.randomString());
 
+		newUserNotificationEvent.setActionRequired(RandomTestUtil.randomBoolean());
+
 		newUserNotificationEvent.setArchived(RandomTestUtil.randomBoolean());
 
 		_persistence.update(newUserNotificationEvent);
@@ -176,6 +178,8 @@ public class UserNotificationEventPersistenceTest {
 			newUserNotificationEvent.getDelivered());
 		Assert.assertEquals(existingUserNotificationEvent.getPayload(),
 			newUserNotificationEvent.getPayload());
+		Assert.assertEquals(existingUserNotificationEvent.getActionRequired(),
+			newUserNotificationEvent.getActionRequired());
 		Assert.assertEquals(existingUserNotificationEvent.getArchived(),
 			newUserNotificationEvent.getArchived());
 	}
@@ -248,6 +252,34 @@ public class UserNotificationEventPersistenceTest {
 	}
 
 	@Test
+	public void testCountByU_D_A() {
+		try {
+			_persistence.countByU_D_A(RandomTestUtil.nextLong(),
+				RandomTestUtil.randomBoolean(), RandomTestUtil.randomBoolean());
+
+			_persistence.countByU_D_A(0L, RandomTestUtil.randomBoolean(),
+				RandomTestUtil.randomBoolean());
+		}
+		catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCountByU_A_A() {
+		try {
+			_persistence.countByU_A_A(RandomTestUtil.nextLong(),
+				RandomTestUtil.randomBoolean(), RandomTestUtil.randomBoolean());
+
+			_persistence.countByU_A_A(0L, RandomTestUtil.randomBoolean(),
+				RandomTestUtil.randomBoolean());
+		}
+		catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+
+	@Test
 	public void testFindByPrimaryKeyExisting() throws Exception {
 		UserNotificationEvent newUserNotificationEvent = addUserNotificationEvent();
 
@@ -287,7 +319,7 @@ public class UserNotificationEventPersistenceTest {
 			"mvccVersion", true, "uuid", true, "userNotificationEventId", true,
 			"companyId", true, "userId", true, "type", true, "timestamp", true,
 			"deliveryType", true, "deliverBy", true, "delivered", true,
-			"payload", true, "archived", true);
+			"payload", true, "actionRequired", true, "archived", true);
 	}
 
 	@Test
@@ -516,6 +548,8 @@ public class UserNotificationEventPersistenceTest {
 		userNotificationEvent.setDelivered(RandomTestUtil.randomBoolean());
 
 		userNotificationEvent.setPayload(RandomTestUtil.randomString());
+
+		userNotificationEvent.setActionRequired(RandomTestUtil.randomBoolean());
 
 		userNotificationEvent.setArchived(RandomTestUtil.randomBoolean());
 

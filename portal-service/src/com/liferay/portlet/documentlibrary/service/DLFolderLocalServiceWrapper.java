@@ -457,8 +457,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 		long parentFolderId, java.lang.String name,
 		java.lang.String description, boolean hidden,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.addFolder(userId, groupId, repositoryId,
 			mountPoint, parentFolderId, name, description, hidden,
 			serviceContext);
@@ -476,24 +475,21 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 		long parentFolderId, java.lang.String name,
 		java.lang.String description,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.addFolder(userId, groupId, repositoryId,
 			mountPoint, parentFolderId, name, description, serviceContext);
 	}
 
 	@Override
 	public void deleteAll(long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlFolderLocalService.deleteAll(groupId);
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder deleteFolder(
 		com.liferay.portlet.documentlibrary.model.DLFolder dlFolder)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.deleteFolder(dlFolder);
 	}
 
@@ -501,8 +497,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	public com.liferay.portlet.documentlibrary.model.DLFolder deleteFolder(
 		com.liferay.portlet.documentlibrary.model.DLFolder dlFolder,
 		boolean includeTrashedEntries)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.deleteFolder(dlFolder,
 			includeTrashedEntries);
 	}
@@ -510,16 +505,14 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder deleteFolder(
 		long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.deleteFolder(folderId);
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder deleteFolder(
 		long folderId, boolean includeTrashedEntries)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.deleteFolder(folderId,
 			includeTrashedEntries);
 	}
@@ -527,36 +520,31 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder deleteFolder(
 		long userId, long folderId, boolean includeTrashedEntries)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.deleteFolder(userId, folderId,
 			includeTrashedEntries);
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder fetchFolder(
-		long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long folderId) {
 		return _dlFolderLocalService.fetchFolder(folderId);
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder fetchFolder(
-		long groupId, long parentFolderId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long parentFolderId, java.lang.String name) {
 		return _dlFolderLocalService.fetchFolder(groupId, parentFolderId, name);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getCompanyFolders(
-		long companyId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long companyId, int start, int end) {
 		return _dlFolderLocalService.getCompanyFolders(companyId, start, end);
 	}
 
 	@Override
-	public int getCompanyFoldersCount(long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getCompanyFoldersCount(long companyId) {
 		return _dlFolderLocalService.getCompanyFoldersCount(companyId);
 	}
 
@@ -567,8 +555,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Deprecated
 	@Override
 	public java.util.List<java.lang.Object> getFileEntriesAndFileShortcuts(
-		long groupId, long folderId, int status, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long folderId, int status, int start, int end) {
 		return _dlFolderLocalService.getFileEntriesAndFileShortcuts(groupId,
 			folderId, status, start, end);
 	}
@@ -576,8 +563,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Override
 	public java.util.List<java.lang.Object> getFileEntriesAndFileShortcuts(
 		long groupId, long folderId,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition) {
 		return _dlFolderLocalService.getFileEntriesAndFileShortcuts(groupId,
 			folderId, queryDefinition);
 	}
@@ -590,15 +576,14 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Deprecated
 	@Override
 	public int getFileEntriesAndFileShortcutsCount(long groupId, long folderId,
-		int status) throws com.liferay.portal.kernel.exception.SystemException {
+		int status) {
 		return _dlFolderLocalService.getFileEntriesAndFileShortcutsCount(groupId,
 			folderId, status);
 	}
 
 	@Override
 	public int getFileEntriesAndFileShortcutsCount(long groupId, long folderId,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition) {
 		return _dlFolderLocalService.getFileEntriesAndFileShortcutsCount(groupId,
 			folderId, queryDefinition);
 	}
@@ -606,43 +591,37 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder getFolder(
 		long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.getFolder(folderId);
 	}
 
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder getFolder(
 		long groupId, long parentFolderId, java.lang.String name)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.getFolder(groupId, parentFolderId, name);
 	}
 
 	@Override
-	public long getFolderId(long companyId, long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long getFolderId(long companyId, long folderId) {
 		return _dlFolderLocalService.getFolderId(companyId, folderId);
 	}
 
 	@Override
 	public java.util.List<java.lang.Long> getFolderIds(long groupId,
-		long parentFolderId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long parentFolderId) {
 		return _dlFolderLocalService.getFolderIds(groupId, parentFolderId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getFolders(
-		long groupId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long parentFolderId) {
 		return _dlFolderLocalService.getFolders(groupId, parentFolderId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getFolders(
-		long groupId, long parentFolderId, boolean includeMountfolders)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long parentFolderId, boolean includeMountfolders) {
 		return _dlFolderLocalService.getFolders(groupId, parentFolderId,
 			includeMountfolders);
 	}
@@ -650,8 +629,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getFolders(
 		long groupId, long parentFolderId, boolean includeMountfolders,
-		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return _dlFolderLocalService.getFolders(groupId, parentFolderId,
 			includeMountfolders, start, end, obc);
 	}
@@ -659,8 +637,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getFolders(
 		long groupId, long parentFolderId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return _dlFolderLocalService.getFolders(groupId, parentFolderId, start,
 			end, obc);
 	}
@@ -674,8 +651,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Override
 	public java.util.List<java.lang.Object> getFoldersAndFileEntriesAndFileShortcuts(
 		long groupId, long folderId, int status, boolean includeMountFolders,
-		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return _dlFolderLocalService.getFoldersAndFileEntriesAndFileShortcuts(groupId,
 			folderId, status, includeMountFolders, start, end, obc);
 	}
@@ -690,8 +666,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	public java.util.List<java.lang.Object> getFoldersAndFileEntriesAndFileShortcuts(
 		long groupId, long folderId, int status, java.lang.String[] mimeTypes,
 		boolean includeMountFolders, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return _dlFolderLocalService.getFoldersAndFileEntriesAndFileShortcuts(groupId,
 			folderId, status, mimeTypes, includeMountFolders, start, end, obc);
 	}
@@ -700,8 +675,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	public java.util.List<java.lang.Object> getFoldersAndFileEntriesAndFileShortcuts(
 		long groupId, long folderId, java.lang.String[] mimeTypes,
 		boolean includeMountFolders,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition) {
 		return _dlFolderLocalService.getFoldersAndFileEntriesAndFileShortcuts(groupId,
 			folderId, mimeTypes, includeMountFolders, queryDefinition);
 	}
@@ -714,8 +688,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Deprecated
 	@Override
 	public int getFoldersAndFileEntriesAndFileShortcutsCount(long groupId,
-		long folderId, int status, boolean includeMountFolders)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long folderId, int status, boolean includeMountFolders) {
 		return _dlFolderLocalService.getFoldersAndFileEntriesAndFileShortcutsCount(groupId,
 			folderId, status, includeMountFolders);
 	}
@@ -729,8 +702,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Override
 	public int getFoldersAndFileEntriesAndFileShortcutsCount(long groupId,
 		long folderId, int status, java.lang.String[] mimeTypes,
-		boolean includeMountFolders)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean includeMountFolders) {
 		return _dlFolderLocalService.getFoldersAndFileEntriesAndFileShortcutsCount(groupId,
 			folderId, status, mimeTypes, includeMountFolders);
 	}
@@ -739,30 +711,26 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	public int getFoldersAndFileEntriesAndFileShortcutsCount(long groupId,
 		long folderId, java.lang.String[] mimeTypes,
 		boolean includeMountFolders,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.dao.orm.QueryDefinition queryDefinition) {
 		return _dlFolderLocalService.getFoldersAndFileEntriesAndFileShortcutsCount(groupId,
 			folderId, mimeTypes, includeMountFolders, queryDefinition);
 	}
 
 	@Override
-	public int getFoldersCount(long groupId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getFoldersCount(long groupId, long parentFolderId) {
 		return _dlFolderLocalService.getFoldersCount(groupId, parentFolderId);
 	}
 
 	@Override
 	public int getFoldersCount(long groupId, long parentFolderId,
-		boolean includeMountfolders)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean includeMountfolders) {
 		return _dlFolderLocalService.getFoldersCount(groupId, parentFolderId,
 			includeMountfolders);
 	}
 
 	@Override
 	public int getFoldersCount(long groupId, long parentFolderId, int status,
-		boolean includeMountfolders)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean includeMountfolders) {
 		return _dlFolderLocalService.getFoldersCount(groupId, parentFolderId,
 			status, includeMountfolders);
 	}
@@ -770,58 +738,50 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	@Override
 	public com.liferay.portlet.documentlibrary.model.DLFolder getMountFolder(
 		long repositoryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.getMountFolder(repositoryId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getMountFolders(
 		long groupId, long parentFolderId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator obc) {
 		return _dlFolderLocalService.getMountFolders(groupId, parentFolderId,
 			start, end, obc);
 	}
 
 	@Override
-	public int getMountFoldersCount(long groupId, long parentFolderId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getMountFoldersCount(long groupId, long parentFolderId) {
 		return _dlFolderLocalService.getMountFoldersCount(groupId,
 			parentFolderId);
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getNoAssetFolders()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> getNoAssetFolders() {
 		return _dlFolderLocalService.getNoAssetFolders();
 	}
 
 	@Override
 	public void getSubfolderIds(java.util.List<java.lang.Long> folderIds,
-		long groupId, long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long folderId) {
 		_dlFolderLocalService.getSubfolderIds(folderIds, groupId, folderId);
 	}
 
 	@Override
-	public boolean hasFolderLock(long userId, long folderId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public boolean hasFolderLock(long userId, long folderId) {
 		return _dlFolderLocalService.hasFolderLock(userId, folderId);
 	}
 
 	@Override
 	public com.liferay.portal.model.Lock lockFolder(long userId, long folderId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.lockFolder(userId, folderId);
 	}
 
 	@Override
 	public com.liferay.portal.model.Lock lockFolder(long userId, long folderId,
 		java.lang.String owner, boolean inheritable, long expirationTime)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.lockFolder(userId, folderId, owner,
 			inheritable, expirationTime);
 	}
@@ -830,31 +790,27 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 	public com.liferay.portlet.documentlibrary.model.DLFolder moveFolder(
 		long userId, long folderId, long parentFolderId,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.moveFolder(userId, folderId,
 			parentFolderId, serviceContext);
 	}
 
 	@Override
-	public void rebuildTree(long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void rebuildTree(long companyId) {
 		_dlFolderLocalService.rebuildTree(companyId);
 	}
 
 	@Override
 	public void unlockFolder(long groupId, long parentFolderId,
 		java.lang.String name, java.lang.String lockUuid)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlFolderLocalService.unlockFolder(groupId, parentFolderId, name,
 			lockUuid);
 	}
 
 	@Override
 	public void unlockFolder(long folderId, java.lang.String lockUuid)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlFolderLocalService.unlockFolder(folderId, lockUuid);
 	}
 
@@ -865,8 +821,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 		java.util.List<java.lang.Long> fileEntryTypeIds,
 		boolean overrideFileEntryTypes,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.updateFolder(folderId, parentFolderId,
 			name, description, defaultFileEntryTypeId, fileEntryTypeIds,
 			overrideFileEntryTypes, serviceContext);
@@ -879,8 +834,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 		java.util.List<java.lang.Long> fileEntryTypeIds,
 		boolean overrideFileEntryTypes,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.updateFolder(folderId, name, description,
 			defaultFileEntryTypeId, fileEntryTypeIds, overrideFileEntryTypes,
 			serviceContext);
@@ -893,8 +847,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 		java.util.List<java.lang.Long> fileEntryTypeIds,
 		boolean overrideFileEntryTypes,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.updateFolderAndFileEntryTypes(userId,
 			folderId, parentFolderId, name, description,
 			defaultFileEntryTypeId, fileEntryTypeIds, overrideFileEntryTypes,
@@ -903,8 +856,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 
 	@Override
 	public void updateLastPostDate(long folderId, java.util.Date lastPostDate)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_dlFolderLocalService.updateLastPostDate(folderId, lastPostDate);
 	}
 
@@ -913,8 +865,7 @@ public class DLFolderLocalServiceWrapper implements DLFolderLocalService,
 		long userId, long folderId, int status,
 		java.util.Map<java.lang.String, java.io.Serializable> workflowContext,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _dlFolderLocalService.updateStatus(userId, folderId, status,
 			workflowContext, serviceContext);
 	}

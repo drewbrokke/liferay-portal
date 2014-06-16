@@ -262,8 +262,7 @@ public class SocialActivityLimitLocalServiceUtil {
 	public static com.liferay.portlet.social.model.SocialActivityLimit addActivityLimit(
 		long userId, long groupId, long classNameId, long classPK,
 		int activityType, java.lang.String activityCounterName, int limitPeriod)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addActivityLimit(userId, groupId, classNameId, classPK,
 			activityType, activityCounterName, limitPeriod);
@@ -271,8 +270,7 @@ public class SocialActivityLimitLocalServiceUtil {
 
 	public static com.liferay.portlet.social.model.SocialActivityLimit fetchActivityLimit(
 		long groupId, long userId, long classNameId, long classPK,
-		int activityType, java.lang.String activityCounterName)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int activityType, java.lang.String activityCounterName) {
 		return getService()
 				   .fetchActivityLimit(groupId, userId, classNameId, classPK,
 			activityType, activityCounterName);

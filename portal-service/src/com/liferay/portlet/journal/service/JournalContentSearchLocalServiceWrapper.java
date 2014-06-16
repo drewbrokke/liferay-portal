@@ -277,89 +277,77 @@ public class JournalContentSearchLocalServiceWrapper
 
 	@Override
 	public void checkContentSearches(long companyId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_journalContentSearchLocalService.checkContentSearches(companyId);
 	}
 
 	@Override
 	public void deleteArticleContentSearch(long groupId, boolean privateLayout,
-		long layoutId, java.lang.String portletId, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long layoutId, java.lang.String portletId, java.lang.String articleId) {
 		_journalContentSearchLocalService.deleteArticleContentSearch(groupId,
 			privateLayout, layoutId, portletId, articleId);
 	}
 
 	@Override
 	public void deleteArticleContentSearches(long groupId,
-		java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String articleId) {
 		_journalContentSearchLocalService.deleteArticleContentSearches(groupId,
 			articleId);
 	}
 
 	@Override
 	public void deleteLayoutContentSearches(long groupId,
-		boolean privateLayout, long layoutId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean privateLayout, long layoutId) {
 		_journalContentSearchLocalService.deleteLayoutContentSearches(groupId,
 			privateLayout, layoutId);
 	}
 
 	@Override
-	public void deleteOwnerContentSearches(long groupId, boolean privateLayout)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteOwnerContentSearches(long groupId, boolean privateLayout) {
 		_journalContentSearchLocalService.deleteOwnerContentSearches(groupId,
 			privateLayout);
 	}
 
 	@Override
-	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> getArticleContentSearches()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> getArticleContentSearches() {
 		return _journalContentSearchLocalService.getArticleContentSearches();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> getArticleContentSearches(
-		long groupId, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, java.lang.String articleId) {
 		return _journalContentSearchLocalService.getArticleContentSearches(groupId,
 			articleId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> getArticleContentSearches(
-		java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String articleId) {
 		return _journalContentSearchLocalService.getArticleContentSearches(articleId);
 	}
 
 	@Override
 	public java.util.List<java.lang.Long> getLayoutIds(long groupId,
-		boolean privateLayout, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		boolean privateLayout, java.lang.String articleId) {
 		return _journalContentSearchLocalService.getLayoutIds(groupId,
 			privateLayout, articleId);
 	}
 
 	@Override
 	public int getLayoutIdsCount(long groupId, boolean privateLayout,
-		java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String articleId) {
 		return _journalContentSearchLocalService.getLayoutIdsCount(groupId,
 			privateLayout, articleId);
 	}
 
 	@Override
-	public int getLayoutIdsCount(java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getLayoutIdsCount(java.lang.String articleId) {
 		return _journalContentSearchLocalService.getLayoutIdsCount(articleId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> getPortletContentSearches(
-		java.lang.String portletId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		java.lang.String portletId) {
 		return _journalContentSearchLocalService.getPortletContentSearches(portletId);
 	}
 
@@ -367,8 +355,7 @@ public class JournalContentSearchLocalServiceWrapper
 	public com.liferay.portlet.journal.model.JournalContentSearch updateContentSearch(
 		long groupId, boolean privateLayout, long layoutId,
 		java.lang.String portletId, java.lang.String articleId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalContentSearchLocalService.updateContentSearch(groupId,
 			privateLayout, layoutId, portletId, articleId);
 	}
@@ -377,8 +364,7 @@ public class JournalContentSearchLocalServiceWrapper
 	public com.liferay.portlet.journal.model.JournalContentSearch updateContentSearch(
 		long groupId, boolean privateLayout, long layoutId,
 		java.lang.String portletId, java.lang.String articleId, boolean purge)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalContentSearchLocalService.updateContentSearch(groupId,
 			privateLayout, layoutId, portletId, articleId, purge);
 	}
@@ -387,8 +373,7 @@ public class JournalContentSearchLocalServiceWrapper
 	public java.util.List<com.liferay.portlet.journal.model.JournalContentSearch> updateContentSearch(
 		long groupId, boolean privateLayout, long layoutId,
 		java.lang.String portletId, java.lang.String[] articleIds)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _journalContentSearchLocalService.updateContentSearch(groupId,
 			privateLayout, layoutId, portletId, articleIds);
 	}

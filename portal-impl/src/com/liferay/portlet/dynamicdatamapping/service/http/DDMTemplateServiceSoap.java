@@ -93,7 +93,6 @@ public class DDMTemplateServiceSoap {
 	* @return the template
 	* @throws PortalException if the user did not have permission to add the
 	template or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap addTemplate(
 		long groupId, long classNameId, long classPK,
@@ -141,7 +140,6 @@ public class DDMTemplateServiceSoap {
 	* @return the new template
 	* @throws PortalException if the user did not have permission to add the
 	template or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap copyTemplate(
 		long templateId, java.lang.String[] nameMapLanguageIds,
@@ -204,7 +202,6 @@ public class DDMTemplateServiceSoap {
 	* @return the new template
 	* @throws PortalException if the user did not have permission to add the
 	template or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap[] copyTemplates(
 		long classNameId, long classPK, long newClassPK, java.lang.String type,
@@ -230,7 +227,6 @@ public class DDMTemplateServiceSoap {
 	* @param templateId the primary key of the template to be deleted
 	* @throws PortalException if the user did not have permission to delete the
 	template or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteTemplate(long templateId)
 		throws RemoteException {
@@ -255,7 +251,6 @@ public class DDMTemplateServiceSoap {
 	template could not be found
 	* @throws PortalException if the user did not have permission to view the
 	template
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap fetchTemplate(
 		long groupId, long classNameId, java.lang.String templateKey)
@@ -281,7 +276,6 @@ public class DDMTemplateServiceSoap {
 	* @return the template with the ID
 	* @throws PortalException if the user did not have permission to view the
 	template or if a matching template could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap getTemplate(
 		long templateId) throws RemoteException {
@@ -307,7 +301,6 @@ public class DDMTemplateServiceSoap {
 	* @param templateKey the unique string identifying the template
 	* @return the matching template
 	* @throws PortalException if a matching template could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap getTemplate(
 		long groupId, long classNameId, java.lang.String templateKey)
@@ -344,7 +337,6 @@ public class DDMTemplateServiceSoap {
 	search
 	* @return the matching template
 	* @throws PortalException if a matching template could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap getTemplate(
 		long groupId, long classNameId, java.lang.String templateKey,
@@ -370,7 +362,6 @@ public class DDMTemplateServiceSoap {
 	* @param classNameId the primary key of the class name for template's
 	related model
 	* @return the matching templates
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap[] getTemplates(
 		long groupId, long classNameId) throws RemoteException {
@@ -396,7 +387,6 @@ public class DDMTemplateServiceSoap {
 	related model
 	* @param classPK the primary key of the template's related entity
 	* @return the matching templates
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap[] getTemplates(
 		long groupId, long classNameId, long classPK) throws RemoteException {
@@ -442,7 +432,6 @@ public class DDMTemplateServiceSoap {
 	* @param type the template's type. For more information, see {@link
 	com.liferay.portlet.dynamicdatamapping.model.DDMTemplateConstants}.
 	* @return the matching templates
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap[] getTemplates(
 		long groupId, long classNameId, long classPK, java.lang.String type)
@@ -484,7 +473,6 @@ public class DDMTemplateServiceSoap {
 	* @param groupId the primary key of the group
 	* @param classPK the primary key of the template's related entity
 	* @return the matching templates
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap[] getTemplatesByClassPK(
 		long groupId, long classPK) throws RemoteException {
@@ -525,7 +513,6 @@ public class DDMTemplateServiceSoap {
 	* @param orderByComparator the comparator to order the templates
 	(optionally <code>null</code>)
 	* @return the range of matching templates ordered by the comparator
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap[] getTemplatesByStructureClassNameId(
 		long groupId, long structureClassNameId, int start, int end,
@@ -555,7 +542,6 @@ public class DDMTemplateServiceSoap {
 	<code>0</code> to count generic templates only.
 	* @return the number of matching templates plus the number of matching
 	generic templates
-	* @throws SystemException if a system exception occurred
 	*/
 	public static int getTemplatesByStructureClassNameIdCount(long groupId,
 		long structureClassNameId) throws RemoteException {
@@ -606,7 +592,6 @@ public class DDMTemplateServiceSoap {
 	* @param orderByComparator the comparator to order the templates
 	(optionally <code>null</code>)
 	* @return the matching templates ordered by the comparator
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap[] search(
 		long companyId, long groupId, long classNameId, long classPK,
@@ -668,7 +653,6 @@ public class DDMTemplateServiceSoap {
 	* @param orderByComparator the comparator to order the templates
 	(optionally <code>null</code>)
 	* @return the matching templates ordered by the comparator
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap[] search(
 		long companyId, long groupId, long classNameId, long classPK,
@@ -726,7 +710,6 @@ public class DDMTemplateServiceSoap {
 	* @param orderByComparator the comparator to order the templates
 	(optionally <code>null</code>)
 	* @return the matching templates ordered by the comparator
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap[] search(
 		long companyId, long[] groupIds, long[] classNameIds, long[] classPKs,
@@ -789,7 +772,6 @@ public class DDMTemplateServiceSoap {
 	* @param orderByComparator the comparator to order the templates
 	(optionally <code>null</code>)
 	* @return the matching templates ordered by the comparator
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap[] search(
 		long companyId, long[] groupIds, long[] classNameIds, long[] classPKs,
@@ -832,7 +814,6 @@ public class DDMTemplateServiceSoap {
 	information, see {@link
 	com.liferay.portlet.dynamicdatamapping.model.DDMTemplateConstants}.
 	* @return the number of matching templates
-	* @throws SystemException if a system exception occurred
 	*/
 	public static int searchCount(long companyId, long groupId,
 		long classNameId, long classPK, java.lang.String keywords,
@@ -874,7 +855,6 @@ public class DDMTemplateServiceSoap {
 	* @param andOperator whether every field must match its keywords, or just
 	one field.
 	* @return the number of matching templates
-	* @throws SystemException if a system exception occurred
 	*/
 	public static int searchCount(long companyId, long groupId,
 		long classNameId, long classPK, java.lang.String name,
@@ -914,7 +894,6 @@ public class DDMTemplateServiceSoap {
 	information, see {@link
 	com.liferay.portlet.dynamicdatamapping.model.DDMTemplateConstants}.
 	* @return the number of matching templates
-	* @throws SystemException if a system exception occurred
 	*/
 	public static int searchCount(long companyId, long[] groupIds,
 		long[] classNameIds, long[] classPKs, java.lang.String keywords,
@@ -956,7 +935,6 @@ public class DDMTemplateServiceSoap {
 	* @param andOperator whether every field must match its keywords, or just
 	one field.
 	* @return the number of matching templates
-	* @throws SystemException if a system exception occurred
 	*/
 	public static int searchCount(long companyId, long[] groupIds,
 		long[] classNameIds, long[] classPKs, java.lang.String name,
@@ -999,7 +977,6 @@ public class DDMTemplateServiceSoap {
 	* @return the updated template
 	* @throws PortalException if the user did not have permission to update the
 	template or if a portal exception occurred
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.portlet.dynamicdatamapping.model.DDMTemplateSoap updateTemplate(
 		long templateId, long classPK, java.lang.String[] nameMapLanguageIds,

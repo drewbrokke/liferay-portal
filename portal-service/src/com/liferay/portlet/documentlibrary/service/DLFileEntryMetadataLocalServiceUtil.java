@@ -260,40 +260,34 @@ public class DLFileEntryMetadataLocalServiceUtil {
 	}
 
 	public static void deleteFileEntryMetadata(long fileEntryId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteFileEntryMetadata(fileEntryId);
 	}
 
 	public static void deleteFileVersionFileEntryMetadata(long fileVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().deleteFileVersionFileEntryMetadata(fileVersionId);
 	}
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileEntryMetadata fetchFileEntryMetadata(
-		long fileEntryMetadataId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long fileEntryMetadataId) {
 		return getService().fetchFileEntryMetadata(fileEntryMetadataId);
 	}
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileEntryMetadata fetchFileEntryMetadata(
-		long ddmStructureId, long fileVersionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long ddmStructureId, long fileVersionId) {
 		return getService().fetchFileEntryMetadata(ddmStructureId, fileVersionId);
 	}
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileEntryMetadata getFileEntryMetadata(
 		long fileEntryMetadataId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getFileEntryMetadata(fileEntryMetadataId);
 	}
 
 	public static com.liferay.portlet.documentlibrary.model.DLFileEntryMetadata getFileEntryMetadata(
 		long ddmStructureId, long fileVersionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getFileEntryMetadata(ddmStructureId, fileVersionId);
 	}
 
@@ -303,19 +297,16 @@ public class DLFileEntryMetadataLocalServiceUtil {
 	*/
 	@Deprecated
 	public static long getFileEntryMetadataCount(long fileEntryId,
-		long fileVersionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long fileVersionId) {
 		return getService().getFileEntryMetadataCount(fileEntryId, fileVersionId);
 	}
 
 	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLFileEntryMetadata> getFileVersionFileEntryMetadatas(
-		long fileVersionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long fileVersionId) {
 		return getService().getFileVersionFileEntryMetadatas(fileVersionId);
 	}
 
-	public static long getFileVersionFileEntryMetadatasCount(long fileVersionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static long getFileVersionFileEntryMetadatasCount(long fileVersionId) {
 		return getService().getFileVersionFileEntryMetadatasCount(fileVersionId);
 	}
 
@@ -324,8 +315,7 @@ public class DLFileEntryMetadataLocalServiceUtil {
 		long fileEntryTypeId, long fileEntryId, long fileVersionId,
 		java.util.Map<java.lang.String, com.liferay.portlet.dynamicdatamapping.storage.Fields> fieldsMap,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService()
 			.updateFileEntryMetadata(companyId, ddmStructures, fileEntryTypeId,
 			fileEntryId, fileVersionId, fieldsMap, serviceContext);
@@ -335,8 +325,7 @@ public class DLFileEntryMetadataLocalServiceUtil {
 		long fileEntryId, long fileVersionId,
 		java.util.Map<java.lang.String, com.liferay.portlet.dynamicdatamapping.storage.Fields> fieldsMap,
 		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		getService()
 			.updateFileEntryMetadata(fileEntryTypeId, fileEntryId,
 			fileVersionId, fieldsMap, serviceContext);
