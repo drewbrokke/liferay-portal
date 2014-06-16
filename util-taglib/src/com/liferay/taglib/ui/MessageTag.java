@@ -66,11 +66,11 @@ public class MessageTag extends TagSupport {
 				else if (_unicode) {
 					value = UnicodeLanguageUtil.get(pageContext, _key);
 				}
-				else if (_escapeAttribute) {
-					value = HtmlUtil.escapeAttribute(LanguageUtil.get(pageContext, _key));
-				}
 				else if (_escape) {
 					value = HtmlUtil.escape(LanguageUtil.get(pageContext, _key));
+				}
+				else if (_escapeAttribute) {
+					value = HtmlUtil.escapeAttribute(LanguageUtil.get(pageContext, _key));
 				}
 				else {
 					value = LanguageUtil.get(pageContext, _key);
