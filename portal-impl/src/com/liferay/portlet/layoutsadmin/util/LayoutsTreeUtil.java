@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.LayoutBranch;
 import com.liferay.portal.model.LayoutConstants;
@@ -33,6 +34,7 @@ import com.liferay.portal.model.LayoutSetBranch;
 import com.liferay.portal.model.User;
 import com.liferay.portal.model.impl.VirtualLayout;
 import com.liferay.portal.security.permission.ActionKeys;
+import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.LayoutServiceUtil;
 import com.liferay.portal.service.LayoutSetBranchLocalServiceUtil;
@@ -131,15 +133,17 @@ public class LayoutsTreeUtil {
 			groupId, privateLayout, parentLayoutId, incomplete,
 			QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
+		Group group = GroupLocalServiceUtil.getGroup(groupId);
+
 		for (Layout layout :
 				_paginateLayouts(request, parentLayoutId, layouts)) {
 
 			LayoutTreeNode layoutTreeNode = new LayoutTreeNode(layout);
 
+			LayoutTreeNodes childLayoutTreeNodes = new LayoutTreeNodes();
+
 			if (_isExpandableLayout(
 					request, ancestorLayouts, expandedLayoutIds, layout)) {
-
-				LayoutTreeNodes childLayoutTreeNodes = null;
 
 				if (layout instanceof VirtualLayout) {
 					VirtualLayout virtualLayout = (VirtualLayout)layout;
@@ -155,9 +159,15 @@ public class LayoutsTreeUtil {
 						request, groupId, layout.isPrivateLayout(),
 						layout.getLayoutId(), incomplete, expandedLayoutIds);
 				}
-
-				layoutTreeNode.setChildLayoutTreeNodes(childLayoutTreeNodes);
 			}
+			else {
+				int total = LayoutLocalServiceUtil.getLayoutsCount(
+					group, layout.isPrivateLayout(), layout.getLayoutId());
+
+				childLayoutTreeNodes.setTotal(total);
+			}
+
+			layoutTreeNode.setChildLayoutTreeNodes(childLayoutTreeNodes);
 
 			layoutTreeNodes.add(layoutTreeNode);
 		}
@@ -420,6 +430,10 @@ public class LayoutsTreeUtil {
 		@Override
 		public Iterator<LayoutTreeNode> iterator() {
 			return _layoutTreeNodesList.iterator();
+		}
+
+		public void setTotal(int total) {
+			_total = total;
 		}
 
 		private List<LayoutTreeNode> _layoutTreeNodesList =
