@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.upload.UploadServletRequest;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.TempFileUtil;
+import com.liferay.portal.kernel.util.TempFileEntryUtil;
 import com.liferay.portal.portletfilerepository.PortletFileRepositoryUtil;
 import com.liferay.portal.struts.JSONAction;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -86,9 +86,9 @@ public class ImageSelectorAction extends JSONAction {
 			InputStream inputStream = uploadPortletRequest.getFileAsStream(
 				"imageSelectorFileName");
 
-			FileEntry fileEntry = TempFileUtil.addTempFile(
+			FileEntry fileEntry = TempFileEntryUtil.addTempFileEntry(
 				themeDisplay.getScopeGroupId(), themeDisplay.getUserId(),
-				StringUtil.randomString() + fileName, tempFolderName,
+				tempFolderName, StringUtil.randomString() + fileName,
 				inputStream, MimeTypesUtil.getContentType(fileName));
 
 			imageJSONObject.put("fileEntryId", fileEntry.getFileEntryId());

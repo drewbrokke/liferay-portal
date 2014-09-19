@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.PortletResponseUtil;
 import com.liferay.portal.kernel.repository.LocalRepository;
-import com.liferay.portal.kernel.repository.capabilities.TemporaryFilesCapability;
+import com.liferay.portal.kernel.repository.capabilities.TemporaryFileEntriesCapability;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -106,7 +106,7 @@ public class EditFolderAction extends PortletAction {
 				unsubscribeFolder(actionRequest);
 			}
 			else if (cmd.equals("deleteExpiredTemporaryFiles")) {
-				deleteExpiredTemporaryFiles(actionRequest);
+				deleteExpiredTemporaryFileEntries(actionRequest);
 			}
 			else if (cmd.equals("updateWorkflowDefinitions")) {
 				updateWorkflowDefinitions(actionRequest);
@@ -173,7 +173,8 @@ public class EditFolderAction extends PortletAction {
 		downloadFolder(resourceRequest, resourceResponse);
 	}
 
-	protected void deleteExpiredTemporaryFiles(ActionRequest actionRequest)
+	protected void deleteExpiredTemporaryFileEntries(
+			ActionRequest actionRequest)
 		throws PortalException {
 
 		long repositoryId = ParamUtil.getLong(actionRequest, "repositoryId");
@@ -182,12 +183,13 @@ public class EditFolderAction extends PortletAction {
 			RepositoryLocalServiceUtil.getLocalRepositoryImpl(repositoryId);
 
 		if (localRepository.isCapabilityProvided(
-				TemporaryFilesCapability.class)) {
+				TemporaryFileEntriesCapability.class)) {
 
-			TemporaryFilesCapability temporaryFilesCapability =
-				localRepository.getCapability(TemporaryFilesCapability.class);
+			TemporaryFileEntriesCapability temporaryFileEntriesCapability =
+				localRepository.getCapability(
+					TemporaryFileEntriesCapability.class);
 
-			temporaryFilesCapability.deleteExpiredTemporaryFiles();
+			temporaryFileEntriesCapability.deleteExpiredTemporaryFileEntries();
 		}
 	}
 

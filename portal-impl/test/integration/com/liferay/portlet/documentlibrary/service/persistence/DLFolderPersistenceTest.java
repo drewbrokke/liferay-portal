@@ -351,6 +351,19 @@ public class DLFolderPersistenceTest {
 	}
 
 	@Test
+	public void testCountByG_M_P() {
+		try {
+			_persistence.countByG_M_P(RandomTestUtil.nextLong(),
+				RandomTestUtil.randomBoolean(), RandomTestUtil.nextLong());
+
+			_persistence.countByG_M_P(0L, RandomTestUtil.randomBoolean(), 0L);
+		}
+		catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+
+	@Test
 	public void testCountByG_P_N() {
 		try {
 			_persistence.countByG_P_N(RandomTestUtil.nextLong(),
@@ -373,19 +386,6 @@ public class DLFolderPersistenceTest {
 				RandomTestUtil.nextInt());
 
 			_persistence.countByF_C_P_NotS(0L, 0L, 0L, 0);
-		}
-		catch (Exception e) {
-			Assert.fail(e.getMessage());
-		}
-	}
-
-	@Test
-	public void testCountByG_M_P() {
-		try {
-			_persistence.countByG_M_P(RandomTestUtil.nextLong(),
-				RandomTestUtil.randomBoolean(), RandomTestUtil.nextLong());
-
-			_persistence.countByG_M_P(0L, RandomTestUtil.randomBoolean(), 0L);
 		}
 		catch (Exception e) {
 			Assert.fail(e.getMessage());

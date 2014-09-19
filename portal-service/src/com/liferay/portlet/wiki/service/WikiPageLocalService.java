@@ -93,8 +93,8 @@ public interface WikiPageLocalService extends BaseLocalService,
 		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
 		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void addTempPageAttachment(long groupId, long userId,
-		java.lang.String fileName, java.lang.String tempFolderName,
+	public void addTempFileEntry(long groupId, long userId,
+		java.lang.String folderName, java.lang.String fileName,
 		java.io.InputStream inputStream, java.lang.String mimeType)
 		throws com.liferay.portal.kernel.exception.PortalException;
 
@@ -162,8 +162,8 @@ public interface WikiPageLocalService extends BaseLocalService,
 		com.liferay.portal.model.PersistedModel persistedModel)
 		throws com.liferay.portal.kernel.exception.PortalException;
 
-	public void deleteTempPageAttachment(long groupId, long userId,
-		java.lang.String fileName, java.lang.String tempFolderName)
+	public void deleteTempFileEntry(long groupId, long userId,
+		java.lang.String folderName, java.lang.String fileName)
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public void deleteTrashPageAttachments(long nodeId, java.lang.String title)
@@ -529,8 +529,8 @@ public interface WikiPageLocalService extends BaseLocalService,
 		long nodeId, boolean head, java.lang.String redirectTitle, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.lang.String[] getTempPageAttachmentNames(long groupId,
-		long userId, java.lang.String tempFolderName)
+	public java.lang.String[] getTempFileNames(long groupId, long userId,
+		java.lang.String folderName)
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
@@ -597,8 +597,8 @@ public interface WikiPageLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
-	* @deprecated As of 7.0.0, replaced by {@link #renamePage(
-	long, long, String, String, ServiceContext)}
+	* @deprecated As of 7.0.0, replaced by {@link #renamePage(long, long,
+	String, String, ServiceContext)}
 	*/
 	@java.lang.Deprecated
 	public void movePage(long userId, long nodeId, java.lang.String title,
@@ -610,6 +610,7 @@ public interface WikiPageLocalService extends BaseLocalService,
 	* @deprecated As of 6.2.0, replaced by {@link #renamePage(long, long,
 	String, String, boolean, ServiceContext)}
 	*/
+	@java.lang.Deprecated
 	public void movePage(long userId, long nodeId, java.lang.String title,
 		java.lang.String newTitle, boolean strict,
 		com.liferay.portal.service.ServiceContext serviceContext)
@@ -627,7 +628,7 @@ public interface WikiPageLocalService extends BaseLocalService,
 
 	/**
 	* @deprecated As of 7.0.0, replaced by {@link #movePageFromTrash(long,
-	long, String, long, String, ServiceContext)}
+	long, String, long, String)} *
 	*/
 	@java.lang.Deprecated
 	public com.liferay.portlet.wiki.model.WikiPage movePageFromTrash(
