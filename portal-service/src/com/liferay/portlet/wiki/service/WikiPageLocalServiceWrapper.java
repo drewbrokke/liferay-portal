@@ -116,12 +116,12 @@ public class WikiPageLocalServiceWrapper implements WikiPageLocalService,
 	}
 
 	@Override
-	public void addTempPageAttachment(long groupId, long userId,
-		java.lang.String fileName, java.lang.String tempFolderName,
+	public void addTempFileEntry(long groupId, long userId,
+		java.lang.String folderName, java.lang.String fileName,
 		java.io.InputStream inputStream, java.lang.String mimeType)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		_wikiPageLocalService.addTempPageAttachment(groupId, userId, fileName,
-			tempFolderName, inputStream, mimeType);
+		_wikiPageLocalService.addTempFileEntry(groupId, userId, folderName,
+			fileName, inputStream, mimeType);
 	}
 
 	/**
@@ -225,11 +225,11 @@ public class WikiPageLocalServiceWrapper implements WikiPageLocalService,
 	}
 
 	@Override
-	public void deleteTempPageAttachment(long groupId, long userId,
-		java.lang.String fileName, java.lang.String tempFolderName)
+	public void deleteTempFileEntry(long groupId, long userId,
+		java.lang.String folderName, java.lang.String fileName)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		_wikiPageLocalService.deleteTempPageAttachment(groupId, userId,
-			fileName, tempFolderName);
+		_wikiPageLocalService.deleteTempFileEntry(groupId, userId, folderName,
+			fileName);
 	}
 
 	@Override
@@ -764,11 +764,11 @@ public class WikiPageLocalServiceWrapper implements WikiPageLocalService,
 	}
 
 	@Override
-	public java.lang.String[] getTempPageAttachmentNames(long groupId,
-		long userId, java.lang.String tempFolderName)
+	public java.lang.String[] getTempFileNames(long groupId, long userId,
+		java.lang.String folderName)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _wikiPageLocalService.getTempPageAttachmentNames(groupId,
-			userId, tempFolderName);
+		return _wikiPageLocalService.getTempFileNames(groupId, userId,
+			folderName);
 	}
 
 	/**
@@ -854,8 +854,8 @@ public class WikiPageLocalServiceWrapper implements WikiPageLocalService,
 	}
 
 	/**
-	* @deprecated As of 7.0.0, replaced by {@link #renamePage(
-	long, long, String, String, ServiceContext)}
+	* @deprecated As of 7.0.0, replaced by {@link #renamePage(long, long,
+	String, String, ServiceContext)}
 	*/
 	@Deprecated
 	@Override
@@ -871,6 +871,7 @@ public class WikiPageLocalServiceWrapper implements WikiPageLocalService,
 	* @deprecated As of 6.2.0, replaced by {@link #renamePage(long, long,
 	String, String, boolean, ServiceContext)}
 	*/
+	@Deprecated
 	@Override
 	public void movePage(long userId, long nodeId, java.lang.String title,
 		java.lang.String newTitle, boolean strict,
@@ -900,7 +901,7 @@ public class WikiPageLocalServiceWrapper implements WikiPageLocalService,
 
 	/**
 	* @deprecated As of 7.0.0, replaced by {@link #movePageFromTrash(long,
-	long, String, long, String, ServiceContext)}
+	long, String, long, String)} *
 	*/
 	@Deprecated
 	@Override

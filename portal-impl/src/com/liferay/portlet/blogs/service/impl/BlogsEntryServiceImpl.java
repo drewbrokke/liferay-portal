@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.TempFileUtil;
+import com.liferay.portal.kernel.util.TempFileEntryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.model.Company;
@@ -94,9 +94,9 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 		if (smallImage && Validator.isNotNull(smallImageFileName) &&
 			(smallImageInputStream != null)) {
 
-			FileEntry fileEntry = TempFileUtil.addTempFile(
+			FileEntry fileEntry = TempFileEntryUtil.addTempFileEntry(
 				serviceContext.getScopeGroupId(), getUserId(),
-				smallImageFileName, BlogsEntry.class.getName(),
+				BlogsEntry.class.getName(), smallImageFileName,
 				smallImageInputStream,
 				MimeTypesUtil.getContentType(smallImageFileName));
 
@@ -469,9 +469,9 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 			if (Validator.isNotNull(smallImageFileName) &&
 				(smallImageInputStream != null)) {
 
-				FileEntry fileEntry = TempFileUtil.addTempFile(
+				FileEntry fileEntry = TempFileEntryUtil.addTempFileEntry(
 					serviceContext.getScopeGroupId(), getUserId(),
-					smallImageFileName, BlogsEntry.class.getName(),
+					BlogsEntry.class.getName(), smallImageFileName,
 					smallImageInputStream,
 					MimeTypesUtil.getContentType(smallImageFileName));
 

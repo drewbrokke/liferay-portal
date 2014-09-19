@@ -45,7 +45,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.TempFileUtil;
+import com.liferay.portal.kernel.util.TempFileEntryUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -397,13 +397,13 @@ public class WikiPageLocalServiceImpl extends WikiPageLocalServiceBaseImpl {
 	}
 
 	@Override
-	public void addTempPageAttachment(
-			long groupId, long userId, String fileName, String tempFolderName,
+	public void addTempFileEntry(
+			long groupId, long userId, String folderName, String fileName,
 			InputStream inputStream, String mimeType)
 		throws PortalException {
 
-		TempFileUtil.addTempFile(
-			groupId, userId, fileName, tempFolderName, inputStream, mimeType);
+		TempFileEntryUtil.addTempFileEntry(
+			groupId, userId, folderName, fileName, inputStream, mimeType);
 	}
 
 	@Override
@@ -727,11 +727,12 @@ public class WikiPageLocalServiceImpl extends WikiPageLocalServiceBaseImpl {
 	}
 
 	@Override
-	public void deleteTempPageAttachment(
-			long groupId, long userId, String fileName, String tempFolderName)
+	public void deleteTempFileEntry(
+			long groupId, long userId, String folderName, String fileName)
 		throws PortalException {
 
-		TempFileUtil.deleteTempFile(groupId, userId, fileName, tempFolderName);
+		TempFileEntryUtil.deleteTempFileEntry(
+			groupId, userId, folderName, fileName);
 	}
 
 	@Override
@@ -1455,12 +1456,11 @@ public class WikiPageLocalServiceImpl extends WikiPageLocalServiceBaseImpl {
 	}
 
 	@Override
-	public String[] getTempPageAttachmentNames(
-			long groupId, long userId, String tempFolderName)
+	public String[] getTempFileNames(
+			long groupId, long userId, String folderName)
 		throws PortalException {
 
-		return TempFileUtil.getTempFileEntryNames(
-			groupId, userId, tempFolderName);
+		return TempFileEntryUtil.getTempFileNames(groupId, userId, folderName);
 	}
 
 	@Override
