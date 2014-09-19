@@ -5408,707 +5408,6 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 	private static final String _FINDER_COLUMN_P_N_NAME_1 = "dlFolder.name IS NULL";
 	private static final String _FINDER_COLUMN_P_N_NAME_2 = "dlFolder.name = ?";
 	private static final String _FINDER_COLUMN_P_N_NAME_3 = "(dlFolder.name IS NULL OR dlFolder.name = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_G_P_N = new FinderPath(DLFolderModelImpl.ENTITY_CACHE_ENABLED,
-			DLFolderModelImpl.FINDER_CACHE_ENABLED, DLFolderImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByG_P_N",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName()
-			},
-			DLFolderModelImpl.GROUPID_COLUMN_BITMASK |
-			DLFolderModelImpl.PARENTFOLDERID_COLUMN_BITMASK |
-			DLFolderModelImpl.NAME_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_G_P_N = new FinderPath(DLFolderModelImpl.ENTITY_CACHE_ENABLED,
-			DLFolderModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P_N",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName()
-			});
-
-	/**
-	 * Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or throws a {@link com.liferay.portlet.documentlibrary.NoSuchFolderException} if it could not be found.
-	 *
-	 * @param groupId the group ID
-	 * @param parentFolderId the parent folder ID
-	 * @param name the name
-	 * @return the matching document library folder
-	 * @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
-	 */
-	@Override
-	public DLFolder findByG_P_N(long groupId, long parentFolderId, String name)
-		throws NoSuchFolderException {
-		DLFolder dlFolder = fetchByG_P_N(groupId, parentFolderId, name);
-
-		if (dlFolder == null) {
-			StringBundler msg = new StringBundler(8);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("groupId=");
-			msg.append(groupId);
-
-			msg.append(", parentFolderId=");
-			msg.append(parentFolderId);
-
-			msg.append(", name=");
-			msg.append(name);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
-			}
-
-			throw new NoSuchFolderException(msg.toString());
-		}
-
-		return dlFolder;
-	}
-
-	/**
-	 * Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param groupId the group ID
-	 * @param parentFolderId the parent folder ID
-	 * @param name the name
-	 * @return the matching document library folder, or <code>null</code> if a matching document library folder could not be found
-	 */
-	@Override
-	public DLFolder fetchByG_P_N(long groupId, long parentFolderId, String name) {
-		return fetchByG_P_N(groupId, parentFolderId, name, true);
-	}
-
-	/**
-	 * Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param groupId the group ID
-	 * @param parentFolderId the parent folder ID
-	 * @param name the name
-	 * @param retrieveFromCache whether to use the finder cache
-	 * @return the matching document library folder, or <code>null</code> if a matching document library folder could not be found
-	 */
-	@Override
-	public DLFolder fetchByG_P_N(long groupId, long parentFolderId,
-		String name, boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { groupId, parentFolderId, name };
-
-		Object result = null;
-
-		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_G_P_N,
-					finderArgs, this);
-		}
-
-		if (result instanceof DLFolder) {
-			DLFolder dlFolder = (DLFolder)result;
-
-			if ((groupId != dlFolder.getGroupId()) ||
-					(parentFolderId != dlFolder.getParentFolderId()) ||
-					!Validator.equals(name, dlFolder.getName())) {
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler query = new StringBundler(5);
-
-			query.append(_SQL_SELECT_DLFOLDER_WHERE);
-
-			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2);
-
-			query.append(_FINDER_COLUMN_G_P_N_PARENTFOLDERID_2);
-
-			boolean bindName = false;
-
-			if (name == null) {
-				query.append(_FINDER_COLUMN_G_P_N_NAME_1);
-			}
-			else if (name.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_G_P_N_NAME_3);
-			}
-			else {
-				bindName = true;
-
-				query.append(_FINDER_COLUMN_G_P_N_NAME_2);
-			}
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(groupId);
-
-				qPos.add(parentFolderId);
-
-				if (bindName) {
-					qPos.add(name);
-				}
-
-				List<DLFolder> list = q.list();
-
-				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_G_P_N,
-						finderArgs, list);
-				}
-				else {
-					DLFolder dlFolder = list.get(0);
-
-					result = dlFolder;
-
-					cacheResult(dlFolder);
-
-					if ((dlFolder.getGroupId() != groupId) ||
-							(dlFolder.getParentFolderId() != parentFolderId) ||
-							(dlFolder.getName() == null) ||
-							!dlFolder.getName().equals(name)) {
-						FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_G_P_N,
-							finderArgs, dlFolder);
-					}
-				}
-			}
-			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_G_P_N,
-					finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (DLFolder)result;
-		}
-	}
-
-	/**
-	 * Removes the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; from the database.
-	 *
-	 * @param groupId the group ID
-	 * @param parentFolderId the parent folder ID
-	 * @param name the name
-	 * @return the document library folder that was removed
-	 */
-	@Override
-	public DLFolder removeByG_P_N(long groupId, long parentFolderId, String name)
-		throws NoSuchFolderException {
-		DLFolder dlFolder = findByG_P_N(groupId, parentFolderId, name);
-
-		return remove(dlFolder);
-	}
-
-	/**
-	 * Returns the number of document library folders where groupId = &#63; and parentFolderId = &#63; and name = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param parentFolderId the parent folder ID
-	 * @param name the name
-	 * @return the number of matching document library folders
-	 */
-	@Override
-	public int countByG_P_N(long groupId, long parentFolderId, String name) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_G_P_N;
-
-		Object[] finderArgs = new Object[] { groupId, parentFolderId, name };
-
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(4);
-
-			query.append(_SQL_COUNT_DLFOLDER_WHERE);
-
-			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2);
-
-			query.append(_FINDER_COLUMN_G_P_N_PARENTFOLDERID_2);
-
-			boolean bindName = false;
-
-			if (name == null) {
-				query.append(_FINDER_COLUMN_G_P_N_NAME_1);
-			}
-			else if (name.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_G_P_N_NAME_3);
-			}
-			else {
-				bindName = true;
-
-				query.append(_FINDER_COLUMN_G_P_N_NAME_2);
-			}
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(groupId);
-
-				qPos.add(parentFolderId);
-
-				if (bindName) {
-					qPos.add(name);
-				}
-
-				count = (Long)q.uniqueResult();
-
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_G_P_N_GROUPID_2 = "dlFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_N_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_N_NAME_1 = "dlFolder.name IS NULL";
-	private static final String _FINDER_COLUMN_G_P_N_NAME_2 = "dlFolder.name = ?";
-	private static final String _FINDER_COLUMN_G_P_N_NAME_3 = "(dlFolder.name IS NULL OR dlFolder.name = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_F_C_P_NOTS =
-		new FinderPath(DLFolderModelImpl.ENTITY_CACHE_ENABLED,
-			DLFolderModelImpl.FINDER_CACHE_ENABLED, DLFolderImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByF_C_P_NotS",
-			new String[] {
-				Long.class.getName(), Long.class.getName(), Long.class.getName(),
-				Integer.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_F_C_P_NOTS =
-		new FinderPath(DLFolderModelImpl.ENTITY_CACHE_ENABLED,
-			DLFolderModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByF_C_P_NotS",
-			new String[] {
-				Long.class.getName(), Long.class.getName(), Long.class.getName(),
-				Integer.class.getName()
-			});
-
-	/**
-	 * Returns all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	 *
-	 * @param folderId the folder ID
-	 * @param companyId the company ID
-	 * @param parentFolderId the parent folder ID
-	 * @param status the status
-	 * @return the matching document library folders
-	 */
-	@Override
-	public List<DLFolder> findByF_C_P_NotS(long folderId, long companyId,
-		long parentFolderId, int status) {
-		return findByF_C_P_NotS(folderId, companyId, parentFolderId, status,
-			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-	}
-
-	/**
-	 * Returns a range of all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.portlet.documentlibrary.model.impl.DLFolderModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param folderId the folder ID
-	 * @param companyId the company ID
-	 * @param parentFolderId the parent folder ID
-	 * @param status the status
-	 * @param start the lower bound of the range of document library folders
-	 * @param end the upper bound of the range of document library folders (not inclusive)
-	 * @return the range of matching document library folders
-	 */
-	@Override
-	public List<DLFolder> findByF_C_P_NotS(long folderId, long companyId,
-		long parentFolderId, int status, int start, int end) {
-		return findByF_C_P_NotS(folderId, companyId, parentFolderId, status,
-			start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.portlet.documentlibrary.model.impl.DLFolderModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param folderId the folder ID
-	 * @param companyId the company ID
-	 * @param parentFolderId the parent folder ID
-	 * @param status the status
-	 * @param start the lower bound of the range of document library folders
-	 * @param end the upper bound of the range of document library folders (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching document library folders
-	 */
-	@Override
-	public List<DLFolder> findByF_C_P_NotS(long folderId, long companyId,
-		long parentFolderId, int status, int start, int end,
-		OrderByComparator<DLFolder> orderByComparator) {
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
-
-		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_F_C_P_NOTS;
-		finderArgs = new Object[] {
-				folderId, companyId, parentFolderId, status,
-				
-				start, end, orderByComparator
-			};
-
-		List<DLFolder> list = (List<DLFolder>)FinderCacheUtil.getResult(finderPath,
-				finderArgs, this);
-
-		if ((list != null) && !list.isEmpty()) {
-			for (DLFolder dlFolder : list) {
-				if ((folderId >= dlFolder.getFolderId()) ||
-						(companyId != dlFolder.getCompanyId()) ||
-						(parentFolderId != dlFolder.getParentFolderId()) ||
-						(status == dlFolder.getStatus())) {
-					list = null;
-
-					break;
-				}
-			}
-		}
-
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(6 +
-						(orderByComparator.getOrderByFields().length * 3));
-			}
-			else {
-				query = new StringBundler(6);
-			}
-
-			query.append(_SQL_SELECT_DLFOLDER_WHERE);
-
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2);
-
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2);
-
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2);
-
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_STATUS_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
-			}
-			else
-			 if (pagination) {
-				query.append(DLFolderModelImpl.ORDER_BY_JPQL);
-			}
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(folderId);
-
-				qPos.add(companyId);
-
-				qPos.add(parentFolderId);
-
-				qPos.add(status);
-
-				if (!pagination) {
-					list = (List<DLFolder>)QueryUtil.list(q, getDialect(),
-							start, end, false);
-
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
-				}
-				else {
-					list = (List<DLFolder>)QueryUtil.list(q, getDialect(),
-							start, end);
-				}
-
-				cacheResult(list);
-
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
-			}
-			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Returns the first document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	 *
-	 * @param folderId the folder ID
-	 * @param companyId the company ID
-	 * @param parentFolderId the parent folder ID
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching document library folder
-	 * @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
-	 */
-	@Override
-	public DLFolder findByF_C_P_NotS_First(long folderId, long companyId,
-		long parentFolderId, int status,
-		OrderByComparator<DLFolder> orderByComparator)
-		throws NoSuchFolderException {
-		DLFolder dlFolder = fetchByF_C_P_NotS_First(folderId, companyId,
-				parentFolderId, status, orderByComparator);
-
-		if (dlFolder != null) {
-			return dlFolder;
-		}
-
-		StringBundler msg = new StringBundler(10);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("folderId=");
-		msg.append(folderId);
-
-		msg.append(", companyId=");
-		msg.append(companyId);
-
-		msg.append(", parentFolderId=");
-		msg.append(parentFolderId);
-
-		msg.append(", status=");
-		msg.append(status);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchFolderException(msg.toString());
-	}
-
-	/**
-	 * Returns the first document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	 *
-	 * @param folderId the folder ID
-	 * @param companyId the company ID
-	 * @param parentFolderId the parent folder ID
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching document library folder, or <code>null</code> if a matching document library folder could not be found
-	 */
-	@Override
-	public DLFolder fetchByF_C_P_NotS_First(long folderId, long companyId,
-		long parentFolderId, int status,
-		OrderByComparator<DLFolder> orderByComparator) {
-		List<DLFolder> list = findByF_C_P_NotS(folderId, companyId,
-				parentFolderId, status, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	 *
-	 * @param folderId the folder ID
-	 * @param companyId the company ID
-	 * @param parentFolderId the parent folder ID
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching document library folder
-	 * @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
-	 */
-	@Override
-	public DLFolder findByF_C_P_NotS_Last(long folderId, long companyId,
-		long parentFolderId, int status,
-		OrderByComparator<DLFolder> orderByComparator)
-		throws NoSuchFolderException {
-		DLFolder dlFolder = fetchByF_C_P_NotS_Last(folderId, companyId,
-				parentFolderId, status, orderByComparator);
-
-		if (dlFolder != null) {
-			return dlFolder;
-		}
-
-		StringBundler msg = new StringBundler(10);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("folderId=");
-		msg.append(folderId);
-
-		msg.append(", companyId=");
-		msg.append(companyId);
-
-		msg.append(", parentFolderId=");
-		msg.append(parentFolderId);
-
-		msg.append(", status=");
-		msg.append(status);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchFolderException(msg.toString());
-	}
-
-	/**
-	 * Returns the last document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	 *
-	 * @param folderId the folder ID
-	 * @param companyId the company ID
-	 * @param parentFolderId the parent folder ID
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching document library folder, or <code>null</code> if a matching document library folder could not be found
-	 */
-	@Override
-	public DLFolder fetchByF_C_P_NotS_Last(long folderId, long companyId,
-		long parentFolderId, int status,
-		OrderByComparator<DLFolder> orderByComparator) {
-		int count = countByF_C_P_NotS(folderId, companyId, parentFolderId,
-				status);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<DLFolder> list = findByF_C_P_NotS(folderId, companyId,
-				parentFolderId, status, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Removes all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63; from the database.
-	 *
-	 * @param folderId the folder ID
-	 * @param companyId the company ID
-	 * @param parentFolderId the parent folder ID
-	 * @param status the status
-	 */
-	@Override
-	public void removeByF_C_P_NotS(long folderId, long companyId,
-		long parentFolderId, int status) {
-		for (DLFolder dlFolder : findByF_C_P_NotS(folderId, companyId,
-				parentFolderId, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				null)) {
-			remove(dlFolder);
-		}
-	}
-
-	/**
-	 * Returns the number of document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	 *
-	 * @param folderId the folder ID
-	 * @param companyId the company ID
-	 * @param parentFolderId the parent folder ID
-	 * @param status the status
-	 * @return the number of matching document library folders
-	 */
-	@Override
-	public int countByF_C_P_NotS(long folderId, long companyId,
-		long parentFolderId, int status) {
-		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_F_C_P_NOTS;
-
-		Object[] finderArgs = new Object[] {
-				folderId, companyId, parentFolderId, status
-			};
-
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(5);
-
-			query.append(_SQL_COUNT_DLFOLDER_WHERE);
-
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2);
-
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2);
-
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2);
-
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_STATUS_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(folderId);
-
-				qPos.add(companyId);
-
-				qPos.add(parentFolderId);
-
-				qPos.add(status);
-
-				count = (Long)q.uniqueResult();
-
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2 = "dlFolder.folderId > ? AND ";
-	private static final String _FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2 = "dlFolder.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_F_C_P_NOTS_STATUS_2 = "dlFolder.status != ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_G_M_P = new FinderPath(DLFolderModelImpl.ENTITY_CACHE_ENABLED,
 			DLFolderModelImpl.FINDER_CACHE_ENABLED, DLFolderImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_M_P",
@@ -7066,6 +6365,707 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 	private static final String _FINDER_COLUMN_G_M_P_GROUPID_2 = "dlFolder.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_G_M_P_MOUNTPOINT_2 = "dlFolder.mountPoint = ? AND ";
 	private static final String _FINDER_COLUMN_G_M_P_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_G_P_N = new FinderPath(DLFolderModelImpl.ENTITY_CACHE_ENABLED,
+			DLFolderModelImpl.FINDER_CACHE_ENABLED, DLFolderImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByG_P_N",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				String.class.getName()
+			},
+			DLFolderModelImpl.GROUPID_COLUMN_BITMASK |
+			DLFolderModelImpl.PARENTFOLDERID_COLUMN_BITMASK |
+			DLFolderModelImpl.NAME_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_G_P_N = new FinderPath(DLFolderModelImpl.ENTITY_CACHE_ENABLED,
+			DLFolderModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P_N",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				String.class.getName()
+			});
+
+	/**
+	 * Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or throws a {@link com.liferay.portlet.documentlibrary.NoSuchFolderException} if it could not be found.
+	 *
+	 * @param groupId the group ID
+	 * @param parentFolderId the parent folder ID
+	 * @param name the name
+	 * @return the matching document library folder
+	 * @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
+	 */
+	@Override
+	public DLFolder findByG_P_N(long groupId, long parentFolderId, String name)
+		throws NoSuchFolderException {
+		DLFolder dlFolder = fetchByG_P_N(groupId, parentFolderId, name);
+
+		if (dlFolder == null) {
+			StringBundler msg = new StringBundler(8);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("groupId=");
+			msg.append(groupId);
+
+			msg.append(", parentFolderId=");
+			msg.append(parentFolderId);
+
+			msg.append(", name=");
+			msg.append(name);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(msg.toString());
+			}
+
+			throw new NoSuchFolderException(msg.toString());
+		}
+
+		return dlFolder;
+	}
+
+	/**
+	 * Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param groupId the group ID
+	 * @param parentFolderId the parent folder ID
+	 * @param name the name
+	 * @return the matching document library folder, or <code>null</code> if a matching document library folder could not be found
+	 */
+	@Override
+	public DLFolder fetchByG_P_N(long groupId, long parentFolderId, String name) {
+		return fetchByG_P_N(groupId, parentFolderId, name, true);
+	}
+
+	/**
+	 * Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param groupId the group ID
+	 * @param parentFolderId the parent folder ID
+	 * @param name the name
+	 * @param retrieveFromCache whether to use the finder cache
+	 * @return the matching document library folder, or <code>null</code> if a matching document library folder could not be found
+	 */
+	@Override
+	public DLFolder fetchByG_P_N(long groupId, long parentFolderId,
+		String name, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { groupId, parentFolderId, name };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_G_P_N,
+					finderArgs, this);
+		}
+
+		if (result instanceof DLFolder) {
+			DLFolder dlFolder = (DLFolder)result;
+
+			if ((groupId != dlFolder.getGroupId()) ||
+					(parentFolderId != dlFolder.getParentFolderId()) ||
+					!Validator.equals(name, dlFolder.getName())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(5);
+
+			query.append(_SQL_SELECT_DLFOLDER_WHERE);
+
+			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_G_P_N_PARENTFOLDERID_2);
+
+			boolean bindName = false;
+
+			if (name == null) {
+				query.append(_FINDER_COLUMN_G_P_N_NAME_1);
+			}
+			else if (name.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_G_P_N_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				query.append(_FINDER_COLUMN_G_P_N_NAME_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(parentFolderId);
+
+				if (bindName) {
+					qPos.add(name);
+				}
+
+				List<DLFolder> list = q.list();
+
+				if (list.isEmpty()) {
+					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_G_P_N,
+						finderArgs, list);
+				}
+				else {
+					DLFolder dlFolder = list.get(0);
+
+					result = dlFolder;
+
+					cacheResult(dlFolder);
+
+					if ((dlFolder.getGroupId() != groupId) ||
+							(dlFolder.getParentFolderId() != parentFolderId) ||
+							(dlFolder.getName() == null) ||
+							!dlFolder.getName().equals(name)) {
+						FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_G_P_N,
+							finderArgs, dlFolder);
+					}
+				}
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_G_P_N,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (DLFolder)result;
+		}
+	}
+
+	/**
+	 * Removes the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param parentFolderId the parent folder ID
+	 * @param name the name
+	 * @return the document library folder that was removed
+	 */
+	@Override
+	public DLFolder removeByG_P_N(long groupId, long parentFolderId, String name)
+		throws NoSuchFolderException {
+		DLFolder dlFolder = findByG_P_N(groupId, parentFolderId, name);
+
+		return remove(dlFolder);
+	}
+
+	/**
+	 * Returns the number of document library folders where groupId = &#63; and parentFolderId = &#63; and name = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param parentFolderId the parent folder ID
+	 * @param name the name
+	 * @return the number of matching document library folders
+	 */
+	@Override
+	public int countByG_P_N(long groupId, long parentFolderId, String name) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_G_P_N;
+
+		Object[] finderArgs = new Object[] { groupId, parentFolderId, name };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(4);
+
+			query.append(_SQL_COUNT_DLFOLDER_WHERE);
+
+			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_G_P_N_PARENTFOLDERID_2);
+
+			boolean bindName = false;
+
+			if (name == null) {
+				query.append(_FINDER_COLUMN_G_P_N_NAME_1);
+			}
+			else if (name.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_G_P_N_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				query.append(_FINDER_COLUMN_G_P_N_NAME_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(parentFolderId);
+
+				if (bindName) {
+					qPos.add(name);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_G_P_N_GROUPID_2 = "dlFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_N_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_N_NAME_1 = "dlFolder.name IS NULL";
+	private static final String _FINDER_COLUMN_G_P_N_NAME_2 = "dlFolder.name = ?";
+	private static final String _FINDER_COLUMN_G_P_N_NAME_3 = "(dlFolder.name IS NULL OR dlFolder.name = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_F_C_P_NOTS =
+		new FinderPath(DLFolderModelImpl.ENTITY_CACHE_ENABLED,
+			DLFolderModelImpl.FINDER_CACHE_ENABLED, DLFolderImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByF_C_P_NotS",
+			new String[] {
+				Long.class.getName(), Long.class.getName(), Long.class.getName(),
+				Integer.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_F_C_P_NOTS =
+		new FinderPath(DLFolderModelImpl.ENTITY_CACHE_ENABLED,
+			DLFolderModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByF_C_P_NotS",
+			new String[] {
+				Long.class.getName(), Long.class.getName(), Long.class.getName(),
+				Integer.class.getName()
+			});
+
+	/**
+	 * Returns all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	 *
+	 * @param folderId the folder ID
+	 * @param companyId the company ID
+	 * @param parentFolderId the parent folder ID
+	 * @param status the status
+	 * @return the matching document library folders
+	 */
+	@Override
+	public List<DLFolder> findByF_C_P_NotS(long folderId, long companyId,
+		long parentFolderId, int status) {
+		return findByF_C_P_NotS(folderId, companyId, parentFolderId, status,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.portlet.documentlibrary.model.impl.DLFolderModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param folderId the folder ID
+	 * @param companyId the company ID
+	 * @param parentFolderId the parent folder ID
+	 * @param status the status
+	 * @param start the lower bound of the range of document library folders
+	 * @param end the upper bound of the range of document library folders (not inclusive)
+	 * @return the range of matching document library folders
+	 */
+	@Override
+	public List<DLFolder> findByF_C_P_NotS(long folderId, long companyId,
+		long parentFolderId, int status, int start, int end) {
+		return findByF_C_P_NotS(folderId, companyId, parentFolderId, status,
+			start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.portlet.documentlibrary.model.impl.DLFolderModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param folderId the folder ID
+	 * @param companyId the company ID
+	 * @param parentFolderId the parent folder ID
+	 * @param status the status
+	 * @param start the lower bound of the range of document library folders
+	 * @param end the upper bound of the range of document library folders (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching document library folders
+	 */
+	@Override
+	public List<DLFolder> findByF_C_P_NotS(long folderId, long companyId,
+		long parentFolderId, int status, int start, int end,
+		OrderByComparator<DLFolder> orderByComparator) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_F_C_P_NOTS;
+		finderArgs = new Object[] {
+				folderId, companyId, parentFolderId, status,
+				
+				start, end, orderByComparator
+			};
+
+		List<DLFolder> list = (List<DLFolder>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (DLFolder dlFolder : list) {
+				if ((folderId >= dlFolder.getFolderId()) ||
+						(companyId != dlFolder.getCompanyId()) ||
+						(parentFolderId != dlFolder.getParentFolderId()) ||
+						(status == dlFolder.getStatus())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(6 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(6);
+			}
+
+			query.append(_SQL_SELECT_DLFOLDER_WHERE);
+
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2);
+
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2);
+
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2);
+
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_STATUS_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(DLFolderModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(folderId);
+
+				qPos.add(companyId);
+
+				qPos.add(parentFolderId);
+
+				qPos.add(status);
+
+				if (!pagination) {
+					list = (List<DLFolder>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<DLFolder>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	 *
+	 * @param folderId the folder ID
+	 * @param companyId the company ID
+	 * @param parentFolderId the parent folder ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching document library folder
+	 * @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
+	 */
+	@Override
+	public DLFolder findByF_C_P_NotS_First(long folderId, long companyId,
+		long parentFolderId, int status,
+		OrderByComparator<DLFolder> orderByComparator)
+		throws NoSuchFolderException {
+		DLFolder dlFolder = fetchByF_C_P_NotS_First(folderId, companyId,
+				parentFolderId, status, orderByComparator);
+
+		if (dlFolder != null) {
+			return dlFolder;
+		}
+
+		StringBundler msg = new StringBundler(10);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("folderId=");
+		msg.append(folderId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(", parentFolderId=");
+		msg.append(parentFolderId);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchFolderException(msg.toString());
+	}
+
+	/**
+	 * Returns the first document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	 *
+	 * @param folderId the folder ID
+	 * @param companyId the company ID
+	 * @param parentFolderId the parent folder ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching document library folder, or <code>null</code> if a matching document library folder could not be found
+	 */
+	@Override
+	public DLFolder fetchByF_C_P_NotS_First(long folderId, long companyId,
+		long parentFolderId, int status,
+		OrderByComparator<DLFolder> orderByComparator) {
+		List<DLFolder> list = findByF_C_P_NotS(folderId, companyId,
+				parentFolderId, status, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	 *
+	 * @param folderId the folder ID
+	 * @param companyId the company ID
+	 * @param parentFolderId the parent folder ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching document library folder
+	 * @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
+	 */
+	@Override
+	public DLFolder findByF_C_P_NotS_Last(long folderId, long companyId,
+		long parentFolderId, int status,
+		OrderByComparator<DLFolder> orderByComparator)
+		throws NoSuchFolderException {
+		DLFolder dlFolder = fetchByF_C_P_NotS_Last(folderId, companyId,
+				parentFolderId, status, orderByComparator);
+
+		if (dlFolder != null) {
+			return dlFolder;
+		}
+
+		StringBundler msg = new StringBundler(10);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("folderId=");
+		msg.append(folderId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(", parentFolderId=");
+		msg.append(parentFolderId);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchFolderException(msg.toString());
+	}
+
+	/**
+	 * Returns the last document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	 *
+	 * @param folderId the folder ID
+	 * @param companyId the company ID
+	 * @param parentFolderId the parent folder ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching document library folder, or <code>null</code> if a matching document library folder could not be found
+	 */
+	@Override
+	public DLFolder fetchByF_C_P_NotS_Last(long folderId, long companyId,
+		long parentFolderId, int status,
+		OrderByComparator<DLFolder> orderByComparator) {
+		int count = countByF_C_P_NotS(folderId, companyId, parentFolderId,
+				status);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<DLFolder> list = findByF_C_P_NotS(folderId, companyId,
+				parentFolderId, status, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Removes all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63; from the database.
+	 *
+	 * @param folderId the folder ID
+	 * @param companyId the company ID
+	 * @param parentFolderId the parent folder ID
+	 * @param status the status
+	 */
+	@Override
+	public void removeByF_C_P_NotS(long folderId, long companyId,
+		long parentFolderId, int status) {
+		for (DLFolder dlFolder : findByF_C_P_NotS(folderId, companyId,
+				parentFolderId, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+				null)) {
+			remove(dlFolder);
+		}
+	}
+
+	/**
+	 * Returns the number of document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	 *
+	 * @param folderId the folder ID
+	 * @param companyId the company ID
+	 * @param parentFolderId the parent folder ID
+	 * @param status the status
+	 * @return the number of matching document library folders
+	 */
+	@Override
+	public int countByF_C_P_NotS(long folderId, long companyId,
+		long parentFolderId, int status) {
+		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_F_C_P_NOTS;
+
+		Object[] finderArgs = new Object[] {
+				folderId, companyId, parentFolderId, status
+			};
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(5);
+
+			query.append(_SQL_COUNT_DLFOLDER_WHERE);
+
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2);
+
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2);
+
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2);
+
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_STATUS_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(folderId);
+
+				qPos.add(companyId);
+
+				qPos.add(parentFolderId);
+
+				qPos.add(status);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2 = "dlFolder.folderId > ? AND ";
+	private static final String _FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2 = "dlFolder.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_F_C_P_NOTS_STATUS_2 = "dlFolder.status != ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_G_M_P_H = new FinderPath(DLFolderModelImpl.ENTITY_CACHE_ENABLED,
 			DLFolderModelImpl.FINDER_CACHE_ENABLED, DLFolderImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_M_P_H",

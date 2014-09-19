@@ -14,6 +14,8 @@
 
 package com.liferay.portal.servlet.filters.dynamiccss;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.regex.PatternFactory;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -52,7 +54,7 @@ public class RTLCSSUtil {
 			rtlCss = (String)Context.jsToJava(result, String.class);
 		}
 		catch (Exception e) {
-			System.err.println(
+			_log.error(
 				"Unable to generate RTL version for " + fileName +
 					StringPool.COMMA_AND_SPACE + e.getMessage());
 		}
@@ -71,7 +73,7 @@ public class RTLCSSUtil {
 					"/dependencies/r2.js");
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			_log.error(e, e);
 		}
 	}
 
@@ -86,6 +88,8 @@ public class RTLCSSUtil {
 
 		return false;
 	}
+
+	private static Log _log = LogFactoryUtil.getLog(RTLCSSUtil.class);
 
 	private static String _jsScript;
 	private static Pattern[] _patterns = PatternFactory.compile(
