@@ -31,6 +31,7 @@ if (Validator.isNull(width)) {
 }
 %>
 
+
 <div class="taglib-portlet-preview <%= showBorders ? "show-borders" : StringPool.BLANK %>">
 	<c:if test="<%= showBorders %>">
 		<div class="title">
