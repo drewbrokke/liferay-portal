@@ -1971,8 +1971,15 @@ public class ServiceBuilder {
 		}
 
 		for (String exception : exceptions) {
+			String dirName = StringPool.BLANK;
+
+			if (_osgiModule) {
+				dirName = "exception/";
+			}
+
 			File exceptionFile = new File(
-				_serviceOutputPath + "/" + exception + "Exception.java");
+				_serviceOutputPath + "/" + dirName + exception +
+					"Exception.java");
 
 			if (!exceptionFile.exists()) {
 				Map<String, Object> context = _getContext();

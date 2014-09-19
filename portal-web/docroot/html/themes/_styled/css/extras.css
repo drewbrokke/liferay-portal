@@ -202,7 +202,7 @@ body > .lfr-menu-list ul, .active-area-proxy, .entry-display-style .entry-thumbn
 	@include border-radius(5px);
 }
 
-.portlet-dynamic-data-list-display, .portlet-journal {
+.portlet-dynamic-data-list-display, .portlet-dynamic-data-lists, .portlet-journal {
 	.lfr-ddm-container .field-wrapper {
 		@include border-radius(6px);
 	}
@@ -327,7 +327,7 @@ body > .lfr-menu-list ul, .active-area-proxy, .entry-display-style .entry-thumbn
 	@include border-radius(0);
 }
 
-.site-variations-tabview-list .tab-content, .staging-tabview-list .tab-active .tab-content, .tagselector-content .textboxlistentry-holder .lfr-tag-selector-input:focus, .alloy-editor-toolbar .yui3-button {
+.site-variations-tabview-list .tab-content, .staging-tabview-list .tab-active .tab-content, .tagselector-content .textboxlistentry-holder .lfr-tag-selector-input:focus {
 	@include box-shadow(none);
 }
 

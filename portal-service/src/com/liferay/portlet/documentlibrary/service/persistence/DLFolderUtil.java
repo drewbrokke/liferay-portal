@@ -1589,247 +1589,6 @@ public class DLFolderUtil {
 	}
 
 	/**
-	* Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or throws a {@link com.liferay.portlet.documentlibrary.NoSuchFolderException} if it could not be found.
-	*
-	* @param groupId the group ID
-	* @param parentFolderId the parent folder ID
-	* @param name the name
-	* @return the matching document library folder
-	* @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
-	*/
-	public static com.liferay.portlet.documentlibrary.model.DLFolder findByG_P_N(
-		long groupId, long parentFolderId, java.lang.String name)
-		throws com.liferay.portlet.documentlibrary.NoSuchFolderException {
-		return getPersistence().findByG_P_N(groupId, parentFolderId, name);
-	}
-
-	/**
-	* Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	*
-	* @param groupId the group ID
-	* @param parentFolderId the parent folder ID
-	* @param name the name
-	* @return the matching document library folder, or <code>null</code> if a matching document library folder could not be found
-	*/
-	public static com.liferay.portlet.documentlibrary.model.DLFolder fetchByG_P_N(
-		long groupId, long parentFolderId, java.lang.String name) {
-		return getPersistence().fetchByG_P_N(groupId, parentFolderId, name);
-	}
-
-	/**
-	* Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	*
-	* @param groupId the group ID
-	* @param parentFolderId the parent folder ID
-	* @param name the name
-	* @param retrieveFromCache whether to use the finder cache
-	* @return the matching document library folder, or <code>null</code> if a matching document library folder could not be found
-	*/
-	public static com.liferay.portlet.documentlibrary.model.DLFolder fetchByG_P_N(
-		long groupId, long parentFolderId, java.lang.String name,
-		boolean retrieveFromCache) {
-		return getPersistence()
-				   .fetchByG_P_N(groupId, parentFolderId, name,
-			retrieveFromCache);
-	}
-
-	/**
-	* Removes the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; from the database.
-	*
-	* @param groupId the group ID
-	* @param parentFolderId the parent folder ID
-	* @param name the name
-	* @return the document library folder that was removed
-	*/
-	public static com.liferay.portlet.documentlibrary.model.DLFolder removeByG_P_N(
-		long groupId, long parentFolderId, java.lang.String name)
-		throws com.liferay.portlet.documentlibrary.NoSuchFolderException {
-		return getPersistence().removeByG_P_N(groupId, parentFolderId, name);
-	}
-
-	/**
-	* Returns the number of document library folders where groupId = &#63; and parentFolderId = &#63; and name = &#63;.
-	*
-	* @param groupId the group ID
-	* @param parentFolderId the parent folder ID
-	* @param name the name
-	* @return the number of matching document library folders
-	*/
-	public static int countByG_P_N(long groupId, long parentFolderId,
-		java.lang.String name) {
-		return getPersistence().countByG_P_N(groupId, parentFolderId, name);
-	}
-
-	/**
-	* Returns all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	*
-	* @param folderId the folder ID
-	* @param companyId the company ID
-	* @param parentFolderId the parent folder ID
-	* @param status the status
-	* @return the matching document library folders
-	*/
-	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> findByF_C_P_NotS(
-		long folderId, long companyId, long parentFolderId, int status) {
-		return getPersistence()
-				   .findByF_C_P_NotS(folderId, companyId, parentFolderId, status);
-	}
-
-	/**
-	* Returns a range of all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.portlet.documentlibrary.model.impl.DLFolderModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param folderId the folder ID
-	* @param companyId the company ID
-	* @param parentFolderId the parent folder ID
-	* @param status the status
-	* @param start the lower bound of the range of document library folders
-	* @param end the upper bound of the range of document library folders (not inclusive)
-	* @return the range of matching document library folders
-	*/
-	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> findByF_C_P_NotS(
-		long folderId, long companyId, long parentFolderId, int status,
-		int start, int end) {
-		return getPersistence()
-				   .findByF_C_P_NotS(folderId, companyId, parentFolderId,
-			status, start, end);
-	}
-
-	/**
-	* Returns an ordered range of all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.portlet.documentlibrary.model.impl.DLFolderModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param folderId the folder ID
-	* @param companyId the company ID
-	* @param parentFolderId the parent folder ID
-	* @param status the status
-	* @param start the lower bound of the range of document library folders
-	* @param end the upper bound of the range of document library folders (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching document library folders
-	*/
-	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> findByF_C_P_NotS(
-		long folderId, long companyId, long parentFolderId, int status,
-		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portlet.documentlibrary.model.DLFolder> orderByComparator) {
-		return getPersistence()
-				   .findByF_C_P_NotS(folderId, companyId, parentFolderId,
-			status, start, end, orderByComparator);
-	}
-
-	/**
-	* Returns the first document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	*
-	* @param folderId the folder ID
-	* @param companyId the company ID
-	* @param parentFolderId the parent folder ID
-	* @param status the status
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching document library folder
-	* @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
-	*/
-	public static com.liferay.portlet.documentlibrary.model.DLFolder findByF_C_P_NotS_First(
-		long folderId, long companyId, long parentFolderId, int status,
-		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portlet.documentlibrary.model.DLFolder> orderByComparator)
-		throws com.liferay.portlet.documentlibrary.NoSuchFolderException {
-		return getPersistence()
-				   .findByF_C_P_NotS_First(folderId, companyId, parentFolderId,
-			status, orderByComparator);
-	}
-
-	/**
-	* Returns the first document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	*
-	* @param folderId the folder ID
-	* @param companyId the company ID
-	* @param parentFolderId the parent folder ID
-	* @param status the status
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching document library folder, or <code>null</code> if a matching document library folder could not be found
-	*/
-	public static com.liferay.portlet.documentlibrary.model.DLFolder fetchByF_C_P_NotS_First(
-		long folderId, long companyId, long parentFolderId, int status,
-		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portlet.documentlibrary.model.DLFolder> orderByComparator) {
-		return getPersistence()
-				   .fetchByF_C_P_NotS_First(folderId, companyId,
-			parentFolderId, status, orderByComparator);
-	}
-
-	/**
-	* Returns the last document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	*
-	* @param folderId the folder ID
-	* @param companyId the company ID
-	* @param parentFolderId the parent folder ID
-	* @param status the status
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching document library folder
-	* @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
-	*/
-	public static com.liferay.portlet.documentlibrary.model.DLFolder findByF_C_P_NotS_Last(
-		long folderId, long companyId, long parentFolderId, int status,
-		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portlet.documentlibrary.model.DLFolder> orderByComparator)
-		throws com.liferay.portlet.documentlibrary.NoSuchFolderException {
-		return getPersistence()
-				   .findByF_C_P_NotS_Last(folderId, companyId, parentFolderId,
-			status, orderByComparator);
-	}
-
-	/**
-	* Returns the last document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	*
-	* @param folderId the folder ID
-	* @param companyId the company ID
-	* @param parentFolderId the parent folder ID
-	* @param status the status
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching document library folder, or <code>null</code> if a matching document library folder could not be found
-	*/
-	public static com.liferay.portlet.documentlibrary.model.DLFolder fetchByF_C_P_NotS_Last(
-		long folderId, long companyId, long parentFolderId, int status,
-		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portlet.documentlibrary.model.DLFolder> orderByComparator) {
-		return getPersistence()
-				   .fetchByF_C_P_NotS_Last(folderId, companyId, parentFolderId,
-			status, orderByComparator);
-	}
-
-	/**
-	* Removes all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63; from the database.
-	*
-	* @param folderId the folder ID
-	* @param companyId the company ID
-	* @param parentFolderId the parent folder ID
-	* @param status the status
-	*/
-	public static void removeByF_C_P_NotS(long folderId, long companyId,
-		long parentFolderId, int status) {
-		getPersistence()
-			.removeByF_C_P_NotS(folderId, companyId, parentFolderId, status);
-	}
-
-	/**
-	* Returns the number of document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
-	*
-	* @param folderId the folder ID
-	* @param companyId the company ID
-	* @param parentFolderId the parent folder ID
-	* @param status the status
-	* @return the number of matching document library folders
-	*/
-	public static int countByF_C_P_NotS(long folderId, long companyId,
-		long parentFolderId, int status) {
-		return getPersistence()
-				   .countByF_C_P_NotS(folderId, companyId, parentFolderId,
-			status);
-	}
-
-	/**
 	* Returns all the document library folders where groupId = &#63; and mountPoint = &#63; and parentFolderId = &#63;.
 	*
 	* @param groupId the group ID
@@ -2096,6 +1855,247 @@ public class DLFolderUtil {
 		long parentFolderId) {
 		return getPersistence()
 				   .filterCountByG_M_P(groupId, mountPoint, parentFolderId);
+	}
+
+	/**
+	* Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or throws a {@link com.liferay.portlet.documentlibrary.NoSuchFolderException} if it could not be found.
+	*
+	* @param groupId the group ID
+	* @param parentFolderId the parent folder ID
+	* @param name the name
+	* @return the matching document library folder
+	* @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
+	*/
+	public static com.liferay.portlet.documentlibrary.model.DLFolder findByG_P_N(
+		long groupId, long parentFolderId, java.lang.String name)
+		throws com.liferay.portlet.documentlibrary.NoSuchFolderException {
+		return getPersistence().findByG_P_N(groupId, parentFolderId, name);
+	}
+
+	/**
+	* Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param groupId the group ID
+	* @param parentFolderId the parent folder ID
+	* @param name the name
+	* @return the matching document library folder, or <code>null</code> if a matching document library folder could not be found
+	*/
+	public static com.liferay.portlet.documentlibrary.model.DLFolder fetchByG_P_N(
+		long groupId, long parentFolderId, java.lang.String name) {
+		return getPersistence().fetchByG_P_N(groupId, parentFolderId, name);
+	}
+
+	/**
+	* Returns the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param groupId the group ID
+	* @param parentFolderId the parent folder ID
+	* @param name the name
+	* @param retrieveFromCache whether to use the finder cache
+	* @return the matching document library folder, or <code>null</code> if a matching document library folder could not be found
+	*/
+	public static com.liferay.portlet.documentlibrary.model.DLFolder fetchByG_P_N(
+		long groupId, long parentFolderId, java.lang.String name,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .fetchByG_P_N(groupId, parentFolderId, name,
+			retrieveFromCache);
+	}
+
+	/**
+	* Removes the document library folder where groupId = &#63; and parentFolderId = &#63; and name = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param parentFolderId the parent folder ID
+	* @param name the name
+	* @return the document library folder that was removed
+	*/
+	public static com.liferay.portlet.documentlibrary.model.DLFolder removeByG_P_N(
+		long groupId, long parentFolderId, java.lang.String name)
+		throws com.liferay.portlet.documentlibrary.NoSuchFolderException {
+		return getPersistence().removeByG_P_N(groupId, parentFolderId, name);
+	}
+
+	/**
+	* Returns the number of document library folders where groupId = &#63; and parentFolderId = &#63; and name = &#63;.
+	*
+	* @param groupId the group ID
+	* @param parentFolderId the parent folder ID
+	* @param name the name
+	* @return the number of matching document library folders
+	*/
+	public static int countByG_P_N(long groupId, long parentFolderId,
+		java.lang.String name) {
+		return getPersistence().countByG_P_N(groupId, parentFolderId, name);
+	}
+
+	/**
+	* Returns all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	*
+	* @param folderId the folder ID
+	* @param companyId the company ID
+	* @param parentFolderId the parent folder ID
+	* @param status the status
+	* @return the matching document library folders
+	*/
+	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> findByF_C_P_NotS(
+		long folderId, long companyId, long parentFolderId, int status) {
+		return getPersistence()
+				   .findByF_C_P_NotS(folderId, companyId, parentFolderId, status);
+	}
+
+	/**
+	* Returns a range of all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.portlet.documentlibrary.model.impl.DLFolderModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param folderId the folder ID
+	* @param companyId the company ID
+	* @param parentFolderId the parent folder ID
+	* @param status the status
+	* @param start the lower bound of the range of document library folders
+	* @param end the upper bound of the range of document library folders (not inclusive)
+	* @return the range of matching document library folders
+	*/
+	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> findByF_C_P_NotS(
+		long folderId, long companyId, long parentFolderId, int status,
+		int start, int end) {
+		return getPersistence()
+				   .findByF_C_P_NotS(folderId, companyId, parentFolderId,
+			status, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.portlet.documentlibrary.model.impl.DLFolderModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param folderId the folder ID
+	* @param companyId the company ID
+	* @param parentFolderId the parent folder ID
+	* @param status the status
+	* @param start the lower bound of the range of document library folders
+	* @param end the upper bound of the range of document library folders (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching document library folders
+	*/
+	public static java.util.List<com.liferay.portlet.documentlibrary.model.DLFolder> findByF_C_P_NotS(
+		long folderId, long companyId, long parentFolderId, int status,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portlet.documentlibrary.model.DLFolder> orderByComparator) {
+		return getPersistence()
+				   .findByF_C_P_NotS(folderId, companyId, parentFolderId,
+			status, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns the first document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	*
+	* @param folderId the folder ID
+	* @param companyId the company ID
+	* @param parentFolderId the parent folder ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching document library folder
+	* @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
+	*/
+	public static com.liferay.portlet.documentlibrary.model.DLFolder findByF_C_P_NotS_First(
+		long folderId, long companyId, long parentFolderId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portlet.documentlibrary.model.DLFolder> orderByComparator)
+		throws com.liferay.portlet.documentlibrary.NoSuchFolderException {
+		return getPersistence()
+				   .findByF_C_P_NotS_First(folderId, companyId, parentFolderId,
+			status, orderByComparator);
+	}
+
+	/**
+	* Returns the first document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	*
+	* @param folderId the folder ID
+	* @param companyId the company ID
+	* @param parentFolderId the parent folder ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching document library folder, or <code>null</code> if a matching document library folder could not be found
+	*/
+	public static com.liferay.portlet.documentlibrary.model.DLFolder fetchByF_C_P_NotS_First(
+		long folderId, long companyId, long parentFolderId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portlet.documentlibrary.model.DLFolder> orderByComparator) {
+		return getPersistence()
+				   .fetchByF_C_P_NotS_First(folderId, companyId,
+			parentFolderId, status, orderByComparator);
+	}
+
+	/**
+	* Returns the last document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	*
+	* @param folderId the folder ID
+	* @param companyId the company ID
+	* @param parentFolderId the parent folder ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching document library folder
+	* @throws com.liferay.portlet.documentlibrary.NoSuchFolderException if a matching document library folder could not be found
+	*/
+	public static com.liferay.portlet.documentlibrary.model.DLFolder findByF_C_P_NotS_Last(
+		long folderId, long companyId, long parentFolderId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portlet.documentlibrary.model.DLFolder> orderByComparator)
+		throws com.liferay.portlet.documentlibrary.NoSuchFolderException {
+		return getPersistence()
+				   .findByF_C_P_NotS_Last(folderId, companyId, parentFolderId,
+			status, orderByComparator);
+	}
+
+	/**
+	* Returns the last document library folder in the ordered set where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	*
+	* @param folderId the folder ID
+	* @param companyId the company ID
+	* @param parentFolderId the parent folder ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching document library folder, or <code>null</code> if a matching document library folder could not be found
+	*/
+	public static com.liferay.portlet.documentlibrary.model.DLFolder fetchByF_C_P_NotS_Last(
+		long folderId, long companyId, long parentFolderId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portlet.documentlibrary.model.DLFolder> orderByComparator) {
+		return getPersistence()
+				   .fetchByF_C_P_NotS_Last(folderId, companyId, parentFolderId,
+			status, orderByComparator);
+	}
+
+	/**
+	* Removes all the document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63; from the database.
+	*
+	* @param folderId the folder ID
+	* @param companyId the company ID
+	* @param parentFolderId the parent folder ID
+	* @param status the status
+	*/
+	public static void removeByF_C_P_NotS(long folderId, long companyId,
+		long parentFolderId, int status) {
+		getPersistence()
+			.removeByF_C_P_NotS(folderId, companyId, parentFolderId, status);
+	}
+
+	/**
+	* Returns the number of document library folders where folderId &gt; &#63; and companyId = &#63; and parentFolderId = &#63; and status &ne; &#63;.
+	*
+	* @param folderId the folder ID
+	* @param companyId the company ID
+	* @param parentFolderId the parent folder ID
+	* @param status the status
+	* @return the number of matching document library folders
+	*/
+	public static int countByF_C_P_NotS(long folderId, long companyId,
+		long parentFolderId, int status) {
+		return getPersistence()
+				   .countByF_C_P_NotS(folderId, companyId, parentFolderId,
+			status);
 	}
 
 	/**

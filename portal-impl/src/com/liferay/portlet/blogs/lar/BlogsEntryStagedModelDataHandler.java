@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.StreamUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.TempFileUtil;
+import com.liferay.portal.kernel.util.TempFileEntryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.model.Image;
@@ -218,9 +218,9 @@ public class BlogsEntryStagedModelDataHandler
 					inputStream = portletDataContext.getZipEntryAsInputStream(
 						smallImagePath);
 
-					FileEntry fileEntry = TempFileUtil.addTempFile(
+					FileEntry fileEntry = TempFileEntryUtil.addTempFileEntry(
 						serviceContext.getScopeGroupId(), userId,
-						smallImageFileName, BlogsEntry.class.getName(),
+						BlogsEntry.class.getName(), smallImageFileName,
 						inputStream,
 						MimeTypesUtil.getContentType(smallImageFileName));
 
@@ -249,9 +249,9 @@ public class BlogsEntryStagedModelDataHandler
 						(FileEntry)portletDataContext.getZipEntryAsObject(path);
 
 					FileEntry smallImageFileEntry =
-						TempFileUtil.addTempFile(
+						TempFileEntryUtil.addTempFileEntry(
 							serviceContext.getScopeGroupId(), userId,
-							fileEntry.getTitle(), BlogsEntry.class.getName(),
+							BlogsEntry.class.getName(), fileEntry.getTitle(),
 							inputStream, fileEntry.getMimeType());
 
 					if (fileEntry != null) {

@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.servlet.taglib.ui.ImageSelector;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.TempFileUtil;
+import com.liferay.portal.kernel.util.TempFileEntryUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowThreadLocal;
 import com.liferay.portal.model.Group;
@@ -146,14 +146,14 @@ public class BlogsTestUtil {
 				FileEntry fileEntry = null;
 
 				try {
-					fileEntry = TempFileUtil.getTempFile(
-						serviceContext.getScopeGroupId(), userId, "image.jpg",
-						BlogsEntry.class.getName());
+					fileEntry = TempFileEntryUtil.getTempFileEntry(
+						serviceContext.getScopeGroupId(), userId,
+						BlogsEntry.class.getName(), "image.jpg");
 				}
 				catch (Exception e) {
-					fileEntry = TempFileUtil.addTempFile(
-						serviceContext.getScopeGroupId(), userId, "image.jpg",
-						BlogsEntry.class.getName(), inputStream,
+					fileEntry = TempFileEntryUtil.addTempFileEntry(
+						serviceContext.getScopeGroupId(), userId,
+						BlogsEntry.class.getName(), "image.jpg", inputStream,
 						MimeTypesUtil.getContentType("image.jpg"));
 				}
 
