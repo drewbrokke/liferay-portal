@@ -43,7 +43,7 @@ Map<Locale, String> reminderQueriesMap = LocalizationUtil.getLocalizedParameter(
 <aui:fieldset cssClass="reminder">
 	<aui:input label='<%= LanguageUtil.get(request, "default-language") + StringPool.COLON + StringPool.SPACE + defaultLocale.getDisplayName(defaultLocale) %>' name="reminderQueries" type="textarea" value="<%= reminderQueries %>" />
 
-	<aui:select cssClass="localized-language-selector" label='<%= LanguageUtil.get(request, "localized-language") + StringPool.COLON %>' name="reminderQueryLanguageId" onChange='<%= renderResponse.getNamespace() + "updateReminderQueriesLanguage();" %>'>
+	<aui:select cssClass="localized-language-selector" label='<%= LanguageUtil.get(request, "localized-language") + StringPool.COLON %>' name="reminderQueryLanguageId">
 		<aui:option value="" />
 
 		<%
@@ -92,106 +92,97 @@ Map<Locale, String> reminderQueriesMap = LocalizationUtil.getLocalizedParameter(
 	}
 	%>
 
-	<aui:input label="" name="reminderQueries_temp" onChange='<%= renderResponse.getNamespace() + "onReminderQueriesChanged();" %>' title="reminder-queries" type="textarea" />
+	<aui:input label="" name="reminderQueries_temp" title="reminder-queries" type="textarea" />
 </aui:fieldset>
 
-<aui:script>
-	var <portlet:namespace />lastLanguageId = '<%= currentLanguageId %>';
-	var <portlet:namespace />reminderQueriesChanged = false;
+<aui:script sandbox="<%= true %>">
+	var form = $(document.<portlet:namespace />fm);
+	var languageOptions = form.fm('reminderQueryLanguageId').children();
+	var lastLanguageId = '<%= currentLanguageId %>';
+	var reminderQueriesChanged = false;
 
-	function <portlet:namespace />onReminderQueriesChanged() {
-		<portlet:namespace />reminderQueriesChanged = true;
+	function onReminderQueriesChanged() {
+		reminderQueriesChanged = true;
 	}
 
-	Liferay.provide(
-		window,
-		'<portlet:namespace />updateReminderQueriesLanguage',
-		function() {
-			var A = AUI();
+	function updateReminderQueriesLanguage() {
+		var reminderQueriesTemp = $('#<portlet:namespace />reminderQueries_temp');
 
-			if (<portlet:namespace />lastLanguageId != '<%= defaultLanguageId %>') {
-				if (<portlet:namespace />reminderQueriesChanged) {
-					var reminderQueriesValue = A.one('#<portlet:namespace />reminderQueries_temp').attr('value');
+		if (lastLanguageId != '<%= defaultLanguageId %>') {
+			if (reminderQueriesChanged) {
+				var reminderQueriesValue = reminderQueriesTemp.val();
 
-					if (reminderQueriesValue == null) {
-						reminderQueriesValue = '';
-					}
-
-					A.one('#<portlet:namespace />reminderQueries_' + <portlet:namespace />lastLanguageId).attr('value', reminderQueriesValue);
-
-					<portlet:namespace />reminderQueriesChanged = false;
+				if (reminderQueriesValue == null) {
+					reminderQueriesValue = '';
 				}
+
+				$('#<portlet:namespace />reminderQueries_' + lastLanguageId).val(reminderQueriesValue);
+
+				reminderQueriesChanged = false;
+			}
+		}
+
+		var selLanguageId = '';
+
+		for (var i = 0; i < languageOptions.length; i++) {
+			var option = languageOptions.eq(i);
+
+			if (option.prop('selected')) {
+				selLanguageId = option.val();
+
+				break;
+			}
+		}
+
+		if (selLanguageId != '') {
+			updateReminderQueriesLanguageTemps(selLanguageId);
+
+			reminderQueriesTemp.removeClass('hide');
+		}
+		else {
+			reminderQueriesTemp.addClass('hide');
+		}
+
+
+
+		lastLanguageId = selLanguageId;
+	}
+
+	function updateReminderQueriesLanguageTemps(lang) {
+		if (lang != '<%= defaultLanguageId %>') {
+			var reminderQueriesLang = $('#<portlet:namespace />reminderQueries_' + lang);
+			var reminderQueriesTemp = $('#<portlet:namespace />reminderQueries_temp');
+			var reminderQueriesValue = reminderQueriesLang.val();
+			var defaultReminderQueriesLang = $('#<portlet:namespace />reminderQueries_<%= defaultLanguageId %>');
+			var defaultReminderQueriesValue = defaultReminderQueriesLang.val();
+
+			if (defaultReminderQueriesValue == null) {
+				defaultReminderQueriesValue = '';
 			}
 
-			var selLanguageId = '';
-
-			for (var i = 0; i < document.<portlet:namespace />fm.<portlet:namespace />reminderQueryLanguageId.length; i++) {
-				if (document.<portlet:namespace />fm.<portlet:namespace />reminderQueryLanguageId.options[i].selected) {
-					selLanguageId = document.<portlet:namespace />fm.<portlet:namespace />reminderQueryLanguageId.options[i].value;
-
-					break;
-				}
-			}
-
-			if (selLanguageId != '') {
-				<portlet:namespace />updateReminderQueriesLanguageTemps(selLanguageId);
-
-				A.one('#<portlet:namespace />reminderQueries_temp').show();
+			if ((reminderQueriesValue == null) || (reminderQueriesValue == '')) {
+				reminderQueriesTemp.val(defaultReminderQueriesValue);
 			}
 			else {
-				A.one('#<portlet:namespace />reminderQueries_temp').hide();
+				reminderQueriesTemp.val(reminderQueriesValue);
 			}
+		}
+	}
 
-			<portlet:namespace />lastLanguageId = selLanguageId;
-		},
-		['aui-base']
-	);
+	updateReminderQueriesLanguageTemps(lastLanguageId);
 
-	Liferay.provide(
-		window,
-		'<portlet:namespace />updateReminderQueriesLanguageTemps',
-		function(lang) {
-			var A = AUI();
+	var reminderQueriesHandle = Liferay.on('submitForm', updateReminderQueriesLanguage);
 
-			if (lang != '<%= defaultLanguageId %>') {
-				var reminderQueriesLang = A.one('#<portlet:namespace />reminderQueries_' + lang);
-
-				if (reminderQueriesLang) {
-					var reminderQueriesValue = reminderQueriesLang.attr('value');
-				}
-
-				var defaultReminderQueriesLang = A.one('#<portlet:namespace />reminderQueries_<%= defaultLanguageId %>');
-
-				if (defaultReminderQueriesLang) {
-					var defaultReminderQueriesValue = defaultReminderQueriesLan.attr('value');
-				}
-
-				if (defaultReminderQueriesValue == null) {
-					defaultReminderQueriesValue = '';
-				}
-
-				if ((reminderQueriesValue == null) || (reminderQueriesValue == '')) {
-					A.one('#<portlet:namespace />reminderQueries_temp').attr('value', defaultReminderQueriesValue);
-				}
-				else {
-					A.one('#<portlet:namespace />reminderQueries_temp').attr('value', reminderQueriesValue);
-				}
-			}
-		},
-		['aui-base']
-	);
-
-	<portlet:namespace />updateReminderQueriesLanguageTemps(<portlet:namespace />lastLanguageId);
-
-	var <portlet:namespace />reminderQueriesHandle = Liferay.on('submitForm', <portlet:namespace />updateReminderQueriesLanguage);
-
-	var <portlet:namespace />clearReminderQueriesHandle = function(event) {
+	var clearReminderQueriesHandle = function(event) {
 		if (event.portletId === '<%= portletDisplay.getRootPortletId() %>') {
-			<portlet:namespace />reminderQueriesHandle.detach();
+			reminderQueriesHandle.detach();
 
-			Liferay.detach('destroyPortlet', <portlet:namespace />clearReminderQueriesHandle);
+			Liferay.detach('destroyPortlet', clearReminderQueriesHandle);
 		}
 	};
 
-	Liferay.on('destroyPortlet', <portlet:namespace />clearReminderQueriesHandle);
+	Liferay.on('destroyPortlet', clearReminderQueriesHandle);
+
+	$('#<portlet:namespace />reminderQueryLanguageId').on('change', updateReminderQueriesLanguage);
+	$('#<portlet:namespace />reminderQueries_temp').on('change', onReminderQueriesChanged);
 </aui:script>

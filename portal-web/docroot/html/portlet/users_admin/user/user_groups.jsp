@@ -79,8 +79,8 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "userGr
 		url="javascript:;"
 	/>
 
-	<aui:script use="aui-base,escape">
-		A.one('#<portlet:namespace />openUserGroupsLink').on(
+	<aui:script sandbox="<%= true %>">
+		$('#<portlet:namespace />openUserGroupsLink').on(
 			'click',
 			function(event) {
 				Liferay.Util.selectEntity(
@@ -101,13 +101,11 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "userGr
 						uri: '<%= selectUserGroupURL.toString() %>'
 					},
 					function(event) {
-						var A = AUI();
-
 						var searchContainer = Liferay.SearchContainer.get('<portlet:namespace />userGroupsSearchContainer');
 
 						var rowColumns = [];
 
-						rowColumns.push(A.Escape.html(event.usergroupname));
+						rowColumns.push(_.escape(event.usergroupname));
 						rowColumns.push('<a class="modify-link" data-rowId="' + event.usergroupid + '" href="javascript:;"><%= UnicodeFormatter.toString(removeUserGroupIcon) %></a>');
 
 						searchContainer.addRow(rowColumns, event.usergroupid);
