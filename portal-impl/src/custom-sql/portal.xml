@@ -658,15 +658,11 @@
 				{Organization_.*}
 			FROM
 				Organization_
+			LEFT JOIN
+				AssetEntry ON
+					(AssetEntry.classPK = Organization_.organizationId)
 			WHERE
-				(organizationId NOT IN (
-					SELECT
-						classPK
-					FROM
-						AssetEntry
-					WHERE
-						classNameId = [$CLASS_NAME_ID_COM.LIFERAY.PORTAL.MODEL.ORGANIZATION$]
-				))
+				(AssetEntry.classPK IS NULL)
 		]]>
 	</sql>
 	<sql id="com.liferay.portal.service.persistence.OrganizationFinder.findByGroupId">
@@ -1439,7 +1435,7 @@
 	<sql id="com.liferay.portal.service.persistence.UserFinder.findByC_FN_MN_LN_SN_EA_S">
 		<![CDATA[
 			SELECT
-				DISTINCT User_.userId AS userId, User_.firstName AS firstName, User_.middleName AS middleName, User_.lastName AS lastName
+				DISTINCT User_.userId AS userId,User_.screenName AS screenName, User_.firstName AS firstName, User_.middleName AS middleName, User_.lastName AS lastName
 			FROM
 				User_
 			[$JOIN$]
