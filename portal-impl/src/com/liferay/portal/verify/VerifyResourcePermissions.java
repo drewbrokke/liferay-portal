@@ -140,8 +140,7 @@ public class VerifyResourcePermissions extends VerifyProcess {
 		if (resourcePermission == null) {
 			resourcePermission =
 				ResourcePermissionLocalServiceUtil.fetchResourcePermission(
-					companyId, modelName,
-					ResourceConstants.SCOPE_INDIVIDUAL,
+					companyId, modelName, ResourceConstants.SCOPE_INDIVIDUAL,
 					String.valueOf(primKey), role.getRoleId());
 
 			if (resourcePermission == null) {
@@ -241,10 +240,9 @@ public class VerifyResourcePermissions extends VerifyProcess {
 			verifyResourcedModel(_role, _verifiableResourcedModel);
 		}
 
-		private final VerifiableResourcedModel _verifiableResourcedModel;
 		private final Role _role;
+		private final VerifiableResourcedModel _verifiableResourcedModel;
 
 	}
-
 
 }

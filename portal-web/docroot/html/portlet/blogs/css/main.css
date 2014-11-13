@@ -161,6 +161,29 @@
 
 	.taglib-social-bookmarks {
 		float: right;
+
+		#horizontal-social-bookmarks > span {
+			display: inline-block;
+			margin-right: 10px;
+			margin-top: 5px;
+			vertical-align: top;
+
+			:last-child {
+				margin-right: 0;
+			}
+
+			&[class$="-plusone"] {
+				width: 60px;
+			}
+
+			&[class$="-twitter"] {
+				width: 80px;
+			}
+
+			img {
+				vertical-align: baseline;
+			}
+		}
 	}
 
 	.form-search:after {

@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
 import java.util.ArrayList;
@@ -108,10 +107,6 @@ public class BookmarksFolderFinderImpl
 			SQLQuery q = session.createSynchronizedSQLQuery(sql);
 
 			q.addEntity("BookmarksFolder", BookmarksFolderImpl.class);
-
-			QueryPos qPos = QueryPos.getInstance(q);
-
-			qPos.add(PortalUtil.getClassNameId(BookmarksFolder.class));
 
 			return q.list(true);
 		}

@@ -21,19 +21,19 @@ User selUser = (User)request.getAttribute("user.selUser");
 
 PasswordPolicy passwordPolicy = (PasswordPolicy)request.getAttribute("user.passwordPolicy");
 
+boolean passwordReset = false;
 boolean passwordResetDisabled = false;
 
 if (((selUser == null) || (selUser.getLastLoginDate() == null)) && ((passwordPolicy == null) || (passwordPolicy.isChangeable() && passwordPolicy.isChangeRequired()))) {
-	passwordResetDisabled = true;
-}
-
-boolean passwordReset = false;
-
-if (passwordResetDisabled) {
 	passwordReset = true;
+	passwordResetDisabled = true;
 }
 else {
 	passwordReset = BeanParamUtil.getBoolean(selUser, request, "passwordReset");
+
+	if ((passwordPolicy != null) && !passwordPolicy.isChangeable()) {
+		passwordResetDisabled = true;
+	}
 }
 %>
 
