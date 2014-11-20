@@ -14,6 +14,35 @@
  */
 --%>
 
+<%
+List<Map<String,Object>> userFields = new ArrayList<Map<String, Object>>();
+
+String[] userNameFields = StringUtil.split(LanguageUtil.get(locale, "user.name.fields"));
+String[] userNameRequiredFields = StringUtil.split(LanguageUtil.get(locale, "user.name.required.fields"));
+
+List userNameRequriedFieldsList = Arrays.asList(userNameRequiredFields);
+
+for (String userNameField: userNameFields) {
+	Map<String, Object> userFieldMap = new HashMap<String, Object>();
+
+	userFieldMap.put("name", userNameField);
+
+	boolean required = userNameRequriedFieldsList.contains(userNameField);
+
+	userFieldMap.put("required", required);
+
+	String testOptionsProperty = "user.name." + userNameField + ".options";
+
+	String optionsString = LanguageUtil.get(locale, testOptionsProperty);
+
+	if (!testOptionsProperty.equals(optionsString)) {
+		userFieldMap.put("options", StringUtil.split(optionsString));
+	}
+
+	userFields.add(userFieldMap);
+}
+%>
+
 <liferay-ui:error exception="<%= ContactFirstNameException.class %>" message="please-enter-a-valid-first-name" />
 <liferay-ui:error exception="<%= ContactFullNameException.class %>" message="please-enter-a-valid-first-middle-and-last-name" />
 
