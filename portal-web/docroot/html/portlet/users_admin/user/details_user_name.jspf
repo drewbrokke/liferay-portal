@@ -23,7 +23,7 @@ String userNameRequiredFields = LanguageUtil.get(locale, "user.name.required.fie
 for (String userNameField: userNameFields) {
 	Map<String, Object> userFieldMap = new HashMap<String, Object>();
 
-	userFieldMap.put("name", userNameField);
+	userFieldMap.put("fieldName", userNameField);
 
 	boolean required = StringUtil.contains(userNameRequiredFields, userNameField);
 
@@ -31,9 +31,9 @@ for (String userNameField: userNameFields) {
 
 	String testOptionsProperty = "user.name." + userNameField + ".options";
 
-	String optionsString = LanguageUtil.get(locale, testOptionsProperty);
+	String optionsString = LanguageUtil.get(locale, testOptionsProperty, StringPool.BLANK);
 
-	if (!testOptionsProperty.equals(optionsString)) {
+	if (!optionsString.isEmpty()) {
 		userFieldMap.put("options", StringUtil.split(optionsString));
 	}
 
@@ -46,27 +46,25 @@ for (String userNameField: userNameFields) {
 
 <%
 for (Map<String, Object> userField: userFields) {
-	String name = (String)userField.get("name");
+	String fieldName = (String)userField.get("fieldName");
 	boolean required = Boolean.valueOf((Boolean)userField.get("required"));
 	String[] options = (String[])userField.get("options");
 %>
 
 <c:choose>
 	<c:when test="<%= Validator.isNull(options) %>">
-		<aui:input disabled='<%= !UsersAdminUtil.hasUpdateFieldPermission(permissionChecker, user, selUser, name) %>' name="<%= name %>">
+		<aui:input disabled='<%= !UsersAdminUtil.hasUpdateFieldPermission(permissionChecker, user, selUser, fieldName) %>' name="<%= fieldName %>">
 			<c:if test="<%= required %>">
 				<aui:validator name="required" />
 			</c:if>
 		</aui:input>
 	</c:when>
 	<c:otherwise>
-		<aui:select disabled='<%= !UsersAdminUtil.hasUpdateFieldPermission(permissionChecker, user, selUser, name) %>' label="<%= name %>" name="<%= name %>" showEmptyOption="<%= true %>" >
+		<aui:select disabled='<%= !UsersAdminUtil.hasUpdateFieldPermission(permissionChecker, user, selUser, fieldName) %>' label="<%= fieldName %>" name="<%= fieldName %>" showEmptyOption="<%= true %>" >
 		<%
 		for (String option: options) {
 		%>
-
 			<aui:option label='<%= option %>' value="<%= option %>" />
-
 		<%
 		}
 		%>
