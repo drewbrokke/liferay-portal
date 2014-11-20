@@ -18,16 +18,14 @@
 List<Map<String,Object>> userFields = new ArrayList<Map<String, Object>>();
 
 String[] userNameFields = StringUtil.split(LanguageUtil.get(locale, "user.name.fields"));
-String[] userNameRequiredFields = StringUtil.split(LanguageUtil.get(locale, "user.name.required.fields"));
-
-List userNameRequriedFieldsList = Arrays.asList(userNameRequiredFields);
+String userNameRequiredFields = LanguageUtil.get(locale, "user.name.required.fields");
 
 for (String userNameField: userNameFields) {
 	Map<String, Object> userFieldMap = new HashMap<String, Object>();
 
 	userFieldMap.put("name", userNameField);
 
-	boolean required = userNameRequriedFieldsList.contains(userNameField);
+	boolean required = StringUtil.contains(userNameRequiredFields, userNameField);
 
 	userFieldMap.put("required", required);
 
