@@ -243,9 +243,11 @@ public interface User extends UserModel, PersistedModel {
 	* Returns the user's full name.
 	*
 	* @return the user's full name
+	* @throws PortalException
 	*/
 	@com.liferay.portal.kernel.bean.AutoEscape()
-	public java.lang.String getFullName();
+	public java.lang.String getFullName()
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.liferay.portal.model.Group getGroup()
 		throws com.liferay.portal.kernel.exception.PortalException;

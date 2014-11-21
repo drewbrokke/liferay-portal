@@ -736,9 +736,11 @@ public class UserWrapper implements User, ModelWrapper<User> {
 	* Returns the user's full name.
 	*
 	* @return the user's full name
+	* @throws PortalException
 	*/
 	@Override
-	public java.lang.String getFullName() {
+	public java.lang.String getFullName()
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _user.getFullName();
 	}
 
