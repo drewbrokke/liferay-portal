@@ -455,15 +455,17 @@ public class UserImpl extends UserBaseImpl {
 	 * Returns the user's full name.
 	 *
 	 * @return the user's full name
+	 * @throws PortalException
 	 */
 	@AutoEscape
 	@Override
-	public String getFullName() {
+	public String getFullName() throws PortalException {
 		FullNameGenerator fullNameGenerator =
 			FullNameGeneratorFactory.getInstance();
 
-		return fullNameGenerator.getFullName(
-			getFirstName(), getMiddleName(), getLastName());
+		return fullNameGenerator.getLocalizedFullName(
+			getFirstName(), getMiddleName(), getLastName(), getLocale(),
+			getContact().getPrefixId(), getContact().getSuffixId());
 	}
 
 	@Override
