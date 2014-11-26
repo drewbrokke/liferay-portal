@@ -50,6 +50,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -95,8 +96,8 @@ public class SyncEngine {
 		remoteEventsScheduledFuture.cancel(true);
 	}
 
-	public static ExecutorService getExecutorService() {
-		return _executorService;
+	public static ExecutorService getEventProcessorExecutorService() {
+		return _eventProcessorExecutorService;
 	}
 
 	public static synchronized boolean isRunning() {
@@ -228,6 +229,7 @@ public class SyncEngine {
 			cancelSyncAccountTasks(syncAccountId);
 		}
 
+		_eventProcessorExecutorService.shutdownNow();
 		_executorService.shutdownNow();
 		_localEventsScheduledExecutorService.shutdownNow();
 		_remoteEventsScheduledExecutorService.shutdownNow();
@@ -341,7 +343,7 @@ public class SyncEngine {
 				Set<Long> syncSiteIds = SyncSiteService.getActiveSyncSiteIds(
 					syncAccount.getSyncAccountId());
 
-				for (long syncSiteId : syncSiteIds) {
+				for (long syncSiteId : new HashSet<Long>(syncSiteIds)) {
 					SyncSite syncSite = SyncSiteService.fetchSyncSite(
 						syncSiteId);
 
@@ -386,6 +388,8 @@ public class SyncEngine {
 	private static final Logger _logger = LoggerFactory.getLogger(
 		SyncEngine.class);
 
+	private static final ExecutorService _eventProcessorExecutorService =
+		Executors.newFixedThreadPool(5);
 	private static final ExecutorService _executorService =
 		Executors.newCachedThreadPool();
 	private static final ScheduledExecutorService

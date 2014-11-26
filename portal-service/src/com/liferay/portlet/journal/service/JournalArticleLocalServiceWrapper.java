@@ -2090,6 +2090,16 @@ public class JournalArticleLocalServiceWrapper
 			status);
 	}
 
+	@Override
+	public java.util.List<com.liferay.portlet.journal.model.JournalArticle> getNoAssetArticles() {
+		return _journalArticleLocalService.getNoAssetArticles();
+	}
+
+	@Override
+	public java.util.List<com.liferay.portlet.journal.model.JournalArticle> getNoPermissionArticles() {
+		return _journalArticleLocalService.getNoPermissionArticles();
+	}
+
 	/**
 	* Returns the number of web content articles that are not recycled.
 	*

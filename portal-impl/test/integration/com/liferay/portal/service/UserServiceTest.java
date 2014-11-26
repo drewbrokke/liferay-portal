@@ -16,7 +16,7 @@ package com.liferay.portal.service;
 
 import com.liferay.portal.NoSuchUserException;
 import com.liferay.portal.ReservedUserEmailAddressException;
-import com.liferay.portal.kernel.test.ExecutionTestListeners;
+import com.liferay.portal.kernel.test.AggregateTestRule;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.model.Group;
@@ -26,10 +26,10 @@ import com.liferay.portal.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.security.permission.PermissionChecker;
 import com.liferay.portal.security.permission.PermissionCheckerFactoryUtil;
 import com.liferay.portal.security.permission.PermissionThreadLocal;
+import com.liferay.portal.test.MainServletTestRule;
+import com.liferay.portal.test.ResetDatabaseTestRule;
 import com.liferay.portal.test.Sync;
-import com.liferay.portal.test.SynchronousMailExecutionTestListener;
-import com.liferay.portal.test.listeners.MainServletExecutionTestListener;
-import com.liferay.portal.test.listeners.ResetDatabaseExecutionTestListener;
+import com.liferay.portal.test.SynchronousMailTestRule;
 import com.liferay.portal.test.runners.LiferayIntegrationJUnitTestRunner;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
@@ -46,6 +46,8 @@ import javax.portlet.PortletPreferences;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -57,13 +59,14 @@ import org.junit.runner.RunWith;
 @RunWith(Enclosed.class)
 public class UserServiceTest {
 
-	@ExecutionTestListeners(
-		listeners = {
-			MainServletExecutionTestListener.class,
-			ResetDatabaseExecutionTestListener.class
-		})
 	@RunWith(LiferayIntegrationJUnitTestRunner.class)
 	public static class WhenCompanySecurityStrangersWithMXDisabled {
+
+		@ClassRule
+		@Rule
+		public static final AggregateTestRule aggregateTestRule =
+			new AggregateTestRule(
+				MainServletTestRule.INSTANCE, ResetDatabaseTestRule.INSTANCE);
 
 		@Test(expected = ReservedUserEmailAddressException.class)
 		public void shouldNotAddUser() throws Exception {
@@ -146,13 +149,14 @@ public class UserServiceTest {
 
 	}
 
-	@ExecutionTestListeners(
-		listeners = {
-			MainServletExecutionTestListener.class,
-			ResetDatabaseExecutionTestListener.class
-		})
 	@RunWith(LiferayIntegrationJUnitTestRunner.class)
 	public static class WhenGettingUserByEmailAddress {
+
+		@ClassRule
+		@Rule
+		public static final AggregateTestRule aggregateTestRule =
+			new AggregateTestRule(
+				MainServletTestRule.INSTANCE, ResetDatabaseTestRule.INSTANCE);
 
 		@Test(expected = NoSuchUserException.class)
 		public void shouldFailIfUserDeleted() throws Exception {
@@ -176,13 +180,14 @@ public class UserServiceTest {
 
 	}
 
-	@ExecutionTestListeners(
-		listeners = {
-			MainServletExecutionTestListener.class,
-			ResetDatabaseExecutionTestListener.class
-		})
 	@RunWith(LiferayIntegrationJUnitTestRunner.class)
 	public static class WhenGroupAdminUnsetsGroupUsers {
+
+		@ClassRule
+		@Rule
+		public static final AggregateTestRule aggregateTestRule =
+			new AggregateTestRule(
+				MainServletTestRule.INSTANCE, ResetDatabaseTestRule.INSTANCE);
 
 		@Before
 		public void setUp() throws Exception {
@@ -253,13 +258,14 @@ public class UserServiceTest {
 
 	}
 
-	@ExecutionTestListeners(
-		listeners = {
-			MainServletExecutionTestListener.class,
-			ResetDatabaseExecutionTestListener.class
-		})
 	@RunWith(LiferayIntegrationJUnitTestRunner.class)
 	public static class WhenGroupOwnerUnsetsGroupUsers {
+
+		@ClassRule
+		@Rule
+		public static final AggregateTestRule aggregateTestRule =
+			new AggregateTestRule(
+				MainServletTestRule.INSTANCE, ResetDatabaseTestRule.INSTANCE);
 
 		@Before
 		public void setUp() throws Exception {
@@ -334,13 +340,14 @@ public class UserServiceTest {
 
 	}
 
-	@ExecutionTestListeners(
-		listeners = {
-			MainServletExecutionTestListener.class,
-			ResetDatabaseExecutionTestListener.class
-		})
 	@RunWith(LiferayIntegrationJUnitTestRunner.class)
 	public static class WhenOrganizationAdminUnsetsUsersForNonSiteOrganization {
+
+		@ClassRule
+		@Rule
+		public static final AggregateTestRule aggregateTestRule =
+			new AggregateTestRule(
+				MainServletTestRule.INSTANCE, ResetDatabaseTestRule.INSTANCE);
 
 		@Before
 		public void setUp() throws Exception {
@@ -386,13 +393,14 @@ public class UserServiceTest {
 
 	}
 
-	@ExecutionTestListeners(
-		listeners = {
-			MainServletExecutionTestListener.class,
-			ResetDatabaseExecutionTestListener.class
-		})
 	@RunWith(LiferayIntegrationJUnitTestRunner.class)
 	public static class WhenOrganizationAdminUnsetsUsersForSiteOrganization {
+
+		@ClassRule
+		@Rule
+		public static final AggregateTestRule aggregateTestRule =
+			new AggregateTestRule(
+				MainServletTestRule.INSTANCE, ResetDatabaseTestRule.INSTANCE);
 
 		@Before
 		public void setUp() throws Exception {
@@ -434,13 +442,14 @@ public class UserServiceTest {
 
 	}
 
-	@ExecutionTestListeners(
-		listeners = {
-			MainServletExecutionTestListener.class,
-			ResetDatabaseExecutionTestListener.class
-		})
 	@RunWith(LiferayIntegrationJUnitTestRunner.class)
 	public static class WhenOrganizationOwnerUnsetsUsersForNonSiteOrganization {
+
+		@ClassRule
+		@Rule
+		public static final AggregateTestRule aggregateTestRule =
+			new AggregateTestRule(
+				MainServletTestRule.INSTANCE, ResetDatabaseTestRule.INSTANCE);
 
 		@Before
 		public void setUp() throws Exception {
@@ -485,13 +494,14 @@ public class UserServiceTest {
 
 	}
 
-	@ExecutionTestListeners(
-		listeners = {
-			MainServletExecutionTestListener.class,
-			ResetDatabaseExecutionTestListener.class
-		})
 	@RunWith(LiferayIntegrationJUnitTestRunner.class)
 	public static class WhenOrganizationOwnerUnsetsUsersForSiteOrganization {
+
+		@ClassRule
+		@Rule
+		public static final AggregateTestRule aggregateTestRule =
+			new AggregateTestRule(
+				MainServletTestRule.INSTANCE, ResetDatabaseTestRule.INSTANCE);
 
 		@Before
 		public void setUp() throws Exception {
@@ -533,15 +543,16 @@ public class UserServiceTest {
 
 	}
 
-	@ExecutionTestListeners(
-		listeners = {
-			MainServletExecutionTestListener.class,
-			ResetDatabaseExecutionTestListener.class,
-			SynchronousMailExecutionTestListener.class
-		})
 	@RunWith(LiferayIntegrationJUnitTestRunner.class)
 	@Sync
 	public static class WhenPortalSendsPasswordEmail {
+
+		@ClassRule
+		@Rule
+		public static final AggregateTestRule aggregateTestRule =
+			new AggregateTestRule(
+				MainServletTestRule.INSTANCE, ResetDatabaseTestRule.INSTANCE,
+				SynchronousMailTestRule.INSTANCE);
 
 		@Before
 		public void setUp() throws Exception {

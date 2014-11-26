@@ -1800,6 +1800,12 @@ public interface JournalArticleLocalService extends BaseLocalService,
 	public double getLatestVersion(long groupId, java.lang.String articleId,
 		int status) throws com.liferay.portal.kernel.exception.PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.portlet.journal.model.JournalArticle> getNoAssetArticles();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.portlet.journal.model.JournalArticle> getNoPermissionArticles();
+
 	/**
 	* Returns the number of web content articles that are not recycled.
 	*

@@ -1993,6 +1993,14 @@ public class JournalArticleLocalServiceUtil {
 		return getService().getLatestVersion(groupId, articleId, status);
 	}
 
+	public static java.util.List<com.liferay.portlet.journal.model.JournalArticle> getNoAssetArticles() {
+		return getService().getNoAssetArticles();
+	}
+
+	public static java.util.List<com.liferay.portlet.journal.model.JournalArticle> getNoPermissionArticles() {
+		return getService().getNoPermissionArticles();
+	}
+
 	/**
 	* Returns the number of web content articles that are not recycled.
 	*

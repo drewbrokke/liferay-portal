@@ -14,40 +14,56 @@
 
 package com.liferay.portal.test.runners;
 
+import com.liferay.portal.kernel.test.BaseTestRule;
+import com.liferay.portal.kernel.test.DescriptionComparator;
 import com.liferay.portal.kernel.util.CentralizedThreadLocal;
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.test.jdbc.ResetDatabaseUtilDataSource;
 import com.liferay.portal.test.log.LogAssertionTestRule;
 import com.liferay.portal.test.randomizerbumpers.UniqueStringRandomizerBumper;
 import com.liferay.portal.test.rule.DeleteAfterTestRunTestRule;
+import com.liferay.portal.util.InitUtil;
+import com.liferay.portal.util.PropsUtil;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
+import org.junit.runner.manipulation.Sorter;
+import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
-import org.junit.runners.model.Statement;
 
 /**
  * @author Miguel Pastor
  * @author Carlos Sierra
  * @author Shuyang Zhou
  */
-public class LiferayIntegrationJUnitTestRunner
-	extends CustomizableSpringContextJUnitTestRunner {
+public class LiferayIntegrationJUnitTestRunner extends BlockJUnit4ClassRunner {
 
 	public LiferayIntegrationJUnitTestRunner(Class<?> clazz)
 		throws InitializationError {
 
 		super(clazz);
+
+		initApplicationContext();
+
+		if (System.getProperty("external-properties") == null) {
+			System.setProperty("external-properties", "portal-test.properties");
+		}
+
+		sort(new Sorter(new DescriptionComparator()));
 	}
 
-	@Override
-	public void afterApplicationContextInit() {
-	}
+	public void initApplicationContext() {
+		System.setProperty("catalina.base", ".");
 
-	@Override
-	public List<String> getExtraConfigLocations() {
-		return Collections.emptyList();
+		ResetDatabaseUtilDataSource.initialize();
+
+		List<String> configLocations = ListUtil.fromArray(
+			PropsUtil.getArray(PropsKeys.SPRING_CONFIGS));
+
+		InitUtil.initWithSpring(configLocations, true);
 	}
 
 	@Override
@@ -55,8 +71,10 @@ public class LiferayIntegrationJUnitTestRunner
 		List<TestRule> testRules = super.classRules();
 
 		testRules.add(_uniqueStringRandomizerBumperTestRule);
+
 		testRules.add(_clearThreadLocalTestRule);
-		testRules.add(_logAssertionTestRule);
+
+		testRules.add(LogAssertionTestRule.INSTANCE);
 
 		return testRules;
 	}
@@ -66,53 +84,30 @@ public class LiferayIntegrationJUnitTestRunner
 		List<TestRule> testRules = super.getTestRules(object);
 
 		testRules.add(new DeleteAfterTestRunTestRule(object));
-		testRules.add(_logAssertionTestRule);
+
+		testRules.add(LogAssertionTestRule.INSTANCE);
 
 		return testRules;
 	}
 
-	private final TestRule _clearThreadLocalTestRule = new TestRule() {
-
-		@Override
-		public Statement apply(
-			final Statement statement, Description description) {
-
-			return new Statement() {
-
-				@Override
-				public void evaluate() throws Throwable {
-					try {
-						statement.evaluate();
-					}
-					finally {
-						CentralizedThreadLocal.clearShortLivedThreadLocals();
-					}
-				}
-
-			};
-		}
-
-	};
-
-	private final TestRule _logAssertionTestRule = new LogAssertionTestRule();
-
-	private final TestRule _uniqueStringRandomizerBumperTestRule =
-		new TestRule() {
+	private final TestRule _clearThreadLocalTestRule =
+		new BaseTestRule<Object, Object>() {
 
 			@Override
-			public Statement apply(
-				final Statement statement, Description description) {
+			protected void afterClass(Description description, Object object) {
+				CentralizedThreadLocal.clearShortLivedThreadLocals();
+			}
 
-				return new Statement() {
+		};
 
-					@Override
-					public void evaluate() throws Throwable {
-						UniqueStringRandomizerBumper.reset();
+	private final TestRule _uniqueStringRandomizerBumperTestRule =
+		new BaseTestRule<Object, Object>() {
 
-						statement.evaluate();
-					}
+			@Override
+			protected Object beforeClass(Description description) {
+				UniqueStringRandomizerBumper.reset();
 
-				};
+				return null;
 			}
 
 		};
