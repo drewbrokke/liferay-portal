@@ -87,17 +87,13 @@ public class NettyRepositoryTest {
 		FileServerTestUtil.registerForCleanUp(
 			Files.createDirectory(_repositoryPath));
 
-		AsyncBroker<Path, FileResponse> asyncBroker =
-			new AsyncBroker<Path, FileResponse>();
+		_nettyRepository = new NettyRepository(_repositoryPath, Long.MAX_VALUE);
+
+		_asyncBroker = _nettyRepository.getAsyncBroker();
 
 		_channelPipeline.addLast(
 			new FileResponseChannelHandler(
-				asyncBroker, _embeddedChannel.eventLoop()));
-
-		_nettyRepository = new NettyRepository(
-			_repositoryPath, asyncBroker, Long.MAX_VALUE);
-
-		_asyncBroker = _nettyRepository.asyncBroker;
+				_asyncBroker, _embeddedChannel.eventLoop()));
 	}
 
 	@After
@@ -109,7 +105,7 @@ public class NettyRepositoryTest {
 	@Test
 	public void testConstructor() {
 		try {
-			new NettyRepository(null, null, Long.MAX_VALUE);
+			new NettyRepository(null, Long.MAX_VALUE);
 
 			Assert.fail();
 		}
@@ -118,38 +114,24 @@ public class NettyRepositoryTest {
 		}
 
 		try {
-			new NettyRepository(_repositoryPath, null, Long.MAX_VALUE);
-
-			Assert.fail();
-		}
-		catch (NullPointerException npe) {
-			Assert.assertEquals("Async broker is null", npe.getMessage());
-		}
-
-		try {
-			new NettyRepository(
-				Paths.get("Unknown"), new AsyncBroker<Path, FileResponse>(),
-				Long.MAX_VALUE);
+			new NettyRepository(Paths.get("Unknown"), Long.MAX_VALUE);
 
 			Assert.fail();
 		}
 		catch (IllegalArgumentException iae) {
 		}
 
-		AsyncBroker<Path, FileResponse> asyncBroker =
-			new AsyncBroker<Path, FileResponse>();
+		NettyRepository nettyRepository = new NettyRepository(
+			_repositoryPath, Long.MAX_VALUE);
 
 		_channelPipeline.addLast(
 			new FileResponseChannelHandler(
-				asyncBroker, _embeddedChannel.eventLoop()));
+				nettyRepository.getAsyncBroker(),
+				_embeddedChannel.eventLoop()));
 
-		NettyRepository repository = new NettyRepository(
-			_repositoryPath, asyncBroker, Long.MAX_VALUE);
-
-		Assert.assertSame(_repositoryPath, repository.getRepositoryPath());
-		Assert.assertSame(asyncBroker, repository.asyncBroker);
-		Assert.assertEquals(Long.MAX_VALUE, repository.getFileTimeout);
-		Assert.assertNotNull(repository.pathMap);
+		Assert.assertSame(_repositoryPath, nettyRepository.getRepositoryPath());
+		Assert.assertEquals(Long.MAX_VALUE, nettyRepository.getFileTimeout);
+		Assert.assertNotNull(nettyRepository.pathMap);
 		Assert.assertTrue(
 			_annotatedObjectDecoder.removeFirst() instanceof
 				FileResponseChannelHandler);
@@ -689,17 +671,15 @@ public class NettyRepositoryTest {
 	@AdviseWith(adviceClasses = NettyUtilAdvice.class)
 	@Test
 	public void testGetFileTimeoutCancellation() {
-		AsyncBroker<Path, FileResponse> asyncBroker =
-			new AsyncBroker<Path, FileResponse>();
+		NettyRepository nettyRepository = new NettyRepository(
+			_repositoryPath, 0);
 
 		_channelPipeline.addLast(
 			new FileResponseChannelHandler(
-				asyncBroker, _embeddedChannel.eventLoop()));
+				nettyRepository.getAsyncBroker(),
+				_embeddedChannel.eventLoop()));
 
-		NettyRepository repository = new NettyRepository(
-			_repositoryPath, asyncBroker, 0);
-
-		NoticeableFuture<Path> noticeableFuture = repository.getFile(
+		NoticeableFuture<Path> noticeableFuture = nettyRepository.getFile(
 			_embeddedChannel, Paths.get("remoteFile"), Paths.get("localFile"),
 			false, false);
 

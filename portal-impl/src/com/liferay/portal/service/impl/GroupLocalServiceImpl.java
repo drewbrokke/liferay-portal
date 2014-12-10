@@ -16,6 +16,7 @@ package com.liferay.portal.service.impl;
 
 import com.liferay.portal.DuplicateGroupException;
 import com.liferay.portal.GroupFriendlyURLException;
+import com.liferay.portal.GroupInheritContentException;
 import com.liferay.portal.GroupNameException;
 import com.liferay.portal.GroupParentException;
 import com.liferay.portal.LocaleException;
@@ -283,7 +284,7 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 		}
 
 		if (className.equals(Group.class.getName())) {
-			if (!site && !inheritContent && (liveGroupId == 0) &&
+			if (!site && (liveGroupId == 0) &&
 				!name.equals(GroupConstants.CONTROL_PANEL)) {
 
 				throw new IllegalArgumentException();
@@ -301,6 +302,8 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 		if ((classNameId <= 0) || className.equals(Group.class.getName())) {
 			validateName(groupId, user.getCompanyId(), name, site);
 		}
+
+		validateInheritContent(parentGroupId, inheritContent);
 
 		validateFriendlyURL(
 			user.getCompanyId(), groupId, classNameId, classPK, friendlyURL);
@@ -1229,92 +1232,30 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 		return groupLocalService.loadGetGroup(companyId, name);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link
+	 *             Group#getDescriptiveName(Locale)
+	 */
+	@Deprecated
 	@Override
 	public String getGroupDescriptiveName(Group group, Locale locale)
 		throws PortalException {
 
-		String name = group.getName();
-
-		if (group.isCompany() && !group.isCompanyStagingGroup()) {
-			name = LanguageUtil.get(locale, "global");
-		}
-		else if (group.isControlPanel()) {
-			name = LanguageUtil.get(locale, "control-panel");
-		}
-		else if (group.isLayout()) {
-			Layout layout = layoutLocalService.getLayout(group.getClassPK());
-
-			name = layout.getName(locale);
-		}
-		else if (group.isLayoutPrototype()) {
-			LayoutPrototype layoutPrototype =
-				layoutPrototypeLocalService.getLayoutPrototype(
-					group.getClassPK());
-
-			name = layoutPrototype.getName(locale);
-		}
-		else if (group.isLayoutSetPrototype()) {
-			LayoutSetPrototype layoutSetPrototype =
-				layoutSetPrototypePersistence.findByPrimaryKey(
-					group.getClassPK());
-
-			name = layoutSetPrototype.getName(locale);
-		}
-		else if (group.isOrganization()) {
-			long organizationId = group.getOrganizationId();
-
-			Organization organization =
-				organizationPersistence.findByPrimaryKey(organizationId);
-
-			name = organization.getName();
-
-			group = organization.getGroup();
-		}
-		else if (group.isUser()) {
-			long userId = group.getClassPK();
-
-			User user = userPersistence.findByPrimaryKey(userId);
-
-			name = user.getFullName();
-		}
-		else if (group.isUserGroup()) {
-			long userGroupId = group.getClassPK();
-
-			UserGroup userGroup = userGroupPersistence.findByPrimaryKey(
-				userGroupId);
-
-			name = userGroup.getName();
-		}
-		else if (group.isUserPersonalSite()) {
-			name = LanguageUtil.get(locale, "user-personal-site");
-		}
-		else if (name.equals(GroupConstants.GUEST)) {
-			Company company = companyPersistence.findByPrimaryKey(
-				group.getCompanyId());
-
-			Account account = company.getAccount();
-
-			name = account.getName();
-		}
-
-		if (group.isStaged() && !group.isStagedRemotely() &&
-			group.isStagingGroup()) {
-
-			Group liveGroup = group.getLiveGroup();
-
-			name = liveGroup.getDescriptiveName(locale);
-		}
-
-		return name;
+		return group.getDescriptiveName(locale);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link
+	 *             Group#getDescriptiveName(Locale)
+	 */
+	@Deprecated
 	@Override
 	public String getGroupDescriptiveName(long groupId, Locale locale)
 		throws PortalException {
 
 		Group group = groupPersistence.findByPrimaryKey(groupId);
 
-		return getGroupDescriptiveName(group, locale);
+		return group.getDescriptiveName(locale);
 	}
 
 	/**
@@ -3323,7 +3264,8 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 	public Group updateGroup(
 			long groupId, long parentGroupId, String name, String description,
 			int type, boolean manualMembership, int membershipRestriction,
-			String friendlyURL, boolean active, ServiceContext serviceContext)
+			String friendlyURL, boolean inheritContent, boolean active,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		Group group = groupPersistence.findByPrimaryKey(groupId);
@@ -3371,6 +3313,7 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 		group.setManualMembership(manualMembership);
 		group.setMembershipRestriction(membershipRestriction);
 		group.setFriendlyURL(friendlyURL);
+		group.setInheritContent(inheritContent);
 		group.setActive(active);
 
 		if ((serviceContext != null) && group.isSite()) {
@@ -4478,6 +4421,25 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 		if (StringUtil.count(friendlyURL, StringPool.SLASH) > 1) {
 			throw new GroupFriendlyURLException(
 				GroupFriendlyURLException.TOO_DEEP);
+		}
+	}
+
+	protected void validateInheritContent(
+			long parentGroupId, boolean inheritContent)
+		throws GroupInheritContentException {
+
+		if (!inheritContent) {
+			return;
+		}
+
+		if (parentGroupId == GroupConstants.DEFAULT_PARENT_GROUP_ID) {
+			throw new GroupInheritContentException();
+		}
+
+		Group parentGroup = groupPersistence.fetchByPrimaryKey(parentGroupId);
+
+		if (parentGroup.isInheritContent()) {
+			throw new GroupInheritContentException();
 		}
 	}
 

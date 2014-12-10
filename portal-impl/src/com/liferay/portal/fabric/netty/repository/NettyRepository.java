@@ -49,16 +49,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class NettyRepository implements Repository<Channel> {
 
-	public NettyRepository(
-		Path repositoryPath, AsyncBroker<Path, FileResponse> asyncBroker,
-		long getFileTimeout) {
-
+	public NettyRepository(Path repositoryPath, long getFileTimeout) {
 		if (repositoryPath == null) {
 			throw new NullPointerException("Repository path is null");
-		}
-
-		if (asyncBroker == null) {
-			throw new NullPointerException("Async broker is null");
 		}
 
 		if (!Files.isDirectory(repositoryPath)) {
@@ -67,7 +60,6 @@ public class NettyRepository implements Repository<Channel> {
 		}
 
 		this.repositoryPath = repositoryPath;
-		this.asyncBroker = asyncBroker;
 		this.getFileTimeout = getFileTimeout;
 	}
 
@@ -82,6 +74,11 @@ public class NettyRepository implements Repository<Channel> {
 		if (delete) {
 			FileHelperUtil.delete(true, repositoryPath);
 		}
+	}
+
+	@Override
+	public AsyncBroker<Path, FileResponse> getAsyncBroker() {
+		return asyncBroker;
 	}
 
 	@Override
@@ -310,7 +307,8 @@ public class NettyRepository implements Repository<Channel> {
 			};
 	}
 
-	protected final AsyncBroker<Path, FileResponse> asyncBroker;
+	protected final AsyncBroker<Path, FileResponse> asyncBroker =
+		new AsyncBroker<Path, FileResponse>();
 	protected final long getFileTimeout;
 	protected final Map<Path, Path> pathMap =
 		new ConcurrentHashMap<Path, Path>();

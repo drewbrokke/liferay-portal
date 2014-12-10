@@ -307,6 +307,8 @@
 
 		<!-- Blogs -->
 
+		<action path="/blogs/cover_image_selector" type="com.liferay.portlet.blogs.action.CoverImageSelectorAction" />
+
 		<action path="/blogs/edit_entry" type="com.liferay.portlet.blogs.action.EditEntryAction">
 			<forward name="portlet.blogs.edit_entry" path="portlet.blogs.edit_entry" />
 			<forward name="portlet.blogs.error" path="portlet.blogs.error" />
@@ -318,11 +320,11 @@
 
 		<action path="/blogs/find_entry" type="com.liferay.portlet.blogs.action.FindEntryAction" />
 
-		<action path="/blogs/image_selector" type="com.liferay.portlet.blogs.action.ImageSelectorAction" />
-
 		<action path="/blogs/rss" type="com.liferay.portlet.blogs.action.RSSAction" />
 
 		<action path="/blogs/search" forward="portlet.blogs.search" />
+
+		<action path="/blogs/small_image_selector" type="com.liferay.portlet.blogs.action.SmallImageSelectorAction" />
 
 		<action path="/blogs/trackback" type="com.liferay.portlet.blogs.action.TrackbackAction" />
 
@@ -335,6 +337,8 @@
 
 		<!-- Blogs Admin -->
 
+		<action path="/blogs_admin/cover_image_selector" type="com.liferay.portlet.blogs.action.CoverImageSelectorAction" />
+
 		<action path="/blogs_admin/edit_entry" type="com.liferay.portlet.blogs.action.EditEntryAction">
 			<forward name="portlet.blogs.edit_entry" path="portlet.blogs.edit_entry" />
 			<forward name="portlet.blogs.error" path="portlet.blogs.error" />
@@ -344,9 +348,9 @@
 			<forward name="portlet.message_boards.error" path="portlet.blogs.error" />
 		</action>
 
-		<action path="/blogs_admin/image_selector" type="com.liferay.portlet.blogs.action.ImageSelectorAction" />
-
 		<action path="/blogs_admin/search" forward="portlet.blogs.search" />
+
+		<action path="/blogs_admin/small_image_selector" type="com.liferay.portlet.blogs.action.SmallImageSelectorAction" />
 
 		<action path="/blogs_admin/view" forward="portlet.blogs_admin.view" />
 
@@ -540,14 +544,6 @@
 			<forward name="portlet.document_library.view" path="portlet.document_library_display.view" />
 		</action>
 
-		<!-- Document Selector -->
-
-		<action path="/document_selector/add_file_entry" type="com.liferay.portlet.documentselector.action.EditFileEntryAction">
-			<forward name="portlet.document_selector.add_file_entry" path="portlet.document_selector.add_file_entry" />
-		</action>
-
-		<action path="/document_selector/view" forward="portlet.document_selector.view" />
-
 		<!-- Dynamic Data List Display -->
 
 		<action path="/dynamic_data_list_display/edit_record" type="com.liferay.portlet.dynamicdatalists.action.EditRecordAction">
@@ -676,8 +672,6 @@
 		</action>
 
 		<!-- Group Pages -->
-
-		<action path="/group_pages/add_group" forward="portlet.layouts_admin.add_group" />
 
 		<action path="/group_pages/add_layout" forward="portlet.layouts_admin.add_layout" />
 
@@ -975,8 +969,6 @@
 		<action path="/layout_set_prototypes/view" forward="portlet.layout_set_prototypes.view" />
 
 		<!-- Layouts Admin -->
-
-		<action path="/layouts_admin/add_group" forward="portlet.layouts_admin.add_group" />
 
 		<action path="/layouts_admin/add_layout" forward="portlet.layouts_admin.add_layout" />
 
@@ -1618,10 +1610,6 @@
 		<action path="/roles_admin/view" forward="portlet.roles_admin.view" />
 
 		<action path="/roles_admin/view_users" forward="portlet.users_admin.view" />
-
-		<!-- RSS -->
-
-		<action path="/rss/view" forward="portlet.rss.view" />
 
 		<!-- Search -->
 

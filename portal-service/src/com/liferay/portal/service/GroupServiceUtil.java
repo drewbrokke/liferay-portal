@@ -792,12 +792,13 @@ public class GroupServiceUtil {
 		long parentGroupId, java.lang.String name,
 		java.lang.String description, int type, boolean manualMembership,
 		int membershipRestriction, java.lang.String friendlyURL,
-		boolean active, com.liferay.portal.service.ServiceContext serviceContext)
+		boolean inheritContent, boolean active,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateGroup(groupId, parentGroupId, name, description,
-			type, manualMembership, membershipRestriction, friendlyURL, active,
-			serviceContext);
+			type, manualMembership, membershipRestriction, friendlyURL,
+			inheritContent, active, serviceContext);
 	}
 
 	/**

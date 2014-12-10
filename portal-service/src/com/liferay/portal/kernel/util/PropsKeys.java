@@ -281,6 +281,8 @@ public interface PropsKeys {
 
 	public static final String BLOGS_FLAGS_ENABLED = "blogs.flags.enabled";
 
+	public static final String BLOGS_IMAGE_COVER_MAX_SIZE = "blogs.image.cover.max.size";
+
 	public static final String BLOGS_IMAGE_EXTENSIONS = "blogs.image.extensions";
 
 	public static final String BLOGS_IMAGE_SMALL_MAX_SIZE = "blogs.image.small.max.size";
@@ -2207,8 +2209,6 @@ public interface PropsKeys {
 
 	public static final String RSS_CONNECTION_TIMEOUT = "rss.connection.timeout";
 
-	public static final String RSS_DISPLAY_TEMPLATES_CONFIG = "rss.display.templates.config";
-
 	public static final String RSS_FEED_DISPLAY_STYLE_DEFAULT = "rss.feed.display.style.default";
 
 	public static final String RSS_FEED_TYPE_DEFAULT = "rss.feed.type.default";
@@ -2450,6 +2450,8 @@ public interface PropsKeys {
 	public static final String SITES_FORM_UPDATE_SEO = "sites.form.update.seo";
 
 	public static final String SITES_FRIENDLY_URL_PAGE_NOT_FOUND = "sites.friendly.url.page.not.found";
+
+	public static final String SITES_SHOW_INHERIT_CONTENT_SCOPE_FROM_PARENT_SITE = "sites.show.inherit.content.scope.from.parent.site";
 
 	public static final String SITES_SITEMAP_DEFAULT_CHANGE_FREQUENCY = "sites.sitemap.default.change.frequency";
 

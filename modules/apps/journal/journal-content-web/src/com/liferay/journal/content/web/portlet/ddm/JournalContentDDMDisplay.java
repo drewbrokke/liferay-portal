@@ -14,7 +14,7 @@
 
 package com.liferay.journal.content.web.portlet.ddm;
 
-import com.liferay.journal.content.web.util.JournalContentPortletKeys;
+import com.liferay.journal.content.web.constants.JournalContentPortletKeys;
 import com.liferay.portlet.dynamicdatamapping.util.DDMDisplay;
 import com.liferay.portlet.journal.ddm.JournalDDMDisplay;
 

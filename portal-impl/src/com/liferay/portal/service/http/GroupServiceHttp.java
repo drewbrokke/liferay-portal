@@ -57,8 +57,8 @@ public class GroupServiceHttp {
 		HttpPrincipal httpPrincipal, long parentGroupId, long liveGroupId,
 		java.lang.String name, java.lang.String description, int type,
 		boolean manualMembership, int membershipRestriction,
-		java.lang.String friendlyURL, boolean site, boolean active,
-		com.liferay.portal.service.ServiceContext serviceContext)
+		java.lang.String friendlyURL, boolean site, boolean inheritContent,
+		boolean active, com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(GroupServiceUtil.class,
@@ -67,7 +67,7 @@ public class GroupServiceHttp {
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					parentGroupId, liveGroupId, name, description, type,
 					manualMembership, membershipRestriction, friendlyURL, site,
-					active, serviceContext);
+					inheritContent, active, serviceContext);
 
 			Object returnObj = null;
 
@@ -95,8 +95,8 @@ public class GroupServiceHttp {
 		HttpPrincipal httpPrincipal, long parentGroupId, long liveGroupId,
 		java.lang.String name, java.lang.String description, int type,
 		boolean manualMembership, int membershipRestriction,
-		java.lang.String friendlyURL, boolean site, boolean inheritContent,
-		boolean active, com.liferay.portal.service.ServiceContext serviceContext)
+		java.lang.String friendlyURL, boolean site, boolean active,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(GroupServiceUtil.class,
@@ -105,7 +105,7 @@ public class GroupServiceHttp {
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					parentGroupId, liveGroupId, name, description, type,
 					manualMembership, membershipRestriction, friendlyURL, site,
-					inheritContent, active, serviceContext);
+					active, serviceContext);
 
 			Object returnObj = null;
 
@@ -1237,7 +1237,7 @@ public class GroupServiceHttp {
 		HttpPrincipal httpPrincipal, long groupId, long parentGroupId,
 		java.lang.String name, java.lang.String description, int type,
 		boolean manualMembership, int membershipRestriction,
-		java.lang.String friendlyURL, boolean active,
+		java.lang.String friendlyURL, boolean inheritContent, boolean active,
 		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
@@ -1246,7 +1246,8 @@ public class GroupServiceHttp {
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					parentGroupId, name, description, type, manualMembership,
-					membershipRestriction, friendlyURL, active, serviceContext);
+					membershipRestriction, friendlyURL, inheritContent, active,
+					serviceContext);
 
 			Object returnObj = null;
 
@@ -1336,13 +1337,13 @@ public class GroupServiceHttp {
 	private static final Class<?>[] _addGroupParameterTypes0 = new Class[] {
 			long.class, long.class, java.lang.String.class,
 			java.lang.String.class, int.class, boolean.class, int.class,
-			java.lang.String.class, boolean.class, boolean.class,
+			java.lang.String.class, boolean.class, boolean.class, boolean.class,
 			com.liferay.portal.service.ServiceContext.class
 		};
 	private static final Class<?>[] _addGroupParameterTypes1 = new Class[] {
 			long.class, long.class, java.lang.String.class,
 			java.lang.String.class, int.class, boolean.class, int.class,
-			java.lang.String.class, boolean.class, boolean.class, boolean.class,
+			java.lang.String.class, boolean.class, boolean.class,
 			com.liferay.portal.service.ServiceContext.class
 		};
 	private static final Class<?>[] _addGroupParameterTypes2 = new Class[] {
@@ -1462,7 +1463,7 @@ public class GroupServiceHttp {
 	private static final Class<?>[] _updateGroupParameterTypes37 = new Class[] {
 			long.class, long.class, java.lang.String.class,
 			java.lang.String.class, int.class, boolean.class, int.class,
-			java.lang.String.class, boolean.class,
+			java.lang.String.class, boolean.class, boolean.class,
 			com.liferay.portal.service.ServiceContext.class
 		};
 	private static final Class<?>[] _updateGroupParameterTypes38 = new Class[] {

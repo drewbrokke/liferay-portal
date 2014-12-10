@@ -839,7 +839,7 @@
 
 		<!-- PK fields -->
 
-		<column name="LayoutBranchId" type="long" primary="true" />
+		<column name="layoutBranchId" type="long" primary="true" />
 
 		<!-- Group instance -->
 
@@ -1283,6 +1283,10 @@
 
 		<finder name="Type" return-type="Collection">
 			<finder-column name="type" />
+		</finder>
+		<finder name="T_N" return-type="ListType">
+			<finder-column name="type" />
+			<finder-column name="name" />
 		</finder>
 
 		<!-- References -->
@@ -3372,6 +3376,7 @@
 		<exception>EmailAddress</exception>
 		<exception>ExpiredLock</exception>
 		<exception>GroupFriendlyURL</exception>
+		<exception>GroupInheritContent</exception>
 		<exception>GroupName</exception>
 		<exception>GroupParent</exception>
 		<exception>ImageType</exception>

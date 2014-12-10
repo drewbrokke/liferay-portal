@@ -731,12 +731,22 @@ public class GroupLocalServiceUtil {
 		return getService().getGroupByUuidAndCompanyId(uuid, companyId);
 	}
 
+	/**
+	* @deprecated As of 7.0.0, replaced by {@link
+	Group#getDescriptiveName(Locale)
+	*/
+	@Deprecated
 	public static java.lang.String getGroupDescriptiveName(
 		com.liferay.portal.model.Group group, java.util.Locale locale)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getGroupDescriptiveName(group, locale);
 	}
 
+	/**
+	* @deprecated As of 7.0.0, replaced by {@link
+	Group#getDescriptiveName(Locale)
+	*/
+	@Deprecated
 	public static java.lang.String getGroupDescriptiveName(long groupId,
 		java.util.Locale locale)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -2572,12 +2582,13 @@ public class GroupLocalServiceUtil {
 		long parentGroupId, java.lang.String name,
 		java.lang.String description, int type, boolean manualMembership,
 		int membershipRestriction, java.lang.String friendlyURL,
-		boolean active, com.liferay.portal.service.ServiceContext serviceContext)
+		boolean inheritContent, boolean active,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateGroup(groupId, parentGroupId, name, description,
-			type, manualMembership, membershipRestriction, friendlyURL, active,
-			serviceContext);
+			type, manualMembership, membershipRestriction, friendlyURL,
+			inheritContent, active, serviceContext);
 	}
 
 	/**

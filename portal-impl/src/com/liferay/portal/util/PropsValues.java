@@ -1592,8 +1592,6 @@ public class PropsValues {
 
 	public static final int RSS_CONNECTION_TIMEOUT = GetterUtil.getInteger(PropsUtil.get(PropsKeys.RSS_CONNECTION_TIMEOUT));
 
-	public static final String RSS_DISPLAY_TEMPLATES_CONFIG = PropsUtil.get(PropsKeys.RSS_DISPLAY_TEMPLATES_CONFIG);
-
 	public static String[] RSS_FEED_TYPES = PropsUtil.getArray(PropsKeys.RSS_FEED_TYPES);
 
 	public static boolean RSS_FEEDS_ENABLED = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.RSS_FEEDS_ENABLED));
@@ -1723,6 +1721,8 @@ public class PropsValues {
 	public static String[] SITES_FORM_UPDATE_SEO = PropsUtil.getArray(PropsKeys.SITES_FORM_UPDATE_SEO);
 
 	public static final String SITES_FRIENDLY_URL_PAGE_NOT_FOUND = PropsUtil.get(PropsKeys.SITES_FRIENDLY_URL_PAGE_NOT_FOUND);
+
+	public static final boolean SITES_SHOW_INHERIT_CONTENT_SCOPE_FROM_PARENT_SITE = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.SITES_SHOW_INHERIT_CONTENT_SCOPE_FROM_PARENT_SITE));
 
 	public static String SITES_SITEMAP_DEFAULT_CHANGE_FREQUENCY = PropsUtil.get(PropsKeys.SITES_SITEMAP_DEFAULT_CHANGE_FREQUENCY);
 

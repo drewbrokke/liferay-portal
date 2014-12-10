@@ -480,18 +480,6 @@
 		<put name="portlet_content" value="/portlet/document_library_display/view.jsp" />
 	</definition>
 
-	<!-- Document Selector -->
-
-	<definition name="portlet.document_selector" extends="portlet" />
-
-	<definition name="portlet.document_selector.add_file_entry" extends="portlet.document_selector">
-		<put name="portlet_content" value="/portlet/document_selector/add_file_entry.jsp" />
-	</definition>
-
-	<definition name="portlet.document_selector.view" extends="portlet.document_selector">
-		<put name="portlet_content" value="/portlet/document_selector/view.jsp" />
-	</definition>
-
 	<!-- Dynamic Data List Display -->
 
 	<definition name="portlet.dynamic_data_list_display" extends="portlet" />
@@ -775,10 +763,6 @@
 	<!-- Layouts Admin -->
 
 	<definition name="portlet.layouts_admin" extends="portlet" />
-
-	<definition name="portlet.layouts_admin.add_group" extends="portlet.layouts_admin">
-		<put name="portlet_content" value="/portlet/layouts_admin/add_group.jsp" />
-	</definition>
 
 	<definition name="portlet.layouts_admin.add_layout" extends="portlet.layouts_admin">
 		<put name="portlet_content" value="/portlet/layouts_admin/add_layout.jsp" />
@@ -1224,18 +1208,6 @@
 
 	<definition name="portlet.roles_admin.view" extends="portlet.roles_admin">
 		<put name="portlet_content" value="/portlet/roles_admin/view.jsp" />
-	</definition>
-
-	<!-- RSS -->
-
-	<definition name="portlet.rss" extends="portlet" />
-
-	<definition name="portlet.rss.view" extends="portlet.rss">
-		<put name="portlet_content" value="/portlet/rss/view.jsp" />
-	</definition>
-
-	<definition name="portlet.rss.view_channel" extends="portlet.rss">
-		<put name="portlet_content" value="/portlet/rss/view_channel.jsp" />
 	</definition>
 
 	<!-- Search -->

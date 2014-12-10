@@ -19,6 +19,7 @@ Export-Package:\
 	com.liferay.portal.resiliency.service,\
 	com.liferay.portal.search,\
 	com.liferay.portal.security.ac,\
+	com.liferay.portal.security.lang,\
 	com.liferay.portal.service.http,\
 	com.liferay.portal.spring.aop,\
 	com.liferay.portal.spring.bean,\
@@ -27,13 +28,19 @@ Export-Package:\
 	com.liferay.portal.spring.transaction,\
 	com.liferay.portal.systemevent,\
 	com.liferay.portal.upgrade.v7_0_0,\
+	com.liferay.portal.upload,\
 	com.liferay.portal.verify,\
 	com.liferay.portal.xml,\
 	com.liferay.portlet.dynamicdatamapping.service.permission,\
+	com.liferay.portlet.documentlibrary,\
+	com.liferay.portlet.documentlibrary.action,\
+	com.liferay.portlet.documentlibrary.service.permission,\
 	com.liferay.portlet.journal.asset,\
 	com.liferay.portlet.journal.ddm,\
 	com.liferay.portlet.journal.lar,\
+	com.liferay.portlet.journal.search,\
 	com.liferay.portlet.journal.service.permission,\
+	com.liferay.portlet.layoutsadmin.context,\
 	com.liferay.util.log4j,\
 	\
 	javax.sql,org.hibernate,\

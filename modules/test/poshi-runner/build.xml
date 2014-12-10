@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE project>
+
+<project>
+	<import file="../../../tools/sdk/build-common-osgi-plugin.xml" />
+
+	<!--<property name="auto.deploy.dir" value="${liferay.home}/osgi/modules" />-->
+
+	<target name="start-poshi-runner">
+		<java
+			classname="com.liferay.poshi.runner.PoshiRunner"
+			classpathref="plugin.classpath"
+			fork="true"
+		/>
+	</target>
+</project>

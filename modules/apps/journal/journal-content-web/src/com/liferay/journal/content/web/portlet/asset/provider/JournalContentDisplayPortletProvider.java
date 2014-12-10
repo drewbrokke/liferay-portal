@@ -14,7 +14,7 @@
 
 package com.liferay.journal.content.web.portlet.asset.provider;
 
-import com.liferay.journal.content.web.util.JournalContentPortletKeys;
+import com.liferay.journal.content.web.constants.JournalContentPortletKeys;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portlet.asset.AssetRendererFactoryRegistryUtil;

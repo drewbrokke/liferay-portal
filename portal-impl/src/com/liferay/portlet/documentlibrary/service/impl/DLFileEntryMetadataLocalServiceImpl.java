@@ -117,6 +117,18 @@ public class DLFileEntryMetadataLocalServiceImpl
 	}
 
 	@Override
+	public List<DLFileEntryMetadata>
+		getMismatchedCompanyIdFileEntryMetadatas() {
+
+		return dlFileEntryMetadataFinder.findByMismatchedCompanyId();
+	}
+
+	@Override
+	public List<DLFileEntryMetadata> getNoStructuresFileEntryMetadatas() {
+		return dlFileEntryMetadataFinder.findByNoStructures();
+	}
+
+	@Override
 	public void updateFileEntryMetadata(
 			long companyId, List<DDMStructure> ddmStructures,
 			long fileEntryTypeId, long fileEntryId, long fileVersionId,

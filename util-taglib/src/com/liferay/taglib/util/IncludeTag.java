@@ -29,6 +29,8 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ServerDetector;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -82,6 +84,8 @@ public class IncludeTag extends AttributesTagSupport {
 			}
 
 			if (!FileAvailabilityUtil.isAvailable(servletContext, page)) {
+				logUnavailablePage(page);
+
 				return processEndTag();
 			}
 
@@ -122,6 +126,8 @@ public class IncludeTag extends AttributesTagSupport {
 			}
 
 			if (!FileAvailabilityUtil.isAvailable(servletContext, page)) {
+				logUnavailablePage(page);
+
 				return processStartTag();
 			}
 
@@ -363,8 +369,68 @@ public class IncludeTag extends AttributesTagSupport {
 		return _CLEAN_UP_SET_ATTRIBUTES;
 	}
 
+	protected boolean isPortalPage(String page) {
+		if (page.startsWith("/html/taglib/") &&
+			(page.endsWith("/end.jsp") || page.endsWith("/page.jsp") ||
+			 page.endsWith("/start.jsp"))) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 	protected boolean isUseCustomPage() {
 		return _useCustomPage;
+	}
+
+	protected void logUnavailablePage(String page) {
+		if ((page == null) || !_log.isWarnEnabled()) {
+			return;
+		}
+
+		String contextPath = servletContext.getContextPath();
+
+		if (contextPath.equals(StringPool.BLANK)) {
+			contextPath = StringPool.SLASH;
+		}
+
+		StringBundler sb = new StringBundler(13);
+
+		sb.append("Unable to find ");
+		sb.append(page);
+		sb.append(" in the context ");
+		sb.append(contextPath);
+		sb.append(".");
+
+		if (isPortalPage(page)) {
+			if (contextPath.equals(StringPool.SLASH)) {
+				sb = null;
+			}
+			else {
+				sb.append(" You must not use a taglib from a module and ");
+				sb.append("set the attribute \"servletContext\". Inline the ");
+				sb.append("content directly where the taglib is invoked.");
+			}
+		}
+		else if (contextPath.equals(StringPool.SLASH)) {
+			Class<?> clazz = getClass();
+
+			if (clazz.equals(IncludeTag.class)) {
+				sb.append(" You must set the attribute \"servletContext\" ");
+				sb.append("with the value \"<%= application %>\" when ");
+				sb.append("invoking a taglib from a module.");
+			}
+			else {
+				sb.append(" You must not use a taglib from a module and ");
+				sb.append("set the attribute \"file\". Inline the content ");
+				sb.append("directly where the taglib is invoked.");
+			}
+		}
+
+		if (sb != null) {
+			_log.warn(sb.toString());
+		}
 	}
 
 	protected int processEndTag() throws Exception {

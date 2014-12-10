@@ -16,6 +16,7 @@ package com.liferay.portlet.sites.action;
 
 import com.liferay.portal.DuplicateGroupException;
 import com.liferay.portal.GroupFriendlyURLException;
+import com.liferay.portal.GroupInheritContentException;
 import com.liferay.portal.GroupNameException;
 import com.liferay.portal.GroupParentException;
 import com.liferay.portal.LayoutSetVirtualHostException;
@@ -197,6 +198,7 @@ public class EditGroupAction extends PortletAction {
 					 e instanceof AuthException ||
 					 e instanceof DuplicateGroupException ||
 					 e instanceof GroupFriendlyURLException ||
+					 e instanceof GroupInheritContentException ||
 					 e instanceof GroupNameException ||
 					 e instanceof GroupParentException ||
 					 e instanceof LayoutSetVirtualHostException ||
@@ -471,8 +473,8 @@ public class EditGroupAction extends PortletAction {
 		GroupServiceUtil.updateGroup(
 			groupId, group.getParentGroupId(), group.getName(),
 			group.getDescription(), group.getType(), group.isManualMembership(),
-			group.getMembershipRestriction(), group.getFriendlyURL(), active,
-			serviceContext);
+			group.getMembershipRestriction(), group.getFriendlyURL(),
+			group.isInheritContent(), active, serviceContext);
 	}
 
 	protected Group updateGroup(ActionRequest actionRequest) throws Exception {
@@ -490,6 +492,7 @@ public class EditGroupAction extends PortletAction {
 		String description = null;
 		int type = 0;
 		String friendlyURL = null;
+		boolean inheritContent = false;
 		boolean active = false;
 		boolean manualMembership = true;
 
@@ -521,14 +524,16 @@ public class EditGroupAction extends PortletAction {
 			description = ParamUtil.getString(actionRequest, "description");
 			type = ParamUtil.getInteger(actionRequest, "type");
 			friendlyURL = ParamUtil.getString(actionRequest, "friendlyURL");
-			active = ParamUtil.getBoolean(actionRequest, "active");
 			manualMembership = ParamUtil.getBoolean(
 				actionRequest, "manualMembership");
+			inheritContent = ParamUtil.getBoolean(
+				actionRequest, "inheritContent");
+			active = ParamUtil.getBoolean(actionRequest, "active");
 
 			liveGroup = GroupServiceUtil.addGroup(
 				parentGroupId, GroupConstants.DEFAULT_LIVE_GROUP_ID, name,
 				description, type, manualMembership, membershipRestriction,
-				friendlyURL, true, active, serviceContext);
+				friendlyURL, true, inheritContent, active, serviceContext);
 
 			LiveUsers.joinGroup(
 				themeDisplay.getCompanyId(), liveGroup.getGroupId(), userId);
@@ -545,18 +550,20 @@ public class EditGroupAction extends PortletAction {
 				actionRequest, "description", liveGroup.getDescription());
 			type = ParamUtil.getInteger(
 				actionRequest, "type", liveGroup.getType());
-			friendlyURL = ParamUtil.getString(
-				actionRequest, "friendlyURL", liveGroup.getFriendlyURL());
-			active = ParamUtil.getBoolean(
-				actionRequest, "active", liveGroup.getActive());
 			manualMembership = ParamUtil.getBoolean(
 				actionRequest, "manualMembership",
 				liveGroup.isManualMembership());
+			friendlyURL = ParamUtil.getString(
+				actionRequest, "friendlyURL", liveGroup.getFriendlyURL());
+			inheritContent = ParamUtil.getBoolean(
+				actionRequest, "inheritContent", liveGroup.getInheritContent());
+			active = ParamUtil.getBoolean(
+				actionRequest, "active", liveGroup.getActive());
 
 			liveGroup = GroupServiceUtil.updateGroup(
 				liveGroupId, parentGroupId, name, description, type,
-				manualMembership, membershipRestriction, friendlyURL, active,
-				serviceContext);
+				manualMembership, membershipRestriction, friendlyURL,
+				inheritContent, active, serviceContext);
 
 			if (type == GroupConstants.TYPE_SITE_OPEN) {
 				List<MembershipRequest> membershipRequests =

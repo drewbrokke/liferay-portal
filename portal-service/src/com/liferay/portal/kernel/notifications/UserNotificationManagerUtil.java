@@ -75,10 +75,26 @@ public class UserNotificationManagerUtil {
 			portletId, classNameId, notificationType);
 	}
 
-	public static ServiceTrackerMap<String, List<UserNotificationDefinition>>
+	public static Map<String, List<UserNotificationDefinition>>
 		getUserNotificationDefinitions() {
 
-		return _instance._userNotificationDefinitions;
+		Map<String, List<UserNotificationDefinition>>
+			userNotificationDefinitionsMap = new ConcurrentHashMap<>();
+
+		ServiceTrackerMap<String, List<UserNotificationDefinition>>
+			userNotificationDefinitionsServiceTrackerMap =
+				_instance._userNotificationDefinitions;
+
+		for (String portletId :
+				userNotificationDefinitionsServiceTrackerMap.keySet()) {
+
+			userNotificationDefinitionsMap.put(
+				portletId,
+				userNotificationDefinitionsServiceTrackerMap.getService(
+					portletId));
+		}
+
+		return Collections.unmodifiableMap(userNotificationDefinitionsMap);
 	}
 
 	public static Map<String, Map<String, UserNotificationHandler>>

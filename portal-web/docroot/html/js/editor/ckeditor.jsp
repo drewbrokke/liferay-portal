@@ -17,6 +17,8 @@
 <%@ include file="/html/taglib/init.jsp" %>
 
 <%
+LiferayPortletResponse liferayPortletResponse = (LiferayPortletResponse)portletResponse;
+
 String portletId = portletDisplay.getRootPortletId();
 
 String mainPath = themeDisplay.getPathMain();
@@ -383,9 +385,23 @@ if (inlineEdit && Validator.isNotNull(inlineEditSaveURL)) {
 						%>
 
 						filebrowserBrowseUrl: '<%= documentSelectorURL %>',
-						filebrowserImageBrowseUrl: '<%= documentSelectorURL %>&Type=image',
-						filebrowserImageBrowseLinkUrl: '<%= documentSelectorURL %>&Type=image',
-						filebrowserFlashBrowseUrl: '<%= documentSelectorURL %>&Type=flash',
+
+						<%
+						PortletURL imageDocumentSelectorURL = PortletURLUtil.clone(documentSelectorURL, liferayPortletResponse);
+
+						imageDocumentSelectorURL.setParameter("type", "image");
+						%>
+
+						filebrowserImageBrowseUrl: '<%= imageDocumentSelectorURL %>',
+						filebrowserImageBrowseLinkUrl: '<%= imageDocumentSelectorURL %>',
+
+						<%
+						PortletURL flashDocumentSelectorURL = PortletURLUtil.clone(documentSelectorURL, liferayPortletResponse);
+
+						flashDocumentSelectorURL.setParameter("type", "flash");
+						%>
+
+						filebrowserFlashBrowseUrl: '<%= flashDocumentSelectorURL %>',
 					</c:when>
 					<c:otherwise>
 						filebrowserBrowseUrl: '',

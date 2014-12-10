@@ -4533,6 +4533,16 @@ public class PortalImpl implements Portal {
 	}
 
 	@Override
+	public String getPortletTitle(
+		String portletId, ResourceBundle resourceBundle) {
+
+		return LanguageUtil.get(
+			resourceBundle,
+			JavaConstants.JAVAX_PORTLET_TITLE.concat(StringPool.PERIOD).concat(
+				portletId));
+	}
+
+	@Override
 	public String getPortletTitle(String portletId, String languageId) {
 		Locale locale = LocaleUtil.fromLanguageId(languageId);
 
@@ -4685,8 +4695,12 @@ public class PortalImpl implements Portal {
 				scopeGroupId = doAsGroupId;
 			}
 
-			if (group.isInheritContent()) {
-				scopeGroupId = group.getParentGroupId();
+			if ((group != null) && group.isInheritContent()) {
+				Group layoutGroup = layout.getGroup();
+
+				if (!layoutGroup.isControlPanel()) {
+					scopeGroupId = group.getParentGroupId();
+				}
 			}
 
 			if ((portletId != null) && (group != null) &&
@@ -5375,7 +5389,7 @@ public class PortalImpl implements Portal {
 			requestWrapper);
 
 		return new UploadPortletRequestImpl(
-			uploadServletRequest,
+			uploadServletRequest, portletRequestImpl,
 			getPortletNamespace(portletRequestImpl.getPortletName()));
 	}
 
@@ -7625,6 +7639,15 @@ public class PortalImpl implements Portal {
 		categoriesMap = new LinkedHashMap<String, List<Portlet>>();
 
 		for (String category : categories) {
+			Group group = themeDisplay.getSiteGroup();
+
+			if (group.isInheritContent() &&
+				category.equals(
+					PortletCategoryKeys.SITE_ADMINISTRATION_CONTENT)) {
+
+				continue;
+			}
+
 			List<Portlet> portlets = getControlPanelPortlets(
 				category, themeDisplay);
 

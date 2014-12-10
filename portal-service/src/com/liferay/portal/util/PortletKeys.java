@@ -71,7 +71,8 @@ public class PortletKeys {
 
 	public static final String DOCUMENT_LIBRARY_DISPLAY = "110";
 
-	public static final String DOCUMENT_SELECTOR = "200";
+	public static final String DOCUMENT_SELECTOR =
+		"200_WAR_documentselectorweb";
 
 	public static final String DYNAMIC_DATA_LIST_DISPLAY = "169";
 
@@ -194,8 +195,6 @@ public class PortletKeys {
 	public static final String REQUESTS = "121";
 
 	public static final String ROLES_ADMIN = "128";
-
-	public static final String RSS = "39";
 
 	public static final String SEARCH = "3";
 

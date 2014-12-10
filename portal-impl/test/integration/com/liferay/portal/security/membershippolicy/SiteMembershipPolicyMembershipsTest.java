@@ -286,7 +286,8 @@ public class SiteMembershipPolicyMembershipsTest
 			RandomTestUtil.randomString(), group.getDescription(),
 			group.getType(), group.isManualMembership(),
 			group.getMembershipRestriction(), group.getFriendlyURL(),
-			group.isActive(), ServiceContextTestUtil.getServiceContext());
+			group.isInheritContent(), group.isActive(),
+			ServiceContextTestUtil.getServiceContext());
 
 		Assert.assertTrue(isVerify());
 	}

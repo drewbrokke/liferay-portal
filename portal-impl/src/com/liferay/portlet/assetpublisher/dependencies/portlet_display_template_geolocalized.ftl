@@ -28,7 +28,23 @@
 
 	<#assign fields = ddmReader.getFields("geolocation") />
 
+	<#assign coordinatesJSONObjects = [] />
+
 	<#list fields.iterator() as field>
+		<#if (field.isRepeatable())>
+			<#list field.getValue() as value >
+				<#assign coordinatesJSONObject = jsonFactoryUtil.createJSONObject(value) />
+
+				<#assign coordinatesJSONObjects = coordinatesJSONObjects + [coordinatesJSONObject] />
+			</#list>
+		<#else>
+			<#assign coordinatesJSONObject = jsonFactoryUtil.createJSONObject(field.getValue()) />
+
+			<#assign coordinatesJSONObjects = coordinatesJSONObjects + [coordinatesJSONObject] />
+		</#if>
+	</#list>
+
+	<#list coordinatesJSONObjects as coordinatesJSONObject>
 		<#assign featureJSONObject = jsonFactoryUtil.createJSONObject() />
 
 		<@liferay.silently featureJSONObject.put("type", "Feature") />
@@ -38,8 +54,6 @@
 		<@liferay.silently geometryJSONObject.put("type", "Point") />
 
 		<#assign coordinatesJSONArray = jsonFactoryUtil.createJSONArray() />
-
-		<#assign coordinatesJSONObject = jsonFactoryUtil.createJSONObject(field.getValue()) />
 
 		<@liferay.silently coordinatesJSONArray.put(coordinatesJSONObject.getDouble("longitude")) />
 

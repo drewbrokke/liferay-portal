@@ -85,8 +85,11 @@ for (int i = values.size() - 1; i >= 0; i--) {
 			</liferay-ui:search-container-row>
 
 			<aui:script>
-				var fieldsQuantities = opener.document.<portlet:namespace />fm.<portlet:namespace />fieldsQuantities.value;
+				var opener = Liferay.Util.getTop();
+
 				var itemQuantities = [];
+
+				var fieldsQuantities = opener.document.<portlet:namespace />fm.<portlet:namespace />fieldsQuantities.value;
 
 				if (fieldsQuantities) {
 					itemQuantities = fieldsQuantities.split(',');
@@ -106,6 +109,15 @@ for (int i = values.size() - 1; i >= 0; i--) {
 				}
 				%>
 
+				function <portlet:namespace />closeDialog() {
+					Liferay.fire(
+						'closeWindow',
+						{
+							id: '<portlet:namespace />itemQuantities'
+						}
+					);
+				}
+
 				function <portlet:namespace />setItemQuantities() {
 
 					<%
@@ -124,7 +136,7 @@ for (int i = values.size() - 1; i >= 0; i--) {
 				function <portlet:namespace />updateItemQuantities() {
 					<portlet:namespace />setItemQuantities();
 
-					self.close();
+					<portlet:namespace />closeDialog();
 				}
 
 				AUI().all('.taglib-page-iterator li a').each(
@@ -141,7 +153,7 @@ for (int i = values.size() - 1; i >= 0; i--) {
 	<aui:button-row>
 		<aui:button onClick='<%= renderResponse.getNamespace() + "updateItemQuantities();" %>' value="update" />
 
-		<aui:button onClick="self.close();" type="cancel" />
+		<aui:button onClick='<%= renderResponse.getNamespace() + "closeDialog();" %>' type="cancel" />
 	</aui:button-row>
 </aui:form>
 

@@ -1868,7 +1868,7 @@ public class OrganizationLocalServiceImpl
 				group.getGroupId(), parentGroupId, name, group.getDescription(),
 				group.getType(), group.isManualMembership(),
 				group.getMembershipRestriction(), group.getFriendlyURL(),
-				group.isActive(), null);
+				group.isInheritContent(), group.isActive(), null);
 		}
 
 		if (group.isSite() != site) {
