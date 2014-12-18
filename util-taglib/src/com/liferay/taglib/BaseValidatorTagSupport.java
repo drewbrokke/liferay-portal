@@ -54,6 +54,10 @@ public abstract class BaseValidatorTagSupport extends IncludeTag {
 	public int doEndTag() throws JspException {
 		updateFormValidatorTags();
 
+		if (_validatorTags != null) {
+			_validatorTags.clear();
+		}
+
 		return super.doEndTag();
 	}
 
