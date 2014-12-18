@@ -57,6 +57,15 @@ public abstract class BaseValidatorTagSupport extends IncludeTag {
 		return super.doEndTag();
 	}
 
+	@Override
+	public int doStartTag() throws JspException {
+		if (_validatorTags != null) {
+			_validatorTags.clear();
+		}
+
+		return super.doStartTag();
+	}
+
 	public abstract String getInputName();
 
 	@Override
