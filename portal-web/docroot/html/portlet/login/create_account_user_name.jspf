@@ -14,12 +14,49 @@
  */
 --%>
 
-<aui:input autoFocus="<%= windowState.equals(WindowState.MAXIMIZED) %>" model="<%= User.class %>" name="firstName" />
+<%
+String languageId = request.getParameter("languageId");
 
-<aui:input model="<%= User.class %>" name="middleName" />
+Locale selLocale = Validator.isNotNull(languageId) ? LocaleUtil.fromLanguageId(languageId) : LocaleUtil.getDefault();
 
-<aui:input model="<%= User.class %>" name="lastName">
-	<c:if test="<%= PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.USERS_LAST_NAME_REQUIRED, PropsValues.USERS_LAST_NAME_REQUIRED) %>">
-		<aui:validator name="required" />
-	</c:if>
-</aui:input>
+FullNameDefinition fullNameDefinition = LocalizationUtil.getFullNameDefinition(selLocale);
+%>
+
+<liferay-ui:error exception="<%= ContactFirstNameException.class %>" message="please-enter-a-valid-first-name" />
+<liferay-ui:error exception="<%= ContactFullNameException.class %>" message="please-enter-a-valid-first-middle-and-last-name" />
+
+<%
+for (FullNameField fullNameField: fullNameDefinition.getFields()) {
+	String fieldName = CamelCaseUtil.toCamelCase(fullNameField.getName());
+	boolean required = fullNameField.isRequired();
+	String[] valueOptions = fullNameField.getValueOptions();
+%>
+
+<c:choose>
+	<c:when test="<%= fullNameField.isFreeText() %>">
+		<aui:input name="<%= fieldName %>">
+			<c:if test="<%= required %>">
+				<aui:validator name="required" />
+			</c:if>
+		</aui:input>
+	</c:when>
+	<c:otherwise>
+		<aui:select label="<%= fieldName %>" name='<%= fieldName.concat("Id") %>' showEmptyOption="<%= true %>">
+
+		<%
+		for (String valueOption: valueOptions) {
+		%>
+
+			<aui:option label="<%= valueOption %>" value="<%= valueOption %>" />
+
+		<%
+		}
+		%>
+
+		</aui:select>
+	</c:otherwise>
+</c:choose>
+
+<%
+}
+%>
