@@ -283,6 +283,18 @@ public class VerifyProperties extends VerifyProcess {
 
 	private static final String[][] _MODULARIZED_PORTAL_KEYS = {
 
+		// Asset
+
+		new String[] {
+			"asset.categories.navigation.display.templates.config",
+			"display.templates.config",
+			"com.liferay.asset.categories.navigation.web"
+		},
+		new String[] {
+			"asset.tags.navigation.display.templates.config",
+			"display.templates.config", "com.liferay.asset.tags.web"
+		},
+
 		// Bookmarks
 
 		new String[] {
@@ -390,6 +402,8 @@ public class VerifyProperties extends VerifyProcess {
 		"cluster.executor.heartbeat.interval",
 		"com.liferay.filters.doubleclick.DoubleClickFilter",
 		"com.liferay.portal.servlet.filters.doubleclick.DoubleClickFilter",
+		"com.liferay.portal.servlet.filters.charbufferpool." +
+			"CharBufferPoolFilter",
 		"com.liferay.portal.servlet.filters.validhtml.ValidHtmlFilter",
 		"commons.pool.enabled", "convert.processes",
 		"dl.file.entry.read.count.enabled",

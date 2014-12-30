@@ -247,11 +247,17 @@ public interface User extends UserModel, PersistedModel {
 	@com.liferay.portal.kernel.bean.AutoEscape()
 	public java.lang.String getFullName();
 
-	public com.liferay.portal.model.Group getGroup()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	/**
+	* Returns the user's full name.
+	*
+	* @return the user's full name
+	*/
+	@com.liferay.portal.kernel.bean.AutoEscape()
+	public java.lang.String getFullName(boolean usePrefix, boolean useSuffix);
 
-	public long getGroupId()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	public com.liferay.portal.model.Group getGroup();
+
+	public long getGroupId();
 
 	public long[] getGroupIds();
 

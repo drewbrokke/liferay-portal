@@ -459,21 +459,46 @@ public class UserImpl extends UserBaseImpl {
 	@AutoEscape
 	@Override
 	public String getFullName() {
+		return getFullName(false, false);
+	}
+
+	/**
+	 * Returns the user's full name.
+	 *
+	 * @return the user's full name
+	 */
+	@AutoEscape
+	public String getFullName(boolean usePrefix, boolean useSuffix) {
 		FullNameGenerator fullNameGenerator =
 			FullNameGeneratorFactory.getInstance();
 
-		return fullNameGenerator.getFullName(
-			getFirstName(), getMiddleName(), getLastName());
+		int prefixId = 0;
+		int suffixId = 0;
+
+		try {
+			if (usePrefix) {
+				prefixId = getContact().getPrefixId();
+			}
+
+			if (useSuffix) {
+				suffixId = getContact().getSuffixId();
+			}
+		}
+		finally {
+			return fullNameGenerator.getLocalizedFullName(
+				getFirstName(), getMiddleName(), getLastName(), getLocale(),
+				prefixId, suffixId);
+		}
 	}
 
 	@Override
-	public Group getGroup() throws PortalException {
+	public Group getGroup() {
 		return GroupLocalServiceUtil.fetchUserGroup(
 			getCompanyId(), getUserId());
 	}
 
 	@Override
-	public long getGroupId() throws PortalException {
+	public long getGroupId() {
 		Group group = getGroup();
 
 		return group.getGroupId();
