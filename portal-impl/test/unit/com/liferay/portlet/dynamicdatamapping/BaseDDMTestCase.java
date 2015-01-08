@@ -15,7 +15,6 @@
 package com.liferay.portlet.dynamicdatamapping;
 
 import com.liferay.portal.json.JSONFactoryImpl;
-import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -39,6 +38,8 @@ import com.liferay.portlet.dynamicdatamapping.io.DDMFormXSDSerializerImpl;
 import com.liferay.portlet.dynamicdatamapping.io.DDMFormXSDSerializerUtil;
 import com.liferay.portlet.dynamicdatamapping.model.DDMForm;
 import com.liferay.portlet.dynamicdatamapping.model.DDMFormField;
+import com.liferay.portlet.dynamicdatamapping.model.DDMFormLayoutColumn;
+import com.liferay.portlet.dynamicdatamapping.model.DDMFormLayoutRow;
 import com.liferay.portlet.dynamicdatamapping.model.DDMStructure;
 import com.liferay.portlet.dynamicdatamapping.model.DDMTemplate;
 import com.liferay.portlet.dynamicdatamapping.model.LocalizedValue;
@@ -180,6 +181,31 @@ public abstract class BaseDDMTestCase extends PowerMockito {
 		String name, Value value) {
 
 		return createDDMFormFieldValue(StringUtil.randomString(), name, value);
+	}
+
+	protected List<DDMFormLayoutColumn> createDDMFormLayoutColumns(
+		String... fieldNames) {
+
+		List<DDMFormLayoutColumn> ddmFormLayoutColumns =
+			new ArrayList<DDMFormLayoutColumn>();
+
+		int size = 12 / fieldNames.length;
+
+		for (String fieldName : fieldNames) {
+			ddmFormLayoutColumns.add(new DDMFormLayoutColumn(fieldName, size));
+		}
+
+		return ddmFormLayoutColumns;
+	}
+
+	protected DDMFormLayoutRow createDDMFormLayoutRow(
+		List<DDMFormLayoutColumn> ddmFormLayoutColumns) {
+
+		DDMFormLayoutRow ddmFormLayoutRow = new DDMFormLayoutRow();
+
+		ddmFormLayoutRow.setDDMFormLayoutColumns(ddmFormLayoutColumns);
+
+		return ddmFormLayoutRow;
 	}
 
 	protected DDMFormValues createDDMFormValues(DDMForm ddmForm) {
@@ -571,28 +597,6 @@ public abstract class BaseDDMTestCase extends PowerMockito {
 			props.get(PropsKeys.DYNAMIC_DATA_MAPPING_IMAGE_SMALL_MAX_SIZE)
 		).thenReturn(
 			"51200"
-		);
-
-		String ddmStructurePrivateFieldDataTypeKey =
-			PropsKeys.DYNAMIC_DATA_MAPPING_STRUCTURE_PRIVATE_FIELD_DATATYPE;
-
-		when(
-			props.get(
-				Matchers.eq(ddmStructurePrivateFieldDataTypeKey),
-				Matchers.any(Filter.class))
-		).thenReturn(
-			"string"
-		);
-
-		String ddmStructurePrivateFieldRepeatableKey =
-			PropsKeys.DYNAMIC_DATA_MAPPING_STRUCTURE_PRIVATE_FIELD_REPEATABLE;
-
-		when(
-			props.get(
-				Matchers.eq(ddmStructurePrivateFieldRepeatableKey),
-				Matchers.any(Filter.class))
-		).thenReturn(
-			"false"
 		);
 
 		when(

@@ -477,7 +477,6 @@
 
 .modal-open .modal {
 	overflow: hidden;
-	position: relative;
 }
 
 /* ---------- Loading mask ---------- */
@@ -683,6 +682,16 @@
 				text-decoration: none;
 			}
 		}
+	}
+}
+
+/* ---------- CKEditor table ---------- */
+
+.cke_show_border {
+	width: 500px;
+
+	td {
+		height: 15px;
 	}
 }
 

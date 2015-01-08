@@ -55,6 +55,8 @@ import name.pachler.nio.file.ext.ExtendedWatchEventKind;
 import name.pachler.nio.file.ext.ExtendedWatchEventModifier;
 import name.pachler.nio.file.impl.PathImpl;
 
+import org.apache.commons.io.FilenameUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -454,16 +456,35 @@ public class Watcher implements Runnable {
 			return true;
 		}
 
+		if (!OSDetector.isWindows()) {
+			String sanitizedFileName = FileUtil.getSanitizedFileName(
+				fileName, FilenameUtils.getExtension(fileName));
+
+			if (!sanitizedFileName.equals(fileName)) {
+				String sanitizedFilePathName = FileUtil.getFilePathName(
+					String.valueOf(filePath.getParent()), sanitizedFileName);
+
+				sanitizedFilePathName = FileUtil.getNextFilePathName(
+					sanitizedFilePathName);
+
+				FileUtil.moveFile(
+					filePath, java.nio.file.Paths.get(sanitizedFilePathName));
+
+				return true;
+			}
+		}
+
 		return false;
 	}
 
-	protected void processMissingFilePath(Path filePath) {
+	protected void processMissingFilePath(Path missingFilePath) {
 		SyncAccount syncAccount = SyncAccountService.fetchSyncAccount(
 			_watchEventListener.getSyncAccountId());
 
-		String filePathName = filePath.toString();
+		Path syncAccountFilePath = java.nio.file.Paths.get(
+			syncAccount.getFilePathName());
 
-		if (filePathName.equals(syncAccount.getFilePathName())) {
+		if (Files.notExists(syncAccountFilePath)) {
 			syncAccount.setActive(false);
 			syncAccount.setUiEvent(
 				SyncAccount.UI_EVENT_SYNC_ACCOUNT_FOLDER_MISSING);
@@ -472,7 +493,7 @@ public class Watcher implements Runnable {
 		}
 		else {
 			SyncSite syncSite = SyncSiteService.fetchSyncSite(
-				filePath.toString(), syncAccount.getSyncAccountId());
+				missingFilePath.toString(), syncAccount.getSyncAccountId());
 
 			if (syncSite != null) {
 				syncSite.setActive(false);
