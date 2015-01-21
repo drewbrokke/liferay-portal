@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -12,13 +11,25 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
---%>
 
-<c:if test="<%= dlViewFileVersionDisplayContext.isDownloadButtonVisible() && DLFileShortcutPermission.contains(permissionChecker, fileShortcut, ActionKeys.VIEW) %>">
-	<liferay-ui:icon
-		iconCssClass="icon-download"
-		message='<%= LanguageUtil.get(request, "download") + " (" + TextFormatter.formatStorageSize(fileEntry.getSize(), locale) + ")" %>'
-		method="get"
-		url='<%= themeDisplay.getPortalURL() + themeDisplay.getPathContext() + "/documents/" + fileShortcut.getFileShortcutId() %>'
-	/>
-</c:if>
+package com.liferay.portal.security.auth;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Jorge Ferrer
+ */
+public class FullNameDefinition {
+
+	public void addField(FullNameField field) {
+		_fields.add(field);
+	}
+
+	public List<FullNameField> getFields() {
+		return _fields;
+	}
+
+	private final List<FullNameField> _fields = new ArrayList<>();
+
+}
