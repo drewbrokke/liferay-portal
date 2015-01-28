@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
- * @author Ivan Zaera
+ * @author Iván Zaera
  */
 @Component(
 	immediate = true, service = WikiImporterTracker.class

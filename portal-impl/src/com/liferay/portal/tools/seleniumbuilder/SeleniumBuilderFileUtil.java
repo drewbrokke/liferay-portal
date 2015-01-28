@@ -144,6 +144,9 @@ public class SeleniumBuilderFileUtil {
 					childElementAttributeValues.add(
 						childElementName.substring(0, x));
 				}
+				else if (attributeName.equals("function")) {
+					childElementAttributeValues.add(childElementName);
+				}
 			}
 
 			childElementAttributeValues.addAll(
@@ -210,6 +213,10 @@ public class SeleniumBuilderFileUtil {
 
 	public List<String> getComponentNames() {
 		return _componentNames;
+	}
+
+	public String getDefaultCommandName(Element rootElement) {
+		return rootElement.attributeValue("default");
 	}
 
 	public String getHTMLFileName(String fileName) {
@@ -983,7 +990,8 @@ public class SeleniumBuilderFileUtil {
 				}
 
 				if (attributeName.equals("locator") ||
-					attributeName.equals("value")) {
+					attributeName.equals("value") ||
+					attributeName.startsWith("locator-key")) {
 
 					throwValidationException(
 						1005, fileName, executeElement, attributeName);

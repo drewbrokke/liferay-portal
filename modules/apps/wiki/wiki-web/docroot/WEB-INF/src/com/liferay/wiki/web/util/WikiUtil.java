@@ -41,7 +41,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 
 /**
- * @author Ivan Zaera
+ * @author Iván Zaera
  */
 public class WikiUtil {
 

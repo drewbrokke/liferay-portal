@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
 
 /**
- * @author Ivan Zaera
+ * @author Iván Zaera
  */
 public class WikiServiceConfigurationUtil {
 
