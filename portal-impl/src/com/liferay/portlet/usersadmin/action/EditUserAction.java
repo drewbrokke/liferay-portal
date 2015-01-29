@@ -433,7 +433,7 @@ public class EditUserAction extends PortletAction {
 				jabberSn, msnSn, mySpaceSn, skypeSn, twitterSn, ymSn, jobTitle,
 				groupIds, organizationIds, roleIds, userGroupRoles,
 				userGroupIds, addresses, emailAddresses, phones, websites,
-				announcementsDeliveries, serviceContext);
+				announcementsDeliveries, serviceContext, preferredEditors);
 		}
 
 		long publicLayoutSetPrototypeId = ParamUtil.getLong(
@@ -663,7 +663,7 @@ public class EditUserAction extends PortletAction {
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 			User.class.getName(), actionRequest);
 
-		Map<String, Serializable> editorPreferences =
+		Map<String, Serializable> preferredEditors =
 			UsersAdminUtil.getPreferredEditors(actionRequest);
 
 		user = UserServiceUtil.updateUser(
@@ -676,7 +676,7 @@ public class EditUserAction extends PortletAction {
 			icqSn, jabberSn, msnSn, mySpaceSn, skypeSn, twitterSn, ymSn,
 			jobTitle, groupIds, organizationIds, roleIds, userGroupRoles,
 			userGroupIds, addresses, emailAddresses, phones, websites,
-			announcementsDeliveries, serviceContext);
+			announcementsDeliveries, serviceContext, preferredEditors);
 
 		if (oldScreenName.equals(user.getScreenName())) {
 			oldScreenName = StringPool.BLANK;
