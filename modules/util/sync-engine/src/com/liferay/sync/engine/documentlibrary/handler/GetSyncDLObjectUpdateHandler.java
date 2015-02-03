@@ -84,7 +84,7 @@ public class GetSyncDLObjectUpdateHandler extends BaseSyncDLObjectHandler {
 
 		if (Files.exists(filePath) &&
 			(syncFile.isFolder() ||
-			 !FileUtil.hasFileChanged(syncFile, filePath))) {
+			 !FileUtil.isModified(syncFile, filePath))) {
 
 			return;
 		}
@@ -95,6 +95,8 @@ public class GetSyncDLObjectUpdateHandler extends BaseSyncDLObjectHandler {
 
 		if (syncFile.isFolder()) {
 			Files.createDirectories(filePath);
+
+			syncFile.setState(SyncFile.STATE_SYNCED);
 
 			SyncFileService.update(syncFile);
 
@@ -168,34 +170,14 @@ public class GetSyncDLObjectUpdateHandler extends BaseSyncDLObjectHandler {
 	protected void downloadFile(
 		SyncFile syncFile, String sourceVersion, boolean patch) {
 
-		String targetVersion = syncFile.getVersion();
-
-		if (patch &&
-			(Double.valueOf(targetVersion) > Double.valueOf(sourceVersion))) {
-
+		if (patch) {
 			FileEventUtil.downloadPatch(
-				sourceVersion, getSyncAccountId(), syncFile, targetVersion);
+				sourceVersion, getSyncAccountId(), syncFile,
+				syncFile.getVersion());
 		}
 		else {
 			FileEventUtil.downloadFile(getSyncAccountId(), syncFile);
 		}
-	}
-
-	protected boolean hasFileChanged(
-			SyncFile sourceSyncFile, SyncFile targetSyncFile,
-			Path sourceFilePath)
-		throws IOException {
-
-		String sourceSyncFileChecksum = sourceSyncFile.getChecksum();
-		String targetSyncFileChecksum = targetSyncFile.getChecksum();
-
-		if (sourceSyncFileChecksum.equals("") ||
-			targetSyncFileChecksum.equals("")) {
-
-			return true;
-		}
-
-		return FileUtil.hasFileChanged(targetSyncFile, sourceFilePath);
 	}
 
 	protected boolean isIgnoredFilePath(
@@ -221,9 +203,13 @@ public class GetSyncDLObjectUpdateHandler extends BaseSyncDLObjectHandler {
 
 		if (Files.exists(sourceFilePath)) {
 			Files.move(sourceFilePath, targetFilePath);
+
+			sourceSyncFile.setState(SyncFile.STATE_SYNCED);
 		}
 		else if (targetSyncFile.isFolder()) {
 			Files.createDirectories(targetFilePath);
+
+			sourceSyncFile.setState(SyncFile.STATE_SYNCED);
 
 			SyncFileService.updateFileKeySyncFile(sourceSyncFile);
 		}
@@ -281,7 +267,12 @@ public class GetSyncDLObjectUpdateHandler extends BaseSyncDLObjectHandler {
 				return;
 			}
 
+			if (sourceSyncFile != null) {
+				sourceSyncFile.setState(SyncFile.STATE_IN_PROGRESS);
+			}
+
 			targetSyncFile.setFilePathName(filePathName);
+			targetSyncFile.setState(SyncFile.STATE_IN_PROGRESS);
 
 			String event = targetSyncFile.getEvent();
 
@@ -401,6 +392,8 @@ public class GetSyncDLObjectUpdateHandler extends BaseSyncDLObjectHandler {
 
 				Files.createDirectories(targetFilePath);
 
+				sourceSyncFile.setState(SyncFile.STATE_SYNCED);
+
 				SyncFileService.update(sourceSyncFile);
 
 				SyncFileService.updateFileKeySyncFile(sourceSyncFile);
@@ -410,7 +403,7 @@ public class GetSyncDLObjectUpdateHandler extends BaseSyncDLObjectHandler {
 			}
 		}
 		else if (targetSyncFile.isFile() &&
-				 hasFileChanged(sourceSyncFile, targetSyncFile, filePath)) {
+				 FileUtil.isModified(targetSyncFile, filePath)) {
 
 			downloadFile(
 				sourceSyncFile, sourceVersion,

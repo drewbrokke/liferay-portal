@@ -2687,6 +2687,7 @@
 		<column name="agreedToTermsOfUse" type="boolean" />
 		<column name="emailAddressVerified" type="boolean" />
 		<column name="status" type="int" />
+		<column name="preferredEditors" type="Map" />
 
 		<!-- Relationships -->
 
@@ -3429,7 +3430,6 @@
 		<exception>RequiredUserGroup</exception>
 		<exception>ReservedUserEmailAddress</exception>
 		<exception>ReservedUserId</exception>
-		<exception>ReservedUserScreenName</exception>
 		<exception>ResourcePrimKey</exception>
 		<exception>RoleAssignment</exception>
 		<exception>RoleName</exception>

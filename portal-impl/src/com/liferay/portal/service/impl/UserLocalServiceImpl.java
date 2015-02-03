@@ -31,7 +31,6 @@ import com.liferay.portal.NoSuchUserGroupException;
 import com.liferay.portal.PasswordExpiredException;
 import com.liferay.portal.RequiredUserException;
 import com.liferay.portal.ReservedUserEmailAddressException;
-import com.liferay.portal.ReservedUserScreenNameException;
 import com.liferay.portal.SendPasswordException;
 import com.liferay.portal.UserEmailAddressException;
 import com.liferay.portal.UserIdException;
@@ -5193,7 +5192,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			String ymSn, String jobTitle, long[] groupIds,
 			long[] organizationIds, long[] roleIds,
 			List<UserGroupRole> userGroupRoles, long[] userGroupIds,
-			ServiceContext serviceContext)
+			ServiceContext serviceContext,
+			Map<String, Serializable> preferredEditors)
 		throws PortalException {
 
 		// User
@@ -5313,6 +5313,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		user.setLastName(lastName);
 		user.setJobTitle(jobTitle);
 		user.setExpandoBridgeAttributes(serviceContext);
+		user.setPreferredEditors(preferredEditors);
 
 		userPersistence.update(user, serviceContext);
 
@@ -5527,7 +5528,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			String twitterSn, String ymSn, String jobTitle, long[] groupIds,
 			long[] organizationIds, long[] roleIds,
 			List<UserGroupRole> userGroupRoles, long[] userGroupIds,
-			ServiceContext serviceContext)
+			ServiceContext serviceContext,
+			Map<String, Serializable> preferredEditors)
 		throws PortalException {
 
 		return updateUser(
@@ -5538,7 +5540,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			prefixId, suffixId, male, birthdayMonth, birthdayDay, birthdayYear,
 			smsSn, aimSn, facebookSn, icqSn, jabberSn, msnSn, mySpaceSn,
 			skypeSn, twitterSn, ymSn, jobTitle, groupIds, organizationIds,
-			roleIds, userGroupRoles, userGroupIds, serviceContext);
+			roleIds, userGroupRoles, userGroupIds, serviceContext,
+			preferredEditors);
 	}
 
 	/**
@@ -6729,7 +6732,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		for (String reservedScreenName : reservedScreenNames) {
 			if (StringUtil.equalsIgnoreCase(screenName, reservedScreenName)) {
-				throw new ReservedUserScreenNameException();
+				throw new UserScreenNameException.MustNotBeReserved(
+					userId, screenName, reservedScreenNames);
 			}
 		}
 	}

@@ -18,17 +18,17 @@ import com.liferay.portal.kernel.resiliency.spi.MockSPI;
 import com.liferay.portal.kernel.resiliency.spi.SPI;
 import com.liferay.portal.kernel.resiliency.spi.SPIConfiguration;
 import com.liferay.portal.kernel.resiliency.spi.SPIRegistryUtil;
-import com.liferay.portal.kernel.test.AggregateTestRule;
 import com.liferay.portal.kernel.test.CaptureHandler;
-import com.liferay.portal.kernel.test.CodeCoverageAssertor;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
-import com.liferay.portal.kernel.test.NewEnv;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
+import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.model.Portlet;
 import com.liferay.portal.model.PortletApp;
-import com.liferay.portal.test.AdviseWith;
-import com.liferay.portal.test.AspectJNewEnvTestRule;
+import com.liferay.portal.test.rule.AdviseWith;
+import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -302,7 +302,8 @@ public class SPIRegistryImplTest {
 		@Around(
 			"execution(public static com.liferay.portal.model.PortletApp " +
 				"com.liferay.portal.service.PortletLocalServiceUtil." +
-					"getPortletApp(String)) && args(servletContextName)")
+					"getPortletApp(String)) && args(servletContextName)"
+		)
 		public PortletApp getPortletApp(String servletContextName) {
 			if (servletContextName.equals("portletApp1")) {
 				return _createPortletAppProxy(_portletIds);
@@ -314,7 +315,8 @@ public class SPIRegistryImplTest {
 		@Around(
 			"execution(public static com.liferay.portal.model.Portlet com." +
 				"liferay.portal.service.PortletLocalServiceUtil." +
-					"getPortletById(String)) && args(portletId)")
+					"getPortletById(String)) && args(portletId)"
+		)
 		public Portlet getPortletById(String portletId) {
 			if (portletId.equals("portlet1")) {
 				return _createPortletProxy(portletId);

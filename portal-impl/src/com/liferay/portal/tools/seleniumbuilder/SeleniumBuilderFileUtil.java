@@ -144,6 +144,9 @@ public class SeleniumBuilderFileUtil {
 					childElementAttributeValues.add(
 						childElementName.substring(0, x));
 				}
+				else if (attributeName.equals("function")) {
+					childElementAttributeValues.add(childElementName);
+				}
 			}
 
 			childElementAttributeValues.addAll(
@@ -210,6 +213,10 @@ public class SeleniumBuilderFileUtil {
 
 	public List<String> getComponentNames() {
 		return _componentNames;
+	}
+
+	public String getDefaultCommandName(Element rootElement) {
+		return rootElement.attributeValue("default");
 	}
 
 	public String getHTMLFileName(String fileName) {
@@ -983,7 +990,8 @@ public class SeleniumBuilderFileUtil {
 				}
 
 				if (attributeName.equals("locator") ||
-					attributeName.equals("value")) {
+					attributeName.equals("value") ||
+					attributeName.startsWith("locator-key")) {
 
 					throwValidationException(
 						1005, fileName, executeElement, attributeName);
@@ -1226,6 +1234,12 @@ public class SeleniumBuilderFileUtil {
 			throwValidationException(1000, fileName, rootElement);
 		}
 
+		String defaultCommandName = getDefaultCommandName(rootElement);
+
+		if (defaultCommandName == null) {
+			throwValidationException(1003, fileName, rootElement, "default");
+		}
+
 		List<Element> elements = rootElement.elements();
 
 		if (elements.isEmpty()) {
@@ -1249,7 +1263,7 @@ public class SeleniumBuilderFileUtil {
 				validateBlockElement(
 					fileName, element, new String[] {"execute", "if"},
 					new String[] {"function", "selenium"}, new String[0],
-					new String[] {"condition"});
+					new String[] {"condition", "contains"});
 			}
 			else {
 				throwValidationException(1002, fileName, element, elementName);
@@ -1300,6 +1314,27 @@ public class SeleniumBuilderFileUtil {
 			else if (elementName.equals("contains")) {
 				validateSimpleElement(
 					fileName, element, new String[] {"string", "substring"});
+
+				if (fileName.endsWith(".function")) {
+					List<Attribute> attributes = element.attributes();
+
+					for (Attribute attribute : attributes) {
+						String attributeValue = attribute.getValue();
+
+						Matcher varElementMatcher = _varElementPattern.matcher(
+							attributeValue);
+
+						Matcher varElementFunctionMatcher =
+							_varElementFunctionPattern.matcher(attributeValue);
+
+						if (varElementMatcher.find() &&
+							!varElementFunctionMatcher.find()) {
+
+							throwValidationException(
+								1006, fileName, element, attribute.getName());
+						}
+					}
+				}
 			}
 			else if (elementName.equals("else")) {
 				if (ifElementName.equals("while")) {
@@ -2047,6 +2082,8 @@ public class SeleniumBuilderFileUtil {
 	private final Pattern _tagPattern = Pattern.compile("<[a-z\\-]+");
 	private final List<String> _testcaseAvailablePropertyNames;
 	private final List<String> _testrayAvailableComponentNames;
+	private final Pattern _varElementFunctionPattern = Pattern.compile(
+		"\\$\\{(locator|value)[0-9]+\\}");
 	private final Pattern _varElementPattern = Pattern.compile(
 		"\\$\\{([^\\}]*?)\\}");
 	private final Pattern _varElementStatementPattern = Pattern.compile(

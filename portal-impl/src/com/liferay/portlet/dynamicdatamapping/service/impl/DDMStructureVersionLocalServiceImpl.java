@@ -71,6 +71,11 @@ public class DDMStructureVersionLocalServiceImpl
 	}
 
 	@Override
+	public List<DDMStructureVersion> getStructureVersions(long structureId) {
+		return ddmStructureVersionPersistence.findByStructureId(structureId);
+	}
+
+	@Override
 	public List<DDMStructureVersion> getStructureVersions(
 		long structureId, int start, int end,
 		OrderByComparator<DDMStructureVersion> orderByComparator) {

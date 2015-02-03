@@ -15,12 +15,12 @@
 package com.liferay.portal.cache.ehcache;
 
 import com.liferay.portal.cache.cluster.EhcachePortalCacheClusterReplicatorFactory;
-import com.liferay.portal.kernel.test.AggregateTestRule;
-import com.liferay.portal.kernel.test.CodeCoverageAssertor;
-import com.liferay.portal.kernel.test.NewEnv;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
+import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.test.AdviseWith;
-import com.liferay.portal.test.AspectJNewEnvTestRule;
+import com.liferay.portal.test.rule.AdviseWith;
+import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 
 import java.net.URL;
 
@@ -237,7 +237,8 @@ public class EhcacheConfigurationUtilTest {
 	public static class DisableClusterLinkAdvice {
 
 		@Around(
-			"set(* com.liferay.portal.util.PropsValues.CLUSTER_LINK_ENABLED)")
+			"set(* com.liferay.portal.util.PropsValues.CLUSTER_LINK_ENABLED)"
+		)
 		public Object disableClusterLink(
 				ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
@@ -252,7 +253,8 @@ public class EhcacheConfigurationUtilTest {
 
 		@Around(
 			"set(* com.liferay.portal.util.PropsValues." +
-				"EHCACHE_CLUSTER_LINK_REPLICATION_ENABLED)")
+				"EHCACHE_CLUSTER_LINK_REPLICATION_ENABLED)"
+		)
 		public Object disableClusterLinkReplicate(
 				ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
@@ -267,7 +269,8 @@ public class EhcacheConfigurationUtilTest {
 
 		@Around(
 			"set(* com.liferay.portal.util.PropsValues." +
-				"EHCACHE_BOOTSTRAP_CACHE_LOADER_ENABLED)")
+				"EHCACHE_BOOTSTRAP_CACHE_LOADER_ENABLED)"
+		)
 		public Object disableEhcacheBootStrap(
 				ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
@@ -281,7 +284,8 @@ public class EhcacheConfigurationUtilTest {
 	public static class EnableClusterLinkAdvice {
 
 		@Around(
-			"set(* com.liferay.portal.util.PropsValues.CLUSTER_LINK_ENABLED)")
+			"set(* com.liferay.portal.util.PropsValues.CLUSTER_LINK_ENABLED)"
+		)
 		public Object enableClusterLink(ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
 
@@ -295,7 +299,8 @@ public class EhcacheConfigurationUtilTest {
 
 		@Around(
 			"set(* com.liferay.portal.util.PropsValues." +
-				"EHCACHE_CLUSTER_LINK_REPLICATION_ENABLED)")
+				"EHCACHE_CLUSTER_LINK_REPLICATION_ENABLED)"
+		)
 		public Object enableClusterLinkReplicate(
 				ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
@@ -310,7 +315,8 @@ public class EhcacheConfigurationUtilTest {
 
 		@Around(
 			"set(* com.liferay.portal.util.PropsValues." +
-				"EHCACHE_BOOTSTRAP_CACHE_LOADER_ENABLED)")
+				"EHCACHE_BOOTSTRAP_CACHE_LOADER_ENABLED)"
+		)
 		public Object enableEhcacheBootstrap(
 				ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {

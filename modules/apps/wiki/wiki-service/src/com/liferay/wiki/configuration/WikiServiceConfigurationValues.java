@@ -15,7 +15,7 @@
 package com.liferay.wiki.configuration;
 
 /**
- * @author Ivan Zaera
+ * @author Iván Zaera
  */
 public class WikiServiceConfigurationValues {
 

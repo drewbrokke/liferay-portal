@@ -58,7 +58,8 @@ public class SyncWatchEventProcessor implements Runnable {
 				public void onUpdate(
 					SyncFile syncFile, Map<String, Object> originalValues) {
 
-					if ((syncFile.getTypePK() == 0) ||
+					if ((syncFile.getSyncAccountId() != _syncAccountId) ||
+						(syncFile.getTypePK() == 0) ||
 						!originalValues.containsKey("typePK")) {
 
 						return;
@@ -175,7 +176,7 @@ public class SyncWatchEventProcessor implements Runnable {
 				return;
 			}
 
-			if (FileUtil.hasFileChanged(syncFile)) {
+			if (FileUtil.isModified(syncFile)) {
 				SyncFileService.updateFileSyncFile(
 					targetFilePath, _syncAccountId, syncFile);
 			}
@@ -473,7 +474,7 @@ public class SyncWatchEventProcessor implements Runnable {
 
 			return;
 		}
-		else if (!FileUtil.hasFileChanged(syncFile)) {
+		else if (!FileUtil.isModified(syncFile)) {
 			return;
 		}
 

@@ -387,7 +387,8 @@ public class ResourceBlockLocalServiceImpl
 	@Override
 	@Transactional(
 		isolation = Isolation.READ_COMMITTED,
-		propagation = Propagation.REQUIRES_NEW)
+		propagation = Propagation.REQUIRES_NEW
+	)
 	public void releasePermissionedModelResourceBlock(
 		PermissionedModel permissionedModel) {
 
@@ -414,7 +415,8 @@ public class ResourceBlockLocalServiceImpl
 	@Override
 	@Transactional(
 		isolation = Isolation.READ_COMMITTED,
-		propagation = Propagation.REQUIRES_NEW)
+		propagation = Propagation.REQUIRES_NEW
+	)
 	public void releaseResourceBlock(long resourceBlockId) {
 		Session session = resourceBlockPersistence.openSession();
 
@@ -469,7 +471,8 @@ public class ResourceBlockLocalServiceImpl
 	@Override
 	@Transactional(
 		isolation = Isolation.READ_COMMITTED,
-		propagation = Propagation.REQUIRES_NEW)
+		propagation = Propagation.REQUIRES_NEW
+	)
 	public void releaseResourceBlock(ResourceBlock resourceBlock) {
 		releaseResourceBlock(resourceBlock.getResourceBlockId());
 	}
@@ -734,11 +737,6 @@ public class ResourceBlockLocalServiceImpl
 			updateCompanyScopeResourceTypePermissions(
 				companyId, name, roleId, actionIdsLong, operator);
 
-		List<ResourceBlock> resourceBlocks = resourceBlockPersistence.findByC_N(
-			companyId, name);
-
-		updatePermissions(resourceBlocks, roleId, actionIdsLong, operator);
-
 		PermissionCacheUtil.clearCache();
 	}
 
@@ -750,11 +748,6 @@ public class ResourceBlockLocalServiceImpl
 		resourceTypePermissionLocalService.
 			updateGroupScopeResourceTypePermissions(
 				companyId, groupId, name, roleId, actionIdsLong, operator);
-
-		List<ResourceBlock> resourceBlocks =
-			resourceBlockPersistence.findByC_G_N(companyId, groupId, name);
-
-		updatePermissions(resourceBlocks, roleId, actionIdsLong, operator);
 
 		PermissionCacheUtil.clearCache();
 	}
@@ -818,7 +811,8 @@ public class ResourceBlockLocalServiceImpl
 	@Override
 	@Transactional(
 		isolation = Isolation.READ_COMMITTED,
-		propagation = Propagation.REQUIRES_NEW)
+		propagation = Propagation.REQUIRES_NEW
+	)
 	public ResourceBlock updateResourceBlockId(
 		long companyId, long groupId, String name,
 		final PermissionedModel permissionedModel, String permissionsHash,

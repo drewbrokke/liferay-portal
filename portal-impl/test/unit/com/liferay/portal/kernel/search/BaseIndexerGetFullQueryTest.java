@@ -17,9 +17,9 @@ package com.liferay.portal.kernel.search;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.util.test.RandomTestUtil;
 import com.liferay.portlet.documentlibrary.model.DLFileEntry;
 import com.liferay.portlet.documentlibrary.util.DLFileEntryIndexer;
 import com.liferay.portlet.messageboards.model.MBMessage;
@@ -200,13 +200,8 @@ public class BaseIndexerGetFullQueryTest extends PowerMockito {
 	private class TestIndexer extends BaseIndexer {
 
 		@Override
-		public String[] getClassNames() {
-			return new String[] {_CLASS_NAME};
-		}
-
-		@Override
-		public String getPortletId() {
-			return null;
+		public String getClassName() {
+			return _CLASS_NAME;
 		}
 
 		@Override
@@ -238,11 +233,6 @@ public class BaseIndexerGetFullQueryTest extends PowerMockito {
 
 		@Override
 		protected void doReindex(String[] ids) throws Exception {
-		}
-
-		@Override
-		protected String getPortletId(SearchContext searchContext) {
-			return null;
 		}
 
 	}

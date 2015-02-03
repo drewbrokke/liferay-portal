@@ -4921,6 +4921,11 @@
 		<tei-class>com.liferay.taglib.ui.UserDisplayTei</tei-class>
 		<body-content>JSP</body-content>
 		<attribute>
+			<name>author</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
 			<name>displayStyle</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>

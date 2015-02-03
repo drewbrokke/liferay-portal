@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BaseIndexWriter;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.IndexWriter;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.SpellCheckIndexWriter;
@@ -48,7 +47,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Michael C. Han
  * @author Milen Dyankov
  */
-@Component(immediate = true, service = IndexWriter.class)
+@Component(immediate = true, service = ElasticsearchIndexWriter.class)
 public class ElasticsearchIndexWriter extends BaseIndexWriter {
 
 	@Override
@@ -133,8 +132,8 @@ public class ElasticsearchIndexWriter extends BaseIndexWriter {
 	}
 
 	@Override
-	public void deletePortletDocuments(
-			SearchContext searchContext, String portletId)
+	public void deleteEntityDocuments(
+			SearchContext searchContext, String className)
 		throws SearchException {
 
 		try {
@@ -147,7 +146,7 @@ public class ElasticsearchIndexWriter extends BaseIndexWriter {
 			BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
 
 			boolQueryBuilder.must(
-				QueryBuilders.termQuery(Field.PORTLET_ID, portletId));
+				QueryBuilders.termQuery(Field.ENTRY_CLASS_NAME, className));
 
 			deleteByQueryRequestBuilder.setQuery(boolQueryBuilder);
 
@@ -160,7 +159,7 @@ public class ElasticsearchIndexWriter extends BaseIndexWriter {
 		}
 		catch (Exception e) {
 			throw new SearchException(
-				"Unable to delete data for portlet " + portletId, e);
+				"Unable to delete data for entity " + className, e);
 		}
 	}
 

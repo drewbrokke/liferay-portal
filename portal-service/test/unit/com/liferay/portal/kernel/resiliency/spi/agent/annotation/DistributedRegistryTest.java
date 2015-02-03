@@ -14,11 +14,11 @@
 
 package com.liferay.portal.kernel.resiliency.spi.agent.annotation;
 
-import com.liferay.portal.kernel.test.AggregateTestRule;
-import com.liferay.portal.kernel.test.CodeCoverageAssertor;
-import com.liferay.portal.kernel.test.NewEnv;
-import com.liferay.portal.kernel.test.NewEnvTestRule;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
+import com.liferay.portal.kernel.test.rule.NewEnv;
+import com.liferay.portal.kernel.test.rule.NewEnvTestRule;
 
 import java.util.Map;
 
@@ -326,7 +326,8 @@ public class DistributedRegistryTest {
 		public static final String name6 = "name6";
 
 		@Distributed(
-			direction = Direction.RESPONSE, matchType = MatchType.POSTFIX)
+			direction = Direction.RESPONSE, matchType = MatchType.POSTFIX
+		)
 		public static final String name7 = "name7";
 
 		@Distributed(direction = Direction.DUPLEX, matchType = MatchType.PREFIX)
@@ -343,7 +344,8 @@ public class DistributedRegistryTest {
 		public static final String name1 = "name1";
 
 		@Distributed(
-			direction = Direction.RESPONSE, matchType = MatchType.POSTFIX)
+			direction = Direction.RESPONSE, matchType = MatchType.POSTFIX
+		)
 		public static final String name2 = "name2";
 
 		@Distributed(direction = Direction.DUPLEX, matchType = MatchType.PREFIX)

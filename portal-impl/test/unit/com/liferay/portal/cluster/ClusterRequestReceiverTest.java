@@ -20,12 +20,12 @@ import com.liferay.portal.kernel.cluster.ClusterRequest;
 import com.liferay.portal.kernel.cluster.FutureClusterResponses;
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
-import com.liferay.portal.kernel.test.NewEnv;
+import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.test.AdviseWith;
-import com.liferay.portal.test.AspectJNewEnvTestRule;
+import com.liferay.portal.test.rule.AdviseWith;
+import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 
 import java.util.logging.Level;
 
@@ -47,7 +47,8 @@ public class ClusterRequestReceiverTest
 		adviceClasses = {
 			DisableAutodetectedAddressAdvice.class,
 			EnableClusterLinkAdvice.class
-		})
+		}
+	)
 	@Test
 	public void testInvoke() throws Exception {
 		ClusterExecutorImpl clusterExecutorImpl1 = getClusterExecutorImpl();
@@ -148,7 +149,8 @@ public class ClusterRequestReceiverTest
 			DisableAutodetectedAddressAdvice.class,
 			EnableClusterLinkAdvice.class,
 			SetJGroupsSingleThreadPoolAdvice.class
-		})
+		}
+	)
 	@Test
 	public void testInvokeWithSingleThreadPool() throws Exception {
 		ClusterExecutorImpl clusterExecutorImpl1 = getClusterExecutorImpl();
@@ -206,7 +208,8 @@ public class ClusterRequestReceiverTest
 	public static class SetJGroupsSingleThreadPoolAdvice {
 
 		@Around(
-			"call(* com.liferay.portal.cluster.ClusterBase.createJChannel(..))")
+			"call(* com.liferay.portal.cluster.ClusterBase.createJChannel(..))"
+		)
 		public Object setSingleThreadInPool(
 				ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {

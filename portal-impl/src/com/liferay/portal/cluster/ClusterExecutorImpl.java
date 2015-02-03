@@ -123,7 +123,9 @@ public class ClusterExecutorImpl
 		for (Address address : addresses) {
 			ClusterNode clusterNode = _liveInstances.get(address);
 
-			clusterNodeIds.add(clusterNode.getClusterNodeId());
+			if (clusterNode != null) {
+				clusterNodeIds.add(clusterNode.getClusterNodeId());
+			}
 		}
 
 		FutureClusterResponses futureClusterResponses =
@@ -405,7 +407,10 @@ public class ClusterExecutorImpl
 	}
 
 	protected void initLocalClusterNode() {
-		ClusterNode clusterNode = new ClusterNode(PortalUUIDUtil.generate());
+		InetAddress inetAddress = getBindInetAddress(_controlJChannel);
+
+		ClusterNode clusterNode = new ClusterNode(
+			PortalUUIDUtil.generate(), inetAddress);
 
 		if (Validator.isNull(PropsValues.PORTAL_INSTANCE_PROTOCOL)) {
 			_localClusterNode = clusterNode;
@@ -464,7 +469,7 @@ public class ClusterExecutorImpl
 		Address previousAddress = _clusterNodeAddresses.put(
 			clusterNode.getClusterNodeId(), joinAddress);
 
-		if ((previousAddress == null) && !_localAddress.equals(joinAddress)) {
+		if (previousAddress == null) {
 			ClusterEvent clusterEvent = ClusterEvent.join(clusterNode);
 
 			// PLACEHOLDER

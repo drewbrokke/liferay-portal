@@ -35,19 +35,19 @@ import com.liferay.portal.kernel.scheduler.TriggerState;
 import com.liferay.portal.kernel.scheduler.TriggerType;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
 import com.liferay.portal.kernel.servlet.PluginContextLifecycleThreadLocal;
-import com.liferay.portal.kernel.test.AggregateTestRule;
 import com.liferay.portal.kernel.test.CaptureHandler;
-import com.liferay.portal.kernel.test.CodeCoverageAssertor;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
-import com.liferay.portal.kernel.test.NewEnv;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
+import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
-import com.liferay.portal.test.AdviseWith;
-import com.liferay.portal.test.AspectJNewEnvTestRule;
+import com.liferay.portal.test.rule.AdviseWith;
+import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 import com.liferay.portal.util.PortalImpl;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.uuid.PortalUUIDImpl;
@@ -1758,7 +1758,8 @@ public class ClusterSchedulerEngineTest {
 			"execution(void com.liferay.portal.cluster." +
 				"ClusterableContextThreadLocal.putThreadLocalContext(" +
 					"java.lang.String, java.io.Serializable)) && " +
-						"args(key, value)")
+						"args(key, value)"
+		)
 		public void loadIndexesFromCluster(String key, Serializable value) {
 			_threadLocals.put(key, value);
 		}
@@ -1772,7 +1773,8 @@ public class ClusterSchedulerEngineTest {
 	public static class DisableClusterLinkEnabledAdvice {
 
 		@Around(
-			"set(* com.liferay.portal.util.PropsValues.CLUSTER_LINK_ENABLED)")
+			"set(* com.liferay.portal.util.PropsValues.CLUSTER_LINK_ENABLED)"
+		)
 		public Object clusterLinkEnabled(
 				ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
@@ -1786,7 +1788,8 @@ public class ClusterSchedulerEngineTest {
 	public static class DisableSchedulerEnabledAdvice {
 
 		@Around(
-			"set(* com.liferay.portal.util.PropsValues.SCHEDULER_ENABLED)")
+			"set(* com.liferay.portal.util.PropsValues.SCHEDULER_ENABLED)"
+		)
 		public Object schedulerEnabled(ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
 
@@ -1799,7 +1802,8 @@ public class ClusterSchedulerEngineTest {
 	public static class EnableClusterLinkEnabledAdvice {
 
 		@Around(
-			"set(* com.liferay.portal.util.PropsValues.CLUSTER_LINK_ENABLED)")
+			"set(* com.liferay.portal.util.PropsValues.CLUSTER_LINK_ENABLED)"
+		)
 		public Object clusterLinkEnabled(
 				ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
@@ -1813,7 +1817,8 @@ public class ClusterSchedulerEngineTest {
 	public static class EnableSchedulerEnabledAdvice {
 
 		@Around(
-			"set(* com.liferay.portal.util.PropsValues.SCHEDULER_ENABLED)")
+			"set(* com.liferay.portal.util.PropsValues.SCHEDULER_ENABLED)"
+		)
 		public Object schedulerEnabled(ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
 

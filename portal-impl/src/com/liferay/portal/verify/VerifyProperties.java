@@ -286,6 +286,10 @@ public class VerifyProperties extends VerifyProcess {
 		// Asset
 
 		new String[] {
+			"asset.browser.search.with.database", "search.with.database",
+			"com.liferay.asset.browser.web"
+		},
+		new String[] {
 			"asset.categories.navigation.display.templates.config",
 			"display.templates.config",
 			"com.liferay.asset.categories.navigation.web"
@@ -348,6 +352,39 @@ public class VerifyProperties extends VerifyProcess {
 		new String[] {
 			"bookmarks.subfolders.visible", "subfolders.visible",
 			"com.liferay.bookmarks.service"
+		},
+
+		// CAS
+
+		new String[] {
+			"cas.auth.enabled", "enabled", "com.liferay.portal.sso.cas"
+		},
+		new String[] {
+			"cas.import.from.ldap", "import.from.ldap",
+			"com.liferay.portal.sso.cas"
+		},
+		new String[] {
+			"login.url", "login.url", "com.liferay.portal.sso.cas"
+		},
+		new String[] {
+			"logout.on.session.expiration", "logout.on.session.expiration",
+			"com.liferay.portal.sso.cas"
+		},
+		new String[] {
+			"cas.logout.url", "logout.url", "com.liferay.portal.sso.cas"
+		},
+		new String[] {
+			"cas.no.such.user.redirect.url", "no.such.user.redirect.url",
+			"com.liferay.portal.sso.cas"
+		},
+		new String[] {
+			"cas.server.name", "server.name", "com.liferay.portal.sso.cas"
+		},
+		new String[] {
+			"cas.server.url", "server.url", "com.liferay.portal.sso.cas"
+		},
+		new String[] {
+			"cas.service.url", "service.url", "com.liferay.portal.sso.cas"
 		},
 
 		// FreeMarker Engine
@@ -538,7 +575,7 @@ public class VerifyProperties extends VerifyProcess {
 		"com.liferay.portal.servlet.filters.charbufferpool." +
 			"CharBufferPoolFilter",
 		"com.liferay.portal.servlet.filters.validhtml.ValidHtmlFilter",
-		"commons.pool.enabled", "convert.processes",
+		"commons.pool.enabled", "convert.processes", "discussion.thread.view",
 		"dl.file.entry.read.count.enabled",
 		"dynamic.data.lists.template.language.parser[ftl]",
 		"dynamic.data.lists.template.language.parser[vm]",
@@ -753,6 +790,22 @@ public class VerifyProperties extends VerifyProcess {
 		new String[] {
 			"journal.template.velocity.restricted.variables",
 			"velocity.engine.restricted.variables"
+		},
+		new String[] {
+			"passwords.passwordpolicytoolkit.charset.lowercase",
+			"passwords.passwordpolicytoolkit.validator.charset.lowercase"
+		},
+		new String[] {
+			"passwords.passwordpolicytoolkit.charset.numbers",
+			"passwords.passwordpolicytoolkit.validator.charset.numbers"
+		},
+		new String[] {
+			"passwords.passwordpolicytoolkit.charset.symbols",
+			"passwords.passwordpolicytoolkit.validator.charset.symbols"
+		},
+		new String[] {
+			"passwords.passwordpolicytoolkit.charset.uppercase",
+			"passwords.passwordpolicytoolkit.validator.charset.uppercase"
 		},
 		new String[] {
 			"portal.instance.http.port", "portal.instance.http.socket.address"

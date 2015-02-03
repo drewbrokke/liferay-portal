@@ -477,6 +477,19 @@ create table DDMStructure (
 	type_ INTEGER
 );
 
+create table DDMStructureLayout (
+	uuid_ VARCHAR(75) null,
+	structureLayoutId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	structureVersionId LONG,
+	definition TEXT null
+);
+
 create table DDMStructureLink (
 	structureLinkId LONG not null primary key,
 	classNameId LONG,
@@ -2193,7 +2206,8 @@ create table User_ (
 	lockoutDate DATE null,
 	agreedToTermsOfUse BOOLEAN,
 	emailAddressVerified BOOLEAN,
-	status INTEGER
+	status INTEGER,
+	preferredEditors TEXT null
 );
 
 create table UserGroup (

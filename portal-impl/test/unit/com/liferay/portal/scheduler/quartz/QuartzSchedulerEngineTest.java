@@ -34,8 +34,8 @@ import com.liferay.portal.kernel.scheduler.TriggerState;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
-import com.liferay.portal.kernel.test.NewEnv;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -47,8 +47,8 @@ import com.liferay.portal.model.impl.PortletAppImpl;
 import com.liferay.portal.model.impl.PortletImpl;
 import com.liferay.portal.scheduler.SchedulerEngineHelperImpl;
 import com.liferay.portal.scheduler.job.MessageSenderJob;
-import com.liferay.portal.test.AdviseWith;
-import com.liferay.portal.test.AspectJNewEnvTestRule;
+import com.liferay.portal.test.rule.AdviseWith;
+import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 import com.liferay.portal.util.PropsImpl;
 import com.liferay.portal.uuid.PortalUUIDImpl;
 
@@ -420,7 +420,8 @@ public class QuartzSchedulerEngineTest {
 	@AdviseWith(
 		adviceClasses = {
 			EnableSchedulerAdvice.class, PortalLocalServiceUtilAdvice.class
-		})
+		}
+	)
 	@Test
 	public void testSchedule1() throws Exception {
 		List<SchedulerResponse> schedulerResponses =
@@ -732,7 +733,8 @@ public class QuartzSchedulerEngineTest {
 	public static class EnableSchedulerAdvice {
 
 		@Around(
-			"set(* com.liferay.portal.util.PropsValues.SCHEDULER_ENABLED)")
+			"set(* com.liferay.portal.util.PropsValues.SCHEDULER_ENABLED)"
+		)
 		public Object enableScheduler(ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
 
@@ -746,7 +748,8 @@ public class QuartzSchedulerEngineTest {
 
 		@Around(
 			"execution(* com.liferay.portal.service.PortletLocalServiceUtil." +
-				"getPortletById(java.lang.String)) && args(portletId)")
+				"getPortletById(java.lang.String)) && args(portletId)"
+		)
 		public Portlet getPortletById(String portletId) {
 			Portlet portlet = new PortletImpl();
 

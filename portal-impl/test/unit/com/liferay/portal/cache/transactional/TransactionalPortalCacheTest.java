@@ -20,11 +20,11 @@ import com.liferay.portal.cache.TestCacheReplicator;
 import com.liferay.portal.cache.memory.MemoryPortalCache;
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
-import com.liferay.portal.kernel.test.AggregateTestRule;
-import com.liferay.portal.kernel.test.CodeCoverageAssertor;
-import com.liferay.portal.kernel.test.NewEnv;
-import com.liferay.portal.test.AdviseWith;
-import com.liferay.portal.test.AspectJNewEnvTestRule;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
+import com.liferay.portal.kernel.test.rule.NewEnv;
+import com.liferay.portal.test.rule.AdviseWith;
+import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 
 import java.util.Arrays;
 import java.util.List;
@@ -387,7 +387,8 @@ public class TransactionalPortalCacheTest {
 
 		@Around(
 			"set(* com.liferay.portal.util.PropsValues." +
-				"TRANSACTIONAL_CACHE_ENABLED)")
+				"TRANSACTIONAL_CACHE_ENABLED)"
+		)
 		public Object disableTransactionalCache(
 				ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {
@@ -402,7 +403,8 @@ public class TransactionalPortalCacheTest {
 
 		@Around(
 			"set(* com.liferay.portal.util.PropsValues." +
-				"TRANSACTIONAL_CACHE_ENABLED)")
+				"TRANSACTIONAL_CACHE_ENABLED)"
+		)
 		public Object enableTransactionalCache(
 				ProceedingJoinPoint proceedingJoinPoint)
 			throws Throwable {

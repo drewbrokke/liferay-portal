@@ -25,14 +25,14 @@ import com.liferay.portal.kernel.nio.intraband.IntrabandTestUtil;
 import com.liferay.portal.kernel.nio.intraband.RecordCompletionHandler;
 import com.liferay.portal.kernel.nio.intraband.RecordDatagramReceiveHandler;
 import com.liferay.portal.kernel.nio.intraband.RegistrationReference;
-import com.liferay.portal.kernel.test.AggregateTestRule;
 import com.liferay.portal.kernel.test.CaptureHandler;
-import com.liferay.portal.kernel.test.CodeCoverageAssertor;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
-import com.liferay.portal.kernel.test.NewEnv;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
+import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.test.AdviseWith;
-import com.liferay.portal.test.AspectJNewEnvTestRule;
+import com.liferay.portal.test.rule.AdviseWith;
+import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 
 import java.io.IOException;
 
@@ -1295,28 +1295,32 @@ public class SelectorIntrabandTest {
 
 		@org.aspectj.lang.annotation.After(
 			"execution(* com.liferay.portal.kernel.log.Jdk14LogImpl.error(" +
-				"Object, Throwable))")
+				"Object, Throwable))"
+		)
 		public void error() {
 			_errorCalledCountDownLatch.countDown();
 		}
 
 		@org.aspectj.lang.annotation.After(
 			"execution(* com.liferay.portal.kernel.log.Jdk14LogImpl." +
-				"isWarnEnabled())")
+				"isWarnEnabled())"
+		)
 		public void isWarnEnabled() {
 			_isWarnEnabledCalledCountDownLatch.countDown();
 		}
 
 		@org.aspectj.lang.annotation.After(
 			"execution(* com.liferay.portal.kernel.log.Jdk14LogImpl.warn(" +
-				"Object))")
+				"Object))"
+		)
 		public void warn1() {
 			_warnCalledCountDownLatch.countDown();
 		}
 
 		@org.aspectj.lang.annotation.After(
 			"execution(* com.liferay.portal.kernel.log.Jdk14LogImpl.warn(" +
-				"Object, Throwable))")
+				"Object, Throwable))"
+		)
 		public void warn2() {
 			_warnCalledCountDownLatch.countDown();
 		}

@@ -16,15 +16,15 @@ package com.liferay.portal.service;
 
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.test.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.util.NamedThreadFactory;
 import com.liferay.portal.model.PermissionedModel;
 import com.liferay.portal.model.ResourceBlockPermissionsContainer;
-import com.liferay.portal.test.LiferayIntegrationTestRule;
-import com.liferay.portal.test.MainServletTestRule;
-import com.liferay.portal.test.log.ExpectedLog;
-import com.liferay.portal.test.log.ExpectedLogs;
-import com.liferay.portal.test.log.ExpectedType;
+import com.liferay.portal.test.rule.ExpectedLog;
+import com.liferay.portal.test.rule.ExpectedLogs;
+import com.liferay.portal.test.rule.ExpectedType;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.MainServletTestRule;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -81,10 +81,12 @@ public class ResourceBlockLocalServiceTest {
 				expectedLog =
 					"Deadlock found when trying to get lock; try restarting " +
 						"transaction",
-				expectedType = ExpectedType.EXACT),
+				expectedType = ExpectedType.EXACT
+			),
 			@ExpectedLog(
 				expectedLog = "Duplicate entry ",
-				expectedType = ExpectedType.PREFIX)
+				expectedType = ExpectedType.PREFIX
+			)
 		},
 		level = "ERROR", loggerClass = JDBCExceptionReporter.class
 	)
@@ -172,7 +174,8 @@ public class ResourceBlockLocalServiceTest {
 				expectedType = ExpectedType.EXACT),
 			@ExpectedLog(
 				expectedLog = "Duplicate entry ",
-				expectedType = ExpectedType.PREFIX)
+				expectedType = ExpectedType.PREFIX
+	)
 		},
 		level = "ERROR", loggerClass = JDBCExceptionReporter.class
 	)

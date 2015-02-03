@@ -93,7 +93,7 @@ public class BaseJSONHandler extends BaseHandler {
 
 	@Override
 	public boolean handlePortalException(String exception) throws Exception {
-		if (exception.equals("")) {
+		if (exception.isEmpty()) {
 			return false;
 		}
 
@@ -239,7 +239,10 @@ public class BaseJSONHandler extends BaseHandler {
 		}
 
 		if (_logger.isTraceEnabled()) {
-			_logger.trace("Handling response {}", response);
+			Class<?> clazz = getClass();
+
+			_logger.trace(
+				"Handling response {} {}", clazz.getSimpleName(), response);
 		}
 
 		processResponse(response);
