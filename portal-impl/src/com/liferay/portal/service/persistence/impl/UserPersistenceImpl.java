@@ -69,7 +69,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see UserPersistence
- * @see UserUtil
+ * @see com.liferay.portal.service.persistence.UserUtil
  * @generated
  */
 @ProviderType
@@ -7583,6 +7583,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		userImpl.setAgreedToTermsOfUse(user.isAgreedToTermsOfUse());
 		userImpl.setEmailAddressVerified(user.isEmailAddressVerified());
 		userImpl.setStatus(user.getStatus());
+		userImpl.setPreferredEditors(user.getPreferredEditors());
 
 		return userImpl;
 	}

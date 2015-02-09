@@ -216,8 +216,8 @@ public class CreateAnonymousAccountAction extends PortletAction {
 		String openId = StringPool.BLANK;
 		String firstName = ParamUtil.getString(actionRequest, "firstName");
 		String lastName = ParamUtil.getString(actionRequest, "lastName");
-		int prefixId = 0;
-		int suffixId = 0;
+		long prefixId = 0;
+		long suffixId = 0;
 		boolean male = true;
 		int birthdayMonth = 0;
 		int birthdayDay = 1;
@@ -298,8 +298,8 @@ public class CreateAnonymousAccountAction extends PortletAction {
 		String firstName = null;
 		String middleName = null;
 		String lastName = null;
-		int prefixId = 0;
-		int suffixId = 0;
+		long prefixId = 0;
+		long suffixId = 0;
 		boolean male = true;
 		int birthdayMonth = 0;
 		int birthdayDay = 1;

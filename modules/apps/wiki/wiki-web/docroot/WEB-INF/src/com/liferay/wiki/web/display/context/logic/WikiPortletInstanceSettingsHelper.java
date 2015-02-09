@@ -25,7 +25,7 @@ import com.liferay.wiki.web.settings.WikiPortletInstanceSettings;
 import java.util.List;
 
 /**
- * @author Ivan Zaera
+ * @author Iván Zaera
  */
 public class WikiPortletInstanceSettingsHelper {
 

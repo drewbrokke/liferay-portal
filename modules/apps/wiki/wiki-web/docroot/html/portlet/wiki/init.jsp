@@ -16,7 +16,9 @@
 
 <%@ include file="/html/portlet/init.jsp" %>
 
-<%@ page import="com.liferay.wiki.configuration.WikiServiceConfigurationValues" %><%@
+<%@ page import="com.liferay.wiki.configuration.WikiServiceConfiguration" %><%@
+page import="com.liferay.wiki.configuration.WikiServiceConfigurationProvider" %><%@
+page import="com.liferay.wiki.constants.WikiConstants" %><%@
 page import="com.liferay.wiki.constants.WikiPortletKeys" %><%@
 page import="com.liferay.wiki.constants.WikiWebKeys" %><%@
 page import="com.liferay.wiki.exception.DuplicateNodeNameException" %><%@
@@ -49,7 +51,6 @@ page import="com.liferay.wiki.service.permission.WikiPermission" %><%@
 page import="com.liferay.wiki.settings.WikiSettings" %><%@
 page import="com.liferay.wiki.social.WikiActivityKeys" %><%@
 page import="com.liferay.wiki.util.WikiCacheUtil" %><%@
-page import="com.liferay.wiki.util.WikiConstants" %><%@
 page import="com.liferay.wiki.util.WikiPageAttachmentsUtil" %><%@
 page import="com.liferay.wiki.util.WikiUtil" %><%@
 page import="com.liferay.wiki.util.comparator.PageVersionComparator" %><%@
@@ -65,6 +66,8 @@ WikiPortletInstanceSettings wikiPortletInstanceSettings = wikiRequestHelper.getW
 WikiSettings wikiSettings = wikiRequestHelper.getWikiSettings();
 
 WikiPortletInstanceSettingsHelper wikiPortletInstanceSettingsHelper = new WikiPortletInstanceSettingsHelper(wikiRequestHelper);
+
+WikiServiceConfiguration wikiServiceConfiguration = WikiServiceConfigurationProvider.getWikiServiceConfiguration();
 
 Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZone);
 %>

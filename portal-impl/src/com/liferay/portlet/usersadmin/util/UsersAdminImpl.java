@@ -15,6 +15,7 @@
 package com.liferay.portlet.usersadmin.util;
 
 import com.liferay.portal.kernel.configuration.Filter;
+import com.liferay.portal.kernel.editor.EditorUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.search.Document;
@@ -94,12 +95,15 @@ import com.liferay.portal.util.comparator.UserJobTitleComparator;
 import com.liferay.portal.util.comparator.UserLastNameComparator;
 import com.liferay.portal.util.comparator.UserScreenNameComparator;
 
+import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.portlet.ActionRequest;
@@ -217,6 +221,17 @@ public class UsersAdminImpl implements UsersAdmin {
 			return filteredGroupRoles;
 		}
 
+		Group group = GroupLocalServiceUtil.getGroup(groupId);
+
+		if (!GroupPermissionUtil.contains(
+				permissionChecker, group, ActionKeys.ASSIGN_USER_ROLES) &&
+			!OrganizationPermissionUtil.contains(
+				permissionChecker, group.getOrganizationId(),
+				ActionKeys.ASSIGN_USER_ROLES)) {
+
+			return Collections.emptyList();
+		}
+
 		itr = filteredGroupRoles.iterator();
 
 		while (itr.hasNext()) {
@@ -228,30 +243,9 @@ public class UsersAdminImpl implements UsersAdmin {
 					RoleConstants.ORGANIZATION_ADMINISTRATOR) ||
 				roleName.equals(RoleConstants.ORGANIZATION_OWNER) ||
 				roleName.equals(RoleConstants.SITE_ADMINISTRATOR) ||
-				roleName.equals(RoleConstants.SITE_OWNER)) {
-
-				itr.remove();
-			}
-		}
-
-		Group group = GroupLocalServiceUtil.getGroup(groupId);
-
-		if (GroupPermissionUtil.contains(
-				permissionChecker, group, ActionKeys.ASSIGN_USER_ROLES) ||
-			OrganizationPermissionUtil.contains(
-				permissionChecker, group.getOrganizationId(),
-				ActionKeys.ASSIGN_USER_ROLES)) {
-
-			return filteredGroupRoles;
-		}
-
-		itr = filteredGroupRoles.iterator();
-
-		while (itr.hasNext()) {
-			Role role = itr.next();
-
-			if (!RolePermissionUtil.contains(
-					permissionChecker, groupId, role.getRoleId(),
+				roleName.equals(RoleConstants.SITE_OWNER) ||
+				!RolePermissionUtil.contains(
+					permissionChecker, groupId, groupRole.getRoleId(),
 					ActionKeys.ASSIGN_MEMBERS)) {
 
 				itr.remove();
@@ -515,7 +509,7 @@ public class UsersAdminImpl implements UsersAdmin {
 
 			long regionId = ParamUtil.getLong(
 				actionRequest, "addressRegionId" + addressesIndex);
-			int typeId = ParamUtil.getInteger(
+			long typeId = ParamUtil.getLong(
 				actionRequest, "addressTypeId" + addressesIndex);
 			boolean mailing = ParamUtil.getBoolean(
 				actionRequest, "addressMailing" + addressesIndex);
@@ -581,7 +575,7 @@ public class UsersAdminImpl implements UsersAdmin {
 				continue;
 			}
 
-			int typeId = ParamUtil.getInteger(
+			long typeId = ParamUtil.getLong(
 				actionRequest, "emailAddressTypeId" + emailAddressesIndex);
 
 			boolean primary = false;
@@ -745,7 +739,7 @@ public class UsersAdminImpl implements UsersAdmin {
 			long orgLaborId = ParamUtil.getLong(
 				actionRequest, "orgLaborId" + orgLaborsIndex);
 
-			int typeId = ParamUtil.getInteger(
+			long typeId = ParamUtil.getLong(
 				actionRequest, "orgLaborTypeId" + orgLaborsIndex, -1);
 
 			if (typeId == -1) {
@@ -841,7 +835,7 @@ public class UsersAdminImpl implements UsersAdmin {
 				continue;
 			}
 
-			int typeId = ParamUtil.getInteger(
+			long typeId = ParamUtil.getLong(
 				actionRequest, "phoneTypeId" + phonesIndex);
 
 			boolean primary = false;
@@ -861,6 +855,26 @@ public class UsersAdminImpl implements UsersAdmin {
 		}
 
 		return phones;
+	}
+
+	@Override
+	public Map<String, Serializable> getPreferredEditors(
+		ActionRequest actionRequest) {
+
+		Map<String, Serializable> preferredEditorsMap =
+			EditorUtil.getEditorPropertiesMap();
+
+		Iterator itr = preferredEditorsMap.entrySet().iterator();
+
+		while (itr.hasNext()) {
+			Map.Entry pair = (Map.Entry)itr.next();
+
+			String key = GetterUtil.getString(pair.getKey());
+
+			pair.setValue(ParamUtil.getString(actionRequest, key));
+		}
+
+		return preferredEditorsMap;
 	}
 
 	@Override
@@ -1118,7 +1132,7 @@ public class UsersAdminImpl implements UsersAdmin {
 				continue;
 			}
 
-			int typeId = ParamUtil.getInteger(
+			long typeId = ParamUtil.getLong(
 				actionRequest, "websiteTypeId" + websitesIndex);
 
 			boolean primary = false;
@@ -1294,7 +1308,7 @@ public class UsersAdminImpl implements UsersAdmin {
 			String zip = address.getZip();
 			long regionId = address.getRegionId();
 			long countryId = address.getCountryId();
-			int typeId = address.getTypeId();
+			long typeId = address.getTypeId();
 			boolean mailing = address.isMailing();
 			boolean primary = address.isPrimary();
 
@@ -1335,7 +1349,7 @@ public class UsersAdminImpl implements UsersAdmin {
 			long emailAddressId = emailAddress.getEmailAddressId();
 
 			String address = emailAddress.getAddress();
-			int typeId = emailAddress.getTypeId();
+			long typeId = emailAddress.getTypeId();
 			boolean primary = emailAddress.isPrimary();
 
 			if (emailAddressId <= 0) {
@@ -1373,7 +1387,7 @@ public class UsersAdminImpl implements UsersAdmin {
 		for (OrgLabor orgLabor : orgLabors) {
 			long orgLaborId = orgLabor.getOrgLaborId();
 
-			int typeId = orgLabor.getTypeId();
+			long typeId = orgLabor.getTypeId();
 			int sunOpen = orgLabor.getSunOpen();
 			int sunClose = orgLabor.getSunClose();
 			int monOpen = orgLabor.getMonOpen();
@@ -1427,7 +1441,7 @@ public class UsersAdminImpl implements UsersAdmin {
 
 			String number = phone.getNumber();
 			String extension = phone.getExtension();
-			int typeId = phone.getTypeId();
+			long typeId = phone.getTypeId();
 			boolean primary = phone.isPrimary();
 
 			if (phoneId <= 0) {
@@ -1465,7 +1479,7 @@ public class UsersAdminImpl implements UsersAdmin {
 			long websiteId = website.getWebsiteId();
 
 			String url = website.getUrl();
-			int typeId = website.getTypeId();
+			long typeId = website.getTypeId();
 			boolean primary = website.isPrimary();
 
 			if (websiteId <= 0) {

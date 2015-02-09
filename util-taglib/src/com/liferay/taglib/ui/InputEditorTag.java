@@ -17,6 +17,7 @@ package com.liferay.taglib.ui;
 import com.liferay.portal.kernel.editor.EditorUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Portlet;
+import com.liferay.portal.model.User;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.taglib.util.IncludeTag;
 
@@ -31,6 +32,10 @@ public class InputEditorTag extends IncludeTag {
 
 	public void setAllowBrowseDocuments(boolean allowBrowseDocuments) {
 		_allowBrowseDocuments = allowBrowseDocuments;
+	}
+
+	public void setAutoCreate(boolean autoCreate) {
+		_autoCreate = autoCreate;
 	}
 
 	public void setConfigParams(Map<String, String> configParams) {
@@ -128,6 +133,7 @@ public class InputEditorTag extends IncludeTag {
 	@Override
 	protected void cleanUp() {
 		_allowBrowseDocuments = true;
+		_autoCreate = true;
 		_configParams = null;
 		_contents = null;
 		_contentsLanguageId = null;
@@ -160,10 +166,12 @@ public class InputEditorTag extends IncludeTag {
 
 	@Override
 	protected void setAttributes(HttpServletRequest request) {
-		if (_contentsLanguageId == null) {
-			ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
-				WebKeys.THEME_DISPLAY);
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
+			WebKeys.THEME_DISPLAY);
 
+		User user = themeDisplay.getUser();
+
+		if (_contentsLanguageId == null) {
 			_contentsLanguageId = themeDisplay.getLanguageId();
 		}
 
@@ -175,13 +183,16 @@ public class InputEditorTag extends IncludeTag {
 			cssClasses += portlet.getCssClassWrapper();
 		}
 
-		String editorImpl = EditorUtil.getEditorValue(request, _editorImpl);
+		String editorImpl = EditorUtil.getEditorValue(
+			request, _editorImpl, user);
 
 		_page = "/html/js/editor/" + editorImpl + ".jsp";
 
 		request.setAttribute(
 			"liferay-ui:input-editor:allowBrowseDocuments",
 			String.valueOf(_allowBrowseDocuments));
+		request.setAttribute(
+			"liferay-ui:input-editor:autoCreate", String.valueOf(_autoCreate));
 		request.setAttribute(
 			"liferay-ui:input-editor:configParams", _configParams);
 		request.setAttribute("liferay-ui:input-editor:contents", _contents);
@@ -222,6 +233,7 @@ public class InputEditorTag extends IncludeTag {
 	}
 
 	private boolean _allowBrowseDocuments = true;
+	private boolean _autoCreate = true;
 	private Map<String, String> _configParams;
 	private String _contents;
 	private String _contentsLanguageId;
