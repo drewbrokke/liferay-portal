@@ -1760,8 +1760,6 @@ public class PropsValues {
 
 	public static boolean STAGING_LIVE_GROUP_REMOTE_STAGING_ENABLED = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.STAGING_LIVE_GROUP_REMOTE_STAGING_ENABLED));
 
-	public static boolean STAGING_LOCK_ENABLED = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.STAGING_LOCK_ENABLED));
-
 	public static final int STAGING_PUBLISH_BUTTON_EXPORT_IMPORT_CONFIGURATION_DISPLAY_COUNT = GetterUtil.getInteger(PropsUtil.get(PropsKeys.STAGING_PUBLISH_BUTTON_EXPORT_IMPORT_CONFIGURATION_DISPLAY_COUNT));
 
 	public static final int STAGING_REMOTE_TRANSFER_BUFFER_SIZE = GetterUtil.getInteger(PropsUtil.get(PropsKeys.STAGING_REMOTE_TRANSFER_BUFFER_SIZE));
@@ -1935,18 +1933,6 @@ public class PropsValues {
 	public static final int VALUE_OBJECT_FINDER_THREAD_LOCAL_CACHE_MAX_SIZE = GetterUtil.getInteger(PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_THREAD_LOCAL_CACHE_MAX_SIZE));
 
 	public static final boolean VALUE_OBJECT_MVCC_ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.VALUE_OBJECT_MVCC_ENTITY_CACHE_ENABLED));
-
-	public static final boolean VELOCITY_ENGINE_DIRECTIVE_IF_TO_STRING_NULL_CHECK = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.VELOCITY_ENGINE_DIRECTIVE_IF_TO_STRING_NULL_CHECK));
-
-	public static final int VELOCITY_ENGINE_RESOURCE_MODIFICATION_CHECK_INTERVAL = GetterUtil.getInteger(PropsUtil.get(PropsKeys.VELOCITY_ENGINE_RESOURCE_MODIFICATION_CHECK_INTERVAL));
-
-	public static final String[] VELOCITY_ENGINE_RESOURCE_PARSERS = PropsUtil.getArray(PropsKeys.VELOCITY_ENGINE_RESOURCE_PARSERS);
-
-	public static final String[] VELOCITY_ENGINE_RESTRICTED_CLASSES = PropsUtil.getArray(PropsKeys.VELOCITY_ENGINE_RESTRICTED_CLASSES);
-
-	public static final String[] VELOCITY_ENGINE_RESTRICTED_PACKAGES = PropsUtil.getArray(PropsKeys.VELOCITY_ENGINE_RESTRICTED_PACKAGES);
-
-	public static final String[] VELOCITY_ENGINE_RESTRICTED_VARIABLES = PropsUtil.getArray(PropsKeys.VELOCITY_ENGINE_RESTRICTED_VARIABLES);
 
 	public static final boolean VERIFY_DATABASE_TRANSACTIONS_DISABLED = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.VERIFY_DATABASE_TRANSACTIONS_DISABLED));
 

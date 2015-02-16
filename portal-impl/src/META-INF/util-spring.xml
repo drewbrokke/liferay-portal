@@ -787,7 +787,6 @@
 		</property>
 	</bean>
 	<bean id="com.liferay.portal.struts.DoIncludeJSPDynamicInclude" class="com.liferay.portal.struts.DoIncludeJSPDynamicInclude" />
-	<bean id="com.liferay.portal.template.VelocityTemplateResourceLoader" class="com.liferay.portal.template.VelocityTemplateResourceLoader" />
 	<bean id="com.liferay.portal.util.CustomJspRegistryUtil" class="com.liferay.portal.util.CustomJspRegistryUtil">
 		<property name="customJspRegistry">
 			<bean class="com.liferay.portal.util.CustomJspRegistryImpl" />
@@ -808,12 +807,6 @@
 		</property>
 	</bean>
 	<bean id="com.liferay.portal.util.PrefsPropsUtil" class="com.liferay.portal.util.PrefsPropsUtil" />
-	<bean id="com.liferay.portal.velocity.VelocityManager" class="com.liferay.portal.velocity.VelocityManager">
-		<property name="templateContextHelper">
-			<bean class="com.liferay.portal.velocity.VelocityTemplateContextHelper" />
-		</property>
-		<property name="templateResourceLoader" ref="com.liferay.portal.template.VelocityTemplateResourceLoader" />
-	</bean>
 	<bean class="com.liferay.portal.verify.model.AddressVerifiableModel" />
 	<bean class="com.liferay.portal.verify.model.AnnouncementsEntryVerifiableModel" />
 	<bean class="com.liferay.portal.verify.model.AssetCategoryVerifiableModel" />
@@ -1048,12 +1041,10 @@
 		</property>
 	</bean>
 	<bean id="com.liferay.portlet.dynamicdatamapping.storage.StorageAdapterRegistry" class="com.liferay.portlet.dynamicdatamapping.storage.StorageAdapterRegistryImpl">
-		<property name="defaultStorageType" value="xml" />
+		<property name="defaultStorageType" value="json" />
 		<property name="storageAdapters">
 			<list>
-				<bean class="com.liferay.portlet.dynamicdatamapping.storage.ExpandoStorageAdapter" />
 				<bean class="com.liferay.portlet.dynamicdatamapping.storage.JSONStorageAdapter" />
-				<bean class="com.liferay.portlet.dynamicdatamapping.storage.XMLStorageAdapter" />
 			</list>
 		</property>
 	</bean>
