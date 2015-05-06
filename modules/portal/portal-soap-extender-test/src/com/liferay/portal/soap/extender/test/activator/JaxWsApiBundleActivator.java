@@ -34,11 +34,22 @@ public class JaxWsApiBundleActivator implements BundleActivator {
 
 		_configurationAdminBundleActivator.start(bundleContext);
 
-		_endpoint = Endpoint.publish("/greeterApi", new GreeterImpl());
+		try {
+			_endpoint = Endpoint.publish("/greeterApi", new GreeterImpl());
+		}
+		catch (Exception e) {
+			cleanUp(bundleContext);
+
+			throw e;
+		}
 	}
 
 	@Override
 	public void stop(BundleContext bundleContext) {
+		cleanUp(bundleContext);
+	}
+
+	protected void cleanUp(BundleContext bundleContext) {
 		try {
 			_endpoint.stop();
 		}

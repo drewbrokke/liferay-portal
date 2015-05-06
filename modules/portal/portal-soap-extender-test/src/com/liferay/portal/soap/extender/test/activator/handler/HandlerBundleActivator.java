@@ -42,11 +42,22 @@ public class HandlerBundleActivator implements BundleActivator {
 
 		_greeterBundleActivator = new GreeterBundleActivator();
 
-		_greeterBundleActivator.start(bundleContext);
+		try {
+			_greeterBundleActivator.start(bundleContext);
+		}
+		catch (Exception e) {
+			cleanUp(bundleContext);
+
+			throw e;
+		}
 	}
 
 	@Override
 	public void stop(BundleContext bundleContext) {
+		cleanUp(bundleContext);
+	}
+
+	protected void cleanUp(BundleContext bundleContext) {
 		try {
 			_greeterBundleActivator.stop(bundleContext);
 		}
