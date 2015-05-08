@@ -51,7 +51,7 @@ public class JaxWsComponentRegistrationTest {
 
 		Greeter greeter = service.getPort(Greeter.class);
 
-		Assert.assertEquals("Greetings!", greeter.greet());
+		Assert.assertEquals("Greetings.", greeter.greet());
 	}
 
 	@ArquillianResource
