@@ -318,6 +318,17 @@ public class PoshiRunnerValidation {
 		}
 	}
 
+	private static void _validateElementName(
+			Element element, List<String> possibleElementNames, String filePath)
+		throws Exception {
+
+		if (!possibleElementNames.contains(element.getName())) {
+			throw new Exception(
+				"Missing " + possibleElementNames + " element\n" + filePath +
+					":" + element.attributeValue("line-number"));
+		}
+	}
+
 	private static void _validateElseElement(Element element, String filePath)
 		throws Exception {
 
@@ -619,16 +630,13 @@ public class PoshiRunnerValidation {
 		if (fileName.equals("function")) {
 			Element firstChildElement = childElements.get(0);
 
-			String firstChildElementName = firstChildElement.getName();
+			_validateConditionElement(firstChildElement, filePath);
 
-			if (!StringUtils.equals(firstChildElementName, "condition") &&
-				!StringUtils.equals(firstChildElementName, "contains")) {
+			List<String> possibleElementNames = Arrays.asList(
+				"condition", "contains");
 
-				throw new Exception(
-					"Missing (condition|contains) child element\n" +
-						filePath + ":" +
-						firstChildElement.attributeValue("line-number"));
-			}
+			_validateElementName(
+				firstChildElement, possibleElementNames, filePath);
 		}
 
 		_validateElseElement(element, filePath);

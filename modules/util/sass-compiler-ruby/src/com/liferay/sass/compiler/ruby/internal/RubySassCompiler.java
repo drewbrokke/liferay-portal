@@ -37,11 +37,16 @@ import org.jruby.embed.internal.LocalContextProvider;
 public class RubySassCompiler implements AutoCloseable, SassCompiler {
 
 	public RubySassCompiler() throws Exception {
-		this(_COMPILE_MODE_JIT, _COMPILE_DEFAULT_THRESHOLD);
+		this(
+			_COMPILE_MODE_JIT, _COMPILE_THRESHOLD_DEFAULT,
+			System.getProperty("java.io.tmpdir"));
 	}
 
-	public RubySassCompiler(String compileMode, int compilerThreshold)
+	public RubySassCompiler(
+			String compileMode, int compilerThreshold, String tmpDir)
 		throws Exception {
+
+		_tmpDir = tmpDir;
 
 		_scriptingContainer = new ScriptingContainer(
 			LocalContextScope.THREADSAFE);
@@ -128,7 +133,7 @@ public class RubySassCompiler implements AutoCloseable, SassCompiler {
 		try {
 			return _scriptingContainer.callMethod(
 				_scriptObject, "process",
-				new Object[] {input, includeDirName, _TMP_DIR, false},
+				new Object[] {input, includeDirName, _tmpDir, false},
 				String.class);
 		}
 		catch (Exception e) {
@@ -136,15 +141,14 @@ public class RubySassCompiler implements AutoCloseable, SassCompiler {
 		}
 	}
 
-	private static final int _COMPILE_DEFAULT_THRESHOLD = 5;
-
 	private static final String _COMPILE_MODE_FORCE = "force";
 
 	private static final String _COMPILE_MODE_JIT = "jit";
 
-	private static final String _TMP_DIR = System.getProperty("java.io.tmpdir");
+	private static final int _COMPILE_THRESHOLD_DEFAULT = 5;
 
 	private final ScriptingContainer _scriptingContainer;
 	private final Object _scriptObject;
+	private final String _tmpDir;
 
 }

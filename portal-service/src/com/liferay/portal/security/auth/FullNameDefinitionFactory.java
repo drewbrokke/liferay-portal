@@ -15,9 +15,12 @@
 package com.liferay.portal.security.auth;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,8 +47,16 @@ public class FullNameDefinitionFactory {
 
 		fullNameDefinition = new FullNameDefinition();
 
+		String[] requiredFieldNames = _getRequiredFieldNames(locale);
+
+		for (String requiredFieldName : requiredFieldNames) {
+			fullNameDefinition.addRequiredField(requiredFieldName);
+		}
+
 		String[] fieldNames = StringUtil.split(
 			LanguageUtil.get(locale, "lang.user.name.field.names"));
+
+		fieldNames = ArrayUtil.append(requiredFieldNames, fieldNames);
 
 		for (String userNameField : fieldNames) {
 			FullNameField fullNameField = new FullNameField();
@@ -59,13 +70,8 @@ public class FullNameDefinitionFactory {
 
 			fullNameField.setValues(values);
 
-			String requiredFieldNames = LanguageUtil.get(
-				locale, "lang.user.name.required.field.names");
-
-			boolean required = StringUtil.contains(
-				requiredFieldNames, userNameField);
-
-			fullNameField.setRequired(required);
+			fullNameField.setRequired(
+				fullNameDefinition.isFieldRequired(userNameField));
 
 			fullNameDefinition.addFullNameField(fullNameField);
 		}
@@ -73,6 +79,18 @@ public class FullNameDefinitionFactory {
 		_fullNameDefinitions.put(locale, fullNameDefinition);
 
 		return fullNameDefinition;
+	}
+
+	private String[] _getRequiredFieldNames(Locale locale) {
+		String[] requiredFieldNames = StringUtil.split(
+			LanguageUtil.get(locale, "lang.user.name.required.field.names"));
+
+		if (!ArrayUtil.contains(requiredFieldNames, "first-name")) {
+			requiredFieldNames = ArrayUtil.append(
+				new String[] {"first-name"}, requiredFieldNames);
+		}
+
+		return requiredFieldNames;
 	}
 
 	private static final FullNameDefinitionFactory _instance =
