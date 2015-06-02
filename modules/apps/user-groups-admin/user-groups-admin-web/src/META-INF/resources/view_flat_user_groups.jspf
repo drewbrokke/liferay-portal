@@ -54,16 +54,11 @@ UserGroupSearch userGroupSearch = new UserGroupSearch(renderRequest, portletURL)
 	}
 	%>
 
-	<liferay-ui:search-container-results>
-		<c:choose>
-			<c:when test="<%= PropsValues.USER_GROUPS_INDEXER_ENABLED && PropsValues.USER_GROUPS_SEARCH_WITH_INDEX %>">
-				<%@ include file="/user_group_search_results_index.jspf" %>
-			</c:when>
-			<c:otherwise>
-				<%@ include file="/user_group_search_results_database.jspf" %>
-			</c:otherwise>
-		</c:choose>
-	</liferay-ui:search-container-results>
+	<liferay-ui:user-group-search-container-results
+		searchContainer="<%= searchContainer %>"
+		searchTerms="<%= searchTerms %>"
+		userGroupParams="<%= userGroupParams %>"
+	/>
 
 	<liferay-ui:search-container-row
 		className="com.liferay.portal.model.UserGroup"
@@ -104,7 +99,7 @@ UserGroupSearch userGroupSearch = new UserGroupSearch(renderRequest, portletURL)
 		/>
 	</liferay-ui:search-container-row>
 
-	<c:if test="<%= !results.isEmpty() && PortalPermissionUtil.contains(permissionChecker, ActionKeys.ADD_USER_GROUP) %>">
+	<c:if test="<%= !searchContainer.getResults().isEmpty() && PortalPermissionUtil.contains(permissionChecker, ActionKeys.ADD_USER_GROUP) %>">
 		<div class="separator"><!-- --></div>
 
 		<aui:button disabled="<%= true %>" name="delete" onClick='<%= renderResponse.getNamespace() + "deleteUserGroups();" %>' value="delete" />
