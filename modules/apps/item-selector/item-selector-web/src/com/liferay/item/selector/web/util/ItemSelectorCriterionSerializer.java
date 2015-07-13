@@ -37,10 +37,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -182,8 +180,8 @@ public class ItemSelectorCriterionSerializer<T extends ItemSelectorCriterion> {
 	private void _setDesiredItemSelectorReturnTypes(
 		ItemSelectorCriterion itemSelectorCriterion, Map<String, ?> map) {
 
-		Set<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-			new LinkedHashSet<>();
+		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
+			new ArrayList<>();
 
 		String[] desiredItemSelectorReturnTypeNames = StringUtil.split(
 			(String)map.get("desiredItemSelectorReturnTypes"));
@@ -193,6 +191,16 @@ public class ItemSelectorCriterionSerializer<T extends ItemSelectorCriterion> {
 
 			List<ItemSelectorReturnType> itemSelectorReturnTypes =
 				_itemSelectorReturnTypes.get(desiredItemSelectorReturnTypeName);
+
+			if (itemSelectorReturnTypes.isEmpty()) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(
+						"No return types are registered for " +
+							desiredItemSelectorReturnTypeName);
+				}
+
+				continue;
+			}
 
 			Iterator<ItemSelectorReturnType> iterator =
 				itemSelectorReturnTypes.iterator();
@@ -254,7 +262,7 @@ public class ItemSelectorCriterionSerializer<T extends ItemSelectorCriterion> {
 		@Override
 		public void transform(JSONContext jsonContext, Object object) {
 			List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-				new ArrayList<>((Set<ItemSelectorReturnType>)object);
+				(List<ItemSelectorReturnType>)object;
 
 			String desiredItemSelectorReturnTypesString = ListUtil.toString(
 				desiredItemSelectorReturnTypes,
@@ -302,7 +310,7 @@ public class ItemSelectorCriterionSerializer<T extends ItemSelectorCriterion> {
 			ItemSelectorView itemSelectorView = _bundleContext.getService(
 				serviceReference);
 
-			Set<ItemSelectorReturnType> supportedItemSelectorReturnTypes =
+			List<ItemSelectorReturnType> supportedItemSelectorReturnTypes =
 				itemSelectorView.getSupportedItemSelectorReturnTypes();
 
 			for (ItemSelectorReturnType supportedItemSelectorReturnType :
@@ -338,7 +346,7 @@ public class ItemSelectorCriterionSerializer<T extends ItemSelectorCriterion> {
 			ItemSelectorView itemSelectorView) {
 
 			try {
-				Set<ItemSelectorReturnType> supportedItemSelectorReturnTypes =
+				List<ItemSelectorReturnType> supportedItemSelectorReturnTypes =
 					itemSelectorView.getSupportedItemSelectorReturnTypes();
 
 				for (ItemSelectorReturnType supportedItemSelectorReturnType :

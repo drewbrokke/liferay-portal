@@ -86,7 +86,7 @@ public class FreeMarkerTemplateTest {
 					RandomTestUtil.randomString());
 
 		Mockito.when(
-			multiVMPool.getCache(Mockito.anyString())
+			multiVMPool.getPortalCache(Mockito.anyString())
 		).thenAnswer(
 			new Answer
 				<PortalCache
@@ -98,7 +98,7 @@ public class FreeMarkerTemplateTest {
 						InvocationOnMock invocationOnMock)
 					throws Throwable {
 
-					return portalCacheManager.getCache(
+					return portalCacheManager.getPortalCache(
 						RandomTestUtil.randomString());
 				}
 
@@ -109,7 +109,7 @@ public class FreeMarkerTemplateTest {
 		SingleVMPool singleVMPool = Mockito.mock(SingleVMPool.class);
 
 		Mockito.when(
-			singleVMPool.getCache(Mockito.anyString())
+			singleVMPool.getPortalCache(Mockito.anyString())
 		).thenAnswer(
 			new Answer
 				<PortalCache
@@ -121,7 +121,7 @@ public class FreeMarkerTemplateTest {
 						InvocationOnMock invocationOnMock)
 					throws Throwable {
 
-					return portalCacheManager.getCache("test");
+					return portalCacheManager.getPortalCache("test");
 				}
 
 			}
@@ -231,8 +231,8 @@ public class FreeMarkerTemplateTest {
 	public void testProcessTemplate3() throws Exception {
 		Template template = new FreeMarkerTemplate(
 			new StringTemplateResource(
-				_WRONG_TEMPLATE_ID, _TEST_TEMPLATE_CONTENT), null, null,
-			_configuration, _templateContextHelper, false,
+				_WRONG_TEMPLATE_ID, _TEST_TEMPLATE_CONTENT),
+			null, null, _configuration, _templateContextHelper, false,
 			_freemarkerEngineConfiguration.resourceModificationCheck());
 
 		template.put(_TEST_KEY, _TEST_VALUE);

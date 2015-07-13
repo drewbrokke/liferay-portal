@@ -15,6 +15,8 @@
 package com.liferay.portlet.documentlibrary.asset;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.repository.RepositoryException;
@@ -108,9 +110,17 @@ public class DLFolderAssetRenderer
 			}
 		}
 		catch (PrincipalException pe) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(pe, pe);
+			}
+
 			return "icon-remove";
 		}
 		catch (RepositoryException re) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(re, re);
+			}
+
 			return "icon-remove";
 		}
 
@@ -130,6 +140,9 @@ public class DLFolderAssetRenderer
 			}
 		}
 		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
 		}
 
 		return themeDisplay.getPathThemeImages() + "/common/folder_empty.png";
@@ -210,7 +223,7 @@ public class DLFolderAssetRenderer
 			PortletKeys.DOCUMENT_LIBRARY_ADMIN, PortletRequest.RENDER_PHASE);
 
 		portletURL.setParameter(
-			"struts_action", "/document_library/edit_folder");
+			"mvcRenderCommandName", "/document_library/edit_folder");
 		portletURL.setParameter(
 			"folderId", String.valueOf(_folder.getFolderId()));
 
@@ -229,7 +242,7 @@ public class DLFolderAssetRenderer
 			liferayPortletResponse, windowState);
 
 		portletURL.setParameter(
-			"struts_action", "/document_library_display/view");
+			"mvcRenderCommandName", "/document_library/view");
 		portletURL.setParameter(
 			"folderId", String.valueOf(_folder.getFolderId()));
 		portletURL.setWindowState(windowState);
@@ -298,6 +311,9 @@ public class DLFolderAssetRenderer
 
 		return true;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		DLFolderAssetRenderer.class);
 
 	private final Folder _folder;
 

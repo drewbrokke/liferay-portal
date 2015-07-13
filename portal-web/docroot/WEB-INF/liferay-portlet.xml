@@ -105,7 +105,6 @@
 		<user-notification-definitions>com/liferay/portlet/messageboards/message-boards-user-notification-definitions.xml</user-notification-definitions>
 		<user-notification-handler-class>com.liferay.portlet.messageboards.notifications.MessageBoardsUserNotificationHandler</user-notification-handler-class>
 		<asset-renderer-factory>com.liferay.portlet.messageboards.asset.MBCategoryAssetRendererFactory</asset-renderer-factory>
-		<asset-renderer-factory>com.liferay.portlet.messageboards.asset.MBDiscussionAssetRendererFactory</asset-renderer-factory>
 		<asset-renderer-factory>com.liferay.portlet.messageboards.asset.MBMessageAssetRendererFactory</asset-renderer-factory>
 		<custom-attributes-display>com.liferay.portlet.messageboards.MBCategoryCustomAttributesDisplay</custom-attributes-display>
 		<custom-attributes-display>com.liferay.portlet.messageboards.MBMessageCustomAttributesDisplay</custom-attributes-display>
@@ -159,7 +158,7 @@
 		<trash-handler>com.liferay.portlet.documentlibrary.trash.DLFolderTrashHandler</trash-handler>
 		<workflow-handler>com.liferay.portlet.documentlibrary.workflow.DLFileEntryWorkflowHandler</workflow-handler>
 		<preferences-owned-by-group>true</preferences-owned-by-group>
-		<use-default-template>false</use-default-template>
+		<use-default-template>true</use-default-template>
 		<scopeable>true</scopeable>
 		<private-request-attributes>false</private-request-attributes>
 		<private-session-attributes>false</private-session-attributes>
@@ -189,7 +188,7 @@
 		<webdav-storage-token>document_library</webdav-storage-token>
 		<webdav-storage-class>com.liferay.portlet.documentlibrary.webdav.DLWebDAVStorageImpl</webdav-storage-class>
 		<preferences-owned-by-group>true</preferences-owned-by-group>
-		<use-default-template>false</use-default-template>
+		<use-default-template>true</use-default-template>
 		<instanceable>true</instanceable>
 		<scopeable>true</scopeable>
 		<private-request-attributes>false</private-request-attributes>
@@ -422,7 +421,7 @@
 		<webdav-storage-token>document_library</webdav-storage-token>
 		<webdav-storage-class>com.liferay.portlet.documentlibrary.webdav.DLWebDAVStorageImpl</webdav-storage-class>
 		<preferences-owned-by-group>true</preferences-owned-by-group>
-		<use-default-template>false</use-default-template>
+		<use-default-template>true</use-default-template>
 		<instanceable>true</instanceable>
 		<scopeable>true</scopeable>
 		<private-request-attributes>false</private-request-attributes>
@@ -520,21 +519,6 @@
 		<css-class-wrapper>portlet-users-admin</css-class-wrapper>
 	</portlet>
 	<portlet>
-		<portlet-name>127</portlet-name>
-		<icon>/html/icons/user_groups_admin.png</icon>
-		<portlet-data-handler-class>com.liferay.portlet.usergroupsadmin.lar.UserGroupsAdminPortletDataHandler</portlet-data-handler-class>
-		<staged-model-data-handler-class>com.liferay.portlet.usergroupsadmin.lar.UserGroupStagedModelDataHandler</staged-model-data-handler-class>
-		<control-panel-entry-category>users</control-panel-entry-category>
-		<control-panel-entry-weight>2.0</control-panel-entry-weight>
-		<custom-attributes-display>com.liferay.portlet.usergroupsadmin.UserGroupCustomAttributesDisplay</custom-attributes-display>
-		<use-default-template>true</use-default-template>
-		<private-request-attributes>false</private-request-attributes>
-		<private-session-attributes>false</private-session-attributes>
-		<render-weight>50</render-weight>
-		<header-portlet-css>/html/portlet/users_admin/css/main.css</header-portlet-css>
-		<css-class-wrapper>portlet-users-admin</css-class-wrapper>
-	</portlet>
-	<portlet>
 		<portlet-name>128</portlet-name>
 		<icon>/html/icons/roles_admin.png</icon>
 		<portlet-data-handler-class>com.liferay.portlet.rolesadmin.lar.RolesAdminPortletDataHandler</portlet-data-handler-class>
@@ -612,7 +596,7 @@
 	<portlet>
 		<portlet-name>135</portlet-name>
 		<icon>/html/icons/admin_instances.png</icon>
-		<struts-path>admin_instances</struts-path>
+		<struts-path>portal_instances</struts-path>
 		<portlet-url-class>com.liferay.portal.struts.StrutsActionPortletURL</portlet-url-class>
 		<control-panel-entry-category>configuration</control-panel-entry-category>
 		<control-panel-entry-weight>4.0</control-panel-entry-weight>
@@ -642,21 +626,6 @@
 		<render-weight>50</render-weight>
 		<footer-portlet-javascript>/html/portlet/admin/js/main.js</footer-portlet-javascript>
 		<css-class-wrapper>portlet-admin</css-class-wrapper>
-	</portlet>
-	<portlet>
-		<portlet-name>139</portlet-name>
-		<icon>/html/icons/expando.png</icon>
-		<control-panel-entry-category>configuration</control-panel-entry-category>
-		<control-panel-entry-weight>2.0</control-panel-entry-weight>
-		<preferences-owned-by-group>true</preferences-owned-by-group>
-		<use-default-template>true</use-default-template>
-		<private-request-attributes>false</private-request-attributes>
-		<private-session-attributes>false</private-session-attributes>
-		<render-weight>50</render-weight>
-		<header-portlet-css>/html/portlet/expando/css/main.css</header-portlet-css>
-		<css-class-wrapper>portlet-expando</css-class-wrapper>
-		<add-default-resource>true</add-default-resource>
-		<system>true</system>
 	</portlet>
 	<portlet>
 		<portlet-name>142</portlet-name>
@@ -884,12 +853,6 @@
 		<system>true</system>
 	</portlet>
 	<portlet>
-		<portlet-name>196</portlet-name>
-		<icon>/html/icons/page_comments.png</icon>
-		<user-notification-definitions>com/liferay/portlet/comments/comments-user-notification-definitions.xml</user-notification-definitions>
-		<user-notification-handler-class>com.liferay.portlet.comments.notifications.CommentsUserNotificationHandler</user-notification-handler-class>
-	</portlet>
-	<portlet>
 		<portlet-name>197</portlet-name>
 		<icon>/html/icons/shopping.png</icon>
 		<struts-path>shopping_admin</struts-path>
@@ -930,7 +893,7 @@
 		<control-panel-entry-weight>3.0</control-panel-entry-weight>
 		<preferences-unique-per-layout>false</preferences-unique-per-layout>
 		<preferences-owned-by-group>true</preferences-owned-by-group>
-		<use-default-template>false</use-default-template>
+		<use-default-template>true</use-default-template>
 		<scopeable>true</scopeable>
 		<private-request-attributes>false</private-request-attributes>
 		<private-session-attributes>false</private-session-attributes>

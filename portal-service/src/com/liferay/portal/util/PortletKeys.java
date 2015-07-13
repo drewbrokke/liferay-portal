@@ -21,8 +21,6 @@ public class PortletKeys {
 
 	public static final String ADMIN = "9";
 
-	public static final String ADMIN_INSTANCE = "135";
-
 	public static final String ADMIN_PLUGINS = "136";
 
 	public static final String ADMIN_SERVER = "137";
@@ -43,8 +41,6 @@ public class PortletKeys {
 
 	public static final String CHAT = "1_WAR_chatportlet";
 
-	public static final String COMMENTS = "196";
-
 	public static final String CONTROL_PANEL_HOME = "190";
 
 	public static final String DIRECTORY = "11";
@@ -61,7 +57,8 @@ public class PortletKeys {
 		"com_liferay_dynamic_data_mapping_web_portlet_" +
 			"DynamicDataMappingPortlet";
 
-	public static final String EXPANDO = "139";
+	public static final String EXPANDO =
+		"com_liferay_expando_web_portlet_ExpandoPortlet";
 
 	public static final String EXPORT_IMPORT = "200";
 
@@ -131,6 +128,8 @@ public class PortletKeys {
 
 	public static final String PORTAL = "90";
 
+	public static final String PORTAL_INSTANCES = "135";
+
 	public static final String PORTAL_SETTINGS = "130";
 
 	public static final String PORTLET_CONFIGURATION = "86";
@@ -184,8 +183,6 @@ public class PortletKeys {
 	public static final String TRANSLATOR = "26";
 
 	public static final String UNIT_CONVERTER = "27";
-
-	public static final String USER_GROUPS_ADMIN = "127";
 
 	public static final String USER_STATISTICS = "180";
 

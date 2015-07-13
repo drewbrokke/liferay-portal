@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+
+<project name="portal-test-batch" basedir="." xmlns:antelope="antlib:ise.antelope.tasks" xmlns:if="ant:if" xmlns:unless="ant:unless">
+	<import file="build-test.xml" />
+
+	<condition else="0" property="jenkins.axis.variable" value="${env.AXIS_VARIABLE}">
+		<isset property="env.AXIS_VARIABLE" />
+	</condition>
+
+	<macrodef name="check-deprecated-method">
+		<sequential>
+			<if>
+				<and>
+					<available file="javac.output.txt" />
+					<isset property="env.TOP_LEVEL_SHARED_DIR" />
+				</and>
+				<then>
+					<copy file="javac.output.txt" tofile="${env.TOP_LEVEL_SHARED_DIR}/javac.output.txt" />
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="merge-test-results">
+		<sequential>
+			<antcall target="merge-test-results" />
+
+			<if>
+				<isset property="env.WORKSPACE" />
+				<then>
+					<mkdir dir="${env.WORKSPACE}/test-results" />
+
+					<copy file="test-results/TESTS-TestSuites.xml" tofile="${env.WORKSPACE}/test-results/TESTS-TestSuites.xml" />
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="prepare-test-build">
+		<sequential>
+			<antcall target="prepare-test-build">
+				<param name="test.class.groups.size" value="${test.batch.size}" />
+			</antcall>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="run-batch-test">
+		<attribute name="test.class.group.index" />
+		<element name="test-action" />
+		<sequential>
+			<if>
+				<not>
+					<equals arg1="@{test.class.group.index}" arg2="default" />
+				</not>
+				<then>
+					<prepare-test-build />
+
+					<test-action />
+
+					<merge-test-results />
+
+					<check-deprecated-method />
+
+					<if>
+						<available file=".testable.portal.started" />
+						<then>
+							<antcall target="stop-app-server" />
+
+							<delete file=".testable.portal.started" failonerror="false" />
+						</then>
+					</if>
+
+					<print-gc-logs />
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="run-integration-test">
+		<attribute name="database.type" />
+		<sequential>
+			<run-batch-test test.class.group.index="${jenkins.axis.variable}">
+				<test-action>
+					<database-test-run-test database.test.sequence="@{database.type}">
+						<test-action>
+							<ant dir="portal-impl" target="test-class-group" inheritAll="false">
+								<property name="database.type" value="@{database.type}" />
+								<property name="test.class.group.index" value="@{test.class.group.index}" />
+								<property name="test.type" value="integration" />
+							</ant>
+						</test-action>
+					</database-test-run-test>
+				</test-action>
+			</run-batch-test>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="run-build-selenium">
+		<sequential>
+			<ant antfile="build.xml" dir="portal-web" target="build-selenium" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="run-source-formatter">
+		<sequential>
+			<antcall target="test-package" inheritAll="false">
+				<param name="test.package" value="com.liferay.source.formatter" />
+			</antcall>
+		</sequential>
+	</macrodef>
+
+	<target name="integration-mysql">
+		<run-integration-test database.type="mysql" />
+	</target>
+
+	<target name="integration-oracle">
+		<run-integration-test database.type="oracle" />
+	</target>
+
+	<target name="integration-postgresql">
+		<run-integration-test database.type="postgresql" />
+	</target>
+
+	<target name="modules">
+		<run-batch-test test.class.group.index="${jenkins.axis.variable}">
+			<test-action>
+				<exec executable="service" failonerror="true">
+					<arg line="${database.mysql.service.name} start" />
+				</exec>
+
+				<antcall target="rebuild-database" inheritAll="false" />
+
+				<antcall target="delete-liferay-home" />
+
+				<ant dir="modules" target="test-class-group" inheritAll="false">
+					<property name="test.class.group.index" value="@{test.class.group.index}" />
+				</ant>
+
+				<ant dir="portal-service" target="test-class" inheritAll="false">
+					<property name="test.class" value="PortalLogAssertorTest" />
+				</ant>
+			</test-action>
+		</run-batch-test>
+	</target>
+
+	<target name="plugins">
+		<run-batch-test test.class.group.index="${jenkins.axis.variable}">
+			<test-action>
+				<ant antfile="build-test-plugins.xml" target="test-plugin-group">
+					<property name="test.plugin.group.index" value="@{test.class.group.index}" />
+				</ant>
+			</test-action>
+		</run-batch-test>
+	</target>
+
+	<target name="portal-web">
+		<run-batch-test test.class.group.index="${jenkins.axis.variable}">
+			<test-action>
+				<run-build-selenium />
+
+				<run-source-formatter />
+			</test-action>
+		</run-batch-test>
+	</target>
+
+	<target name="tck">
+		<run-batch-test test.class.group.index="${jenkins.axis.variable}">
+			<test-action>
+				<exec executable="service" failonerror="true">
+					<arg line="${database.mysql.service.name} start" />
+				</exec>
+
+				<antcall target="rebuild-database" inheritAll="false" />
+
+				<antcall target="delete-liferay-home" />
+
+				<ant antfile="build-test-tck.xml" target="record-test-tck-package-names">
+					<property name="test.class.groups.size" value="${test.batch.size}" />
+				</ant>
+
+				<ant antfile="build-test-tck.xml" target="test-class-group">
+					<property name="test.class.group.index" value="@{test.class.group.index}" />
+				</ant>
+			</test-action>
+		</run-batch-test>
+	</target>
+
+	<target name="unit">
+		<run-batch-test test.class.group.index="${jenkins.axis.variable}">
+			<test-action>
+				<ant dir="portal-service" target="test-class-group" inheritAll="false">
+					<property name="test.class.group.index" value="@{test.class.group.index}" />
+				</ant>
+
+				<ant dir="portal-impl" target="test-class-group" inheritAll="false">
+					<property name="test.class.group.index" value="@{test.class.group.index}" />
+					<property name="test.type" value="unit" />
+				</ant>
+
+				<ant dir="util-java" target="test-class-group" inheritAll="false">
+					<property name="test.class.group.index" value="@{test.class.group.index}" />
+				</ant>
+			</test-action>
+		</run-batch-test>
+	</target>
+</project>

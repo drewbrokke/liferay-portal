@@ -20,7 +20,7 @@ feature or API will be dropped in an upcoming version.
 replaces an old API, in spite of the old API being kept in Liferay Portal for
 backwards compatibility.
 
-*This document has been reviewed through commit `a432a58`.*
+*This document has been reviewed through commit `dd4de87`.*
 
 ## Breaking Changes Contribution Guidelines
 
@@ -2163,5 +2163,34 @@ and workflow handlers for portlets based on other technology different than JSP
 (e.g., FreeMarker). The method `include` can now be used to create asset
 renderers or workflow handlers with UIs written in FreeMarker or any other
 framework.
+
+---------------------------------------
+
+### Renamed ADMIN_INSTANCE to PORTAL_INSTANCES in PortletKeys
+- **Date:** 2015-Jul-08
+- **JIRA Ticket:** LPS-56867
+
+#### What changed?
+
+The constant `PortletKeys.ADMIN_INSTANCE` has been renamed as
+`PortletKeys.PORTAL_INSTANCES`.
+
+#### Who is affected?
+
+This affects developers using the old constant in their code; for example,
+creating a direct link to it. This is not common and usually not a good
+practice, so this should not affect many people.
+
+#### How should I update my code?
+
+You should rename the constant `ADMIN_INSTANCE` to `PORTAL_INSTANCES`
+everywhere it is used.
+
+#### Why was this change made?
+
+This change was part of needed modifications to extract the Portal Instances
+portlet from the Admin portlet. The constant's old name was not accurate, since
+it originated from the old Admin portlet. Since the Portal Instances portlet
+is now extracted to its own module, the old name no longer resembles its usage.
 
 ---------------------------------------

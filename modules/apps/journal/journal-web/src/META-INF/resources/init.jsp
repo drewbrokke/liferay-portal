@@ -30,8 +30,9 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 page import="com.liferay.item.selector.ItemSelectorReturnType" %><%@
 page import="com.liferay.item.selector.criteria.UUIDItemSelectorReturnType" %><%@
 page import="com.liferay.item.selector.criteria.layout.criterion.LayoutItemSelectorCriterion" %><%@
-page import="com.liferay.journal.configuration.JournalServiceConfigurationUtil" %><%@
+page import="com.liferay.journal.configuration.JournalGroupServiceConfiguration" %><%@
 page import="com.liferay.journal.configuration.JournalServiceConfigurationValues" %><%@
+page import="com.liferay.journal.constants.JournalConstants" %><%@
 page import="com.liferay.journal.constants.JournalWebKeys" %><%@
 page import="com.liferay.journal.exception.ArticleContentException" %><%@
 page import="com.liferay.journal.exception.ArticleContentSizeException" %><%@
@@ -79,6 +80,7 @@ page import="com.liferay.journal.web.asset.JournalArticleAssetRenderer" %><%@
 page import="com.liferay.journal.web.configuration.JournalWebConfigurationValues" %><%@
 page import="com.liferay.journal.web.constants.JournalPortletKeys" %><%@
 page import="com.liferay.journal.web.context.JournalDisplayContext" %><%@
+page import="com.liferay.journal.web.context.util.JournalWebRequestHelper" %><%@
 page import="com.liferay.journal.web.portlet.JournalPortlet" %><%@
 page import="com.liferay.journal.web.portlet.action.ActionUtil" %><%@
 page import="com.liferay.journal.web.search.ArticleDisplayTerms" %><%@
@@ -192,7 +194,6 @@ page import="com.liferay.util.RSSUtil" %>
 page import="java.util.Collections" %><%@
 page import="java.util.Date" %><%@
 page import="java.util.HashMap" %><%@
-page import="java.util.HashSet" %><%@
 page import="java.util.LinkedHashMap" %><%@
 page import="java.util.List" %><%@
 page import="java.util.Locale" %><%@
@@ -219,6 +220,10 @@ String currentURL = currentURLObj.toString();
 PortalPreferences portalPreferences = PortletPreferencesFactoryUtil.getPortalPreferences(liferayPortletRequest);
 
 JournalDisplayContext journalDisplayContext = new JournalDisplayContext(liferayPortletRequest, portletPreferences);
+
+JournalWebRequestHelper journalWebRequestHelper = new JournalWebRequestHelper(request);
+
+JournalGroupServiceConfiguration journalGroupServiceConfiguration = journalWebRequestHelper.getJournalGroupServiceConfiguration();
 
 Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZone);
 %>

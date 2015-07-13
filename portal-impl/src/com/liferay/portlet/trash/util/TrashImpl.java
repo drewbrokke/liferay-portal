@@ -184,7 +184,8 @@ public class TrashImpl implements Trash {
 		SessionMessages.add(
 			actionRequest,
 			PortalUtil.getPortletId(actionRequest) +
-				SessionMessages.KEY_SUFFIX_DELETE_SUCCESS_DATA, data);
+				SessionMessages.KEY_SUFFIX_DELETE_SUCCESS_DATA,
+			data);
 	}
 
 	@Override
@@ -208,9 +209,8 @@ public class TrashImpl implements Trash {
 
 	@Override
 	public void deleteEntriesAttachments(
-			long companyId, long repositoryId, Date date,
-			String[] attachmentFileNames)
-		throws PortalException {
+		long companyId, long repositoryId, Date date,
+		String[] attachmentFileNames) {
 
 		for (String attachmentFileName : attachmentFileNames) {
 			String trashTime = TrashUtil.getTrashTime(

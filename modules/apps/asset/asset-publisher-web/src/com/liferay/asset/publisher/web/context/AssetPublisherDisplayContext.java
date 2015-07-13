@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.util.RSSUtil;
 import com.liferay.portal.kernel.util.StringComparator;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Tuple;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.PortletConstants;
 import com.liferay.portal.security.permission.ActionKeys;
@@ -166,10 +165,10 @@ public class AssetPublisherDisplayContext {
 		assetEntryQuery.setEnd(end);
 		assetEntryQuery.setStart(start);
 
-		List<AssetEntry> results = AssetEntryServiceUtil.getEntries(
+		List<AssetEntry> assetEntries = AssetEntryServiceUtil.getEntries(
 			assetEntryQuery);
 
-		return new BaseModelSearchResult<>(results, total);
+		return new BaseModelSearchResult<>(assetEntries, total);
 	}
 
 	public AssetEntryQuery getAssetEntryQuery() throws Exception {
@@ -222,7 +221,8 @@ public class AssetPublisherDisplayContext {
 		return _assetEntryQuery;
 	}
 
-	public List<Tuple> getAssetEntryResults(SearchContainer searchContainer)
+	public List<AssetEntryResult> getAssetEntryResults(
+			SearchContainer searchContainer)
 		throws Exception {
 
 		if (!showAssetEntryResults()) {
@@ -1125,7 +1125,7 @@ public class AssetPublisherDisplayContext {
 			"ddmStructureFieldValue", getDDMStructureFieldValue());
 	}
 
-	protected List<Tuple> getAssetEntryResultsByClassName(
+	protected List<AssetEntryResult> getAssetEntryResultsByClassName(
 			SearchContainer searchContainer)
 		throws Exception {
 
@@ -1134,7 +1134,7 @@ public class AssetPublisherDisplayContext {
 
 		AssetEntryQuery assetEntryQuery = getAssetEntryQuery();
 
-		List<Tuple> assetEntryResults = new ArrayList<>();
+		List<AssetEntryResult> assetEntryResults = new ArrayList<>();
 
 		int end = searchContainer.getEnd();
 		int start = searchContainer.getStart();
@@ -1151,9 +1151,10 @@ public class AssetPublisherDisplayContext {
 
 			total += groupTotal;
 
-			List<AssetEntry> results = baseModelSearchResult.getBaseModels();
+			List<AssetEntry> assetEntries =
+				baseModelSearchResult.getBaseModels();
 
-			if (!results.isEmpty() && (start < groupTotal)) {
+			if (!assetEntries.isEmpty() && (start < groupTotal)) {
 				AssetRendererFactory groupAssetRendererFactory =
 					AssetRendererFactoryRegistryUtil.
 						getAssetRendererFactoryByClassNameId(classNameId);
@@ -1162,7 +1163,8 @@ public class AssetPublisherDisplayContext {
 					themeDisplay.getLocale(),
 					groupAssetRendererFactory.getClassName());
 
-				assetEntryResults.add(new Tuple(title, results));
+				assetEntryResults.add(
+					new AssetEntryResult(title, assetEntries));
 			}
 
 			String portletName = getPortletName();
@@ -1194,11 +1196,11 @@ public class AssetPublisherDisplayContext {
 		return assetEntryResults;
 	}
 
-	protected List<Tuple> getAssetEntryResultsByDefault(
+	protected List<AssetEntryResult> getAssetEntryResultsByDefault(
 			SearchContainer searchContainer)
 		throws Exception {
 
-		List<Tuple> assetEntryResults = new ArrayList<>();
+		List<AssetEntryResult> assetEntryResults = new ArrayList<>();
 
 		int end = searchContainer.getEnd();
 		int start = searchContainer.getStart();
@@ -1214,16 +1216,16 @@ public class AssetPublisherDisplayContext {
 
 		searchContainer.setTotal(total);
 
-		List<AssetEntry> results = baseModelSearchResult.getBaseModels();
+		List<AssetEntry> assetEntries = baseModelSearchResult.getBaseModels();
 
-		if (!results.isEmpty() && (start < total)) {
-			assetEntryResults.add(new Tuple(StringPool.BLANK, results));
+		if (!assetEntries.isEmpty() && (start < total)) {
+			assetEntryResults.add(new AssetEntryResult(assetEntries));
 		}
 
 		return assetEntryResults;
 	}
 
-	protected List<Tuple> getAssetEntryResultsByVocabulary(
+	protected List<AssetEntryResult> getAssetEntryResultsByVocabulary(
 			long assetVocabularyId, SearchContainer searchContainer)
 		throws Exception {
 
@@ -1232,7 +1234,7 @@ public class AssetPublisherDisplayContext {
 
 		AssetEntryQuery assetEntryQuery = getAssetEntryQuery();
 
-		List<Tuple> assetEntryResults = new ArrayList<>();
+		List<AssetEntryResult> assetEntryResults = new ArrayList<>();
 
 		List<AssetCategory> assetCategories =
 			AssetCategoryLocalServiceUtil.getVocabularyRootCategories(
@@ -1260,12 +1262,14 @@ public class AssetPublisherDisplayContext {
 
 			total += groupTotal;
 
-			List<AssetEntry> results = baseModelSearchResult.getBaseModels();
+			List<AssetEntry> assetEntries =
+				baseModelSearchResult.getBaseModels();
 
-			if (!results.isEmpty() && (start < groupTotal)) {
+			if (!assetEntries.isEmpty() && (start < groupTotal)) {
 				String title = assetCategory.getTitle(themeDisplay.getLocale());
 
-				assetEntryResults.add(new Tuple(title, results));
+				assetEntryResults.add(
+					new AssetEntryResult(title, assetEntries));
 			}
 
 			if (groupTotal > 0) {

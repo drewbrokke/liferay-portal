@@ -20,10 +20,6 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import com.liferay.portlet.asset.AssetRendererFactoryRegistryUtil;
 import com.liferay.portlet.asset.model.AssetRendererFactory;
 import com.liferay.portlet.asset.util.AssetEntryIndexer;
-import com.liferay.portlet.blogs.asset.BlogsEntryAssetRendererFactory;
-import com.liferay.portlet.blogs.trash.BlogsEntryTrashHandler;
-import com.liferay.portlet.blogs.util.BlogsEntryIndexer;
-import com.liferay.portlet.blogs.workflow.BlogsEntryWorkflowHandler;
 import com.liferay.portlet.directory.asset.UserAssetRendererFactory;
 import com.liferay.portlet.directory.workflow.UserWorkflowHandler;
 import com.liferay.portlet.documentlibrary.asset.DLFileEntryAssetRendererFactory;
@@ -35,7 +31,6 @@ import com.liferay.portlet.documentlibrary.util.DLFileEntryIndexer;
 import com.liferay.portlet.documentlibrary.util.DLFolderIndexer;
 import com.liferay.portlet.documentlibrary.workflow.DLFileEntryWorkflowHandler;
 import com.liferay.portlet.messageboards.asset.MBCategoryAssetRendererFactory;
-import com.liferay.portlet.messageboards.asset.MBDiscussionAssetRendererFactory;
 import com.liferay.portlet.messageboards.asset.MBMessageAssetRendererFactory;
 import com.liferay.portlet.messageboards.trash.MBCategoryTrashHandler;
 import com.liferay.portlet.messageboards.trash.MBMessageTrashHandler;
@@ -85,7 +80,6 @@ public class PortalRegisterTestUtil {
 		}
 
 		IndexerRegistryUtil.register(new AssetEntryIndexer());
-		IndexerRegistryUtil.register(new BlogsEntryIndexer());
 		IndexerRegistryUtil.register(new ContactIndexer());
 		IndexerRegistryUtil.register(new DLFileEntryIndexer());
 		IndexerRegistryUtil.register(new DLFolderIndexer());
@@ -102,7 +96,6 @@ public class PortalRegisterTestUtil {
 			return;
 		}
 
-		TrashHandlerRegistryUtil.register(new BlogsEntryTrashHandler());
 		TrashHandlerRegistryUtil.register(new DLFileEntryTrashHandler());
 		TrashHandlerRegistryUtil.register(new DLFileShortcutTrashHandler());
 		TrashHandlerRegistryUtil.register(new DLFolderTrashHandler());
@@ -118,7 +111,6 @@ public class PortalRegisterTestUtil {
 			return;
 		}
 
-		WorkflowHandlerRegistryUtil.register(new BlogsEntryWorkflowHandler());
 		WorkflowHandlerRegistryUtil.register(new DLFileEntryWorkflowHandler());
 		WorkflowHandlerRegistryUtil.register(new MBDiscussionWorkflowHandler());
 		WorkflowHandlerRegistryUtil.register(new MBMessageWorkflowHandler());
@@ -128,11 +120,9 @@ public class PortalRegisterTestUtil {
 	}
 
 	private static final Class<?>[] _ASSET_RENDERER_FACTORY_CLASSES = {
-		BlogsEntryAssetRendererFactory.class,
 		DLFileEntryAssetRendererFactory.class,
 		DLFolderAssetRendererFactory.class,
 		MBCategoryAssetRendererFactory.class,
-		MBDiscussionAssetRendererFactory.class,
 		MBMessageAssetRendererFactory.class, UserAssetRendererFactory.class
 	};
 

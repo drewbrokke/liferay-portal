@@ -27,6 +27,7 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
 <%@ page import="com.liferay.asset.publisher.web.configuration.AssetPublisherWebConfigurationValues" %><%@
 page import="com.liferay.asset.publisher.web.constants.AssetPublisherPortletKeys" %><%@
+page import="com.liferay.asset.publisher.web.context.AssetEntryResult" %><%@
 page import="com.liferay.asset.publisher.web.context.AssetPublisherDisplayContext" %><%@
 page import="com.liferay.asset.publisher.web.util.AssetPublisherHelper" %><%@
 page import="com.liferay.asset.publisher.web.util.AssetPublisherUtil" %><%@
@@ -40,6 +41,7 @@ page import="com.liferay.portal.kernel.log.LogFactoryUtil" %><%@
 page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %><%@
 page import="com.liferay.portal.kernel.portlet.PortletProvider" %><%@
 page import="com.liferay.portal.kernel.portlet.PortletProviderUtil" %><%@
+page import="com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager" %><%@
 page import="com.liferay.portal.kernel.servlet.SessionErrors" %><%@
 page import="com.liferay.portal.kernel.servlet.SessionMessages" %><%@
 page import="com.liferay.portal.kernel.util.ArrayUtil" %><%@
@@ -65,7 +67,6 @@ page import="com.liferay.portal.kernel.util.SetUtil" %><%@
 page import="com.liferay.portal.kernel.util.StringPool" %><%@
 page import="com.liferay.portal.kernel.util.StringUtil" %><%@
 page import="com.liferay.portal.kernel.util.TextFormatter" %><%@
-page import="com.liferay.portal.kernel.util.Tuple" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %><%@
@@ -101,7 +102,6 @@ page import="com.liferay.portlet.documentlibrary.util.DLUtil" %><%@
 page import="com.liferay.portlet.dynamicdatamapping.model.DDMStructure" %><%@
 page import="com.liferay.portlet.dynamicdatamapping.util.DDMImpl" %><%@
 page import="com.liferay.portlet.dynamicdatamapping.util.DDMIndexerUtil" %><%@
-page import="com.liferay.portlet.portletdisplaytemplate.util.PortletDisplayTemplate" %><%@
 page import="com.liferay.util.ContentUtil" %>
 
 <%@ page import="java.io.Serializable" %>
