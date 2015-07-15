@@ -14,7 +14,7 @@
 
 package com.liferay.marketplace.store.web.portlet;
 
-import com.liferay.marketplace.store.web.oauth.util.OAuthUtil;
+import com.liferay.marketplace.store.web.oauth.util.OAuthManager;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
@@ -83,10 +83,10 @@ public class RemoteMVCPortlet extends MVCPortlet {
 
 		setRequestParameters(renderRequest, renderResponse, oAuthRequest);
 
-		Token token = OAuthUtil.getAccessToken(themeDisplay.getUser());
+		Token token = _oAuthManager.getAccessToken(themeDisplay.getUser());
 
 		if (token != null) {
-			OAuthService oAuthService = OAuthUtil.getOAuthService();
+			OAuthService oAuthService = _oAuthManager.getOAuthService();
 
 			oAuthService.signRequest(token, oAuthRequest);
 		}
@@ -98,6 +98,10 @@ public class RemoteMVCPortlet extends MVCPortlet {
 		PrintWriter printWriter = renderResponse.getWriter();
 
 		printWriter.write(response.getBody());
+	}
+
+	protected void setOAuthManager(OAuthManager oAuthManager) {
+		_oAuthManager = oAuthManager;
 	}
 
 	protected void setRequestParameters(
@@ -124,5 +128,7 @@ public class RemoteMVCPortlet extends MVCPortlet {
 			oAuthRequest.addQuerystringParameter(entry.getKey(), values[0]);
 		}
 	}
+
+	private OAuthManager _oAuthManager;
 
 }

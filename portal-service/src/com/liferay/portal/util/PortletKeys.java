@@ -121,8 +121,6 @@ public class PortletKeys {
 	public static final String NESTED_PORTLETS =
 		"com_liferay_nested_portlets_web_portlet_NestedPortletsPortlet";
 
-	public static final String PAGE_RATINGS = "108";
-
 	public static final String PLUGINS_ADMIN = "132";
 
 	public static final String PORTAL = "90";
@@ -177,7 +175,8 @@ public class PortletKeys {
 
 	public static final String UNIT_CONVERTER = "27";
 
-	public static final String USER_GROUPS_ADMIN = "127";
+	public static final String USER_GROUPS_ADMIN =
+		"com_liferay_user_groups_admin_web_portlet_UserGroupsAdminPortlet";
 
 	public static final String USER_STATISTICS = "180";
 

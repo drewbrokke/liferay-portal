@@ -44,6 +44,7 @@
 		<dirset dir="portlet-display-template" includes="*" />
 		<dirset dir="product-menu" includes="*" />
 		<dirset dir="quick-note" includes="*" />
+		<dirset dir="ratings" includes="*" />
 		<dirset dir="roles" includes="*" />
 		<dirset dir="rss" includes="*" />
 		<dirset dir="search" includes="*" />
@@ -57,6 +58,7 @@
 		<dirset dir="trash" includes="*" />
 		<dirset dir="unit-converter" includes="*" />
 		<dirset dir="user-personal-bar" includes="*" />
+		<dirset dir="user-groups-admin" includes="*" />
 		<dirset dir="web-proxy" includes="*" />
 		<dirset dir="wiki" includes="*" />
 		<dirset dir="workflow" includes="*" />

@@ -1383,6 +1383,19 @@ public class VerifyProperties extends VerifyProcess {
 			"com.liferay.site.navigation.site.map.web"
 		},
 
+		// Staging
+
+		new String[] {
+			"staging.draft.export.import.configuration.check.interval",
+			"draft.export.import.configuration.check.interval",
+			"com.liferay.exportimport.web"
+		},
+		new String[] {
+			"staging.draft.export.import.configuration.clean.up.count",
+			"draft.export.import.configuration.clean.up.count",
+			"com.liferay.exportimport.web"
+		},
+
 		// Tags Compiler
 
 		new String[] {
