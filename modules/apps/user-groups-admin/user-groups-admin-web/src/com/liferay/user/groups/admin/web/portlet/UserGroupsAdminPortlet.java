@@ -29,20 +29,47 @@ import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.service.UserGroupServiceUtil;
 import com.liferay.portal.service.UserServiceUtil;
+import com.liferay.portal.util.PortletKeys;
 import com.liferay.portlet.sites.util.SitesUtil;
 
 import java.io.IOException;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Charles May
  * @author Drew Brokke
  */
+
+@Component(
+	immediate = true,
+	property = {
+		"com.liferay.portlet.control-panel-entry-category=users",
+		"com.liferay.portlet.control-panel-entry-weight=2.0",
+		"com.liferay.portlet.css-class-wrapper=portlet-users-admin",
+		"com.liferay.portlet.icon=/icons/user_groups_admin.png",
+		"com.liferay.portlet.private-request-attributes=false",
+		"com.liferay.portlet.private-session-attributes=false",
+		"com.liferay.portlet.render-weight=50",
+		"com.liferay.portlet.use-default-template=true",
+		"javax.portlet.display-name=User Groups Admin",
+		"javax.portlet.expiration-cache=0",
+		"javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.view-template=/view.jsp",
+		"javax.portlet.name=" + PortletKeys.USER_GROUPS_ADMIN,
+		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=administrator",
+		"javax.portlet.supports.mime-type=text/html"
+	},
+	service = Portlet.class
+)
 public class UserGroupsAdminPortlet extends MVCPortlet {
 
 	public void deleteUserGroups(
