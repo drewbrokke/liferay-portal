@@ -387,9 +387,7 @@ public class RolesAdminPortlet extends MVCPortlet {
 				renderRequest, RequiredRoleException.class.getName()) &&
 			(roleId < 1)) {
 
-			include(
-				"/html/portlet/roles_admin/view.jsp", renderRequest,
-				renderResponse);
+			include("/view.jsp", renderRequest, renderResponse);
 		}
 		else if (SessionErrors.contains(
 					renderRequest, DuplicateRoleException.class.getName()) ||
@@ -398,9 +396,7 @@ public class RolesAdminPortlet extends MVCPortlet {
 				 SessionErrors.contains(
 					 renderRequest, RoleNameException.class.getName())) {
 
-			include(
-				"/html/portlet/roles_admin/edit_role.jsp", renderRequest,
-				renderResponse);
+			include("/edit_role.jsp", renderRequest, renderResponse);
 		}
 		else if (SessionErrors.contains(
 					renderRequest, NoSuchRoleException.class.getName()) ||
@@ -411,9 +407,7 @@ public class RolesAdminPortlet extends MVCPortlet {
 				 SessionErrors.contains(
 					 renderRequest, RolePermissionsException.class.getName())) {
 
-			include(
-				"/html/portlet/roles_admin/error.jsp", renderRequest,
-				renderResponse);
+			include("/error.jsp", renderRequest, renderResponse);
 		}
 		else {
 			super.doDispatch(renderRequest, renderResponse);
