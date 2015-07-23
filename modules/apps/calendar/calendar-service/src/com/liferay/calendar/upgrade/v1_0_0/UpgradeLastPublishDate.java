@@ -30,8 +30,7 @@ public class UpgradeLastPublishDate
 
 		runSQL("alter table CalendarBooking add lastPublishDate DATE null");
 
-		updateLastPublishDates(
-			CalendarPortletKeys.CALENDAR, "CalendarBooking");
+		updateLastPublishDates(CalendarPortletKeys.CALENDAR, "CalendarBooking");
 
 		runSQL(
 			"alter table CalendarNotificationTemplate add lastPublishDate " +
