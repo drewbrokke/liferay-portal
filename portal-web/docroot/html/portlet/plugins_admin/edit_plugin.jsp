@@ -128,7 +128,7 @@ if (pluginType.equals(Plugin.TYPE_PORTLET)) {
 										align="right"
 									>
 										<liferay-portlet:renderURL portletName="<%= PortletKeys.ROLES_ADMIN %>" var="editURL">
-											<portlet:param name="struts_action" value="/roles_admin/edit_role_permissions" />
+											<portlet:param name="mvcPath" value="/edit_role_permissions.jsp" />
 											<portlet:param name="<%= Constants.CMD %>" value="edit" />
 											<portlet:param name="tabs1" value="roles" />
 											<portlet:param name="roleId" value="<%= String.valueOf(role.getRoleId()) %>" />
@@ -172,7 +172,7 @@ if (pluginType.equals(Plugin.TYPE_PORTLET)) {
 										align="right"
 									>
 										<liferay-portlet:renderURL portletName="<%= PortletKeys.ROLES_ADMIN %>" var="editURL">
-											<portlet:param name="struts_action" value="/roles_admin/edit_role_permissions" />
+											<portlet:param name="mvcPath" value="/edit_role_permissions.jsp" />
 											<portlet:param name="<%= Constants.CMD %>" value="edit" />
 											<portlet:param name="tabs1" value="roles" />
 											<portlet:param name="roleId" value="<%= String.valueOf(role.getRoleId()) %>" />
