@@ -107,7 +107,7 @@ long controlPanelPlid = PortalUtil.getControlPanelPlid(company.getCompanyId());
 
 PortletURLImpl definePermissionsURL = new PortletURLImpl(request, PortletKeys.ROLES_ADMIN, controlPanelPlid, PortletRequest.RENDER_PHASE);
 
-definePermissionsURL.setParameter("struts_action", "/roles_admin/edit_role_permissions");
+definePermissionsURL.setParameter("mvcPath", "/edit_role_permissions.jsp");
 definePermissionsURL.setParameter(Constants.CMD, Constants.VIEW);
 definePermissionsURL.setPortletMode(PortletMode.VIEW);
 definePermissionsURL.setRefererPlid(plid);
