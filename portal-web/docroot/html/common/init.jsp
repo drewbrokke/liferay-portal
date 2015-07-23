@@ -36,6 +36,7 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <%@ page import="com.liferay.counter.service.CounterLocalServiceUtil" %><%@
 page import="com.liferay.portal.GroupFriendlyURLException" %><%@
 page import="com.liferay.portal.LocaleException" %><%@
+page import="com.liferay.portal.NoSuchOrganizationException" %><%@
 page import="com.liferay.portal.NoSuchRoleException" %><%@
 page import="com.liferay.portal.NoSuchUserException" %><%@
 page import="com.liferay.portal.NoSuchWorkflowDefinitionLinkException" %><%@
@@ -102,7 +103,6 @@ page import="com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorEntry" %><
 page import="com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorEntryUtil" %><%@
 page import="com.liferay.portal.kernel.servlet.taglib.ui.MenuItem" %><%@
 page import="com.liferay.portal.kernel.template.StringTemplateResource" %><%@
-page import="com.liferay.portal.kernel.template.TemplateHandler" %><%@
 page import="com.liferay.portal.kernel.upload.LiferayFileItemException" %><%@
 page import="com.liferay.portal.kernel.upload.UploadException" %><%@
 page import="com.liferay.portal.kernel.util.ArrayUtil" %><%@

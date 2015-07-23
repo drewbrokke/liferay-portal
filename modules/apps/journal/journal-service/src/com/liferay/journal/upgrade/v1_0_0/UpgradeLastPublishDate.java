@@ -26,8 +26,7 @@ public class UpgradeLastPublishDate
 	protected void doUpgrade() throws Exception {
 		runSQL("alter table JournalArticle add lastPublishDate DATE null");
 
-		updateLastPublishDates(
-			JournalPortletKeys.JOURNAL, "JournalArticle");
+		updateLastPublishDates(JournalPortletKeys.JOURNAL, "JournalArticle");
 
 		runSQL("alter table JournalFeed add lastPublishDate DATE null");
 
@@ -35,8 +34,7 @@ public class UpgradeLastPublishDate
 
 		runSQL("alter table JournalFolder add lastPublishDate DATE null");
 
-		updateLastPublishDates(
-			JournalPortletKeys.JOURNAL, "JournalFolder");
+		updateLastPublishDates(JournalPortletKeys.JOURNAL, "JournalFolder");
 	}
 
 }
