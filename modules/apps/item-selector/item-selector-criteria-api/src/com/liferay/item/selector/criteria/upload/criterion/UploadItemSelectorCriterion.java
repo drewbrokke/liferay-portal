@@ -24,9 +24,7 @@ public class UploadItemSelectorCriterion extends BaseItemSelectorCriterion {
 	public UploadItemSelectorCriterion() {
 	}
 
-	public UploadItemSelectorCriterion(
-		String url, String repositoryName) {
-
+	public UploadItemSelectorCriterion(String url, String repositoryName) {
 		_url = url;
 		_repositoryName = repositoryName;
 	}
