@@ -16,23 +16,6 @@
 
 <%@ include file="/html/portlet/init.jsp" %>
 
-<%@ page import="com.liferay.portal.captcha.recaptcha.ReCaptchaImpl" %><%@
-page import="com.liferay.portal.convert.ConvertProcess" %><%@
-page import="com.liferay.portal.convert.ConvertProcessUtil" %><%@
-page import="com.liferay.portal.convert.FileSystemStoreRootDirException" %><%@
-page import="com.liferay.portal.kernel.image.ImageMagickUtil" %><%@
-page import="com.liferay.portal.kernel.scripting.ScriptingUtil" %><%@
-page import="com.liferay.portal.kernel.util.OSDetector" %><%@
-page import="com.liferay.portal.kernel.util.ProgressTracker" %><%@
-page import="com.liferay.portal.kernel.xuggler.XugglerUtil" %><%@
-page import="com.liferay.portlet.documentlibrary.model.DLFileVersion" %><%@
-page import="com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil" %><%@
-page import="com.liferay.portlet.expando.model.ExpandoColumnConstants" %>
-
-<%@ page import="org.apache.log4j.Level" %><%@
-page import="org.apache.log4j.LogManager" %><%@
-page import="org.apache.log4j.Logger" %>
-
 <%
 String tabs1 = ParamUtil.getString(request, "tabs1", "server");
 

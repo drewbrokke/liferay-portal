@@ -3,6 +3,7 @@
 
 <project>
 	<path id="plugins.includes.path">
+		<dirset dir="admin" includes="*" />
 		<dirset dir="amazon-rankings" includes="*" />
 		<dirset dir="announcements" includes="*" />
 		<dirset dir="asset" includes="*" />

@@ -4,6 +4,7 @@
 <project>
 	<path id="plugins.includes.path">
 		<dirset dir="addons/portlet-configuration-icon" includes="*" />
+		<dirset dir="apps/admin" includes="*" />
 		<dirset dir="apps/amazon-rankings" includes="*" />
 		<dirset dir="apps/announcements" includes="*" />
 		<dirset dir="apps/asset" includes="*" />
