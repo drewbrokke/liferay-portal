@@ -132,8 +132,6 @@ public class PortletKeys {
 
 	public static final String REQUESTS = "121";
 
-	public static final String ROLES_ADMIN = "128";
-
 	public static final String SHOPPING = "34";
 
 	public static final String SITE_ADMIN =
