@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -12,28 +11,20 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
---%>
 
-<%@ include file="/init.jsp" %>
+package com.liferay.portlet.admin.util;
 
-<%
-String toolbarItem = ParamUtil.getString(request, "toolbarItem", "manage");
+/**
+ * @author Eudaldo Alonso
+ */
+public class PortalMyAccountApplicationType {
 
-PortletURL portletURL = renderResponse.createRenderURL();
+	public interface UserPersonalBar {
 
-portletURL.setParameter("mvcPath", "/view.jsp");
-portletURL.setParameter("toolbarItem", toolbarItem);
-%>
+		public static final String CLASS_NAME =
+			"com.liferay.portlet.admin.util." +
+				"PortalMyAccountApplicationType$MyAccount";
 
-<liferay-ui:tabs
-	names="manage,install"
-	refresh="<%= false %>"
->
-	<liferay-ui:section>
-		<%@ include file="/manage.jspf" %>
-	</liferay-ui:section>
+	}
 
-	<liferay-ui:section>
-		<%@ include file="/install_apps.jspf" %>
-	</liferay-ui:section>
-</liferay-ui:tabs>
+}
