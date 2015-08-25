@@ -377,7 +377,7 @@ if (organization != null) {
 						</liferay-ui:panel>
 					</c:if>
 
-					<c:if test="<%= showUsers %>">
+					<c:if test="<%= showUsers || Validator.isNotNull(keywords) %>">
 						<liferay-util:buffer var="usersPanelTitle">
 
 							<%
