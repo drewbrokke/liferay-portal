@@ -969,6 +969,16 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 
 				group.setSite(false);
 
+				// Group roles
+
+				userGroupRoleLocalService.deleteUserGroupRoles(
+					group.getGroupId(), RoleConstants.TYPE_SITE);
+
+				// User group roles
+
+				userGroupGroupRoleLocalService.deleteUserGroupGroupRoles(
+					group.getGroupId(), RoleConstants.TYPE_SITE);
+
 				groupPersistence.update(group);
 			}
 			else {
