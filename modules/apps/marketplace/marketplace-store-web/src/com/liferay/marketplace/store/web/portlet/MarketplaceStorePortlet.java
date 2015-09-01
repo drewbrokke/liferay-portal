@@ -94,10 +94,6 @@ public class MarketplaceStorePortlet extends RemoteMVCPortlet {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
-		String token = ParamUtil.getString(actionRequest, "token");
 		long remoteAppId = ParamUtil.getLong(actionRequest, "appId");
 		String url = ParamUtil.getString(actionRequest, "url");
 		String version = ParamUtil.getString(actionRequest, "version");
@@ -216,10 +212,6 @@ public class MarketplaceStorePortlet extends RemoteMVCPortlet {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
-		String token = ParamUtil.getString(actionRequest, "token");
 		long remoteAppId = ParamUtil.getLong(actionRequest, "appId");
 		String version = ParamUtil.getString(actionRequest, "version");
 		String url = ParamUtil.getString(actionRequest, "url");
