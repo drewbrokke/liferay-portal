@@ -20,4 +20,15 @@ import com.liferay.item.selector.BaseItemSelectorCriterion;
  * @author Sergio González
  */
 public class LayoutItemSelectorCriterion extends BaseItemSelectorCriterion {
+
+	public boolean isCheckDisplayPage() {
+		return _checkDisplayPage;
+	}
+
+	public void setCheckDisplayPage(boolean checkDisplayPage) {
+		_checkDisplayPage = checkDisplayPage;
+	}
+
+	private boolean _checkDisplayPage;
+
 }

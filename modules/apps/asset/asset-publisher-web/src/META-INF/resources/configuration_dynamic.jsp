@@ -143,11 +143,16 @@ String selectStyle = (String)request.getAttribute("configuration.jsp-selectStyle
 					%>
 
 						<div class='asset-subtype <%= (assetSelectedClassTypeIds.length < 1) ? StringPool.BLANK : "hide" %>' id="<portlet:namespace /><%= className %>Options">
-							<aui:select label='<%= LanguageUtil.format(request, "x-subtype", ResourceActionsUtil.getModelResource(locale, assetRendererFactory.getClassName()), false) %>' name='<%= "preferences--anyClassType" + className + "--" %>'>
+
+							<%
+							String label = ResourceActionsUtil.getModelResource(locale, assetRendererFactory.getClassName()) + StringPool.SPACE + assetRendererFactory.getSubtypeTitle(themeDisplay.getLocale());
+							%>
+
+							<aui:select label="<%= label %>" name='<%= "preferences--anyClassType" + className + "--" %>'>
 								<aui:option label="any" selected="<%= anyAssetSubtype %>" value="<%= true %>" />
 								<aui:option label='<%= LanguageUtil.get(request, "select-more-than-one") + StringPool.TRIPLE_PERIOD %>' selected="<%= !anyAssetSubtype && (assetSelectedClassTypeIds.length > 1) %>" value="<%= false %>" />
 
-								<optgroup label="<liferay-ui:message key="subtype" />">
+								<optgroup label="<%= assetRendererFactory.getSubtypeTitle(themeDisplay.getLocale()) %>">
 
 									<%
 									for (ClassType classType : classTypes) {
@@ -169,7 +174,7 @@ String selectStyle = (String)request.getAttribute("configuration.jsp-selectStyle
 
 							<c:if test="<%= assetPublisherDisplayContext.isShowSubtypeFieldsFilter() %>">
 								<div class="asset-subtypefields-wrapper-enable hide" id="<portlet:namespace /><%= className %>subtypeFieldsFilterEnableWrapper">
-									<aui:input checked="<%= assetPublisherDisplayContext.isSubtypeFieldsFilterEnabled() %>" label="filter-by-field" name='<%= "preferences--subtypeFieldsFilterEnabled" + className + "--" %>' type="checkbox" value="<%= assetPublisherDisplayContext.isSubtypeFieldsFilterEnabled() %>" />
+									<aui:input checked="<%= assetPublisherDisplayContext.isSubtypeFieldsFilterEnabled() %>" label="filter-by-field" name='<%= "preferences--subtypeFieldsFilterEnabled" + className + "--" %>' type="checkbox" />
 								</div>
 
 								<span class="asset-subtypefields-message" id="<portlet:namespace /><%= className %>ddmStructureFieldMessage">
@@ -666,8 +671,6 @@ String selectStyle = (String)request.getAttribute("configuration.jsp-selectStyle
 					setDDMFields('<%= className %>', '', '', '', '');
 
 					var subtypeFieldsFilterEnabled = $('#<portlet:namespace />subtypeFieldsFilterEnabled<%= className %>');
-
-					subtypeFieldsFilterEnabled.val(false);
 
 					subtypeFieldsFilterEnabled.prop('checked', false);
 

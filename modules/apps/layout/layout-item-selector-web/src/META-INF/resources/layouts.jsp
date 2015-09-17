@@ -17,29 +17,21 @@
 <%@ include file="/init.jsp" %>
 
 <%
-LayoutItemSelectorViewDisplayContext layoutItemSelectorViewDisplayContext = (LayoutItemSelectorViewDisplayContext)request.getAttribute(LayoutItemSelectorView.LAYOUT_ITEM_SELECTOR_VIEW_DISPLAY_CONTEXT);
-
 long groupId = themeDisplay.getScopeGroupId();
 
 Group group = GroupLocalServiceUtil.fetchGroup(groupId);
 
 request.setAttribute(WebKeys.GROUP, group);
 
-String tabs1Names = "";
+LayoutItemSelectorViewDisplayContext layoutItemSelectorViewDisplayContext = (LayoutItemSelectorViewDisplayContext)request.getAttribute(LayoutItemSelectorView.LAYOUT_ITEM_SELECTOR_VIEW_DISPLAY_CONTEXT);
 
-if (group.getPublicLayoutsPageCount() > 0) {
-	tabs1Names += "public-pages,";
-}
-
-if (group.getPrivateLayoutsPageCount() > 0) {
-	tabs1Names += "private-pages";
-}
+LayoutItemSelectorCriterion layoutItemSelectorCriterion = layoutItemSelectorViewDisplayContext.getLayoutItemSelectorCriterion();
 %>
 
-<liferay-ui:tabs names="<%= tabs1Names %>" refresh="<%= false %>">
+<liferay-ui:tabs names='<%= ((group.getPublicLayoutsPageCount() > 0) && (group.getPrivateLayoutsPageCount() > 0)) ? "public-pages,private-pages" : null %>' refresh="<%= false %>">
 
 	<%
-	boolean checkContentDisplayPage = ParamUtil.getBoolean(request, "checkContentDisplayPage");
+	boolean checkContentDisplayPage = layoutItemSelectorCriterion.isCheckDisplayPage();
 	String selectedLayoutIds = ParamUtil.getString(request, "selectedLayoutIds");
 	long selPlid = ParamUtil.getLong(request, "selPlid", LayoutConstants.DEFAULT_PLID);
 
@@ -204,8 +196,6 @@ if (group.getPrivateLayoutsPageCount() > 0) {
 
 			<%
 			String itemSelectorReturnTypeName = StringPool.BLANK;
-
-			LayoutItemSelectorCriterion layoutItemSelectorCriterion = layoutItemSelectorViewDisplayContext.getLayoutItemSelectorCriterion();
 
 			for (ItemSelectorReturnType desiredItemSelectorReturnType : layoutItemSelectorCriterion.getDesiredItemSelectorReturnTypes()) {
 				itemSelectorReturnTypeName = ClassUtil.getClassName(desiredItemSelectorReturnType);

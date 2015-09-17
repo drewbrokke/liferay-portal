@@ -143,6 +143,7 @@ import com.liferay.portal.security.auth.CompanyThreadLocal;
 import com.liferay.portal.security.auth.FullNameGenerator;
 import com.liferay.portal.security.auth.FullNameGeneratorFactory;
 import com.liferay.portal.security.auth.PrincipalException;
+import com.liferay.portal.security.jaas.JAASHelper;
 import com.liferay.portal.security.lang.DoPrivilegedUtil;
 import com.liferay.portal.security.permission.ActionKeys;
 import com.liferay.portal.security.permission.PermissionChecker;
@@ -2412,7 +2413,7 @@ public class PortalImpl implements Portal {
 	@Override
 	public Portlet getFirstMyAccountPortlet(ThemeDisplay themeDisplay) {
 		List<Portlet> portlets = getControlPanelPortlets(
-			PortletCategoryKeys.MY, themeDisplay);
+			PortletCategoryKeys.USER_MY_ACCOUNT, themeDisplay);
 
 		if (portlets.isEmpty()) {
 			return null;
@@ -3784,8 +3785,7 @@ public class PortalImpl implements Portal {
 
 	@Override
 	public long getPlidFromPortletId(
-			long groupId, boolean privateLayout, String portletId)
-		throws PortalException {
+		long groupId, boolean privateLayout, String portletId) {
 
 		long plid = LayoutConstants.DEFAULT_PLID;
 
@@ -3844,9 +3844,7 @@ public class PortalImpl implements Portal {
 	}
 
 	@Override
-	public long getPlidFromPortletId(long groupId, String portletId)
-		throws PortalException {
-
+	public long getPlidFromPortletId(long groupId, String portletId) {
 		long plid = getPlidFromPortletId(groupId, false, portletId);
 
 		if (plid == LayoutConstants.DEFAULT_PLID) {
@@ -5033,7 +5031,7 @@ public class PortalImpl implements Portal {
 			liferayPortletResponse.createRenderURL(portletName);
 
 		siteAdministrationURL.setControlPanelCategory(
-			PortletCategoryKeys.SITES);
+			PortletCategoryKeys.CONTROL_PANEL_SITES);
 		siteAdministrationURL.setDoAsGroupId(themeDisplay.getScopeGroupId());
 		siteAdministrationURL.setParameter(
 			"redirect", themeDisplay.getURLCurrent());
@@ -5572,7 +5570,21 @@ public class PortalImpl implements Portal {
 				return null;
 			}
 
-			userId = GetterUtil.getLong(remoteUser);
+			if (PropsValues.PORTAL_JAAS_ENABLE) {
+				long companyId = getCompanyId(request);
+
+				try {
+					userId = JAASHelper.getJaasUserId(companyId, remoteUser);
+				}
+				catch (Exception e) {
+					if (_log.isWarnEnabled()) {
+						_log.warn(e, e);
+					}
+				}
+			}
+			else {
+				userId = GetterUtil.getLong(remoteUser);
+			}
 		}
 
 		if (userId > 0) {
@@ -7559,8 +7571,7 @@ public class PortalImpl implements Portal {
 	}
 
 	protected long doGetPlidFromPortletId(
-			long groupId, boolean privateLayout, String portletId)
-		throws PortalException {
+		long groupId, boolean privateLayout, String portletId) {
 
 		long scopeGroupId = groupId;
 
@@ -7767,13 +7778,20 @@ public class PortalImpl implements Portal {
 
 			String portletCategory = portlet.getControlPanelEntryCategory();
 
-			if (portletCategory.equals(PortletCategoryKeys.APPS) ||
-				portletCategory.equals(PortletCategoryKeys.CONFIGURATION) ||
-				portletCategory.equals(PortletCategoryKeys.USERS)) {
+			if (portletCategory.equals(
+					PortletCategoryKeys.CONTROL_PANEL_APPS) ||
+				portletCategory.equals(
+					PortletCategoryKeys.CONTROL_PANEL_CONFIGURATION) ||
+				portletCategory.equals(
+					PortletCategoryKeys.CONTROL_PANEL_SITES) ||
+				portletCategory.equals(
+					PortletCategoryKeys.CONTROL_PANEL_USERS)) {
 
 				return layout;
 			}
-			else if (portletCategory.equals(PortletCategoryKeys.MY)) {
+			else if (portletCategory.equals(
+						PortletCategoryKeys.USER_MY_ACCOUNT)) {
+
 				User user = null;
 
 				try {

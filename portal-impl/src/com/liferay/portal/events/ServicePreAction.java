@@ -382,8 +382,9 @@ public class ServicePreAction extends Action {
 			}
 
 			if ((Validator.isNull(controlPanelCategory) ||
-				 controlPanelCategory.equals(PortletCategoryKeys.MY) ||
-				 controlPanelCategory.equals(PortletCategoryKeys.PORTLET)) &&
+				 controlPanelCategory.equals(PortletCategoryKeys.PORTLET) ||
+				 controlPanelCategory.equals(
+					 PortletCategoryKeys.USER_MY_ACCOUNT)) &&
 				Validator.isNotNull(ppid) &&
 				(LiferayWindowState.isPopUp(request) ||
 				 LiferayWindowState.isExclusive(request))) {
@@ -403,7 +404,7 @@ public class ServicePreAction extends Action {
 						PortletCategoryKeys.SITE_ADMINISTRATION)) {
 
 					portletControlPanelEntryCategory =
-						PortletCategoryKeys.SITES;
+						PortletCategoryKeys.CONTROL_PANEL_SITES;
 				}
 
 				if (!controlPanelCategory.startsWith(
@@ -1771,7 +1772,8 @@ public class ServicePreAction extends Action {
 
 			if (controlPanelCategory.startsWith(
 					PortletCategoryKeys.CURRENT_SITE) ||
-				controlPanelCategory.startsWith(PortletCategoryKeys.SITES)) {
+				controlPanelCategory.startsWith(
+					PortletCategoryKeys.CONTROL_PANEL_SITES)) {
 
 				if (doAsGroupId <= 0) {
 					doAsGroupId = layout.getGroupId();
@@ -1790,8 +1792,9 @@ public class ServicePreAction extends Action {
 					return true;
 				}
 			}
-			else if (controlPanelCategory.equals(PortletCategoryKeys.MY) ||
-					 controlPanelCategory.equals(PortletCategoryKeys.PORTLET)) {
+			else if (controlPanelCategory.equals(PortletCategoryKeys.PORTLET) ||
+					 controlPanelCategory.equals(
+						 PortletCategoryKeys.USER_MY_ACCOUNT)) {
 
 				return true;
 			}

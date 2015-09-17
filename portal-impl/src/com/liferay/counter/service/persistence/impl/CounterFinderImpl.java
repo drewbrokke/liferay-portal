@@ -62,6 +62,11 @@ public class CounterFinderImpl
 	}
 
 	@Override
+	public void destroy() {
+		CacheRegistryUtil.unregister(getRegistryName());
+	}
+
+	@Override
 	public List<String> getNames() {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
