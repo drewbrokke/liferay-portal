@@ -1,5 +1,6 @@
 Bundle-Version: 7.0.0
 Export-Package:\
+	com.liferay.portal.kernel.search.background.task,\
 	com.liferay.portal.bean,\
 	com.liferay.portal.cache,\
 	com.liferay.portal.cluster,\
