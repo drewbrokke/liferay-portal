@@ -38,7 +38,7 @@ public abstract class BaseMentionsFormNavigatorEntry
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", locale, getClass());
 
-		return resourceBundle.getString("mentions");
+		return ResourceBundleUtil.getString(resourceBundle, "mentions");
 	}
 
 }

@@ -56,7 +56,7 @@ public class GoogleAppsCompanySettingsFormNavigatorEntry
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", locale, getClass());
 
-		return resourceBundle.getString("google-apps");
+		return ResourceBundleUtil.getString(resourceBundle, "google-apps");
 	}
 
 	@Override

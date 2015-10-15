@@ -74,7 +74,7 @@ public class WikiAttachmentItemSelectorView
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content/Language", locale, getClass());
 
-		return resourceBundle.getString("page-attachments");
+		return ResourceBundleUtil.getString(resourceBundle, "page-attachments");
 	}
 
 	@Override
