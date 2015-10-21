@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.dynamic.data.lists.form.web.context;
+package com.liferay.dynamic.data.lists.form.web.display.context;
 
 import com.liferay.dynamic.data.lists.form.web.constants.DDLFormWebKeys;
 import com.liferay.dynamic.data.lists.model.DDLRecordSet;

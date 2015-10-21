@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.dynamic.data.lists.form.web.context.util;
+package com.liferay.dynamic.data.lists.form.web.display.context.util;
 
 import com.liferay.portal.kernel.display.context.util.BaseRequestHelper;
 import com.liferay.portal.util.PortalUtil;
