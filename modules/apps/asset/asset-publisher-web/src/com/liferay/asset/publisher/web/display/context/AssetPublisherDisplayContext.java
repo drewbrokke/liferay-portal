@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.asset.publisher.web.context;
+package com.liferay.asset.publisher.web.display.context;
 
 import com.liferay.asset.publisher.web.configuration.AssetPublisherWebConfigurationValues;
 import com.liferay.asset.publisher.web.constants.AssetPublisherPortletKeys;
