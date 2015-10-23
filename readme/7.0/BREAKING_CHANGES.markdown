@@ -2590,3 +2590,39 @@ Since Microsoft dropped support for Windows Live Messenger, Liferay will no
 longer continue to support it.
 
 ---------------------------------------
+
+### Removed Support for AIM, ICQ, MySpace, and Yahoo Messenger
+- **Date:** 2015-Oct-22
+- **JIRA Ticket:** LPS-59716
+
+#### What changed?
+
+Liferay no longer supports integration with AIM, ICQ, and Yahoo Messenger instant messaging services nor MySpace.  The corresponding `aimSn`, `icqSn`, `mySpaceSn`, and `ymSn` columns have been removed from the Contacts table.
+
+The following classes have been removed:
+- `AIMConnector`
+- `ICQConnector`
+- `YMConnector`
+
+The following constants have been removed:
+- `CalEventConstants.REMIND_BY_AIM`
+- `CalEventConstants.REMIND_BY_ICQ`
+- `CalEventConstants.REMIND_BY_YM`
+- `PropsKeys.AIM_LOGIN`
+- `PropsKeys.AIM_PASSWORD`
+- `PropsKeys.ICQ_JAR`
+- `PropsKeys.ICQ_LOGIN`
+- `PropsKeys.ICQ_PASSWORD`
+- `PropsKeys.YM_LOGIN`
+- `PropsKeys.YM_PASSWORD`
+
+The following methods have been removed:
+The following methods have been changed:
+
+#### Who is affected?
+
+#### How should I update my code?
+
+#### Why was this change made?
+
+---------------------------------------
