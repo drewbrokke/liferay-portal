@@ -23,6 +23,7 @@ import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ContainerModel;
 import com.liferay.portal.model.ResourcedModel;
+import com.liferay.portal.model.ShardedModel;
 import com.liferay.portal.model.StagedGroupedModel;
 import com.liferay.portal.model.TrashedModel;
 import com.liferay.portal.model.WorkflowedModel;
@@ -50,7 +51,8 @@ import java.util.Date;
  */
 @ProviderType
 public interface WikiPageModel extends BaseModel<WikiPage>, ContainerModel,
-	ResourcedModel, StagedGroupedModel, TrashedModel, WorkflowedModel {
+	ResourcedModel, ShardedModel, StagedGroupedModel, TrashedModel,
+	WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

@@ -786,6 +786,10 @@ public class Entity {
 		}
 	}
 
+	public boolean isShardedModel() {
+		return hasColumn("companyId");
+	}
+
 	public boolean isStagedAuditedModel() {
 		if (isAuditedModel() && isStagedModel()) {
 			return true;

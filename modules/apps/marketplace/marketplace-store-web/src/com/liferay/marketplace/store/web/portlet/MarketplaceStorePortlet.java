@@ -77,6 +77,7 @@ import org.scribe.model.Verb;
 		"com.liferay.portlet.render-weight=50",
 		"com.liferay.portlet.use-default-template=true",
 		"javax.portlet.description=", "javax.portlet.display-name=Store",
+		"javax.portlet.init-param.add-process-action-success-action=false",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.name=" + MarketplaceStorePortletKeys.MARKETPLACE_STORE,
@@ -195,6 +196,19 @@ public class MarketplaceStorePortlet extends RemoteMVCPortlet {
 		jsonObject.put("message", "success");
 
 		writeJSON(actionRequest, actionResponse, jsonObject);
+	}
+
+	@Override
+	public void render(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws IOException, PortletException {
+
+		try {
+			super.render(renderRequest, renderResponse);
+		}
+		catch (PortletException pe) {
+			include("/error.jsp", renderRequest, renderResponse);
+		}
 	}
 
 	public void uninstallApp(

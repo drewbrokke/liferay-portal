@@ -265,7 +265,10 @@
 		<execute function="AssertClick" locator1="MenuItem#DEFINE_PERMISSIONS" value1="Define Permissions" />
 
 		<if>
-			<condition function="IsVisible" locator1="Message#INFO" />
+			<and>
+				<condition function="IsElementPresent" locator1="Message#INFO" />
+				<condition function="IsVisible" locator1="Message#INFO" />
+			</and>
 			<then>
 				<execute function="AssertTextEquals" locator1="Message#INFO" value1="This role does not have any permissions." />
 			</then>
@@ -411,6 +414,13 @@
 					<then>
 						<var name="permissionNavigationKey" value="SITE_ADMIN_USERS_SITE_MEMBERSHIPS" />
 						<var name="permissionNavigationValue" value="Site Memberships" />
+					</then>
+				</elseif>
+				<elseif>
+					<contains string="${permissionDefinitionKey}" substring="SITE_ADMIN_USERS_SITE_TEAMS" />
+					<then>
+						<var name="permissionNavigationKey" value="SITE_ADMIN_USERS_SITE_TEAMS" />
+						<var name="permissionNavigationValue" value="Site Teams" />
 					</then>
 				</elseif>
 				<elseif>
