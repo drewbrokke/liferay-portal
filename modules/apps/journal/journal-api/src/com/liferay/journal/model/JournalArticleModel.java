@@ -25,6 +25,7 @@ import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.LocalizedModel;
 import com.liferay.portal.model.ResourcedModel;
+import com.liferay.portal.model.ShardedModel;
 import com.liferay.portal.model.StagedGroupedModel;
 import com.liferay.portal.model.TrashedModel;
 import com.liferay.portal.model.WorkflowedModel;
@@ -54,8 +55,8 @@ import java.util.Map;
  */
 @ProviderType
 public interface JournalArticleModel extends AttachedModel,
-	BaseModel<JournalArticle>, LocalizedModel, ResourcedModel, StagedGroupedModel,
-	TrashedModel, WorkflowedModel {
+	BaseModel<JournalArticle>, LocalizedModel, ResourcedModel, ShardedModel,
+	StagedGroupedModel, TrashedModel, WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

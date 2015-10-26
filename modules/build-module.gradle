@@ -23,6 +23,7 @@ apply plugin: "com.liferay.plugin"
 apply plugin: "eclipse"
 apply plugin: "findbugs"
 apply plugin: "idea"
+apply plugin: "pmd"
 
 File appServerClassesPortalDir = new File(liferay.appServerPortalDir, "WEB-INF/classes")
 File appServerLibPortalDir = new File(liferay.appServerPortalDir, "WEB-INF/lib")
@@ -65,7 +66,7 @@ buildService {
 		if (project.name.endsWith("-service")) {
 			String requiredApiDirName = "../${project.name[0 .. -9]}-api/src"
 
-			if (apiDirName != requiredApiDirName) {
+			if (!apiDirName.startsWith(requiredApiDirName)) {
 				throw new GradleException("Please configure the 'buildService' task.")
 			}
 		}
@@ -121,6 +122,7 @@ dependencies {
 	cssBuilder group: "com.liferay", name: "com.liferay.css.builder", version: "default"
 	javadocFormatter group: "com.liferay", name: "com.liferay.javadoc.formatter", version: "default"
 	langBuilder group: "com.liferay", name: "com.liferay.lang.builder", version: "default"
+	pmd group: "com.liferay", name: "com.liferay.pmd", version: "default"
 
 	portal files(appServerClassesPortalDir)
 	portal fileTree(dir: appServerLibPortalDir, include: "*.jar")
@@ -199,6 +201,11 @@ node {
 	npmArgs "--fetch-retries", "10"
 	npmArgs "--fetch-retry-maxtimeout", "120000"
 	npmArgs "--fetch-retry-mintimeout", "60000"
+}
+
+pmd {
+	ruleSetFiles = rootProject.files("../tools/sdk/dependencies/net.sourceforge.pmd/rulesets/java/standard-rules.xml")
+	ruleSets = []
 }
 
 repositories {
@@ -291,6 +298,10 @@ tasks.withType(FindBugs) {
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 	options.warnings = false
+}
+
+tasks.withType(Pmd) {
+	classpath = null
 }
 
 if (gradle.hasProperty("testClassGroupIndex")) {

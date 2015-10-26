@@ -15,7 +15,7 @@
 package com.liferay.calendar.search;
 
 import com.liferay.calendar.model.CalendarBooking;
-import com.liferay.calendar.service.CalendarBookingLocalServiceUtil;
+import com.liferay.calendar.service.CalendarBookingLocalService;
 import com.liferay.calendar.workflow.CalendarBookingWorkflowConstants;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -36,14 +36,13 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portlet.trash.util.TrashUtil;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Locale;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Adam Victor Brandizzi
@@ -176,7 +175,7 @@ public class CalendarBookingIndexer extends BaseIndexer<CalendarBooking> {
 	@Override
 	protected void doReindex(String className, long classPK) throws Exception {
 		CalendarBooking calendarBooking =
-			CalendarBookingLocalServiceUtil.getCalendarBooking(classPK);
+			_calendarBookingLocalService.getCalendarBooking(classPK);
 
 		doReindex(calendarBooking);
 	}
@@ -204,10 +203,8 @@ public class CalendarBookingIndexer extends BaseIndexer<CalendarBooking> {
 	protected void reindexCalendarBookings(long companyId)
 		throws PortalException {
 
-		final Collection<Document> documents = new ArrayList<>();
-
-		ActionableDynamicQuery actionableDynamicQuery =
-			CalendarBookingLocalServiceUtil.getActionableDynamicQuery();
+		final ActionableDynamicQuery actionableDynamicQuery =
+			_calendarBookingLocalService.getActionableDynamicQuery();
 
 		actionableDynamicQuery.setAddCriteriaMethod(
 			new ActionableDynamicQuery.AddCriteriaMethod() {
@@ -226,7 +223,8 @@ public class CalendarBookingIndexer extends BaseIndexer<CalendarBooking> {
 				}
 
 			});
-
+		actionableDynamicQuery.setCommitImmediately(isCommitImmediately());
+		actionableDynamicQuery.setCompanyId(companyId);
 		actionableDynamicQuery.setPerformActionMethod(
 			new ActionableDynamicQuery.PerformActionMethod<CalendarBooking>() {
 
@@ -235,7 +233,7 @@ public class CalendarBookingIndexer extends BaseIndexer<CalendarBooking> {
 					try {
 						Document document = getDocument(calendarBooking);
 
-						documents.add(document);
+						actionableDynamicQuery.addDocument(document);
 					}
 					catch (PortalException pe) {
 						if (_log.isWarnEnabled()) {
@@ -248,16 +246,21 @@ public class CalendarBookingIndexer extends BaseIndexer<CalendarBooking> {
 				}
 
 			});
-
-		actionableDynamicQuery.setCompanyId(companyId);
+		actionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 
 		actionableDynamicQuery.performActions();
+	}
 
-		SearchEngineUtil.updateDocuments(
-			getSearchEngineId(), companyId, documents, isCommitImmediately());
+	@Reference(unbind = "-")
+	protected void setCalendarBookingLocalService(
+		CalendarBookingLocalService calendarBookingLocalService) {
+
+		_calendarBookingLocalService = calendarBookingLocalService;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CalendarBookingIndexer.class);
+
+	private CalendarBookingLocalService _calendarBookingLocalService;
 
 }

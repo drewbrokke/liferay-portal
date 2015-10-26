@@ -1379,7 +1379,7 @@
 
 		<execute function="AssertClick" locator1="AP#ASSET_ABSTRACT_TITLE" value1="${webContentTitle}" />
 
-		<execute function="AssertTextEquals" locator1="APAsset#ASSET_TITLE" value1="${webContentTitle}" />
+		<execute function="AssertTextEquals" locator1="APAsset#ASSET_TITLE_HEADER" value1="${webContentTitle}" />
 		<execute function="AssertTextEquals#assertPartialText" locator1="APAsset#ASSET_CONTENT" value1="${webContentContent}" />
 	</command>
 
@@ -1586,6 +1586,11 @@
 
 		<execute function="AssertTextEquals" locator1="WC#ENTRY_DESCRIPTIVE_VERSION" value1="1.1" />
 		<execute function="AssertTextEquals#assertPartialText" locator1="WC#ENTRY_DESCRIPTIVE_LAST_UPDATED" value1="${userFirstLast}" />
+	</command>
+
+	<command name="viewWCViewableByPermissions">
+		<execute function="AssertClick#assertPartialTextClickAt" locator1="WCEditWebContent#MENU_PERMISSIONS" value1="Permissions" />
+		<execute function="AssertSelectedLabel" locator1="WCEditWebContent#PERMISSIONS_VIEWABLE_BY_SELECT" value1="Site Members" />
 	</command>
 
 	<command name="viewWithStructureCP">

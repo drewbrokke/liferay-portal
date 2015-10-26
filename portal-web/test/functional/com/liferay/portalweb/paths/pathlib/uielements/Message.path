@@ -70,7 +70,7 @@
 </tr>
 <tr>
 	<td>INFO</td>
-	<td>//div[contains(@class,'alert') and contains(@class,'alert-info')]</td>
+	<td>//div[contains(@class,'alert alert-info') and not(contains(@class,'hide'))]</td>
 	<td></td>
 </tr>
 <tr>
@@ -211,6 +211,11 @@
 <tr>
 	<td>SUCCESS_RESTORE_LOCATION</td>
 	<td>//div[@class='portlet-body']/div/em[2]/a[contains(.,'${key_assetRestoreLocation}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>UNIQUE_SUCCESS</td>
+	<td>//div[contains(@class,'alert') and contains(@class,'alert-success') and contains(.,'${key_uniqueSuccess}')]</td>
 	<td></td>
 </tr>
 <tr>

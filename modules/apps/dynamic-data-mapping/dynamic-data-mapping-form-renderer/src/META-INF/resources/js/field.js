@@ -21,6 +21,11 @@ AUI.add(
 						valueFn: '_valueContainer'
 					},
 
+					dataType: {
+						getter: '_getDataType',
+						value: 'string'
+					},
+
 					fieldNamespace: {
 						value: ''
 					},
@@ -118,7 +123,7 @@ AUI.add(
 
 						var container = instance.get('container');
 
-						if (container) {
+						if (container && container.inDoc()) {
 							container.remove(true);
 						}
 
@@ -320,13 +325,7 @@ AUI.add(
 
 						instance.eachField(
 							function(field) {
-								var container = field.fetchContainer();
-
-								if (!container) {
-									container = field._createContainer();
-								}
-
-								field.set('container', container);
+								field.updateContainer();
 							}
 						);
 
@@ -357,6 +356,12 @@ AUI.add(
 						}
 
 						return fieldJSON;
+					},
+
+					updateContainer: function() {
+						var instance = this;
+
+						instance.set('container', instance._valueContainer());
 					},
 
 					_afterLocalizableChange: function() {
@@ -419,6 +424,18 @@ AUI.add(
 						}
 
 						return container;
+					},
+
+					_getDataType: function(dataType) {
+						var instance = this;
+
+						var validation = instance.get('validation');
+
+						if (validation) {
+							dataType = Util.getDataTypeFromValidation(dataType, validation);
+						}
+
+						return dataType;
 					},
 
 					_getDefaultValue: function() {

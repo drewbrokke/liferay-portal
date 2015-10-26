@@ -3,6 +3,10 @@ AUI.add(
 	function(A) {
 		var Lang = A.Lang;
 
+		var Renderer = Liferay.DDM.Renderer;
+
+		var Util = Renderer.Util;
+
 		var ValidationField = A.Component.create(
 			{
 				ATTRS: {
@@ -25,10 +29,13 @@ AUI.add(
 
 					strings: {
 						value: {
+							disableValidation: Liferay.Language.get('disable-validation'),
+							email: Liferay.Language.get('email'),
 							enableValidation: Liferay.Language.get('enable-validation'),
 							errorMessageGoesHere: Liferay.Language.get('error-message-goes-here'),
 							number: Liferay.Language.get('number'),
-							text: Liferay.Language.get('text')
+							text: Liferay.Language.get('text'),
+							url: Liferay.Language.get('url')
 						}
 					},
 
@@ -37,77 +44,12 @@ AUI.add(
 					},
 
 					validations: {
-						value: {
-							number: [
-								{
-									label: Liferay.Language.get('is-greater-than-or-equal-to'),
-									name: 'gteq',
-									parameterMessage: Liferay.Language.get('this-number'),
-									regex: /^(\w+)\>\=(\d+)$/,
-									template: '{name}>={parameter}'
-								},
-								{
-									label: Liferay.Language.get('is-greater-than'),
-									name: 'gt',
-									parameterMessage: Liferay.Language.get('this-number'),
-									regex: /^(\w+)\>(\d+)$/,
-									template: '{name}>{parameter}'
-								},
-								{
-									label: Liferay.Language.get('is-equal-to'),
-									name: 'eq',
-									parameterMessage: Liferay.Language.get('this-number'),
-									regex: /^(\w+)\=\=(\d+)$/,
-									template: '{name}=={parameter}'
-								},
-								{
-									label: Liferay.Language.get('is-less-than-or-equal-to'),
-									name: 'lteq',
-									parameterMessage: Liferay.Language.get('this-number'),
-									regex: /^(\w+)\<\=(\d+)$/,
-									template: '{name}<={parameter}'
-								},
-								{
-									label: Liferay.Language.get('is-less-than'),
-									name: 'lt',
-									parameterMessage: Liferay.Language.get('this-number'),
-									regex: /^(\w+)\<(\d+)$/,
-									template: '{name}<{parameter}'
-								}
-							],
-							text: [
-								{
-									label: Liferay.Language.get('is-empty'),
-									name: 'empty',
-									regex: /^(\w+)\.isEmpty\(\)$/,
-									template: '{name}.isEmpty()'
-								},
-								{
-									label: Liferay.Language.get('is-not-empty'),
-									name: 'notEmpty',
-									regex: /^\!(\w+)\.isEmpty\(\)$/,
-									template: '!{name}.isEmpty()'
-								},
-								{
-									label: Liferay.Language.get('contains'),
-									name: 'contains',
-									parameterMessage: Liferay.Language.get('this-text'),
-									regex: /^(\w+)\.contains\("(\w+)"\)$/,
-									template: '{name}.contains("{parameter}")'
-								},
-								{
-									label: Liferay.Language.get('does-not-contain'),
-									name: 'notContains',
-									parameterMessage: Liferay.Language.get('this-text'),
-									regex: /^\!(\w+)\.contains\("(\w+)"\)$/,
-									template: '!{name}.contains("{parameter}")'
-								}
-							]
-						}
+						value: Util.getValidations()
 					},
 
 					value: {
-						setter: '_setValue'
+						setter: '_setValue',
+						valueFn: '_valueValidation'
 					}
 				},
 
@@ -140,9 +82,9 @@ AUI.add(
 
 						var strings = instance.get('strings');
 
-						var selectedValidation = instance.get('selectedValidation');
-
 						var parameterMessage = '';
+
+						var selectedValidation = instance.get('selectedValidation');
 
 						if (selectedValidation) {
 							parameterMessage = selectedValidation.parameterMessage;
@@ -153,8 +95,9 @@ AUI.add(
 						return A.merge(
 							ValidationField.superclass.getTemplateContext.apply(instance, arguments),
 							{
+								disableValidationMessage: strings.disableValidation,
 								enableValidationMessage: strings.enableValidation,
-								enableValidationValue: !!value.expression,
+								enableValidationValue: !!(value && value.expression),
 								errorMessagePlaceholder: strings.errorMessageGoesHere,
 								errorMessageValue: instance.get('errorMessageValue'),
 								parameterMessagePlaceholder: parameterMessage,
@@ -322,31 +265,33 @@ AUI.add(
 					_setValue: function(validation) {
 						var instance = this;
 
-						var errorMessage = validation.errorMessage;
+						if (validation) {
+							var errorMessage = validation.errorMessage;
 
-						var expression = validation.expression;
+							var expression = validation.expression;
 
-						A.each(
-							instance.get('validations'),
-							function(validation, type) {
-								validation.forEach(
-									function(item) {
-										var regex = item.regex;
+							A.each(
+								instance.get('validations'),
+								function(validation, type) {
+									validation.forEach(
+										function(item) {
+											var regex = item.regex;
 
-										if (regex.test(expression)) {
-											instance.set('errorMessageValue', errorMessage);
-											instance.set('selectedType', type);
-											instance.set('selectedValidation', item.name);
+											if (regex.test(expression)) {
+												instance.set('errorMessageValue', errorMessage);
+												instance.set('selectedType', type);
+												instance.set('selectedValidation', item.name);
 
-											instance.set(
-												'parameterValue',
-												instance.extractParameterValue(regex, expression)
-											);
+												instance.set(
+													'parameterValue',
+													instance.extractParameterValue(regex, expression)
+												);
+											}
 										}
-									}
-								);
-							}
-						);
+									);
+								}
+							);
+						}
 					},
 
 					_syncValidationUI: function(event) {
@@ -369,6 +314,15 @@ AUI.add(
 						instance.set('selectedValidation', selectedValidation);
 
 						instance.set('value', instance.getValue());
+					},
+
+					_valueValidation: function() {
+						var instance = this;
+
+						return {
+							errorMessage: Liferay.Language.get('is-empty'),
+							expression: '!{name}.isEmpty()'
+						};
 					}
 				}
 			}

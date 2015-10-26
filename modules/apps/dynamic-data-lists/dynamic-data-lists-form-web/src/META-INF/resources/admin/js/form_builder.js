@@ -79,6 +79,7 @@ AUI.add(
 
 						instance._renderFields();
 						instance._renderPages();
+						instance._syncRowsLastColumnUI();
 					},
 
 					destructor: function() {
@@ -118,34 +119,49 @@ AUI.add(
 						return FieldTypes.get(field.get('type'));
 					},
 
-					getField: function(name) {
+					_afterActivePageNumberChange: function() {
 						var instance = this;
 
-						return AArray.find(
-							instance.getFields(),
-							function(item) {
-								return item.get('name') === name;
-							}
-						);
+						FormBuilder.superclass._afterActivePageNumberChange.apply(instance, arguments);
+
+						instance._syncRowsLastColumnUI();
 					},
 
-					getFields: function() {
+					_afterLayoutColsChange: function(event) {
 						var instance = this;
 
-						var fields = [];
+						FormBuilder.superclass._afterLayoutColsChange.apply(instance, arguments);
 
-						var visitor = instance.get('visitor');
+						instance._syncRowLastColumnUI(event.target);
+					},
 
-						visitor.set(
-							'fieldHandler',
-							function(field) {
-								fields.push(field);
-							}
+					_afterLayoutRowsChange: function(event) {
+						var instance = this;
+
+						FormBuilder.superclass._afterLayoutRowsChange.apply(instance, arguments);
+
+						event.newVal.forEach(instance._syncRowLastColumnUI);
+					},
+
+					_afterLayoutsChange: function() {
+						var instance = this;
+
+						FormBuilder.superclass._afterLayoutsChange.apply(instance, arguments);
+
+						instance._syncRowsLastColumnUI();
+					},
+
+					_afterSelectFieldType: function(event) {
+						var instance = this;
+
+						var fieldType = event.fieldType;
+
+						instance.hideFieldsPanel();
+
+						instance.showFieldSettingsPanel(
+							instance.createField(fieldType),
+							fieldType.get('label')
 						);
-
-						visitor.visit();
-
-						return fields;
 					},
 
 					_getPageManagerInstance: function(config) {
@@ -178,19 +194,6 @@ AUI.add(
 						visitor.set('pages', instance.get('layouts'));
 
 						return visitor;
-					},
-
-					_onClickFieldType: function(event) {
-						var instance = this;
-
-						var fieldType = event.currentTarget.getData('fieldType');
-
-						instance.hideFieldsPanel();
-
-						instance.showFieldSettingsPanel(
-							instance.createField(fieldType),
-							fieldType.get('label')
-						);
 					},
 
 					_onClickPaginationItem: function(event) {
@@ -260,6 +263,26 @@ AUI.add(
 								return !item.get('system');
 							}
 						);
+					},
+
+					_syncRowLastColumnUI: function(row) {
+						var lastColumn = row.get('node').one('.last-col');
+
+						if (lastColumn) {
+							lastColumn.removeClass('last-col');
+						}
+
+						var cols = row.get('cols');
+
+						cols[cols.length - 1].get('node').addClass('last-col');
+					},
+
+					_syncRowsLastColumnUI: function() {
+						var instance = this;
+
+						var rows = instance.getActiveLayout().get('rows');
+
+						rows.forEach(instance._syncRowLastColumnUI);
 					},
 
 					_valueDeserializer: function() {

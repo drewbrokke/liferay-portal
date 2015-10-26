@@ -55,6 +55,8 @@ AUI.add(
 
 							tooltip.set('trigger', helpIcon);
 						}
+
+						return instance;
 					},
 
 					_getLocalizedValue: function(localizedValue) {
@@ -74,11 +76,9 @@ AUI.add(
 
 						var container = instance.get('container');
 
-						var inputGroup = container.one('.input-group-default');
+						var inputGroup = container.one('.input-group-container');
 
-						if (inputGroup) {
-							inputGroup.placeAfter(container.one('.validation-message'));
-						}
+						inputGroup.insert(container.one('.validation-message'), 'after');
 					},
 
 					_showFeedback: function() {

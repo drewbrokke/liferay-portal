@@ -122,9 +122,31 @@
 		<execute function="AssertTextEquals" locator1="SitePages#PAGE_TREE_PAGE_LINK" value1="${sitePageName}" />
 	</command>
 
+	<command name="addFromMyProfile">
+		<execute function="AssertClick" locator1="SitePages#TOOLBAR_ADD_PAGE" value1="Add Page" />
+
+		<execute function="Type#typeClickAt" locator1="TextInput#NAME" value1="${pageName}" />
+
+		<if>
+			<isset var="pageType" />
+			<then>
+				<execute macro="SitePage#selectSitePageTypeRadioCP">
+					<var name="componentName" value="${componentName}" />
+					<var name="pageTypeDescription" value="${pageTypeDescription}" />
+					<var name="pageTypeURL" value="${pageTypeURL}" />
+					<var name="sitePageType" value="${pageType}" />
+				</execute>
+			</then>
+		</if>
+
+		<execute function="AssertClick" locator1="Button#ADD_PAGE" value1="Add Page" />
+
+		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+	</command>
+
 	<command name="addJavaScript">
 		<execute function="AssertClick" locator1="SitePages#JAVASCRIPT_NAVIGATION" value1="JavaScript" />
-		<execute function="AssertTextEquals" locator1="SitePages#JAVASCRIPT_LABEL" value1="Paste JavaScript code that will be executed at the bottom of every page." />
+		<execute function="AssertTextEquals" locator1="SitePages#JAVASCRIPT_LABEL" value1="Paste JavaScript code that is executed at the bottom of every page." />
 		<execute function="Type" locator1="SitePages#JAVASCRIPT_TEXTAREA" value1="${javaScript}" />
 		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
@@ -151,12 +173,12 @@
 
 	<command name="addSitePageTypeEmbeddedCP">
 		<execute function="Type" locator1="SitePagesEditPage#PAGE_TYPE_EMBEDDED_URL_FIELD" value1="${pageTypeURL}" />
-		<execute function="Type" locator1="SitePagesEditPage#PAGE_TYPE_EMBEDDED_DESCRIPTION_FIELD" value1="${pageTypeDescription}" />
+		<execute function="AssertTextEquals" locator1="SitePagesEditPage#PAGE_TYPE_EMBEDDED_DESCRIPTION_FIELD" value1="Show content from another website." />
 	</command>
 
 	<command name="addSitePageTypeLinkToURLCP">
 		<execute function="Type" locator1="SitePagesEditPage#PAGE_TYPE_LINK_TO_URL_URL_FIELD" value1="${pageTypeURL}" />
-		<execute function="Type" locator1="SitePagesEditPage#PAGE_TYPE_LINK_TO_URL_DESCRIPTION_FIELD" value1="${pageTypeDescription}" />
+		<execute function="AssertTextEquals" locator1="SitePagesEditPage#PAGE_TYPE_LINK_TO_URL_DESCRIPTION_FIELD" value1="Link to another website." />
 	</command>
 
 	<command name="addSitePageTypePanelCP">

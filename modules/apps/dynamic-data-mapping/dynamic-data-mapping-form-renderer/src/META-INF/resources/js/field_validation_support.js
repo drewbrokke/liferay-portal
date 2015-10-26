@@ -63,8 +63,6 @@ AUI.add(
 
 				if (result && Lang.isObject(result)) {
 					instance.processValidation(result);
-
-					instance.showValidationStatus();
 				}
 				else {
 					var root = instance.getRoot();
@@ -97,6 +95,8 @@ AUI.add(
 						if (errorMessage) {
 							instance.set('errorMessage', errorMessage);
 						}
+
+						instance.showValidationStatus();
 					}
 				}
 			},

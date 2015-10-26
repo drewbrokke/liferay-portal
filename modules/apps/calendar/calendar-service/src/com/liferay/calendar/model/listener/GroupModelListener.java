@@ -16,7 +16,6 @@ package com.liferay.calendar.model.listener;
 
 import com.liferay.calendar.model.CalendarResource;
 import com.liferay.calendar.service.CalendarResourceLocalService;
-import com.liferay.calendar.service.CalendarResourceLocalServiceUtil;
 import com.liferay.portal.ModelListenerException;
 import com.liferay.portal.model.BaseModelListener;
 import com.liferay.portal.model.Group;
@@ -33,7 +32,30 @@ import org.osgi.service.component.annotations.Reference;
 public class GroupModelListener extends BaseModelListener<Group> {
 
 	@Override
-	public void onAfterRemove(Group group) throws ModelListenerException {
+	public void onAfterUpdate(Group group) throws ModelListenerException {
+		try {
+			long classNameId = PortalUtil.getClassNameId(Group.class);
+
+			CalendarResource calendarResource =
+				_calendarResourceLocalService.fetchCalendarResource(
+					classNameId, group.getGroupId());
+
+			if (calendarResource == null) {
+				return;
+			}
+
+			calendarResource.setNameMap(group.getNameMap());
+
+			_calendarResourceLocalService.updateCalendarResource(
+				calendarResource);
+		}
+		catch (Exception e) {
+			throw new ModelListenerException(e);
+		}
+	}
+
+	@Override
+	public void onBeforeRemove(Group group) throws ModelListenerException {
 		try {
 
 			// Global calendar resource
@@ -53,29 +75,6 @@ public class GroupModelListener extends BaseModelListener<Group> {
 
 			_calendarResourceLocalService.deleteCalendarResources(
 				group.getGroupId());
-		}
-		catch (Exception e) {
-			throw new ModelListenerException(e);
-		}
-	}
-
-	@Override
-	public void onAfterUpdate(Group group) throws ModelListenerException {
-		try {
-			long classNameId = PortalUtil.getClassNameId(Group.class);
-
-			CalendarResource calendarResource =
-				CalendarResourceLocalServiceUtil.fetchCalendarResource(
-					classNameId, group.getGroupId());
-
-			if (calendarResource == null) {
-				return;
-			}
-
-			calendarResource.setNameMap(group.getNameMap());
-
-			CalendarResourceLocalServiceUtil.updateCalendarResource(
-				calendarResource);
 		}
 		catch (Exception e) {
 			throw new ModelListenerException(e);

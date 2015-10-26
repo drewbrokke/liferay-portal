@@ -9,11 +9,6 @@
 </thead>
 <tbody>
 <tr>
-	<td>AIM</td>
-	<td>//div[label[contains(.,'AIM')]]//input[@type='text']</td>
-	<td></td>
-</tr>
-<tr>
 	<td>ANSWER</td>
 	<td>//div[label[contains(.,'Answer')]]/input[@type='text']</td>
 	<td></td>
@@ -139,6 +134,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>FRIENDLY_URL</td>
+	<td>//input[contains(@id,'friendlyURL')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>FROM</td>
 	<td>//div[label[contains(.,'From')]]//input[@type='number']</td>
 	<td></td>
@@ -146,11 +146,6 @@
 <tr>
 	<td>GOOGLE_ANALYTICS_ID</td>
 	<td>//input[contains(@id,'googleAnalyticsId')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>ICQ</td>
-	<td>//div[label[contains(.,'ICQ')]]//input[@type='text']</td>
 	<td></td>
 </tr>
 <tr>
@@ -264,11 +259,6 @@
 	<td></td>
 </tr>
 <tr>
-	<td>MYSPACE</td>
-	<td>//div[label[contains(.,'MySpace')]]//input[@type='text']</td>
-	<td></td>
-</tr>
-<tr>
 	<td>NAME</td>
 	<td>//div[label[contains(.,'Name')]]//input[@type='text'] | //input[contains(@id,'name')]</td>
 	<td></td>
@@ -331,6 +321,16 @@
 <tr>
 	<td>POSTAL_CODE</td>
 	<td>//div[label[contains(.,'Postal Code')]]//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PRIVATE_VIRTUAL_HOST_URL</td>
+	<td>//input[contains(@id,'privateVirtualHost')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLIC_VIRTUAL_HOST_URL</td>
+	<td>//input[contains(@id,'publicVirtualHost')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -470,11 +470,6 @@
 </tr>
 <tr>
 	<td>YIM</td>
-	<td>//div[label[contains(.,'YIM')]]//input[@type='text']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>YM</td>
 	<td>//div[label[contains(.,'YIM')]]//input[@type='text']</td>
 	<td></td>
 </tr>
