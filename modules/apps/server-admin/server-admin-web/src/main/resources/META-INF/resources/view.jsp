@@ -52,16 +52,6 @@
 			<c:choose>
 				<c:when test='<%= tabs1.equals("server") %>'>
 					<liferay-util:include page="/server.jsp" servletContext="<%= application %>" />
-
-					<aui:script use="liferay-admin">
-						new Liferay.Portlet.Admin(
-							{
-								form: document.<portlet:namespace />fm,
-								namespace: '<portlet:namespace />',
-								url: '<portlet:actionURL name="/server_admin/edit_server" />'
-							}
-						);
-					</aui:script>
 				</c:when>
 			</c:choose>
 		</aui:form>
@@ -76,7 +66,7 @@
 
 		<portlet:actionURL name="/server_admin/edit_server" var="editServerURL" />
 
-		<aui:script>
+		<aui:script use="aui-loading-mask-deprecated">
 			AUI.$('#<portlet:namespace />fm').on(
 				'click',
 				'.save-server-button',
@@ -95,7 +85,38 @@
 						}
 					};
 
-					submitForm(document.<portlet:namespace />fm, '<%= editServerURL %>');
+					if ((data['cmd'] != null) && (data['cmd'] == 'installXuggler')) {
+						var loadingMask = new A.LoadingMask(
+							{
+								'strings.loading': '<%= LanguageUtil.get(request, "xuggler-library-is-being-installed") %>',
+								target: A.one('#adminXugglerPanel')
+							}
+						);
+
+						loadingMask.show();
+
+						$.ajax(
+							'<%= editServerURL %>',
+							{
+								data: form.serialize(),
+								complete: function() {
+									form.children('#<portlet:namespace />cmd').remove();
+
+									loadingMask.hide();
+								},
+								success: function(responseData) {
+									var adminXugglerPanel = AUI.$(responseData).find('#adminXugglerPanel');
+
+									var adminXugglerPanelHTML = adminXugglerPanel.html();
+
+									AUI.$('#adminXugglerPanel').html(adminXugglerPanelHTML);
+								}
+							}
+						);
+					}
+					else {
+						submitForm(document.<portlet:namespace />fm, '<%= editServerURL %>');
+					}
 				}
 			);
 		</aui:script>

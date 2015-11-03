@@ -134,6 +134,8 @@
 	</command>
 
 	<command name="AddWCWithTranslation" priority="5">
+		<property name="portal.acceptance" value="true" />
+
 		<execute macro="Page#gotoContentCP">
 			<var name="portletName" value="Web Content" />
 			<var name="siteScopeName" value="Site Name" />
@@ -296,6 +298,7 @@
 
 		<execute macro="Page#gotoConfigurationCP">
 			<var name="portletName" value="Site Settings" />
+			<var name="siteScopeName" value="Site Name" />
 		</execute>
 
 		<execute macro="Site#configureCurrentLanguagesCP">
@@ -324,10 +327,6 @@
 
 		<execute macro="LanguagePortlet#configureViewCurrentLanguages">
 			<var name="currentLanguages" value="English (United States),German (Germany),Spanish (Spain)" />
-		</execute>
-
-		<execute macro="LanguagePortlet#configureViewAvailableLanguages">
-			<var name="availableLanguages" value="Chinese (China),French (France),Hungarian (Hungary),Japanese (Japan),Portuguese (Brazil)" />
 		</execute>
 	</command>
 </definition>
