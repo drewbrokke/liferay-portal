@@ -12,19 +12,21 @@
  * details.
  */
 
-package com.liferay.portlet.directory.action;
+package com.liferay.directory.web.portlet.action;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
-import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.util.PortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import org.osgi.service.component.annotations.Component;
+
 /**
  * @author Peter Fellwock
  */
-@OSGiBeanProperties(
+@Component(
+	immediate = true,
 	property = {
 		"javax.portlet.name=" + PortletKeys.DIRECTORY,
 		"javax.portlet.name=" + PortletKeys.FRIENDS_DIRECTORY,
@@ -40,7 +42,7 @@ public class ViewDirectoryMVCRenderCommand implements MVCRenderCommand {
 	public String render(
 		RenderRequest renderRequest, RenderResponse renderResponse) {
 
-		return "/html/portlet/directory/view.jsp";
+		return "/view.jsp";
 	}
 
 }
