@@ -31,6 +31,7 @@ if (exportImportConfiguration.getType() == ExportImportConfigurationConstants.TY
 	publishActionKey = "publish-to-remote-live";
 }
 
+long selPlid = ParamUtil.getLong(request, "selPlid", LayoutConstants.DEFAULT_PARENT_LAYOUT_ID);
 boolean privateLayout = ParamUtil.getBoolean(request, "privateLayout");
 
 GroupDisplayContextHelper groupDisplayContextHelper = new GroupDisplayContextHelper(request);
@@ -52,8 +53,10 @@ GroupDisplayContextHelper groupDisplayContextHelper = new GroupDisplayContextHel
 		<ul class="lfr-tree list-unstyled">
 			<portlet:renderURL var="advancedPublishURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 				<portlet:param name="mvcRenderCommandName" value="publishLayouts" />
+				<portlet:param name="tabs1" value='<%= privateLayout ? "private-pages" : "public-pages" %>' />
 				<portlet:param name="tabs2" value="new-publication-process" />
 				<portlet:param name="groupId" value="<%= String.valueOf(groupDisplayContextHelper.getGroupId()) %>" />
+				<portlet:param name="selPlid" value="<%= String.valueOf(selPlid) %>" />
 				<portlet:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
 				<portlet:param name="quickPublish" value="<%= Boolean.FALSE.toString() %>" />
 			</portlet:renderURL>

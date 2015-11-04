@@ -98,10 +98,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
@@ -172,16 +172,14 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 			long companyId, boolean excludeDataAlwaysStaged)
 		throws Exception {
 
+		List<Portlet> dataSiteLevelPortlets = new ArrayList<>();
+
+		Map<Integer, List<Portlet>> rankedPortletsMap = new TreeMap<>();
+
 		List<Portlet> portlets = _portletLocalService.getPortlets(companyId);
 
-		Iterator<Portlet> itr = portlets.iterator();
-
-		while (itr.hasNext()) {
-			Portlet portlet = itr.next();
-
+		for (Portlet portlet : portlets) {
 			if (!portlet.isActive()) {
-				itr.remove();
-
 				continue;
 			}
 
@@ -193,11 +191,26 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 				(excludeDataAlwaysStaged &&
 				 portletDataHandler.isDataAlwaysStaged())) {
 
-				itr.remove();
+				continue;
 			}
+
+			List<Portlet> rankedPortlets = rankedPortletsMap.get(
+				portletDataHandler.getRank());
+
+			if (rankedPortlets == null) {
+				rankedPortlets = new ArrayList<>();
+			}
+
+			rankedPortlets.add(portlet);
+
+			rankedPortletsMap.put(portletDataHandler.getRank(), rankedPortlets);
 		}
 
-		return portlets;
+		for (List<Portlet> rankedPortlets : rankedPortletsMap.values()) {
+			dataSiteLevelPortlets.addAll(rankedPortlets);
+		}
+
+		return dataSiteLevelPortlets;
 	}
 
 	/**
