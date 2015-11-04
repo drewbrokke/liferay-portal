@@ -12,12 +12,12 @@
  * details.
  */
 
-package com.liferay.portlet.directory.util;
+package com.liferay.directory.web.search;
 
 import com.liferay.portal.kernel.search.HitsOpenSearchImpl;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
-import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
+import com.liferay.portal.kernel.search.OpenSearch;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.UnicodeProperties;
@@ -34,12 +34,14 @@ import javax.portlet.PortletURL;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.osgi.service.component.annotations.Component;
+
 /**
  * @author Brian Wing Shun Chan
  * @author Marcellus Tavares
  * @author Ryan Park
  */
-@OSGiBeanProperties
+@Component(immediate = true, service = OpenSearch.class)
 public class DirectoryOpenSearchImpl extends HitsOpenSearchImpl {
 
 	public static final String TITLE = "Liferay Directory Search: ";
