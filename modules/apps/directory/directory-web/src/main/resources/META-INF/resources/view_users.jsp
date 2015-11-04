@@ -14,7 +14,7 @@
  */
 --%>
 
-<%@ include file="/html/portlet/directory/init.jsp" %>
+<%@ include file="/init.jsp" %>
 
 <%
 String viewUsersRedirect = ParamUtil.getString(request, "viewUsersRedirect");
@@ -137,7 +137,7 @@ if (Validator.isNotNull(viewUsersRedirect)) {
 			<portlet:param name="p_u_i_d" value="<%= String.valueOf(user2.getUserId()) %>" />
 		</liferay-portlet:renderURL>
 
-		<%@ include file="/html/portlet/directory/user/search_columns.jspf" %>
+		<%@ include file="/user/search_columns.jspf" %>
 	</liferay-ui:search-container-row>
 
 	<c:if test="<%= (organization != null) || (userGroup != null) %>">

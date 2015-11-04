@@ -14,7 +14,7 @@
  */
 --%>
 
-<%@ include file="/html/portlet/directory/init.jsp" %>
+<%@ include file="/init.jsp" %>
 
 <%
 long organizationId = ParamUtil.getLong(request, "organizationId");
@@ -32,34 +32,34 @@ request.setAttribute("websites.className", Organization.class.getName());
 request.setAttribute("websites.classPK", organizationId);
 %>
 
-<liferay-util:include page="/html/portlet/directory/tabs1.jsp" />
+<liferay-util:include page="/tabs1.jsp" />
 
 <div class="organization-information">
 	<div class="entity-details section">
-		<liferay-util:include page="/html/portlet/directory/organization/details.jsp" />
+		<liferay-util:include page="/organization/details.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/common/additional_email_addresses.jsp" />
+		<liferay-util:include page="/common/additional_email_addresses.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/common/websites.jsp" />
+		<liferay-util:include page="/common/websites.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/organization/addresses.jsp" />
+		<liferay-util:include page="/organization/addresses.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/organization/phone_numbers.jsp" />
+		<liferay-util:include page="/organization/phone_numbers.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/organization/services.jsp" />
+		<liferay-util:include page="/organization/services.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/organization/comments.jsp" />
+		<liferay-util:include page="/organization/comments.jsp" servletContext="<%= application %>" />
 	</div>
 </div>

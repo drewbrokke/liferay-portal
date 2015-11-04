@@ -14,7 +14,7 @@
  */
 --%>
 
-<%@ include file="/html/portlet/directory/init.jsp" %>
+<%@ include file="/init.jsp" %>
 
 <%
 User selUser = PortalUtil.getSelectedUser(request);
@@ -38,42 +38,42 @@ request.setAttribute("websites.className", Contact.class.getName());
 request.setAttribute("websites.classPK", selContact.getContactId());
 %>
 
-<liferay-util:include page="/html/portlet/directory/tabs1.jsp" />
+<liferay-util:include page="/tabs1.jsp" servletContext="<%= application %>" />
 
 <div class="user-information">
 	<div class="entity-details section">
-		<liferay-util:include page="/html/portlet/directory/user/details.jsp" />
+		<liferay-util:include page="/user/details.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/user/addresses.jsp" />
+		<liferay-util:include page="/user/addresses.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/common/additional_email_addresses.jsp" />
+		<liferay-util:include page="/common/additional_email_addresses.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/common/websites.jsp" />
+		<liferay-util:include page="/common/websites.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/user/phone_numbers.jsp" />
+		<liferay-util:include page="/user/phone_numbers.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/user/instant_messenger.jsp" />
+		<liferay-util:include page="/user/instant_messenger.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/user/social_network.jsp" />
+		<liferay-util:include page="/user/social_network.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/user/sms.jsp" />
+		<liferay-util:include page="/user/sms.jsp" servletContext="<%= application %>" />
 	</div>
 
 	<div class="section">
-		<liferay-util:include page="/html/portlet/directory/user/comments.jsp" />
+		<liferay-util:include page="/user/comments.jsp" servletContext="<%= application %>" />
 	</div>
 </div>

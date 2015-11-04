@@ -14,7 +14,7 @@
  */
 --%>
 
-<%@ include file="/html/portlet/directory/init.jsp" %>
+<%@ include file="/init.jsp" %>
 
 <%
 String className = (String)request.getAttribute("addresses.className");
@@ -37,9 +37,9 @@ if (classPK > 0) {
 		%>
 
 			<li class="<%= (address.isPrimary() && !addresses.isEmpty()) ? "icon-star" : StringPool.BLANK %>">
-				<%@ include file="/html/portlet/directory/common/addresses_address_init.jspf" %>
+				<%@ include file="/common/addresses_address_init.jspf" %>
 
-				<%@ include file="/html/portlet/directory/common/addresses_address.jspf" %>
+				<%@ include file="/common/addresses_address.jspf" %>
 			</li>
 
 		<%

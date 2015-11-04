@@ -14,7 +14,7 @@
  */
 --%>
 
-<%@ include file="/html/portlet/directory/init.jsp" %>
+<%@ include file="/init.jsp" %>
 
 <%
 PortletURL portletURL = renderResponse.createRenderURL();
@@ -37,18 +37,18 @@ request.setAttribute("view.jsp-portletURLString", portletURLString);
 	<aui:input name="redirect" type="hidden" value="<%= portletURLString %>" />
 
 	<c:if test="<%= !portletName.equals(PortletKeys.FRIENDS_DIRECTORY) %>">
-		<liferay-util:include page="/html/portlet/directory/tabs1.jsp" />
+		<liferay-util:include page="/tabs1.jsp" servletContext="<%= application %>" />
 	</c:if>
 
 	<c:choose>
 		<c:when test='<%= tabs1.equals("users") %>'>
-			<liferay-util:include page="/html/portlet/directory/view_users.jsp" />
+			<liferay-util:include page="/view_users.jsp" servletContext="<%= application %>" />
 		</c:when>
 		<c:when test='<%= tabs1.equals("organizations") %>'>
-			<liferay-util:include page="/html/portlet/directory/view_organizations.jsp" />
+			<liferay-util:include page="/view_organizations.jsp" servletContext="<%= application %>" />
 		</c:when>
 		<c:when test='<%= tabs1.equals("user-groups") %>'>
-			<liferay-util:include page="/html/portlet/directory/view_user_groups.jsp" />
+			<liferay-util:include page="/view_user_groups.jsp" servletContext="<%= application %>" />
 		</c:when>
 	</c:choose>
 </aui:form>

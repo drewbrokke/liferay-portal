@@ -14,7 +14,7 @@
  */
 --%>
 
-<%@ include file="/html/portlet/directory/init.jsp" %>
+<%@ include file="/init.jsp" %>
 
 <%
 List<Organization> organizations = (List<Organization>)request.getAttribute("user.organizations");
@@ -52,9 +52,9 @@ for (int i = 0; i < organizations.size(); i++) {
 			%>
 
 				<li class="<%= address.isPrimary() ? "icon-star" : StringPool.BLANK %>">
-					<%@ include file="/html/portlet/directory/common/addresses_address_init.jspf" %>
+					<%@ include file="/common/addresses_address_init.jspf" %>
 
-					<%@ include file="/html/portlet/directory/common/addresses_address.jspf" %>
+					<%@ include file="/common/addresses_address.jspf" %>
 				</li>
 
 			<%
@@ -76,9 +76,9 @@ for (int i = 0; i < organizations.size(); i++) {
 				%>
 
 					<li class="<%= (address.isPrimary() && !personalAddresses.isEmpty()) ? "icon-star" : StringPool.BLANK %>">
-						<%@ include file="/html/portlet/directory/common/addresses_address_init.jspf" %>
+						<%@ include file="/common/addresses_address_init.jspf" %>
 
-						<%@ include file="/html/portlet/directory/common/addresses_address.jspf" %>
+						<%@ include file="/common/addresses_address.jspf" %>
 					</li>
 
 				<%
