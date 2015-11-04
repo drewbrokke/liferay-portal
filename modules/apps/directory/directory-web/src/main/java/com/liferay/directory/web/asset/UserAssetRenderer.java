@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portlet.directory.asset;
+package com.liferay.directory.web.asset;
 
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
@@ -75,7 +75,7 @@ public class UserAssetRenderer extends BaseJSPAssetRenderer<User> {
 		if (template.equals(TEMPLATE_ABSTRACT) ||
 			template.equals(TEMPLATE_FULL_CONTENT)) {
 
-			return "/html/portlet/directory/asset/abstract.jsp";
+			return "/asset/abstract.jsp";
 		}
 		else {
 			return null;
