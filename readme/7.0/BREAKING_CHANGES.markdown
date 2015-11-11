@@ -2835,3 +2835,31 @@ generate a UI for that Asset Entry Query Processor.
 
 This change was made as a part of the ongoing strategy to modularize Liferay
 Portal.
+
+---------------------------------------
+
+### Deprecate <liferay-ui:progress /> taglib
+- **Date:** 2015-Nov-11
+- **JIRA Ticket:** LPS-59844
+
+#### What changed?
+
+The `<liferay-ui:progress />` taglib was deprecated.
+
+#### Who is affected?
+
+This affects developers that use the `<liferay-ui:progress />` taglib.
+
+#### How should I update my code?
+
+You should not be using the `<liferay-ui:progress />` taglib since there is no
+direct replacement.
+
+
+#### Why was this change made?
+
+The taglib was deprecated because it was only used in the server admin module
+and is no longer needed.
+
+---------------------------------------
+
