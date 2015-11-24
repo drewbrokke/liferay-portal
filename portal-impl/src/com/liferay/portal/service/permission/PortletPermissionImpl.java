@@ -344,6 +344,13 @@ public class PortletPermissionImpl implements PortletPermission {
 				groupId, name, primKey, actionId);
 		}
 
+		if (permissionChecker.hasOwnerPermission(
+				permissionChecker.getCompanyId(), name, primKey,
+				permissionChecker.getUserId(), actionId)) {
+
+			return true;
+		}
+
 		if (hasConfigurePermission(
 				permissionChecker, layout, portletId, actionId) ||
 			hasCustomizePermission(
