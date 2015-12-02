@@ -57,6 +57,13 @@ public abstract class BaseIndexWriter
 			searchContext);
 	}
 
+	/**
+	 * @throws SearchException
+	 */
+	@Override
+	public void commit(long companyId) throws SearchException {
+	}
+
 	@Override
 	public void indexKeyword(
 			SearchContext searchContext, float weight, String keywordType)
