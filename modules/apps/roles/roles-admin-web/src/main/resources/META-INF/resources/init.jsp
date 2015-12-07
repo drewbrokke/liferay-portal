@@ -95,7 +95,6 @@ page import="com.liferay.portal.service.ResourcePermissionLocalServiceUtil" %><%
 page import="com.liferay.portal.service.ResourceTypePermissionLocalServiceUtil" %><%@
 page import="com.liferay.portal.service.RoleLocalServiceUtil" %><%@
 page import="com.liferay.portal.service.RoleServiceUtil" %><%@
-page import="com.liferay.portal.service.UserGroupLocalServiceUtil" %><%@
 page import="com.liferay.portal.service.UserGroupRoleLocalServiceUtil" %><%@
 page import="com.liferay.portal.service.permission.PortalPermissionUtil" %><%@
 page import="com.liferay.portal.service.permission.RolePermissionUtil" %><%@
@@ -125,6 +124,7 @@ page import="com.liferay.portlet.usersadmin.search.UserSearch" %><%@
 page import="com.liferay.portlet.usersadmin.search.UserSearchTerms" %><%@
 page import="com.liferay.portlet.usersadmin.util.UsersAdmin" %><%@
 page import="com.liferay.portlet.usersadmin.util.UsersAdminUtil" %><%@
+page import="com.liferay.roles.admin.web.search.RoleChecker" %><%@
 page import="com.liferay.taglib.search.ResultRow" %>
 
 <%@ page import="java.util.ArrayList" %><%@
