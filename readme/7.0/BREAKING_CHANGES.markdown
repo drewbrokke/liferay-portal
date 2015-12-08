@@ -2837,6 +2837,36 @@ Portal.
 
 ---------------------------------------
 
+### Software Catalog portlet and services are no longer available
+- **Date:** 2015-Nov-21
+- **JIRA Ticket:** LPS-60705
+
+#### What changed?
+
+The Software Catalog portlet and its associated services are no longer part
+of Liferay's source code or binaries.
+
+#### Who is affected?
+
+This affects portals which were making use of the Software Catalog portlet to
+manage a catalog of their software. Also developers who were making use of the
+software catalog services from their custom code.
+
+#### How should I update my code?
+
+There is no direct replacement for invocations to the Software Catalog services.
+In cases where it is really needed it is possible to obtain the code from a
+previous release and include it in the custom product (subject to the licensing)
+
+#### Why was this change made?
+
+The Software Catalog was developed to implement the very first versions of what
+later become Liferay's Marketplace. It was later replaced and has not been in
+use by Liferay since then. We have also detected very small to no usage outside
+of Liferay. We made the decision to remove it to make Liferay more lightweight
+and free time to focus on other areas of the product that add more value.
+---------------------------------------
+
 ### Removed Hover and Alternate Style Features of Search Container Tag
 - **Date:** 2015-Nov-03
 - **JIRA Ticket:** LPS-58854
@@ -2925,3 +2955,118 @@ In previous versions of Liferay, some applications such as Blogs and Wiki shared
 the tags of their entries within the page. The Asset Publisher was able to use
 them to show other assets with the same tags. This functionality has changed, so
 the preference is no longer used.
+
+---------------------------------------
+
+### Removed the getPageOrderByComparator method from WikiUtil
+- **Date:** 2015-Dec-1
+- **JIRA Ticket:** LPS-60843
+
+#### What changed?
+
+The `getPageOrderByComparator` method has been removed from the WikiUtil.
+
+#### Who is affected?
+
+This affects developers that use this method in their own developments.
+
+#### How should I update my code?
+
+You should update your code to invoke:
+
+- `WikiPortletUtil.getPageOrderByComparator(String, String)`:
+
+#### Why was this change made?
+
+As part of the modularization efforts it has been considered that that this
+logic belongs to wiki-web module.
+
+---------------------------------------
+
+### Custom AUI Validators no longer, implicitly, required
+- **Date:** 2015-12-02
+- **JIRA Ticket:** LPS-60995
+
+#### What changed?
+
+The AUI Validator taglib no longer forces custom validators (`name="custom"`)
+to be required, and are now optional by default.
+
+#### Who is affected?
+
+Developers using custom validators. Especially ones which relied on the field
+being implicitly required, via the custom validator.
+
+#### How should I update my code?
+
+##### Blank value checking is no longer necessary.
+
+```diff
+ <aui:input name="privateVirtualHost">
+     <aui:validator errorMessage="please-enter-a-unique-virtual-host" name="custom">
+         function(val, fieldNode, ruleValue) {
+-            return !val || val != A.one('#<portlet:namespace />publicVirtualHost').val();
++            return val != A.one('#<portlet:namespace />publicVirtualHost').val();
+         }
+     </aui:validator>
+ </aui:input>
+
+ <aui:input name="publicVirtualHost">
+     <aui:validator errorMessage="please-enter-a-unique-virtual-host" name="custom">
+         function(val, fieldNode, ruleValue) {
+-            return !val || val != A.one('#<portlet:namespace />privateVirtualHost').val();
++            return val != A.one('#<portlet:namespace />privateVirtualHost').val();
+         }
+     </aui:validator>
+ </aui:input>
+```
+
+##### Instead of using a custom validator, to determine if a field is required, use a conditional `required` validator.
+
+```diff
+ <aui:input name="file" type="file" />
+
+ <aui:input name="title">
+-    <aui:validator errorMessage="you-must-specify-a-file-or-a-title" name="custom">
+-        function(val, fieldNode, ruleValue) {
+-            return !!val || !!A.one('#<portlet:namespace />file').val();
++    <aui:validator errorMessage="you-must-specify-a-file-or-a-title" name="required">
++        function(fieldNode) {
++            return !A.one('#<portlet:namespace />file').val();
+         }
+     </aui:validator>
+ </aui:input>
+```
+
+##### Custom validators that assumed validation would always run, must now explicitly pass the `required` validator.
+
+```diff
+ <aui:input name="vowelsOnly">
+     <aui:validator errorMessage="must-contain-only-the-following-characters" name="custom">
+         function(val, fieldNode, ruleValue) {
+             var allowedCharacters = 'aeiouy';
+
+             var regex = new RegExp('[^' + allowedCharacters + ']');
+
+             return !regex.test(val);
+         }
+     </aui:validator>
++    <aui:validator name="required" />
+ </aui:input>
+```
+
+#### Why was this change made?
+
+A custom validator caused the field to be implicitly required. This meant that
+all validators on the field would be evaluated. This created a condition where
+you could not combine custom validators with another validator on an optional
+field.
+
+For example, imagine an optional field which has an email validator, plus a
+custom validator which checks for email addresses within a specific domain,
+eg. `example.com`. There was no way for this optional field to pass validation.
+Even if you handled blank values in your custom validator, that blank value
+would fail the email validator.
+
+This change will required most custom validators to be refactored, but allows
+greater flexibility for all developers.
