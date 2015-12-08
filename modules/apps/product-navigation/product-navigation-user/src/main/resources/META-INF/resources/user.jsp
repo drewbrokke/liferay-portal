@@ -19,23 +19,24 @@
 <%
 PanelCategoryHelper panelCategoryHelper = (PanelCategoryHelper)request.getAttribute(ApplicationListWebKeys.PANEL_CATEGORY_HELPER);
 
-UserPanelCategory userPanelCategory = (UserPanelCategory)request.getAttribute(ApplicationListWebKeys.PANEL_APP);
+UserPanelCategory userPanelCategory = (UserPanelCategory)request.getAttribute(ApplicationListWebKeys.PANEL_CATEGORY);
 
 int notificationsCount = panelCategoryHelper.getNotificationsCount(userPanelCategory.getKey(), permissionChecker, themeDisplay.getScopeGroup(), user);
+
+ProductMenuDisplayContext productMenuDisplayContext = new ProductMenuDisplayContext(liferayPortletRequest, liferayPortletResponse);
 %>
 
-<div class="product-menu-tab-icon user-tab">
-	<div class="icon-monospaced">
-		<c:if test="<%= notificationsCount > 0 %>">
-			<span class="sticker sticker-right sticker-rounded sticker-sm sticker-warning"><%= notificationsCount %></span>
-		</c:if>
+<div aria-controls="#<portlet:namespace /><%= AUIUtil.normalizeId(userPanelCategory.getKey()) %>Collapse" aria-expanded="<%= Validator.equals(userPanelCategory.getKey(), productMenuDisplayContext.getRootPanelCategoryKey()) %>" class="panel-toggler collapse-icon <%= Validator.equals(userPanelCategory.getKey(), productMenuDisplayContext.getRootPanelCategoryKey()) ? StringPool.BLANK : "collapsed" %>" class="collapsed" data-parent="#<portlet:namespace />Accordion" data-toggle="collapse" href="#<portlet:namespace /><%= AUIUtil.normalizeId(userPanelCategory.getKey()) %>Collapse" role="button">
+	<liferay-ui:user-portrait
+		imageCssClass="user-icon-lg"
+		userId="<%= user.getUserId() %>"
+	/>
 
-		<liferay-ui:user-portrait
-			userId="<%= user.getUserId() %>"
-		/>
-	</div>
-</div>
+	<span>
+		<%= HtmlUtil.escape(user.getFirstName()) %>
+	</span>
 
-<div class="product-menu-tab-text">
-	<%= HtmlUtil.escape(user.getFirstName()) %>
+	<c:if test="<%= notificationsCount > 0 %>">
+		<span class="panel-notifications-count sticker sticker-right sticker-rounded sticker-sm sticker-warning"><%= notificationsCount %></span>
+	</c:if>
 </div>

@@ -164,33 +164,11 @@ public class PortletDataContextImpl implements PortletDataContext {
 			return;
 		}
 
-		List<AssetLink> directAssetLinks =
-			AssetLinkLocalServiceUtil.getDirectLinks(assetEntry.getEntryId());
+		List<AssetLink> assetLinks = AssetLinkLocalServiceUtil.getLinks(
+			assetEntry.getEntryId());
 
-		if (directAssetLinks.isEmpty()) {
-			return;
-		}
-
-		Map<Integer, List<AssetLink>> assetLinksMap = new HashMap<>();
-
-		for (AssetLink assetLink : directAssetLinks) {
-			List<AssetLink> assetLinks = assetLinksMap.get(assetLink.getType());
-
-			if (assetLinks == null) {
-				assetLinks = new ArrayList<>();
-
-				assetLinksMap.put(assetLink.getType(), assetLinks);
-			}
-
-			assetLinks.add(assetLink);
-		}
-
-		for (Map.Entry<Integer, List<AssetLink>> entry :
-				assetLinksMap.entrySet()) {
-
-			_assetLinksMap.put(
-				getPrimaryKeyString(assetEntry.getClassUuid(), entry.getKey()),
-				entry.getValue());
+		for (AssetLink assetLink : assetLinks) {
+			_assetLinkIds.add(assetLink.getLinkId());
 		}
 	}
 
@@ -233,19 +211,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 		element.addAttribute("path", path);
 
-		if (classedModel instanceof AttachedModel) {
-			AttachedModel attachedModel = (AttachedModel)classedModel;
-
-			element.addAttribute("class-name", attachedModel.getClassName());
-		}
-		else if (BeanUtil.hasProperty(classedModel, "className")) {
-			String className = BeanPropertiesUtil.getStringSilent(
-				classedModel, "className");
-
-			if (className != null) {
-				element.addAttribute("class-name", className);
-			}
-		}
+		populateClassNameAttribute(classedModel, element);
 
 		if (!hasPrimaryKey(String.class, path)) {
 			if (classedModel instanceof AuditedModel) {
@@ -755,8 +721,17 @@ public class PortletDataContextImpl implements PortletDataContext {
 	}
 
 	@Override
+	public Set<Long> getAssetLinkIds() {
+		return _assetLinkIds;
+	}
+
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link #getAssetLinkIds()}
+	 */
+	@Deprecated
+	@Override
 	public Map<String, List<AssetLink>> getAssetLinksMap() {
-		return _assetLinksMap;
+		return Collections.emptyMap();
 	}
 
 	@Override
@@ -1400,9 +1375,9 @@ public class PortletDataContextImpl implements PortletDataContext {
 	public Object getZipEntryAsObject(Element element, String path) {
 		Object object = fromXML(getZipEntryAsString(path));
 
-		Attribute classNameAttribute = element.attribute("class-name");
+		Attribute classNameAttribute = element.attribute("attached-class-name");
 
-		if (classNameAttribute != null) {
+		if ((object != null) && (classNameAttribute != null)) {
 			BeanPropertiesUtil.setProperty(
 				object, "className", classNameAttribute.getText());
 		}
@@ -2188,6 +2163,8 @@ public class PortletDataContextImpl implements PortletDataContext {
 		referenceElement.addAttribute(
 			"class-pk", String.valueOf(classedModel.getPrimaryKeyObj()));
 
+		populateClassNameAttribute(classedModel, referenceElement);
+
 		if (missing) {
 			if (classedModel instanceof StagedModel) {
 				referenceElement.addAttribute(
@@ -2575,11 +2552,31 @@ public class PortletDataContextImpl implements PortletDataContext {
 		return true;
 	}
 
+	protected void populateClassNameAttribute(
+		ClassedModel classedModel, Element element) {
+
+		String attachedClassName = null;
+
+		if (classedModel instanceof AttachedModel) {
+			AttachedModel attachedModel = (AttachedModel)classedModel;
+
+			attachedClassName = attachedModel.getClassName();
+		}
+		else if (BeanUtil.hasProperty(classedModel, "className")) {
+			attachedClassName = BeanPropertiesUtil.getStringSilent(
+				classedModel, "className");
+		}
+
+		if (Validator.isNotNull(attachedClassName)) {
+			element.addAttribute("attached-class-name", attachedClassName);
+		}
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletDataContextImpl.class);
 
 	private final Map<String, long[]> _assetCategoryIdsMap = new HashMap<>();
-	private final Map<String, List<AssetLink>> _assetLinksMap = new HashMap<>();
+	private final Set<Long> _assetLinkIds = new HashSet<>();
 	private final Map<String, String[]> _assetTagNamesMap = new HashMap<>();
 	private long _companyGroupId;
 	private long _companyId;

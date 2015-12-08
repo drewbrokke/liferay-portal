@@ -19,9 +19,11 @@ import com.liferay.portal.kernel.events.SimpleAction;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.model.Company;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.GroupConstants;
+import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.LayoutConstants;
 import com.liferay.portal.security.auth.CompanyThreadLocal;
 import com.liferay.portal.service.CompanyLocalService;
@@ -71,15 +73,23 @@ public class AddDefaultSharedPortletLayoutAction extends SimpleAction {
 	}
 
 	protected void doRun(long companyId) throws Exception {
+		Group group = _groupLocalService.getGroup(
+			companyId, GroupConstants.GUEST);
+
+		Layout layout = _layoutLocalService.fetchLayoutByFriendlyURL(
+			group.getGroupId(), false, "/shared");
+
+		if (layout != null) {
+			return;
+		}
+
 		ServiceContext serviceContext = new ServiceContext();
 
 		serviceContext.setAddGuestPermissions(true);
 		serviceContext.setAddGroupPermissions(true);
 		serviceContext.setAttribute(
 			"layout.instanceable.allowed", Boolean.TRUE);
-
-		Group group = _groupLocalService.getGroup(
-			companyId, GroupConstants.GUEST);
+		serviceContext.setAttribute("layoutUpdateable", Boolean.FALSE);
 
 		serviceContext.setScopeGroupId(group.getGroupId());
 
@@ -87,11 +97,20 @@ public class AddDefaultSharedPortletLayoutAction extends SimpleAction {
 
 		serviceContext.setUserId(defaultUserId);
 
-		_layoutLocalService.addLayout(
+		layout = _layoutLocalService.addLayout(
 			defaultUserId, group.getGroupId(), false,
 			LayoutConstants.DEFAULT_PARENT_LAYOUT_ID, "shared",
 			StringPool.BLANK, StringPool.BLANK, "shared_portlet", true,
 			"/shared", serviceContext);
+
+		UnicodeProperties typeSettingsProperties =
+			layout.getTypeSettingsProperties();
+
+		typeSettingsProperties.setProperty("hide", Boolean.TRUE.toString());
+
+		_layoutLocalService.updateLayout(
+			group.getGroupId(), false, layout.getLayoutId(),
+			typeSettingsProperties.toString());
 	}
 
 	@Reference(unbind = "-")

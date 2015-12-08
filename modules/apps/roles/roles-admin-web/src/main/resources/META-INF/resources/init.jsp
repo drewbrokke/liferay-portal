@@ -19,6 +19,7 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %><%@
+taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %><%@
 taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
 taglib uri="http://liferay.com/tld/security" prefix="liferay-security" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
@@ -61,6 +62,7 @@ page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.model.Company" %><%@
 page import="com.liferay.portal.model.Group" %><%@
 page import="com.liferay.portal.model.Organization" %><%@
+page import="com.liferay.portal.model.OrganizationConstants" %><%@
 page import="com.liferay.portal.model.Permission" %><%@
 page import="com.liferay.portal.model.PermissionDisplay" %><%@
 page import="com.liferay.portal.model.Portlet" %><%@
@@ -104,13 +106,25 @@ page import="com.liferay.portal.util.WebAppPool" %><%@
 page import="com.liferay.portal.util.comparator.PortletTitleComparator" %><%@
 page import="com.liferay.portlet.PortletURLUtil" %><%@
 page import="com.liferay.portlet.display.template.PortletDisplayTemplateUtil" %><%@
+page import="com.liferay.portlet.rolesadmin.search.GroupRoleChecker" %><%@
+page import="com.liferay.portlet.rolesadmin.search.OrganizationRoleChecker" %><%@
 page import="com.liferay.portlet.rolesadmin.search.ResourceActionRowChecker" %><%@
 page import="com.liferay.portlet.rolesadmin.search.RoleSearch" %><%@
 page import="com.liferay.portlet.rolesadmin.search.RoleSearchTerms" %><%@
+page import="com.liferay.portlet.rolesadmin.search.UserGroupRoleChecker" %><%@
+page import="com.liferay.portlet.rolesadmin.search.UserRoleChecker" %><%@
 page import="com.liferay.portlet.rolesadmin.util.RolesAdminUtil" %><%@
+page import="com.liferay.portlet.usergroupsadmin.search.UserGroupDisplayTerms" %><%@
+page import="com.liferay.portlet.usergroupsadmin.search.UserGroupSearch" %><%@
 page import="com.liferay.portlet.usersadmin.search.GroupSearch" %><%@
+page import="com.liferay.portlet.usersadmin.search.GroupSearchTerms" %><%@
 page import="com.liferay.portlet.usersadmin.search.OrganizationSearch" %><%@
+page import="com.liferay.portlet.usersadmin.search.OrganizationSearchTerms" %><%@
+page import="com.liferay.portlet.usersadmin.search.UserSearch" %><%@
+page import="com.liferay.portlet.usersadmin.search.UserSearchTerms" %><%@
+page import="com.liferay.portlet.usersadmin.util.UsersAdmin" %><%@
 page import="com.liferay.portlet.usersadmin.util.UsersAdminUtil" %><%@
+page import="com.liferay.roles.admin.web.search.RoleChecker" %><%@
 page import="com.liferay.taglib.search.ResultRow" %>
 
 <%@ page import="java.util.ArrayList" %><%@
