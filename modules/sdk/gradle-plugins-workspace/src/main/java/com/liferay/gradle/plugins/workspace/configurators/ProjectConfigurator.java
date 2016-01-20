@@ -12,18 +12,22 @@
  * details.
  */
 
-package com.liferay.portlet.admin.util;
+package com.liferay.gradle.plugins.workspace.configurators;
+
+import java.io.File;
+
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
 
 /**
- * @author Eudaldo Alonso
+ * @author Andrea Di Giorgi
  */
-public class PortalSearchApplicationType {
+public interface ProjectConfigurator extends Plugin<Project> {
 
-	public interface Search {
+	public File getDefaultRootDir();
 
-		public static final String CLASS_NAME =
-			"com.liferay.portlet.admin.util.PortalSearchApplicationType$Search";
+	public String getName();
 
-	}
+	public Iterable<File> getProjectDirs(File rootDir);
 
 }
