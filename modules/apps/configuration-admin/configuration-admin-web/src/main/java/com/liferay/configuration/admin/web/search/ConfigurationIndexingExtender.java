@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.IndexWriterHelper;
 import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.SearchEngine;
 import com.liferay.portal.kernel.search.SearchEngineConfigurator;
 import com.liferay.portal.kernel.search.SearchException;
 
@@ -35,6 +34,9 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 import org.osgi.util.tracker.BundleTracker;
 import org.osgi.util.tracker.BundleTrackerCustomizer;
 
@@ -108,8 +110,18 @@ public class ConfigurationIndexingExtender {
 		_indexWriterHelper = indexWriterHelper;
 	}
 
-	@Reference(target ="(search.engine.impl=Elasticsearch)", unbind = "-")
-	protected void setSearchEngine(SearchEngine searchEngine) {
+	@Reference(
+		cardinality = ReferenceCardinality.AT_LEAST_ONE,
+		policy = ReferencePolicy.DYNAMIC,
+		policyOption = ReferencePolicyOption.GREEDY,
+		unbind = "unsetSearchEngineConfigurator"
+	)
+	protected void setSearchEngineConfigurator(
+		SearchEngineConfigurator searchEngineConfigurator) {
+	}
+
+	protected void unsetSearchEngineConfigurator(
+		SearchEngineConfigurator searchEngineConfigurator) {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
