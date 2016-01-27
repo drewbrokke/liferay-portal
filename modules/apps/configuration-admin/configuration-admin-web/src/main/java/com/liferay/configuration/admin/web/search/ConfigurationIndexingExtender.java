@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.IndexWriterHelper;
 import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.SearchEngine;
 import com.liferay.portal.kernel.search.SearchEngineConfigurator;
 import com.liferay.portal.kernel.search.SearchException;
 
@@ -108,8 +109,7 @@ public class ConfigurationIndexingExtender {
 	}
 
 	@Reference(target ="(search.engine.impl=Elasticsearch)", unbind = "-")
-	protected void setSearchEngineConfigurator(
-		SearchEngineConfigurator searchEngineConfigurator) {
+	protected void setSearchEngine(SearchEngine searchEngine) {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
