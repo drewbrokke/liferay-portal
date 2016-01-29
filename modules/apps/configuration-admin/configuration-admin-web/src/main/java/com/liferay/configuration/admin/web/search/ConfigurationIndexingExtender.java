@@ -20,8 +20,9 @@ import com.liferay.configuration.admin.web.util.ConfigurationModelRetriever;
 import com.liferay.portal.kernel.cluster.ClusterMasterExecutor;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.IndexWriterHelper;
 import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.SearchEngineConfigurator;
 import com.liferay.portal.kernel.search.SearchException;
 
 import java.util.Map;
@@ -33,6 +34,9 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 import org.osgi.util.tracker.BundleTracker;
 import org.osgi.util.tracker.BundleTrackerCustomizer;
 
@@ -64,7 +68,7 @@ public class ConfigurationIndexingExtender {
 
 	protected void commit(Indexer<ConfigurationModel> indexer) {
 		try {
-			IndexWriterHelperUtil.commit(indexer.getSearchEngineId());
+			_indexWriterHelper.commit(indexer.getSearchEngineId());
 		}
 		catch (SearchException se) {
 			if (_log.isWarnEnabled()) {
@@ -101,6 +105,25 @@ public class ConfigurationIndexingExtender {
 		_configurationModelRetriever = configurationModelRetriever;
 	}
 
+	@Reference(unbind = "-")
+	protected void setIndexWriterHelper(IndexWriterHelper indexWriterHelper) {
+		_indexWriterHelper = indexWriterHelper;
+	}
+
+	@Reference(
+		cardinality = ReferenceCardinality.AT_LEAST_ONE,
+		policy = ReferencePolicy.DYNAMIC,
+		policyOption = ReferencePolicyOption.GREEDY,
+		unbind = "unsetSearchEngineConfigurator"
+	)
+	protected void setSearchEngineConfigurator(
+		SearchEngineConfigurator searchEngineConfigurator) {
+	}
+
+	protected void unsetSearchEngineConfigurator(
+		SearchEngineConfigurator searchEngineConfigurator) {
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		ConfigurationIndexingExtender.class);
 
@@ -108,6 +131,7 @@ public class ConfigurationIndexingExtender {
 	private ClusterMasterExecutor _clusterMasterExecutor;
 	private ConfigurationModelIndexer _configurationModelIndexer;
 	private ConfigurationModelRetriever _configurationModelRetriever;
+	private IndexWriterHelper _indexWriterHelper;
 
 	private class ConfigurationModelsBundleTrackerCustomizer
 		implements BundleTrackerCustomizer<ConfigurationModelIterator> {
