@@ -23,10 +23,11 @@ import com.liferay.registry.collections.ServiceTrackerMapListener;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.InvalidSyntaxException;
 
 /**
  * @author Carlos Sierra Andrés
@@ -37,22 +38,35 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		_bundleContext = bundleContext;
 	}
 
+	public void clearServiceTrackerMaps() {
+		for (
+			com.liferay.osgi.service.tracker.collections.map.
+				ServiceTrackerMap<?, ?> serviceTrackerMap :
+					_serviceTrackerMaps.keySet()) {
+
+			try {
+				serviceTrackerMap.close();
+			}
+			catch (Throwable t) {
+			}
+		}
+
+		_serviceTrackerMaps.clear();
+	}
+
 	@Override
 	public <S> ServiceTrackerMap<String, List<S>> multiValueMap(
 		Class<S> clazz, String propertyKey) {
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<String, List<S>> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.multiValueMap(
-							_bundleContext, clazz, propertyKey);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<String, List<S>> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.multiValueMap(
+						_bundleContext, clazz, propertyKey);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -63,19 +77,16 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		ServiceReferenceMapperWrapper<K, S> serviceReferenceMapperWrapper =
 			new ServiceReferenceMapperWrapper<>(serviceReferenceMapper);
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<K, List<S>> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.multiValueMap(
-							_bundleContext, clazz, filterString,
-							serviceReferenceMapperWrapper);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<K, List<S>> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.multiValueMap(
+						_bundleContext, clazz, filterString,
+						serviceReferenceMapperWrapper);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -89,20 +100,17 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		ServiceReferenceComparatorAdapter<S> serviceReferenceComparatorAdapter =
 			new ServiceReferenceComparatorAdapter<>(comparator);
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<K, List<S>> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.multiValueMap(
-							_bundleContext, clazz, filterString,
-							serviceReferenceMapperWrapper,
-							serviceReferenceComparatorAdapter);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<K, List<S>> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.multiValueMap(
+						_bundleContext, clazz, filterString,
+						serviceReferenceMapperWrapper,
+						serviceReferenceComparatorAdapter);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -112,28 +120,25 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		ServiceTrackerMapListener<K, ? super S, List<S>>
 			serviceTrackerMapListener) {
 
-		try {
-			ServiceReferenceMapperWrapper<K, S> serviceReferenceMapperWrapper =
-				new ServiceReferenceMapperWrapper<>(serviceReferenceMapper);
+		ServiceReferenceMapperWrapper<K, S> serviceReferenceMapperWrapper =
+			new ServiceReferenceMapperWrapper<>(serviceReferenceMapper);
 
-			ServiceTrackerMapListenerWrapper<K, S>
-				serviceTrackerMapListenerWrapper =
-					new ServiceTrackerMapListenerWrapper<>(
-						serviceTrackerMapListener);
+		ServiceTrackerMapListenerWrapper<K, S>
+			serviceTrackerMapListenerWrapper =
+				new ServiceTrackerMapListenerWrapper<>(
+					serviceTrackerMapListener);
 
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<K, List<S>> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.multiValueMap(
-							_bundleContext, clazz, filterString,
-							serviceReferenceMapperWrapper,
-							serviceTrackerMapListenerWrapper);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<K, List<S>> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.multiValueMap(
+						_bundleContext, clazz, filterString,
+						serviceReferenceMapperWrapper,
+						serviceTrackerMapListenerWrapper);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -147,20 +152,17 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		ServiceTrackerCustomizerAdapter<SR, S> serviceTrackerCustomizerAdapter =
 			new ServiceTrackerCustomizerAdapter<>(serviceTrackerCustomizer);
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<K, List<S>> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.multiValueMap(
-							_bundleContext, clazz, filterString,
-							serviceReferenceMapperWrapper,
-							serviceTrackerCustomizerAdapter);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<K, List<S>> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.multiValueMap(
+						_bundleContext, clazz, filterString,
+						serviceReferenceMapperWrapper,
+						serviceTrackerCustomizerAdapter);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -178,21 +180,18 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 			serviceReferenceComparatorAdapter =
 				new ServiceReferenceComparatorAdapter<>(comparator);
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<K, List<S>> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.multiValueMap(
-							_bundleContext, clazz, filterString,
-							serviceReferenceMapperWrapper,
-							serviceTrackerCustomizerAdapter,
-							serviceReferenceComparatorAdapter);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<K, List<S>> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.multiValueMap(
+						_bundleContext, clazz, filterString,
+						serviceReferenceMapperWrapper,
+						serviceTrackerCustomizerAdapter,
+						serviceReferenceComparatorAdapter);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -203,37 +202,31 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		ServiceTrackerCustomizerAdapter<SR, S> serviceTrackerCustomizerAdapter =
 			new ServiceTrackerCustomizerAdapter<>(serviceTrackerCustomizer);
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<String, List<S>> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.multiValueMap(
-							_bundleContext, clazz, propertyKey,
-							serviceTrackerCustomizerAdapter);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<String, List<S>> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.multiValueMap(
+						_bundleContext, clazz, propertyKey,
+						serviceTrackerCustomizerAdapter);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
 	public <S> ServiceTrackerMap<String, S> singleValueMap(
 		Class<S> clazz, String propertyKey) {
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<String, S> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.singleValueMap(
-							_bundleContext, clazz, propertyKey);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<String, S> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.singleValueMap(
+						_bundleContext, clazz, propertyKey);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -244,19 +237,16 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		ServiceReferenceMapperWrapper<K, S> serviceReferenceMapperWrapper =
 			new ServiceReferenceMapperWrapper<>(serviceReferenceMapper);
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<K, S> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.singleValueMap(
-							_bundleContext, clazz, filterString,
-							serviceReferenceMapperWrapper);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<K, S> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.singleValueMap(
+						_bundleContext, clazz, filterString,
+						serviceReferenceMapperWrapper);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -270,20 +260,17 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		ServiceReferenceComparatorAdapter<S> serviceReferenceComparatorAdapter =
 			new ServiceReferenceComparatorAdapter<>(comparator);
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<K, S> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.singleValueMap(
-							_bundleContext, clazz, filterString,
-							serviceReferenceMapperWrapper,
-							serviceReferenceComparatorAdapter);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<K, S> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.singleValueMap(
+						_bundleContext, clazz, filterString,
+						serviceReferenceMapperWrapper,
+						serviceReferenceComparatorAdapter);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -297,20 +284,17 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		ServiceTrackerCustomizerAdapter<SR, S> serviceTrackerCustomizerAdapter =
 			new ServiceTrackerCustomizerAdapter<>(serviceTrackerCustomizer);
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<K, S> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.singleValueMap(
-							_bundleContext, clazz, filterString,
-							serviceReferenceMapperWrapper,
-							serviceTrackerCustomizerAdapter);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<K, S> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.singleValueMap(
+						_bundleContext, clazz, filterString,
+						serviceReferenceMapperWrapper,
+						serviceTrackerCustomizerAdapter);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -325,25 +309,22 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		ServiceTrackerCustomizerAdapter<SR, S> serviceTrackerCustomizerAdapter =
 			new ServiceTrackerCustomizerAdapter<>(serviceTrackerCustomizer);
 
-		try {
-			ServiceReferenceComparatorAdapter<SR>
-				serviceReferenceComparatorAdapter =
-					new ServiceReferenceComparatorAdapter<>(comparator);
+		ServiceReferenceComparatorAdapter<SR>
+			serviceReferenceComparatorAdapter =
+				new ServiceReferenceComparatorAdapter<>(comparator);
 
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<K, S> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.singleValueMap(
-							_bundleContext, clazz, filterString,
-							serviceReferenceMapperWrapper,
-							serviceTrackerCustomizerAdapter,
-							serviceReferenceComparatorAdapter);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<K, S> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.singleValueMap(
+						_bundleContext, clazz, filterString,
+						serviceReferenceMapperWrapper,
+						serviceTrackerCustomizerAdapter,
+						serviceReferenceComparatorAdapter);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	@Override
@@ -354,22 +335,23 @@ public class ServiceTrackerMapFactoryImpl implements ServiceTrackerMapFactory {
 		ServiceTrackerCustomizerAdapter<SR, S> serviceTrackerCustomizerAdapter =
 			new ServiceTrackerCustomizerAdapter<>(serviceTrackerCustomizer);
 
-		try {
-			com.liferay.osgi.service.tracker.collections.map.
-				ServiceTrackerMap<String, S> serviceTrackerMap =
-					com.liferay.osgi.service.tracker.collections.map.
-						ServiceTrackerMapFactory.singleValueMap(
-							_bundleContext, clazz, propertyKey,
-							serviceTrackerCustomizerAdapter);
+		com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<String, S> serviceTrackerMap =
+				com.liferay.osgi.service.tracker.collections.map.
+					ServiceTrackerMapFactory.singleValueMap(
+						_bundleContext, clazz, propertyKey,
+						serviceTrackerCustomizerAdapter);
 
-			return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
-		}
-		catch (InvalidSyntaxException ise) {
-			throw new RuntimeException(ise);
-		}
+		_serviceTrackerMaps.put(serviceTrackerMap, null);
+
+		return new ServiceTrackerMapWrapper<>(serviceTrackerMap);
 	}
 
 	private final BundleContext _bundleContext;
+	private final Map
+		<com.liferay.osgi.service.tracker.collections.map.
+			ServiceTrackerMap<?,?>, Void>
+				_serviceTrackerMaps = new WeakHashMap<>();
 
 	private static class EmitterWrapper<K>
 		implements ServiceReferenceMapper.Emitter<K> {

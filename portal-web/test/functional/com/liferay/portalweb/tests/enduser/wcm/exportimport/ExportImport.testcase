@@ -37,8 +37,6 @@
 			<var name="portlet" value="Export" />
 		</execute>
 
-		<execute macro="LAR#gotoExportTemplateCP" />
-
 		<execute macro="LAR#addExportTemplateCP">
 			<var name="exportTemplateDescription" value="Export Template Description" />
 			<var name="exportTemplateName" value="Export Template Name" />
@@ -125,8 +123,6 @@
 			<var name="portlet" value="Export" />
 		</execute>
 
-		<execute macro="LAR#gotoExportTemplateCP" />
-
 		<execute macro="LAR#addExportTemplateCP">
 			<var name="exportTemplateDescription" value="Export Template Description" />
 			<var name="exportTemplateName" value="Export Template Name" />
@@ -146,16 +142,13 @@
 			<var name="exportTemplateName" value="Export Template Name" />
 		</execute>
 
-		<var method="selenium#getElementText('//div[contains(@id,'backgroundTasksSearchContainer')]//table//tr/td[5]/span/a/span')" name="valueName" />
+		<var method="selenium#getElementText('//div[contains(@id,'backgroundTasksSearchContainer')]//table//tr/td[6]/span/a/span')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
 		<var group="1" input="${valueName}" name="larFileName" pattern="([a-zA-z0-9_.-]*)[(0-9k)]*" />
 
-		<echo message="import file name ${larFileName}" />
-
-		<execute function="Click" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_DOWNLOAD" />
-		<execute function="DownloadTempFile" />
+		<echo message="file name ${larFileName}" />
 
 		<execute function="Click" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_DOWNLOAD" />
 		<execute function="DownloadTempFile" />
@@ -220,13 +213,13 @@
 
 		<execute function="AssertTextEquals#assertPartialText" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_STATUS" value1="Successful" />
 
-		<var method="selenium#getElementText('//div[contains(@id,'backgroundTasksSearchContainer')]//table//tr/td[5]/span/a/span')" name="valueName" />
+		<var method="selenium#getElementText('//div[contains(@id,'backgroundTasksSearchContainer')]//table//tr/td[6]/span/a/span')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
 		<var group="1" input="${valueName}" name="larFileName" pattern="([a-zA-z0-9_.-]*)[(0-9k)]*" />
 
-		<echo message="import file name ${larFileName}" />
+		<echo message="file name ${larFileName}" />
 
 		<execute function="Click" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_DOWNLOAD" />
 		<execute function="DownloadTempFile" />
@@ -390,13 +383,13 @@
 
 		<execute function="AssertTextEquals#assertPartialText" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_STATUS" value1="Successful" />
 
-		<var method="selenium#getElementText('//tr/td[5]/span/a')" name="valueName" />
+		<var method="selenium#getElementText('//tr/td[6]/span/a')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
 		<var group="1" input="${valueName}" name="larFileName" pattern="([a-zA-z0-9_.-]*)[(0-9k)]*" />
 
-		<echo message="import file name ${larFileName}" />
+		<echo message="file name ${larFileName}" />
 
 		<execute function="Click" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_DOWNLOAD" />
 		<execute function="DownloadTempFile" />
@@ -439,13 +432,13 @@
 
 		<execute function="AssertTextEquals#assertPartialText" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_STATUS" value1="Successful" />
 
-		<var method="selenium#getElementText('//tr/td[5]/span/a')" name="valueName" />
+		<var method="selenium#getElementText('//tr/td[6]/span/a')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
 		<var group="1" input="${valueName}" name="larFileName" pattern="([a-zA-z0-9_.-]*)[(0-9k)]*" />
 
-		<echo message="import file name ${larFileName}" />
+		<echo message="file name ${larFileName}" />
 
 		<execute function="Click" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_DOWNLOAD" />
 		<execute function="DownloadTempFile" />
@@ -515,13 +508,13 @@
 
 		<execute function="AssertTextEquals#assertPartialText" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_STATUS" value1="Successful" />
 
-		<var method="selenium#getElementText('//tr/td[5]/span/a')" name="valueName" />
+		<var method="selenium#getElementText('//tr/td[6]/span/a')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
 		<var group="1" input="${valueName}" name="larFileName" pattern="([a-zA-z0-9_.-]*)[(0-9k)]*" />
 
-		<echo message="import file name ${larFileName}" />
+		<echo message="file name ${larFileName}" />
 
 		<execute function="Click" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_DOWNLOAD" />
 		<execute function="DownloadTempFile" />
@@ -694,7 +687,7 @@
 
 		<execute function="AssertTextEquals#assertPartialText" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_STATUS" value1="Successful" />
 
-		<var method="selenium#getElementText('//tr/td[5]/span/a')" name="valueName" />
+		<var method="selenium#getElementText('//tr/td[6]/span/a')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
@@ -704,7 +697,6 @@
 
 		<execute function="Click" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_DOWNLOAD" />
 		<execute function="DownloadTempFile" />
-		<execute function="SelectFrame" value1="relative=top" />
 
 		<execute macro="ProductMenu#gotoControlPanelSites">
 			<var name="portlet" value="Sites" />
@@ -777,13 +769,13 @@
 
 		<execute function="AssertTextEquals#assertPartialText" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_STATUS" value1="Successful" />
 
-		<var method="selenium#getElementText('//tr/td[5]/span/a')" name="valueName" />
+		<var method="selenium#getElementText('//tr/td[6]/span/a')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
 		<var group="1" input="${valueName}" name="larFileName" pattern="([a-zA-z0-9_.-]*)[(0-9k)]*" />
 
-		<echo message="import file name ${larFileName}" />
+		<echo message="file name ${larFileName}" />
 
 		<execute function="Click" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_DOWNLOAD" />
 		<execute function="DownloadTempFile" />
@@ -810,8 +802,6 @@
 			<var name="portlet" value="Export" />
 		</execute>
 
-		<execute macro="LAR#gotoExportTemplateCP" />
-
 		<execute macro="LAR#addExportTemplateCP">
 			<var name="exportTemplateDescription" value="Export Template Description" />
 			<var name="exportTemplateName" value="Export Template Name" />
@@ -832,13 +822,13 @@
 			<var name="exportTemplateName" value="Export Template Name" />
 		</execute>
 
-		<var method="selenium#getElementText('//div[contains(@id,'backgroundTasksSearchContainer')]//table//tr/td[5]/span/a/span')" name="valueName" />
+		<var method="selenium#getElementText('//div[contains(@id,'backgroundTasksSearchContainer')]//table//tr/td[6]/span/a/span')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
 		<var group="1" input="${valueName}" name="larFileName" pattern="([a-zA-z0-9_.-]*)[(0-9k)]*" />
 
-		<echo message="import file name ${larFileName}" />
+		<echo message="file name ${larFileName}" />
 
 		<execute function="Click" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_DOWNLOAD" />
 		<execute function="DownloadTempFile" />
@@ -922,7 +912,7 @@
 
 		<execute function="AssertTextEquals#assertPartialText" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_STATUS" value1="Successful" />
 
-		<var method="selenium#getElementText('//tr/td[5]/span/a')" name="valueName" />
+		<var method="selenium#getElementText('//tr/td[6]/span/a')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
@@ -932,7 +922,6 @@
 
 		<execute function="Click" locator1="SitePagesExport#CURRENT_AND_PREVIOUS_DOWNLOAD" />
 		<execute function="DownloadTempFile" />
-		<execute function="SelectFrame" value1="relative=top" />
 
 		<execute macro="ProductMenu#gotoControlPanelSites">
 			<var name="portlet" value="Sites" />
@@ -983,8 +972,6 @@
 		<execute macro="ProductMenu#gotoSitesPublishingTools">
 			<var name="portlet" value="Export" />
 		</execute>
-
-		<execute macro="LAR#gotoExportTemplateCP" />
 
 		<execute macro="LAR#addExportTemplateCP">
 			<var name="exportTemplateDescription" value="Export Template Description" />

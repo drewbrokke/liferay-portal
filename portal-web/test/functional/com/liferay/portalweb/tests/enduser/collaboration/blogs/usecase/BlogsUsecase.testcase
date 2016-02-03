@@ -1645,6 +1645,8 @@
 
 		<execute macro="BlogsEntry#publish" />
 
+		<execute function="AssertClick" locator1="Blogs#MY_PENDING_ENTRIES_PANEL_COLLAPSED" value1="My Pending Entries" />
+
 		<execute macro="BlogsEntry#gotoScheduledEditPG">
 			<var name="entryTitle" value="${entryTitle}" />
 		</execute>
@@ -1781,7 +1783,7 @@
 		<for list="${orgNameList}" param="orgName">
 			<execute macro="Organization#addCP">
 				<var name="orgName" value="${orgName}" />
-				<var name="orgType" value="Regular Organization" />
+				<var name="orgType" value="Organization" />
 			</execute>
 
 			<execute macro="ProductMenu#gotoControlPanelUsers">

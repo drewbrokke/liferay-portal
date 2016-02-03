@@ -24,12 +24,12 @@ if (accordion) {
 		collapsed = true;
 	}
 }
-else if ((extended != null) && extended) {
+else if ((extended != null) && !extended) {
 	collapsed = true;
 }
 %>
 
-<div class="panel panel-default <%= cssClass %>">
+<div class="panel panel-default <%= cssClass %>" id="<%= id %>">
 	<div class="panel-heading" id="<%= id %>Header" role="tab">
 		<div class="h4 panel-title">
 			<c:choose>

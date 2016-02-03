@@ -59,8 +59,6 @@ import com.thoughtworks.qdox.model.Type;
 
 import freemarker.ext.beans.BeansWrapper;
 
-import freemarker.log.Logger;
-
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
 
@@ -1304,6 +1302,30 @@ public class ServiceBuilder {
 		return StringPool.BLANK;
 	}
 
+	public String getPrimitiveType(String type) {
+		if (type.equals("Boolean")) {
+			return "boolean";
+		}
+		else if (type.equals("Double")) {
+			return "double";
+		}
+		else if (type.equals("Float")) {
+			return "float";
+		}
+		else if (type.equals("Integer")) {
+			return "int";
+		}
+		else if (type.equals("Long")) {
+			return "long";
+		}
+		else if (type.equals("Short")) {
+			return "short";
+		}
+		else {
+			return type;
+		}
+	}
+
 	public String getReturnType(JavaMethod method) {
 		Type returnType = method.getReturnType();
 
@@ -2437,6 +2459,12 @@ public class ServiceBuilder {
 				_outputPath + "/model/impl/" + superClassValue + ".java");
 
 			for (JavaMethod method : _getMethods(javaClass)) {
+				String methodName = method.getName();
+
+				if (methodName.equals("hasSetModifiedDate")) {
+					continue;
+				}
+
 				methods.remove(method.getDeclarationSignature(false));
 			}
 
@@ -2636,11 +2664,7 @@ public class ServiceBuilder {
 
 		// Content
 
-		Logger.selectLoggerLibrary(Logger.LIBRARY_NONE);
-
 		String content = _processTemplate(_tplPersistenceImpl, context);
-
-		Logger.selectLoggerLibrary(Logger.LIBRARY_AUTO);
 
 		// Write file
 
@@ -4202,7 +4226,7 @@ public class ServiceBuilder {
 			}
 
 			if (colName.equals("mvccVersion")) {
-				sb.append(" default 0");
+				sb.append(" default 0 not null");
 			}
 
 			if (((i + 1) != regularColList.size()) || entity.hasCompoundPK()) {

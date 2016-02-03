@@ -804,13 +804,9 @@ public class LayoutTypePortletImpl
 
 	@Override
 	public boolean isPortletEmbedded(String portletId) {
-		for (Portlet embeddedPortlet : getEmbeddedPortlets()) {
-			if (portletId.equals(embeddedPortlet.getPortletId())) {
-				return true;
-			}
-		}
+		Layout layout = getLayout();
 
-		return false;
+		return layout.isPortletEmbedded(portletId);
 	}
 
 	@Override
@@ -1531,7 +1527,7 @@ public class LayoutTypePortletImpl
 		try {
 			group = layout.getGroup();
 		}
-		catch (PortalException e) {
+		catch (PortalException pe) {
 			_log.error("Unable to get group " + layout.getGroupId());
 
 			return new String[0];

@@ -195,7 +195,7 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 
 							<aui:input label="remote-path-context" name="remotePathContext" size="10" type="text" value='<%= liveGroupTypeSettings.getProperty("remotePathContext") %>' />
 
-							<aui:input label='<%= LanguageUtil.get(request, "remote-site-id" ) %>' name="remoteGroupId" size="10" type="text" value='<%= liveGroupTypeSettings.getProperty("remoteGroupId") %>' />
+							<aui:input label='<%= LanguageUtil.get(request, "remote-site-id") %>' name="remoteGroupId" size="10" type="text" value='<%= liveGroupTypeSettings.getProperty("remoteGroupId") %>' />
 
 							<aui:input label="use-a-secure-network-connection" name="secureConnection" type="toggle-switch" value='<%= liveGroupTypeSettings.getProperty("secureConnection") %>' />
 						</aui:fieldset>
@@ -216,23 +216,25 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 							</div>
 
 							<%
-							Set<String> portletDataHandlerClasses = new HashSet<String>();
+							Set<String> portletDataHandlerClassNames = new HashSet<String>();
 
 							List<Portlet> dataSiteLevelPortlets = ExportImportHelperUtil.getDataSiteLevelPortlets(company.getCompanyId(), true);
 
 							dataSiteLevelPortlets = ListUtil.sort(dataSiteLevelPortlets, new PortletTitleComparator(application, locale));
 
 							for (Portlet curPortlet : dataSiteLevelPortlets) {
-								String portletDataHandlerClass = curPortlet.getPortletDataHandlerClass();
+								PortletDataHandler portletDataHandler = curPortlet.getPortletDataHandlerInstance();
 
-								if (!portletDataHandlerClasses.contains(portletDataHandlerClass)) {
-									portletDataHandlerClasses.add(portletDataHandlerClass);
+								Class<?> portletDataHandlerClass = portletDataHandler.getClass();
+
+								String portletDataHandlerClassName = portletDataHandlerClass.getName();
+
+								if (!portletDataHandlerClassNames.contains(portletDataHandlerClassName)) {
+									portletDataHandlerClassNames.add(portletDataHandlerClassName);
 								}
 								else {
 									continue;
 								}
-
-								PortletDataHandler portletDataHandler = curPortlet.getPortletDataHandlerInstance();
 
 								boolean staged = GetterUtil.getBoolean(liveGroupTypeSettings.getProperty(StagingUtil.getStagedPortletId(curPortlet.getRootPortletId())), portletDataHandler.isPublishToLiveByDefault());
 							%>

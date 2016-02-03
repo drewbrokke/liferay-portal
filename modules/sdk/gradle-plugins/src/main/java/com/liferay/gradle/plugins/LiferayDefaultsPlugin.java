@@ -23,6 +23,8 @@ import com.liferay.gradle.plugins.node.tasks.PublishNodeModuleTask;
 import com.liferay.gradle.plugins.patcher.PatchTask;
 import com.liferay.gradle.plugins.service.builder.ServiceBuilderPlugin;
 import com.liferay.gradle.plugins.test.integration.TestIntegrationBasePlugin;
+import com.liferay.gradle.plugins.tlddoc.builder.TLDDocBuilderPlugin;
+import com.liferay.gradle.plugins.tlddoc.builder.tasks.TLDDocTask;
 import com.liferay.gradle.plugins.upgrade.table.builder.UpgradeTableBuilderPlugin;
 import com.liferay.gradle.plugins.util.FileUtil;
 import com.liferay.gradle.plugins.util.GradleUtil;
@@ -91,7 +93,6 @@ import org.gradle.api.tasks.SourceSetOutput;
 import org.gradle.api.tasks.TaskCollection;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.bundling.Jar;
-import org.gradle.api.tasks.bundling.Zip;
 import org.gradle.api.tasks.compile.CompileOptions;
 import org.gradle.api.tasks.compile.JavaCompile;
 import org.gradle.api.tasks.javadoc.Javadoc;
@@ -118,11 +119,13 @@ public class LiferayDefaultsPlugin extends BaseDefaultsPlugin<LiferayPlugin> {
 	public static final String DEFAULT_REPOSITORY_URL =
 		"http://cdn.repository.liferay.com/nexus/content/groups/public";
 
+	public static final String JAR_JAVADOC_TASK_NAME = "jarJavadoc";
+
 	public static final String JAR_SOURCES_TASK_NAME = "jarSources";
 
-	public static final String PORTAL_TEST_CONFIGURATION_NAME = "portalTest";
+	public static final String JAR_TLDDOC_TASK_NAME = "jarTLDDoc";
 
-	public static final String ZIP_JAVADOC_TASK_NAME = "zipJavadoc";
+	public static final String PORTAL_TEST_CONFIGURATION_NAME = "portalTest";
 
 	protected Configuration addConfigurationPortalTest(final Project project) {
 		Configuration configuration = GradleUtil.addConfiguration(
@@ -194,6 +197,23 @@ public class LiferayDefaultsPlugin extends BaseDefaultsPlugin<LiferayPlugin> {
 		return copy;
 	}
 
+	protected Jar addTaskJarJavadoc(Project project) {
+		Jar jar = GradleUtil.addTask(project, JAR_JAVADOC_TASK_NAME, Jar.class);
+
+		jar.setClassifier("javadoc");
+		jar.setDescription(
+			"Assembles a jar archive containing the Javadoc files for this " +
+				"project.");
+		jar.setGroup(BasePlugin.BUILD_GROUP);
+
+		Javadoc javadoc = (Javadoc)GradleUtil.getTask(
+			project, JavaPlugin.JAVADOC_TASK_NAME);
+
+		jar.from(javadoc);
+
+		return jar;
+	}
+
 	protected Jar addTaskJarSources(Project project, boolean testProject) {
 		final Jar jar = GradleUtil.addTask(
 			project, JAR_SOURCES_TASK_NAME, Jar.class);
@@ -261,22 +281,21 @@ public class LiferayDefaultsPlugin extends BaseDefaultsPlugin<LiferayPlugin> {
 		return jar;
 	}
 
-	protected Zip addTaskZipJavadoc(Project project) {
-		Zip zip = GradleUtil.addTask(project, ZIP_JAVADOC_TASK_NAME, Zip.class);
+	protected Jar addTaskJarTLDDoc(Project project) {
+		Jar jar = GradleUtil.addTask(project, JAR_TLDDOC_TASK_NAME, Jar.class);
 
-		zip.setClassifier("javadoc");
-		zip.setDescription(
-			"Assembles a zip archive containing the Javadoc files for this " +
-				"project.");
-		zip.setGroup(BasePlugin.BUILD_GROUP);
+		jar.setClassifier("taglibdoc");
+		jar.setDescription(
+			"Assembles a jar archive containing the Tag Library " +
+				"Documentation files for this project.");
+		jar.setGroup(BasePlugin.BUILD_GROUP);
 
-		Javadoc javadoc = (Javadoc)GradleUtil.getTask(
-			project, JavaPlugin.JAVADOC_TASK_NAME);
+		TLDDocTask tlddocTask = (TLDDocTask)GradleUtil.getTask(
+			project, TLDDocBuilderPlugin.TLDDOC_TASK_NAME);
 
-		zip.dependsOn(javadoc);
-		zip.from(javadoc);
+		jar.from(tlddocTask);
 
-		return zip;
+		return jar;
 	}
 
 	protected void applyConfigScripts(Project project) {
@@ -310,11 +329,11 @@ public class LiferayDefaultsPlugin extends BaseDefaultsPlugin<LiferayPlugin> {
 		}
 	}
 
-	protected void configureArtifacts(Project project) {
-		ArtifactHandler artifactHandler = project.getArtifacts();
+	protected void configureArtifacts(
+		Project project, Jar jarJavadocTask, Jar jarSourcesTask,
+		Jar jarTLDDocTask) {
 
-		Task jarSourcesTask = GradleUtil.getTask(
-			project, JAR_SOURCES_TASK_NAME);
+		ArtifactHandler artifactHandler = project.getArtifacts();
 
 		Spec<File> spec = new Spec<File>() {
 
@@ -355,11 +374,31 @@ public class LiferayDefaultsPlugin extends BaseDefaultsPlugin<LiferayPlugin> {
 		};
 
 		if (FileUtil.hasSourceFiles(javadocTask, spec)) {
-			Task zipJavadocTask = GradleUtil.getTask(
-				project, ZIP_JAVADOC_TASK_NAME);
-
 			artifactHandler.add(
-				Dependency.ARCHIVES_CONFIGURATION, zipJavadocTask);
+				Dependency.ARCHIVES_CONFIGURATION, jarJavadocTask);
+		}
+
+		Task tlddocTask = GradleUtil.getTask(
+			project, TLDDocBuilderPlugin.TLDDOC_TASK_NAME);
+
+		spec = new Spec<File>() {
+
+			@Override
+			public boolean isSatisfiedBy(File file) {
+				String fileName = file.getName();
+
+				if (fileName.endsWith(".tld")) {
+					return true;
+				}
+
+				return false;
+			}
+
+		};
+
+		if (FileUtil.hasSourceFiles(tlddocTask, spec)) {
+			artifactHandler.add(
+				Dependency.ARCHIVES_CONFIGURATION, jarTLDDocTask);
 		}
 	}
 
@@ -470,8 +509,11 @@ public class LiferayDefaultsPlugin extends BaseDefaultsPlugin<LiferayPlugin> {
 
 		addDependenciesPortalTest(project);
 		addDependenciesTestCompile(project);
-		addTaskJarSources(project, testProject);
-		addTaskZipJavadoc(project);
+
+		final Jar jarJavadocTask = addTaskJarJavadoc(project);
+		final Jar jarSourcesTask = addTaskJarSources(project, testProject);
+		final Jar jarTLDDocTask = addTaskJarTLDDoc(project);
+
 		configureBasePlugin(project, portalRootDir);
 		configureConfigurations(project);
 		configureEclipse(project, portalTestConfiguration);
@@ -524,7 +566,8 @@ public class LiferayDefaultsPlugin extends BaseDefaultsPlugin<LiferayPlugin> {
 
 				@Override
 				public void execute(Project project) {
-					configureArtifacts(project);
+					configureArtifacts(
+						project, jarJavadocTask, jarSourcesTask, jarTLDDocTask);
 					configureProjectBndProperties(project);
 					configureProjectVersion(project);
 

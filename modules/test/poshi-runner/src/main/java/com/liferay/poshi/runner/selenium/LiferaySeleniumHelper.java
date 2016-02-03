@@ -31,6 +31,7 @@ import com.liferay.poshi.runner.util.Validator;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import java.io.BufferedReader;
@@ -500,7 +501,7 @@ public class LiferaySeleniumHelper {
 		liferaySelenium.assertElementPresent(locator);
 
 		if (liferaySelenium.isPartialText(locator, pattern)) {
-			String text = liferaySelenium.getElementText(locator);
+			String text = liferaySelenium.getText(locator);
 
 			throw new Exception(
 				"\"" + text + "\" contains \"" + pattern + "\" at \"" +
@@ -531,7 +532,7 @@ public class LiferaySeleniumHelper {
 		liferaySelenium.assertElementPresent(locator);
 
 		if (liferaySelenium.isText(locator, pattern)) {
-			String text = liferaySelenium.getElementText(locator);
+			String text = liferaySelenium.getText(locator);
 
 			throw new Exception(
 				"Pattern \"" + pattern + "\" matches \"" + text + "\" at \"" +
@@ -585,7 +586,7 @@ public class LiferaySeleniumHelper {
 		liferaySelenium.assertElementPresent(locator);
 
 		if (liferaySelenium.isNotPartialText(locator, pattern)) {
-			String text = liferaySelenium.getElementText(locator);
+			String text = liferaySelenium.getText(locator);
 
 			throw new Exception(
 				"\"" + text + "\" does not contain \"" + pattern + "\" at \"" +
@@ -616,7 +617,7 @@ public class LiferaySeleniumHelper {
 		liferaySelenium.assertElementPresent(locator);
 
 		if (liferaySelenium.isNotText(locator, pattern)) {
-			String text = liferaySelenium.getElementText(locator);
+			String text = liferaySelenium.getText(locator);
 
 			throw new Exception(
 				"Pattern \"" + pattern + "\" does not match \"" + text +
@@ -1153,6 +1154,16 @@ public class LiferaySeleniumHelper {
 		captureScreen(
 			_CURRENT_DIR_NAME + "test-results/functional/screenshots/" +
 				"ScreenshotBeforeAction" + _screenshotErrorCount + ".jpg");
+	}
+
+	public static void selectFieldText() {
+		Keyboard keyboard = new DesktopKeyboard();
+
+		keyboard.keyDown(KeyEvent.VK_CONTROL);
+
+		keyboard.type("a");
+
+		keyboard.keyUp(KeyEvent.VK_CONTROL);
 	}
 
 	public static void sendEmail(

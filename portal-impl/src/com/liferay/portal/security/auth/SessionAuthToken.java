@@ -245,8 +245,8 @@ public class SessionAuthToken implements AuthToken {
 
 			return isValidPortletInvocationToken(request, layout, portlet);
 		}
-		catch (PortalException e) {
-			ReflectionUtil.throwException(e);
+		catch (PortalException pe) {
+			ReflectionUtil.throwException(pe);
 		}
 
 		return false;
@@ -277,7 +277,7 @@ public class SessionAuthToken implements AuthToken {
 				(HttpServletRequest)httpServletRequestWrapper.getRequest();
 		}
 
-		if (session == null ) {
+		if (session == null) {
 			session = currentRequest.getSession();
 
 			sessionAuthenticationToken = (String)session.getAttribute(tokenKey);

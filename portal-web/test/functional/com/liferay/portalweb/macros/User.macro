@@ -3,17 +3,20 @@
 	<var name="userEmailAddress" value="test@liferay.com" />
 
 	<command name="activateCP">
-		<execute function="Click" locator1="NavBar#SEARCH_TOGGLE_ADVANCED" />
-		<execute function="Type" locator1="AdvancedSearch#FIRST_NAME_FIELD" value1="${userFirstName}" />
-		<execute function="Select" locator1="Select#USER_STATUS" value1="Inactive" />
-		<execute function="AssertClick" locator1="NavBar#BASIC_SEARCH_BUTTON" value1="Search" />
+		<execute function="Click" locator1="Dropdown#FILTER" />
 
-		<var name="key_userScreenName" value="${userScreenName}" />
+		<var name="key_filterValue" value="Inactive" />
 
-		<execute function="Click" locator1="UsersAndOrganizations#USER_TABLE_ACTIONS" />
+		<execute function="AssertClick" locator1="Dropdown#FILTER_VALUES" value1="Inactive" />
+
+		<var name="key_rowEntry" value="${userScreenName}" />
+
+		<execute function="Click" locator1="Icon#ROW_VERTICAL_ELLIPSIS" />
+
 		<execute function="AssertClick" locator1="MenuItem#ACTIVATE" value1="Activate" />
+
 		<execute function="AssertTextEquals#assertPartialText" locator1="Message#SUCCESS" value1="Your request completed successfully." />
-		<execute function="AssertTextEquals" locator1="Message#INFO" value1="No users were found." />
+		<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="No users were found." />
 
 		<execute macro="ProductMenu#gotoControlPanelUsers">
 			<var name="portlet" value="Users and Organizations" />
@@ -131,7 +134,7 @@
 				<then>
 					<execute macro="Alert#viewRequestFailedToComplete" />
 
-					<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="Please enter a valid email address." />
+					<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR_2" value1="Please enter a valid email address." />
 				</then>
 			</elseif>
 			<elseif>
@@ -159,12 +162,13 @@
 	</command>
 
 	<command name="addCreateAccountPG">
-		<execute function="AssertClick" locator1="Link#CREATE_ACCOUNT" value1="Create Account" />
-		<execute function="Type" locator1="TextInput#FIRST_NAME" value1="${userFirstName}" />
-		<execute function="Type" locator1="TextInput#LAST_NAME" value1="${userLastName}" />
-		<execute function="Type" locator1="TextInput#SCREEN_NAME" value1="${userScreenName}" />
-		<execute function="Type" locator1="TextInput#EMAIL_ADDRESS" value1="${userEmailAddress}" />
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="User#createAccount">
+			<var name="userEmailAddress" value="${userEmailAddress}" />
+			<var name="userFirstName" value="${userFirstName}" />
+			<var name="userLastName" value="${userLastName}" />
+			<var name="userScreenName" value="${userScreenName}" />
+		</execute>
+
 		<execute function="AssertTextEquals#assertPartialText" locator1="Message#SUCCESS" value1="Thank you for creating an account. Your email verification code has been sent to ${userEmailAddress}. Your password has been sent to ${userEmailAddress}." />
 	</command>
 
@@ -297,7 +301,7 @@
 
 		<execute macro="Alert#viewRequestFailedToComplete" />
 
-		<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="The email address you requested is reserved." />
+		<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR_2" value1="The email address you requested is reserved." />
 	</command>
 
 	<command name="addReservedScreenNameCP">
@@ -313,7 +317,7 @@
 
 		<execute macro="Alert#viewRequestFailedToComplete" />
 
-		<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="The screen name you requested is reserved." />
+		<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR_2" value1="The screen name you requested is reserved." />
 	</command>
 
 	<command name="addScreenNameNumberSiteIdCP">
@@ -329,7 +333,7 @@
 
 		<execute macro="Alert#viewRequestFailedToComplete" />
 
-		<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="The screen name cannot contain only numeric values." />
+		<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR_2" value1="The screen name cannot contain only numeric values." />
 	</command>
 
 	<command name="addSMSViaMyAccount">
@@ -812,7 +816,8 @@
 			<equals arg1="${userBasicSearch}" arg2="Basic" />
 			<then>
 				<execute function="Type" locator1="TextInput#SEARCH" value1="${userScreenName}" />
-				<execute function="AssertClick" locator1="Button#SEARCH" value1="Search" />
+
+				<execute function="Click" locator1="Button#SUBMIT" />
 
 				<var name="key_userScreenName" value="${userScreenName}" />
 
@@ -821,8 +826,10 @@
 				<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_SCREEN_NAME" value1="${userScreenName}" />
 
 				<execute function="Type" locator1="TextInput#SEARCH" value1="user1*" />
-				<execute function="AssertClick" locator1="Button#SEARCH" value1="Search" />
-				<execute function="AssertTextPresent" locator1="Message#INFO" value1="No users were found." />
+
+				<execute function="Click" locator1="Button#SUBMIT" />
+
+				<execute function="AssertTextPresent" locator1="Message#EMPTY_INFO" value1="No users were found." />
 			</then>
 			<elseif>
 				<equals arg1="${userBasicSearch}" arg2="Full Name" />
@@ -830,7 +837,8 @@
 					<var name="fullName"><![CDATA["${userFirstName} ${userLastName}"]]></var>
 
 					<execute function="Type" locator1="TextInput#SEARCH" value1="${fullName}" />
-					<execute function="AssertClick" locator1="Button#SEARCH" value1="Search" />
+
+					<execute function="Click" locator1="Button#SUBMIT" />
 
 					<var name="key_userScreenName" value="${userScreenName}" />
 
@@ -841,8 +849,10 @@
 					<var name="fullName"><![CDATA["${userFirstName} 1 ${userLastName}"]]></var>
 
 					<execute function="Type" locator1="TextInput#SEARCH" value1="${fullName}" />
-					<execute function="AssertClick" locator1="Button#SEARCH" value1="Search" />
-					<execute function="AssertTextEquals" locator1="Message#INFO" value1="No users were found." />
+
+					<execute function="Click" locator1="Button#SUBMIT" />
+
+					<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="No users were found." />
 				</then>
 			</elseif>
 			<elseif>
@@ -851,7 +861,7 @@
 					<var name="quotes"><![CDATA["${userScreenName}"]]></var>
 
 					<execute function="Type" locator1="TextInput#SEARCH" value1="${quotes}" />
-					<execute function="AssertClick" locator1="Button#SEARCH" value1="Search" />
+					<execute function="Click" locator1="Button#SUBMIT" />
 
 					<var name="key_userScreenName" value="${userScreenName}" />
 
@@ -875,7 +885,7 @@
 
 				<execute macro="Alert#viewRequestFailedToComplete" />
 
-				<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="The password cannot be blank. Please enter a password." />
+				<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR_2" value1="The password cannot be blank. Please enter a password." />
 
 				<execute macro="User#logoutPG" />
 
@@ -925,6 +935,17 @@
 				</execute>
 			</else>
 		</if>
+	</command>
+
+	<command name="createAccount">
+		<execute function="AssertClick" locator1="Link#CREATE_ACCOUNT" value1="Create Account" />
+
+		<execute function="Type" locator1="TextInput#FIRST_NAME" value1="${userFirstName}" />
+		<execute function="Type" locator1="TextInput#LAST_NAME" value1="${userLastName}" />
+		<execute function="Type" locator1="TextInput#SCREEN_NAME" value1="${userScreenName}" />
+		<execute function="Type" locator1="TextInput#EMAIL_ADDRESS" value1="${userEmailAddress}" />
+
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 	</command>
 
 	<command name="deactivateCP">
@@ -1180,20 +1201,20 @@
 			<then>
 				<execute macro="Alert#viewRequestFailedToComplete" />
 
-				<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="That password uses common words. Please enter a password that is harder to guess (i.e. contains a mix of numbers and letters)." />
+				<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR_2" value1="That password uses common words. Please enter a password that is harder to guess (i.e. contains a mix of numbers and letters)." />
 			</then>
 			<elseif>
 				<isset var="regex" />
 				<then>
 					<execute macro="Alert#viewRequestFailedToComplete" />
 
-					<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="That password does not comply with the regular expression ${regex}. Please enter a different password." />
+					<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR_2" value1="That password does not comply with the regular expression ${regex}. Please enter a different password." />
 				</then>
 			</elseif>
 			<else>
 				<execute macro="Alert#viewRequestFailedToComplete" />
 
-				<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="That password is invalid. Please enter in a different password." />
+				<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR_2" value1="That password is invalid. Please enter in a different password." />
 			</else>
 		</if>
 	</command>
@@ -1541,7 +1562,7 @@
 
 		<execute macro="Alert#viewRequestFailedToComplete" />
 
-		<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="Authentication failed. Please try again." />
+		<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR_2" value1="Authentication failed. Please try again." />
 	</command>
 
 	<command name="loginUserPG">
@@ -1736,16 +1757,16 @@
 			<then>
 				<execute function="Pause" locator1="1000" />
 				<execute function="Type" locator1="NavBar#BASIC_SEARCH_FIELD" value1="${userEmailAddress}" />
-				<execute function="AssertClick" locator1="NavBar#BASIC_SEARCH_BUTTON" value1="Search" />
-				<execute function="AssertTextEquals" locator1="Message#INFO" value1="No users were found." />
+				<execute function="Click" locator1="Button#SUBMIT" />
+				<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="No users were found." />
 			</then>
 			<elseif>
 				<equals arg1="${userEmailAddressVariation}" arg2="Period" />
 				<then>
 					<execute function="Pause" locator1="1000" />
 					<execute function="Type" locator1="NavBar#BASIC_SEARCH_FIELD" value1="${userEmailAddress}" />
-					<execute function="AssertClick" locator1="NavBar#BASIC_SEARCH_BUTTON" value1="Search" />
-					<execute function="AssertTextEquals" locator1="Message#INFO" value1="No users were found." />
+					<execute function="Click" locator1="Button#SUBMIT" />
+					<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="No users were found." />
 				</then>
 			</elseif>
 			<elseif>
@@ -1753,8 +1774,8 @@
 				<then>
 					<execute function="Pause" locator1="1000" />
 					<execute function="Type" locator1="NavBar#BASIC_SEARCH_FIELD" value1="${userScreenName}" />
-					<execute function="AssertClick" locator1="NavBar#BASIC_SEARCH_BUTTON" value1="Search" />
-					<execute function="AssertTextEquals" locator1="Message#INFO" value1="No users were found." />
+					<execute function="Click" locator1="Button#SUBMIT" />
+					<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="No users were found." />
 				</then>
 			</elseif>
 			<else>
@@ -1765,6 +1786,7 @@
 				<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_FIRST_NAME" value1="${userFirstName}" />
 				<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_LAST_NAME" value1="${userLastName}" />
 				<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_SCREEN_NAME" value1="${userScreenName}" />
+
 				<execute function="AssertClick" locator1="UsersAndOrganizations#USER_TABLE_FIRST_NAME" value1="${userFirstName}" />
 
 				<execute function="AssertTextEquals" locator1="UsersAndOrganizationsEditUser#DETAILS_SCREEN_NAME_FIELD" value1="${userScreenName}" />

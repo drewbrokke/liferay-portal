@@ -37,11 +37,11 @@ RenderResponseImpl renderResponseImpl = (RenderResponseImpl)PortletResponseImpl.
 
 String portletTitle = PortletConfigurationUtil.getPortletTitle(portletSetup, themeDisplay.getLanguageId());
 
-if (portletDisplay.isAccess() && portletDisplay.isActive() && (portletTitle == null)) {
+if (portletDisplay.isAccess() && portletDisplay.isActive() && Validator.isNull(portletTitle)) {
 	portletTitle = renderResponseImpl.getTitle();
 }
 
-if (portletTitle == null) {
+if (Validator.isNull(portletTitle)) {
 	portletTitle = PortalUtil.getPortletTitle(portlet, application, locale);
 }
 
