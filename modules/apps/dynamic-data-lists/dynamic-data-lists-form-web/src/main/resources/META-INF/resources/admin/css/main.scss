@@ -579,6 +579,8 @@ $horizontal-spacing: 35px;
 	.lfr-ddm-form-page-title {
 		color: #728694;
 		font-weight: 400;
+		resize: none;
+		word-break: break-all;
 	}
 
 	.form-builder-page-header-description,
@@ -606,6 +608,10 @@ $horizontal-spacing: 35px;
 		font-size: 19px;
 		margin-top: 0;
 	}
+
+	.multi-step-progress-bar .progress-bar-title {
+		word-break: break-all;
+	}
 }
 
 .portlet-forms-admin {
@@ -622,17 +628,14 @@ $horizontal-spacing: 35px;
 	}
 
 	.form-builder-controls-trigger  {
-		$height: 48px;
-
 		display: block;
 		font-size: 20px;
-		height: $height;
-		margin-top: - $height / 2;
+		height: 48px;
 		padding: 12px;
 		position: absolute;
 		right: 0;
 		text-decoration: none;
-		top: 50%;
+		top: 13px;
 
 		&:hover .icon-monospaced {
 			color: inherit;
@@ -750,29 +753,29 @@ $horizontal-spacing: 35px;
 		margin-bottom: 0;
 		margin-top: 0;
 		padding-left: 34px;
-		padding-right: 34px;
 		width: auto;
 
-		input {
+		.form-builder-page-header-description,
+		.form-builder-page-header-title {
+			display: block;
+			overflow: hidden;
+			width: 100%;
+		}
+
+		.form-builder-page-header-description {
+			padding-top: 0;
+		}
+
+		.form-builder-page-header-title {
+			margin-bottom: 0;
+			padding-bottom: 0;
+			padding-top: 0;
+		}
+
+		textarea {
 			border-width: 0;
 			padding-left: 0;
 			padding-right: 0;
-
-			&.form-builder-page-header-description,
-			&.form-builder-page-header-title {
-				display: block;
-				width: 100%;
-			}
-
-			&.form-builder-page-header-description {
-				padding-top: 0;
-			}
-
-			&.form-builder-page-header-title {
-				height: auto;
-				padding-bottom: 0;
-				padding-top: 0;
-			}
 
 			&:focus {
 				box-shadow: none;
@@ -795,6 +798,10 @@ $horizontal-spacing: 35px;
 
 	.form-builder-tabview {
 		padding-right: 70px;
+
+		.form-builder-controls-trigger {
+			top: 34px;
+		}
 	}
 
 	.lfr-ddm-repeatable-add-button {

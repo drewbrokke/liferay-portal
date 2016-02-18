@@ -97,43 +97,22 @@ teamSearch.setTotal(teamsCount);
 			>
 
 				<%
-				boolean disabled = false;
+				Map<String, Object> data = new HashMap<String, Object>();
 
-				Group group = GroupLocalServiceUtil.getGroup(scopeGroupId);
+				data.put("teamdescription", curTeam.getDescription());
+				data.put("teamid", curTeam.getTeamId());
+				data.put("teamname", curTeam.getName());
+
+				Group group = themeDisplay.getScopeGroup();
 
 				long[] defaultTeamIds = StringUtil.split(group.getTypeSettingsProperties().getProperty("defaultTeamIds"), 0L);
 
-				for (long defaultTeamId : defaultTeamIds) {
-					Team team = TeamLocalServiceUtil.getTeam(defaultTeamId);
+				long[] teamIds = ParamUtil.getLongValues(request, "teamIds", defaultTeamIds);
 
-					if (team.getTeamId() == curTeam.getTeamId()) {
-						disabled = true;
-
-						break;
-					}
-				}
+				boolean disabled = ArrayUtil.contains(teamIds, curTeam.getTeamId());
 				%>
 
-				<c:choose>
-					<c:when test="<%= !disabled %>">
-
-						<%
-						Map<String, Object> data = new HashMap<String, Object>();
-
-						data.put("teamdescription", curTeam.getDescription());
-						data.put("teamid", curTeam.getTeamId());
-						data.put("teamname", curTeam.getName());
-						data.put("teamsearchcontainername", "teams");
-						%>
-
-						<aui:a cssClass="selector-button" data="<%= data %>" href="javascript:;">
-							<%= HtmlUtil.escape(curTeam.getName()) %>
-						</aui:a>
-					</c:when>
-					<c:otherwise>
-						<%= HtmlUtil.escape(curTeam.getName()) %>
-					</c:otherwise>
-				</c:choose>
+				<aui:button cssClass="btn btn-link selector-button" data="<%= data %>" disabled="<%= disabled %>" value="<%= HtmlUtil.escape(curTeam.getName()) %>" />
 			</liferay-ui:search-container-column-text>
 
 			<liferay-ui:search-container-column-text
@@ -146,17 +125,6 @@ teamSearch.setTotal(teamsCount);
 	</liferay-ui:search-container>
 </aui:form>
 
-<aui:script use="aui-base">
-	var Util = Liferay.Util;
-
-	var openingLiferay = Util.getOpener().Liferay;
-
-	openingLiferay.fire(
-		'<portlet:namespace />enableRemovedTeams',
-		{
-			selectors: A.all('.selector-button:disabled')
-		}
-	);
-
-	Util.selectEntityHandler('#<portlet:namespace />selectTeamFm', '<%= HtmlUtil.escapeJS(eventName) %>');
+<aui:script>
+	Liferay.Util.selectEntityHandler('#<portlet:namespace />selectTeamFm', '<%= HtmlUtil.escapeJS(eventName) %>');
 </aui:script>

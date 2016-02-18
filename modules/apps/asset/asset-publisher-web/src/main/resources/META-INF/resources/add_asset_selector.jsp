@@ -56,19 +56,39 @@ String redirect = ParamUtil.getString(request, "redirect");
 
 	<%
 	for (Long groupId : addPortletURLsGroupIds) {
+		Map<String, PortletURL> addPortletURLs = AssetUtil.getAddPortletURLs(liferayPortletRequest, liferayPortletResponse, groupId, assetPublisherDisplayContext.getClassNameIds(), assetPublisherDisplayContext.getClassTypeIds(), assetPublisherDisplayContext.getAllAssetCategoryIds(), assetPublisherDisplayContext.getAllAssetTagNames(), redirectURL.toString());
 	%>
 
-		<div class='<%= (groupId == scopeGroupId) ? StringPool.BLANK : "hide" %>' id="<%= liferayPortletResponse.getNamespace() + groupId %>">
-			<liferay-ui:asset-add-button
-				addDisplayPageParameter="<%= AssetUtil.isDefaultAssetPublisher(layout, portletDisplay.getId(), assetPublisherDisplayContext.getPortletResource()) %>"
-				allAssetCategoryIds="<%= assetPublisherDisplayContext.getAllAssetCategoryIds() %>"
-				allAssetTagNames="<%= assetPublisherDisplayContext.getAllAssetTagNames() %>"
-				classNameIds="<%= assetPublisherDisplayContext.getClassNameIds() %>"
-				classTypeIds="<%= assetPublisherDisplayContext.getClassTypeIds() %>"
-				groupIds="<%= new long[] {groupId} %>"
-				redirect="<%= redirectURL.toString() %>"
-				useDialog="<%= false %>"
-			/>
+		<div class="asset-entry-type <%= (groupId == scopeGroupId) ? StringPool.BLANK : "hide" %>" id="<%= liferayPortletResponse.getNamespace() + groupId %>">
+			<aui:select cssClass="asset-entry-type-select" label="asset-entry-type" name="selectAssetEntryType">
+
+				<%
+				for (Map.Entry<String, PortletURL> entry : addPortletURLs.entrySet()) {
+					AssetRendererFactory<?> assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(AssetUtil.getClassName(entry.getKey()));
+
+					String message = AssetUtil.getClassNameMessage(entry.getKey(), locale);
+
+					long curGroupId = groupId;
+
+					Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+					if (!group.isStagedPortlet(assetRendererFactory.getPortletId()) && !group.isStagedRemotely()) {
+						curGroupId = group.getLiveGroupId();
+					}
+
+					Map<String, Object> data = new HashMap<String, Object>();
+
+					data.put("title", LanguageUtil.format((HttpServletRequest)pageContext.getRequest(), "new-x", HtmlUtil.escape(message), false));
+					data.put("url", AssetUtil.getAddURLPopUp(curGroupId, plid, entry.getValue(), assetRendererFactory.getPortletId(), false, null));
+				%>
+
+					<aui:option data="<%= data %>" label="<%= HtmlUtil.escape(message) %>" />
+
+				<%
+				}
+				%>
+
+			</aui:select>
 		</div>
 
 		<aui:script>
@@ -79,4 +99,34 @@ String redirect = ParamUtil.getString(request, "redirect");
 	}
 	%>
 
+	<aui:button-row>
+
+		<%
+		String taglibOnClick = renderResponse.getNamespace() + "addAssetEntry();";
+		%>
+
+		<aui:button cssClass="btn-lg" onClick="<%= taglibOnClick %>" value="add" />
+	</aui:button-row>
 </aui:fieldset>
+
+<aui:script>
+	function <portlet:namespace />addAssetEntry() {
+		var A = AUI();
+
+		var visibleItem = A.one('.asset-entry-type:not(.hide)');
+
+		var assetEntryTypeSelector = visibleItem.one('.asset-entry-type-select');
+
+		var index = assetEntryTypeSelector.get('selectedIndex');
+
+		var selectedOption = assetEntryTypeSelector.get('options').item(index);
+
+		var title = selectedOption.attr('data-title');
+		var url = selectedOption.attr('data-url');
+
+		var dialog = Liferay.Util.getWindow();
+
+		dialog.iframe.set('uri', url);
+		dialog.titleNode.html(title);
+	}
+</aui:script>
