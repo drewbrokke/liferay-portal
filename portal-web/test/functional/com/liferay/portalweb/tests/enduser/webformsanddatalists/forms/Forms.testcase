@@ -190,7 +190,6 @@
 
 	<command name="NavigateToCorrectForm" priority="5">
 		<description message="This is a use case for LPS-59331" />
-		<property name="portal.acceptance" value="true" />
 
 		<execute macro="Navigator#openURL" />
 
@@ -293,7 +292,6 @@
 
 	<command name="PreviewAndPublishForm" priority="5">
 		<description message="This is a use case for LPS-61740" />
-		<property name="portal.acceptance" value="true" />
 
 		<execute macro="Navigator#openURL" />
 
@@ -630,8 +628,6 @@
 	</command>
 
 	<command name="SubmitFormWithCustomTextContainingValidation" priority="5">
-		<property name="portal.acceptance" value="true" />
-
 		<execute macro="Navigator#openURL" />
 
 		<execute macro="ProductMenu#gotoSitesContent">
@@ -1299,8 +1295,6 @@
 	</command>
 
 	<command name="SubmitFormWithRequiredRepeatingTextField" priority="5">
-		<property name="portal.acceptance" value="true" />
-
 		<description message="This is a use case for LPS-59335." />
 
 		<execute macro="Navigator#openURL" />
@@ -1558,8 +1552,6 @@
 	</command>
 
 	<command name="SubmitFormWithTextField" priority="5">
-		<property name="portal.acceptance" value="true" />
-
 		<execute macro="Navigator#openURL" />
 
 		<execute macro="ProductMenu#gotoSitesContent">
@@ -1642,8 +1634,6 @@
 	</command>
 
 	<command name="SubmitFormWithThreePages" priority="5">
-		<property name="portal.acceptance" value="true" />
-
 		<execute macro="Navigator#openURL" />
 
 		<execute macro="ProductMenu#gotoSitesContent">
