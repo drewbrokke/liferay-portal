@@ -18,4 +18,5 @@ dependencies {
 	testCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-validator")
 
 	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.3"
+	testIntegrationCompile project(":portal:portal-upgrade")
 }
