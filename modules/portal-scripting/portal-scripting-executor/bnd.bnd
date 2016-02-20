@@ -1,5 +1,5 @@
-Bundle-Name: Liferay Portal Scripting Executor Extender
-Bundle-SymbolicName: com.liferay.portal.scripting.executor.extender
+Bundle-Name: Liferay Portal Scripting Executor
+Bundle-SymbolicName: com.liferay.portal.scripting.executor
 Bundle-Version: 1.0.0
 DynamicImport-Package: *
 Export-Package:\
