@@ -15,6 +15,7 @@
 package com.liferay.portal.osgi.web.portlet.tracker.internal;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
+import com.liferay.osgi.util.StringPlus;
 import com.liferay.portal.kernel.application.type.ApplicationType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
@@ -43,6 +44,7 @@ import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
 import com.liferay.portal.kernel.servlet.PortletServlet;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -68,7 +70,6 @@ import com.liferay.portal.util.WebAppPool;
 import com.liferay.portlet.PortletBagFactory;
 import com.liferay.portlet.PortletContextBag;
 import com.liferay.portlet.PortletContextBagPool;
-import com.liferay.registry.util.StringPlus;
 
 import java.io.IOException;
 
@@ -703,6 +704,10 @@ public class PortletTracker
 			GetterUtil.getBoolean(
 				get(serviceReference, "show-portlet-inactive"),
 				portletModel.isShowPortletInactive()));
+		portletModel.setSinglePageApplication(
+			GetterUtil.getBoolean(
+				get(serviceReference, "single-page-application"),
+				portletModel.isSinglePageApplication()));
 		portletModel.setStrutsPath(
 			GetterUtil.getString(
 				get(serviceReference, "struts-path"),
@@ -1208,8 +1213,14 @@ public class PortletTracker
 			List<Company> companies)
 		throws PortalException {
 
-		String categoryName = GetterUtil.getString(
-			get(serviceReference, "display-category"), "category.undefined");
+		List<String> categoryNames = StringPlus.asList(
+			get(serviceReference, "display-category"));
+
+		if (categoryNames.isEmpty()) {
+			categoryNames.add("category.undefined");
+		}
+
+		String[] categoryNamesArray = ArrayUtil.toStringArray(categoryNames);
 
 		for (Company company : companies) {
 			com.liferay.portal.kernel.model.Portlet companyPortletModel =
@@ -1218,7 +1229,7 @@ public class PortletTracker
 			companyPortletModel.setCompanyId(company.getCompanyId());
 
 			_portletLocalService.deployRemotePortlet(
-				companyPortletModel, new String[] {categoryName}, false);
+				companyPortletModel, categoryNamesArray, false);
 		}
 	}
 

@@ -106,13 +106,8 @@ portletURL.setParameter("eventName", eventName);
 		>
 			<liferay-ui:search-container-column-text
 				name="title"
-			>
-				<liferay-ui:icon
-					iconCssClass="<%= RolesAdminUtil.getIconCssClass(role) %>"
-					label="<%= true %>"
-					message="<%= HtmlUtil.escape(role.getTitle(locale)) %>"
-				/>
-			</liferay-ui:search-container-column-text>
+				value="<%= HtmlUtil.escape(role.getTitle(locale)) %>"
+			/>
 
 			<liferay-ui:search-container-column-text>
 				<c:if test="<%= Validator.isNull(p_u_i_d)|| RoleMembershipPolicyUtil.isRoleAllowed((selUser != null) ? selUser.getUserId() : 0, role.getRoleId()) %>">
@@ -125,15 +120,11 @@ portletURL.setParameter("eventName", eventName);
 					data.put("roletitle", role.getTitle(locale));
 					data.put("searchcontainername", "roles");
 
-					boolean disabled = false;
+					long[] defaultRoleIds = selUser.getRoleIds();
 
-					for (long curRoleId : selUser.getRoleIds()) {
-						if (curRoleId == role.getRoleId()) {
-							disabled = true;
+					long[] roleIds = ParamUtil.getLongValues(request, "roleIds", defaultRoleIds);
 
-							break;
-						}
-					}
+					boolean disabled = ArrayUtil.contains(roleIds, role.getRoleId());
 					%>
 
 					<aui:button cssClass="selector-button" data="<%= data %>" disabled="<%= disabled %>" value="choose" />

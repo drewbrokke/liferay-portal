@@ -17,7 +17,7 @@
 <%@ include file="/admin/init.jsp" %>
 
 <%
-DDLFormViewRecordsDisplayContext ddlFormViewRecordsDisplayContext = new DDLFormViewRecordsDisplayContext(liferayPortletRequest, liferayPortletResponse, ddlFormAdminDisplayContext.getRecordSet());
+DDLFormViewRecordsDisplayContext ddlFormViewRecordsDisplayContext = ddlFormAdminDisplayContext.getDDLFormViewRecordsDisplayContext();
 
 DDLRecordSet ddlRecordSet = ddlFormViewRecordsDisplayContext.getDDLRecordSet();
 

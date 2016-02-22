@@ -629,6 +629,10 @@ public interface PropsKeys {
 
 	public static final String DL_FILE_ENTRY_PREVIEW_FORK_PROCESS_ENABLED = "dl.file.entry.preview.fork.process.enabled";
 
+	public static final String DL_FILE_ENTRY_PREVIEW_GENERATION_TIMEOUT_GHOSTSCRIPT = "dl.file.entry.preview.generation.timeout.ghostscript";
+
+	public static final String DL_FILE_ENTRY_PREVIEW_GENERATION_TIMEOUT_PDFBOX = "dl.file.entry.preview.generation.timeout.pdfbox";
+
 	public static final String DL_FILE_ENTRY_PREVIEW_IMAGE_MIME_TYPES = "dl.file.entry.preview.image.mime.types";
 
 	public static final String DL_FILE_ENTRY_PREVIEW_VIDEO = "dl.file.entry.preview.video.";
@@ -697,8 +701,6 @@ public interface PropsKeys {
 
 	public static final String DL_FOLDER_ICON_CHECK_COUNT = "dl.folder.icon.check.count";
 
-	public static final String DL_FOLDER_MENU_VISIBLE = "dl.folder.menu.visible";
-
 	public static final String DL_FOLDERS_SEARCH_VISIBLE = "dl.folders.search.visible";
 
 	public static final String DL_NAME_BLACKLIST = "dl.name.blacklist";
@@ -728,8 +730,6 @@ public interface PropsKeys {
 	public static final String DL_TABS_VISIBLE = "dl.tabs.visible";
 
 	public static final String DL_WEBDAV_SUBSTITUTION_CHAR = "dl.webdav.substitution.char";
-
-	public static final String DOCKBAR_ADD_PORTLETS = "dockbar.add.portlets";
 
 	public static final String DYNAMIC_RESOURCE_SERVLET_ALLOWED_PATHS = "dynamic.resource.servlet.allowed.paths";
 
@@ -1060,6 +1060,10 @@ public interface PropsKeys {
 	public static final String LAYOUT_PROTOTYPE_MERGE_LOCK_MAX_TIME = "layout.prototype.merge.lock.max.time";
 
 	public static final String LAYOUT_REMEMBER_MAXIMIZED_WINDOW_STATE = "layout.remember.maximized.window.state";
+
+	public static final String LAYOUT_SCOPE_GROUP_FINDER_ENABLED = "layout.scope.group.finder.enabled";
+
+	public static final String LAYOUT_SCOPE_GROUP_FINDER_THRESHOLD = "layout.scope.group.finder.threshold";
 
 	public static final String LAYOUT_SET_FORM_UPDATE = "layout.set.form.update";
 

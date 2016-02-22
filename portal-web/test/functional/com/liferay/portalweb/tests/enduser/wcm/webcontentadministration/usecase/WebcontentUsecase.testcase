@@ -51,7 +51,6 @@
 		<execute macro="Page#add">
 			<var name="page" value="Public Pages" />
 			<var name="pageName" value="Home" />
-			<var name="siteScopeSelected" value="true" />
 		</execute>
 
 		<execute macro="ProductMenu#gotoControlPanelUsers">
@@ -389,7 +388,6 @@
 		<execute macro="Page#add">
 			<var name="page" value="Public Pages" />
 			<var name="pageName" value="Web Content Display Page" />
-			<var name="siteScopeSelected" value="true" />
 		</execute>
 
 		<execute macro="ProductMenu#gotoSite">
@@ -473,7 +471,6 @@
 		<execute macro="Page#add">
 			<var name="page" value="Public Pages" />
 			<var name="pageName" value="Web Content Display Page" />
-			<var name="siteScopeSelected" value="true" />
 		</execute>
 
 		<execute macro="ProductMenu#gotoSite">
@@ -1969,7 +1966,10 @@
 			<var name="webContentContent" value="WC contenu WebContent" />
 		</execute>
 
-		<execute macro="WebContentNavigator#gotoEditPGViaWCD" />
+		<execute macro="Portlet#gotoPortletOptions">
+			<var name="portletName" value="Affichage de contenus web" />
+			<var name="portletOption" value="Modifier le contenu de Web" />
+		</execute>
 
 		<execute macro="WebContent#viewTranslationPGViaWCD">
 			<var name="fieldName" value="Text" />
@@ -1994,7 +1994,10 @@
 			<var name="webContentContent" value="WC WebContent Text" />
 		</execute>
 
-		<execute macro="WebContentNavigator#gotoEditPGViaWCD" />
+		<execute macro="Portlet#gotoPortletOptions">
+			<var name="portletName" value="网页内容展示" />
+			<var name="portletOption" value="编辑网页内容" />
+		</execute>
 
 		<execute macro="WebContent#viewTranslationPGViaWCD">
 			<var name="panelHeading" value="结构和模板" />

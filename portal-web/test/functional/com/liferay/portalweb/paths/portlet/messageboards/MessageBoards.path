@@ -198,8 +198,18 @@
 	<td></td>
 </tr>
 <tr>
+	<td>CATEGORY_LIST_SUBCATEGORY</td>
+	<td>//div[contains(@class,'list-group-item-content')]/h4/a[contains(.,'${key_subCategoryName}')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>CATEGORY_LIST_CATEGORY_DESCRIPTION</td>
 	<td>//div[contains(@class,'list-group-item-content')]/h4/a[contains(.,'${key_categoryName}')]/../..//h5[contains(.,'${key_categoryDescription}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CATEGORY_LIST_SUBCATEGORY_DESCRIPTION</td>
+	<td>//div[contains(@class,'list-group-item-content')]/h4/a[contains(.,'${key_subCategoryName}')]/../..//h5[contains(.,'${key_subCategoryDescription}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -373,7 +383,7 @@
 </tr>
 <tr>
 	<td>THREAD_LIST_ANSWER</td>
-	<td>//li[contains(.,'${key_threadSubject}')]/div/span[4]</td>
+	<td>//li[contains(.,'${key_threadSubject}')]/div/span[3]</td>
 	<td></td>
 </tr>
 <tr>
@@ -389,6 +399,11 @@
 <tr>
 	<td>THREAD_LIST_LAST_POST</td>
 	<td>//li[contains(.,'${key_threadSubject}')]/div/h5[contains(.,'${key_userName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>THREAD_LIST_STATUS</td>
+	<td>//li[contains(.,'${key_threadSubject}')]//span[contains(.,'${key_threadStatus}')]</td>
 	<td></td>
 </tr>
 <tr>

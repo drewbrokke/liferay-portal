@@ -20,7 +20,7 @@ feature or API will be dropped in an upcoming version.
 replaces an old API, in spite of the old API being kept in Liferay Portal for
 backwards compatibility.
 
-*This document has been reviewed through commit `1ba366c`.*
+*This document has been reviewed through commit `b6b7772`.*
 
 ## Breaking Changes Contribution Guidelines
 
@@ -3834,5 +3834,93 @@ There is no direct replacement. You should remove all usages of the
 #### Why was this change made?
 
 This change was made as a part of the ongoing strategy to deprecate unused tags.
+
+---------------------------------------
+
+### Removed the Ability to Specify Class Loaders in Scripting
+- **Date:** 2016-Feb-17
+- **JIRA Ticket:** LPS-63180
+
+#### What changed?
+
+- `com.liferay.portal.kernel.scripting.ScriptingExecutor` no longer uses the
+provided class loaders in the eval methods.
+- `com.liferay.portal.kernel.scripting.Scripting` no longer uses the provided
+class loaders and servlet context names in eval and exec methods.
+
+#### Who is affected?
+
+- All implementations of `com.liferay.portal.kernel.scripting.ScriptingExecutor`
+are affected.
+- All classes that call `com.liferay.portal.kernel.scripting.Scripting` are
+affected.
+
+#### How should I update my code?
+
+You should remove class loader and servlect context parameters from calls to the
+modified methods.
+
+#### Why was this change made?
+
+This change was made since custom class loader management is no longer necessary
+in the OSGi container.
+
+---------------------------------------
+
+### User Operation and Importer/Exporter Classes and Utilities Have Been Moved or Removed From portal-kernel  
+- **Date:** 2016-Feb-17
+- **JIRA Ticket:** LPS-63205
+
+#### What changed?
+
+- `com.liferay.portal.kernel.security.exportimport.UserImporter`,
+`com.liferay.portal.kernel.security.exportimport.UserExporter`,
+and `com.liferay.portal.kernel.security.exportimport.UserOperation`  have been
+moved from portal-kernel to the portal-security-export-import-api module.
+
+- `com.liferay.portal.kernel.security.exportimport.UserImporterUtil` and
+`com.liferay.portal.kernel.security.exportimport.UserExporterUtil` have been
+removed with no replacement.
+
+#### Who is affected?
+
+- All implementations of
+`com.liferay.portal.kernel.security.exportimport.UserImporter` or
+`com.liferay.portal.kernel.security.exportimport.UserExporter`
+are affected.
+
+- All code that uses
+`com.liferay.portal.kernel.security.exportimport.UserImporterUtil`,
+`com.liferay.portal.kernel.security.exportimport.UserExporterUtil`,
+`com.liferay.portal.kernel.security.exportimport.UserImporter`, or
+`com.liferay.portal.kernel.security.exportimport.UserExporter`
+is affected.
+
+#### How should I update my code?
+
+If you are in an OSGi module, you can simply inject the UserImporter or
+UserExporter references
+
+    @Reference
+    private UserExporter_userExporter;
+
+    @Reference
+    private UserImporter _userImporter;
+
+If you are in a legacy WAR or WAB, you will need a snippet like:
+
+    Bundle bundle = FrameworkUtil.getBundle(getClass());
+
+    BundleContext bundleContext = bundle.getBundleContext();
+
+    ServiceReference<UserImporter> serviceReference =
+        bundleContext.getServiceReference(UserImporter.class);
+
+    UserImporter userImporter = bundleContext.getService(serviceReference);
+
+#### Why was this change made?
+
+The change was made to improve modularity of the user import/export subsystem in
+the product.
 
 ---------------------------------------

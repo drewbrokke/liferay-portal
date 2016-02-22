@@ -30,7 +30,7 @@
 </tr>
 <tr>
 	<td>ENTRY_CONTENT_ROW_TD_1_SITE_LINK</td>
-	<td>xpath=(//*[@data-qa-id='row'])/td[1]/a[contains(.,'${key_site}')]</td>
+	<td>xpath=(//*[@data-qa-id='row'])//a[contains(.,'${key_site}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -57,11 +57,6 @@
 <tr>
 	<td>ENTRY_CONTENT_ENTRY_CHECKBOX</td>
 	<td>//*[@data-qa-id='row' and contains(.,'${key_rowEntry}')]//input[@title='Select']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>ENTRY_CONTENT_ENTRY_ELLIPSIS</td>
-	<td>//*[@data-qa-id='row' and contains(.,'${key_rowEntry}')]//span[contains(@class,'icon-ellipsis-vertical')]</td>
 	<td></td>
 </tr>
 <tr>

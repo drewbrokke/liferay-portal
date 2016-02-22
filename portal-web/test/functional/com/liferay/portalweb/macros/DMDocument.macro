@@ -469,9 +469,9 @@
 	</command>
 
 	<command name="addPGViaMG">
-		<execute function="Click" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
+		<execute function="Click#makeVisibleClickAt" locator1="Portlet#ICON_PLUS_SIGN" />
 
-		<execute function="AssertClick" locator1="MenuItem#ADD_FILE_ENTRY" value1="Add File Entry" />
+		<execute function="AssertClick" locator1="MenuItem#BASIC_DOCUMENT" value1="Basic Document" />
 
 		<execute function="UploadCommonFile" locator1="TextInput#FILE" value1="${mgDocumentFile}" />
 
@@ -766,7 +766,7 @@
 	<command name="deletePGViaMG">
 		<var name="key_mgDocumentTitle" value="${mgDocumentTitle}" />
 
-		<execute function="Click" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
+		<execute function="Click#waitForMenuToggleJSClick" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
 
 		<execute function="AssertClick" locator1="MenuItem#MOVE_TO_THE_RECYCLE_BIN" value1="Move to the Recycle Bin" />
 
@@ -1018,7 +1018,7 @@
 	<command name="editPGViaMG">
 		<var name="key_mgDocumentTitle" value="${mgDocumentTitle}" />
 
-		<execute function="Click" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
+		<execute function="Click#waitForMenuToggleJSClick" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
 
 		<execute function="Click" locator1="MenuItem#EDIT" value1="Edit" />
 
@@ -1111,8 +1111,6 @@
 		<execute function="SelectFrame" locator1="DocumentsAndMedia#CONFIGURATION_IFRAME" />
 
 		<execute function="Check" locator1="Checkbox#SHOW_ACTIONS_CHECKBOX" />
-
-		<execute function="Check" locator1="Checkbox#SHOW_FOLDER_MENU_CHECKBOX" />
 
 		<execute function="Check" locator1="Checkbox#SHOW_NAVIGATION_LINKS_CHECKBOX" />
 
@@ -1631,6 +1629,8 @@
 			</else>
 		</if>
 
+		<execute function="Click" locator1="Icon#INFO" />
+
 		<execute macro="DMDocument#viewDocumentVersionNumberCmdPG">
 			<var name="dmDocumentVersionNumber" value="${dmDocumentVersionNumber}" />
 		</execute>
@@ -1702,6 +1702,8 @@
 
 		<execute function="AssertTextEquals" locator1="DocumentsAndMediaDocument#DOCUMENT_INFO_TITLE" value1="${dmDocumentTitle}" />
 
+		<execute function="Click" locator1="Icon#INFO" />
+
 		<if>
 			<and>
 				<isset var="dmDocumentSize" />
@@ -1711,6 +1713,8 @@
 			</and>
 			<then>
 				<var name="key_dmDocumentSize" value="${dmDocumentSize}" />
+
+				<execute function="AssertVisible" locator1="DocumentsAndMediaDocument#DOCUMENT_DETAILS_DOWNLOAD" />
 
 				<execute function="AssertTextEquals" locator1="DocumentsAndMediaDocument#DOCUMENT_DETAILS_DOWNLOAD" value1="Download (${dmDocumentSize}KB)" />
 			</then>

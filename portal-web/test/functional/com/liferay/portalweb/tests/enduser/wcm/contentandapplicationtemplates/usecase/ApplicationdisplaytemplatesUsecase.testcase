@@ -23,7 +23,6 @@
 			<var name="page" value="Public Pages" />
 			<var name="pageName" value="ADT Test Page" />
 			<var name="siteName" value="Test Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 	</set-up>
 
@@ -271,6 +270,8 @@
 	</command>
 
 	<command name="ADTCategoriesNavigation" priority="5">
+		<property name="portal.acceptance" value="true" />
+
 		<execute macro="ProductMenu#gotoSite">
 			<var name="site" value="Test Site Name" />
 		</execute>
@@ -524,12 +525,6 @@
 
 		<execute macro="ApplicationDisplayTemplates#addADTviaPortletPG">
 			<var name="adtType" value="Site Map" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="ADT Test Page" />
-			<var name="siteName" value="Test Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Page#gotoPG">
