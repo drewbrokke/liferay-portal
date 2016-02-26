@@ -31,9 +31,9 @@ public interface BackgroundTaskDisplay extends Serializable {
 
 	public String getStatusLabel(Locale locale);
 
-	public String getStatusMessage();
+	public String renderDisplayTemplate();
 
-	public String getStatusMessage(Locale locale);
+	public String renderDisplayTemplate(Locale locale);
 
 	public boolean hasPercentage();
 

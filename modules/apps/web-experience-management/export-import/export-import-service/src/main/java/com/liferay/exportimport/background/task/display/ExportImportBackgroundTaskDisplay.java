@@ -110,9 +110,9 @@ public class ExportImportBackgroundTaskDisplay
 	}
 
 	@Override
-	public String getStatusMessage(Locale locale) {
+	public String renderDisplayTemplate(Locale locale) {
 		if (!backgroundTask.isInProgress()) {
-			return super.getStatusMessage(locale);
+			return super.renderDisplayTemplate(locale);
 		}
 
 		if (hasStagedModelMessage()) {
@@ -154,7 +154,6 @@ public class ExportImportBackgroundTaskDisplay
 		return sb.toString();
 	}
 
-	@Override
 	protected String getStatusMessageKey() {
 		if (Validator.isNotNull(_messageKey)) {
 			return _messageKey;
