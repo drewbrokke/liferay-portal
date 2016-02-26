@@ -160,19 +160,61 @@ long usedMemory = totalMemory - runtime.freeMemory();
 	</liferay-ui:panel>
 
 	<liferay-ui:panel collapsible="<%= true %>" cssClass="server-admin-actions-panel" extended="<%= true %>" id="adminServerAdministrationIndexActionsPanel" markupView="lexicon" persistState="<%= true %>" title="index-actions">
+
+		<%
+		List<BackgroundTask> reindexPortalBackgroundTasks = BackgroundTaskManagerUtil.getBackgroundTasks(CompanyConstants.SYSTEM, "com.liferay.portal.search.internal.background.task.ReindexPortalBackgroundTaskExecutor", BackgroundTaskConstants.STATUS_IN_PROGRESS);
+
+		List<BackgroundTask> reindexSingleBackgroundTasks = BackgroundTaskManagerUtil.getBackgroundTasks(CompanyConstants.SYSTEM, "com.liferay.portal.search.internal.background.task.ReindexSingleIndexerBackgroundTaskExecutor", BackgroundTaskConstants.STATUS_IN_PROGRESS);
+
+		Map<String, BackgroundTaskDisplay> classNameToBackgroundTaskDisplayMap = new HashMap<>();
+
+		if (!reindexSingleBackgroundTasks.isEmpty()) {
+			for (BackgroundTask backgroundTask : reindexSingleBackgroundTasks) {
+				Map<String, Serializable> taskContextMap = backgroundTask.getTaskContextMap();
+
+				String className = (String)taskContextMap.get("className");
+
+				classNameToBackgroundTaskDisplayMap.put(className, BackgroundTaskDisplayFactoryUtil.getBackgroundTaskDisplay(backgroundTask));
+			}
+		}
+		%>
+
+		portal tasks <%= reindexPortalBackgroundTasks.size() %>
+		<br>
+		single tasks <%= reindexSingleBackgroundTasks.size() %>
+
 		<ul class="list-group system-action-group">
 			<li class="clearfix list-group-item">
 				<div class="pull-left">
 					<h5><liferay-ui:message key="reindex-all-search-indexes" /></h5>
 				</div>
 
+				<%
+				BackgroundTask backgroundTask = null;
+				BackgroundTaskDisplay backgroundTaskDisplay = null;
+
+				if (!reindexPortalBackgroundTasks.isEmpty()) {
+					backgroundTask = reindexPortalBackgroundTasks.get(0);
+
+					backgroundTaskDisplay = BackgroundTaskDisplayFactoryUtil.getBackgroundTaskDisplay(backgroundTask);
+				}
+				%>
+
 				<div class="pull-right">
+					<c:choose>
+						<c:when test="<%= backgroundTaskDisplay == null || !backgroundTaskDisplay.hasPercentage() %>" >
 
-					<%
-					long timeout = ParamUtil.getLong(request, "timeout");
-					%>
+							<%
+							long timeout = ParamUtil.getLong(request, "timeout");
+							%>
 
-					<aui:button cssClass="save-server-button" data-blocking='<%= ParamUtil.getBoolean(request, "blocking") %>' data-cmd="reindex" data-timeout="<%= (timeout == 0) ? StringPool.BLANK : timeout %>" value="execute" />
+							<aui:button cssClass="save-server-button" data-blocking='<%= ParamUtil.getBoolean(request, "blocking") %>' data-cmd="reindex" data-timeout="<%= (timeout == 0) ? StringPool.BLANK : timeout %>" value="execute" />
+
+						</c:when>
+						<c:otherwise>
+							<%= backgroundTaskDisplay.getStatusMessage() %>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</li>
 			<li class="clearfix list-group-item">
@@ -191,6 +233,7 @@ long usedMemory = totalMemory - runtime.freeMemory();
 			Collections.sort(indexers, new IndexerClassNameComparator(true));
 
 			for (Indexer<?> indexer : indexers) {
+				backgroundTaskDisplay = classNameToBackgroundTaskDisplayMap.get(indexer.getClassName());
 			%>
 
 				<li class="clearfix list-group-item">
@@ -199,7 +242,14 @@ long usedMemory = totalMemory - runtime.freeMemory();
 					</div>
 
 					<div class="pull-right">
-						<aui:button cssClass="save-server-button" data-classname="<%= indexer.getClassName() %>" data-cmd="reindex" disabled="<%= !indexer.isIndexerEnabled() %>" value="execute" />
+						<c:choose>
+							<c:when test="<%= backgroundTaskDisplay == null || !backgroundTaskDisplay.hasPercentage() %>" >
+								<aui:button cssClass="save-server-button" data-classname="<%= indexer.getClassName() %>" data-cmd="reindex" disabled="<%= !indexer.isIndexerEnabled() %>" value="execute" />
+							</c:when>
+							<c:otherwise>
+								<%= backgroundTaskDisplay.getStatusMessage() %>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</li>
 
