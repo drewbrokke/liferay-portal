@@ -73,12 +73,12 @@ public abstract class BaseBackgroundTaskDisplay
 	}
 
 	@Override
-	public String getStatusMessage() {
-		return getStatusMessage(Locale.getDefault());
+	public String renderDisplayTemplate() {
+		return renderDisplayTemplate(Locale.getDefault());
 	}
 
 	@Override
-	public String getStatusMessage(Locale locale) {
+	public String renderDisplayTemplate(Locale locale) {
 		TemplateResource templateResource = getTemplateResource();
 
 		if (templateResource == null) {
