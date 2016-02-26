@@ -7,6 +7,10 @@ AUI.add(
 			classname: 'className'
 		};
 
+		var RENDER_INTERVAL_IDLE = 60000;
+
+		var RENDER_INTERVAL_IN_PROGRESS = 2000;
+
 		var STR_CLICK = 'click';
 
 		var STR_FORM = 'form';
@@ -49,6 +53,8 @@ AUI.add(
 						instance._eventHandles = [];
 
 						instance.bindUI();
+
+						instance._laterTimeout = A.later(RENDER_INTERVAL_IN_PROGRESS, instance, instance._updateIndexActions);
 					},
 
 					bindUI: function() {
@@ -69,6 +75,8 @@ AUI.add(
 						A.Array.invoke(instance._eventHandles, 'detach');
 
 						instance._eventHandles = null;
+
+						A.clearTimeout(instance._laterTimeout);
 					},
 
 					_addInputsFromData: function(data) {
@@ -88,6 +96,12 @@ AUI.add(
 						);
 
 						form.append(inputsArray.join(''));
+					},
+
+					_isBackgroundTaskInProgress: function() {
+						var indexActionsNode = A.one('#adminServerAdministrationIndexActionsPanel');
+
+						return !!indexActionsNode.one('.background-task-status-in-progress');
 					},
 
 					_installXuggler: function(event) {
@@ -140,6 +154,29 @@ AUI.add(
 								instance.get(STR_URL)
 							);
 						}
+					},
+
+					_updateIndexActions: function() {
+						var instance = this;
+
+						var renderInterval = RENDER_INTERVAL_IDLE;
+
+						if (instance._isBackgroundTaskInProgress()) {
+							renderInterval = RENDER_INTERVAL_IN_PROGRESS;
+						}
+
+						A.one('#adminServerAdministrationIndexActionsPanel').load(
+							instance.get(STR_URL),
+							{
+								selector: '#adminServerAdministrationIndexActionsPanel',
+								where: 'outer',
+								success: function() {
+									instance._laterTimeout = A.later(renderInterval, instance, instance._updateIndexActions);			
+								}
+							}
+						);
+
+						
 					}
 				}
 			}
