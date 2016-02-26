@@ -11,6 +11,18 @@
 		margin: auto;
 	}
 
+	.progress-percentage {
+		position: absolute;
+		display: block;
+		width: 100%;
+		color: black;
+	}
+
+	.reindex-progress {
+		position: relative;
+		width: 100px;
+	}
+
 	.server-admin-actions-panel .panel-body {
 		padding: 0;
 	}
