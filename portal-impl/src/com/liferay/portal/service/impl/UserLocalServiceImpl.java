@@ -52,6 +52,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
+import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocal;
+import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocalCloseable;
 import com.liferay.portal.kernel.model.Account;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.CompanyConstants;
@@ -602,7 +604,13 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		userGroupPersistence.addUsers(userGroupId, userIds);
 
-		reindex(userIds);
+		try (ProxyModeThreadLocalCloseable proxyModeThreadLocalCloseable =
+				new ProxyModeThreadLocalCloseable()) {
+
+			ProxyModeThreadLocal.setForceSync(true);
+
+			reindex(userIds);
+		}
 
 		PermissionCacheUtil.clearCache(userIds);
 	}
