@@ -14,6 +14,8 @@
 
 package com.liferay.portal.kernel.search;
 
+import com.liferay.portal.kernel.messaging.proxy.MessagingProxy;
+import com.liferay.portal.kernel.messaging.proxy.ProxyMode;
 import com.liferay.portal.kernel.search.suggest.SpellCheckIndexWriter;
 
 import java.util.Collection;
@@ -23,6 +25,7 @@ import java.util.Collection;
  */
 public interface IndexWriter extends SpellCheckIndexWriter {
 
+	@MessagingProxy(mode = ProxyMode.SYNC)
 	public void addDocument(SearchContext searchContext, Document document)
 		throws SearchException;
 
@@ -30,8 +33,10 @@ public interface IndexWriter extends SpellCheckIndexWriter {
 			SearchContext searchContext, Collection<Document> documents)
 		throws SearchException;
 
+	@MessagingProxy(mode = ProxyMode.SYNC)
 	public void commit(SearchContext searchContext) throws SearchException;
 
+	@MessagingProxy(mode = ProxyMode.SYNC)
 	public void deleteDocument(SearchContext searchContext, String uid)
 		throws SearchException;
 
@@ -51,6 +56,7 @@ public interface IndexWriter extends SpellCheckIndexWriter {
 			SearchContext searchContext, Collection<Document> documents)
 		throws SearchException;
 
+	@MessagingProxy(mode = ProxyMode.SYNC)
 	public void updateDocument(SearchContext searchContext, Document document)
 		throws SearchException;
 
