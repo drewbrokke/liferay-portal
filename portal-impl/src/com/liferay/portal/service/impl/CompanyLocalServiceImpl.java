@@ -1234,23 +1234,12 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 		// Groups
 
 		DeleteGroupActionableDynamicQuery deleteGroupActionableDynamicQuery =
-			new DeleteGroupActionableDynamicQuery();
+			new DeleteGroupActionableDynamicQuery(
+				CompanyThreadLocal.isDeleteInProcess());
 
 		deleteGroupActionableDynamicQuery.setCompanyId(companyId);
 
 		deleteGroupActionableDynamicQuery.performActions();
-
-		String[] systemGroups = PortalUtil.getSystemGroups();
-
-		for (String groupName : systemGroups) {
-			Group group = groupLocalService.getGroup(companyId, groupName);
-
-			deleteGroupActionableDynamicQuery.deleteGroup(group);
-		}
-
-		Group companyGroup = groupLocalService.getCompanyGroup(companyId);
-
-		deleteGroupActionableDynamicQuery.deleteGroup(companyGroup);
 
 		// Layout prototype
 
@@ -1365,18 +1354,12 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 
 				@Override
 				public void performAction(User user) throws PortalException {
-					if (!user.isDefaultUser()) {
-						userLocalService.deleteUser(user.getUserId());
-					}
+					userLocalService.deleteUser(user.getUserId());
 				}
 
 			});
 
 		userActionableDynamicQuery.performActions();
-
-		User defaultUser = userLocalService.getDefaultUser(companyId);
-
-		userLocalService.deleteUser(defaultUser);
 
 		// Virtual host
 
@@ -1578,6 +1561,13 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 
 	protected class DeleteGroupActionableDynamicQuery {
 
+		protected DeleteGroupActionableDynamicQuery(
+			boolean isCompanyDeleteInProcess) {
+			this();
+
+			_isCompanyDeleteInProcess = isCompanyDeleteInProcess;
+		}
+
 		protected DeleteGroupActionableDynamicQuery() {
 			_actionableDynamicQuery =
 				groupLocalService.getActionableDynamicQuery();
@@ -1607,8 +1597,9 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 					public void performAction(Group group)
 						throws PortalException {
 
-						if (!PortalUtil.isSystemGroup(group.getGroupKey()) &&
-							!group.isCompany()) {
+						if ((!PortalUtil.isSystemGroup(group.getGroupKey()) &&
+								!group.isCompany()) ||
+							_isCompanyDeleteInProcess) {
 
 							deleteGroup(group);
 						}
@@ -1647,6 +1638,7 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 		}
 
 		private ActionableDynamicQuery _actionableDynamicQuery;
+		private boolean _isCompanyDeleteInProcess;
 		private long _parentGroupId = GroupConstants.DEFAULT_PARENT_GROUP_ID;
 
 	}
