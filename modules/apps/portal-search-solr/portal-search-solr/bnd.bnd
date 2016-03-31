@@ -16,7 +16,7 @@ Bundle-ClassPath:\
 	lib/zookeeper.jar
 Bundle-Name: Liferay Portal Search Solr
 Bundle-SymbolicName: com.liferay.portal.search.solr
-Bundle-Version: 2.0.1
+Bundle-Version: 2.0.2
 Import-Package:\
 	!com.sun.management.*,\
 	!com.sun.msv.*,\
@@ -32,8 +32,6 @@ Import-Package:\
 	\
 	!org.relaxng.datatype.*,\
 	*
-Liferay-Releng-Module-Group-Description:
-Liferay-Releng-Module-Group-Title: Solr
 -liferay-includeresource:\
 	lib/commons-io.jar=commons-io-*.jar,\
 	lib/httpclient.jar=httpclient-*.jar,\

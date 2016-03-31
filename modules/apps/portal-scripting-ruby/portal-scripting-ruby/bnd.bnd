@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Scripting Ruby
 Bundle-SymbolicName: com.liferay.portal.scripting.ruby
-Bundle-Version: 2.0.1
+Bundle-Version: 2.0.2
 DynamicImport-Package: *
 Import-Package:\
 	!javax.swing.*,\
@@ -16,8 +16,6 @@ Import-Package:\
 	\
 	!sun.nio.cs*,\
 	*
-Liferay-Releng-Module-Group-Description:
-Liferay-Releng-Module-Group-Title: Scripting Engines
 -fixupmessages:\
 	"The default package '.' is not permitted by the Import-Package ...";is:=ignore,\
 	"The JAR is empty: ...";is:=ignore,\

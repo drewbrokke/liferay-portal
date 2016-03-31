@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Document Library Google Docs
 Bundle-SymbolicName: com.liferay.document.library.google.docs
-Bundle-Version: 2.0.1
+Bundle-Version: 2.0.4
 Import-Package:\
 	!com.sun.org.apache.xml.internal.utils,\
 	!com.sun.org.apache.xpath.internal,\
@@ -17,7 +17,5 @@ Import-Package:\
 	\
 	!org.zeroturnaround.javarebel,\
 	*
-Liferay-Releng-Module-Group-Description:
-Liferay-Releng-Module-Group-Title: Document Library
 Web-ContextPath: /document-library-google-docs
 -liferay-includeresource: @org.freemarker-*.jar

@@ -816,6 +816,10 @@
 			<var name="structureName" value="WC Structure Name" />
 		</execute>
 
+		<execute macro="LexiconEntry#gotoEntry">
+			<var name="rowEntry" value="WC Structure Name" />
+		</execute>
+
 		<execute macro="DynamicDataMapping#viewField">
 			<var name="fieldFieldLabel" value="Text" />
 			<var name="fieldName" value="Text" />
