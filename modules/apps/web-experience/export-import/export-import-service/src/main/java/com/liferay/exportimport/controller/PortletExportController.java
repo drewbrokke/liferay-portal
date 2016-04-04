@@ -1073,13 +1073,6 @@ public class PortletExportController implements ExportController {
 			Element parentElement)
 		throws Exception {
 
-		String path = ExportImportPathUtil.getServicePortletPreferencesPath(
-			portletDataContext, serviceName, ownerId, ownerType);
-
-		if (portletDataContext.isPathProcessed(path)) {
-			return;
-		}
-
 		String preferencesXML = portletPreferences.getPreferences();
 
 		if (Validator.isNull(preferencesXML)) {
@@ -1088,10 +1081,6 @@ public class PortletExportController implements ExportController {
 
 		javax.portlet.PortletPreferences jxPortletPreferences =
 			PortletPreferencesFactoryUtil.fromDefaultXML(preferencesXML);
-
-		Element serviceElement = parentElement.addElement("service");
-
-		serviceElement.addAttribute("service-name", serviceName);
 
 		Document document = SAXReaderUtil.read(
 			PortletPreferencesFactoryUtil.toXML(jxPortletPreferences));
@@ -1129,7 +1118,13 @@ public class PortletExportController implements ExportController {
 			document.remove(node);
 		}
 
+		Element serviceElement = parentElement.addElement("service");
+
+		String path = ExportImportPathUtil.getServicePortletPreferencesPath(
+			portletDataContext, serviceName, ownerId, ownerType);
+
 		serviceElement.addAttribute("path", path);
+		serviceElement.addAttribute("service-name", serviceName);
 
 		portletDataContext.addZipEntry(path, document.formattedString());
 	}
