@@ -1,3 +1,4 @@
+<div><strong>my_contacts/view.jsp</strong></div>
 <%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
