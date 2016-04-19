@@ -1,3 +1,4 @@
+<div><strong>user/view_user_information.jsp</strong></div>
 <%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.

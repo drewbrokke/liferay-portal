@@ -1,3 +1,4 @@
+<div><strong>user/edit_user_dialogs.jsp</strong></div>
 <%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
