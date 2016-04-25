@@ -17,6 +17,7 @@ package com.liferay.portal.scheduler.single.internal.activator;
 import com.liferay.portal.kernel.util.ReleaseInfo;
 import com.liferay.portal.scheduler.single.internal.SingleSchedulerEngineConfigurator;
 
+import com.liferay.portal.scheduler.single.internal.SingleSchedulerEngineConfigurator;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
