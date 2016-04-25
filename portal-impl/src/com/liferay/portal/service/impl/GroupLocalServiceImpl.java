@@ -4415,13 +4415,6 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 					groupId, stagingGroupId);
 			}
 		}
-
-		long groupCompanyId = group.getCompanyId();
-
-		if (groupCompanyId != parentGroup.getCompanyId()) {
-			throw new GroupParentException.MustNotHaveDifferentCompanyId(
-				groupId, group.getCompanyId());
-		}
 	}
 
 	protected File publicLARFile;
