@@ -16,7 +16,10 @@ package com.liferay.portal.service.impl;
 
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.Property;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.AccountNameException;
 import com.liferay.portal.kernel.exception.CompanyMxException;
 import com.liferay.portal.kernel.exception.CompanyVirtualHostException;
@@ -39,6 +42,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.LayoutPrototype;
 import com.liferay.portal.kernel.model.LayoutSetPrototype;
 import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.model.PasswordPolicy;
 import com.liferay.portal.kernel.model.PortalPreferences;
 import com.liferay.portal.kernel.model.Portlet;
@@ -1279,7 +1283,9 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 
 		DeleteOrganizationActionableDynamicQuery
 			deleteOrganizationActionableDynamicQuery =
-				new DeleteOrganizationActionableDynamicQuery(companyId);
+				new DeleteOrganizationActionableDynamicQuery();
+
+		deleteOrganizationActionableDynamicQuery.setCompanyId(companyId);
 
 		deleteOrganizationActionableDynamicQuery.performActions();
 
@@ -1603,11 +1609,26 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 
 	protected class DeleteOrganizationActionableDynamicQuery {
 
-		protected DeleteOrganizationActionableDynamicQuery(long companyId) {
+		public void setParentOrganizationId(long parentOrganizationId) {
+			_parentOrganizationId = parentOrganizationId;
+		}
+
+		protected DeleteOrganizationActionableDynamicQuery() {
 			_actionableDynamicQuery =
 				organizationLocalService.getActionableDynamicQuery();
 
-			_actionableDynamicQuery.setCompanyId(companyId);
+			_actionableDynamicQuery.setAddCriteriaMethod(
+				new ActionableDynamicQuery.AddCriteriaMethod() {
+
+					@Override
+					public void addCriteria(DynamicQuery dynamicQuery) {
+						Property property = PropertyFactoryUtil.forName(
+							"parentOrganizationId");
+
+						dynamicQuery.add(property.eq(_parentOrganizationId));
+					}
+
+				});
 			_actionableDynamicQuery.setPerformActionMethod(
 				new ActionableDynamicQuery.PerformActionMethod<Organization>() {
 
@@ -1615,18 +1636,40 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 					public void performAction(Organization organization)
 						throws PortalException {
 
-						organizationLocalService.deleteOrganization(
-							organization);
+						deleteOrganization(organization);
 					}
 
 				});
+		}
+
+		protected void deleteOrganization(Organization organization)
+			throws PortalException {
+
+			DeleteOrganizationActionableDynamicQuery
+				deleteOrganizationActionableDynamicQuery =
+					new DeleteOrganizationActionableDynamicQuery();
+
+			deleteOrganizationActionableDynamicQuery.setCompanyId(
+				organization.getCompanyId());
+			deleteOrganizationActionableDynamicQuery.setParentOrganizationId(
+				organization.getOrganizationId());
+
+			deleteOrganizationActionableDynamicQuery.performActions();
+
+			organizationLocalService.deleteOrganization(organization);
 		}
 
 		protected void performActions() throws PortalException {
 			_actionableDynamicQuery.performActions();
 		}
 
+		protected void setCompanyId(long companyId) {
+			_actionableDynamicQuery.setCompanyId(companyId);
+		}
+
 		private ActionableDynamicQuery _actionableDynamicQuery;
+		private long _parentOrganizationId =
+			OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID;
 
 	}
 
