@@ -12,32 +12,13 @@
  * details.
  */
 
-package com.liferay.portal.cache.single.internal.distribution;
-
-import com.liferay.portal.cache.PortalCacheReplicator;
-import com.liferay.portal.cache.PortalCacheReplicatorFactory;
+package com.liferay.portal.kernel.cache;
 
 import java.io.Serializable;
 
-import java.util.Properties;
-
-import org.osgi.service.component.annotations.Component;
-
 /**
- * @author Tina Tian
+ * @author Preston Crary
  */
-@Component(
-	enabled = false, immediate = true,
-	service = PortalCacheReplicatorFactory.class
-)
-public class SinglePortalCacheReplicatorFactory
-	implements PortalCacheReplicatorFactory {
-
-	@Override
-	public <K extends Serializable, V extends Serializable>
-		PortalCacheReplicator<K, V> create(Properties properties) {
-
-		return null;
-	}
-
+public interface PersistentPortalCacheListener<K extends Serializable, V>
+	extends PortalCacheListener<K, V> {
 }
