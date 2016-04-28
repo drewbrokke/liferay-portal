@@ -1331,16 +1331,6 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 		portalPreferencesLocalService.deletePortalPreferences(
 			portalPreferences);
 
-		// Portlets
-
-		List<Portlet> portlets = portletPersistence.findByCompanyId(companyId);
-
-		for (Portlet portlet : portlets) {
-			portletLocalService.deletePortlet(portlet.getId());
-		}
-
-		portletLocalService.removeCompanyPortletsPool(companyId);
-
 		// Users
 
 		ActionableDynamicQuery userActionableDynamicQuery =
@@ -1365,6 +1355,16 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 			new DeleteGroupActionableDynamicQuery(companyId);
 
 		deleteGroupActionableDynamicQuery.performActions();
+
+		// Portlets
+
+		List<Portlet> portlets = portletPersistence.findByCompanyId(companyId);
+
+		for (Portlet portlet : portlets) {
+			portletLocalService.deletePortlet(portlet.getId());
+		}
+
+		portletLocalService.removeCompanyPortletsPool(companyId);
 
 		// Virtual host
 
