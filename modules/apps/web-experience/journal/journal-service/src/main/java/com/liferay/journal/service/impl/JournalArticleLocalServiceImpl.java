@@ -367,7 +367,7 @@ public class JournalArticleLocalServiceImpl
 
 		validateReferences(
 			groupId, ddmStructureKey, ddmTemplateKey, layoutUuid, smallImage,
-			smallImageURL, smallImageBytes, content);
+			smallImageURL, smallImageBytes, 0, content);
 
 		serviceContext.setAttribute("articleId", articleId);
 
@@ -5218,7 +5218,8 @@ public class JournalArticleLocalServiceImpl
 
 		validateReferences(
 			groupId, ddmStructureKey, ddmTemplateKey, layoutUuid, smallImage,
-			smallImageURL, smallImageBytes, content);
+			smallImageURL, smallImageBytes, latestArticle.getSmallImageId(),
+			content);
 
 		if (addNewVersion) {
 			long id = counterLocalService.increment();
@@ -7895,10 +7896,28 @@ public class JournalArticleLocalServiceImpl
 				" for folder " + folderId);
 	}
 
+
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link #validateReferences(long,
+	 *             String, String, String, boolean, String, byte[], long,
+	 *             String)}
+	 */
+	@Deprecated
 	protected void validateReferences(
 			long groupId, String ddmStructureKey, String ddmTemplateKey,
 			String layoutUuid, boolean smallImage, String smallImageURL,
 			byte[] smallImageBytes, String content)
+		throws PortalException {
+
+		validateReferences(
+			groupId, ddmStructureKey, ddmTemplateKey, layoutUuid, smallImage,
+			smallImageURL, smallImageBytes, 0, content);
+	}
+
+	protected void validateReferences(
+			long groupId, String ddmStructureKey, String ddmTemplateKey,
+			String layoutUuid, boolean smallImage, String smallImageURL,
+			byte[] smallImageBytes, long smallImageId, String content)
 		throws PortalException {
 
 		long classNameId = classNameLocalService.getClassNameId(
@@ -7937,7 +7956,11 @@ public class JournalArticleLocalServiceImpl
 		if (smallImage && Validator.isNull(smallImageURL) &&
 			ArrayUtil.isEmpty(smallImageBytes)) {
 
-			throw new NoSuchImageException();
+			Image image = imageLocalService.fetchImage(smallImageId);
+
+			if (image == null) {
+				throw new NoSuchImageException();
+			}
 		}
 
 		ExportImportContentProcessor exportImportContentProcessor =
