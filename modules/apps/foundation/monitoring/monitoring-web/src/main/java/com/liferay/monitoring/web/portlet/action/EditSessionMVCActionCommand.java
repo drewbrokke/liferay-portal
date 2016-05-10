@@ -15,8 +15,12 @@
 package com.liferay.monitoring.web.portlet.action;
 
 import com.liferay.monitoring.web.constants.MonitoringPortletKeys;
+import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
+import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
+import com.liferay.portal.kernel.cluster.ClusterRequest;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.notifications.ChannelException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
@@ -24,6 +28,8 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.servlet.PortalSessionContext;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -83,6 +89,17 @@ public class EditSessionMVCActionCommand extends BaseMVCActionCommand {
 				sessionId)) {
 
 				PortalSessionContext.invalidateSession(sessionId);
+
+				if (ClusterInvokeThreadLocal.isEnabled()) {
+					MethodHandler methodHandler = new MethodHandler(
+						_invalidateSessionMethodKey, sessionId);
+
+					ClusterRequest clusterRequest =
+						ClusterRequest.createMulticastRequest(
+							methodHandler, true);
+
+					ClusterExecutorUtil.execute(clusterRequest);
+				}
 			}
 		}
 		catch (Exception e) {
@@ -92,5 +109,9 @@ public class EditSessionMVCActionCommand extends BaseMVCActionCommand {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		EditSessionMVCActionCommand.class);
+
+	private static final MethodKey _invalidateSessionMethodKey =
+		new MethodKey(
+			PortalSessionContext.class, "invalidateSession", long.class);
 
 }
