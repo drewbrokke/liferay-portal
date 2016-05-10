@@ -78,7 +78,7 @@ public class EditSessionMVCActionCommand extends BaseMVCActionCommand {
 
 		String sessionId = ParamUtil.getString(actionRequest, "sessionId");
 
-		HttpSession userSession = PortalSessionContext.get(sessionId);
+		HttpSession userSession = PortalSessionContext.remove(sessionId);
 
 		if (userSession != null) {
 			try {
