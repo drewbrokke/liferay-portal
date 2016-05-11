@@ -14,6 +14,7 @@
 
 package com.liferay.portal.kernel.servlet;
 
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Collection;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpSession;
 /**
  * @author Brian Wing Shun Chan
  */
+@ProviderType
 public class PortalSessionContext {
 
 	public static int count() {
