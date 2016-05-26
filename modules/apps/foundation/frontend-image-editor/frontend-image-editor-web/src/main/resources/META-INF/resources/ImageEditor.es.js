@@ -323,7 +323,7 @@ class ImageEditor extends Component {
 					},
 					duration: 3000,
 					icon: 'exclamation-circle',
-					message: message,
+					message: message.message,
 					type: 'danger'
 				}
 			).render(this.element);
@@ -356,7 +356,7 @@ class ImageEditor extends Component {
 				url: this.saveURL
 			};
 
-			$.ajax(requestConfig)
+			AUI.$.ajax(requestConfig)
 				.done(resolve)
 				.fail((jqXHR, status, error) => reject(error));
 		});
