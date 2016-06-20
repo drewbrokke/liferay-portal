@@ -1714,12 +1714,14 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 
 		List<Group> userGroupGroups = new ArrayList<>();
 
-		for (int i = 0; i < userGroups.size(); i++) {
-			UserGroup userGroup = userGroups.get(i);
+		if (userGroups != null) {
+			for (int i = 0; i < userGroups.size(); i++) {
+				UserGroup userGroup = userGroups.get(i);
 
-			Group group = userGroup.getGroup();
+				Group group = userGroup.getGroup();
 
-			userGroupGroups.add(group);
+				userGroupGroups.add(group);
+			}
 		}
 
 		return userGroupGroups;
