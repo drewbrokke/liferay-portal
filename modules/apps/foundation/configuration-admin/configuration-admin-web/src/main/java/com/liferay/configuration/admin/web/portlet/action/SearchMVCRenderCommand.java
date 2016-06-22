@@ -29,11 +29,14 @@ import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
@@ -86,8 +89,12 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 
 			Document[] documents = hits.getDocs();
 
+			ThemeDisplay themeDisplay =
+				(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+
 			Map<String, ConfigurationModel> configurationModels =
-				_configurationModelRetriever.getConfigurationModels();
+				_configurationModelRetriever.getConfigurationModels(
+					themeDisplay.getLanguageId());
 
 			List<ConfigurationModel> searchResults = new ArrayList<>(
 				documents.length);
@@ -103,6 +110,19 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 					searchResults.add(configurationModel);
 				}
 			}
+
+			Map<String, Set<ConfigurationModel>>
+				categorizedConfigurationModels =
+					_configurationModelRetriever.categorizeConfigurationModels(
+						configurationModels);
+
+			List<String> configurationCategories =
+				_configurationModelRetriever.getConfigurationCategories(
+					categorizedConfigurationModels);
+
+			renderRequest.setAttribute(
+				ConfigurationAdminWebKeys.CONFIGURATION_CATEGORIES,
+				configurationCategories);
 
 			ConfigurationModelIterator configurationModelIterator =
 				new ConfigurationModelIterator(searchResults);
