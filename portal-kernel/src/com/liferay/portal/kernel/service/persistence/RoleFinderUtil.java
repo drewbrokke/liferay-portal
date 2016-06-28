@@ -66,6 +66,14 @@ public class RoleFinderUtil {
 			params, andOperator);
 	}
 
+	public static int countUsersGroupsByRoleId(long roleId) {
+		return getFinder().countUsersGroupsByRoleId(roleId);
+	}
+
+	public static int countUsersUserGroupsByRoleId(long roleId) {
+		return getFinder().countUsersUserGroupsByRoleId(roleId);
+	}
+
 	public static int filterCountByKeywords(long companyId,
 		java.lang.String keywords, java.lang.Integer[] types,
 		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params) {
