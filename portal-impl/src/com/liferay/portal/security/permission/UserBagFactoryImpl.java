@@ -18,13 +18,16 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.permission.UserBag;
 import com.liferay.portal.kernel.security.permission.UserBagFactory;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.util.PropsValues;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -46,9 +49,6 @@ public class UserBagFactoryImpl implements UserBagFactory {
 		}
 
 		try {
-			List<Group> userGroups = GroupLocalServiceUtil.getUserGroups(
-				userId, true);
-
 			Collection<Organization> userOrgs = getUserOrgs(userId);
 
 			Set<Group> userOrgGroups = new HashSet<>(userOrgs.size());
@@ -57,11 +57,29 @@ public class UserBagFactoryImpl implements UserBagFactory {
 				userOrgGroups.add(organization.getGroup());
 			}
 
-			List<Role> userRoles = null;
+			List<Group> allUserGroups = new ArrayList<>();
+
+			List<Group> userGroups = GroupLocalServiceUtil.getUserGroups(
+				userId, true);
 
 			if (!userGroups.isEmpty()) {
+				allUserGroups.addAll(userGroups);
+			}
+
+			User user = UserLocalServiceUtil.getUser(userId);
+
+			List<Group> userUserGroupGroups =
+				GroupLocalServiceUtil.getUserGroupsGroups(user.getUserGroups());
+
+			if (!userUserGroupGroups.isEmpty()) {
+				allUserGroups.addAll(userUserGroupGroups);
+			}
+
+			List<Role> userRoles = null;
+
+			if (!allUserGroups.isEmpty()) {
 				userRoles = RoleLocalServiceUtil.getUserRelatedRoles(
-					userId, userGroups);
+					userId, allUserGroups);
 			}
 			else {
 				userRoles = RoleLocalServiceUtil.getUserRoles(userId);
