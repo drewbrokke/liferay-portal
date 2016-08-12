@@ -769,6 +769,12 @@ public class WebServerServlet extends HttpServlet {
 			HttpServletRequest request, HttpServletResponse response)
 		throws IOException {
 
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+		if (!_log.isDebugEnabled()) {
+			return;
+		}
+		
 		response.setContentType(ContentTypes.TEXT_HTML_UTF8);
 
 		Locale locale = PortalUtil.getLocale(request);
@@ -776,8 +782,8 @@ public class WebServerServlet extends HttpServlet {
 		String message;
 
 		if (LanguageUtil.isValidLanguageKey(
-				locale,
-				"this-instance-is-inactive-please-contact-the-administrator")) {
+			locale,
+			"this-instance-is-inactive-please-contact-the-administrator")) {
 
 			message = LanguageUtil.get(
 				locale,
