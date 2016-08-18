@@ -235,6 +235,14 @@ public class WebServerServlet extends HttpServlet {
 		try {
 			user = _getUser(request);
 
+			long userCompanyId = user.getCompanyId();
+
+			if (_processCompanyInactiveRequest(
+					request, response, userCompanyId)) {
+
+				return;
+			}
+
 			PrincipalThreadLocal.setName(user.getUserId());
 			PrincipalThreadLocal.setPassword(
 				PortalUtil.getUserPassword(request));
@@ -290,6 +298,15 @@ public class WebServerServlet extends HttpServlet {
 					}
 
 					Image image = getImage(request, true);
+
+					long imageCompanyId = image.getCompanyId();
+
+					if ((imageCompanyId != userCompanyId) &&
+						_processCompanyInactiveRequest(
+							request, response, imageCompanyId)) {
+
+						return;
+					}
 
 					if (image != null) {
 						writeImage(image, request, response);
@@ -885,6 +902,14 @@ public class WebServerServlet extends HttpServlet {
 			throw new NoSuchFileEntryException();
 		}
 
+		long fileEntryCompanyId = fileEntry.getCompanyId();
+
+		if (_processCompanyInactiveRequest(
+				request, response, fileEntryCompanyId)) {
+
+			return;
+		}
+
 		String version = ParamUtil.getString(request, "version");
 
 		if (Validator.isNull(version)) {
@@ -1185,6 +1210,14 @@ public class WebServerServlet extends HttpServlet {
 		FileEntry fileEntry = getPortletFileEntry(request, pathArray);
 
 		if (fileEntry == null) {
+			return;
+		}
+
+		long fileEntryCompanyId = fileEntry.getCompanyId();
+
+		if (_processCompanyInactiveRequest(
+				request, response, fileEntryCompanyId)) {
+
 			return;
 		}
 
