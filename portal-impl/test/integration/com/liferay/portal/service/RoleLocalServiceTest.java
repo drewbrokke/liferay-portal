@@ -89,7 +89,6 @@ public class RoleLocalServiceTest {
 
 		OrganizationLocalServiceUtil.addUserOrganization(
 			user.getUserId(), organization);
-
 		UserGroupRoleLocalServiceUtil.addUserGroupRoles(
 			user.getUserId(), organization.getGroupId(),
 			new long[] {role.getRoleId()});
@@ -102,9 +101,9 @@ public class RoleLocalServiceTest {
 	public void testGetAssigneesCountRegularRole() throws Exception {
 		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
 
-		User user = UserTestUtil.addUser();
 		Group group = GroupTestUtil.addGroup();
 		Organization organization = OrganizationTestUtil.addOrganization();
+		User user = UserTestUtil.addUser();
 		UserGroup userGroup = UserGroupTestUtil.addUserGroup();
 
 		RoleLocalServiceUtil.addUserRole(user.getUserId(), role);
@@ -130,10 +129,10 @@ public class RoleLocalServiceTest {
 
 		long[] roleIds = new long[] {role.getRoleId()};
 
-		UserGroupRoleLocalServiceUtil.addUserGroupRoles(
-			user.getUserId(), group.getGroupId(), roleIds);
 		UserGroupGroupRoleLocalServiceUtil.addUserGroupGroupRoles(
 			userGroup.getGroupId(), group.getGroupId(), roleIds);
+		UserGroupRoleLocalServiceUtil.addUserGroupRoles(
+			user.getUserId(), group.getGroupId(), roleIds);
 
 		Assert.assertEquals(
 			2, RoleLocalServiceUtil.getAssigneesCount(role.getRoleId()));
