@@ -111,21 +111,35 @@ an OSGi project that does not contain a `packageinfo` file.
 ## 1.2.3 - 2016-09-01
 
 ### Changed
-- [LPS-67863]: The file which contains the version overrides for an OSGi module
+- [LPS-67863]: The file that contains the version overrides for an OSGi module
 is now called `.version-override-${project.name}.properties`.
-- [LPS-67863]: The `packageinfo` versions are always overriden with the versions
-specified in the `.version-override-${project.name}.properties` file, even if
-the ones in the `packageinfo` files are greater.
+- [LPS-67863]: The `packageinfo` versions are always overridden with the
+versions specified in the `.version-override-${project.name}.properties` file,
+even if the versions in the `packageinfo` files are greater.
 
 ## 1.2.4 - 2016-09-01
 
 ### Changed
-- [LPS-67863]: In order to prevent releasing modules with unpublished
-dependencies, Disable the `printArtifactPublishCommands` task if the project's
-`build.gradle` contains the string `version: "default"`.
+- [LPS-67863]: Disable the `printArtifactPublishCommands` task if the project's
+`build.gradle` contains the string `version: "default"`, to prevent releasing
+modules with unpublished dependencies.
 - [LPS-67863]: The `.version-override-${project.name}.properties` now contains
-only the version overrides that are different from the versions specified in the
+only the version overrides that differ from the versions specified in the
 `bnd.bnd` and `packageinfo` files.
+
+## 1.2.5 - 2016-09-01
+
+### Fixed
+- [LPS-67863]: Avoid throwing an exception while running `gradlew baseline
+-PsyncRelease` on a project that does not contain a
+`.version-override-${project.name}.properties` file.
+
+## 1.2.6 - 2016-09-02
+
+### Fixed
+- [LPS-67863]: Avoid throwing an exception while running the
+`printArtifactPublishCommands` task on a project that does not contain a
+`build.gradle` file.
 
 [Liferay Gradle Plugins]: https://github.com/liferay/liferay-portal/tree/master/modules/sdk/gradle-plugins
 [LPS-66853]: https://issues.liferay.com/browse/LPS-66853

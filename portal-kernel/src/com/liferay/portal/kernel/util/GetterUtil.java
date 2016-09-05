@@ -112,7 +112,7 @@ public class GetterUtil {
 	public static final Number[] DEFAULT_NUMBER_VALUES = new Number[0];
 
 	/**
-	 * The default Object value is <code>null<code/>.
+	 * The default Object value is <code>null</code>.
 	 */
 	public static final Number DEFAULT_OBJECT = null;
 
