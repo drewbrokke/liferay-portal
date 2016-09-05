@@ -95,11 +95,10 @@ public class RoleLocalServiceTest {
 			organizationRoleUser.getUserId(), testOrganization.getGroupId(),
 			new long[] {organizationRole.getRoleId()});
 
-		int organizationRoleAssigneesCount =
+		Assert.assertEquals(
+			1,
 			RoleLocalServiceUtil.getAssigneesCount(
-				organizationRole.getRoleId());
-
-		Assert.assertEquals(1, organizationRoleAssigneesCount);
+				organizationRole.getRoleId()));
 	}
 
 	@Test
@@ -121,10 +120,9 @@ public class RoleLocalServiceTest {
 		RoleLocalServiceUtil.addGroupRole(
 			regularRoleUserGroup.getGroupId(), regularRole);
 
-		int regularRoleAssigneesCount = RoleLocalServiceUtil.getAssigneesCount(
-			regularRole.getRoleId());
-
-		Assert.assertEquals(4, regularRoleAssigneesCount);
+		Assert.assertEquals(
+			4,
+			RoleLocalServiceUtil.getAssigneesCount(regularRole.getRoleId()));
 	}
 
 	@Test
@@ -147,10 +145,9 @@ public class RoleLocalServiceTest {
 			siteRoleUserGroup.getGroupId(), testSite.getGroupId(),
 			siteRoleIdArray);
 
-		int siteRoleAssigneesCount = RoleLocalServiceUtil.getAssigneesCount(
-			siteRole.getRoleId());
-
-		Assert.assertEquals(2, siteRoleAssigneesCount);
+		Assert.assertEquals(
+			2,
+			RoleLocalServiceUtil.getAssigneesCount(siteRole.getRoleId()));
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
