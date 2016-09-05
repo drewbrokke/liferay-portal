@@ -82,72 +82,61 @@ public class RoleLocalServiceTest {
 
 	@Test
 	public void testGetAssigneesCountOrganizationRole() throws Exception {
-		Role organizationRole = RoleTestUtil.addRole(
-			RoleConstants.TYPE_ORGANIZATION);
+		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_ORGANIZATION);
 
-		Organization testOrganization = OrganizationTestUtil.addOrganization();
-		User organizationRoleUser = UserTestUtil.addUser();
+		Organization organization = OrganizationTestUtil.addOrganization();
+		User user = UserTestUtil.addUser();
 
 		OrganizationLocalServiceUtil.addUserOrganization(
-			organizationRoleUser.getUserId(), testOrganization);
+			user.getUserId(), organization);
 
 		UserGroupRoleLocalServiceUtil.addUserGroupRoles(
-			organizationRoleUser.getUserId(), testOrganization.getGroupId(),
-			new long[] {organizationRole.getRoleId()});
+			user.getUserId(), organization.getGroupId(),
+			new long[] {role.getRoleId()});
 
 		Assert.assertEquals(
-			1,
-			RoleLocalServiceUtil.getAssigneesCount(
-				organizationRole.getRoleId()));
+			1, RoleLocalServiceUtil.getAssigneesCount(role.getRoleId()));
 	}
 
 	@Test
 	public void testGetAssigneesCountRegularRole() throws Exception {
-		Role regularRole = RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
+		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
 
-		User regularRoleUser = UserTestUtil.addUser();
-		Group regularRoleSite = GroupTestUtil.addGroup();
-		Organization regularRoleOrganization =
-			OrganizationTestUtil.addOrganization();
-		UserGroup regularRoleUserGroup = UserGroupTestUtil.addUserGroup();
+		User user = UserTestUtil.addUser();
+		Group group = GroupTestUtil.addGroup();
+		Organization organization = OrganizationTestUtil.addOrganization();
+		UserGroup userGroup = UserGroupTestUtil.addUserGroup();
 
-		RoleLocalServiceUtil.addUserRole(
-			regularRoleUser.getUserId(), regularRole);
-		RoleLocalServiceUtil.addGroupRole(
-			regularRoleSite.getGroupId(), regularRole);
-		RoleLocalServiceUtil.addGroupRole(
-			regularRoleOrganization.getGroupId(), regularRole);
-		RoleLocalServiceUtil.addGroupRole(
-			regularRoleUserGroup.getGroupId(), regularRole);
+		RoleLocalServiceUtil.addUserRole(user.getUserId(), role);
+		RoleLocalServiceUtil.addGroupRole(group.getGroupId(), role);
+		RoleLocalServiceUtil.addGroupRole(organization.getGroupId(), role);
+		RoleLocalServiceUtil.addGroupRole(userGroup.getGroupId(), role);
 
 		Assert.assertEquals(
-			4,
-			RoleLocalServiceUtil.getAssigneesCount(regularRole.getRoleId()));
+			4, RoleLocalServiceUtil.getAssigneesCount(role.getRoleId()));
 	}
 
 	@Test
 	public void testGetAssigneesCountSiteRole() throws Exception {
-		Role siteRole = RoleTestUtil.addRole(RoleConstants.TYPE_SITE);
+		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_SITE);
 
-		Group testSite = GroupTestUtil.addGroup();
-		User siteRoleUser = UserTestUtil.addUser();
-		UserGroup siteRoleUserGroup = UserGroupTestUtil.addUserGroup();
+		Group group = GroupTestUtil.addGroup();
+		User user = UserTestUtil.addUser();
+		UserGroup userGroup = UserGroupTestUtil.addUserGroup();
 
-		GroupLocalServiceUtil.addUserGroup(siteRoleUser.getUserId(), testSite);
+		GroupLocalServiceUtil.addUserGroup(user.getUserId(), group);
 		GroupLocalServiceUtil.addUserGroupGroup(
-			siteRoleUserGroup.getUserGroupId(), testSite);
+			userGroup.getUserGroupId(), group);
 
-		long[] siteRoleIdArray = new long[] {siteRole.getRoleId()};
+		long[] roleIds = new long[] {role.getRoleId()};
 
 		UserGroupRoleLocalServiceUtil.addUserGroupRoles(
-			siteRoleUser.getUserId(), testSite.getGroupId(), siteRoleIdArray);
+			user.getUserId(), group.getGroupId(), roleIds);
 		UserGroupGroupRoleLocalServiceUtil.addUserGroupGroupRoles(
-			siteRoleUserGroup.getGroupId(), testSite.getGroupId(),
-			siteRoleIdArray);
+			userGroup.getGroupId(), group.getGroupId(), roleIds);
 
 		Assert.assertEquals(
-			2,
-			RoleLocalServiceUtil.getAssigneesCount(siteRole.getRoleId()));
+			2, RoleLocalServiceUtil.getAssigneesCount(role.getRoleId()));
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
