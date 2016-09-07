@@ -1377,6 +1377,26 @@ public class ResourcePermissionLocalServiceImpl
 			long ownerId, Map<Long, String[]> roleIdsToActionIds)
 		throws PortalException {
 
+		Role guestRole = roleLocalService.getRole(
+			companyId, RoleConstants.GUEST);
+
+		String[] guestActionIds = roleIdsToActionIds.get(
+			guestRole.getRoleId());
+
+		if (guestActionIds != null) {
+			List<String> unsupportedActionIds =
+				ResourceActionsUtil.getResourceGuestUnsupportedActions(
+					name, name);
+
+			for (String actionId : guestActionIds) {
+				if (unsupportedActionIds.contains(actionId)) {
+					throw new PrincipalException(
+						actionId + "is not supported by role " +
+							guestRole.getRoleId());
+				}
+			}
+		}
+
 		boolean flushResourcePermissionEnabled =
 			PermissionThreadLocal.isFlushResourcePermissionEnabled(
 				name, primKey);
@@ -1411,24 +1431,11 @@ public class ResourcePermissionLocalServiceImpl
 				long roleId = resourcePermission.getRoleId();
 				String[] actionIds = roleIdsToActionIds.remove(roleId);
 
-				List<String> unsupportedActionIds = Collections.emptyList();
-
-				if (isGuestRoleId(companyId, roleId)) {
-					unsupportedActionIds =
-						ResourceActionsUtil.getResourceGuestUnsupportedActions(
-							name, name);
-				}
-
 				long actionIdsLong = 0;
 
 				for (String actionId : actionIds) {
 					if (actionId == null) {
 						break;
-					}
-
-					if (unsupportedActionIds.contains(actionId)) {
-						throw new PrincipalException(
-							actionId + "is not supported by role " + roleId);
 					}
 
 					ResourceAction resourceAction =
@@ -1492,24 +1499,11 @@ public class ResourcePermissionLocalServiceImpl
 					}
 				}
 
-				List<String> unsupportedActionIds = Collections.emptyList();
-
-				if (isGuestRoleId(companyId, roleId) {
-					unsupportedActionIds =
-						ResourceActionsUtil.getResourceGuestUnsupportedActions(
-							name, name);
-				}
-
 				long actionIdsLong = 0;
 
 				for (String actionId : actionIds) {
 					if (actionId == null) {
 						break;
-					}
-
-					if (unsupportedActionIds.contains(actionId)) {
-						throw new PrincipalException(
-							actionId + "is not supported by role " + roleId);
 					}
 
 					ResourceAction resourceAction =
