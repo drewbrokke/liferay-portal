@@ -264,6 +264,14 @@ public class ResourceActionsUtil {
 		getResourceActions().read(servletContextName, inputStream);
 	}
 
+	public static List<Role> searchRoles(
+		long companyId, String keywords, Group group, String modelResource,
+		int[] roleTypes) {
+
+		return getResourceActions().searchRoles(
+			companyId, keywords, group, modelResource, roleTypes);
+	}
+
 	public void setResourceActions(ResourceActions resourceActions) {
 		PortalRuntimePermission.checkSetBeanProperty(getClass());
 

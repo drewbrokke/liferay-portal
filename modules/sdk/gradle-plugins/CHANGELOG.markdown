@@ -81,7 +81,31 @@ version 1.0.125.
 - [LPS-67352]: Update the [Liferay Source Formatter] dependency to version
 1.0.268.
 
+## 2.0.21 - 2016-09-02
+
+### Changed
+- [LPS-67986]: Update the [Liferay CSS Builder] dependency to version 1.0.19.
+
+## 2.0.22 - 2016-09-02
+
+### Changed
+- [LPS-66853]: Update the [Liferay Source Formatter] dependency to version
+1.0.269.
+
+## 2.0.23 - 2016-09-05
+
+### Changed
+- [LPS-66853]: Update the [Liferay Source Formatter] dependency to version
+1.0.270.
+
+## 2.0.24 - 2016-09-05
+
+### Changed
+- [LPS-66853]: Update the [Liferay Source Formatter] dependency to version
+1.0.271.
+
 [Gradle Bundle Plugin]: https://github.com/TomDmitriev/gradle-bundle-plugin
+[Liferay CSS Builder]: https://github.com/liferay/liferay-portal/tree/master/modules/util/css-builder
 [Liferay Gradle Plugins Gulp]: https://github.com/liferay/liferay-portal/tree/master/modules/sdk/gradle-plugins-gulp
 [Liferay Gradle Plugins JS Module Config Generator]: https://github.com/liferay/liferay-portal/tree/master/modules/sdk/gradle-plugins-js-module-config-generator
 [Liferay Gradle Plugins JS Transpiler]: https://github.com/liferay/liferay-portal/tree/master/modules/sdk/gradle-plugins-js-transpiler
@@ -92,3 +116,4 @@ version 1.0.125.
 [LPS-67352]: https://issues.liferay.com/browse/LPS-67352
 [LPS-67658]: https://issues.liferay.com/browse/LPS-67658
 [LPS-67804]: https://issues.liferay.com/browse/LPS-67804
+[LPS-67986]: https://issues.liferay.com/browse/LPS-67986

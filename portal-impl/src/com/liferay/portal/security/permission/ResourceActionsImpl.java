@@ -15,6 +15,7 @@
 package com.liferay.portal.security.permission;
 
 import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.NoSuchResourceActionException;
 import com.liferay.portal.kernel.exception.ResourceActionsException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -711,6 +712,20 @@ public class ResourceActionsImpl implements ResourceActions {
 		Document document = UnsecureSAXReaderUtil.read(inputStream, true);
 
 		read(servletContextName, document);
+	}
+
+	@Override
+	public List<Role> searchRoles(
+		long companyId, String keywords, Group group, String modelResource,
+		int[] roleTypes) {
+
+		if (roleTypes == null) {
+			roleTypes = getRoleTypes(companyId, group, modelResource);
+		}
+
+		return roleLocalService.search(
+			companyId, keywords, ArrayUtil.toArray(roleTypes),
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	protected void checkGuestUnsupportedActions(

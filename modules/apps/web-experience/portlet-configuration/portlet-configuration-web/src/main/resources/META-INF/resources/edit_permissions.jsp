@@ -22,6 +22,8 @@ String tabs2 = ParamUtil.getString(request, "tabs2", "regular-roles");
 String redirect = ParamUtil.getString(request, "redirect");
 String returnToFullPageURL = ParamUtil.getString(request, "returnToFullPageURL");
 
+String keywords = ParamUtil.getString(request, "keywords");
+
 String modelResource = ParamUtil.getString(request, "modelResource");
 String modelResourceDescription = ParamUtil.getString(request, "modelResourceDescription");
 String modelResourceName = ResourceActionsUtil.getModelResource(request, modelResource);
@@ -111,30 +113,38 @@ definePermissionsURL.setParameter("backURL", currentURL);
 definePermissionsURL.setPortletMode(PortletMode.VIEW);
 definePermissionsURL.setRefererPlid(plid);
 definePermissionsURL.setWindowState(LiferayWindowState.POP_UP);
+
+PortletURL updateRolePermissionsURL = renderResponse.createRenderURL();
+
+updateRolePermissionsURL.setParameter("mvcPath", "/edit_permissions.jsp");
+updateRolePermissionsURL.setParameter("tabs2", tabs2);
+updateRolePermissionsURL.setParameter("returnToFullPageURL", returnToFullPageURL);
+updateRolePermissionsURL.setParameter("portletConfiguration", Boolean.TRUE.toString());
+updateRolePermissionsURL.setParameter("portletResource", portletResource);
+updateRolePermissionsURL.setParameter("modelResource", modelResource);
+updateRolePermissionsURL.setParameter("modelResourceDescription", modelResourceDescription);
+updateRolePermissionsURL.setParameter("resourceGroupId", String.valueOf(resourceGroupId));
+updateRolePermissionsURL.setParameter("resourcePrimKey", resourcePrimKey);
+updateRolePermissionsURL.setParameter("roleTypes", roleTypesParam);
+
+SearchContainer permissionsSearchContainer = new SearchContainer(renderRequest, new DisplayTerms(request), null, SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, updateRolePermissionsURL, null, null);
 %>
 
 <div class="edit-permissions portlet-configuration-edit-permissions">
-	<portlet:actionURL name="updateRolePermissions" var="updateRolePermissionsURL">
-		<portlet:param name="mvcPath" value="/edit_permissions.jsp" />
-		<portlet:param name="tabs2" value="<%= tabs2 %>" />
-		<portlet:param name="returnToFullPageURL" value="<%= returnToFullPageURL %>" />
-		<portlet:param name="portletConfiguration" value="<%= Boolean.TRUE.toString() %>" />
-		<portlet:param name="portletResource" value="<%= portletResource %>" />
-		<portlet:param name="modelResource" value="<%= modelResource %>" />
-		<portlet:param name="modelResourceDescription" value="<%= modelResourceDescription %>" />
-		<portlet:param name="resourceGroupId" value="<%= String.valueOf(resourceGroupId) %>" />
-		<portlet:param name="resourcePrimKey" value="<%= resourcePrimKey %>" />
-		<portlet:param name="roleTypes" value="<%= roleTypesParam %>" />
-	</portlet:actionURL>
-
 	<aui:form action="<%= updateRolePermissionsURL.toString() %>" cssClass="form" method="post" name="fm">
 		<aui:input name="resourceId" type="hidden" value="<%= resource.getResourceId() %>" />
 
 		<div class="portlet-configuration-body-content">
-			<aui:nav-bar markupView="lexicon">
+			<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 				<aui:nav cssClass="navbar-nav">
 					<aui:nav-item label="permissions" selected="<%= true %>" />
 				</aui:nav>
+
+				<aui:nav-bar-search searchContainer="<%= permissionsSearchContainer %>">
+					<aui:form action="<%= updateRolePermissionsURL %>" name="searchFM">
+						<liferay-ui:input-search markupView="lexicon" name="keywords" />
+					</aui:form>
+				</aui:nav-bar-search>
 			</aui:nav-bar>
 
 			<div class="container-fluid-1280">
@@ -187,7 +197,7 @@ definePermissionsURL.setWindowState(LiferayWindowState.POP_UP);
 					}
 				}
 
-				List<Role> roles = ListUtil.copy(ResourceActionsUtil.getRoles(company.getCompanyId(), group, modelResource, roleTypes));
+				List<Role> roles = ListUtil.copy(ResourceActionsUtil.searchRoles(company.getCompanyId(), keywords, group, modelResource, roleTypes));
 
 				Role administratorRole = RoleLocalServiceUtil.getRole(company.getCompanyId(), RoleConstants.ADMINISTRATOR);
 
@@ -263,10 +273,11 @@ definePermissionsURL.setWindowState(LiferayWindowState.POP_UP);
 				%>
 
 				<liferay-ui:search-container
+					searchContainer="<%= permissionsSearchContainer %>"
 					total="<%= roles.size() %>"
 				>
 					<liferay-ui:search-container-results
-						results="<%= roles %>"
+						results="<%= roles.subList(searchContainer.getStart(), searchContainer.getResultEnd()) %>"
 					/>
 
 					<liferay-ui:search-container-row
@@ -370,7 +381,7 @@ definePermissionsURL.setWindowState(LiferayWindowState.POP_UP);
 
 					</liferay-ui:search-container-row>
 
-					<liferay-ui:search-iterator markupView="lexicon" paginate="<%= false %>" searchContainer="<%= searchContainer %>" />
+					<liferay-ui:search-iterator markupView="lexicon" />
 				</liferay-ui:search-container>
 			</div>
 		</div>

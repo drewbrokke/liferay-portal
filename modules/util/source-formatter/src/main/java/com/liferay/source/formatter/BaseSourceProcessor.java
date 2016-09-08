@@ -37,7 +37,6 @@ import com.liferay.source.formatter.util.FileUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -49,13 +48,13 @@ import java.nio.charset.CodingErrorAction;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -153,11 +152,11 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 	}
 
 	@Override
-	public List<SourceFormatterMessage> getSourceFormatterMessages() {
-		List<SourceFormatterMessage> sourceFormatterMessages =
-			new ArrayList<>();
+	public Set<SourceFormatterMessage> getSourceFormatterMessages() {
+		Set<SourceFormatterMessage> sourceFormatterMessages =
+			new TreeSet<>();
 
-		for (Map.Entry<String, List<SourceFormatterMessage>> entry :
+		for (Map.Entry<String, Set<SourceFormatterMessage>> entry :
 				_sourceFormatterMessagesMap.entrySet()) {
 
 			sourceFormatterMessages.addAll(entry.getValue());
@@ -173,17 +172,22 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 
 	@Override
 	public void processMessage(String fileName, String message, int lineCount) {
-		List<SourceFormatterMessage> sourceFormatterMessages =
+		Set<SourceFormatterMessage> sourceFormatterMessages =
 			_sourceFormatterMessagesMap.get(fileName);
 
 		if (sourceFormatterMessages == null) {
-			sourceFormatterMessages = new ArrayList<>();
+			sourceFormatterMessages = new TreeSet<>();
 		}
 
 		sourceFormatterMessages.add(
 			new SourceFormatterMessage(fileName, message, lineCount));
 
 		_sourceFormatterMessagesMap.put(fileName, sourceFormatterMessages);
+	}
+
+	@Override
+	public void setProperties(Properties properties) {
+		_properties = properties;
 	}
 
 	@Override
@@ -345,7 +349,9 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 
 			if (Objects.equals(value, defaultValue)) {
 				processMessage(
-					fileName, "No need to pass default value",
+					fileName,
+					"No need to pass default value '" + parametersList.get(1) +
+						"'",
 					getLineCount(content, matcher.start()));
 			}
 		}
@@ -371,7 +377,8 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 		if (hasRedundantParentheses(ifClause, "||", "&&") ||
 			hasRedundantParentheses(ifClause, "&&", "||")) {
 
-			processMessage(fileName, "redundant parentheses", lineCount);
+			processMessage(
+				fileName, "Redundant parentheses in if-statement", lineCount);
 
 			return;
 		}
@@ -396,7 +403,8 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 
 					if (hasMissingParentheses(s)) {
 						processMessage(
-							fileName, "missing parentheses", lineCount);
+							fileName, "Missing parentheses in if-statement",
+							lineCount);
 
 						return;
 					}
@@ -426,7 +434,8 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 
 							if (hasRedundantParentheses(s)) {
 								processMessage(
-									fileName, "redundant parentheses",
+									fileName,
+									"Redundant parentheses in if-statement",
 									lineCount);
 
 								return;
@@ -437,7 +446,9 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 							(nextChar == CharPool.CLOSE_PARENTHESIS)) {
 
 							processMessage(
-								fileName, "redundant parentheses", lineCount);
+								fileName,
+								"Redundant parentheses in if-statement",
+								lineCount);
 
 							return;
 						}
@@ -567,7 +578,7 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 					!bndFileLanguageProperties.containsKey(languageKey)) {
 
 					processMessage(
-						fileName, "missing language key: " + languageKey);
+						fileName, "Missing language key '" + languageKey + "'");
 				}
 			}
 		}
@@ -591,9 +602,9 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 
 				StringBundler sb = new StringBundler(7);
 
-				sb.append("order ");
+				sb.append("Incorrect order '");
 				sb.append(elementName);
-				sb.append(StringPool.COLON);
+				sb.append("':");
 
 				if (Validator.isNotNull(parentElementName)) {
 					sb.append(StringPool.SPACE);
@@ -635,7 +646,8 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 		if (content.contains("org.apache.commons.beanutils.PropertyUtils")) {
 			processMessage(
 				fileName,
-				"Do not use org.apache.commons.beanutils.PropertyUtils");
+				"Do not use org.apache.commons.beanutils.PropertyUtils, see " +
+					"LPS-62786");
 		}
 	}
 
@@ -650,7 +662,7 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 			processMessage(
 				fileName,
 				"Use ResourceBundleUtil.getBundle instead of " +
-					"ResourceBundle.getBundle",
+					"ResourceBundle.getBundle, see LPS-58529",
 				lineCount);
 		}
 
@@ -658,7 +670,7 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 			processMessage(
 				fileName,
 				"Use ResourceBundleUtil.getString instead of " +
-					"resourceBundle.getString",
+					"resourceBundle.getString, see LPS-58529",
 				lineCount);
 		}
 	}
@@ -796,7 +808,7 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 
 			content = StringUtil.replace(content, _oldCopyright, copyright);
 
-			processMessage(fileName, "old (c)");
+			processMessage(fileName, "File contains old copyright information");
 		}
 
 		if (!content.contains(copyright)) {
@@ -1172,7 +1184,9 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 				}
 
 				if (delimeter != CharPool.AMPERSAND) {
-					processMessage(fileName, "delimeter", lineCount);
+					processMessage(
+						fileName, "Incorrect delimeter '" + delimeter + "'",
+						lineCount);
 				}
 
 				return line;
@@ -1422,7 +1436,8 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 			}
 
 			processMessage(
-				fileName, "plus", getLineCount(content, matcher.start(1)));
+				fileName, "Incorrect use of '+' inside StringBundler",
+				getLineCount(content, matcher.start(1)));
 		}
 
 		matcher = sbAppendWithStartingSpacePattern.matcher(content);
@@ -1438,7 +1453,8 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 				(getLineLength(firstLine) >= maxLineLength)) {
 
 				processMessage(
-					fileName, "leading space in sb",
+					fileName,
+					"Do not append string starting with space to StringBundler",
 					getLineCount(content, matcher.start(3)));
 			}
 			else {
@@ -1836,18 +1852,8 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 	}
 
 	protected File getFile(String fileName, int level) {
-		for (int i = 0; i < level; i++) {
-			File file = new File(
-				sourceFormatterArgs.getBaseDirName() + fileName);
-
-			if (file.exists()) {
-				return file;
-			}
-
-			fileName = "../" + fileName;
-		}
-
-		return null;
+		return _sourceFormatterHelper.getFile(
+			sourceFormatterArgs.getBaseDirName(), fileName, level);
 	}
 
 	protected List<String> getFileNames(
@@ -1855,12 +1861,24 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 			String[] excludes, String[] includes)
 		throws Exception {
 
+		return getFileNames(
+			basedir, recentChangesFileNames, excludes, includes,
+			sourceFormatterArgs.isIncludeSubrepositories());
+	}
+
+	protected List<String> getFileNames(
+			String basedir, List<String> recentChangesFileNames,
+			String[] excludes, String[] includes,
+			boolean includeSubrepositories)
+		throws Exception {
+
 		if (_excludes != null) {
 			excludes = ArrayUtil.append(excludes, _excludes);
 		}
 
 		return _sourceFormatterHelper.getFileNames(
-			basedir, recentChangesFileNames, excludes, includes);
+			basedir, recentChangesFileNames, excludes, includes,
+			includeSubrepositories);
 	}
 
 	protected List<String> getFileNames(
@@ -2589,7 +2607,7 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 		}
 
 		if (sourceFormatterArgs.isPrintErrors()) {
-			List<SourceFormatterMessage> sourceFormatterMessages =
+			Set<SourceFormatterMessage> sourceFormatterMessages =
 				_sourceFormatterMessagesMap.get(fileName);
 
 			if (sourceFormatterMessages != null) {
@@ -2949,93 +2967,16 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 		return excludesList.toArray(new String[excludesList.size()]);
 	}
 
-	private Properties _getProperties() throws Exception {
-		String fileName = "source-formatter.properties";
-
-		Properties properties = new Properties();
-
-		List<Properties> propertiesList = new ArrayList<>();
-
-		int level = 2;
-
-		if (portalSource) {
-			level = PORTAL_MAX_DIR_LEVEL;
-		}
-
-		for (int i = 0; i <= level; i++) {
-			try {
-				InputStream inputStream = new FileInputStream(
-					sourceFormatterArgs.getBaseDirName() + fileName);
-
-				Properties props = new Properties();
-
-				props.load(inputStream);
-
-				propertiesList.add(props);
-
-				break;
-			}
-			catch (FileNotFoundException fnfe) {
-			}
-
-			fileName = "../" + fileName;
-		}
-
-		if (propertiesList.isEmpty()) {
-			return properties;
-		}
-
-		properties = propertiesList.get(0);
-
-		if (propertiesList.size() == 1) {
-			return properties;
-		}
-
-		for (int i = 1; i < propertiesList.size(); i++) {
-			Properties props = propertiesList.get(i);
-
-			Enumeration<String> enu =
-				(Enumeration<String>)props.propertyNames();
-
-			while (enu.hasMoreElements()) {
-				String key = enu.nextElement();
-
-				String value = props.getProperty(key);
-
-				if (Validator.isNull(value)) {
-					continue;
-				}
-
-				if (key.contains("excludes")) {
-					String existingValue = properties.getProperty(key);
-
-					if (Validator.isNotNull(existingValue)) {
-						value = existingValue + StringPool.COMMA + value;
-					}
-
-					properties.put(key, value);
-				}
-				else if (!properties.containsKey(key)) {
-					properties.put(key, value);
-				}
-			}
-		}
-
-		return properties;
-	}
-
 	private void _init() {
-		portalSource = _isPortalSource();
-
-		_sourceFormatterMessagesMap = new HashMap<>();
-
 		try {
-			_properties = _getProperties();
-
 			_sourceFormatterHelper = new SourceFormatterHelper(
 				sourceFormatterArgs.isUseProperties());
 
 			_sourceFormatterHelper.init();
+
+			portalSource = _isPortalSource();
+
+			_sourceFormatterMessagesMap = new HashMap<>();
 		}
 		catch (Exception e) {
 			ReflectionUtil.throwException(e);
@@ -3110,7 +3051,7 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 	private Properties _properties;
 	private List<String> _runOutsidePortalExcludes;
 	private SourceFormatterHelper _sourceFormatterHelper;
-	private Map<String, List<SourceFormatterMessage>>
+	private Map<String, Set<SourceFormatterMessage>>
 		_sourceFormatterMessagesMap = new ConcurrentHashMap<>();
 	private boolean _usePortalCompatImport;
 

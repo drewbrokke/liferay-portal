@@ -142,4 +142,8 @@ public interface ResourceActions {
 	public void read(String servletContextName, InputStream inputStream)
 		throws Exception;
 
+	public List<Role> searchRoles(
+		long companyId, String keywords, Group group, String modelResource,
+		int[] roleTypes);
+
 }
