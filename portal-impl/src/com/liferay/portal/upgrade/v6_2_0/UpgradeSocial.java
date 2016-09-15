@@ -219,7 +219,7 @@ public class UpgradeSocial extends UpgradeProcess {
 
 	/**
 	 * Defines the necessary methods to generate extra data from a set of social
-	 * activities (<code>com.liferay.social.kernel.model.SocialActivity<code>
+	 * activities (<code>com.liferay.social.kernel.model.SocialActivity</code>
 	 * instances) of any kind.
 	 *
 	 * <p>

@@ -94,6 +94,12 @@ AUI.add(
 
 						instance._initializeThemes();
 						instance._highlightActiveGutterLine(0);
+
+						// LPS-67768
+
+						if (A.UA.linux && aceEditor.renderer) {
+							aceEditor.renderer.$computeLayoutConfig();
+						}
 					},
 
 					bindUI: function() {

@@ -314,6 +314,14 @@ public class PoshiRunnerContext {
 			properties.setProperty(propertyName, propertyValue);
 		}
 
+		if (Validator.isNotNull(
+				commandElement.attributeValue("known-issues"))) {
+
+			String knownIssues = commandElement.attributeValue("known-issues");
+
+			properties.setProperty("known-issues", knownIssues);
+		}
+
 		if (Validator.isNotNull(commandElement.attributeValue("priority"))) {
 			String priority = commandElement.attributeValue("priority");
 
@@ -440,6 +448,18 @@ public class PoshiRunnerContext {
 					sb.append(" OR ");
 				}
 			}
+
+			propertyQuery = sb.toString();
+		}
+
+		if (Validator.isNotNull(PropsValues.TEST_RUN_ENVIRONMENT)) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(propertyQuery);
+			sb.append(" AND ");
+			sb.append("(test.run.environment == \"");
+			sb.append(PropsValues.TEST_RUN_ENVIRONMENT);
+			sb.append("\" OR test.run.environment == null)");
 
 			propertyQuery = sb.toString();
 		}
@@ -1198,6 +1218,7 @@ public class PoshiRunnerContext {
 					StringUtil.split(testCaseAvailablePropertyNames)));
 		}
 
+		_testCaseAvailablePropertyNames.add("known-issues");
 		_testCaseAvailablePropertyNames.add("priority");
 
 		String testCaseRequiredPropertyNames =
