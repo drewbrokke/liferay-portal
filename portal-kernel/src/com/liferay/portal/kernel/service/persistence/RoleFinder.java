@@ -45,6 +45,10 @@ public interface RoleFinder {
 		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params,
 		boolean andOperator);
 
+	public int countUsersGroupsByRoleId(long roleId);
+
+	public int countUsersUserGroupsByRoleId(long roleId);
+
 	public int filterCountByKeywords(long companyId, java.lang.String keywords,
 		java.lang.Integer[] types,
 		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params);

@@ -24,18 +24,24 @@ import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.model.Team;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.TeamLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserGroupGroupRoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
+import com.liferay.portal.kernel.test.util.OrganizationTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.RoleTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.test.util.UserGroupTestUtil;
+import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.comparator.RoleRoleIdComparator;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.util.test.LayoutTestUtil;
@@ -72,6 +78,64 @@ public class RoleLocalServiceTest {
 		RoleTestUtil.addRole(
 			RoleConstants.PLACEHOLDER_DEFAULT_GROUP_ROLE,
 			RoleConstants.TYPE_REGULAR);
+	}
+
+	@Test
+	public void testGetAssigneesCountOrganizationRole() throws Exception {
+		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_ORGANIZATION);
+
+		Organization organization = OrganizationTestUtil.addOrganization();
+		User user = UserTestUtil.addUser();
+
+		OrganizationLocalServiceUtil.addUserOrganization(
+			user.getUserId(), organization);
+		UserGroupRoleLocalServiceUtil.addUserGroupRoles(
+			user.getUserId(), organization.getGroupId(),
+			new long[] {role.getRoleId()});
+
+		Assert.assertEquals(
+			1, RoleLocalServiceUtil.getAssigneesCount(role.getRoleId()));
+	}
+
+	@Test
+	public void testGetAssigneesCountRegularRole() throws Exception {
+		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
+
+		Group group = GroupTestUtil.addGroup();
+		Organization organization = OrganizationTestUtil.addOrganization();
+		User user = UserTestUtil.addUser();
+		UserGroup userGroup = UserGroupTestUtil.addUserGroup();
+
+		RoleLocalServiceUtil.addUserRole(user.getUserId(), role);
+		RoleLocalServiceUtil.addGroupRole(group.getGroupId(), role);
+		RoleLocalServiceUtil.addGroupRole(organization.getGroupId(), role);
+		RoleLocalServiceUtil.addGroupRole(userGroup.getGroupId(), role);
+
+		Assert.assertEquals(
+			4, RoleLocalServiceUtil.getAssigneesCount(role.getRoleId()));
+	}
+
+	@Test
+	public void testGetAssigneesCountSiteRole() throws Exception {
+		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_SITE);
+
+		Group group = GroupTestUtil.addGroup();
+		User user = UserTestUtil.addUser();
+		UserGroup userGroup = UserGroupTestUtil.addUserGroup();
+
+		GroupLocalServiceUtil.addUserGroup(user.getUserId(), group);
+		GroupLocalServiceUtil.addUserGroupGroup(
+			userGroup.getUserGroupId(), group);
+
+		long[] roleIds = new long[] {role.getRoleId()};
+
+		UserGroupGroupRoleLocalServiceUtil.addUserGroupGroupRoles(
+			userGroup.getGroupId(), group.getGroupId(), roleIds);
+		UserGroupRoleLocalServiceUtil.addUserGroupRoles(
+			user.getUserId(), group.getGroupId(), roleIds);
+
+		Assert.assertEquals(
+			2, RoleLocalServiceUtil.getAssigneesCount(role.getRoleId()));
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
