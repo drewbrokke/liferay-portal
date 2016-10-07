@@ -3536,11 +3536,16 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 				TicketConstants.TYPE_PASSWORD, null, expirationDate,
 				serviceContext);
 
-			passwordResetURL =
-				serviceContext.getPortalURL() + serviceContext.getPathMain() +
-					"/portal/update_password?p_l_id=" +
-						serviceContext.getPlid() + "&ticketKey=" +
-							ticket.getKey();
+			StringBundler sb = new StringBundler(6);
+
+			sb.append(serviceContext.getPortalURL());
+			sb.append(serviceContext.getPathMain());
+			sb.append("/portal/update_password?p_l_id=");
+			sb.append(serviceContext.getPlid());
+			sb.append("&ticketKey=");
+			sb.append(ticket.getKey());
+
+			passwordResetURL = sb.toString();
 		}
 		else {
 			if (!Objects.equals(
@@ -3577,6 +3582,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 					passwordReset = true;
 				}
+
+				trackPassword(user);
 
 				user.setPassword(PasswordEncryptorUtil.encrypt(newPassword));
 				user.setPasswordUnencrypted(newPassword);
@@ -4642,12 +4649,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		if (!silentUpdate) {
 			validatePassword(user.getCompanyId(), userId, password1, password2);
-		}
 
-		String oldEncPwd = user.getPassword();
-
-		if (!user.isPasswordEncrypted()) {
-			oldEncPwd = PasswordEncryptorUtil.encrypt(user.getPassword());
+			trackPassword(user);
 		}
 
 		String newEncPwd = PasswordEncryptorUtil.encrypt(password1);
@@ -4704,8 +4707,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		if (!silentUpdate) {
 			user.setPasswordModified(false);
-
-			passwordTrackerLocalService.trackPassword(userId, oldEncPwd);
 		}
 
 		if (!silentUpdate && (PrincipalThreadLocal.getUserId() != userId)) {
@@ -6099,6 +6100,16 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		user.setEmailAddress(emailAddress);
 		user.setDigest(StringPool.BLANK);
+	}
+
+	protected void trackPassword(User user) throws PortalException {
+		String oldEncPwd = user.getPassword();
+
+		if (!user.isPasswordEncrypted()) {
+			oldEncPwd = PasswordEncryptorUtil.encrypt(user.getPassword());
+		}
+
+		passwordTrackerLocalService.trackPassword(user.getUserId(), oldEncPwd);
 	}
 
 	protected void updateGroups(

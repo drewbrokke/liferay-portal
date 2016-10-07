@@ -337,6 +337,18 @@ public class JenkinsResultsParserUtil {
 		return "";
 	}
 
+	public static Properties getBuildProperties() throws Exception {
+		Properties properties = new Properties();
+
+		String url =
+			"http://mirrors-no-cache.lax.liferay.com/github.com/liferay" +
+				"/liferay-jenkins-ee/commands/build.properties";
+
+		properties.load(new StringReader(toString(getLocalURL(url))));
+
+		return properties;
+	}
+
 	public static String getJobVariant(JSONObject jsonObject) throws Exception {
 		JSONArray actionsJSONArray = jsonObject.getJSONArray("actions");
 
