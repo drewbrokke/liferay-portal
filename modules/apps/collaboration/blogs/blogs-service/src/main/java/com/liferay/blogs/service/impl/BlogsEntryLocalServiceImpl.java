@@ -18,6 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLinkConstants;
+import com.liferay.blogs.constants.BlogsConstants;
 import com.liferay.blogs.exception.EntryUrlTitleException;
 import com.liferay.blogs.kernel.exception.EntryContentException;
 import com.liferay.blogs.kernel.exception.EntryCoverImageCropException;
@@ -31,8 +32,13 @@ import com.liferay.blogs.kernel.service.persistence.BlogsEntryPersistence;
 import com.liferay.blogs.kernel.util.comparator.EntryDisplayDateComparator;
 import com.liferay.blogs.kernel.util.comparator.EntryIdComparator;
 import com.liferay.blogs.service.base.BlogsEntryLocalServiceBaseImpl;
+import com.liferay.blogs.settings.BlogsGroupServiceSettings;
+import com.liferay.blogs.social.BlogsActivityKeys;
+import com.liferay.blogs.util.BlogsEntryAttachmentFileEntryUtil;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.friendly.url.model.FriendlyURL;
+import com.liferay.friendly.url.service.FriendlyURLLocalService;
 import com.liferay.portal.kernel.comment.CommentManagerUtil;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -93,11 +99,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import com.liferay.portal.util.LayoutURLUtil;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.blogs.BlogsEntryAttachmentFileEntryHelper;
-import com.liferay.portlet.blogs.BlogsGroupServiceSettings;
-import com.liferay.portlet.blogs.constants.BlogsConstants;
-import com.liferay.portlet.blogs.service.permission.BlogsPermission;
-import com.liferay.portlet.blogs.social.BlogsActivityKeys;
+import com.liferay.blogs.service.permission.BlogsPermission;
 import com.liferay.portlet.blogs.util.BlogsUtil;
 import com.liferay.portlet.blogs.util.LinkbackProducerUtil;
 import com.liferay.social.kernel.model.SocialActivityConstants;
@@ -283,6 +285,13 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 
 		long entryId = counterLocalService.increment();
 
+		if (Validator.isNotNull(urlTitle)) {
+			long classNameId = PortalUtil.getClassNameId(BlogsEntry.class);
+
+			friendlyURLLocalService.validate(
+				user.getCompanyId(), groupId, classNameId, urlTitle);
+		}
+
 		BlogsEntry entry = blogsEntryPersistence.create(entryId);
 
 		entry.setUuid(serviceContext.getUuid());
@@ -294,7 +303,11 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		entry.setSubtitle(subtitle);
 
 		if (Validator.isNotNull(urlTitle)) {
-			entry.setUrlTitle(getUniqueUrlTitle(entryId, groupId, urlTitle));
+			FriendlyURL friendlyURL = friendlyURLLocalService.addFriendlyURL(
+				user.getCompanyId(), groupId, BlogsEntry.class, entryId,
+				urlTitle);
+
+			entry.setUrlTitle(friendlyURL.getUrlTitle());
 		}
 
 		entry.setDescription(description);
@@ -486,14 +499,10 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 			return 0;
 		}
 
-		BlogsEntryAttachmentFileEntryHelper
-			blogsEntryAttachmentFileEntryHelper =
-				new BlogsEntryAttachmentFileEntryHelper();
-
 		Folder folder = addAttachmentsFolder(userId, groupId);
 
 		FileEntry originalFileEntry =
-			blogsEntryAttachmentFileEntryHelper.
+			BlogsEntryAttachmentFileEntryUtil.
 				addBlogsEntryAttachmentFileEntry(
 					groupId, userId, entryId, folder.getFolderId(),
 					imageSelector.getImageTitle(),
@@ -584,6 +593,7 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		}
 	}
 
+
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
@@ -642,6 +652,12 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		// Expando
 
 		expandoRowLocalService.deleteRows(entry.getEntryId());
+
+		// Friendly URL
+
+		friendlyURLLocalService.deleteFriendlyURL(
+			entry.getCompanyId(), entry.getGroupId(), BlogsEntry.class,
+			entry.getEntryId());
 
 		// Ratings
 
@@ -708,6 +724,21 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		return
 			com.liferay.blogs.kernel.service.BlogsEntryLocalServiceUtil.
 				fetchBlogsEntryByUuidAndGroupId(uuid, groupId);
+	}
+
+	@Override
+	public BlogsEntry fetchEntry(long groupId, String urlTitle) {
+		Group group = groupPersistence.fetchByPrimaryKey(groupId);
+
+		FriendlyURL friendlyURL = friendlyURLLocalService.fetchFriendlyURL(
+			group.getCompanyId(), groupId, BlogsEntry.class, urlTitle);
+
+		if (friendlyURL != null) {
+			return blogsEntryPersistence.fetchByPrimaryKey(
+				friendlyURL.getClassPK());
+		}
+
+		return blogsEntryPersistence.fetchByG_UT(groupId, urlTitle);
 	}
 
 	@Override
@@ -799,6 +830,16 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 	@Override
 	public BlogsEntry getEntry(long groupId, String urlTitle)
 		throws PortalException {
+
+		Group group = groupPersistence.fetchByPrimaryKey(groupId);
+
+		FriendlyURL friendlyURL = friendlyURLLocalService.fetchFriendlyURL(
+			group.getCompanyId(), groupId, BlogsEntry.class, urlTitle);
+
+		if (friendlyURL != null) {
+			return blogsEntryPersistence.findByPrimaryKey(
+				friendlyURL.getClassPK());
+		}
 
 		return blogsEntryPersistence.findByG_UT(groupId, urlTitle);
 	}
@@ -1230,14 +1271,25 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 
 		validate(title, urlTitle, content, status);
 
+		if (Validator.isNotNull(urlTitle)) {
+			long classNameId = PortalUtil.getClassNameId(BlogsEntry.class);
+
+			friendlyURLLocalService.validate(
+				entry.getCompanyId(), entry.getGroupId(), classNameId, entryId,
+				urlTitle);
+		}
+
 		String oldUrlTitle = entry.getUrlTitle();
 
 		entry.setTitle(title);
 		entry.setSubtitle(subtitle);
 
 		if (Validator.isNotNull(urlTitle)) {
-			entry.setUrlTitle(
-				getUniqueUrlTitle(entryId, entry.getGroupId(), urlTitle));
+			FriendlyURL friendlyURL = friendlyURLLocalService.addFriendlyURL(
+				entry.getCompanyId(), entry.getGroupId(), BlogsEntry.class,
+				entry.getEntryId(), urlTitle);
+
+			entry.setUrlTitle(friendlyURL.getUrlTitle());
 		}
 
 		entry.setDescription(description);
@@ -1471,9 +1523,14 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		if ((status == WorkflowConstants.STATUS_APPROVED) &&
 			Validator.isNull(entry.getUrlTitle())) {
 
-			entry.setUrlTitle(
-				getUniqueUrlTitle(
-					entryId, entry.getGroupId(), entry.getTitle()));
+			String uniqueUrlTitle = getUniqueUrlTitle(
+				entryId, entry.getGroupId(), entry.getTitle());
+
+			FriendlyURL friendlyURL = friendlyURLLocalService.addFriendlyURL(
+				entry.getCompanyId(), entry.getGroupId(), BlogsEntry.class,
+				entry.getEntryId(), uniqueUrlTitle);
+
+			entry.setUrlTitle(friendlyURL.getUrlTitle());
 		}
 
 		blogsEntryPersistence.update(entry);
@@ -1665,12 +1722,8 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 			title = StringUtil.randomString() + "_processedImage_" + entryId;
 		}
 
-		BlogsEntryAttachmentFileEntryHelper
-			blogsEntryAttachmentFileEntryHelper =
-				new BlogsEntryAttachmentFileEntryHelper();
-
 		FileEntry processedImageFileEntry =
-			blogsEntryAttachmentFileEntryHelper.
+			BlogsEntryAttachmentFileEntryUtil.
 				addBlogsEntryAttachmentFileEntry(
 					groupId, userId, entryId, folderId, title, mimeType, bytes);
 
@@ -1796,8 +1849,7 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		String urlTitle = BlogsUtil.getUrlTitle(entryId, title);
 
 		for (int i = 1;; i++) {
-			BlogsEntry entry = blogsEntryPersistence.fetchByG_UT(
-				groupId, urlTitle);
+			BlogsEntry entry = fetchEntry(groupId, urlTitle);
 
 			if ((entry == null) || (entryId == entry.getEntryId())) {
 				break;
@@ -2264,6 +2316,9 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 				"Content has more than " + contentMaxLength + " characters");
 		}
 	}
+
+	@ServiceReference(type = FriendlyURLLocalService.class)
+	protected FriendlyURLLocalService friendlyURLLocalService;
 
 	@ServiceReference(type = BlogsEntryFinder.class)
 	protected BlogsEntryFinder blogsEntryFinder;

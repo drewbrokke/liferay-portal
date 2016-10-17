@@ -173,7 +173,7 @@ public class JournalContentDisplayContext {
 
 		if (article.isApproved()) {
 			JournalContent journalContent =
-				(JournalContent) _portletRequest.getAttribute(
+				(JournalContent)_portletRequest.getAttribute(
 					JournalWebKeys.JOURNAL_CONTENT);
 
 			_articleDisplay = journalContent.getDisplay(

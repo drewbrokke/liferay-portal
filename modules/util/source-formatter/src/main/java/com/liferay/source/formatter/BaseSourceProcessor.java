@@ -1307,10 +1307,18 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 	}
 
 	protected String formatEmptyArray(String line) {
-		int pos = line.indexOf("[] {}");
+		Matcher matcher = emptyArrayPattern.matcher(line);
 
-		if ((pos != -1) && !ToolsUtil.isInsideQuotes(line, pos)) {
-			return StringUtil.replaceFirst(line, "[] {}", "[0]", pos - 1);
+		while (matcher.find()) {
+			if (ToolsUtil.isInsideQuotes(line, matcher.end(1))) {
+				continue;
+			}
+
+			String replacement = StringUtil.replace(
+				matcher.group(1), "[]", "[0]");
+
+			return StringUtil.replaceFirst(
+				line, matcher.group(), replacement, matcher.start());
 		}
 
 		return line;
@@ -2883,31 +2891,18 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 
 		line = StringUtil.trimTrailing(line);
 
-		if (allowLeadingSpaces || !line.startsWith(StringPool.SPACE) ||
-			line.startsWith(" *")) {
-
+		if (allowLeadingSpaces || line.startsWith(" *")) {
 			return line;
 		}
 
-		if (!line.startsWith(StringPool.FOUR_SPACES)) {
-			while (line.startsWith(StringPool.SPACE)) {
-				line = StringUtil.replaceFirst(
-					line, StringPool.SPACE, StringPool.BLANK);
-			}
+		while (line.matches("^\t*    .*")) {
+			line = StringUtil.replaceFirst(
+				line, StringPool.FOUR_SPACES, StringPool.TAB);
 		}
-		else {
-			int pos = 0;
 
-			String temp = line;
-
-			while (temp.startsWith(StringPool.FOUR_SPACES)) {
-				line = StringUtil.replaceFirst(
-					line, StringPool.FOUR_SPACES, StringPool.TAB);
-
-				pos++;
-
-				temp = line.substring(pos);
-			}
+		while (line.startsWith(StringPool.SPACE)) {
+			line = StringUtil.replaceFirst(
+				line, StringPool.SPACE, StringPool.BLANK);
 		}
 
 		return line;
@@ -2922,6 +2917,8 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 		"\\scontent=(.*?)(,\\\\|\n|$)");
 	protected static Pattern bndReleaseVersionPattern = Pattern.compile(
 		"Bundle-Version: (.*)\n");
+	protected static Pattern emptyArrayPattern = Pattern.compile(
+		"((\\[\\])+) \\{\\}");
 	protected static Pattern emptyCollectionPattern = Pattern.compile(
 		"Collections\\.EMPTY_(LIST|MAP|SET)");
 	protected static Pattern getterUtilGetPattern = Pattern.compile(

@@ -318,8 +318,8 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 					actionRequest, actionResponse);
 
 				user = (User)returnValue[0];
-				oldScreenName = ((String)returnValue[1]);
-				updateLanguageId = ((Boolean)returnValue[2]);
+				oldScreenName = (String)returnValue[1];
+				updateLanguageId = (Boolean)returnValue[2];
 			}
 			else if (cmd.equals("unlock")) {
 				user = updateLockout(actionRequest);
@@ -714,8 +714,8 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 
 			// Reset the locale
 
-			HttpServletRequest request = PortalUtil.getHttpServletRequest(
-				actionRequest);
+			HttpServletRequest request = PortalUtil.getOriginalServletRequest(
+				PortalUtil.getHttpServletRequest(actionRequest));
 			HttpServletResponse response = PortalUtil.getHttpServletResponse(
 				actionResponse);
 			HttpSession session = request.getSession();

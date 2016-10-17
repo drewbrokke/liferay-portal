@@ -17,6 +17,7 @@ package com.liferay.blogs.service.test;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.blogs.constants.BlogsConstants;
 import com.liferay.blogs.kernel.exception.EntryContentException;
 import com.liferay.blogs.kernel.exception.EntryTitleException;
 import com.liferay.blogs.kernel.exception.NoSuchEntryException;
@@ -57,7 +58,6 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.service.test.ServiceTestUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portlet.blogs.constants.BlogsConstants;
 import com.liferay.portlet.blogs.util.BlogsUtil;
 import com.liferay.portlet.blogs.util.test.BlogsTestUtil;
 
@@ -398,6 +398,36 @@ public class BlogsEntryLocalServiceTest {
 			"The next entry relative to entry " + previousEntry.getEntryId() +
 				" should be " + currentEntry.getEntryId(),
 			entries[2].getEntryId(), currentEntry.getEntryId());
+	}
+
+	@Test
+	public void testGetEntryByGroupAndOldUrlTitle() throws Exception {
+		BlogsEntry expectedEntry = addEntry(false);
+
+		String oldUrlTitle = expectedEntry.getUrlTitle();
+
+		String urlTitle = "new-friendly-url";
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(_group, _user.getUserId());
+
+		BlogsEntryLocalServiceUtil.updateEntry(
+			expectedEntry.getUserId(), expectedEntry.getEntryId(),
+			expectedEntry.getTitle(), expectedEntry.getSubtitle(), urlTitle,
+			expectedEntry.getDescription(), expectedEntry.getContent(),
+			expectedEntry.getDisplayDate(), expectedEntry.isAllowPingbacks(),
+			expectedEntry.isAllowTrackbacks(), new String[0],
+			expectedEntry.getCoverImageCaption(), null, null, serviceContext);
+
+		BlogsEntry actualEntry = BlogsEntryLocalServiceUtil.getEntry(
+			expectedEntry.getGroupId(), oldUrlTitle);
+
+		BlogsTestUtil.assertEquals(expectedEntry, actualEntry);
+
+		actualEntry = BlogsEntryLocalServiceUtil.getEntry(
+			expectedEntry.getGroupId(), urlTitle);
+
+		BlogsTestUtil.assertEquals(expectedEntry, actualEntry);
 	}
 
 	@Test

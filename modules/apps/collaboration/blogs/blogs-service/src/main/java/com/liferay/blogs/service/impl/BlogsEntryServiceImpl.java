@@ -22,6 +22,7 @@ import com.liferay.blogs.kernel.service.persistence.BlogsEntryPersistence;
 import com.liferay.blogs.kernel.util.comparator.EntryDisplayDateComparator;
 import com.liferay.blogs.service.base.BlogsEntryServiceBaseImpl;
 import com.liferay.blogs.service.permission.BlogsEntryPermission;
+import com.liferay.blogs.service.permission.BlogsPermission;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -46,7 +47,6 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.blogs.service.permission.BlogsPermission;
 import com.liferay.rss.util.RSSUtil;
 
 import com.sun.syndication.feed.synd.SyndContent;
@@ -208,7 +208,7 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 
 			queryDefinition.setStart(queryDefinition.getStart() + max);
 
-			listNotExhausted = (entryList.size() == max);
+			listNotExhausted = entryList.size() == max;
 
 			for (BlogsEntry entry : entryList) {
 				if (entries.size() >= max) {
@@ -390,7 +390,7 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 
 			queryDefinition.setStart(queryDefinition.getStart() + max);
 
-			listNotExhausted = (entryList.size() == max);
+			listNotExhausted = entryList.size() == max;
 
 			for (BlogsEntry entry : entryList) {
 				if (entries.size() >= max) {
@@ -477,7 +477,7 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 
 			queryDefinition.setStart(queryDefinition.getStart() + max);
 
-			listNotExhausted = (entryList.size() == max);
+			listNotExhausted = entryList.size() == max;
 
 			for (BlogsEntry entry : entryList) {
 				if (entries.size() >= max) {

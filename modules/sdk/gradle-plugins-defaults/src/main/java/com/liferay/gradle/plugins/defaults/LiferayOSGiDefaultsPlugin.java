@@ -218,6 +218,8 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 
 	public static final String SYNC_RELEASE_PROPERTY_NAME = "syncRelease";
 
+	public static final String SYNC_VERSIONS_TASK_NAME = "syncVersions";
+
 	public static final String UPDATE_FILE_VERSIONS_TASK_NAME =
 		"updateFileVersions";
 
@@ -305,6 +307,10 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 		}
 
 		Task baselineTask = addTaskBaseline(project, baselineConfiguration);
+
+		Task syncVersionsTask = _addTaskSyncVersions(project);
+
+		baselineTask.finalizedBy(syncVersionsTask);
 
 		if (syncReleaseVersions) {
 			_configureTaskBaselineSyncReleaseVersions(
@@ -1076,19 +1082,9 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 			project, LiferayRelengPlugin.UPDATE_VERSION_TASK_NAME,
 			ReplaceRegexTask.class);
 
+		_configureTaskReplaceRegexJSMatches(replaceRegexTask);
+
 		replaceRegexTask.match(_BUNDLE_VERSION_REGEX, "bnd.bnd");
-
-		File npmShrinkwrapJsonFile = project.file("npm-shrinkwrap.json");
-
-		if (npmShrinkwrapJsonFile.exists()) {
-			replaceRegexTask.match(_JSON_VERSION_REGEX, npmShrinkwrapJsonFile);
-		}
-
-		File packageJsonFile = project.file("package.json");
-
-		if (packageJsonFile.exists()) {
-			replaceRegexTask.match(_JSON_VERSION_REGEX, packageJsonFile);
-		}
 
 		replaceRegexTask.onlyIf(
 			new Spec<Task>() {
@@ -1151,8 +1147,8 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 	}
 
 	protected void checkVersion(Project project) {
-		_checkJsonVersion(project, "npm-shrinkwrap.json");
-		_checkJsonVersion(project, "package.json");
+		//_checkJsonVersion(project, "npm-shrinkwrap.json");
+		//_checkJsonVersion(project, "package.json");
 	}
 
 	protected void configureArtifacts(
@@ -1688,10 +1684,16 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 				LiferayRelengPlugin.RECORD_ARTIFACT_TASK_NAME);
 
 		if (recordArtifactTask != null) {
-			Properties artifactProperties =
-				LiferayRelengPlugin.getArtifactProperties(recordArtifactTask);
+			String artifactURL = null;
 
-			String artifactURL = artifactProperties.getProperty("artifact.url");
+			File artifactPropertiesFile = recordArtifactTask.getOutputFile();
+
+			if (artifactPropertiesFile.exists()) {
+				Properties properties = GUtil.loadProperties(
+					artifactPropertiesFile);
+
+				artifactURL = properties.getProperty("artifact.url");
+			}
 
 			if (Validator.isNotNull(artifactURL)) {
 				int index = artifactURL.lastIndexOf('/');
@@ -1923,6 +1925,18 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 		}
 
 		standardJavadocDocletOptions.tags("generated");
+
+		File portalRootDir = GradleUtil.getRootDir(
+			project.getRootProject(), "portal-impl");
+
+		if (portalRootDir != null) {
+			File stylesheetFile = new File(
+				portalRootDir, "tools/styles/javadoc.css");
+
+			if (stylesheetFile.exists()) {
+				standardJavadocDocletOptions.setStylesheetFile(stylesheetFile);
+			}
+		}
 	}
 
 	protected void configureTaskPmd(Pmd pmd) {
@@ -2371,6 +2385,37 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 		return false;
 	}
 
+	private ReplaceRegexTask _addTaskSyncVersions(final Project project) {
+		ReplaceRegexTask replaceRegexTask = GradleUtil.addTask(
+			project, SYNC_VERSIONS_TASK_NAME, ReplaceRegexTask.class);
+
+		_configureTaskReplaceRegexJSMatches(replaceRegexTask);
+
+		replaceRegexTask.setDescription(
+			"Updates the version in additional project files based on the " +
+				"current Bundle-Version.");
+
+		if (!FileUtil.exists(project, "bnd.bnd")) {
+			replaceRegexTask.setEnabled(false);
+		}
+
+		replaceRegexTask.setReplacement(
+			new Callable<String>() {
+
+				@Override
+				public String call() throws Exception {
+					File bndFile = project.file("bnd.bnd");
+
+					Properties properties = GUtil.loadProperties(bndFile);
+
+					return properties.getProperty(Constants.BUNDLE_VERSION);
+				}
+
+			});
+
+		return replaceRegexTask;
+	}
+
 	private void _applyVersionOverrides(
 		Project project, File versionOverrideFile) {
 
@@ -2690,17 +2735,41 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 	private void _configureTaskJavadocTitle(Javadoc javadoc) {
 		Project project = javadoc.getProject();
 
-		String bundleName = getBundleInstruction(
-			project, Constants.BUNDLE_NAME);
+		StringBuilder sb = new StringBuilder();
 
-		if (Validator.isNull(bundleName)) {
-			return;
+		sb.append("Module ");
+		sb.append(GradleUtil.getArchivesBaseName(project));
+		sb.append(' ');
+		sb.append(project.getVersion());
+		sb.append(" - ");
+
+		String moduleName = project.getDescription();
+
+		if (Validator.isNull(moduleName)) {
+			moduleName = project.getName();
 		}
 
-		String title = String.format(
-			"%s %s API", bundleName, project.getVersion());
+		sb.append(moduleName);
 
-		javadoc.setTitle(title);
+		javadoc.setTitle(sb.toString());
+	}
+
+	private void _configureTaskReplaceRegexJSMatches(
+		ReplaceRegexTask replaceRegexTask) {
+
+		Project project = replaceRegexTask.getProject();
+
+		File npmShrinkwrapJsonFile = project.file("npm-shrinkwrap.json");
+
+		if (npmShrinkwrapJsonFile.exists()) {
+			replaceRegexTask.match(_JSON_VERSION_REGEX, npmShrinkwrapJsonFile);
+		}
+
+		File packageJsonFile = project.file("package.json");
+
+		if (packageJsonFile.exists()) {
+			replaceRegexTask.match(_JSON_VERSION_REGEX, packageJsonFile);
+		}
 	}
 
 	private void _configureTasksEnabledIfStaleSnapshot(
