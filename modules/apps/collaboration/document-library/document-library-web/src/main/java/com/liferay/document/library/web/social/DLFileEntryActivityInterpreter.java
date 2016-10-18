@@ -126,6 +126,29 @@ public class DLFileEntryActivityInterpreter
 	}
 
 	@Override
+	protected Object[] getTitleArguments(
+			String groupName, SocialActivity activity, String link,
+			String title, ServiceContext serviceContext)
+		throws Exception {
+
+		if (activity.getType() == SocialActivityConstants.TYPE_ADD_COMMENT) {
+			String creatorUserName = getUserName(
+				activity.getUserId(), serviceContext);
+			String receiverUserName = getUserName(
+				activity.getReceiverUserId(), serviceContext);
+
+			return new Object[] {
+				groupName, creatorUserName, receiverUserName,
+				wrapLink(link, title)
+			};
+		}
+		else {
+			return super.getTitleArguments(
+				groupName, activity, link, title, serviceContext);
+		}
+	}
+
+	@Override
 	protected String getTitlePattern(
 		String groupName, SocialActivity activity) {
 
@@ -145,6 +168,14 @@ public class DLFileEntryActivityInterpreter
 			}
 			else {
 				return "activity-document-library-file-update-file-in";
+			}
+		}
+		else if (activityType == SocialActivityConstants.TYPE_ADD_COMMENT) {
+			if (Validator.isNull(groupName)) {
+				return "activity-document-library-file-add-comment";
+			}
+			else {
+				return "activity-document-library-file-add-comment-in";
 			}
 		}
 		else if (activityType == SocialActivityConstants.TYPE_MOVE_TO_TRASH) {

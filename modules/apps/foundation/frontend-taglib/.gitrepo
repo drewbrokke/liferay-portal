@@ -3,7 +3,7 @@
 ;
 [subrepo]
 	cmdver = liferay
-	commit = 8cf52361b468629c8bbfec54adccbb7885327553
+	commit = 9225fc0e28b7d1c4f78352bc1164ce1000174ef4
 	mode = push
-	parent = d06ec49874310a42d516a75e9329600ae2ff42ac
+	parent = 09b07b1046d60b7cbdbb8a8fcd7ffd48be998c24
 	remote = git@github.com:liferay/com-liferay-frontend-taglib.git

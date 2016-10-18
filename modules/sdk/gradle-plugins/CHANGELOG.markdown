@@ -299,9 +299,9 @@ version 1.0.128.
 - [LPS-67573]: Make most methods private in order to reduce API surface.
 
 ### Removed
-- [LPS-66396]: The task classes `BuildThumbnailsTask` and `CompileThemeTask` in
-`com.liferay.gradle.plugins.tasks` are no longer available. Please use
-[Liferay Gradle Plugins Theme Builder] instead.
+- [LPS-66396]: Remove the task classes `BuildThumbnailsTask` and
+`CompileThemeTask` from `com.liferay.gradle.plugins.tasks`. The
+[Liferay Gradle Plugins Theme Builder] should be used instead.
 - [LPS-67573]: To reduce the number of plugins applied to a project and improve
 performance, plugins in `com.liferay.gradle.plugins.internal` are no longer
 applied via `apply plugin`.
@@ -335,6 +335,78 @@ to version 1.0.27.
 ### Changed
 - [LRDOCS-3023]: Update the [Liferay Gradle Plugins TLDDoc Builder] dependency
 to version 1.1.0.
+
+## 3.0.5 - 2016-10-10
+
+### Changed
+- [LPS-68611]: Update the [Liferay Portal Tools WSDD Builder] dependency to
+version 1.0.6.
+
+## 3.0.6 - 2016-10-10
+
+### Changed
+- [LPS-68618]: Update the [Liferay Gradle Plugins Gulp] dependency to version
+2.0.2.
+- [LPS-68618]: Update the [Liferay Gradle Plugins JS Module Config Generator]
+dependency to version 2.0.3.
+
+## 3.0.7 - 2016-10-11
+
+### Changed
+- [LPS-66853]: Update the [Liferay Gradle Plugins Source Formatter] dependency
+to version 1.0.28.
+- [LPS-66853]: Update the [Liferay Source Formatter] dependency to version
+1.0.294.
+- [LPS-68598]: Update the [Liferay Gradle Plugins Service Builder] dependency to
+version 1.0.14.
+- [LPS-68598]: Update the [Liferay Portal Tools Service Builder] dependency to
+version 1.0.129.
+
+## 3.0.8 - 2016-10-11
+
+### Changed
+- [LPS-66853]: Update the [Liferay Gradle Plugins Source Formatter] dependency
+to version 1.0.29.
+- [LPS-66853]: Update the [Liferay Source Formatter] dependency to version
+1.0.295.
+
+## 3.0.9 - 2016-10-12
+
+### Changed
+- [LPS-67352]: Update the [Liferay Gradle Plugins Source Formatter] dependency
+to version 1.0.30.
+- [LPS-67352]: Update the [Liferay Source Formatter] dependency to version
+1.0.296.
+
+## 3.0.10 - 2016-10-12
+
+### Changed
+- [LPS-68666]: Update the [Liferay Gradle Plugins TLDDoc Builder] dependency
+to version 1.2.0.
+
+## 3.0.11 - 2016-10-13
+
+### Changed
+- [LPS-67352]: Update the [Liferay Gradle Plugins Source Formatter] dependency
+to version 1.0.31.
+- [LPS-67352]: Update the [Liferay Source Formatter] dependency to version
+1.0.297.
+
+## 3.0.12 - 2016-10-13
+
+### Changed
+- [LPS-66853]: Update the [Liferay Gradle Plugins Source Formatter] dependency
+to version 1.0.32.
+- [LPS-66853]: Update the [Liferay Source Formatter] dependency to version
+1.0.298.
+
+## 3.0.13 - 2016-10-17
+
+### Changed
+- [LPS-66853]: Update the [Liferay Gradle Plugins Source Formatter] dependency
+to version 1.0.33.
+- [LPS-66853]: Update the [Liferay Source Formatter] dependency to version
+1.0.299.
 
 [Gradle Bundle Plugin]: https://github.com/TomDmitriev/gradle-bundle-plugin
 [Liferay Ant BND]: https://github.com/liferay/liferay-portal/tree/master/modules/sdk/ant-bnd
@@ -376,4 +448,7 @@ to version 1.1.0.
 [LPS-68485]: https://issues.liferay.com/browse/LPS-68485
 [LPS-68504]: https://issues.liferay.com/browse/LPS-68504
 [LPS-68564]: https://issues.liferay.com/browse/LPS-68564
+[LPS-68598]: https://issues.liferay.com/browse/LPS-68598
+[LPS-68618]: https://issues.liferay.com/browse/LPS-68618
+[LPS-68666]: https://issues.liferay.com/browse/LPS-68666
 [LRDOCS-3023]: https://issues.liferay.com/browse/LRDOCS-3023

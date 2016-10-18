@@ -362,7 +362,7 @@
 		<![CDATA[
 			INNER JOIN
 				ResourcePermission ON
-					(ResourcePermission.primKey = CAST_TEXT(Group_.groupId))
+					(ResourcePermission.primKeyId = Group_.groupId)
 			WHERE
 				(Group_.liveGroupId = 0) AND
 				(ResourcePermission.name = ?) AND
@@ -438,10 +438,10 @@
 					(ResourcePermission.companyId = Layout.companyId) AND
 					(ResourcePermission.name = ?) AND
 					(ResourcePermission.scope = ?) AND
-					(ResourcePermission.primKey = CAST_TEXT(Layout.plid)) AND
+					(ResourcePermission.primKeyId = Layout.plid) AND
 					(ResourcePermission.roleId = ?)
 			WHERE
-				ResourcePermission.primKey IS NULL
+				ResourcePermission.primKeyId IS NULL
 		]]>
 	</sql>
 	<sql id="com.liferay.portal.kernel.service.persistence.LayoutFinder.findByNullFriendlyURL">

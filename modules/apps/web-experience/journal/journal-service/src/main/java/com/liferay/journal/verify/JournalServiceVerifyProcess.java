@@ -412,8 +412,8 @@ public class JournalServiceVerifyProcess extends VerifyLayout {
 		throws Exception {
 
 		try (PreparedStatement ps = connection.prepareStatement(
-				"update JournalArticle set expirationDate = ? where " +
-					"groupId = ? and articleId = ? and status = ?")) {
+				"update JournalArticle set expirationDate = ? where groupId " +
+					"= ? and articleId = ? and status = ?")) {
 
 			ps.setTimestamp(1, expirationDate);
 			ps.setLong(2, groupId);
@@ -606,8 +606,8 @@ public class JournalServiceVerifyProcess extends VerifyLayout {
 		try (LoggingTimer loggingTimer = new LoggingTimer();
 			PreparedStatement ps = connection.prepareStatement(
 				"select id_ from JournalArticle where (content like " +
-					"'%document_library%' or content like '%link_to_layout%')" +
-						" and DDMStructureKey != ''");
+					"'%document_library%' or content like " +
+						"'%link_to_layout%') and DDMStructureKey != ''");
 			ResultSet rs = ps.executeQuery()) {
 
 			while (rs.next()) {
@@ -705,8 +705,8 @@ public class JournalServiceVerifyProcess extends VerifyLayout {
 				long count = actionableDynamicQuery.performCount();
 
 				_log.debug(
-					"Processing " + count + " articles for invalid structures" +
-						" and dynamic elements");
+					"Processing " + count + " articles for invalid " +
+						"structures and dynamic elements");
 			}
 
 			actionableDynamicQuery.setPerformActionMethod(
