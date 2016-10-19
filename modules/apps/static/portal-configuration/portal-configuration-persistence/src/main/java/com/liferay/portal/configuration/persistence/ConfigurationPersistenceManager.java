@@ -14,9 +14,8 @@
 
 package com.liferay.portal.configuration.persistence;
 
-import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
-import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.portal.configuration.persistence.listener.ConfigurationModelListener;
+import com.liferay.portal.configuration.persistence.listener.ConfigurationModelListenerProvider;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.io.ReaderInputStream;
@@ -54,16 +53,10 @@ import org.apache.felix.cm.NotCachablePersistenceManager;
 import org.apache.felix.cm.PersistenceManager;
 import org.apache.felix.cm.file.ConfigurationHandler;
 
-import org.osgi.framework.BundleContext;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Modified;
-
 /**
  * @author Raymond Augé
  * @author Sampsa Sohlman
  */
-@Component(immediate = true)
 public class ConfigurationPersistenceManager
 	implements NotCachablePersistenceManager, PersistenceManager,
 			   ReloadablePersistenceManager {
@@ -219,14 +212,6 @@ public class ConfigurationPersistenceManager
 		}
 	}
 
-	@Activate
-	@Modified
-	protected void activate(BundleContext bundleContext) {
-		_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
-			bundleContext, ConfigurationModelListener.class,
-			"model.class.name");
-	}
-
 	protected String buildSQL(String sql) throws IOException {
 		DB db = DBManagerUtil.getDB();
 
@@ -335,8 +320,10 @@ public class ConfigurationPersistenceManager
 
 		ConfigurationModelListener configurationModelListener = null;
 
-		if ((_serviceTrackerMap != null) && hasPid(pid)) {
-			configurationModelListener = _serviceTrackerMap.getService(pid);
+		if (hasPid(pid)) {
+			configurationModelListener =
+				ConfigurationModelListenerProvider.
+					getConfigurationModelListener(pid);
 		}
 
 		if (configurationModelListener != null) {
@@ -569,8 +556,6 @@ public class ConfigurationPersistenceManager
 	}
 
 	private static final Dictionary<?, ?> _emptyDictionary = new Hashtable<>();
-	private static ServiceTrackerMap<String, ConfigurationModelListener>
-		_serviceTrackerMap;
 
 	private DataSource _dataSource;
 	private final ConcurrentMap<String, Dictionary<?, ?>> _dictionaries =
