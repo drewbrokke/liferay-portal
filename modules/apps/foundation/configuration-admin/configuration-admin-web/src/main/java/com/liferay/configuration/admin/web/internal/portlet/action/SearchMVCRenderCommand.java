@@ -23,12 +23,14 @@ import com.liferay.configuration.admin.web.internal.util.ConfigurationModelRetri
 import com.liferay.configuration.admin.web.internal.util.ResourceBundleLoaderProvider;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderConstants;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
@@ -36,8 +38,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -60,6 +65,24 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 			RenderRequest renderRequest, RenderResponse renderResponse)
 		throws PortletException {
 
+		String keywords = renderRequest.getParameter("keywords");
+
+		if (Validator.isNull(keywords)) {
+			try {
+				PortletURL portletURL = renderResponse.createRenderURL();
+
+				HttpServletResponse response =
+					PortalUtil.getHttpServletResponse(renderResponse);
+
+				response.sendRedirect(portletURL.toString());
+
+				return MVCRenderConstants.MVC_PATH_VALUE_SKIP_DISPATCH;
+			}
+			catch (Exception e) {
+				throw new PortletException(e);
+			}
+		}
+
 		Indexer indexer = _indexerRegistry.nullSafeGetIndexer(
 			ConfigurationModel.class);
 
@@ -68,12 +91,7 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 		searchContext.setAndSearch(false);
 		searchContext.setCompanyId(CompanyConstants.SYSTEM);
 		searchContext.setLocale(renderRequest.getLocale());
-
-		String keywords = renderRequest.getParameter("keywords");
-
-		if (Validator.isNotNull(keywords)) {
-			searchContext.setKeywords(keywords);
-		}
+		searchContext.setKeywords(keywords);
 
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 
