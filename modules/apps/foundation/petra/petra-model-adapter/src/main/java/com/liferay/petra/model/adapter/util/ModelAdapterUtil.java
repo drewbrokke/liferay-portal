@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.blogs.internal.service;
+package com.liferay.petra.model.adapter.util;
 
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * @author Shuyang Zhou
  */
-public class ModelAdaptorUtil {
+public class ModelAdapterUtil {
 
 	public static <T> List<T> adapt(Class<T> clazz, List<?> delegateObjects) {
 		List<T> adaptedObjects = new ArrayList<>(delegateObjects.size());
@@ -79,7 +79,7 @@ public class ModelAdaptorUtil {
 
 			@Override
 			public V adapt(T t) {
-				return ModelAdaptorUtil.adapt(clazz, t);
+				return ModelAdapterUtil.adapt(clazz, t);
 			}
 
 		};

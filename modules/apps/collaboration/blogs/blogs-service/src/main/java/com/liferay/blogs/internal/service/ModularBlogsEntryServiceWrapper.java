@@ -17,6 +17,7 @@ package com.liferay.blogs.internal.service;
 import com.liferay.blogs.kernel.model.BlogsEntry;
 import com.liferay.blogs.kernel.service.BlogsEntryService;
 import com.liferay.blogs.kernel.service.BlogsEntryServiceWrapper;
+import com.liferay.petra.model.adapter.util.ModelAdapterUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceWrapper;
@@ -65,7 +66,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 			InputStream smallImageInputStream, ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.addEntry(
 				title, description, content, displayDateMonth, displayDateDay,
@@ -86,7 +87,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.addEntry(
 				title, subtitle, description, content, displayDateMonth,
@@ -106,7 +107,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 			long companyId, Date displayDate, int status, int max)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.getCompanyEntries(
 				companyId, displayDate, status, max));
@@ -126,7 +127,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 
 	@Override
 	public BlogsEntry getEntry(long entryId) throws PortalException {
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class, _blogsEntryService.getEntry(entryId));
 	}
 
@@ -134,7 +135,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 	public BlogsEntry getEntry(long groupId, String urlTitle)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class, _blogsEntryService.getEntry(groupId, urlTitle));
 	}
 
@@ -142,7 +143,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 	public List<BlogsEntry> getGroupEntries(
 		long groupId, Date displayDate, int status, int max) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.getGroupEntries(
 				groupId, displayDate, status, max));
@@ -152,7 +153,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 	public List<BlogsEntry> getGroupEntries(
 		long groupId, Date displayDate, int status, int start, int end) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.getGroupEntries(
 				groupId, displayDate, status, start, end));
@@ -160,7 +161,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 
 	@Override
 	public List<BlogsEntry> getGroupEntries(long groupId, int status, int max) {
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.getGroupEntries(groupId, status, max));
 	}
@@ -169,7 +170,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 	public List<BlogsEntry> getGroupEntries(
 		long groupId, int status, int start, int end) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.getGroupEntries(groupId, status, start, end));
 	}
@@ -179,11 +180,11 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 		long groupId, int status, int start, int end,
 		OrderByComparator<BlogsEntry> obc) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.getGroupEntries(
 				groupId, status, start, end,
-				ModelAdaptorUtil.adapt(BlogsEntry.class, obc)));
+				ModelAdapterUtil.adapt(BlogsEntry.class, obc)));
 	}
 
 	@Override
@@ -216,7 +217,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 			long companyId, long groupId, Date displayDate, int status, int max)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.getGroupsEntries(
 				companyId, groupId, displayDate, status, max));
@@ -227,11 +228,11 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 		long groupId, long userId, int status, int start, int end,
 		OrderByComparator<BlogsEntry> obc) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.getGroupUserEntries(
 				groupId, userId, status, start, end,
-				ModelAdaptorUtil.adapt(BlogsEntry.class, obc)));
+				ModelAdapterUtil.adapt(BlogsEntry.class, obc)));
 	}
 
 	@Override
@@ -239,11 +240,11 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 		long groupId, long userId, int[] statuses, int start, int end,
 		OrderByComparator<BlogsEntry> obc) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.getGroupUserEntries(
 				groupId, userId, statuses, start, end,
-				ModelAdaptorUtil.adapt(BlogsEntry.class, obc)));
+				ModelAdapterUtil.adapt(BlogsEntry.class, obc)));
 	}
 
 	@Override
@@ -265,7 +266,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 			long organizationId, Date displayDate, int status, int max)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.getOrganizationEntries(
 				organizationId, displayDate, status, max));
@@ -295,7 +296,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 
 	@Override
 	public BlogsEntry moveEntryToTrash(long entryId) throws PortalException {
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class, _blogsEntryService.moveEntryToTrash(entryId));
 	}
 
@@ -336,7 +337,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 			InputStream smallImageInputStream, ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.updateEntry(
 				entryId, title, description, content, displayDateMonth,
@@ -358,7 +359,7 @@ public class ModularBlogsEntryServiceWrapper extends BlogsEntryServiceWrapper {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryService.updateEntry(
 				entryId, title, subtitle, description, content,

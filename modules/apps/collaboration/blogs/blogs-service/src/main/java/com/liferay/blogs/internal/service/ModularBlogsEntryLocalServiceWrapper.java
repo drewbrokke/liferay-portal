@@ -18,6 +18,7 @@ import com.liferay.blogs.kernel.model.BlogsEntry;
 import com.liferay.blogs.kernel.service.BlogsEntryLocalService;
 import com.liferay.blogs.kernel.service.BlogsEntryLocalServiceWrapper;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.petra.model.adapter.util.ModelAdapterUtil;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -85,7 +86,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.addEntry(
 				userId, title, content, displayDate, serviceContext));
@@ -97,7 +98,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.addEntry(
 				userId, title, content, serviceContext));
@@ -120,7 +121,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			InputStream smallImageInputStream, ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.addEntry(
 				userId, title, description, content, displayDateMonth,
@@ -140,7 +141,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.addEntry(
 				userId, title, subtitle, description, content, displayDate,
@@ -161,7 +162,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.addEntry(
 				userId, title, subtitle, description, content, displayDateMonth,
@@ -178,7 +179,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 		throws PortalException {
 
 		_blogsEntryLocalService.addEntryResources(
-			ModelAdaptorUtil.adapt(
+			ModelAdapterUtil.adapt(
 				com.liferay.blogs.model.BlogsEntry.class, entry),
 			addGroupPermissions, addGuestPermissions);
 	}
@@ -189,7 +190,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 		throws PortalException {
 
 		_blogsEntryLocalService.addEntryResources(
-			ModelAdaptorUtil.adapt(
+			ModelAdapterUtil.adapt(
 				com.liferay.blogs.model.BlogsEntry.class, entry),
 			modelPermissions);
 	}
@@ -256,10 +257,10 @@ public class ModularBlogsEntryLocalServiceWrapper
 
 	@Override
 	public BlogsEntry deleteEntry(BlogsEntry entry) throws PortalException {
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.deleteEntry(
-				ModelAdaptorUtil.adapt(
+				ModelAdapterUtil.adapt(
 					com.liferay.blogs.model.BlogsEntry.class, entry)));
 	}
 
@@ -377,11 +378,11 @@ public class ModularBlogsEntryLocalServiceWrapper
 		long companyId, Date displayDate,
 		QueryDefinition<BlogsEntry> queryDefinition) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.getCompanyEntries(
 				companyId, displayDate,
-				ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition)));
+				ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition)));
 	}
 
 	@Override
@@ -391,21 +392,21 @@ public class ModularBlogsEntryLocalServiceWrapper
 
 		return _blogsEntryLocalService.getCompanyEntriesCount(
 			companyId, displayDate,
-			ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition));
+			ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition));
 	}
 
 	@Override
 	public BlogsEntry[] getEntriesPrevAndNext(long entryId)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.getEntriesPrevAndNext(entryId));
 	}
 
 	@Override
 	public BlogsEntry getEntry(long entryId) throws PortalException {
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class, _blogsEntryLocalService.getEntry(entryId));
 	}
 
@@ -413,7 +414,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 	public BlogsEntry getEntry(long groupId, String urlTitle)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.getEntry(groupId, urlTitle));
 	}
@@ -430,22 +431,22 @@ public class ModularBlogsEntryLocalServiceWrapper
 		long groupId, Date displayDate,
 		QueryDefinition<BlogsEntry> queryDefinition) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.getGroupEntries(
 				groupId, displayDate,
-				ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition)));
+				ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition)));
 	}
 
 	@Override
 	public List<BlogsEntry> getGroupEntries(
 		long groupId, QueryDefinition<BlogsEntry> queryDefinition) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.getGroupEntries(
 				groupId,
-				ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition)));
+				ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition)));
 	}
 
 	@Override
@@ -455,7 +456,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 
 		return _blogsEntryLocalService.getGroupEntriesCount(
 			groupId, displayDate,
-			ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition));
+			ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition));
 	}
 
 	@Override
@@ -463,7 +464,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 		long groupId, QueryDefinition<BlogsEntry> queryDefinition) {
 
 		return _blogsEntryLocalService.getGroupEntriesCount(
-			groupId, ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition));
+			groupId, ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition));
 	}
 
 	@Override
@@ -471,11 +472,11 @@ public class ModularBlogsEntryLocalServiceWrapper
 		long companyId, long groupId, Date displayDate,
 		QueryDefinition<BlogsEntry> queryDefinition) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.getGroupsEntries(
 				companyId, groupId, displayDate,
-				ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition)));
+				ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition)));
 	}
 
 	@Override
@@ -483,11 +484,11 @@ public class ModularBlogsEntryLocalServiceWrapper
 		long groupId, long userId, Date displayDate,
 		QueryDefinition<BlogsEntry> queryDefinition) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.getGroupUserEntries(
 				groupId, userId, displayDate,
-				ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition)));
+				ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition)));
 	}
 
 	@Override
@@ -497,7 +498,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 
 		return _blogsEntryLocalService.getGroupUserEntriesCount(
 			groupId, userId, displayDate,
-			ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition));
+			ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition));
 	}
 
 	@Override
@@ -509,7 +510,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 
 	@Override
 	public List<BlogsEntry> getNoAssetEntries() {
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class, _blogsEntryLocalService.getNoAssetEntries());
 	}
 
@@ -518,11 +519,11 @@ public class ModularBlogsEntryLocalServiceWrapper
 		long organizationId, Date displayDate,
 		QueryDefinition<BlogsEntry> queryDefinition) {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.getOrganizationEntries(
 				organizationId, displayDate,
-				ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition)));
+				ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition)));
 	}
 
 	@Override
@@ -532,7 +533,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 
 		return _blogsEntryLocalService.getOrganizationEntriesCount(
 			organizationId, displayDate,
-			ModelAdaptorUtil.adapt(BlogsEntry.class, queryDefinition));
+			ModelAdapterUtil.adapt(BlogsEntry.class, queryDefinition));
 	}
 
 	@Override
@@ -563,11 +564,11 @@ public class ModularBlogsEntryLocalServiceWrapper
 	public BlogsEntry moveEntryToTrash(long userId, BlogsEntry entry)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.moveEntryToTrash(
 				userId,
-				ModelAdaptorUtil.adapt(
+				ModelAdapterUtil.adapt(
 					com.liferay.blogs.model.BlogsEntry.class, entry)));
 	}
 
@@ -575,7 +576,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 	public BlogsEntry moveEntryToTrash(long userId, long entryId)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.moveEntryToTrash(userId, entryId));
 	}
@@ -584,7 +585,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 	public BlogsEntry restoreEntryFromTrash(long userId, long entryId)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.restoreEntryFromTrash(userId, entryId));
 	}
@@ -613,7 +614,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 		throws PortalException {
 
 		_blogsEntryLocalService.updateAsset(
-			userId, ModelAdaptorUtil.adapt(
+			userId, ModelAdapterUtil.adapt(
 				com.liferay.blogs.model.BlogsEntry.class, entry),
 			assetCategoryIds, assetTagNames, assetLinkEntryIds, priority);
 	}
@@ -629,7 +630,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.updateEntry(
 				userId, entryId, title, content, serviceContext));
@@ -653,7 +654,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.updateEntry(
 				userId, entryId, title, description, content, displayDateMonth,
@@ -674,7 +675,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.updateEntry(
 				userId, entryId, title, subtitle, description, content,
@@ -695,7 +696,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.updateEntry(
 				userId, entryId, title, subtitle, description, content,
@@ -712,7 +713,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 		throws PortalException {
 
 		_blogsEntryLocalService.updateEntryResources(
-			ModelAdaptorUtil.adapt(
+			ModelAdapterUtil.adapt(
 				com.liferay.blogs.model.BlogsEntry.class, entry),
 			modelPermissions);
 	}
@@ -724,7 +725,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 		throws PortalException {
 
 		_blogsEntryLocalService.updateEntryResources(
-			ModelAdaptorUtil.adapt(
+			ModelAdapterUtil.adapt(
 				com.liferay.blogs.model.BlogsEntry.class, entry),
 			groupPermissions, guestPermissions);
 	}
@@ -740,7 +741,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.updateStatus(
 				userId, entryId, status, serviceContext));
@@ -753,7 +754,7 @@ public class ModularBlogsEntryLocalServiceWrapper
 			Map<String, Serializable> workflowContext)
 		throws PortalException {
 
-		return ModelAdaptorUtil.adapt(
+		return ModelAdapterUtil.adapt(
 			BlogsEntry.class,
 			_blogsEntryLocalService.updateStatus(
 				userId, entryId, status, serviceContext, workflowContext));
