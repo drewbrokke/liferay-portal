@@ -36,6 +36,7 @@ import com.liferay.journal.service.JournalContentSearchLocalService;
 import com.liferay.journal.service.JournalFolderLocalService;
 import com.liferay.journal.util.JournalConverter;
 import com.liferay.journal.util.comparator.ArticleVersionComparator;
+import com.liferay.portal.instances.service.PortalInstanceLocalService;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.db.DBType;
@@ -73,7 +74,6 @@ import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.upgrade.AutoBatchPreparedStatementUtil;
-import com.liferay.portal.util.PortalInstances;
 import com.liferay.portal.verify.VerifyLayout;
 import com.liferay.portal.verify.VerifyProcess;
 import com.liferay.portal.verify.VerifyResourcePermissions;
@@ -886,7 +886,8 @@ public class JournalServiceVerifyProcess extends VerifyLayout {
 
 	protected void verifyTree() throws Exception {
 		try (LoggingTimer loggingTimer = new LoggingTimer()) {
-			long[] companyIds = PortalInstances.getCompanyIdsBySQL();
+			long[] companyIds =
+				_portalInstanceLocalService.getCompanyIdsBySQL();
 
 			for (long companyId : companyIds) {
 				_journalFolderLocalService.rebuildTree(companyId);
@@ -957,6 +958,10 @@ public class JournalServiceVerifyProcess extends VerifyLayout {
 	private JournalContentSearchLocalService _journalContentSearchLocalService;
 	private JournalConverter _journalConverter;
 	private JournalFolderLocalService _journalFolderLocalService;
+
+	@Reference
+	private PortalInstanceLocalService _portalInstanceLocalService;
+
 	private ResourceLocalService _resourceLocalService;
 	private SystemEventLocalService _systemEventLocalService;
 	private final VerifyResourcePermissions _verifyResourcePermissions =
