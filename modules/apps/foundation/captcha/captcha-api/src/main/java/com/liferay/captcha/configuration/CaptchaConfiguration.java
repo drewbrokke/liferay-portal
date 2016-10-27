@@ -30,6 +30,7 @@ public interface CaptchaConfiguration {
 
 	@Meta.AD(
 		deflt = "com.liferay.captcha.simplecaptcha.SimpleCaptchaImpl",
+		description = "captcha-engine-help", name = "captcha-engine",
 		optionLabels = {"SimpleCaptcha", "reCAPTCHA"},
 		optionValues = {
 			"com.liferay.captcha.simplecaptcha.SimpleCaptchaImpl",
