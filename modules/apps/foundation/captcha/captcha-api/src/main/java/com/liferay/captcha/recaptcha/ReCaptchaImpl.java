@@ -58,8 +58,8 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(
 	immediate = true,
-	property = {"model.class.name=com.liferay.captcha.recaptcha.ReCaptchaImpl"},
-	service = ReCaptchaImpl.class
+	property = {"captcha.engine.impl=com.liferay.captcha.recaptcha.ReCaptchaImpl"},
+	service = Captcha.class
 )
 public class ReCaptchaImpl extends SimpleCaptchaImpl {
 
