@@ -14,9 +14,18 @@
 
 package com.liferay.captcha;
 
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
+import com.liferay.portal.kernel.captcha.Captcha;
+import com.liferay.portal.kernel.captcha.CaptchaException;
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.util.PrefsPropsUtil;
+import com.liferay.portal.util.PropsValues;
 
 import java.io.IOException;
+
+import java.util.Map;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
@@ -25,10 +34,19 @@ import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+
 /**
  * @author Brian Wing Shun Chan
  * @author Pei-Jung Lan
  */
+@Component(
+	configurationPid = "com.liferay.captcha.configuration.CaptchaConfiguration",
+	immediate = true
+)
 public class CaptchaUtil {
 
 	public static void check(HttpServletRequest request)
@@ -46,7 +64,14 @@ public class CaptchaUtil {
 	public static Captcha getCaptcha() {
 		PortalRuntimePermission.checkGetBeanProperty(CaptchaUtil.class);
 
-		return _captcha;
+		if (_serviceTrackerMap == null) {
+			return null;
+		}
+
+		String captchaClassName = PrefsPropsUtil.getString(
+			PropsKeys.CAPTCHA_ENGINE_IMPL, PropsValues.CAPTCHA_ENGINE_IMPL);
+
+		return _serviceTrackerMap.getService(captchaClassName);
 	}
 
 	public static String getTaglibPath() {
@@ -75,12 +100,19 @@ public class CaptchaUtil {
 		getCaptcha().serveImage(resourceRequest, resourceResponse);
 	}
 
-	public void setCaptcha(Captcha captcha) {
-		PortalRuntimePermission.checkSetBeanProperty(getClass());
+	@Activate
+	protected void activate(
+		BundleContext bundleContext, Map<String, Object> properties) {
 
-		_captcha = captcha;
+		_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
+			bundleContext, Captcha.class, "captcha.engine.impl");
 	}
 
-	private static Captcha _captcha;
+	@Deactivate
+	protected void deactivate() {
+		_serviceTrackerMap.close();
+	}
+
+	private static ServiceTrackerMap<String, Captcha> _serviceTrackerMap;
 
 }
