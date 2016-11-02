@@ -2804,6 +2804,7 @@ public class JavaSourceProcessor extends BaseSourceProcessor {
 		if (!absolutePath.contains("/modules/core/jaxws-osgi-bridge") &&
 			!absolutePath.contains("/modules/core/portal-bootstrap") &&
 			!absolutePath.contains("/modules/core/registry-") &&
+			!absolutePath.contains("/modules/core/slim-runtime") &&
 			(_checkRegistryInTestClasses ||
 			 (!absolutePath.contains("/test/") &&
 			  !absolutePath.contains("/testIntegration/")))) {
@@ -4457,12 +4458,10 @@ public class JavaSourceProcessor extends BaseSourceProcessor {
 			return;
 		}
 
-		File baseDirFile = new File(sourceFormatterArgs.getBaseDirName());
-
 		Set<SourceFormatterMessage> sourceFormatterMessages =
 			CheckStyleUtil.process(
 				_ungeneratedFiles, getSuppressionsFiles(),
-				getAbsolutePath(baseDirFile));
+				sourceFormatterArgs.getBaseDirName());
 
 		for (SourceFormatterMessage sourceFormatterMessage :
 				sourceFormatterMessages) {

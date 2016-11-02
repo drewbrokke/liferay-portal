@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.portlet.PortletProviderUtil;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateHandlerRegistryUtil;
+import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundle;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -39,6 +40,7 @@ import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,8 @@ import java.util.Set;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
@@ -194,12 +198,24 @@ public abstract class BaseDDMDisplay implements DDMDisplay {
 			ThemeDisplay themeDisplay, boolean includeAncestorTemplates)
 		throws Exception {
 
-		if (includeAncestorTemplates) {
-			return PortalUtil.getCurrentAndAncestorSiteGroupIds(
-				themeDisplay.getScopeGroupId());
+		HttpServletRequest request = themeDisplay.getRequest();
+
+		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
+
+		long groupId = themeDisplay.getScopeGroupId();
+
+		String refererPortletName = ParamUtil.getString(
+			request, portletDisplay.getNamespace() + "refererPortletName");
+
+		if (Validator.isNull(refererPortletName)) {
+			groupId = PortalUtil.getScopeGroupId(request, refererPortletName);
 		}
 
-		return new long[] {themeDisplay.getScopeGroupId()};
+		if (includeAncestorTemplates) {
+			return PortalUtil.getCurrentAndAncestorSiteGroupIds(groupId);
+		}
+
+		return new long[] {groupId};
 	}
 
 	@Override
