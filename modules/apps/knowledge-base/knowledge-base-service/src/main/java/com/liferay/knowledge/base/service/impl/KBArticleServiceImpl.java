@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.knowledge.base.constants.KBActionKeys;
 import com.liferay.knowledge.base.constants.KBFolderConstants;
 import com.liferay.knowledge.base.constants.KBPortletKeys;
+import com.liferay.knowledge.base.internal.util.KBArticleSiblingNavigationHelper;
 import com.liferay.knowledge.base.model.KBArticle;
 import com.liferay.knowledge.base.model.KBArticleSearchDisplay;
 import com.liferay.knowledge.base.model.KBFolder;
@@ -113,7 +114,7 @@ public class KBArticleServiceImpl extends KBArticleServiceBaseImpl {
 		throws PortalException {
 
 		AdminPermission.check(
-			getPermissionChecker(), groupId, KBActionKeys.ADD_KB_ARTICLE);
+			getPermissionChecker(), groupId, KBActionKeys.IMPORT_KB_ARTICLES);
 
 		return kbArticleLocalService.addKBArticlesMarkdown(
 			getUserId(), groupId, parentKBFolderId, fileName,
@@ -597,6 +598,23 @@ public class KBArticleServiceImpl extends KBArticleServiceBaseImpl {
 
 		return kbArticleLocalService.getLatestKBArticle(
 			resourcePrimKey, status);
+	}
+
+	@Override
+	public KBArticle[] getPreviousAndNextKBArticles(long kbArticleId)
+		throws PortalException {
+
+		KBArticle kbArticle = kbArticlePersistence.findByPrimaryKey(
+			kbArticleId);
+
+		KBArticlePermission.check(
+			getPermissionChecker(), kbArticle, KBActionKeys.VIEW);
+
+		KBArticleSiblingNavigationHelper kbArticleSiblingNavigationHelper =
+			new KBArticleSiblingNavigationHelper(kbArticlePersistence);
+
+		return kbArticleSiblingNavigationHelper.getPreviousAndNextKBArticles(
+			kbArticleId);
 	}
 
 	@Override
