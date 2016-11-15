@@ -14,14 +14,15 @@
 
 package com.liferay.captcha;
 
+import com.liferay.captcha.configuration.CaptchaConfiguration;
+import com.liferay.captcha.simplecaptcha.SimpleCaptchaImpl;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.captcha.Captcha;
 import com.liferay.portal.kernel.captcha.CaptchaException;
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.util.PrefsPropsUtil;
-import com.liferay.portal.util.PropsValues;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
 
@@ -38,6 +39,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 
 /**
  * @author Brian Wing Shun Chan
@@ -68,10 +70,17 @@ public class CaptchaUtil {
 			return null;
 		}
 
-		String captchaClassName = PrefsPropsUtil.getString(
-			PropsKeys.CAPTCHA_ENGINE_IMPL, PropsValues.CAPTCHA_ENGINE_IMPL);
+		String captchaClassName = _captchaConfiguration.captchaEngine();
+
+		if (Validator.isNull(captchaClassName)) {
+			captchaClassName = SimpleCaptchaImpl.class.getName();
+		}
 
 		return _serviceTrackerMap.getService(captchaClassName);
+	}
+
+	public static CaptchaConfiguration getCaptchaConfiguration() {
+		return _captchaConfiguration;
 	}
 
 	public static String getTaglibPath() {
@@ -106,6 +115,8 @@ public class CaptchaUtil {
 
 		_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
 			bundleContext, Captcha.class, "captcha.engine.impl");
+
+		setConfiguration(properties);
 	}
 
 	@Deactivate
@@ -113,6 +124,13 @@ public class CaptchaUtil {
 		_serviceTrackerMap.close();
 	}
 
+	@Modified
+	protected void setConfiguration(Map<String, Object> properties) {
+		_captchaConfiguration = ConfigurableUtil.createConfigurable(
+			CaptchaConfiguration.class, properties);
+	}
+
+	private static volatile CaptchaConfiguration _captchaConfiguration;
 	private static ServiceTrackerMap<String, Captcha> _serviceTrackerMap;
 
 }

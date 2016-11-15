@@ -16,7 +16,8 @@
 
 <%@ include file="/init.jsp" %>
 
-<%@ page import="com.liferay.captcha.CaptchaUtil" %>
+<%@ page import="com.liferay.captcha.CaptchaUtil" %><%@
+page import="com.liferay.captcha.configuration.CaptchaConfiguration" %>
 
 <%
 boolean captchaEnabled = false;
