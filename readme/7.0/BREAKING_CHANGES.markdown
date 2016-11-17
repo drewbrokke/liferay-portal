@@ -4187,3 +4187,29 @@ This change was made as part of modularization efforts to ease portlet
 configuration changes.
 
 ---------------------------------------
+
+### Deprecated the liferay-ui:captcha Tag and Replaced with liferay-captcha:captcha
+- **Date:** 2016-Nov-17
+- **JIRA Ticket:** LPS-67830
+
+#### What changed?
+
+The `liferay-ui:captcha` tag has been deprecated and replaced with the
+`liferay-captcha:captcha` tag.
+
+#### Who is affected?
+
+Plugins or templates that are using the `liferay-ui:captcha` tag need to update
+their usage of the tag.
+
+#### How should I update my code?
+
+You should import the `liferay-captcha` tag library (if necessary) and update the
+tag namespace from `liferay-ui:captcha` to `liferay-captcha:captcha`.
+
+#### Why was this change made?
+
+This change was made as a part of the ongoing strategy to modularize Liferay
+Portal by means of an OSGi container.
+
+---------------------------------------
