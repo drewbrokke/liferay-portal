@@ -32,6 +32,7 @@ dependencies {
 	provided project(":apps:forms-and-workflow:dynamic-data-mapping:dynamic-data-mapping-expression")
 	provided project(":apps:forms-and-workflow:dynamic-data-mapping:dynamic-data-mapping-form-evaluator")
 	provided project(":apps:forms-and-workflow:dynamic-data-mapping:dynamic-data-mapping-form-renderer")
+	provided project(":apps:foundation:captcha:captcha-api")
 
 	testCompile group: "org.skyscreamer", name: "jsonassert", version: "1.2.3"
 }

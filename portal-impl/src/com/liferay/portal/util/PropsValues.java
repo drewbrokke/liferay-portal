@@ -250,10 +250,22 @@ public class PropsValues {
 
 	public static final boolean CAPTCHA_CHECK_PORTLET_MESSAGE_BOARDS_EDIT_MESSAGE = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.CAPTCHA_CHECK_PORTLET_MESSAGE_BOARDS_EDIT_MESSAGE));
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public static final String CAPTCHA_ENGINE_IMPL = PropsUtil.get(PropsKeys.CAPTCHA_ENGINE_IMPL);
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public static final String CAPTCHA_ENGINE_RECAPTCHA_KEY_PRIVATE = PropsUtil.get(PropsKeys.CAPTCHA_ENGINE_RECAPTCHA_KEY_PRIVATE);
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public static final String CAPTCHA_ENGINE_RECAPTCHA_KEY_PUBLIC = PropsUtil.get(PropsKeys.CAPTCHA_ENGINE_RECAPTCHA_KEY_PUBLIC);
 
 	public static final String CAPTCHA_ENGINE_RECAPTCHA_URL_NOSCRIPT = PropsUtil.get(PropsKeys.CAPTCHA_ENGINE_RECAPTCHA_URL_NOSCRIPT);

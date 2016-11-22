@@ -27,7 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Brian Wing Shun Chan
- */
+ * @deprecated As of 7.0.0, replaced by {@link com.liferay.captcha.CaptchaUtil}
+*/
+@Deprecated
 public class CaptchaUtil {
 
 	public static void check(HttpServletRequest request)
