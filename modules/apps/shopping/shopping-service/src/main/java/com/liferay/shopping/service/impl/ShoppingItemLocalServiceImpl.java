@@ -703,7 +703,7 @@ public class ShoppingItemLocalServiceImpl
 		}
 
 		String[] imageExtensions =
-			_shoppingFileUploadsConfiguration.shoppingImageExtensions();
+			_shoppingFileUploadsConfiguration.imageExtensions();
 
 		// Small image
 
@@ -732,7 +732,7 @@ public class ShoppingItemLocalServiceImpl
 			}
 
 			long smallImageMaxSize =
-				_shoppingFileUploadsConfiguration.shoppingImageSmallMaxSize();
+				_shoppingFileUploadsConfiguration.smallImageMaxSize();
 
 			if ((smallImageMaxSize > 0) &&
 				((smallImageBytes == null) ||
@@ -769,7 +769,7 @@ public class ShoppingItemLocalServiceImpl
 			}
 
 			long mediumImageMaxSize =
-				_shoppingFileUploadsConfiguration.shoppingImageMediumMaxSize();
+				_shoppingFileUploadsConfiguration.mediumImageMaxSize();
 
 			if ((mediumImageMaxSize > 0) &&
 				((mediumImageBytes == null) ||
@@ -809,7 +809,7 @@ public class ShoppingItemLocalServiceImpl
 		}
 
 		long largeImageMaxSize =
-			_shoppingFileUploadsConfiguration.shoppingImageLargeMaxSize();
+			_shoppingFileUploadsConfiguration.largeImageMaxSize();
 
 		if ((largeImageMaxSize > 0) &&
 			((largeImageBytes == null) ||
