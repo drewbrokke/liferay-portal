@@ -29,16 +29,25 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 )
 public interface ShoppingFileUploadsConfiguration {
 
-		@Meta.AD(deflt = "", required = false)
+		@Meta.AD(deflt = "", name = "allowed-file-extensions", required = false)
 		public String[] imageExtensions();
 
-		@Meta.AD(deflt = "0", required = false)
+		@Meta.AD(
+			deflt = "0", name = "maximum-file-size-large-image",
+			required = false
+		)
 		public long largeImageMaxSize();
 
-		@Meta.AD(deflt = "0", required = false)
+		@Meta.AD(
+			deflt = "0", name = "maximum-file-size-medium-image",
+			required = false
+		)
 		public long mediumImageMaxSize();
 
-		@Meta.AD(deflt = "0", required = false)
+		@Meta.AD(
+			deflt = "0", name = "maximum-file-size-small-image",
+			required = false
+		)
 		public long smallImageMaxSize();
 
 }
