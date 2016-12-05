@@ -835,13 +835,14 @@ AUI.add(
 						var instance = this;
 
 						var instanceId = instance.get('instanceId');
+
 						var values = instance.get('values');
 
 						var fieldValue = instance.getFieldInfo(values, 'instanceId', instanceId);
 
 						var localizationMap = {};
 
-						if (!A.Object.isEmpty(fieldValue)) {
+						if (fieldValue && fieldValue.value) {
 							localizationMap = fieldValue.value;
 						}
 
@@ -2748,6 +2749,20 @@ AUI.add(
 		);
 
 		FieldTypes.select = SelectField;
+
+		var SeparatorField = A.Component.create(
+			{
+				EXTENDS: Field,
+
+				prototype: {
+					getValue: function() {
+						return '';
+					}
+				}
+			}
+		);
+
+		FieldTypes['ddm-separator'] = SeparatorField;
 
 		var Form = A.Component.create(
 			{

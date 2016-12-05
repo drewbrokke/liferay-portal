@@ -138,9 +138,11 @@
 
 		<execute function="AssertTextNotPresent" value1="${entryTitle}" />
 
-		<execute function="Click" locator1="Announcements#NAVIGATION_MANAGE_ENTRIES" />
+		<execute macro="ProductMenu#gotoControlPanelConfiguration">
+			<var name="portlet" value="Announcements and Alerts" />
+		</execute>
 
-		<execute function="Select#selectAndWait" locator1="AnnouncementsManageEntries#DISTRIBUTION_SCOPE_SELECT" value1="${distributionScope}" />
+		<execute function="AssertTextEquals" locator1="Dropdown#FILTER" value1="General" />
 
 		<execute function="AssertTextEquals" locator1="Message#NO_ENTRIES" value1="No entries were found." />
 	</command>

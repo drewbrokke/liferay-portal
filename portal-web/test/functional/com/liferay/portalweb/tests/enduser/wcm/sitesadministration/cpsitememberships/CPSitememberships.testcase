@@ -399,6 +399,14 @@
 	<command name="OrganizationsView" priority="5">
 		<property name="portal.acceptance" value="quarantine" />
 
+		<execute macro="ProductMenu#gotoControlPanelConfiguration">
+			<var name="portlet" value="Server Administration" />
+		</execute>
+
+		<execute macro="ServerAdministration#executeServerResourcesActions">
+			<var name="actionsDescription" value="Reindex all search indexes." />
+		</execute>
+
 		<execute macro="ProductMenu#gotoControlPanelUsers">
 			<var name="portlet" value="Users and Organizations" />
 		</execute>
@@ -806,7 +814,7 @@
 			<var name="usersEmailsList" value="userfn9@liferay.com" />
 		</execute>
 
-		<execute function="AssertClick" locator1="Pagination#PREVIOUS_LINK" value1="2" />
+		<execute function="Click" locator1="Pagination#PREVIOUS_LINK" />
 
 		<execute function="AssertTextEquals" locator1="Pagination#CURRENT_PAGE_SELECT" value1="Showing 6 to 10 of 11 entries." />
 
@@ -1032,6 +1040,79 @@
 			<var name="userLastNameSearchValue" value="Three" />
 			<var name="userScreenName" value="member3" />
 		</execute>
+	</command>
+
+	<command name="ViewMembershipRequestWithSiteMembershipScope" priority="3">
+		<for list="1,2" param="i">
+			<execute macro="ProductMenu#gotoControlPanelSites">
+				<var name="portlet" value="Sites" />
+			</execute>
+
+			<execute macro="Site#addBlankCP">
+				<var name="membershipType" value="Restricted" />
+				<var name="siteName" value="Site Name ${i}" />
+			</execute>
+		</for>
+
+		<execute macro="ProductMenu#gotoControlPanelUsers">
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="User#addCP">
+			<var name="userEmailAddress" value="userea@liferay.com" />
+			<var name="userFirstName" value="userfn" />
+			<var name="userLastName" value="userln" />
+			<var name="userScreenName" value="usersn" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoControlPanelUsers">
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="User#editPasswordCP">
+			<var name="userEmailAddress" value="userea@liferay.com" />
+			<var name="userScreenName" value="usersn" />
+		</execute>
+
+		<execute macro="User#logoutAndLoginPG">
+			<var name="userLoginEmailAddress" value="userea@liferay.com" />
+			<var name="userLoginFullName" value="Userfn Userln" />
+			<var name="userScreenName" value="usersn" />
+		</execute>
+
+		<execute macro="UserBar#gotoDashboard" />
+
+		<execute macro="Site#joinViaMySitesPG">
+			<var name="membershipType" value="Restricted" />
+			<var name="siteName" value="Site Name 1" />
+		</execute>
+
+		<execute macro="User#logoutAndLoginPG">
+			<var name="userLoginFullName" value="Test Test" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name 1" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoSitesMembers">
+			<var name="portlet" value="Site Memberships" />
+		</execute>
+
+		<execute macro="Site#viewSiteMembershipsRequest">
+			<var name="userFirstName" value="userfn" />
+			<var name="userLastName" value="userln" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name 2" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoSitesMembers">
+			<var name="portlet" value="Site Memberships" />
+		</execute>
+
+		<execute macro="Site#viewNoSiteMembershipsRequest" />
 	</command>
 
 	<command name="ViewNoManualMembershipManagement" priority="3">

@@ -19,6 +19,8 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import java.util.List;
 
 /**
+ * Provides a wrapper class to group asset entries by asset category title.
+ *
  * @author Eudaldo Alonso
  */
 public class AssetEntryResult {

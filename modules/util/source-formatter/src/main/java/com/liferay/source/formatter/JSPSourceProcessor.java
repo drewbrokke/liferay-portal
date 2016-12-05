@@ -441,6 +441,10 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 		newContent = fixSessionKey(
 			fileName, newContent, taglibSessionKeyPattern);
 
+		newContent = removeUnusedTaglibs(
+			fileName, newContent, checkedForIncludesFileNames,
+			includeFileNames);
+
 		checkLanguageKeys(
 			fileName, absolutePath, newContent, languageKeyPattern);
 		checkLanguageKeys(
@@ -452,9 +456,7 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 
 		checkSubnames(fileName, newContent);
 
-		newContent = sortMethodCalls(
-			newContent, "put", "HashMap<.*>", "JSONObject");
-		newContent = sortMethodCalls(newContent, "setAttribute");
+		newContent = sortMethodCalls(absolutePath, newContent);
 
 		newContent = formatStringBundler(fileName, newContent, -1);
 
@@ -702,14 +704,6 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 			while ((line = unsyncBufferedReader.readLine()) != null) {
 				lineCount++;
 
-				if (portalSource &&
-					hasUnusedTaglib(
-						fileName, line, checkedForIncludesFileNames,
-						includeFileNames)) {
-
-					continue;
-				}
-
 				if (!fileName.contains("jsonw") ||
 					!fileName.endsWith("action.jsp")) {
 
@@ -752,7 +746,7 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 				if (javaSource) {
 					if (portalSource &&
 						!isExcludedPath(
-							_unusedVariablesExcludes, absolutePath,
+							_UNUSED_VARIABLES_EXCLUDES, absolutePath,
 							lineCount) &&
 						!_jspContents.isEmpty() &&
 						hasUnusedVariable(
@@ -1589,37 +1583,6 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 			checkedForIncludesFileNames, includeFileNames);
 	}
 
-	protected boolean hasUnusedTaglib(
-		String fileName, String line, Set<String> checkedForIncludesFileNames,
-		Set<String> includeFileNames) {
-
-		if (!line.startsWith("<%@ taglib uri=")) {
-			return false;
-		}
-
-		int x = line.indexOf(" prefix=");
-
-		if (x == -1) {
-			return false;
-		}
-
-		x = line.indexOf(CharPool.QUOTE, x);
-
-		int y = line.indexOf(CharPool.QUOTE, x + 1);
-
-		if ((x == -1) || (y == -1)) {
-			return false;
-		}
-
-		String taglibPrefix = line.substring(x + 1, y);
-
-		String regex = StringPool.LESS_THAN + taglibPrefix + StringPool.COLON;
-
-		return hasUnusedJSPTerm(
-			fileName, regex, "taglib", checkedForIncludesFileNames,
-			includeFileNames);
-	}
-
 	protected boolean hasUnusedVariable(
 		String fileName, String line, Set<String> checkedForIncludesFileNames,
 		Set<String> includeFileNames) {
@@ -1828,8 +1791,6 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 	protected void preFormat() throws Exception {
 		_moveFrequentlyUsedImportsToCommonInit = GetterUtil.getBoolean(
 			getProperty("move.frequently.used.imports.to.common.init"));
-		_unusedVariablesExcludes = getPropertyList(
-			"jsp.unused.variables.excludes");
 
 		String[] excludes = new String[] {"**/null.jsp", "**/tools/**"};
 
@@ -1883,6 +1844,31 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 		if (portalSource) {
 			_populateTagJavaClasses();
 		}
+	}
+
+	protected String removeUnusedTaglibs(
+		String fileName, String content,
+		Set<String> checkedForIncludesFileNames, Set<String> includeFileNames) {
+
+		if (!portalSource) {
+			return content;
+		}
+
+		Matcher matcher = _taglibURIPattern.matcher(content);
+
+		while (matcher.find()) {
+			String regex =
+				StringPool.LESS_THAN + matcher.group(1) + StringPool.COLON;
+
+			if (hasUnusedJSPTerm(
+					fileName, regex, "taglib", checkedForIncludesFileNames,
+					includeFileNames)) {
+
+				return StringUtil.removeSubstring(content, matcher.group());
+			}
+		}
+
+		return content;
 	}
 
 	@Override
@@ -2001,7 +1987,7 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 	}
 
 	private static final String[] _INCLUDES =
-		new String[] {"**/*.jsp", "**/*.jspf", "**/*.vm"};
+		new String[] {"**/*.jsp", "**/*.jspf", "**/*.tpl", "**/*.vm"};
 
 	private static final String[][] _LIFERAY_FRONTEND_DEFINE_OBJECTS =
 		new String[][] {
@@ -2144,6 +2130,9 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 		}
 	};
 
+	private static final String _UNUSED_VARIABLES_EXCLUDES =
+		"jsp.unused.variables.excludes";
+
 	private final Pattern _compressedJSPImportPattern = Pattern.compile(
 		"(<.*\n*page.import=\".*>\n*)+", Pattern.MULTILINE);
 	private final Pattern _compressedJSPTaglibPattern = Pattern.compile(
@@ -2203,6 +2192,8 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 	private final Pattern _taglibLanguageKeyPattern3 = Pattern.compile(
 		"(liferay-ui:)(?:input-resource) .*id=\"([^<=%\\[\\s]+)\"(?!.*title=" +
 			"(?:'|\").+(?:'|\"))");
+	private final Pattern _taglibURIPattern = Pattern.compile(
+		"<%@\\s+taglib uri=.* prefix=\"(.*?)\" %>");
 	private final Pattern _taglibVariablePattern = Pattern.compile(
 		"(\n\t*String (taglib\\w+) = (.*);)\n\\s*%>\\s+(<[\\S\\s]*?>)\n");
 	private final Pattern _testTagPattern = Pattern.compile(
@@ -2211,7 +2202,6 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 		"(<.*page.import=\".*>\n*)+", Pattern.MULTILINE);
 	private final Pattern _uncompressedJSPTaglibPattern = Pattern.compile(
 		"(<.*taglib uri=\".*>\n*)+", Pattern.MULTILINE);
-	private List<String> _unusedVariablesExcludes;
 	private String _utilTaglibSrcDirName;
 	private final Pattern _xssPattern = Pattern.compile(
 		"\\s+([^\\s]+)\\s*=\\s*(Bean)?ParamUtil\\.getString\\(");

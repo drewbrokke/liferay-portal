@@ -874,7 +874,7 @@ app.server.type=@{app.server.type}]]></echo>
 									<gradle-execute dir="modules/apps/static/portal-lpkg-deployer/portal-lpkg-deployer-test" task="testIntegration">
 										<arg value="testIntegration" />
 										<arg value="--tests" />
-										<arg value="*.LPKGOverrideVerifyTest" />
+										<arg value="*.LPKGOverrideVerifySecondStartupTest" />
 									</gradle-execute>
 								</try>
 
@@ -896,8 +896,7 @@ app.server.type=@{app.server.type}]]></echo>
 									<gradle-execute dir="modules/apps/static/portal-lpkg-deployer/portal-lpkg-deployer-test" task="testIntegration">
 										<arg value="testIntegration" />
 										<arg value="--tests" />
-										<arg value="*.LPKGOverrideVerifyTest" />
-										<arg value="-Dlpkg.clean.startup=true" />
+										<arg value="*.LPKGOverrideVerifyCleanStartupTest" />
 									</gradle-execute>
 								</try>
 								<finally>
@@ -1078,7 +1077,7 @@ app.server.type=@{app.server.type}]]></echo>
 									<gradle-execute dir="modules/apps/static/portal-lpkg-deployer/portal-lpkg-deployer-test" task="testIntegration">
 										<arg value="testIntegration" />
 										<arg value="--tests" />
-										<arg value="*.LPKGDeployerTest" />
+										<arg value="*.LPKGDeployerCleanStartupTest" />
 									</gradle-execute>
 
 									<antcall inheritall="false" target="run-selenium-test">
@@ -1126,8 +1125,7 @@ app.server.type=@{app.server.type}]]></echo>
 									<gradle-execute dir="modules/apps/static/portal-lpkg-deployer/portal-lpkg-deployer-test" task="testIntegration">
 										<arg value="testIntegration" />
 										<arg value="--tests" />
-										<arg value="*.LPKGDeployerTest" />
-										<arg value="-Dbefore.lpkg.upgrade=true" />
+										<arg value="*.LPKGDeployerCleanStartupTest" />
 									</gradle-execute>
 
 									<antcall inheritall="false" target="run-selenium-test">
@@ -1160,7 +1158,7 @@ app.server.type=@{app.server.type}]]></echo>
 									<gradle-execute dir="modules/apps/static/portal-lpkg-deployer/portal-lpkg-deployer-test" task="testIntegration">
 										<arg value="testIntegration" />
 										<arg value="--tests" />
-										<arg value="*.LPKGDeployerTest" />
+										<arg value="*.LPKGDeployerUpgradeTest" />
 									</gradle-execute>
 
 									<gradle-execute dir="modules/apps/static/portal-lpkg-deployer/portal-lpkg-deployer-test" task="test">
@@ -1200,7 +1198,7 @@ app.server.type=@{app.server.type}]]></echo>
 									<gradle-execute dir="modules/apps/static/portal-lpkg-deployer/portal-lpkg-deployer-test" task="testIntegration">
 										<arg value="testIntegration" />
 										<arg value="--tests" />
-										<arg value="*.LPKGDeployerTest" />
+										<arg value="*.LPKGDeployerDowngradeTest" />
 									</gradle-execute>
 
 									<gradle-execute dir="modules/apps/static/portal-lpkg-deployer/portal-lpkg-deployer-test" task="test">
@@ -1342,9 +1340,10 @@ app.server.type=@{app.server.type}]]></echo>
 				<param name="database.type" value="@{database.type}" />
 			</antcall>
 
-			<antcall inheritAll="false" target="prepare-system-ext-properties" />
+			<echo file="${app.server.classes.portal.dir}/system-ext.properties">log.sanitizer.enabled=false</echo>
 
 			<ant dir="modules" inheritAll="false" target="build-app-lpkg-all">
+				<property name="app.server.parent.dir" value="${project.dir}/bundles" />
 				<property name="osgi.dir" value="${app.server.parent.dir}/osgi" />
 			</ant>
 		</sequential>
@@ -1470,23 +1469,23 @@ app.server.type=@{app.server.type}]]></echo>
 		<run-functional-test app.server.type="tcserver" database.type="mysql" />
 	</target>
 
-	<target name="functional-smoke-tomcat8-mariadb100-jdk8">
+	<target name="functional-smoke-tomcat80-mariadb100-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="mariadb" />
 	</target>
 
-	<target name="functional-smoke-tomcat8-mysql56-jdk8">
+	<target name="functional-smoke-tomcat80-mysql56-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="mysql" />
 	</target>
 
-	<target name="functional-smoke-tomcat8-oracle12-jdk8">
+	<target name="functional-smoke-tomcat80-oracle121-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="oracle" />
 	</target>
 
-	<target name="functional-smoke-tomcat8-postgresql94-jdk8">
+	<target name="functional-smoke-tomcat80-postgresql94-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="postgresql" />
 	</target>
 
-	<target name="functional-smoke-tomcat8-sybase16-jdk8">
+	<target name="functional-smoke-tomcat80-sybase160-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="sybase" />
 	</target>
 
@@ -1498,47 +1497,47 @@ app.server.type=@{app.server.type}]]></echo>
 		<run-functional-test app.server.type="websphere" database.type="mysql" />
 	</target>
 
-	<target name="functional-smoke-wildfly10-mariadb100-jdk8">
+	<target name="functional-smoke-wildfly100-mariadb100-jdk8">
 		<run-functional-test app.server.type="wildfly" database.type="mariadb" />
 	</target>
 
-	<target name="functional-tomcat8-hypersonic20-jdk8">
+	<target name="functional-tomcat80-hypersonic20-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="hypersonic" />
 	</target>
 
-	<target name="functional-tomcat8-mysql55-jdk8">
+	<target name="functional-tomcat80-mysql55-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="mysql" database.version="5.5" />
 	</target>
 
-	<target name="functional-tomcat8-mysql56-jdk8">
+	<target name="functional-tomcat80-mysql56-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="mysql" />
 	</target>
 
-	<target name="functional-tomcat8-mysql56-jdk8-quarantine">
-		<antcall target="functional-tomcat8-mysql56-jdk8" />
+	<target name="functional-tomcat80-mysql56-jdk8-quarantine">
+		<antcall target="functional-tomcat80-mysql56-jdk8" />
 	</target>
 
-	<target name="functional-upgrade-tomcat8-mariadb100-jdk8">
+	<target name="functional-upgrade-tomcat80-mariadb100-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="mariadb" />
 	</target>
 
-	<target name="functional-upgrade-tomcat8-mysql56-jdk8">
+	<target name="functional-upgrade-tomcat80-mysql56-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="mysql" />
 	</target>
 
-	<target name="functional-upgrade-tomcat8-oracle12-jdk8">
+	<target name="functional-upgrade-tomcat80-oracle121-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="oracle" />
 	</target>
 
-	<target name="functional-upgrade-tomcat8-postgresql94-jdk8">
+	<target name="functional-upgrade-tomcat80-postgresql94-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="postgresql" />
 	</target>
 
-	<target name="functional-upgrade-tomcat8-postgresql94-jdk8-quarantine">
-		<antcall target="functional-upgrade-tomcat8-postgresql94-jdk8" />
+	<target name="functional-upgrade-tomcat80-postgresql94-jdk8-quarantine">
+		<antcall target="functional-upgrade-tomcat80-postgresql94-jdk8" />
 	</target>
 
-	<target name="functional-upgrade-tomcat8-sybase16-jdk8">
+	<target name="functional-upgrade-tomcat80-sybase160-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="sybase" />
 	</target>
 
@@ -1554,7 +1553,7 @@ app.server.type=@{app.server.type}]]></echo>
 		<run-integration-test database.type="mysql" />
 	</target>
 
-	<target name="integration-oracle12-jdk8">
+	<target name="integration-oracle121-jdk8">
 		<run-integration-test database.type="oracle" />
 	</target>
 
@@ -1578,7 +1577,7 @@ app.server.type=@{app.server.type}]]></echo>
 		<run-legacy-database-dump database.type="mysql" database.version="5.5" />
 	</target>
 
-	<target name="legacy-functional-bundle-tomcat-oracle12-jdk7">
+	<target name="legacy-functional-bundle-tomcat-oracle121-jdk7">
 		<run-legacy-database-dump database.type="oracle" />
 	</target>
 
@@ -1586,7 +1585,7 @@ app.server.type=@{app.server.type}]]></echo>
 		<run-legacy-database-dump database.type="postgresql" />
 	</target>
 
-	<target name="legacy-functional-bundle-tomcat-sybase16-jdk7">
+	<target name="legacy-functional-bundle-tomcat-sybase160-jdk7">
 		<run-legacy-database-dump database.type="sybase" />
 	</target>
 
@@ -1612,7 +1611,7 @@ app.server.type=@{app.server.type}]]></echo>
 				<gradle-execute dir="modules" task="assemble">
 					<arg value="--continue" />
 					<arg value="--parallel" />
-					<arg value="-Dbuild.exclude.dirs=private/apps/saml,third-party" />
+					<arg value="-Dbuild.exclude.dirs=private/apps/osb-lcs,private/apps/saml,third-party" />
 				</gradle-execute>
 			</test-action>
 
@@ -1640,7 +1639,7 @@ app.server.type=@{app.server.type}]]></echo>
 		</run-batch-test>
 	</target>
 
-	<target name="modules-functional-tomcat8-mysql56-jdk8">
+	<target name="modules-functional-tomcat80-mysql56-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="mysql" />
 	</target>
 
@@ -1656,7 +1655,7 @@ app.server.type=@{app.server.type}]]></echo>
 		<run-modules-integration-test database.type="mysql" />
 	</target>
 
-	<target name="modules-integration-oracle12-jdk8">
+	<target name="modules-integration-oracle121-jdk8">
 		<run-modules-integration-test database.type="oracle" />
 	</target>
 
@@ -1773,7 +1772,7 @@ ${output.content}</echo>
 		/>
 	</target>
 
-	<target name="plugins-functional-tomcat8-mysql56-jdk8">
+	<target name="plugins-functional-tomcat80-mysql56-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="mysql" />
 	</target>
 
@@ -2168,7 +2167,7 @@ information. Make sure to commit in all build services results.
 		</trycatch>
 	</target>
 
-	<target name="subrepository-functional-tomcat8-mysql56-jdk8">
+	<target name="subrepository-functional-tomcat80-mysql56-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="mysql" />
 	</target>
 
@@ -2478,7 +2477,7 @@ ${output.content}</echo>
 		</run-batch-test>
 	</target>
 
-	<target name="upstream-functional-tomcat8-mysql56-jdk8">
+	<target name="upstream-functional-tomcat80-mysql56-jdk8">
 		<run-functional-test app.server.type="tomcat" database.type="mysql" />
 	</target>
 

@@ -215,7 +215,12 @@
 </tr>
 <tr>
 	<td>SHARE</td>
-	<td>//div[contains(@class,'dropdown-menu')]//a[@title='Share']</td>
+	<td>//div[contains(@class,'dropdown')]//a[@title='Share']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>STAR_UNSUBSCRIBED</td>
+	<td>//span/*[name()='svg'][contains(@class,'icon-star-o')]</td>
 	<td></td>
 </tr>
 <tr>

@@ -34,6 +34,11 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
+ * Provides the implementation of <code>PortletLayoutListener</code> (in
+ * <code>com.liferay.portal.kernel</code>) for the Asset Publisher portlet so
+ * email subscriptions can be removed when the Asset Publisher is removed from
+ * the page.
+ *
  * @author Zsolt Berentey
  */
 @Component(

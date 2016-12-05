@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtilAdvice;
 import com.liferay.portal.kernel.util.ThreadUtil;
-import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.test.rule.AdviseWith;
 import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 
@@ -37,8 +36,6 @@ import java.lang.reflect.Constructor;
 import java.nio.ByteBuffer;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -67,9 +64,7 @@ public class MailboxUtilTest {
 		new MailboxUtil();
 	}
 
-	@AdviseWith(
-		adviceClasses = {PropsUtilAdvice.class, ReceiptStubAdvice.class}
-	)
+	@AdviseWith(adviceClasses = PropsUtilAdvice.class)
 	@Test
 	public void testDepositMailWithReaperThreadDisabled() {
 		PropsUtilAdvice.setProps(
@@ -154,18 +149,12 @@ public class MailboxUtilTest {
 
 		overdueMailQueue.offer(createReceiptStub());
 
-		recorderUncaughtExceptionHandler.await(10 * Time.MINUTE);
-
 		reaperThread.join();
 
-		Assert.assertFalse(
-			"Reaper thread " + reaperThread +
-				" failed to join back after waiting for 10 mins",
-			reaperThread.isAlive());
 		Assert.assertSame(
-			reaperThread, RecorderUncaughtExceptionHandler._thread);
+			reaperThread, recorderUncaughtExceptionHandler._thread);
 
-		Throwable throwable = RecorderUncaughtExceptionHandler._throwable;
+		Throwable throwable = recorderUncaughtExceptionHandler._throwable;
 
 		Assert.assertSame(IllegalStateException.class, throwable.getClass());
 
@@ -284,7 +273,7 @@ public class MailboxUtilTest {
 			return proceedingJoinPoint.proceed();
 		}
 
-		private static boolean _throwException;
+		private static volatile boolean _throwException;
 
 	}
 
@@ -294,7 +283,9 @@ public class MailboxUtilTest {
 		Class<?> clazz = Class.forName(
 			mailboxUtilClassName.concat("$ReceiptStub"));
 
-		Constructor<?> constructor = clazz.getConstructor(long.class);
+		Constructor<?> constructor = clazz.getDeclaredConstructor(long.class);
+
+		constructor.setAccessible(true);
 
 		Object object = constructor.newInstance(0);
 
@@ -306,22 +297,14 @@ public class MailboxUtilTest {
 	private static class RecorderUncaughtExceptionHandler
 		implements UncaughtExceptionHandler {
 
-		public void await(long waitTime) throws InterruptedException {
-			_countDownLatch.await(waitTime, TimeUnit.MILLISECONDS);
-		}
-
 		@Override
 		public void uncaughtException(Thread thread, Throwable throwable) {
 			_thread = thread;
 			_throwable = throwable;
-
-			_countDownLatch.countDown();
 		}
 
-		private static volatile Thread _thread;
-		private static volatile Throwable _throwable;
-
-		private final CountDownLatch _countDownLatch = new CountDownLatch(1);
+		private volatile Thread _thread;
+		private volatile Throwable _throwable;
 
 	}
 

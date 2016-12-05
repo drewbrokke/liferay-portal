@@ -104,6 +104,9 @@ import org.springframework.mock.web.portlet.MockPortletRequest;
 import org.springframework.mock.web.portlet.MockPortletResponse;
 
 /**
+ * Tests the export and import behavior of the Asset Publisher bundle with
+ * different types of assets.
+ *
  * @author Julio Camarero
  */
 @RunWith(Arquillian.class)

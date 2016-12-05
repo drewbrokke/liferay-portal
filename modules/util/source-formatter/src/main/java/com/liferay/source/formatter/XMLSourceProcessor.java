@@ -390,7 +390,7 @@ public class XMLSourceProcessor extends BaseSourceProcessor {
 			File file, String fileName, String absolutePath, String content)
 		throws Exception {
 
-		if (isExcludedPath(_xmlExcludes, absolutePath)) {
+		if (isExcludedPath(_XML_EXCLUDES, absolutePath)) {
 			return content;
 		}
 
@@ -448,7 +448,8 @@ public class XMLSourceProcessor extends BaseSourceProcessor {
 			newContent = formatPoshiXML(fileName, newContent);
 		}
 		else if (fileName.contains("/resource-actions/")) {
-			formatResourceActionXML(fileName, newContent);
+			formatResourceActionXML(fileName, newContent, "model");
+			formatResourceActionXML(fileName, newContent, "portlet");
 		}
 		else if (fileName.endsWith("/service.xml")) {
 			formatServiceXML(fileName, absolutePath, newContent);
@@ -885,7 +886,7 @@ public class XMLSourceProcessor extends BaseSourceProcessor {
 		Element rootElement = document.getRootElement();
 
 		boolean checkNumericalPortletNameElement = !isExcludedPath(
-			_numericalPortletNameElementExcludes, absolutePath);
+			_NUMERICAL_PORTLET_NAME_ELEMENT_EXCLUDES, absolutePath);
 
 		List<Element> portletElements = rootElement.elements("portlet");
 
@@ -958,39 +959,45 @@ public class XMLSourceProcessor extends BaseSourceProcessor {
 		return fixPoshiXMLNumberOfTabs(content);
 	}
 
-	protected void formatResourceActionXML(String fileName, String content)
+	protected void formatResourceActionXML(
+			String fileName, String content, String type)
 		throws Exception {
 
 		Document document = readXML(content);
 
 		Element rootElement = document.getRootElement();
 
-		List<Element> portletResourceElements = rootElement.elements(
-			"portlet-resource");
+		List<Element> resourceElements = rootElement.elements(
+			type + "-resource");
 
-		for (Element portletResourceElement : portletResourceElements) {
-			Element portletNameElement = portletResourceElement.element(
-				"portlet-name");
+		for (Element resourceElement : resourceElements) {
+			Element nameElement = resourceElement.element(type + "-name");
 
-			String portletName = portletNameElement.getText();
+			if (nameElement == null) {
+				continue;
+			}
 
-			Element permissionsElement = portletResourceElement.element(
-				"permissions");
+			String name = nameElement.getText();
+
+			Element permissionsElement = resourceElement.element("permissions");
+
+			if (permissionsElement == null) {
+				continue;
+			}
 
 			List<Element> permissionsChildElements =
 				permissionsElement.elements();
 
 			for (Element permissionsChildElement : permissionsChildElements) {
 				checkOrder(
-					fileName, permissionsChildElement, "action-key",
-					portletName,
+					fileName, permissionsChildElement, "action-key", name,
 					new ResourceActionActionKeyElementComparator());
 			}
 		}
 
 		checkOrder(
-			fileName, rootElement, "portlet-resource", null,
-			new ResourceActionPortletResourceElementComparator());
+			fileName, rootElement, type + "-resource", null,
+			new ResourceActionResourceElementComparator(type + "-name"));
 	}
 
 	protected void formatServiceXML(
@@ -1351,13 +1358,6 @@ public class XMLSourceProcessor extends BaseSourceProcessor {
 		return targetNames;
 	}
 
-	@Override
-	protected void preFormat() {
-		_numericalPortletNameElementExcludes = getPropertyList(
-			"numerical.portlet.name.element.excludes");
-		_xmlExcludes = getPropertyList("xml.excludes");
-	}
-
 	protected String sortAttributes(String fileName, String content)
 		throws Exception {
 
@@ -1549,6 +1549,11 @@ public class XMLSourceProcessor extends BaseSourceProcessor {
 		"**/*.xml"
 	};
 
+	private static final String _NUMERICAL_PORTLET_NAME_ELEMENT_EXCLUDES =
+		"numerical.portlet.name.element.excludes";
+
+	private static final String _XML_EXCLUDES = "xml.excludes";
+
 	private static final Pattern _commentPattern1 = Pattern.compile(
 		">\n\t+<!--[\n ]");
 	private static final Pattern _commentPattern2 = Pattern.compile(
@@ -1558,7 +1563,6 @@ public class XMLSourceProcessor extends BaseSourceProcessor {
 		"<import file=\"(.*)\"");
 	private final Pattern _incorrectDefaultPreferencesFileName =
 		Pattern.compile("/default-([\\w-]+)-portlet-preferences\\.xml$");
-	private List<String> _numericalPortletNameElementExcludes;
 	private final Pattern _poshiClosingTagPattern = Pattern.compile(
 		"</[^>/]*>");
 	private final Pattern _poshiCommandsPattern = Pattern.compile(
@@ -1600,7 +1604,6 @@ public class XMLSourceProcessor extends BaseSourceProcessor {
 		new ConcurrentHashMap<>();
 	private final Pattern _whereNotInSQLPattern = Pattern.compile(
 		"WHERE[ \t\n]+\\(*[a-zA-z0-9.]+ NOT IN");
-	private List<String> _xmlExcludes;
 
 	private static class PortletPreferenceElementComparator
 		extends ElementComparator {
@@ -1624,13 +1627,21 @@ public class XMLSourceProcessor extends BaseSourceProcessor {
 
 	}
 
-	private static class ResourceActionPortletResourceElementComparator
+	private static class ResourceActionResourceElementComparator
 		extends ElementComparator {
+
+		public ResourceActionResourceElementComparator(String nameAttribute) {
+			super(nameAttribute);
+		}
 
 		@Override
 		protected String getElementName(Element portletResourceElement) {
 			Element portletNameElement = portletResourceElement.element(
-				"portlet-name");
+				getNameAttribute());
+
+			if (portletNameElement == null) {
+				return null;
+			}
 
 			return portletNameElement.getText();
 		}

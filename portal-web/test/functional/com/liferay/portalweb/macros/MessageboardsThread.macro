@@ -679,9 +679,7 @@
 			<else>
 				<var name="key_threadSubject" value="${threadSubject}" />
 
-				<execute function="AssertTextEquals" locator1="MessageBoards#THREAD_LIST_THREAD" value1="${threadSubject}" />
-
-				<execute function="Click" locator1="MessageBoards#THREAD_LIST_THREAD" value1="${threadSubject}" />
+				<execute function="AssertClick" locator1="MessageBoards#THREAD_LIST_THREAD" value1="${threadSubject}" />
 			</else>
 		</if>
 
@@ -709,6 +707,8 @@
 		<if>
 			<isset var="mbThreadAttachment" />
 			<then>
+				<execute function="AssertClick" locator1="Button#ADVANCED_REPLY" value1="Advanced Reply" />
+
 				<if>
 					<condition function="IsNotVisible" locator1="MessageBoardsEditMessage#ATTACHMENTS_FILE_FIELD_1" />
 					<then>
@@ -720,7 +720,7 @@
 			</then>
 		</if>
 
-		<execute function="Click" locator1="Button#PUBLISH" />
+		<execute function="Click" locator1="Button#PUBLISH_REPLY" />
 
 		<execute macro="Alert#viewSuccessMessage" />
 

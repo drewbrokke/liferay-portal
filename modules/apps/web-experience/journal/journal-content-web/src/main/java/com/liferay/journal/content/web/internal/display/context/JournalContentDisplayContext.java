@@ -301,11 +301,9 @@ public class JournalContentDisplayContext {
 			return _ddmTemplateKey;
 		}
 
-		List<DDMTemplate> ddmTemplates = getDDMTemplates();
+		JournalArticle article = getArticle();
 
-		if (!ddmTemplates.isEmpty()) {
-			JournalArticle article = getArticle();
-
+		if (article != null) {
 			_ddmTemplateKey = article.getDDMTemplateKey();
 		}
 
@@ -870,18 +868,16 @@ public class JournalContentDisplayContext {
 	}
 
 	private DDMTemplate _getDDMTemplate(String ddmTemplateKey) {
-		DDMTemplate ddmTemplate = null;
-
 		JournalArticleDisplay articleDisplay = getArticleDisplay();
 
-		if ((articleDisplay == null) ||
-			Validator.isNull(articleDisplay.getDDMTemplateKey())) {
-
-			return ddmTemplate;
+		if (articleDisplay == null) {
+			return null;
 		}
 
+		DDMTemplate ddmTemplate = null;
+
 		try {
-			_ddmTemplate = DDMTemplateLocalServiceUtil.fetchTemplate(
+			ddmTemplate = DDMTemplateLocalServiceUtil.fetchTemplate(
 				articleDisplay.getGroupId(),
 				PortalUtil.getClassNameId(DDMStructure.class), ddmTemplateKey,
 				true);

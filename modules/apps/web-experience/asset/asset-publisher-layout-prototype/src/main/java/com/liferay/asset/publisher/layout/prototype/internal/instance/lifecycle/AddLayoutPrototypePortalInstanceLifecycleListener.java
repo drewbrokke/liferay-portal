@@ -45,6 +45,11 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
+ * Provides the implementation of <code>PortalInstanceLifecycleListener</code>
+ * (in the <code>com.liferay.portal.instance.lifecycle</code> module), which
+ * adds a default layout prototype for the content display page when a new
+ * portal instance is registered.
+ *
  * @author Juergen Kappler
  */
 @Component(immediate = true, service = PortalInstanceLifecycleListener.class)

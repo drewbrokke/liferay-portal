@@ -674,25 +674,17 @@ public class GetSyncDLObjectUpdateHandler extends BaseSyncDLObjectHandler {
 			return;
 		}
 
-		String filePathName = "";
-
 		try {
-			filePathName = FileUtil.getFilePathName(
+			String filePathName = FileUtil.getFilePathName(
 				parentSyncFile.getFilePathName(),
 				FileUtil.getSanitizedFileName(
 					targetSyncFile.getName(), targetSyncFile.getExtension()));
 
-			SyncFile sourceSyncFile = null;
+			SyncFile sourceSyncFile = SyncFileService.fetchSyncFile(
+				targetSyncFile.getRepositoryId(), getSyncAccountId(),
+				targetSyncFile.getTypePK());
 
-			if (event.equals(SyncFile.EVENT_DELETE) ||
-				event.equals(SyncFile.EVENT_MOVE) ||
-				event.equals(SyncFile.EVENT_TRASH)) {
-
-				sourceSyncFile = SyncFileService.fetchSyncFile(
-					targetSyncFile.getRepositoryId(), getSyncAccountId(),
-					targetSyncFile.getTypePK());
-			}
-			else {
+			if (sourceSyncFile == null) {
 				sourceSyncFile = SyncFileService.fetchSyncFile(filePathName);
 			}
 

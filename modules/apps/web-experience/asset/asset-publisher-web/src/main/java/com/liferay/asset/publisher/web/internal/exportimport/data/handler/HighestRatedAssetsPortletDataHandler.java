@@ -20,6 +20,12 @@ import com.liferay.exportimport.kernel.lar.PortletDataHandler;
 import org.osgi.service.component.annotations.Component;
 
 /**
+ * Provides the implementation of <code>PortletDataHandler</code> (in
+ * <code>com.liferay.portal.kernel</code>) for the Highest Rated Assets portlet.
+ * This class defines specific behavior when exporting and importing Liferay
+ * data to LAR files when layouts with the Highest Rated Assets portlet are
+ * exported or imported.
+ *
  * @author Eudaldo Alonso
  */
 @Component(
