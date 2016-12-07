@@ -52,25 +52,28 @@ public class UpgradeShoppingConfiguration extends UpgradeProcess {
 				ShoppingFileUploadsConfiguration.class,
 				new HashMapDictionary<>());
 
-		String[] shoppingImageExtensions = PrefsPropsUtil.getStringArray(
-			_LEGACY_SHOPPING_IMAGE_EXTENSIONS, StringPool.COMMA,
-			defaultConfig.imageExtensions());
-		long shoppingImageLargeMaxSize = PrefsPropsUtil.getLong(
-			_LEGACY_SHOPPING_IMAGE_LARGE_MAX_SIZE,
-			defaultConfig.largeImageMaxSize());
-		long shoppingImageMediumMaxSize = PrefsPropsUtil.getLong(
-			_LEGACY_SHOPPING_IMAGE_MEDIUM_MAX_SIZE,
-			defaultConfig.mediumImageMaxSize());
-		long shoppingImageSmallMaxSize = PrefsPropsUtil.getLong(
-			_LEGACY_SHOPPING_IMAGE_SMALL_MAX_SIZE,
-			defaultConfig.smallImageMaxSize());
-
 		Dictionary properties = new HashMapDictionary();
 
-		properties.put("imageExtensions", shoppingImageExtensions);
-		properties.put("largeImageMaxSize", shoppingImageLargeMaxSize);
-		properties.put("mediumImageMaxSize", shoppingImageMediumMaxSize);
-		properties.put("smallImageMaxSize", shoppingImageSmallMaxSize);
+		properties.put(
+			"imageExtensions",
+			PrefsPropsUtil.getStringArray(
+				_LEGACY_SHOPPING_IMAGE_EXTENSIONS, StringPool.COMMA,
+				defaultConfig.imageExtensions()));
+		properties.put(
+			"largeImageMaxSize",
+			PrefsPropsUtil.getLong(
+				_LEGACY_SHOPPING_IMAGE_LARGE_MAX_SIZE,
+				defaultConfig.largeImageMaxSize()));
+		properties.put(
+			"mediumImageMaxSize",
+			PrefsPropsUtil.getLong(
+				_LEGACY_SHOPPING_IMAGE_MEDIUM_MAX_SIZE,
+				defaultConfig.mediumImageMaxSize()));
+		properties.put(
+			"smallImageMaxSize",
+			PrefsPropsUtil.getLong(
+				_LEGACY_SHOPPING_IMAGE_SMALL_MAX_SIZE,
+				defaultConfig.smallImageMaxSize()));
 
 		Configuration configuration = _configurationAdmin.getConfiguration(
 			ShoppingFileUploadsConfiguration.class.getName());
