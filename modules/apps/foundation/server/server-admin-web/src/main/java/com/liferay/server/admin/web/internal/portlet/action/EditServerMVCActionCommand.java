@@ -18,9 +18,6 @@ import com.liferay.document.library.kernel.util.DLPreviewableProcessor;
 import com.liferay.mail.kernel.model.Account;
 import com.liferay.mail.kernel.service.MailService;
 import com.liferay.petra.log4j.Log4JUtil;
-import com.liferay.portal.captcha.CaptchaImpl;
-import com.liferay.portal.captcha.recaptcha.ReCaptchaImpl;
-import com.liferay.portal.captcha.simplecaptcha.SimpleCaptchaImpl;
 import com.liferay.portal.convert.ConvertException;
 import com.liferay.portal.convert.ConvertProcess;
 import com.liferay.portal.instances.service.PortalInstancesLocalService;
@@ -29,8 +26,6 @@ import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManager;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.cache.MultiVMPool;
 import com.liferay.portal.kernel.cache.SingleVMPool;
-import com.liferay.portal.kernel.captcha.Captcha;
-import com.liferay.portal.kernel.captcha.CaptchaUtil;
 import com.liferay.portal.kernel.image.GhostscriptUtil;
 import com.liferay.portal.kernel.image.ImageMagickUtil;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayOutputStream;
@@ -82,7 +77,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.kernel.xuggler.XugglerInstallException;
 import com.liferay.portal.kernel.xuggler.XugglerUtil;
-import com.liferay.portal.security.lang.DoPrivilegedBean;
 import com.liferay.portal.upload.UploadServletRequestImpl;
 import com.liferay.portal.util.MaintenanceUtil;
 import com.liferay.portal.util.PrefsPropsUtil;
@@ -210,9 +204,6 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 		}
 		else if (cmd.equals("threadDump")) {
 			threadDump();
-		}
-		else if (cmd.equals("updateCaptcha")) {
-			updateCaptcha(actionRequest, portletPreferences);
 		}
 		else if (cmd.equals("updateExternalServices")) {
 			updateExternalServices(actionRequest, portletPreferences);
@@ -514,61 +505,6 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 		}
 	}
 
-	protected void updateCaptcha(
-			ActionRequest actionRequest, PortletPreferences portletPreferences)
-		throws Exception {
-
-		boolean reCaptchaEnabled = ParamUtil.getBoolean(
-			actionRequest, "reCaptchaEnabled");
-		String reCaptchaPrivateKey = ParamUtil.getString(
-			actionRequest, "reCaptchaPrivateKey");
-		String reCaptchaPublicKey = ParamUtil.getString(
-			actionRequest, "reCaptchaPublicKey");
-
-		Captcha captcha = null;
-
-		if (reCaptchaEnabled) {
-			captcha = new ReCaptchaImpl();
-		}
-		else {
-			captcha = new SimpleCaptchaImpl();
-		}
-
-		validateCaptcha(actionRequest);
-
-		if (SessionErrors.isEmpty(actionRequest)) {
-			Class<?> clazz = captcha.getClass();
-
-			portletPreferences.setValue(
-				PropsKeys.CAPTCHA_ENGINE_IMPL, clazz.getName());
-
-			portletPreferences.setValue(
-				PropsKeys.CAPTCHA_ENGINE_RECAPTCHA_KEY_PRIVATE,
-				reCaptchaPrivateKey);
-			portletPreferences.setValue(
-				PropsKeys.CAPTCHA_ENGINE_RECAPTCHA_KEY_PUBLIC,
-				reCaptchaPublicKey);
-
-			portletPreferences.store();
-
-			CaptchaImpl captchaImpl = null;
-
-			Captcha currentCaptcha = CaptchaUtil.getCaptcha();
-
-			if (currentCaptcha instanceof DoPrivilegedBean) {
-				DoPrivilegedBean doPrivilegedBean =
-					(DoPrivilegedBean)currentCaptcha;
-
-				captchaImpl = (CaptchaImpl)doPrivilegedBean.getActualBean();
-			}
-			else {
-				captchaImpl = (CaptchaImpl)currentCaptcha;
-			}
-
-			captchaImpl.setCaptcha(captcha);
-		}
-	}
-
 	protected void updateExternalServices(
 			ActionRequest actionRequest, PortletPreferences portletPreferences)
 		throws Exception {
@@ -783,29 +719,6 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 		portletPreferences.store();
 
 		_mailService.clearSession();
-	}
-
-	protected void validateCaptcha(ActionRequest actionRequest)
-		throws Exception {
-
-		boolean reCaptchaEnabled = ParamUtil.getBoolean(
-			actionRequest, "reCaptchaEnabled");
-
-		if (!reCaptchaEnabled) {
-			return;
-		}
-
-		String reCaptchaPrivateKey = ParamUtil.getString(
-			actionRequest, "reCaptchaPrivateKey");
-		String reCaptchaPublicKey = ParamUtil.getString(
-			actionRequest, "reCaptchaPublicKey");
-
-		if (Validator.isNull(reCaptchaPublicKey)) {
-			SessionErrors.add(actionRequest, "reCaptchaPublicKey");
-		}
-		else if (Validator.isNull(reCaptchaPrivateKey)) {
-			SessionErrors.add(actionRequest, "reCaptchaPrivateKey");
-		}
 	}
 
 	protected void verifyMembershipPolicies() throws Exception {
