@@ -1971,14 +1971,6 @@ public interface PropsKeys {
 
 	public static final String SHOPPING_EMAIL_ORDER_SHIPPING_SUBJECT = "shopping.email.order.shipping.subject";
 
-	public static final String SHOPPING_IMAGE_EXTENSIONS = "shopping.image.extensions";
-
-	public static final String SHOPPING_IMAGE_LARGE_MAX_SIZE = "shopping.image.large.max.size";
-
-	public static final String SHOPPING_IMAGE_MEDIUM_MAX_SIZE = "shopping.image.medium.max.size";
-
-	public static final String SHOPPING_IMAGE_SMALL_MAX_SIZE = "shopping.image.small.max.size";
-
 	public static final String SHOPPING_INSURANCE = "shopping.insurance";
 
 	public static final String SHOPPING_INSURANCE_FORMULA = "shopping.insurance.formula";
