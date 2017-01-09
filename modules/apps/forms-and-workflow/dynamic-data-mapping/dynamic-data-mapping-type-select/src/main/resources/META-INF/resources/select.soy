@@ -27,43 +27,32 @@
  * @param visible
  */
 {template .select autoescape="deprecated-contextual"}
+	{let $optionsSelected: $value /}
+
 	<div class="form-group{$visible ? '' : ' hide'}" data-fieldname="{$name}">
 		<div class="input-select-wrapper">
 
 			{if $showLabel}
-				{call ddm.select_label data="all"}
-					{param name: $name /}
-					{param label: $label /}
-					{param required: $required /}
-					{param tip: $tip /}
-				{/call}
+				{call ddm.select_label data="all" /}
 			{/if}
 
 			<div class="form-builder-select-field input-group-container">
 
 				{if not $readOnly}
-					{call ddm.hidden_select data="all"}
-						{param options: $options /}
-						{param name: $name /}
-						{param multiple: $multiple /}
-						{param dir: $dir /}
-						{param value: $value /}
-						{param string: $strings /}
-					{/call}
+					{call ddm.hidden_select data="all"/}
 				{/if}
 
 				{if not $multiple}
-					<a class="form-control select-field-trigger" {if $readOnly}disabled{/if} dir="{$dir}" href="javascript:;" id="{$name}" name="{$name}">
-
-						{let $selectedLabel}
-							{if $value and $value.value}
-								{$value.label}
+					<a class="form-control select-field-trigger" dir="{$dir}" href="javascript:;" id="{$name}" name="{$name}">
+						{if not $readOnly}
+							{if $optionsSelected and $optionsSelected.value}
+								<span class="option-selected">{$optionsSelected.label}</span>
 							{else}
-								{$strings.chooseAnOption}
+								<span class="option-selected option-selected-placeholder">{$strings.chooseAnOption}</span>
 							{/if}
-						{/let}
-
-						<span class="option-selected">{$selectedLabel}</span>
+						{else}
+							<span class="option-selected option-selected-placeholder">{$strings.chooseAnOption}</span>
+						{/if}
 					</a>
 				{else}
 					//TODO Multiple select
@@ -77,7 +66,7 @@
 									<a class="" href="javascript:;">{$selectSearchIcon|noAutoescape}</a>
 								{/if}
 							</div>
-							<input placeholder="Search" class="drop-chosen-search" type="text" autocomplete="off">
+							<input autocomplete="off" class="drop-chosen-search" placeholder="Search" type="text">
 						</div>
 						<ul class="results-chosen">
 							{call ddm.select_options data="all" /}
@@ -125,10 +114,18 @@
  * @param multiple
  * @param name
  * @param options
+ * @param readOnly
  * @param value
+ * @param strings
  */
 {template .hidden_select autoescape="deprecated-contextual"}
 	<select class="form-control hide" dir="{$dir}" id="{$name}" name="{$name}" {if $multiple}multiple size="{length($options)}"{/if}>
+		{if not $readOnly}
+			<option dir="{$dir}" disabled {if not $value}selected{/if} value="">
+				{$strings.chooseAnOption}
+			</option>
+		{/if}
+
 		{foreach $option in $options}
 			{let $selectedValue}
 				{if $value and $value.value}
@@ -148,10 +145,12 @@
  * @param value
  */
 {template .select_options autoescape="deprecated-contextual"}
+	{let $optionsSelected: $value /}
+
 	{foreach $option in $options}
 		{let $selectedValue}
-			{if $value and $value.value}
-				{$value.value}
+			{if $optionsSelected and $optionsSelected.value}
+				{$optionsSelected.value}
 			{/if}
 		{/let}
 

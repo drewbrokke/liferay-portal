@@ -352,14 +352,19 @@ public class IncludeTag extends AttributesTagSupport {
 			}
 		}
 
-		request.setAttribute(
-			WebKeys.SERVLET_CONTEXT_INCLUDE_FILTER_STRICT, _strict);
+		if (_THEME_JSP_OVERRIDE_ENABLED) {
+			request.setAttribute(
+				WebKeys.SERVLET_CONTEXT_INCLUDE_FILTER_STRICT, _strict);
+		}
 
 		HttpServletResponse response = new PipingServletResponse(pageContext);
 
 		includePage(page, response);
 
-		request.removeAttribute(WebKeys.SERVLET_CONTEXT_INCLUDE_FILTER_STRICT);
+		if (_THEME_JSP_OVERRIDE_ENABLED) {
+			request.removeAttribute(
+				WebKeys.SERVLET_CONTEXT_INCLUDE_FILTER_STRICT);
+		}
 
 		if (tagDynamicIdFactory != null) {
 			TagDynamicIncludeUtil.include(

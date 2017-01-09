@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Time;
+import com.liferay.portal.kernel.util.TimeZoneUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.SynchronousMailTestRule;
@@ -105,7 +106,7 @@ public class CalendarBookingLocalServiceTest {
 			_user, _losAngelesTimeZone, serviceContext);
 
 		java.util.Calendar nowJCalendar = JCalendarUtil.getJCalendar(
-			System.currentTimeMillis(), calendar.getTimeZone());
+			2017, java.util.Calendar.JANUARY, 5, 22, 0, 0, 0, _utcTimeZone);
 
 		CalendarBooking calendarBooking =
 			CalendarBookingTestUtil.addAllDayCalendarBooking(
@@ -118,29 +119,9 @@ public class CalendarBookingLocalServiceTest {
 		java.util.Calendar endTimeJCalendar = JCalendarUtil.getJCalendar(
 			calendarBooking.getEndTime(), calendarBooking.getTimeZone());
 
-		Assert.assertEquals(
-			nowJCalendar.get(java.util.Calendar.YEAR),
-			startTimeJCalendar.get(java.util.Calendar.YEAR));
+		assertSameDay(nowJCalendar, startTimeJCalendar);
 
-		Assert.assertEquals(
-			nowJCalendar.get(java.util.Calendar.MONTH),
-			startTimeJCalendar.get(java.util.Calendar.MONTH));
-
-		Assert.assertEquals(
-			nowJCalendar.get(java.util.Calendar.DAY_OF_MONTH),
-			startTimeJCalendar.get(java.util.Calendar.DAY_OF_MONTH));
-
-		Assert.assertEquals(
-			nowJCalendar.get(java.util.Calendar.YEAR),
-			endTimeJCalendar.get(java.util.Calendar.YEAR));
-
-		Assert.assertEquals(
-			nowJCalendar.get(java.util.Calendar.MONTH),
-			endTimeJCalendar.get(java.util.Calendar.MONTH));
-
-		Assert.assertEquals(
-			nowJCalendar.get(java.util.Calendar.DAY_OF_MONTH),
-			endTimeJCalendar.get(java.util.Calendar.DAY_OF_MONTH));
+		assertSameDay(nowJCalendar, endTimeJCalendar);
 
 		assertEqualsTime(0, 0, startTimeJCalendar);
 
@@ -1469,6 +1450,23 @@ public class CalendarBookingLocalServiceTest {
 		Assert.assertEquals(minute, jCalendar.get(java.util.Calendar.MINUTE));
 	}
 
+	protected void assertSameDay(
+		java.util.Calendar expectedJCalendar,
+		java.util.Calendar actualJCalendar) {
+
+		Assert.assertEquals(
+			expectedJCalendar.get(java.util.Calendar.YEAR),
+			actualJCalendar.get(java.util.Calendar.YEAR));
+
+		Assert.assertEquals(
+			expectedJCalendar.get(java.util.Calendar.MONTH),
+			actualJCalendar.get(java.util.Calendar.MONTH));
+
+		Assert.assertEquals(
+			expectedJCalendar.get(java.util.Calendar.DAY_OF_MONTH),
+			actualJCalendar.get(java.util.Calendar.DAY_OF_MONTH));
+	}
+
 	protected ServiceContext createServiceContext() {
 		ServiceContext serviceContext = new ServiceContext();
 
@@ -1537,6 +1535,8 @@ public class CalendarBookingLocalServiceTest {
 
 	private static final TimeZone _losAngelesTimeZone = TimeZone.getTimeZone(
 		"America/Los_Angeles");
+	private static final TimeZone _utcTimeZone = TimeZoneUtil.getTimeZone(
+		StringPool.UTC);
 
 	private Object _checkBookingMessageListener;
 

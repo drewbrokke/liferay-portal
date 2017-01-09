@@ -3,7 +3,7 @@
 ;
 [subrepo]
 	cmdver = liferay
-	commit = 07afaeb897e740294d2cdd45441a3cd850034452
+	commit = 011b22269caae188063f3be9fe282f7f9a060ef3
 	mode = push
-	parent = aa1919076e690055305597b6be5d090124da4ba9
+	parent = 54fff66d6c6f05ce8725a695c4615665879b6ed6
 	remote = git@github.com:liferay/com-liferay-portlet-configuration.git

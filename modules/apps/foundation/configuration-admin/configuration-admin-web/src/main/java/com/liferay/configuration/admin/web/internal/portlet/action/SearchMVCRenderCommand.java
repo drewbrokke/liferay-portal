@@ -99,6 +99,14 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 				ConfigurationModel configurationModel = configurationModels.get(
 					configurationModelId);
 
+				if (configurationModel == null) {
+					String configurationModelFactoryId = document.get(
+						FieldNames.CONFIGURATION_MODEL_FACTORY_PID);
+
+					configurationModel = configurationModels.get(
+						configurationModelFactoryId);
+				}
+
 				if (configurationModel != null) {
 					searchResults.add(configurationModel);
 				}

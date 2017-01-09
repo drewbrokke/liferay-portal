@@ -90,7 +90,6 @@ public class ATag extends BaseATag {
 		String label = getLabel();
 		String lang = getLang();
 		Boolean localizeLabel = getLocalizeLabel();
-		String namespace = _getNamespace();
 		String onClick = getOnClick();
 		String target = getTarget();
 		String title = getTitle();
@@ -120,7 +119,7 @@ public class ATag extends BaseATag {
 
 		if (Validator.isNotNull(id)) {
 			jspWriter.write("id=\"");
-			jspWriter.write(namespace);
+			jspWriter.write(_getNamespace());
 			jspWriter.write(id);
 			jspWriter.write("\" ");
 		}
@@ -163,7 +162,7 @@ public class ATag extends BaseATag {
 			jspWriter.write("\" ");
 		}
 
-		if (data != null) {
+		if ((data != null) && !data.isEmpty()) {
 			jspWriter.write(AUIUtil.buildData(data));
 		}
 
@@ -199,16 +198,17 @@ public class ATag extends BaseATag {
 		PortletResponse portletResponse = (PortletResponse)request.getAttribute(
 			JavaConstants.JAVAX_PORTLET_RESPONSE);
 
-		String namespace = StringPool.BLANK;
-
-		boolean useNamespace = GetterUtil.getBoolean(
-			(String)request.getAttribute("aui:form:useNamespace"), true);
-
-		if ((portletResponse != null) && useNamespace) {
-			namespace = portletResponse.getNamespace();
+		if (portletResponse == null) {
+			return StringPool.BLANK;
 		}
 
-		return namespace;
+		if (GetterUtil.getBoolean(
+				(String)request.getAttribute("aui:form:useNamespace"), true)) {
+
+			return portletResponse.getNamespace();
+		}
+
+		return StringPool.BLANK;
 	}
 
 	private void _writeDynamicAttributes(JspWriter jspWriter)
@@ -217,7 +217,7 @@ public class ATag extends BaseATag {
 		String dynamicAttributesString = InlineUtil.buildDynamicAttributes(
 			getDynamicAttributes());
 
-		if (Validator.isNotNull(dynamicAttributesString)) {
+		if (!dynamicAttributesString.isEmpty()) {
 			jspWriter.write(dynamicAttributesString);
 		}
 	}

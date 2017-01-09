@@ -662,7 +662,12 @@ app.server.type=@{app.server.type}]]></echo>
 							</antcall>
 
 							<if>
-								<matches pattern="https?://" string="@{test.license.xml.url}" />
+								<and>
+									<matches pattern="https?://" string="@{test.license.xml.url}" />
+									<not>
+										<equals arg1="${test.deploy.license}" arg2="false" />
+									</not>
+								</and>
 								<then>
 									<antcall target="deploy-license-xml">
 										<param name="test.build.license.xml.zip.url" value="@{test.license.xml.url}" />
@@ -753,13 +758,6 @@ app.server.type=@{app.server.type}]]></echo>
 								dest="${liferay.home}/deploy"
 								src="@{test.plugin.zip.url}"
 							/>
-						</then>
-					</if>
-
-					<if>
-						<available file="${project.dir}/plugins/dist/@{test.portal.lpkg.name}" />
-						<then>
-							<copy file="${project.dir}/plugins/dist/@{test.portal.lpkg.name}" todir="${liferay.home}/osgi/marketplace" />
 						</then>
 					</if>
 

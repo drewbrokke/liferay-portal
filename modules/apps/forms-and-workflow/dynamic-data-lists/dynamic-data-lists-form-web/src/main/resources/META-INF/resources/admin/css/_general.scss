@@ -353,6 +353,10 @@
 		display: block;
 		padding: 10px 5px;
 		text-decoration: none;
+
+		.option-selected-placeholder {
+			color: rgba(134, 156, 173, 0.4);
+		}
 	}
 
 	.drop-chosen {
@@ -393,6 +397,10 @@
 				padding: 12px 16px;
 				text-overflow: ellipsis;
 				white-space: nowrap;
+
+				&.option-selected {
+					color: #65B3F0;
+				}
 			}
 
 			li:last-child {

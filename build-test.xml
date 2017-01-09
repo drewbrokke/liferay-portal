@@ -4686,18 +4686,27 @@ go]]></replacevalue>
 								<if>
 									<available file="${liferay.home}/osgi/marketplace/${Liferay-Releng-App-Title}.lpkg" />
 									<then>
-										<echo>${liferay.home}/osgi/marketplace/${Liferay-Releng-App-Title}.lpkg already exists.</echo>
+										<delete file="${liferay.home}/osgi/marketplace/${Liferay-Releng-App-Title}.lpkg" />
+									</then>
+								</if>
+
+								<if>
+									<available file="${project.dir}/plugins/dist/${Liferay-Releng-App-Title}.lpkg" />
+									<then>
+										<echo>Copying ${project.dir}/plugins/dist/${Liferay-Releng-App-Title}.lpkg to ${liferay.home}/osgi/marketplace/${Liferay-Releng-App-Title}.lpkg.</echo>
+
+										<copy file="${project.dir}/plugins/dist/${Liferay-Releng-App-Title}.lpkg" tofile="${liferay.home}/osgi/marketplace/${Liferay-Releng-App-Title}.lpkg" />
 									</then>
 									<elseif>
 										<available file="${project.dir}/plugins/marketplace/${Liferay-Releng-App-Title}.lpkg" />
 										<then>
-											<echo>Copying ${project.dir}/plugins/marketplace/${Liferay-Releng-App-Title}.lpkg to ${liferay.home}/osgi/marketplace</echo>
+											<echo>Copying ${project.dir}/plugins/marketplace/${Liferay-Releng-App-Title}.lpkg to ${liferay.home}/osgi/marketplace/${Liferay-Releng-App-Title}.lpkg.</echo>
 
-											<copy file="${project.dir}/plugins/marketplace/${Liferay-Releng-App-Title}.lpkg" todir="${liferay.home}/osgi/marketplace" />
+											<copy file="${project.dir}/plugins/marketplace/${Liferay-Releng-App-Title}.lpkg" tofile="${liferay.home}/osgi/marketplace/${Liferay-Releng-App-Title}.lpkg" />
 										</then>
 									</elseif>
 									<else>
-										<echo>Deploying all relevant modules that make up '${Liferay-Releng-App-Title}.lpkg'</echo>
+										<echo>Deploying all relevant modules that make up ${Liferay-Releng-App-Title}.lpkg.</echo>
 
 										<for param="osgi.module.bnd.file">
 											<fileset dir="@{app.dir}">
@@ -9379,7 +9388,7 @@ jdbc.default.password=${database.mysql.password}</echo>
 			<equals arg1="${app.server.type}" arg2="jboss" />
 			<then>
 				<echo file="${liferay.home}/tools/portal-tools-db-upgrade-client/app-server.properties">dir=${app.server.dir}
-extra.lib.dirs=
+extra.lib.dirs=modules/system/layers/base/javax/mail,modules/system/layers/base/javax/persistence,modules/system/layers/base/javax/servlet,modules/system/layers/base/javax/transaction
 global.lib.dir=modules/com/liferay/portal/main
 portal.dir=standalone/deployments/ROOT.war
 server.detector.server.id=jboss</echo>

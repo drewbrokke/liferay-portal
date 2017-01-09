@@ -509,7 +509,7 @@
 			<var name="entryTitle" value="Blogs Entry3 Title" />
 		</execute>
 
-		<execute function="AssertTextEquals#assertValue" locator1="BlogsEntry#COMMENTS_TRACKBACK_URL" value1="http://www.able.com:8080/blogs-page/-/blogs/trackback/blogs-entry3-title" />
+		<execute function="AssertTextEquals#assertValue" locator1="BlogsEntry#COMMENTS_TRACKBACK_URL" value1="http://www.able.com:8080/web/guest/blogs-page/-/blogs/trackback/blogs-entry3-title" />
 
 		<execute macro="Navigator#gotoSpecificURLPage">
 			<var name="pageName" value="Blogs Page" />
@@ -545,7 +545,7 @@
 			<var name="userFullName" value="Test Test" />
 		</execute>
 
-		<execute function="AssertTextEquals#assertValue" locator1="BlogsEntry#COMMENTS_TRACKBACK_URL" value1="http://www.able.com:8080/blogs-page/-/blogs/trackback/blogs-entry3-title" />
+		<execute function="AssertTextEquals#assertValue" locator1="BlogsEntry#COMMENTS_TRACKBACK_URL" value1="http://www.able.com:8080/web/guest/blogs-page/-/blogs/trackback/blogs-entry3-title" />
 
 		<execute function="AssertClick" locator1="Link#READ_MORE" value1="Read More" />
 
@@ -579,7 +579,7 @@
 			<var name="entryTitle" value="Blogs Entry5 Title" />
 		</execute>
 
-		<execute function="AssertTextEquals#assertValue" locator1="BlogsEntry#COMMENTS_TRACKBACK_URL" value1="http://www.able.com:8080/blogs-page/-/blogs/trackback/blogs-entry5-title" />
+		<execute function="AssertTextEquals#assertValue" locator1="BlogsEntry#COMMENTS_TRACKBACK_URL" value1="http://www.able.com:8080/web/guest/blogs-page/-/blogs/trackback/blogs-entry5-title" />
 
 		<execute macro="Navigator#gotoSpecificURLPage">
 			<var name="pageName" value="Blogs Page" />
@@ -612,7 +612,7 @@
 			<var name="userFullName" value="Test Test" />
 		</execute>
 
-		<execute function="AssertTextEquals#assertValue" locator1="BlogsEntry#COMMENTS_TRACKBACK_URL" value1="http://www.able.com:8080/blogs-page/-/blogs/trackback/blogs-entry5-title" />
+		<execute function="AssertTextEquals#assertValue" locator1="BlogsEntry#COMMENTS_TRACKBACK_URL" value1="http://www.able.com:8080/web/guest/blogs-page/-/blogs/trackback/blogs-entry5-title" />
 
 		<execute function="AssertClick" locator1="Link#READ_MORE" value1="Read More" />
 
@@ -1954,6 +1954,8 @@
 		<execute function="AssertClick" locator1="ItemSelector#ADD_BUTTON" value1="Add" />
 
 		<execute function="AssertClick" locator1="Button#PUBLISH" value1="Publish" />
+
+		<execute function="AssertTextEquals" locator1="Portlet#HEADER" value1="Blogs" />
 
 		<execute macro="Navigator#openURL" />
 
