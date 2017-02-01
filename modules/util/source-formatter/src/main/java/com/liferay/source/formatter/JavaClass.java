@@ -1176,13 +1176,15 @@ public class JavaClass {
 				}
 
 				javaTermName = (String)tuple.getObject(0);
+				javaTermType = (Integer)tuple.getObject(1);
 
-				if (!Validator.isVariableName(javaTermName)) {
+				if ((javaTermType != JavaTerm.TYPE_STATIC_BLOCK) &&
+					!Validator.isVariableName(javaTermName)) {
+
 					return Collections.emptySet();
 				}
 
 				javaTermStartPosition = javaTermEndPosition;
-				javaTermType = (Integer)tuple.getObject(1);
 
 				lastCommentOrAnnotationPos = -1;
 			}
@@ -1518,7 +1520,9 @@ public class JavaClass {
 			while (javaTermsIterator.hasNext()) {
 				JavaTerm javaTerm = javaTermsIterator.next();
 
-				if (!javaTerm.isStatic() || !javaTerm.isVariable()) {
+				if (!javaTerm.isStatic() ||
+					(!javaTerm.isClass() && !javaTerm.isVariable())) {
+
 					continue;
 				}
 

@@ -3,7 +3,7 @@
 ;
 [subrepo]
 	cmdver = liferay
-	commit = a12501e04ba20f7588cc31984aeebaf1290aa77f
+	commit = 12f1c571756b4ed762f980e064f1da672ac817ae
 	mode = push
-	parent = 15de547a19cfb6dd06dc3755bb178dd5f24f63ca
+	parent = 116c5b6f2c27d7f5c8c3ca88e2a3294e09fca9b4
 	remote = git@github.com:liferay/com-liferay-frontend-js.git
