@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Security AntiSamy
 Bundle-SymbolicName: com.liferay.portal.security.antisamy
-Bundle-Version: 2.0.7
+Bundle-Version: 2.0.8
 Import-Package:\
 	!org.apache.commons.codec.*,\
 	!org.apache.commons.logging.*,\
@@ -12,11 +12,3 @@ Import-Package:\
 	*
 Liferay-Releng-Module-Group-Description:
 Liferay-Releng-Module-Group-Title:
--includeresource:\
-	@antisamy-[0-9]*.jar,\
-	@batik-css-[0-9]*.jar,\
-	@batik-ext-[0-9]*.jar,\
-	@batik-util-[0-9]*.jar,\
-	@commons-httpclient-[0-9]*.jar,\
-	@nekohtml-[0-9]*.jar,\
-	@xml-apis-ext-[0-9]*.jar

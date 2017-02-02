@@ -57,6 +57,10 @@ public class InitBundleCommand extends BaseCommand implements StreamLogger {
 		_copyConfigs();
 	}
 
+	public File getCacheDir() {
+		return _cacheDir;
+	}
+
 	public File getConfigsDir() {
 		return _configsDir;
 	}
@@ -81,6 +85,36 @@ public class InitBundleCommand extends BaseCommand implements StreamLogger {
 		return _userName;
 	}
 
+	@Override
+	public void onCompleted() {
+		System.out.println();
+	}
+
+	@Override
+	public void onProgress(long completed, long length) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(FileUtil.getFileLength(completed));
+
+		if (length > 0) {
+			sb.append('/');
+			sb.append(FileUtil.getFileLength(length));
+		}
+
+		sb.append(" downloaded");
+
+		onProgress(sb.toString());
+	}
+
+	@Override
+	public void onStarted() {
+		onStarted("Download " + _url);
+	}
+
+	public void setCacheDir(File cacheDir) {
+		_cacheDir = cacheDir;
+	}
+
 	public void setConfigsDir(File configsDir) {
 		_configsDir = configsDir;
 	}
@@ -103,6 +137,14 @@ public class InitBundleCommand extends BaseCommand implements StreamLogger {
 
 	public void setUserName(String userName) {
 		_userName = userName;
+	}
+
+	protected void onProgress(String message) {
+		System.out.print("\r" + message);
+	}
+
+	protected void onStarted(String message) {
+		System.out.println(message);
 	}
 
 	private void _copyConfigs() throws IOException {
@@ -134,14 +176,6 @@ public class InitBundleCommand extends BaseCommand implements StreamLogger {
 		}
 	}
 
-	public File getCacheDir() {
-		return _cacheDir;
-	}
-
-	public void setCacheDir(File cacheDir) {
-		_cacheDir = cacheDir;
-	}
-
 	private static final int _DEFAULT_STRIP_COMPONENTS = 1;
 
 	private static final URL _DEFAULT_URL;
@@ -149,14 +183,20 @@ public class InitBundleCommand extends BaseCommand implements StreamLogger {
 	static {
 		try {
 			_DEFAULT_URL = new URL(
-				"https://sourceforge.net/projects/lportal/files/Liferay%20" +
-					"Portal/7.0.2%20GA3/liferay-ce-portal-tomcat-7.0-ga3-" +
-						"20160804222206210.zip");
+				"https://cdn.lfrs.sl/releases.liferay.com/portal/7.0.2-ga3" +
+					"/liferay-ce-portal-tomcat-7.0-ga3-20160804222206210.zip");
 		}
 		catch (MalformedURLException murle) {
 			throw new ExceptionInInitializerError(murle);
 		}
 	}
+
+	@Parameter(
+		description = "The directory where to cache the downloaded bundles.",
+		names = "--cache-dir"
+	)
+	private File _cacheDir = new File(
+		System.getProperty("user.home"), ".liferay/bundles");
 
 	@Parameter(
 		description = "The directory that contains the configuration files.",
@@ -193,45 +233,5 @@ public class InitBundleCommand extends BaseCommand implements StreamLogger {
 		names = {"-u", "--username", "--user-name"}
 	)
 	private String _userName;
-
-	@Parameter(
-		description = "The directory where to cache the downloaded bundles.",
-		names = "--cache-dir")
-	private File _cacheDir = new File(
-		System.getProperty("user.home"), ".liferay/bundles");
-
-	@Override
-	public void onStarted() {
-		onStarted("Download " + _url);
-	}
-
-	protected void onStarted(String message) {
-		System.out.println(message);
-	}
-
-	@Override
-	public void onCompleted() {
-		System.out.println();
-	}
-
-	protected void onProgress(String message) {
-		System.out.print("\r" + message);
-	}
-
-	@Override
-	public void onProgress(long completed, long length) {
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(FileUtil.getFileLength(completed));
-
-		if (length > 0) {
-			sb.append('/');
-			sb.append(FileUtil.getFileLength(length));
-		}
-
-		sb.append(" downloaded");
-
-		onProgress(sb.toString());
-	}
 
 }

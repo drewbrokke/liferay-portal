@@ -21,6 +21,7 @@ import com.liferay.dynamic.data.mapping.service.persistence.DDMDataProviderInsta
 import com.liferay.dynamic.data.mapping.service.persistence.DDMDataProviderInstancePersistence;
 import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureFinder;
 import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLayoutPersistence;
+import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLinkFinder;
 import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLinkPersistence;
 import com.liferay.dynamic.data.mapping.service.persistence.DDMStructurePersistence;
 import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureVersionPersistence;
@@ -574,6 +575,25 @@ public abstract class DDMStructureServiceBaseImpl extends BaseServiceImpl
 	}
 
 	/**
+	 * Returns the ddm structure link finder.
+	 *
+	 * @return the ddm structure link finder
+	 */
+	public DDMStructureLinkFinder getDDMStructureLinkFinder() {
+		return ddmStructureLinkFinder;
+	}
+
+	/**
+	 * Sets the ddm structure link finder.
+	 *
+	 * @param ddmStructureLinkFinder the ddm structure link finder
+	 */
+	public void setDDMStructureLinkFinder(
+		DDMStructureLinkFinder ddmStructureLinkFinder) {
+		this.ddmStructureLinkFinder = ddmStructureLinkFinder;
+	}
+
+	/**
 	 * Returns the ddm structure version local service.
 	 *
 	 * @return the ddm structure version local service
@@ -807,6 +827,8 @@ public abstract class DDMStructureServiceBaseImpl extends BaseServiceImpl
 	protected com.liferay.dynamic.data.mapping.service.DDMStructureLinkLocalService ddmStructureLinkLocalService;
 	@BeanReference(type = DDMStructureLinkPersistence.class)
 	protected DDMStructureLinkPersistence ddmStructureLinkPersistence;
+	@BeanReference(type = DDMStructureLinkFinder.class)
+	protected DDMStructureLinkFinder ddmStructureLinkFinder;
 	@BeanReference(type = com.liferay.dynamic.data.mapping.service.DDMStructureVersionLocalService.class)
 	protected com.liferay.dynamic.data.mapping.service.DDMStructureVersionLocalService ddmStructureVersionLocalService;
 	@BeanReference(type = com.liferay.dynamic.data.mapping.service.DDMStructureVersionService.class)

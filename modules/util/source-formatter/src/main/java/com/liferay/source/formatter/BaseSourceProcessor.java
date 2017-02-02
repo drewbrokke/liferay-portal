@@ -2755,7 +2755,9 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 
 			String definition = matcher.group();
 
-			if (Validator.isNotNull(matcher.group(1))) {
+			if (Validator.isNotNull(matcher.group(1)) &&
+				definition.endsWith("\n")) {
+
 				definition = definition.substring(0, definition.length() - 1);
 			}
 
@@ -3146,7 +3148,7 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 	private Map<String, String> _compatClassNamesMap;
 	private String _copyright;
 	private final Pattern _definitionPattern = Pattern.compile(
-		"^([A-Za-z-]+?)[:=][\\s\\S]*?([^\\\\]\n|\\Z)", Pattern.MULTILINE);
+		"^([A-Za-z-]+?)[:=](\n|[\\s\\S]*?([^\\\\]\n|\\Z))", Pattern.MULTILINE);
 	private final Pattern _emptyLineBetweenTagsPattern = Pattern.compile(
 		"\n(\t*)</([-\\w:]+)>(\n*)(\t*)<([-\\w:]+)[> ]");
 	private final Pattern _emptyLineInNestedTagsPattern1 = Pattern.compile(

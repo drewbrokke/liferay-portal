@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Knowledge Base Markdown Converter
 Bundle-SymbolicName: com.liferay.knowledge.base.markdown.converter
-Bundle-Version: 1.0.7
+Bundle-Version: 1.0.8
 Export-Package:\
 	com.liferay.knowledge.base.markdown.converter,\
 	com.liferay.knowledge.base.markdown.converter.factory
@@ -11,11 +11,3 @@ Import-Package:\
 	\
 	!org.pegdown.*,\
 	*
--includeresource:\
-	@asm-[0-9]*.jar,\
-	@asm-analysis-[0-9]*.jar,\
-	@asm-tree-[0-9]*.jar,\
-	@asm-util-[0-9]*.jar,\
-	@parboiled-core-[0-9]*.jar,\
-	@parboiled-java-[0-9]*.jar,\
-	@pegdown-[0-9]*.jar

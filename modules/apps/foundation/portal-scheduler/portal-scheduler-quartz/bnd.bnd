@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Scheduler Quartz
 Bundle-SymbolicName: com.liferay.portal.scheduler.quartz
-Bundle-Version: 2.1.4
+Bundle-Version: 2.1.5
 Export-Package:\
 	com.liferay.portal.scheduler.quartz,\
 	\
@@ -19,4 +19,3 @@ Import-Package:\
 	*
 Liferay-Releng-Module-Group-Description:
 Liferay-Releng-Module-Group-Title: Scheduling
--includeresource: @quartz-[0-9]*.jar

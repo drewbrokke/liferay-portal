@@ -1168,8 +1168,7 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 		}
 
 		updatePortlet(
-			portlet.getCompanyId(), portlet.getPortletId(), StringPool.BLANK,
-			portlet.isActive());
+			portlet.getCompanyId(), portlet.getPortletId(), StringPool.BLANK);
 	}
 
 	protected void initPortletDefaultPermissions(Portlet portlet)
@@ -2571,6 +2570,21 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 			spriteFileName);
 
 		portletApp.setSpriteImages(spriteFileName, spriteProperties);
+	}
+
+	protected Portlet updatePortlet(
+		long companyId, String portletId, String roles) {
+
+		Portlet existingPortlet = portletPersistence.fetchByC_P(
+			companyId, portletId);
+
+		boolean active = true;
+
+		if (existingPortlet != null) {
+			active = existingPortlet.isActive();
+		}
+
+		return updatePortlet(companyId, portletId, roles, active);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

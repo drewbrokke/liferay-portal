@@ -18,6 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.dynamic.data.mapping.model.DDMStructureLink;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLinkLocalService;
+import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLinkFinder;
 import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLinkPersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
@@ -354,6 +355,25 @@ public abstract class DDMStructureLinkLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the ddm structure link finder.
+	 *
+	 * @return the ddm structure link finder
+	 */
+	public DDMStructureLinkFinder getDDMStructureLinkFinder() {
+		return ddmStructureLinkFinder;
+	}
+
+	/**
+	 * Sets the ddm structure link finder.
+	 *
+	 * @param ddmStructureLinkFinder the ddm structure link finder
+	 */
+	public void setDDMStructureLinkFinder(
+		DDMStructureLinkFinder ddmStructureLinkFinder) {
+		this.ddmStructureLinkFinder = ddmStructureLinkFinder;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -428,6 +448,8 @@ public abstract class DDMStructureLinkLocalServiceBaseImpl
 	protected DDMStructureLinkLocalService ddmStructureLinkLocalService;
 	@BeanReference(type = DDMStructureLinkPersistence.class)
 	protected DDMStructureLinkPersistence ddmStructureLinkPersistence;
+	@BeanReference(type = DDMStructureLinkFinder.class)
+	protected DDMStructureLinkFinder ddmStructureLinkFinder;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)

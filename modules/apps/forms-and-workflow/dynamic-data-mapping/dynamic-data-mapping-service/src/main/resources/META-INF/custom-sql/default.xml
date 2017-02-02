@@ -89,6 +89,44 @@
 				DDMStructure.structureId DESC
 		]]>
 	</sql>
+	<sql id="com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLinkFinder.countByC_C_N_D">
+		<![CDATA[
+			SELECT
+				COUNT(DDMStructureLink.structureLinkId) AS COUNT_VALUE
+			FROM
+				DDMStructureLink
+			INNER JOIN
+				DDMStructure ON
+					(DDMStructureLink.structureId = DDMStructure.structureId)
+			WHERE
+				(DDMStructureLink.classNameId = ?) AND
+				(DDMStructureLink.classPK = ?) AND
+				(
+					(lower(CAST_TEXT(DDMStructure.name)) LIKE ? [$AND_OR_NULL_CHECK$]) [$AND_OR_CONNECTOR$]
+					(DDMStructure.description LIKE ? [$AND_OR_NULL_CHECK$])
+				)
+		]]>
+	</sql>
+	<sql id="com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLinkFinder.findByC_C_N_D">
+		<![CDATA[
+			SELECT
+				{DDMStructureLink.*}
+			FROM
+				DDMStructureLink
+			INNER JOIN
+				DDMStructure ON
+					(DDMStructureLink.structureId = DDMStructure.structureId)
+			WHERE
+				(DDMStructureLink.classNameId = ?) AND
+				(DDMStructureLink.classPK = ?) AND
+				(
+					(lower(CAST_TEXT(DDMStructure.name)) LIKE ? [$AND_OR_NULL_CHECK$]) [$AND_OR_CONNECTOR$]
+					(DDMStructure.description LIKE ? [$AND_OR_NULL_CHECK$])
+				)
+			ORDER BY
+				DDMStructureLink.structureLinkId DESC
+		]]>
+	</sql>
 	<sql id="com.liferay.dynamic.data.mapping.service.persistence.DDMTemplateFinder.countByG_C_SC_S">
 		<![CDATA[
 			SELECT

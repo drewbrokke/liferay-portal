@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Template Velocity
 Bundle-SymbolicName: com.liferay.portal.template.velocity
-Bundle-Version: 2.0.11
+Bundle-Version: 2.0.12
 Import-Package:\
 	!com.sun.org.apache.xml.internal.utils,\
 	!com.sun.org.apache.xpath.internal,\
@@ -21,6 +21,3 @@ Import-Package:\
 	*
 Liferay-Releng-Module-Group-Description:
 Liferay-Releng-Module-Group-Title: Template Engines
--includeresource:\
-	@velocity-[0-9]*.jar,\
-	@velocity-tools-[0-9]*.jar

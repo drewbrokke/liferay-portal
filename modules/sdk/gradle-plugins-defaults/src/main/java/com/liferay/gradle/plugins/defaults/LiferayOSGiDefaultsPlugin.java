@@ -62,6 +62,7 @@ import com.liferay.gradle.util.Validator;
 import com.liferay.gradle.util.copy.ExcludeExistingFileAction;
 import com.liferay.gradle.util.copy.RenameDependencyClosure;
 import com.liferay.gradle.util.copy.ReplaceLeadingPathAction;
+import com.liferay.portal.tools.wsdd.builder.WSDDBuilderArgs;
 
 import groovy.json.JsonSlurper;
 
@@ -1764,7 +1765,6 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 
 		_configureConfigurationDefault(project);
 		_configureConfigurationJspC(project, liferayExtension);
-		_configureConfigurationTestCompile(project);
 
 		String projectPath = project.getPath();
 
@@ -1793,16 +1793,6 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 				}
 
 			});
-	}
-
-	private void _configureConfigurationTestCompile(Project project) {
-		Configuration configuration = GradleUtil.getConfiguration(
-			project, JavaPlugin.TEST_COMPILE_CONFIGURATION_NAME);
-
-		Configuration compileIncludeConfiguration = GradleUtil.getConfiguration(
-			project, LiferayOSGiPlugin.COMPILE_INCLUDE_CONFIGURATION_NAME);
-
-		configuration.extendsFrom(compileIncludeConfiguration);
 	}
 
 	private void _configureConfigurationTransitive(
@@ -2104,15 +2094,20 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 		Configuration compileConfiguration = GradleUtil.getConfiguration(
 			project, JavaPlugin.COMPILE_CONFIGURATION_NAME);
 
+		Configuration compileIncludeConfiguration = GradleUtil.getConfiguration(
+			project, LiferayOSGiPlugin.COMPILE_INCLUDE_CONFIGURATION_NAME);
+
 		sourceSet.setCompileClasspath(
 			FileUtil.join(
-				compileConfiguration, portalConfiguration,
-				sourceSet.getCompileClasspath(), portalTestConfiguration));
+				compileIncludeConfiguration, compileConfiguration,
+				portalConfiguration, sourceSet.getCompileClasspath(),
+				portalTestConfiguration));
 
 		sourceSet.setRuntimeClasspath(
 			FileUtil.join(
-				compileConfiguration, portalConfiguration,
-				sourceSet.getRuntimeClasspath(), portalTestConfiguration));
+				compileIncludeConfiguration, compileConfiguration,
+				portalConfiguration, sourceSet.getRuntimeClasspath(),
+				portalTestConfiguration));
 	}
 
 	private void _configureSourceSetTestIntegration(
@@ -2322,9 +2317,35 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 		buildServiceTask.setBuildNumberIncrement(false);
 	}
 
-	private void _configureTaskBuildWSDD(Project project) {
+	private void _configureTaskBuildWSDD(final Project project) {
 		BuildWSDDTask buildWSDDTask = (BuildWSDDTask)GradleUtil.getTask(
 			project, WSDDBuilderPlugin.BUILD_WSDD_TASK_NAME);
+
+		buildWSDDTask.setOutputDir(
+			new Callable<File>() {
+
+				@Override
+				public File call() throws Exception {
+					File dir = new File(project.getBuildDir(), "wsdd/output");
+
+					dir.mkdirs();
+
+					return dir;
+				}
+
+			});
+
+		buildWSDDTask.setServerConfigFile(
+			new Callable<File>() {
+
+				@Override
+				public File call() throws Exception {
+					return new File(
+						project.getBuildDir(),
+						"wsdd/" + WSDDBuilderArgs.SERVER_CONFIG_FILE_NAME);
+				}
+
+			});
 
 		boolean remoteServices = false;
 

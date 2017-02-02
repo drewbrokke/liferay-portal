@@ -19,6 +19,7 @@
 	<bean class="com.liferay.dynamic.data.mapping.service.persistence.impl.DDMStructureLayoutPersistenceImpl" id="com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLayoutPersistence" parent="basePersistence" />
 	<bean class="com.liferay.dynamic.data.mapping.service.impl.DDMStructureLinkLocalServiceImpl" id="com.liferay.dynamic.data.mapping.service.DDMStructureLinkLocalService" />
 	<bean class="com.liferay.dynamic.data.mapping.service.persistence.impl.DDMStructureLinkPersistenceImpl" id="com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLinkPersistence" parent="basePersistence" />
+	<bean class="com.liferay.dynamic.data.mapping.service.persistence.impl.DDMStructureLinkFinderImpl" id="com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLinkFinder" parent="basePersistence" />
 	<bean class="com.liferay.dynamic.data.mapping.service.impl.DDMStructureVersionLocalServiceImpl" id="com.liferay.dynamic.data.mapping.service.DDMStructureVersionLocalService" />
 	<bean class="com.liferay.dynamic.data.mapping.service.impl.DDMStructureVersionServiceImpl" id="com.liferay.dynamic.data.mapping.service.DDMStructureVersionService" />
 	<bean class="com.liferay.dynamic.data.mapping.service.persistence.impl.DDMStructureVersionPersistenceImpl" id="com.liferay.dynamic.data.mapping.service.persistence.DDMStructureVersionPersistence" parent="basePersistence" />

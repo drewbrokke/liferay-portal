@@ -18,7 +18,9 @@ import com.liferay.dynamic.data.mapping.exception.NoSuchStructureLinkException;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.model.DDMStructureLink;
 import com.liferay.dynamic.data.mapping.service.base.DDMStructureLinkLocalServiceBaseImpl;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
@@ -175,6 +177,52 @@ public class DDMStructureLinkLocalServiceImpl
 		}
 
 		return structures;
+	}
+
+	@Override
+	public List<DDMStructure> getStructureLinkStructures(
+			long classNameId, long classPK, String keywords)
+		throws PortalException {
+
+		return getStructureLinkStructures(
+			classNameId, classPK, keywords, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS);
+	}
+
+	@Override
+	public List<DDMStructure> getStructureLinkStructures(
+			long classNameId, long classPK, String keywords, int start, int end)
+		throws PortalException {
+
+		return getStructureLinkStructures(
+			classNameId, classPK, keywords, start, end, null);
+	}
+
+	@Override
+	public List<DDMStructure> getStructureLinkStructures(
+			long classNameId, long classPK, String keywords, int start, int end,
+			OrderByComparator<DDMStructureLink> orderByComparator)
+		throws PortalException {
+
+		List<DDMStructure> structures = new ArrayList<>();
+
+		List<DDMStructureLink> structureLinks =
+			ddmStructureLinkFinder.findByKeywords(
+				classNameId, classPK, keywords, start, end, orderByComparator);
+
+		for (DDMStructureLink structureLink : structureLinks) {
+			structures.add(structureLink.getStructure());
+		}
+
+		return structures;
+	}
+
+	@Override
+	public int getStructureLinkStructuresCount(
+		long classNameId, long classPK, String keywords) {
+
+		return ddmStructureLinkFinder.countByKeywords(
+			classNameId, classPK, keywords);
 	}
 
 	@Override

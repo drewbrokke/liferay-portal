@@ -1,9 +1,6 @@
-Bundle-ClassPath:\
-	.,\
-	lib/jython-standalone.jar
 Bundle-Name: Liferay Portal Scripting Python
 Bundle-SymbolicName: com.liferay.portal.scripting.python
-Bundle-Version: 2.0.5
+Bundle-Version: 2.0.6
 Import-Package:\
 	!com.informix.*,\
 	\
@@ -27,4 +24,3 @@ Import-Package:\
 	"The default package '.' is not permitted by the Import-Package ...";is:=ignore,\
 	"The JAR is empty: ...";is:=ignore,\
 	"While setting properties ...";is:=ignore
--includeresource: lib/jython-standalone.jar=jython-standalone-[0-9]*.jar

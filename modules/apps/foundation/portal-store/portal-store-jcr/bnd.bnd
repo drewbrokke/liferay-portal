@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Store JCR
 Bundle-SymbolicName: com.liferay.portal.store.jcr
-Bundle-Version: 2.0.4
+Bundle-Version: 2.0.5
 Import-Package:\
 	!org.apache.commons.dbcp,\
 	!org.apache.jackrabbit.test,\
@@ -10,11 +10,3 @@ Import-Package:\
 	*
 Liferay-Releng-Module-Group-Description:
 Liferay-Releng-Module-Group-Title: Data Stores
--includeresource:\
-	@concurrent-[0-9]*.jar,\
-	@jackrabbit-api-[0-9]*.jar,\
-	@jackrabbit-core-[0-9]*.jar,\
-	@jackrabbit-jcr-commons-[0-9]*.jar,\
-	@jackrabbit-spi-[0-9]*.jar,\
-	@jackrabbit-spi-commons-[0-9]*.jar,\
-	@jcr-[0-9]*.jar

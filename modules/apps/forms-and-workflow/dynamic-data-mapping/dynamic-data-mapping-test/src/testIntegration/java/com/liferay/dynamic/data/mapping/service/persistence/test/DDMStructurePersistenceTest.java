@@ -358,8 +358,8 @@ public class DDMStructurePersistenceTest {
 			"userId", true, "userName", true, "versionUserId", true,
 			"versionUserName", true, "createDate", true, "modifiedDate", true,
 			"parentStructureId", true, "classNameId", true, "structureKey",
-			true, "version", true, "storageType", true, "type", true,
-			"lastPublishDate", true);
+			true, "version", true, "name", true, "storageType", true, "type",
+			true, "lastPublishDate", true);
 	}
 
 	@Test

@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Scripting Ruby
 Bundle-SymbolicName: com.liferay.portal.scripting.ruby
-Bundle-Version: 2.0.7
+Bundle-Version: 2.0.8
 Import-Package:\
 	!javax.swing.*,\
 	\
@@ -19,4 +19,3 @@ Import-Package:\
 	"The default package '.' is not permitted by the Import-Package ...";is:=ignore,\
 	"The JAR is empty: ...";is:=ignore,\
 	"While setting properties ...";is:=ignore
--includeresource: @jruby-complete-[0-9]*.jar
