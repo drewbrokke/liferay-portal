@@ -58,4 +58,6 @@ public interface CaptchaSettings {
 
 	public String[] getSimpleCaptchaWordRenderers();
 
+	public void setCaptchaEngine(String className) throws Exception;
+
 }
