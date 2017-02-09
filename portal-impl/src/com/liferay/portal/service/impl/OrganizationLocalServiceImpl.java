@@ -2179,8 +2179,8 @@ public class OrganizationLocalServiceImpl
 			long parentOrganizationId, long organizationId)
 		throws PortalException {
 
-		// Return true if parentOrganizationId is among the parent organizatons
-		// of organizationId
+		// Return true if parentOrganizationId is among the parent or ancestor
+		// organizations of organizationId
 
 		if (organizationId ==
 				OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID) {
@@ -2199,7 +2199,8 @@ public class OrganizationLocalServiceImpl
 			return true;
 		}
 		else {
-			return false;
+			return isParentOrganization(
+				parentOrganizationId, organization.getParentOrganizationId());
 		}
 	}
 
