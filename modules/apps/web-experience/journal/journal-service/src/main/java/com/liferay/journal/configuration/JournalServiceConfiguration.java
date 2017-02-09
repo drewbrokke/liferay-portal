@@ -32,6 +32,9 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 )
 public interface JournalServiceConfiguration {
 
+	@Meta.AD(deflt = "true", required = false)
+	public boolean addDefaultStructures();
+
 	@Meta.AD(
 		deflt = "&|\\'|@|\\\\|]|}|:|=|>|/|<|[|{|%|+|#|`|?|\\\"|;|*|~",
 		description = "specifcy-characters-that-are-not-allowed-in-journal-folder-names",
