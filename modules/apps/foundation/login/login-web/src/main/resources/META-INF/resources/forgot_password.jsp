@@ -96,7 +96,11 @@ if (reminderAttempts == null) {
 					<aui:validator name="required" />
 				</aui:input>
 
-				<c:if test="<%= PropsValues.CAPTCHA_CHECK_PORTAL_SEND_PASSWORD %>">
+				<%
+				CaptchaSettings captchaSettings = (CaptchaSettings)request.getAttribute(CaptchaSettings.class.getName());
+				%>
+
+				<c:if test="<%= captchaSettings.getSendPasswordCaptchaEnabled() %>">
 					<portlet:resourceURL id="/login/captcha" var="captchaURL" />
 
 					<liferay-captcha:captcha url="<%= captchaURL %>" />
