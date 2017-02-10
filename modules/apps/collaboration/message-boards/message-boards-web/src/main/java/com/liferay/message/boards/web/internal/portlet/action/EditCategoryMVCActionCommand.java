@@ -26,6 +26,7 @@ import com.liferay.message.boards.kernel.model.MBCategory;
 import com.liferay.message.boards.kernel.service.MBCategoryService;
 import com.liferay.message.boards.web.constants.MBPortletKeys;
 import com.liferay.portal.kernel.captcha.CaptchaConfigurationException;
+import com.liferay.portal.kernel.captcha.CaptchaSettings;
 import com.liferay.portal.kernel.captcha.CaptchaTextException;
 import com.liferay.portal.kernel.captcha.CaptchaUtil;
 import com.liferay.portal.kernel.model.TrashedModel;
@@ -40,7 +41,6 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.util.PropsValues;
 import com.liferay.trash.kernel.service.TrashEntryService;
 import com.liferay.trash.kernel.util.TrashUtil;
 
@@ -243,9 +243,7 @@ public class EditCategoryMVCActionCommand extends BaseMVCActionCommand {
 			MBCategory.class.getName(), actionRequest);
 
 		if (categoryId <= 0) {
-			if (PropsValues.
-					CAPTCHA_CHECK_PORTLET_MESSAGE_BOARDS_EDIT_CATEGORY) {
-
+			if (_captchaSettings.getMessageBoardsEditCategoryCaptchaEnabled()) {
 				CaptchaUtil.check(actionRequest);
 			}
 
@@ -271,6 +269,9 @@ public class EditCategoryMVCActionCommand extends BaseMVCActionCommand {
 				mergeWithParentCategory, serviceContext);
 		}
 	}
+
+	@Reference
+	private volatile CaptchaSettings _captchaSettings;
 
 	private MBCategoryService _mbCategoryService;
 	private TrashEntryService _trashEntryService;

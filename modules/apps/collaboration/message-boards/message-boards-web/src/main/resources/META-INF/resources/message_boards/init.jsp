@@ -99,6 +99,7 @@ page import="com.liferay.message.boards.web.internal.util.MBWebComponentProvider
 page import="com.liferay.portal.kernel.bean.BeanParamUtil" %><%@
 page import="com.liferay.portal.kernel.bean.BeanPropertiesUtil" %><%@
 page import="com.liferay.portal.kernel.captcha.CaptchaConfigurationException" %><%@
+page import="com.liferay.portal.kernel.captcha.CaptchaSettings" %><%@
 page import="com.liferay.portal.kernel.captcha.CaptchaTextException" %><%@
 page import="com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker" %><%@
 page import="com.liferay.portal.kernel.dao.search.SearchContainer" %><%@
@@ -187,6 +188,8 @@ String currentLanguageId = LanguageUtil.getLanguageId(request);
 Locale currentLocale = LocaleUtil.fromLanguageId(currentLanguageId);
 Locale defaultLocale = themeDisplay.getSiteDefaultLocale();
 String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+CaptchaSettings captchaSettings = (CaptchaSettings)request.getAttribute(CaptchaSettings.class.getName());
 
 MBGroupServiceSettings mbGroupServiceSettings = MBGroupServiceSettings.getInstance(themeDisplay.getSiteGroupId());
 
