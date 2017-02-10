@@ -16,9 +16,12 @@
 
 <%@ include file="/init.jsp" %>
 
-<%@ page import="com.liferay.portal.kernel.captcha.CaptchaUtil" %>
+<%@ page import="com.liferay.portal.kernel.captcha.CaptchaSettings" %><%@
+page import="com.liferay.portal.kernel.captcha.CaptchaUtil" %>
 
 <%
+CaptchaSettings captchaSettings = (CaptchaSettings)request.getAttribute("liferay-captcha:captcha:captchaSettings");
+
 boolean captchaEnabled = false;
 
 if (portletRequest != null) {
