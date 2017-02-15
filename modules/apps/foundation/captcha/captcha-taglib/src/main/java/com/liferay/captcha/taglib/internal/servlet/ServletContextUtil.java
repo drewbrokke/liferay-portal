@@ -14,6 +14,8 @@
 
 package com.liferay.captcha.taglib.internal.servlet;
 
+import com.liferay.portal.kernel.captcha.CaptchaSettings;
+
 import javax.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Activate;
@@ -26,6 +28,10 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(immediate = true)
 public class ServletContextUtil {
+
+	public static final CaptchaSettings getCaptchaSettings() {
+		return _instance._captchaSettings;
+	}
 
 	public static final ServletContext getServletContext() {
 		return _instance._getServletContext();
@@ -54,6 +60,9 @@ public class ServletContextUtil {
 	}
 
 	private static ServletContextUtil _instance;
+
+	@Reference
+	private volatile CaptchaSettings _captchaSettings;
 
 	private ServletContext _servletContext;
 

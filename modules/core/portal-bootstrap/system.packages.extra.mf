@@ -2469,7 +2469,7 @@ Export-Package: com.liferay.ibm.icu;version="4.0.1",com.liferay.ibm.ic
  nel.cache.transactional;version="1.0.0";uses:="com.liferay.portal.ker
  nel.cache,com.liferay.portal.kernel.transaction",com.liferay.portal.k
  ernel.cal;version="6.2.0",com.liferay.portal.kernel.captcha;version="
- 6.3.0";uses:="com.liferay.portal.kernel.exception,javax.portlet,javax
+ 6.4.0";uses:="com.liferay.portal.kernel.exception,javax.portlet,javax
  .servlet.http",com.liferay.portal.kernel.cluster;version="7.0.0";uses
  :="com.liferay.portal.kernel.concurrent,com.liferay.portal.kernel.exc
  eption,com.liferay.portal.kernel.messaging,com.liferay.portal.kernel.

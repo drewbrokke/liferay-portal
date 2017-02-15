@@ -15,6 +15,7 @@
 package com.liferay.login.web.internal.portlet.action;
 
 import com.liferay.login.web.constants.LoginPortletKeys;
+import com.liferay.portal.kernel.captcha.CaptchaSettings;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.JavaConstants;
@@ -25,6 +26,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Peter Fellwock
@@ -58,7 +60,13 @@ public class CreateAnonymousAccountMVCRenderCommand
 
 		renderResponse.setTitle(themeDisplay.translate("anonymous-account"));
 
+		renderRequest.setAttribute(
+			CaptchaSettings.class.getName(), _captchaSettings);
+
 		return "/create_anonymous_account.jsp";
 	}
+
+	@Reference
+	private volatile CaptchaSettings _captchaSettings;
 
 }

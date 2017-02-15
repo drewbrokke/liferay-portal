@@ -39,6 +39,7 @@ import com.liferay.message.boards.web.internal.upload.format.MBMessageFormatUplo
 import com.liferay.message.boards.web.internal.util.MBAttachmentFileEntryReference;
 import com.liferay.message.boards.web.internal.util.MBAttachmentFileEntryUtil;
 import com.liferay.portal.kernel.captcha.CaptchaConfigurationException;
+import com.liferay.portal.kernel.captcha.CaptchaSettings;
 import com.liferay.portal.kernel.captcha.CaptchaTextException;
 import com.liferay.portal.kernel.captcha.CaptchaUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -69,7 +70,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.util.PropsValues;
 import com.liferay.portlet.ActionResponseImpl;
 import com.liferay.portlet.messageboards.MBGroupServiceSettings;
 import com.liferay.portlet.messageboards.service.permission.MBMessagePermission;
@@ -431,8 +431,8 @@ public class EditMessageMVCActionCommand extends BaseMVCActionCommand {
 			MBMessage message = null;
 
 			if (messageId <= 0) {
-				if (PropsValues.
-						CAPTCHA_CHECK_PORTLET_MESSAGE_BOARDS_EDIT_MESSAGE) {
+				if (_captchaSettings.
+						getMessageBoardsEditMessageCaptchaEnabled()) {
 
 					CaptchaUtil.check(actionRequest);
 				}
@@ -578,6 +578,9 @@ public class EditMessageMVCActionCommand extends BaseMVCActionCommand {
 
 		return body;
 	}
+
+	@Reference
+	private volatile CaptchaSettings _captchaSettings;
 
 	@Reference
 	private MBMessageFormatUploadHandlerProvider _formatHandlerProvider;

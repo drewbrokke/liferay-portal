@@ -15,10 +15,16 @@
 package com.liferay.message.boards.web.internal.portlet;
 
 import com.liferay.message.boards.web.constants.MBPortletKeys;
+import com.liferay.portal.kernel.captcha.CaptchaSettings;
 import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
+import java.io.IOException;
+
 import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -56,11 +62,25 @@ import org.osgi.service.component.annotations.Reference;
 )
 public class MBAdminPortlet extends MVCPortlet {
 
+	@Override
+	public void render(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws IOException, PortletException {
+
+		renderRequest.setAttribute(
+			CaptchaSettings.class.getName(), _captchaSettings);
+
+		super.render(renderRequest, renderResponse);
+	}
+
 	@Reference(
 		target = "(&(release.bundle.symbolic.name=com.liferay.message.boards.web)(release.schema.version=1.0.0))",
 		unbind = "-"
 	)
 	protected void setRelease(Release release) {
 	}
+
+	@Reference
+	private volatile CaptchaSettings _captchaSettings;
 
 }

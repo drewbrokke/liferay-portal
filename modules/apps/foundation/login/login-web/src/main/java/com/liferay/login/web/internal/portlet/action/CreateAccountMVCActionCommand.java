@@ -17,6 +17,7 @@ package com.liferay.login.web.internal.portlet.action;
 import com.liferay.login.web.constants.LoginPortletKeys;
 import com.liferay.login.web.internal.portlet.util.LoginUtil;
 import com.liferay.portal.kernel.captcha.CaptchaConfigurationException;
+import com.liferay.portal.kernel.captcha.CaptchaSettings;
 import com.liferay.portal.kernel.captcha.CaptchaTextException;
 import com.liferay.portal.kernel.captcha.CaptchaUtil;
 import com.liferay.portal.kernel.exception.AddressCityException;
@@ -222,7 +223,7 @@ public class CreateAccountMVCActionCommand extends BaseMVCActionCommand {
 
 		try {
 			if (cmd.equals(Constants.ADD)) {
-				if (PropsValues.CAPTCHA_CHECK_PORTAL_CREATE_ACCOUNT) {
+				if (_captchaSettings.getCreateAccountCaptchaEnabled()) {
 					CaptchaUtil.check(actionRequest);
 				}
 
@@ -529,6 +530,9 @@ public class CreateAccountMVCActionCommand extends BaseMVCActionCommand {
 
 	@Reference
 	private AuthenticatedSessionManager _authenticatedSessionManager;
+
+	@Reference
+	private volatile CaptchaSettings _captchaSettings;
 
 	private LayoutLocalService _layoutLocalService;
 
