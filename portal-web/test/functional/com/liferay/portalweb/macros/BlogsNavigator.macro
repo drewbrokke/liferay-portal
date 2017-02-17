@@ -54,10 +54,6 @@
 		<execute function="AssertClick" locator1="Configuration#NAVIGATION_RSS" value1="RSS" />
 	</command>
 
-	<command name="gotoContentTab">
-		<execute function="AssertClick" locator1="BlogsEditEntry#CONTENT_TAB" value1="Content" />
-	</command>
-
 	<command name="gotoDraftCP">
 		<execute macro="Portlet#changeDisplayStyle">
 			<var name="displayStyle" value="Descriptive" />

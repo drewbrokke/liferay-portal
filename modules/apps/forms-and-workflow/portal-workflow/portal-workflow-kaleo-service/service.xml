@@ -954,7 +954,7 @@
 			<finder-column name="kaleoInstanceTokenId" />
 			<finder-column name="completed" />
 		</finder>
-		<finder name="KITI_C_B" return-type="Collection">
+		<finder name="KITI_B_C" return-type="Collection">
 			<finder-column name="kaleoInstanceTokenId" />
 			<finder-column name="blocking" />
 			<finder-column name="completed" />

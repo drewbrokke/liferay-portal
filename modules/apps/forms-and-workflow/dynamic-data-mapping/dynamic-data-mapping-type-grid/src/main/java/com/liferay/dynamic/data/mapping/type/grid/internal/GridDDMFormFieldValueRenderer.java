@@ -68,10 +68,12 @@ public class GridDDMFormFieldValueRenderer
 
 			sb.append(
 				columnLabel != null ? columnLabel.getString(locale) : value);
-			sb.append("</br>");
+			sb.append(StringPool.COMMA_AND_SPACE);
 		}
 
-		sb.setIndex(sb.index() - 1);
+		if (sb.index() > 0) {
+			sb.setIndex(sb.index() - 1);
+		}
 
 		return sb.toString();
 	}

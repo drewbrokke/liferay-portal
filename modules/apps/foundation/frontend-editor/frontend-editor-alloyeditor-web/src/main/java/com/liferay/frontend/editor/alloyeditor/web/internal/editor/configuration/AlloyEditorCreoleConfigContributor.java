@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Locale;
@@ -91,8 +90,6 @@ public class AlloyEditorCreoleConfigContributor
 
 		String extraPlugins = jsonObject.getString("extraPlugins");
 
-		extraPlugins = extraPlugins.replace(
-			",ae_tableresize", StringPool.BLANK);
 		extraPlugins = extraPlugins.concat(",creole,itemselector,media");
 
 		jsonObject.put("extraPlugins", extraPlugins);
@@ -101,12 +98,12 @@ public class AlloyEditorCreoleConfigContributor
 
 		String removePlugins = jsonObject.getString("removePlugins");
 
-		StringBundler sb = new StringBundler();
+		StringBundler sb = new StringBundler(4);
 
-		sb.append("bidi,colorbutton,colordialog,div,flash,font,forms,");
-		sb.append("indentblock,justify,keystrokes,maximize,newpage,pagebreak,");
-		sb.append("preview,print,save,showblocks,smiley,stylescombo,");
-		sb.append("templates,video");
+		sb.append("ae_dragresize,ae_tableresize,bidi,colorbutton,colordialog,");
+		sb.append("div,flash,font,forms,indentblock,justify,keystrokes,");
+		sb.append("maximize,newpage,pagebreak,preview,print,save,showblocks,");
+		sb.append("smiley,stylescombo,templates,video");
 
 		jsonObject.put(
 			"removePlugins", removePlugins.concat(",").concat(sb.toString()));
