@@ -181,20 +181,6 @@
 		}
 	}
 
-	.col-md-9 {
-		.button-holder {
-			&.dialog-footer {
-				position: static;
-			}
-		}
-
-		.lfr-search-container {
-			table {
-				margin-bottom: 0;
-			}
-		}
-	}
-
 	.dialog-body,
 	.export-dialog-tree,
 	.lfr-dynamic-uploader,
