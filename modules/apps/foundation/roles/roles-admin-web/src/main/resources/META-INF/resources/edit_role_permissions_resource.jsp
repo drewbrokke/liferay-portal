@@ -35,6 +35,13 @@ if (Validator.isNotNull(curPortletResource)) {
 
 List curActions = ResourceActionsUtil.getResourceActions(curPortletResource, curModelResource);
 
+if (Validator.isNotNull(curPortlet.getControlPanelEntryCategory())) {
+	curActions.remove(ActionKeys.CONFIGURATION);
+	curActions.remove(ActionKeys.PERMISSIONS);
+	curActions.remove(ActionKeys.PREFERENCES);
+	curActions.remove(ActionKeys.VIEW);
+}
+
 curActions = ListUtil.sort(curActions, new ActionComparator(locale));
 
 List guestUnsupportedActions = ResourceActionsUtil.getResourceGuestUnsupportedActions(curPortletResource, curModelResource);
