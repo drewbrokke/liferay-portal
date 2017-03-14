@@ -49,6 +49,7 @@ import com.liferay.dynamic.data.mapping.expression.model.FunctionCallExpression;
 import com.liferay.dynamic.data.mapping.expression.model.MinusExpression;
 import com.liferay.dynamic.data.mapping.expression.model.NotExpression;
 import com.liferay.dynamic.data.mapping.expression.model.OrExpression;
+import com.liferay.dynamic.data.mapping.expression.model.Parenthesis;
 import com.liferay.dynamic.data.mapping.expression.model.StringTerm;
 import com.liferay.dynamic.data.mapping.expression.model.Term;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -245,7 +246,7 @@ public class DDMExpressionModelVisitor
 	public Expression visitNumericParenthesis(
 		@NotNull NumericParenthesisContext context) {
 
-		return visitChild(context, 1);
+		return new Parenthesis(visitChild(context, 1));
 	}
 
 	@Override

@@ -77,6 +77,24 @@ public class ExpressionVisitorTest {
 			"not(false)", expression.accept(_printExpressionVisitor));
 	}
 
+	@Test
+	public void testParenthesis() {
+		ArithmeticExpression arithmeticExpression0 = new ArithmeticExpression(
+			"+", new Term("1"), new Term("3"));
+
+		ArithmeticExpression arithmeticExpression1 = new ArithmeticExpression(
+			"-", new Term("2"), new Term("4"));
+
+		ArithmeticExpression arithmeticExpression3 = new ArithmeticExpression(
+			"*", new Parenthesis(arithmeticExpression0),
+			new Parenthesis(arithmeticExpression1));
+
+		Expression expression = new Parenthesis(arithmeticExpression3);
+
+		Assert.assertEquals(
+			"((1 + 3) * (2 - 4))", expression.accept(_printExpressionVisitor));
+	}
+
 	private final ExpressionVisitor<String> _printExpressionVisitor =
 		new PrintExpressionVisitor();
 
@@ -143,6 +161,11 @@ public class ExpressionVisitorTest {
 				orExpression.getOperator(),
 				orExpression.getLeftOperandExpression(),
 				orExpression.getRightOperandExpression());
+		}
+
+		@Override
+		public String visit(Parenthesis parenthesis) {
+			return String.format("(%s)", parenthesis.getOperandExpression());
 		}
 
 		@Override

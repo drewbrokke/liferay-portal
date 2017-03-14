@@ -22,6 +22,7 @@ import com.liferay.dynamic.data.mapping.expression.model.FunctionCallExpression;
 import com.liferay.dynamic.data.mapping.expression.model.MinusExpression;
 import com.liferay.dynamic.data.mapping.expression.model.NotExpression;
 import com.liferay.dynamic.data.mapping.expression.model.OrExpression;
+import com.liferay.dynamic.data.mapping.expression.model.Parenthesis;
 import com.liferay.dynamic.data.mapping.expression.model.Term;
 
 import java.util.List;
@@ -184,11 +185,13 @@ public class ExpressionModelTest {
 		Assert.assertEquals(">", comparisonExpression.getOperator());
 
 		Assert.assertEquals(
-			ArithmeticExpression.class, leftOperandExpression.getClass());
+			Parenthesis.class, leftOperandExpression.getClass());
 		Assert.assertEquals(Term.class, rightOperandExpression.getClass());
 
+		Parenthesis parenthesis = (Parenthesis)leftOperandExpression;
+
 		ArithmeticExpression arithmeticExpression =
-			(ArithmeticExpression)leftOperandExpression;
+			(ArithmeticExpression)parenthesis.getOperandExpression();
 
 		Expression arithmeticLeftOperandExpression =
 			arithmeticExpression.getLeftOperandExpression();
@@ -238,14 +241,15 @@ public class ExpressionModelTest {
 		Assert.assertEquals("<=", comparisonExpression.getOperator());
 
 		Assert.assertEquals(
-			ArithmeticExpression.class,
-			comparisonLeftOperandExpression.getClass());
+			Parenthesis.class, comparisonLeftOperandExpression.getClass());
 		Assert.assertEquals(
 			FunctionCallExpression.class,
 			comparisonRightOperandExpression.getClass());
 
+		Parenthesis parenthesis0 = (Parenthesis)comparisonLeftOperandExpression;
+
 		ArithmeticExpression arithmeticExpression =
-			(ArithmeticExpression)comparisonLeftOperandExpression;
+			(ArithmeticExpression)parenthesis0.getOperandExpression();
 
 		Expression arithmeticLeftOperandExpression =
 			arithmeticExpression.getLeftOperandExpression();
@@ -256,14 +260,17 @@ public class ExpressionModelTest {
 		Assert.assertEquals("/", arithmeticExpression.getOperator());
 
 		Assert.assertEquals(
-			ArithmeticExpression.class,
-			arithmeticLeftOperandExpression.getClass());
+			Parenthesis.class, arithmeticLeftOperandExpression.getClass());
 		Assert.assertEquals(
-			ArithmeticExpression.class,
-			arithmeticRightOperandExpression.getClass());
+			Parenthesis.class, arithmeticRightOperandExpression.getClass());
+
+		Parenthesis parenthesis1 = (Parenthesis)arithmeticLeftOperandExpression;
+
+		Parenthesis parenthesis2 =
+			(Parenthesis)arithmeticRightOperandExpression;
 
 		ArithmeticExpression arithmeticExpression2 =
-			(ArithmeticExpression)arithmeticLeftOperandExpression;
+			(ArithmeticExpression)parenthesis1.getOperandExpression();
 
 		Expression arithmeticLeftOperandExpression2 =
 			arithmeticExpression2.getLeftOperandExpression();
@@ -287,7 +294,7 @@ public class ExpressionModelTest {
 		Assert.assertEquals("4", term.getValue());
 
 		ArithmeticExpression arithmeticExpression3 =
-			(ArithmeticExpression)arithmeticRightOperandExpression;
+			(ArithmeticExpression)parenthesis2.getOperandExpression();
 
 		Expression arithmeticLeftOperandExpression3 =
 			arithmeticExpression3.getLeftOperandExpression();

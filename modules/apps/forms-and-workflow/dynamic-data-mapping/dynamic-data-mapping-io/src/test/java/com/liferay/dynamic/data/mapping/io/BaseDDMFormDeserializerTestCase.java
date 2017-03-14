@@ -18,6 +18,7 @@ import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldOptions;
 import com.liferay.dynamic.data.mapping.model.DDMFormRule;
+import com.liferay.dynamic.data.mapping.model.DDMFormSuccessPageSettings;
 import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -100,6 +101,8 @@ public abstract class BaseDDMFormDeserializerTestCase extends BaseDDMTestCase {
 		testHTMLDDMFormField(ddmFormFieldsMap.get("HTML4512"));
 		testNestedDDMFormFields(ddmFormFieldsMap.get("Text6980"));
 		testRadioDDMFormField(ddmFormFieldsMap.get("Radio5699"));
+
+		testDDMFormSuccessPageSettings(ddmForm.getDDMFormSuccessPageSettings());
 	}
 
 	protected abstract DDMForm deserialize(String serializedDDMForm)
@@ -147,6 +150,15 @@ public abstract class BaseDDMFormDeserializerTestCase extends BaseDDMTestCase {
 	}
 
 	protected void testDDMFormRules(List<DDMFormRule> ddmFormRules) {
+	}
+
+	protected void testDDMFormSuccessPageSettings(
+		DDMFormSuccessPageSettings ddmFormSuccessPageSettings) {
+
+		Assert.assertNotNull(ddmFormSuccessPageSettings);
+		Assert.assertNull(ddmFormSuccessPageSettings.getBody());
+		Assert.assertNull(ddmFormSuccessPageSettings.getTitle());
+		Assert.assertFalse(ddmFormSuccessPageSettings.isEnabled());
 	}
 
 	protected void testDecimalDDMFormField(DDMFormField ddmFormField) {
