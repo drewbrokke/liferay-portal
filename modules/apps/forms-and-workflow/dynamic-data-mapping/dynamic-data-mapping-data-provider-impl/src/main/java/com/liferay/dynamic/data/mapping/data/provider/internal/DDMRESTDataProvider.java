@@ -64,7 +64,7 @@ public class DDMRESTDataProvider implements DDMDataProvider {
 
 		try {
 			DDMDataProviderRequest ddmDataProviderRequest =
-				new DDMDataProviderRequest(ddmDataProviderContext);
+				new DDMDataProviderRequest(ddmDataProviderContext, null);
 
 			DDMDataProviderResponse ddmDataProviderResponse = doGetData(
 				ddmDataProviderRequest);
@@ -130,9 +130,11 @@ public class DDMRESTDataProvider implements DDMDataProvider {
 		}
 
 		if (ddmRESTDataProviderSettings.pagination()) {
-			int start = ddmDataProviderRequest.getPaginationStart();
+			int start = Integer.valueOf(
+				ddmDataProviderRequest.getParameter("paginationStart"));
 
-			int end = ddmDataProviderRequest.getPaginationEnd();
+			int end = Integer.valueOf(
+				ddmDataProviderRequest.getParameter("paginationEnd"));
 
 			if (data.size() > (end - start)) {
 				data = ListUtil.subList(data, start, end);
@@ -258,25 +260,22 @@ public class DDMRESTDataProvider implements DDMDataProvider {
 		DDMRESTDataProviderSettings ddmRESTDataProviderSettings,
 		HttpRequest httpRequest) {
 
-		DDMDataProviderContext ddmDataProviderContext =
-			ddmDataProviderRequest.getDDMDataProviderContext();
-
 		if (ddmRESTDataProviderSettings.filterable()) {
 			httpRequest.query(
 				ddmRESTDataProviderSettings.filterParameterName(),
-				ddmDataProviderContext.getParameter("filterParameterValue"));
+				ddmDataProviderRequest.getParameter("filterParameterValue"));
 		}
 
 		if (ddmRESTDataProviderSettings.pagination()) {
 			httpRequest.query(
 				ddmRESTDataProviderSettings.paginationEndParameterName(),
-				ddmDataProviderRequest.getPaginationStart());
+				ddmDataProviderRequest.getParameter("paginationStart"));
 			httpRequest.query(
 				ddmRESTDataProviderSettings.paginationEndParameterName(),
-				ddmDataProviderRequest.getPaginationEnd());
+				ddmDataProviderRequest.getParameter("paginationEnd"));
 		}
 
-		httpRequest.query(ddmDataProviderContext.getParameters());
+		httpRequest.query(ddmDataProviderRequest.getParameters());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

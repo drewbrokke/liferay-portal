@@ -7,4 +7,6 @@ Import-Package:\
 	*
 Liferay-Releng-Module-Group-Description:
 Liferay-Releng-Module-Group-Title: WAB
--includeresource: @com.liferay.ant.bnd-[0-9]*.jar!/com/liferay/ant/bnd/jsp/JspAnalyzerPlugin*.class
+-conditionalpackage:\
+	com.liferay.ant.bnd.jsp,\
+	com.liferay.whip.util

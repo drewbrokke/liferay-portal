@@ -23,6 +23,7 @@ import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.petra.content.ContentUtil;
 import com.liferay.petra.xml.XMLUtil;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
@@ -234,9 +235,12 @@ public class UpgradeJournal extends UpgradeProcess {
 
 		Element rootElement = document.getRootElement();
 
-		String availableLocales = rootElement.attributeValue(
-			"available-locales");
-		String defaultLocale = rootElement.attributeValue("default-locale");
+		String availableLocales = GetterUtil.getString(
+			rootElement.attributeValue("available-locales"),
+			_getDefaultLanguageId());
+		String defaultLocale = GetterUtil.getString(
+			rootElement.attributeValue("default-locale"),
+			_getDefaultLanguageId());
 
 		Element newRootElement = SAXReaderUtil.createElement("root");
 
@@ -250,7 +254,7 @@ public class UpgradeJournal extends UpgradeProcess {
 
 		dynamicElementElement.addAttribute("name", "content");
 		dynamicElementElement.addAttribute("type", "text_area");
-		dynamicElementElement.addAttribute("index-type", "keyword");
+		dynamicElementElement.addAttribute("index-type", "text");
 		dynamicElementElement.addAttribute("index", String.valueOf(0));
 
 		newRootElement.add(dynamicElementElement);
@@ -259,8 +263,9 @@ public class UpgradeJournal extends UpgradeProcess {
 			"static-content");
 
 		for (Element staticContentElement : staticContentElements) {
-			String languageId = staticContentElement.attributeValue(
-				"language-id");
+			String languageId = GetterUtil.getString(
+				staticContentElement.attributeValue("language-id"),
+				_getDefaultLanguageId());
 			String text = staticContentElement.getText();
 
 			Element dynamicContentElement = SAXReaderUtil.createElement(
@@ -575,6 +580,12 @@ public class UpgradeJournal extends UpgradeProcess {
 				}
 			}
 		}
+	}
+
+	private String _getDefaultLanguageId() {
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LanguageUtil.getLanguageId(defaultLocale);
 	}
 
 	private static final String _INVALID_FIELD_NAME_CHARS_REGEX =

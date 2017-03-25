@@ -160,14 +160,17 @@ public class JournalArticleAssetRenderer
 
 	@Override
 	public String getJspPath(HttpServletRequest request, String template) {
+		if (_article.isInTrash() && template.equals(TEMPLATE_FULL_CONTENT)) {
+			return "/trash/" + template + ".jsp";
+		}
+
 		if (template.equals(TEMPLATE_ABSTRACT) ||
 			template.equals(TEMPLATE_FULL_CONTENT)) {
 
 			return "/asset/" + template + ".jsp";
 		}
-		else {
-			return null;
-		}
+
+		return null;
 	}
 
 	@Override

@@ -77,7 +77,7 @@ public class DDMDataProviderTest {
 			_ddmDataProviderTracker.getDDMDataProviderByInstanceId("test");
 
 		DDMDataProviderRequest ddmDataProviderRequest =
-			new DDMDataProviderRequest(null);
+			new DDMDataProviderRequest(null, null);
 
 		DDMDataProviderResponse ddmDataProviderResponse =
 			testDataProvider.getData(ddmDataProviderRequest);

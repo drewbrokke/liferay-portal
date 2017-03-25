@@ -904,6 +904,79 @@ AUI.add(
 
 		FieldTypes.checkbox = CheckboxField;
 
+		var ColorField = A.Component.create(
+			{
+				EXTENDS: Field,
+
+				prototype: {
+					initializer: function() {
+						var instance = this;
+
+						var container = instance.get('container');
+
+						var selectorInput = container.one('.selector-input');
+						var valueField = container.one('.color-value');
+
+						var colorPicker = new A.ColorPickerPopover(
+							{
+								trigger: selectorInput,
+								zIndex: 65535
+							}
+						).render();
+
+						colorPicker.on(
+							'select',
+							function(event) {
+								selectorInput.setStyle('backgroundColor', event.color);
+
+								valueField.val(event.color);
+							}
+						);
+
+						colorPicker.set(
+							'color',
+							valueField.val(),
+							{
+								trigger: selectorInput
+							}
+						);
+
+						instance.set('colorPicker', colorPicker);
+					},
+
+					getValue: function() {
+						var instance = this;
+
+						var container = instance.get('container');
+						var valueField = container.one('.color-value');
+
+						return valueField.val();
+					},
+
+					setValue: function(value) {
+						var instance = this;
+
+						var container = instance.get('container');
+
+						var selectorInput = container.one('.selector-input');
+						var valueField = container.one('.color-value');
+						var colorPicker = instance.get('colorPicker');
+
+						if (!colorPicker) {
+							return;
+						}
+
+						valueField.val(value);
+						selectorInput.setStyle('backgroundColor', value);
+
+						colorPicker.set('color', value);
+					}
+				}
+			}
+		);
+
+		FieldTypes['ddm-color'] = ColorField;
+
 		var DateField = A.Component.create(
 			{
 				EXTENDS: Field,
@@ -1021,7 +1094,7 @@ AUI.add(
 
 						var portletNamespace = instance.get('portletNamespace');
 
-						var portletURL = Liferay.PortletURL.createURL(themeDisplay.getSiteAdminURL());
+						var portletURL = Liferay.PortletURL.createURL(themeDisplay.getLayoutRelativeURL());
 
 						portletURL.setParameter('criteria', criteria);
 						portletURL.setParameter('itemSelectedEventName', portletNamespace + 'selectDocumentLibrary');
@@ -1066,7 +1139,7 @@ AUI.add(
 					getUploadURL: function() {
 						var instance = this;
 
-						var portletURL = Liferay.PortletURL.createURL(themeDisplay.getSiteAdminURL());
+						var portletURL = Liferay.PortletURL.createURL(themeDisplay.getLayoutRelativeURL());
 
 						portletURL.setLifecycle(Liferay.PortletURL.ACTION_PHASE);
 						portletURL.setParameter('cmd', 'add_temp');
@@ -2343,7 +2416,7 @@ AUI.add(
 
 						var portletNamespace = instance.get('portletNamespace');
 
-						var portletURL = Liferay.PortletURL.createURL(themeDisplay.getSiteAdminURL());
+						var portletURL = Liferay.PortletURL.createURL(themeDisplay.getLayoutRelativeURL());
 
 						portletURL.setParameter('criteria', criteria);
 						portletURL.setParameter('itemSelectedEventName', portletNamespace + 'selectDocumentLibrary');
@@ -3070,6 +3143,6 @@ AUI.add(
 	},
 	'',
 	{
-		requires: ['aui-base', 'aui-datatable', 'aui-datatype', 'aui-image-viewer', 'aui-io-request', 'aui-parse-content', 'aui-set', 'aui-sortable-list', 'json', 'liferay-form', 'liferay-item-selector-dialog', 'liferay-layouts-tree', 'liferay-layouts-tree-radio', 'liferay-layouts-tree-selectable', 'liferay-map-base', 'liferay-notice', 'liferay-portlet-url', 'liferay-translation-manager']
+		requires: ['aui-base', 'aui-color-picker-popover', 'aui-datatable', 'aui-datatype', 'aui-image-viewer', 'aui-io-request', 'aui-parse-content', 'aui-set', 'aui-sortable-list', 'json', 'liferay-form', 'liferay-item-selector-dialog', 'liferay-layouts-tree', 'liferay-layouts-tree-radio', 'liferay-layouts-tree-selectable', 'liferay-map-base', 'liferay-notice', 'liferay-portlet-url', 'liferay-translation-manager']
 	}
 );

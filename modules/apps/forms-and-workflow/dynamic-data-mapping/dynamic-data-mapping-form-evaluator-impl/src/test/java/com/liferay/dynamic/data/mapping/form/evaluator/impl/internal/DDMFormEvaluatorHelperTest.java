@@ -112,7 +112,7 @@ public class DDMFormEvaluatorHelperTest {
 		DDMFormEvaluatorHelper ddmFormEvaluatorHelper =
 			new DDMFormEvaluatorHelper(
 				null, null, _ddmExpressionFactory, ddmFormEvaluatorContext,
-				null, _jsonFactory, _userLocalService);
+				_jsonFactory, _userLocalService);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -161,7 +161,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -211,7 +211,7 @@ public class DDMFormEvaluatorHelperTest {
 		DDMFormEvaluatorHelper ddmFormEvaluatorHelper =
 			new DDMFormEvaluatorHelper(
 				null, null, _ddmExpressionFactory, ddmFormEvaluatorContext,
-				null, _jsonFactory, _userLocalService);
+				_jsonFactory, _userLocalService);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -260,7 +260,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -293,7 +293,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -347,7 +347,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -407,7 +407,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -452,7 +452,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -518,7 +518,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -615,7 +615,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -693,7 +693,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -744,7 +744,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();
@@ -797,7 +797,7 @@ public class DDMFormEvaluatorHelperTest {
 				null, null, _ddmExpressionFactory,
 				new DDMFormEvaluatorContext(
 					ddmForm, ddmFormValues, LocaleUtil.US),
-				null, _jsonFactory, null);
+				_jsonFactory, null);
 
 		DDMFormEvaluationResult ddmFormEvaluationResult =
 			ddmFormEvaluatorHelper.evaluate();

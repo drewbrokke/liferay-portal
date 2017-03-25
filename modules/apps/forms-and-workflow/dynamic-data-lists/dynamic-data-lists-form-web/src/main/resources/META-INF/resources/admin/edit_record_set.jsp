@@ -52,7 +52,7 @@ renderResponse.setTitle((recordSet == null) ? LanguageUtil.get(request, "new-for
 		<span class="autosave-feedback management-bar-text" id="<portlet:namespace />autosaveMessage"></span>
 	</div>
 
-	<aui:form action="<%= saveRecordSetURL %>" cssClass="ddl-form-builder-form" method="post" name="editForm">
+	<aui:form action="<%= saveRecordSetURL %>" cssClass="ddl-form-builder-form" enctype="multipart/form-data" method="post" name="editForm">
 		<aui:input name="redirect" type="hidden" value="<%= redirect %>" />
 		<aui:input name="recordSetId" type="hidden" value="<%= recordSetId %>" />
 		<aui:input name="groupId" type="hidden" value="<%= groupId %>" />

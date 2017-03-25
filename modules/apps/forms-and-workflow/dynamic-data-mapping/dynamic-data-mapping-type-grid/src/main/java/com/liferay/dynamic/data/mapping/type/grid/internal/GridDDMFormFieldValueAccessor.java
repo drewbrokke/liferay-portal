@@ -67,15 +67,14 @@ public class GridDDMFormFieldValueAccessor
 			keyValues.add(keys.next());
 		}
 
-		DDMFormFieldOptions rows =
+		DDMFormFieldOptions ddmFormFieldOptions =
 			(DDMFormFieldOptions)ddmFormField.getProperty("rows");
 
-		Set<String> rowValues = rows.getOptionsValues();
+		Set<String> optionsValues = ddmFormFieldOptions.getOptionsValues();
 
-		Stream<String> rowValueStream = rowValues.stream();
+		Stream<String> stream = optionsValues.stream();
 
-		return rowValueStream.anyMatch(
-			rowValue -> !keyValues.contains(rowValue));
+		return stream.anyMatch(rowValue -> !keyValues.contains(rowValue));
 	}
 
 	protected JSONObject createJSONObject(String json) {

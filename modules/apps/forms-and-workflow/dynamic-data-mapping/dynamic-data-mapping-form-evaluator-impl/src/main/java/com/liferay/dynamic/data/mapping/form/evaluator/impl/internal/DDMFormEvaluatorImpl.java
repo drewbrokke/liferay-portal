@@ -14,23 +14,19 @@
 
 package com.liferay.dynamic.data.mapping.form.evaluator.impl.internal;
 
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderTracker;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderContextFactory;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
 import com.liferay.dynamic.data.mapping.expression.DDMExpressionFactory;
 import com.liferay.dynamic.data.mapping.form.evaluator.DDMFormEvaluationException;
 import com.liferay.dynamic.data.mapping.form.evaluator.DDMFormEvaluationResult;
 import com.liferay.dynamic.data.mapping.form.evaluator.DDMFormEvaluator;
 import com.liferay.dynamic.data.mapping.form.evaluator.DDMFormEvaluatorContext;
-import com.liferay.dynamic.data.mapping.io.DDMFormValuesJSONDeserializer;
-import com.liferay.dynamic.data.mapping.service.DDMDataProviderInstanceService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.service.UserLocalService;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Pablo Carvalho
@@ -46,10 +42,9 @@ public class DDMFormEvaluatorImpl implements DDMFormEvaluator {
 		try {
 			DDMFormEvaluatorHelper ddmFormRuleEvaluatorHelper =
 				new DDMFormEvaluatorHelper(
-					_ddmDataProviderTracker, _ddmDataProviderInstanceService,
+					_ddmDataProviderContextFactory, _ddmDataProviderInvoker,
 					_ddmExpressionFactory, ddmFormEvaluatorContext,
-					_ddmFormValuesJSONDeserializer, _jsonFactory,
-					_userLocalService);
+					_jsonFactory, _userLocalService);
 
 			return ddmFormRuleEvaluatorHelper.evaluate();
 		}
@@ -58,22 +53,14 @@ public class DDMFormEvaluatorImpl implements DDMFormEvaluator {
 		}
 	}
 
-	@Reference(
-		cardinality = ReferenceCardinality.OPTIONAL,
-		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY
-	)
-	private volatile DDMDataProviderInstanceService
-		_ddmDataProviderInstanceService;
+	@Reference
+	private DDMDataProviderContextFactory _ddmDataProviderContextFactory;
 
 	@Reference
-	private DDMDataProviderTracker _ddmDataProviderTracker;
+	private DDMDataProviderInvoker _ddmDataProviderInvoker;
 
 	@Reference
 	private DDMExpressionFactory _ddmExpressionFactory;
-
-	@Reference
-	private DDMFormValuesJSONDeserializer _ddmFormValuesJSONDeserializer;
 
 	@Reference
 	private JSONFactory _jsonFactory;

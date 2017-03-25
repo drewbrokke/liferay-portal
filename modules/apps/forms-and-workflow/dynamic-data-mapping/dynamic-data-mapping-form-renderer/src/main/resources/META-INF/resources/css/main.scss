@@ -11,6 +11,8 @@
 }
 
 .lfr-ddm-form-container {
+	word-break: normal;
+
 	.form-control-feedback {
 		margin-left: -20px;
 	}
@@ -127,6 +129,9 @@
 
 .liferay-ddm-form-field-paragraph {
 	font-size: 14px;
+}
+
+.liferay-ddm-form-field-numeric {
 }
 
 .liferay-ddm-form-field-tip {

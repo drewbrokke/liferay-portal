@@ -533,6 +533,10 @@ public class DefaultTextExportImportContentProcessor
 
 			String url = content.substring(beginPos + offset, endPos);
 
+			if (url.endsWith(StringPool.SLASH)) {
+				url = url.substring(0, url.length() - 1);
+			}
+
 			StringBundler urlSB = new StringBundler(6);
 
 			try {
@@ -1204,6 +1208,10 @@ public class DefaultTextExportImportContentProcessor
 
 			if (endPos != -1) {
 				url = url.substring(0, endPos);
+			}
+
+			if (url.endsWith(StringPool.SLASH)) {
+				url = url.substring(0, url.length() - 1);
 			}
 
 			StringBundler urlSB = new StringBundler(1);

@@ -14,8 +14,8 @@
 
 package com.liferay.gradle.plugins.maven.plugin.builder.tasks;
 
+import com.liferay.gradle.plugins.maven.plugin.builder.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.maven.plugin.builder.internal.util.XMLUtil;
-import com.liferay.gradle.util.GradleUtil;
 import com.liferay.gradle.util.Validator;
 
 import java.io.File;
@@ -33,6 +33,12 @@ import org.w3c.dom.Element;
  * @author Andrea Di Giorgi
  */
 public class WriteMavenSettingsTask extends DefaultTask {
+
+	@Input
+	@Optional
+	public File getLocalRepositoryDir() {
+		return GradleUtil.toFile(getProject(), _localRepositoryDir);
+	}
 
 	@Input
 	@Optional
@@ -75,6 +81,10 @@ public class WriteMavenSettingsTask extends DefaultTask {
 		return GradleUtil.toString(_repositoryUrl);
 	}
 
+	public void setLocalRepositoryDir(Object localRepositoryDir) {
+		_localRepositoryDir = localRepositoryDir;
+	}
+
 	public void setNonProxyHosts(Object nonProxyHosts) {
 		_nonProxyHosts = nonProxyHosts;
 	}
@@ -111,6 +121,14 @@ public class WriteMavenSettingsTask extends DefaultTask {
 			"http://maven.apache.org/SETTINGS/1.0.0", "settings");
 
 		document.appendChild(settingsElement);
+
+		File localRepositoryDir = getLocalRepositoryDir();
+
+		if (localRepositoryDir != null) {
+			XMLUtil.appendElement(
+				document, settingsElement, "localRepository",
+				localRepositoryDir.getAbsolutePath());
+		}
 
 		String repositoryUrl = getRepositoryUrl();
 
@@ -165,6 +183,7 @@ public class WriteMavenSettingsTask extends DefaultTask {
 		XMLUtil.appendElement(document, parentElement, name, text);
 	}
 
+	private Object _localRepositoryDir;
 	private Object _nonProxyHosts;
 	private Object _outputFile;
 	private Object _proxyHost;

@@ -873,7 +873,7 @@ version 2.3.4.
 ## 3.0.61 - 2016-12-21
 
 ### Added
-- [LPS-69838]: Add the ability to configure the `npmArgs` argument in the `node`
+- [LPS-69838]: Add the ability to configure the `npmArgs` property in the `node`
 extension object by setting the project property `nodejs.npm.args`.
 
 ## 3.0.62 - 2016-12-29
@@ -1152,7 +1152,7 @@ to version 1.0.91.
 ## 3.2.10 - 2017-02-28
 
 ### Added
-- [LPS-70941]: Add the ability to configure the `showDocumentation` argument in
+- [LPS-70941]: Add the ability to configure the `showDocumentation` property in
 all `FormatSourceTask` instances by setting the project property
 `source.formatter.show.documentation`.
 
@@ -1297,6 +1297,39 @@ to version 1.0.102.
 - [LPS-71164]: Update the [Liferay Source Formatter] dependency to version
 1.0.369.
 
+## 3.2.23 - 2017-03-17
+
+### Changed
+- [LPS-66891]: Update the [Liferay Gradle Plugins Service Builder] dependency
+to version 1.0.31.
+- [LPS-66891]: Update the [Liferay Portal Tools Service Builder] dependency to
+version 1.0.146.
+- [LPS-71331]: Update the [Liferay CSS Builder] dependency to version 1.0.25.
+
+## 3.2.24 - 2017-03-17
+
+### Changed
+- [LPS-66891]: Update the [Liferay Gradle Plugins Service Builder] dependency
+to version 1.0.32.
+- [LPS-66891]: Update the [Liferay Portal Tools Service Builder] dependency to
+version 1.0.147.
+
+## 3.2.25 - 2017-03-21
+
+### Changed
+- [LPS-71164]: Update the [Liferay Gradle Plugins Source Formatter] dependency
+to version 1.0.103.
+- [LPS-71164]: Update the [Liferay Source Formatter] dependency to version
+1.0.370.
+
+## 3.2.26 - 2017-03-22
+
+### Changed
+- [LPS-71164]: Update the [Liferay Gradle Plugins Source Formatter] dependency
+to version 1.0.104.
+- [LPS-71164]: Update the [Liferay Source Formatter] dependency to version
+1.0.371.
+
 [Gradle Bundle Plugin]: https://github.com/TomDmitriev/gradle-bundle-plugin
 [Liferay Ant BND]: https://github.com/liferay/liferay-portal/tree/master/modules/sdk/ant-bnd
 [Liferay CSS Builder]: https://github.com/liferay/liferay-portal/tree/master/modules/util/css-builder
@@ -1333,6 +1366,7 @@ to version 1.0.102.
 [LPS-66222]: https://issues.liferay.com/browse/LPS-66222
 [LPS-66396]: https://issues.liferay.com/browse/LPS-66396
 [LPS-66853]: https://issues.liferay.com/browse/LPS-66853
+[LPS-66891]: https://issues.liferay.com/browse/LPS-66891
 [LPS-66906]: https://issues.liferay.com/browse/LPS-66906
 [LPS-67023]: https://issues.liferay.com/browse/LPS-67023
 [LPS-67352]: https://issues.liferay.com/browse/LPS-67352
@@ -1417,4 +1451,5 @@ to version 1.0.102.
 [LPS-71118]: https://issues.liferay.com/browse/LPS-71118
 [LPS-71164]: https://issues.liferay.com/browse/LPS-71164
 [LPS-71222]: https://issues.liferay.com/browse/LPS-71222
+[LPS-71331]: https://issues.liferay.com/browse/LPS-71331
 [LRDOCS-3023]: https://issues.liferay.com/browse/LRDOCS-3023

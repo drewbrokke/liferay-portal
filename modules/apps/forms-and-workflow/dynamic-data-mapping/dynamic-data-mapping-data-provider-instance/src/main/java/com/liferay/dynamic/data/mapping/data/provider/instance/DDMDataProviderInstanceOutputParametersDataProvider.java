@@ -68,11 +68,8 @@ public class DDMDataProviderInstanceOutputParametersDataProvider
 			DDMDataProviderRequest ddmDataProviderRequest)
 		throws DDMDataProviderException {
 
-		DDMDataProviderContext ddmDataProviderContext =
-			ddmDataProviderRequest.getDDMDataProviderContext();
-
 		long dataProviderInstanceId = GetterUtil.getLong(
-			ddmDataProviderContext.getParameter("dataProviderInstanceId"));
+			ddmDataProviderRequest.getParameter("dataProviderInstanceId"));
 
 		List<Map<Object, Object>> data = new ArrayList<>();
 
@@ -167,9 +164,8 @@ public class DDMDataProviderInstanceOutputParametersDataProvider
 				ddmDataProvider, ddmDataProviderInstance);
 
 		DDMDataProviderParameterSettings ddmDataProviderParameterSetting =
-			(DDMDataProviderParameterSettings)
-				DDMFormInstanceFactory.create(
-					ddmDataProvider.getSettings(), dataProviderFormValues);
+			DDMFormInstanceFactory.create(
+				DDMDataProviderParameterSettings.class, dataProviderFormValues);
 
 		return ddmDataProviderParameterSetting.outputParameters();
 	}

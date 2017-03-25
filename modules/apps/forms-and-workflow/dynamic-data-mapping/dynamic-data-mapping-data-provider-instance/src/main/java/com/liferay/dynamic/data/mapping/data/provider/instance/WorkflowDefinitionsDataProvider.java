@@ -65,11 +65,8 @@ public class WorkflowDefinitionsDataProvider implements DDMDataProvider {
 
 		List<Map<Object, Object>> data = new ArrayList<>();
 
-		DDMDataProviderContext ddmDataProviderContext =
-			ddmDataProviderRequest.getDDMDataProviderContext();
-
 		Locale locale = getLocale(
-			ddmDataProviderContext.getHttpServletRequest());
+			ddmDataProviderRequest.getHttpServletRequest());
 
 		data.add(
 			createMap(LanguageUtil.get(locale, "no-workflow"), "no-workflow"));
@@ -80,7 +77,7 @@ public class WorkflowDefinitionsDataProvider implements DDMDataProvider {
 
 		try {
 			long companyId = getCompanyId(
-				ddmDataProviderContext.getHttpServletRequest());
+				ddmDataProviderRequest.getHttpServletRequest());
 
 			List<WorkflowDefinition> workflowDefinitions =
 				_workflowDefinitionManager.getActiveWorkflowDefinitions(

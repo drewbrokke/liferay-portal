@@ -14,39 +14,50 @@
 
 package com.liferay.dynamic.data.mapping.data.provider;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Leonardo Barros
  */
 public class DDMDataProviderRequest {
 
 	public DDMDataProviderRequest(
-		DDMDataProviderContext ddmDataProviderContext) {
+		DDMDataProviderContext ddmDataProviderContext,
+		HttpServletRequest httpServletRequest) {
 
 		_ddmDataProviderContext = ddmDataProviderContext;
+		_httpServletRequest = httpServletRequest;
 	}
 
 	public DDMDataProviderContext getDDMDataProviderContext() {
 		return _ddmDataProviderContext;
 	}
 
-	public int getPaginationEnd() {
-		return _paginationEnd;
+	public HttpServletRequest getHttpServletRequest() {
+		return _httpServletRequest;
 	}
 
-	public int getPaginationStart() {
-		return _paginationStart;
+	public String getParameter(String name) {
+		return _parameters.get(name);
 	}
 
-	public void setPaginationEnd(int paginationEnd) {
-		_paginationEnd = paginationEnd;
+	public Map<String, String> getParameters() {
+		return _parameters;
 	}
 
-	public void setPaginationStart(int paginationStart) {
-		_paginationStart = paginationStart;
+	public void queryString(Map<String, String> parameters) {
+		_parameters.putAll(parameters);
+	}
+
+	public void queryString(String name, String value) {
+		_parameters.put(name, value);
 	}
 
 	private final DDMDataProviderContext _ddmDataProviderContext;
-	private int _paginationEnd;
-	private int _paginationStart;
+	private final HttpServletRequest _httpServletRequest;
+	private final Map<String, String> _parameters = new HashMap<>();
 
 }

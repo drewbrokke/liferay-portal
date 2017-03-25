@@ -71,7 +71,6 @@ import com.liferay.portal.kernel.search.SearchResultUtil;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
-import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -445,15 +444,6 @@ public class JournalDisplayContext {
 		sb.append(HtmlUtil.escape(layout.getName(locale)));
 
 		return sb.toString();
-	}
-
-	public JSONObject getLayoutsJSON() throws Exception {
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
-
-		jsonObject.put("private", _getLayoutsJSONObject(true));
-		jsonObject.put("public", _getLayoutsJSONObject(false));
-
-		return jsonObject;
 	}
 
 	public List<ManagementBarFilterItem> getManagementBarStatusFilterItems()
@@ -1274,72 +1264,6 @@ public class JournalDisplayContext {
 		}
 
 		return jsonArray;
-	}
-
-	private JSONArray _getLayoutsJSONArray(
-			long groupId, boolean privateLayout, long parentLayoutId,
-			String selectedLayoutUuid)
-		throws Exception {
-
-		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
-		JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
-
-		List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(
-			groupId, privateLayout, parentLayoutId);
-
-		for (Layout layout : layouts) {
-			JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
-
-			jsonObject.put("icon", "page");
-			jsonObject.put("id", layout.getUuid());
-			jsonObject.put("name", layout.getName(themeDisplay.getLocale()));
-			jsonObject.put("value", getLayoutBreadcrumb(layout));
-
-			if (Objects.equals(layout.getUuid(), selectedLayoutUuid)) {
-				jsonObject.put("expanded", true);
-				jsonObject.put("selected", true);
-			}
-
-			if (!layout.isContentDisplayPage()) {
-				jsonObject.put("disabled", true);
-			}
-
-			JSONArray childrenJSONArray = _getLayoutsJSONArray(
-				groupId, privateLayout, layout.getLayoutId(),
-				selectedLayoutUuid);
-
-			if (childrenJSONArray.length() > 0) {
-				jsonObject.put("children", childrenJSONArray);
-			}
-
-			jsonArray.put(jsonObject);
-		}
-
-		return jsonArray;
-	}
-
-	private JSONObject _getLayoutsJSONObject(boolean privateLayout)
-		throws Exception {
-
-		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
-		String layoutUuid = ParamUtil.getString(_request, "layoutUuid");
-
-		JSONArray jsonArray = _getLayoutsJSONArray(
-			themeDisplay.getScopeGroupId(), privateLayout, 0, layoutUuid);
-
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
-
-		jsonObject.put("children", jsonArray);
-		jsonObject.put("disabled", true);
-		jsonObject.put("expanded", true);
-		jsonObject.put("icon", "home");
-		jsonObject.put("name", themeDisplay.getScopeGroupName());
-
-		return jsonObject;
 	}
 
 	private String[] _addMenuFavItems;

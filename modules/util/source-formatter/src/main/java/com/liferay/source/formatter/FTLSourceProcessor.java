@@ -14,8 +14,6 @@
 
 package com.liferay.source.formatter;
 
-import com.liferay.portal.kernel.io.unsync.UnsyncBufferedReader;
-import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -23,13 +21,14 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.tools.ImportsFormatter;
 import com.liferay.portal.tools.ToolsUtil;
+import com.liferay.source.formatter.checks.FTLEmptyLinesCheck;
 import com.liferay.source.formatter.checks.FTLIfStatementCheck;
+import com.liferay.source.formatter.checks.FTLWhitespaceCheck;
 import com.liferay.source.formatter.checks.FileCheck;
-import com.liferay.source.formatter.checks.WhitespaceCheck;
 
 import java.io.File;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -131,19 +130,7 @@ public class FTLSourceProcessor extends BaseSourceProcessor {
 
 		ImportsFormatter importsFormatter = new FTLImportsFormatter();
 
-		content = importsFormatter.format(content, null, null);
-
-		content = fixEmptyLinesInMultiLineTags(content);
-
-		content = fixEmptyLinesInNestedTags(content);
-
-		content = fixEmptyLinesBetweenTags(content);
-
-		content = fixMissingEmptyLinesAroundComments(content);
-
-		content = formatFTL(fileName, content);
-
-		return StringUtil.replace(content, "\n\n\n", "\n\n");
+		return importsFormatter.format(content, null, null);
 	}
 
 	@Override
@@ -159,24 +146,6 @@ public class FTLSourceProcessor extends BaseSourceProcessor {
 	@Override
 	protected String[] doGetIncludes() {
 		return _INCLUDES;
-	}
-
-	protected String fixMissingEmptyLinesAroundComments(String content) {
-		Matcher matcher = _missingEmptyLineAfterCommentPattern.matcher(content);
-
-		if (matcher.find()) {
-			return StringUtil.replaceFirst(
-				content, "\n", "\n\n", matcher.start());
-		}
-
-		matcher = _missingEmptyLineBeforeCommentPattern.matcher(content);
-
-		if (matcher.find()) {
-			return StringUtil.replaceFirst(
-				content, "\n", "\n\n", matcher.start());
-		}
-
-		return content;
 	}
 
 	protected String formatAssignTags(String content) {
@@ -217,40 +186,6 @@ public class FTLSourceProcessor extends BaseSourceProcessor {
 		}
 
 		return content;
-	}
-
-	protected String formatFTL(String fileName, String content)
-		throws Exception {
-
-		StringBundler sb = new StringBundler();
-
-		try (UnsyncBufferedReader unsyncBufferedReader =
-				new UnsyncBufferedReader(new UnsyncStringReader(content))) {
-
-			String line = null;
-
-			while ((line = unsyncBufferedReader.readLine()) != null) {
-				String trimmedLine = StringUtil.trimLeading(line);
-
-				if (trimmedLine.startsWith("<#assign ")) {
-					line = formatWhitespace(line, trimmedLine, true);
-
-					line = formatIncorrectSyntax(line, "=[", "= [", false);
-					line = formatIncorrectSyntax(line, "+[", "+ [", false);
-				}
-
-				sb.append(line);
-				sb.append("\n");
-			}
-		}
-
-		String newContent = sb.toString();
-
-		if (newContent.endsWith("\n")) {
-			newContent = newContent.substring(0, newContent.length() - 1);
-		}
-
-		return newContent;
 	}
 
 	protected String formatStringRelationalOperations(String content) {
@@ -307,8 +242,15 @@ public class FTLSourceProcessor extends BaseSourceProcessor {
 
 	@Override
 	protected List<FileCheck> getFileChecks() {
-		return Arrays.asList(
-			new FileCheck[] {new FTLIfStatementCheck(), new WhitespaceCheck()});
+		return _fileChecks;
+	}
+
+	@Override
+	protected void populateFileChecks() {
+		_fileChecks.add(new FTLWhitespaceCheck());
+
+		_fileChecks.add(new FTLEmptyLinesCheck());
+		_fileChecks.add(new FTLIfStatementCheck());
 	}
 
 	protected String sortLiferayVariables(String content) {
@@ -346,16 +288,13 @@ public class FTLSourceProcessor extends BaseSourceProcessor {
 
 	private final Pattern _assignTagsBlockPattern = Pattern.compile(
 		"((\t*)<#assign[^<#/>]*=[^<#/>]*/>(\n|$)+){2,}", Pattern.MULTILINE);
+	private final List<FileCheck> _fileChecks = new ArrayList<>();
 	private final Pattern _incorrectAssignTagPattern = Pattern.compile(
 		"(<#assign .*=.*[^/])>(\n|$)");
 	private final Pattern _liferayVariablePattern = Pattern.compile(
 		"^\t*<#assign liferay_.*>\n", Pattern.MULTILINE);
 	private final Pattern _liferayVariablesPattern = Pattern.compile(
 		"(^\t*<#assign liferay_.*>\n)+", Pattern.MULTILINE);
-	private final Pattern _missingEmptyLineAfterCommentPattern =
-		Pattern.compile("-->\n[^\n]");
-	private final Pattern _missingEmptyLineBeforeCommentPattern =
-		Pattern.compile("[^\n]\n\t*<#--");
 	private final Pattern _multiParameterTagPattern = Pattern.compile(
 		"\n(\t*)<@.+=.+=.+/>");
 	private final Pattern _singleParameterTagPattern = Pattern.compile(

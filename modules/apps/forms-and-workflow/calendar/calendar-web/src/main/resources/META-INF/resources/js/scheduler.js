@@ -230,12 +230,6 @@ AUI.add(
 						instance.load();
 					},
 
-					_afterAddEventModalLoad: function(event) {
-						var instance = this;
-
-						event.target.node.getDOMNode().contentWindow.focus();
-					},
-
 					_afterDateChange: function(event) {
 						var instance = this;
 
@@ -407,12 +401,6 @@ AUI.add(
 								},
 								title: Liferay.Language.get('new-calendar-booking'),
 								uri: Lang.sub(editCalendarBookingURL, data)
-							},
-							function(modal) {
-								modal.iframe.on(
-									'load',
-									A.bind(instance._afterAddEventModalLoad, instance)
-								);
 							}
 						);
 					},

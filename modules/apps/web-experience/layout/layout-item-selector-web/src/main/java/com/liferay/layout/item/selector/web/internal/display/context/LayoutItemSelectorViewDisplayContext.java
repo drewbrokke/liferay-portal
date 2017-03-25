@@ -216,15 +216,20 @@ public class LayoutItemSelectorViewDisplayContext {
 				jsonObject.put("children", childrenJSONArray);
 			}
 
-			if (_layoutItemSelectorCriterion.isCheckDisplayPage() &&
-				!layout.isContentDisplayPage()) {
+			if ((_layoutItemSelectorCriterion.isCheckDisplayPage() &&
+				 !layout.isContentDisplayPage()) ||
+				(!_layoutItemSelectorCriterion.isEnableCurrentPage() &&
+				 (layout.getPlid() == getSelPlid()))) {
 
 				jsonObject.put("disabled", true);
 			}
 
+			jsonObject.put("groupId", layout.getGroupId());
 			jsonObject.put("icon", "page");
 			jsonObject.put("id", layout.getUuid());
+			jsonObject.put("layoutId", layout.getLayoutId());
 			jsonObject.put("name", layout.getName(themeDisplay.getLocale()));
+			jsonObject.put("privateLayout", layout.isPrivateLayout());
 
 			if (Objects.equals(layout.getUuid(), selectedLayoutUuid)) {
 				jsonObject.put("selected", true);

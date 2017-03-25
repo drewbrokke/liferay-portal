@@ -54,8 +54,14 @@ public class DDMDataProviderContextFactoryImpl
 
 		try {
 			DDMDataProviderInstance ddmDataProviderInstance =
-				ddmDataProviderInstanceService.getDataProviderInstance(
-					Long.valueOf(ddmDataProviderInstanceId));
+				ddmDataProviderInstanceService.fetchDataProviderInstanceByUuid(
+					ddmDataProviderInstanceId);
+
+			if (ddmDataProviderInstance == null) {
+				ddmDataProviderInstance =
+					ddmDataProviderInstanceService.getDataProviderInstance(
+						Long.valueOf(ddmDataProviderInstanceId));
+			}
 
 			ddmDataProvider = ddmDataProviderTracker.getDDMDataProvider(
 				ddmDataProviderInstance.getType());

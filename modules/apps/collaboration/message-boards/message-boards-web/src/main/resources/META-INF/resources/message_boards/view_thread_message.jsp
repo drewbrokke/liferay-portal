@@ -384,7 +384,7 @@ MBThread thread = (MBThread)request.getAttribute("edit_message.jsp-thread");
 			<div class="card-row card-row-padded custom-attributes">
 				<liferay-expando:custom-attribute-list
 					className="<%= MBMessage.class.getName() %>"
-					classPK="<%= (message != null) ? message.getMessageId() : 0 %>"
+					classPK="<%= message.getMessageId() %>"
 					editable="<%= false %>"
 					label="<%= true %>"
 				/>
@@ -418,6 +418,10 @@ MBThread thread = (MBThread)request.getAttribute("edit_message.jsp-thread");
 							<li class="message-attachment">
 
 								<%
+								Map<String, Object> data = new HashMap<String, Object>();
+
+								data.put("senna-off", "true");
+
 								StringBundler sb = new StringBundler(4);
 
 								sb.append(fileEntry.getTitle());
@@ -432,6 +436,7 @@ MBThread thread = (MBThread)request.getAttribute("edit_message.jsp-thread");
 								%>
 
 								<liferay-ui:icon
+									data="<%= data %>"
 									icon="<%= assetRenderer.getIconCssClass() %>"
 									label="<%= true %>"
 									markupView="lexicon"

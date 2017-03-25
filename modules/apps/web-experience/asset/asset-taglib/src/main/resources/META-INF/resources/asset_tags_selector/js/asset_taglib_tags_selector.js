@@ -36,7 +36,9 @@ AUI.add(
 			]
 		);
 
-		var TPL_ALERT = '<div class="help-block">{duplicate} {tag}: {tagName}</div>';
+		var TPL_DUPLICATE_ALERT = '<div class="help-block">{duplicate} {tag}: {tagName}</div>';
+
+		var TPL_MAX_LENGTH_ALERT = '<div class="help-block">{message}</div>';
 
 		/**
 		 * OPTIONS
@@ -89,6 +91,10 @@ AUI.add(
 
 					matchKey: {
 						value: 'value'
+					},
+
+					maxLength: {
+						value: 75
 					},
 
 					portletURL: {
@@ -144,7 +150,8 @@ AUI.add(
 						entries.after('add', instance._updateHiddenInput, instance);
 						entries.after('remove', instance._updateHiddenInput, instance);
 
-						A.Do.before(instance._checkTag, instance.entries, 'add', instance);
+						A.Do.before(instance._checkDuplicateTag, instance.entries, 'add', instance);
+						A.Do.before(instance._checkMaxLengthTag, instance.entries, 'add', instance);
 					},
 
 					syncUI: function() {
@@ -196,7 +203,7 @@ AUI.add(
 						instance.get('boundingBox').on('keypress', instance._onKeyPress, instance);
 					},
 
-					_checkTag: function(object) {
+					_checkDuplicateTag: function(object) {
 						var instance = this;
 
 						var tag = !object.value ? object : object.value;
@@ -205,12 +212,8 @@ AUI.add(
 							return;
 						}
 
-						var contentBox = instance.get('contentBox');
-
-						var toolbar = instance.icons.get('contentBox');
-
 						var message = Lang.sub(
-							TPL_ALERT,
+							TPL_DUPLICATE_ALERT,
 							{
 								duplicate: Liferay.Language.get('duplicate'),
 								tag: Liferay.Language.get('tag'),
@@ -218,20 +221,30 @@ AUI.add(
 							}
 						);
 
-						contentBox.addClass('has-error');
+						instance._showError(message);
+					},
 
-						var alertNode = toolbar.insertBefore(message, toolbar);
+					_checkMaxLengthTag: function(object) {
+						var instance = this;
 
-						A.later(
-							5000,
-							instance,
-							function() {
-								alertNode.remove();
+						var tag = !object.value ? object : object.value;
 
-								contentBox.removeClass('has-error');
-							}, {}, false
+						var maxLength = instance.get('maxLength');
+
+						if (!tag.length || (tag.length <= maxLength)) {
+							return;
+						}
+
+						var message = Lang.sub(
+							TPL_MAX_LENGTH_ALERT,
+							{
+								message: Lang.sub(Liferay.Language.get('please-enter-no-more-than-x-characters'), [maxLength])
+							}
 						);
 
+						instance._showError(message);
+
+						return new A.Do.Halt();
 					},
 
 					_getTagsDataSource: function() {
@@ -353,6 +366,28 @@ AUI.add(
 
 					_setGroupIds: function(value) {
 						return value.split(',');
+					},
+
+					_showError: function(message) {
+						var instance = this;
+
+						var contentBox = instance.get('contentBox');
+
+						var toolbar = instance.icons.get('contentBox');
+
+						contentBox.addClass('has-error');
+
+						var alertNode = toolbar.insertBefore(message, toolbar);
+
+						A.later(
+							5000,
+							instance,
+							function() {
+								alertNode.remove();
+
+								contentBox.removeClass('has-error');
+							}, {}, false
+						);
 					},
 
 					_showSelectPopup: function(event) {

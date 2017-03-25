@@ -14,20 +14,13 @@
 
 package com.liferay.dynamic.data.mapping.data.provider.internal.servlet;
 
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProvider;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderContext;
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderContextContributor;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderContextFactory;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderOutputParametersSettings;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderParameterSettings;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderRequest;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderResponse;
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderTracker;
-import com.liferay.dynamic.data.mapping.io.DDMFormValuesJSONDeserializer;
-import com.liferay.dynamic.data.mapping.model.DDMDataProviderInstance;
-import com.liferay.dynamic.data.mapping.model.DDMForm;
-import com.liferay.dynamic.data.mapping.service.DDMDataProviderInstanceService;
-import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
-import com.liferay.dynamic.data.mapping.util.DDMFormFactory;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -37,7 +30,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CharPool;
-import com.liferay.portal.kernel.util.ClassUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -73,46 +65,8 @@ import org.osgi.service.component.annotations.Reference;
 )
 public class DDMDataProviderPaginatorServlet extends HttpServlet {
 
-	protected void addDDMDataProviderContextParameters(
-			DDMDataProviderContext ddmDataProviderContext,
-			HttpServletRequest request)
-		throws Exception {
-
-		addParametersFromRequest(ddmDataProviderContext, request);
-
-		if (ddmDataProviderContext.getType() == null) {
-			return;
-		}
-
-		addParametersFromContextContributors(ddmDataProviderContext, request);
-	}
-
-	protected void addParametersFromContextContributors(
-		DDMDataProviderContext ddmDataProviderContext,
-		HttpServletRequest request) {
-
-		List<DDMDataProviderContextContributor>
-			ddmDataProviderContextContributors =
-				_ddmDataProviderTracker.getDDMDataProviderContextContributors(
-					ddmDataProviderContext.getType());
-
-		for (DDMDataProviderContextContributor
-				ddmDataProviderContextContributor :
-					ddmDataProviderContextContributors) {
-
-			Map<String, String> parameters =
-				ddmDataProviderContextContributor.getParameters(request);
-
-			if (parameters == null) {
-				continue;
-			}
-
-			ddmDataProviderContext.addParameters(parameters);
-		}
-	}
-
 	protected void addParametersFromRequest(
-			DDMDataProviderContext ddmDataProviderContext,
+			DDMDataProviderRequest ddmDataProviderRequest,
 			HttpServletRequest request)
 		throws Exception {
 
@@ -121,31 +75,10 @@ public class DDMDataProviderPaginatorServlet extends HttpServlet {
 
 		inputParametersJSONObject.keys().forEachRemaining(
 			inputParameterName -> {
-				ddmDataProviderContext.addParameter(
+				ddmDataProviderRequest.queryString(
 					inputParameterName,
 					inputParametersJSONObject.getString(inputParameterName));
 			});
-	}
-
-	protected DDMDataProviderContext createDDMDataProviderContext(
-			DDMDataProvider ddmDataProvider,
-			DDMDataProviderInstance ddmDataProviderInstance)
-		throws Exception {
-
-		DDMForm ddmForm = DDMFormFactory.create(ddmDataProvider.getSettings());
-
-		DDMFormValues ddmFormValues =
-			_ddmFormValuesJSONDeserializer.deserialize(
-				ddmForm, ddmDataProviderInstance.getDefinition());
-
-		DDMDataProviderContext ddmDataProviderContext =
-			new DDMDataProviderContext(
-				ddmDataProviderInstance.getType(),
-				String.valueOf(
-					ddmDataProviderInstance.getDataProviderInstanceId()),
-				ddmFormValues);
-
-		return ddmDataProviderContext;
 	}
 
 	@Override
@@ -193,41 +126,24 @@ public class DDMDataProviderPaginatorServlet extends HttpServlet {
 		List<Map<String, String>> dataProviderResult = new ArrayList<>();
 
 		try {
-			DDMDataProvider ddmDataProvider =
-				_ddmDataProviderTracker.getDDMDataProviderByInstanceId(
-					dataProviderInstanceUUID);
-
-			DDMDataProviderContext ddmDataProviderContext = null;
-
-			if (ddmDataProvider != null) {
-				ddmDataProviderContext = new DDMDataProviderContext(null);
-			}
-			else {
-				DDMDataProviderInstance ddmDataProviderInstance =
-					_ddmDataProviderInstanceService.
-						getDataProviderInstanceByUuid(dataProviderInstanceUUID);
-
-				ddmDataProvider = _ddmDataProviderTracker.getDDMDataProvider(
-					ddmDataProviderInstance.getType());
-
-				ddmDataProviderContext = createDDMDataProviderContext(
-					ddmDataProvider, ddmDataProviderInstance);
-			}
-
-			addDDMDataProviderContextParameters(
-				ddmDataProviderContext, request);
+			DDMDataProviderContext ddmDataProviderContext =
+				_ddmDataProviderContextFactory.create(dataProviderInstanceUUID);
 
 			DDMDataProviderRequest ddmDataProviderRequest =
-				new DDMDataProviderRequest(ddmDataProviderContext);
+				new DDMDataProviderRequest(ddmDataProviderContext, request);
 
-			ddmDataProviderRequest.setPaginationStart(start);
-			ddmDataProviderRequest.setPaginationEnd(end);
+			addParametersFromRequest(ddmDataProviderRequest, request);
+
+			ddmDataProviderRequest.queryString(
+				"paginationStart", String.valueOf(start));
+			ddmDataProviderRequest.queryString(
+				"paginationEnd", String.valueOf(end));
 
 			DDMDataProviderResponse ddmDataProviderResponse =
-				ddmDataProvider.getData(ddmDataProviderRequest);
+				_ddmDataProviderInvoker.invoke(ddmDataProviderRequest);
 
 			String[] keyValue = getKeyValue(
-				outputParameterName, ddmDataProvider, ddmDataProviderContext);
+				outputParameterName, ddmDataProviderContext);
 
 			String key = keyValue[0];
 			String value = keyValue[1];
@@ -265,11 +181,11 @@ public class DDMDataProviderPaginatorServlet extends HttpServlet {
 	}
 
 	protected String[] getKeyValue(
-		String ddmDataProviderOutput, DDMDataProvider ddmDataProvider,
+		String ddmDataProviderOutput,
 		DDMDataProviderContext ddmDataProviderContext) {
 
 		String[] keyValue = getKeyValuePathsFromDataProviderOutputParameter(
-			ddmDataProviderOutput, ddmDataProvider, ddmDataProviderContext);
+			ddmDataProviderOutput, ddmDataProviderContext);
 
 		if (keyValue == null) {
 			keyValue =
@@ -308,24 +224,19 @@ public class DDMDataProviderPaginatorServlet extends HttpServlet {
 	}
 
 	protected String[] getKeyValuePathsFromDataProviderOutputParameter(
-		String ddmDataProviderOutput, DDMDataProvider ddmDataProvider,
+		String ddmDataProviderOutput,
 		DDMDataProviderContext ddmDataProviderContext) {
 
-		if ((ddmDataProviderContext.getType() != null) &&
-			ClassUtil.isSubclass(
-				ddmDataProvider.getSettings(),
-				DDMDataProviderParameterSettings.class)) {
-
-			DDMDataProviderParameterSettings ddmDataProviderParemeterSettings =
-				(DDMDataProviderParameterSettings)
-					ddmDataProviderContext.getSettingsInstance(
-						ddmDataProvider.getSettings());
-
-			return getKeyValuePaths(
-				ddmDataProviderOutput, ddmDataProviderParemeterSettings);
+		if (ddmDataProviderContext.getType() == null) {
+			return null;
 		}
 
-		return null;
+		DDMDataProviderParameterSettings ddmDataProviderParemeterSettings =
+			ddmDataProviderContext.getSettingsInstance(
+				DDMDataProviderParameterSettings.class);
+
+		return getKeyValuePaths(
+			ddmDataProviderOutput, ddmDataProviderParemeterSettings);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -334,13 +245,10 @@ public class DDMDataProviderPaginatorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Reference
-	private DDMDataProviderInstanceService _ddmDataProviderInstanceService;
+	private DDMDataProviderContextFactory _ddmDataProviderContextFactory;
 
 	@Reference
-	private DDMDataProviderTracker _ddmDataProviderTracker;
-
-	@Reference
-	private DDMFormValuesJSONDeserializer _ddmFormValuesJSONDeserializer;
+	private DDMDataProviderInvoker _ddmDataProviderInvoker;
 
 	@Reference
 	private JSONFactory _jsonFactory;

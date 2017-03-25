@@ -14,7 +14,8 @@
 
 package com.liferay.dynamic.data.mapping.form.evaluator.impl.internal;
 
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderTracker;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderContextFactory;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
 import com.liferay.dynamic.data.mapping.expression.DDMExpression;
 import com.liferay.dynamic.data.mapping.expression.DDMExpressionException;
 import com.liferay.dynamic.data.mapping.expression.DDMExpressionFactory;
@@ -29,13 +30,11 @@ import com.liferay.dynamic.data.mapping.form.evaluator.impl.internal.functions.J
 import com.liferay.dynamic.data.mapping.form.evaluator.impl.internal.functions.SetEnabledFunction;
 import com.liferay.dynamic.data.mapping.form.evaluator.impl.internal.functions.SetInvalidFunction;
 import com.liferay.dynamic.data.mapping.form.evaluator.impl.internal.functions.SetPropertyFunction;
-import com.liferay.dynamic.data.mapping.io.DDMFormValuesJSONDeserializer;
 import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldValidation;
 import com.liferay.dynamic.data.mapping.model.DDMFormRule;
 import com.liferay.dynamic.data.mapping.model.Value;
-import com.liferay.dynamic.data.mapping.service.DDMDataProviderInstanceService;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.dynamic.data.mapping.storage.FieldConstants;
@@ -69,21 +68,20 @@ import javax.servlet.http.HttpServletRequest;
 public class DDMFormEvaluatorHelper {
 
 	public DDMFormEvaluatorHelper(
-		DDMDataProviderTracker ddmDataProviderTracker,
-		DDMDataProviderInstanceService ddmDataProviderInstanceService,
+		DDMDataProviderContextFactory ddmDataProviderContextFactory,
+		DDMDataProviderInvoker ddmDataProviderInvoker,
 		DDMExpressionFactory ddmExpressionFactory,
 		DDMFormEvaluatorContext ddmFormEvaluatorContext,
-		DDMFormValuesJSONDeserializer ddmFormValuesJSONDeserializer,
 		JSONFactory jsonFactory, UserLocalService userLocalService) {
 
-		_ddmDataProviderTracker = ddmDataProviderTracker;
-		_ddmDataProviderInstanceService = ddmDataProviderInstanceService;
+		_ddmDataProviderContextFactory = ddmDataProviderContextFactory;
+		_ddmDataProviderInvoker = ddmDataProviderInvoker;
+
 		_ddmExpressionFactory = ddmExpressionFactory;
 		_ddmForm = ddmFormEvaluatorContext.getDDMForm();
 
 		_ddmFormFieldsMap = _ddmForm.getDDMFormFieldsMap(true);
 
-		_ddmFormValuesJSONDeserializer = ddmFormValuesJSONDeserializer;
 		_jsonFactory = jsonFactory;
 		_userLocalService = userLocalService;
 		_locale = ddmFormEvaluatorContext.getLocale();
@@ -388,9 +386,8 @@ public class DDMFormEvaluatorHelper {
 		ddmFormRuleEvaluator.setDDMExpressionFunction(
 			"call",
 			new CallFunction(
-				_ddmDataProviderTracker, _ddmDataProviderInstanceService,
-				_ddmFormFieldEvaluationResultsMap,
-				_ddmFormValuesJSONDeserializer, _jsonFactory));
+				_ddmDataProviderContextFactory, _ddmDataProviderInvoker,
+				_ddmFormFieldEvaluationResultsMap, _request, _jsonFactory));
 		ddmFormRuleEvaluator.setDDMExpressionFunction(
 			"getValue",
 			new GetPropertyFunction(
@@ -608,9 +605,8 @@ public class DDMFormEvaluatorHelper {
 	private static final Log _log = LogFactoryUtil.getLog(
 		DDMFormEvaluatorHelper.class);
 
-	private final DDMDataProviderInstanceService
-		_ddmDataProviderInstanceService;
-	private final DDMDataProviderTracker _ddmDataProviderTracker;
+	private final DDMDataProviderContextFactory _ddmDataProviderContextFactory;
+	private final DDMDataProviderInvoker _ddmDataProviderInvoker;
 	private final DDMExpressionFactory _ddmExpressionFactory;
 	private final DDMForm _ddmForm;
 	private final Map<String, List<DDMFormFieldEvaluationResult>>
@@ -618,7 +614,6 @@ public class DDMFormEvaluatorHelper {
 	private final Map<String, DDMFormField> _ddmFormFieldsMap;
 	private final Map<String, List<DDMFormFieldValue>> _ddmFormFieldValuesMap =
 		new LinkedHashMap<>();
-	private final DDMFormValuesJSONDeserializer _ddmFormValuesJSONDeserializer;
 	private final JSONFactory _jsonFactory;
 	private final Locale _locale;
 	private final Map<Integer, Integer> _pageFlow = new HashMap<>();

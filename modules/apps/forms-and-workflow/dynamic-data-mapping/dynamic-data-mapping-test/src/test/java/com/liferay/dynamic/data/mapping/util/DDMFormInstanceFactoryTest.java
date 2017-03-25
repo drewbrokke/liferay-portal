@@ -19,6 +19,7 @@ import com.liferay.dynamic.data.mapping.annotations.DDMFormField;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.dynamic.data.mapping.test.util.DDMFormValuesTestUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.Arrays;
 
@@ -345,6 +346,74 @@ public class DDMFormInstanceFactoryTest {
 	}
 
 	@Test
+	public void testCreateDynamicFormWithTuple() {
+		com.liferay.dynamic.data.mapping.model.DDMForm ddmForm =
+			DDMFormFactory.create(DynamicFormWithTuple.class);
+
+		DDMFormValues ddmFormValues = DDMFormValuesTestUtil.createDDMFormValues(
+			ddmForm);
+
+		String expectedId = StringUtil.randomString();
+
+		ddmFormValues.addDDMFormFieldValue(
+			DDMFormValuesTestUtil.createUnlocalizedDDMFormFieldValue(
+				"id", expectedId));
+
+		String expectedName = StringUtil.randomString();
+
+		ddmFormValues.addDDMFormFieldValue(
+			DDMFormValuesTestUtil.createUnlocalizedDDMFormFieldValue(
+				"name", expectedName));
+
+		String expectedValue = StringUtil.randomString();
+
+		ddmFormValues.addDDMFormFieldValue(
+			DDMFormValuesTestUtil.createUnlocalizedDDMFormFieldValue(
+				"value", expectedValue));
+
+		DynamicFormWithTuple dynamicFormWithTuple =
+			DDMFormInstanceFactory.create(
+				DynamicFormWithTuple.class, ddmFormValues);
+
+		Assert.assertEquals(expectedId, dynamicFormWithTuple.id());
+		Assert.assertEquals(expectedName, dynamicFormWithTuple.name());
+		Assert.assertEquals(expectedValue, dynamicFormWithTuple.value());
+
+		Parameter parameter = DDMFormInstanceFactory.create(
+			Parameter.class, ddmFormValues);
+
+		Assert.assertEquals(expectedName, parameter.name());
+		Assert.assertEquals(expectedValue, parameter.value());
+	}
+
+	@Test
+	public void testCreateDynamicFormWithUnrelatedClassDefinition() {
+		com.liferay.dynamic.data.mapping.model.DDMForm ddmForm =
+			DDMFormFactory.create(Parameter.class);
+
+		DDMFormValues ddmFormValues = DDMFormValuesTestUtil.createDDMFormValues(
+			ddmForm);
+
+		String expectedName = StringUtil.randomString();
+
+		ddmFormValues.addDDMFormFieldValue(
+			DDMFormValuesTestUtil.createUnlocalizedDDMFormFieldValue(
+				"name", expectedName));
+
+		String expectedValue = StringUtil.randomString();
+
+		ddmFormValues.addDDMFormFieldValue(
+			DDMFormValuesTestUtil.createUnlocalizedDDMFormFieldValue(
+				"value", expectedValue));
+
+		DynamicFormWithFieldSet dynamicFormWithFieldSet =
+			DDMFormInstanceFactory.create(
+				DynamicFormWithFieldSet.class, ddmFormValues);
+
+		Assert.assertNull(dynamicFormWithFieldSet.parameter());
+	}
+
+	@Test
 	public void testGetDefaultValueDynamicFormWithFieldSet() {
 		com.liferay.dynamic.data.mapping.model.DDMForm ddmForm =
 			DDMFormFactory.create(DynamicFormWithFieldSet.class);
@@ -545,6 +614,14 @@ public class DDMFormInstanceFactoryTest {
 
 		@DDMFormField
 		public DynamicFormWithPrimitiveArrayTypes[] primitiveArrayTypes();
+
+	}
+
+	@DDMForm
+	private interface DynamicFormWithTuple extends Parameter {
+
+		@DDMFormField
+		public String id();
 
 	}
 

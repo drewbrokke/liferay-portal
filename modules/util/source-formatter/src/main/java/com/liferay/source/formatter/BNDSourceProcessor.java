@@ -31,7 +31,7 @@ import com.liferay.source.formatter.checks.WhitespaceCheck;
 
 import java.io.File;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -270,6 +270,9 @@ public class BNDSourceProcessor extends BaseSourceProcessor {
 
 		content = StringUtil.replace(content, " \\\n", "\\\n");
 
+		content = StringUtil.replaceFirst(
+			content, "Conditional-Package:", "-conditionalpackage:");
+
 		Matcher matcher = _trailingSemiColonPattern.matcher(content);
 
 		if (matcher.find()) {
@@ -293,6 +296,8 @@ public class BNDSourceProcessor extends BaseSourceProcessor {
 		}
 
 		checkWildcardImports(
+			fileName, absolutePath, content, _conditionalPackagePattern);
+		checkWildcardImports(
 			fileName, absolutePath, content, _exportContentsPattern);
 		checkWildcardImports(fileName, absolutePath, content, _exportsPattern);
 
@@ -300,6 +305,7 @@ public class BNDSourceProcessor extends BaseSourceProcessor {
 
 		ImportsFormatter importsFormatter = new BNDImportsFormatter();
 
+		content = importsFormatter.format(content, _conditionalPackagePattern);
 		content = importsFormatter.format(content, _exportContentsPattern);
 		content = importsFormatter.format(content, _exportsPattern);
 		content = importsFormatter.format(content, _importsPattern);
@@ -618,7 +624,7 @@ public class BNDSourceProcessor extends BaseSourceProcessor {
 
 	@Override
 	protected List<FileCheck> getFileChecks() {
-		return Arrays.asList(new FileCheck[] {new WhitespaceCheck()});
+		return _fileChecks;
 	}
 
 	protected Map<String, Map<String, String>>
@@ -681,6 +687,11 @@ public class BNDSourceProcessor extends BaseSourceProcessor {
 		return definitionKeysMap;
 	}
 
+	@Override
+	protected void populateFileChecks() {
+		_fileChecks.add(new WhitespaceCheck());
+	}
+
 	protected String sortDefinitionProperties(
 		String content, String properties, Comparator<String> comparator) {
 
@@ -737,6 +748,9 @@ public class BNDSourceProcessor extends BaseSourceProcessor {
 		",[^\\\\]");
 	private final Pattern _capabilityLineBreakPattern2 = Pattern.compile(
 		";[^\\\\]");
+	private final Pattern _conditionalPackagePattern = Pattern.compile(
+		"\n-conditionalpackage:(\\\\\n| )((.*?)(\n[^\t]|\\Z))",
+		Pattern.DOTALL | Pattern.MULTILINE);
 	private Map<String, String> _definitionKeysMap;
 	private final Pattern _exportContentsPattern = Pattern.compile(
 		"\n-exportcontents:(\\\\\n| )((.*?)(\n[^\t]|\\Z))",
@@ -744,6 +758,7 @@ public class BNDSourceProcessor extends BaseSourceProcessor {
 	private final Pattern _exportsPattern = Pattern.compile(
 		"\nExport-Package:(\\\\\n| )((.*?)(\n[^\t]|\\Z))",
 		Pattern.DOTALL | Pattern.MULTILINE);
+	private final List<FileCheck> _fileChecks = new ArrayList<>();
 	private Map<String, Map<String, String>> _fileSpecificDefinitionKeysMap;
 	private final Pattern _importsPattern = Pattern.compile(
 		"\nImport-Package:(\\\\\n| )((.*?)(\n[^\t]|\\Z))",

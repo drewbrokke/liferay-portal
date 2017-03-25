@@ -390,28 +390,36 @@ public class IconTag extends IncludeTag {
 			"liferay-ui:icon-list:icon-count");
 
 		if (iconListIconCount != null) {
-			Boolean iconListSingleIcon = (Boolean)request.getAttribute(
-				"liferay-ui:icon-list:single-icon");
+			_label = true;
 
-			if (iconListSingleIcon != null) {
-				_label = true;
-
-				return true;
-			}
+			return true;
 		}
 
 		IntegerWrapper iconMenuIconCount = (IntegerWrapper)request.getAttribute(
 			"liferay-ui:icon-menu:icon-count");
 
 		if (iconMenuIconCount != null) {
-			Boolean iconMenuSingleIcon = (Boolean)request.getAttribute(
-				"liferay-ui:icon-menu:single-icon");
+			_label = true;
 
-			if (iconMenuSingleIcon != null) {
-				_label = true;
+			return true;
+		}
 
-				return true;
-			}
+		Boolean iconListSingleIcon = (Boolean)request.getAttribute(
+			"liferay-ui:icon-list:single-icon");
+
+		if (iconListSingleIcon != null) {
+			_label = true;
+
+			return true;
+		}
+
+		Boolean iconMenuSingleIcon = (Boolean)request.getAttribute(
+			"liferay-ui:icon-menu:single-icon");
+
+		if (iconMenuSingleIcon != null) {
+			_label = true;
+
+			return true;
 		}
 
 		_label = false;

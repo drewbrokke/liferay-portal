@@ -114,7 +114,7 @@ public class DDMRESTDataProviderTest {
 			new DDMDataProviderContext(ddmFormValues);
 
 		DDMDataProviderRequest ddmDataProviderRequest =
-			new DDMDataProviderRequest(ddmDataProviderContext);
+			new DDMDataProviderRequest(ddmDataProviderContext, null);
 
 		DDMDataProviderResponse ddmDtaProviderResponse =
 			_ddmDataProvider.getData(ddmDataProviderRequest);
@@ -181,10 +181,10 @@ public class DDMRESTDataProviderTest {
 		DDMDataProviderContext ddmDataProviderContext =
 			new DDMDataProviderContext(ddmFormValues);
 
-		ddmDataProviderContext.addParameter("filterParameterValue", "brazil");
-
 		DDMDataProviderRequest ddmDataProviderRequest =
-			new DDMDataProviderRequest(ddmDataProviderContext);
+			new DDMDataProviderRequest(ddmDataProviderContext, null);
+
+		ddmDataProviderRequest.queryString("filterParameterValue", "brazil");
 
 		DDMDataProviderResponse ddmDataProviderResponse =
 			_ddmDataProvider.getData(ddmDataProviderRequest);
