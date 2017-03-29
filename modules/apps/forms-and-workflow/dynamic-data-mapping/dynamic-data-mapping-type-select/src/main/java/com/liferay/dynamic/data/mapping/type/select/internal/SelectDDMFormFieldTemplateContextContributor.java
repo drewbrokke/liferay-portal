@@ -85,7 +85,6 @@ public class SelectDDMFormFieldTemplateContextContributor
 		stringsMap.put(
 			"chooseAnOption",
 			LanguageUtil.get(resourceBundle, "choose-an-option"));
-
 		stringsMap.put(
 			"chooseOptions",
 			LanguageUtil.get(resourceBundle, "choose-options"));

@@ -2,6 +2,11 @@ sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
 dependencies {
+	compileInclude group: "com.jayway.jsonpath", name: "json-path", version: "2.2.0"
+	compileInclude group: "net.minidev", name: "accessors-smart", version: "1.1"
+	compileInclude group: "net.minidev", name: "json-smart", version: "2.2.1"
+	compileInclude group: "org.ow2.asm", name: "asm", version: "5.0.3"
+
 	provided group: "com.liferay", name: "com.liferay.dynamic.data.mapping.io", version: "2.0.0"
 	provided group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "2.0.0"
 	provided group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.0.0"

@@ -17,10 +17,9 @@ package com.liferay.dynamic.data.mapping.data.provider.internal.servlet;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderContext;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderContextFactory;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderOutputParametersSettings;
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderParameterSettings;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderRequest;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderResponse;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderResponseOutput;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -28,11 +27,9 @@ import com.liferay.portal.kernel.json.JSONSerializer;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.KeyValuePair;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
@@ -142,17 +139,21 @@ public class DDMDataProviderPaginatorServlet extends HttpServlet {
 			DDMDataProviderResponse ddmDataProviderResponse =
 				_ddmDataProviderInvoker.invoke(ddmDataProviderRequest);
 
-			String[] keyValue = getKeyValue(
-				outputParameterName, ddmDataProviderContext);
+			DDMDataProviderResponseOutput ddDataProviderResponseOutput =
+				ddmDataProviderResponse.get(outputParameterName);
 
-			String key = keyValue[0];
-			String value = keyValue[1];
+			if (ddDataProviderResponseOutput == null) {
+				return dataProviderResult;
+			}
 
-			for (Map<Object, Object> map : ddmDataProviderResponse.getData()) {
+			List<KeyValuePair> keyValuePairs =
+				ddDataProviderResponseOutput.getValue(List.class);
+
+			for (KeyValuePair keyValuePair : keyValuePairs) {
 				Map<String, String> result = new HashMap<>();
 
-				result.put("label", String.valueOf(map.get(value)));
-				result.put("value", String.valueOf(map.get(key)));
+				result.put("label", keyValuePair.getValue());
+				result.put("value", keyValuePair.getKey());
 
 				dataProviderResult.add(result);
 			}
@@ -178,65 +179,6 @@ public class DDMDataProviderPaginatorServlet extends HttpServlet {
 		}
 
 		return _jsonFactory.createJSONObject(inputParameters);
-	}
-
-	protected String[] getKeyValue(
-		String ddmDataProviderOutput,
-		DDMDataProviderContext ddmDataProviderContext) {
-
-		String[] keyValue = getKeyValuePathsFromDataProviderOutputParameter(
-			ddmDataProviderOutput, ddmDataProviderContext);
-
-		if (keyValue == null) {
-			keyValue =
-				new String[] {ddmDataProviderOutput, ddmDataProviderOutput};
-		}
-
-		return keyValue;
-	}
-
-	protected String[] getKeyValuePaths(
-		String ddmDataProviderOutput,
-		DDMDataProviderParameterSettings ddmDataProviderParemeterSettings) {
-
-		for (DDMDataProviderOutputParametersSettings
-				ddmDataProviderOutputParametersSetting :
-					ddmDataProviderParemeterSettings.outputParameters()) {
-
-			if (ddmDataProviderOutput.equals(
-					ddmDataProviderOutputParametersSetting.
-						outputParameterName())) {
-
-				String[] paths = StringUtil.split(
-					ddmDataProviderOutputParametersSetting.
-						outputParameterPath(),
-					CharPool.SEMICOLON);
-
-				if (paths.length == 1) {
-					paths = ArrayUtil.append(paths, paths[0]);
-				}
-
-				return paths;
-			}
-		}
-
-		return null;
-	}
-
-	protected String[] getKeyValuePathsFromDataProviderOutputParameter(
-		String ddmDataProviderOutput,
-		DDMDataProviderContext ddmDataProviderContext) {
-
-		if (ddmDataProviderContext.getType() == null) {
-			return null;
-		}
-
-		DDMDataProviderParameterSettings ddmDataProviderParemeterSettings =
-			ddmDataProviderContext.getSettingsInstance(
-				DDMDataProviderParameterSettings.class);
-
-		return getKeyValuePaths(
-			ddmDataProviderOutput, ddmDataProviderParemeterSettings);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

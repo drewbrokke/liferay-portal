@@ -242,7 +242,7 @@ public class DDMDataProviderPaginatorServletTest {
 
 		ddmFormValues.addDDMFormFieldValue(
 			createOutputParameter(
-				"nameCurrentValue", "nameCurrentValue", "[\"text\"]"));
+				"Countries", "nameCurrentValue", "[\"list\"]"));
 
 		Map<Locale, String> nameMap = new HashMap<>();
 
@@ -333,7 +333,7 @@ public class DDMDataProviderPaginatorServletTest {
 		params.put(
 			"dataProviderInstanceUUID", ddmDataProviderInstance.getUuid());
 
-		params.put("outputParameterName", "nameCurrentValue");
+		params.put("outputParameterName", "Countries");
 
 		return params;
 	}

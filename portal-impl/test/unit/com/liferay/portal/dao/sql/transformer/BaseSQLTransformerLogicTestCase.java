@@ -50,6 +50,13 @@ public abstract class BaseSQLTransformerLogicTestCase {
 	}
 
 	@Test
+	public void testReplaceBoolean() {
+		Assert.assertEquals(
+			getBooleanTransformedSQL(),
+			sqlTransformer.transform(getBooleanOriginalSQL()));
+	}
+
+	@Test
 	public void testReplaceCastClobText() {
 		Assert.assertEquals(
 			getCastClobTextTransformedSQL(),
@@ -160,6 +167,14 @@ public abstract class BaseSQLTransformerLogicTestCase {
 		return getBitwiseCheckOriginalSQL();
 	}
 
+	protected String getBooleanOriginalSQL() {
+		return "select * from Foo where foo = [$FALSE$] and bar = [$TRUE$]";
+	}
+
+	protected String getBooleanTransformedSQL() {
+		return "select * from Foo where foo = false and bar = true";
+	}
+
 	protected String getCastClobTextOriginalSQL() {
 		return "select CAST_CLOB_TEXT(foo) from Foo";
 	}
@@ -174,6 +189,10 @@ public abstract class BaseSQLTransformerLogicTestCase {
 
 	protected String getCastLongTransformedSQL() {
 		return getCastLongOriginalSQL();
+	}
+
+	protected String getCastTextOriginalSQL() {
+		return "select CAST_TEXT(foo) from Foo";
 	}
 
 	protected String getCrossJoinOriginalSQL() {

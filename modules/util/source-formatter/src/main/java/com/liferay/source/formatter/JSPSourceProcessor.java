@@ -26,15 +26,23 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.tools.ImportsFormatter;
 import com.liferay.source.formatter.checks.CopyrightCheck;
 import com.liferay.source.formatter.checks.FileCheck;
+import com.liferay.source.formatter.checks.JSPDefineObjectsCheck;
 import com.liferay.source.formatter.checks.JSPEmptyLinesCheck;
 import com.liferay.source.formatter.checks.JSPIfStatementCheck;
 import com.liferay.source.formatter.checks.JSPLanguageKeysCheck;
+import com.liferay.source.formatter.checks.JSPLogFileNameCheck;
+import com.liferay.source.formatter.checks.JSPModuleIllegalImportsCheck;
+import com.liferay.source.formatter.checks.JSPRedirectBackURLCheck;
 import com.liferay.source.formatter.checks.JSPSessionKeysCheck;
+import com.liferay.source.formatter.checks.JSPStylingCheck;
+import com.liferay.source.formatter.checks.JSPSubnameCheck;
 import com.liferay.source.formatter.checks.JSPTagAttributesCheck;
+import com.liferay.source.formatter.checks.JSPTaglibVariableCheck;
 import com.liferay.source.formatter.checks.JSPUnusedImportCheck;
 import com.liferay.source.formatter.checks.JSPUnusedTaglibCheck;
 import com.liferay.source.formatter.checks.JSPUnusedVariableCheck;
 import com.liferay.source.formatter.checks.JSPWhitespaceCheck;
+import com.liferay.source.formatter.checks.JSPXSSVulnerabilitiesCheck;
 import com.liferay.source.formatter.checks.MethodCallsOrderCheck;
 import com.liferay.source.formatter.checks.ResourceBundleCheck;
 import com.liferay.source.formatter.checks.StringUtilCheck;
@@ -68,112 +76,6 @@ import org.dom4j.Element;
  * @author Hugo Huijser
  */
 public class JSPSourceProcessor extends BaseSourceProcessor {
-
-	protected void addImportCounts(String content) {
-		Matcher matcher = _importsPattern.matcher(content);
-
-		while (matcher.find()) {
-			String importName = matcher.group(1);
-
-			int count = 0;
-
-			if (_importCountMap.containsKey(importName)) {
-				count = _importCountMap.get(importName);
-			}
-			else {
-				int pos = importName.lastIndexOf(CharPool.PERIOD);
-
-				String importClassName = importName.substring(pos + 1);
-
-				if (_importClassNames.contains(importClassName)) {
-					_duplicateImportClassNames.add(importClassName);
-				}
-				else {
-					_importClassNames.add(importClassName);
-				}
-			}
-
-			_importCountMap.put(importName, count + 1);
-		}
-	}
-
-	protected void checkDefineObjectsVariables(
-		String fileName, String content, String absolutePath) {
-
-		for (String[] defineObject : _LIFERAY_THEME_DEFINE_OBJECTS) {
-			checkDefineObjectsVariables(
-				fileName, content, defineObject[0], defineObject[1],
-				defineObject[2], "liferay-theme");
-		}
-
-		for (String[] defineObject : _PORTLET_DEFINE_OBJECTS) {
-			checkDefineObjectsVariables(
-				fileName, content, defineObject[0], defineObject[1],
-				defineObject[2], "portlet");
-		}
-
-		if (!portalSource && !subrepository) {
-			return;
-		}
-
-		try {
-			for (String directoryName :
-					getPluginsInsideModulesDirectoryNames()) {
-
-				if (absolutePath.contains(directoryName)) {
-					return;
-				}
-			}
-		}
-		catch (Exception e) {
-		}
-
-		for (String[] defineObject : _LIFERAY_FRONTEND_DEFINE_OBJECTS) {
-			checkDefineObjectsVariables(
-				fileName, content, defineObject[0], defineObject[1],
-				defineObject[2], "liferay-frontend");
-		}
-	}
-
-	protected void checkDefineObjectsVariables(
-		String fileName, String content, String objectType, String variableName,
-		String value, String tag) {
-
-		int x = -1;
-
-		while (true) {
-			x = content.indexOf(
-				objectType + " " + variableName + " = " + value + ";", x + 1);
-
-			if (x == -1) {
-				return;
-			}
-
-			int y = content.lastIndexOf("<%", x);
-
-			if ((y == -1) ||
-				(getLevel(content.substring(y, x), "{", "}") > 0)) {
-
-				continue;
-			}
-
-			processMessage(
-				fileName,
-				"Use '" + tag + ":defineObjects' or rename var, see LPS-62493",
-				getLineCount(content, x));
-		}
-	}
-
-	protected void checkSubnames(String fileName, String content) {
-		Matcher matcher = _subnamePattern.matcher(content);
-
-		while (matcher.find()) {
-			processMessage(
-				fileName,
-				"'sub' should be followed by a lowercase character for '" +
-					matcher.group(1) + "'");
-		}
-	}
 
 	protected String compressImportsOrTaglibs(
 		String fileName, String content, String attributePrefix) {
@@ -220,13 +122,7 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 				"javascript:", ") {\n", ";\n"
 			});
 
-		newContent = fixRedirectBackURL(newContent);
-
 		newContent = fixCompatClassImports(absolutePath, newContent);
-
-		newContent = fixIncorrectClosingTag(newContent);
-
-		newContent = fixEmptyJavaSourceTag(newContent);
 
 		newContent = formatJSPImportsOrTaglibs(
 			fileName, newContent, _compressedJSPImportPattern,
@@ -246,31 +142,12 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 			processMessage(fileName, "Move imports to init.jsp");
 		}
 
-		newContent = StringUtil.replace(
-			newContent,
-			new String[] {
-				"alert('<%= LanguageUtil.", "alert(\"<%= LanguageUtil.",
-				"confirm('<%= LanguageUtil.", "confirm(\"<%= LanguageUtil."
-			},
-			new String[] {
-				"alert('<%= UnicodeLanguageUtil.",
-				"alert(\"<%= UnicodeLanguageUtil.",
-				"confirm('<%= UnicodeLanguageUtil.",
-				"confirm(\"<%= UnicodeLanguageUtil."
-			});
-
 		newContent = compressImportsOrTaglibs(
 			fileName, newContent, "<%@ page import=");
 		newContent = compressImportsOrTaglibs(
 			fileName, newContent, "<%@ taglib uri=");
 
-		checkSubnames(fileName, newContent);
-
 		newContent = formatStringBundler(fileName, newContent, -1);
-
-		newContent = formatTaglibVariable(fileName, newContent);
-
-		newContent = fixXSSVulnerability(fileName, newContent);
 
 		// LPS-47682
 
@@ -281,39 +158,11 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 
 		newContent = checkPrincipalException(newContent);
 
-		newContent = formatLogFileName(absolutePath, newContent);
-
-		newContent = formatDefineObjects(newContent);
-
-		// LPS-62989
-
-		if ((portalSource || subrepository) && isModulesFile(absolutePath) &&
-			newContent.contains("import=\"com.liferay.registry.Registry")) {
-
-			processMessage(
-				fileName,
-				"Do not use com.liferay.registry.Registry in modules, see " +
-					"LPS-62989");
-		}
-
-		// LPS-64335
-
-		if ((portalSource || subrepository) && isModulesFile(absolutePath) &&
-			newContent.contains("import=\"com.liferay.util.ContentUtil")) {
-
-			processMessage(
-				fileName,
-				"Do not use com.liferay.util.ContentUtil in modules, see " +
-					"LPS-64335");
-		}
-
 		// LPS-62786
 
 		checkPropertyUtils(fileName, newContent);
 
 		checkGetterUtilGet(fileName, newContent);
-
-		checkDefineObjectsVariables(fileName, newContent, absolutePath);
 
 		Matcher matcher = _javaClassPattern.matcher(newContent);
 
@@ -368,118 +217,6 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 	@Override
 	protected String[] doGetIncludes() {
 		return _INCLUDES;
-	}
-
-	protected String fixEmptyJavaSourceTag(String content) {
-		Matcher matcher = _emptyJavaSourceTagPattern.matcher(content);
-
-		if (matcher.find()) {
-			return StringUtil.replace(
-				content, matcher.group(), StringPool.BLANK);
-		}
-
-		return content;
-	}
-
-	protected String fixIncorrectClosingTag(String content) {
-		Matcher matcher = _incorrectClosingTagPattern.matcher(content);
-
-		if (matcher.find()) {
-			return StringUtil.replaceFirst(
-				content, " />\n", "\n" + matcher.group(1) + "/>\n",
-				matcher.end(1));
-		}
-
-		return content;
-	}
-
-	protected String fixRedirectBackURL(String content) {
-		Matcher matcher = _redirectBackURLPattern.matcher(content);
-
-		String newContent = content;
-
-		while (matcher.find()) {
-			newContent = StringUtil.replaceFirst(
-				newContent, matcher.group(),
-				matcher.group(1) + "\n\n" + matcher.group(2), matcher.start());
-		}
-
-		return newContent;
-	}
-
-	protected String fixXSSVulnerability(String fileName, String content) {
-		Matcher matcher1 = _xssPattern.matcher(content);
-
-		String jspVariable = null;
-		int vulnerabilityPos = -1;
-
-		while (matcher1.find()) {
-			jspVariable = matcher1.group(1);
-
-			String anchorVulnerability = " href=\"<%= " + jspVariable + " %>";
-			String inputVulnerability = " value=\"<%= " + jspVariable + " %>";
-
-			vulnerabilityPos = Math.max(
-				getTaglibXSSVulnerabilityPos(content, anchorVulnerability),
-				getTaglibXSSVulnerabilityPos(content, inputVulnerability));
-
-			if (vulnerabilityPos != -1) {
-				break;
-			}
-
-			Pattern pattern = Pattern.compile(
-				"('|\\(\"| \"|\\.)<%= " + jspVariable + " %>");
-
-			Matcher matcher2 = pattern.matcher(content);
-
-			if (matcher2.find()) {
-				vulnerabilityPos = matcher2.start();
-
-				break;
-			}
-		}
-
-		if (vulnerabilityPos != -1) {
-			return StringUtil.replaceFirst(
-				content, "<%= " + jspVariable + " %>",
-				"<%= HtmlUtil.escape(" + jspVariable + ") %>",
-				vulnerabilityPos);
-		}
-
-		return content;
-	}
-
-	protected String formatDefineObjects(String content) {
-		Matcher matcher = _missingEmptyLineBetweenDefineOjbectsPattern.matcher(
-			content);
-
-		if (matcher.find()) {
-			content = StringUtil.replaceFirst(
-				content, "\n", "\n\n", matcher.start());
-		}
-
-		String previousDefineObjectsTag = null;
-
-		matcher = _defineObjectsPattern.matcher(content);
-
-		while (matcher.find()) {
-			String defineObjectsTag = matcher.group(1);
-
-			if (Validator.isNotNull(previousDefineObjectsTag) &&
-				(previousDefineObjectsTag.compareTo(defineObjectsTag) > 0)) {
-
-				content = StringUtil.replaceFirst(
-					content, previousDefineObjectsTag, defineObjectsTag);
-				content = StringUtil.replaceLast(
-					content, defineObjectsTag, previousDefineObjectsTag);
-
-				return content;
-			}
-
-			previousDefineObjectsTag = defineObjectsTag;
-		}
-
-		return content;
 	}
 
 	protected String formatJSP(
@@ -704,175 +441,9 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 		return importsFormatter.format(content, uncompressedPattern);
 	}
 
-	protected String formatLogFileName(String absolutePath, String content) {
-		if (!isModulesFile(absolutePath) &&
-			!absolutePath.contains("/portal-web/")) {
-
-			return content;
-		}
-
-		Matcher matcher = _logPattern.matcher(content);
-
-		if (!matcher.find()) {
-			return content;
-		}
-
-		String logFileName = StringUtil.replace(
-			absolutePath, CharPool.PERIOD, CharPool.UNDERLINE);
-
-		logFileName = StringUtil.replace(
-			logFileName, CharPool.SLASH, CharPool.PERIOD);
-
-		logFileName = StringUtil.replace(
-			logFileName, CharPool.DASH, CharPool.UNDERLINE);
-
-		int x = logFileName.lastIndexOf(".portal_web.");
-
-		if (x != -1) {
-			logFileName = logFileName.substring(x + 1);
-		}
-		else {
-			x = logFileName.lastIndexOf(".docroot.");
-
-			if (x == -1) {
-				x = Math.max(
-					logFileName.lastIndexOf(
-						".src.main.resources.META_INF.resources."),
-					logFileName.lastIndexOf(".src.META_INF.resources."));
-			}
-
-			if (x == -1) {
-				return content;
-			}
-
-			x = logFileName.lastIndexOf(StringPool.PERIOD, x - 1);
-
-			logFileName = "com_liferay_" + logFileName.substring(x + 1);
-
-			logFileName = StringUtil.replace(
-				logFileName,
-				new String[] {
-					".docroot.", ".src.main.resources.META_INF.resources.",
-					".src.META_INF.resources."
-				},
-				new String[] {
-					StringPool.PERIOD, StringPool.PERIOD, StringPool.PERIOD
-				});
-		}
-
-		return StringUtil.replace(
-			content, matcher.group(),
-			"Log _log = LogFactoryUtil.getLog(\"" + logFileName + "\")");
-	}
-
-	protected String formatTaglibVariable(String fileName, String content) {
-		Matcher matcher = _taglibVariablePattern.matcher(content);
-
-		while (matcher.find()) {
-			String taglibValue = matcher.group(3);
-
-			if (taglibValue.contains("\\\"") ||
-				(taglibValue.contains(StringPool.APOSTROPHE) &&
-				 taglibValue.contains(StringPool.QUOTE))) {
-
-				continue;
-			}
-
-			String taglibName = matcher.group(2);
-			String nextTag = matcher.group(4);
-
-			if (!nextTag.contains(taglibName)) {
-				processMessage(
-					fileName,
-					"No need to specify taglib variable '" + taglibName + "'",
-					getLineCount(content, matcher.start()));
-
-				continue;
-			}
-
-			content = StringUtil.replaceFirst(
-				content, taglibName, taglibValue, matcher.start(4));
-
-			return content = StringUtil.replaceFirst(
-				content, matcher.group(1), StringPool.BLANK, matcher.start());
-		}
-
-		return content;
-	}
-
 	@Override
 	protected List<FileCheck> getFileChecks() {
 		return _fileChecks;
-	}
-
-	protected int getTaglibXSSVulnerabilityPos(
-		String content, String vulnerability) {
-
-		int x = -1;
-
-		while (true) {
-			x = content.indexOf(vulnerability, x + 1);
-
-			if (x == -1) {
-				return x;
-			}
-
-			String tagContent = null;
-
-			int y = x;
-
-			while (true) {
-				y = content.lastIndexOf(CharPool.LESS_THAN, y - 1);
-
-				if (y == -1) {
-					return -1;
-				}
-
-				if (content.charAt(y + 1) == CharPool.PERCENT) {
-					continue;
-				}
-
-				tagContent = content.substring(y, x);
-
-				if (getLevel(tagContent, "<", ">") == 1) {
-					break;
-				}
-			}
-
-			if (!tagContent.startsWith("<aui:") &&
-				!tagContent.startsWith("<liferay-portlet:") &&
-				!tagContent.startsWith("<liferay-util:") &&
-				!tagContent.startsWith("<portlet:")) {
-
-				return x;
-			}
-		}
-	}
-
-	protected String getUtilTaglibSrcDirName() {
-		if (_utilTaglibSrcDirName != null) {
-			return _utilTaglibSrcDirName;
-		}
-
-		File utilTaglibDir = getFile("util-taglib/src", PORTAL_MAX_DIR_LEVEL);
-
-		String utilTaglibSrcDirName = null;
-
-		if (utilTaglibDir != null) {
-			utilTaglibSrcDirName = utilTaglibDir.getAbsolutePath();
-
-			utilTaglibSrcDirName = StringUtil.replace(
-				utilTaglibSrcDirName, CharPool.BACK_SLASH, CharPool.SLASH);
-
-			utilTaglibSrcDirName += StringPool.SLASH;
-		}
-		else {
-			utilTaglibSrcDirName = StringPool.BLANK;
-		}
-
-		_utilTaglibSrcDirName = utilTaglibSrcDirName;
-
-		return _utilTaglibSrcDirName;
 	}
 
 	@Override
@@ -884,14 +455,24 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 				getContent(
 					sourceFormatterArgs.getCopyrightFileName(),
 					PORTAL_MAX_DIR_LEVEL)));
+		_fileChecks.add(
+			new JSPDefineObjectsCheck(
+				portalSource, subrepository,
+				getPluginsInsideModulesDirectoryNames()));
 		_fileChecks.add(new JSPEmptyLinesCheck());
 		_fileChecks.add(new JSPIfStatementCheck());
+		_fileChecks.add(new JSPLogFileNameCheck(subrepository));
+		_fileChecks.add(new JSPRedirectBackURLCheck());
 		_fileChecks.add(new JSPSessionKeysCheck());
+		_fileChecks.add(new JSPStylingCheck());
+		_fileChecks.add(new JSPSubnameCheck());
 		_fileChecks.add(
 			new JSPTagAttributesCheck(
 				portalSource, subrepository,
 				_getPrimitiveTagAttributeDataTypes(), _getTagJavaClassesMap()));
+		_fileChecks.add(new JSPTaglibVariableCheck());
 		_fileChecks.add(new JSPUnusedImportCheck(_contentsMap));
+		_fileChecks.add(new JSPXSSVulnerabilitiesCheck());
 		_fileChecks.add(
 			new MethodCallsOrderCheck(getExcludes(METHOD_CALL_SORT_EXCLUDES)));
 		_fileChecks.add(new StringUtilCheck());
@@ -914,6 +495,11 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 					getExcludes(LANGUAGE_KEYS_CHECK_EXCLUDES),
 					getPortalLanguageProperties()));
 		}
+	}
+
+	@Override
+	protected void populateModuleFileChecks() throws Exception {
+		_fileChecks.add(new JSPModuleIllegalImportsCheck(subrepository));
 	}
 
 	private Map<String, String> _getContentsMap() throws Exception {
@@ -1012,7 +598,7 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 								"/src/main/java/";
 					}
 					else {
-						srcDir = getUtilTaglibSrcDirName();
+						srcDir = _getUtilTaglibSrcDirName();
 
 						if (Validator.isNull(srcDir)) {
 							continue outerLoop;
@@ -1060,144 +646,25 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 		return tagJavaClassesMap;
 	}
 
+	private String _getUtilTaglibSrcDirName() {
+		File utilTaglibDir = getFile("util-taglib/src", PORTAL_MAX_DIR_LEVEL);
+
+		if (utilTaglibDir == null) {
+			return StringPool.BLANK;
+		}
+
+		String utilTaglibSrcDirName = utilTaglibDir.getAbsolutePath();
+
+		utilTaglibSrcDirName = StringUtil.replace(
+			utilTaglibSrcDirName, CharPool.BACK_SLASH, CharPool.SLASH);
+
+		utilTaglibSrcDirName += StringPool.SLASH;
+
+		return utilTaglibSrcDirName;
+	}
+
 	private static final String[] _INCLUDES =
 		new String[] {"**/*.jsp", "**/*.jspf", "**/*.tpl", "**/*.vm"};
-
-	private static final String[][] _LIFERAY_FRONTEND_DEFINE_OBJECTS =
-		new String[][] {
-			new String[] {"String", "currentURL", "currentURLObj.toString()"},
-			new String[] {
-				"PortletURL", "currentURLObj",
-				"PortletURLUtil.getCurrent(liferayPortletRequest, " +
-					"liferayPortletResponse)"
-			},
-			new String[] {
-				"ResourceBundle", "resourceBundle",
-				"ResourceBundleUtil.getBundle(\"content.Language\", locale, " +
-					"getClass()"
-			},
-			new String[] {
-				"WindowState", "windowState",
-				"liferayPortletRequest.getWindowState()"
-			}
-		};
-
-	private static final String[][] _LIFERAY_THEME_DEFINE_OBJECTS =
-		new String[][] {
-			new String[] {"Account", "account", "themeDisplay.getAccount()"},
-			new String[] {
-				"ColorScheme", "colorScheme", "themeDisplay.getColorScheme()"
-			},
-			new String[] {"Company", "company", "themeDisplay.getCompany()"},
-			new String[] {"Contact", "contact", "themeDisplay.getContact()"},
-			new String[] {"Layout", "layout", "themeDisplay.getLayout()"},
-			new String[] {
-				"List<Layout>", "layouts", "themeDisplay.getLayouts()"
-			},
-			new String[] {
-				"LayoutTypePortlet", "layoutTypePortlet",
-				"themeDisplay.getLayoutTypePortlet()"
-			},
-			new String[] {"Locale", "locale", "themeDisplay.getLocale()"},
-			new String[] {
-				"PermissionChecker", "permissionChecker",
-				"themeDisplay.getPermissionChecker()"
-			},
-			new String[] {"long", "plid", "themeDisplay.getPlid()"},
-			new String[] {
-				"PortletDisplay", "portletDisplay",
-				"themeDisplay.getPortletDisplay()"
-			},
-			new String[] {"User", "realUser", "themeDisplay.getRealUser()"},
-			new String[] {
-				"long", "scopeGroupId", "themeDisplay.getScopeGroupId()"
-			},
-			new String[] {"Theme", "theme", "themeDisplay.getTheme()"},
-			new String[] {
-				"ThemeDisplay", "themeDisplay",
-				"(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY)"
-			},
-			new String[] {"TimeZone", "timeZone", "themeDisplay.getTimeZone()"},
-			new String[] {"User", "user", "themeDisplay.getUser()"},
-			new String[] {
-				"long", "portletGroupId", "themeDisplay.getScopeGroupId()"
-			}
-		};
-
-	private static final String[][] _PORTLET_DEFINE_OBJECTS = new String[][] {
-		new String[] {
-			"PortletConfig", "portletConfig",
-			"(PortletConfig)request.getAttribute(JavaConstants." +
-				"JAVAX_PORTLET_CONFIG)"
-		},
-		new String[] {
-			"String", "portletName", "portletConfig.getPortletName()"
-		},
-		new String[] {
-			"LiferayPortletRequest", "liferayPortletRequest",
-			"PortalUtil.getLiferayPortletRequest(portletRequest)"
-		},
-		new String[] {
-			"PortletRequest", "actionRequest",
-			"(PortletRequest)request.getAttribute(JavaConstants." +
-				"JAVAX_PORTLET_REQUEST)"
-		},
-		new String[] {
-			"PortletRequest", "eventRequest",
-			"(PortletRequest)request.getAttribute(JavaConstants." +
-				"JAVAX_PORTLET_REQUEST)"
-		},
-		new String[] {
-			"PortletRequest", "renderRequest",
-			"(PortletRequest)request.getAttribute(JavaConstants." +
-				"JAVAX_PORTLET_REQUEST)"
-		},
-		new String[] {
-			"PortletRequest", "resourceRequest",
-			"(PortletRequest)request.getAttribute(JavaConstants." +
-				"JAVAX_PORTLET_REQUEST)"
-		},
-		new String[] {
-			"PortletPreferences", "portletPreferences",
-			"portletRequest.getPreferences()"
-		},
-		new String[] {
-			"Map<String, String[]>", "portletPreferencesValues",
-			"portletPreferences.getMap()"
-		},
-		new String[] {
-			"PortletSession", "portletSession",
-			"portletRequest.getPortletSession()"
-		},
-		new String[] {
-			"Map<String, Object>", "portletSessionScope",
-			"portletSession.getAttributeMap()"
-		},
-		new String[] {
-			"LiferayPortletResponse", "liferayPortletResponse",
-			"PortalUtil.getLiferayPortletResponse(portletResponse)"
-		},
-		new String[] {
-			"PortletResponse", "actionResponse",
-			"(PortletResponse)request.getAttribute(JavaConstants." +
-				"JAVAX_PORTLET_RESPONSE)"
-		},
-		new String[] {
-			"PortletResponse", "eventResponse",
-			"(PortletResponse)request.getAttribute(JavaConstants." +
-				"JAVAX_PORTLET_RESPONSE)"
-		},
-		new String[] {
-			"PortletResponse", "renderResponse",
-			"(PortletResponse)request.getAttribute(JavaConstants." +
-				"JAVAX_PORTLET_RESPONSE)"
-		},
-		new String[] {
-			"PortletResponse", "resourceResponse",
-			"(PortletResponse)request.getAttribute(JavaConstants." +
-				"JAVAX_PORTLET_RESPONSE)"
-		}
-	};
 
 	private static final String _UNUSED_VARIABLES_EXCLUDES =
 		"jsp.unused.variables.excludes";
@@ -1207,43 +674,17 @@ public class JSPSourceProcessor extends BaseSourceProcessor {
 	private final Pattern _compressedJSPTaglibPattern = Pattern.compile(
 		"(<.*\n*taglib uri=\".*>\n*)+", Pattern.MULTILINE);
 	private Map<String, String> _contentsMap;
-	private final Pattern _defineObjectsPattern = Pattern.compile(
-		"\n\t*(<.*:defineObjects />)(\n|$)");
-	private final List<String> _duplicateImportClassNames = new ArrayList<>();
-	private final Pattern _emptyJavaSourceTagPattern = Pattern.compile(
-		"\n\t*<%\n+\t*%>\n");
 	private final List<FileCheck> _fileChecks = new ArrayList<>();
-	private final List<String> _importClassNames = new ArrayList<>();
-	private final Map<String, Integer> _importCountMap = new HashMap<>();
-	private final Pattern _importsPattern = Pattern.compile(
-		"page import=\"(.+)\"");
 	private final Pattern _includeFilePattern = Pattern.compile(
 		"\\s*@\\s*include\\s*file=['\"](.*)['\"]");
-	private final Pattern _incorrectClosingTagPattern = Pattern.compile(
-		"\n(\t*)\t((?!<\\w).)* />\n");
 	private Pattern _javaClassPattern = Pattern.compile(
 		"\n(private|protected|public).* class ([A-Za-z0-9]+) " +
 			"([\\s\\S]*?)\n\\}\n");
 	private final Pattern _jspIncludeFilePattern = Pattern.compile(
 		"/.*\\.(jsp[f]?|svg)");
-	private final Pattern _logPattern = Pattern.compile(
-		"Log _log = LogFactoryUtil\\.getLog\\(\"(.*?)\"\\)");
-	private final Pattern _missingEmptyLineBetweenDefineOjbectsPattern =
-		Pattern.compile("<.*:defineObjects />\n<.*:defineObjects />\n");
-	private final Pattern _redirectBackURLPattern = Pattern.compile(
-		"(String redirect = ParamUtil\\.getString\\(request, \"redirect\".*" +
-			"\\);)\n(String backURL = ParamUtil\\.getString\\(request, \"" +
-				"backURL\", redirect\\);)");
-	private final Pattern _subnamePattern = Pattern.compile(
-		"\\s(_?sub[A-Z]\\w+)[; ]");
-	private final Pattern _taglibVariablePattern = Pattern.compile(
-		"(\n\t*String (taglib\\w+) = (.*);)\n\\s*%>\\s+(<[\\S\\s]*?>)\n");
 	private final Pattern _uncompressedJSPImportPattern = Pattern.compile(
 		"(<.*page import=\".*>\n*)+", Pattern.MULTILINE);
 	private final Pattern _uncompressedJSPTaglibPattern = Pattern.compile(
 		"(<.*taglib uri=\".*>\n*)+", Pattern.MULTILINE);
-	private String _utilTaglibSrcDirName;
-	private final Pattern _xssPattern = Pattern.compile(
-		"\\s+([^\\s]+)\\s*=\\s*(Bean)?ParamUtil\\.getString\\(");
 
 }

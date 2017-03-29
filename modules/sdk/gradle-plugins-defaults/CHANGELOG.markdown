@@ -1241,15 +1241,15 @@ version 1.1.3.
 ### Added
 - [LPS-71303]: Set the `liferayThemeDefaults.useLocalDependencies` property to
 `false` to avoid providing the `--css-common-path`, `--styled-path`, and
-`--unstyled-path` arguments to the Gulp tasks, and use the dependencies declared
-in `package.json` instead.
+`--unstyled-path` arguments to the Gulp tasks. The dependencies declared in the
+`package.json` are used instead.
 
 ### Changed
 - [LPS-71164]: Update the [Liferay Gradle Plugins] dependency to version 3.2.22.
 
 ### Fixed
-- [LPS-71264]: Use the actual directory of the Maven local repository as the
-default value for the `mavenRootDir` property of `InstallCacheTask`.
+- [LPS-71264]: Use the Maven local repository's actual directory as the
+default value for the `InstallCacheTask`'s `mavenRootDir` property.
 
 ## 3.5.1 - 2017-03-17
 
@@ -1264,8 +1264,8 @@ default value for the `mavenRootDir` property of `InstallCacheTask`.
 ## 3.5.3 - 2017-03-21
 
 ### Added
-- [LPS-70146]: Disable `printDependentArtifact` task for `*-test` projects.
-- [LPS-71376]: Disable `uploadArchives` task for `*-test` projects.
+- [LPS-70146]: Disable the `printDependentArtifact` task for `*-test` projects.
+- [LPS-71376]: Disable the `uploadArchives` task for `*-test` projects.
 
 ### Changed
 - [LPS-71164]: Update the [Liferay Gradle Plugins] dependency to version 3.2.25.
@@ -1273,13 +1273,13 @@ default value for the `mavenRootDir` property of `InstallCacheTask`.
 ### Fixed
 - [LPS-63943]: Avoid failing the build when running
 `gradlew writeArtifactPublishCommands` from a directory that does not contain
-any publishable subproject.
+any publishable subprojects.
 
 ## 3.5.4 - 2017-03-22
 
 ### Added
-- [LPS-71354]: Include only projects in one or more specific directories by
-setting the `build.include.dirs` system property.
+- [LPS-71354]: Add the ability to set specific directories to include for
+multi-project builds by setting the `build.include.dirs` system property.
 
 ## 3.5.5 - 2017-03-22
 
@@ -1295,6 +1295,13 @@ setting the `build.include.dirs` system property.
 
 ### Changed
 - [LPS-71164]: Update the [Liferay Gradle Plugins] dependency to version 3.2.28.
+
+## 3.5.8 - 2017-03-28
+
+### Changed
+- [LPS-71164]: Update the [Liferay Gradle Plugins] dependency to version 3.2.29.
+- [LPS-71535]: Update the [Liferay Gradle Plugins Baseline] dependency to
+version 1.1.4.
 
 [Liferay CDN]: https://cdn.lfrs.sl/repository.liferay.com/nexus/content/groups/public
 [Liferay Gradle Plugins]: https://github.com/liferay/liferay-portal/tree/master/modules/sdk/gradle-plugins
@@ -1427,6 +1434,7 @@ setting the `build.include.dirs` system property.
 [LPS-71331]: https://issues.liferay.com/browse/LPS-71331
 [LPS-71354]: https://issues.liferay.com/browse/LPS-71354
 [LPS-71376]: https://issues.liferay.com/browse/LPS-71376
+[LPS-71535]: https://issues.liferay.com/browse/LPS-71535
 [LRDOCS-2594]: https://issues.liferay.com/browse/LRDOCS-2594
 [LRDOCS-2841]: https://issues.liferay.com/browse/LRDOCS-2841
 [LRDOCS-2981]: https://issues.liferay.com/browse/LRDOCS-2981

@@ -14,6 +14,8 @@
 
 package com.liferay.source.formatter.checks;
 
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Tuple;
 import com.liferay.source.formatter.SourceFormatterMessage;
 
@@ -43,6 +45,8 @@ public class JavaFinderCacheCheck extends BaseFileCheck {
 		_checkFinderCacheInterfaceMethod(
 			sourceFormatterMessages, fileName, content);
 
+		content = _fixClearCache(fileName, content);
+
 		return new Tuple(content, sourceFormatterMessages);
 	}
 
@@ -58,6 +62,20 @@ public class JavaFinderCacheCheck extends BaseFileCheck {
 				"Missing override of BasePersistenceImpl." +
 					"fetchByPrimaryKeys(Set<Serializable>), see LPS-49552");
 		}
+	}
+
+	private String _fixClearCache(String fileName, String content) {
+
+		// LPS-47648
+
+		if (fileName.contains("/test/integration/") ||
+			fileName.contains("/testIntegration/java")) {
+
+			content = StringUtil.replace(
+				content, "FinderCacheUtil.clearCache();", StringPool.BLANK);
+		}
+
+		return content;
 	}
 
 	private final Pattern _fetchByPrimaryKeysMethodPattern = Pattern.compile(

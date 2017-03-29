@@ -2,7 +2,7 @@
 ; Do not manually edit this file.
 ;
 [subrepo]
-	autopull = false
+	autopull = true
 	cmdver = liferay
 	commit = b34e7d2c2ed314c101c448ad9ce852b8a524a815
 	mergebuttonmergecommits = false

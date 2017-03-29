@@ -38,19 +38,19 @@ public class DefaultSQLTransformerTest {
 
 	@Test
 	public void testTransformWithNoFunctions() {
+		String sql = "select * from Foo";
+
 		SQLTransformer sqlTransformer = new DefaultSQLTransformer(
 			new Function[0]);
-
-		String sql = "select * from Foo";
 
 		Assert.assertEquals(sql, sqlTransformer.transform(sql));
 	}
 
 	@Test
 	public void testTransformWithNullFunction() {
-		SQLTransformer sqlTransformer = new DefaultSQLTransformer(null);
-
 		String sql = "select * from Foo";
+
+		SQLTransformer sqlTransformer = new DefaultSQLTransformer(null);
 
 		Assert.assertEquals(sql, sqlTransformer.transform(sql));
 	}
