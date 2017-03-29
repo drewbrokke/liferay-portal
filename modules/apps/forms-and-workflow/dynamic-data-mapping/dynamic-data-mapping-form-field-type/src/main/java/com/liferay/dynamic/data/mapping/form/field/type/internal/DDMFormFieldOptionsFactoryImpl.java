@@ -17,24 +17,20 @@ package com.liferay.dynamic.data.mapping.form.field.type.internal;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderContext;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderContextFactory;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderOutputParametersSettings;
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderParameterSettings;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderRequest;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderResponse;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderResponseOutput;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldOptionsFactory;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldOptions;
 import com.liferay.dynamic.data.mapping.render.DDMFormFieldRenderingContext;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.KeyValuePair;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
@@ -117,47 +113,26 @@ public class DDMFormFieldOptionsFactoryImpl
 				ddmDataProviderInvoker.invoke(ddmDataProviderRequest);
 
 			String ddmDataProviderInstanceOutput = GetterUtil.getString(
-				ddmFormField.getProperty("ddmDataProviderInstanceOutput"));
+				ddmFormField.getProperty("ddmDataProviderInstanceOutput"),
+				"Default-Output");
 
-			if (Validator.isNotNull(ddmDataProviderInstanceOutput)) {
-				DDMDataProviderOutputParametersSettings outputParameterSetting =
-					getDDMDataProviderOutputParametersSetting(
-						ddmDataProviderInstanceOutput, ddmDataProviderContext);
+			DDMDataProviderResponseOutput dataProviderResponseOutput =
+				ddmDataProviderResponse.get(ddmDataProviderInstanceOutput);
 
-				String[] paths = StringUtil.split(
-					outputParameterSetting.outputParameterPath(),
-					CharPool.SEMICOLON);
+			if ((dataProviderResponseOutput == null) ||
+				!Objects.equals(dataProviderResponseOutput.getType(), "list")) {
 
-				String key = paths[0];
-
-				String value = key;
-
-				if (paths.length > 1) {
-					value = paths[1];
-				}
-
-				for (Map<Object, Object> map :
-						ddmDataProviderResponse.getData()) {
-
-					ddmFormFieldOptions.addOptionLabel(
-						String.valueOf(map.get(value)),
-						ddmFormFieldRenderingContext.getLocale(),
-						String.valueOf(map.get(key)));
-				}
+				return ddmFormFieldOptions;
 			}
-			else {
-				for (Map<Object, Object> ddmDataProviderData :
-						ddmDataProviderResponse.getData()) {
 
-					for (Entry<Object, Object> entry :
-							ddmDataProviderData.entrySet()) {
+			List<KeyValuePair> keyValuesPairs =
+				dataProviderResponseOutput.getValue(List.class);
 
-						ddmFormFieldOptions.addOptionLabel(
-							String.valueOf(entry.getValue()),
-							ddmFormFieldRenderingContext.getLocale(),
-							String.valueOf(entry.getKey()));
-					}
-				}
+			for (KeyValuePair keyValuePair : keyValuesPairs) {
+				ddmFormFieldOptions.addOptionLabel(
+					keyValuePair.getKey(),
+					ddmFormFieldRenderingContext.getLocale(),
+					keyValuePair.getValue());
 			}
 		}
 		catch (Exception e) {
@@ -167,30 +142,6 @@ public class DDMFormFieldOptionsFactoryImpl
 		}
 
 		return ddmFormFieldOptions;
-	}
-
-	protected DDMDataProviderOutputParametersSettings
-		getDDMDataProviderOutputParametersSetting(
-			String ddmDataProviderOutput,
-			DDMDataProviderContext ddmDataProviderContext) {
-
-		DDMDataProviderParameterSettings ddmDataProviderParemeterSettings =
-			ddmDataProviderContext.getSettingsInstance(
-				DDMDataProviderParameterSettings.class);
-
-		for (DDMDataProviderOutputParametersSettings
-				ddmDataProviderOutputParametersSetting :
-					ddmDataProviderParemeterSettings.outputParameters()) {
-
-			if (ddmDataProviderOutput.equals(
-					ddmDataProviderOutputParametersSetting.
-						outputParameterName())) {
-
-				return ddmDataProviderOutputParametersSetting;
-			}
-		}
-
-		return null;
 	}
 
 	@Reference

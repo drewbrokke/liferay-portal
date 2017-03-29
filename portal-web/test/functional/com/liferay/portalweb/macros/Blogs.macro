@@ -139,6 +139,8 @@
 			<var name="tagName" value="${tagName}" />
 		</execute>
 
+		<execute function="SelectFrameTop" value1="relative=top" />
+
 		<execute macro="PortletEntry#publish" />
 	</command>
 
@@ -160,6 +162,8 @@
 				<var name="tagName" value="${tagName}" />
 			</execute>
 		</for>
+
+		<execute function="SelectFrameTop" value1="relative=top" />
 
 		<execute macro="PortletEntry#publish" />
 	</command>
