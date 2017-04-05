@@ -16,7 +16,18 @@ package com.liferay.portal.security.permission;
 
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ResourcePermission;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.RoleConstants;
+import com.liferay.portal.kernel.model.UserGroupRole;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.UserGroupRoleUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.model.impl.ResourcePermissionModelImpl;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Preston Crary
@@ -59,7 +70,35 @@ public class ResourcePermissionModelListener
 			PermissionCacheUtil.clearResourcePermissionCache(
 				resourcePermission.getScope(), resourcePermission.getName(),
 				resourcePermission.getPrimKey());
+
+			long[] userIds = _getRoleUserIds(resourcePermission.getRoleId());
+
+			PermissionCacheUtil.clearUserPrimaryKeyRolePortalCache(userIds);
 		}
+	}
+
+	private long[] _getRoleUserIds(long roleId) {
+		Role role = RoleLocalServiceUtil.fetchRole(roleId);
+
+		int roleType = role.getType();
+
+		if ((role != null) &&
+			((roleType == RoleConstants.TYPE_ORGANIZATION) ||
+			 (roleType == RoleConstants.TYPE_SITE))) {
+
+			List<UserGroupRole> userGroupRoles = UserGroupRoleUtil.findByRoleId(
+				roleId);
+
+			Set<Long> userIds = new HashSet<>();
+
+			for (UserGroupRole userGroupRole : userGroupRoles) {
+				userIds.add(userGroupRole.getUserId());
+			}
+
+			return ArrayUtil.toLongArray(userIds);
+		}
+
+		return UserLocalServiceUtil.getRoleUserIds(roleId);
 	}
 
 	private static final long _CLEAR_ON_BEFORE_BITMASK =
