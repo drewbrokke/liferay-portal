@@ -64,6 +64,8 @@ public class ResourceBlockModelListener
 			PermissionCacheUtil.clearResourcePermissionCache(
 				ResourceConstants.SCOPE_INDIVIDUAL, resourceBlock.getName(),
 				String.valueOf(resourceBlock.getPrimaryKey()));
+
+			PermissionCacheUtil.clearCache();
 		}
 	}
 

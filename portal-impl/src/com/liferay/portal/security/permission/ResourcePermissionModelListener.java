@@ -59,6 +59,8 @@ public class ResourcePermissionModelListener
 			PermissionCacheUtil.clearResourcePermissionCache(
 				resourcePermission.getScope(), resourcePermission.getName(),
 				resourcePermission.getPrimKey());
+
+			PermissionCacheUtil.clearCache();
 		}
 	}
 
