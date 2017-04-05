@@ -153,6 +153,16 @@ public class PermissionCacheUtil {
 		}
 	}
 
+	public static void clearUserPrimaryKeyRolePortalCache(String roleName) {
+		_userPrimaryKeyRolePortalCacheRoleNameIndexer.removeKeys(roleName);
+
+		_permissionPortalCache.removeAll();
+		_resourceBlockIdsBagCache.removeAll();
+
+		_sendClearCacheClusterMessage(
+			_clearUserPrimaryKeyRolePortalCacheMethodKey, roleName);
+	}
+
 	public static Boolean getPermission(
 		long groupId, String name, String primKey, long[] roleIds,
 		String actionId) {
@@ -350,6 +360,10 @@ public class PermissionCacheUtil {
 		new MethodKey(
 			PermissionCacheUtil.class, "clearResourcePermissionCache",
 			int.class, String.class, String.class);
+	private static final MethodKey
+		_clearUserPrimaryKeyRolePortalCacheMethodKey = new MethodKey(
+			PermissionCacheUtil.class,
+			"clearUserPrimaryKeyRolePortalCacheMethodKey", String.class);
 	private static final PortalCache<PermissionKey, Boolean>
 		_permissionPortalCache = MultiVMPoolUtil.getPortalCache(
 			PERMISSION_CACHE_NAME,
@@ -385,6 +399,12 @@ public class PermissionCacheUtil {
 		_userPrimaryKeyRolePortalCache = MultiVMPoolUtil.getPortalCache(
 			USER_PRIMARY_KEY_ROLE_CACHE_NAME,
 			PropsValues.PERMISSIONS_OBJECT_BLOCKING_CACHE);
+	private static final PortalCacheIndexer
+		<String, UserPrimaryKeyRoleKey, Boolean>
+			_userPrimaryKeyRolePortalCacheRoleNameIndexer =
+				new PortalCacheIndexer<>(
+					new UserGroupRoleKeyRoleNameEncoder(),
+					_userPrimaryKeyRolePortalCache);
 	private static final PortalCacheIndexer
 		<Long, UserPrimaryKeyRoleKey, Boolean>
 			_userPrimaryKeyRolePortalCacheUserIdIndexer =
@@ -590,6 +610,16 @@ public class PermissionCacheUtil {
 		@Override
 		public Long encode(UserGroupRoleIdsKey userGroupRoleIdsKey) {
 			return userGroupRoleIdsKey._userId;
+		}
+
+	}
+
+	private static class UserGroupRoleKeyRoleNameEncoder
+		implements IndexEncoder<String, UserPrimaryKeyRoleKey> {
+
+		@Override
+		public String encode(UserPrimaryKeyRoleKey key) {
+			return key._name;
 		}
 
 	}
