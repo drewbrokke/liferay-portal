@@ -153,14 +153,16 @@ public class PermissionCacheUtil {
 		}
 	}
 
-	public static void clearUserPrimaryKeyRolePortalCache(String roleName) {
-		_userPrimaryKeyRolePortalCacheRoleNameIndexer.removeKeys(roleName);
+	public static void clearUserPrimaryKeyRolePortalCache(long... userIds) {
+		for (long userId : userIds) {
+			_userPrimaryKeyRolePortalCacheUserIdIndexer.removeKeys(userId);
+		}
 
 		_permissionPortalCache.removeAll();
 		_resourceBlockIdsBagCache.removeAll();
 
 		_sendClearCacheClusterMessage(
-			_clearUserPrimaryKeyRolePortalCacheMethodKey, roleName);
+			_clearUserPrimaryKeyRolePortalCacheMethodKey, userIds);
 	}
 
 	public static Boolean getPermission(
@@ -400,12 +402,6 @@ public class PermissionCacheUtil {
 			USER_PRIMARY_KEY_ROLE_CACHE_NAME,
 			PropsValues.PERMISSIONS_OBJECT_BLOCKING_CACHE);
 	private static final PortalCacheIndexer
-		<String, UserPrimaryKeyRoleKey, Boolean>
-			_userPrimaryKeyRolePortalCacheRoleNameIndexer =
-				new PortalCacheIndexer<>(
-					new UserGroupRoleKeyRoleNameEncoder(),
-					_userPrimaryKeyRolePortalCache);
-	private static final PortalCacheIndexer
 		<Long, UserPrimaryKeyRoleKey, Boolean>
 			_userPrimaryKeyRolePortalCacheUserIdIndexer =
 				new PortalCacheIndexer<>(
@@ -610,16 +606,6 @@ public class PermissionCacheUtil {
 		@Override
 		public Long encode(UserGroupRoleIdsKey userGroupRoleIdsKey) {
 			return userGroupRoleIdsKey._userId;
-		}
-
-	}
-
-	private static class UserGroupRoleKeyRoleNameEncoder
-		implements IndexEncoder<String, UserPrimaryKeyRoleKey> {
-
-		@Override
-		public String encode(UserPrimaryKeyRoleKey key) {
-			return key._name;
 		}
 
 	}
