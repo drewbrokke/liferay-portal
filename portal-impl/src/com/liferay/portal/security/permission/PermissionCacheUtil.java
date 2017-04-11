@@ -153,6 +153,18 @@ public class PermissionCacheUtil {
 		}
 	}
 
+	public static void clearUserPrimaryKeyRolePortalCache(long... userIds) {
+		for (long userId : userIds) {
+			_userPrimaryKeyRolePortalCacheUserIdIndexer.removeKeys(userId);
+		}
+
+		_permissionPortalCache.removeAll();
+		_resourceBlockIdsBagCache.removeAll();
+
+		_sendClearCacheClusterMessage(
+			_clearUserPrimaryKeyRolePortalCacheMethodKey, userIds);
+	}
+
 	public static Boolean getPermission(
 		long groupId, String name, String primKey, long[] roleIds,
 		String actionId) {
@@ -350,6 +362,10 @@ public class PermissionCacheUtil {
 		new MethodKey(
 			PermissionCacheUtil.class, "clearResourcePermissionCache",
 			int.class, String.class, String.class);
+	private static final MethodKey
+		_clearUserPrimaryKeyRolePortalCacheMethodKey = new MethodKey(
+			PermissionCacheUtil.class,
+			"clearUserPrimaryKeyRolePortalCacheMethodKey", String.class);
 	private static final PortalCache<PermissionKey, Boolean>
 		_permissionPortalCache = MultiVMPoolUtil.getPortalCache(
 			PERMISSION_CACHE_NAME,
