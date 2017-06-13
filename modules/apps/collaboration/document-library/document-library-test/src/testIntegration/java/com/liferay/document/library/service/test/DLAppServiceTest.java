@@ -17,6 +17,7 @@ package com.liferay.document.library.service.test;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.configuration.DLConfiguration;
 import com.liferay.document.library.kernel.exception.DuplicateFileEntryException;
 import com.liferay.document.library.kernel.exception.FileExtensionException;
 import com.liferay.document.library.kernel.exception.FileNameException;
@@ -61,7 +62,7 @@ import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -73,13 +74,15 @@ import com.liferay.portal.test.rule.ExpectedLogs;
 import com.liferay.portal.test.rule.ExpectedType;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.test.PrefsPropsTemporarySwapper;
 import com.liferay.portlet.documentlibrary.service.test.BaseDLAppTestCase;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
 
 import java.io.File;
 import java.io.InputStream;
 
 import java.util.Arrays;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -97,6 +100,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+
+import org.osgi.service.cm.Configuration;
+import org.osgi.service.cm.ConfigurationAdmin;
 
 /**
  * @author Alexander Chow
@@ -193,15 +199,14 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
-			try (PrefsPropsTemporarySwapper prefsPropsReplacement =
-					new PrefsPropsTemporarySwapper(
-						PropsKeys.DL_FILE_MAX_SIZE, 1L)) {
+			setUpDLConfiguration("fileMaxSize", 1L);
 
-				String fileName = RandomTestUtil.randomString();
+			String fileName = RandomTestUtil.randomString();
 
-				addFileEntry(
-					group.getGroupId(), parentFolder.getFolderId(), fileName);
-			}
+			addFileEntry(
+				group.getGroupId(), parentFolder.getFolderId(), fileName);
+
+			tearDownDLConfiguration();
 		}
 
 		@Test(expected = FileNameException.class)
@@ -243,16 +248,14 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 		public void shouldFailIfSourceFileNameExtensionNotSupported()
 			throws Exception {
 
-			try (PrefsPropsTemporarySwapper prefsPropsTemporarySwapper =
-					new PrefsPropsTemporarySwapper(
-						PropsKeys.DL_FILE_EXTENSIONS, "")) {
+			setUpDLConfiguration("fileExtensions", "");
 
-				String sourceFileName = "file.jpg";
+			String sourceFileName = "file.jpg";
 
-				addFileEntry(
-					group.getGroupId(), parentFolder.getFolderId(),
-					sourceFileName);
-			}
+			addFileEntry(
+				group.getGroupId(), parentFolder.getFolderId(), sourceFileName);
+
+			tearDownDLConfiguration();
 		}
 
 		@Test(expected = FileNameException.class)
@@ -1396,6 +1399,8 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
+			setUpDLConfiguration("fileMaxSize", 1L);
+
 			String fileName = RandomTestUtil.randomString();
 
 			ServiceContext serviceContext =
@@ -1406,18 +1411,15 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 				ContentTypes.TEXT_PLAIN, fileName, StringPool.BLANK,
 				StringPool.BLANK, null, 0, serviceContext);
 
-			try (PrefsPropsTemporarySwapper prefsPropsReplacement =
-					new PrefsPropsTemporarySwapper(
-						PropsKeys.DL_FILE_MAX_SIZE, 1L)) {
+			byte[] bytes = RandomTestUtil.randomBytes(
+				TikaSafeRandomizerBumper.INSTANCE);
 
-				byte[] bytes = RandomTestUtil.randomBytes(
-					TikaSafeRandomizerBumper.INSTANCE);
+			DLAppServiceUtil.updateFileEntry(
+				fileEntry.getFileEntryId(), fileName, ContentTypes.TEXT_PLAIN,
+				StringPool.BLANK, StringPool.BLANK, StringPool.BLANK, true,
+				bytes, serviceContext);
 
-				DLAppServiceUtil.updateFileEntry(
-					fileEntry.getFileEntryId(), fileName,
-					ContentTypes.TEXT_PLAIN, StringPool.BLANK, StringPool.BLANK,
-					StringPool.BLANK, true, bytes, serviceContext);
-			}
+			tearDownDLConfiguration();
 		}
 
 		@Test
@@ -1883,6 +1885,29 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 		DLAppServiceUtil.deleteFileEntry(fileEntry.getFileEntryId());
 	}
 
+	protected static void setUpDLConfiguration(String key, Object value)
+		throws Exception {
+
+		if (configurationAdmin == null) {
+			Registry registry = RegistryUtil.getRegistry();
+
+			configurationAdmin = registry.getService(ConfigurationAdmin.class);
+		}
+
+		_configuration = configurationAdmin.getConfiguration(
+			DLConfiguration.class.getName(), StringPool.QUESTION);
+
+		Dictionary<String, Object> properties = new HashMapDictionary<>();
+
+		properties.put(key, value);
+
+		_configuration.update(properties);
+	}
+
+	protected static void tearDownDLConfiguration() throws Exception {
+		_configuration.delete();
+	}
+
 	protected static FileEntry updateFileEntry(
 			long groupId, long fileEntryId, String fileName,
 			boolean majorVersion)
@@ -1898,11 +1923,15 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 			serviceContext);
 	}
 
+	protected static ConfigurationAdmin configurationAdmin;
+
 	private static final String _FILE_NAME = "Title.txt";
 
 	private static final String _STRIPPED_FILE_NAME = "Title";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DLAppServiceTest.class);
+
+	private static Configuration _configuration;
 
 }
