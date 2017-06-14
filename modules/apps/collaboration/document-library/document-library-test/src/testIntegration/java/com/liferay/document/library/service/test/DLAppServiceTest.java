@@ -28,7 +28,9 @@ import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.model.DLSyncConstants;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLTrashServiceUtil;
+import com.liferay.document.library.kernel.util.DLValidator;
 import com.liferay.document.library.workflow.WorkflowHandlerInvocationCounter;
+import com.liferay.osgi.util.ServiceTrackerFactory;
 import com.liferay.portal.kernel.comment.CommentManagerUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -75,8 +77,6 @@ import com.liferay.portal.test.rule.ExpectedType;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portlet.documentlibrary.service.test.BaseDLAppTestCase;
-import com.liferay.registry.Registry;
-import com.liferay.registry.RegistryUtil;
 
 import java.io.File;
 import java.io.InputStream;
@@ -85,6 +85,7 @@ import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import jodd.util.MimeTypes;
@@ -101,8 +102,15 @@ import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceEvent;
+import org.osgi.framework.ServiceListener;
+import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * @author Alexander Chow
@@ -199,14 +207,17 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
-			setUpDLConfiguration("fileMaxSize", 1L);
+			try {
+				setUpDLConfiguration("fileMaxSize", 1L);
 
-			String fileName = RandomTestUtil.randomString();
+				String fileName = RandomTestUtil.randomString();
 
-			addFileEntry(
-				group.getGroupId(), parentFolder.getFolderId(), fileName);
-
-			tearDownDLConfiguration();
+				addFileEntry(
+					group.getGroupId(), parentFolder.getFolderId(), fileName);
+			}
+			finally {
+				tearDownDLConfiguration();
+			}
 		}
 
 		@Test(expected = FileNameException.class)
@@ -248,14 +259,18 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 		public void shouldFailIfSourceFileNameExtensionNotSupported()
 			throws Exception {
 
-			setUpDLConfiguration("fileExtensions", "");
+			try {
+				setUpDLConfiguration("fileExtensions", new String[] {".png"});
 
-			String sourceFileName = "file.jpg";
+				String sourceFileName = "file.jpg";
 
-			addFileEntry(
-				group.getGroupId(), parentFolder.getFolderId(), sourceFileName);
-
-			tearDownDLConfiguration();
+				addFileEntry(
+					group.getGroupId(), parentFolder.getFolderId(),
+					sourceFileName);
+			}
+			finally {
+				tearDownDLConfiguration();
+			}
 		}
 
 		@Test(expected = FileNameException.class)
@@ -1399,27 +1414,31 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
-			setUpDLConfiguration("fileMaxSize", 1L);
+			try {
+				setUpDLConfiguration("fileMaxSize", 1L);
 
-			String fileName = RandomTestUtil.randomString();
+				String fileName = RandomTestUtil.randomString();
 
-			ServiceContext serviceContext =
-				ServiceContextTestUtil.getServiceContext(group.getGroupId());
+				ServiceContext serviceContext =
+					ServiceContextTestUtil.getServiceContext(
+						group.getGroupId());
 
-			FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
-				group.getGroupId(), parentFolder.getFolderId(), fileName,
-				ContentTypes.TEXT_PLAIN, fileName, StringPool.BLANK,
-				StringPool.BLANK, null, 0, serviceContext);
+				FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
+					group.getGroupId(), parentFolder.getFolderId(), fileName,
+					ContentTypes.TEXT_PLAIN, fileName, StringPool.BLANK,
+					StringPool.BLANK, null, 0, serviceContext);
 
-			byte[] bytes = RandomTestUtil.randomBytes(
-				TikaSafeRandomizerBumper.INSTANCE);
+				byte[] bytes = RandomTestUtil.randomBytes(
+					TikaSafeRandomizerBumper.INSTANCE);
 
-			DLAppServiceUtil.updateFileEntry(
-				fileEntry.getFileEntryId(), fileName, ContentTypes.TEXT_PLAIN,
-				StringPool.BLANK, StringPool.BLANK, StringPool.BLANK, true,
-				bytes, serviceContext);
-
-			tearDownDLConfiguration();
+				DLAppServiceUtil.updateFileEntry(
+					fileEntry.getFileEntryId(), fileName,
+					ContentTypes.TEXT_PLAIN, StringPool.BLANK, StringPool.BLANK,
+					StringPool.BLANK, true, bytes, serviceContext);
+			}
+			finally {
+				tearDownDLConfiguration();
+			}
 		}
 
 		@Test
@@ -1888,24 +1907,113 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 	protected static void setUpDLConfiguration(String key, Object value)
 		throws Exception {
 
-		if (configurationAdmin == null) {
-			Registry registry = RegistryUtil.getRegistry();
+		final CountDownLatch countDownLatch = new CountDownLatch(1);
 
-			configurationAdmin = registry.getService(ConfigurationAdmin.class);
+		Bundle dlAppServiceTestBundle = FrameworkUtil.getBundle(
+			DLAppServiceTest.class);
+
+		_dlValidatorServiceTracker = ServiceTrackerFactory.open(
+			dlAppServiceTestBundle, DLValidator.class);
+
+		final DLValidator dlValidator =
+			_dlValidatorServiceTracker.waitForService(5000);
+
+		Bundle dlValidatorBundle = FrameworkUtil.getBundle(
+			dlValidator.getClass());
+
+		final BundleContext bundleContext =
+			dlValidatorBundle.getBundleContext();
+
+		ServiceListener serviceListener = new ServiceListener() {
+
+			@Override
+			public void serviceChanged(ServiceEvent serviceEvent) {
+				if (serviceEvent.getType() != ServiceEvent.MODIFIED) {
+					return;
+				}
+
+				ServiceReference<?> serviceReference =
+					serviceEvent.getServiceReference();
+
+				Object service = bundleContext.getService(serviceReference);
+
+				if (service == dlValidator) {
+					countDownLatch.countDown();
+				}
+			}
+
+		};
+
+		bundleContext.addServiceListener(serviceListener);
+
+		try {
+			_configurationAdminServiceTracker = ServiceTrackerFactory.open(
+				dlAppServiceTestBundle, ConfigurationAdmin.class);
+
+			ConfigurationAdmin configurationAdmin =
+				_configurationAdminServiceTracker.waitForService(5000);
+
+			_configuration = configurationAdmin.getConfiguration(
+				DLConfiguration.class.getName(), StringPool.QUESTION);
+
+			Dictionary<String, Object> properties = new HashMapDictionary();
+
+			properties.put(key, value);
+
+			_configuration.update(properties);
+
+			countDownLatch.await();
 		}
-
-		_configuration = configurationAdmin.getConfiguration(
-			DLConfiguration.class.getName(), StringPool.QUESTION);
-
-		Dictionary<String, Object> properties = new HashMapDictionary<>();
-
-		properties.put(key, value);
-
-		_configuration.update(properties);
+		finally {
+			bundleContext.removeServiceListener(serviceListener);
+		}
 	}
 
 	protected static void tearDownDLConfiguration() throws Exception {
-		_configuration.delete();
+		final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+		final DLValidator dlValidator =
+			_dlValidatorServiceTracker.waitForService(5000);
+
+		Bundle dlValidatorBundle = FrameworkUtil.getBundle(
+			dlValidator.getClass());
+
+		final BundleContext bundleContext =
+			dlValidatorBundle.getBundleContext();
+
+		ServiceListener serviceListener = new ServiceListener() {
+
+			@Override
+			public void serviceChanged(ServiceEvent serviceEvent) {
+				if (serviceEvent.getType() != ServiceEvent.MODIFIED) {
+					return;
+				}
+
+				ServiceReference<?> serviceReference =
+					serviceEvent.getServiceReference();
+
+				Object service = bundleContext.getService(serviceReference);
+
+				if (service == dlValidator) {
+					countDownLatch.countDown();
+				}
+			}
+
+		};
+
+		bundleContext.addServiceListener(serviceListener);
+
+		try {
+			_configuration.delete();
+
+			countDownLatch.await();
+		}
+		finally {
+			bundleContext.removeServiceListener(serviceListener);
+
+			_configurationAdminServiceTracker.close();
+			_dlValidatorServiceTracker.close();
+		}
 	}
 
 	protected static FileEntry updateFileEntry(
@@ -1923,8 +2031,6 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 			serviceContext);
 	}
 
-	protected static ConfigurationAdmin configurationAdmin;
-
 	private static final String _FILE_NAME = "Title.txt";
 
 	private static final String _STRIPPED_FILE_NAME = "Title";
@@ -1933,5 +2039,9 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 		DLAppServiceTest.class);
 
 	private static Configuration _configuration;
+	private static ServiceTracker<ConfigurationAdmin, ConfigurationAdmin>
+		_configurationAdminServiceTracker;
+	private static ServiceTracker<DLValidator, DLValidator>
+		_dlValidatorServiceTracker;
 
 }
