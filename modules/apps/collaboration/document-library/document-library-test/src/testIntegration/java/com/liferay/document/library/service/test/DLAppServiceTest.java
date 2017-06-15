@@ -63,6 +63,7 @@ import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -80,10 +81,8 @@ import java.io.File;
 import java.io.InputStream;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import com.liferay.portal.kernel.util.HashMapDictionary;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -201,7 +200,7 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 			temporaryValues.put("fileMaxSize", 1L);
 
-			try(ConfigurationTemporarySwapper configurationTemporarySwapper =
+			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
 					new ConfigurationTemporarySwapper(
 						DLAppServiceTest.class, DLValidator.class,
 						DLConfiguration.class.getName(), temporaryValues)) {
@@ -209,8 +208,7 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 				String fileName = RandomTestUtil.randomString();
 
 				addFileEntry(
-					group.getGroupId(), parentFolder.getFolderId(),
-					fileName);
+					group.getGroupId(), parentFolder.getFolderId(), fileName);
 			}
 		}
 
@@ -258,7 +256,7 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 			temporaryValues.put("fileExtensions", new String[] {".png"});
 
-			try(ConfigurationTemporarySwapper configurationTemporarySwapper =
+			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
 					new ConfigurationTemporarySwapper(
 						DLAppServiceTest.class, DLValidator.class,
 						DLConfiguration.class.getName(), temporaryValues)) {
@@ -1417,7 +1415,7 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 			temporaryValues.put("fileMaxSize", 1L);
 
-			try(ConfigurationTemporarySwapper configurationTemporarySwapper =
+			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
 					new ConfigurationTemporarySwapper(
 						DLAppServiceTest.class, DLValidator.class,
 						DLConfiguration.class.getName(), temporaryValues)) {
@@ -1429,19 +1427,17 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 						group.getGroupId());
 
 				FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
-					group.getGroupId(), parentFolder.getFolderId(),
-					fileName, ContentTypes.TEXT_PLAIN, fileName,
-					StringPool.BLANK, StringPool.BLANK, null, 0,
-					serviceContext);
+					group.getGroupId(), parentFolder.getFolderId(), fileName,
+					ContentTypes.TEXT_PLAIN, fileName, StringPool.BLANK,
+					StringPool.BLANK, null, 0, serviceContext);
 
 				byte[] bytes = RandomTestUtil.randomBytes(
 					TikaSafeRandomizerBumper.INSTANCE);
 
 				DLAppServiceUtil.updateFileEntry(
 					fileEntry.getFileEntryId(), fileName,
-					ContentTypes.TEXT_PLAIN, StringPool.BLANK,
-					StringPool.BLANK, StringPool.BLANK, true, bytes,
-					serviceContext);
+					ContentTypes.TEXT_PLAIN, StringPool.BLANK, StringPool.BLANK,
+					StringPool.BLANK, true, bytes, serviceContext);
 			}
 		}
 
