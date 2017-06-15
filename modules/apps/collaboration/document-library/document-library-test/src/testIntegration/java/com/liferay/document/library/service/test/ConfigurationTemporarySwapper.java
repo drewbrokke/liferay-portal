@@ -15,12 +15,9 @@
 package com.liferay.document.library.service.test;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
-import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.StringPool;
 
 import java.util.Dictionary;
-import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -60,7 +57,7 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 		// ----------------Configuration Admin------------------
 
 		_configurationAdminServiceTracker = ServiceTrackerFactory.open(
-				bundle, ConfigurationAdmin.class);
+			bundle, ConfigurationAdmin.class);
 
 		ConfigurationAdmin configurationAdmin =
 			_configurationAdminServiceTracker.waitForService(5000);
@@ -70,8 +67,8 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 
 		// ----------------Service Listener------------------
 
-		_serviceListener =
-			new ConfigurationServiceListener(service, serviceBundleContext);
+		_serviceListener = new ConfigurationServiceListener(
+			service, serviceBundleContext);
 
 		serviceBundleContext.addServiceListener(_serviceListener);
 
@@ -102,10 +99,11 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 		}
 	}
 
-	private final ConfigurationServiceListener _serviceListener;
 	private final Configuration _configuration;
+	private final ServiceTracker<ConfigurationAdmin, ConfigurationAdmin>
+		_configurationAdminServiceTracker;
+	private final ConfigurationServiceListener _serviceListener;
 	private final ServiceTracker<?, ?> _serviceServiceTracker;
-	private final ServiceTracker<ConfigurationAdmin, ConfigurationAdmin> _configurationAdminServiceTracker;
 
 	private static class ConfigurationServiceListener
 		implements ServiceListener {
