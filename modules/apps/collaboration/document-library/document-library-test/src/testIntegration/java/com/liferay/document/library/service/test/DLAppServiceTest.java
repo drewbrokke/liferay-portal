@@ -17,6 +17,7 @@ package com.liferay.document.library.service.test;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.configuration.DLConfiguration;
 import com.liferay.document.library.kernel.exception.DuplicateFileEntryException;
 import com.liferay.document.library.kernel.exception.FileExtensionException;
 import com.liferay.document.library.kernel.exception.FileNameException;
@@ -27,6 +28,7 @@ import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.model.DLSyncConstants;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLTrashServiceUtil;
+import com.liferay.document.library.kernel.util.DLValidator;
 import com.liferay.document.library.workflow.WorkflowHandlerInvocationCounter;
 import com.liferay.portal.kernel.comment.CommentManagerUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -61,7 +63,7 @@ import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -73,12 +75,13 @@ import com.liferay.portal.test.rule.ExpectedLogs;
 import com.liferay.portal.test.rule.ExpectedType;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.test.PrefsPropsTemporarySwapper;
+import com.liferay.portlet.documentlibrary.service.test.BaseDLAppTestCase;
 
 import java.io.File;
 import java.io.InputStream;
 
 import java.util.Arrays;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -192,9 +195,15 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
-			try (PrefsPropsTemporarySwapper prefsPropsReplacement =
-					new PrefsPropsTemporarySwapper(
-						PropsKeys.DL_FILE_MAX_SIZE, 1L)) {
+			Dictionary<String, Object> temporaryValues =
+				new HashMapDictionary();
+
+			temporaryValues.put("fileMaxSize", 1L);
+
+			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
+					new ConfigurationTemporarySwapper(
+						DLAppServiceTest.class, DLValidator.class,
+						DLConfiguration.class.getName(), temporaryValues)) {
 
 				String fileName = RandomTestUtil.randomString();
 
@@ -242,9 +251,15 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 		public void shouldFailIfSourceFileNameExtensionNotSupported()
 			throws Exception {
 
-			try (PrefsPropsTemporarySwapper prefsPropsTemporarySwapper =
-					new PrefsPropsTemporarySwapper(
-						PropsKeys.DL_FILE_EXTENSIONS, "")) {
+			Dictionary<String, Object> temporaryValues =
+				new HashMapDictionary();
+
+			temporaryValues.put("fileExtensions", new String[] {".png"});
+
+			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
+					new ConfigurationTemporarySwapper(
+						DLAppServiceTest.class, DLValidator.class,
+						DLConfiguration.class.getName(), temporaryValues)) {
 
 				String sourceFileName = "file.jpg";
 
@@ -1395,19 +1410,26 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
-			String fileName = RandomTestUtil.randomString();
+			Dictionary<String, Object> temporaryValues =
+				new HashMapDictionary();
 
-			ServiceContext serviceContext =
-				ServiceContextTestUtil.getServiceContext(group.getGroupId());
+			temporaryValues.put("fileMaxSize", 1L);
 
-			FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
-				group.getGroupId(), parentFolder.getFolderId(), fileName,
-				ContentTypes.TEXT_PLAIN, fileName, StringPool.BLANK,
-				StringPool.BLANK, null, 0, serviceContext);
+			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
+					new ConfigurationTemporarySwapper(
+						DLAppServiceTest.class, DLValidator.class,
+						DLConfiguration.class.getName(), temporaryValues)) {
 
-			try (PrefsPropsTemporarySwapper prefsPropsReplacement =
-					new PrefsPropsTemporarySwapper(
-						PropsKeys.DL_FILE_MAX_SIZE, 1L)) {
+				String fileName = RandomTestUtil.randomString();
+
+				ServiceContext serviceContext =
+					ServiceContextTestUtil.getServiceContext(
+						group.getGroupId());
+
+				FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
+					group.getGroupId(), parentFolder.getFolderId(), fileName,
+					ContentTypes.TEXT_PLAIN, fileName, StringPool.BLANK,
+					StringPool.BLANK, null, 0, serviceContext);
 
 				byte[] bytes = RandomTestUtil.randomBytes(
 					TikaSafeRandomizerBumper.INSTANCE);
