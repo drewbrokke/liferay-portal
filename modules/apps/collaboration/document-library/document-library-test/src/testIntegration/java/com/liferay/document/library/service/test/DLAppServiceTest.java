@@ -82,6 +82,8 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import com.liferay.portal.kernel.util.HashMapDictionary;
+import java.util.Dictionary;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -194,20 +196,22 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
-			Map<String, Object> temporaryValues = new HashMap();
+			Dictionary<String, Object> temporaryValues =
+				new HashMapDictionary();
 
 			temporaryValues.put("fileMaxSize", 1L);
 
-			ConfigurationTestUtil.runWithConfiguration(
-				DLAppServiceTest.class, DLValidator.class,
-				DLConfiguration.class.getName(), temporaryValues,
-				() -> {
-					String fileName = RandomTestUtil.randomString();
+			try(ConfigurationTemporarySwapper configurationTemporarySwapper =
+					new ConfigurationTemporarySwapper(
+						DLAppServiceTest.class, DLValidator.class,
+						DLConfiguration.class.getName(), temporaryValues)) {
 
-					return addFileEntry(
-						group.getGroupId(), parentFolder.getFolderId(),
-						fileName);
-				});
+				String fileName = RandomTestUtil.randomString();
+
+				addFileEntry(
+					group.getGroupId(), parentFolder.getFolderId(),
+					fileName);
+			}
 		}
 
 		@Test(expected = FileNameException.class)
@@ -249,20 +253,22 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 		public void shouldFailIfSourceFileNameExtensionNotSupported()
 			throws Exception {
 
-			Map<String, Object> temporaryValues = new HashMap();
+			Dictionary<String, Object> temporaryValues =
+				new HashMapDictionary();
 
 			temporaryValues.put("fileExtensions", new String[] {".png"});
 
-			ConfigurationTestUtil.runWithConfiguration(
-				DLAppServiceTest.class, DLValidator.class,
-				DLConfiguration.class.getName(), temporaryValues,
-				() -> {
-					String sourceFileName = "file.jpg";
+			try(ConfigurationTemporarySwapper configurationTemporarySwapper =
+					new ConfigurationTemporarySwapper(
+						DLAppServiceTest.class, DLValidator.class,
+						DLConfiguration.class.getName(), temporaryValues)) {
 
-					return addFileEntry(
-						group.getGroupId(), parentFolder.getFolderId(),
-						sourceFileName);
-				});
+				String sourceFileName = "file.jpg";
+
+				addFileEntry(
+					group.getGroupId(), parentFolder.getFolderId(),
+					sourceFileName);
+			}
 		}
 
 		@Test(expected = FileNameException.class)
@@ -1406,35 +1412,37 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
-			Map<String, Object> temporaryValues = new HashMap();
+			Dictionary<String, Object> temporaryValues =
+				new HashMapDictionary();
 
 			temporaryValues.put("fileMaxSize", 1L);
 
-			ConfigurationTestUtil.runWithConfiguration(
-				DLAppServiceTest.class, DLValidator.class,
-				DLConfiguration.class.getName(), temporaryValues,
-				() -> {
-					String fileName = RandomTestUtil.randomString();
+			try(ConfigurationTemporarySwapper configurationTemporarySwapper =
+					new ConfigurationTemporarySwapper(
+						DLAppServiceTest.class, DLValidator.class,
+						DLConfiguration.class.getName(), temporaryValues)) {
 
-					ServiceContext serviceContext =
-						ServiceContextTestUtil.getServiceContext(
-							group.getGroupId());
+				String fileName = RandomTestUtil.randomString();
 
-					FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
-						group.getGroupId(), parentFolder.getFolderId(),
-						fileName, ContentTypes.TEXT_PLAIN, fileName,
-						StringPool.BLANK, StringPool.BLANK, null, 0,
-						serviceContext);
+				ServiceContext serviceContext =
+					ServiceContextTestUtil.getServiceContext(
+						group.getGroupId());
 
-					byte[] bytes = RandomTestUtil.randomBytes(
-						TikaSafeRandomizerBumper.INSTANCE);
+				FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
+					group.getGroupId(), parentFolder.getFolderId(),
+					fileName, ContentTypes.TEXT_PLAIN, fileName,
+					StringPool.BLANK, StringPool.BLANK, null, 0,
+					serviceContext);
 
-					return DLAppServiceUtil.updateFileEntry(
-						fileEntry.getFileEntryId(), fileName,
-						ContentTypes.TEXT_PLAIN, StringPool.BLANK,
-						StringPool.BLANK, StringPool.BLANK, true, bytes,
-						serviceContext);
-				});
+				byte[] bytes = RandomTestUtil.randomBytes(
+					TikaSafeRandomizerBumper.INSTANCE);
+
+				DLAppServiceUtil.updateFileEntry(
+					fileEntry.getFileEntryId(), fileName,
+					ContentTypes.TEXT_PLAIN, StringPool.BLANK,
+					StringPool.BLANK, StringPool.BLANK, true, bytes,
+					serviceContext);
+			}
 		}
 
 		@Test
