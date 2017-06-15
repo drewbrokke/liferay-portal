@@ -48,11 +48,11 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 		_serviceServiceTracker = ServiceTrackerFactory.open(
 			bundle, serviceClass);
 
-		Object service = _serviceServiceTracker.waitForService(5000);
+		_service = _serviceServiceTracker.waitForService(5000);
 
-		Bundle serviceBundle = FrameworkUtil.getBundle(service.getClass());
+		Bundle serviceBundle = FrameworkUtil.getBundle(_service.getClass());
 
-		BundleContext serviceBundleContext = serviceBundle.getBundleContext();
+		_serviceBundleContext = serviceBundle.getBundleContext();
 
 		// ----------------Configuration Admin------------------
 
@@ -67,10 +67,9 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 
 		// ----------------Service Listener------------------
 
-		_serviceListener = new ConfigurationServiceListener(
-			service, serviceBundleContext);
+		_serviceListener = new ConfigurationServiceListener();
 
-		serviceBundleContext.addServiceListener(_serviceListener);
+		_serviceBundleContext.addServiceListener(_serviceListener);
 
 		_serviceListener._countDownLatch = new CountDownLatch(1);
 
@@ -91,8 +90,7 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 			_serviceListener._countDownLatch.await(2L, TimeUnit.MINUTES);
 		}
 		finally {
-			_serviceListener._serviceBundleContext.removeServiceListener(
-				_serviceListener);
+			_serviceBundleContext.removeServiceListener(_serviceListener);
 
 			_serviceServiceTracker.close();
 			_configurationAdminServiceTracker.close();
@@ -102,11 +100,12 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 	private final Configuration _configuration;
 	private final ServiceTracker<ConfigurationAdmin, ConfigurationAdmin>
 		_configurationAdminServiceTracker;
+	private final Object _service;
+	private final BundleContext _serviceBundleContext;
 	private final ConfigurationServiceListener _serviceListener;
 	private final ServiceTracker<?, ?> _serviceServiceTracker;
 
-	private static class ConfigurationServiceListener
-		implements ServiceListener {
+	private class ConfigurationServiceListener implements ServiceListener {
 
 		public void serviceChanged(ServiceEvent serviceEvent) {
 			if (serviceEvent.getType() == ServiceEvent.MODIFIED) {
@@ -122,16 +121,7 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 			}
 		}
 
-		private ConfigurationServiceListener(
-			Object service, BundleContext serviceBundleContext) {
-
-			_service = service;
-			_serviceBundleContext = serviceBundleContext;
-		}
-
 		private CountDownLatch _countDownLatch;
-		private final Object _service;
-		private final BundleContext _serviceBundleContext;
 
 	}
 
