@@ -17,8 +17,14 @@ package com.liferay.text.localizer.address.util;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Country;
 import com.liferay.portal.kernel.model.Region;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.CountryServiceUtil;
 import com.liferay.portal.kernel.service.RegionServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+
+import java.util.Locale;
 
 /**
  * @author Pei-Jung Lan
@@ -31,7 +37,7 @@ public class AddressTextLocalizerUtil {
 		Country country = CountryServiceUtil.fetchCountry(countryId);
 
 		if (country != null) {
-			return country.getName();
+			return country.getName(getUserLocale());
 		}
 
 		return null;
@@ -47,6 +53,21 @@ public class AddressTextLocalizerUtil {
 		}
 
 		return null;
+	}
+
+	public static Locale getUserLocale() {
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
+
+		ThemeDisplay themeDisplay = serviceContext.getThemeDisplay();
+
+		User user = themeDisplay.getUser();
+
+		if (user != null) {
+			return user.getLocale();
+		}
+
+		return themeDisplay.getLocale();
 	}
 
 }
