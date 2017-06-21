@@ -1743,6 +1743,19 @@ to version 2.0.16.
 - [LPS-73058]: Update the [Liferay Source Formatter] dependency to version
 1.0.406.
 
+## 3.3.28 - 2017-06-15
+
+### Changed
+- [LPS-72705]: Update the [Liferay Gradle Plugins Source Formatter] dependency
+to version 2.0.18.
+- [LPS-72705]: Update the [Liferay Source Formatter] dependency to version
+1.0.407.
+
+## 3.3.29 - 2017-06-16
+
+### Removed
+- [LPS-73147]: Remove unnecessary default Bnd instruction `-dsannotations: *`.
+
 [Gradle Bundle Plugin]: https://github.com/TomDmitriev/gradle-bundle-plugin
 [Liferay Alloy Taglib]: https://github.com/liferay/alloy-taglibs
 [Liferay Ant BND]: https://github.com/liferay/liferay-portal/tree/master/modules/sdk/ant-bnd
@@ -1903,4 +1916,5 @@ to version 2.0.16.
 [LPS-72868]: https://issues.liferay.com/browse/LPS-72868
 [LPS-72914]: https://issues.liferay.com/browse/LPS-72914
 [LPS-73058]: https://issues.liferay.com/browse/LPS-73058
+[LPS-73147]: https://issues.liferay.com/browse/LPS-73147
 [LRDOCS-3023]: https://issues.liferay.com/browse/LRDOCS-3023
