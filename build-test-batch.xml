@@ -2209,6 +2209,66 @@ ${output.content}</echo>
 		</run-batch-test>
 	</target>
 
+	<target name="portal-startup-space-in-path-jdk8">
+		<sequential>
+			<run-batch-test>
+				<test-action>
+					<database-test-run-test database.type="mysql" stop.app.server="true">
+						<test-action>
+							<trycatch>
+								<try>
+									<sequential>
+										<antcall inheritAll="false" target="prepare-log4j-ext-xml">
+											<param name="database.type" value="@{database.type}" />
+										</antcall>
+
+										<antcall inheritAll="false" target="prepare-portal-ext-properties">
+											<param name="database.type" value="@{database.type}" />
+										</antcall>
+
+										<antcall inheritAll="false" target="prepare-system-ext-properties" />
+
+										<antcall inheritAll="false" target="start-app-server" />
+									</sequential>
+								</try>
+							</trycatch>
+
+								<antcall inheritall="false" target="stop-app-server" />
+
+						</test-action>
+					</database-test-run-test>
+				</test-action>
+
+				<test-set-up>
+					<if>
+						<isset property="env.DIST_PATH" />
+						<then>
+							<sequential>
+
+								<propertyfile file="app.server.${env.HOSTNAME}.properties">
+									<entry key="app.server.parent.dir" value="${project.dir}/bun dles" />
+								</propertyfile>
+
+								<propertyfile file="build.${env.HOSTNAME}.properties">
+									<entry key="liferay.home" value="${project.dir}/bun dles" />
+								</propertyfile>
+
+								<prepare-test-environment />
+
+								<move file="bundles" tofile="bun dles" />
+
+							</sequential>
+						</then>
+						<else>
+							<prepare-test-build />
+						</else>
+					</if>
+
+				</test-set-up>
+			</run-batch-test>
+		</sequential>
+	</target>
+
 	<target name="portal-web-jdk8">
 		<run-batch-test>
 			<test-action>
@@ -2574,9 +2634,11 @@ information. Make sure to commit in all build services results.
 			<try>
 				<move file="${module.base.dir}/settings.gradle" tofile="${module.base.dir}/settings.gradle.temp" />
 
-				<gradle-execute checktask="true" dir="${module.base.dir}" task="assemble" />
+				<gradle-execute checktask="true" dir="${module.base.dir}" outputproperty="gradle.output" task="assemble" />
 			</try>
 			<catch>
+				<echo message="${gradle.output.error}" />
+
 				<fail message="${failure.property}" />
 			</catch>
 			<finally>
@@ -2604,12 +2666,14 @@ information. Make sure to commit in all build services results.
 			<try>
 				<move file="${module.base.dir}/settings.gradle" tofile="${module.base.dir}/settings.gradle.temp" />
 
-				<gradle-execute checktask="true" dir="${module.base.dir}" task="pmdMain">
+				<gradle-execute checktask="true" dir="${module.base.dir}" outputproperty="gradle.output" task="pmdMain">
 					<arg value="pmdTest" />
 					<arg value="pmdTestIntegration" />
 				</gradle-execute>
 			</try>
 			<catch>
+				<echo message="${gradle.output.error}" />
+
 				<fail message="${failure.property}" />
 			</catch>
 			<finally>
@@ -2640,9 +2704,11 @@ information. Make sure to commit in all build services results.
 			<try>
 				<move file="${module.base.dir}/settings.gradle" tofile="${module.base.dir}/settings.gradle.temp" />
 
-				<gradle-execute checktask="true" dir="${module.base.dir}" forcedcacheenabled="false" task="baseline" />
+				<gradle-execute checktask="true" dir="${module.base.dir}" forcedcacheenabled="false" outputproperty="gradle.output" task="baseline" />
 			</try>
 			<catch>
+				<echo message="${gradle.output.error}" />
+
 				<fail message="${failure.property}" />
 			</catch>
 			<finally>
@@ -2688,11 +2754,13 @@ information. Make sure to commit in all build services results.
 			<try>
 				<move file="${module.base.dir}/settings.gradle" tofile="${module.base.dir}/settings.gradle.temp" />
 
-				<gradle-execute dir="${module.base.dir}" task="checkSourceFormatting">
+				<gradle-execute dir="${module.base.dir}" outputproperty="gradle.output" task="checkSourceFormatting">
 					<arg value="-PdependencyCheckerIgnoreFailures=false" />
 				</gradle-execute>
 			</try>
 			<catch>
+				<echo message="${gradle.output.error}" />
+
 				<fail message="${failure.property}" />
 			</catch>
 			<finally>
@@ -2710,9 +2778,11 @@ information. Make sure to commit in all build services results.
 			<try>
 				<move file="${module.base.dir}/settings.gradle" tofile="${module.base.dir}/settings.gradle.temp" />
 
-				<gradle-execute checktask="true" dir="${module.base.dir}" forcedcacheenabled="false" task="test" />
+				<gradle-execute checktask="true" dir="${module.base.dir}" forcedcacheenabled="false" outputproperty="gradle.output" task="test" />
 			</try>
 			<catch>
+				<echo message="${gradle.output.error}" />
+
 				<fail message="${failure.property}" />
 			</catch>
 			<finally>

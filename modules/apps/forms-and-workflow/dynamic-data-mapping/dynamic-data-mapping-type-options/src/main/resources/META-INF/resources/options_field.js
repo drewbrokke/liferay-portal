@@ -215,7 +215,9 @@ AUI.add(
 
 						value.splice(newIndex, 0, value.splice(oldIndex, 1)[0]);
 
-						instance.setValue(value);
+						instance._setValue(value);
+
+						instance._renderOptions();
 					},
 
 					processEvaluationContext: function(context) {
@@ -242,7 +244,7 @@ AUI.add(
 
 						value.splice(index, 1);
 
-						instance.setValue(value);
+						instance._setValue(value);
 
 						if (index > 0 && value.length > 0) {
 							options[index - 1].focus();
@@ -250,6 +252,8 @@ AUI.add(
 						else {
 							instance.getLastOption().focus();
 						}
+
+						instance._renderOptions();
 					},
 
 					render: function() {
@@ -495,13 +499,13 @@ AUI.add(
 
 						var form = instance.get('parent');
 
-						if (form) {
-							var field = form.get('field');
-
-							return field.get('locale');
+						if (!form) {
+							return instance.get('locale');
 						}
 
-						return instance.get('defaultLanguageId');
+						var field = form.get('field');
+
+						return field.get('locale');
 					},
 
 					_getCurrentLocaleOptionsValues: function() {
@@ -509,7 +513,7 @@ AUI.add(
 
 						var value = instance.get('value');
 
-						var defaultLanguageId = instance.get('defaultLanguageId');
+						var defaultLanguageId = instance.get('locale');
 						var editingLanguageId = instance._getCurrentEditingLanguageId();
 
 						return value[editingLanguageId] || value[defaultLanguageId] || [];
@@ -610,6 +614,22 @@ AUI.add(
 						}
 
 						instance._skipOptionValueChange = false;
+					},
+
+					_setContext: function(val) {
+						var instance = this;
+
+						var context = OptionsField.superclass._setContext.apply(instance, arguments);
+
+						var locale = instance.get('locale');
+
+						var value = context.value;
+
+						if (value && !value[locale]) {
+							value[locale] = value[context.defaultLanguageId];
+						}
+
+						return context;
 					},
 
 					_setValue: function(optionValues) {

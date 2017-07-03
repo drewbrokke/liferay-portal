@@ -312,6 +312,10 @@ public class BlogsEntryStagedModelDataHandler
 		if (coverImageSelector != null) {
 			_blogsEntryLocalService.addCoverImage(
 				importedEntry.getEntryId(), coverImageSelector);
+
+			_blogsEntryLocalService.addOriginalImageFileEntry(
+				userId, importedEntry.getGroupId(), importedEntry.getEntryId(),
+				coverImageSelector);
 		}
 
 		// Small image
@@ -355,6 +359,10 @@ public class BlogsEntryStagedModelDataHandler
 		if (smallImageSelector != null) {
 			_blogsEntryLocalService.addSmallImage(
 				importedEntry.getEntryId(), smallImageSelector);
+
+			_blogsEntryLocalService.addOriginalImageFileEntry(
+				userId, importedEntry.getGroupId(), importedEntry.getEntryId(),
+				smallImageSelector);
 		}
 
 		if ((coverImageSelector != null) || (smallImageSelector != null)) {
@@ -513,8 +521,7 @@ public class BlogsEntryStagedModelDataHandler
 
 		List<FriendlyURLEntry> friendlyURLEntries =
 			_friendlyURLEntryLocalService.getFriendlyURLEntries(
-				blogsEntry.getGroupId(), blogsEntry.getCompanyId(), classNameId,
-				blogsEntry.getEntryId());
+				blogsEntry.getGroupId(), classNameId, blogsEntry.getEntryId());
 
 		for (FriendlyURLEntry friendlyURLEntry : friendlyURLEntries) {
 			StagedModelDataHandlerUtil.exportReferenceStagedModel(
@@ -610,8 +617,7 @@ public class BlogsEntryStagedModelDataHandler
 
 		FriendlyURLEntry mainFriendlyURLEntry =
 			_friendlyURLEntryLocalService.getMainFriendlyURLEntry(
-				importedBlogsEntry.getGroupId(),
-				importedBlogsEntry.getCompanyId(), BlogsEntry.class,
+				importedBlogsEntry.getGroupId(), BlogsEntry.class,
 				importedBlogsEntry.getEntryId());
 
 		importedBlogsEntry.setUrlTitle(mainFriendlyURLEntry.getUrlTitle());

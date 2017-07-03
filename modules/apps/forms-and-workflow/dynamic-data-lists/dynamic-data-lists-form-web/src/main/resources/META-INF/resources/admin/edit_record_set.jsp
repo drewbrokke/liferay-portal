@@ -45,8 +45,8 @@ renderResponse.setTitle((recordSet == null) ? LanguageUtil.get(request, "new-for
 <div class="hide portlet-forms" id="<portlet:namespace />formContainer">
 	<aui:nav-bar cssClass="collapse-basic-search" id="toolbar" markupView="lexicon">
 		<aui:nav cssClass="navbar-nav">
-			<aui:nav-item id="showForm" label="Builder" selected="<%= true %>" />
-			<aui:nav-item id="showRules" label="Rules" />
+			<aui:nav-item id="showForm" label='<%= LanguageUtil.get(request, "builder") %>' selected="<%= true %>" />
+			<aui:nav-item id="showRules" label='<%= LanguageUtil.get(request, "rules") %>' />
 		</aui:nav>
 	</aui:nav-bar>
 
@@ -224,7 +224,6 @@ renderResponse.setTitle((recordSet == null) ? LanguageUtil.get(request, "new-for
 				portletNamespace: '<portlet:namespace />',
 				publishRecordSetURL: '<%= publishRecordSetURL.toString() %>',
 				restrictedFormURL: '<%= ddlFormAdminDisplayContext.getRestrictedFormURL() %>',
-				rules: <%= ddlFormAdminDisplayContext.getSerializedDDMFormRules() %>,
 				sharedFormURL: '<%= ddlFormAdminDisplayContext.getSharedFormURL() %>'
 			};
 
@@ -266,6 +265,7 @@ renderResponse.setTitle((recordSet == null) ? LanguageUtil.get(request, "new-for
 											published: !!<%= ddlFormAdminDisplayContext.isFormPublished() %>,
 											publishRecordSetURL: '<%= publishRecordSetURL.toString() %>',
 											recordSetId: <%= recordSetId %>,
+											rules: <%= ddlFormAdminDisplayContext.getSerializedDDMFormRules() %>,
 											translationManager: Liferay.component('<portlet:namespace />translationManager')
 										}
 									)

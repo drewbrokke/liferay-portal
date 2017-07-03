@@ -43,7 +43,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 	paginationMode = com.liferay.dynamic.data.mapping.model.DDMFormLayout.TABBED_MODE,
 	value = {
 		@DDMFormLayoutPage(
-			title = "basic",
+			title = "%basic",
 			value = {
 				@DDMFormLayoutRow(
 					{
@@ -56,7 +56,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 			}
 		),
 		@DDMFormLayoutPage(
-			title = "properties",
+			title = "%properties",
 			value = {
 				@DDMFormLayoutRow(
 					{
@@ -84,7 +84,7 @@ public interface TextDDMFormFieldTypeSettings
 	@DDMFormField(
 		label = "%create-list",
 		optionLabels = {"%manually", "%from-data-provider"},
-		optionValues = {"manual", "data-provider"}, predefinedValue = "manual",
+		optionValues = {"manual", "data-provider"},
 		properties = {"showLabel=false"}, type = "radio",
 		visibilityExpression = "TRUE"
 	)

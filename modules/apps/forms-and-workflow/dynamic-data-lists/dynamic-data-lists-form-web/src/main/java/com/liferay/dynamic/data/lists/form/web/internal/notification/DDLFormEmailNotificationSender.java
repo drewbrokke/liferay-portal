@@ -54,6 +54,7 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PrefsPropsUtil;
 
@@ -355,6 +356,11 @@ public class DDLFormEmailNotificationSender {
 		return pages;
 	}
 
+	protected ResourceBundle getResourceBundle(Locale locale) {
+		return ResourceBundleUtil.getBundle(
+			"content.Language", locale, getClass());
+	}
+
 	protected String getSiteName(long groupId, Locale locale) {
 		Group siteGroup = _groupLocalService.fetchGroup(groupId);
 
@@ -379,8 +385,19 @@ public class DDLFormEmailNotificationSender {
 		return (ThemeDisplay)portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
-	protected String getViewFormEntriesURL(
-			PortletRequest portletRequest, DDLRecordSet recordSet)
+	protected String getUserName(DDLRecord record, Locale locale) {
+		String userName = record.getUserName();
+
+		if (Validator.isNotNull(userName)) {
+			return userName;
+		}
+
+		ResourceBundle resourceBundle = getResourceBundle(locale);
+
+		return LanguageUtil.get(resourceBundle, "someone");
+	}
+
+	protected String getViewFormEntriesURL(DDLRecordSet recordSet)
 		throws PortalException {
 
 		Map<String, String[]> params = new HashMap<>();
@@ -400,12 +417,8 @@ public class DDLFormEmailNotificationSender {
 			DDLFormPortletKeys.DYNAMIC_DATA_LISTS_FORM_ADMIN, params);
 	}
 
-	protected String getViewFormURL(
-			PortletRequest portletRequest, DDLRecordSet recordSet,
-			DDLRecord record)
+	protected String getViewFormURL(DDLRecordSet recordSet, DDLRecord record)
 		throws PortalException {
-
-		ThemeDisplay themeDisplay = getThemeDisplay(portletRequest);
 
 		Map<String, String[]> params = new HashMap<>();
 
@@ -423,7 +436,7 @@ public class DDLFormEmailNotificationSender {
 			new String[] {String.valueOf(recordSet.getRecordSetId())});
 
 		return _portal.getControlPanelFullURL(
-			themeDisplay.getScopeGroupId(),
+			recordSet.getGroupId(),
 			DDLFormPortletKeys.DYNAMIC_DATA_LISTS_FORM_ADMIN, params);
 	}
 
@@ -438,12 +451,9 @@ public class DDLFormEmailNotificationSender {
 		template.put("formName", recordSet.getName(locale));
 		template.put("pages", getPages(recordSet, record));
 		template.put("siteName", getSiteName(recordSet.getGroupId(), locale));
-		template.put("userName", record.getUserName());
-		template.put(
-			"viewFormEntriesURL",
-			getViewFormEntriesURL(portletRequest, recordSet));
-		template.put(
-			"viewFormURL", getViewFormURL(portletRequest, recordSet, record));
+		template.put("userName", getUserName(record, locale));
+		template.put("viewFormEntriesURL", getViewFormEntriesURL(recordSet));
+		template.put("viewFormURL", getViewFormURL(recordSet, record));
 	}
 
 	protected String render(Template template) throws TemplateException {

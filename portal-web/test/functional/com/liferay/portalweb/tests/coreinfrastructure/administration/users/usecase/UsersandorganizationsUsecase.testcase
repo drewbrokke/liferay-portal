@@ -246,6 +246,7 @@
 		</execute>
 
 		<execute function="Close#closeWindow" locator1="title=Welcome - ${siteName}" />
+
 		<execute function="SelectWindow" locator1="title=Users and Organizations - Control Panel - ${siteName}" />
 
 		<execute macro="ProductMenu#gotoControlPanelUsers">
@@ -297,6 +298,7 @@
 		</execute>
 
 		<execute function="Close#closeWindow" locator1="title=Welcome - ${siteName}" />
+
 		<execute function="SelectWindow" locator1="title=Users and Organizations - Control Panel - ${siteName}" />
 
 		<execute macro="ProductMenu#gotoControlPanelUsers">
@@ -309,6 +311,7 @@
 		</execute>
 
 		<execute function="Close#closeWindow" locator1="title=Welcome - ${siteName}" />
+
 		<execute function="SelectWindow" locator1="title=Users and Organizations - Control Panel - ${siteName}" />
 
 		<execute macro="ProductMenu#gotoControlPanelUsers">
@@ -321,6 +324,7 @@
 		</execute>
 
 		<execute function="Close#closeWindow" locator1="title=Welcome - ${siteName}" />
+
 		<execute function="SelectWindow" locator1="title=Users and Organizations - Control Panel - ${siteName}" />
 	</command>
 

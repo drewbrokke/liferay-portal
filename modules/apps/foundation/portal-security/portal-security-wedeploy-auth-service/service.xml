@@ -36,7 +36,7 @@
 			<finder-column name="clientSecret" />
 		</finder>
 	</entity>
-	<entity local-service="true" name="WeDeployAuthToken" remote-service="true" uuid="false">
+	<entity local-service="true" name="WeDeployAuthToken" remote-service="false" uuid="false">
 
 		<!-- PK fields -->
 
@@ -58,6 +58,10 @@
 
 		<!-- Finder methods -->
 
+		<finder name="T_T" return-type="WeDeployAuthToken">
+			<finder-column name="token" />
+			<finder-column name="type" />
+		</finder>
 		<finder name="CI_T_T" return-type="WeDeployAuthToken">
 			<finder-column name="clientId" />
 			<finder-column name="token" />

@@ -88,7 +88,7 @@
 
 		<execute macro="Staging#enablePageInSitePagesVariation">
 			<var name="pageName" value="Test Page Name" />
-			<var name="sitePagesVariationName" value="main-variation" />
+			<var name="sitePagesVariationName" value="Main Variation" />
 		</execute>
 
 		<execute macro="Navigator#gotoStagedSitePage">
@@ -354,7 +354,7 @@
 		</execute>
 	</command>
 
-	<command name="StagingSiteVariationIncompletePage" priority="4">
+	<command name="StagingSiteVariationIncompletePage" priority="5">
 		<execute macro="Staging#addSitePagesVariationPG">
 			<var name="sitePagesVariationName" value="Site Pages Variation Name" />
 		</execute>
@@ -373,6 +373,8 @@
 			<var name="page" value="Public Pages" />
 			<var name="site" value="Site Name" />
 		</execute>
+
+		<execute function="AssertElementPresent" locator1="Staging#STAGING_PUBLISH_TO_LIVE_BUTTON" />
 
 		<execute macro="Page#selectSitePagesVariationName">
 			<var name="sitePagesVariationName" value="Main Variation" />

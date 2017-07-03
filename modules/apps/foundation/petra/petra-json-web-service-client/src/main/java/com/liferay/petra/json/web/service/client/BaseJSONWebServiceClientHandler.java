@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +58,7 @@ public abstract class BaseJSONWebServiceClientHandler {
 	protected String doDelete(String url, String... parametersArray)
 		throws JSONWebServiceInvocationException {
 
-		Map<String, String> parameters = new HashMap<>();
+		Map<String, String> parameters = new HashMap<String, String>();
 
 		for (int i = 0; i < parametersArray.length; i += 2) {
 			parameters.put(parametersArray[i], parametersArray[i + 1]);
@@ -80,7 +81,7 @@ public abstract class BaseJSONWebServiceClientHandler {
 	protected String doGet(String url, String... parametersArray)
 		throws JSONWebServiceInvocationException {
 
-		Map<String, String> parameters = new HashMap<>();
+		Map<String, String> parameters = new HashMap<String, String>();
 
 		for (int i = 0; i < parametersArray.length; i += 2) {
 			parameters.put(parametersArray[i], parametersArray[i + 1]);
@@ -103,7 +104,7 @@ public abstract class BaseJSONWebServiceClientHandler {
 		try {
 			TypeFactory typeFactory = objectMapper.getTypeFactory();
 
-			List<V> list = Collections.emptyList();
+			List<V> list = new ArrayList<V>();
 
 			JavaType javaType = typeFactory.constructCollectionType(
 				list.getClass(), clazz);
@@ -119,7 +120,7 @@ public abstract class BaseJSONWebServiceClientHandler {
 			Class<T> clazz, String url, String... parametersArray)
 		throws JSONWebServiceInvocationException {
 
-		Map<String, String> parameters = new HashMap<>();
+		Map<String, String> parameters = new HashMap<String, String>();
 
 		for (int i = 0; i < parametersArray.length; i += 2) {
 			parameters.put(parametersArray[i], parametersArray[i + 1]);
@@ -161,7 +162,7 @@ public abstract class BaseJSONWebServiceClientHandler {
 	protected String doPost(String url, String... parametersArray)
 		throws JSONWebServiceInvocationException {
 
-		Map<String, String> parameters = new HashMap<>();
+		Map<String, String> parameters = new HashMap<String, String>();
 
 		for (int i = 0; i < parametersArray.length; i += 2) {
 			parameters.put(parametersArray[i], parametersArray[i + 1]);
@@ -217,7 +218,7 @@ public abstract class BaseJSONWebServiceClientHandler {
 	protected String doPut(String url, String... parametersArray)
 		throws JSONWebServiceInvocationException {
 
-		Map<String, String> parameters = new HashMap<>();
+		Map<String, String> parameters = new HashMap<String, String>();
 
 		for (int i = 0; i < parametersArray.length; i += 2) {
 			parameters.put(parametersArray[i], parametersArray[i + 1]);

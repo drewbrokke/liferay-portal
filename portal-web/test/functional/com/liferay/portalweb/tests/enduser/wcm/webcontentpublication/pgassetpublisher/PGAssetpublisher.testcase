@@ -861,7 +861,7 @@
 
 		<execute macro="AssetPublisherPortlet#configureAssetDisplayOrderPG">
 			<var name="fieldNameOrder" value="Modified Date" />
-			<var name="sortOrder" value="Descending" />
+			<var name="sortOrder" value="Ascending" />
 		</execute>
 
 		<execute macro="Navigator#gotoPage">
@@ -896,9 +896,9 @@
 		</execute>
 
 		<execute macro="AssetPublisherPortlet#viewMultipleAssetOrderPGViaAP">
-			<var name="assetTitle1" value="WebContent Title 3" />
+			<var name="assetTitle1" value="WebContent Title 1" />
 			<var name="assetTitle2" value="WebContent Title 2" />
-			<var name="assetTitle3" value="WebContent Title 1" />
+			<var name="assetTitle3" value="WebContent Title 3" />
 		</execute>
 
 		<execute macro="WebContent#editPGViaAP">
@@ -912,9 +912,9 @@
 		</execute>
 
 		<execute macro="AssetPublisherPortlet#viewMultipleAssetOrderPGViaAP">
-			<var name="assetTitle1" value="WebContent Title 1 Edit" />
+			<var name="assetTitle1" value="WebContent Title 2" />
 			<var name="assetTitle2" value="WebContent Title 3" />
-			<var name="assetTitle3" value="WebContent Title 2" />
+			<var name="assetTitle3" value="WebContent Title 1 Edit" />
 		</execute>
 	</command>
 
@@ -936,7 +936,7 @@
 
 		<execute macro="AssetPublisherPortlet#configureAssetDisplayOrderPG">
 			<var name="fieldNameOrder" value="Modified Date" />
-			<var name="sortOrder" value="Descending" />
+			<var name="sortOrder" value="Ascending" />
 		</execute>
 
 		<execute macro="Navigator#gotoPage">
@@ -971,9 +971,9 @@
 		</execute>
 
 		<execute macro="AssetPublisherPortlet#viewMultipleAssetOrderPGViaAP">
-			<var name="assetTitle1" value="WebContent Title 3" />
+			<var name="assetTitle1" value="WebContent Title 1" />
 			<var name="assetTitle2" value="WebContent Title 2" />
-			<var name="assetTitle3" value="WebContent Title 1" />
+			<var name="assetTitle3" value="WebContent Title 3" />
 		</execute>
 
 		<execute macro="WebContent#editPGViaAP">
@@ -987,9 +987,9 @@
 		</execute>
 
 		<execute macro="AssetPublisherPortlet#viewMultipleAssetOrderPGViaAP">
-			<var name="assetTitle1" value="WebContent Title 1 Edit" />
+			<var name="assetTitle1" value="WebContent Title 2" />
 			<var name="assetTitle2" value="WebContent Title 3" />
-			<var name="assetTitle3" value="WebContent Title 2" />
+			<var name="assetTitle3" value="WebContent Title 1 Edit" />
 		</execute>
 	</command>
 
@@ -1110,7 +1110,6 @@
 
 		<execute macro="AssetPublisherPortlet#configureAssetDisplayOrderPG">
 			<var name="fieldNameOrder" value="Publish Date" />
-			<var name="sortOrder" value="Descending" />
 		</execute>
 
 		<execute macro="Navigator#gotoPage">
@@ -1149,9 +1148,9 @@
 		</execute>
 
 		<execute macro="AssetPublisherPortlet#viewMultipleAssetOrderPGViaAP">
-			<var name="assetTitle1" value="WebContent Title 3" />
+			<var name="assetTitle1" value="WebContent Title 1" />
 			<var name="assetTitle2" value="WebContent Title 2" />
-			<var name="assetTitle3" value="WebContent Title 1" />
+			<var name="assetTitle3" value="WebContent Title 3" />
 		</execute>
 	</command>
 

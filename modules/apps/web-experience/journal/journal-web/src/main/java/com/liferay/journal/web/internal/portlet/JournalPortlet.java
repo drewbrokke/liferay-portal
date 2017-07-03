@@ -112,7 +112,9 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.util.PropsValues;
+import com.liferay.trash.TrashHelper;
 import com.liferay.trash.kernel.service.TrashEntryService;
+import com.liferay.trash.util.TrashWebKeys;
 
 import java.io.File;
 import java.io.IOException;
@@ -463,6 +465,8 @@ public class JournalPortlet extends MVCPortlet {
 			RenderRequest renderRequest, RenderResponse renderResponse)
 		throws IOException, PortletException {
 
+		renderRequest.setAttribute(TrashWebKeys.TRASH_HELPER, _trashHelper);
+
 		String path = getPath(renderRequest, renderResponse);
 
 		if (Objects.equals(path, "/edit_article.jsp")) {
@@ -498,6 +502,8 @@ public class JournalPortlet extends MVCPortlet {
 	public void serveResource(
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 		throws IOException, PortletException {
+
+		resourceRequest.setAttribute(TrashWebKeys.TRASH_HELPER, _trashHelper);
 
 		resourceRequest.setAttribute(
 			JournalWebConfiguration.class.getName(), _journalWebConfiguration);
@@ -911,6 +917,13 @@ public class JournalPortlet extends MVCPortlet {
 
 			MultiSessionMessages.add(
 				actionRequest, ddmPortletId + "requestProcessed");
+		}
+
+		boolean hideDefaultSuccessMessage = ParamUtil.getBoolean(
+			actionRequest, "hideDefaultSuccessMessage");
+
+		if (hideDefaultSuccessMessage) {
+			hideDefaultSuccessMessage(actionRequest);
 		}
 	}
 
@@ -1469,5 +1482,8 @@ public class JournalPortlet extends MVCPortlet {
 
 	@Reference
 	private TrashEntryService _trashEntryService;
+
+	@Reference
+	private TrashHelper _trashHelper;
 
 }

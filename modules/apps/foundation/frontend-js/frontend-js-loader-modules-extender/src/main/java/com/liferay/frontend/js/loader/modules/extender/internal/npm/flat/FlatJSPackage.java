@@ -22,10 +22,25 @@ import com.liferay.portal.kernel.util.StringPool;
 import java.net.URL;
 
 /**
+ * Provides a complete implementation of {@link
+ * com.liferay.frontend.js.loader.modules.extender.npm.JSPackage}.
+ *
  * @author Iván Zaera
  */
 public class FlatJSPackage extends JSPackageAdapter {
 
+	/**
+	 * Constructs a <code>FlatJSPackage</code> with the package's bundle, name,
+	 * version, and default module name.
+	 *
+	 * @param flatJSBundle the package's bundle
+	 * @param name the package's name
+	 * @param version the package's version
+	 * @param mainModuleName the default module name
+	 * @param root whether the package is the root package of the bundle;
+	 *        otherwise, the package is an NPM package contained in the
+	 *        <code>node_modules</code> folder
+	 */
 	public FlatJSPackage(
 		FlatJSBundle flatJSBundle, String name, String version,
 		String mainModuleName, boolean root) {
@@ -39,7 +54,14 @@ public class FlatJSPackage extends JSPackageAdapter {
 			StringBundler basePath = new StringBundler(5);
 
 			basePath.append("META-INF/resources/node_modules/");
-			basePath.append(getName());
+
+			if (name.startsWith(StringPool.AT)) {
+				basePath.append(name.replace(StringPool.SLASH, "%2F"));
+			}
+			else {
+				basePath.append(name);
+			}
+
 			basePath.append(StringPool.AT);
 			basePath.append(getVersion());
 			basePath.append(StringPool.SLASH);

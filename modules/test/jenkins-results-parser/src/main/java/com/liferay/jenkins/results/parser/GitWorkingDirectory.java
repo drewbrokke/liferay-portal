@@ -43,6 +43,7 @@ import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.RebaseCommand;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -381,7 +382,18 @@ public class GitWorkingDirectory {
 			createBranchCommand.setStartPoint(startPoint);
 		}
 
-		createBranchCommand.call();
+		try {
+			createBranchCommand.call();
+		}
+		catch (JGitInternalException jgie) {
+			String errorMessage = jgie.getMessage();
+
+			if (errorMessage.contains("FAST_FORWARD")) {
+				return;
+			}
+
+			throw jgie;
+		}
 	}
 
 	public String createPullRequest(
@@ -422,6 +434,20 @@ public class GitWorkingDirectory {
 		deleteBranchCommand.setForce(true);
 
 		deleteBranchCommand.call();
+	}
+
+	public void deleteRemoteBranch(
+			String remoteBranchName, RemoteConfig remoteConfig)
+		throws GitAPIException {
+
+		String remoteURL = getRemoteURL(remoteConfig);
+
+		System.out.println(
+			JenkinsResultsParserUtil.combine(
+				"Deleting remote branch ", remoteBranchName, " from ",
+				remoteURL));
+
+		pushToRemote(true, "", remoteBranchName, remoteConfig);
 	}
 
 	public void fetch(RefSpec refSpec, RemoteConfig remoteConfig)

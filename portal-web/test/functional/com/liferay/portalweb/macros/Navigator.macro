@@ -45,10 +45,20 @@
 		<execute function="Click" locator1="Icon#BACK" />
 	</command>
 
+	<command name="gotoEditPageViaControlMenu">
+		<execute function="Click" locator1="ControlMenu#EDIT_COG" />
+
+		<execute function="AssertTextEquals" locator1="Portlet#HEADER" value1="${pageName}" />
+	</command>
+
 	<command name="gotoEntryInDescriptiveView">
 		<var name="key_siteName" value="${entryName}" />
 
 		<execute function="AssertClick" locator1="SitesDirectory#DESCRIPTIVE_SITE_ENTRY" value1="${entryName}" />
+	</command>
+
+	<command name="gotoLoginPage">
+		<execute function="AssertClick" locator1="UserBar#USER_SIGN_IN" value1="Sign In" />
 	</command>
 
 	<command name="gotoNavItem">

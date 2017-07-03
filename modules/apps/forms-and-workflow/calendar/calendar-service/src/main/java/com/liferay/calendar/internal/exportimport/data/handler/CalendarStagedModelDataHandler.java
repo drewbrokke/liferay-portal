@@ -18,12 +18,12 @@ import com.liferay.calendar.constants.CalendarPortletKeys;
 import com.liferay.calendar.model.Calendar;
 import com.liferay.calendar.model.CalendarResource;
 import com.liferay.calendar.service.CalendarLocalService;
+import com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelModifiedDateComparator;
-import com.liferay.exportimport.lar.BaseStagedModelDataHandler;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
@@ -175,7 +175,7 @@ public class CalendarStagedModelDataHandler
 			}
 			else {
 				importedCalendar = _calendarLocalService.updateCalendar(
-					existingCalendar.getCalendarId(), calendar.getNameMap(),
+					existingCalendar.getCalendarId(), calendarNameMap,
 					calendar.getDescriptionMap(), calendar.getTimeZoneId(),
 					calendar.getColor(), calendar.isDefaultCalendar(),
 					calendar.isEnableComments(), calendar.isEnableRatings(),
@@ -204,8 +204,9 @@ public class CalendarStagedModelDataHandler
 
 		String calendarName = calendar.getName(LocaleUtil.getDefault());
 
-		if ((sourceGroup == null) ||
-			!calendarName.equals(sourceGroup.getDescriptiveName())) {
+		if (((sourceGroup == null) ||
+			 !calendarName.equals(sourceGroup.getDescriptiveName())) &&
+			!calendar.isDefaultCalendar()) {
 
 			return calendar.getNameMap();
 		}

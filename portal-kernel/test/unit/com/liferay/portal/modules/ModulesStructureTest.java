@@ -877,6 +877,13 @@ public class ModulesStructureTest {
 		String settingsGradle = ModulesStructureTestUtil.read(
 			settingsGradlePath);
 
+		if (Files.notExists(dirPath.resolve("settings-ext.gradle"))) {
+			settingsGradleTemplate = StringUtil.removeSubstring(
+				settingsGradleTemplate,
+				StringPool.NEW_LINE + StringPool.NEW_LINE +
+					"apply from: \"settings-ext.gradle\"");
+		}
+
 		Assert.assertEquals(
 			"Incorrect " + settingsGradlePath, settingsGradleTemplate,
 			settingsGradle);
@@ -1014,9 +1021,8 @@ public class ModulesStructureTest {
 		"project.group";
 
 	private static final String[]
-		_GIT_REPO_GRADLE_PROJECT_GROUP_RESERVED_PREFIXES = {
-			"com.liferay.plugins", "com.liferay.portal"
-		};
+		_GIT_REPO_GRADLE_PROJECT_GROUP_RESERVED_PREFIXES =
+			{"com.liferay.plugins", "com.liferay.portal"};
 
 	private static final String _GIT_REPO_GRADLE_PROJECT_PATH_PREFIX_KEY =
 		"project.path.prefix";
@@ -1030,9 +1036,8 @@ public class ModulesStructureTest {
 	private static final String _GIT_REPO_GRADLE_REPOSITORY_PRIVATE_USERNAME =
 		"systemProp.repository.private.username";
 
-	private static final String[] _GRADLE_WRAPPER_FILE_NAMES = {
-		"gradle", "gradlew", "gradlew.bat"
-	};
+	private static final String[] _GRADLE_WRAPPER_FILE_NAMES =
+		{"gradle", "gradlew", "gradlew.bat"};
 
 	private static final String _REPOSITORY_URL =
 		"https://cdn.lfrs.sl/repository.liferay.com/nexus/content/groups" +

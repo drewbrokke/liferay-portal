@@ -19,12 +19,6 @@
 <%
 String portletId = portletDisplay.getRootPortletId();
 
-String doAsUserId = themeDisplay.getDoAsUserId();
-
-if (Validator.isNull(doAsUserId)) {
-	doAsUserId = Encryptor.encrypt(company.getKeyObj(), String.valueOf(themeDisplay.getUserId()));
-}
-
 boolean autoCreate = GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:input-editor:autoCreate"));
 String contents = GetterUtil.getString((String)request.getAttribute("liferay-ui:input-editor:contents"));
 String contentsLanguageId = (String)request.getAttribute("liferay-ui:input-editor:contentsLanguageId");
@@ -85,23 +79,7 @@ if (editorOptions != null) {
 			Liferay.namespace('EDITORS')['<%= editorName %>'] = true;
 
 			CKEDITOR.scriptLoader.loadScripts = function(scripts, success, failure) {
-				AUI().use(
-					'aui-base',
-					function(A) {
-						scripts = scripts.filter(
-							function(item) {
-								return !A.one('script[src=' + item + ']');
-							}
-						);
-
-						if (scripts.length) {
-							CKEDITOR.scriptLoader.load(scripts, success, failure);
-						}
-						else {
-							success();
-						}
-					}
-				);
+				CKEDITOR.scriptLoader.load(scripts, success, failure);
 			};
 
 			CKEDITOR.getNextZIndex = function() {

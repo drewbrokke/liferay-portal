@@ -160,6 +160,11 @@
 		border-width: 0;
 		box-shadow: none;
 		margin: 0;
+
+		&:hover {
+			background-color: #F0F8FE;
+			cursor: pointer;
+		}
 	}
 
 	.form-builder-field-content-target {
@@ -202,12 +207,11 @@
 	}
 
 	.form-builder-field-list-add-button-large .form-builder-field-list-add-button-label {
-		display: flex;
+		display: table;
 		letter-spacing: 0.07em;
 		margin: 0 auto;
 		margin-top: 5px;
 		white-space: normal;
-		width: 29px;
 		word-break: break-all;
 	}
 
