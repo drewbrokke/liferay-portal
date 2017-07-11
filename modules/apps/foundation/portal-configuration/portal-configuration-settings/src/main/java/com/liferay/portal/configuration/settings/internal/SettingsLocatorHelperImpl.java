@@ -14,6 +14,8 @@
 
 package com.liferay.portal.configuration.settings.internal;
 
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition.Scope;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -37,16 +39,22 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.Props;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PrefsPropsUtil;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Stream;
 
 import javax.portlet.PortletPreferences;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.osgi.service.cm.ConfigurationEvent;
+import org.osgi.service.cm.ConfigurationListener;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -60,9 +68,86 @@ import org.osgi.util.tracker.ServiceTracker;
  * @author Jorge Ferrer
  * @author Shuyang Zhou
  */
-@Component(immediate = true, service = SettingsLocatorHelper.class)
+@Component(
+	immediate = true,
+	service = {ConfigurationListener.class, SettingsLocatorHelper.class}
+)
 @DoPrivileged
-public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
+public class SettingsLocatorHelperImpl
+	implements SettingsLocatorHelper, ConfigurationListener {
+
+	@Override
+	public void configurationEvent(ConfigurationEvent event) {
+		if (event.getType() != ConfigurationEvent.CM_UPDATED) {
+			return;
+		}
+
+		String pid = event.getFactoryPid();
+
+		if (pid == null) {
+			pid = event.getPid();
+		}
+
+		String[] splitPid = pid.split("_", 2);
+
+		if ((splitPid.length < 2) ||
+			!_configurationBeanClasses.containsKey(splitPid[0])) {
+
+			return;
+		}
+
+		ScopeKey scopeKey = _parseScopedPid(splitPid[0], splitPid[1]);
+
+		if (scopeKey.getScope() == ExtendedObjectClassDefinition.Scope.SYSTEM) {
+			_log.error(
+				"For system scope, simply use the PID without any suffix");
+			return;
+		}
+
+		if (Validator.isNull(scopeKey.getScopePrimKey())) {
+			Stream<Scope> stream = Arrays.stream(
+				ExtendedObjectClassDefinition.Scope.values());
+
+			String[] scopeOptions = stream.map(
+				Enum::name
+			).toArray(
+				String[]::new
+			);
+
+			StringBundler sb = new StringBundler();
+
+			sb.append("Could not parse ");
+			sb.append(pid);
+			sb.append(". Correct format is PID followed by '_' ");
+			sb.append("followed by one of ");
+			sb.append(Arrays.asList(scopeOptions));
+			sb.append(" followed by '_' followed by scope instance identifier");
+
+			_log.error(sb.toString());
+			return;
+		}
+
+		if (_scopedConfigurationBeans.containsKey(scopeKey)) {
+			return;
+		}
+
+		ConfigurationBeanManagedService configurationBeanManagedService =
+			new ConfigurationBeanManagedService(
+				_bundleContext, scopeKey.getObjectClass(),
+				(configurationBean) -> {
+					if ((configurationBean == null) &&
+						_scopedConfigurationBeans.containsKey(scopeKey)) {
+
+						_scopedConfigurationBeans.remove(scopeKey);
+						return;
+					}
+
+					_scopedConfigurationBeans.put(scopeKey, configurationBean);
+				},
+				scopeKey.getScope(), scopeKey.getScopePrimKey());
+
+		configurationBeanManagedService.register();
+	}
 
 	public PortletPreferences getCompanyPortletPreferences(
 		long companyId, String settingsId) {
@@ -200,6 +285,8 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
 		_configurationBeanDeclarationServiceTracker =
 			new ConfigurationBeanDeclarationServiceTracker(bundleContext);
 
@@ -261,19 +348,57 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 			configurationPidMapping.getConfigurationPid());
 	}
 
+	private ScopeKey _parseScopedPid(String pid, String scopeNotation) {
+		ExtendedObjectClassDefinition.Scope settingsScope = null;
+		String scopePrimKey = null;
+
+		for (ExtendedObjectClassDefinition.Scope scope :
+				ExtendedObjectClassDefinition.Scope.values()) {
+
+			String scopeName = scope.name();
+
+			if (scopeNotation.startsWith(scopeName)) {
+				if ((scopeNotation.length() > scopeName.length()) &&
+					(scopeNotation.charAt(scopeName.length()) == '_')) {
+
+					settingsScope = scope;
+					scopePrimKey = scopeNotation.substring(
+						scopeName.length() + 1, scopeNotation.length());
+					break;
+				}
+				else if (scope == ExtendedObjectClassDefinition.Scope.SYSTEM) {
+					settingsScope = scope;
+					break;
+				}
+			}
+		}
+
+		Class<?> configurationBeanClass = _configurationBeanClasses.get(pid);
+
+		ScopeKey scopeKey = new ScopeKey(
+			configurationBeanClass, settingsScope, scopePrimKey);
+
+		return scopeKey;
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		SettingsLocatorHelperImpl.class);
 
+	private BundleContext _bundleContext;
 	private final ConcurrentMap<String, Class<?>> _configurationBeanClasses =
 		new ConcurrentHashMap<>();
 	private ServiceTracker
 		<ConfigurationBeanDeclaration, ConfigurationBeanManagedService>
 			_configurationBeanDeclarationServiceTracker;
+	private final Map<Class<?>, LocationVariableResolver>
+		_configurationBeanLocationVariableResolver = new ConcurrentHashMap<>();
 	private final Map<Class<?>, Settings> _configurationBeanSettings =
 		new ConcurrentHashMap<>();
 	private GroupLocalService _groupLocalService;
 	private Settings _portalPropertiesSettings;
 	private PortletPreferencesLocalService _portletPreferencesLocalService;
+	private final Map<ScopeKey, Object> _scopedConfigurationBeans =
+		new ConcurrentHashMap<>();
 
 	private class ConfigurationBeanDeclarationServiceTracker
 		extends ServiceTracker
@@ -301,12 +426,16 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 								new ClassLoaderResourceManager(classLoader),
 								SettingsLocatorHelperImpl.this);
 
+						_configurationBeanLocationVariableResolver.put(
+							configurationBeanClass, locationVariableResolver);
+
 						_configurationBeanSettings.put(
 							configurationBeanClass,
 							new ConfigurationBeanSettings(
 								locationVariableResolver, configurationBean,
 								_portalPropertiesSettings));
-					});
+					},
+					ExtendedObjectClassDefinition.Scope.SYSTEM, null);
 
 			_configurationBeanClasses.put(
 				configurationBeanManagedService.getConfigurationPid(),
@@ -326,8 +455,11 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 
 			configurationBeanManagedService.unregister();
 
-			_configurationBeanClasses.remove(
+			Class<?> configurationBeanClass = _configurationBeanClasses.remove(
 				configurationBeanManagedService.getConfigurationPid());
+
+			_configurationBeanLocationVariableResolver.remove(
+				configurationBeanClass);
 
 			_configurationBeanSettings.remove(
 				configurationBeanManagedService.getConfigurationPid());
@@ -338,6 +470,56 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 
 			super(context, ConfigurationBeanDeclaration.class, null);
 		}
+
+	}
+
+	private class ScopeKey {
+
+		public ScopeKey(
+			Class<?> objectClass, ExtendedObjectClassDefinition.Scope scope,
+			String scopePrimKey) {
+
+			_objectClass = objectClass;
+			_scope = scope;
+			_scopePrimKey = scopePrimKey;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			ScopeKey otherScopeKey = (ScopeKey)obj;
+
+			if (_objectClass.equals(otherScopeKey.getObjectClass()) &&
+				_scope.equals(otherScopeKey.getScope()) &&
+				_scopePrimKey.equals(otherScopeKey.getScopePrimKey())) {
+
+				return true;
+			}
+
+			return false;
+		}
+
+		public Class<?> getObjectClass() {
+			return _objectClass;
+		}
+
+		public ExtendedObjectClassDefinition.Scope getScope() {
+			return _scope;
+		}
+
+		public String getScopePrimKey() {
+			return _scopePrimKey;
+		}
+
+		@Override
+		public int hashCode() {
+			return (
+				_objectClass.getName() + _scope.getValue() +
+					_scopePrimKey).hashCode();
+		}
+
+		private final Class<?> _objectClass;
+		private final ExtendedObjectClassDefinition.Scope _scope;
+		private final String _scopePrimKey;
 
 	}
 
