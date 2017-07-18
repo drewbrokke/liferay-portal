@@ -38,6 +38,8 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.settings.PortletInstanceSettingsLocator;
 import com.liferay.portal.kernel.settings.PortletPreferencesSettings;
 import com.liferay.portal.kernel.settings.Settings;
+import com.liferay.portal.kernel.settings.SettingsLocatorHelper;
+import com.liferay.portal.kernel.settings.SettingsLocatorHelperUtil;
 import com.liferay.portal.kernel.spring.aop.Property;
 import com.liferay.portal.kernel.spring.aop.Retry;
 import com.liferay.portal.kernel.spring.aop.Skip;
@@ -227,6 +229,9 @@ public class PortletPreferencesLocalServiceImpl
 			defaultPreferences = portlet.getDefaultPreferences();
 		}
 
+		SettingsLocatorHelper settingsLocatorHelper = 
+			SettingsLocatorHelperUtil.getSettingsLocatorHelper();
+		
 		Settings companyPortletPreferencesSettings =
 			new PortletPreferencesSettings(
 				_getStrictPreferences(
@@ -234,6 +239,13 @@ public class PortletPreferencesLocalServiceImpl
 					PortletKeys.PREFS_PLID_SHARED, portletId,
 					defaultPreferences),
 				portalPreferencesSettings);
+		
+		Settings companyPortletPreferencesConfigurationBeanSettings =
+			settingsLocatorHelper.getConfigurationBeanSettings(
+				portletInstanceSettingsLocator.getConfigurationPid(), 
+				"COMPANY", 
+				Long.toString(companyId), 
+				companyPortletPreferencesSettings);
 
 		Settings groupPortletPreferencesSettings =
 			new PortletPreferencesSettings(
@@ -241,8 +253,15 @@ public class PortletPreferencesLocalServiceImpl
 					companyId, groupId, PortletKeys.PREFS_OWNER_TYPE_GROUP,
 					PortletKeys.PREFS_PLID_SHARED, portletId,
 					defaultPreferences),
-				companyPortletPreferencesSettings);
+				companyPortletPreferencesConfigurationBeanSettings);
 
+		Settings groupPortletPreferencesConfigurationBeanSettings =
+			settingsLocatorHelper.getConfigurationBeanSettings(
+				portletInstanceSettingsLocator.getConfigurationPid(), 
+				"GROUP", 
+				Long.toString(groupId), 
+				groupPortletPreferencesSettings);
+		
 		long ownerId = portletInstanceSettingsLocator.getOwnerId();
 		int ownerType = PortletKeys.PREFS_OWNER_TYPE_LAYOUT;
 
@@ -256,11 +275,20 @@ public class PortletPreferencesLocalServiceImpl
 		long plid = _swapPlidForPortletPreferences(
 			portletInstanceSettingsLocator.getPlid());
 
-		return new PortletPreferencesSettings(
+		Settings portletPortletPreferencesSettings = new PortletPreferencesSettings(
 			_getStrictPreferences(
 				companyId, ownerId, ownerType, plid, portletId,
 				defaultPreferences),
-			groupPortletPreferencesSettings);
+			groupPortletPreferencesConfigurationBeanSettings);
+		
+		Settings portletPortletPreferencesConfigurationBeanSettings =
+			settingsLocatorHelper.getConfigurationBeanSettings(
+				portletInstanceSettingsLocator.getConfigurationPid(), 
+				"PORTLET_INSTANCE", 
+				portletId, 
+				portletPortletPreferencesSettings);
+				
+		return portletPortletPreferencesConfigurationBeanSettings;
 	}
 
 	@Override

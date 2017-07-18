@@ -211,6 +211,26 @@ public class SettingsLocatorHelperImpl
 		return getConfigurationBeanSettings(configurationPid);
 	}
 
+	@Override
+	public Settings getConfigurationBeanSettings(
+		String pid, String settingsScope, String scopeKey,
+		Settings parentSettings) {
+
+		final ExtendedObjectClassDefinition.Scope scope =
+			ExtendedObjectClassDefinition.Scope.valueOf(settingsScope);
+
+		Class<?> configurationBeanClass = _configurationBeanClasses.get(pid);
+
+		if (configurationBeanClass == null) {
+			return parentSettings;
+		}
+
+		return _getConfigurationBeanSettings(
+			configurationBeanClass,
+			new ScopeKey(configurationBeanClass, scope, scopeKey),
+			parentSettings);
+	}
+
 	public PortletPreferences getGroupPortletPreferences(
 		long groupId, String settingsId) {
 
