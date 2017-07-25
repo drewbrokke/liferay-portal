@@ -52,11 +52,15 @@ if (Validator.isNotNull(portletResource)) {
 	modelResources = ResourceActionsUtil.getPortletModelResources(portletResource);
 }
 
-List<String> resourceBlockSelected = new ArrayList<>();
-List<String> resourceBlockUnselected = new ArrayList<>();
+List<String> resourceBlockSelectedKeys = new ArrayList<>();
+List<String> resourceBlockSelectedValues = new ArrayList<>();
+List<String> resourceBlockUnselectedKeys = new ArrayList<>();
+List<String> resourceBlockUnselectedValues = new ArrayList<>();
 
-request.setAttribute("edit_role_permissions_form.jsp-resourceBlockSelected", resourceBlockSelected);
-request.setAttribute("edit_role_permissions_form.jsp-resourceBlockUnselected", resourceBlockUnselected);
+request.setAttribute("edit_role_permissions_form.jsp-resourceBlockSelectedKeys", resourceBlockSelectedKeys);
+request.setAttribute("edit_role_permissions_form.jsp-resourceBlockSelectedValues", resourceBlockSelectedValues);
+request.setAttribute("edit_role_permissions_form.jsp-resourceBlockUnselectedKeys", resourceBlockUnselectedKeys);
+request.setAttribute("edit_role_permissions_form.jsp-resourceBlockUnselectedValues", resourceBlockUnselectedValues);
 %>
 
 <portlet:actionURL name="updateActions" var="editRolePermissionsURL">
@@ -213,7 +217,8 @@ request.setAttribute("edit_role_permissions_form.jsp-resourceBlockUnselected", r
 	</c:if>
 
 	<div class="form-group">
-		<aui:button cssClass="btn-lg" onClick='<%= liferayPortletResponse.getNamespace() + "updateActions('" + StringUtil.merge(resourceBlockSelected) + "', '" + StringUtil.merge(resourceBlockUnselected) + "');" %>' value="save" />
+		<aui:button cssClass="btn-lg" onClick='<%= liferayPortletResponse.getNamespace() + "updateActions('" + StringUtil.merge(resourceBlockSelectedKeys) + "', '" + StringUtil.merge(resourceBlockSelectedValues) + "', '" + StringUtil.merge(resourceBlockUnselectedKeys) + "', '" + StringUtil.merge(resourceBlockUnselectedValues) + "');" %>' value="save" />
+		<%--<aui:button cssClass="btn-lg" onClick='<%= liferayPortletResponse.getNamespace() + "updateActions('" + resourceBlockSelectedMap + "', '" + resourceBlockUnselectedMap + "');" %>' value="save" />--%>
 	</div>
 </aui:form>
 

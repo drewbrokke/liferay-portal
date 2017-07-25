@@ -407,10 +407,18 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 </aui:script>
 
 <aui:script>
-	function <portlet:namespace />updateActions(selected, unselected) {
+	function <portlet:namespace />updateActions(selectedKeyArray, selectedValueArray, unselectedKeyArray, unselectedValueArray) {
+		var changedResourceSet = new Set();
 		var form = AUI.$(document.<portlet:namespace />fm);
-		var oldSelectedPermissions = selected.split(',');
-		var oldUnselectedPermissions = unselected.split(',');
+		var oldSelectedPermissions = selectedKeyArray.split(',');
+		var oldSelectedPermissionsMap = new Map();
+		var oldSelectedPermissionsZip = AUI._.zipObject(oldSelectedPermissions, selectedValueArray.split(','));
+		var oldUnselectedPermissions = unselectedKeyArray.split(',');
+		var oldUnselectedPermissionsMap = new Map();
+		var oldUnselectedPermissionsZip = AUI._.zipObject(oldUnselectedPermissions, unselectedValueArray.split(','));
+
+		oldSelectedPermissionsMap = buildMap(oldSelectedPermissionsZip);
+		oldUnselectedPermissionsMap = buildMap(oldUnselectedPermissionsZip);
 
 		var selectedPermissionsString = Liferay.Util.listCheckedExcept(form, '<portlet:namespace />allRowIds');
 		var unselectedPermissionsString = Liferay.Util.listUncheckedExcept(form, '<portlet:namespace />allRowIds');
@@ -418,8 +426,28 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 		var selectedPermissions = selectedPermissionsString.split(',');
 		var unselectedPermissions = unselectedPermissionsString.split(',');
 
-		if ((AUI._.intersection(selectedPermissions, oldUnselectedPermissions).length || AUI._.intersection(unselectedPermissions, oldSelectedPermissions).length) && !confirm('<liferay-ui:message key="changing-these-permissions-will-overwrite-all-permissions-of-that-type-previously-configured-on-this-entity" />')) {
-			return;
+		AUI._.intersection(selectedPermissions, oldUnselectedPermissions).forEach(function(permission) {
+			changedResourceSet.add(oldUnselectedPermissionsMap.get(permission));
+		});
+
+		AUI._.intersection(unselectedPermissions, oldSelectedPermissions).forEach(function(permission) {
+			changedResourceSet.add(oldSelectedPermissionsMap.get(permission));
+		});
+
+		if (changedResourceSet.size) {
+			var i = 1;
+			var resourceNames = '';
+
+			changedResourceSet.forEach(function(resource, sameItem, s) {
+				resourceNames += resource;
+				if (i++ < changedResourceSet.size) {
+					resourceNames += ', ';
+				}
+			});
+
+			if (!confirm('<liferay-ui:message key="the-permissions-you-changed-will-overwrite-the-respective-individually-defined-permissions-for-the-following-resource-types" />' + resourceNames)) {
+				return;
+			}
 		}
 
 		form.fm('redirect').val('<%= HtmlUtil.escapeJS(portletURL.toString()) %>');
@@ -427,5 +455,14 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 		form.fm('unselectedTargets').val(unselectedPermissionsString);
 
 		submitForm(form);
+	}
+
+	function buildMap(zipObject) {
+		var map = new Map();
+
+		Object.keys(zipObject).forEach(function(key) {
+			map.set(key, zipObject[key]);
+		});
+		return map;
 	}
 </aui:script>
