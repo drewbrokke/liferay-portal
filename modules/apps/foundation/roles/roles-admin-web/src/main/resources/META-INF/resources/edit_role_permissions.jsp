@@ -427,11 +427,15 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 		var unselectedPermissions = unselectedPermissionsString.split(',');
 
 		AUI._.intersection(selectedPermissions, oldUnselectedPermissions).forEach(function(permission) {
-			changedResourceSet.add(oldUnselectedPermissionsMap.get(permission));
+			if (permission !== '') {
+				changedResourceSet.add(oldUnselectedPermissionsMap.get(permission));
+			}
 		});
 
 		AUI._.intersection(unselectedPermissions, oldSelectedPermissions).forEach(function(permission) {
-			changedResourceSet.add(oldSelectedPermissionsMap.get(permission));
+			if (permission !== '') {
+				changedResourceSet.add(oldSelectedPermissionsMap.get(permission));
+			}
 		});
 
 		if (changedResourceSet.size) {
