@@ -25,6 +25,11 @@ String curPortletResource = (String)request.getAttribute("edit_role_permissions.
 String curModelResource = (String)request.getAttribute("edit_role_permissions.jsp-curModelResource");
 String curModelResourceName = (String)request.getAttribute("edit_role_permissions.jsp-curModelResourceName");
 
+List<String> resourceBlockSelectedKeys = (List<String>)request.getAttribute("edit_role_permissions_form.jsp-resourceBlockSelectedKeys");
+List<String> resourceBlockSelectedValues = (List<String>)request.getAttribute("edit_role_permissions_form.jsp-resourceBlockSelectedValues");
+List<String> resourceBlockUnselectedKeys = (List<String>)request.getAttribute("edit_role_permissions_form.jsp-resourceBlockUnselectedKeys");
+List<String> resourceBlockUnselectedValues = (List<String>)request.getAttribute("edit_role_permissions_form.jsp-resourceBlockUnselectedValues");
+
 Portlet curPortlet = null;
 String curPortletId = StringPool.BLANK;
 
@@ -98,6 +103,17 @@ for (int i = 0; i < results.size(); i++) {
 	String groupIds = ParamUtil.getString(request, "groupIds" + target, null);
 	long[] groupIdsArray = StringUtil.split(groupIds, 0L);
 	List<String> groupNames = new ArrayList<String>();
+
+	if (ResourceBlockLocalServiceUtil.isSupported(curResource)) {
+		if (ResourceTypePermissionLocalServiceUtil.hasEitherScopePermission(role.getCompanyId(), curModelResource, role.getRoleId(), actionId)) {
+			resourceBlockSelectedKeys.add(target);
+			resourceBlockSelectedValues.add(curModelResourceName);
+		}
+		else {
+			resourceBlockUnselectedKeys.add(target);
+			resourceBlockUnselectedValues.add(curModelResourceName);
+		}
+	}
 
 	if (role.getType() == RoleConstants.TYPE_REGULAR) {
 		if (Validator.isNotNull(portletResource)) {
