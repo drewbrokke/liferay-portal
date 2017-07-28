@@ -18,8 +18,8 @@ import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Country;
 import com.liferay.portal.kernel.model.Region;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.CountryServiceUtil;
-import com.liferay.portal.kernel.service.RegionServiceUtil;
+import com.liferay.portal.kernel.service.CountryService;
+import com.liferay.portal.kernel.service.RegionService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -29,15 +29,19 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Locale;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Pei-Jung Lan
  */
+@Component(immediate = true, service = AddressTextLocalizerUtil.class)
 public class AddressTextLocalizerUtil {
 
-	public static String getCountry(Address address) {
+	public String getCountry(Address address) {
 		long countryId = address.getCountryId();
 
-		Country country = CountryServiceUtil.fetchCountry(countryId);
+		Country country = _countryService.fetchCountry(countryId);
 
 		if (country != null) {
 			return country.getName(getUserLocale());
@@ -46,10 +50,10 @@ public class AddressTextLocalizerUtil {
 		return null;
 	}
 
-	public static String getRegion(Address address) {
+	public String getRegion(Address address) {
 		long regionId = address.getRegionId();
 
-		Region region = RegionServiceUtil.fetchRegion(regionId);
+		Region region = _regionService.fetchRegion(regionId);
 
 		if (region != null) {
 			return region.getName();
@@ -58,7 +62,7 @@ public class AddressTextLocalizerUtil {
 		return null;
 	}
 
-	public static Locale getUserLocale() {
+	public Locale getUserLocale() {
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
@@ -80,7 +84,7 @@ public class AddressTextLocalizerUtil {
 	* @return <code>true</code> if the address in written in Roman characters;
 	* <code>false</code> otherwise.
 	*/
-	public static boolean isRomanizedAddress(Address address) {
+	public boolean isRomanizedAddress(Address address) {
 		String addressString = _geteAddressString(address);
 
 		if (Validator.isNull(addressString)) {
@@ -90,7 +94,7 @@ public class AddressTextLocalizerUtil {
 		return addressString.matches("[\\w\\s\\-\\,\\.]+");
 	}
 
-	private static String _geteAddressString(Address address) {
+	private String _geteAddressString(Address address) {
 		StringBundler sb = new StringBundler(7);
 
 		if (Validator.isNotNull(address.getStreet1())) {
@@ -114,5 +118,11 @@ public class AddressTextLocalizerUtil {
 
 		return sb.toString();
 	}
+
+	@Reference
+	private CountryService _countryService;
+
+	@Reference
+	private RegionService _regionService;
 
 }

@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.text.localizer.address.util.AddressTextLocalizerUtil;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Pei-Jung Lan
@@ -54,10 +55,10 @@ public class USAddressTextLocalizer implements AddressTextLocalizer {
 			sb.append(address.getCity());
 		}
 
-		if (Validator.isNotNull(AddressTextLocalizerUtil.getRegion(address))) {
+		if (Validator.isNotNull(_addressTextLocalizerUtil.getRegion(address))) {
 			sb.append(StringPool.COMMA);
 			sb.append(StringPool.SPACE);
-			sb.append(AddressTextLocalizerUtil.getRegion(address));
+			sb.append(_addressTextLocalizerUtil.getRegion(address));
 		}
 
 		if (Validator.isNotNull(address.getZip())) {
@@ -65,12 +66,17 @@ public class USAddressTextLocalizer implements AddressTextLocalizer {
 			sb.append(address.getZip());
 		}
 
-		if (Validator.isNotNull(AddressTextLocalizerUtil.getCountry(address))) {
+		if (Validator.isNotNull(
+				_addressTextLocalizerUtil.getCountry(address))) {
+
 			sb.append(StringPool.NEW_LINE);
-			sb.append(AddressTextLocalizerUtil.getCountry(address));
+			sb.append(_addressTextLocalizerUtil.getCountry(address));
 		}
 
 		return sb.toString();
 	}
+
+	@Reference
+	private AddressTextLocalizerUtil _addressTextLocalizerUtil;
 
 }
