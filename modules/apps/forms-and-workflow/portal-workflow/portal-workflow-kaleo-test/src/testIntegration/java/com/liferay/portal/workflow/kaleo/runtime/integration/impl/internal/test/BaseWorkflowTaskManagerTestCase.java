@@ -58,6 +58,7 @@ import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserNotificationDeliveryConstants;
 import com.liferay.portal.kernel.model.UserNotificationEvent;
+import com.liferay.portal.kernel.model.WorkflowInstanceLink;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.repository.model.Folder;
@@ -72,6 +73,7 @@ import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
@@ -572,6 +574,15 @@ public abstract class BaseWorkflowTaskManagerTestCase {
 		deactivateWorkflow(group.getGroupId(), className, classPK, typePK);
 	}
 
+	protected WorkflowInstanceLink fetchWorkflowInstanceLink(
+			String className, long classPK)
+		throws WorkflowException {
+
+		return WorkflowInstanceLinkLocalServiceUtil.fetchWorkflowInstanceLink(
+			adminUser.getCompanyId(), adminUser.getGroupId(), className,
+			classPK);
+	}
+
 	protected String getBasePath() {
 		return "com/liferay/portal/workflow/kaleo/dependencies/";
 	}
@@ -719,6 +730,20 @@ public abstract class BaseWorkflowTaskManagerTestCase {
 	protected void setUpWorkflow() throws Exception {
 		createJoinXorWorkflow();
 		createScriptedAssignmentWorkflow();
+	}
+
+	protected FileVersion updateFileVersion(long fileEntryId) throws Exception {
+		try (CaptureAppender captureAppender =
+				Log4JLoggerTestUtil.configureLog4JLogger(
+					_MAIL_ENGINE_CLASS_NAME, Level.OFF)) {
+
+			FileEntry fileEntry = DLAppServiceUtil.updateFileEntry(
+				fileEntryId, StringPool.BLANK, ContentTypes.TEXT_PLAIN,
+				RandomTestUtil.randomString(), StringPool.BLANK, null, false,
+				null, 0, serviceContext);
+
+			return fileEntry.getLatestFileVersion();
+		}
 	}
 
 	protected Folder updateFolder(Folder folder, int restrictionType)

@@ -1,0 +1,202 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package com.liferay.message.boards.internal.verify;
+
+import com.liferay.asset.kernel.service.AssetEntryLocalService;
+import com.liferay.message.boards.kernel.model.MBMessage;
+import com.liferay.message.boards.kernel.model.MBThread;
+import com.liferay.message.boards.kernel.service.MBMessageLocalService;
+import com.liferay.message.boards.kernel.service.MBThreadLocalService;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.LoggingTimer;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.verify.VerifyProcess;
+
+import java.util.List;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+/**
+ * @author Brian Wing Shun Chan
+ * @author Zsolt Berentey
+ */
+@Component(
+	immediate = true,
+	property = {"verify.process.name=com.liferay.message.boards.service"},
+	service = {VerifyProcess.class}
+)
+public class MessageBoardsServiceVerifyProcess extends VerifyProcess {
+
+	@Override
+	protected void doVerify() throws Exception {
+		verifyStatisticsForCategories();
+		verifyStatisticsForThreads();
+		verifyAssetsForMessages();
+		verifyAssetsForThreads();
+	}
+
+	protected void verifyAssetsForMessages() throws Exception {
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			List<MBMessage> messages =
+				_mbMessageLocalService.getNoAssetMessages();
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Processing " + messages.size() +
+						" messages with no asset");
+			}
+
+			for (MBMessage message : messages) {
+				try {
+					_mbMessageLocalService.updateAsset(
+						message.getUserId(), message, null, null, null);
+
+					if (message.getStatus() == WorkflowConstants.STATUS_DRAFT) {
+						boolean visible = false;
+
+						if (message.isApproved() &&
+							((message.getClassNameId() == 0) ||
+							 (message.getParentMessageId() != 0))) {
+
+							visible = true;
+						}
+
+						_assetEntryLocalService.updateEntry(
+							message.getWorkflowClassName(),
+							message.getMessageId(), null, null, true, visible);
+					}
+				}
+				catch (Exception e) {
+					if (_log.isWarnEnabled()) {
+						_log.warn(
+							"Unable to update asset for message " +
+								message.getMessageId() + ": " + e.getMessage());
+					}
+				}
+			}
+
+			if (_log.isDebugEnabled()) {
+				_log.debug("Assets verified for messages");
+			}
+		}
+	}
+
+	protected void verifyAssetsForThreads() throws Exception {
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			List<MBThread> threads = _mbThreadLocalService.getNoAssetThreads();
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Processing " + threads.size() + " threads with no asset");
+			}
+
+			for (MBThread thread : threads) {
+				try {
+					_assetEntryLocalService.updateEntry(
+						thread.getRootMessageUserId(), thread.getGroupId(),
+						thread.getStatusDate(), thread.getLastPostDate(),
+						MBThread.class.getName(), thread.getThreadId(), null, 0,
+						new long[0], new String[0], true, false, null, null,
+						null, null, null,
+						String.valueOf(thread.getRootMessageId()), null, null,
+						null, null, 0, 0, null);
+				}
+				catch (Exception e) {
+					if (_log.isWarnEnabled()) {
+						_log.warn(
+							"Unable to update asset for thread " +
+								thread.getThreadId() + ": " + e.getMessage());
+					}
+				}
+			}
+
+			if (_log.isDebugEnabled()) {
+				_log.debug("Assets verified for threads");
+			}
+		}
+	}
+
+	protected void verifyStatisticsForCategories() throws Exception {
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			if (_log.isDebugEnabled()) {
+				_log.debug("Processing categories for statistics accuracy");
+			}
+
+			StringBundler sb = new StringBundler(6);
+
+			sb.append("update MBCategory set threadCount = (select count(*) ");
+			sb.append("from MBThread where (MBCategory.groupId = ");
+			sb.append("MBThread.groupId) and (MBCategory.categoryId = ");
+			sb.append("MBThread.categoryId) and (MBThread.status = ");
+			sb.append(WorkflowConstants.STATUS_APPROVED);
+			sb.append("))");
+
+			runSQL(sb.toString());
+
+			sb.setIndex(0);
+
+			sb.append("update MBCategory set messageCount = (select count(*) ");
+			sb.append("from MBMessage where (MBCategory.groupId = ");
+			sb.append("MBMessage.groupId) and (MBCategory.categoryId = ");
+			sb.append("MBMessage.categoryId) and (MBMessage.status = ");
+			sb.append(WorkflowConstants.STATUS_APPROVED);
+			sb.append("))");
+
+			runSQL(sb.toString());
+
+			if (_log.isDebugEnabled()) {
+				_log.debug("Statistics verified for categories");
+			}
+		}
+	}
+
+	protected void verifyStatisticsForThreads() throws Exception {
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			if (_log.isDebugEnabled()) {
+				_log.debug("Processing threads for statistics accuracy");
+			}
+
+			StringBundler sb = new StringBundler(5);
+
+			sb.append("update MBThread set messageCount = (select count(*) ");
+			sb.append("from MBMessage where (MBThread.threadId = ");
+			sb.append("MBMessage.threadId) and (MBMessage.status = ");
+			sb.append(WorkflowConstants.STATUS_APPROVED);
+			sb.append("))");
+
+			runSQL(sb.toString());
+
+			if (_log.isDebugEnabled()) {
+				_log.debug("Statistics verified for threads");
+			}
+		}
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		MessageBoardsServiceVerifyProcess.class);
+
+	@Reference
+	private AssetEntryLocalService _assetEntryLocalService;
+
+	@Reference
+	private MBMessageLocalService _mbMessageLocalService;
+
+	@Reference
+	private MBThreadLocalService _mbThreadLocalService;
+
+}

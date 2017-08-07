@@ -35,7 +35,9 @@ public class JSPIndentationCheck extends BaseFileCheck {
 			String fileName, String absolutePath, String content)
 		throws Exception {
 
-		if (!fileName.endsWith(".jsp") && !fileName.endsWith(".jspf")) {
+		if (!fileName.endsWith(".jsp") && !fileName.endsWith(".jspf") &&
+			!fileName.endsWith(".tag")) {
+
 			return content;
 		}
 
@@ -500,7 +502,7 @@ public class JSPIndentationCheck extends BaseFileCheck {
 	}
 
 	private final Pattern _javaSourcePattern = Pattern.compile(
-		"\n(\t*)(<%\n(.*?))\n\t*%>\n", Pattern.DOTALL);
+		"\n(\t*)(<%\n(\t*[^\t%].*?))\n\t*%>\n", Pattern.DOTALL);
 
 	private class JSPLine {
 

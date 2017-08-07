@@ -143,11 +143,9 @@ SearchContainer dlSearchContainer = new SearchContainer(liferayPortletRequest, p
 			searchContext.setIncludeDiscussions(true);
 			searchContext.setKeywords(keywords);
 
-			QueryConfig queryConfig = new QueryConfig();
+			QueryConfig queryConfig = searchContext.getQueryConfig();
 
 			queryConfig.setSearchSubfolders(true);
-
-			searchContext.setQueryConfig(queryConfig);
 
 			searchContext.setStart(dlSearchContainer.getStart());
 
@@ -308,7 +306,7 @@ SearchContainer dlSearchContainer = new SearchContainer(liferayPortletRequest, p
 		searchRepositoryURL.setParameter("showRepositoryTabs", Boolean.TRUE.toString());
 		searchRepositoryURL.setParameter("showSearchInfo", Boolean.TRUE.toString());
 
-		String[] tabsUrls = new String[] {searchRepositoryURL.toString()};
+		String[] tabsUrls = {searchRepositoryURL.toString()};
 
 		String selectedTab = LanguageUtil.get(request, "local");
 

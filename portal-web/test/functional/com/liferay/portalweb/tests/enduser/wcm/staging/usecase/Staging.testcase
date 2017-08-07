@@ -175,7 +175,9 @@
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="WebContentNavigator#gotoEditPGViaWCD" />
+		<execute macro="WebContentNavigator#gotoEditPGViaWCD">
+			<var name="webContentTitle" value="WebContent Title" />
+		</execute>
 
 		<execute macro="WebContent#addTagPGViaWCD">
 			<var name="tagName" value="tag name" />
@@ -524,6 +526,97 @@
 		<execute macro="BlogsAggregatorPortlet#viewBlogsEntryViaBAPortletPG">
 			<var name="viewEntryTitle" value="Blogs Entry Title 1" />
 			<var name="viewNoEntryTitle" value="Blogs Entry Title 2" />
+		</execute>
+	</command>
+
+	<command name="StagingCopyFromLive" priority="4">
+		<execute macro="ProductMenu#gotoSitesPublishing">
+			<var name="portlet" value="Staging" />
+		</execute>
+
+		<execute macro="Staging#activateStagingCP">
+			<var name="pageVersioningEnabled" value="true" />
+			<var name="siteName" value="Site Name" />
+		</execute>
+
+		<execute macro="Navigator#openSiteURL">
+			<var name="siteName" value="Site Name" />
+		</execute>
+
+		<execute macro="Navigator#gotoStagedSitePage">
+			<var name="pageName" value="Staging Test Page" />
+			<var name="siteName" value="Site Name" />
+		</execute>
+
+		<execute macro="Staging#viewSitePagesVariationPG">
+			<var name="sitePagesVariationName" value="Main Variation" />
+		</execute>
+
+		<execute macro="Portlet#addPG">
+			<var name="portletName" value="Blogs" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoSitesContent">
+			<var name="portlet" value="Blogs" />
+		</execute>
+
+		<execute macro="BlogsNavigator#gotoAddEntry" />
+
+		<execute macro="BlogsEntry#addEntryContent">
+			<var name="entryContent" value="Bodzavirágból, bodzavirágból hullik a, hullik a sárga virágpor." />
+			<var name="entrySubtitle" value="Nemes Nagy Ágnes" />
+			<var name="entryTitle" value="Tavaszi felhők" />
+		</execute>
+
+		<execute function="Pause" locator1="1000" />
+
+		<execute macro="PortletEntry#publish" />
+
+		<execute macro="Navigator#gotoStagedSitePage">
+			<var name="pageName" value="Staging Test Page" />
+			<var name="siteName" value="Site Name" />
+		</execute>
+
+		<execute macro="Staging#markAsReadyForPublication" />
+
+		<execute macro="Staging#gotoPublishToLive" />
+
+		<execute macro="Staging#publishToLive" />
+
+		<execute macro="ProductMenu#gotoLiveSite" />
+
+		<execute macro="Navigator#gotoStagedSitePage">
+			<var name="pageName" value="Staging Test Page" />
+			<var name="siteName" value="Site Name" />
+		</execute>
+
+		<execute macro="Blogs#editEntryPG">
+			<var name="entryContent" value="Bodzavirágból, bodzavirágból hullik a, hullik a sárga virágpor." />
+			<var name="entryContentEdit" value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+			<var name="entrySubtitle" value="Nemes Nagy Ágnes" />
+			<var name="entrySubtitleEdit" value="Nemes Nagy Ágnes" />
+			<var name="entryTitle" value="Tavaszi felhők" />
+			<var name="entryTitleEdit" value="Tavaszi felhők" />
+		</execute>
+
+		<execute macro="Navigator#gotoStagedSitePage">
+			<var name="pageName" value="Staging Test Page" />
+			<var name="siteName" value="Site Name" />
+		</execute>
+
+		<execute macro="Staging#copyFromLive">
+			<var name="portletName" value="Blogs" />
+			<var name="portletOption" value="Staging" />
+		</execute>
+
+		<execute macro="Navigator#gotoStagedSitePage">
+			<var name="pageName" value="Staging Test Page" />
+			<var name="siteName" value="Site Name" />
+		</execute>
+
+		<execute macro="BlogsEntry#viewEntry">
+			<var name="entryContent" value="Bodzavirágból, bodzavirágból hullik a, hullik a sárga virágpor." />
+			<var name="entryTitle" value="Tavaszi felhők" />
 		</execute>
 	</command>
 

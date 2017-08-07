@@ -121,7 +121,7 @@ else {
 
 String defaultLanguageId = themeDisplay.getLanguageId();
 
-Locale[] availableLocales = new Locale[] {LocaleUtil.fromLanguageId(defaultLanguageId)};
+Locale[] availableLocales = {LocaleUtil.fromLanguageId(defaultLanguageId)};
 
 if (fileEntryTypeId > 0) {
 	DLFileEntryType fileEntryType = DLFileEntryTypeLocalServiceUtil.getFileEntryType(fileEntryTypeId);
@@ -183,11 +183,6 @@ if (portletTitleBasedNavigation) {
 							<liferay-ui:message key="you-now-have-an-indefinite-lock-on-this-document" />
 						</c:when>
 						<c:otherwise>
-
-							<%
-							String lockExpirationTime = StringUtil.toLowerCase(LanguageUtil.getTimeDescription(request, DLFileEntryConstants.LOCK_EXPIRATION_TIME));
-							%>
-
 							<liferay-ui:message arguments="<%= StringUtil.toLowerCase(LanguageUtil.getTimeDescription(request, DLFileEntryConstants.LOCK_EXPIRATION_TIME)) %>" key="you-now-have-a-lock-on-this-document" translateArguments="<%= false %>" />
 						</c:otherwise>
 					</c:choose>
@@ -246,7 +241,7 @@ if (portletTitleBasedNavigation) {
 			</liferay-ui:error>
 
 			<liferay-ui:error exception="<%= FileExtensionException.class %>">
-				<liferay-ui:message key="document-names-must-end-with-one-of-the-following-extensions" /> <%= StringUtil.merge(PrefsPropsUtil.getStringArray(PropsKeys.DL_FILE_EXTENSIONS, StringPool.COMMA), StringPool.COMMA_AND_SPACE) %>.
+				<liferay-ui:message key="document-names-must-end-with-one-of-the-following-extensions" /> <%= StringUtil.merge(dlConfiguration.fileExtensions(), StringPool.COMMA_AND_SPACE) %>.
 			</liferay-ui:error>
 
 			<liferay-ui:error exception="<%= FileMimeTypeException.class %>">

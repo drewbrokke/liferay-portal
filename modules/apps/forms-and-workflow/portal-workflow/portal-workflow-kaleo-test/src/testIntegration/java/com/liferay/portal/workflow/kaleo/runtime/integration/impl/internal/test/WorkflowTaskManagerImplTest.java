@@ -18,11 +18,13 @@ import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.blogs.model.BlogsEntry;
 import com.liferay.blogs.service.BlogsEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileEntryConstants;
 import com.liferay.document.library.kernel.model.DLFileEntryType;
 import com.liferay.document.library.kernel.model.DLFileEntryTypeConstants;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
+import com.liferay.document.library.kernel.service.DLTrashServiceUtil;
 import com.liferay.dynamic.data.lists.model.DDLRecord;
 import com.liferay.dynamic.data.lists.model.DDLRecordSet;
 import com.liferay.dynamic.data.lists.model.DDLRecordVersion;
@@ -37,6 +39,8 @@ import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.WorkflowInstanceLink;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
@@ -657,6 +661,64 @@ public class WorkflowTaskManagerImplTest
 			WorkflowConstants.STATUS_APPROVED, blogsEntry.getStatus());
 
 		deactivateWorkflow(BlogsEntry.class.getName(), 0, 0);
+	}
+
+	@Test
+	public void testMovetoTrashAndRestoreFromTrashPendingDLFileEntryInDLFolderWithWorkflow()
+		throws Exception {
+
+		Folder folder = addFolder();
+
+		Map<String, String> dlFileEntryTypeMap = new HashMap<>();
+
+		dlFileEntryTypeMap.put(
+			StringUtil.valueOf(DLFileEntryTypeConstants.FILE_ENTRY_TYPE_ID_ALL),
+			"Single Approver@1");
+
+		folder = updateFolder(
+			folder, DLFolderConstants.RESTRICTION_TYPE_WORKFLOW,
+			dlFileEntryTypeMap);
+
+		FileVersion fileVersion = addFileVersion(folder.getFolderId());
+
+		Assert.assertEquals(
+			WorkflowConstants.STATUS_PENDING, fileVersion.getStatus());
+
+		assignWorkflowTaskToUser(
+			adminUser, adminUser, REVIEW, DLFileEntry.class.getName(),
+			fileVersion.getFileVersionId());
+
+		completeWorkflowTask(
+			adminUser, Constants.APPROVE, REVIEW, DLFileEntry.class.getName(),
+			fileVersion.getFileVersionId());
+
+		fileVersion = DLAppServiceUtil.getFileVersion(
+			fileVersion.getFileVersionId());
+
+		Assert.assertEquals(
+			WorkflowConstants.STATUS_APPROVED, fileVersion.getStatus());
+
+		fileVersion = updateFileVersion(fileVersion.getFileEntryId());
+
+		Assert.assertEquals(
+			WorkflowConstants.STATUS_PENDING, fileVersion.getStatus());
+
+		FileEntry fileEntry = DLTrashServiceUtil.moveFileEntryToTrash(
+			fileVersion.getFileEntryId());
+
+		WorkflowInstanceLink workflowInstanceLink = fetchWorkflowInstanceLink(
+			DLFileEntryConstants.getClassName(),
+			fileVersion.getFileVersionId());
+
+		Assert.assertNull(workflowInstanceLink);
+
+		DLTrashServiceUtil.restoreFileEntryFromTrash(
+			fileVersion.getFileEntryId());
+
+		fileVersion = fileEntry.getLatestFileVersion();
+
+		Assert.assertEquals(
+			WorkflowConstants.STATUS_DRAFT, fileVersion.getStatus());
 	}
 
 	@Test

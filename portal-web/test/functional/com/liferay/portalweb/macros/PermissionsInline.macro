@@ -78,9 +78,18 @@
 	</command>
 
 	<command name="gotoConfigurationPG">
+		<if>
+			<isset var="portletOption" />
+			<then>
+				<var name="optionName" value="${portletOption}" />
+			</then>
+			<else>
+				<var name="optionName" value="Permissions" />
+			</else>
+		</if>
+
 		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletName" value="${portletName}" />
-			<var name="portletOption" value="Permissions" />
+			<var name="portletOption" value="${optionName}" />
 		</execute>
 
 		<execute function="SelectFrame" locator1="IFrame#DIALOG" />
@@ -177,6 +186,12 @@
 		<execute function="SelectFrame" locator1="IFrame#DIALOG" />
 	</command>
 
+	<command name="gotoRolesAdminFromPortletConfiguration">
+		<var name="key_roleName" value="${roleName}" />
+
+		<execute function="AssertClick" locator1="AssetPermissions#ROLE_LINK" value1="${roleName}" />
+	</command>
+
 	<command name="gotoSitepageCP">
 		<var name="key_page" value="${pageName}" />
 
@@ -241,9 +256,9 @@
 	</command>
 
 	<command name="gotoWCArticle">
-		<var name="key_rowEntry" value="${webContentTitle}" />
-
-		<execute function="Click#waitForMenuToggleJSClick" locator1="Icon#ROW_VERTICAL_ELLIPSIS" />
+		<execute macro="WebContentNavigator#gotoArticleMenuPGViaWCD">
+			<var name="webContentTitle" value="${webContentTitle}" />
+		</execute>
 
 		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Permissions">
 			<var name="key_menuItem" value="Permissions" />

@@ -46,13 +46,12 @@ public class WorkflowTaskAssigneesSupplierTest {
 
 	@Test
 	public void testGetWhenKaleoTaskAssignmentsIsNotEmpty() {
-		KaleoTaskAssignmentInstance[] kaleoTaskAssignmentInstances =
-			new KaleoTaskAssignmentInstance[] {
-				KaleoRuntimeTestUtil.mockKaleoTaskAssignmentInstance(
-					Role.class.getName(), 1),
-				KaleoRuntimeTestUtil.mockKaleoTaskAssignmentInstance(
-					User.class.getName(), 2)
-			};
+		KaleoTaskAssignmentInstance[] kaleoTaskAssignmentInstances = {
+			KaleoRuntimeTestUtil.mockKaleoTaskAssignmentInstance(
+				Role.class.getName(), 1),
+			KaleoRuntimeTestUtil.mockKaleoTaskAssignmentInstance(
+				User.class.getName(), 2)
+		};
 
 		KaleoTaskInstanceToken kaleoTaskInstanceToken =
 			KaleoRuntimeTestUtil.mockKaleoTaskInstanceToken(

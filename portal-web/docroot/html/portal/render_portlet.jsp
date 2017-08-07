@@ -962,6 +962,7 @@ Boolean renderPortletBoundary = GetterUtil.getBoolean(request.getAttribute(WebKe
 	%>
 
 	<div class="<%= cssClasses %>" id="p_p_id<%= HtmlUtil.escapeAttribute(renderResponseImpl.getNamespace()) %>" <%= freeformStyles %>>
+		<span id="p_<%= HtmlUtil.escapeAttribute(portletId) %>"></span>
 </c:if>
 
 <c:choose>
@@ -1100,6 +1101,10 @@ else {
 %>
 
 <aui:script position='<%= themeDisplay.isIsolated() ? "inline" : "auto" %>'>
+	<c:if test="<%= !layoutTypePortlet.hasStateMax() && !themeDisplay.isStatePopUp() %>">
+		Liferay.Portlet.register('<%= HtmlUtil.escapeJS(portletDisplay.getId()) %>');
+	</c:if>
+
 	Liferay.Portlet.onLoad(
 		{
 			canEditTitle: <%= showConfigurationIcon %>,

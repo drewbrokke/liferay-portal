@@ -101,6 +101,7 @@ public class ModulesStructureTest {
 
 					Path buildGradlePath = dirPath.resolve("build.gradle");
 					Path buildXMLPath = dirPath.resolve("build.xml");
+					Path ivyXmlPath = dirPath.resolve("ivy.xml");
 
 					boolean gitRepo = Files.exists(
 						dirPath.resolve(_GIT_REPO_FILE_NAME));
@@ -138,8 +139,6 @@ public class ModulesStructureTest {
 							"Forbidden " + buildXMLPath,
 							Files.exists(buildXMLPath));
 
-						Path ivyXmlPath = dirPath.resolve("ivy.xml");
-
 						Assert.assertFalse(
 							"Forbidden " + ivyXmlPath,
 							Files.exists(ivyXmlPath));
@@ -150,6 +149,7 @@ public class ModulesStructureTest {
 					if (Files.exists(buildXMLPath)) {
 						Assert.assertFalse(
 							"Forbidden " + buildGradlePath,
+							Files.notExists(ivyXmlPath) &&
 							Files.exists(buildGradlePath));
 
 						return FileVisitResult.SKIP_SUBTREE;
@@ -159,6 +159,28 @@ public class ModulesStructureTest {
 						_testThemeBuildScripts(dirPath);
 
 						return FileVisitResult.SKIP_SUBTREE;
+					}
+
+					return FileVisitResult.CONTINUE;
+				}
+
+			});
+	}
+
+	@Test
+	public void testScanGitHub() throws IOException {
+		Files.walkFileTree(
+			_modulesDirPath,
+			new SimpleFileVisitor<Path>() {
+
+				@Override
+				public FileVisitResult visitFile(
+					Path path, BasicFileAttributes basicFileAttributes) {
+
+					String fileName = String.valueOf(path.getFileName());
+
+					if (fileName.equals("CODEOWNERS")) {
+						_testGitHubCodeOwners(path);
 					}
 
 					return FileVisitResult.CONTINUE;
@@ -402,61 +424,6 @@ public class ModulesStructureTest {
 		return gradleDependency;
 	}
 
-	private String _getAntPluginLibGitIgnore(Path dirPath) throws IOException {
-		Path liferayLayoutTemplatesXmlPath = dirPath.resolve(
-			"docroot/WEB-INF/liferay-layout-templates.xml");
-		Path liferayPluginPackagePropertiesPath = dirPath.resolve(
-			"docroot/WEB-INF/liferay-plugin-package.properties");
-
-		if (Files.exists(liferayLayoutTemplatesXmlPath) ||
-			Files.notExists(liferayPluginPackagePropertiesPath)) {
-
-			return null;
-		}
-
-		Properties properties = new Properties();
-
-		try (InputStream inputStream = Files.newInputStream(
-				liferayPluginPackagePropertiesPath)) {
-
-			properties.load(inputStream);
-		}
-
-		Set<String> jars = new TreeSet<>();
-
-		jars.add("commons-logging.jar");
-		jars.add("log4j.jar");
-		jars.add("util-bridges.jar");
-		jars.add("util-java.jar");
-		jars.add("util-taglib.jar");
-
-		String[] portalDependencyJars = StringUtil.split(
-			properties.getProperty(
-				"portal-dependency-jars",
-				properties.getProperty("portal.dependency.jars")));
-
-		for (String portalDependencyJar : portalDependencyJars) {
-			jars.add(portalDependencyJar);
-		}
-
-		StringBundler sb = new StringBundler(jars.size() * 3 - 1);
-
-		boolean first = true;
-
-		for (String jar : jars) {
-			if (!first) {
-				sb.append(CharPool.NEW_LINE);
-			}
-
-			first = false;
-
-			sb.append(CharPool.SLASH);
-			sb.append(jar);
-		}
-
-		return sb.toString();
-	}
-
 	private String _getAntPluginsGitIgnore(final Path dirPath, String gitIgnore)
 		throws IOException {
 
@@ -667,14 +634,6 @@ public class ModulesStructureTest {
 	}
 
 	private void _testAntPluginIgnoreFiles(Path dirPath) throws IOException {
-		if (_isInPrivateModulesDir(dirPath)) {
-			return;
-		}
-
-		_testEquals(
-			dirPath.resolve("docroot/WEB-INF/lib/.gitignore"),
-			_getAntPluginLibGitIgnore(dirPath));
-
 		if (_getGitRepoPath(dirPath) == null) {
 			Path parentDirPath = dirPath.getParent();
 
@@ -702,6 +661,20 @@ public class ModulesStructureTest {
 		else {
 			Assert.assertFalse("Forbidden " + path, Files.exists(path));
 		}
+	}
+
+	private void _testGitHubCodeOwners(Path path) {
+		Path dirPath = path.getParent();
+
+		Assert.assertEquals(
+			"Forbidden " + path, ".github",
+			String.valueOf(dirPath.getFileName()));
+
+		Path rootDirPath = dirPath.getParent();
+
+		Assert.assertTrue(
+			"Forbidden " + path,
+			Files.exists(rootDirPath.resolve(_GIT_REPO_FILE_NAME)));
 	}
 
 	private void _testGitIgnoreFile(Path path) throws IOException {
@@ -925,11 +898,7 @@ public class ModulesStructureTest {
 	private void _testGitRepoIgnoreFiles(Path dirPath, String gitIgnoreTemplate)
 		throws IOException {
 
-		if (_isEmptyGitRepo(dirPath)) {
-			return;
-		}
-
-		if (_isInGitRepoReadOnly(dirPath) || _isInPrivateModulesDir(dirPath)) {
+		if (_isInGitRepoReadOnly(dirPath)) {
 			return;
 		}
 

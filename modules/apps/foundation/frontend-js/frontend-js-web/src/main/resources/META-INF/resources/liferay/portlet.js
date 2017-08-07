@@ -21,6 +21,14 @@
 		refreshLayout: function(portletBoundary) {
 		},
 
+		register: function(portletId) {
+			var instance = this;
+
+			if (instance.list.indexOf(portletId) < 0) {
+				instance.list.push(portletId);
+			}
+		},
+
 		_defCloseFn: function(event) {
 			var instance = this;
 
@@ -297,7 +305,7 @@
 					instance.refreshLayout(portletBound);
 
 					if (window.location.hash) {
-						window.location.hash = 'p_p_id_' + portletId + '_';
+						window.location.hash = 'p_' + portletId;
 					}
 
 					portletBoundary = portletBound;

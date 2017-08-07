@@ -64,6 +64,8 @@ public class JSPUnusedTermsCheck extends BaseFileCheck {
 
 		content = JSPSourceUtil.compressImportsOrTaglibs(
 			fileName, content, "<%@ page import=");
+		content = JSPSourceUtil.compressImportsOrTaglibs(
+			fileName, content, "<%@ tag import=");
 
 		if (isPortalSource() || isSubrepository()) {
 			content = _removeUnusedPortletDefineObjects(fileName, content);
@@ -109,14 +111,15 @@ public class JSPUnusedTermsCheck extends BaseFileCheck {
 	}
 
 	private Map<String, String> _getContentsMap() throws Exception {
-		String[] excludes = new String[] {"**/null.jsp", "**/tools/**"};
+		String[] excludes = {"**/null.jsp", "**/tools/**"};
 
 		if (getExcludes() != null) {
 			excludes = ArrayUtil.append(excludes, getExcludes());
 		}
 
 		List<String> allJSPFileNames = SourceFormatterUtil.filterFileNames(
-			_allFileNames, excludes, new String[] {"**/*.jsp", "**/*.jspf"});
+			_allFileNames, excludes,
+			new String[] {"**/*.jsp", "**/*.jspf", "**/*.tag"});
 
 		return JSPSourceUtil.getContentsMap(allJSPFileNames);
 	}
@@ -136,7 +139,11 @@ public class JSPUnusedTermsCheck extends BaseFileCheck {
 			int y = content.indexOf("<%@ page import=");
 
 			if (y == -1) {
-				continue;
+				y = content.indexOf("<%@ tag import=");
+
+				if (y == -1) {
+					continue;
+				}
 			}
 
 			if ((x < y) && _isJSPDuplicateImport(fileName, importLine, false)) {
@@ -254,7 +261,11 @@ public class JSPUnusedTermsCheck extends BaseFileCheck {
 		int x = importLine.indexOf("page");
 
 		if (x == -1) {
-			return false;
+			x = importLine.indexOf("tag");
+
+			if (x == -1) {
+				return false;
+			}
 		}
 
 		if (checkFile && content.contains(importLine.substring(x))) {
@@ -494,21 +505,20 @@ public class JSPUnusedTermsCheck extends BaseFileCheck {
 		return content;
 	}
 
-	private static final String[] _PORTLET_DEFINE_OBJECTS_PROPERTIES =
-		new String[] {
-			"actionRequest", "actionResponse", "eventRequest", "eventResponse",
-			"liferayPortletRequest", "liferayPortletResponse", "portletConfig",
-			"portletName", "portletPreferences", "portletPreferencesValues",
-			"portletSession", "portletSessionScope", "renderResponse",
-			"renderRequest", "resourceRequest", "resourceResponse"
-		};
+	private static final String[] _PORTLET_DEFINE_OBJECTS_PROPERTIES = {
+		"actionRequest", "actionResponse", "eventRequest", "eventResponse",
+		"liferayPortletRequest", "liferayPortletResponse", "portletConfig",
+		"portletName", "portletPreferences", "portletPreferencesValues",
+		"portletSession", "portletSessionScope", "renderResponse",
+		"renderRequest", "resourceRequest", "resourceResponse"
+	};
 
 	private static final String _UNUSED_VARIABLES_EXCLUDES =
 		"jsp.unused.variables.excludes";
 
 	private List<String> _allFileNames;
 	private final Pattern _compressedJSPImportPattern = Pattern.compile(
-		"(<.*\n*page import=\".*>\n*)+", Pattern.MULTILINE);
+		"(<.*\n*(?:page|tag) import=\".*>\n*)+", Pattern.MULTILINE);
 	private Map<String, String> _contentsMap;
 	private final Pattern _taglibURIPattern = Pattern.compile(
 		"<%@\\s+taglib uri=.* prefix=\"(.*?)\" %>");

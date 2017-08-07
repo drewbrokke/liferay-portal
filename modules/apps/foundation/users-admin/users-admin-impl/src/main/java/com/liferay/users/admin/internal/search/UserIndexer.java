@@ -37,10 +37,8 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.security.auth.FullNameGenerator;
 import com.liferay.portal.kernel.security.auth.FullNameGeneratorFactory;
-import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
-import com.liferay.portal.kernel.service.permission.UserPermission;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -78,7 +76,6 @@ public class UserIndexer extends BaseIndexer<User> {
 			Field.ASSET_TAG_NAMES, Field.COMPANY_ID, Field.ENTRY_CLASS_NAME,
 			Field.ENTRY_CLASS_PK, Field.GROUP_ID, Field.MODIFIED_DATE,
 			Field.SCOPE_GROUP_ID, Field.UID, Field.USER_ID);
-		setFilterSearch(true);
 		setPermissionAware(true);
 		setStagingAware(false);
 	}
@@ -86,16 +83,6 @@ public class UserIndexer extends BaseIndexer<User> {
 	@Override
 	public String getClassName() {
 		return CLASS_NAME;
-	}
-
-	@Override
-	public boolean hasPermission(
-			PermissionChecker permissionChecker, String entryClassName,
-			long entryClassPK, String actionId)
-		throws Exception {
-
-		return userPermission.contains(
-			permissionChecker, entryClassPK, actionId);
 	}
 
 	@Override
@@ -298,28 +285,6 @@ public class UserIndexer extends BaseIndexer<User> {
 	}
 
 	@Override
-	protected String doGetSortField(String orderByCol) {
-		if (orderByCol.equals("email-address")) {
-			return "emailAddress";
-		}
-		else if (orderByCol.equals("first-name")) {
-			return "firstName";
-		}
-		else if (orderByCol.equals("job-title")) {
-			return "jobTitle";
-		}
-		else if (orderByCol.equals("last-name")) {
-			return "lastName";
-		}
-		else if (orderByCol.equals("screen-name")) {
-			return "screenName";
-		}
-		else {
-			return orderByCol;
-		}
-	}
-
-	@Override
 	protected Summary doGetSummary(
 		Document document, Locale locale, String snippet,
 		PortletRequest portletRequest, PortletResponse portletResponse) {
@@ -442,9 +407,6 @@ public class UserIndexer extends BaseIndexer<User> {
 
 	@Reference
 	protected UserLocalService userLocalService;
-
-	@Reference
-	protected UserPermission userPermission;
 
 	private static final Log _log = LogFactoryUtil.getLog(UserIndexer.class);
 

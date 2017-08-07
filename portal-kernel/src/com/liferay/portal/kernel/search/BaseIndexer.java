@@ -18,10 +18,7 @@ import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
-import com.liferay.asset.kernel.model.AssetTag;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.model.ExpandoColumn;
 import com.liferay.expando.kernel.model.ExpandoColumnConstants;
@@ -36,12 +33,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Address;
-import com.liferay.portal.kernel.model.AttachedModel;
-import com.liferay.portal.kernel.model.AuditedModel;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.Country;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.Region;
 import com.liferay.portal.kernel.model.ResourcedModel;
 import com.liferay.portal.kernel.model.TrashedModel;
@@ -69,7 +63,6 @@ import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -321,23 +314,35 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 		return _searchEngineId;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by
+	 *             {@link com.liferay.portal.search.sort.SortFieldBuilder
+	 *             #getSortField}
+	 */
+	@Deprecated
 	@Override
 	public String getSortField(String orderByCol) {
 		String sortField = doGetSortField(orderByCol);
 
 		if (_document.isDocumentSortableTextField(sortField)) {
-			return DocumentImpl.getSortableFieldName(sortField);
+			return Field.getSortableFieldName(sortField);
 		}
 
 		return sortField;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by
+	 *             {@link com.liferay.portal.search.sort.SortFieldBuilder
+	 *             #getSortField}
+	 */
+	@Deprecated
 	@Override
 	public String getSortField(String orderByCol, int sortType) {
 		if ((sortType == Sort.DOUBLE_TYPE) || (sortType == Sort.FLOAT_TYPE) ||
 			(sortType == Sort.INT_TYPE) || (sortType == Sort.LONG_TYPE)) {
 
-			return DocumentImpl.getSortableFieldName(orderByCol);
+			return Field.getSortableFieldName(orderByCol);
 		}
 
 		return getSortField(orderByCol);
@@ -725,6 +730,15 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 			new IndexerPostProcessor[indexerPostProcessorsList.size()]);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, no direct replacement. Logic now encapsulated in
+	 *             {@link com.liferay.portal.search.internal.contributor.
+	 *             document.AssetDocumentContrbutor}
+	 * @param document
+	 * @param className
+	 * @param classPK
+	 */
+	@Deprecated
 	protected void addAssetFields(
 		Document document, String className, long classPK) {
 
@@ -914,6 +928,16 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 		searchContext.addFacet(multiValueFacet);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, no direct replacement. Logic not encapsulated in
+	 *             {@link com.liferay.portal.search.internal.contributor.
+	 *                  document.AssetCategoryDocumentContrbutor}
+	 *
+	 * @param document
+	 * @param field
+	 * @param assetCategories
+	 */
+	@Deprecated
 	protected void addSearchAssetCategoryTitles(
 		Document document, String field, List<AssetCategory> assetCategories) {
 
@@ -1130,7 +1154,7 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 
 		queries.put(field, query);
 
-		String localizedFieldName = DocumentImpl.getLocalizedName(
+		String localizedFieldName = Field.getLocalizedName(
 			searchContext.getLocale(), field);
 
 		Query localizedQuery = addSearchTerm(
@@ -1405,6 +1429,13 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 
 	protected abstract Document doGetDocument(T object) throws Exception;
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by
+	 *             {@link com.liferay.portal.search.contributor.sort.
+	 *             SortFieldTranslator}
+	 */
+	@Deprecated
+
 	protected String doGetSortField(String orderByCol) {
 		return orderByCol;
 	}
@@ -1497,67 +1528,8 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 
 		document.addUID(className, classPK);
 
-		List<AssetCategory> assetCategories =
-			AssetCategoryLocalServiceUtil.getCategories(className, classPK);
-
-		long[] assetCategoryIds = ListUtil.toLongArray(
-			assetCategories, AssetCategory.CATEGORY_ID_ACCESSOR);
-
-		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-
-		addSearchAssetCategoryTitles(
-			document, Field.ASSET_CATEGORY_TITLES, assetCategories);
-
-		long classNameId = PortalUtil.getClassNameId(className);
-
-		List<AssetTag> assetTags = AssetTagLocalServiceUtil.getTags(
-			classNameId, classPK);
-
-		String[] assetTagNames = ListUtil.toArray(
-			assetTags, AssetTag.NAME_ACCESSOR);
-
-		document.addText(Field.ASSET_TAG_NAMES, assetTagNames);
-
-		long[] assetTagsIds = ListUtil.toLongArray(
-			assetTags, AssetTag.TAG_ID_ACCESSOR);
-
-		document.addKeyword(Field.ASSET_TAG_IDS, assetTagsIds);
-
 		if (resourcePrimKey > 0) {
 			document.addKeyword(Field.ROOT_ENTRY_CLASS_PK, resourcePrimKey);
-		}
-
-		if (baseModel instanceof AttachedModel) {
-			AttachedModel attachedModel = (AttachedModel)baseModel;
-
-			documentHelper.setAttachmentOwnerKey(
-				attachedModel.getClassNameId(), attachedModel.getClassPK());
-		}
-
-		if (baseModel instanceof AuditedModel) {
-			AuditedModel auditedModel = (AuditedModel)baseModel;
-
-			document.addKeyword(Field.COMPANY_ID, auditedModel.getCompanyId());
-			document.addDate(Field.CREATE_DATE, auditedModel.getCreateDate());
-			document.addDate(
-				Field.MODIFIED_DATE, auditedModel.getModifiedDate());
-			document.addKeyword(Field.USER_ID, auditedModel.getUserId());
-
-			String userName = PortalUtil.getUserName(
-				auditedModel.getUserId(), auditedModel.getUserName());
-
-			document.addKeyword(Field.USER_NAME, userName, true);
-		}
-
-		GroupedModel groupedModel = null;
-
-		if (baseModel instanceof GroupedModel) {
-			groupedModel = (GroupedModel)baseModel;
-
-			document.addKeyword(
-				Field.GROUP_ID, getSiteGroupId(groupedModel.getGroupId()));
-			document.addKeyword(
-				Field.SCOPE_GROUP_ID, groupedModel.getGroupId());
 		}
 
 		if (workflowedBaseModel instanceof WorkflowedModel) {
@@ -1567,14 +1539,7 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 			document.addKeyword(Field.STATUS, workflowedModel.getStatus());
 		}
 
-		addAssetFields(document, className, classPK);
-
-		ExpandoBridgeIndexerUtil.addAttributes(
-			document, baseModel.getExpandoBridge());
-
-		for (DocumentContributor documentContributor :
-				getDocumentContributors()) {
-
+		for (DocumentContributor documentContributor : _documentContributors) {
 			documentContributor.contribute(document, baseModel);
 		}
 
@@ -1593,14 +1558,12 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 		return _defaultSelectedLocalizedFieldNames;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, no direct replacement
+	 * @return
+	 */
+	@Deprecated
 	protected List<DocumentContributor> getDocumentContributors() {
-		if (_documentContributors != null) {
-			return _documentContributors;
-		}
-
-		_documentContributors = ServiceTrackerCollections.openList(
-			DocumentContributor.class);
-
 		return _documentContributors;
 	}
 
@@ -1625,7 +1588,7 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 		if (expandoColumn.getType() ==
 				ExpandoColumnConstants.STRING_LOCALIZED) {
 
-			fieldName = DocumentImpl.getLocalizedName(
+			fieldName = Field.getLocalizedName(
 				searchContext.getLocale(), fieldName);
 		}
 
@@ -1696,14 +1659,13 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 
 		String localizedAssetCategoryTitlesName =
 			prefix +
-				DocumentImpl.getLocalizedName(
-					locale, Field.ASSET_CATEGORY_TITLES);
+				Field.getLocalizedName(locale, Field.ASSET_CATEGORY_TITLES);
 		String localizedContentName =
-			prefix + DocumentImpl.getLocalizedName(locale, Field.CONTENT);
+			prefix + Field.getLocalizedName(locale, Field.CONTENT);
 		String localizedDescriptionName =
-			prefix + DocumentImpl.getLocalizedName(locale, Field.DESCRIPTION);
+			prefix + Field.getLocalizedName(locale, Field.DESCRIPTION);
 		String localizedTitleName =
-			prefix + DocumentImpl.getLocalizedName(locale, Field.TITLE);
+			prefix + Field.getLocalizedName(locale, Field.TITLE);
 
 		if ((document.getField(localizedAssetCategoryTitlesName) != null) ||
 			(document.getField(localizedContentName) != null) ||
@@ -1880,7 +1842,8 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 	private String[] _defaultSelectedFieldNames;
 	private String[] _defaultSelectedLocalizedFieldNames;
 	private final Document _document = new DocumentImpl();
-	private List<DocumentContributor> _documentContributors;
+	private final List<DocumentContributor> _documentContributors =
+		ServiceTrackerCollections.openList(DocumentContributor.class);
 	private boolean _filterSearch;
 	private Boolean _indexerEnabled;
 	private IndexerPostProcessor[] _indexerPostProcessors =

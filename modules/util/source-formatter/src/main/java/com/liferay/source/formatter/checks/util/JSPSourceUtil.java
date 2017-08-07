@@ -171,11 +171,17 @@ public class JSPSourceUtil {
 			return includeFileNames;
 		}
 
-		for (int x = 0;;) {
-			x = content.indexOf("<%@ include file=", x);
+		for (int x = -1;;) {
+			x = content.indexOf("<%@ include file=", x + 1);
 
 			if (x == -1) {
 				break;
+			}
+
+			Matcher matcher = _javaCodeTagPattern.matcher(content);
+
+			if (matcher.find() && (matcher.start() == x)) {
+				continue;
 			}
 
 			x = content.indexOf(CharPool.QUOTE, x);
@@ -196,7 +202,7 @@ public class JSPSourceUtil {
 				includeFileName = StringPool.SLASH + includeFileName;
 			}
 
-			Matcher matcher = _jspIncludeFilePattern.matcher(includeFileName);
+			matcher = _jspIncludeFilePattern.matcher(includeFileName);
 
 			if (!matcher.find()) {
 				throw new RuntimeException(
@@ -206,8 +212,6 @@ public class JSPSourceUtil {
 			String extension = matcher.group(1);
 
 			if (extension.equals("svg")) {
-				x = y;
-
 				continue;
 			}
 
@@ -215,16 +219,12 @@ public class JSPSourceUtil {
 				fileName, includeFileName, contentsMap);
 
 			if ((includeFileName.endsWith("jsp") ||
-				 includeFileName.endsWith("jspf")) &&
-				!includeFileName.endsWith("html/common/init.jsp") &&
-				!includeFileName.endsWith("html/portlet/init.jsp") &&
-				!includeFileName.endsWith("html/taglib/init.jsp") &&
+				 includeFileName.endsWith("jspf") ||
+				 includeFileName.endsWith("tag")) &&
 				!fileNames.contains(includeFileName)) {
 
 				includeFileNames.add(includeFileName);
 			}
-
-			x = y;
 		}
 
 		return includeFileNames;
@@ -237,6 +237,7 @@ public class JSPSourceUtil {
 		Set<String> referenceFileNames = new HashSet<>();
 
 		if (!fileName.endsWith("init.jsp") && !fileName.endsWith("init.jspf") &&
+			!fileName.endsWith("init.tag") &&
 			!fileName.contains("init-ext.jsp")) {
 
 			return referenceFileNames;
@@ -341,11 +342,13 @@ public class JSPSourceUtil {
 
 	private static final Pattern _includeFilePattern = Pattern.compile(
 		"\\s*@\\s*include\\s*file=['\"](.*)['\"]");
+	private static final Pattern _javaCodeTagPattern = Pattern.compile(
+		"<%\\s*[@=\n]");
 	private static final Pattern _javaEndTagPattern = Pattern.compile(
 		"[\n\t]%>(\n|\\Z)");
 	private static final Pattern _javaStartTagPattern = Pattern.compile(
 		"[\n\t]<%\\!?\n");
 	private static final Pattern _jspIncludeFilePattern = Pattern.compile(
-		"/.*\\.(jsp[f]?|svg)");
+		"/.*\\.(jsp[f]?|svg|tag)");
 
 }
