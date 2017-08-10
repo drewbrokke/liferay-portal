@@ -293,19 +293,50 @@ public class SettingsLocatorHelperImpl
 		long companyId, long ownerId, int ownerType, long plid,
 		String portletId, Settings parentSettings) {
 
-		return new PortletPreferencesSettings(
-			getPortletInstancePortletPreferences(
-				companyId, ownerId, ownerType, plid, portletId),
-			parentSettings);
+		PortletPreferencesSettings portletPreferencesSettings =
+			new PortletPreferencesSettings(
+				getPortletInstancePortletPreferences(
+					companyId, ownerId, ownerType, plid, portletId),
+				parentSettings);
+
+		Class<?> configurationBeanClass = _configurationBeanClasses.get(
+			portletId);
+
+		if (configurationBeanClass == null) {
+			return portletPreferencesSettings;
+		}
+
+		ScopeKey scopeKey = new ScopeKey(
+			configurationBeanClass,
+			ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE, portletId);
+
+		return _getConfigurationBeanSettings(
+			configurationBeanClass, scopeKey, portletPreferencesSettings);
 	}
 
 	@Override
 	public Settings getPortletInstancePortletPreferencesSettings(
 		long companyId, long plid, String portletId, Settings parentSettings) {
 
-		return new PortletPreferencesSettings(
-			getPortletInstancePortletPreferences(companyId, plid, portletId),
-			parentSettings);
+		PortletPreferencesSettings portletPreferencesSettings =
+			new PortletPreferencesSettings(
+				getPortletInstancePortletPreferences(
+					companyId, plid, portletId),
+				parentSettings);
+
+		Class<?> configurationBeanClass = _configurationBeanClasses.get(
+			portletId);
+
+		if (configurationBeanClass == null) {
+			return portletPreferencesSettings;
+		}
+
+		ScopeKey scopeKey = new ScopeKey(
+			configurationBeanClass,
+			ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE, portletId);
+
+		return _getConfigurationBeanSettings(
+			configurationBeanClass, scopeKey, portletPreferencesSettings);
 	}
 
 	@Override
