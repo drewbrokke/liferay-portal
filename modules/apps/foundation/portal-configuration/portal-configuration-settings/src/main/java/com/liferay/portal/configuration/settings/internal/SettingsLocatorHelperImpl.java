@@ -161,9 +161,23 @@ public class SettingsLocatorHelperImpl
 	public Settings getCompanyPortletPreferencesSettings(
 		long companyId, String settingsId, Settings parentSettings) {
 
-		return new PortletPreferencesSettings(
+		Settings portletPreferencesSettings = new PortletPreferencesSettings(
 			getCompanyPortletPreferences(companyId, settingsId),
 			parentSettings);
+
+		Class<?> configurationBeanClass = _configurationBeanClasses.get(
+			settingsId);
+
+		if (configurationBeanClass == null) {
+			return portletPreferencesSettings;
+		}
+
+		ScopeKey scopeKey = new ScopeKey(
+			configurationBeanClass, ExtendedObjectClassDefinition.Scope.COMPANY,
+			Long.toString(companyId));
+
+		return _getConfigurationBeanSettings(
+			configurationBeanClass, scopeKey, portletPreferencesSettings);
 	}
 
 	@Override
@@ -216,8 +230,24 @@ public class SettingsLocatorHelperImpl
 	public Settings getGroupPortletPreferencesSettings(
 		long groupId, String settingsId, Settings parentSettings) {
 
-		return new PortletPreferencesSettings(
-			getGroupPortletPreferences(groupId, settingsId), parentSettings);
+		PortletPreferencesSettings portletPreferencesSettings =
+			new PortletPreferencesSettings(
+				getGroupPortletPreferences(groupId, settingsId),
+				parentSettings);
+
+		Class<?> configurationBeanClass = _configurationBeanClasses.get(
+			settingsId);
+
+		if (configurationBeanClass == null) {
+			return portletPreferencesSettings;
+		}
+
+		ScopeKey scopeKey = new ScopeKey(
+			configurationBeanClass, ExtendedObjectClassDefinition.Scope.GROUP,
+			Long.toString(groupId));
+
+		return _getConfigurationBeanSettings(
+			configurationBeanClass, scopeKey, portletPreferencesSettings);
 	}
 
 	@Override
@@ -379,6 +409,24 @@ public class SettingsLocatorHelperImpl
 			configurationBeanClass, settingsScope, scopePrimKey);
 
 		return scopeKey;
+	}
+	
+	private Settings _getConfigurationBeanSettings(
+		Class<?> configurationBeanClass, ScopeKey scopeKey,
+		Settings parentSettings) {
+
+		Object configurationBean = _scopedConfigurationBeans.get(scopeKey);
+
+		if (configurationBean == null) {
+			return parentSettings;
+		}
+
+		LocationVariableResolver locationVariableResolver =
+			_configurationBeanLocationVariableResolver.get(
+				configurationBeanClass);
+
+		return new ConfigurationBeanSettings(
+			locationVariableResolver, configurationBean, parentSettings);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
