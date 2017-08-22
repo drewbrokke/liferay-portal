@@ -55,7 +55,6 @@ import org.osgi.service.component.annotations.Reference;
 public class TempFileEntriesMessageListener extends BaseMessageListener {
 
 	@Activate
-	@Modified
 	protected void activate(Map<String, Object> properties) {
 		_dlConfiguration = ConfigurableUtil.createConfigurable(
 			DLConfiguration.class, properties);
@@ -137,6 +136,13 @@ public class TempFileEntriesMessageListener extends BaseMessageListener {
 			});
 
 		actionableDynamicQuery.performActions();
+	}
+
+	@Modified
+	protected void modified(Map<String, Object> properties) {
+		deactivate();
+
+		activate(properties);
 	}
 
 	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED, unbind = "-")
