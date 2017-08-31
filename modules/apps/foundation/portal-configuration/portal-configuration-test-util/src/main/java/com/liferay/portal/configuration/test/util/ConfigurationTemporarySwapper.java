@@ -71,9 +71,15 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 
 			@Override
 			public void serviceChanged(ServiceEvent serviceEvent) {
+				System.out.println("'serviceChanged' event fired.");
+
 				if (serviceEvent.getType() == ServiceEvent.REGISTERED) {
+					System.out.println("Service Type was: " + serviceEvent.getType() + ". Returning.");
+
 					return;
 				}
+
+				System.out.println("Service Type was: '" + serviceEvent.getType() + "'. Proceeding to second check.");
 
 				ServiceReference<?> serviceReference =
 					serviceEvent.getServiceReference();
@@ -82,7 +88,11 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 					serviceReference);
 
 				if (changedService == service) {
+					System.out.println("Services matched: '" + changedService + "'' matched '" + service + "'. Counting down latch.");
 					countDownLatch.countDown();
+				}
+				else {
+					System.out.println("Services did not match: '" + changedService + "'' did not match '" + service + "'. Waiting for next change.");
 				}
 
 				_bundleContext.ungetService(serviceReference);
