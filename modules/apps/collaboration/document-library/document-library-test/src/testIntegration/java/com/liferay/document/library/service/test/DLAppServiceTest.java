@@ -197,6 +197,9 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
+			System.out.println(
+				"DREWSTARTING WhenAddingAFileEntry$shouldFailIfSizeLimitExceeded");
+
 			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
 					_getConfigurationTemporarySwapper("fileMaxSize", 1L)) {
 
@@ -245,6 +248,10 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 		@Test(expected = FileExtensionException.class)
 		public void shouldFailIfSourceFileNameExtensionNotSupported()
 			throws Exception {
+
+			System.out.println(
+				"DREWSTARTING WhenAddingAFileEntry$" +
+					"shouldFailIfSourceFileNameExtensionNotSupported");
 
 			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
 					_getConfigurationTemporarySwapper(
@@ -1401,6 +1408,10 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
+			System.out.println(
+				"DREWSTARTING WhenUpdatingAFileEntry$" +
+					"shouldFailIfSizeLimitExceeded");
+
 			String fileName = RandomTestUtil.randomString();
 
 			ServiceContext serviceContext =
