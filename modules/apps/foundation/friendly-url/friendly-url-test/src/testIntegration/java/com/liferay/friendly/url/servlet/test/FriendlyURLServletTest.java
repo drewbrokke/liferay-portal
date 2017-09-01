@@ -20,12 +20,14 @@ import com.liferay.portal.kernel.exception.NoSuchGroupException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
+import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -77,6 +79,7 @@ public class FriendlyURLServletTest {
 	public void setUp() throws Exception {
 		PropsValues.LOCALES_ENABLED = new String[] {"en_US", "hu_HU", "de_DE"};
 		PropsValues.LOCALE_USE_DEFAULT_IF_NOT_AVAILABLE = true;
+		PropsValues.USERS_SCREEN_NAME_ALLOW_NUMERIC = true;
 
 		LanguageUtil.init();
 
@@ -116,6 +119,8 @@ public class FriendlyURLServletTest {
 			PropsKeys.LOCALES_ENABLED);
 		PropsValues.LOCALE_USE_DEFAULT_IF_NOT_AVAILABLE = GetterUtil.getBoolean(
 			PropsUtil.get(PropsKeys.LOCALE_USE_DEFAULT_IF_NOT_AVAILABLE));
+		PropsValues.USERS_SCREEN_NAME_ALLOW_NUMERIC = GetterUtil.getBoolean(
+			PropsUtil.get(PropsKeys.USERS_SCREEN_NAME_ALLOW_NUMERIC));
 
 		LanguageUtil.init();
 
@@ -153,6 +158,48 @@ public class FriendlyURLServletTest {
 		testGetRedirect(
 			mockHttpServletRequest, "/nonexistent-site/home", Portal.PATH_MAIN,
 			null);
+	}
+
+	@Test
+	public void testGetRedirectWithNumericUserScreenName() throws Exception {
+		MockHttpServletRequest mockHttpServletRequest =
+			new MockHttpServletRequest();
+
+		mockHttpServletRequest.setPathInfo(StringPool.SLASH);
+
+		String numericScreenName = "12345";
+
+		_user = UserTestUtil.addUser(numericScreenName);
+
+		Group userGroup = _user.getGroup();
+
+		_layout = LayoutTestUtil.addLayout(userGroup);
+
+		testGetRedirect(
+			mockHttpServletRequest, getPath(userGroup, _layout),
+			Portal.PATH_MAIN, new FriendlyURLServlet.Redirect(getURL(_layout)));
+	}
+
+	@Test
+	public void testGetRedirectWithNumericUserScreenNameMatchingSiteId()
+		throws Exception {
+
+		MockHttpServletRequest mockHttpServletRequest =
+			new MockHttpServletRequest();
+
+		mockHttpServletRequest.setPathInfo(StringPool.SLASH);
+
+		long groupId = _group.getGroupId();
+
+		_user = UserTestUtil.addUser(String.valueOf(groupId));
+
+		Group userGroup = _user.getGroup();
+
+		_layout = LayoutTestUtil.addLayout(userGroup);
+
+		testGetRedirect(
+			mockHttpServletRequest, getPath(userGroup, _layout),
+			Portal.PATH_MAIN, new FriendlyURLServlet.Redirect(getURL(_layout)));
 	}
 
 	protected String getI18nLanguageId(HttpServletRequest request) {
@@ -260,5 +307,8 @@ public class FriendlyURLServletTest {
 	private final I18nServlet _i18nServlet = new I18nServlet();
 	private Layout _layout;
 	private ServiceTracker<Servlet, Servlet> _serviceTracker;
+
+	@DeleteAfterTestRun
+	private User _user;
 
 }
