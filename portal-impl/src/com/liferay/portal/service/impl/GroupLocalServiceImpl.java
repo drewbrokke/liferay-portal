@@ -4276,6 +4276,15 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 
 		String groupIdFriendlyURL = friendlyURL.substring(1);
 
+		if (groupIdFriendlyURL.equals(String.valueOf(groupId))) {
+			GroupFriendlyURLException gfurle = new GroupFriendlyURLException(
+				GroupFriendlyURLException.KEYWORD_CONFLICT);
+
+			gfurle.setKeywordConflict(groupIdFriendlyURL);
+
+			throw gfurle;
+		}
+
 		if (Validator.isNumber(groupIdFriendlyURL)) {
 			long groupClassNameId = classNameLocalService.getClassNameId(
 				Group.class);
