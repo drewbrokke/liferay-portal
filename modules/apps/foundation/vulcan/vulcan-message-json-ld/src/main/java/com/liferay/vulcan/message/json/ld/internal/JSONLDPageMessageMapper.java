@@ -226,7 +226,7 @@ public class JSONLDPageMessageMapper<T> implements PageMessageMapper<T> {
 
 	@Override
 	public void onFinish(
-		JSONObjectBuilder jsonObjectBuilder, Page<T> page, Class<T> modelClass,
+		JSONObjectBuilder jsonObjectBuilder, Page<T> page,
 		HttpHeaders httpHeaders) {
 
 		jsonObjectBuilder.nestedField(

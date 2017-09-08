@@ -46,7 +46,7 @@ public class CurrentUserProvider implements Provider<CurrentUser> {
 			}
 			catch (PortalException pe) {
 				throw new ForbiddenException(
-					"Couldn't found any logged user", pe);
+					"Unable to get authenticated user", pe);
 			}
 		};
 	}

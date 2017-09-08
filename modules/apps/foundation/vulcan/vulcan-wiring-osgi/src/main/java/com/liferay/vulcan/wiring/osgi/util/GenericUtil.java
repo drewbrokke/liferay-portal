@@ -28,44 +28,40 @@ import java.lang.reflect.Type;
  */
 public class GenericUtil {
 
-	/**
-	 * Given a type denoted by {@code T<S>} returns S class or an exception, if
-	 * the class couldn't be get.
-	 *
-	 * @param  clazz class of the actual instance.
-	 * @param  interfaceClass class of type T.
-	 * @return class of type S, or an exception, if the class couldn't be get.
-	 */
 	public static <T, S> Try<Class<S>> getGenericClassTry(
 		Class<?> clazz, Class<T> interfaceClass) {
+
+		return getGenericClassTry(clazz, interfaceClass, 0);
+	}
+
+	public static <T, S> Try<Class<S>> getGenericClassTry(
+		Class<?> clazz, Class<T> interfaceClass, int position) {
 
 		Type[] genericInterfaces = clazz.getGenericInterfaces();
 
 		Try<Class<S>> classTry = Try.fail(
 			new IllegalArgumentException(
-				"Class " + clazz + " does not implement any interfaces."));
+				"Class " + clazz + " does not implement any interfaces"));
 
 		for (Type genericInterface : genericInterfaces) {
 			classTry = classTry.recoverWith(
 				throwable -> getGenericClassTry(
-					genericInterface, interfaceClass));
+					genericInterface, interfaceClass, position));
 		}
 
 		return classTry.recoverWith(
 			throwable -> getGenericClassTry(
-				clazz.getSuperclass(), interfaceClass));
+				clazz.getSuperclass(), interfaceClass, position));
 	}
 
-	/**
-	 * Given a type denoted by {@code T<S>} returns S class or an exception, if
-	 * the class couldn't be get.
-	 *
-	 * @param  type type of the actual instance.
-	 * @param  clazz class of type T.
-	 * @return class of type S, or an exception, if the class couldn't be get.
-	 */
 	public static <T, S> Try<Class<S>> getGenericClassTry(
 		Type type, Class<T> clazz) {
+
+		return getGenericClassTry(type, clazz, 0);
+	}
+
+	public static <T, S> Try<Class<S>> getGenericClassTry(
+		Type type, Class<T> clazz, int position) {
 
 		Try<Type> typeTry = Try.success(type);
 
@@ -74,22 +70,30 @@ public class GenericUtil {
 		).map(
 			ParameterizedType.class::cast
 		).filter(
-			parameterizedType ->
-				parameterizedType.getRawType().equals(clazz)
+			parameterizedType -> {
+				Type rawType = parameterizedType.getRawType();
+
+				return rawType.equals(clazz);
+			}
 		).map(
 			ParameterizedType::getActualTypeArguments
 		).filter(
-			typeArguments -> typeArguments.length == 1
+			typeArguments -> {
+				if (typeArguments.length >= 1) {
+					return true;
+				}
+
+				return false;
+			}
 		).map(
-			typeArguments -> typeArguments[0]
+			typeArguments -> typeArguments[position]
 		).map(
 			typeArgument -> {
 				if (typeArgument instanceof ParameterizedType) {
 					return ((ParameterizedType)typeArgument).getRawType();
 				}
-				else {
-					return typeArgument;
-				}
+
+				return typeArgument;
 			}
 		).map(
 			typeArgument -> (Class<S>)typeArgument

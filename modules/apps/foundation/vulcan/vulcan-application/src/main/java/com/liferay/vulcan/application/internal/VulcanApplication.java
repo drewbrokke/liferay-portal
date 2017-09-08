@@ -53,7 +53,9 @@ public class VulcanApplication extends Application {
 		singletons.add(_rootEndpoint);
 
 		singletons.addAll(_messageBodyWriters);
+
 		singletons.addAll(_containerResponseFilters);
+
 		singletons.addAll(_exceptionMappers);
 
 		return singletons;

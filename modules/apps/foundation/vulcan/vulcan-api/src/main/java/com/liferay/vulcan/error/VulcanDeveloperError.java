@@ -14,8 +14,6 @@
 
 package com.liferay.vulcan.error;
 
-import com.liferay.vulcan.filter.QueryParamFilterType;
-
 /**
  * Represents the errors that can occur while using Vulcan. Each error is a
  * nested error subclass.
@@ -24,20 +22,6 @@ import com.liferay.vulcan.filter.QueryParamFilterType;
  * @author Jorge Ferrer
  */
 public class VulcanDeveloperError extends Error {
-
-	/**
-	 * Represents the error the developer should throw when a converter is
-	 * missing.
-	 */
-	public static class MustHaveConverter extends VulcanDeveloperError {
-
-		public MustHaveConverter(Class<?> modelClass) {
-			super(
-				"Model class " + modelClass.getName() +
-					" does not have a converter");
-		}
-
-	}
 
 	/**
 	 * Represents the error the developer should throw when an exception
@@ -55,24 +39,14 @@ public class VulcanDeveloperError extends Error {
 	}
 
 	/**
-	 * Represents the error the developer should throw when a filter provider is
-	 * missing.
+	 * Represents the error the developer should throw when an identifier
+	 * converter is missing.
 	 */
-	public static class MustHaveFilterProvider extends VulcanDeveloperError {
+	public static class MustHaveIdentifierConverter
+		extends VulcanDeveloperError {
 
-		public MustHaveFilterProvider(
-			QueryParamFilterType queryParamFilterType) {
-
-			super(
-				"Filter " + queryParamFilterType.toString() +
-					" does not have a provider");
-		}
-
-		public <Q extends QueryParamFilterType> MustHaveFilterProvider(
-			Class<Q> modelClass) {
-
-			super(
-				"Filter " + modelClass.getName() + " does not have a provider");
+		public MustHaveIdentifierConverter(Class<?> identifier) {
+			super("Identifier " + identifier + " does not have a converter");
 		}
 
 	}
@@ -129,22 +103,6 @@ public class VulcanDeveloperError extends Error {
 		public MustHaveValidGenericType(Class clazz) {
 			super(
 				"Class " + clazz.getName() + " must have a valid generic type");
-		}
-
-	}
-
-	/**
-	 * Represents the error the developer should throw when a provider is
-	 * missing.
-	 */
-	public static class MustUseFilteredCollectionPage
-		extends VulcanDeveloperError {
-
-		public MustUseFilteredCollectionPage() {
-			super(
-				"QueryParamFilterType classes should not be used in " +
-					"RoutesBuilder#collectionPage methods, use " +
-						"RoutesBuilder#filteredCollectionPage instead");
 		}
 
 	}

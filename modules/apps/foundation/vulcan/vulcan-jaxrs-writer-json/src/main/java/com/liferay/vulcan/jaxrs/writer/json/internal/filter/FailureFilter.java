@@ -83,8 +83,8 @@ public class FailureFilter implements ContainerResponseFilter {
 			headers.remove("Content-Type");
 			headers.add("Content-Type", errorMessageMapper.getMediaType());
 
-			containerResponseContext.setStatus(apiError.getStatusCode());
 			containerResponseContext.setEntity(result);
+			containerResponseContext.setStatus(apiError.getStatusCode());
 		}
 	}
 

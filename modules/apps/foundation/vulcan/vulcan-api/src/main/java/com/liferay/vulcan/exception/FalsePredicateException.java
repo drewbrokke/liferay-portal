@@ -20,7 +20,7 @@ package com.liferay.vulcan.exception;
 public class FalsePredicateException extends Exception {
 
 	public FalsePredicateException(Object value) {
-		super("Predicate does not match for " + value.toString());
+		super("Predicate does not match for " + value);
 	}
 
 }

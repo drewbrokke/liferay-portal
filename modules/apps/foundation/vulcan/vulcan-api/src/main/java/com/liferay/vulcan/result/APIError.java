@@ -46,7 +46,7 @@ public interface APIError {
 	/**
 	 * Returns the HTTP status code for this {@code APIError}.
 	 *
-	 * @return the http status code of this error.
+	 * @return the HTTP status code of this error.
 	 */
 	public int getStatusCode();
 
