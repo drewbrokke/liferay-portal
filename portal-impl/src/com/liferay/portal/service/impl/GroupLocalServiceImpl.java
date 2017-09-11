@@ -4274,23 +4274,32 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 			throw gfurle;
 		}
 
-		String groupIdFriendlyURL = friendlyURL.substring(1);
+		String groupFriendlyURL = friendlyURL.substring(1);
 
-		if (Validator.isNumber(groupIdFriendlyURL)) {
+		if (groupFriendlyURL.equals(String.valueOf(groupId))) {
+			GroupFriendlyURLException gfurle = new GroupFriendlyURLException(
+				GroupFriendlyURLException.KEYWORD_CONFLICT);
+
+			gfurle.setKeywordConflict(groupFriendlyURL);
+
+			throw gfurle;
+		}
+
+		if (Validator.isNumber(groupFriendlyURL)) {
 			long groupClassNameId = classNameLocalService.getClassNameId(
 				Group.class);
 
 			if (((classNameId != groupClassNameId) &&
-				 !groupIdFriendlyURL.equals(String.valueOf(classPK)) &&
+				 !groupFriendlyURL.equals(String.valueOf(classPK)) &&
 				 !PropsValues.USERS_SCREEN_NAME_ALLOW_NUMERIC) ||
 				((classNameId == groupClassNameId) &&
-				 !groupIdFriendlyURL.equals(String.valueOf(groupId)))) {
+				 !groupFriendlyURL.equals(String.valueOf(groupId)))) {
 
 				GroupFriendlyURLException gfurle =
 					new GroupFriendlyURLException(
 						GroupFriendlyURLException.POSSIBLE_DUPLICATE);
 
-				gfurle.setKeywordConflict(groupIdFriendlyURL);
+				gfurle.setKeywordConflict(groupFriendlyURL);
 
 				throw gfurle;
 			}
