@@ -691,6 +691,10 @@ public class PortalRequestProcessor extends TilesRequestProcessor {
 				return path;
 			}
 
+			if (path.equals(_PATH_PORTAL_UPDATE_LANGUAGE)) {
+				return path;
+			}
+
 			// Authenticated users can always agree to terms of use
 
 			if (path.equals(_PATH_PORTAL_UPDATE_TERMS_OF_USE)) {
