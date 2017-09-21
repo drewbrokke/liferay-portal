@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.CharPool;
+import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -53,6 +54,12 @@ public class UpdateLanguageAction extends Action {
 			ActionMapping actionMapping, ActionForm actionForm,
 			HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
+
+		String cmd = ParamUtil.getString(request, Constants.CMD);
+
+		if (Validator.isNull(cmd)) {
+			return actionMapping.findForward("portal.update_language");
+		}
 
 		HttpSession session = request.getSession();
 
