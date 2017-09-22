@@ -105,7 +105,9 @@
 			<forward name="portal.update_email_address" path="portal.update_email_address" />
 		</action>
 
-		<action path="/portal/update_language" type="com.liferay.portal.action.UpdateLanguageAction" />
+		<action path="/portal/update_language" type="com.liferay.portal.action.UpdateLanguageAction">
+			<forward name="portal.update_language" path="portal.update_language" />
+		</action>
 
 		<action path="/portal/update_layout" type="com.liferay.portal.action.UpdateLayoutAction" />
 

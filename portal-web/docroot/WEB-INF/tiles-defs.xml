@@ -89,6 +89,11 @@
 		<put name="content" value="/portal/update_email_address.jsp" />
 	</definition>
 
+	<definition extends="portal" name="portal.update_language">
+		<put name="title" value="choose-a-language" />
+		<put name="content" value="/portal/update_language.jsp" />
+	</definition>
+
 	<definition extends="portal" name="portal.update_password">
 		<put name="title" value="new-password" />
 		<put name="content" value="/portal/update_password.jsp" />
