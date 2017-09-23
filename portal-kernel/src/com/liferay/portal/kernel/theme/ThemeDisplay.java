@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.service.LayoutFriendlyURLLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.Mergeable;
@@ -67,6 +68,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.TimeZone;
 
@@ -1203,6 +1205,18 @@ public class ThemeDisplay
 		return _lifecycleResource;
 	}
 
+	public boolean isPortletEmbedded(
+		long groupId, Layout layout, String portletId) {
+
+		return _portletEmbeddedMap.computeIfAbsent(
+			new EmbeddedPortletCacheKey(groupId, layout.getPlid(), portletId),
+			(key) -> layout.isPortletEmbedded(portletId, groupId));
+	}
+
+	public boolean isPortletEmbedded(String portletId) {
+		return isPortletEmbedded(_layout.getGroupId(), _layout, portletId);
+	}
+
 	public boolean isSecure() {
 		return _secure;
 	}
@@ -2043,6 +2057,8 @@ public class ThemeDisplay
 	private String _portalDomain = StringPool.BLANK;
 	private String _portalURL = StringPool.BLANK;
 	private PortletDisplay _portletDisplay = new PortletDisplay();
+	private Map<EmbeddedPortletCacheKey, Boolean> _portletEmbeddedMap =
+		new HashMap<>();
 	private String _ppid = StringPool.BLANK;
 	private String _realCompanyLogo = StringPool.BLANK;
 	private int _realCompanyLogoHeight;
@@ -2100,5 +2116,46 @@ public class ThemeDisplay
 	private transient PortletURL _urlUpdateManager;
 	private User _user;
 	private boolean _widget;
+
+	private static class EmbeddedPortletCacheKey {
+
+		@Override
+		public boolean equals(Object object) {
+			EmbeddedPortletCacheKey embeddedPortletCacheKey =
+				(EmbeddedPortletCacheKey)object;
+
+			if ((_groupId == embeddedPortletCacheKey._groupId) &&
+				(_plid == embeddedPortletCacheKey._plid) &&
+				Objects.equals(
+					_portletId, embeddedPortletCacheKey._portletId)) {
+
+				return true;
+			}
+
+			return false;
+		}
+
+		@Override
+		public int hashCode() {
+			int hashCode = HashUtil.hash(0, _groupId);
+
+			hashCode = HashUtil.hash(hashCode, _plid);
+
+			return HashUtil.hash(hashCode, _portletId);
+		}
+
+		private EmbeddedPortletCacheKey(
+			long groupId, long plid, String portletId) {
+
+			_groupId = groupId;
+			_plid = plid;
+			_portletId = portletId;
+		}
+
+		private final long _groupId;
+		private final long _plid;
+		private final String _portletId;
+
+	}
 
 }
