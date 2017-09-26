@@ -82,6 +82,7 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 					serviceReference);
 
 				if (changedService == service) {
+					System.out.println("DREWSUCCESS! Services matched: '" + changedService + "' matched '" + service + "'. Counting down latch.");
 					countDownLatch.countDown();
 				}
 
