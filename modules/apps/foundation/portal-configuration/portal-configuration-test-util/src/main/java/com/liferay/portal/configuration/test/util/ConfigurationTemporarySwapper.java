@@ -65,6 +65,10 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 			Dictionary<String, Object> dictionary)
 		throws Exception {
 
+		Class<?> serviceClass = service.getClass();
+
+		String serviceClassName = serviceClass.getName();
+
 		CountDownLatch countDownLatch = new CountDownLatch(1);
 
 		ServiceListener serviceListener = new ServiceListener() {
@@ -81,7 +85,10 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 				Object changedService = _bundleContext.getService(
 					serviceReference);
 
-				if (changedService == service) {
+				Class<?> clazz = changedService.getClass();
+
+				// if (changedService == service) {
+				if (serviceClassName.equals(clazz.getName())) {
 					System.out.println("DREWSUCCESS! Services matched: '" + changedService + "' matched '" + service + "'. Counting down latch.");
 					countDownLatch.countDown();
 				}
