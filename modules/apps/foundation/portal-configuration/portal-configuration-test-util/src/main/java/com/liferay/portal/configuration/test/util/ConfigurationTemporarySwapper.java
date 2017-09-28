@@ -23,7 +23,6 @@ import java.util.concurrent.CountDownLatch;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.Configuration;
@@ -67,13 +66,8 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 
 		CountDownLatch countDownLatch = new CountDownLatch(1);
 
-		ServiceListener serviceListener = serviceEvent -> {
-			if (serviceEvent.getType() == ServiceEvent.REGISTERED) {
-				return;
-			}
-
+		ServiceListener serviceListener = serviceEvent ->
 			countDownLatch.countDown();
-		};
 
 		Class<?> serviceClass = service.getClass();
 
