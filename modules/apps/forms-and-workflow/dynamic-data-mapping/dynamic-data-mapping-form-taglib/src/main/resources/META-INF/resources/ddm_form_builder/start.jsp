@@ -25,7 +25,8 @@
 		getFieldTypeSettingFormContextURL: '<%= fieldSettingsDDMFormContextURL %>',
 		getFunctionsURL: '<%= functionsURL %>',
 		getRolesURL: '<%= rolesURL %>',
-		portletNamespace: '<%= refererPortletNamespace %>'
+		portletNamespace: '<%= refererPortletNamespace %>',
+		showPagination: <%= showPagination %>
 	}
 </aui:script>
 

@@ -105,7 +105,7 @@ AUI.add(
 					_onNumericFieldKeyUp: function() {
 						var instance = this;
 
-						var value = instance.get('value');
+						var value = String(instance.get('value'));
 
 						var inputNode = instance.getInputNode();
 

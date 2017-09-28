@@ -73,7 +73,7 @@ public class DDMFormRuleToDDMFormRuleModelConverterTest
 	}
 
 	@Test
-	public void testAndOrCondition() throws Exception {
+	public void testAndOrCondition1() throws Exception {
 		assertConversionToModel(
 			"ddm-form-rules-and-or-condition.json",
 			"ddm-form-rules-model-and-or-condition.json");
@@ -87,7 +87,7 @@ public class DDMFormRuleToDDMFormRuleModelConverterTest
 	}
 
 	@Test
-	public void testAutoFillActions() throws Exception {
+	public void testAutoFillActions1() throws Exception {
 		JSONArray expectedDDMFormRulesJSONArray = jsonFactory.createJSONArray(
 			read("ddm-form-rules-model-auto-fill-actions.json"));
 
@@ -170,7 +170,7 @@ public class DDMFormRuleToDDMFormRuleModelConverterTest
 	}
 
 	@Test
-	public void testBelongsToCondition() throws Exception {
+	public void testBelongsToCondition1() throws Exception {
 		assertConversionToModel(
 			"ddm-form-rules-belongs-to-condition.json",
 			"ddm-form-rules-model-belongs-to-condition.json");
@@ -184,7 +184,7 @@ public class DDMFormRuleToDDMFormRuleModelConverterTest
 	}
 
 	@Test
-	public void testBooleanActions() throws Exception {
+	public void testBooleanActions1() throws Exception {
 		assertConversionToModel(
 			"ddm-form-rules-boolean-actions.json",
 			"ddm-form-rules-model-boolean-actions.json");
@@ -198,7 +198,7 @@ public class DDMFormRuleToDDMFormRuleModelConverterTest
 	}
 
 	@Test
-	public void testCalculateAction() throws Exception {
+	public void testCalculateAction1() throws Exception {
 		DDMForm ddmForm = new DDMForm();
 
 		DDMFormField ddmFormField0 = new DDMFormField(
@@ -230,7 +230,7 @@ public class DDMFormRuleToDDMFormRuleModelConverterTest
 	}
 
 	@Test
-	public void testComparisonOperatorsCondition() throws Exception {
+	public void testComparisonOperatorsCondition1() throws Exception {
 		assertConversionToModel(
 			"ddm-form-rules-comparison-operators-condition.json",
 			"ddm-form-rules-model-comparison-operators-condition.json");
@@ -244,7 +244,7 @@ public class DDMFormRuleToDDMFormRuleModelConverterTest
 	}
 
 	@Test
-	public void testIsEmptyCondition() throws Exception {
+	public void testIsEmptyCondition1() throws Exception {
 		assertConversionToModel(
 			"ddm-form-rules-is-empty-condition.json",
 			"ddm-form-rules-model-is-empty-condition.json");
@@ -258,7 +258,7 @@ public class DDMFormRuleToDDMFormRuleModelConverterTest
 	}
 
 	@Test
-	public void testIsNotEmptyCondition() throws Exception {
+	public void testIsNotEmptyCondition1() throws Exception {
 		assertConversionToModel(
 			"ddm-form-rules-is-not-empty-condition.json",
 			"ddm-form-rules-model-is-not-empty-condition.json");
@@ -272,7 +272,7 @@ public class DDMFormRuleToDDMFormRuleModelConverterTest
 	}
 
 	@Test
-	public void testJumpToPageActions() throws Exception {
+	public void testJumpToPageActions1() throws Exception {
 		assertConversionToConvertModel(
 			"ddm-form-rules-model-jump-to-page-actions.json",
 			"ddm-form-rules-jump-to-page-actions.json");

@@ -13,9 +13,9 @@ before_script:
 
     - ./gradlew checkSourceFormatting pmdMain pmdTest pmdTestIntegration test
 
-    - ./gradlew deploy
-
     - ./gradlew buildAppDockerImage
+
+    - ./gradlew deployDependencies
 
 script:
     - set pipefail

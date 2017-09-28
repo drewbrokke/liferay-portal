@@ -49,6 +49,10 @@ public abstract class BaseDDMFormBuilderTag extends com.liferay.taglib.util.Incl
 		return _refererPortletNamespace;
 	}
 
+	public boolean getShowPagination() {
+		return _showPagination;
+	}
+
 	public void setDdmStructureId(java.lang.Long ddmStructureId) {
 		_ddmStructureId = ddmStructureId;
 	}
@@ -63,6 +67,10 @@ public abstract class BaseDDMFormBuilderTag extends com.liferay.taglib.util.Incl
 
 	public void setRefererPortletNamespace(java.lang.String refererPortletNamespace) {
 		_refererPortletNamespace = refererPortletNamespace;
+	}
+
+	public void setShowPagination(boolean showPagination) {
+		_showPagination = showPagination;
 	}
 
 	@Override
@@ -80,6 +88,7 @@ public abstract class BaseDDMFormBuilderTag extends com.liferay.taglib.util.Incl
 		_defaultLanguageId = null;
 		_editingLanguageId = null;
 		_refererPortletNamespace = null;
+		_showPagination = true;
 	}
 
 	@Override
@@ -98,6 +107,7 @@ public abstract class BaseDDMFormBuilderTag extends com.liferay.taglib.util.Incl
 		request.setAttribute("liferay-form:ddm-form-builder:defaultLanguageId", _defaultLanguageId);
 		request.setAttribute("liferay-form:ddm-form-builder:editingLanguageId", _editingLanguageId);
 		request.setAttribute("liferay-form:ddm-form-builder:refererPortletNamespace", _refererPortletNamespace);
+		request.setAttribute("liferay-form:ddm-form-builder:showPagination", String.valueOf(_showPagination));
 	}
 
 	protected static final String _ATTRIBUTE_NAMESPACE = "liferay-form:ddm-form-builder:";
@@ -112,5 +122,6 @@ public abstract class BaseDDMFormBuilderTag extends com.liferay.taglib.util.Incl
 	private java.lang.String _defaultLanguageId = null;
 	private java.lang.String _editingLanguageId = null;
 	private java.lang.String _refererPortletNamespace = null;
+	private boolean _showPagination = true;
 
 }

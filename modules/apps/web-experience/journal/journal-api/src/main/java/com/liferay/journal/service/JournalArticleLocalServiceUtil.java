@@ -128,7 +128,8 @@ public class JournalArticleLocalServiceUtil {
 	* @param smallImageFile the web content article's small image file
 	* @param images the web content's images
 	* @param articleURL the web content article's accessible URL
-	* @param validateReferences whether the web content article
+	* @param validateReferences whether the article references are validated
+	or not
 	* @param serviceContext the service context to be applied. Can set the
 	UUID, creation date, modification date, expando bridge
 	attributes, guest permissions, group permissions, asset category
@@ -3687,7 +3688,8 @@ public class JournalArticleLocalServiceUtil {
 	* @param images the web content's images (optionally <code>null</code>)
 	* @param articleURL the web content article's accessible URL (optionally
 	<code>null</code>)
-	* @param validateReferences the web content's images (optionally <code>null</code>)
+	* @param validateReferences whether the article references are validated
+	or not
 	* @param serviceContext the service context to be applied. Can set the
 	modification date, expando bridge attributes, asset category IDs,
 	asset tag names, asset link entry IDs, asset priority, workflow
@@ -3800,7 +3802,6 @@ public class JournalArticleLocalServiceUtil {
 	* @param images the web content's images (optionally <code>null</code>)
 	* @param articleURL the web content article's accessible URL (optionally
 	<code>null</code>)
-	* @param validateReferences the web content's images (optionally <code>null</code>)
 	* @param serviceContext the service context to be applied. Can set the
 	modification date, expando bridge attributes, asset category IDs,
 	asset tag names, asset link entry IDs, asset priority, workflow

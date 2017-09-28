@@ -30,6 +30,13 @@
 				<outputType>java.lang.String</outputType>
 				<required>true</required>
 			</attribute>
+			<attribute>
+				<name>showPagination</name>
+				<inputType>boolean</inputType>
+				<outputType>boolean</outputType>
+				<defaultValue>true</defaultValue>
+				<required>false</required>
+			</attribute>
 		</attributes>
 	</component>
 </taglibs>

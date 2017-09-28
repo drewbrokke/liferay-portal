@@ -37,6 +37,8 @@ AUI.add(
 
 		var CSS_PAGE_HEADER_TITLE_HIDE_BORDER = A.getClassName('form', 'builder', 'page', 'header', 'title', 'hide', 'border');
 
+		var Settings = Liferay.DDM.Settings;
+
 		var FormBuilderPagesManager = A.Component.create(
 			{
 				ATTRS: {
@@ -167,6 +169,10 @@ AUI.add(
 							successPageContent.after('valueChange', A.bind('_afterSuccessPageContentChange', instance), instance),
 							successPageTitle.after('valueChange', A.bind('_afterSuccessPageTitleChange', instance), instance)
 						];
+
+						if (!Settings.showPagination) {
+							instance._hidePagination();
+						}
 
 						instance._createTitleForEditingLanguageId();
 					},
@@ -549,6 +555,18 @@ AUI.add(
 						instance._wizard.get('boundingBox').delegate('click', A.bind(instance._onClickItemWizard, instance), 'li');
 
 						return instance._wizard;
+					},
+
+					_hidePagination: function() {
+						var instance = this;
+
+						var builder = instance.get('builder');
+
+						var boundingBox = builder.get('boundingBox');
+
+						var pageHeader = boundingBox.one('.form-builder-page-header');
+
+						pageHeader.hide();
 					},
 
 					_onAddLastPageClick: function() {

@@ -69,7 +69,8 @@
 										{if $readOnly}disabled{/if}
 										name="{$row.value}"
 										type="radio"
-										value="{$column.value}" />
+										value="{$column.value}"
+									/>
 								</td>
 							{/foreach}
 						</tr>
@@ -92,6 +93,12 @@
 	{foreach $row in $rows}
 		{let $inputValue: $value[$row.value] ? $row.value + ';' + $value[$row.value] : '' /}
 
-		<input class="form-control" {if $dir}dir="{$dir}"{/if} name="{$name}" type="hidden" {if $inputValue}value="{$inputValue}"{/if}/>
+		<input
+			class="form-control"
+			{if $dir}dir="{$dir}"{/if}
+			name="{$name}"
+			type="hidden"
+			{if $inputValue}value="{$inputValue}"{/if}
+		/>
 	{/foreach}
 {/template}

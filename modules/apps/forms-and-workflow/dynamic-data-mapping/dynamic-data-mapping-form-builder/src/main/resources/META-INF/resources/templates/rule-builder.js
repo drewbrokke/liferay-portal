@@ -10,6 +10,8 @@ Liferay.Loader.require(
 			window.DDMRuleBuilder[item.key] = item.component;
 		});
 
+		Liferay.fire('RuleBuilderLoaded');
+
 		AUI.add('liferay-ddm-form-builder-rule-builder-template');
 	}
 );
