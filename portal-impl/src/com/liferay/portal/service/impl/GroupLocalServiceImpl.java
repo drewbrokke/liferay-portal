@@ -889,11 +889,11 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 					}
 				}
 
-				long[] userId = getUserPrimaryKeys(group.getGroupId());
-
 				TransactionCommitCallbackUtil.registerCallback(
 					() -> {
-						reindex(group.getCompanyId(), userId);
+						reindex(
+							group.getCompanyId(),
+							getUserPrimaryKeys(group.getGroupId()));
 
 						return null;
 					});
