@@ -889,6 +889,15 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 					}
 				}
 
+				TransactionCommitCallbackUtil.registerCallback(
+					() -> {
+						reindex(
+							group.getCompanyId(),
+							getUserPrimaryKeys(group.getGroupId()));
+
+						return null;
+					});
+
 				groupPersistence.remove(group);
 			}
 
