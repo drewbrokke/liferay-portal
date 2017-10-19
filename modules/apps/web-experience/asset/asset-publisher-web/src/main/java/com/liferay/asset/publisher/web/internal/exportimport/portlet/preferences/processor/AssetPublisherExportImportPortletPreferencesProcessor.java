@@ -24,6 +24,7 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalService;
 import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
 import com.liferay.asset.publisher.web.configuration.AssetPublisherWebConfiguration;
 import com.liferay.asset.publisher.web.constants.AssetPublisherPortletKeys;
+import com.liferay.asset.publisher.web.internal.util.AssetPublisherWebUtil;
 import com.liferay.asset.publisher.web.util.AssetPublisherUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFileEntryType;
@@ -34,9 +35,11 @@ import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.dynamic.data.mapping.util.DDMIndexer;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
+import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
+import com.liferay.exportimport.kernel.staging.MergeLayoutPrototypesThreadLocal;
 import com.liferay.exportimport.portlet.preferences.processor.Capability;
 import com.liferay.exportimport.portlet.preferences.processor.ExportImportPortletPreferencesProcessor;
 import com.liferay.exportimport.portlet.preferences.processor.base.BaseExportImportPortletPreferencesProcessor;
@@ -136,7 +139,13 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 		throws PortletDataException {
 
 		try {
-			exportAssetObjects(portletDataContext, portletPreferences);
+			if (MapUtil.getBoolean(
+					portletDataContext.getParameterMap(),
+					PortletDataHandlerKeys.PORTLET_DATA) &&
+				!MergeLayoutPrototypesThreadLocal.isInProgress()) {
+
+				exportAssetObjects(portletDataContext, portletPreferences);
+			}
 
 			return updateExportPortletPreferences(
 				portletDataContext, portletDataContext.getPortletId(),
@@ -184,9 +193,6 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 		Layout layout = _layoutLocalService.getLayout(
 			portletDataContext.getPlid());
 
-		long[] groupIds = AssetPublisherUtil.getGroupIds(
-			portletPreferences, portletDataContext.getScopeGroupId(), layout);
-
 		String selectionStyle = portletPreferences.getValue(
 			"selectionStyle", "dynamic");
 
@@ -196,8 +202,8 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 			}
 
 			AssetEntryQuery assetEntryQuery = getAssetEntryQuery(
-				layout, portletDataContext.getCompanyGroupId(), groupIds,
-				portletPreferences);
+				layout, portletDataContext.getCompanyGroupId(),
+				portletDataContext.getScopeGroupId(), portletPreferences);
 
 			long assetVocabularyId = GetterUtil.getLong(
 				portletPreferences.getValue("assetVocabularyId", null));
@@ -228,6 +234,10 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 				return;
 			}
 
+			long[] groupIds = AssetPublisherUtil.getGroupIds(
+				portletPreferences, portletDataContext.getScopeGroupId(),
+				layout);
+
 			assetEntries = AssetPublisherUtil.getAssetEntries(
 				null, portletPreferences,
 				PermissionThreadLocal.getPermissionChecker(), groupIds, false,
@@ -250,23 +260,18 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 	}
 
 	protected AssetEntryQuery getAssetEntryQuery(
-			Layout layout, long companyId, long[] groupIds,
+			Layout layout, long companyId, long groupId,
 			PortletPreferences portletPreferences)
 		throws Exception {
 
 		AssetEntryQuery assetEntryQuery = AssetPublisherUtil.getAssetEntryQuery(
-			portletPreferences, groupIds, null, null);
+			portletPreferences, groupId, layout, null, null);
 
 		long[] classNameIds = AssetPublisherUtil.getClassNameIds(
 			portletPreferences,
 			AssetRendererFactoryRegistryUtil.getClassNameIds(companyId, true));
 
 		assetEntryQuery.setClassNameIds(classNameIds);
-
-		long[] classTypeIds = GetterUtil.getLongValues(
-			portletPreferences.getValues("classTypeIds", null));
-
-		assetEntryQuery.setClassTypeIds(classTypeIds);
 
 		assetEntryQuery.setEnablePermissions(false);
 
@@ -279,34 +284,6 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 		assetEntryQuery.setEnd(end);
 
 		assetEntryQuery.setExcludeZeroViewCount(false);
-		assetEntryQuery.setGroupIds(groupIds);
-
-		boolean showOnlyLayoutAssets = GetterUtil.getBoolean(
-			portletPreferences.getValue("showOnlyLayoutAssets", null));
-
-		if (showOnlyLayoutAssets) {
-			assetEntryQuery.setLayout(layout);
-		}
-
-		String orderByCol1 = GetterUtil.getString(
-			portletPreferences.getValue("orderByColumn1", "modifiedDate"));
-
-		assetEntryQuery.setOrderByCol1(orderByCol1);
-
-		String orderByCol2 = GetterUtil.getString(
-			portletPreferences.getValue("orderByColumn2", "title"));
-
-		assetEntryQuery.setOrderByCol2(orderByCol2);
-
-		String orderByType1 = GetterUtil.getString(
-			portletPreferences.getValue("orderByType1", "DESC"));
-
-		assetEntryQuery.setOrderByType1(orderByType1);
-
-		String orderByType2 = GetterUtil.getString(
-			portletPreferences.getValue("orderByType2", "ASC"));
-
-		assetEntryQuery.setOrderByType2(orderByType2);
 
 		int start = 0;
 
@@ -1335,7 +1312,7 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 			}
 
 			try {
-				if (!AssetPublisherUtil.isScopeIdSelectable(
+				if (!assetPublisherWebUtil.isScopeIdSelectable(
 						PermissionThreadLocal.getPermissionChecker(), newValue,
 						companyGroupId, layout, false)) {
 
@@ -1374,6 +1351,9 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 		portletPreferences.setValues(
 			key, newValues.toArray(new String[newValues.size()]));
 	}
+
+	@Reference
+	protected AssetPublisherWebUtil assetPublisherWebUtil;
 
 	@Reference
 	protected Portal portal;

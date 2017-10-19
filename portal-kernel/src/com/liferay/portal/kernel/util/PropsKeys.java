@@ -791,8 +791,16 @@ public interface PropsKeys {
 	@Deprecated
 	public static final String DL_FILE_MAX_SIZE = "dl.file.max.size";
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public static final String DL_FILE_RANK_ENABLED = "dl.file.rank.enabled";
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public static final String DL_FILE_RANK_MAX_SIZE = "dl.file.rank.max.size";
 
 	public static final String DL_FOLDER_COLUMNS = "dl.folder.columns";
@@ -1093,7 +1101,8 @@ public interface PropsKeys {
 	public static final String INVOKER_FILTER_CHAIN_ENABLED = "invoker.filter.chain.cache.enabled";
 
 	/**
-	 * @deprecated As of 7.0.0, replaced with {@link #INVOKER_FILTER_CHAIN_ENABLED}
+	 * @deprecated As of 7.0.0, replaced with {@link
+	 *             #INVOKER_FILTER_CHAIN_ENABLED}
 	 */
 	@Deprecated
 	public static final String INVOKER_FILTER_CHAIN_SIZE = "invoker.filter.chain.cache.size";
@@ -1493,7 +1502,8 @@ public interface PropsKeys {
 	public static final String MINIFIER_INLINE_CONTENT_CACHE_ENABLED = "minifier.inline.content.cache.enabled";
 
 	/**
-	 * @deprecated As of 7.0.0, replaced by {@link #MINIFIER_INLINE_CONTENT_CACHE_ENABLED}
+	 * @deprecated As of 7.0.0, replaced by {@link
+	 *             #MINIFIER_INLINE_CONTENT_CACHE_ENABLED}
 	 */
 	@Deprecated
 	public static final String MINIFIER_INLINE_CONTENT_CACHE_SIZE = "minifier.inline.content.cache.size";
