@@ -420,10 +420,10 @@ public class GitWorkingDirectory {
 				return null;
 			}
 
-			return new Branch(branchName, null, getBranchSha(branchName));
+			return new Branch(branchName, null, getBranchSHA(branchName));
 		}
 
-		List<Branch> branches = getBranches(remote);
+		List<Branch> branches = getBranches(branchName, remote);
 
 		for (Branch branch : branches) {
 			if (branchName.equals(branch.getName())) {
@@ -434,23 +434,32 @@ public class GitWorkingDirectory {
 		return null;
 	}
 
-	public List<Branch> getBranches(Remote remote) {
+	public List<Branch> getBranches(String branchName, Remote remote) {
 		if (remote == null) {
 			List<String> localBranchNames = getLocalBranchNames();
 
 			List<Branch> localBranches = new ArrayList<>(
 				localBranchNames.size());
 
+			if (branchName != null) {
+				if (localBranchNames.contains(branchName)) {
+					localBranches.add(
+						new Branch(branchName, null, getBranchSHA(branchName)));
+				}
+
+				return localBranches;
+			}
+
 			for (String localBranchName : localBranchNames) {
 				localBranches.add(
 					new Branch(
-						localBranchName, null, getBranchSha(localBranchName)));
+						localBranchName, null, getBranchSHA(localBranchName)));
 			}
 
 			return localBranches;
 		}
 
-		return getRemoteBranches(remote);
+		return getRemoteBranches(branchName, remote);
 	}
 
 	public List<String> getBranchNames(Remote remote) {
@@ -461,7 +470,7 @@ public class GitWorkingDirectory {
 		return getRemoteBranchNames(remote);
 	}
 
-	public List<String> getBranchNamesContainingSha(String sha) {
+	public List<String> getBranchNamesContainingSHA(String sha) {
 		ExecutionResult executionResult = executeBashCommands(
 			1, 1000 * 60 * 2, "git branch --contains " + sha);
 
@@ -499,7 +508,7 @@ public class GitWorkingDirectory {
 		return branchNamesList;
 	}
 
-	public String getBranchSha(String localBranchName) {
+	public String getBranchSHA(String localBranchName) {
 		ExecutionResult executionResult = executeBashCommands(
 			1, 1000 * 60 * 2, "git rev-parse " + localBranchName);
 
@@ -860,7 +869,7 @@ public class GitWorkingDirectory {
 			return _remote;
 		}
 
-		public String getSha() {
+		public String getSHA() {
 			return _sha;
 		}
 
@@ -1086,11 +1095,20 @@ public class GitWorkingDirectory {
 			"Real Git directory could not be found in " + gitFile.getPath());
 	}
 
-	protected List<Branch> getRemoteBranches(Remote remote) {
+	protected List<Branch> getRemoteBranches(String branchName, Remote remote) {
+		String command = null;
+
+		if (branchName != null) {
+			command = JenkinsResultsParserUtil.combine(
+				"git ls-remote -h ", remote.getName(), " ", branchName);
+		}
+		else {
+			command = JenkinsResultsParserUtil.combine(
+				"git ls-remote -h ", remote.getName());
+		}
+
 		ExecutionResult executionResult = executeBashCommands(
-			1, 1000 * 60,
-			JenkinsResultsParserUtil.combine(
-				"git ls-remote -h ", remote.getName()));
+			1, 1000 * 60 * 10, command);
 
 		if (executionResult.getExitValue() != 0) {
 			throw new RuntimeException(
@@ -1121,6 +1139,7 @@ public class GitWorkingDirectory {
 
 	protected List<String> getRemoteBranchNames(Remote remote) {
 		ExecutionResult executionResult = executeBashCommands(
+			1, 1000 * 60 * 10,
 			JenkinsResultsParserUtil.combine(
 				"git ls-remote -h ", remote.getName()));
 
@@ -1193,10 +1212,22 @@ public class GitWorkingDirectory {
 
 		String remoteURL = upstreamRemote.getRemoteURL();
 
-		if (!remoteURL.contains("-ee") && !remoteURL.contains("-private")) {
-			remoteURL = remoteURL.replace(".git", "-private.git");
+		String repositoryName = getRepositoryName();
 
-			addRemote(true, "upstream", remoteURL);
+		if (repositoryName.endsWith("-ee")) {
+			if (!remoteURL.contains("-ee")) {
+				remoteURL = remoteURL.replace(".git", "-ee.git");
+
+				addRemote(true, "upstream", remoteURL);
+			}
+		}
+
+		if (repositoryName.endsWith("-private")) {
+			if (!remoteURL.contains("-private")) {
+				remoteURL = remoteURL.replace(".git", "-private.git");
+
+				addRemote(true, "upstream", remoteURL);
+			}
 		}
 	}
 
@@ -1308,7 +1339,8 @@ public class GitWorkingDirectory {
 			new String[] {
 				"liferay-jenkins-ee", "liferay-jenkins-tools-private",
 				"liferay-plugins-ee", "liferay-portal-ee",
-				"liferay-qa-portal-legacy-ee", "liferay-release-tool-ee"
+				"liferay-qa-portal-legacy-ee", "liferay-qa-websites-ee",
+				"liferay-release-tool-ee"
 			});
 	private static final List<String> _publicOnlyRepositoryNames =
 		Arrays.asList(

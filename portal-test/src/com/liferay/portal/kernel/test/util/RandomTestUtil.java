@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.portal.kernel.test.randomizerbumpers.RandomizerBumper;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PwdGenerator;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 
 import java.io.InputStream;
@@ -77,9 +78,11 @@ public class RandomTestUtil {
 		}
 
 		throw new IllegalStateException(
-			"Unable to generate a random byte array that is acceptable by " +
-				"all randomizer bumpers " + Arrays.toString(randomizerBumpers) +
-					" after " + _RANDOMIZER_BUMPER_TRIES_MAX + " tries");
+			StringBundler.concat(
+				"Unable to generate a random byte array that is acceptable by ",
+				"all randomizer bumpers ", Arrays.toString(randomizerBumpers),
+				" after ", String.valueOf(_RANDOMIZER_BUMPER_TRIES_MAX),
+				" tries"));
 	}
 
 	@SafeVarargs
@@ -111,42 +114,24 @@ public class RandomTestUtil {
 	}
 
 	public static int randomInt() {
-		int value = _random.nextInt();
-
-		if (value > 0) {
-			return value;
-		}
-		else if (value == 0) {
-			return randomInt();
-		}
-		else {
-			return -value;
-		}
+		return randomInt(1, Integer.MAX_VALUE);
 	}
 
-	public static int randomInt(int min, int max)
-		throws IllegalArgumentException {
-
-		if ((min < 0) || (max < 0)) {
-			throw new IllegalArgumentException(
-				"Both min and max values must be positive");
-		}
-
+	public static int randomInt(int min, int max) {
 		if (max < min) {
 			throw new IllegalArgumentException(
-				"Max value must be greater than the min value");
+				"Max value must be greater than or equal to the min value");
 		}
 
-		int value = _random.nextInt(max - min + 1) + min;
+		int value = _random.nextInt();
 
-		if (value > 0) {
+		long range = max + 1 - min;
+
+		if (range == 0) {
 			return value;
 		}
-		else if (value == 0) {
-			return randomInt(min, max);
-		}
 
-		return -value;
+		return (int)(Math.abs(value) % range + min);
 	}
 
 	public static Map<Locale, String> randomLocaleStringMap() {
@@ -195,9 +180,11 @@ public class RandomTestUtil {
 		}
 
 		throw new IllegalStateException(
-			"Unable to generate a random string that is acceptable by all " +
-				"randomizer bumpers " + Arrays.toString(randomizerBumpers) +
-					" after " + _RANDOMIZER_BUMPER_TRIES_MAX + " tries");
+			StringBundler.concat(
+				"Unable to generate a random string that is acceptable by all ",
+				"randomizer bumpers ", Arrays.toString(randomizerBumpers),
+				" after ", String.valueOf(_RANDOMIZER_BUMPER_TRIES_MAX),
+				" tries"));
 	}
 
 	@SafeVarargs

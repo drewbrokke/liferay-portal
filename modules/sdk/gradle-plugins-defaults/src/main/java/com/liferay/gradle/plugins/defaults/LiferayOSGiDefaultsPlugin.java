@@ -54,6 +54,7 @@ import com.liferay.gradle.plugins.service.builder.BuildServiceTask;
 import com.liferay.gradle.plugins.service.builder.ServiceBuilderPlugin;
 import com.liferay.gradle.plugins.source.formatter.SourceFormatterPlugin;
 import com.liferay.gradle.plugins.test.integration.TestIntegrationBasePlugin;
+import com.liferay.gradle.plugins.test.integration.TestIntegrationTomcatExtension;
 import com.liferay.gradle.plugins.tlddoc.builder.TLDDocBuilderPlugin;
 import com.liferay.gradle.plugins.tlddoc.builder.tasks.TLDDocTask;
 import com.liferay.gradle.plugins.upgrade.table.builder.UpgradeTableBuilderPlugin;
@@ -438,7 +439,9 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 		_configureTasksCheckOSGiBundleState(project, liferayExtension);
 		_configureTasksFindBugs(project);
 		_configureTasksJavaCompile(project);
+		_configureTasksJspC(project);
 		_configureTasksPmd(project);
+		_configureTestIntegrationTomcat(project);
 
 		_addTaskUpdateFileSnapshotVersions(project);
 
@@ -3199,6 +3202,23 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 			});
 	}
 
+	private void _configureTasksJspC(Project project) {
+		String fragmentHost = _getBundleInstruction(
+			project, Constants.FRAGMENT_HOST);
+
+		if (Validator.isNotNull(fragmentHost)) {
+			Task compileJSPTask = GradleUtil.getTask(
+				project, JspCPlugin.COMPILE_JSP_TASK_NAME);
+
+			compileJSPTask.setEnabled(false);
+
+			Task generateJSPJavaTask = GradleUtil.getTask(
+				project, JspCPlugin.GENERATE_JSP_JAVA_TASK_NAME);
+
+			generateJSPJavaTask.setEnabled(false);
+		}
+	}
+
 	private void _configureTasksPmd(Project project) {
 		TaskContainer taskContainer = project.getTasks();
 
@@ -3357,6 +3377,14 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 			uploadArchivesTask.finalizedBy(
 				updateFileVersionsTask, updateVersionTask);
 		}
+	}
+
+	private void _configureTestIntegrationTomcat(Project project) {
+		TestIntegrationTomcatExtension testIntegrationTomcatExtension =
+			GradleUtil.getExtension(
+				project, TestIntegrationTomcatExtension.class);
+
+		testIntegrationTomcatExtension.setOverwriteCopyTestModules(false);
 	}
 
 	private void _forceProjectDependenciesEvaluation(Project project) {

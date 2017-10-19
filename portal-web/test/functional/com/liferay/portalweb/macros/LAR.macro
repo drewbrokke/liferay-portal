@@ -380,9 +380,7 @@
 				<if>
 					<equals arg1="${mirrorWithOverwriting}" arg2="true" />
 					<then>
-						<execute function="ScrollWebElementIntoView" locator1="Panel#PANEL_TITLE">
-							<var name="key_componentName" value="Update Data" />
-						</execute>
+						<execute function="ScrollWebElementIntoView" locator1="//div[contains(@class,'panel') and contains(@role,'tablist')]//a[normalize-space(text())='Update Data']" />
 
 						<execute macro="Panel#expandPanel">
 							<var name="panelHeading" value="Update Data" />
@@ -418,7 +416,15 @@
 
 		<execute function="Pause" locator1="13000" />
 
-		<execute function="SikuliUploadTempFile" locator1="OS#FILE_DIALOG_BOX_FILE_NAME_FIELD_PNG" value1="${larFileName}" />
+		<if>
+			<equals arg1="${uploadFrom}" arg2="dependencies" />
+			<then>
+				<execute function="SikuliUploadCommonFile" locator1="OS#FILE_DIALOG_BOX_FILE_NAME_FIELD_PNG" value1="${larFileName}" />
+			</then>
+			<else>
+				<execute function="SikuliUploadTempFile" locator1="OS#FILE_DIALOG_BOX_FILE_NAME_FIELD_PNG" value1="${larFileName}" />
+			</else>
+		</if>
 
 		<execute function="Pause" locator1="190000" />
 
@@ -676,6 +682,7 @@
 			<var name="importCampaignValidationError" value="${importCampaignValidationError}" />
 			<var name="importValidationMissingItem" value="${importValidationMissingItem}" />
 			<var name="larFileName" value="${larFileName}" />
+			<var name="uploadFrom" value="${uploadFrom}" />
 		</execute>
 
 		<if>
