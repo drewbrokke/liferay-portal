@@ -246,9 +246,11 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 		public void shouldFailIfSourceFileNameExtensionNotSupported()
 			throws Exception {
 
+			String[] supportedFileExtensions = {".png"};
+
 			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
 					_getConfigurationTemporarySwapper(
-						"fileExtensions", new String[0])) {
+						"fileExtensions", supportedFileExtensions)) {
 
 				String sourceFileName = "file.jpg";
 
