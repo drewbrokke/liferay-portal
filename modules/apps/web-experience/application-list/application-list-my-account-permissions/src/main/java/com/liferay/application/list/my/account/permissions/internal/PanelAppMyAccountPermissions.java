@@ -17,7 +17,6 @@ package com.liferay.application.list.my.account.permissions.internal;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 import com.liferay.osgi.util.ServiceTrackerFactory;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.LayoutConstants;
@@ -38,13 +37,9 @@ import com.liferay.portal.kernel.util.PrefsProps;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
-import java.io.IOException;
-
 import java.util.List;
 
 import javax.portlet.PortletPreferences;
-import javax.portlet.ReadOnlyException;
-import javax.portlet.ValidatorException;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -61,7 +56,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 @Component(immediate = true, service = PanelAppMyAccountPermissions.class)
 public class PanelAppMyAccountPermissions {
 
-	public void initPermissions(Portlet portlet) throws Exception {
+	public void initPermissions(Portlet portlet) {
 		String category = portlet.getControlPanelEntryCategory();
 
 		if ((category == null) ||
@@ -70,7 +65,17 @@ public class PanelAppMyAccountPermissions {
 			return;
 		}
 
-		_initPermissions(portlet);
+		try {
+			_initPermissions(portlet);
+		}
+		catch (Exception e) {
+			_log.error(
+				StringBundler.concat(
+					"Unable to initialize my account permissions for portlet ",
+					portlet.getPortletId(), " in company ",
+					String.valueOf(portlet.getCompanyId())),
+				e);
+		}
 	}
 
 	@Activate
@@ -90,10 +95,7 @@ public class PanelAppMyAccountPermissions {
 		_serviceTracker.close();
 	}
 
-	private void _initPermissions(Portlet portlet)
-		throws IOException, PortalException, ReadOnlyException,
-			ValidatorException {
-
+	private void _initPermissions(Portlet portlet) throws Exception {
 		long companyId = portlet.getCompanyId();
 		String portletId = portlet.getPortletId();
 
