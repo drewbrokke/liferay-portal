@@ -15,6 +15,7 @@
 package com.liferay.configuration.admin.web.internal.util;
 
 import com.liferay.configuration.admin.portlet.action.ConfigurationRenderCommand;
+import com.liferay.configuration.admin.portlet.action.FactoryInstancesListRenderCommand;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 
@@ -33,8 +34,17 @@ public class ConfigurationRenderCommandUtil {
 		return _configurationRenderCommandMap.getService(pid);
 	}
 
+	public static FactoryInstancesListRenderCommand
+		getFactoryInstancesListRenderCommand(String factoryPid) {
+
+		return _factoryInstancesListRenderCommandMap.getService(factoryPid);
+	}
+
 	private static final ServiceTrackerMap<String, ConfigurationRenderCommand>
 		_configurationRenderCommandMap;
+	private static final
+		ServiceTrackerMap<String, FactoryInstancesListRenderCommand>
+			_factoryInstancesListRenderCommandMap;
 
 	static {
 		Bundle bundle = FrameworkUtil.getBundle(
@@ -45,6 +55,11 @@ public class ConfigurationRenderCommandUtil {
 		_configurationRenderCommandMap =
 			ServiceTrackerMapFactory.openSingleValueMap(
 				bundleContext, ConfigurationRenderCommand.class,
+				"configurationPid");
+
+		_factoryInstancesListRenderCommandMap =
+			ServiceTrackerMapFactory.openSingleValueMap(
+				bundleContext, FactoryInstancesListRenderCommand.class,
 				"configurationPid");
 	}
 
