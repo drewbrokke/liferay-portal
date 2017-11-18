@@ -25,6 +25,9 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.IOException;
 
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -49,6 +52,16 @@ public class JSPRenderer {
 	}
 
 	public void renderJSP(
+			RenderRequest renderRequest, RenderResponse renderResponse,
+			String path)
+		throws IOException {
+
+		renderJSP(
+			_portal.getHttpServletRequest(renderRequest),
+			_portal.getHttpServletResponse(renderResponse), path);
+	}
+
+	public void renderJSP(
 			ServletContext servletContext, HttpServletRequest request,
 			HttpServletResponse response, String path)
 		throws IOException {
@@ -64,6 +77,16 @@ public class JSPRenderer {
 
 			throw new IOException("Unable to render " + path, se);
 		}
+	}
+
+	public void renderJSP(
+			ServletContext servletContext, RenderRequest renderRequest,
+			RenderResponse renderResponse, String path)
+		throws IOException {
+
+		renderJSP(
+			servletContext, _portal.getHttpServletRequest(renderRequest),
+			_portal.getHttpServletResponse(renderResponse), path);
 	}
 
 	public void setServletContext(ServletContext servletContext) {
