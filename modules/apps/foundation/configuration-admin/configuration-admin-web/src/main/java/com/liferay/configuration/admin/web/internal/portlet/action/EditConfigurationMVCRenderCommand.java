@@ -14,14 +14,17 @@
 
 package com.liferay.configuration.admin.web.internal.portlet.action;
 
+import com.liferay.configuration.admin.portlet.action.ConfigurationRenderCommand;
 import com.liferay.configuration.admin.web.internal.constants.ConfigurationAdminPortletKeys;
 import com.liferay.configuration.admin.web.internal.constants.ConfigurationAdminWebKeys;
 import com.liferay.configuration.admin.web.internal.model.ConfigurationModel;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationModelRetriever;
+import com.liferay.configuration.admin.web.internal.util.ConfigurationRenderCommandUtil;
 import com.liferay.configuration.admin.web.internal.util.DDMFormRendererHelper;
 import com.liferay.configuration.admin.web.internal.util.ResourceBundleLoaderProvider;
 import com.liferay.dynamic.data.mapping.form.renderer.DDMFormRenderer;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderConstants;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -62,6 +65,15 @@ public class EditConfigurationMVCRenderCommand implements MVCRenderCommand {
 		String factoryPid = ParamUtil.getString(renderRequest, "factoryPid");
 
 		String pid = ParamUtil.getString(renderRequest, "pid", factoryPid);
+
+		ConfigurationRenderCommand renderCommand =
+			ConfigurationRenderCommandUtil.getConfigurationRenderCommand(pid);
+
+		if (renderCommand != null) {
+			renderCommand.render(renderRequest, renderResponse);
+
+			return MVCRenderConstants.MVC_PATH_VALUE_SKIP_DISPATCH;
+		}
 
 		Map<String, ConfigurationModel> configurationModels =
 			_configurationModelRetriever.getConfigurationModels(

@@ -14,13 +14,16 @@
 
 package com.liferay.configuration.admin.web.internal.portlet.action;
 
+import com.liferay.configuration.admin.portlet.action.FactoryInstancesListRenderCommand;
 import com.liferay.configuration.admin.web.internal.constants.ConfigurationAdminPortletKeys;
 import com.liferay.configuration.admin.web.internal.constants.ConfigurationAdminWebKeys;
 import com.liferay.configuration.admin.web.internal.model.ConfigurationModel;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationModelIterator;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationModelRetriever;
+import com.liferay.configuration.admin.web.internal.util.ConfigurationRenderCommandUtil;
 import com.liferay.configuration.admin.web.internal.util.ResourceBundleLoaderProvider;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderConstants;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -63,6 +66,16 @@ public class ViewFactoryInstancesMVCRenderCommand implements MVCRenderCommand {
 				themeDisplay.getLanguageId());
 
 		String factoryPid = ParamUtil.getString(renderRequest, "factoryPid");
+
+		FactoryInstancesListRenderCommand renderCommand =
+			ConfigurationRenderCommandUtil.
+				getFactoryInstancesListRenderCommand(factoryPid);
+
+		if (renderCommand != null) {
+			renderCommand.render(renderRequest, renderResponse);
+
+			return MVCRenderConstants.MVC_PATH_VALUE_SKIP_DISPATCH;
+		}
 
 		try {
 			ConfigurationModel factoryConfigurationModel =
