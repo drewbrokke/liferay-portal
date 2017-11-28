@@ -12,18 +12,15 @@
  * details.
  */
 
-package com.liferay.asset.tags.navigation.web.constants;
+package com.liferay.asset.categories.admin.web.constants;
 
 /**
- * @author Eudaldo Alonso
+ * @author Jürgen Kappler
  */
-public class AssetTagsNavigationPortletKeys {
+public class AssetCategoriesAdminDisplayStyleKeys {
 
-	public static final String ASSET_TAGS_CLOUD =
-		"com_liferay_asset_tags_navigation_web_portlet_AssetTagsCloudPortlet";
+	public static final String DEFAULT = "default";
 
-	public static final String ASSET_TAGS_NAVIGATION =
-		"com_liferay_asset_tags_navigation_web_portlet_" +
-			"AssetTagsNavigationPortlet";
+	public static final String FLATTENED_TREE = "flattened-tree";
 
 }

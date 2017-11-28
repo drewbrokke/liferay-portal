@@ -12,15 +12,14 @@
  * details.
  */
 
-package com.liferay.asset.categories.admin.web.constants;
+package com.liferay.frontend.taglib.clay.sample.web.constants;
 
 /**
- * @author Jürgen Kappler
+ * @author Chema Balsas
  */
-public class AssetCategoriesNavigationDisplayStyleKeys {
+public class ClaySamplePortletKeys {
 
-	public static final String DEFAULT = "default";
-
-	public static final String FLATTENED_TREE = "flattened-tree";
+	public static final String CLAY_SAMPLE =
+		"com_liferay_clay_sample_web_portlet_ClaySamplePortlet";
 
 }

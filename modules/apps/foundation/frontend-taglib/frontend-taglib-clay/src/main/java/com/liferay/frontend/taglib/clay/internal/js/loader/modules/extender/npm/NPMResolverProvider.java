@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.frontend.taglib.chart.internal;
+package com.liferay.frontend.taglib.clay.internal.js.loader.modules.extender.npm;
 
 import com.liferay.frontend.js.loader.modules.extender.npm.NPMResolver;
 
@@ -20,7 +20,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author Iván Zaera Avellón
+ * @author Chema Balsas
  */
 @Component(immediate = true)
 public class NPMResolverProvider {

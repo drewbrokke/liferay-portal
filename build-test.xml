@@ -1722,6 +1722,24 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 						replace=""
 					/>
 
+					<propertyregex
+						global="true"
+						input="${propertyName}"
+						override="true"
+						property="propertyName"
+						regexp="\["
+						replace="\\\\["
+					/>
+
+					<propertyregex
+						global="true"
+						input="${propertyName}"
+						override="true"
+						property="propertyName"
+						regexp="\]"
+						replace="\\\\]"
+					/>
+
 					<replaceregexp file="portal-impl/src/portal-ext.properties"
 						flags="g"
 						match="${propertyName}=.*"
@@ -1730,7 +1748,7 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 
 					<echo append="true" file="portal-impl/src/portal-ext.properties">
 
- @{property}</echo>
+@{property}</echo>
 				</sequential>
 			</for>
 		</sequential>
@@ -6157,6 +6175,9 @@ go]]></replacevalue>
 					<include name="**/TEST-*.xml" />
 				</fileset>
 				<fileset dir="${blade.samples.dir}/liferay-workspace/tests" erroronmissingdir="false">
+					<include name="**/TEST-*.xml" />
+				</fileset>
+				<fileset dir="${liferay.jenkins.dir}/commands/custom-scripts/test-results" erroronmissingdir="false">
 					<include name="**/TEST-*.xml" />
 				</fileset>
 				<report format="frames" todir="test-results/html" />
