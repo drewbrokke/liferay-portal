@@ -12,19 +12,24 @@
  * details.
  */
 
-package com.liferay.announcements.web.internal.uad;
+package com.liferay.announcements.uad;
 
-import com.liferay.user.associated.data.web.model.UADAsset;
-import com.liferay.user.associated.data.web.model.impl.UADAssetImpl;
+import com.liferay.user.associated.data.model.UADAsset;
+import com.liferay.user.associated.data.model.impl.UADAssetImpl;
+
 import java.net.URL;
+
+import java.util.List;
 
 /**
  * @author William Newbury
  */
 public class AnnouncementsUADAssetImpl extends UADAssetImpl {
 
-	public AnnouncementsUADAssetImpl(long userId, UADAsset parent, UADAsset child) {
-		super(userId, parent, child);
+	public AnnouncementsUADAssetImpl(
+		long userId, List<UADAsset> childUADAssets) {
+
+		super(userId, childUADAssets);
 	}
 
 	@Override

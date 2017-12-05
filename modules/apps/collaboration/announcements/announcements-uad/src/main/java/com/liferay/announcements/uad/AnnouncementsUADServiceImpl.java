@@ -12,12 +12,11 @@
  * details.
  */
 
-package com.liferay.announcements.web.internal.uad;
+package com.liferay.announcements.uad;
 
-import com.liferay.announcements.constants.AnnouncementsPortletKeys;
-import com.liferay.user.associated.data.web.model.UADAsset;
-import com.liferay.user.associated.data.web.model.UADService;
-import com.liferay.user.associated.data.web.model.impl.UADServiceImpl;
+import com.liferay.user.associated.data.model.UADAsset;
+import com.liferay.user.associated.data.model.UADService;
+import com.liferay.user.associated.data.model.impl.UADServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,21 +28,10 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(
 	immediate = true,
-	property = {
-		"uad.service.key=" + AnnouncementsPortletKeys.ANNOUNCEMENTS,
-	},
+	property = {"uad.service.key=com_liferay_announcements_uad"},
 	service = UADService.class
 )
 public class AnnouncementsUADServiceImpl extends UADServiceImpl {
-
-	@Override
-	public List<UADAsset> getUADAssets(long userId) {
-		System.out.println("############################### getUADAssets");
-
-		List<UADAsset> announcementsUADAssets = new ArrayList<UADAsset>();
-
-		return announcementsUADAssets;
-	}
 
 	@Override
 	public void autoAnonymize(UADAsset uadAsset) {
@@ -58,6 +46,15 @@ public class AnnouncementsUADServiceImpl extends UADServiceImpl {
 	@Override
 	public void export(UADAsset uadAsset) {
 		System.out.println("############################### export");
+	}
+
+	@Override
+	public List<UADAsset> getUADAssets(long userId) {
+		System.out.println("############################### getUADAssets");
+
+		List<UADAsset> announcementsUADAssets = new ArrayList<>();
+
+		return announcementsUADAssets;
 	}
 
 }
