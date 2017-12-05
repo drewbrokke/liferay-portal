@@ -16,12 +16,12 @@ package com.liferay.user.associated.data.web.model;
 
 import java.util.List;
 
-import org.osgi.service.component.annotations.Component;
+import aQute.bnd.annotation.ProviderType;
 
 /**
  * @author William Newbury
  */
-@Component(immediate = true, service = UADService.class)
+@ProviderType
 public interface UADService {
 
 	public void autoAnonymize(UADAsset uadAsset);
