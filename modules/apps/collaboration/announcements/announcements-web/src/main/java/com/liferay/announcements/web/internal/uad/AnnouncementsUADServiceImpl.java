@@ -36,17 +36,13 @@ import org.osgi.service.component.annotations.Component;
 )
 public class AnnouncementsUADServiceImpl extends UADServiceImpl {
 
-	public AnnouncementsUADServiceImpl(String name) {
-		super(name);
-	}
-
 	@Override
-	public void process(long userId) {
-		System.out.println("############################### process");
+	public List<UADAsset> getUADAssets(long userId) {
+		System.out.println("############################### getUADAssets");
 
 		List<UADAsset> announcementsUADAssets = new ArrayList<UADAsset>();
 
-		uadAssets = announcementsUADAssets;
+		return announcementsUADAssets;
 	}
 
 	@Override

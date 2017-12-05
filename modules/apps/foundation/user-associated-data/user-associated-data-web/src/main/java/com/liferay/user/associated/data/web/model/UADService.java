@@ -38,10 +38,6 @@ public interface UADService {
 
 	public void exportAll(long userId);
 
-	public String getName();
-
 	public List<UADAsset> getUADAssets(long userId);
-
-	public void process(long userId);
 
 }
