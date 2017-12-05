@@ -14,8 +14,38 @@
 
 package com.liferay.user.associated.data.web.service.registry;
 
+import com.liferay.user.associated.data.web.model.UADService;
+
+import java.util.Collection;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author William Newbury
  */
+@Component
 public class UADServiceRegistryUtil {
+
+	public static UADService getSiteGenerator(String key) {
+		return _uadServiceRegistry.getUADService(key);
+	}
+
+	public static Collection<UADService> getSiteGenerators() {
+		return _uadServiceRegistry.getUADServices();
+	}
+
+	public static void notify(long userId) {
+		_uadServiceRegistry.notify(userId);
+	}
+
+	@Reference(unbind = "-")
+	protected void setSiteGeneratorRegistry(
+		UADServiceRegistry uadServiceRegistry) {
+
+		_uadServiceRegistry = uadServiceRegistry;
+	}
+
+	private static UADServiceRegistry _uadServiceRegistry;
+
 }
