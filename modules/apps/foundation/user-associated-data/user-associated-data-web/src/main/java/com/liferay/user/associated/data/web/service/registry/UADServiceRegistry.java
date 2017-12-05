@@ -19,8 +19,13 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.user.associated.data.web.model.UADService;
+import com.liferay.user.associated.data.web.model.UADAsset
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -37,6 +42,10 @@ public class UADServiceRegistry {
 		return _uadServiceTrackerMap.getService(key);
 	}
 
+	public Set<String> getUADServiceKeySet() {
+		return _uadServiceTrackerMap.keySet();
+	}
+
 	public Collection<UADService> getUADServices() {
 		return _uadServiceTrackerMap.values();
 	}
@@ -44,8 +53,12 @@ public class UADServiceRegistry {
 	public void notify(long userId) {
 		System.out.println("############################ notify");
 
-		for (UADService uadService : getUADServices()) {
-			uadService.process(userId);
+		Map<String, List<UADAsset>> uadAssetsMap = new HashMap<>();
+
+		for (String key : getUADServiceKeySet()) {
+			UADService uadService = getUADService(key);
+
+			uadAssetsMap.put(key, uadService.getUADAssets(userId));
 		}
 	}
 

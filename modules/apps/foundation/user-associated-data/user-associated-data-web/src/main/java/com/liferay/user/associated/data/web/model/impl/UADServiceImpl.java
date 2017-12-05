@@ -17,22 +17,12 @@ package com.liferay.user.associated.data.web.model.impl;
 import com.liferay.user.associated.data.web.model.UADAsset;
 import com.liferay.user.associated.data.web.model.UADService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author William Newbury
  */
 public abstract class UADServiceImpl implements UADService {
-
-	public UADServiceImpl(String name) {
-		_name = name;
-
-		_uadAssetsMap = new HashMap<>();
-		uadAssets = new ArrayList<>();
-	}
 
 	@Override
 	public abstract void autoAnonymize(UADAsset uadAsset);
@@ -46,9 +36,9 @@ public abstract class UADServiceImpl implements UADService {
 
 	@Override
 	public long count(long userId) {
-		List<UADAsset> uadAssets = getUADAssets(userId);
+		List<UADAsset> userIdUADAssets = getUADAssets(userId);
 
-		return uadAssets.size();
+		return userIdUADAssets.size();
 	}
 
 	@Override
@@ -72,35 +62,6 @@ public abstract class UADServiceImpl implements UADService {
 	}
 
 	@Override
-	public String getName() {
-		return _name;
-	}
-
-	@Override
-	public List<UADAsset> getUADAssets(long userId) {
-		if (_uadAssetsMap.containsKey(userId)) {
-			return _uadAssetsMap.get(userId);
-		}
-
-		List<UADAsset> uadAssets = new ArrayList<>();
-
-		for (UADAsset uadAsset : uadAssets) {
-			if (uadAsset.getUserId() == userId) {
-				uadAssets.add(uadAsset);
-			}
-		}
-
-		_uadAssetsMap.put(userId, uadAssets);
-
-		return uadAssets;
-	}
-
-	@Override
-	public abstract void process(long userId);
-
-	protected List<UADAsset> uadAssets;
-
-	private final String _name;
-	private final Map<Long, List<UADAsset>> _uadAssetsMap;
+	public abstract List<UADAsset> getUADAssets(long userId);
 
 }
