@@ -16,21 +16,21 @@ package com.liferay.user.associated.data.web.model;
 
 import java.net.URL;
 
+import java.util.List;
+
 /**
  * @author William Newbury
  */
 public interface UADAsset {
 
-	public UADAsset getChildUADAsset();
+	public List<UADAsset> getChildrenUADAssets();
 
 	public URL getEditURL();
 
-	public UADAsset getParentUADAsset();
-
 	public long getUserId();
 
-	public void setChildUADAsset(UADAsset uadAsset);
+	public void setChildrenUADAssets(List<UADAsset> childrenUADAssets);
 
-	public void setParentUADAsset(UADAsset uadAsset);
+	public long setUserId(long userId);
 
 }

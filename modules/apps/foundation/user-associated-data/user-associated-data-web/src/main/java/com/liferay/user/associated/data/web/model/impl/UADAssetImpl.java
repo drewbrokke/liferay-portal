@@ -18,30 +18,26 @@ import com.liferay.user.associated.data.web.model.UADAsset;
 
 import java.net.URL;
 
+import java.util.List;
+
 /**
  * @author William Newbury
  */
 public abstract class UADAssetImpl implements UADAsset {
 
-	public UADAssetImpl(long userId, UADAsset parent, UADAsset child) {
+	public UADAssetImpl(long userId, List<UADAsset> childrenUADAssets) {
 		_userId = userId;
 
-		_parentUADAsset = parent;
-		_childUADAsset = child;
+		_childrenUADAssets = childrenUADAssets;
 	}
 
 	@Override
-	public UADAsset getChildUADAsset() {
-		return _childUADAsset;
+	public List<UADAsset> getChildrenUADAssets() {
+		return _childrenUADAssets;
 	}
 
 	@Override
 	public abstract URL getEditURL();
-
-	@Override
-	public UADAsset getParentUADAsset() {
-		return _parentUADAsset;
-	}
 
 	@Override
 	public long getUserId() {
@@ -49,17 +45,11 @@ public abstract class UADAssetImpl implements UADAsset {
 	}
 
 	@Override
-	public void setChildUADAsset(UADAsset uadAsset) {
-		_childUADAsset = uadAsset;
+	public void setChildrenUADAssets(List<UADAsset> childrenUADAssets) {
+		_childrenUADAssets = childrenUADAssets;
 	}
 
-	@Override
-	public void setParentUADAsset(UADAsset uadAsset) {
-		_parentUADAsset = uadAsset;
-	}
-
-	private UADAsset _childUADAsset;
-	private UADAsset _parentUADAsset;
+	private List<UADAsset> _childrenUADAssets;
 	private final long _userId;
 
 }
