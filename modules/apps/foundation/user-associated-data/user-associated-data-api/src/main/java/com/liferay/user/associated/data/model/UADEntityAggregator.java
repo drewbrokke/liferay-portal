@@ -12,31 +12,22 @@
  * details.
  */
 
-package com.liferay.announcements.uad;
+package com.liferay.user.associated.data.model;
 
-import com.liferay.user.associated.data.model.UADAsset;
-import com.liferay.user.associated.data.model.impl.UADAssetImpl;
-
-import java.net.URL;
+import aQute.bnd.annotation.ProviderType;
 
 import java.util.List;
 
 /**
  * @author William Newbury
  */
-public class AnnouncementsUADAssetImpl extends UADAssetImpl {
+@ProviderType
+public interface UADEntityAggregator {
 
-	public AnnouncementsUADAssetImpl(
-		long userId, List<UADAsset> childUADAssets) {
+	public long count(long userId);
 
-		super(userId, childUADAssets);
-	}
+	public List<UADEntity> getUADEntities(long userId);
 
-	@Override
-	public URL getEditURL() {
-		System.out.println("############## Edit URL");
-
-		return null;
-	}
+	public UADEntity getUADEntity(String uadRegistryKey);
 
 }

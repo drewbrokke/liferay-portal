@@ -14,42 +14,36 @@
 
 package com.liferay.user.associated.data.model.impl;
 
-import com.liferay.user.associated.data.model.UADAsset;
-
-import java.net.URL;
+import com.liferay.user.associated.data.model.UADEntity;
+import com.liferay.user.associated.data.model.UADEntityAnonymizer;
 
 import java.util.List;
 
 /**
  * @author William Newbury
  */
-public abstract class UADAssetImpl implements UADAsset {
+public abstract class UADEntityAnonymizerImpl implements UADEntityAnonymizer {
 
-	public UADAssetImpl(long userId, List<UADAsset> childrenUADAssets) {
-		_userId = userId;
+	@Override
+	public abstract void autoAnonymize(UADEntity uadEntity);
 
-		_childrenUADAssets = childrenUADAssets;
+	@Override
+	public void autoAnonymizeAll(long userId) {
+		for (UADEntity uadEntity : getUADEntities(userId)) {
+			autoAnonymize(uadEntity);
+		}
 	}
 
 	@Override
-	public List<UADAsset> getChildrenUADAssets() {
-		return _childrenUADAssets;
-	}
+	public abstract void delete(UADEntity uadEntity);
 
 	@Override
-	public abstract URL getEditURL();
-
-	@Override
-	public long getUserId() {
-		return _userId;
+	public void deleteAll(long userId) {
+		for (UADEntity uadEntity : getUADEntities(userId)) {
+			delete(uadEntity);
+		}
 	}
 
-	@Override
-	public void setChildrenUADAssets(List<UADAsset> childrenUADAssets) {
-		_childrenUADAssets = childrenUADAssets;
-	}
-
-	private List<UADAsset> _childrenUADAssets;
-	private final long _userId;
+	protected abstract List<UADEntity> getUADEntities(long userId);
 
 }

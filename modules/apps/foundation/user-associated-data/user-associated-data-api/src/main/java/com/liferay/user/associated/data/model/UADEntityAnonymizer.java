@@ -16,28 +16,18 @@ package com.liferay.user.associated.data.model;
 
 import aQute.bnd.annotation.ProviderType;
 
-import java.util.List;
-
 /**
  * @author William Newbury
  */
 @ProviderType
-public interface UADService {
+public interface UADEntityAnonymizer {
 
-	public void autoAnonymize(UADAsset uadAsset);
+	public void autoAnonymize(UADEntity uadEntity);
 
 	public void autoAnonymizeAll(long userId);
 
-	public long count(long userId);
-
-	public void delete(UADAsset uadAsset);
+	public void delete(UADEntity uadEntity);
 
 	public void deleteAll(long userId);
-
-	public void export(UADAsset uadAsset);
-
-	public void exportAll(long userId);
-
-	public List<UADAsset> getUADAssets(long userId);
 
 }

@@ -12,23 +12,29 @@
  * details.
  */
 
-package com.liferay.user.associated.data.model;
+package com.liferay.user.associated.data.model.impl;
 
-import java.net.URL;
+import com.liferay.user.associated.data.model.UADEntity;
+import com.liferay.user.associated.data.model.UADEntityAggregator;
 
 import java.util.List;
 
 /**
  * @author William Newbury
  */
-public interface UADAsset {
+public abstract class UADEntityAggregatorImpl implements UADEntityAggregator {
 
-	public List<UADAsset> getChildrenUADAssets();
+	@Override
+	public long count(long userId) {
+		List<UADEntity> userIdUADEntities = getUADEntities(userId);
 
-	public URL getEditURL();
+		return userIdUADEntities.size();
+	}
 
-	public long getUserId();
+	@Override
+	public abstract List<UADEntity> getUADEntities(long userId);
 
-	public void setChildrenUADAssets(List<UADAsset> childrenUADAssets);
+	@Override
+	public abstract UADEntity getUADEntity(String uadRegistryKey);
 
 }
