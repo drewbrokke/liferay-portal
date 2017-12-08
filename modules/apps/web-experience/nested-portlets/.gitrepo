@@ -4,8 +4,8 @@
 [subrepo]
 	autopull = false
 	cmdver = liferay
-	commit = 7745e57d0d1a1ce2ab2d3c839802ba7c6801648e
+	commit = 628783641f1a4e9b241f2a6dea1da6e008f1a06a
 	mergebuttonmergecommits = false
 	mode = push
-	parent = b5c1ea7f8714ed8ed0140c0a941f503311859131
+	parent = 197d67b9b561dfc24e6cf6f87bbffbf36dc98272
 	remote = git@github.com:liferay/com-liferay-nested-portlets.git

@@ -128,9 +128,15 @@ public class LangBuilder {
 		_excludedLanguageIds = excludedLanguageIds;
 		_langDirName = langDirName;
 		_langFileName = langFileName;
-		_translate = translate;
 
-		Translate.setSubscriptionKey(translateSubscriptionKey);
+		if (Validator.isNull(translateSubscriptionKey)) {
+			translate = false;
+		}
+		else {
+			Translate.setSubscriptionKey(translateSubscriptionKey);
+		}
+
+		_translate = translate;
 
 		_initKeysWithUpdatedValues();
 
@@ -349,6 +355,7 @@ public class LangBuilder {
 						StringPool.UTF8))) {
 
 			boolean firstLine = true;
+			String previousLine = null;
 			int state = 0;
 
 			String line = null;
@@ -476,7 +483,9 @@ public class LangBuilder {
 						}
 					}
 
-					if (Validator.isNotNull(translatedText)) {
+					if (Validator.isNotNull(translatedText) &&
+						(_translate || !_isAutomatic(translatedText))) {
+
 						translatedText = _fixTranslation(translatedText);
 
 						if (firstLine) {
@@ -486,9 +495,13 @@ public class LangBuilder {
 							unsyncBufferedWriter.newLine();
 						}
 
-						unsyncBufferedWriter.write(key + "=" + translatedText);
+						line = key + "=" + translatedText;
+
+						unsyncBufferedWriter.write(line);
 
 						unsyncBufferedWriter.flush();
+
+						previousLine = line;
 					}
 				}
 				else {
@@ -561,13 +574,17 @@ public class LangBuilder {
 					if (firstLine) {
 						firstLine = false;
 					}
-					else {
+					else if (Validator.isNotNull(line) ||
+							 Validator.isNotNull(previousLine)) {
+
 						unsyncBufferedWriter.newLine();
 					}
 
 					unsyncBufferedWriter.write(line);
 
 					unsyncBufferedWriter.flush();
+
+					previousLine = line;
 				}
 			}
 		}
@@ -668,6 +685,16 @@ public class LangBuilder {
 		}
 	}
 
+	private boolean _isAutomatic(String value) {
+		if (value.endsWith(AUTOMATIC_COPY) ||
+			value.endsWith(AUTOMATIC_TRANSLATION)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 	private String _orderProperties(File propertiesFile) throws IOException {
 		if (!propertiesFile.exists()) {
 			return null;
@@ -696,7 +723,9 @@ public class LangBuilder {
 
 					String value = line.substring(pos + 1);
 
-					if (Validator.isNotNull(value)) {
+					if (Validator.isNotNull(value) &&
+						(_translate || !_isAutomatic(value))) {
+
 						value = _fixTranslation(line.substring(pos + 1));
 
 						value = _fixEnglishTranslation(key, value);

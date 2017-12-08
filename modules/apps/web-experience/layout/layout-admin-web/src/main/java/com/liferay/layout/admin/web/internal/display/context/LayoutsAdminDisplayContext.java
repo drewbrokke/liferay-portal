@@ -44,6 +44,7 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
 import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
+import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -102,6 +103,10 @@ public class LayoutsAdminDisplayContext {
 		addLayoutURL.setParameter("backURL", _themeDisplay.getURLCurrent());
 		addLayoutURL.setParameter("groupId", String.valueOf(getSelGroupId()));
 
+		PortletDisplay portletDisplay = _themeDisplay.getPortletDisplay();
+
+		addLayoutURL.setParameter("portletResource", portletDisplay.getId());
+
 		if (selPlid >= LayoutConstants.DEFAULT_PLID) {
 			addLayoutURL.setParameter("selPlid", String.valueOf(selPlid));
 		}
@@ -156,11 +161,18 @@ public class LayoutsAdminDisplayContext {
 		PortletURL configureLayoutURL =
 			_liferayPortletResponse.createRenderURL();
 
-		configureLayoutURL.setParameter("mvcPath", "/edit_layout.jsp");
+		configureLayoutURL.setParameter(
+			"mvcRenderCommandName", "/layout/edit_layout");
 		configureLayoutURL.setParameter(
 			"redirect", _themeDisplay.getURLCurrent());
 		configureLayoutURL.setParameter(
 			"backURL", _themeDisplay.getURLCurrent());
+
+		PortletDisplay portletDisplay = _themeDisplay.getPortletDisplay();
+
+		configureLayoutURL.setParameter(
+			"portletResource", portletDisplay.getId());
+
 		configureLayoutURL.setParameter(
 			"groupId", String.valueOf(layout.getGroupId()));
 		configureLayoutURL.setParameter(
