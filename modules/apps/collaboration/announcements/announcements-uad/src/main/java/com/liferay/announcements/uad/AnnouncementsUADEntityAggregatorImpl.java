@@ -51,11 +51,11 @@ public class AnnouncementsUADEntityAggregatorImpl
 	}
 
 	@Override
-	public UADEntity getUADEntity(String uadRegistryKey) {
+	public UADEntity getUADEntity(String uadEntityId) {
 		System.out.println("#################### Reconstructing entity");
 
 		return new AnnouncementsUADEntityImpl(
-				0, "testEntityId", uadRegistryKey, new ArrayList<UADEntity>());
+				0, uadEntityId, "com.liferay.announcements.uad.AnnouncementsUADEntityImpl", new ArrayList<UADEntity>());
 	}
 
 }

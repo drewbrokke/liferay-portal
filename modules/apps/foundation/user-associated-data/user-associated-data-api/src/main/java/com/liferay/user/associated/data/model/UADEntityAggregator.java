@@ -28,6 +28,6 @@ public interface UADEntityAggregator {
 
 	public List<UADEntity> getUADEntities(long userId);
 
-	public UADEntity getUADEntity(String uadRegistryKey);
+	public UADEntity getUADEntity(String uadEntityId);
 
 }

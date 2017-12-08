@@ -33,6 +33,6 @@ public interface UADEntity {
 
 	public long getUserId();
 
-	public void setChildrenUADAssets(List<UADEntity> childUADEntities);
+	public void setChildUADEntities(List<UADEntity> childUADEntities);
 
 }

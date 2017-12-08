@@ -60,7 +60,7 @@ public abstract class UADEntityImpl implements UADEntity {
 	}
 
 	@Override
-	public void setChildrenUADAssets(List<UADEntity> childUADEntities) {
+	public void setChildUADEntities(List<UADEntity> childUADEntities) {
 		_childUADEntities = childUADEntities;
 	}
 

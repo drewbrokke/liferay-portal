@@ -35,6 +35,6 @@ public abstract class UADEntityAggregatorImpl implements UADEntityAggregator {
 	public abstract List<UADEntity> getUADEntities(long userId);
 
 	@Override
-	public abstract UADEntity getUADEntity(String uadRegistryKey);
+	public abstract UADEntity getUADEntity(String uadEntityId);
 
 }
