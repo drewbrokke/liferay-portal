@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.user.associated.data.service.registry;
+package com.liferay.user.associated.data.service.registry.impl;
 
 import com.liferay.osgi.service.tracker.collections.map.ServiceReferenceMapper;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
@@ -22,6 +22,7 @@ import com.liferay.user.associated.data.model.UADEntity;
 import com.liferay.user.associated.data.model.UADEntityAggregator;
 import com.liferay.user.associated.data.model.UADEntityAnonymizer;
 import com.liferay.user.associated.data.model.UADEntityExporter;
+import com.liferay.user.associated.data.service.registry.UADRegistry;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ import org.osgi.service.component.annotations.Component;
 * @author William Newbury
 */
 @Component(immediate = true, service = UADRegistry.class)
-public class UADRegistry {
+public class UADRegistryImpl implements UADRegistry {
 
 	public UADEntityAggregator getUADEntityAggregator(String key) {
 		return _uadEntityAggregatorTrackerMap.getService(key);
@@ -114,8 +115,7 @@ public class UADRegistry {
 
 		_uadEntityExporterTrackerMap =
 			ServiceTrackerMapFactory.openSingleValueMap(
-				bundleContext, UADEntityExporter.class,
-				"(model.class.name=*)",
+				bundleContext, UADEntityExporter.class, "(model.class.name=*)",
 				new UADEntityExporterReferenceMapper());
 	}
 
@@ -154,7 +154,6 @@ public class UADRegistry {
 
 			String uadEntityClassName = (String)serviceReference.getProperty(
 				"model.class.name");
-
 
 			if (Validator.isNotNull(uadEntityClassName)) {
 				emitter.emit(uadEntityClassName);
