@@ -37,10 +37,13 @@ public class AnnouncementsUADEntityAnonymizerImpl
 	@Override
 	public void autoAnonymize(UADEntity uadEntity) {
 		getUADEntities(0);
+
+		System.out.println("##################### anonymize");
 	}
 
 	@Override
 	public void delete(UADEntity uadEntity) {
+		System.out.println("##################### delete");
 	}
 
 	@Override

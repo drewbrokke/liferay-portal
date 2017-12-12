@@ -35,6 +35,7 @@ public class AnnouncementsUADEntityExporterImpl extends UADEntityExporterImpl {
 
 	@Override
 	public void export(UADEntity uadEntity) {
+		System.out.println("######################## uadEntity");
 	}
 
 	@Override

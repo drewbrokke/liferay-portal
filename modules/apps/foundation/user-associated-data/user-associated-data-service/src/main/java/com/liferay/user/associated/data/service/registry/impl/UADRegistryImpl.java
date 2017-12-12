@@ -90,9 +90,13 @@ public class UADRegistryImpl implements UADRegistry {
 	}
 
 	public void notify(long userId) {
+		System.out.println("############################ notify");
+
 		Map<String, List<UADEntity>> uadAssetsMap = new HashMap<>();
 
 		for (String key : getUADEntityAggregatorKeySet()) {
+			System.out.println("########################## fetching aggregator");
+
 			UADEntityAggregator uadAggregator = getUADEntityAggregator(key);
 
 			uadAssetsMap.put(key, uadAggregator.getUADEntities(userId));
@@ -137,6 +141,9 @@ public class UADRegistryImpl implements UADRegistry {
 			String uadEntityClassName = (String)serviceReference.getProperty(
 				"model.class.name");
 
+			System.out.println(
+				"################## Heyo, registered aggregator ");
+
 			if (Validator.isNotNull(uadEntityClassName)) {
 				emitter.emit(uadEntityClassName);
 			}
@@ -155,6 +162,9 @@ public class UADRegistryImpl implements UADRegistry {
 			String uadEntityClassName = (String)serviceReference.getProperty(
 				"model.class.name");
 
+			System.out.println(
+				"################## Heyo, registered anonymizer");
+
 			if (Validator.isNotNull(uadEntityClassName)) {
 				emitter.emit(uadEntityClassName);
 			}
@@ -172,6 +182,8 @@ public class UADRegistryImpl implements UADRegistry {
 
 			String uadEntityClassName = (String)serviceReference.getProperty(
 				"model.class.name");
+
+			System.out.println("################## Heyo, registered exporter");
 
 			if (Validator.isNotNull(uadEntityClassName)) {
 				emitter.emit(uadEntityClassName);

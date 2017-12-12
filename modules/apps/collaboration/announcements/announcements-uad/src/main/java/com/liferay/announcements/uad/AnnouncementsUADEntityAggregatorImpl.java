@@ -36,6 +36,8 @@ public class AnnouncementsUADEntityAggregatorImpl
 
 	@Override
 	public List<UADEntity> getUADEntities(long userId) {
+		System.out.println("############################### getUADEntities");
+
 		List<UADEntity> announcementsUADEntities = new ArrayList<>();
 
 		AnnouncementsUADEntityImpl announcementsUADEntity =
@@ -50,6 +52,8 @@ public class AnnouncementsUADEntityAggregatorImpl
 
 	@Override
 	public UADEntity getUADEntity(String uadEntityId) {
+		System.out.println("#################### Reconstructing entity");
+
 		return new AnnouncementsUADEntityImpl(
 			0, uadEntityId,
 			"com.liferay.announcements.uad.AnnouncementsUADEntityImpl",
