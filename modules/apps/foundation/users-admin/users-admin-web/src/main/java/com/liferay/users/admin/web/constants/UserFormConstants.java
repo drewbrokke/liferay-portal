@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -12,16 +11,18 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
---%>
 
-<%@ include file="/init.jsp" %>
+package com.liferay.users.admin.web.constants;
 
-<%
-User selUser = PortalUtil.getSelectedUser(request);
-%>
+/**
+ * @author Pei-Jung Lan
+ */
+public class UserFormConstants {
 
-<liferay-frontend:screen-navigation
-	context="<%= selUser %>"
-	key="<%= UserFormConstants.SCREEN_NAVIGATION_KEY_USERS %>"
-	portletURL="<%= currentURLObj %>"
-/>
+	public static final String CATEGORY_KEY_GENERAL = "general";
+
+	public static final String ENTRY_KEY_INFORMATION = "information";
+
+	public static final String SCREEN_NAVIGATION_KEY_USERS = "edit.user.form";
+
+}
