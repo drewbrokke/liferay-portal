@@ -26,10 +26,8 @@ import com.liferay.document.library.kernel.model.DLFileEntryConstants;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLTrashServiceUtil;
-import com.liferay.document.library.kernel.util.DLValidator;
 import com.liferay.document.library.sync.constants.DLSyncConstants;
 import com.liferay.document.library.workflow.WorkflowHandlerInvocationCounter;
-import com.liferay.portal.configuration.test.util.ConfigurationTemporarySwapper;
 import com.liferay.portal.kernel.comment.CommentManagerUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -68,6 +66,7 @@ import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.osgi.util.test.OSGiServiceUtil;
 import com.liferay.portal.security.permission.DoAsUserThread;
 import com.liferay.portal.service.test.ServiceTestUtil;
 import com.liferay.portal.test.randomizerbumpers.TikaSafeRandomizerBumper;
@@ -86,6 +85,7 @@ import java.util.Date;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import jodd.util.MimeTypes;
@@ -101,6 +101,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceEvent;
+import org.osgi.framework.ServiceListener;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.cm.Configuration;
+import org.osgi.service.cm.ConfigurationAdmin;
 
 /**
  * @author Alexander Chow
@@ -197,13 +206,25 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
-			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
-					_getConfigurationTemporarySwapper("fileMaxSize", 1L)) {
+			_setUpConfiguration();
+
+			try {
+				_updateConfiguration(
+					new HashMapDictionary<String, Object>() {
+
+						{
+							put("fileMaxSize", 1L);
+						}
+
+					});
 
 				String fileName = RandomTestUtil.randomString();
 
 				addFileEntry(
 					group.getGroupId(), parentFolder.getFolderId(), fileName);
+			}
+			finally {
+				_tearDownConfiguration();
 			}
 		}
 
@@ -246,15 +267,26 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 		public void shouldFailIfSourceFileNameExtensionNotSupported()
 			throws Exception {
 
-			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
-					_getConfigurationTemporarySwapper(
-						"fileExtensions", new String[0])) {
+			_setUpConfiguration();
+
+			try {
+				_updateConfiguration(
+					new HashMapDictionary<String, Object>() {
+
+						{
+							put("fileExtensions", new String[0]);
+						}
+
+					});
 
 				String sourceFileName = "file.jpg";
 
 				addFileEntry(
 					group.getGroupId(), parentFolder.getFolderId(),
 					sourceFileName);
+			}
+			finally {
+				_tearDownConfiguration();
 			}
 		}
 
@@ -1401,18 +1433,28 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 		@Test(expected = FileSizeException.class)
 		public void shouldFailIfSizeLimitExceeded() throws Exception {
-			String fileName = RandomTestUtil.randomString();
+			_setUpConfiguration();
 
-			ServiceContext serviceContext =
-				ServiceContextTestUtil.getServiceContext(group.getGroupId());
+			try {
+				_updateConfiguration(
+					new HashMapDictionary<String, Object>() {
 
-			FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
-				group.getGroupId(), parentFolder.getFolderId(), fileName,
-				ContentTypes.TEXT_PLAIN, fileName, StringPool.BLANK,
-				StringPool.BLANK, null, 0, serviceContext);
+						{
+							put("fileMaxSize", 1L);
+						}
 
-			try (ConfigurationTemporarySwapper configurationTemporarySwapper =
-					_getConfigurationTemporarySwapper("fileMaxSize", 1L)) {
+					});
+
+				String fileName = RandomTestUtil.randomString();
+
+				ServiceContext serviceContext =
+					ServiceContextTestUtil.getServiceContext(
+						group.getGroupId());
+
+				FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
+					group.getGroupId(), parentFolder.getFolderId(), fileName,
+					ContentTypes.TEXT_PLAIN, fileName, StringPool.BLANK,
+					StringPool.BLANK, null, 0, serviceContext);
 
 				byte[] bytes = RandomTestUtil.randomBytes(
 					TikaSafeRandomizerBumper.INSTANCE);
@@ -1421,6 +1463,9 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 					fileEntry.getFileEntryId(), fileName,
 					ContentTypes.TEXT_PLAIN, StringPool.BLANK, StringPool.BLANK,
 					StringPool.BLANK, true, bytes, serviceContext);
+			}
+			finally {
+				_tearDownConfiguration();
 			}
 		}
 
@@ -1939,17 +1984,70 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 			serviceContext);
 	}
 
-	private static ConfigurationTemporarySwapper
-			_getConfigurationTemporarySwapper(String key, Object value)
+	private static void _setUpConfiguration() throws Exception {
+		Bundle bundle = FrameworkUtil.getBundle(DLAppServiceTest.class);
+
+		_bundleContext = bundle.getBundleContext();
+
+		_dlValidatorConfiguration = OSGiServiceUtil.callService(
+			_bundleContext, ConfigurationAdmin.class,
+			configurationAdmin -> configurationAdmin.getConfiguration(
+				_DL_CONFIGURATION_PID, StringPool.QUESTION));
+
+		_properties = _dlValidatorConfiguration.getProperties();
+	}
+
+	private static void _tearDownConfiguration() throws Exception {
+		_updateConfiguration(_properties);
+	}
+
+	private static void _updateConfiguration(
+			Dictionary<String, Object> properties)
 		throws Exception {
 
-		Dictionary<String, Object> dictionary = new HashMapDictionary<>();
+		CountDownLatch countDownLatch = new CountDownLatch(1);
 
-		dictionary.put(key, value);
+		ServiceListener serviceListener = new ServiceListener() {
 
-		return new ConfigurationTemporarySwapper(
-			DLValidator.class, _DL_CONFIGURATION_PID, dictionary);
+			@Override
+			public void serviceChanged(ServiceEvent serviceEvent) {
+				if (serviceEvent.getType() != ServiceEvent.MODIFIED) {
+					return;
+				}
+
+				ServiceReference<?> serviceReference =
+					serviceEvent.getServiceReference();
+
+				Object service = _bundleContext.getService(serviceReference);
+
+				Class<?> clazz = service.getClass();
+
+				if (_CLASS_NAME.equals(clazz.getName())) {
+					countDownLatch.countDown();
+				}
+			}
+
+		};
+
+		_bundleContext.addServiceListener(serviceListener);
+
+		try {
+			if (properties == null) {
+				_dlValidatorConfiguration.delete();
+			}
+			else {
+				_dlValidatorConfiguration.update(properties);
+			}
+
+			countDownLatch.await();
+		}
+		finally {
+			_bundleContext.removeServiceListener(serviceListener);
+		}
 	}
+
+	private static final String _CLASS_NAME =
+		"com.liferay.document.library.internal.util.DLValidatorImpl";
 
 	private static final String _DL_CONFIGURATION_PID =
 		"com.liferay.document.library.configuration.DLConfiguration";
@@ -1960,5 +2058,11 @@ public class DLAppServiceTest extends BaseDLAppTestCase {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DLAppServiceTest.class);
+
+	private static BundleContext _bundleContext;
+	private static Configuration _dlValidatorConfiguration;
+	private static Dictionary<String, Object> _properties;
+
+	private ServiceListener _serviceListener;
 
 }
