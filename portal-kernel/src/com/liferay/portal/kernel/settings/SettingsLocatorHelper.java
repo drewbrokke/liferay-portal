@@ -54,6 +54,10 @@ public interface SettingsLocatorHelper {
 	public Settings getPortletInstancePortletPreferencesSettings(
 		long companyId, long plid, String portletId, Settings parentSettings);
 
+	public Settings getConfigurationBeanSettings(
+		String pid, String settingsScope, String scopeKey,
+		Settings parentSettings);
+
 	public Settings getServerSettings(String settingsId);
 
 }
