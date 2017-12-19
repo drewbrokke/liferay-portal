@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -12,24 +11,20 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
---%>
 
-<%@ include file="/definition/init.jsp" %>
+package com.liferay.portal.configuration.settings.internal;
 
-<%
-String redirect = ParamUtil.getString(request, "redirect");
+/**
+ * @author Drew Brokke
+ */
+public class SettingsLocatorTestConstants {
 
-Portlet portlet = PortletLocalServiceUtil.getPortletById(company.getCompanyId(), portletDisplay.getId());
-%>
+	public static final String TEST_CONFIGURATION_PID =
+		"com.liferay.portal.configuration.settings.internal.samples." +
+			"TestConfiguration";
 
-<aui:script use="aui-base">
-	Liferay.fire(
-		'closeWindow',
-		{
-			id: '<portlet:namespace />previewBeforeRevert',
-			portletAjaxable: <%= portlet.isAjaxable() %>,
-			redirect: '<%= HtmlUtil.escape(redirect) %>',
-			refresh: '<%= portletDisplay.getId() %>'
-		}
-	);
-</aui:script>
+	public static final String TEST_DEFAULT_VALUE = "testDefaultValue";
+
+	public static final String TEST_KEY = "settingsLocatorTestKey";
+
+}

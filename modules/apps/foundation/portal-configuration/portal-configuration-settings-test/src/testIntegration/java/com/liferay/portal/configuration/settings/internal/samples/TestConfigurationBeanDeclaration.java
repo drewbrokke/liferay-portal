@@ -12,14 +12,22 @@
  * details.
  */
 
-package com.liferay.html.preview.constants;
+package com.liferay.portal.configuration.settings.internal.samples;
+
+import com.liferay.portal.kernel.settings.definition.ConfigurationBeanDeclaration;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
- * @author Pavel Savinov
+ * @author Drew Brokke
  */
-public class HtmlPreviewConstants {
+@Component
+public class TestConfigurationBeanDeclaration
+	implements ConfigurationBeanDeclaration {
 
-	public static final String DESTINATION_NAME =
-		"liferay/html_preview_generator";
+	@Override
+	public Class<?> getConfigurationBeanClass() {
+		return TestConfiguration.class;
+	}
 
 }
