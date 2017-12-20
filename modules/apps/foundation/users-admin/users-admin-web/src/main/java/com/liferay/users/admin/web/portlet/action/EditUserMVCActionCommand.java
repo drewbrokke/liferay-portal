@@ -163,8 +163,6 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 		long facebookId = 0;
 		String openId = ParamUtil.getString(actionRequest, "openId");
 		String languageId = ParamUtil.getString(actionRequest, "languageId");
-		String timeZoneId = ParamUtil.getString(actionRequest, "timeZoneId");
-		String greeting = ParamUtil.getString(actionRequest, "greeting");
 		String firstName = ParamUtil.getString(actionRequest, "firstName");
 		String middleName = ParamUtil.getString(actionRequest, "middleName");
 		String lastName = ParamUtil.getString(actionRequest, "lastName");
@@ -218,13 +216,13 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 				StringPool.BLANK, false, reminderQueryQuestion,
 				reminderQueryAnswer, user.getScreenName(),
 				user.getEmailAddress(), facebookId, openId, true, null,
-				languageId, timeZoneId, greeting, comments, firstName,
-				middleName, lastName, prefixId, suffixId, male, birthdayMonth,
-				birthdayDay, birthdayYear, smsSn, facebookSn, jabberSn, skypeSn,
-				twitterSn, jobTitle, groupIds, organizationIds, roleIds,
-				userGroupRoles, userGroupIds, addresses, emailAddresses, phones,
-				websites, new ArrayList<AnnouncementsDelivery>(),
-				serviceContext);
+				languageId, user.getTimeZoneId(), user.getGreeting(), comments,
+				firstName, middleName, lastName, prefixId, suffixId, male,
+				birthdayMonth, birthdayDay, birthdayYear, smsSn, facebookSn,
+				jabberSn, skypeSn, twitterSn, jobTitle, groupIds,
+				organizationIds, roleIds, userGroupRoles, userGroupIds,
+				addresses, emailAddresses, phones, websites,
+				new ArrayList<AnnouncementsDelivery>(), serviceContext);
 		}
 
 		long publicLayoutSetPrototypeId = ParamUtil.getLong(
@@ -608,10 +606,6 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 
 		String languageId = BeanParamUtil.getString(
 			user, actionRequest, "languageId");
-		String timeZoneId = BeanParamUtil.getString(
-			user, actionRequest, "timeZoneId");
-		String greeting = BeanParamUtil.getString(
-			user, actionRequest, "greeting");
 		String firstName = BeanParamUtil.getString(
 			user, actionRequest, "firstName");
 		String middleName = BeanParamUtil.getString(
@@ -681,8 +675,8 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 			user.getUserId(), oldPassword, newPassword1, newPassword2,
 			passwordReset, reminderQueryQuestion, reminderQueryAnswer,
 			screenName, emailAddress, facebookId, openId, !deleteLogo,
-			portraitBytes, languageId, timeZoneId, greeting, comments,
-			firstName, middleName, lastName, prefixId, suffixId, male,
+			portraitBytes, languageId, user.getTimeZoneId(), user.getGreeting(),
+			comments, firstName, middleName, lastName, prefixId, suffixId, male,
 			birthdayMonth, birthdayDay, birthdayYear, smsSn, facebookSn,
 			jabberSn, skypeSn, twitterSn, jobTitle, groupIds, organizationIds,
 			roleIds, userGroupRoles, userGroupIds, addresses, emailAddresses,
