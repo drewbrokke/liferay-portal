@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -12,18 +11,18 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
---%>
 
-<%@ include file="/init.jsp" %>
+package com.liferay.users.admin.web.internal.constants;
 
-<%
-User selUser = (User)request.getAttribute(UserScreenNavigationWebKeys.SELECTED_USER);
-%>
+/**
+ * @author Pei-Jung Lan
+ */
+public class UserScreenNavigationWebKeys {
 
-<aui:model-context bean="<%= selUser %>" model="<%= User.class %>" />
+	public static final String ACTION_COMMAND_NAME = "ACTION_COMMAND_NAME";
 
-<aui:fieldset>
-	<aui:input label="time-zone" name="timeZoneId" type="timeZone" />
+	public static final String JSP_PATH = "JSP_PATH";
 
-	<aui:input name="greeting" />
-</aui:fieldset>
+	public static final String SELECTED_USER = "SELECTED_USER";
+
+}
