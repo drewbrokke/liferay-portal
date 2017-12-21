@@ -14,20 +14,26 @@
 
 package com.liferay.portal.configuration.test.util;
 
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.osgi.util.test.OSGiServiceUtil;
 
 import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
+import org.osgi.service.cm.ManagedService;
 import org.osgi.service.component.runtime.ServiceComponentRuntime;
 import org.osgi.service.component.runtime.dto.ComponentDescriptionDTO;
 
@@ -65,21 +71,6 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 			Dictionary<String, Object> dictionary)
 		throws Exception {
 
-		CountDownLatch countDownLatch = new CountDownLatch(1);
-
-		ServiceListener serviceListener = serviceEvent -> {
-			if (serviceEvent.getType() == ServiceEvent.REGISTERED) {
-				return;
-			}
-
-			countDownLatch.countDown();
-		};
-
-		Class<?> serviceClass = service.getClass();
-
-		_bundleContext.addServiceListener(
-			serviceListener, "(component.name=" + serviceClass.getName() + ")");
-
 		try {
 			if (dictionary == null) {
 				configuration.delete();
@@ -87,11 +78,58 @@ public class ConfigurationTemporarySwapper implements AutoCloseable {
 			else {
 				configuration.update(dictionary);
 			}
-
-			countDownLatch.await();
 		}
 		finally {
-			_bundleContext.removeServiceListener(serviceListener);
+			CountDownLatch countDownLatch = new CountDownLatch(1);
+
+			ManagedService managedService = props -> {
+				// Deleted
+				if (props == null && dictionary == null) {
+					countDownLatch.countDown();
+				}
+				// Waiting for value
+				else if (props == null) {
+					return;
+				}
+				// Waiting to delete
+				else if (dictionary == null) {
+					return;
+				}
+				// Compare found value to expected value
+				else {
+					Enumeration<String> enumeration = dictionary.keys();
+
+					while (enumeration.hasMoreElements()) {
+						String key = enumeration.nextElement();
+
+						Object value = props.get(key);
+
+						if (value == null) {
+							return;
+						}
+
+						if (value != dictionary.get(key)) {
+							return;
+						}
+					}
+
+					countDownLatch.countDown();
+				}
+			};
+
+			Dictionary<String, Object> managedServiceProperties =
+				new HashMapDictionary<>();
+
+			managedServiceProperties.put(
+				Constants.SERVICE_PID, configuration.getPid());
+
+			ServiceRegistration managedServiceServiceRegistration =
+				_bundleContext.registerService(
+					ManagedService.class, managedService,
+					managedServiceProperties);
+
+			countDownLatch.await();
+			managedServiceServiceRegistration.unregister();
 		}
 	}
 
