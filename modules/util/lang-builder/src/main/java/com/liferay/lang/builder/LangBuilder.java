@@ -128,15 +128,9 @@ public class LangBuilder {
 		_excludedLanguageIds = excludedLanguageIds;
 		_langDirName = langDirName;
 		_langFileName = langFileName;
-
-		if (Validator.isNull(translateSubscriptionKey)) {
-			translate = false;
-		}
-		else {
-			Translate.setSubscriptionKey(translateSubscriptionKey);
-		}
-
 		_translate = translate;
+
+		Translate.setSubscriptionKey(translateSubscriptionKey);
 
 		_initKeysWithUpdatedValues();
 
@@ -355,7 +349,6 @@ public class LangBuilder {
 						StringPool.UTF8))) {
 
 			boolean firstLine = true;
-			String previousLine = null;
 			int state = 0;
 
 			String line = null;
@@ -495,13 +488,9 @@ public class LangBuilder {
 							unsyncBufferedWriter.newLine();
 						}
 
-						line = key + "=" + translatedText;
-
-						unsyncBufferedWriter.write(line);
+						unsyncBufferedWriter.write(key + "=" + translatedText);
 
 						unsyncBufferedWriter.flush();
-
-						previousLine = line;
 					}
 				}
 				else {
@@ -574,17 +563,13 @@ public class LangBuilder {
 					if (firstLine) {
 						firstLine = false;
 					}
-					else if (Validator.isNotNull(line) ||
-							 Validator.isNotNull(previousLine)) {
-
+					else {
 						unsyncBufferedWriter.newLine();
 					}
 
 					unsyncBufferedWriter.write(line);
 
 					unsyncBufferedWriter.flush();
-
-					previousLine = line;
 				}
 			}
 		}
