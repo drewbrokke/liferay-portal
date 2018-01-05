@@ -37,7 +37,7 @@ public class IndexerRegistryUtilTest {
 
 	@ClassRule
 	@Rule
-	public static final TestRule rule = new LiferayIntegrationTestRule();
+	public static final TestRule testRule = new LiferayIntegrationTestRule();
 
 	@Test
 	public void testGetIndexerByIndexerClassName() throws Exception {
