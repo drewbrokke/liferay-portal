@@ -14,8 +14,6 @@
 
 package com.liferay.user.associated.data.registry;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.user.associated.data.aggregator.UADEntityAggregator;
 import com.liferay.user.associated.data.anonymizer.UADEntityAnonymizer;
 import com.liferay.user.associated.data.entity.UADEntity;
@@ -27,7 +25,6 @@ import java.util.Set;
 /**
 * @author William Newbury
 */
-@ProviderType
 public interface UADRegistry {
 
 	public UADEntityAggregator getUADEntityAggregator(String key);

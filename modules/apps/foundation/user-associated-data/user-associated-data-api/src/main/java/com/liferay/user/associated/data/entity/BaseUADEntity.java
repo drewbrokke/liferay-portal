@@ -14,6 +14,9 @@
 
 package com.liferay.user.associated.data.entity;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author William Newbury
  */
@@ -27,6 +30,10 @@ public abstract class BaseUADEntity implements UADEntity {
 		_uadEntityId = uadEntityId;
 		_uadRegistryKey = uadRegistryKey;
 	}
+
+	@Override
+	public abstract Map<String, Object> getEntityNonAnonymizableFields(
+		List<String> fields);
 
 	@Override
 	public String getUADEntityId() {
