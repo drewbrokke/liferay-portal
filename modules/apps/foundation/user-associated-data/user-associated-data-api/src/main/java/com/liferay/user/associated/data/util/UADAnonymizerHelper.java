@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -12,6 +11,22 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
---%>
 
-<%@ include file="/common/additional_email_addresses.jsp" %>
+package com.liferay.user.associated.data.util;
+
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+
+/**
+ * @author Drew Brokke
+ */
+@ProviderType
+public interface UADAnonymizerHelper {
+
+	public User getAnonymousUser() throws PortalException;
+
+	public long getAnonymousUserId() throws PortalException;
+
+}

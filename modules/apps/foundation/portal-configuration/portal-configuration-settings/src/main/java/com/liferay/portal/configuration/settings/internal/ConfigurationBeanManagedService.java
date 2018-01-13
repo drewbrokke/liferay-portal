@@ -22,6 +22,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 import java.util.Dictionary;
+import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.function.Consumer;
 
 import org.osgi.framework.BundleContext;
@@ -62,7 +63,19 @@ public class ConfigurationBeanManagedService implements ManagedService {
 
 	public void unregister() {
 		_managedServiceServiceRegistration.unregister();
-		_configurationBeanServiceRegistration.unregister();
+
+		while (true) {
+			ServiceRegistration<?> serviceRegistration =
+				_configurationBeanServiceRegistrationReference.getReference();
+
+			if (_configurationBeanServiceRegistrationReference.compareAndSet(
+					serviceRegistration, null, false, true)) {
+
+				serviceRegistration.unregister();
+
+				return;
+			}
+		}
 	}
 
 	@Override
@@ -81,18 +94,37 @@ public class ConfigurationBeanManagedService implements ManagedService {
 			properties = new HashMapDictionary<>();
 		}
 
-		_configurationBean = ConfigurableUtil.createConfigurable(
+		Object configurationBean = ConfigurableUtil.createConfigurable(
 			_configurationBeanClass, properties);
 
-		_configurationBeanConsumer.accept(_configurationBean);
+		_configurationBeanConsumer.accept(configurationBean);
 
-		if (_configurationBeanServiceRegistration != null) {
-			_configurationBeanServiceRegistration.unregister();
+		ServiceRegistration<?> newServiceRegistration =
+			_bundleContext.registerService(
+				_configurationBeanClass.getName(), configurationBean,
+				new HashMapDictionary<>());
+
+		while (true) {
+			if (_configurationBeanServiceRegistrationReference.isMarked()) {
+				newServiceRegistration.unregister();
+
+				break;
+			}
+
+			ServiceRegistration<?> serviceRegistration =
+				_configurationBeanServiceRegistrationReference.getReference();
+
+			if (_configurationBeanServiceRegistrationReference.compareAndSet(
+					serviceRegistration, newServiceRegistration, false,
+					false)) {
+
+				if (serviceRegistration != null) {
+					serviceRegistration.unregister();
+				}
+
+				break;
+			}
 		}
-
-		_configurationBeanServiceRegistration = _bundleContext.registerService(
-			_configurationBeanClass.getName(), _configurationBean,
-			new HashMapDictionary<>());
 	}
 
 	protected class UpdatePrivilegedAction implements PrivilegedAction<Void> {
@@ -113,10 +145,10 @@ public class ConfigurationBeanManagedService implements ManagedService {
 	}
 
 	private final BundleContext _bundleContext;
-	private volatile Object _configurationBean;
 	private final Class<?> _configurationBeanClass;
 	private final Consumer<Object> _configurationBeanConsumer;
-	private ServiceRegistration<?> _configurationBeanServiceRegistration;
+	private AtomicMarkableReference<ServiceRegistration<?>> _configurationBeanServiceRegistrationReference =
+		new AtomicMarkableReference<>(null, false);
 	private final String _configurationPid;
 	private ServiceRegistration<ManagedService>
 		_managedServiceServiceRegistration;

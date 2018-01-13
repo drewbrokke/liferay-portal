@@ -80,7 +80,7 @@ public class AnnouncementsEntryUADEntityExporterTest
 			_user.getUserId());
 
 		UADEntity uadEntity = _uadEntityAggregator.getUADEntity(
-			Long.toString(announcementsEntry.getEntryId()));
+			String.valueOf(announcementsEntry.getEntryId()));
 
 		_uadEntityExporter.export(uadEntity);
 
@@ -104,7 +104,7 @@ public class AnnouncementsEntryUADEntityExporterTest
 
 		FileEntry fileEntry = _getFileEntry(
 			announcementsEntryExported.getCompanyId(),
-			Long.toString(announcementsEntryExported.getEntryId()));
+			String.valueOf(announcementsEntryExported.getEntryId()));
 
 		_verifyFileEntry(fileEntry, announcementsEntryExported);
 
@@ -113,7 +113,7 @@ public class AnnouncementsEntryUADEntityExporterTest
 
 		_getFileEntry(
 			announcementsEntry.getCompanyId(),
-			Long.toString(announcementsEntry.getEntryId()));
+			String.valueOf(announcementsEntry.getEntryId()));
 	}
 
 	@Test
@@ -134,20 +134,18 @@ public class AnnouncementsEntryUADEntityExporterTest
 			repository.getRepositoryId(),
 			DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, "UADExport");
 
-		String fileName = uadEntityId + StringPool.PERIOD + "json";
-
 		return PortletFileRepositoryUtil.getPortletFileEntry(
-			guestGroup.getGroupId(), folder.getFolderId(), fileName);
+			guestGroup.getGroupId(), folder.getFolderId(),
+			uadEntityId + ".json");
 	}
 
 	private void _verifyFileEntry(
 			FileEntry fileEntry, AnnouncementsEntry announcementsEntry)
 		throws Exception {
 
-		StringWriter stringWriter = new StringWriter();
-
 		InputStream is = _dlFileEntryLocalService.getFileAsStream(
 			fileEntry.getFileEntryId(), fileEntry.getVersion());
+		StringWriter stringWriter = new StringWriter();
 
 		IOUtils.copy(is, stringWriter, StringPool.UTF8);
 

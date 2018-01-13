@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -12,6 +11,23 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
---%>
 
-<%@ include file="/common/websites.jsp" %>
+package com.liferay.portal.configuration.settings.internal.samples;
+
+import com.liferay.portal.kernel.settings.definition.ConfigurationBeanDeclaration;
+
+import org.osgi.service.component.annotations.Component;
+
+/**
+ * @author Drew Brokke
+ */
+@Component
+public class TestConfigurationBeanDeclaration
+	implements ConfigurationBeanDeclaration {
+
+	@Override
+	public Class<?> getConfigurationBeanClass() {
+		return TestConfiguration.class;
+	}
+
+}

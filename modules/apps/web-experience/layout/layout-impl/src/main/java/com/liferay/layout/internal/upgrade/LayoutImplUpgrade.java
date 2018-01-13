@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -12,6 +11,25 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
---%>
 
-<%@ include file="/common/phone_numbers.jsp" %>
+package com.liferay.layout.internal.upgrade;
+
+import com.liferay.layout.internal.upgrade.v1_0_0.UpgradeLayoutPermissions;
+import com.liferay.portal.upgrade.registry.UpgradeStepRegistrator;
+
+import org.osgi.service.component.annotations.Component;
+
+/**
+ * @author Michael Bowerman
+ */
+@Component(immediate = true, service = UpgradeStepRegistrator.class)
+public class LayoutImplUpgrade implements UpgradeStepRegistrator {
+
+	@Override
+	public void register(Registry registry) {
+		registry.register(
+			"com.liferay.layout.impl", "0.0.0", "1.0.0",
+			new UpgradeLayoutPermissions());
+	}
+
+}

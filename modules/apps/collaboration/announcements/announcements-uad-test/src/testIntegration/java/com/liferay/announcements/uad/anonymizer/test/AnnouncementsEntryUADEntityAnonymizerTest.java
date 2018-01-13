@@ -71,7 +71,7 @@ public class AnnouncementsEntryUADEntityAnonymizerTest
 		long entryId = announcementsEntry.getEntryId();
 
 		UADEntity uadEntity = _uadEntityAggregator.getUADEntity(
-			Long.toString(entryId));
+			String.valueOf(entryId));
 
 		_uadEntityAnonymizer.autoAnonymize(uadEntity);
 
@@ -110,7 +110,7 @@ public class AnnouncementsEntryUADEntityAnonymizerTest
 		long entryId = announcementsEntry.getEntryId();
 
 		UADEntity uadEntity = _uadEntityAggregator.getUADEntity(
-			Long.toString(entryId));
+			String.valueOf(entryId));
 
 		_uadEntityAnonymizer.delete(uadEntity);
 
