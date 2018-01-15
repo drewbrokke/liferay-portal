@@ -55,6 +55,8 @@ public class AnnouncementsEntryUADEntityAggregator
 				_createAnnouncementsEntryUADEntity(announcementsEntry));
 		}
 
+		uadEntities.add(new AnnouncementsEntryUADEntity(555, "temp", null));
+
 		return uadEntities;
 	}
 

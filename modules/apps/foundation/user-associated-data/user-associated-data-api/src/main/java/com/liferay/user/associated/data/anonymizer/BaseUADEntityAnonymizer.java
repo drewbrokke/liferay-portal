@@ -38,6 +38,9 @@ public abstract class BaseUADEntityAnonymizer implements UADEntityAnonymizer {
 		}
 	}
 
+	@Override
+	public abstract List<String> getEntityNonAnonymizableFields();
+
 	protected abstract List<UADEntity> getUADEntities(long userId);
 
 }

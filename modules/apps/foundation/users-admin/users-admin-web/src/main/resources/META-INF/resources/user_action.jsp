@@ -45,6 +45,19 @@ long userId = user2.getUserId();
 		/>
 	</c:if>
 
+	<c:if test="<%= hasUpdatePermission %>">
+		<portlet:renderURL var="manageUserAssociatedDataURL">
+			<portlet:param name="mvcRenderCommandName" value="/users_admin/manage_user_associated_data" />
+			<portlet:param name="redirect" value="<%= redirect %>" />
+			<portlet:param name="selUserId" value="<%= String.valueOf(userId) %>" />
+		</portlet:renderURL>
+
+		<liferay-ui:icon
+			message="manage-user-associated-data"
+			url="<%= manageUserAssociatedDataURL %>"
+		/>
+	</c:if>
+
 	<c:if test="<%= UserPermissionUtil.contains(permissionChecker, userId, ActionKeys.PERMISSIONS) %>">
 		<liferay-security:permissionsURL
 			modelResource="<%= User.class.getName() %>"
