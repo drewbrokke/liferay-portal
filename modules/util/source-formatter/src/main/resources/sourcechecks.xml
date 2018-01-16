@@ -39,7 +39,6 @@
 			<property name="allowedExportPackageDirName" value="modules/apps/collaboration/blogs/blogs-recent-bloggers-web" />
 			<property name="allowedExportPackageDirName" value="modules/apps/collaboration/blogs/blogs-service" />
 			<property name="allowedExportPackageDirName" value="modules/apps/collaboration/bookmarks/bookmarks-service" />
-			<property name="allowedExportPackageDirName" value="modules/apps/collaboration/document-library/document-library-web" />
 			<property name="allowedExportPackageDirName" value="modules/apps/collaboration/message-boards/message-boards-web" />
 			<property name="allowedExportPackageDirName" value="modules/apps/collaboration/microblogs/microblogs-service" />
 			<property name="allowedExportPackageDirName" value="modules/apps/collaboration/wiki/wiki-service" />
@@ -81,7 +80,6 @@
 			<property name="allowedExportPackageDirName" value="modules/apps/foundation/portal-security-sso/portal-security-sso-token" />
 			<property name="allowedExportPackageDirName" value="modules/apps/foundation/portal-settings/portal-settings-web" />
 			<property name="allowedExportPackageDirName" value="modules/apps/foundation/portal-template/portal-template-soy" />
-			<property name="allowedExportPackageDirName" value="modules/apps/foundation/users-admin/users-admin-web" />
 			<property name="allowedExportPackageDirName" value="modules/apps/knowledge-base/knowledge-base-markdown-converter" />
 			<property name="allowedExportPackageDirName" value="modules/apps/knowledge-base/knowledge-base-service" />
 			<property name="allowedExportPackageDirName" value="modules/apps/mail-reader/mail-reader-service" />
@@ -101,7 +99,6 @@
 			<property name="allowedExportPackageDirName" value="modules/apps/web-experience/portlet-display-template/portlet-display-template" />
 			<property name="allowedExportPackageDirName" value="modules/apps/web-experience/product-navigation/product-navigation-product-menu-web" />
 			<property name="allowedExportPackageDirName" value="modules/apps/web-experience/rss/rss-util" />
-			<property name="allowedExportPackageDirName" value="modules/apps/web-experience/rss/rss-web" />
 			<property name="allowedExportPackageDirName" value="modules/apps/web-experience/staging/staging-portlet-data-handler" />
 		</check>
 		<check name="BNDIncludeResourceCheck" />
