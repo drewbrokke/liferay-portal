@@ -18,10 +18,17 @@ import com.liferay.announcements.kernel.model.AnnouncementsFlag;
 import com.liferay.announcements.uad.constants.AnnouncementsUADConstants;
 import com.liferay.user.associated.data.entity.BaseUADEntity;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Noah Sherrill
  */
 public class AnnouncementsFlagUADEntity extends BaseUADEntity {
+
+	public static List<String> getUserIdFieldNames() {
+		return Arrays.asList("userId");
+	}
 
 	public AnnouncementsFlagUADEntity(
 		long userId, String uadEntityId, AnnouncementsFlag announcementsFlag) {
