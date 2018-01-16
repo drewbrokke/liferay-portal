@@ -18,6 +18,7 @@ import com.liferay.announcements.kernel.model.AnnouncementsEntry;
 import com.liferay.announcements.kernel.service.AnnouncementsEntryLocalService;
 import com.liferay.announcements.uad.constants.AnnouncementsUADConstants;
 import com.liferay.announcements.uad.entity.AnnouncementsEntryUADEntity;
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
@@ -27,6 +28,7 @@ import com.liferay.user.associated.data.anonymizer.UADEntityAnonymizer;
 import com.liferay.user.associated.data.entity.UADEntity;
 import com.liferay.user.associated.data.exception.UADEntityException;
 import com.liferay.user.associated.data.util.UADAnonymizerHelper;
+import com.liferay.user.associated.data.util.UADDynamicQueryHelper;
 
 import java.util.List;
 
@@ -46,16 +48,28 @@ public class AnnouncementsEntryUADEntityAnonymizer
 
 	@Override
 	public void autoAnonymize(UADEntity uadEntity) throws PortalException {
-		AnnouncementsEntry announcementsEntry = _getAnnouncementsEntry(
-			uadEntity);
+		_autoAnonymize(_getAnnouncementsEntry(uadEntity));
+	}
 
-		User anonymousUser = _uadAnonymizerHelper.getAnonymousUser();
+	@Override
+	public void autoAnonymizeAll(long userId) throws PortalException {
+		ActionableDynamicQuery actionableDynamicQuery =
+			_getActionableDynamicQuery(userId);
 
-		announcementsEntry.setUserId(anonymousUser.getUserId());
-		announcementsEntry.setUserName(anonymousUser.getFullName());
+		actionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.
+				PerformActionMethod<AnnouncementsEntry>() {
 
-		_announcementsEntryLocalService.updateAnnouncementsEntry(
-			announcementsEntry);
+				@Override
+				public void performAction(AnnouncementsEntry announcementsEntry)
+					throws PortalException {
+
+					_autoAnonymize(announcementsEntry);
+				}
+
+			});
+
+		actionableDynamicQuery.performActions();
 	}
 
 	@Override
@@ -67,8 +81,48 @@ public class AnnouncementsEntryUADEntityAnonymizer
 	}
 
 	@Override
+	public void deleteAll(long userId) throws PortalException {
+		ActionableDynamicQuery actionableDynamicQuery =
+			_getActionableDynamicQuery(userId);
+
+		actionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.
+				PerformActionMethod<AnnouncementsEntry>() {
+
+				@Override
+				public void performAction(AnnouncementsEntry announcementsEntry)
+					throws PortalException {
+
+					_announcementsEntryLocalService.deleteEntry(
+						announcementsEntry);
+				}
+
+			});
+
+		actionableDynamicQuery.performActions();
+	}
+
+	@Override
 	protected List<UADEntity> getUADEntities(long userId) {
 		return _uadEntityAggregator.getUADEntities(userId);
+	}
+
+	private void _autoAnonymize(AnnouncementsEntry announcementsEntry)
+		throws PortalException {
+
+		User anonymousUser = _uadAnonymizerHelper.getAnonymousUser();
+
+		announcementsEntry.setUserId(anonymousUser.getUserId());
+		announcementsEntry.setUserName(anonymousUser.getFullName());
+
+		_announcementsEntryLocalService.updateAnnouncementsEntry(
+			announcementsEntry);
+	}
+
+	private ActionableDynamicQuery _getActionableDynamicQuery(long userId) {
+		return _uadDynamicQueryHelper.getActionableDynamicQuery(
+			_announcementsEntryLocalService::getActionableDynamicQuery,
+			AnnouncementsEntryUADEntity.getUserIdFieldNames(), userId);
 	}
 
 	private AnnouncementsEntry _getAnnouncementsEntry(UADEntity uadEntity)
@@ -93,6 +147,9 @@ public class AnnouncementsEntryUADEntityAnonymizer
 
 	@Reference
 	private UADAnonymizerHelper _uadAnonymizerHelper;
+
+	@Reference
+	private UADDynamicQueryHelper _uadDynamicQueryHelper;
 
 	@Reference(
 		target = "(model.class.name=" + AnnouncementsUADConstants.ANNOUNCEMENTS_ENTRY + ")"
