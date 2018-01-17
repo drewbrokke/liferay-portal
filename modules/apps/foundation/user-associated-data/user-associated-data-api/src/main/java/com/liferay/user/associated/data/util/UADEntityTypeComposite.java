@@ -29,16 +29,17 @@ public class UADEntityTypeComposite {
 
 	public UADEntityTypeComposite(
 		long userId, String key, UADEntityDisplay uadEntityDisplay,
-		List<UADEntity> uadEntities) {
+		List<UADEntity> uadEntities, long count) {
 
 		_userId = userId;
 		_key = key;
 		_uadEntityDisplay = uadEntityDisplay;
 		_uadEntities = uadEntities;
+		_count = count;
 	}
 
-	public int getCount() {
-		return _uadEntities.size();
+	public long getCount() {
+		return _count;
 	}
 
 	public String getEditURL(
@@ -94,6 +95,7 @@ public class UADEntityTypeComposite {
 		return _userId;
 	}
 
+	private final long _count;
 	private final String _key;
 	private final List<UADEntity> _uadEntities;
 	private final UADEntityDisplay _uadEntityDisplay;

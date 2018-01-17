@@ -59,9 +59,11 @@ public class UADRegistryImpl implements UADRegistry {
 
 			UADEntityDisplay uadEntityDisplay = getUADEntityDisplay(key);
 
+			long count = uadAggregator.count(userId);
+
 			UADEntityTypeComposite uadEntityTypeComposite =
 				new UADEntityTypeComposite(
-					userId, key, uadEntityDisplay, uadEntities);
+					userId, key, uadEntityDisplay, uadEntities, count);
 
 			List<UADEntityTypeComposite> uadEntityTypeComposites =
 				uadEntityTypeCompositesMap.getOrDefault(
@@ -162,8 +164,10 @@ public class UADRegistryImpl implements UADRegistry {
 
 		UADEntityDisplay uadEntityDisplay = getUADEntityDisplay(key);
 
+		long count = uadAggregator.count(userId);
+
 		return new UADEntityTypeComposite(
-			userId, key, uadEntityDisplay, uadEntities);
+			userId, key, uadEntityDisplay, uadEntities, count);
 	}
 
 	@Override
@@ -182,9 +186,11 @@ public class UADRegistryImpl implements UADRegistry {
 
 				UADEntityDisplay uadEntityDisplay = getUADEntityDisplay(key);
 
+				long count = uadAggregator.count(userId);
+
 				UADEntityTypeComposite uadEntityTypeComposite =
 					new UADEntityTypeComposite(
-						userId, key, uadEntityDisplay, uadEntities);
+						userId, key, uadEntityDisplay, uadEntities, count);
 
 				uadEntityTypeComposites.add(uadEntityTypeComposite);
 			}

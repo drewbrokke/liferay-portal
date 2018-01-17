@@ -19,6 +19,7 @@
 <liferay-ui:search-container
 	emptyResultsMessage="no-entities-remain-of-this-type"
 	id="UADEntities"
+	total="${entityTypeComposite.getCount()}"
 >
 	<liferay-ui:search-container-results
 		results="${entityTypeComposite.getUADEntities()}"
