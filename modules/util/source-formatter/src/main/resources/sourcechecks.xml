@@ -61,7 +61,6 @@
 			<property name="allowedExportPackageDirName" value="modules/apps/foundation/portal/portal-instance-lifecycle" />
 			<property name="allowedExportPackageDirName" value="modules/apps/foundation/portal/portal-spring-extender" />
 			<property name="allowedExportPackageDirName" value="modules/apps/foundation/portal/portal-upgrade" />
-			<property name="allowedExportPackageDirName" value="modules/apps/foundation/portal/portal-upload" />
 			<property name="allowedExportPackageDirName" value="modules/apps/foundation/portal-cache/portal-cache" />
 			<property name="allowedExportPackageDirName" value="modules/apps/foundation/portal-cache/portal-cache-ehcache" />
 			<property name="allowedExportPackageDirName" value="modules/apps/foundation/portal-cache/portal-cache-ehcache-provider" />
@@ -97,7 +96,6 @@
 			<property name="allowedExportPackageDirName" value="modules/apps/web-experience/portlet-display-template/portlet-display-template" />
 			<property name="allowedExportPackageDirName" value="modules/apps/web-experience/product-navigation/product-navigation-product-menu-web" />
 			<property name="allowedExportPackageDirName" value="modules/apps/web-experience/rss/rss-util" />
-			<property name="allowedExportPackageDirName" value="modules/apps/web-experience/staging/staging-portlet-data-handler" />
 		</check>
 		<check name="BNDIncludeResourceCheck" />
 		<check name="BNDWebContextPathCheck" />

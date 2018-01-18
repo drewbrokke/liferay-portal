@@ -21,8 +21,7 @@ import com.liferay.portal.configuration.settings.internal.constants.SettingsLoca
 import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.settings.CompanyServiceSettingsLocator;
-import com.liferay.portal.kernel.settings.Settings;
-import com.liferay.portal.kernel.settings.SettingsLocator;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
@@ -31,8 +30,11 @@ import com.liferay.portal.kernel.util.PortletKeys;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -43,12 +45,17 @@ import org.junit.runner.RunWith;
 public class CompanyServiceSettingsLocatorTest
 	extends BaseSettingsLocatorTestCase {
 
+	@ClassRule
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new LiferayIntegrationTestRule();
+
 	@Before
 	public void setUp() throws Exception {
 		_companyId = TestPropsValues.getCompanyId();
 		_portletId = RandomTestUtil.randomString();
 
-		_settingsLocator = new CompanyServiceSettingsLocator(
+		settingsLocator = new CompanyServiceSettingsLocator(
 			_companyId, _portletId,
 			SettingsLocatorTestConstants.TEST_CONFIGURATION_PID);
 	}
@@ -75,7 +82,7 @@ public class CompanyServiceSettingsLocatorTest
 				_companyId, _companyId, PortletKeys.PREFS_OWNER_TYPE_COMPANY, 0,
 				_portletId, null,
 				String.format(
-					_portletPreferenceFormat,
+					SettingsLocatorTestConstants.PORTLET_PREFERENCES_FORMAT,
 					SettingsLocatorTestConstants.TEST_KEY,
 					companyPortletPreferencesValue)));
 
@@ -83,27 +90,11 @@ public class CompanyServiceSettingsLocatorTest
 			companyPortletPreferencesValue, getValueFromSettings());
 	}
 
-	protected String getValueFromSettings() throws Exception {
-		if (_settingsLocator == null) {
-			return null;
-		}
-
-		Settings settings = _settingsLocator.getSettings();
-
-		return settings.getValue(SettingsLocatorTestConstants.TEST_KEY, null);
-	}
-
-	private static final String _portletPreferenceFormat =
-		"<portlet-preferences><preference><name>%s</name><value>%s</value>" +
-			"</preference></portlet-preferences>";
-
 	private long _companyId;
 	private String _portletId;
 
 	@DeleteAfterTestRun
 	private final List<PortletPreferences> _portletPreferencesList =
 		new ArrayList<>();
-
-	private SettingsLocator _settingsLocator;
 
 }
