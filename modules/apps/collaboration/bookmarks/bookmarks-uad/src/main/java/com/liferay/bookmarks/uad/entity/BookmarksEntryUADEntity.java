@@ -18,10 +18,17 @@ import com.liferay.bookmarks.model.BookmarksEntry;
 import com.liferay.bookmarks.uad.constants.BookmarksUADConstants;
 import com.liferay.user.associated.data.entity.BaseUADEntity;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Noah Sherrill
  */
 public class BookmarksEntryUADEntity extends BaseUADEntity {
+
+	public static List<String> getUserIdFieldNames() {
+		return Arrays.asList("userId", "statusByUserId");
+	}
 
 	public BookmarksEntryUADEntity(
 		long userId, String uadEntityId, BookmarksEntry bookmarksEntry) {
