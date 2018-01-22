@@ -26,16 +26,17 @@ public class UADEntityTypeComposite {
 
 	public UADEntityTypeComposite(
 		long userId, String key, UADEntityDisplay uadEntityDisplay,
-		List<UADEntity> uadEntities) {
+		List<UADEntity> uadEntities, int count) {
 
 		_userId = userId;
 		_key = key;
 		_uadEntityDisplay = uadEntityDisplay;
 		_uadEntities = uadEntities;
+		_count = count;
 	}
 
 	public int getCount() {
-		return _uadEntities.size();
+		return _count;
 	}
 
 	public String getKey() {
@@ -54,6 +55,7 @@ public class UADEntityTypeComposite {
 		return _userId;
 	}
 
+	private final int _count;
 	private final String _key;
 	private final List<UADEntity> _uadEntities;
 	private final UADEntityDisplay _uadEntityDisplay;
