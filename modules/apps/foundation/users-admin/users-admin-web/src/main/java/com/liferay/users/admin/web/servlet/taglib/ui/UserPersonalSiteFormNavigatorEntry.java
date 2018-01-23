@@ -21,19 +21,14 @@ import com.liferay.portal.kernel.portlet.PortletProviderUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorConstants;
-import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorEntry;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
-import org.osgi.service.component.annotations.Component;
-
 /**
  * @author Pei-Jung Lan
+ * @deprecated As of 2.1.0, with no direct replacement
  */
-@Component(
-	property = {"form.navigator.entry.order:Integer=20"},
-	service = FormNavigatorEntry.class
-)
+@Deprecated
 public class UserPersonalSiteFormNavigatorEntry
 	extends BaseUserFormNavigatorEntry {
 

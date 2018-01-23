@@ -21,6 +21,12 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
+			<description></description>
+			<name>inline</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
 			<name>maxItems</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -39,6 +45,12 @@
 		<attribute>
 			<description>Miscellaneous data to be stored via a map. The map holds key value pairs of type <![CDATA[<code>&lt;String, Object&gt;</code>]]>. For example, a <![CDATA[<code>HashMap</code>]]> entry <![CDATA[<code>&lt;"class-name", foo&gt;</code>]]> renders as an HTML attribute <![CDATA[<code>data-class-name = foo;</code>]]>. Note that the prefix <![CDATA[<code>data-</code>]]> is added to the key's name automatically.</description>
 			<name>anchorData</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>A CSS class for styling the menu item main container.</description>
+			<name>cssClass</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

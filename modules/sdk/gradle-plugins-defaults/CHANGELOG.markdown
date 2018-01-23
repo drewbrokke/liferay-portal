@@ -1369,7 +1369,7 @@ fix for all tasks of type `FindBugs` related to source sets.
 ## 3.6.0 - 2017-04-14
 
 ### Added
-- [LPS-71901]: Add task `updateFileSnapshotVersions` to update the project
+- [LPS-71901]: Add the task `updateFileSnapshotVersions` to update the project
 version in external files to the latest snapshot.
 
 ### Changed
@@ -2652,7 +2652,7 @@ sub-repositories.
 ### Added
 - [LRDOCS-4111]: Apply and preconfigure [Liferay Gradle Plugins JSDoc] for OSGi
 projects.
-- [LRDOCS-4111]: Publish the Javascript API documentation JAR of an OSGi project
+- [LRDOCS-4111]: Publish the JavaScript API documentation JAR of an OSGi project
 with the `install` and `uploadArchives` tasks.
 
 ### Changed
@@ -2740,6 +2740,11 @@ when applied.
 - [LPS-76644]: Update the [Liferay Gradle Plugins JSDoc] dependency to version
 1.0.2.
 - [LPS-77250]: Update the [Liferay Gradle Plugins] dependency to version 3.5.91.
+
+## 5.2.47 - 2018-01-22
+
+### Changed
+- [LPS-77305]: Update the [Liferay Gradle Plugins] dependency to version 3.5.92.
 
 [Find Security Bugs]: https://github.com/liferay/liferay-portal/tree/master/modules/third-party/com-h3xstream-findsecbugs
 [Gradle License Report]: https://github.com/jk1/Gradle-License-Report
@@ -3048,6 +3053,7 @@ when applied.
 [LPS-76957]: https://issues.liferay.com/browse/LPS-76957
 [LPS-77111]: https://issues.liferay.com/browse/LPS-77111
 [LPS-77250]: https://issues.liferay.com/browse/LPS-77250
+[LPS-77305]: https://issues.liferay.com/browse/LPS-77305
 [LRDOCS-2594]: https://issues.liferay.com/browse/LRDOCS-2594
 [LRDOCS-2841]: https://issues.liferay.com/browse/LRDOCS-2841
 [LRDOCS-2981]: https://issues.liferay.com/browse/LRDOCS-2981

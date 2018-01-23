@@ -37,9 +37,16 @@ public class UserFormConstants {
 
 	public static final String ENTRY_KEY_INFORMATION = "information";
 
+	public static final String ENTRY_KEY_MEMBERSHIPS = "memberships";
+
 	public static final String ENTRY_KEY_ORGANIZATIONS = "organizations";
 
 	public static final String ENTRY_KEY_PASSWORD = "password";
+
+	public static final String ENTRY_KEY_PROFILE_AND_PRIVATE_AREA =
+		"profile-and-private-area";
+
+	public static final String ENTRY_KEY_ROLES = "roles";
 
 	public static final String SCREEN_NAVIGATION_KEY_USERS = "edit.user.form";
 

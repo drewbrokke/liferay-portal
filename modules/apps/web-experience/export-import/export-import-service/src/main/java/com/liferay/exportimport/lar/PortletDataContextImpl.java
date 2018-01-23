@@ -25,6 +25,7 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.model.ExpandoColumn;
 import com.liferay.expando.kernel.service.ExpandoColumnLocalServiceUtil;
 import com.liferay.exportimport.internal.util.ExportImportPermissionUtil;
+import com.liferay.exportimport.internal.xstream.converter.TimestampConverter;
 import com.liferay.exportimport.kernel.lar.ExportImportClassedModelUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
@@ -42,6 +43,7 @@ import com.liferay.exportimport.kernel.xstream.XStreamType;
 import com.liferay.exportimport.xstream.ConverterAdapter;
 import com.liferay.exportimport.xstream.XStreamStagedModelTypeHierarchyPermission;
 import com.liferay.message.boards.kernel.model.MBMessage;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.bean.BeanPropertiesUtil;
 import com.liferay.portal.kernel.dao.orm.Conjunction;
 import com.liferay.portal.kernel.dao.orm.Criterion;
@@ -89,7 +91,6 @@ import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -2720,6 +2721,24 @@ public class PortletDataContextImpl implements PortletDataContext {
 		_xStream.omitField(HashMap.class, "cache_bitmask");
 
 		_xStreamConfigurators = xStreamConfigurators;
+
+		try {
+			Class<?> timestampClass = classLoader.loadClass(
+				"com.sybase.jdbc4.tds.SybTimestamp");
+
+			_xStream.alias("sql-timestamp", timestampClass);
+		}
+		catch (ClassNotFoundException cnfe) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Unable to load class com.sybase.jdbc4.tds.SybTimestamp " +
+						"because the Sybase driver is not available");
+			}
+		}
+
+		_xStream.registerConverter(
+			new ConverterAdapter(new TimestampConverter()),
+			XStream.PRIORITY_VERY_HIGH);
 
 		if (xStreamConfigurators.isEmpty()) {
 			return;
