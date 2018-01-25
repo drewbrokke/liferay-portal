@@ -29,8 +29,19 @@ import com.liferay.portal.kernel.settings.SettingsFactory;
 import com.liferay.portal.kernel.settings.SettingsLocator;
 import com.liferay.portal.kernel.settings.SystemSettingsLocator;
 import com.liferay.portal.kernel.settings.TypedSettings;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.io.IOException;
+
+import java.util.Dictionary;
+
+import org.osgi.framework.Constants;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.service.cm.Configuration;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -40,6 +51,55 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(immediate = true, service = ConfigurationProvider.class)
 public class ConfigurationProviderImpl implements ConfigurationProvider {
+
+	@Override
+	public <T> void deleteCompanyConfiguration(Class<T> clazz, long companyId)
+		throws ConfigurationException {
+
+		String configurationPid = _getConfigurationPid(clazz);
+
+		String scopedPid = _getConfigurationScopedPid(
+			configurationPid, ExtendedObjectClassDefinition.Scope.COMPANY,
+			String.valueOf(companyId));
+
+		_deleteConfiguration(scopedPid);
+	}
+
+	@Override
+	public <T> void deleteGroupConfiguration(Class<T> clazz, long groupId)
+		throws ConfigurationException {
+
+		String configurationPid = _getConfigurationPid(clazz);
+
+		String scopedPid = _getConfigurationScopedPid(
+			configurationPid, ExtendedObjectClassDefinition.Scope.GROUP,
+			String.valueOf(groupId));
+
+		_deleteConfiguration(scopedPid);
+	}
+
+	@Override
+	public <T> void deletePortletInstanceConfiguration(
+			Class<T> clazz, String portletId)
+		throws ConfigurationException {
+
+		String configurationPid = _getConfigurationPid(clazz);
+
+		String scopedPid = _getConfigurationScopedPid(
+			configurationPid,
+			ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE, portletId);
+
+		_deleteConfiguration(scopedPid);
+	}
+
+	@Override
+	public <T> void deleteSystemConfiguration(Class<T> clazz)
+		throws ConfigurationException {
+
+		String configurationPid = _getConfigurationPid(clazz);
+
+		_deleteConfiguration(configurationPid);
+	}
 
 	@Override
 	public <T> T getCompanyConfiguration(Class<T> clazz, long companyId)
@@ -129,6 +189,85 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 			clazz, new SystemSettingsLocator(configurationPid));
 	}
 
+	@Override
+	public <T> void saveCompanyConfiguration(
+			Class<T> clazz, long companyId,
+			Dictionary<String, Object> properties)
+		throws ConfigurationException {
+
+		String configurationPid = _getConfigurationPid(clazz);
+
+		String scopedPid = _getConfigurationScopedPid(
+			configurationPid, ExtendedObjectClassDefinition.Scope.COMPANY,
+			String.valueOf(companyId));
+
+		_saveConfiguration(scopedPid, properties);
+	}
+
+	@Override
+	public <T> void saveGroupConfiguration(
+			Class<T> clazz, long groupId, Dictionary<String, Object> properties)
+		throws ConfigurationException {
+
+		String configurationPid = _getConfigurationPid(clazz);
+
+		String scopedPid = _getConfigurationScopedPid(
+			configurationPid, ExtendedObjectClassDefinition.Scope.GROUP,
+			String.valueOf(groupId));
+
+		_saveConfiguration(scopedPid, properties);
+	}
+
+	@Override
+	public <T> void savePortletInstanceConfiguration(
+			Class<T> clazz, String portletId,
+			Dictionary<String, Object> properties)
+		throws ConfigurationException {
+
+		String configurationPid = _getConfigurationPid(clazz);
+
+		String scopedPid = _getConfigurationScopedPid(
+			configurationPid,
+			ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE, portletId);
+
+		_saveConfiguration(scopedPid, properties);
+	}
+
+	@Override
+	public <T> void saveSystemConfiguration(
+			Class<T> clazz, Dictionary<String, Object> properties)
+		throws ConfigurationException {
+
+		String configurationPid = _getConfigurationPid(clazz);
+
+		_saveConfiguration(configurationPid, properties);
+	}
+
+	private void _deleteConfiguration(String pid)
+		throws ConfigurationException {
+
+		try {
+			StringBundler pidFilter = new StringBundler(5);
+
+			pidFilter.append(StringPool.OPEN_PARENTHESIS);
+			pidFilter.append(Constants.SERVICE_PID);
+			pidFilter.append(StringPool.EQUAL);
+			pidFilter.append(pid);
+			pidFilter.append(StringPool.CLOSE_PARENTHESIS);
+
+			Configuration[] configurations =
+				_configurationAdmin.listConfigurations(pidFilter.toString());
+
+			if (configurations != null) {
+				configurations[0].delete();
+			}
+		}
+		catch (InvalidSyntaxException | IOException e) {
+			throw new ConfigurationException(
+				"Unable to delete configuration " + pid, e);
+		}
+	}
+
 	private String _getConfigurationPid(Class<?> clazz) {
 		Meta.OCD ocd = clazz.getAnnotation(Meta.OCD.class);
 
@@ -137,6 +276,23 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 		}
 
 		return ocd.id();
+	}
+
+	private String _getConfigurationScopedPid(
+		String configurationPid, ExtendedObjectClassDefinition.Scope scope,
+		String scopePrimKey) {
+
+		StringBundler sb = new StringBundler(7);
+
+		sb.append(configurationPid);
+		sb.append(StringPool.UNDERLINE);
+		sb.append(StringPool.UNDERLINE);
+		sb.append(StringUtil.toUpperCase(scope.name()));
+		sb.append(StringPool.UNDERLINE);
+		sb.append(StringPool.UNDERLINE);
+		sb.append(scopePrimKey);
+
+		return sb.toString();
 	}
 
 	private <T> String _getSettingsId(Class<T> clazz) {
@@ -155,6 +311,25 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 
 		return settingsId;
 	}
+
+	private void _saveConfiguration(
+			String pid, Dictionary<String, Object> properties)
+		throws ConfigurationException {
+
+		try {
+			Configuration configuration = _configurationAdmin.getConfiguration(
+				pid, StringPool.QUESTION);
+
+			configuration.update(properties);
+		}
+		catch (IOException ioe) {
+			throw new ConfigurationException(
+				"Unable to save configuration " + pid, ioe);
+		}
+	}
+
+	@Reference
+	private ConfigurationAdmin _configurationAdmin;
 
 	@Reference
 	private SettingsFactory _settingsFactory;
