@@ -123,8 +123,8 @@ public class UADRegistryImpl implements UADRegistry {
 
 			UADEntityTypeComposite uadEntityTypeComposite =
 				new UADEntityTypeComposite(
-					userId, key, getUADEntityDisplay(key),
-					uadAggregator.getUADEntities(userId));
+					userId, key, getUADEntityDisplay(key), null,
+					uadAggregator.count(userId));
 
 			uadEntityTypeComposites.add(uadEntityTypeComposite);
 
@@ -153,14 +153,16 @@ public class UADRegistryImpl implements UADRegistry {
 
 	@Override
 	public UADEntityTypeComposite getUADEntityTypeComposite(
-		long userId, String key) {
+		long userId, String key, int start, int end) {
 
 		UADEntityAggregator uadAggregator = getUADEntityAggregator(key);
 
-		List<UADEntity> uadEntities = uadAggregator.getUADEntities(userId);
+		List<UADEntity> uadEntities = uadAggregator.getUADEntities(
+			userId, start, end);
 
 		return new UADEntityTypeComposite(
-			userId, key, getUADEntityDisplay(key), uadEntities);
+			userId, key, getUADEntityDisplay(key), uadEntities,
+			uadAggregator.count(userId));
 	}
 
 	@Override
@@ -176,8 +178,8 @@ public class UADRegistryImpl implements UADRegistry {
 			if (uadEntitySetName.equals(uadAggregator.getUADEntitySetName())) {
 				UADEntityTypeComposite uadEntityTypeComposite =
 					new UADEntityTypeComposite(
-						userId, key, getUADEntityDisplay(key),
-						uadAggregator.getUADEntities(userId));
+						userId, key, getUADEntityDisplay(key), null,
+						uadAggregator.count(userId));
 
 				uadEntityTypeComposites.add(uadEntityTypeComposite);
 			}

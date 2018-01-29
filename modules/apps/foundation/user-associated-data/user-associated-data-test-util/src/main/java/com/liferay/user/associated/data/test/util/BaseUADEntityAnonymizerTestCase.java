@@ -15,6 +15,7 @@
 package com.liferay.user.associated.data.test.util;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
@@ -76,7 +77,7 @@ public abstract class BaseUADEntityAnonymizerTestCase {
 		BaseModel baseModel = addBaseModel(_user.getUserId());
 
 		List<UADEntity> uadEntities = _uadEntityAggregator.getUADEntities(
-			_user.getUserId());
+			_user.getUserId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		_uadEntityAnonymizer.autoAnonymize(uadEntities.get(0));
 
@@ -121,7 +122,7 @@ public abstract class BaseUADEntityAnonymizerTestCase {
 				TestPropsValues.getUserId(), _user.getUserId());
 
 		List<UADEntity> uadEntities = _uadEntityAggregator.getUADEntities(
-			_user.getUserId());
+			_user.getUserId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		_uadEntityAnonymizer.autoAnonymize(uadEntities.get(0));
 
@@ -135,7 +136,7 @@ public abstract class BaseUADEntityAnonymizerTestCase {
 		BaseModel baseModel = addBaseModel(_user.getUserId());
 
 		List<UADEntity> uadEntities = _uadEntityAggregator.getUADEntities(
-			_user.getUserId());
+			_user.getUserId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		_uadEntityAnonymizer.delete(uadEntities.get(0));
 
