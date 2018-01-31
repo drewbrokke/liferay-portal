@@ -243,14 +243,14 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="User#viewUserMiscellaneousCustomFieldsCP">
+		<execute macro="User#viewUserCustomFieldsCP">
 			<var name="customFieldName" value="Boolean" />
 			<var name="customFieldValue" value="False" />
 		</execute>
 	</command>
 
 	<command name="EditCustomFieldUserBoolean" priority="5">
-		<property name="portal.acceptance" value="quarantine" />
+		<property name="portal.acceptance" value="true" />
 
 		<execute macro="ProductMenu#gotoPortlet">
 			<var name="category" value="Configuration" />
@@ -300,7 +300,7 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="User#viewUserMiscellaneousCustomFieldsCP">
+		<execute macro="User#viewUserCustomFieldsCP">
 			<var name="customFieldName" value="Boolean" />
 			<var name="customFieldValue" value="True" />
 		</execute>
