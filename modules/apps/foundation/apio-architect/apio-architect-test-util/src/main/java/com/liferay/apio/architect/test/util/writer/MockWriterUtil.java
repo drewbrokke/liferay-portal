@@ -131,11 +131,11 @@ public class MockWriterUtil {
 	}
 
 	/**
-	 * Returns a mock {@link SingleModel} for a certain identifier class, and with
-	 * the provided identifier as ID.
+	 * Returns a mock {@link SingleModel} for a certain identifier class, and
+	 * with the provided identifier as ID.
 	 *
-	 * @param identifier the single model identifier
-	 * @param identifierClass the resource identifier class
+	 * @param  identifier the single model identifier
+	 * @param  identifierClass the resource identifier class
 	 * @return a mock {@code SingleModel} for the identifier class
 	 * @review
 	 */

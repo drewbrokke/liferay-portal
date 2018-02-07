@@ -138,6 +138,10 @@ public class JSONLDTestUtil {
 		).where(
 			"localizedString2", is(aJsonString(equalTo("Translated 2")))
 		).where(
+			"nested1", isAJsonObjectWithTheFirstNested()
+		).where(
+			"nested2", isAJsonObjectWithTheSecondNested(id)
+		).where(
 			"number1", is(aJsonInt(equalTo(2017)))
 		).where(
 			"number2", is(aJsonInt(equalTo(42)))
@@ -159,10 +163,6 @@ public class JSONLDTestUtil {
 			"stringList1", isAJsonArrayContaining("a", "b", "c", "d", "e")
 		).where(
 			"stringList2", isAJsonArrayContaining("f", "g", "h", "i", "j")
-		).where(
-			"nestedField1", isAJsonObjectWithTheFirstNested()
-		).where(
-			"nestedField2", isAJsonObjectWithTheSecondNested(id)
 		);
 
 		if (member) {
@@ -394,6 +394,8 @@ public class JSONLDTestUtil {
 		Conditions secondNestedContextConditions = builder.where(
 			"linked3", IS_A_TYPE_ID_JSON_OBJECT
 		).where(
+			"bidirectionalModel3", IS_A_TYPE_ID_JSON_OBJECT
+		).where(
 			"relatedCollection3", IS_A_TYPE_ID_JSON_OBJECT
 		).build();
 
@@ -401,6 +403,9 @@ public class JSONLDTestUtil {
 			"@context", is(aJsonObjectWith(secondNestedContextConditions))
 		).where(
 			"@type", containsTheTypes("Type 4")
+		).where(
+			"bidirectionalModel3",
+			isALinkTo("localhost/p/first-inner-model/" + id)
 		).where(
 			"linked3", isALinkTo("localhost/p/third-inner-model/fifth")
 		).where(
@@ -411,7 +416,7 @@ public class JSONLDTestUtil {
 			"relatedCollection3",
 			isALinkTo("localhost/p/model/" + id + "/models")
 		).where(
-			"string1", is(aJsonString(equalTo("id 2")))
+			"string1", is(aJsonString(equalTo(id)))
 		).build();
 
 		return aJsonObjectWith(secondNestedConditions);
