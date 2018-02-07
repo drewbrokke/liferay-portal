@@ -42,8 +42,8 @@ public class IdentifierClassManagerImpl
 	}
 
 	@Override
-	public <T extends Identifier> Optional<Class<T>>
-		getIdentifierClassOptional(String name) {
+	public <T extends Identifier> Optional<Class<T>> getIdentifierClassOptional(
+		String name) {
 
 		Optional<Class> optional = getServiceOptional(name);
 

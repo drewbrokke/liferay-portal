@@ -28,6 +28,7 @@ import com.liferay.apio.architect.test.util.model.SecondEmbeddedModel;
 import com.liferay.apio.architect.test.util.model.ThirdEmbeddedModel;
 
 import java.util.Date;
+import java.util.function.Function;
 
 /**
  * Provides methods that create {@link Representor} objects for {@link
@@ -153,33 +154,33 @@ public class MockRepresentorCreator {
 				"stringList1", __ -> asList("a", "b", "c", "d", "e")
 			).addStringList(
 				"stringList2", __ -> asList("f", "g", "h", "i", "j")
-			).addNestedField(
-				"nestedField1", __ -> (FirstEmbeddedModel)() -> "id 1",
+			).addNested(
+				"nested1", __ -> (FirstEmbeddedModel)() -> "id 1",
 				nestedBuilder -> nestedBuilder.nestedTypes(
 					"Type 3"
+				).addNumber(
+					"number1", __ -> 2017
 				).addString(
 					"string1", FirstEmbeddedModel::getId
 				).addString(
 					"string2", __ -> "string2"
-				).addNumber(
-					"number1", __ -> 2017
 				).build()
-			).addNestedField(
-				"nestedField2", rootModel -> (SecondEmbeddedModel)() -> "id 2",
+			).addNested(
+				"nested2", rootModel -> (SecondEmbeddedModel)rootModel::getId,
 				nestedBuilder -> nestedBuilder.nestedTypes(
 					"Type 4"
+				).addBidirectionalModel(
+					"bidirectionalModel3", "bidirectionalKey",
+					FirstEmbeddedId.class,
+					(Function<SecondEmbeddedModel, String>)
+						SecondEmbeddedModel::getId
 				).addString(
 					"string1", SecondEmbeddedModel::getId
 				).addNumber(
 					"number1", __ -> 42
 				).addLinkedModel(
 					"linked3", ThirdEmbeddedId.class, __ -> "fifth"
-				).addRelatedCollection(
-					"relatedCollection3", ThirdEmbeddedId.class
-				).addBidirectionalModel(
-					"bidirectionalModel1", "relatedkey", FirstEmbeddedId.class,
-					__ -> null
-				).addNestedField(
+				).addNested(
 					"nested3", __ -> () -> "id 3",
 					(Representor.Builder<ThirdEmbeddedModel, ?>
 						thirdEmbeddedModelBuilder) ->
@@ -188,6 +189,12 @@ public class MockRepresentorCreator {
 						).addString(
 							"string1", ThirdEmbeddedModel::getId
 						).build()
+				).addNumber(
+					"number1", __ -> 42
+				).addRelatedCollection(
+					"relatedCollection3", ThirdEmbeddedId.class
+				).addString(
+					"string1", SecondEmbeddedModel::getId
 				).build()
 			);
 

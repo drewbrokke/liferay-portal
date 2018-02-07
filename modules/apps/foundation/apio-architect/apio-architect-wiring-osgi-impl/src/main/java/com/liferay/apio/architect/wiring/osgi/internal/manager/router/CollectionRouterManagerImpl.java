@@ -54,8 +54,8 @@ public class CollectionRouterManagerImpl
 	}
 
 	@Override
-	public <T> Optional<CollectionRoutes<T>>
-		getCollectionRoutesOptional(String name) {
+	public <T> Optional<CollectionRoutes<T>> getCollectionRoutesOptional(
+		String name) {
 
 		Optional<Class<Identifier>> optional =
 			_identifierClassManager.getIdentifierClassOptional(name);
