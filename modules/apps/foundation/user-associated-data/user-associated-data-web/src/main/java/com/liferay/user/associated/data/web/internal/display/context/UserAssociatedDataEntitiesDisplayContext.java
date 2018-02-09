@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.user.associated.data.web.internal.display;
+package com.liferay.user.associated.data.web.internal.display.context;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
@@ -29,9 +29,9 @@ import javax.portlet.RenderResponse;
 /**
  * @author Drew Brokke
  */
-public class ManageUserAssociatedDataEntitiesDisplay {
+public class UserAssociatedDataEntitiesDisplayContext {
 
-	public ManageUserAssociatedDataEntitiesDisplay(
+	public UserAssociatedDataEntitiesDisplayContext(
 		RenderRequest renderRequest, RenderResponse renderResponse) {
 
 		_renderRequest = renderRequest;
