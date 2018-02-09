@@ -17,20 +17,18 @@
 <%@ include file="/init.jsp" %>
 
 <%
-UADEntityTypeComposite uadEntityTypeComposite = (UADEntityTypeComposite)request.getAttribute(UserAssociatedDataWebKeys.UAD_ENTITY_TYPE_COMPOSITE);
+UserAssociatedDataEntitiesDisplayContext
+	userAssociatedDataEntitiesDisplayContext = new UserAssociatedDataEntitiesDisplayContext(renderRequest, renderResponse);
 
-UADEntityDisplay uadEntityDisplay = uadEntityTypeComposite.getUADEntityDisplay();
+UADEntityDisplay uadEntityDisplay = userAssociatedDataEntitiesDisplayContext.getUADEntityDisplay();
 %>
 
 <div class="container-fluid-1280">
 	<liferay-ui:search-container
 		emptyResultsMessage="no-entities-remain-of-this-type"
 		id="UADEntities"
+		searchContainer="<%= userAssociatedDataEntitiesDisplayContext.getUADEntitySearchContainer() %>"
 	>
-		<liferay-ui:search-container-results
-			results="<%= uadEntityTypeComposite.getUADEntities() %>"
-		/>
-
 		<liferay-ui:search-container-row
 			className="com.liferay.user.associated.data.entity.UADEntity"
 			escapedModel="<%= true %>"

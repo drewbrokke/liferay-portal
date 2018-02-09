@@ -22,9 +22,6 @@ public class UserAssociatedDataWebKeys {
 	public static final String UAD_ENTITY_SET_COMPOSITES =
 		"UAD_ENTITY_SET_COMPOSITES";
 
-	public static final String UAD_ENTITY_TYPE_COMPOSITE =
-		"UAD_ENTITY_TYPE_COMPOSITE";
-
 	public static final String UAD_ENTITY_TYPE_COMPOSITES =
 		"UAD_ENTITY_TYPE_COMPOSITES";
 
