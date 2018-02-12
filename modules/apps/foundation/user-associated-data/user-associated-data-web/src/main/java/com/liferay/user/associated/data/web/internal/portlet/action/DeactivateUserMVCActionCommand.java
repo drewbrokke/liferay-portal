@@ -16,10 +16,11 @@ package com.liferay.user.associated.data.web.internal.portlet.action;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserService;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.user.associated.data.anonymizer.UADEntityAnonymizer;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.user.associated.data.constants.UserAssociatedDataPortletKeys;
-import com.liferay.user.associated.data.web.internal.registry.UADRegistry;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -34,30 +35,29 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + UserAssociatedDataPortletKeys.USER_ASSOCIATED_DATA,
-		"mvc.command.name=/user_associated_data/delete_user_associated_data"
+		"mvc.command.name=/user_associated_data/deactivate_user"
 	},
 	service = MVCActionCommand.class
 )
-public class DeleteUserAssociatedDataMVCActionCommand
-	extends BaseMVCActionCommand {
+public class DeactivateUserMVCActionCommand extends BaseMVCActionCommand {
 
 	@Override
 	protected void doProcessAction(
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		String uadRegistryKey = ParamUtil.getString(
-			actionRequest, "uadRegistryKey");
-
-		UADEntityAnonymizer uadEntityAnonymizer =
-			_uadRegistry.getUADEntityAnonymizer(uadRegistryKey);
-
 		long selUserId = ParamUtil.getLong(actionRequest, "selUserId");
 
-		uadEntityAnonymizer.deleteAll(selUserId);
+		int status = WorkflowConstants.STATUS_INACTIVE;
+
+		_userService.updateStatus(selUserId, status, new ServiceContext());
+
+		String redirect = ParamUtil.getString(actionRequest, "redirect");
+
+		sendRedirect(actionRequest, actionResponse, redirect);
 	}
 
 	@Reference
-	private UADRegistry _uadRegistry;
+	private UserService _userService;
 
 }
