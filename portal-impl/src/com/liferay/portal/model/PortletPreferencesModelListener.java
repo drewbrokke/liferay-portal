@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutRevision;
 import com.liferay.portal.kernel.model.LayoutSetPrototype;
+import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
@@ -31,6 +32,7 @@ import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.servlet.filters.cache.CacheUtil;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author Alexander Chow
@@ -38,6 +40,19 @@ import java.util.Date;
  */
 public class PortletPreferencesModelListener
 	extends BaseModelListener<PortletPreferences> {
+
+	@Override
+	public void onAfterCreate(PortletPreferences portletPreferences) {
+		if ((portletPreferences.getOwnerType() ==
+				PortletKeys.PREFS_OWNER_TYPE_GROUP) &&
+			(portletPreferences.getOwnerId() > 0) &&
+			!Objects.equals(
+				portletPreferences.getPreferences(),
+				PortletConstants.DEFAULT_PREFERENCES)) {
+
+			updateLayout(portletPreferences);
+		}
+	}
 
 	@Override
 	public void onAfterRemove(PortletPreferences portletPreferences) {
