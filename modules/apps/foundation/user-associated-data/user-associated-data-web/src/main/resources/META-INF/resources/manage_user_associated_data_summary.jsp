@@ -192,15 +192,3 @@ int step = (int)request.getAttribute(UserAssociatedDataWebKeys.MANAGE_USER_ASSOC
 		</div>
 	</div>
 </aui:form>
-
-<aui:script>
-	function <portlet:namespace />confirmAction(actionURL, message) {
-		var form = $(document.<portlet:namespace />fm);
-
-		form.attr('method', 'post');
-
-		if (confirm(message)) {
-			submitForm(form, actionURL);
-		}
-	}
-</aui:script>
