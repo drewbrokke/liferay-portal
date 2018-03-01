@@ -23,7 +23,8 @@
 
 	<liferay-ui:icon
 		message="auto-anonymize-all"
-		url="<%= autoAnonymizeURL %>"
+		onClick='<%= renderResponse.getNamespace() + "confirmAction('" + autoAnonymizeURL.toString() + "', '" + UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-anonymize-all-associated-entities") + "')" %>'
+		url="javascript:;"
 	/>
 
 	<portlet:actionURL name="/user_associated_data/delete_user_associated_data" var="deleteURL">
@@ -34,7 +35,8 @@
 
 	<liferay-ui:icon
 		message="delete-all"
-		url="<%= deleteURL %>"
+		onClick='<%= renderResponse.getNamespace() + "confirmAction('" + deleteURL.toString() + "', '" + UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-delete-all-associated-entities") + "')" %>'
+		url="javascript:;"
 	/>
 
 	<portlet:actionURL name="/user_associated_data/export_user_associated_data" var="exportURL">
