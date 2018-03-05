@@ -27,6 +27,7 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.petra.string.StringPool" %><%@
 page import="com.liferay.portal.kernel.dao.search.SearchContainer" %><%@
+page import="com.liferay.portal.kernel.language.LanguageUtil" %><%@
 page import="com.liferay.portal.kernel.model.Group" %><%@
 page import="com.liferay.portal.kernel.model.User" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
@@ -50,3 +51,15 @@ page import="com.liferay.user.associated.data.web.internal.util.UADEntitySetComp
 <%
 long selUserId = ParamUtil.getLong(request, "selUserId");
 %>
+
+<aui:script>
+	function <portlet:namespace />confirmAction(actionURL, message) {
+		var form = document.createElement('form');
+
+		form.setAttribute('method', 'post');
+
+		if (confirm(message)) {
+			submitForm(form, actionURL);
+		}
+	}
+</aui:script>
