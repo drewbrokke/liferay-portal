@@ -1112,7 +1112,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		// Group
 
-		addGroup(user);
+		createUserGroup(user);
 
 		// Groups
 
@@ -3078,7 +3078,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		groupLocalService.deleteGroup(user.getGroup());
 
-		addGroup(user);
+		createUserGroup(user);
 	}
 
 	/**
@@ -5986,7 +5986,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		return searchContext;
 	}
 
-	protected void addGroup(User user) throws PortalException {
+	protected void createUserGroup(User user) throws PortalException {
 		groupLocalService.addGroup(
 			user.getUserId(), GroupConstants.DEFAULT_PARENT_GROUP_ID,
 			User.class.getName(), user.getUserId(),
