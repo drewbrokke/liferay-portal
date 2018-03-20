@@ -61,10 +61,10 @@ public class ForgetPersonalSiteMVCActionCommand
 			throw new RequiredUserException();
 		}
 
-		_groupLocalService.deleteGroup(selUser.getGroup());
+		_groupLocalService.deleteGroup(selUserId);
 
 		_groupLocalService.addGroup(
-			selUser.getUserId(), GroupConstants.DEFAULT_PARENT_GROUP_ID,
+			selUserId, GroupConstants.DEFAULT_PARENT_GROUP_ID,
 			User.class.getName(), selUser.getUserId(),
 			GroupConstants.DEFAULT_LIVE_GROUP_ID, (Map<Locale, String>)null,
 			null, 0, true, GroupConstants.DEFAULT_MEMBERSHIP_RESTRICTION,
