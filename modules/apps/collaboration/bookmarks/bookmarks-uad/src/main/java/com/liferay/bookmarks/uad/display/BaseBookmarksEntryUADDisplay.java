@@ -14,18 +14,36 @@
 
 package com.liferay.bookmarks.uad.display;
 
+import com.liferay.bookmarks.model.BookmarksEntry;
 import com.liferay.bookmarks.uad.constants.BookmarksUADConstants;
-import com.liferay.user.associated.data.display.UADDisplay;
+import com.liferay.user.associated.data.display.BaseModelUADDisplay;
 
-import org.osgi.service.component.annotations.Component;
+import java.util.Locale;
 
 /**
- * @author Noah Sherrill
+ * @author William Newbury
  */
-@Component(
-	immediate = true,
-	property = "model.class.name=" + BookmarksUADConstants.CLASS_NAME_BOOKMARKS_ENTRY,
-	service = UADDisplay.class
-)
-public class BookmarksEntryUADDisplay extends BaseBookmarksEntryUADDisplay {
+public abstract class BaseBookmarksEntryUADDisplay
+	extends BaseModelUADDisplay<BookmarksEntry> {
+
+	public String getApplicationName() {
+		return BookmarksUADConstants.APPLICATION_NAME;
+	}
+
+	public String[] getDisplayFieldNames() {
+		return new String[] {"name", "description", "url"};
+	}
+
+	public String getKey() {
+		return BookmarksUADConstants.CLASS_NAME_BOOKMARKS_ENTRY;
+	}
+
+	public String getTypeDescription() {
+		return "A link to another page or website";
+	}
+
+	public String getTypeName(Locale locale) {
+		return "BookmarksEntry";
+	}
+
 }
