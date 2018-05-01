@@ -14,32 +14,42 @@
 
 package com.liferay.user.associated.data.display;
 
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 
-import java.util.Locale;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 
 /**
- * @author William Newbury
+ * @author Pei-Jung Lan
  */
-public interface UADDisplay<T> {
+public abstract class BaseModelUADDisplay<T extends BaseModel>
+	implements UADDisplay<T> {
 
-	public String getApplicationName();
+	@Override
+	public String[] getColumnFieldNames() {
+		return getDisplayFieldNames();
+	}
 
-	public String[] getColumnFieldNames();
-
-	public String[] getDisplayFieldNames();
-
+	@Override
 	public String getEditURL(
 			T t, LiferayPortletRequest liferayPortletRequest,
 			LiferayPortletResponse liferayPortletResponse)
-		throws Exception;
+		throws Exception {
 
-	public Map<String, Object> getFieldValues(T t, String[] fieldNames);
+		return null;
+	}
 
-	public String getKey();
+	public Map<String, Object> getFieldValues(T t, String[] fieldNames) {
+		Map<String, Object> modelAttributes = t.getModelAttributes();
 
-	public String getTypeName(Locale locale);
+		Set<String> modelAttributesKeySet = modelAttributes.keySet();
+
+		modelAttributesKeySet.retainAll(Arrays.asList(fieldNames));
+
+		return modelAttributes;
+	}
 
 }
