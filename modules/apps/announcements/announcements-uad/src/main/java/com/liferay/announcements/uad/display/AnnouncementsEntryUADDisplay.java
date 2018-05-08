@@ -36,6 +36,16 @@ public class AnnouncementsEntryUADDisplay
 	extends BaseAnnouncementsEntryUADDisplay {
 
 	@Override
+	public String[] getColumnFieldNames() {
+		return new String[] {"title", "content"};
+	}
+
+	@Override
+	public String[] getDisplayFieldNames() {
+		return new String[] {"title", "entryId", "content"};
+	}
+
+	@Override
 	public String getEditURL(
 			AnnouncementsEntry announcementsEntry,
 			LiferayPortletRequest liferayPortletRequest,
