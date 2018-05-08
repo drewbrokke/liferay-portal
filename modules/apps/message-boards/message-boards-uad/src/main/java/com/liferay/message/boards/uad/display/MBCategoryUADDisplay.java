@@ -34,6 +34,16 @@ import org.osgi.service.component.annotations.Reference;
 public class MBCategoryUADDisplay extends BaseMBCategoryUADDisplay {
 
 	@Override
+	public String[] getColumnFieldNames() {
+		return new String[] { "name", "description" };
+	}
+
+	@Override
+	public String[] getDisplayFieldNames() {
+		return new String[] { "name", "categoryId", "description" };
+	}
+
+	@Override
 	public String getEditURL(
 			MBCategory mbCategory, LiferayPortletRequest liferayPortletRequest,
 			LiferayPortletResponse liferayPortletResponse)
