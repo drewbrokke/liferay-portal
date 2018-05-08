@@ -23,4 +23,15 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(immediate = true, service = UADDisplay.class)
 public class BookmarksEntryUADDisplay extends BaseBookmarksEntryUADDisplay {
+
+	@Override
+	public String[] getColumnFieldNames() {
+		return new String[] {"name", "description", "url"};
+	}
+
+	@Override
+	public String[] getDisplayFieldNames() {
+		return new String[] {"name", "entryId", "description", "url"};
+	}
+
 }

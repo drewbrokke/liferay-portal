@@ -34,6 +34,16 @@ import org.osgi.service.component.annotations.Reference;
 public class WikiNodeUADDisplay extends BaseWikiNodeUADDisplay {
 
 	@Override
+	public String[] getColumnFieldNames() {
+		return new String[] { "name", "description" };
+	}
+
+	@Override
+	public String[] getDisplayFieldNames() {
+		return new String[] { "name", "nodeId", "description" };
+	}
+
+	@Override
 	public String getEditURL(
 			WikiNode wikiNode, LiferayPortletRequest liferayPortletRequest,
 			LiferayPortletResponse liferayPortletResponse)

@@ -34,6 +34,19 @@ import org.osgi.service.component.annotations.Reference;
 public class EntryUADDisplay extends BaseEntryUADDisplay {
 
 	@Override
+	public String[] getColumnFieldNames() {
+		return new String[] { "fullName", "emailAddress", "comments" };
+	}
+
+	@Override
+	public String[] getDisplayFieldNames() {
+		return new String[] {
+			"fullName", "entryId", "emailAddress",
+			"comments"
+		};
+	}
+
+	@Override
 	public String getEditURL(
 			Entry entry, LiferayPortletRequest liferayPortletRequest,
 			LiferayPortletResponse liferayPortletResponse)

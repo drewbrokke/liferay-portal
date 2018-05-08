@@ -34,6 +34,16 @@ import org.osgi.service.component.annotations.Reference;
 public class WikiPageUADDisplay extends BaseWikiPageUADDisplay {
 
 	@Override
+	public String[] getColumnFieldNames() {
+		return new String[] { "title", "content", "summary" };
+	}
+
+	@Override
+	public String[] getDisplayFieldNames() {
+		return new String[] { "title", "pageId", "content", "summary" };
+	}
+
+	@Override
 	public String getEditURL(
 			WikiPage wikiPage, LiferayPortletRequest liferayPortletRequest,
 			LiferayPortletResponse liferayPortletResponse)
