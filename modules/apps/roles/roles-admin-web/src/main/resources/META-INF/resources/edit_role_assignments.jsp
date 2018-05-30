@@ -130,7 +130,7 @@ renderResponse.setTitle(role.getTitle(locale));
 	</liferay-frontend:management-bar-action-buttons>
 </liferay-frontend:management-bar>
 
-<aui:form action="<%= portletURL.toString() %>" cssClass="container-fluid-1280" method="post" name="fm">
+<aui:form action="<%= portletURL.toString() %>" cssClass="container-fluid-max-xl container-form-lg" method="post" name="fm">
 	<aui:input name="tabs2" type="hidden" value="<%= tabs2 %>" />
 	<aui:input name="tabs3" type="hidden" value="current" />
 	<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />

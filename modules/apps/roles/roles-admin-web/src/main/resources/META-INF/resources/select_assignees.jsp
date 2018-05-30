@@ -103,7 +103,7 @@ request.setAttribute("edit_role_assignments.jsp-portletURL", portletURL);
 	</liferay-frontend:management-bar-buttons>
 </liferay-frontend:management-bar>
 
-<aui:form action="<%= portletURL.toString() %>" cssClass="container-fluid-1280" method="post" name="fm">
+<aui:form action="<%= portletURL.toString() %>" cssClass="container-fluid-max-xl container-form-lg" method="post" name="fm">
 	<aui:input name="tabs2" type="hidden" value="<%= tabs2 %>" />
 	<aui:input name="tabs3" type="hidden" value="available" />
 	<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
