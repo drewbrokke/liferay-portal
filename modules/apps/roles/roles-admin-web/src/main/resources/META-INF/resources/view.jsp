@@ -134,7 +134,7 @@ pageContext.setAttribute("portletURL", portletURL);
 	</liferay-frontend:management-bar-action-buttons>
 </liferay-frontend:management-bar>
 
-<aui:form action="<%= portletURLString %>" cssClass="container-fluid-1280" method="get" name="fm">
+<aui:form action="<%= portletURLString %>" cssClass="container-fluid-max-xl container-form-lg" method="get" name="fm">
 	<aui:input name="deleteRoleIds" type="hidden" />
 
 	<liferay-portlet:renderURLParams varImpl="portletURL" />

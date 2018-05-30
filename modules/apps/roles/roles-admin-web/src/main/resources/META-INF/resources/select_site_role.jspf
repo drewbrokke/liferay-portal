@@ -85,7 +85,7 @@ portletURL.setParameter("step", String.valueOf(step));
 	</liferay-frontend:management-bar-buttons>
 </liferay-frontend:management-bar>
 
-<aui:form action="<%= portletURL.toString() %>" cssClass="container-fluid-1280" method="post" name="selectSiteRoleFm">
+<aui:form action="<%= portletURL.toString() %>" cssClass="container-fluid-max-xl container-form-lg" method="post" name="selectSiteRoleFm">
 	<c:choose>
 		<c:when test="<%= step == 1 %>">
 			<aui:input name="groupId" type="hidden" />
