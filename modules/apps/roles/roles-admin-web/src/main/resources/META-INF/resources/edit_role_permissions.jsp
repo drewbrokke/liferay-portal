@@ -26,6 +26,8 @@ String redirect = ParamUtil.getString(request, "redirect");
 
 String backURL = ParamUtil.getString(request, "backURL", redirect);
 
+String permissionContentContainerClass = " col-md-12";
+
 long roleId = ParamUtil.getLong(request, "roleId");
 
 Role role = RoleServiceUtil.fetchRole(roleId);
@@ -47,6 +49,8 @@ request.setAttribute("edit_role_permissions.jsp-role", role);
 request.setAttribute("edit_role_permissions.jsp-portletResource", portletResource);
 
 if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
+	permissionContentContainerClass = " col-lg-9";
+
 	portletDisplay.setShowBackIcon(true);
 	portletDisplay.setURLBack(backURL);
 
@@ -59,15 +63,15 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 
 <liferay-util:include page="/edit_role_tabs.jsp" servletContext="<%= application %>" />
 
-<aui:container cssClass="container-fluid container-fluid-max-xl container-form-lg" id="permissionContainer">
-	<aui:row>
+<div class="container-fluid container-fluid-max-xl container-form-lg" id="<portlet:namespace />permissionContainer">
+	<div class="row">
 		<c:if test="<%= !portletName.equals(PortletKeys.SERVER_ADMIN) %>">
-			<aui:col width="<%= 25 %>">
+			<div class="col-lg-3">
 				<%@ include file="/edit_role_permissions_navigation.jspf" %>
-			</aui:col>
+			</div>
 		</c:if>
 
-		<aui:col cssClass="lfr-permission-content-container" id="permissionContentContainer" width="<%= portletName.equals(PortletKeys.SERVER_ADMIN) ? 100 : 75 %>">
+		<div class="lfr-permission-content-container<%= permissionContentContainerClass %>" id="<portlet:namespace />permissionContentContainer">
 			<c:choose>
 				<c:when test="<%= cmd.equals(Constants.VIEW) %>">
 					<liferay-util:include page="/edit_role_permissions_summary.jsp" servletContext="<%= application %>" />
@@ -82,9 +86,9 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 					<liferay-util:include page="/edit_role_permissions_form.jsp" servletContext="<%= application %>" />
 				</c:otherwise>
 			</c:choose>
-		</aui:col>
-	</aui:row>
-</aui:container>
+		</div>
+	</div>
+</div>
 
 <aui:script>
 	function <portlet:namespace />removeGroup(pos, target) {
@@ -263,60 +267,82 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 			function(event) {
 				event.preventDefault();
 
-				var href = event.currentTarget.attr('data-resource-href');
+				var currentTarget = event.currentTarget;
 
-				href = Liferay.Util.addParams('p_p_isolated=true', href);
+				var href = currentTarget.attr('data-resource-href');
 
-				AUI.$.ajax(
-					href,
-					{
-						beforeSend: function() {
-							permissionContentContainerNode.plug(A.LoadingMask);
+				if (!currentTarget.hasClass('active')) {
+					href = Liferay.Util.addParams('p_p_isolated=true', href);
 
-							permissionContentContainerNode.loadingmask.show();
+					permissionContainerNode.all('.permission-navigation-link').removeClass('active');
 
-							permissionContentContainerNode.unplug(AParseContent);
-						},
-						complete: function() {
-							permissionContentContainerNode.loadingmask.hide();
+					AUI.$.ajax(
+						href,
+						{
+							beforeSend: function() {
+								permissionContentContainerNode.plug(A.LoadingMask);
 
-							permissionContentContainerNode.unplug(A.LoadingMask);
-						},
-						error: function(obj) {
-							if (obj.status === 401) {
-								window.location.reload();
+								permissionContentContainerNode.loadingmask.show();
 
-								return;
-							}
+								permissionContentContainerNode.unplug(AParseContent);
+							},
+							complete: function() {
+								var menubarToggler = permissionContainerNode.one('#<portlet:namespace />menubarToggler');
 
-							new Liferay.Notification(
-								{
-									closeable: true,
-									delay: {
-										hide: 0,
-										show: 0
-									},
-									duration: 500,
-									message: '<liferay-ui:message key="sorry,-we-were-not-able-to-access-the-server" />',
-									render: true,
-									title: '<liferay-ui:message key="warning" />',
-									type: 'warning'
+								var permissionNavigationDataContainerNode = A.one('#<portlet:namespace />permissionNavigationDataContainer');
+
+								if (menubarToggler) {
+									menubarToggler.all('.menubar-toggler-text').text(currentTarget.text());
+
+									menubarToggler.set('aria-expanded', 'false');
+
+									if (permissionNavigationDataContainerNode) {
+										permissionNavigationDataContainerNode.removeClass('show');
+									}
 								}
-							);
-						},
-						success: function(responseData) {
-							permissionContentContainerNode.plug(AParseContent);
 
-							permissionContentContainerNode.empty();
+								currentTarget.addClass('active');
 
-							permissionContentContainerNode.setContent(responseData);
+								permissionContentContainerNode.loadingmask.hide();
 
-							var checkedNodes = permissionContentContainerNode.all(':checked');
+								permissionContentContainerNode.unplug(A.LoadingMask);
+							},
+							error: function(obj) {
+								if (obj.status === 401) {
+									window.location.reload();
 
-							originalSelectedValues = checkedNodes.val();
+									return;
+								}
+
+								new Liferay.Notification(
+									{
+										closeable: true,
+										delay: {
+											hide: 0,
+											show: 0
+										},
+										duration: 500,
+										message: '<liferay-ui:message key="sorry,-we-were-not-able-to-access-the-server" />',
+										render: true,
+										title: '<liferay-ui:message key="warning" />',
+										type: 'warning'
+									}
+								);
+							},
+							success: function(responseData) {
+								permissionContentContainerNode.plug(AParseContent);
+
+								permissionContentContainerNode.empty();
+
+								permissionContentContainerNode.setContent(responseData);
+
+								var checkedNodes = permissionContentContainerNode.all(':checked');
+
+								originalSelectedValues = checkedNodes.val();
+							}
 						}
-					}
-				);
+					);
+				}
 			},
 			'.permission-navigation-link'
 		);

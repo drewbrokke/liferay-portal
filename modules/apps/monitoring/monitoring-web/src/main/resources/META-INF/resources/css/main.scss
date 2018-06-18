@@ -151,25 +151,16 @@
 
 	.lfr-permission-navigation-container {
 		.search {
-			margin: 20px 0;
+			margin-bottom: 20px;
 		}
 
 		.lfr-permission-navigation {
-			overflow: auto;
-			width: 100%;
-
 			.permission-navigation-item-header {
-				font-weight: bold;
-
 				.permission-navigation-item-header-icon {
 					display: inline-block;
 					height: 10px;
 					width: 9px;
 				}
-			}
-
-			.selected {
-				font-weight: bold;
 			}
 
 			.toggler-header-collapsed {
@@ -182,27 +173,6 @@
 				.icon-caret-right {
 					display: none;
 				}
-			}
-
-			.permission-navigation-item-header {
-				cursor: pointer;
-				margin: 0.5em;
-			}
-
-			.permission-navigation-item-content .permission-navigation-item-container {
-				cursor: pointer;
-				line-height: 1.8em;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-
-			.permission-navigation-item-summary {
-				margin: 0.5em 0 1.5em 0.5em;
-			}
-
-			.permission-navigation-section .permission-navigation-section {
-				margin-left: 1em;
 			}
 		}
 	}
