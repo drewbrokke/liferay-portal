@@ -45,7 +45,7 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 
 <portlet:actionURL name="editPasswordPolicy" var="editPasswordPolicyURL" />
 
-<aui:form action="<%= editPasswordPolicyURL %>" cssClass="container-fluid-1280" method="post" name="fm">
+<aui:form action="<%= editPasswordPolicyURL %>" cssClass="container-fluid container-fluid-max-xl container-form-lg" method="post" name="fm">
 	<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
 	<aui:input name="passwordPolicyId" type="hidden" value="<%= passwordPolicyId %>" />
 
@@ -54,11 +54,13 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 
 	<aui:model-context bean="<%= passwordPolicy %>" model="<%= PasswordPolicy.class %>" />
 
-	<aui:fieldset-group markupView="lexicon">
+	<div class="sheet sheet-lg">
 		<aui:fieldset>
-			<aui:input autoFocus="<%= !defaultPolicy && windowState.equals(WindowState.MAXIMIZED) %>" disabled="<%= defaultPolicy %>" name="name" required="<%= true %>" />
+			<div class="sheet-section">
+				<aui:input autoFocus="<%= !defaultPolicy && windowState.equals(WindowState.MAXIMIZED) %>" disabled="<%= defaultPolicy %>" name="name" required="<%= true %>" />
 
-			<aui:input autoFocus="<%= defaultPolicy && windowState.equals(WindowState.MAXIMIZED) %>" name="description" />
+				<aui:input autoFocus="<%= defaultPolicy && windowState.equals(WindowState.MAXIMIZED) %>" name="description" />
+			</div>
 		</aui:fieldset>
 
 		<liferay-ui:panel-container
@@ -269,13 +271,19 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 				</aui:fieldset>
 			</liferay-ui:panel>
 		</liferay-ui:panel-container>
-	</aui:fieldset-group>
 
-	<aui:button-row>
-		<aui:button type="submit" />
+		<div class="sheet-footer">
+			<div class="btn-group">
+				<div class="btn-group-item">
+					<clay:button label='<%= LanguageUtil.get(request, "save") %>' type="submit" />
+				</div>
 
-		<aui:button href="<%= redirect %>" type="cancel" />
-	</aui:button-row>
+				<div class="btn-group-item">
+					<clay:link elementClasses="btn btn-secondary" href="<%= redirect %>" label='<%= LanguageUtil.get(request, "cancel") %>' />
+				</div>
+			</div>
+		</div>
+	</div>
 </aui:form>
 
 <aui:script>
