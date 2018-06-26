@@ -16,19 +16,23 @@
 
 <c:choose>
 	<c:when test='<%= displayStyle.equals("descriptive") %>'>
-		<liferay-ui:search-container-column-icon
-			icon="sites"
-			toggleRowChecker="<%= true %>"
-		/>
+		<liferay-ui:search-container-column-text
+			cssClass="lfr-sticker-column"
+		>
+			<clay:sticker
+				icon="sites"
+				style="secondary"
+			/>
+		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-text
 			colspan="<%= 2 %>"
 		>
-			<h5><%= HtmlUtil.escape(group.getDescriptiveName(locale)) %></h5>
+			<div class="list-group-title"><%= HtmlUtil.escape(group.getDescriptiveName(locale)) %></div>
 
-			<h6 class="text-default">
+			<p class="list-group-text">
 				<span><%= LanguageUtil.get(request, group.getTypeLabel()) %></span>
-			</h6>
+			</p>
 		</liferay-ui:search-container-column-text>
 	</c:when>
 	<c:when test='<%= displayStyle.equals("icon") %>'>
@@ -51,12 +55,14 @@
 	</c:when>
 	<c:otherwise>
 		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand"
 			name="name"
-			truncate="<%= true %>"
-			value="<%= HtmlUtil.escape(group.getDescriptiveName(locale)) %>"
-		/>
+		>
+			<div class="table-title"><%= HtmlUtil.escape(group.getDescriptiveName(locale)) %></div>
+		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand"
 			name="type"
 			value="<%= LanguageUtil.get(request, group.getTypeLabel()) %>"
 		/>

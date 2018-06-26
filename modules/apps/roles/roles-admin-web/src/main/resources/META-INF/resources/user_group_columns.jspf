@@ -16,19 +16,27 @@
 
 <c:choose>
 	<c:when test='<%= displayStyle.equals("descriptive") %>'>
-		<liferay-ui:search-container-column-icon
-			icon="users"
-			toggleRowChecker="<%= true %>"
-		/>
+		<liferay-ui:search-container-column-text
+			cssClass="lfr-sticker-column"
+		>
+			<clay:sticker
+				icon="users"
+				style="secondary"
+			/>
+		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-text
 			colspan="<%= 2 %>"
 		>
-			<h5><%= HtmlUtil.escape(userGroup.getName()) %></h5>
+			<div class="list-group-title">
+				<span><%= HtmlUtil.escape(userGroup.getName()) %></span>
+			</div>
 
-			<h6 class="text-default">
-				<span><%= HtmlUtil.escape(userGroup.getDescription()) %></span>
-			</h6>
+			<c:if test="<%= !Validator.isBlank(userGroup.getDescription()) %>">
+				<p class="list-group-text">
+					<span><%= HtmlUtil.escape(userGroup.getDescription()) %></span>
+				</p>
+			</c:if>
 		</liferay-ui:search-container-column-text>
 	</c:when>
 	<c:when test='<%= displayStyle.equals("icon") %>'>
@@ -51,17 +59,23 @@
 	</c:when>
 	<c:otherwise>
 		<liferay-ui:search-container-column-text
+			cssClass="table-cell-content"
 			name="name"
-			orderable="<%= true %>"
-			property="name"
-			truncate="<%= true %>"
-		/>
+		>
+			<div class="table-title">
+				<span class="text-truncate-inline">
+					<span class="text-truncate" title="<%= HtmlUtil.escape(userGroup.getName()) %>">
+						<%= HtmlUtil.escape(userGroup.getName()) %>
+					</span>
+				</span>
+			</div>
+		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-text
+			cssClass="table-cell-content"
 			name="description"
-			orderable="<%= true %>"
-			property="description"
-			truncate="<%= true %>"
-		/>
+		>
+			<span><%= HtmlUtil.escape(userGroup.getDescription()) %></span>
+		</liferay-ui:search-container-column-text>
 	</c:otherwise>
 </c:choose>

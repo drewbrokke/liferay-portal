@@ -16,29 +16,47 @@
 
 <c:choose>
 	<c:when test='<%= displayStyle.equals("descriptive") %>'>
-		<liferay-ui:search-container-column-icon
-			icon="users"
-			toggleRowChecker="<%= true %>"
-		/>
+		<liferay-ui:search-container-column-text
+			cssClass="lfr-sticker-column"
+		>
+			<clay:sticker
+				icon="users"
+				style="secondary"
+			/>
+		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-text
 			colspan="<%= 2 %>"
 		>
-			<h5><%= organization.getName() %></h5>
+			<div class="list-group-title">
+				<span><%= organization.getName() %></span>
+			</div>
 
-			<h6 class="text-default">
-				<span><%= HtmlUtil.escape(organization.getParentOrganizationName()) %></span>
-			</h6>
+			<c:if test="<%= !Validator.isBlank(organization.getParentOrganizationName()) %>">
+				<p class="list-group-text">
+					<span><%= HtmlUtil.escape(organization.getParentOrganizationName()) %></span>
+				</p>
+			</c:if>
 
-			<h6 class="text-default">
+			<p class="list-group-text">
 				<span><%= LanguageUtil.get(request, organization.getType()) %></span>
-			</h6>
+			</p>
 
-			<h6 class="text-default">
-				<span><%= HtmlUtil.escape(organization.getAddress().getCity()) %></span>
-				<span><%= UsersAdmin.ORGANIZATION_REGION_NAME_ACCESSOR.get(organization) %></span>
-				<span><%= UsersAdmin.ORGANIZATION_COUNTRY_NAME_ACCESSOR.get(organization) %></span>
-			</h6>
+			<c:if test="<%= !Validator.isBlank(organization.getAddress().getCity()) || !Validator.isBlank(UsersAdmin.ORGANIZATION_REGION_NAME_ACCESSOR.get(organization)) || !Validator.isBlank(UsersAdmin.ORGANIZATION_COUNTRY_NAME_ACCESSOR.get(organization)) %>">
+				<p class="list-group-subtext">
+					<c:if test="<%= !Validator.isBlank(organization.getAddress().getCity()) %>">
+						<span><%= HtmlUtil.escape(organization.getAddress().getCity()) %></span>
+					</c:if>
+
+					<c:if test="<%= !Validator.isBlank(UsersAdmin.ORGANIZATION_REGION_NAME_ACCESSOR.get(organization)) %>">
+						<span><%= UsersAdmin.ORGANIZATION_REGION_NAME_ACCESSOR.get(organization) %></span>
+					</c:if>
+
+					<c:if test="<%= !Validator.isBlank(UsersAdmin.ORGANIZATION_COUNTRY_NAME_ACCESSOR.get(organization)) %>">
+						<span><%= UsersAdmin.ORGANIZATION_COUNTRY_NAME_ACCESSOR.get(organization) %></span>
+					</c:if>
+				</p>
+			</c:if>
 		</liferay-ui:search-container-column-text>
 	</c:when>
 	<c:when test='<%= displayStyle.equals("icon") %>'>
@@ -61,21 +79,27 @@
 	</c:when>
 	<c:otherwise>
 		<liferay-ui:search-container-column-text
+			cssClass="table-cell-content"
 			name="name"
-			orderable="<%= true %>"
-			property="name"
-			truncate="<%= true %>"
-		/>
+		>
+			<div class="table-title">
+				<span class="text-truncate-inline">
+					<span class="text-truncate" title="<%= organization.getName() %>"><%= organization.getName() %></span>
+				</span>
+			</div>
+		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-text
+			cssClass="table-cell-content"
 			name="parent-organization"
-			truncate="<%= true %>"
-			value="<%= HtmlUtil.escape(organization.getParentOrganizationName()) %>"
-		/>
+		>
+			<span class="text-truncate-inline">
+				<span class="text-truncate" title="<%= HtmlUtil.escape(organization.getParentOrganizationName()) %>"><%= HtmlUtil.escape(organization.getParentOrganizationName()) %></span>
+			</span>
+		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-text
 			name="type"
-			orderable="<%= true %>"
 			value="<%= LanguageUtil.get(request, organization.getType()) %>"
 		/>
 
