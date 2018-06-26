@@ -64,6 +64,7 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 		</aui:fieldset>
 
 		<liferay-ui:panel-container
+			cssClass="lfr-panel-group panel-group-flush"
 			extended="<%= true %>"
 			id="passwordPoliciesAdminPasswordPolicyPanelContainer"
 			persistState="<%= true %>"

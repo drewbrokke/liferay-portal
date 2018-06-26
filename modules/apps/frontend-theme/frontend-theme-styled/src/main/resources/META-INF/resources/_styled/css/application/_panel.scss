@@ -15,6 +15,42 @@
 	padding-left: 15px;
 }
 
+.lfr-panel-group {
+	.panel-title {
+		border-color: $sheet-subtitle-border-color;
+		border-style: $sheet-subtitle-border-style;
+		border-width: $sheet-subtitle-border-width;
+		color: $sheet-subtitle-color;
+		font-size: $sheet-subtitle-font-size;
+		font-weight: $sheet-subtitle-font-weight;
+		line-height: $sheet-subtitle-line-height;
+		margin-bottom: $sheet-subtitle-margin-bottom;
+
+		> a {
+			padding-bottom: $sheet-subtitle-padding-y;
+			padding-left: 0;
+			padding-top: $sheet-subtitle-padding-y;
+			text-transform: $sheet-subtitle-text-transform;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+
+	.lfr-panel.panel {
+		border-color: transparent;
+
+		&:last-child .panel-body {
+			margin-bottom: 0;
+		}
+
+		.panel-body {
+			margin-bottom: 1.5rem;
+		}
+	}
+}
+
 .panel-hd {
 	background: #C0C2C5 url(../images/application/panel_header_bg.png) repeat-x 0 0;
 	border: 1px solid;
