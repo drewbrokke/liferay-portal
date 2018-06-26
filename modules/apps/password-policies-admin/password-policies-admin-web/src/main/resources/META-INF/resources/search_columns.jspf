@@ -16,20 +16,24 @@
 
 <c:choose>
 	<c:when test='<%= displayStyle.equals("descriptive") %>'>
-		<liferay-ui:search-container-column-icon
-			icon="password-policies"
-		/>
+		<liferay-ui:search-container-column-text
+			cssClass="lfr-sticker-column"
+		>
+			<clay:sticker icon="password-policies" />
+		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-text
 			colspan="<%= 2 %>"
 		>
-			<h5>
-				<aui:a href="<%= rowURL %>"><%= passwordPolicy.getName() %></aui:a>
-			</h5>
+			<div class="list-group-title">
+				<clay:link href="<%= rowURL %>" label="<%= passwordPolicy.getName() %>" />
+			</div>
 
-			<h6 class="text-default">
-				<span><%= passwordPolicy.getDescription() %></span>
-			</h6>
+			<c:if test="<%= !Validator.isBlank(passwordPolicy.getDescription()) %>">
+				<p class="list-group-text">
+					<span><%= passwordPolicy.getDescription() %></span>
+				</p>
+			</c:if>
 		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-jsp
@@ -60,21 +64,19 @@
 	<c:otherwise>
 		<liferay-ui:search-container-column-text
 			cssClass="table-cell-content"
-			href="<%= rowURL %>"
 			name="name"
-			truncate="<%= true %>"
 		>
-			<strong><%= passwordPolicy.getName() %></strong>
+			<div class="table-title">
+				<clay:link href="<%= rowURL.toString() %>" label="<%= passwordPolicy.getName() %>" />
+			</div>
 		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-text
 			cssClass="table-cell-content"
-			href="<%= rowURL %>"
 			name="description"
-			orderable="<%= true %>"
-			property="description"
-			truncate="<%= true %>"
-		/>
+		>
+			<clay:link  href="<%= rowURL.toString() %>" label="<%= passwordPolicy.getDescription() %>" />
+		</liferay-ui:search-container-column-text>
 
 		<liferay-ui:search-container-column-jsp
 			cssClass="entry-action-column"

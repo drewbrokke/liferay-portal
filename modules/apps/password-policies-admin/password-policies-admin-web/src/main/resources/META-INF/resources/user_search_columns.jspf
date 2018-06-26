@@ -77,26 +77,31 @@
 			<liferay-ui:search-container-column-text
 				colspan="<%= 2 %>"
 			>
-				<h5><%= name %></h5>
+				<div class="list-group-title">
+					<span><%= name %></span>
+				</div>
 
-				<h6 class="text-default">
+				<p class="list-group-text">
 					<span><%= user2.getScreenName() %></span>
-				</h6>
+				</p>
 			</liferay-ui:search-container-column-text>
 		</c:when>
 		<c:otherwise>
 			<liferay-ui:search-container-column-text
-				cssClass="table-cell-content"
+				cssClass="table-cell-expand"
 				name="name"
-				value="<%= name %>"
-			/>
+			>
+				<div class="table-title">
+					<span><%= name %></span>
+				</div>
+			</liferay-ui:search-container-column-text>
 
 			<liferay-ui:search-container-column-text
-				cssClass="table-cell-content"
+				cssClass="table-cell-expand"
 				name="screen-name"
-				orderable="<%= true %>"
-				property="screenName"
-			/>
+			>
+				<span><%= user2.getScreenName() %></span>
+			</liferay-ui:search-container-column-text>
 		</c:otherwise>
 	</c:choose>
 </liferay-ui:search-container-row>
