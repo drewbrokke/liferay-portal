@@ -67,13 +67,29 @@ boolean showSubject = GetterUtil.getBoolean(request.getAttribute("liferay-fronte
 				/>
 			</c:when>
 			<c:otherwise>
+
+				<%
+				String randomNamespace = PortalUtil.generateRandomKey(request, "taglib_email_notification_settings") + StringPool.UNDERLINE;
+				%>
+
 				<liferay-ui:input-editor
 					contents="<%= emailBody %>"
 					editorName='<%= PropsUtil.get("editor.wysiwyg.portal-web.docroot.html.taglib.ui.email_notification_settings.jsp") %>'
-					name="<%= emailParam %>"
+					name='<%= emailParam + "BodyEditor" %>'
+					onChangeMethod='<%= randomNamespace + "OnChangeEditor" %>'
 				/>
 
 				<aui:input name='<%= fieldPrefix + fieldPrefixSeparator + emailParam + "Body" + fieldPrefixSeparator %>' type="hidden" />
+
+				<aui:script>
+					function <portlet:namespace /><%= randomNamespace %>OnChangeEditor(html) {
+						var input = document.getElementById('<portlet:namespace /><%= HtmlUtil.escapeJS(emailParam + "Body") %>')
+
+						if (input) {
+							input.setAttribute('value', html);
+						}
+					}
+				</aui:script>
 			</c:otherwise>
 		</c:choose>
 	</aui:field-wrapper>
