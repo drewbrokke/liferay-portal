@@ -83,7 +83,7 @@ boolean showSubject = GetterUtil.getBoolean(request.getAttribute("liferay-fronte
 
 				<aui:script>
 					function <portlet:namespace /><%= randomNamespace %>OnChangeEditor(html) {
-						var input = document.getElementById('<portlet:namespace /><%= HtmlUtil.escapeJS(emailParam + "Body") %>')
+						var input = document.getElementById('<portlet:namespace /><%= HtmlUtil.escapeJS(emailParam + "Body") %>');
 
 						if (input) {
 							input.setAttribute('value', html);
