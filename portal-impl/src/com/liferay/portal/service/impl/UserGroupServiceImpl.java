@@ -203,6 +203,15 @@ public class UserGroupServiceImpl extends UserGroupServiceBaseImpl {
 		return filterUserGroups(userGroupLocalService.getUserGroups(companyId));
 	}
 
+	@Override
+	public List<UserGroup> getUserGroups(
+		long gtUserGroupId, long companyId, long parentUserGroupId, int size) {
+
+		return userGroupPersistence.filterFindByU_C_P(
+			gtUserGroupId, companyId, parentUserGroupId, 0, size,
+			new UserGroupIdComparator(true));
+	}
+
 	/**
 	 * Returns all the user groups to which the user belongs.
 	 *
