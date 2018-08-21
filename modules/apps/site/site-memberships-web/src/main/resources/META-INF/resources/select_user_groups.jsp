@@ -69,10 +69,16 @@ SelectUserGroupsDisplayContext selectUserGroupsDisplayContext = new SelectUserGr
 	searchContainer.on(
 		'rowToggled',
 		function(event) {
+			var data = event.elements.allSelectedElements.getDOMNodes();
+
+			if (!data.length) {
+				data = '';
+			}
+
 			Liferay.Util.getOpener().Liferay.fire(
 				'<%= HtmlUtil.escapeJS(selectUserGroupsDisplayContext.getEventName()) %>',
 				{
-					data: event.elements.allSelectedElements.getDOMNodes()
+					data: data
 				}
 			);
 		}

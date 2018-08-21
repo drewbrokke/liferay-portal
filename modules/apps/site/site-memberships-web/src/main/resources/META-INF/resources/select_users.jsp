@@ -72,10 +72,16 @@ SelectUsersDisplayContext selectUsersDisplayContext = new SelectUsersDisplayCont
 	searchContainer.on(
 		'rowToggled',
 		function(event) {
+			var data = event.elements.allSelectedElements.getDOMNodes();
+
+			if (!data.length) {
+				data = '';
+			}
+
 			Liferay.Util.getOpener().Liferay.fire(
 				'<%= HtmlUtil.escapeJS(selectUsersDisplayContext.getEventName()) %>',
 				{
-					data: event.elements.allSelectedElements.getDOMNodes()
+					data: data
 				}
 			);
 		}
