@@ -92,7 +92,7 @@ SearchContainer searchContainer = editPasswordPolicyAssignmentsManagementToolbar
 		function(event) {
 			var selectedItems = event.elements.allSelectedElements;
 
-			var result = {};
+			var result = '';
 
 			if (selectedItems.size()) {
 				result = {
