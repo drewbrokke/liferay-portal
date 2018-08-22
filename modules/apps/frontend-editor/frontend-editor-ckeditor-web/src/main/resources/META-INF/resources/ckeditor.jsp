@@ -246,15 +246,8 @@ name = HtmlUtil.escapeJS(name);
 		</c:if>
 
 		<c:if test="<%= Validator.isNotNull(onChangeMethod) %>">
-			onChangeCallback: function() {
-				var ckEditor = CKEDITOR.instances['<%= name %>'];
-				var dirty = ckEditor.checkDirty();
-
-				if (dirty) {
-					window['<%= HtmlUtil.escapeJS(onChangeMethod) %>'](window['<%= name %>'].getHTML());
-
-					ckEditor.resetDirty();
-				}
+			onChangeCallback: function(html) {
+				window['<%= HtmlUtil.escapeJS(onChangeMethod) %>'](html);
 			},
 		</c:if>
 
@@ -518,28 +511,45 @@ name = HtmlUtil.escapeJS(name);
 					CKEDITOR.instances['<%= name %>'].on('blur', window['<%= name %>'].onBlurCallback);
 				</c:if>
 
-				<c:if test="<%= Validator.isNotNull(onChangeMethod) %>">
-					var contentChangeHandle = setInterval(
-						function() {
-							try {
-								window['<%= name %>'].onChangeCallback();
-							}
-							catch (e) {
-							}
-						},
-						300
-					);
+				var contentChangeHandle = setInterval(
+					function() {
+						var ckEditor = CKEDITOR && CKEDITOR.instances['<%= name %>'];
 
-					var clearContentChangeHandle = function(event) {
-						if (event.portletId === '<%= portletId %>') {
-							clearInterval(contentChangeHandle);
+						if (ckEditor) {
+							var dirty = ckEditor.checkDirty();
 
-							Liferay.detach('destroyPortlet', clearContentChangeHandle);
+							if (dirty) {
+								var html = window['<%= name %>'].getHTML();
+								var input = document.getElementById('<%= textareaName %>');
+
+								if (input) {
+									input.setAttribute('value', html);
+								}
+
+								<c:if test="<%= Validator.isNotNull(onChangeMethod) %>">
+									try {
+										window['<%= name %>'].onChangeCallback(html);
+									}
+									catch (e) {
+									}
+								</c:if>
+
+								ckEditor.resetDirty();
+							}
 						}
-					};
+					},
+					300
+				);
 
-					Liferay.on('destroyPortlet', clearContentChangeHandle);
-				</c:if>
+				var clearContentChangeHandle = function(event) {
+					if (event.portletId === '<%= portletId %>') {
+						clearInterval(contentChangeHandle);
+
+						Liferay.detach('destroyPortlet', clearContentChangeHandle);
+					}
+				};
+
+				Liferay.on('destroyPortlet', clearContentChangeHandle);
 
 				<c:if test="<%= Validator.isNotNull(onFocusMethod) %>">
 					CKEDITOR.instances['<%= name %>'].on('focus', window['<%= name %>'].onFocusCallback);
