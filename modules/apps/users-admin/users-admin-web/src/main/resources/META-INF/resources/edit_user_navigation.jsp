@@ -48,9 +48,21 @@ String screenNavigationEntryKey = ParamUtil.getString(request, "screenNavigation
 <portlet:renderURL var="viewUsersRenderURL" />
 
 <%
+String backURL = viewUsersRenderURL.toString();
+
+String organizationIdsString = ParamUtil.getString(request, "organizationsSearchContainerPrimaryKeys");
+
+if (Validator.isNotNull(organizationIdsString)) {
+	long[] organizationIdsArray = StringUtil.split(organizationIdsString, 0L);
+
+	if (organizationIdsArray.length == 1) {
+		backURL = UsersAdminPortletURLUtil.createOrganizationViewTreeURL(organizationIdsArray[0], PortalUtil.getLiferayPortletResponse(renderResponse));
+	}
+}
+
 if (!portletName.equals(UsersAdminPortletKeys.MY_ACCOUNT)) {
 	portletDisplay.setShowBackIcon(true);
-	portletDisplay.setURLBack(viewUsersRenderURL.toString());
+	portletDisplay.setURLBack(backURL);
 
 	renderResponse.setTitle((selUser == null) ? LanguageUtil.get(request, "add-user") : LanguageUtil.format(request, "edit-user-x", selUser.getFullName(), false));
 }
@@ -77,7 +89,7 @@ if (!portletName.equals(UsersAdminPortletKeys.MY_ACCOUNT)) {
 					<aui:button primary="<%= true %>" type="submit" />
 
 					<c:if test="<%= !portletName.equals(UsersAdminPortletKeys.MY_ACCOUNT) %>">
-						<aui:button href="<%= viewUsersRenderURL.toString() %>" type="cancel" />
+						<aui:button href="<%= backURL %>" type="cancel" />
 					</c:if>
 				</div>
 			</c:if>

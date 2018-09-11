@@ -36,6 +36,8 @@ long userId = user2.getUserId();
 
 	<%
 	boolean hasUpdatePermission = UserPermissionUtil.contains(permissionChecker, userId, ActionKeys.UPDATE);
+
+	Organization organization = (Organization)request.getAttribute("view.jsp-organization");
 	%>
 
 	<c:if test="<%= hasUpdatePermission %>">
@@ -43,6 +45,7 @@ long userId = user2.getUserId();
 			<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_user" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
 			<portlet:param name="p_u_i_d" value="<%= String.valueOf(userId) %>" />
+			<portlet:param name="organizationsSearchContainerPrimaryKeys" value="<%= (organization == null) ? null : String.valueOf(organization.getOrganizationId()) %>" />
 		</portlet:renderURL>
 
 		<liferay-ui:icon
@@ -128,10 +131,6 @@ long userId = user2.getUserId();
 			</c:choose>
 		</c:if>
 	</c:if>
-
-	<%
-	Organization organization = (Organization)request.getAttribute("view.jsp-organization");
-	%>
 
 	<c:if test="<%= (organization != null) && !OrganizationMembershipPolicyUtil.isMembershipProtected(permissionChecker, userId, organization.getOrganizationId()) && !OrganizationMembershipPolicyUtil.isMembershipRequired(userId, organization.getOrganizationId()) %>">
 		<portlet:actionURL name="/users_admin/edit_organization_assignments" var="removeUserURL">
