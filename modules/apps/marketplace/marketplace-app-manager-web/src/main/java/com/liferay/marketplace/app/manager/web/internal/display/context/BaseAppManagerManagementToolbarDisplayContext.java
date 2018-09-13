@@ -21,11 +21,14 @@ import com.liferay.marketplace.app.manager.web.internal.util.BundleManagerUtil;
 import com.liferay.marketplace.app.manager.web.internal.util.MarketplaceAppManagerUtil;
 import com.liferay.marketplace.model.App;
 import com.liferay.marketplace.service.AppLocalServiceUtil;
+import com.liferay.petra.string.CharPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.List;
@@ -48,6 +51,8 @@ public abstract class BaseAppManagerManagementToolbarDisplayContext
 		HttpServletRequest request) {
 
 		super(liferayPortletRequest, liferayPortletResponse, request);
+
+		_request = liferayPortletRequest.getHttpServletRequest();
 	}
 
 	public String getCategory() {
@@ -67,12 +72,22 @@ public abstract class BaseAppManagerManagementToolbarDisplayContext
 		String[] categories = MarketplaceAppManagerUtil.getCategories(
 			apps, bundles);
 
+		String[] translatedCategories = new String[categories.length];
+
+		for (int i = 0; i < categories.length; i++) {
+			String kebabCaseCategory = StringUtil.replace(
+				categories[i].toLowerCase(), CharPool.SPACE, CharPool.DASH);
+
+			translatedCategories[i] = LanguageUtil.get(
+				request, kebabCaseCategory, categories[i]);
+		}
+
 		PortletURL portletURL = getPortletURL();
 
 		portletURL.setParameter("resetCur", Boolean.TRUE.toString());
 
 		return getDropdownItems(
-			getDefaultEntriesMap(categories), portletURL, "category",
+			getDefaultEntriesMap(translatedCategories), portletURL, "category",
 			getCategory());
 	}
 
@@ -120,6 +135,7 @@ public abstract class BaseAppManagerManagementToolbarDisplayContext
 	}
 
 	private String _category;
+	private final HttpServletRequest _request;
 	private String _state;
 
 }
