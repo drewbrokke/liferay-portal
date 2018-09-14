@@ -72,21 +72,31 @@ String statusLabelPending = StringUtil.toUpperCase(LanguageUtil.get(request, "pe
 			<liferay-ui:search-container
 				searchContainer="<%= uadApplicationsSummaryDisplaySearchContainer %>"
 			>
+
 				<liferay-ui:search-container-row
 					className="com.liferay.user.associated.data.web.internal.display.UADApplicationSummaryDisplay"
 					escapedModel="<%= true %>"
 					keyProperty="key"
 					modelVar="uadApplicationSummaryDisplay"
 				>
+
+				<%
+
+				if (uadApplicationSummaryDisplay.getCount() == 0) {
+					uadApplicationSummaryDisplay.setCSSClass(true);
+
+				}
+				%>
+
 					<liferay-ui:search-container-column-text
-						cssClass="table-cell-expand table-list-title"
+						cssClass='<%= uadApplicationSummaryDisplay.getCSSClass() ? "table-cell-expand table-list-title table-disabled" : "table-cell-expand table-list-title" %>'
 						href="<%= uadApplicationSummaryDisplay.getViewURL() %>"
 						name="name"
 						value="<%= UADLanguageUtil.getApplicationName(uadApplicationSummaryDisplay.getApplicationKey(), locale) %>"
 					/>
 
 					<liferay-ui:search-container-column-text
-						cssClass="table-cell-expand"
+						cssClass='<%= uadApplicationSummaryDisplay.getCSSClass() ? "table-cell-expand table-disabled" : "table-cell-expand" %>'
 						href="<%= uadApplicationSummaryDisplay.getViewURL() %>"
 						name="items"
 						property="count"
