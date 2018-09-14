@@ -27,6 +27,10 @@ public class UADApplicationSummaryDisplay {
 		return _count;
 	}
 
+	public boolean getCSSClass() {
+		return _cssClass;
+	}
+
 	public String getViewURL() {
 		return _viewURL;
 	}
@@ -47,12 +51,17 @@ public class UADApplicationSummaryDisplay {
 		_count = count;
 	}
 
+	public void setCSSClass(boolean cssClass) {
+		_cssClass = cssClass;
+	}
+
 	public void setViewURL(String viewURL) {
 		_viewURL = viewURL;
 	}
 
 	private String _applicationKey;
 	private int _count;
+	private boolean _cssClass;
 	private String _viewURL;
 
 }
