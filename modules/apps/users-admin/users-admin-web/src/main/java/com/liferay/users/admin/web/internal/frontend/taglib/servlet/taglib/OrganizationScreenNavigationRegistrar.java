@@ -96,6 +96,11 @@ public class OrganizationScreenNavigationRegistrar {
 				"/organization/reminder_queries.jsp",
 				"/users_admin/organization/update_reminder_queries"),
 			20);
+		_registerScreenNavigationEntry(
+			_createUpdateOnlyScreenNavigationEntry(
+				"services", _CATEGORY_ORGANIZATION_IDENTIFICATION,
+				"/organization/services.jsp", "/users_admin/edit_org_labor"),
+			30);
 	}
 
 	private ScreenNavigationEntry<Organization> _createScreenNavigationEntry(
@@ -201,6 +206,9 @@ public class OrganizationScreenNavigationRegistrar {
 
 	private static final String _CATEGORY_MISCELLANEOUS =
 		FormNavigatorConstants.CATEGORY_KEY_ORGANIZATION_MISCELLANEOUS;
+
+	private static final String _CATEGORY_ORGANIZATION_IDENTIFICATION =
+		FormNavigatorConstants.CATEGORY_KEY_ORGANIZATION_IDENTIFICATION;
 
 	private static final String _CATEGORY_ORGANIZATION_INFORMATION =
 		FormNavigatorConstants.
