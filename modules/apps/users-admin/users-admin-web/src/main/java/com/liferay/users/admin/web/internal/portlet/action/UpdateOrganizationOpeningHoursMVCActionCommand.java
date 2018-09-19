@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author Brian Wing Shun Chan
+ * @author Albert Lee
  */
 @Component(
 	immediate = true,
@@ -42,15 +42,8 @@ import org.osgi.service.component.annotations.Reference;
 	},
 	service = MVCActionCommand.class
 )
-public class EditOrgLaborMVCActionCommand extends BaseMVCActionCommand {
-
-	protected void deleteOrgLabor(ActionRequest actionRequest)
-		throws Exception {
-
-		long orgLaborId = ParamUtil.getLong(actionRequest, "orgLaborId");
-
-		_orgLaborService.deleteOrgLabor(orgLaborId);
-	}
+public class UpdateOrganizationOpeningHoursMVCActionCommand
+	extends BaseMVCActionCommand {
 
 	@Override
 	protected void doProcessAction(
@@ -60,8 +53,8 @@ public class EditOrgLaborMVCActionCommand extends BaseMVCActionCommand {
 		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
 
 		try {
-			if (cmd.equals(Constants.DELETE)) {
-				deleteOrgLabor(actionRequest);
+			if (cmd.equals(Constants.ADD) || cmd.equals(Constants.UPDATE)) {
+				updateOrgLabor(actionRequest);
 			}
 		}
 		catch (Exception e) {
@@ -81,11 +74,57 @@ public class EditOrgLaborMVCActionCommand extends BaseMVCActionCommand {
 		}
 	}
 
-	@Reference(unbind = "-")
-	protected void setOrgLaborService(OrgLaborService orgLaborService) {
-		_orgLaborService = orgLaborService;
+	protected void updateOrgLabor(ActionRequest actionRequest)
+		throws Exception {
+
+		long orgLaborId = ParamUtil.getLong(actionRequest, "orgLaborId");
+
+		long organizationId = ParamUtil.getLong(
+			actionRequest, "organizationId");
+		long typeId = ParamUtil.getLong(actionRequest, "typeId");
+
+		int sunOpen = ParamUtil.getInteger(actionRequest, "sunOpen");
+		int sunClose = ParamUtil.getInteger(actionRequest, "sunClose");
+
+		int monOpen = ParamUtil.getInteger(actionRequest, "monOpen");
+		int monClose = ParamUtil.getInteger(actionRequest, "monClose");
+
+		int tueOpen = ParamUtil.getInteger(actionRequest, "tueOpen");
+		int tueClose = ParamUtil.getInteger(actionRequest, "tueClose");
+
+		int wedOpen = ParamUtil.getInteger(actionRequest, "wedOpen");
+		int wedClose = ParamUtil.getInteger(actionRequest, "wedClose");
+
+		int thuOpen = ParamUtil.getInteger(actionRequest, "thuOpen");
+		int thuClose = ParamUtil.getInteger(actionRequest, "thuClose");
+
+		int friOpen = ParamUtil.getInteger(actionRequest, "friOpen");
+		int friClose = ParamUtil.getInteger(actionRequest, "friClose");
+
+		int satOpen = ParamUtil.getInteger(actionRequest, "satOpen");
+		int satClose = ParamUtil.getInteger(actionRequest, "satClose");
+
+		if (orgLaborId <= 0) {
+
+			// Add organization labor
+
+			_orgLaborService.addOrgLabor(
+				organizationId, typeId, sunOpen, sunClose, monOpen, monClose,
+				tueOpen, tueClose, wedOpen, wedClose, thuOpen, thuClose,
+				friOpen, friClose, satOpen, satClose);
+		}
+		else {
+
+			// Update organization labor
+
+			_orgLaborService.updateOrgLabor(
+				orgLaborId, typeId, sunOpen, sunClose, monOpen, monClose,
+				tueOpen, tueClose, wedOpen, wedClose, thuOpen, thuClose,
+				friOpen, friClose, satOpen, satClose);
+		}
 	}
 
+	@Reference
 	private OrgLaborService _orgLaborService;
 
 }
