@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.exception.OrganizationParentException;
 import com.liferay.portal.kernel.exception.RequiredOrganizationException;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.EmailAddress;
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.OrgLabor;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.OrganizationConstants;
@@ -36,7 +35,6 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
-import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.AddressService;
 import com.liferay.portal.kernel.service.EmailAddressService;
 import com.liferay.portal.kernel.service.OrganizationService;
@@ -44,7 +42,6 @@ import com.liferay.portal.kernel.service.PhoneService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.WebsiteService;
-import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
@@ -55,7 +52,6 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.sites.kernel.util.SitesUtil;
 import com.liferay.users.admin.constants.UsersAdminPortletKeys;
 import com.liferay.users.admin.kernel.util.UsersAdminUtil;
 
@@ -227,7 +223,6 @@ public class EditOrganizationMVCActionCommand extends BaseMVCActionCommand {
 			logoBytes = FileUtil.getBytes(fileEntry.getContentStream());
 		}
 
-		boolean site = ParamUtil.getBoolean(actionRequest, "site");
 		List<OrgLabor> orgLabors = UsersAdminUtil.getOrgLabors(actionRequest);
 
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
@@ -241,7 +236,7 @@ public class EditOrganizationMVCActionCommand extends BaseMVCActionCommand {
 
 			organization = _organizationService.addOrganization(
 				parentOrganizationId, name, type, regionId, countryId, statusId,
-				comments, site, Collections.emptyList(),
+				comments, false, Collections.emptyList(),
 				Collections.emptyList(), orgLabors, Collections.emptyList(),
 				Collections.emptyList(), serviceContext);
 		}
@@ -249,6 +244,8 @@ public class EditOrganizationMVCActionCommand extends BaseMVCActionCommand {
 
 			// Update organization
 
+			boolean site = _organizationService.getOrganization(
+				organizationId).getGroup().isSite();
 			List<Address> addresses = _addressService.getAddresses(
 				Organization.class.getName(), organizationId);
 			List<EmailAddress> emailAddresses =
@@ -264,32 +261,6 @@ public class EditOrganizationMVCActionCommand extends BaseMVCActionCommand {
 				countryId, statusId, comments, !deleteLogo, logoBytes, site,
 				addresses, emailAddresses, orgLabors, phones, websites,
 				serviceContext);
-		}
-
-		// Layout set prototypes
-
-		long publicLayoutSetPrototypeId = ParamUtil.getLong(
-			actionRequest, "publicLayoutSetPrototypeId");
-		long privateLayoutSetPrototypeId = ParamUtil.getLong(
-			actionRequest, "privateLayoutSetPrototypeId");
-		boolean publicLayoutSetPrototypeLinkEnabled = ParamUtil.getBoolean(
-			actionRequest, "publicLayoutSetPrototypeLinkEnabled",
-			publicLayoutSetPrototypeId > 0);
-		boolean privateLayoutSetPrototypeLinkEnabled = ParamUtil.getBoolean(
-			actionRequest, "privateLayoutSetPrototypeLinkEnabled",
-			privateLayoutSetPrototypeId > 0);
-
-		Group organizationGroup = organization.getGroup();
-
-		if (GroupPermissionUtil.contains(
-				themeDisplay.getPermissionChecker(), organizationGroup,
-				ActionKeys.UPDATE)) {
-
-			SitesUtil.updateLayoutSetPrototypesLinks(
-				organizationGroup, publicLayoutSetPrototypeId,
-				privateLayoutSetPrototypeId,
-				publicLayoutSetPrototypeLinkEnabled,
-				privateLayoutSetPrototypeLinkEnabled);
 		}
 
 		return organization;
