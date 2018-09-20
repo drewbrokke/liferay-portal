@@ -119,27 +119,36 @@ public class OrganizationScreenNavigationRegistrar {
 		String mvcActionCommandName) {
 
 		return _createScreenNavigationEntry(
-			entryKey, categoryKey, jspPath, mvcActionCommandName,
+			entryKey, categoryKey, jspPath, mvcActionCommandName, true,
 			(user, organization) -> true);
 	}
 
 	private ScreenNavigationEntry<Organization> _createScreenNavigationEntry(
 		String entryKey, String categoryKey, String jspPath,
-		String mvcActionCommandName,
+		String mvcActionCommandName, boolean showControls,
 		BiFunction<User, Organization, Boolean> isVisibleBiFunction) {
 
 		return new OrganizationScreenNavigationEntry(
 			_jspRenderer, _organizationService, entryKey, categoryKey, jspPath,
-			mvcActionCommandName, isVisibleBiFunction);
+			mvcActionCommandName, showControls, isVisibleBiFunction);
+	}
+
+	private ScreenNavigationEntry<Organization>
+	_createUpdateOnlyScreenNavigationEntry(
+		String entryKey, String categoryKey, String jspPath,
+		String mvcActionCommandName) {
+
+		return _createUpdateOnlyScreenNavigationEntry(
+			entryKey, categoryKey, jspPath, mvcActionCommandName, true);
 	}
 
 	private ScreenNavigationEntry<Organization>
 		_createUpdateOnlyScreenNavigationEntry(
 			String entryKey, String categoryKey, String jspPath,
-			String mvcActionCommandName) {
+			String mvcActionCommandName, boolean showControls) {
 
 		return _createScreenNavigationEntry(
-			entryKey, categoryKey, jspPath, mvcActionCommandName,
+			entryKey, categoryKey, jspPath, mvcActionCommandName, showControls,
 			(user, organization) -> {
 				if (organization == null) {
 					return false;
