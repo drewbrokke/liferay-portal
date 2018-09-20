@@ -38,8 +38,9 @@ long phoneId = phone.getPhoneId();
 	showWhenSingleIcon="<%= true %>"
 >
 	<liferay-ui:icon
+		id='<%= row.getRowId() + "editPhone" %>'
 		message="edit"
-		url="<%= currentURL %>"
+		url="javascript:;"
 	/>
 
 	<portlet:actionURL name="/users_admin/update_organization_contact_information" var="makePrimaryURL">
@@ -68,3 +69,32 @@ long phoneId = phone.getPhoneId();
 		url="<%= removePhoneURL %>"
 	/>
 </liferay-ui:icon-menu>
+
+<aui:script use="aui-base">
+	<portlet:renderURL var="editPhoneURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+		<portlet:param name="mvcPath" value="/organization/edit_phone_number.jsp" />
+		<portlet:param name="organizationId" value="<%= String.valueOf(organizationId) %>" />
+		<portlet:param name="phoneId" value="<%= String.valueOf(phoneId) %>" />
+	</portlet:renderURL>
+
+	$('#<portlet:namespace /><%= row.getRowId() %>editPhone').on(
+		'click',
+		function(event) {
+
+			var currentTarget = $(event.currentTarget);
+
+			Liferay.Util.openWindow(
+				{
+					dialog: {
+						destroyOnHide: true,
+						height: '500',
+						resizable: false,
+						width: '500'
+					},
+					title: '<liferay-ui:message key="edit-phone-number" />',
+					uri: '<%= editPhoneURL.toString() %>'
+				}
+			);
+		}
+	);
+</aui:script>

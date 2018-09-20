@@ -32,6 +32,8 @@ import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.EmailAddressService;
 import com.liferay.portal.kernel.service.OrganizationService;
+import com.liferay.portal.kernel.service.PhoneLocalService;
+import com.liferay.portal.kernel.service.PhoneLocalServiceUtil;
 import com.liferay.portal.kernel.service.PhoneService;
 import com.liferay.portal.kernel.service.WebsiteService;
 import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
@@ -149,6 +151,23 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 		}
 	}
 
+	private Phone _getPhone(ActionRequest actionRequest) {
+		String extension = ParamUtil.getString(actionRequest, "phoneExtension");
+		String number = ParamUtil.getString(actionRequest, "phoneNumber");
+		long phoneId = ParamUtil.getLong(actionRequest, "phoneId");
+		boolean primary = ParamUtil.getBoolean(actionRequest, "phoneIsPrimary");
+		long typeId = ParamUtil.getLong(actionRequest, "phoneTypeId");
+
+		Phone phone = _phoneLocalService.createPhone(phoneId);
+
+		phone.setNumber(number);
+		phone.setExtension(extension);
+		phone.setTypeId(typeId);
+		phone.setPrimary(primary);
+
+		return phone;
+	}
+
 	private void _setPrimaryPhone(Long organizationId) throws PortalException {
 		List<Phone> phones = _phoneService.getPhones(
 			Organization.class.getName(), organizationId);
@@ -217,6 +236,9 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 
 	@Reference
 	private OrganizationService _organizationService;
+
+	@Reference
+	private PhoneLocalService _phoneLocalService;
 
 	@Reference
 	private PhoneService _phoneService;
