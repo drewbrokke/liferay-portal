@@ -32,10 +32,6 @@ request.setAttribute("websites.classPK", organizationId);
 %>
 
 <div class="sheet-section">
-	<liferay-util:include page="/organization/phone_numbers.jsp" servletContext="<%= application %>" />
-</div>
-
-<div class="sheet-section">
 	<h3 class="sheet-subtitle"><liferay-ui:message key="phone-numbers" /></h3>
 
 	<liferay-util:include page="/common/phone_numbers.jsp" servletContext="<%= application %>" />
