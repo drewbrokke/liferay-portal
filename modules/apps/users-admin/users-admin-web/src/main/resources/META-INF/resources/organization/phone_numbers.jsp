@@ -31,6 +31,10 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 	value="phoneNumbers"
 />
 
+<liferay-ui:error key='<%= NoSuchListTypeException.class.getName() + Organization.class.getName() + ListTypeConstants.PHONE %>' message="please-select-a-type" />
+<liferay-ui:error exception="<%= PhoneNumberException.class %>" message="please-enter-a-valid-phone-number" />
+<liferay-ui:error exception="<%= PhoneNumberExtensionException.class %>" message="please-enter-a-valid-phone-number-extension" />
+
 <h3 class="sheet-subtitle">
 	<span class="autofit-padded-no-gutters autofit-row">
 		<span class="autofit-col autofit-col-expand">

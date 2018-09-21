@@ -27,48 +27,36 @@ if (phoneId > 0L) {
 }
 %>
 
-<portlet:actionURL name="/users_admin/update_organization_contact_information" var="editPhoneURL" />
-
-<aui:form action="<%= editPhoneURL %>" cssClass="container-fluid container-fluid-max-xl" method="post" name="edit_phone_number_fm">
-	<aui:input name="redirect" type="hidden" value="<%= redirect %>" />
-
+<aui:form action="<%= redirect %>" cssClass="container-fluid container-fluid-max-xl" method="post" name="phoneNumberFm">
 	<aui:fieldset-group markupView="lexicon">
+		<div class="alert alert-info">
+			<liferay-ui:message key="phone-number-and-type-are-required-fields.-extension-must-be-numeric" />
+		</div>
+
 		<div class="sheet">
-			<div class="sheet-section">
-				<div class="alert alert-info">
-					<liferay-ui:message key="phone-number-and-type-are-required-fields.-extension-must-be-numeric" />
-				</div>
+			<aui:fieldset id="phoneNumbers">
+				<aui:model-context bean="<%= phone %>" model="<%= Phone.class %>" />
 
-				<liferay-ui:error key='<%= NoSuchListTypeException.class.getName() + "phones.className" + ListTypeConstants.PHONE %>' message="please-select-a-type" />
-				<liferay-ui:error exception="<%= PhoneNumberException.class %>" message="please-enter-a-valid-phone-number" />
-				<liferay-ui:error exception="<%= PhoneNumberExtensionException.class %>" message="please-enter-a-valid-phone-number-extension" />
+				<div class="form-group-autofit lfr-form-row">
+					<aui:input name="phoneId" type="hidden" value="<%= phoneId %>" />
 
-				<aui:fieldset id="phoneNumbers">
-					<div class="form-group-autofit lfr-form-row">
-						<aui:input name="phoneId" type="hidden" value="<%= phoneId %>" />
-
-						<div class="form-group-item">
-							<aui:input fieldParam="phoneNumber" id="phoneNumber" inlineField="<%= true %>" name="number" value='<%= (phoneId > 0L)? phone.getNumber() : "" %>' />
-						</div>
-
-						<div class="form-group-item">
-							<aui:input fieldParam="phoneExtension" id="phoneExtension" inlineField="<%= true %>" name="extension" value='<%= (phoneId > 0L)? phone.getExtension() : "" %>' />
-						</div>
-
-						<div class="form-group-item">
-							<aui:select inlineField="<%= true %>" label="type" listType="<%= Phone.class.getName() + ListTypeConstants.PHONE %>" name="phoneTypeId" />
-						</div>
-
-						<div class="form-group-item form-group-item-label-spacer">
-							<aui:input checked="<%= (phoneId > 0L)? phone.isPrimary() : false %>" id="phonePrimary" inlineField="<%= true %>" label="primary" name="phonePrimary" type="checkbox" />
-						</div>
+					<div class="form-group-item">
+						<aui:input checked="<%= (phoneId > 0L)? phone.isPrimary() : false %>" id="phonePrimary" inlineField="<%= true %>" label="make-primary" name="phonePrimary" type="checkbox" />
 					</div>
-				</aui:fieldset>
-			</div>
 
-			<div class="sheet-footer">
-				<aui:button primary="<%= true %>" type="submit" />
-			</div>
+					<div class="form-group-item">
+						<aui:input fieldParam="phoneNumber" id="phoneNumber" inlineField="<%= true %>" name="number" />
+					</div>
+
+					<div class="form-group-item">
+						<aui:input fieldParam="phoneExtension" id="phoneExtension" inlineField="<%= true %>" name="extension" />
+					</div>
+
+					<div class="form-group-item">
+						<aui:select inlineField="<%= true %>" label="type" listType="<%= Organization.class.getName() + ListTypeConstants.PHONE %>" name="phoneTypeId" />
+					</div>
+				</div>
+			</aui:fieldset>
 		</div>
 	</aui:fieldset-group>
 </aui:form>

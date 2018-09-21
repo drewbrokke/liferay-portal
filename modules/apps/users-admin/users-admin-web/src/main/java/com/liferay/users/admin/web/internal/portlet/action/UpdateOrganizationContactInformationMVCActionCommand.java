@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.EmailAddressService;
 import com.liferay.portal.kernel.service.OrganizationService;
 import com.liferay.portal.kernel.service.PhoneLocalService;
-import com.liferay.portal.kernel.service.PhoneLocalServiceUtil;
 import com.liferay.portal.kernel.service.PhoneService;
 import com.liferay.portal.kernel.service.WebsiteService;
 import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
@@ -123,7 +122,7 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 		String listType = ParamUtil.getString(actionRequest, "listType");
 
 		if (listType.equals(ListTypeConstants.PHONE)) {
-			_updatePhones(actionRequest);
+			_updatePhone(actionRequest);
 		}
 		else {
 			List<EmailAddress> emailAddresses =
@@ -154,8 +153,8 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 	private Phone _getPhone(ActionRequest actionRequest) {
 		String extension = ParamUtil.getString(actionRequest, "phoneExtension");
 		String number = ParamUtil.getString(actionRequest, "phoneNumber");
-		long phoneId = ParamUtil.getLong(actionRequest, "phoneId");
-		boolean primary = ParamUtil.getBoolean(actionRequest, "phoneIsPrimary");
+		long phoneId = ParamUtil.getLong(actionRequest, "entryId");
+		boolean primary = ParamUtil.getBoolean(actionRequest, "phonePrimary");
 		long typeId = ParamUtil.getLong(actionRequest, "phoneTypeId");
 
 		Phone phone = _phoneLocalService.createPhone(phoneId);
@@ -213,7 +212,7 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 		}
 	}
 
-	private void _updatePhones(ActionRequest actionRequest)
+	private void _updatePhone(ActionRequest actionRequest)
 		throws PortalException {
 
 		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
@@ -225,6 +224,20 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 			_phoneService.deletePhone(phoneId);
 
 			_setPrimaryPhone(organizationId);
+		}
+		else if (cmd.equals(Constants.UPDATE)) {
+			Phone phone = _getPhone(actionRequest);
+
+			_phoneService.updatePhone(
+				phone.getPhoneId(), phone.getNumber(), phone.getExtension(),
+				phone.getTypeId(), phone.isPrimary());
+
+			if (phone.isPrimary()) {
+				_setPrimaryPhone(organizationId, phoneId);
+			}
+			else {
+				_setPrimaryPhone(organizationId);
+			}
 		}
 		else if (cmd.equals(UsersAdminWebKeys.CMD_MAKE_PRIMARY)) {
 			_setPrimaryPhone(organizationId, phoneId);

@@ -36,12 +36,6 @@ request.setAttribute("websites.classPK", organizationId);
 </div>
 
 <div class="sheet-section">
-	<h3 class="sheet-subtitle"><liferay-ui:message key="phone-numbers" /></h3>
-
-	<liferay-util:include page="/common/phone_numbers.jsp" servletContext="<%= application %>" />
-</div>
-
-<div class="sheet-section">
 	<h3 class="sheet-subtitle"><liferay-ui:message key="additional-email-addresses" /></h3>
 
 	<liferay-util:include page="/common/additional_email_addresses.jsp" servletContext="<%= application %>" />
