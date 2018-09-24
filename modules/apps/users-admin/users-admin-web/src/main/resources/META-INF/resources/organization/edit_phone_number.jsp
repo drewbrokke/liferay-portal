@@ -27,38 +27,22 @@ if (phoneId > 0L) {
 }
 %>
 
-<aui:form action="<%= redirect %>" cssClass="container-fluid container-fluid-max-xl" method="post" name="phoneNumberFm">
-	<aui:fieldset-group markupView="lexicon">
+<div class="card-horizontal main-content-card">
+	<aui:form action="<%= redirect %>" cssClass="container-fluid container-fluid-max-xl container-form-lg" method="post" name="phoneNumberFm">
 		<div class="alert alert-info">
-			<liferay-ui:message key="phone-number-and-type-are-required-fields.-extension-must-be-numeric" />
+			<liferay-ui:message key="extension-must-be-numeric" />
 		</div>
 
-		<div class="sheet">
-			<aui:fieldset id="phoneNumbers">
-				<c:if test="<%= phone != null %>">
-					<aui:model-context bean="<%= phone %>" model="<%= Phone.class %>" />
-				</c:if>
+		<aui:model-context bean="<%= phone %>" model="<%= Phone.class %>" />
 
-				<div class="form-group-autofit lfr-form-row">
-					<aui:input name="phoneId" type="hidden" value="<%= phoneId %>" />
+		<aui:input name="phoneId" type="hidden" value="<%= phoneId %>" />
 
-					<div class="form-group-item">
-						<aui:input checked="<%= (phone != null)? phone.isPrimary() : false %>" id="phonePrimary" inlineField="<%= true %>" label="make-primary" name="phonePrimary" type="checkbox" />
-					</div>
+		<aui:input checked="<%= (phone != null)? phone.isPrimary() : false %>" id="phonePrimary" label="make-primary" name="phonePrimary" type="checkbox" />
 
-					<div class="form-group-item">
-						<aui:input fieldParam="phoneNumber" id="phoneNumber" inlineField="<%= true %>" name="number" />
-					</div>
+		<aui:select inlineField="<%= true %>" label="type" listType="<%= Organization.class.getName() + ListTypeConstants.PHONE %>" name="phoneTypeId" />
 
-					<div class="form-group-item">
-						<aui:input fieldParam="phoneExtension" id="phoneExtension" inlineField="<%= true %>" name="extension" />
-					</div>
+		<aui:input fieldParam="phoneNumber" id="phoneNumber" name="number" required="<%= true %>" />
 
-					<div class="form-group-item">
-						<aui:select inlineField="<%= true %>" label="type" listType="<%= Organization.class.getName() + ListTypeConstants.PHONE %>" name="phoneTypeId" />
-					</div>
-				</div>
-			</aui:fieldset>
-		</div>
-	</aui:fieldset-group>
-</aui:form>
+		<aui:input fieldParam="phoneExtension" id="phoneExtension" name="extension" />
+	</aui:form>
+</div>

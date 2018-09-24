@@ -103,7 +103,7 @@ public class OrganizationScreenNavigationRegistrar {
 			_createUpdateOnlyScreenNavigationEntry(
 				"contact-information", _CATEGORY_CONTACT,
 				"/organization/contact_information.jsp",
-				"/users_admin/update_organization_contact_information"),
+				"/users_admin/update_organization_contact_information", false),
 			20);
 
 		_registerScreenNavigationEntry(
@@ -134,9 +134,9 @@ public class OrganizationScreenNavigationRegistrar {
 	}
 
 	private ScreenNavigationEntry<Organization>
-	_createUpdateOnlyScreenNavigationEntry(
-		String entryKey, String categoryKey, String jspPath,
-		String mvcActionCommandName) {
+		_createUpdateOnlyScreenNavigationEntry(
+			String entryKey, String categoryKey, String jspPath,
+			String mvcActionCommandName) {
 
 		return _createUpdateOnlyScreenNavigationEntry(
 			entryKey, categoryKey, jspPath, mvcActionCommandName, true);

@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.service.EmailAddressService;
 import com.liferay.portal.kernel.service.OrganizationService;
 import com.liferay.portal.kernel.service.PhoneLocalService;
 import com.liferay.portal.kernel.service.PhoneService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.WebsiteService;
 import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -47,6 +48,7 @@ import com.liferay.users.admin.kernel.util.UsersAdmin;
 import com.liferay.users.admin.kernel.util.UsersAdminUtil;
 import com.liferay.users.admin.web.internal.constants.UsersAdminWebKeys;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -167,6 +169,13 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 		return phone;
 	}
 
+	private List<Phone> _getPhones(Long organizationId) throws PortalException {
+		List<Phone> phones = _phoneService.getPhones(
+			Organization.class.getName(), organizationId);
+
+		return new ArrayList<>(phones);
+	}
+
 	private boolean _hasPrimaryPhone(List<Phone> phones) {
 		if (phones.isEmpty()) {
 			return true;
@@ -188,7 +197,7 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 
 		Phone phone = phones.get(0);
 
-		phone.setPrimary(false);
+		phone.setPrimary(true);
 
 		phones.set(0, phone);
 	}
@@ -225,11 +234,13 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 			return;
 		}
 
-		for (Phone phone : phones) {
+		for (int i = 0; i < phones.size(); i++) {
+			Phone phone = phones.get(i);
+
 			if (phone.getPhoneId() != phoneId) {
 				phone.setPrimary(true);
 
-				phones.set(0, phone);
+				phones.set(i, phone);
 
 				return;
 			}
@@ -260,8 +271,7 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 			_phoneService.deletePhone(phoneId);
 
 			if (phone.isPrimary()) {
-				List<Phone> phones = _phoneService.getPhones(
-					Organization.class.getName(), organizationId);
+				List<Phone> phones = _getPhones(organizationId);
 
 				if (!_hasPrimaryPhone(phones)) {
 					_setPrimaryPhone(phones);
@@ -274,19 +284,28 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 		else if (cmd.equals(Constants.EDIT)) {
 			Phone phone = _getPhone(actionRequest);
 
-			_phoneService.updatePhone(
-				phone.getPhoneId(), phone.getNumber(), phone.getExtension(),
-				phone.getTypeId(), phone.isPrimary());
-
-			List<Phone> phones = _phoneService.getPhones(
-				Organization.class.getName(), organizationId);
-
-			_unsetAllPrimaryPhones(phones);
-
-			if (phone.isPrimary()) {
-				_setPrimaryPhone(phones, phoneId);
+			if (phone.getPhoneId() > 0L) {
+				_phoneService.updatePhone(
+					phone.getPhoneId(), phone.getNumber(), phone.getExtension(),
+					phone.getTypeId(), phone.isPrimary());
 			}
 			else {
+				Phone newPhone = _phoneService.addPhone(
+					Organization.class.getName(), organizationId,
+					phone.getNumber(), phone.getExtension(), phone.getTypeId(),
+					phone.isPrimary(), new ServiceContext());
+
+				phoneId = newPhone.getPhoneId();
+			}
+
+			List<Phone> phones = _getPhones(organizationId);
+
+			if (phone.isPrimary()) {
+				_unsetAllPrimaryPhones(phones);
+
+				_setPrimaryPhone(phones, phoneId);
+			}
+			else if (!_hasPrimaryPhone(phones)) {
 				_setPrimaryPhoneExceptPhoneId(phones, phoneId);
 			}
 
@@ -294,8 +313,7 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 				Organization.class.getName(), organizationId, phones);
 		}
 		else if (cmd.equals(UsersAdminWebKeys.CMD_MAKE_PRIMARY)) {
-			List<Phone> phones = _phoneService.getPhones(
-				Organization.class.getName(), organizationId);
+			List<Phone> phones = _getPhones(organizationId);
 
 			_unsetAllPrimaryPhones(phones);
 

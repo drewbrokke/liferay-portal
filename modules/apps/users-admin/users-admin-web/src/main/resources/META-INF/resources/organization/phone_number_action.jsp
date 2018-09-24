@@ -37,8 +37,16 @@ long phoneId = phone.getPhoneId();
 	message="<%= StringPool.BLANK %>"
 	showWhenSingleIcon="<%= true %>"
 >
+
+	<%
+	Map<String, Object> data = new HashMap<String, Object>();
+
+	data.put("phone-id", String.valueOf(phoneId));
+	%>
+
 	<liferay-ui:icon
-		id='<%= row.getRowId() + "editPhone" %>'
+		data="<%= data %>"
+		linkCssClass="edit-phone"
 		message="edit"
 		url="javascript:;"
 	/>
@@ -69,11 +77,3 @@ long phoneId = phone.getPhoneId();
 		url="<%= removePhoneURL %>"
 	/>
 </liferay-ui:icon-menu>
-
-<aui:script use="aui-base">
-	$('#<portlet:namespace /><%= row.getRowId() %>editPhone').on(
-		'click', function(event) {
-			<portlet:namespace />openEditPhoneWindow('<%= String.valueOf(phoneId) %>', '<%= UnicodeLanguageUtil.get(request, "edit-phone-number") %>')
-		}
-	);
-</aui:script>
