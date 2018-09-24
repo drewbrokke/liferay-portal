@@ -35,13 +35,15 @@ if (phoneId > 0L) {
 
 		<div class="sheet">
 			<aui:fieldset id="phoneNumbers">
-				<aui:model-context bean="<%= phone %>" model="<%= Phone.class %>" />
+				<c:if test="<%= phone != null %>">
+					<aui:model-context bean="<%= phone %>" model="<%= Phone.class %>" />
+				</c:if>
 
 				<div class="form-group-autofit lfr-form-row">
 					<aui:input name="phoneId" type="hidden" value="<%= phoneId %>" />
 
 					<div class="form-group-item">
-						<aui:input checked="<%= (phoneId > 0L)? phone.isPrimary() : false %>" id="phonePrimary" inlineField="<%= true %>" label="make-primary" name="phonePrimary" type="checkbox" />
+						<aui:input checked="<%= (phone != null)? phone.isPrimary() : false %>" id="phonePrimary" inlineField="<%= true %>" label="make-primary" name="phonePrimary" type="checkbox" />
 					</div>
 
 					<div class="form-group-item">

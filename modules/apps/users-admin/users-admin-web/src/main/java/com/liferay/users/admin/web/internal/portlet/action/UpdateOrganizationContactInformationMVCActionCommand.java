@@ -167,48 +167,82 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 		return phone;
 	}
 
-	private void _setPrimaryPhone(Long organizationId) throws PortalException {
-		List<Phone> phones = _phoneService.getPhones(
-			Organization.class.getName(), organizationId);
-
+	private boolean _hasPrimaryPhone(List<Phone> phones) {
 		if (phones.isEmpty()) {
-			return;
+			return true;
 		}
 
 		for (Phone phone : phones) {
 			if (phone.isPrimary()) {
-				return;
+				return true;
 			}
 		}
 
-		Phone primaryPhone = phones.get(0);
-
-		_phoneService.updatePhone(
-			primaryPhone.getPhoneId(), primaryPhone.getNumber(),
-			primaryPhone.getExtension(), primaryPhone.getTypeId(), true);
+		return false;
 	}
 
-	private void _setPrimaryPhone(Long organizationId, Long phoneId)
-		throws PortalException {
-
-		List<Phone> phones = _phoneService.getPhones(
-			Organization.class.getName(), organizationId);
-
+	private void _setPrimaryPhone(List<Phone> phones) {
 		if (phones.isEmpty()) {
 			return;
 		}
 
+		Phone phone = phones.get(0);
+
+		phone.setPrimary(false);
+
+		phones.set(0, phone);
+	}
+
+	private void _setPrimaryPhone(List<Phone> phones, Long phoneId) {
+		if (phones.isEmpty()) {
+			return;
+		}
+
+		for (int i = 0; i < phones.size(); i++) {
+			Phone phone = phones.get(i);
+
+			if (phone.getPhoneId() == phoneId) {
+				phone.setPrimary(true);
+
+				phones.set(i, phone);
+			}
+		}
+	}
+
+	private void _setPrimaryPhoneExceptPhoneId(
+		List<Phone> phones, Long phoneId) {
+
+		if (phones.isEmpty()) {
+			return;
+		}
+		else if (phones.size() == 1) {
+			Phone phone = phones.get(0);
+
+			phone.setPrimary(true);
+
+			phones.set(0, phone);
+
+			return;
+		}
+
 		for (Phone phone : phones) {
-			if ((phone.getPhoneId() == phoneId) && !phone.isPrimary()) {
-				_phoneService.updatePhone(
-					phone.getPhoneId(), phone.getNumber(), phone.getExtension(),
-					phone.getTypeId(), true);
+			if (phone.getPhoneId() != phoneId) {
+				phone.setPrimary(true);
+
+				phones.set(0, phone);
+
+				return;
 			}
-			else if ((phone.getPhoneId() != phoneId) && phone.isPrimary()) {
-				_phoneService.updatePhone(
-					phone.getPhoneId(), phone.getNumber(), phone.getExtension(),
-					phone.getTypeId(), false);
-			}
+		}
+	}
+
+	private void _unsetAllPrimaryPhones(List<Phone> phones) {
+		for (int i = 0; i < phones.size(); i++) {
+			Phone phone = phones.get(i);
+
+			phone.setPrimary(false);
+
+			phones.set(i, phone);
 		}
 	}
 
@@ -221,26 +255,54 @@ public class UpdateOrganizationContactInformationMVCActionCommand
 			actionRequest, "organizationId");
 
 		if (cmd.equals(Constants.DELETE)) {
+			Phone phone = _phoneService.getPhone(phoneId);
+
 			_phoneService.deletePhone(phoneId);
 
-			_setPrimaryPhone(organizationId);
+			if (phone.isPrimary()) {
+				List<Phone> phones = _phoneService.getPhones(
+					Organization.class.getName(), organizationId);
+
+				if (!_hasPrimaryPhone(phones)) {
+					_setPrimaryPhone(phones);
+				}
+
+				_usersAdmin.updatePhones(
+					Organization.class.getName(), organizationId, phones);
+			}
 		}
-		else if (cmd.equals(Constants.UPDATE)) {
+		else if (cmd.equals(Constants.EDIT)) {
 			Phone phone = _getPhone(actionRequest);
 
 			_phoneService.updatePhone(
 				phone.getPhoneId(), phone.getNumber(), phone.getExtension(),
 				phone.getTypeId(), phone.isPrimary());
 
+			List<Phone> phones = _phoneService.getPhones(
+				Organization.class.getName(), organizationId);
+
+			_unsetAllPrimaryPhones(phones);
+
 			if (phone.isPrimary()) {
-				_setPrimaryPhone(organizationId, phoneId);
+				_setPrimaryPhone(phones, phoneId);
 			}
 			else {
-				_setPrimaryPhone(organizationId);
+				_setPrimaryPhoneExceptPhoneId(phones, phoneId);
 			}
+
+			_usersAdmin.updatePhones(
+				Organization.class.getName(), organizationId, phones);
 		}
 		else if (cmd.equals(UsersAdminWebKeys.CMD_MAKE_PRIMARY)) {
-			_setPrimaryPhone(organizationId, phoneId);
+			List<Phone> phones = _phoneService.getPhones(
+				Organization.class.getName(), organizationId);
+
+			_unsetAllPrimaryPhones(phones);
+
+			_setPrimaryPhone(phones, phoneId);
+
+			_usersAdmin.updatePhones(
+				Organization.class.getName(), organizationId, phones);
 		}
 	}
 
