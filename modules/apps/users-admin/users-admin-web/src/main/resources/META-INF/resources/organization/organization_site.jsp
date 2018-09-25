@@ -78,10 +78,11 @@ if (organization != null) {
 
 <c:choose>
 	<c:when test="<%= (organizationGroup == null) || GroupPermissionUtil.contains(permissionChecker, organizationGroup, ActionKeys.UPDATE) %>">
-		<aui:fieldset>
+		<aui:fieldset cssClass="hide-data-labels">
 			<c:choose>
 				<c:when test="<%= (organization == null) || ((publicLayoutSetPrototype == null) && (privateLayoutSetPrototype == null)) %>">
-					<aui:input label="create-site" name="site" type="checkbox" value="<%= site %>" />
+					<p class="sheet-text"><liferay-ui:message key="by-clicking-this-toggle-you-could-create-a-public-or-and-private-site-for-your-organization" /></p>
+					<aui:input label="create-site" name="site" type="toggle-switch" value="<%= site %>" />
 				</c:when>
 				<c:otherwise>
 					<aui:input label="create-site" name="site" type="hidden" value="<%= site %>" />
