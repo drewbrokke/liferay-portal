@@ -305,6 +305,8 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 							);
 						},
 						success: function(responseData) {
+							A.all('.permission-navigation-link').removeClass('active')
+
 							permissionContentContainerNode.plug(AParseContent);
 
 							permissionContentContainerNode.empty();
@@ -314,6 +316,8 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 							var checkedNodes = permissionContentContainerNode.all(':checked');
 
 							originalSelectedValues = checkedNodes.val();
+
+							event.currentTarget.addClass('active');
 						}
 					}
 				);
