@@ -9892,7 +9892,7 @@ public class GroupPersistenceImpl extends BasePersistenceImpl<Group>
 					if ((companyId != group.getCompanyId()) ||
 							(parentGroupId != group.getParentGroupId()) ||
 							!StringUtil.wildcardMatches(group.getName(), name,
-								'_', '%', '\\', true) ||
+								'_', '%', '\\', false) ||
 							(site != group.isSite())) {
 						list = null;
 
@@ -9960,7 +9960,7 @@ public class GroupPersistenceImpl extends BasePersistenceImpl<Group>
 				qPos.add(parentGroupId);
 
 				if (bindName) {
-					qPos.add(name);
+					qPos.add(StringUtil.toLowerCase(name));
 				}
 
 				qPos.add(site);
@@ -10285,7 +10285,7 @@ public class GroupPersistenceImpl extends BasePersistenceImpl<Group>
 		qPos.add(parentGroupId);
 
 		if (bindName) {
-			qPos.add(name);
+			qPos.add(StringUtil.toLowerCase(name));
 		}
 
 		qPos.add(site);
@@ -10384,7 +10384,7 @@ public class GroupPersistenceImpl extends BasePersistenceImpl<Group>
 				qPos.add(parentGroupId);
 
 				if (bindName) {
-					qPos.add(name);
+					qPos.add(StringUtil.toLowerCase(name));
 				}
 
 				qPos.add(site);
@@ -10409,7 +10409,7 @@ public class GroupPersistenceImpl extends BasePersistenceImpl<Group>
 	private static final String _FINDER_COLUMN_C_P_LIKEN_S_COMPANYID_2 = "group_.companyId = ? AND ";
 	private static final String _FINDER_COLUMN_C_P_LIKEN_S_PARENTGROUPID_2 = "group_.parentGroupId = ? AND ";
 	private static final String _FINDER_COLUMN_C_P_LIKEN_S_NAME_1 = "group_.name IS NULL AND ";
-	private static final String _FINDER_COLUMN_C_P_LIKEN_S_NAME_2 = "group_.name LIKE ? AND ";
+	private static final String _FINDER_COLUMN_C_P_LIKEN_S_NAME_2 = "lower(group_.name) LIKE ? AND ";
 	private static final String _FINDER_COLUMN_C_P_LIKEN_S_NAME_3 = "(group_.name IS NULL OR group_.name LIKE '') AND ";
 	private static final String _FINDER_COLUMN_C_P_LIKEN_S_SITE_2 = "group_.site = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_C_P_S_I = new FinderPath(GroupModelImpl.ENTITY_CACHE_ENABLED,
