@@ -1533,31 +1533,6 @@
 				Users_Teams.userId = ?
 		]]>
 	</sql>
-	<sql id="com.liferay.portal.kernel.service.persistence.UserFinder.countByOrganizationsAndUserGroups">
-		<![CDATA[
-			SELECT
-				COUNT(*) AS COUNT_VALUE
-			FROM
-				(
-					(
-						SELECT
-							userId
-						FROM
-							Users_Orgs
-						WHERE
-							organizationId IN ([$ORGANIZATION_ID$])
-					) UNION
-					(
-						SELECT
-							userId
-						FROM
-							Users_UserGroups
-						WHERE
-							userGroupId IN ([$USER_GROUP_ID$])
-					)
-				) AS USER_IDS
-		]]>
-	</sql>
 	<sql id="com.liferay.portal.kernel.service.persistence.UserFinder.countBySocialUsers">
 		<![CDATA[
 			SELECT
@@ -1776,6 +1751,30 @@
 					(LOWER(User_.emailAddress) LIKE ? [$AND_OR_NULL_CHECK$])
 				) AND
 				(User_.status = ?)
+		]]>
+	</sql>
+	<sql id="com.liferay.portal.kernel.service.persistence.UserFinder.findUserIdByOrganizations">
+		<![CDATA[
+			(
+				SELECT
+					DISTINCT userId
+				FROM
+					Users_Orgs
+				WHERE
+					Users_Orgs.organizationId IN [$ORGANIZATION_ID$]
+			)
+		]]>
+	</sql>
+	<sql id="com.liferay.portal.kernel.service.persistence.UserFinder.findUserIdByUserGroups">
+		<![CDATA[
+			(
+				SELECT
+					DISTINCT userId
+				FROM
+					Users_UserGroups
+				WHERE
+					Users_UserGroups.userGroupId IN [$USER_GROUP_ID$]
+			)
 		]]>
 	</sql>
 	<sql id="com.liferay.portal.kernel.service.persistence.UserFinder.joinByContactTwitterSN">
