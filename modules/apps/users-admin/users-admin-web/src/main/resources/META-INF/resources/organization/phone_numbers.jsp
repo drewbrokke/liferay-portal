@@ -135,84 +135,7 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 	<portlet:param name="mvcPath" value="/organization/edit_phone_number.jsp" />
 </portlet:renderURL>
 
-<aui:script use="liferay-portlet-url">
-	function <portlet:namespace />openEditPhoneWindow(title, entryId, fieldNames, baseRenderURL, baseEditURL) {
-		var renderURL = Liferay.PortletURL.createURL(baseRenderURL);
-
-		renderURL.setParameter('entryId', entryId);
-
-		var modalId = '<portlet:namespace />editContactInformationModal';
-
-		Liferay.Util.openWindow(
-			{
-				dialog: {
-					destroyOnHide: true,
-					height: 520,
-					modal: true,
-					resizable: false,
-					'toolbars.footer': [
-						{
-							cssClass: 'btn-link close-modal',
-							id: 'cancelButton',
-							label: '<%= UnicodeLanguageUtil.get(request, "cancel") %>',
-							on: {
-								click: function() {
-									Liferay.Util.getWindow(modalId).hide();
-								}
-							}
-						},
-						{
-							cssClass: 'btn-primary',
-							id: 'saveButton',
-							label: '<%= LanguageUtil.get(request, "save") %>',
-							on: {
-								click: function(event) {
-									var contentWindow = document.getElementById(modalId + '_iframe_').contentWindow;
-
-									var formValidator = contentWindow.Liferay.Form.get('<portlet:namespace />fm').formValidator;
-
-									formValidator.validate();
-
-									if (!formValidator.hasErrors()) {
-										var windowDocument = contentWindow.document;
-
-										var editURL = Liferay.PortletURL.createURL(baseEditURL);
-
-										editURL.setParameter('entryId', entryId);
-
-										fieldNames.forEach(function(fieldName) {
-											var field = windowDocument.getElementById('<portlet:namespace />' + fieldName);
-
-											var value = field.value;
-
-											if (field.type === 'checkbox') {
-												value = field.checked;
-											}
-
-											editURL.setParameter(fieldName, value);
-										});
-
-										var form = document.getElementById('<portlet:namespace />fm');
-
-										submitForm(form, editURL.toString());
-
-										form.submit();
-
-										Liferay.Util.getWindow(modalId).hide();
-									}
-								}
-							}
-						}
-					],
-					width: '600'
-				},
-				id: modalId,
-				title: title,
-				uri: renderURL.toString()
-			}
-		);
-	}
-
+<aui:script>
 	$('body').on(
 		'click',
 		'.modify-contact-info-link a',
@@ -221,12 +144,13 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 
 			var currentTarget = $(event.currentTarget);
 
-			<portlet:namespace />openEditPhoneWindow(
+			<portlet:namespace />openEditContactInformationWindow(
 				currentTarget.data('title'),
 				currentTarget.data('entry-id'),
 				['phoneExtension', 'phoneNumber', 'phonePrimary', 'phoneTypeId'],
 				'<%= editPhoneRenderURL.toString() %>',
-				'<%= editPhoneActionURL.toString() %>');
+				'<%= editPhoneActionURL.toString() %>'
+			);
 		}
 	);
 </aui:script>
