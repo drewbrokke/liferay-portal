@@ -66,9 +66,6 @@ import java.util.Map;
  */
 public class UserFinderImpl extends UserFinderBaseImpl implements UserFinder {
 
-	public static final String COUNT_BY_ORGANIZATIONS_AND_USER_GROUPS =
-		UserFinder.class.getName() + ".countByOrganizationsAndUserGroups";
-
 	public static final String COUNT_BY_SOCIAL_USERS =
 		UserFinder.class.getName() + ".countBySocialUsers";
 
@@ -107,6 +104,12 @@ public class UserFinderImpl extends UserFinderBaseImpl implements UserFinder {
 
 	public static final String FIND_BY_C_FN_MN_LN_SN_EA_S =
 		UserFinder.class.getName() + ".findByC_FN_MN_LN_SN_EA_S";
+
+	public static final String FIND_USER_ID_BY_ORGANIZATIONS =
+		UserFinder.class.getName() + ".findUserIdByOrganizations";
+
+	public static final String FIND_USER_ID_BY_USER_GROUPS =
+		UserFinder.class.getName() + ".findUserIdByUserGroups";
 
 	public static final String JOIN_BY_CONTACT_TWITTER_SN =
 		UserFinder.class.getName() + ".joinByContactTwitterSN";
@@ -325,22 +328,67 @@ public class UserFinderImpl extends UserFinderBaseImpl implements UserFinder {
 	public int countByOrganizationsAndUserGroups(
 		long[] organizationIds, long[] userGroupIds) {
 
+		boolean hasOrganizationIds = false;
+
+		if ((organizationIds != null) && (organizationIds.length > 0)) {
+			hasOrganizationIds = true;
+		}
+
+		boolean hasUserGroupIds = false;
+
+		if ((userGroupIds != null) && (userGroupIds.length > 0)) {
+			hasUserGroupIds = true;
+		}
+
+		if (!hasOrganizationIds && !hasUserGroupIds) {
+			return 0;
+		}
+
 		Long count = null;
 
 		Session session = openSession();
 
 		try {
-			String sql = CustomSQLUtil.get(
-				COUNT_BY_ORGANIZATIONS_AND_USER_GROUPS);
+			StringBundler sb = new StringBundler(7);
 
-			sql = StringUtil.replace(
-				sql, new String[] {"[$ORGANIZATION_ID$]", "[$USER_GROUP_ID$]"},
-				new String[] {
-					StringUtil.merge(organizationIds),
-					StringUtil.merge(userGroupIds)
-				});
+			sb.append("SELECT COUNT(*) AS COUNT_VALUE FROM ");
 
-			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+			if (hasOrganizationIds && hasUserGroupIds) {
+				sb.append("(");
+			}
+
+			if (hasOrganizationIds) {
+				String sql = CustomSQLUtil.get(FIND_USER_ID_BY_ORGANIZATIONS);
+
+				sql = StringUtil.replace(
+					sql, "[$ORGANIZATION_ID$]",
+					"(" + StringUtil.merge(organizationIds) + ") ");
+
+				sb.append(sql);
+			}
+
+			if (hasOrganizationIds && hasUserGroupIds) {
+				sb.append(" UNION ");
+			}
+
+			if (hasUserGroupIds) {
+				String sql = CustomSQLUtil.get(FIND_USER_ID_BY_USER_GROUPS);
+
+				sql = StringUtil.replace(
+					sql, "[$USER_GROUP_ID$]",
+					"(" + StringUtil.merge(userGroupIds) + ") ");
+
+				sb.append(sql);
+			}
+
+			if (hasOrganizationIds && hasUserGroupIds) {
+				sb.append(") ");
+			}
+
+			sb.append("USER_IDS");
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(
+				sb.toString());
 
 			sqlQuery.addScalar(COUNT_COLUMN_NAME, Type.LONG);
 

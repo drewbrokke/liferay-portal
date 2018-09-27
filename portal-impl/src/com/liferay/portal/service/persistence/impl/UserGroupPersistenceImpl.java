@@ -4178,7 +4178,7 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 				for (UserGroup userGroup : list) {
 					if ((companyId != userGroup.getCompanyId()) ||
 							!StringUtil.wildcardMatches(userGroup.getName(),
-								name, '_', '%', '\\', true)) {
+								name, '_', '%', '\\', false)) {
 						list = null;
 
 						break;
@@ -4239,7 +4239,7 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 				qPos.add(companyId);
 
 				if (bindName) {
-					qPos.add(name);
+					qPos.add(StringUtil.toLowerCase(name));
 				}
 
 				if (!pagination) {
@@ -4535,7 +4535,7 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		qPos.add(companyId);
 
 		if (bindName) {
-			qPos.add(name);
+			qPos.add(StringUtil.toLowerCase(name));
 		}
 
 		if (orderByComparator != null) {
@@ -4687,7 +4687,7 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 			qPos.add(companyId);
 
 			if (bindName) {
-				qPos.add(name);
+				qPos.add(StringUtil.toLowerCase(name));
 			}
 
 			return (List<UserGroup>)QueryUtil.list(q, getDialect(), start, end);
@@ -4884,7 +4884,7 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		qPos.add(companyId);
 
 		if (bindName) {
-			qPos.add(name);
+			qPos.add(StringUtil.toLowerCase(name));
 		}
 
 		if (orderByComparator != null) {
@@ -4969,7 +4969,7 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 				qPos.add(companyId);
 
 				if (bindName) {
-					qPos.add(name);
+					qPos.add(StringUtil.toLowerCase(name));
 				}
 
 				count = (Long)q.uniqueResult();
@@ -5040,7 +5040,7 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 			qPos.add(companyId);
 
 			if (bindName) {
-				qPos.add(name);
+				qPos.add(StringUtil.toLowerCase(name));
 			}
 
 			Long count = (Long)q.uniqueResult();
@@ -5057,7 +5057,7 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 
 	private static final String _FINDER_COLUMN_C_LIKEN_COMPANYID_2 = "userGroup.companyId = ? AND ";
 	private static final String _FINDER_COLUMN_C_LIKEN_NAME_1 = "userGroup.name IS NULL";
-	private static final String _FINDER_COLUMN_C_LIKEN_NAME_2 = "userGroup.name LIKE ?";
+	private static final String _FINDER_COLUMN_C_LIKEN_NAME_2 = "lower(userGroup.name) LIKE ?";
 	private static final String _FINDER_COLUMN_C_LIKEN_NAME_3 = "(userGroup.name IS NULL OR userGroup.name LIKE '')";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_U_C_P = new FinderPath(UserGroupModelImpl.ENTITY_CACHE_ENABLED,
 			UserGroupModelImpl.FINDER_CACHE_ENABLED, UserGroupImpl.class,
