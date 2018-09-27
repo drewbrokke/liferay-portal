@@ -125,7 +125,6 @@ public class UserLocalServiceTest {
 		Assert.assertTrue(users.toString(), users.contains(user));
 	}
 
-	@Ignore
 	@Test
 	public void testGetOrganizationsAndUserGroupsUsersCount() throws Exception {
 		long[] commonUserIds = _addUsers(5);
