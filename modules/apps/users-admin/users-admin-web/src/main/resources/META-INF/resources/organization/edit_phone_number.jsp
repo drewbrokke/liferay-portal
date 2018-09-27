@@ -18,7 +18,7 @@
 
 <%
 String redirect = ParamUtil.getString(request, "redirect");
-long phoneId = ParamUtil.getLong(request, "phoneId", 0L);
+long phoneId = ParamUtil.getLong(request, "entryId", 0L);
 
 Phone phone = null;
 
@@ -28,7 +28,7 @@ if (phoneId > 0L) {
 %>
 
 <div class="card-horizontal main-content-card">
-	<aui:form action="<%= redirect %>" cssClass="container-fluid container-fluid-max-xl container-form-lg" method="post" name="phoneNumberFm">
+	<aui:form action="<%= redirect %>" cssClass="container-fluid container-fluid-max-xl container-form-lg" method="post" name="fm">
 		<aui:model-context bean="<%= phone %>" model="<%= Phone.class %>" />
 
 		<aui:input name="phoneId" type="hidden" value="<%= phoneId %>" />

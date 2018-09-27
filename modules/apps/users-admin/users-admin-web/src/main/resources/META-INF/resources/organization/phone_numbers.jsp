@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.liferay.portal.kernel.portlet.PortletURLUtil" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -42,12 +42,18 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 		</span>
 		<span class="autofit-col">
 			<liferay-ui:icon
-				cssClass="modify-link"
-				id="addPhoneNumberLink"
+				cssClass="modify-contact-info-link"
+				data="<%=
+					new HashMap<String, Object>() {
+						{
+							put("title", LanguageUtil.get(request, "add-phone-number"));
+							put("entry-id", String.valueOf(0));
+						}
+					}
+				%>"
 				label="<%= true %>"
 				linkCssClass="btn btn-secondary btn-sm"
 				message="add"
-				method="get"
 				url="javascript:;"
 			/>
 		</span>
@@ -130,16 +136,12 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 </portlet:renderURL>
 
 <aui:script use="liferay-portlet-url">
-	function <portlet:namespace />openEditPhoneWindow(cmd, phoneId) {
-		var editPhoneRenderURL = Liferay.PortletURL.createURL('<%= editPhoneRenderURL.toString() %>');
+	function <portlet:namespace />openEditPhoneWindow(title, entryId, fieldNames, baseRenderURL, baseEditURL) {
+		var renderURL = Liferay.PortletURL.createURL(baseRenderURL);
 
-		editPhoneRenderURL.setParameter('phoneId', phoneId);
+		renderURL.setParameter('entryId', entryId);
 
-		var title = '<%= UnicodeLanguageUtil.get(request, "edit-phone-number") %>';
-
-		if (cmd === '<%= Constants.ADD %>') {
-			var title = '<%= UnicodeLanguageUtil.get(request, "add-phone-number") %>';
-		}
+		var modalId = '<portlet:namespace />editContactInformationModal';
 
 		Liferay.Util.openWindow(
 			{
@@ -155,7 +157,7 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 							label: '<%= UnicodeLanguageUtil.get(request, "cancel") %>',
 							on: {
 								click: function() {
-									Liferay.Util.getWindow('<portlet:namespace />editPhoneModal').hide();
+									Liferay.Util.getWindow(modalId).hide();
 								}
 							}
 						},
@@ -165,29 +167,38 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 							label: '<%= LanguageUtil.get(request, "save") %>',
 							on: {
 								click: function(event) {
-									var contentWindow = document.getElementById('<portlet:namespace />editPhoneModal_iframe_').contentWindow;
+									var contentWindow = document.getElementById(modalId + '_iframe_').contentWindow;
 
-									var formValidator = contentWindow.Liferay.Form.get('<portlet:namespace />phoneNumberFm').formValidator;
+									var formValidator = contentWindow.Liferay.Form.get('<portlet:namespace />fm').formValidator;
 
 									formValidator.validate();
 
 									if (!formValidator.hasErrors()) {
-										var editPhoneActionURL = Liferay.PortletURL.createURL('<%= editPhoneActionURL.toString() %>');
+										var windowDocument = contentWindow.document;
 
-										editPhoneActionURL.setParameter('entryId', phoneId);
+										var editURL = Liferay.PortletURL.createURL(baseEditURL);
 
-										editPhoneActionURL.setParameter('phoneExtension', windowDocument.getElementById('<portlet:namespace />phoneExtension').value);
-										editPhoneActionURL.setParameter('phoneNumber', windowDocument.getElementById('<portlet:namespace />phoneNumber').value);
-										editPhoneActionURL.setParameter('phonePrimary', windowDocument.getElementById('<portlet:namespace />phonePrimary').checked);
-										editPhoneActionURL.setParameter('phoneTypeId', windowDocument.getElementById('<portlet:namespace />phoneTypeId').value);
+										editURL.setParameter('entryId', entryId);
 
-										var organizationFm = document.getElementById('<portlet:namespace />fm');
+										fieldNames.forEach(function(fieldName) {
+											var field = windowDocument.getElementById('<portlet:namespace />' + fieldName);
 
-										submitForm(organizationFm, editPhoneActionURL.toString());
+											var value = field.value;
 
-										organizationFm.submit();
+											if (field.type === 'checkbox') {
+												value = field.checked;
+											}
 
-										Liferay.Util.getWindow('<portlet:namespace />editPhoneModal').hide();
+											editURL.setParameter(fieldName, value);
+										});
+
+										var form = document.getElementById('<portlet:namespace />fm');
+
+										submitForm(form, editURL.toString());
+
+										form.submit();
+
+										Liferay.Util.getWindow(modalId).hide();
 									}
 								}
 							}
@@ -195,29 +206,27 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 					],
 					width: '600'
 				},
-				id: '<portlet:namespace />editPhoneModal',
+				id: modalId,
 				title: title,
-				uri: editPhoneRenderURL.toString()
+				uri: renderURL.toString()
 			}
 		);
 	}
 
-	$('#<portlet:namespace />addPhoneNumberLink').on(
-		'click',
-		function(event) {
-			<portlet:namespace />openEditPhoneWindow('<%= Constants.ADD %>', '');
-		}
-	);
-
 	$('body').on(
 		'click',
-		'.edit-phone',
+		'.modify-contact-info-link a',
 		function(event) {
 			event.preventDefault();
 
 			var currentTarget = $(event.currentTarget);
 
-			<portlet:namespace />openEditPhoneWindow('<%= Constants.EDIT %>', currentTarget.data('phone-id'));
+			<portlet:namespace />openEditPhoneWindow(
+				currentTarget.data('title'),
+				currentTarget.data('entry-id'),
+				['phoneExtension', 'phoneNumber', 'phonePrimary', 'phoneTypeId'],
+				'<%= editPhoneRenderURL.toString() %>',
+				'<%= editPhoneActionURL.toString() %>');
 		}
 	);
 </aui:script>
