@@ -135,18 +135,17 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 	<portlet:param name="mvcPath" value="/organization/edit_phone_number.jsp" />
 </portlet:renderURL>
 
-<aui:script require="users-admin-web/js/contact-information.es as ContactInformation">
-	$('body').on(
+<aui:script require="metal-dom/src/all/dom as dom,users-admin-web/js/contact-information.es as ContactInformation">
+	dom.delegate(
+		document.body,
 		'click',
 		'.modify-contact-info-link a',
 		function(event) {
 			event.preventDefault();
 
-			var currentTarget = $(event.currentTarget);
-
 			ContactInformation.openEditContactInformationWindow(
-				currentTarget.data('title'),
-				currentTarget.data('entry-id'),
+				event.target.dataset.title,
+				event.target.dataset.entryId,
 				['phoneExtension', 'phoneNumber', 'phonePrimary', 'phoneTypeId'],
 				'<%= editPhoneRenderURL.toString() %>',
 				'<%= editPhoneActionURL.toString() %>',
