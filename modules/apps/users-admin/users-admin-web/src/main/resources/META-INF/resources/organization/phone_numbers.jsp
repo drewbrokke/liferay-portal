@@ -135,22 +135,11 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 	<portlet:param name="mvcPath" value="/organization/edit_phone_number.jsp" />
 </portlet:renderURL>
 
-<aui:script require="metal-dom/src/all/dom as dom,users-admin-web/js/contact-information.es as ContactInformation">
-	dom.delegate(
-		document.body,
-		'click',
+<aui:script require="users-admin-web/js/contact-information.es as ContactInformation">
+	ContactInformation.registerContactInformationListener(
 		'.modify-contact-info-link a',
-		function(event) {
-			event.preventDefault();
-
-			ContactInformation.openEditContactInformationWindow(
-				event.target.dataset.title,
-				event.target.dataset.entryId,
-				['phoneExtension', 'phoneNumber', 'phonePrimary', 'phoneTypeId'],
-				'<%= editPhoneRenderURL.toString() %>',
-				'<%= editPhoneActionURL.toString() %>',
-				'<portlet:namespace />'
-			);
-		}
-	);
+		['phoneExtension', 'phoneNumber', 'phonePrimary', 'phoneTypeId'],
+		'<%= editPhoneRenderURL.toString() %>',
+		'<%= editPhoneActionURL.toString() %>',
+		'<portlet:namespace />');
 </aui:script>

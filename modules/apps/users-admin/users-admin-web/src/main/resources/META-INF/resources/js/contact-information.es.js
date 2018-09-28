@@ -1,3 +1,5 @@
+import dom from 'metal-dom';
+
 function openEditContactInformationWindow(title, entryId, fieldNames, baseRenderURL, baseEditURL, portletNamespace) {
 	var renderURL = new URL(baseRenderURL);
 
@@ -81,5 +83,25 @@ function openEditContactInformationWindow(title, entryId, fieldNames, baseRender
 	);
 }
 
-export {openEditContactInformationWindow};
-export default openEditContactInformationWindow;
+function registerContactInformationListener(selector, fieldNames, renderURL, actionURL, portletNamespace) {
+	dom.delegate(
+		document.body,
+		'click',
+		selector,
+		function(event) {
+			event.preventDefault();
+
+			openEditContactInformationWindow(
+				event.target.dataset.title,
+				event.target.dataset.entryId,
+				fieldNames,
+				renderURL,
+				actionURL,
+				portletNamespace
+			);
+		}
+	);
+}
+
+export {registerContactInformationListener};
+export default ContactInformation;
