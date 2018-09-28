@@ -1,4 +1,4 @@
-<%@ page import="com.liferay.portal.kernel.portlet.PortletURLUtil" %><%--
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -135,7 +135,7 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 	<portlet:param name="mvcPath" value="/organization/edit_phone_number.jsp" />
 </portlet:renderURL>
 
-<aui:script>
+<aui:script require="users-admin-web/js/contact-information.es as ContactInformation">
 	$('body').on(
 		'click',
 		'.modify-contact-info-link a',
@@ -144,12 +144,13 @@ List<Phone> phones = PhoneServiceUtil.getPhones(Organization.class.getName(), or
 
 			var currentTarget = $(event.currentTarget);
 
-			<portlet:namespace />openEditContactInformationWindow(
+			ContactInformation.openEditContactInformationWindow(
 				currentTarget.data('title'),
 				currentTarget.data('entry-id'),
 				['phoneExtension', 'phoneNumber', 'phonePrimary', 'phoneTypeId'],
 				'<%= editPhoneRenderURL.toString() %>',
-				'<%= editPhoneActionURL.toString() %>'
+				'<%= editPhoneActionURL.toString() %>',
+				'<portlet:namespace />'
 			);
 		}
 	);

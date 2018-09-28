@@ -35,7 +35,6 @@ long phoneId = phone.getPhoneId();
 	message="<%= StringPool.BLANK %>"
 	showWhenSingleIcon="<%= true %>"
 >
-
 	<liferay-ui:icon
 		cssClass="modify-contact-info-link"
 		data="<%=
