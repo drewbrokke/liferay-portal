@@ -1536,7 +1536,7 @@
 	<sql id="com.liferay.portal.kernel.service.persistence.UserFinder.countByOrganizationsAndUserGroups">
 		<![CDATA[
 			SELECT
-				COUNT(*) AS COUNT_VALUE
+				COUNT(USER_IDS) AS COUNT_VALUE
 			FROM
 				(
 					(
