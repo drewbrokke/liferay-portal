@@ -158,7 +158,7 @@ String modelName = (String)request.getAttribute("liferay-ui:input-permissions:mo
 				%>
 
 					<tr>
-						<td>
+						<td class="table-title">
 							<%= role.getTitle(themeDisplay.getLocale()) %>
 						</td>
 
