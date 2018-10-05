@@ -19,7 +19,9 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.petra.string.StringBundler;
 
 import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -206,8 +208,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (User user : list) {
@@ -286,10 +288,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -586,8 +588,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { uuid };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(2);
@@ -625,10 +626,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -757,8 +758,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (User user : list) {
@@ -842,10 +843,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -1162,8 +1163,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { uuid, companyId };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -1205,10 +1205,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -1328,8 +1328,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (User user : list) {
@@ -1394,10 +1394,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -1682,8 +1682,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(2);
@@ -1707,10 +1706,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -1789,7 +1788,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_CONTACTID,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_CONTACTID,
 					finderArgs, this);
 		}
 
@@ -1824,7 +1823,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				List<User> list = q.list();
 
 				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CONTACTID,
+					finderCache.putResult(FINDER_PATH_FETCH_BY_CONTACTID,
 						finderArgs, list);
 				}
 				else {
@@ -1836,7 +1835,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				}
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CONTACTID,
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_CONTACTID,
 					finderArgs);
 
 				throw processException(e);
@@ -1879,8 +1878,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { contactId };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(2);
@@ -1904,10 +1902,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -2030,8 +2028,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (User user : list) {
@@ -2110,10 +2108,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -2414,8 +2412,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { emailAddress };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(2);
@@ -2453,10 +2450,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -2537,7 +2534,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_PORTRAITID,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_PORTRAITID,
 					finderArgs, this);
 		}
 
@@ -2572,7 +2569,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				List<User> list = q.list();
 
 				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PORTRAITID,
+					finderCache.putResult(FINDER_PATH_FETCH_BY_PORTRAITID,
 						finderArgs, list);
 				}
 				else {
@@ -2595,7 +2592,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				}
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_PORTRAITID,
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_PORTRAITID,
 					finderArgs);
 
 				throw processException(e);
@@ -2638,8 +2635,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { portraitId };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(2);
@@ -2663,10 +2659,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -2777,8 +2773,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (User user : list) {
@@ -2848,10 +2844,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -3003,8 +2999,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { userId, companyId };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -3032,10 +3027,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -3124,7 +3119,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_C_U,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_C_U,
 					finderArgs, this);
 		}
 
@@ -3164,8 +3159,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				List<User> list = q.list();
 
 				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_U,
-						finderArgs, list);
+					finderCache.putResult(FINDER_PATH_FETCH_BY_C_U, finderArgs,
+						list);
 				}
 				else {
 					User user = list.get(0);
@@ -3176,8 +3171,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				}
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_U,
-					finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_C_U, finderArgs);
 
 				throw processException(e);
 			}
@@ -3222,8 +3216,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, userId };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -3251,10 +3244,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -3382,8 +3375,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (User user : list) {
@@ -3464,10 +3457,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -3782,8 +3775,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, _getTime(createDate) };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -3822,10 +3814,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -3954,8 +3946,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (User user : list) {
@@ -4036,10 +4028,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -4354,8 +4346,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, _getTime(modifiedDate) };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -4394,10 +4385,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -4487,7 +4478,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_C_DU,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_C_DU,
 					finderArgs, this);
 		}
 
@@ -4527,7 +4518,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				List<User> list = q.list();
 
 				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_DU,
+					finderCache.putResult(FINDER_PATH_FETCH_BY_C_DU,
 						finderArgs, list);
 				}
 				else {
@@ -4550,8 +4541,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				}
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_DU,
-					finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_C_DU, finderArgs);
 
 				throw processException(e);
 			}
@@ -4596,8 +4586,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, defaultUser };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -4625,10 +4614,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -4717,7 +4706,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_C_SN,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_C_SN,
 					finderArgs, this);
 		}
 
@@ -4771,7 +4760,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				List<User> list = q.list();
 
 				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_SN,
+					finderCache.putResult(FINDER_PATH_FETCH_BY_C_SN,
 						finderArgs, list);
 				}
 				else {
@@ -4783,8 +4772,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				}
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_SN,
-					finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_C_SN, finderArgs);
 
 				throw processException(e);
 			}
@@ -4829,8 +4817,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, screenName };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -4872,10 +4859,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -4966,7 +4953,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_C_EA,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_C_EA,
 					finderArgs, this);
 		}
 
@@ -5020,7 +5007,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				List<User> list = q.list();
 
 				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_EA,
+					finderCache.putResult(FINDER_PATH_FETCH_BY_C_EA,
 						finderArgs, list);
 				}
 				else {
@@ -5032,8 +5019,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				}
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_EA,
-					finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_C_EA, finderArgs);
 
 				throw processException(e);
 			}
@@ -5078,8 +5064,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, emailAddress };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -5121,10 +5106,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -5215,7 +5200,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_C_FID,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_C_FID,
 					finderArgs, this);
 		}
 
@@ -5255,7 +5240,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				List<User> list = q.list();
 
 				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_FID,
+					finderCache.putResult(FINDER_PATH_FETCH_BY_C_FID,
 						finderArgs, list);
 				}
 				else {
@@ -5278,8 +5263,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				}
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_FID,
-					finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_C_FID, finderArgs);
 
 				throw processException(e);
 			}
@@ -5324,8 +5308,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, facebookId };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -5353,10 +5336,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -5445,7 +5428,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_C_GUID,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_C_GUID,
 					finderArgs, this);
 		}
 
@@ -5499,7 +5482,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				List<User> list = q.list();
 
 				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_GUID,
+					finderCache.putResult(FINDER_PATH_FETCH_BY_C_GUID,
 						finderArgs, list);
 				}
 				else {
@@ -5522,8 +5505,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				}
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_GUID,
-					finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_C_GUID, finderArgs);
 
 				throw processException(e);
 			}
@@ -5568,8 +5550,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, googleUserId };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -5611,10 +5592,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -5705,7 +5686,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_C_O,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_C_O,
 					finderArgs, this);
 		}
 
@@ -5759,8 +5740,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				List<User> list = q.list();
 
 				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_O,
-						finderArgs, list);
+					finderCache.putResult(FINDER_PATH_FETCH_BY_C_O, finderArgs,
+						list);
 				}
 				else {
 					if (list.size() > 1) {
@@ -5782,8 +5763,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				}
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_O,
-					finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_C_O, finderArgs);
 
 				throw processException(e);
 			}
@@ -5828,8 +5808,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, openId };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -5871,10 +5850,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -6001,8 +5980,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (User user : list) {
@@ -6072,10 +6051,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -6378,8 +6357,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, status };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -6407,10 +6385,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -6553,8 +6531,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (User user : list) {
@@ -6651,10 +6629,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -7004,8 +6982,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				companyId, _getTime(createDate), _getTime(modifiedDate)
 			};
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(4);
@@ -7059,10 +7036,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -7208,8 +7185,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (User user : list) {
@@ -7284,10 +7261,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -7612,8 +7589,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, defaultUser, status };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(4);
@@ -7645,10 +7621,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -7738,7 +7714,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_C_ERC,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_C_ERC,
 					finderArgs, this);
 		}
 
@@ -7793,7 +7769,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				List<User> list = q.list();
 
 				if (list.isEmpty()) {
-					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_ERC,
+					finderCache.putResult(FINDER_PATH_FETCH_BY_C_ERC,
 						finderArgs, list);
 				}
 				else {
@@ -7816,8 +7792,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				}
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_ERC,
-					finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_C_ERC, finderArgs);
 
 				throw processException(e);
 			}
@@ -7862,8 +7837,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		Object[] finderArgs = new Object[] { companyId, externalReferenceCode };
 
-		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
-				this);
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -7905,10 +7879,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -7955,37 +7929,37 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 	 */
 	@Override
 	public void cacheResult(User user) {
-		EntityCacheUtil.putResult(UserModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(UserModelImpl.ENTITY_CACHE_ENABLED,
 			UserImpl.class, user.getPrimaryKey(), user);
 
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CONTACTID,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_CONTACTID,
 			new Object[] { user.getContactId() }, user);
 
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PORTRAITID,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_PORTRAITID,
 			new Object[] { user.getPortraitId() }, user);
 
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_U,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_U,
 			new Object[] { user.getCompanyId(), user.getUserId() }, user);
 
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_DU,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_DU,
 			new Object[] { user.getCompanyId(), user.isDefaultUser() }, user);
 
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_SN,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_SN,
 			new Object[] { user.getCompanyId(), user.getScreenName() }, user);
 
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_EA,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_EA,
 			new Object[] { user.getCompanyId(), user.getEmailAddress() }, user);
 
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_FID,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_FID,
 			new Object[] { user.getCompanyId(), user.getFacebookId() }, user);
 
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_GUID,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_GUID,
 			new Object[] { user.getCompanyId(), user.getGoogleUserId() }, user);
 
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_O,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_O,
 			new Object[] { user.getCompanyId(), user.getOpenId() }, user);
 
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_ERC,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_ERC,
 			new Object[] { user.getCompanyId(), user.getExternalReferenceCode() },
 			user);
 
@@ -8000,7 +7974,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 	@Override
 	public void cacheResult(List<User> users) {
 		for (User user : users) {
-			if (EntityCacheUtil.getResult(UserModelImpl.ENTITY_CACHE_ENABLED,
+			if (entityCache.getResult(UserModelImpl.ENTITY_CACHE_ENABLED,
 						UserImpl.class, user.getPrimaryKey()) == null) {
 				cacheResult(user);
 			}
@@ -8014,43 +7988,43 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 	 * Clears the cache for all users.
 	 *
 	 * <p>
-	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache() {
-		EntityCacheUtil.clearCache(UserImpl.class);
+		entityCache.clearCache(UserImpl.class);
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
 	 * Clears the cache for the user.
 	 *
 	 * <p>
-	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(User user) {
-		EntityCacheUtil.removeResult(UserModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.removeResult(UserModelImpl.ENTITY_CACHE_ENABLED,
 			UserImpl.class, user.getPrimaryKey());
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		clearUniqueFindersCache((UserModelImpl)user, true);
 	}
 
 	@Override
 	public void clearCache(List<User> users) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (User user : users) {
-			EntityCacheUtil.removeResult(UserModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(UserModelImpl.ENTITY_CACHE_ENABLED,
 				UserImpl.class, user.getPrimaryKey());
 
 			clearUniqueFindersCache((UserModelImpl)user, true);
@@ -8060,90 +8034,90 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 	protected void cacheUniqueFindersCache(UserModelImpl userModelImpl) {
 		Object[] args = new Object[] { userModelImpl.getContactId() };
 
-		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_CONTACTID, args,
+		finderCache.putResult(FINDER_PATH_COUNT_BY_CONTACTID, args,
 			Long.valueOf(1), false);
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CONTACTID, args,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_CONTACTID, args,
 			userModelImpl, false);
 
 		args = new Object[] { userModelImpl.getPortraitId() };
 
-		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_PORTRAITID, args,
+		finderCache.putResult(FINDER_PATH_COUNT_BY_PORTRAITID, args,
 			Long.valueOf(1), false);
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PORTRAITID, args,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_PORTRAITID, args,
 			userModelImpl, false);
 
 		args = new Object[] {
 				userModelImpl.getCompanyId(), userModelImpl.getUserId()
 			};
 
-		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_C_U, args,
-			Long.valueOf(1), false);
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_U, args,
-			userModelImpl, false);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_U, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_U, args, userModelImpl,
+			false);
 
 		args = new Object[] {
 				userModelImpl.getCompanyId(), userModelImpl.isDefaultUser()
 			};
 
-		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_C_DU, args,
-			Long.valueOf(1), false);
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_DU, args,
-			userModelImpl, false);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_DU, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_DU, args, userModelImpl,
+			false);
 
 		args = new Object[] {
 				userModelImpl.getCompanyId(), userModelImpl.getScreenName()
 			};
 
-		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_C_SN, args,
-			Long.valueOf(1), false);
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_SN, args,
-			userModelImpl, false);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_SN, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_SN, args, userModelImpl,
+			false);
 
 		args = new Object[] {
 				userModelImpl.getCompanyId(), userModelImpl.getEmailAddress()
 			};
 
-		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_C_EA, args,
-			Long.valueOf(1), false);
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_EA, args,
-			userModelImpl, false);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_EA, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_EA, args, userModelImpl,
+			false);
 
 		args = new Object[] {
 				userModelImpl.getCompanyId(), userModelImpl.getFacebookId()
 			};
 
-		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_C_FID, args,
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_FID, args,
 			Long.valueOf(1), false);
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_FID, args,
-			userModelImpl, false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_FID, args, userModelImpl,
+			false);
 
 		args = new Object[] {
 				userModelImpl.getCompanyId(), userModelImpl.getGoogleUserId()
 			};
 
-		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_C_GUID, args,
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_GUID, args,
 			Long.valueOf(1), false);
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_GUID, args,
-			userModelImpl, false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_GUID, args, userModelImpl,
+			false);
 
 		args = new Object[] {
 				userModelImpl.getCompanyId(), userModelImpl.getOpenId()
 			};
 
-		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_C_O, args,
-			Long.valueOf(1), false);
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_O, args,
-			userModelImpl, false);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_O, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_O, args, userModelImpl,
+			false);
 
 		args = new Object[] {
 				userModelImpl.getCompanyId(),
 				userModelImpl.getExternalReferenceCode()
 			};
 
-		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_C_ERC, args,
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_ERC, args,
 			Long.valueOf(1), false);
-		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_C_ERC, args,
-			userModelImpl, false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_ERC, args, userModelImpl,
+			false);
 	}
 
 	protected void clearUniqueFindersCache(UserModelImpl userModelImpl,
@@ -8151,31 +8125,31 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		if (clearCurrent) {
 			Object[] args = new Object[] { userModelImpl.getContactId() };
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CONTACTID, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CONTACTID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_CONTACTID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_CONTACTID, args);
 		}
 
 		if ((userModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_CONTACTID.getColumnBitmask()) != 0) {
 			Object[] args = new Object[] { userModelImpl.getOriginalContactId() };
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CONTACTID, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CONTACTID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_CONTACTID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_CONTACTID, args);
 		}
 
 		if (clearCurrent) {
 			Object[] args = new Object[] { userModelImpl.getPortraitId() };
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_PORTRAITID, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_PORTRAITID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PORTRAITID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_PORTRAITID, args);
 		}
 
 		if ((userModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_PORTRAITID.getColumnBitmask()) != 0) {
 			Object[] args = new Object[] { userModelImpl.getOriginalPortraitId() };
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_PORTRAITID, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_PORTRAITID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PORTRAITID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_PORTRAITID, args);
 		}
 
 		if (clearCurrent) {
@@ -8183,8 +8157,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getCompanyId(), userModelImpl.getUserId()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_U, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_U, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_U, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_U, args);
 		}
 
 		if ((userModelImpl.getColumnBitmask() &
@@ -8194,8 +8168,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getOriginalUserId()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_U, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_U, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_U, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_U, args);
 		}
 
 		if (clearCurrent) {
@@ -8203,8 +8177,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getCompanyId(), userModelImpl.isDefaultUser()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_DU, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_DU, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_DU, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_DU, args);
 		}
 
 		if ((userModelImpl.getColumnBitmask() &
@@ -8214,8 +8188,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getOriginalDefaultUser()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_DU, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_DU, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_DU, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_DU, args);
 		}
 
 		if (clearCurrent) {
@@ -8223,8 +8197,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getCompanyId(), userModelImpl.getScreenName()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_SN, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_SN, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_SN, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_SN, args);
 		}
 
 		if ((userModelImpl.getColumnBitmask() &
@@ -8234,8 +8208,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getOriginalScreenName()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_SN, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_SN, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_SN, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_SN, args);
 		}
 
 		if (clearCurrent) {
@@ -8244,8 +8218,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getEmailAddress()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_EA, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_EA, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_EA, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_EA, args);
 		}
 
 		if ((userModelImpl.getColumnBitmask() &
@@ -8255,8 +8229,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getOriginalEmailAddress()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_EA, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_EA, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_EA, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_EA, args);
 		}
 
 		if (clearCurrent) {
@@ -8264,8 +8238,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getCompanyId(), userModelImpl.getFacebookId()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_FID, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_FID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_FID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_FID, args);
 		}
 
 		if ((userModelImpl.getColumnBitmask() &
@@ -8275,8 +8249,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getOriginalFacebookId()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_FID, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_FID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_FID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_FID, args);
 		}
 
 		if (clearCurrent) {
@@ -8285,8 +8259,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getGoogleUserId()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_GUID, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_GUID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_GUID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_GUID, args);
 		}
 
 		if ((userModelImpl.getColumnBitmask() &
@@ -8296,8 +8270,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getOriginalGoogleUserId()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_GUID, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_GUID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_GUID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_GUID, args);
 		}
 
 		if (clearCurrent) {
@@ -8305,8 +8279,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getCompanyId(), userModelImpl.getOpenId()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_O, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_O, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_O, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_O, args);
 		}
 
 		if ((userModelImpl.getColumnBitmask() &
@@ -8316,8 +8290,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getOriginalOpenId()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_O, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_O, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_O, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_O, args);
 		}
 
 		if (clearCurrent) {
@@ -8326,8 +8300,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getExternalReferenceCode()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_ERC, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_ERC, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_ERC, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_ERC, args);
 		}
 
 		if ((userModelImpl.getColumnBitmask() &
@@ -8337,8 +8311,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getOriginalExternalReferenceCode()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_ERC, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_C_ERC, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_ERC, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_ERC, args);
 		}
 	}
 
@@ -8524,45 +8498,45 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
 		if (!UserModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
 		else
 		 if (isNew) {
 			Object[] args = new Object[] { userModelImpl.getUuid() };
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
 				args);
 
 			args = new Object[] {
 					userModelImpl.getUuid(), userModelImpl.getCompanyId()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
 				args);
 
 			args = new Object[] { userModelImpl.getCompanyId() };
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
 				args);
 
 			args = new Object[] { userModelImpl.getEmailAddress() };
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_EMAILADDRESS, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAILADDRESS,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAILADDRESS, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAILADDRESS,
 				args);
 
 			args = new Object[] {
 					userModelImpl.getCompanyId(), userModelImpl.getCreateDate()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_CD, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_CD, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD,
 				args);
 
 			args = new Object[] {
@@ -8570,16 +8544,16 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getModifiedDate()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_MD, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_MD,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_MD, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_MD,
 				args);
 
 			args = new Object[] {
 					userModelImpl.getCompanyId(), userModelImpl.getStatus()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_S, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_S,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_S, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_S,
 				args);
 
 			args = new Object[] {
@@ -8587,8 +8561,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getModifiedDate()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_CD_MD, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD_MD,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_CD_MD, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD_MD,
 				args);
 
 			args = new Object[] {
@@ -8596,13 +8570,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					userModelImpl.getStatus()
 				};
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_DU_S, args);
-			FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_DU_S,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_DU_S, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_DU_S,
 				args);
 
-			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
 		}
 
@@ -8611,14 +8584,14 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] { userModelImpl.getOriginalUuid() };
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
 					args);
 
 				args = new Object[] { userModelImpl.getUuid() };
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
 					args);
 			}
 
@@ -8629,16 +8602,16 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getOriginalCompanyId()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
 					args);
 
 				args = new Object[] {
 						userModelImpl.getUuid(), userModelImpl.getCompanyId()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
 					args);
 			}
 
@@ -8648,16 +8621,14 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getOriginalCompanyId()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COMPANYID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
 					args);
 
 				args = new Object[] { userModelImpl.getCompanyId() };
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COMPANYID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
 					args);
 			}
 
@@ -8667,16 +8638,14 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getOriginalEmailAddress()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_EMAILADDRESS,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAILADDRESS,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAILADDRESS, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAILADDRESS,
 					args);
 
 				args = new Object[] { userModelImpl.getEmailAddress() };
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_EMAILADDRESS,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAILADDRESS,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAILADDRESS, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAILADDRESS,
 					args);
 			}
 
@@ -8687,8 +8656,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getOriginalCreateDate()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_CD, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_CD, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD,
 					args);
 
 				args = new Object[] {
@@ -8696,8 +8665,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getCreateDate()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_CD, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_CD, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD,
 					args);
 			}
 
@@ -8708,8 +8677,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getOriginalModifiedDate()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_MD, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_MD,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_MD, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_MD,
 					args);
 
 				args = new Object[] {
@@ -8717,8 +8686,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getModifiedDate()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_MD, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_MD,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_MD, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_MD,
 					args);
 			}
 
@@ -8729,16 +8698,16 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getOriginalStatus()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_S, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_S,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_S, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_S,
 					args);
 
 				args = new Object[] {
 						userModelImpl.getCompanyId(), userModelImpl.getStatus()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_S, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_S,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_S, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_S,
 					args);
 			}
 
@@ -8750,8 +8719,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getOriginalModifiedDate()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_CD_MD, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD_MD,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_CD_MD, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD_MD,
 					args);
 
 				args = new Object[] {
@@ -8760,8 +8729,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getModifiedDate()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_CD_MD, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD_MD,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_CD_MD, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_CD_MD,
 					args);
 			}
 
@@ -8773,8 +8742,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.getOriginalStatus()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_DU_S, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_DU_S,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_DU_S, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_DU_S,
 					args);
 
 				args = new Object[] {
@@ -8782,13 +8751,13 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 						userModelImpl.isDefaultUser(), userModelImpl.getStatus()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_C_DU_S, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_DU_S,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_DU_S, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_DU_S,
 					args);
 			}
 		}
 
-		EntityCacheUtil.putResult(UserModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(UserModelImpl.ENTITY_CACHE_ENABLED,
 			UserImpl.class, user.getPrimaryKey(), user, false);
 
 		clearUniqueFindersCache(userModelImpl, false);
@@ -8843,7 +8812,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 	 */
 	@Override
 	public User fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = EntityCacheUtil.getResult(UserModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(UserModelImpl.ENTITY_CACHE_ENABLED,
 				UserImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
@@ -8864,12 +8833,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 					cacheResult(user);
 				}
 				else {
-					EntityCacheUtil.putResult(UserModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(UserModelImpl.ENTITY_CACHE_ENABLED,
 						UserImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				EntityCacheUtil.removeResult(UserModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(UserModelImpl.ENTITY_CACHE_ENABLED,
 					UserImpl.class, primaryKey);
 
 				throw processException(e);
@@ -8919,7 +8888,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = EntityCacheUtil.getResult(UserModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(UserModelImpl.ENTITY_CACHE_ENABLED,
 					UserImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
@@ -8973,7 +8942,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				EntityCacheUtil.putResult(UserModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(UserModelImpl.ENTITY_CACHE_ENABLED,
 					UserImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -9065,8 +9034,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		List<User> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<User>)FinderCacheUtil.getResult(finderPath,
-					finderArgs, this);
+			list = (List<User>)finderCache.getResult(finderPath, finderArgs,
+					this);
 		}
 
 		if (list == null) {
@@ -9114,10 +9083,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				cacheResult(list);
 
-				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -9147,7 +9116,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
+		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
 				FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
@@ -9160,11 +9129,11 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 				count = (Long)q.uniqueResult();
 
-				FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY, count);
+				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
+					count);
 			}
 			catch (Exception e) {
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
 					FINDER_ARGS_EMPTY);
 
 				throw processException(e);
@@ -10709,10 +10678,10 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 	}
 
 	public void destroy() {
-		EntityCacheUtil.removeCache(UserImpl.class.getName());
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeCache(UserImpl.class.getName());
+		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
+		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		TableMapperFactory.removeTableMapper("Users_Groups");
 		TableMapperFactory.removeTableMapper("Users_Orgs");
@@ -10723,6 +10692,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 	@BeanReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
+	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	@BeanReference(type = GroupPersistence.class)
 	protected GroupPersistence groupPersistence;
 	protected TableMapper<User, com.liferay.portal.kernel.model.Group> userToGroupTableMapper;
