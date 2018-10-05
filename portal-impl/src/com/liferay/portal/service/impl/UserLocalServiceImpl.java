@@ -2335,12 +2335,38 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		return userFinder.findByNoGroups();
 	}
 
+	/**
+	 * Returns a count of unique users who belong to any of the given
+	 * organizationIds or userGroupIds.
+	 *
+	 * @return the users who do not belong to any groups
+	 */
+	@Override
+	public int getOrganizationsAndUserGroupsUsersCount(
+		long companyId, long[] organizationIds, long[] userGroupIds) {
+
+		LinkedHashMap<String, Object> params = new LinkedHashMap<>();
+
+		params.put("usersOrgs", organizationIds);
+		params.put("usersUserGroups", userGroupIds);
+
+		return userFinder.countByKeywords(
+			companyId, null, WorkflowConstants.STATUS_ANY, params);
+	}
+
+	/**
+	 * @deprecated As of Judson (7.1.x), replaced by {@link
+	 *             #getOrganizationsAndUserGroupsUsersCount(long, long[], long[])}
+	 */
+	@Deprecated
 	@Override
 	public int getOrganizationsAndUserGroupsUsersCount(
 		long[] organizationIds, long[] userGroupIds) {
 
-		return userFinder.countByOrganizationsAndUserGroups(
-			organizationIds, userGroupIds);
+		throw new UnsupportedOperationException(
+			"This method is deprecated and replaced by " +
+				"#getOrganizationsAndUserGroupsUsersCount(long, long[], " +
+					"long[])");
 	}
 
 	/**
