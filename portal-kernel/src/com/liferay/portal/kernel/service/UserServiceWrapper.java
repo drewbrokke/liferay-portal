@@ -535,9 +535,21 @@ public class UserServiceWrapper implements UserService,
 	}
 
 	@Override
-	public int getOrganizationsAndUserGroupsUsersCount(long[] organizationIds,
-		long[] userGroupIds)
+	public int getOrganizationsAndUserGroupsUsersCount(long companyId,
+		long[] organizationIds, long[] userGroupIds)
 		throws com.liferay.portal.kernel.security.auth.PrincipalException {
+		return _userService.getOrganizationsAndUserGroupsUsersCount(companyId,
+			organizationIds, userGroupIds);
+	}
+
+	/**
+	* @deprecated As of Judson (7.1.x), replaced by {@link
+	#getOrganizationsAndUserGroupsUsersCount(long, long[], long[])}
+	*/
+	@Deprecated
+	@Override
+	public int getOrganizationsAndUserGroupsUsersCount(long[] organizationIds,
+		long[] userGroupIds) {
 		return _userService.getOrganizationsAndUserGroupsUsersCount(organizationIds,
 			userGroupIds);
 	}

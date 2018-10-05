@@ -192,10 +192,6 @@ public interface WorkflowDefinitionLinkLocalService extends BaseLocalService,
 		boolean strict);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<WorkflowDefinitionLink> fetchWorkflowDefinitionLinks(
-		long companyId, long groupId, String className, long classPK);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -253,11 +249,6 @@ public interface WorkflowDefinitionLinkLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<WorkflowDefinitionLink> getWorkflowDefinitionLinks(int start,
 		int end);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<WorkflowDefinitionLink> getWorkflowDefinitionLinks(
-		long companyId, long groupId, String className, long classPK)
-		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<WorkflowDefinitionLink> getWorkflowDefinitionLinks(

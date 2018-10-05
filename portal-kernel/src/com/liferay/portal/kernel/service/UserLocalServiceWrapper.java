@@ -1353,6 +1353,24 @@ public class UserLocalServiceWrapper implements UserLocalService,
 		return _userLocalService.getOrganizationPrimaryKeys(userId);
 	}
 
+	/**
+	* Returns a count of unique users who belong to any of the given
+	* organizationIds or userGroupIds.
+	*
+	* @return the users who do not belong to any groups
+	*/
+	@Override
+	public int getOrganizationsAndUserGroupsUsersCount(long companyId,
+		long[] organizationIds, long[] userGroupIds) {
+		return _userLocalService.getOrganizationsAndUserGroupsUsersCount(companyId,
+			organizationIds, userGroupIds);
+	}
+
+	/**
+	* @deprecated As of Judson (7.1.x), replaced by {@link
+	#getOrganizationsAndUserGroupsUsersCount(long, long[], long[])}
+	*/
+	@Deprecated
 	@Override
 	public int getOrganizationsAndUserGroupsUsersCount(long[] organizationIds,
 		long[] userGroupIds) {

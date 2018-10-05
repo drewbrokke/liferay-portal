@@ -524,9 +524,21 @@ public class UserServiceUtil {
 		return getService().getGtUserGroupUsers(gtUserId, userGroupId, size);
 	}
 
-	public static int getOrganizationsAndUserGroupsUsersCount(
+	public static int getOrganizationsAndUserGroupsUsersCount(long companyId,
 		long[] organizationIds, long[] userGroupIds)
 		throws com.liferay.portal.kernel.security.auth.PrincipalException {
+		return getService()
+				   .getOrganizationsAndUserGroupsUsersCount(companyId,
+			organizationIds, userGroupIds);
+	}
+
+	/**
+	* @deprecated As of Judson (7.1.x), replaced by {@link
+	#getOrganizationsAndUserGroupsUsersCount(long, long[], long[])}
+	*/
+	@Deprecated
+	public static int getOrganizationsAndUserGroupsUsersCount(
+		long[] organizationIds, long[] userGroupIds) {
 		return getService()
 				   .getOrganizationsAndUserGroupsUsersCount(organizationIds,
 			userGroupIds);

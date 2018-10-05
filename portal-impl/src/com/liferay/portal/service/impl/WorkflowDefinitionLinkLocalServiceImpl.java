@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowEngineManagerUtil;
 import com.liferay.portal.service.base.WorkflowDefinitionLinkLocalServiceBaseImpl;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -143,21 +142,6 @@ public class WorkflowDefinitionLinkLocalServiceImpl
 	}
 
 	@Override
-	public List<WorkflowDefinitionLink> fetchWorkflowDefinitionLinks(
-		long companyId, long groupId, String className, long classPK) {
-
-		if (!WorkflowEngineManagerUtil.isDeployed()) {
-			return Collections.emptyList();
-		}
-
-		groupId = StagingUtil.getLiveGroupId(groupId);
-		long classNameId = classNameLocalService.getClassNameId(className);
-
-		return workflowDefinitionLinkPersistence.findByG_C_C_C(
-			groupId, companyId, classNameId, classPK);
-	}
-
-	@Override
 	public WorkflowDefinitionLink getDefaultWorkflowDefinitionLink(
 			long companyId, String className, long classPK, long typePK)
 		throws PortalException {
@@ -210,21 +194,6 @@ public class WorkflowDefinitionLinkLocalServiceImpl
 
 	@Override
 	public List<WorkflowDefinitionLink> getWorkflowDefinitionLinks(
-			long companyId, long groupId, String className, long classPK)
-		throws PortalException {
-
-		if (!WorkflowEngineManagerUtil.isDeployed()) {
-			throw new NoSuchWorkflowDefinitionLinkException();
-		}
-
-		long classNameId = classNameLocalService.getClassNameId(className);
-
-		return workflowDefinitionLinkPersistence.findByG_C_C_C(
-			companyId, groupId, classNameId, classPK);
-	}
-
-	@Override
-	public List<WorkflowDefinitionLink> getWorkflowDefinitionLinks(
 			long companyId, String workflowDefinitionName,
 			int workflowDefinitionVersion)
 		throws PortalException {
@@ -264,16 +233,7 @@ public class WorkflowDefinitionLinkLocalServiceImpl
 	public boolean hasWorkflowDefinitionLink(
 		long companyId, long groupId, String className) {
 
-		long classNameId = classNameLocalService.getClassNameId(className);
-
-		int count = workflowDefinitionLinkPersistence.countByG_C_C(
-			companyId, groupId, classNameId);
-
-		if (count > 0) {
-			return true;
-		}
-
-		return false;
+		return hasWorkflowDefinitionLink(companyId, groupId, className, 0);
 	}
 
 	@Override
@@ -281,16 +241,8 @@ public class WorkflowDefinitionLinkLocalServiceImpl
 	public boolean hasWorkflowDefinitionLink(
 		long companyId, long groupId, String className, long classPK) {
 
-		long classNameId = classNameLocalService.getClassNameId(className);
-
-		int count = workflowDefinitionLinkPersistence.countByG_C_C_C(
-			companyId, groupId, classNameId, classPK);
-
-		if (count > 0) {
-			return true;
-		}
-
-		return false;
+		return hasWorkflowDefinitionLink(
+			companyId, groupId, className, classPK, 0);
 	}
 
 	@Override

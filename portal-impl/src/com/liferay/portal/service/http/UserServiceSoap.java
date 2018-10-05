@@ -768,6 +768,26 @@ public class UserServiceSoap {
 		}
 	}
 
+	public static int getOrganizationsAndUserGroupsUsersCount(long companyId,
+		long[] organizationIds, long[] userGroupIds) throws RemoteException {
+		try {
+			int returnValue = UserServiceUtil.getOrganizationsAndUserGroupsUsersCount(companyId,
+					organizationIds, userGroupIds);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	/**
+	* @deprecated As of Judson (7.1.x), replaced by {@link
+	#getOrganizationsAndUserGroupsUsersCount(long, long[], long[])}
+	*/
+	@Deprecated
 	public static int getOrganizationsAndUserGroupsUsersCount(
 		long[] organizationIds, long[] userGroupIds) throws RemoteException {
 		try {

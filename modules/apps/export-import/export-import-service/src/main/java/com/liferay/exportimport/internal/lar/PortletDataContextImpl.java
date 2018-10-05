@@ -21,7 +21,6 @@ import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetLinkLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
-import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.model.ExpandoColumn;
 import com.liferay.expando.kernel.model.adapter.StagedExpandoColumn;
@@ -2970,15 +2969,14 @@ public class PortletDataContextImpl implements PortletDataContext {
 			long classPK = ExportImportClassedModelUtil.getClassPK(
 				stagedGroupedModel);
 
-			List<WorkflowDefinitionLink> workflowDefinitionLinks =
+			WorkflowDefinitionLink workflowDefinitionLink =
 				WorkflowDefinitionLinkLocalServiceUtil.
-					fetchWorkflowDefinitionLinks(
+					fetchWorkflowDefinitionLink(
 						stagedGroupedModel.getCompanyId(),
-						stagedGroupedModel.getGroupId(), className, classPK);
+						stagedGroupedModel.getGroupId(), className, classPK,
+						-1);
 
-			for (WorkflowDefinitionLink workflowDefinitionLink :
-					workflowDefinitionLinks) {
-
+			if (workflowDefinitionLink != null) {
 				StagedGroupedWorkflowDefinitionLink
 					stagedGroupedWorkflowDefinitionLink =
 						ModelAdapterUtil.adapt(
@@ -3083,43 +3081,27 @@ public class PortletDataContextImpl implements PortletDataContext {
 				return;
 			}
 
-			if ((workflowDefinition != null) &&
-				(!WorkflowDefinitionLinkLocalServiceUtil.
-					hasWorkflowDefinitionLink(
+			WorkflowDefinitionLink workflowDefinitionLink =
+				WorkflowDefinitionLinkLocalServiceUtil.
+					fetchWorkflowDefinitionLink(
 						getCompanyId(), getScopeGroupId(), className,
-						newPrimaryKey))) {
+						newPrimaryKey, -1);
+
+			if ((workflowDefinition != null) &&
+				(workflowDefinitionLink == null)) {
 
 				try {
-					PermissionChecker permissionChecker =
-						PermissionThreadLocal.getPermissionChecker();
-
 					long importedClassPK = GetterUtil.getLong(
 						classedModel.getPrimaryKeyObj());
 
-					String referrerUuid =
-						stagedGroupedWorkflowDefinitionLinkElement.
-							attributeValue("uuid");
-
-					WorkflowDefinitionLink referrerWorkflowDefinitionLink =
-						WorkflowDefinitionLinkLocalServiceUtil.
-							getWorkflowDefinitionLink(
-								Long.valueOf(referrerUuid));
-
-					long typePK = referrerWorkflowDefinitionLink.getTypePK();
-
-					if (typePK != -1) {
-						Map<Long, Long> ddmStructureIds =
-							(Map<Long, Long>)getNewPrimaryKeysMap(
-								DDMStructure.class.getName());
-
-						typePK = ddmStructureIds.getOrDefault(typePK, typePK);
-					}
+					PermissionChecker permissionChecker =
+						PermissionThreadLocal.getPermissionChecker();
 
 					WorkflowDefinitionLinkLocalServiceUtil.
 						addWorkflowDefinitionLink(
 							permissionChecker.getUserId(), getCompanyId(),
-							getScopeGroupId(), className, importedClassPK,
-							typePK, workflowDefinition.getName(),
+							getScopeGroupId(), className, importedClassPK, -1,
+							workflowDefinition.getName(),
 							workflowDefinition.getVersion());
 				}
 				catch (PortalException pe) {

@@ -454,8 +454,17 @@ public interface UserService extends BaseService {
 		int size) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getOrganizationsAndUserGroupsUsersCount(long companyId,
+		long[] organizationIds, long[] userGroupIds) throws PrincipalException;
+
+	/**
+	* @deprecated As of Judson (7.1.x), replaced by {@link
+	#getOrganizationsAndUserGroupsUsersCount(long, long[], long[])}
+	*/
+	@Deprecated
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getOrganizationsAndUserGroupsUsersCount(long[] organizationIds,
-		long[] userGroupIds) throws PrincipalException;
+		long[] userGroupIds);
 
 	/**
 	* Returns the primary keys of all the users belonging to the organization.

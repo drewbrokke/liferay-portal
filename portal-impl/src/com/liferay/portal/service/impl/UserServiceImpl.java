@@ -840,7 +840,7 @@ public class UserServiceImpl extends UserServiceBaseImpl {
 
 	@Override
 	public int getOrganizationsAndUserGroupsUsersCount(
-			long[] organizationIds, long[] userGroupIds)
+			long companyId, long[] organizationIds, long[] userGroupIds)
 		throws PrincipalException {
 
 		PermissionChecker permissionChecker = getPermissionChecker();
@@ -850,7 +850,22 @@ public class UserServiceImpl extends UserServiceBaseImpl {
 		}
 
 		return userLocalService.getOrganizationsAndUserGroupsUsersCount(
-			organizationIds, userGroupIds);
+			companyId, organizationIds, userGroupIds);
+	}
+
+	/**
+	 * @deprecated As of Judson (7.1.x), replaced by {@link
+	 *             #getOrganizationsAndUserGroupsUsersCount(long, long[], long[])}
+	 */
+	@Deprecated
+	@Override
+	public int getOrganizationsAndUserGroupsUsersCount(
+		long[] organizationIds, long[] userGroupIds) {
+
+		throw new UnsupportedOperationException(
+			"This method is deprecated and replaced by " +
+				"#getOrganizationsAndUserGroupsUsersCount(long, long[], " +
+					"long[])");
 	}
 
 	/**
