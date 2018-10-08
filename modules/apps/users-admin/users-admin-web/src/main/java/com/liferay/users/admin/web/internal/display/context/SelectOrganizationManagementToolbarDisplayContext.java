@@ -14,11 +14,14 @@
 
 package com.liferay.users.admin.web.internal.display.context;
 
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Organization;
@@ -42,6 +45,7 @@ import com.liferay.portlet.usersadmin.search.OrganizationSearchTerms;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -69,6 +73,38 @@ public class SelectOrganizationManagementToolbarDisplayContext {
 		clearResultsURL.setParameter("keywords", StringPool.BLANK);
 
 		return clearResultsURL.toString();
+	}
+
+	public List<DropdownItem> getFilterDropdownItems() {
+		return new DropdownItemList() {
+			{
+				addGroup(
+					dropdownGroupItem -> {
+						dropdownGroupItem.setDropdownItems(
+							_getOrderByDropdownItems());
+						dropdownGroupItem.setLabel(
+							LanguageUtil.get(_request, "order-by"));
+					});
+			}
+		};
+	}
+
+	public String getOrderByCol() {
+		if (_orderByCol == null) {
+			_orderByCol = ParamUtil.getString(
+				_renderRequest, "orderByCol", "name");
+		}
+
+		return _orderByCol;
+	}
+
+	public String getOrderByType() {
+		if (_orderByType == null) {
+			_orderByType = ParamUtil.getString(
+				_renderRequest, "orderByType", "asc");
+		}
+
+		return _orderByType;
 	}
 
 	public PortletURL getPortletURL() {
@@ -100,6 +136,9 @@ public class SelectOrganizationManagementToolbarDisplayContext {
 		if (Validator.isNotNull(target)) {
 			portletURL.setParameter("target", target);
 		}
+
+		portletURL.setParameter("orderByCol", getOrderByCol());
+		portletURL.setParameter("orderByType", getOrderByType());
 
 		return portletURL;
 	}
@@ -182,10 +221,36 @@ public class SelectOrganizationManagementToolbarDisplayContext {
 		return _organizationSearch;
 	}
 
+	public String getSortingURL() {
+		PortletURL sortingURL = getPortletURL();
+
+		sortingURL.setParameter(
+			"orderByType",
+			Objects.equals(getOrderByType(), "asc") ? "desc" : "asc");
+
+		return sortingURL.toString();
+	}
+
 	public List<ViewTypeItem> getViewTypeItems() {
 		return new ViewTypeItemList(getPortletURL(), "list") {
 			{
 				addTableViewTypeItem();
+			}
+		};
+	}
+
+	private List<DropdownItem> _getOrderByDropdownItems() {
+		return new DropdownItemList() {
+			{
+				add(
+					dropdownItem -> {
+						dropdownItem.setActive(
+							Objects.equals(getOrderByCol(), "name"));
+						dropdownItem.setHref(
+							getPortletURL(), "orderByCol", "name");
+						dropdownItem.setLabel(
+							LanguageUtil.get(_request, "name"));
+					});
 			}
 		};
 	}
@@ -204,6 +269,8 @@ public class SelectOrganizationManagementToolbarDisplayContext {
 	private static final Log _log = LogFactoryUtil.getLog(
 		SelectOrganizationManagementToolbarDisplayContext.class);
 
+	private String _orderByCol;
+	private String _orderByType;
 	private OrganizationSearch _organizationSearch;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;

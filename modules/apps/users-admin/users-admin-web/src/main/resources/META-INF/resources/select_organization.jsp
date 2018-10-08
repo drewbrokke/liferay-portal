@@ -34,25 +34,26 @@ if (filterManageableOrganizations) {
 
 SearchContainer searchContainer = SelectOrganizationManagementToolbarDisplayContext.getSearchContainer(organizationParams);
 
-renderResponse.setTitle(LanguageUtil.get(request, "organizations"));
+renderResponse.setTitle(LanguageUtil.get(request, "parent-organization"));
 %>
-
-<clay:navigation-bar
-	navigationItems='<%= userDisplayContext.getNavigationItems("organizations") %>'
-/>
 
 <clay:management-toolbar
 	clearResultsURL="<%= SelectOrganizationManagementToolbarDisplayContext.getClearResultsURL() %>"
+	filterDropdownItems="<%= SelectOrganizationManagementToolbarDisplayContext.getFilterDropdownItems() %>"
 	itemsTotal="<%= searchContainer.getTotal() %>"
 	searchActionURL="<%= SelectOrganizationManagementToolbarDisplayContext.getSearchActionURL() %>"
+	searchContainerId="organizations"
 	searchFormName="searchFm"
 	selectable="<%= false %>"
 	showSearch="<%= true %>"
+	sortingOrder="<%= searchContainer.getOrderByType() %>"
+	sortingURL="<%= SelectOrganizationManagementToolbarDisplayContext.getSortingURL() %>"
 	viewTypeItems="<%= SelectOrganizationManagementToolbarDisplayContext.getViewTypeItems() %>"
 />
 
 <aui:form action="<%= portletURL.toString() %>" cssClass="container-fluid-1280" method="post" name="selectOrganizationFm">
 	<liferay-ui:search-container
+		id="organizations"
 		searchContainer="<%= searchContainer %>"
 		var="organizationSearchContainer"
 	>

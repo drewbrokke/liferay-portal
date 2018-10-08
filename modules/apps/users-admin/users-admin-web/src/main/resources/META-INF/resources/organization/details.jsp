@@ -65,7 +65,7 @@ User selUser = (User)request.getAttribute("user.selUser");
 <aui:model-context bean="<%= organization %>" model="<%= Organization.class %>" />
 
 <div class="row">
-	<aui:fieldset cssClass="col-md-6">
+	<aui:fieldset cssClass="col-md-8">
 		<liferay-ui:error exception="<%= DuplicateOrganizationException.class %>" message="the-organization-name-is-already-taken" />
 
 		<liferay-ui:error exception="<%= OrganizationNameException.class %>">
@@ -120,7 +120,7 @@ User selUser = (User)request.getAttribute("user.selUser");
 		</div>
 	</aui:fieldset>
 
-	<aui:fieldset cssClass="col-md-6">
+	<aui:fieldset cssClass="col-md-4 text-center">
 		<div>
 			<c:if test="<%= organization != null %>">
 
@@ -175,7 +175,7 @@ if (parentOrganization != null) {
 }
 %>
 
-<h3><liferay-ui:message key="parent-organization" /></h3>
+<h3 class="sheet-subtitle"><liferay-ui:message key="parent-organization" /></h3>
 
 <liferay-ui:error exception="<%= OrganizationParentException.class %>" message="please-enter-a-valid-parent-organization" />
 
@@ -206,51 +206,21 @@ if (parentOrganization != null) {
 	<liferay-ui:message arguments="<%= mnhc.getType() %>" key="an-organization-of-type-x-cannot-have-children" />
 </liferay-ui:error>
 
-<liferay-ui:search-container
-	headerNames="name,type,null"
-	id="parentOrganizationSearchContainer"
-	total="<%= parentOrganizations.size() %>"
->
-	<liferay-ui:search-container-results
-		results="<%= parentOrganizations %>"
-	/>
-
-	<liferay-ui:search-container-row
-		className="com.liferay.portal.kernel.model.Organization"
-		escapedModel="<%= true %>"
-		keyProperty="organizationId"
-		modelVar="curOrganization"
-	>
-		<portlet:renderURL var="rowURL">
-			<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_organization" />
-			<portlet:param name="redirect" value="<%= currentURL %>" />
-			<portlet:param name="organizationId" value="<%= String.valueOf(curOrganization.getOrganizationId()) %>" />
-		</portlet:renderURL>
-
-		<liferay-ui:search-container-column-text
-			cssClass="table-cell-expand table-cell-minw-200 table-title"
-			href="<%= rowURL %>"
-			name="name"
-			property="name"
+<portlet:renderURL var="rowURL">
+	<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_organization" />
+	<portlet:param name="redirect" value="<%= currentURL %>" />
+	<portlet:param name="organizationId" value="<%= String.valueOf(parentOrganization.getOrganizationId()) %>" />
+</portlet:renderURL>
+<p>
+	<%= parentOrganization.getName() %>
+	<liferay-util:buffer var="removeOrganizationIcon">
+		<liferay-ui:icon
+			icon="times"
+			markupView="lexicon"
+			message="remove"
 		/>
-
-		<liferay-ui:search-container-column-text
-			cssClass="table-cell-expand table-cell-minw-150"
-			href="<%= rowURL %>"
-			name="type"
-			value="<%= LanguageUtil.get(request, curOrganization.getType()) %>"
-		/>
-
-		<liferay-ui:search-container-column-text>
-			<a class="modify-link" data-rowId="<%= curOrganization.getOrganizationId() %>" href="javascript:;"><%= removeOrganizationIcon %></a>
-		</liferay-ui:search-container-column-text>
-	</liferay-ui:search-container-row>
-
-	<liferay-ui:search-iterator
-		markupView="lexicon"
-		paginate="<%= false %>"
-	/>
-</liferay-ui:search-container>
+	</liferay-util:buffer>
+</p>
 
 <liferay-ui:icon
 	cssClass="modify-link"
@@ -261,6 +231,7 @@ if (parentOrganization != null) {
 	method="get"
 	url="javascript:;"
 />
+
 
 <aui:script use="liferay-address,liferay-dynamic-select,liferay-search-container">
 	function <portlet:namespace />createURL(href, value, onclick) {
