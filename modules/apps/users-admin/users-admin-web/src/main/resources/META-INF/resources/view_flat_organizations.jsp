@@ -21,6 +21,8 @@ String toolbarItem = ParamUtil.getString(request, "toolbarItem", "view-all-organ
 
 String displayStyle = ParamUtil.getString(request, "displayStyle");
 
+long organizationId = ParamUtil.getLong(request, "organizationId", 0);
+
 if (Validator.isNull(displayStyle)) {
 	displayStyle = portalPreferences.getValue(UsersAdminPortletKeys.USERS_ADMIN, "display-style", "list");
 }
@@ -58,7 +60,7 @@ if (filterManageableOrganizations) {
 	<c:when test="<%= showList %>">
 
 		<%
-		ViewOrganizationsManagementToolbarDisplayContext viewOrganizationsManagementToolbarDisplayContext = new ViewOrganizationsManagementToolbarDisplayContext(request, renderRequest, renderResponse, displayStyle);
+		ViewOrganizationsManagementToolbarDisplayContext viewOrganizationsManagementToolbarDisplayContext = new ViewOrganizationsManagementToolbarDisplayContext(request, renderRequest, renderResponse, displayStyle, organizationId);
 
 		SearchContainer searchContainer = viewOrganizationsManagementToolbarDisplayContext.getSearchContainer(organizationParams, filterManageableOrganizations);
 		%>
@@ -84,9 +86,22 @@ if (filterManageableOrganizations) {
 			<liferay-portlet:renderURLParams varImpl="portletURL" />
 			<aui:input name="<%= Constants.CMD %>" type="hidden" />
 			<aui:input name="toolbarItem" type="hidden" value="<%= toolbarItem %>" />
+			<aui:input name="deleteOrganizationIds" type="hidden" />
+			<aui:input name="organizationId" type="hidden" value="<%= String.valueOf(organizationId) %>" />
 			<aui:input name="redirect" type="hidden" value="<%= portletURL.toString() %>" />
 
 			<liferay-ui:error exception="<%= RequiredOrganizationException.class %>" message="you-cannot-delete-organizations-that-have-suborganizations-or-users" />
+
+			<c:if test="<%= (portletName.equals(UsersAdminPortletKeys.USERS_ADMIN) && usersListView.equals(UserConstants.LIST_VIEW_TREE)) || portletName.equals(UsersAdminPortletKeys.MY_ORGANIZATIONS) %>">
+				<div id="breadcrumb">
+					<liferay-ui:breadcrumb
+						showCurrentGroup="<%= false %>"
+						showGuestGroup="<%= false %>"
+						showLayout="<%= false %>"
+						showPortletBreadcrumb="<%= true %>"
+					/>
+				</div>
+			</c:if>
 
 			<liferay-ui:search-container
 				id="organizations"
@@ -114,7 +129,7 @@ if (filterManageableOrganizations) {
 				>
 					<liferay-portlet:renderURL varImpl="rowURL">
 						<portlet:param name="mvcRenderCommandName" value="/users_admin/view" />
-						<portlet:param name="toolbarItem" value="view-all-organizations" />
+						<portlet:param name="toolbarItem" value="view-all-users" />
 						<portlet:param name="redirect" value="<%= organizationSearchContainer.getIteratorURL().toString() %>" />
 						<portlet:param name="organizationId" value="<%= String.valueOf(organization.getOrganizationId()) %>" />
 						<portlet:param name="usersListView" value="<%= UserConstants.LIST_VIEW_TREE %>" />

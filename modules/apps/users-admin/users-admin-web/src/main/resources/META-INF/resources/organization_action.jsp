@@ -41,6 +41,8 @@ long organizationId = organization.getOrganizationId();
 Group organizationGroup = organization.getGroup();
 
 long organizationGroupId = organization.getGroupId();
+
+long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 %>
 
 <liferay-ui:icon-menu
@@ -173,7 +175,13 @@ long organizationGroupId = organization.getGroupId();
 	<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, organization, ActionKeys.DELETE) %>">
 
 		<%
-		String taglibDeleteURL = "javascript:" + renderResponse.getNamespace() + "deleteOrganization('" + organizationId + "');";
+		String organizationsRedirect = "";
+
+		if (parentOrganizationId != 0) {
+			organizationsRedirect = UsersAdminPortletURLUtil.createParentOrganizationViewTreeURL(organizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse));
+		}
+
+		String taglibDeleteURL = "javascript:" + renderResponse.getNamespace() + "deleteOrganization('" + organizationId + "', '" + organizationsRedirect + "');";
 		%>
 
 		<liferay-ui:icon
