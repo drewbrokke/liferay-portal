@@ -62,12 +62,14 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 
 	public ViewOrganizationsManagementToolbarDisplayContext(
 		HttpServletRequest request, RenderRequest renderRequest,
-		RenderResponse renderResponse, String displayStyle) {
+		RenderResponse renderResponse, String displayStyle,
+		long organizationId) {
 
 		_request = request;
 		_renderRequest = renderRequest;
 		_renderResponse = renderResponse;
 		_displayStyle = displayStyle;
+		_organizationId = organizationId;
 	}
 
 	public List<DropdownItem> getActionDropdownItems() {
@@ -163,6 +165,11 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 		portletURL.setParameter("orderByCol", getOrderByCol());
 		portletURL.setParameter("orderByType", getOrderByType());
 
+		Long organizationId = ParamUtil.getLong(_request, "organizationId", 0);
+
+		portletURL.setParameter(
+			"organizationId", String.valueOf(organizationId));
+
 		String toolbarItem = ParamUtil.getString(
 			_request, "toolbarItem", "view-all-organizations");
 
@@ -214,7 +221,12 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 
 		String keywords = organizationSearchTerms.getKeywords();
 
-		if (Validator.isNotNull(keywords) || filterManageableOrganizations) {
+		if (_organizationId != 0) {
+			parentOrganizationId = _organizationId;
+		}
+		else if (Validator.isNotNull(keywords) ||
+				 filterManageableOrganizations) {
+
 			parentOrganizationId =
 				OrganizationConstants.ANY_PARENT_ORGANIZATION_ID;
 		}
@@ -353,16 +365,20 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 			_request, "toolbarItem", "view-all-organizations");
 		String usersListView = (String)_request.getAttribute(
 			"view.jsp-usersListView");
+		Long organizationId = ParamUtil.getLong(_request, "organizationId", 0);
 
 		PortletURL viewUsersURL = _renderResponse.createRenderURL();
 
 		viewUsersURL.setParameter("toolbarItem", toolbarItem);
 		viewUsersURL.setParameter("usersListView", usersListView);
+		viewUsersURL.setParameter(
+			"organizationId", String.valueOf(organizationId));
 
 		return viewUsersURL.toString();
 	}
 
 	private final String _displayStyle;
+	private final long _organizationId;
 	private OrganizationSearch _organizationSearch;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;

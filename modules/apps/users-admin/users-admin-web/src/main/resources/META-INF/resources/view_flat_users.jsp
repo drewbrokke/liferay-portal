@@ -18,6 +18,7 @@
 
 <%
 String backURL = GetterUtil.getString(request.getAttribute("view.jsp-backURL"));
+long organizationId = ParamUtil.getLong(request, "organizationId", 0);
 int status = GetterUtil.getInteger(request.getAttribute("view.jsp-status"));
 String usersListView = GetterUtil.getString(request.getAttribute("view.jsp-usersListView"));
 String viewUsersRedirect = GetterUtil.getString(request.getAttribute("view.jsp-viewUsersRedirect"));
@@ -40,7 +41,7 @@ else {
 String navigation = ParamUtil.getString(request, "navigation", "active");
 String toolbarItem = ParamUtil.getString(request, "toolbarItem", "view-all-users");
 
-ViewUsersManagementToolbarDisplayContext viewUsersManagementToolbarDisplayContext = new ViewUsersManagementToolbarDisplayContext(request, renderRequest, renderResponse, displayStyle, navigation, status);
+ViewUsersManagementToolbarDisplayContext viewUsersManagementToolbarDisplayContext = new ViewUsersManagementToolbarDisplayContext(request, renderRequest, renderResponse, displayStyle, navigation, organizationId, status);
 
 SearchContainer searchContainer = viewUsersManagementToolbarDisplayContext.getSearchContainer();
 
@@ -83,12 +84,26 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 	<aui:input name="<%= Constants.CMD %>" type="hidden" />
 	<aui:input name="toolbarItem" type="hidden" value="<%= toolbarItem %>" />
 	<aui:input name="usersListView" type="hidden" value="<%= usersListView %>" />
+	<aui:input name="deleteOrganizationIds" type="hidden" />
+	<aui:input name="deleteUserIds" type="hidden" />
+	<aui:input name="organizationId" type="hidden" value="<%= String.valueOf(organizationId) %>" />
 	<aui:input name="redirect" type="hidden" value="<%= portletURL.toString() %>" />
 
 	<liferay-ui:error exception="<%= RequiredUserException.class %>" message="you-cannot-delete-or-deactivate-yourself" />
 
 	<c:if test="<%= Validator.isNotNull(viewUsersRedirect) %>">
 		<aui:input name="viewUsersRedirect" type="hidden" value="<%= viewUsersRedirect %>" />
+	</c:if>
+
+	<c:if test="<%= portletName.equals(UsersAdminPortletKeys.USERS_ADMIN) && usersListView.equals(UserConstants.LIST_VIEW_TREE) %>">
+		<div id="breadcrumb">
+			<liferay-ui:breadcrumb
+				showCurrentGroup="<%= false %>"
+				showGuestGroup="<%= false %>"
+				showLayout="<%= false %>"
+				showPortletBreadcrumb="<%= true %>"
+			/>
+		</div>
 	</c:if>
 
 	<liferay-ui:search-container
