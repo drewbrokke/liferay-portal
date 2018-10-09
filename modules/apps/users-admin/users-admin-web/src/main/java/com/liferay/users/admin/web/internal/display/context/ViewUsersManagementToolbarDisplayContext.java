@@ -58,13 +58,14 @@ public class ViewUsersManagementToolbarDisplayContext {
 	public ViewUsersManagementToolbarDisplayContext(
 		HttpServletRequest request, RenderRequest renderRequest,
 		RenderResponse renderResponse, String displayStyle, String navigation,
-		int status) {
+		long organizationId, int status) {
 
 		_request = request;
 		_renderRequest = renderRequest;
 		_renderResponse = renderResponse;
 		_displayStyle = displayStyle;
 		_navigation = navigation;
+		_organizationId = organizationId;
 		_status = status;
 	}
 
@@ -179,10 +180,22 @@ public class ViewUsersManagementToolbarDisplayContext {
 			portletURL.setParameter("keywords", keywords[keywords.length - 1]);
 		}
 
+		Long organizationId = ParamUtil.getLong(_request, "organizationId", 0);
+
+		String toolbarItem = ParamUtil.getString(
+			_request, "toolbarItem", "view-all-organizations");
+
+		String usersListView = (String)_request.getAttribute(
+			"view.jsp-usersListView");
+
 		portletURL.setParameter("navigation", _navigation);
 		portletURL.setParameter("orderByCol", getOrderByCol());
 		portletURL.setParameter("orderByType", getOrderByType());
+		portletURL.setParameter(
+			"organizationId", String.valueOf(organizationId));
 		portletURL.setParameter("status", String.valueOf(_status));
+		portletURL.setParameter("usersListView", usersListView);
+		portletURL.setParameter("toolbarItem", toolbarItem);
 
 		return portletURL;
 	}
@@ -223,17 +236,22 @@ public class ViewUsersManagementToolbarDisplayContext {
 			searchTerms.setStatus(WorkflowConstants.STATUS_INACTIVE);
 		}
 
+		LinkedHashMap<String, Object> params = new LinkedHashMap<>();
+
+		if (_organizationId != 0) {
+			params.put("usersOrgs", Long.valueOf(_organizationId));
+		}
+
 		int total = UserLocalServiceUtil.searchCount(
 			themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-			searchTerms.getStatus(), new LinkedHashMap<String, Object>());
+			searchTerms.getStatus(), params);
 
 		userSearch.setTotal(total);
 
 		List<User> results = UserLocalServiceUtil.search(
 			themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-			searchTerms.getStatus(), new LinkedHashMap<String, Object>(),
-			userSearch.getStart(), userSearch.getEnd(),
-			userSearch.getOrderByComparator());
+			searchTerms.getStatus(), params, userSearch.getStart(),
+			userSearch.getEnd(), userSearch.getOrderByComparator());
 
 		userSearch.setResults(results);
 
@@ -364,6 +382,7 @@ public class ViewUsersManagementToolbarDisplayContext {
 
 	private final String _displayStyle;
 	private final String _navigation;
+	private final Long _organizationId;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
 	private final HttpServletRequest _request;
