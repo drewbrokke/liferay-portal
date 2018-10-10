@@ -44,19 +44,20 @@ public class UsersAdminPortletURLUtil {
 
 		renderURL.setParameter("mvcRenderCommandName", "/users_admin/view");
 
-		String toolbarItem = ParamUtil.getString(portletRequest, "toolbarItem");
-
-		renderURL.setParameter("toolbarItem", toolbarItem);
+		String toolbarItem = ParamUtil.getString(
+			portletRequest, "toolbarItem", "view-all-organizations");
 
 		if (organizationId ==
 				OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID) {
 
+			renderURL.setParameter("toolbarItem", "view-all-organizations");
 			renderURL.setParameter(
 				"usersListView", UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS);
 		}
 		else {
 			renderURL.setParameter(
 				"organizationId", String.valueOf(organizationId));
+			renderURL.setParameter("toolbarItem", toolbarItem);
 			renderURL.setParameter(
 				"usersListView", UserConstants.LIST_VIEW_TREE);
 		}
