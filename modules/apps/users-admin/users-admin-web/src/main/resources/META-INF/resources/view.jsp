@@ -17,6 +17,8 @@
 <%@ include file="/init.jsp" %>
 
 <%
+String mvcRenderCommandName = ParamUtil.getString(request, "mvcRenderCommandName", "MISSING");
+
 String toolbarItem = ParamUtil.getString(request, "toolbarItem", "view-all-users");
 
 String redirect = ParamUtil.getString(request, "redirect");
@@ -48,9 +50,24 @@ Organization organization = null;
 
 if (organizationId != 0) {
 	organization = OrganizationServiceUtil.getOrganization(organizationId);
+
+	portletDisplay.setShowBackIcon(true);
+	portletDisplay.setURLBack(Validator.isNotNull(backURL) ? backURL : UsersAdminPortletURLUtil.createParentOrganizationViewTreeURL(organizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse)));
+
+	renderResponse.setTitle(organization.getName());
+
+	PortletURL homeURL = renderResponse.createRenderURL();
+
+	homeURL.setParameter("mvcPath", "/view.jsp");
+	homeURL.setParameter("toolbarItem", "view-all-organizations");
+	homeURL.setParameter("usersListView", UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS);
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, "users-and-organizations"), homeURL.toString());
+
+	UsersAdminUtil.addPortletBreadcrumbEntries(organization, request, renderResponse);
 }
 
-if (!usersListView.equals(UserConstants.LIST_VIEW_FLAT_USERS)) {
+if (!usersListView.equals(UserConstants.LIST_VIEW_FLAT_USERS) && !usersListView.equals(UserConstants.LIST_VIEW_TREE)) {
 	portletDisplay.setShowExportImportIcon(true);
 }
 else {
@@ -58,28 +75,19 @@ else {
 }
 %>
 
+<c:if test='<%= mvcRenderCommandName.equals("MISSING") %>'>
+	<h1>MISSING</h1>
+</c:if>
+
 <liferay-ui:error exception="<%= CompanyMaxUsersException.class %>" message="unable-to-activate-user-because-that-would-exceed-the-maximum-number-of-users-allowed" />
 
 <%@ include file="/toolbar.jspf" %>
 
 <c:choose>
-	<c:when test="<%= usersListView.equals(UserConstants.LIST_VIEW_TREE) %>">
-
-		<%
-		request.setAttribute("view.jsp-backURL", backURL);
-		request.setAttribute("view.jsp-organization", organization);
-		request.setAttribute("view.jsp-organizationId", organizationId);
-		request.setAttribute("view.jsp-portletURL", portletURL);
-		request.setAttribute("view.jsp-toolbarItem", toolbarItem);
-		request.setAttribute("view.jsp-usersListView", usersListView);
-		%>
-
-		<liferay-util:include page="/view_tree.jsp" servletContext="<%= application %>" />
-	</c:when>
-	<c:when test="<%= portletName.equals(UsersAdminPortletKeys.MY_ORGANIZATIONS) || usersListView.equals(UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS) %>">
+	<c:when test='<%= portletName.equals(UsersAdminPortletKeys.MY_ORGANIZATIONS) || usersListView.equals(UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS) || (usersListView.equals(UserConstants.LIST_VIEW_TREE) && toolbarItem.equals("view-all-organizations")) %>'>
 		<liferay-util:include page="/view_flat_organizations.jsp" servletContext="<%= application %>" />
 	</c:when>
-	<c:when test="<%= usersListView.equals(UserConstants.LIST_VIEW_FLAT_USERS) %>">
+	<c:when test='<%= usersListView.equals(UserConstants.LIST_VIEW_FLAT_USERS) || (usersListView.equals(UserConstants.LIST_VIEW_TREE) && toolbarItem.equals("view-all-users")) %>'>
 
 		<%
 		request.setAttribute("view.jsp-backURL", backURL);
@@ -93,15 +101,16 @@ else {
 </c:choose>
 
 <aui:script>
-	function <portlet:namespace />deleteOrganization(organizationId, organizationsRedirect) {
-		<portlet:namespace />doDeleteOrganization('<%= Organization.class.getName() %>', organizationId, organizationsRedirect);
+	function <portlet:namespace />deleteOrganization(organizationId, organizationsRedirect, errorRedirect) {
+		<portlet:namespace />doDeleteOrganization('<%= Organization.class.getName() %>', organizationId, organizationsRedirect, errorRedirect);
 	}
 
-	function <portlet:namespace />deleteOrganizations(organizationsRedirect) {
+	function <portlet:namespace />deleteOrganizations(organizationsRedirect, errorRedirect) {
 		<portlet:namespace />doDeleteOrganization(
 			'<%= Organization.class.getName() %>',
 			Liferay.Util.listCheckedExcept(document.<portlet:namespace />fm, '<portlet:namespace />allRowIds', '<portlet:namespace />rowIdsOrganization'),
-			organizationsRedirect
+			organizationsRedirect,
+			errorRedirect
 		);
 	}
 
@@ -118,7 +127,7 @@ else {
 		}
 	}
 
-	function <portlet:namespace />doDeleteOrganization(className, ids, organizationsRedirect) {
+	function <portlet:namespace />doDeleteOrganization(className, ids, organizationsRedirect, errorRedirect) {
 		var status = <%= WorkflowConstants.STATUS_INACTIVE %>;
 
 		<portlet:namespace />getUsersCount(
@@ -140,7 +149,7 @@ else {
 
 							if (count > 0) {
 								if (confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-delete-this") %>')) {
-									<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect);
+									<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect, errorRedirect);
 								}
 							}
 							else {
@@ -154,25 +163,29 @@ else {
 								}
 
 								if (confirm(message)) {
-									<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect);
+									<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect, errorRedirect);
 								}
 							}
 						}
 					);
 				}
 				else if (confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-delete-this") %>')) {
-					<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect);
+					<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect, errorRedirect);
 				}
 			}
 		);
 	}
 
-	function <portlet:namespace />doDeleteOrganizations(organizationIds, organizationsRedirect) {
+	function <portlet:namespace />doDeleteOrganizations(organizationIds, organizationsRedirect, errorRedirect) {
 		var form = AUI.$(document.<portlet:namespace />fm);
 
 		form.attr('method', 'post');
 		form.fm('<%= Constants.CMD %>').val('<%= Constants.DELETE %>');
 		form.fm('deleteOrganizationIds').val(organizationIds);
+
+		if (errorRedirect) {
+			form.fm('errorRedirect').val(errorRedirect);
+		}
 
 		if (organizationsRedirect) {
 			form.fm('redirect').val(organizationsRedirect);
