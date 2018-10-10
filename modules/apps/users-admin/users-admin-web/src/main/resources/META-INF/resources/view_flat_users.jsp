@@ -17,7 +17,6 @@
 <%@ include file="/init.jsp" %>
 
 <%
-String backURL = GetterUtil.getString(request.getAttribute("view.jsp-backURL"));
 long organizationId = ParamUtil.getLong(request, "organizationId", 0);
 int status = GetterUtil.getInteger(request.getAttribute("view.jsp-status"));
 String usersListView = GetterUtil.getString(request.getAttribute("view.jsp-usersListView"));
@@ -127,7 +126,7 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 		>
 			<liferay-portlet:renderURL varImpl="rowURL">
 				<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_user" />
-				<portlet:param name="redirect" value="<%= userSearchContainer.getIteratorURL().toString() %>" />
+				<portlet:param name="backURL" value="<%= currentURL %>" />
 				<portlet:param name="p_u_i_d" value="<%= String.valueOf(user2.getUserId()) %>" />
 			</liferay-portlet:renderURL>
 

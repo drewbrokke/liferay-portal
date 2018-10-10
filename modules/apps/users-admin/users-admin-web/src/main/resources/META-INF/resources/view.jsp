@@ -19,9 +19,7 @@
 <%
 String toolbarItem = ParamUtil.getString(request, "toolbarItem", "view-all-users");
 
-String redirect = ParamUtil.getString(request, "redirect");
 String viewUsersRedirect = ParamUtil.getString(request, "viewUsersRedirect");
-String backURL = ParamUtil.getString(request, "backURL", redirect);
 
 int status = ParamUtil.getInteger(request, "status", WorkflowConstants.STATUS_APPROVED);
 
@@ -49,9 +47,11 @@ Organization organization = null;
 if (organizationId != 0) {
 	organization = OrganizationServiceUtil.getOrganization(organizationId);
 
-	portletDisplay.setShowBackIcon(true);
+	String backURL = ParamUtil.getString(request, "backURL");
+
 	portletDisplay.setURLBack(Validator.isNotNull(backURL) ? backURL : UsersAdminPortletURLUtil.createParentOrganizationViewTreeURL(organizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse)));
 
+	portletDisplay.setShowBackIcon(true);
 	renderResponse.setTitle(organization.getName());
 
 	PortletURL homeURL = renderResponse.createRenderURL();
@@ -87,7 +87,6 @@ else {
 	<c:when test='<%= usersListView.equals(UserConstants.LIST_VIEW_FLAT_USERS) || (usersListView.equals(UserConstants.LIST_VIEW_TREE) && toolbarItem.equals("view-all-users")) %>'>
 
 		<%
-		request.setAttribute("view.jsp-backURL", backURL);
 		request.setAttribute("view.jsp-status", status);
 		request.setAttribute("view.jsp-usersListView", usersListView);
 		request.setAttribute("view.jsp-viewUsersRedirect", viewUsersRedirect);
