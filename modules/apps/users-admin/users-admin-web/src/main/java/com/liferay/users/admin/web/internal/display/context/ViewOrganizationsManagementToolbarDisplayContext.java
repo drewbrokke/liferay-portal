@@ -109,8 +109,10 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 							dropdownItem.setHref(
 								_renderResponse.createRenderURL(),
 								"mvcRenderCommandName",
-								"/users_admin/edit_organization", "redirect",
-								_getViewUsersURL(), "type", organizationType);
+								"/users_admin/edit_organization",
+								"parentOrganizationSearchContainerPrimaryKeys",
+								_organizationId, "redirect", _getViewUsersURL(),
+								"type", organizationType);
 							dropdownItem.setLabel(
 								LanguageUtil.get(_request, organizationType));
 						});
@@ -161,6 +163,8 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 		if (ArrayUtil.isNotEmpty(keywords)) {
 			portletURL.setParameter("keywords", keywords[keywords.length - 1]);
 		}
+
+		portletURL.setParameter("mvcRenderCommandName", "/users_admin/view");
 
 		portletURL.setParameter("orderByCol", getOrderByCol());
 		portletURL.setParameter("orderByType", getOrderByType());
@@ -369,6 +373,7 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 
 		PortletURL viewUsersURL = _renderResponse.createRenderURL();
 
+		viewUsersURL.setParameter("mvcRenderCommandName", "/users_admin/view");
 		viewUsersURL.setParameter("toolbarItem", toolbarItem);
 		viewUsersURL.setParameter("usersListView", usersListView);
 		viewUsersURL.setParameter(

@@ -86,7 +86,9 @@ if (filterManageableOrganizations) {
 			<liferay-portlet:renderURLParams varImpl="portletURL" />
 			<aui:input name="<%= Constants.CMD %>" type="hidden" />
 			<aui:input name="toolbarItem" type="hidden" value="<%= toolbarItem %>" />
+			<aui:input name="usersListView" type="hidden" value="<%= usersListView %>" />
 			<aui:input name="deleteOrganizationIds" type="hidden" />
+			<aui:input name="errorRedirect" type="hidden" value="<%= portletURL.toString() %>" />
 			<aui:input name="organizationId" type="hidden" value="<%= String.valueOf(organizationId) %>" />
 			<aui:input name="redirect" type="hidden" value="<%= portletURL.toString() %>" />
 

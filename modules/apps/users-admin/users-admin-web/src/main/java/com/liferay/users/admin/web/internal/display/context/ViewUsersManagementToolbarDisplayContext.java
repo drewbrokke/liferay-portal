@@ -129,7 +129,9 @@ public class ViewUsersManagementToolbarDisplayContext {
 					dropdownItem -> {
 						dropdownItem.setHref(
 							_renderResponse.createRenderURL(),
-							"mvcRenderCommandName", "/users_admin/edit_user");
+							"mvcRenderCommandName", "/users_admin/edit_user",
+							"organizationsSearchContainerPrimaryKeys",
+							_organizationId);
 						dropdownItem.setLabel(
 							LanguageUtil.get(_request, "add-user"));
 					});
@@ -179,6 +181,8 @@ public class ViewUsersManagementToolbarDisplayContext {
 		if (ArrayUtil.isNotEmpty(keywords)) {
 			portletURL.setParameter("keywords", keywords[keywords.length - 1]);
 		}
+
+		portletURL.setParameter("mvcRenderCommandName", "/users_admin/view");
 
 		Long organizationId = ParamUtil.getLong(_request, "organizationId", 0);
 

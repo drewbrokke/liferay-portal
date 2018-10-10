@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -32,6 +33,36 @@ import javax.portlet.RenderURL;
  * @author Samuel Trong Tran
  */
 public class UsersAdminPortletURLUtil {
+
+	public static String createOrganizationViewTreeURL(
+		long organizationId, PortletRequest portletRequest,
+		PortletResponse portletResponse) {
+
+		RenderResponse renderResponse = (RenderResponse)portletResponse;
+
+		RenderURL renderURL = renderResponse.createRenderURL();
+
+		renderURL.setParameter("mvcRenderCommandName", "/users_admin/view");
+
+		String toolbarItem = ParamUtil.getString(portletRequest, "toolbarItem");
+
+		renderURL.setParameter("toolbarItem", toolbarItem);
+
+		if (organizationId ==
+				OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID) {
+
+			renderURL.setParameter(
+				"usersListView", UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS);
+		}
+		else {
+			renderURL.setParameter(
+				"organizationId", String.valueOf(organizationId));
+			renderURL.setParameter(
+				"usersListView", UserConstants.LIST_VIEW_TREE);
+		}
+
+		return String.valueOf(renderURL);
+	}
 
 	public static String createParentOrganizationViewTreeURL(
 			long organizationId, PortletRequest portletRequest,
@@ -55,40 +86,14 @@ public class UsersAdminPortletURLUtil {
 					PermissionThreadLocal.getPermissionChecker(),
 					parentOrganizationId, ActionKeys.VIEW)) {
 
-				return _createOrganizationViewTreeURL(
-					parentOrganizationId, portletResponse);
+				return createOrganizationViewTreeURL(
+					parentOrganizationId, portletRequest, portletResponse);
 			}
 		}
 
-		return _createOrganizationViewTreeURL(
+		return createOrganizationViewTreeURL(
 			OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
-			portletResponse);
-	}
-
-	private static String _createOrganizationViewTreeURL(
-		long organizationId, PortletResponse portletResponse) {
-
-		RenderResponse renderResponse = (RenderResponse)portletResponse;
-
-		RenderURL renderURL = renderResponse.createRenderURL();
-
-		renderURL.setParameter("mvcRenderCommandName", "/users_admin/view");
-		renderURL.setParameter("toolbarItem", "view-all-organizations");
-
-		if (organizationId ==
-				OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID) {
-
-			renderURL.setParameter(
-				"usersListView", UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS);
-		}
-		else {
-			renderURL.setParameter(
-				"organizationId", String.valueOf(organizationId));
-			renderURL.setParameter(
-				"usersListView", UserConstants.LIST_VIEW_TREE);
-		}
-
-		return String.valueOf(renderURL);
+			portletRequest, portletResponse);
 	}
 
 }
