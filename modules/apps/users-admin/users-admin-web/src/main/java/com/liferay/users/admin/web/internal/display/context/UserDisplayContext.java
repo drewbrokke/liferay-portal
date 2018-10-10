@@ -269,64 +269,39 @@ public class UserDisplayContext {
 
 					add(
 						navigationItem -> {
-							navigationItem.setActive(
-								toolbarItem.equals("view-all-users"));
+							String nextUsersListView =
+								UserConstants.LIST_VIEW_FLAT_USERS;
 
 							if (usersListView.equals(
 									UserConstants.LIST_VIEW_TREE)) {
 
-								navigationItem.setHref(
-									_renderResponse.createRenderURL(),
-									"mvcRenderCommandName", "/users_admin/view",
-									"organizationId", organizationId,
-									"saveUsersListView", true, "toolbarItem",
-									"view-all-users", "usersListView",
-									UserConstants.LIST_VIEW_TREE);
-							}
-							else {
-								navigationItem.setHref(
-									_renderResponse.createRenderURL(),
-									"mvcRenderCommandName", "/users_admin/view",
-									"organizationId", organizationId,
-									"saveUsersListView", true, "toolbarItem",
-									"view-all-users", "usersListView",
-									UserConstants.LIST_VIEW_FLAT_USERS);
+								nextUsersListView =
+									UserConstants.LIST_VIEW_TREE;
 							}
 
-							navigationItem.setLabel(
-								LanguageUtil.get(_request, "users"));
+							_populateNaviationItem(
+								navigationItem, organizationId, toolbarItem,
+								"users", "view-all-users", nextUsersListView);
 						});
 				}
 
 				add(
 					navigationItem -> {
-						navigationItem.setActive(
-							toolbarItem.equals("view-all-organizations"));
+						String languageKey = "organizations";
+						String nextUsersListView =
+							UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS;
 
 						if (usersListView.equals(
 								UserConstants.LIST_VIEW_TREE)) {
 
-							navigationItem.setHref(
-								_renderResponse.createRenderURL(),
-								"mvcRenderCommandName", "/users_admin/view",
-								"organizationId", organizationId,
-								"saveUsersListView", true, "toolbarItem",
-								"view-all-organizations", "usersListView",
-								UserConstants.LIST_VIEW_TREE);
-							navigationItem.setLabel(
-								LanguageUtil.get(_request, "suborganizations"));
+							languageKey = "suborganizations";
+							nextUsersListView = UserConstants.LIST_VIEW_TREE;
 						}
-						else {
-							navigationItem.setHref(
-								_renderResponse.createRenderURL(),
-								"mvcRenderCommandName", "/users_admin/view",
-								"organizationId", organizationId,
-								"saveUsersListView", true, "toolbarItem",
-								"view-all-organizations", "usersListView",
-								UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS);
-							navigationItem.setLabel(
-								LanguageUtil.get(_request, "organizations"));
-						}
+
+						_populateNaviationItem(
+							navigationItem, organizationId, toolbarItem,
+							languageKey, "view-all-organizations",
+							nextUsersListView);
 					});
 			}
 		};
@@ -369,6 +344,22 @@ public class UserDisplayContext {
 		}
 
 		return false;
+	}
+
+	private void _populateNaviationItem(
+		NavigationItem navigationItem, long organizationId,
+		String currentToolbarItem, String languageKey, String nextToolbarItem,
+		String usersListView) {
+
+		navigationItem.setActive(nextToolbarItem.equals(currentToolbarItem));
+
+		navigationItem.setHref(
+			_renderResponse.createRenderURL(), "mvcRenderCommandName",
+			"/users_admin/view", "organizationId", organizationId,
+			"saveUsersListView", true, "toolbarItem", nextToolbarItem,
+			"usersListView", usersListView);
+
+		navigationItem.setLabel(LanguageUtil.get(_request, languageKey));
 	}
 
 	private final InitDisplayContext _initDisplayContext;
