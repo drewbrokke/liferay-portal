@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.users.admin.constants.UsersAdminPortletKeys;
@@ -59,7 +60,7 @@ public class DeleteOrganizationPortletConfigurationIcon
 	public String getOnClick(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		StringBundler sb = new StringBundler(6);
+		StringBundler sb = new StringBundler(8);
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)portletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
@@ -90,6 +91,17 @@ public class DeleteOrganizationPortletConfigurationIcon
 			}
 
 			sb.append(backURL);
+
+			sb.append("', '");
+
+			long parentOrganizationId = ParamUtil.getLong(
+				portletRequest, "organizationId", 0);
+
+			String errorURL =
+				UsersAdminPortletURLUtil.createOrganizationViewTreeURL(
+					parentOrganizationId, portletRequest, portletResponse);
+
+			sb.append(errorURL);
 
 			sb.append("');");
 		}

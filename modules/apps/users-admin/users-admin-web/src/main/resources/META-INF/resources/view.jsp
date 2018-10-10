@@ -95,15 +95,16 @@ else {
 </c:choose>
 
 <aui:script>
-	function <portlet:namespace />deleteOrganization(organizationId, organizationsRedirect) {
-		<portlet:namespace />doDeleteOrganization('<%= Organization.class.getName() %>', organizationId, organizationsRedirect);
+	function <portlet:namespace />deleteOrganization(organizationId, organizationsRedirect, errorRedirect) {
+		<portlet:namespace />doDeleteOrganization('<%= Organization.class.getName() %>', organizationId, organizationsRedirect, errorRedirect);
 	}
 
-	function <portlet:namespace />deleteOrganizations(organizationsRedirect) {
+	function <portlet:namespace />deleteOrganizations(organizationsRedirect, errorRedirect) {
 		<portlet:namespace />doDeleteOrganization(
 			'<%= Organization.class.getName() %>',
 			Liferay.Util.listCheckedExcept(document.<portlet:namespace />fm, '<portlet:namespace />allRowIds', '<portlet:namespace />rowIdsOrganization'),
-			organizationsRedirect
+			organizationsRedirect,
+			errorRedirect
 		);
 	}
 
@@ -120,7 +121,7 @@ else {
 		}
 	}
 
-	function <portlet:namespace />doDeleteOrganization(className, ids, organizationsRedirect) {
+	function <portlet:namespace />doDeleteOrganization(className, ids, organizationsRedirect, errorRedirect) {
 		var status = <%= WorkflowConstants.STATUS_INACTIVE %>;
 
 		<portlet:namespace />getUsersCount(
@@ -142,7 +143,7 @@ else {
 
 							if (count > 0) {
 								if (confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-delete-this") %>')) {
-									<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect);
+									<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect, errorRedirect);
 								}
 							}
 							else {
@@ -156,25 +157,29 @@ else {
 								}
 
 								if (confirm(message)) {
-									<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect);
+									<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect, errorRedirect);
 								}
 							}
 						}
 					);
 				}
 				else if (confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-delete-this") %>')) {
-					<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect);
+					<portlet:namespace />doDeleteOrganizations(ids, organizationsRedirect, errorRedirect);
 				}
 			}
 		);
 	}
 
-	function <portlet:namespace />doDeleteOrganizations(organizationIds, organizationsRedirect) {
+	function <portlet:namespace />doDeleteOrganizations(organizationIds, organizationsRedirect, errorRedirect) {
 		var form = AUI.$(document.<portlet:namespace />fm);
 
 		form.attr('method', 'post');
 		form.fm('<%= Constants.CMD %>').val('<%= Constants.DELETE %>');
 		form.fm('deleteOrganizationIds').val(organizationIds);
+
+		if (errorRedirect) {
+			form.fm('errorRedirect').val(errorRedirect);
+		}
 
 		if (organizationsRedirect) {
 			form.fm('redirect').val(organizationsRedirect);

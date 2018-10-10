@@ -325,10 +325,9 @@ public class UserDisplayContext {
 						navigationItem.setHref(
 							_renderResponse.createRenderURL(),
 							"mvcRenderCommandName", "/users_admin/view",
-							"toolbarItem",
-							"view-all-users", "organizationId", organizationId,
-							"saveUsersListView", true, "usersListView",
-							UserConstants.LIST_VIEW_TREE);
+							"toolbarItem", "view-all-users", "organizationId",
+							organizationId, "saveUsersListView", true,
+							"usersListView", UserConstants.LIST_VIEW_TREE);
 						navigationItem.setLabel(
 							LanguageUtil.get(_request, "users"));
 					});
@@ -339,10 +338,10 @@ public class UserDisplayContext {
 						navigationItem.setHref(
 							_renderResponse.createRenderURL(),
 							"mvcRenderCommandName", "/users_admin/view",
-							"toolbarItem",
-							"view-all-organizations", "organizationId",
-							organizationId, "saveUsersListView", true,
-							"usersListView", UserConstants.LIST_VIEW_TREE);
+							"toolbarItem", "view-all-organizations",
+							"organizationId", organizationId,
+							"saveUsersListView", true, "usersListView",
+							UserConstants.LIST_VIEW_TREE);
 						navigationItem.setLabel(
 							LanguageUtil.get(_request, "suborganizations"));
 					});

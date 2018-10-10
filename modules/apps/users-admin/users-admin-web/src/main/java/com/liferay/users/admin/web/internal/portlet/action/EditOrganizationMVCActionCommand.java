@@ -152,18 +152,10 @@ public class EditOrganizationMVCActionCommand extends BaseMVCActionCommand {
 				}
 
 				if (e instanceof RequiredOrganizationException) {
+					mvcPath = "/view.jsp";
+
 					String redirect = _portal.escapeRedirect(
-						ParamUtil.getString(actionRequest, "redirect"));
-
-					long organizationId = ParamUtil.getLong(
-						actionRequest, "organizationId");
-
-					if (organizationId > 0) {
-						redirect = _http.setParameter(
-							redirect,
-							actionResponse.getNamespace() + "organizationId",
-							organizationId);
-					}
+						ParamUtil.getString(actionRequest, "errorRedirect"));
 
 					if (Validator.isNotNull(redirect)) {
 						sendRedirect(actionRequest, actionResponse, redirect);
