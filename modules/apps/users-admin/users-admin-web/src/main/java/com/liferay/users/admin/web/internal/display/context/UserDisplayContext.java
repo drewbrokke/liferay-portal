@@ -253,34 +253,46 @@ public class UserDisplayContext {
 		return userGroups;
 	}
 
-	public List<NavigationItem> getViewNavigationItems1(String portletName) {
+	public List<NavigationItem> getViewNavigationItems(String portletName) {
 		return new NavigationItemList() {
 			{
+				long organizationId = ParamUtil.getLong(
+					_request, "organizationId", 0);
 				String toolbarItem = ParamUtil.getString(
 					_request, "toolbarItem", "view-all-users");
 				String usersListView = ParamUtil.getString(
-					_request, "usersListView", "view-all-users");
+					_request, "usersListView",
+					UserConstants.LIST_VIEW_FLAT_USERS);
 
 				if (!portletName.equals(
 						UsersAdminPortletKeys.MY_ORGANIZATIONS)) {
 
 					add(
 						navigationItem -> {
+							navigationItem.setActive(
+								toolbarItem.equals("view-all-users"));
+
 							if (usersListView.equals(
 									UserConstants.LIST_VIEW_TREE)) {
 
-								navigationItem.setActive(false);
+								navigationItem.setHref(
+									_renderResponse.createRenderURL(),
+									"mvcRenderCommandName", "/users_admin/view",
+									"organizationId", organizationId,
+									"saveUsersListView", true, "toolbarItem",
+									"view-all-users", "usersListView",
+									UserConstants.LIST_VIEW_TREE);
 							}
 							else {
-								navigationItem.setActive(
-									toolbarItem.equals("view-all-users"));
+								navigationItem.setHref(
+									_renderResponse.createRenderURL(),
+									"mvcRenderCommandName", "/users_admin/view",
+									"organizationId", organizationId,
+									"saveUsersListView", true, "toolbarItem",
+									"view-all-users", "usersListView",
+									UserConstants.LIST_VIEW_FLAT_USERS);
 							}
 
-							navigationItem.setHref(
-								_renderResponse.createRenderURL(),
-								"toolbarItem", "view-all-users",
-								"saveUsersListView", true, "usersListView",
-								UserConstants.LIST_VIEW_FLAT_USERS);
 							navigationItem.setLabel(
 								LanguageUtil.get(_request, "users"));
 						});
@@ -288,62 +300,33 @@ public class UserDisplayContext {
 
 				add(
 					navigationItem -> {
+						navigationItem.setActive(
+							toolbarItem.equals("view-all-organizations"));
+
 						if (usersListView.equals(
 								UserConstants.LIST_VIEW_TREE)) {
 
-							navigationItem.setActive(true);
+							navigationItem.setHref(
+								_renderResponse.createRenderURL(),
+								"mvcRenderCommandName", "/users_admin/view",
+								"organizationId", organizationId,
+								"saveUsersListView", true, "toolbarItem",
+								"view-all-organizations", "usersListView",
+								UserConstants.LIST_VIEW_TREE);
+							navigationItem.setLabel(
+								LanguageUtil.get(_request, "suborganizations"));
 						}
 						else {
-							navigationItem.setActive(
-								toolbarItem.equals("view-all-organizations"));
+							navigationItem.setHref(
+								_renderResponse.createRenderURL(),
+								"mvcRenderCommandName", "/users_admin/view",
+								"organizationId", organizationId,
+								"saveUsersListView", true, "toolbarItem",
+								"view-all-organizations", "usersListView",
+								UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS);
+							navigationItem.setLabel(
+								LanguageUtil.get(_request, "organizations"));
 						}
-
-						navigationItem.setHref(
-							_renderResponse.createRenderURL(), "toolbarItem",
-							"view-all-organizations", "saveUsersListView", true,
-							"usersListView",
-							UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS);
-						navigationItem.setLabel(
-							LanguageUtil.get(_request, "organizations"));
-					});
-			}
-		};
-	}
-
-	public List<NavigationItem> getViewNavigationItems2() {
-		return new NavigationItemList() {
-			{
-				long organizationId = ParamUtil.getLong(
-					_request, "organizationId", 0);
-				String toolbarItem = ParamUtil.getString(
-					_request, "toolbarItem", "view-all-users");
-
-				add(
-					navigationItem -> {
-						navigationItem.setActive(
-							toolbarItem.equals("view-all-users"));
-						navigationItem.setHref(
-							_renderResponse.createRenderURL(),
-							"mvcRenderCommandName", "/users_admin/view",
-							"toolbarItem", "view-all-users", "organizationId",
-							organizationId, "saveUsersListView", true,
-							"usersListView", UserConstants.LIST_VIEW_TREE);
-						navigationItem.setLabel(
-							LanguageUtil.get(_request, "users"));
-					});
-				add(
-					navigationItem -> {
-						navigationItem.setActive(
-							toolbarItem.equals("view-all-organizations"));
-						navigationItem.setHref(
-							_renderResponse.createRenderURL(),
-							"mvcRenderCommandName", "/users_admin/view",
-							"toolbarItem", "view-all-organizations",
-							"organizationId", organizationId,
-							"saveUsersListView", true, "usersListView",
-							UserConstants.LIST_VIEW_TREE);
-						navigationItem.setLabel(
-							LanguageUtil.get(_request, "suborganizations"));
 					});
 			}
 		};

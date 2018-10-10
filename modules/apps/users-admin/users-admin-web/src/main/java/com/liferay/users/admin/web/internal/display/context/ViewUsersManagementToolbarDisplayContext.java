@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
@@ -123,13 +124,17 @@ public class ViewUsersManagementToolbarDisplayContext {
 	}
 
 	public CreationMenu getCreationMenu() throws PortalException {
+		PortletURL currentURL = PortletURLUtil.getCurrent(
+			_renderRequest, _renderResponse);
+
 		return new CreationMenu() {
 			{
 				addPrimaryDropdownItem(
 					dropdownItem -> {
 						dropdownItem.setHref(
-							_renderResponse.createRenderURL(),
-							"mvcRenderCommandName", "/users_admin/edit_user",
+							_renderResponse.createRenderURL(), "backURL",
+							currentURL.toString(), "mvcRenderCommandName",
+							"/users_admin/edit_user",
 							"organizationsSearchContainerPrimaryKeys",
 							_organizationId);
 						dropdownItem.setLabel(
