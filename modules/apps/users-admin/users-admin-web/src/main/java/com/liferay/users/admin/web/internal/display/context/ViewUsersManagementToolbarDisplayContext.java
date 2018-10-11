@@ -29,7 +29,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
 import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -68,6 +70,11 @@ public class ViewUsersManagementToolbarDisplayContext {
 		_navigation = navigation;
 		_organizationId = organizationId;
 		_status = status;
+
+		_themeDisplay = (ThemeDisplay)_request.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		_permissionChecker = _themeDisplay.getPermissionChecker();
 	}
 
 	public List<DropdownItem> getActionDropdownItems() {
@@ -129,17 +136,36 @@ public class ViewUsersManagementToolbarDisplayContext {
 
 		return new CreationMenu() {
 			{
-				addPrimaryDropdownItem(
-					dropdownItem -> {
-						dropdownItem.setHref(
-							_renderResponse.createRenderURL(), "backURL",
-							currentURL.toString(), "mvcRenderCommandName",
-							"/users_admin/edit_user",
-							"organizationsSearchContainerPrimaryKeys",
-							_organizationId);
-						dropdownItem.setLabel(
-							LanguageUtil.get(_request, "add-user"));
-					});
+				if ((_organizationId == 0) || hasAddUserPermission()) {
+					addDropdownItem(
+						dropdownItem -> {
+							dropdownItem.setHref(
+								_renderResponse.createRenderURL(), "backURL",
+								currentURL.toString(), "mvcRenderCommandName",
+								"/users_admin/edit_user",
+								"organizationsSearchContainerPrimaryKeys",
+								_organizationId);
+							dropdownItem.setLabel(
+								LanguageUtil.get(_request, "add-user"));
+						});
+				}
+
+				if ((_organizationId != 0) &&
+					OrganizationPermissionUtil.contains(
+						_permissionChecker, _organizationId,
+						ActionKeys.ASSIGN_MEMBERS)) {
+
+					addDropdownItem(
+						dropdownItem -> {
+							dropdownItem.putData("action", "selectUsers");
+							dropdownItem.putData(
+								"organizationId",
+								String.valueOf(_organizationId));
+							dropdownItem.setLabel(
+								LanguageUtil.get(_request, "assign-users"));
+							dropdownItem.setQuickAction(true);
+						});
+				}
 			}
 		};
 	}
@@ -232,9 +258,6 @@ public class ViewUsersManagementToolbarDisplayContext {
 
 		userSearch.setRowChecker(rowChecker);
 
-		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
 		UserSearchTerms searchTerms =
 			(UserSearchTerms)userSearch.getSearchTerms();
 
@@ -252,13 +275,13 @@ public class ViewUsersManagementToolbarDisplayContext {
 		}
 
 		int total = UserLocalServiceUtil.searchCount(
-			themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+			_themeDisplay.getCompanyId(), searchTerms.getKeywords(),
 			searchTerms.getStatus(), params);
 
 		userSearch.setTotal(total);
 
 		List<User> results = UserLocalServiceUtil.search(
-			themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+			_themeDisplay.getCompanyId(), searchTerms.getKeywords(),
 			searchTerms.getStatus(), params, userSearch.getStart(),
 			userSearch.getEnd(), userSearch.getOrderByComparator());
 
@@ -289,6 +312,11 @@ public class ViewUsersManagementToolbarDisplayContext {
 		};
 	}
 
+	public boolean hasAddUserPermission() {
+		return PortalPermissionUtil.contains(
+			_permissionChecker, ActionKeys.ADD_USER);
+	}
+
 	public boolean isShowDeleteButton() {
 		UserSearchTerms searchTerms =
 			(UserSearchTerms)getSearchContainer().getSearchTerms();
@@ -317,11 +345,8 @@ public class ViewUsersManagementToolbarDisplayContext {
 	}
 
 	public boolean showCreationMenu() throws PortalException {
-		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
 		return PortalPermissionUtil.contains(
-			themeDisplay.getPermissionChecker(), ActionKeys.ADD_USER);
+			_permissionChecker, ActionKeys.ADD_USER);
 	}
 
 	private int _getCur() {
@@ -392,10 +417,12 @@ public class ViewUsersManagementToolbarDisplayContext {
 	private final String _displayStyle;
 	private final String _navigation;
 	private final Long _organizationId;
+	private final PermissionChecker _permissionChecker;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
 	private final HttpServletRequest _request;
 	private final int _status;
+	private final ThemeDisplay _themeDisplay;
 	private UserSearch _userSearch;
 
 }

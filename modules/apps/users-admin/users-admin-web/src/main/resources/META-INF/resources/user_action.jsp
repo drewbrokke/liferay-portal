@@ -130,14 +130,14 @@ long userId = user2.getUserId();
 	</c:if>
 
 	<%
-	Organization organization = (Organization)request.getAttribute("view.jsp-organization");
+	long organizationId = ParamUtil.getLong(request, "organizationId", OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID);
 	%>
 
-	<c:if test="<%= (organization != null) && !OrganizationMembershipPolicyUtil.isMembershipProtected(permissionChecker, userId, organization.getOrganizationId()) && !OrganizationMembershipPolicyUtil.isMembershipRequired(userId, organization.getOrganizationId()) %>">
+	<c:if test="<%= (organizationId != 0) && !OrganizationMembershipPolicyUtil.isMembershipProtected(permissionChecker, userId, organizationId) && !OrganizationMembershipPolicyUtil.isMembershipRequired(userId, organizationId) %>">
 		<portlet:actionURL name="/users_admin/edit_organization_assignments" var="removeUserURL">
 			<portlet:param name="assignmentsRedirect" value="<%= redirect %>" />
+			<portlet:param name="organizationId" value="<%= String.valueOf(organizationId) %>" />
 			<portlet:param name="removeUserIds" value="<%= String.valueOf(userId) %>" />
-			<portlet:param name="organizationId" value="<%= String.valueOf(organization.getOrganizationId()) %>" />
 		</portlet:actionURL>
 
 		<liferay-ui:icon

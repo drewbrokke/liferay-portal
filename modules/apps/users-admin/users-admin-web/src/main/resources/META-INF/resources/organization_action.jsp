@@ -27,14 +27,7 @@ if ((searchContainer != null) && (searchContainer instanceof OrganizationSearch)
 
 ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
 
-Organization organization = null;
-
-if (row != null) {
-	organization = (Organization)row.getObject();
-}
-else {
-	organization = (Organization)request.getAttribute("view_organizations_tree.jsp-organization");
-}
+Organization organization = (Organization)row.getObject();
 
 long organizationId = organization.getOrganizationId();
 
@@ -60,7 +53,7 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 	<c:if test="<%= hasUpdatePermission %>">
 		<portlet:renderURL var="editOrganizationURL">
 			<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_organization" />
-			<portlet:param name="redirect" value="<%= redirect %>" />
+			<portlet:param name="redirect" value="<%= currentURL %>" />
 			<portlet:param name="organizationId" value="<%= String.valueOf(organizationId) %>" />
 		</portlet:renderURL>
 
@@ -134,7 +127,7 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 	<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, organization, ActionKeys.MANAGE_USERS) %>">
 		<portlet:renderURL var="addUserURL">
 			<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_user" />
-			<portlet:param name="redirect" value="<%= redirect %>" />
+			<portlet:param name="backURL" value="<%= currentURL %>" />
 			<portlet:param name="organizationsSearchContainerPrimaryKeys" value="<%= String.valueOf(organizationId) %>" />
 		</portlet:renderURL>
 
@@ -155,7 +148,7 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 			<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, organization, ActionKeys.ADD_ORGANIZATION) %>">
 				<portlet:renderURL var="addSuborganizationURL">
 					<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_organization" />
-					<portlet:param name="redirect" value="<%= redirect %>" />
+					<portlet:param name="redirect" value="<%= currentURL %>" />
 					<portlet:param name="parentOrganizationSearchContainerPrimaryKeys" value="<%= String.valueOf(organizationId) %>" />
 					<portlet:param name="type" value="<%= childrenType %>" />
 				</portlet:renderURL>
@@ -181,7 +174,7 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 			organizationsRedirect = UsersAdminPortletURLUtil.createParentOrganizationViewTreeURL(organizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse));
 		}
 
-		String taglibDeleteURL = "javascript:" + renderResponse.getNamespace() + "deleteOrganization('" + organizationId + "', '" + organizationsRedirect + "');";
+		String taglibDeleteURL = "javascript:" + renderResponse.getNamespace() + "deleteOrganization('" + organizationId + "', '" + organizationsRedirect + "', '" + currentURL + "');";
 		%>
 
 		<liferay-ui:icon

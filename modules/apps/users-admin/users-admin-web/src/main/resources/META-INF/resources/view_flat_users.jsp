@@ -64,6 +64,7 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 <clay:management-toolbar
 	actionDropdownItems="<%= viewUsersManagementToolbarDisplayContext.getActionDropdownItems() %>"
 	clearResultsURL="<%= viewUsersManagementToolbarDisplayContext.getClearResultsURL() %>"
+	componentId="viewUsersManagementToolbar"
 	creationMenu="<%= viewUsersManagementToolbarDisplayContext.getCreationMenu() %>"
 	filterDropdownItems="<%= viewUsersManagementToolbarDisplayContext.getFilterDropdownItems() %>"
 	itemsTotal="<%= searchContainer.getTotal() %>"
@@ -85,8 +86,7 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 	<aui:input name="usersListView" type="hidden" value="<%= usersListView %>" />
 	<aui:input name="deleteOrganizationIds" type="hidden" />
 	<aui:input name="deleteUserIds" type="hidden" />
-	<aui:input name="errorRedirect" type="hidden" value="<%= portletURL.toString() %>" />
-	<aui:input name="organizationId" type="hidden" value="<%= String.valueOf(organizationId) %>" />
+	<aui:input name="onErrorRedirect" type="hidden" value="<%= portletURL.toString() %>" />
 	<aui:input name="redirect" type="hidden" value="<%= portletURL.toString() %>" />
 
 	<liferay-ui:error exception="<%= RequiredOrganizationException.class %>" message="you-cannot-delete-organizations-that-have-suborganizations-or-users" />
@@ -158,3 +158,28 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 		/>
 	</liferay-ui:search-container>
 </aui:form>
+
+<aui:script>
+	var selectUsers = function(organizationId) {
+		<portlet:namespace />openSelectUsersDialog(organizationId);
+	}
+
+	var ACTIONS = {
+		'selectUsers': selectUsers
+	};
+
+	Liferay.componentReady('viewUsersManagementToolbar').then(
+		function(managementToolbar) {
+			managementToolbar.on(
+				'creationMenuItemClicked',
+				function(event) {
+					var itemData = event.data.item.data;
+
+					if (itemData && itemData.action && ACTIONS[itemData.action]) {
+						ACTIONS[itemData.action](itemData.organizationId);
+					}
+				}
+			);
+		}
+	);
+</aui:script>
