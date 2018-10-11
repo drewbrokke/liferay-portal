@@ -17,25 +17,15 @@
 <%@ include file="/init.jsp" %>
 
 <%
-SearchContainer searchContainer = (SearchContainer)request.getAttribute("liferay-ui:search:searchContainer");
-
-String redirect = currentURL;
-
-if ((searchContainer != null) && (searchContainer instanceof OrganizationSearch)) {
-	redirect = searchContainer.getIteratorURL().toString();
-}
-
 ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
 
-Organization organization = (Organization)row.getObject();
+Organization rowOrganization = (Organization)row.getObject();
 
-long organizationId = organization.getOrganizationId();
+long rowOrganizationId = rowOrganization.getOrganizationId();
 
-Group organizationGroup = organization.getGroup();
+Group rowOrganizationGroup = rowOrganization.getGroup();
 
-long organizationGroupId = organization.getGroupId();
-
-long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
+long rowOrganizationGroupId = rowOrganization.getGroupId();
 %>
 
 <liferay-ui:icon-menu
@@ -47,14 +37,15 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 >
 
 	<%
-	boolean hasUpdatePermission = OrganizationPermissionUtil.contains(permissionChecker, organization, ActionKeys.UPDATE);
+	boolean hasUpdatePermission = OrganizationPermissionUtil.contains(permissionChecker,
+		rowOrganization, ActionKeys.UPDATE);
 	%>
 
 	<c:if test="<%= hasUpdatePermission %>">
 		<portlet:renderURL var="editOrganizationURL">
 			<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_organization" />
 			<portlet:param name="redirect" value="<%= currentURL %>" />
-			<portlet:param name="organizationId" value="<%= String.valueOf(organizationId) %>" />
+			<portlet:param name="organizationId" value="<%= String.valueOf(rowOrganizationId) %>" />
 		</portlet:renderURL>
 
 		<liferay-ui:icon
@@ -63,11 +54,11 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 		/>
 	</c:if>
 
-	<%--<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, organization, ActionKeys.PERMISSIONS) %>">
+	<%--<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, rowOrganization, ActionKeys.PERMISSIONS) %>">
 		<liferay-security:permissionsURL
 			modelResource="<%= Organization.class.getName() %>"
-			modelResourceDescription="<%= HtmlUtil.escape(organization.getName()) %>"
-			resourcePrimKey="<%= String.valueOf(organization.getOrganizationId()) %>"
+			modelResourceDescription="<%= HtmlUtil.escape(rowOrganization.getName()) %>"
+			resourcePrimKey="<%= String.valueOf(rowOrganization.getOrganizationId()) %>"
 			var="editOrganizationPermissionsURL"
 			windowState="<%= LiferayWindowState.POP_UP.toString() %>"
 		/>
@@ -80,10 +71,10 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 		/>
 	</c:if>--%>
 
-	<c:if test="<%= organizationGroup.isSite() && (GroupPermissionUtil.contains(permissionChecker, organizationGroup, ActionKeys.MANAGE_STAGING) || hasUpdatePermission) %>">
+	<c:if test="<%= rowOrganizationGroup.isSite() && (GroupPermissionUtil.contains(permissionChecker, rowOrganizationGroup, ActionKeys.MANAGE_STAGING) || hasUpdatePermission) %>">
 
 		<%
-		PortletURL editSettingsURL = PortletProviderUtil.getPortletURL(request, organizationGroup, Group.class.getName(), PortletProvider.Action.EDIT);
+		PortletURL editSettingsURL = PortletProviderUtil.getPortletURL(request, rowOrganizationGroup, Group.class.getName(), PortletProvider.Action.EDIT);
 
 		editSettingsURL.setParameter("viewOrganizationsRedirect", currentURL);
 		%>
@@ -94,13 +85,13 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 		/>
 	</c:if>
 
-	<c:if test="<%= permissionChecker.isGroupOwner(organizationGroupId) || OrganizationPermissionUtil.contains(permissionChecker, organization, ActionKeys.ASSIGN_USER_ROLES) %>">
+	<c:if test="<%= permissionChecker.isGroupOwner(rowOrganizationGroupId) || OrganizationPermissionUtil.contains(permissionChecker, rowOrganization, ActionKeys.ASSIGN_USER_ROLES) %>">
 
 		<%
 		PortletURL assignUserRolesURL = PortletProviderUtil.getPortletURL(request, UserGroupRole.class.getName(), PortletProvider.Action.EDIT);
 
 		assignUserRolesURL.setParameter("className", User.class.getName());
-		assignUserRolesURL.setParameter("groupId", String.valueOf(organizationGroupId));
+		assignUserRolesURL.setParameter("groupId", String.valueOf(rowOrganizationGroupId));
 		assignUserRolesURL.setWindowState(LiferayWindowState.POP_UP);
 		%>
 
@@ -111,10 +102,11 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 		/>
 	</c:if>
 
-	<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, organization, ActionKeys.ASSIGN_MEMBERS) %>">
+	<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, rowOrganization, ActionKeys.ASSIGN_MEMBERS) %>">
 
 		<%
-		String taglibOnClick = renderResponse.getNamespace() + "openSelectUsersDialog('" + organizationId + "');";
+		String taglibOnClick = renderResponse.getNamespace() + "openSelectUsersDialog('" +
+							   rowOrganizationId + "');";
 		%>
 
 		<liferay-ui:icon
@@ -124,11 +116,16 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 		/>
 	</c:if>
 
-	<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, organization, ActionKeys.MANAGE_USERS) %>">
+	<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, rowOrganization, ActionKeys.MANAGE_USERS) %>">
+
+		<%
+			String parentOrganizationViewUsersURL = UsersAdminPortletURLUtil.createParentOrganizationViewURL(rowOrganizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse), "view-all-users");
+		%>
+
 		<portlet:renderURL var="addUserURL">
 			<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_user" />
-			<portlet:param name="backURL" value="<%= currentURL %>" />
-			<portlet:param name="organizationsSearchContainerPrimaryKeys" value="<%= String.valueOf(organizationId) %>" />
+			<portlet:param name="backURL" value="<%= parentOrganizationViewUsersURL %>" />
+			<portlet:param name="organizationsSearchContainerPrimaryKeys" value="<%= String.valueOf(rowOrganizationId) %>" />
 		</portlet:renderURL>
 
 		<liferay-ui:icon
@@ -137,19 +134,23 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 		/>
 	</c:if>
 
-	<c:if test="<%= organization.isParentable() %>">
+	<%
+	String parentOrganizationViewSuborganizationsURL = UsersAdminPortletURLUtil.createParentOrganizationViewURL(rowOrganizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse), "view-all-organizations");
+	%>
+
+	<c:if test="<%= rowOrganization.isParentable() %>">
 
 		<%
-		String[] childrenTypes = organization.getChildrenTypes();
+		String[] childrenTypes = rowOrganization.getChildrenTypes();
 
 		for (String childrenType : childrenTypes) {
 		%>
 
-			<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, organization, ActionKeys.ADD_ORGANIZATION) %>">
+			<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, rowOrganization, ActionKeys.ADD_ORGANIZATION) %>">
 				<portlet:renderURL var="addSuborganizationURL">
 					<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_organization" />
-					<portlet:param name="redirect" value="<%= currentURL %>" />
-					<portlet:param name="parentOrganizationSearchContainerPrimaryKeys" value="<%= String.valueOf(organizationId) %>" />
+					<portlet:param name="redirect" value="<%= parentOrganizationViewSuborganizationsURL %>" />
+					<portlet:param name="parentOrganizationSearchContainerPrimaryKeys" value="<%= String.valueOf(rowOrganizationId) %>" />
 					<portlet:param name="type" value="<%= childrenType %>" />
 				</portlet:renderURL>
 
@@ -165,16 +166,11 @@ long parentOrganizationId = ParamUtil.getLong(request, "organizationId");
 
 	</c:if>
 
-	<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, organization, ActionKeys.DELETE) %>">
+	<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, rowOrganization, ActionKeys.DELETE) %>">
 
 		<%
-		String organizationsRedirect = "";
-
-		if (parentOrganizationId != 0) {
-			organizationsRedirect = UsersAdminPortletURLUtil.createParentOrganizationViewTreeURL(organizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse));
-		}
-
-		String taglibDeleteURL = "javascript:" + renderResponse.getNamespace() + "deleteOrganization('" + organizationId + "', '" + organizationsRedirect + "', '" + currentURL + "');";
+		String taglibDeleteURL = "javascript:" + renderResponse.getNamespace() + "deleteOrganization('" +
+								 rowOrganizationId + "', '" + parentOrganizationViewSuborganizationsURL + "', '" + currentURL + "');";
 		%>
 
 		<liferay-ui:icon

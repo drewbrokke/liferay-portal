@@ -131,7 +131,6 @@ if (filterManageableOrganizations) {
 					<liferay-portlet:renderURL varImpl="rowURL">
 						<portlet:param name="mvcRenderCommandName" value="/users_admin/view" />
 						<portlet:param name="toolbarItem" value="view-all-users" />
-						<portlet:param name="redirect" value="<%= organizationSearchContainer.getIteratorURL().toString() %>" />
 						<portlet:param name="organizationId" value="<%= String.valueOf(organization.getOrganizationId()) %>" />
 						<portlet:param name="usersListView" value="<%= UserConstants.LIST_VIEW_TREE %>" />
 					</liferay-portlet:renderURL>

@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -34,9 +35,18 @@ import javax.portlet.RenderURL;
  */
 public class UsersAdminPortletURLUtil {
 
-	public static String createOrganizationViewTreeURL(
+	public static String createOrganizationViewURL(
 		long organizationId, PortletRequest portletRequest,
 		PortletResponse portletResponse) {
+
+		return createOrganizationViewURL(
+			organizationId,
+			portletRequest, portletResponse, null);
+	}
+
+	public static String createOrganizationViewURL(
+		long organizationId, PortletRequest portletRequest,
+		PortletResponse portletResponse, String toolbarItem) {
 
 		RenderResponse renderResponse = (RenderResponse)portletResponse;
 
@@ -44,8 +54,10 @@ public class UsersAdminPortletURLUtil {
 
 		renderURL.setParameter("mvcRenderCommandName", "/users_admin/view");
 
-		String toolbarItem = ParamUtil.getString(
-			portletRequest, "toolbarItem", "view-all-organizations");
+		if (Validator.isNull(toolbarItem)) {
+			toolbarItem = ParamUtil.getString(
+				portletRequest, "toolbarItem", "view-all-users");
+		}
 
 		if (organizationId ==
 				OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID) {
@@ -65,19 +77,38 @@ public class UsersAdminPortletURLUtil {
 		return String.valueOf(renderURL);
 	}
 
-	public static String createParentOrganizationViewTreeURL(
+	public static String createParentOrganizationViewURL(
 			long organizationId, PortletRequest portletRequest,
 			PortletResponse portletResponse)
 		throws PortalException {
 
-		return createParentOrganizationViewTreeURL(
-			OrganizationLocalServiceUtil.fetchOrganization(organizationId),
-			portletRequest, portletResponse);
+		return createParentOrganizationViewURL(
+			organizationId, portletRequest, portletResponse, null);
 	}
 
-	public static String createParentOrganizationViewTreeURL(
+	public static String createParentOrganizationViewURL(
+			long organizationId, PortletRequest portletRequest,
+			PortletResponse portletResponse, String toolbarItem)
+		throws PortalException {
+
+		return createParentOrganizationViewURL(
+			OrganizationLocalServiceUtil.fetchOrganization(organizationId),
+			portletRequest, portletResponse, toolbarItem);
+	}
+
+	public static String createParentOrganizationViewURL(
 			Organization organization, PortletRequest portletRequest,
 			PortletResponse portletResponse)
+		throws PortalException {
+
+		return createParentOrganizationViewURL(
+			organization,
+			portletRequest, portletResponse, null);
+	}
+
+	public static String createParentOrganizationViewURL(
+			Organization organization, PortletRequest portletRequest,
+			PortletResponse portletResponse, String toolbarItem)
 		throws PortalException {
 
 		if ((organization != null) && !organization.isRoot()) {
@@ -87,14 +118,15 @@ public class UsersAdminPortletURLUtil {
 					PermissionThreadLocal.getPermissionChecker(),
 					parentOrganizationId, ActionKeys.VIEW)) {
 
-				return createOrganizationViewTreeURL(
-					parentOrganizationId, portletRequest, portletResponse);
+				return createOrganizationViewURL(
+					parentOrganizationId, portletRequest, portletResponse,
+					toolbarItem);
 			}
 		}
 
-		return createOrganizationViewTreeURL(
+		return createOrganizationViewURL(
 			OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
-			portletRequest, portletResponse);
+			portletRequest, portletResponse, toolbarItem);
 	}
 
 }
