@@ -49,7 +49,7 @@ if (organizationId != 0) {
 
 	String backURL = ParamUtil.getString(request, "backURL");
 
-	portletDisplay.setURLBack(Validator.isNotNull(backURL) ? backURL : UsersAdminPortletURLUtil.createParentOrganizationViewTreeURL(organizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse)));
+	portletDisplay.setURLBack(Validator.isNotNull(backURL) ? backURL : UsersAdminPortletURLUtil.createParentOrganizationViewURL(organizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse)));
 
 	portletDisplay.setShowBackIcon(true);
 	renderResponse.setTitle(organization.getName());
