@@ -155,7 +155,7 @@ public class EditOrganizationMVCActionCommand extends BaseMVCActionCommand {
 					mvcPath = "/view.jsp";
 
 					String redirect = _portal.escapeRedirect(
-						ParamUtil.getString(actionRequest, "errorRedirect"));
+						ParamUtil.getString(actionRequest, "onErrorRedirect"));
 
 					if (Validator.isNotNull(redirect)) {
 						sendRedirect(actionRequest, actionResponse, redirect);
