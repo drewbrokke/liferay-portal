@@ -32,9 +32,7 @@ import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
-import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
-import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -44,6 +42,7 @@ import com.liferay.portal.util.PropsValues;
 import com.liferay.portlet.usersadmin.search.OrganizationSearch;
 import com.liferay.portlet.usersadmin.search.OrganizationSearchTerms;
 import com.liferay.users.admin.web.internal.search.OrganizationChecker;
+import com.liferay.users.admin.web.internal.util.UsersAdminPermissionsUtil;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -70,6 +69,8 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 		_renderResponse = renderResponse;
 		_displayStyle = displayStyle;
 		_organizationId = organizationId;
+
+		_usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(request);
 	}
 
 	public List<DropdownItem> getActionDropdownItems() {
@@ -217,8 +218,7 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		long parentOrganizationId =
-			OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID;
+		long parentOrganizationId;
 
 		OrganizationSearchTerms organizationSearchTerms =
 			(OrganizationSearchTerms)organizationSearch.getSearchTerms();
@@ -240,8 +240,8 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 				OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID);
 		}
 
-		List<Organization> results = null;
-		int total = 0;
+		List<Organization> results;
+		int total;
 
 		Indexer<?> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
 			Organization.class);
@@ -309,11 +309,8 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 	}
 
 	public boolean showCreationMenu() throws PortalException {
-		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
-		return PortalPermissionUtil.contains(
-			themeDisplay.getPermissionChecker(), ActionKeys.ADD_ORGANIZATION);
+		return _usersAdminPermissionsUtil.showAddOrganizationAction(
+			_organizationId);
 	}
 
 	private int _getCur() {
@@ -388,5 +385,6 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
 	private final HttpServletRequest _request;
+	private final UsersAdminPermissionsUtil _usersAdminPermissionsUtil;
 
 }
