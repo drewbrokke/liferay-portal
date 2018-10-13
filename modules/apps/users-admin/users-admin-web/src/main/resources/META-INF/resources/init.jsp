@@ -157,7 +157,6 @@ page import="com.liferay.portal.security.auth.ScreenNameValidatorFactory" %><%@
 page import="com.liferay.portal.util.PrefsPropsUtil" %><%@
 page import="com.liferay.portal.util.PropsValues" %><%@
 page import="com.liferay.portlet.announcements.model.impl.AnnouncementsDeliveryImpl" %><%@
-page import="com.liferay.portlet.usersadmin.search.OrganizationSearch" %><%@
 page import="com.liferay.roles.admin.kernel.util.RolesAdminUtil" %><%@
 page import="com.liferay.taglib.search.ResultRow" %><%@
 page import="com.liferay.taglib.search.SearchEntry" %><%@
@@ -183,6 +182,7 @@ page import="com.liferay.users.admin.web.internal.display.context.ViewUsersManag
 page import="com.liferay.users.admin.web.internal.search.OrganizationResultRowSplitter" %><%@
 page import="com.liferay.users.admin.web.internal.util.CSSClassNames" %><%@
 page import="com.liferay.users.admin.web.internal.util.CustomFieldsUtil" %><%@
+page import="com.liferay.users.admin.web.internal.util.UsersAdminPermissionsUtil" %><%@
 page import="com.liferay.users.admin.web.internal.util.UsersAdminPortletURLUtil" %>
 
 <%@ page import="java.text.Format" %>

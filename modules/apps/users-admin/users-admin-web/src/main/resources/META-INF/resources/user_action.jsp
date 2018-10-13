@@ -17,13 +17,15 @@
 <%@ include file="/init.jsp" %>
 
 <%
-String redirect = currentURL;
+long organizationId = ParamUtil.getLong(request, "organizationId", 0);
 
 ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
 
-User user2 = (User)row.getObject();
+User rowUser = (User)row.getObject();
 
-long userId = user2.getUserId();
+long rowUserid = rowUser.getUserId();
+
+UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(request);
 %>
 
 <liferay-ui:icon-menu
@@ -35,14 +37,14 @@ long userId = user2.getUserId();
 >
 
 	<%
-	boolean hasUpdatePermission = UserPermissionUtil.contains(permissionChecker, userId, ActionKeys.UPDATE);
+	boolean hasUpdatePermission = UserPermissionUtil.contains(permissionChecker, rowUserid, ActionKeys.UPDATE);
 	%>
 
 	<c:if test="<%= hasUpdatePermission %>">
 		<portlet:renderURL var="editUserURL">
 			<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_user" />
 			<portlet:param name="backURL" value="<%= currentURL %>" />
-			<portlet:param name="p_u_i_d" value="<%= String.valueOf(userId) %>" />
+			<portlet:param name="p_u_i_d" value="<%= String.valueOf(rowUserid) %>" />
 		</portlet:renderURL>
 
 		<liferay-ui:icon
@@ -51,11 +53,15 @@ long userId = user2.getUserId();
 		/>
 	</c:if>
 
-	<c:if test="<%= UserPermissionUtil.contains(permissionChecker, userId, ActionKeys.PERMISSIONS) %>">
+	<%
+	boolean hasPermissionsPermission = UserPermissionUtil.contains(permissionChecker, rowUserid, ActionKeys.PERMISSIONS);
+	%>
+
+	<c:if test="<%= hasPermissionsPermission %>">
 		<liferay-security:permissionsURL
 			modelResource="<%= User.class.getName() %>"
-			modelResourceDescription="<%= user2.getFullName() %>"
-			resourcePrimKey="<%= String.valueOf(userId) %>"
+			modelResourceDescription="<%= rowUser.getFullName() %>"
+			resourcePrimKey="<%= String.valueOf(rowUserid) %>"
 			var="permissionsUserURL"
 			windowState="<%= LiferayWindowState.POP_UP.toString() %>"
 		/>
@@ -68,10 +74,14 @@ long userId = user2.getUserId();
 		/>
 	</c:if>
 
-	<c:if test="<%= (PropsValues.LAYOUT_USER_PRIVATE_LAYOUTS_ENABLED || PropsValues.LAYOUT_USER_PUBLIC_LAYOUTS_ENABLED) && hasUpdatePermission %>">
+	<%
+	boolean layoutsEnabled = (PropsValues.LAYOUT_USER_PRIVATE_LAYOUTS_ENABLED || PropsValues.LAYOUT_USER_PUBLIC_LAYOUTS_ENABLED);
+	%>
+
+	<c:if test="<%= layoutsEnabled && hasUpdatePermission %>">
 
 		<%
-		PortletURL managePagesURL = PortletProviderUtil.getPortletURL(request, user2.getGroup(), Layout.class.getName(), PortletProvider.Action.EDIT);
+		PortletURL managePagesURL = PortletProviderUtil.getPortletURL(request, rowUser.getGroup(), Layout.class.getName(), PortletProvider.Action.EDIT);
 		%>
 
 		<liferay-ui:icon
@@ -80,9 +90,13 @@ long userId = user2.getUserId();
 		/>
 	</c:if>
 
-	<c:if test="<%= !PropsValues.PORTAL_JAAS_ENABLE && PropsValues.PORTAL_IMPERSONATION_ENABLE && (userId != user.getUserId()) && !themeDisplay.isImpersonated() && UserPermissionUtil.contains(permissionChecker, userId, ActionKeys.IMPERSONATE) %>">
+	<%
+	boolean showImpersonateAction = !PropsValues.PORTAL_JAAS_ENABLE && PropsValues.PORTAL_IMPERSONATION_ENABLE && (rowUserid != user.getUserId()) && !themeDisplay.isImpersonated() && UserPermissionUtil.contains(permissionChecker, rowUserid, ActionKeys.IMPERSONATE);
+	%>
+
+	<c:if test="<%= showImpersonateAction %>">
 		<liferay-security:doAsURL
-			doAsUserId="<%= userId %>"
+			doAsUserId="<%= rowUserid %>"
 			var="impersonateUserURL"
 		/>
 
@@ -93,12 +107,16 @@ long userId = user2.getUserId();
 		/>
 	</c:if>
 
-	<c:if test="<%= UserPermissionUtil.contains(permissionChecker, userId, ActionKeys.DELETE) %>">
-		<c:if test="<%= !user2.isActive() %>">
+	<%
+	boolean hasDeletePermission = UserPermissionUtil.contains(permissionChecker, rowUserid, ActionKeys.DELETE);
+	%>
+
+	<c:if test="<%= hasDeletePermission %>">
+		<c:if test="<%= !rowUser.isActive() %>">
 			<portlet:actionURL name="/users_admin/edit_user" var="restoreUserURL">
 				<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.RESTORE %>" />
-				<portlet:param name="redirect" value="<%= redirect %>" />
-				<portlet:param name="deleteUserIds" value="<%= String.valueOf(userId) %>" />
+				<portlet:param name="redirect" value="<%= currentURL %>" />
+				<portlet:param name="deleteUserIds" value="<%= String.valueOf(rowUserid) %>" />
 			</portlet:actionURL>
 
 			<liferay-ui:icon
@@ -108,19 +126,19 @@ long userId = user2.getUserId();
 		</c:if>
 
 		<portlet:actionURL name="/users_admin/edit_user" var="deleteUserURL">
-			<portlet:param name="<%= Constants.CMD %>" value="<%= user2.isActive() ? Constants.DEACTIVATE : Constants.DELETE %>" />
-			<portlet:param name="redirect" value="<%= redirect %>" />
-			<portlet:param name="deleteUserIds" value="<%= String.valueOf(userId) %>" />
+			<portlet:param name="<%= Constants.CMD %>" value="<%= rowUser.isActive() ? Constants.DEACTIVATE : Constants.DELETE %>" />
+			<portlet:param name="redirect" value="<%= currentURL %>" />
+			<portlet:param name="deleteUserIds" value="<%= String.valueOf(rowUserid) %>" />
 		</portlet:actionURL>
 
-		<c:if test="<%= userId != user.getUserId() %>">
+		<c:if test="<%= rowUserid != user.getUserId() %>">
 			<c:choose>
-				<c:when test="<%= user2.isActive() %>">
+				<c:when test="<%= rowUser.isActive() %>">
 					<liferay-ui:icon-deactivate
 						url="<%= deleteUserURL %>"
 					/>
 				</c:when>
-				<c:when test="<%= !user2.isActive() && PropsValues.USERS_DELETE %>">
+				<c:when test="<%= !rowUser.isActive() && PropsValues.USERS_DELETE %>">
 					<liferay-ui:icon-delete
 						url="<%= deleteUserURL %>"
 					/>
@@ -129,15 +147,11 @@ long userId = user2.getUserId();
 		</c:if>
 	</c:if>
 
-	<%
-	long organizationId = ParamUtil.getLong(request, "organizationId", 0);
-	%>
-
-	<c:if test="<%= (organizationId != 0) && !OrganizationMembershipPolicyUtil.isMembershipProtected(permissionChecker, userId, organizationId) && !OrganizationMembershipPolicyUtil.isMembershipRequired(userId, organizationId) %>">
+	<c:if test="<%= usersAdminPermissionsUtil.showRemoveUserAction(organizationId, rowUserid) %>">
 		<portlet:actionURL name="/users_admin/edit_organization_assignments" var="removeUserURL">
 			<portlet:param name="assignmentsRedirect" value="<%= currentURL %>" />
 			<portlet:param name="organizationId" value="<%= String.valueOf(organizationId) %>" />
-			<portlet:param name="removeUserIds" value="<%= String.valueOf(userId) %>" />
+			<portlet:param name="removeUserIds" value="<%= String.valueOf(rowUserid) %>" />
 		</portlet:actionURL>
 
 		<liferay-ui:icon
@@ -147,7 +161,7 @@ long userId = user2.getUserId();
 	</c:if>
 
 	<%
-	UserActionDisplayContext userActionDisplayContext = new UserActionDisplayContext(request, liferayPortletRequest, user, user2);
+	UserActionDisplayContext userActionDisplayContext = new UserActionDisplayContext(request, liferayPortletRequest, user, rowUser);
 
 	UserActionContributor[] filteredUserActionContributors = userActionDisplayContext.getFilteredUserActionContributors();
 	%>
@@ -161,7 +175,7 @@ long userId = user2.getUserId();
 
 			<liferay-ui:icon
 				message="<%= userActionContributor.getMessage(liferayPortletRequest) %>"
-				url="<%= userActionContributor.getURL(liferayPortletRequest, liferayPortletResponse, user, user2) %>"
+				url="<%= userActionContributor.getURL(liferayPortletRequest, liferayPortletResponse, user, rowUser) %>"
 			/>
 
 		<%

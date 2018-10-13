@@ -84,10 +84,9 @@ public class DeleteOrganizationPortletConfigurationIcon
 
 			if (Validator.isNull(backURL)) {
 				backURL =
-					UsersAdminPortletURLUtil.
-						createParentOrganizationViewURL(
-							organization.getOrganizationId(), portletRequest,
-							portletResponse);
+					UsersAdminPortletURLUtil.createParentOrganizationViewURL(
+						organization.getOrganizationId(), portletRequest,
+						portletResponse);
 			}
 
 			sb.append(backURL);

@@ -40,8 +40,7 @@ public class UsersAdminPortletURLUtil {
 		PortletResponse portletResponse) {
 
 		return createOrganizationViewURL(
-			organizationId,
-			portletRequest, portletResponse, null);
+			organizationId, portletRequest, portletResponse, null);
 	}
 
 	public static String createOrganizationViewURL(
@@ -102,8 +101,7 @@ public class UsersAdminPortletURLUtil {
 		throws PortalException {
 
 		return createParentOrganizationViewURL(
-			organization,
-			portletRequest, portletResponse, null);
+			organization, portletRequest, portletResponse, null);
 	}
 
 	public static String createParentOrganizationViewURL(

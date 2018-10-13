@@ -15,12 +15,18 @@
 package com.liferay.users.admin.web.internal.portlet.action;
 
 import com.liferay.portal.kernel.exception.NoSuchOrganizationException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocal;
 import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocalCloseable;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.membershippolicy.MembershipPolicyException;
+import com.liferay.portal.kernel.service.OrganizationService;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserService;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -78,9 +84,32 @@ public class EditOrganizationAssignmentsMVCActionCommand
 		}
 	}
 
-	@Reference(unbind = "-")
-	protected void setUserService(UserService userService) {
-		_userService = userService;
+	protected void unsetParentOrganization(
+			ActionRequest actionRequest, long[] removeOrganizationIds)
+		throws PortalException {
+
+		for (long removeOrganizationId : removeOrganizationIds) {
+			if (removeOrganizationId > 0) {
+				Organization organization =
+					_organizationService.getOrganization(removeOrganizationId);
+
+				Group organizationGroup = organization.getGroup();
+
+				boolean site = organizationGroup.isSite();
+
+				ServiceContext serviceContext =
+					ServiceContextFactory.getInstance(
+						Organization.class.getName(), actionRequest);
+
+				_organizationService.updateOrganization(
+					organization.getOrganizationId(),
+					organization.getParentOrganizationId(),
+					organization.getName(), organization.getType(),
+					organization.getRegionId(), organization.getCountryId(),
+					organization.getStatusId(), organization.getComments(),
+					site, serviceContext);
+			}
+		}
 	}
 
 	protected void updateOrganizationUsers(ActionRequest actionRequest)
@@ -91,6 +120,8 @@ public class EditOrganizationAssignmentsMVCActionCommand
 
 		long[] addUserIds = StringUtil.split(
 			ParamUtil.getString(actionRequest, "addUserIds"), 0L);
+		long[] removeOrganizationIds = StringUtil.split(
+			ParamUtil.getString(actionRequest, "removeOrganizationIds"), 0L);
 		long[] removeUserIds = StringUtil.split(
 			ParamUtil.getString(actionRequest, "removeUserIds"), 0L);
 
@@ -101,9 +132,15 @@ public class EditOrganizationAssignmentsMVCActionCommand
 
 			_userService.addOrganizationUsers(organizationId, addUserIds);
 			_userService.unsetOrganizationUsers(organizationId, removeUserIds);
+
+			unsetParentOrganization(actionRequest, removeOrganizationIds);
 		}
 	}
 
+	@Reference
+	private OrganizationService _organizationService;
+
+	@Reference
 	private UserService _userService;
 
 }

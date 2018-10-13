@@ -28,11 +28,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
-import com.liferay.portal.kernel.security.permission.ActionKeys;
-import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
-import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Constants;
@@ -42,6 +38,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portlet.usersadmin.search.UserSearch;
 import com.liferay.portlet.usersadmin.search.UserSearchTerms;
+import com.liferay.users.admin.web.internal.util.UsersAdminPermissionsUtil;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -73,8 +70,7 @@ public class ViewUsersManagementToolbarDisplayContext {
 
 		_themeDisplay = (ThemeDisplay)_request.getAttribute(
 			WebKeys.THEME_DISPLAY);
-
-		_permissionChecker = _themeDisplay.getPermissionChecker();
+		_usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(_request);
 	}
 
 	public List<DropdownItem> getActionDropdownItems() {
@@ -136,7 +132,9 @@ public class ViewUsersManagementToolbarDisplayContext {
 
 		return new CreationMenu() {
 			{
-				if ((_organizationId == 0) || hasAddUserPermission()) {
+				if (_usersAdminPermissionsUtil.showAddOrganizationUserAction(
+						_organizationId)) {
+
 					addDropdownItem(
 						dropdownItem -> {
 							dropdownItem.setHref(
@@ -150,10 +148,8 @@ public class ViewUsersManagementToolbarDisplayContext {
 						});
 				}
 
-				if ((_organizationId != 0) &&
-					OrganizationPermissionUtil.contains(
-						_permissionChecker, _organizationId,
-						ActionKeys.ASSIGN_MEMBERS)) {
+				if (_usersAdminPermissionsUtil.showAssignMembersAction(
+						_organizationId)) {
 
 					addDropdownItem(
 						dropdownItem -> {
@@ -312,11 +308,6 @@ public class ViewUsersManagementToolbarDisplayContext {
 		};
 	}
 
-	public boolean hasAddUserPermission() {
-		return PortalPermissionUtil.contains(
-			_permissionChecker, ActionKeys.ADD_USER);
-	}
-
 	public boolean isShowDeleteButton() {
 		UserSearchTerms searchTerms =
 			(UserSearchTerms)getSearchContainer().getSearchTerms();
@@ -345,8 +336,15 @@ public class ViewUsersManagementToolbarDisplayContext {
 	}
 
 	public boolean showCreationMenu() throws PortalException {
-		return PortalPermissionUtil.contains(
-			_permissionChecker, ActionKeys.ADD_USER);
+		if (_usersAdminPermissionsUtil.showAddOrganizationUserAction(
+				_organizationId) ||
+			_usersAdminPermissionsUtil.showAssignMembersAction(
+				_organizationId)) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	private int _getCur() {
@@ -417,12 +415,12 @@ public class ViewUsersManagementToolbarDisplayContext {
 	private final String _displayStyle;
 	private final String _navigation;
 	private final Long _organizationId;
-	private final PermissionChecker _permissionChecker;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
 	private final HttpServletRequest _request;
 	private final int _status;
 	private final ThemeDisplay _themeDisplay;
+	private final UsersAdminPermissionsUtil _usersAdminPermissionsUtil;
 	private UserSearch _userSearch;
 
 }
