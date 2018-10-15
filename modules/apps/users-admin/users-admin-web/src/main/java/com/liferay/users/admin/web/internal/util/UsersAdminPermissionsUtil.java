@@ -30,6 +30,21 @@ public class UsersAdminPermissionsUtil {
 		_permissionChecker = permissionChecker;
 	}
 
+	public boolean canUnsetParentOrganization(long organizationId)
+		throws PortalException {
+
+		if ((organizationId != 0) &&
+			OrganizationPermissionUtil.contains(
+				_permissionChecker, organizationId, ActionKeys.UPDATE) &&
+			PortalPermissionUtil.contains(
+				_permissionChecker, ActionKeys.ADD_ORGANIZATION)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 	public boolean showAddOrganizationAction(long organizationId)
 		throws PortalException {
 

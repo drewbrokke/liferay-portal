@@ -18,21 +18,21 @@ import com.liferay.portal.kernel.exception.NoSuchOrganizationException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocal;
 import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocalCloseable;
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.membershippolicy.MembershipPolicyException;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.OrganizationService;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserService;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.users.admin.constants.UsersAdminPortletKeys;
+import com.liferay.users.admin.web.internal.util.UsersAdminPermissionsUtil;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -85,30 +85,24 @@ public class EditOrganizationAssignmentsMVCActionCommand
 		}
 	}
 
-	protected void unsetParentOrganization(
-			ActionRequest actionRequest, long[] removeOrganizationIds)
+	protected void unsetParentOrganization(long[] removeOrganizationIds)
 		throws PortalException {
 
+		UsersAdminPermissionsUtil usersAdminPermissionsUtil =
+			new UsersAdminPermissionsUtil(
+				PermissionThreadLocal.getPermissionChecker());
+
 		for (long removeOrganizationId : removeOrganizationIds) {
-			if (removeOrganizationId > 0) {
+			if (usersAdminPermissionsUtil.canUnsetParentOrganization(
+					removeOrganizationId)) {
+
 				Organization organization =
 					_organizationService.getOrganization(removeOrganizationId);
 
-				Group organizationGroup = organization.getGroup();
+				organization.setParentOrganizationId(
+					OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID);
 
-				boolean site = organizationGroup.isSite();
-
-				ServiceContext serviceContext =
-					ServiceContextFactory.getInstance(
-						Organization.class.getName(), actionRequest);
-
-				_organizationService.updateOrganization(
-					organization.getOrganizationId(),
-					OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
-					organization.getName(), organization.getType(),
-					organization.getRegionId(), organization.getCountryId(),
-					organization.getStatusId(), organization.getComments(),
-					site, serviceContext);
+				organization.persist();
 			}
 		}
 	}
@@ -131,10 +125,18 @@ public class EditOrganizationAssignmentsMVCActionCommand
 
 			ProxyModeThreadLocal.setForceSync(true);
 
-			_userService.addOrganizationUsers(organizationId, addUserIds);
-			_userService.unsetOrganizationUsers(organizationId, removeUserIds);
+			if (ArrayUtil.isNotEmpty(addUserIds)) {
+				_userService.addOrganizationUsers(organizationId, addUserIds);
+			}
 
-			unsetParentOrganization(actionRequest, removeOrganizationIds);
+			if (ArrayUtil.isNotEmpty(removeUserIds)) {
+				_userService.unsetOrganizationUsers(
+					organizationId, removeUserIds);
+			}
+
+			if (ArrayUtil.isNotEmpty(removeOrganizationIds)) {
+				unsetParentOrganization(removeOrganizationIds);
+			}
 		}
 	}
 
