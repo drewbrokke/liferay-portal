@@ -154,7 +154,8 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 			<portlet:param name="removeUserIds" value="<%= String.valueOf(rowUserid) %>" />
 		</portlet:actionURL>
 
-		<liferay-ui:icon
+		<liferay-ui:icon-delete
+			confirmation="are-you-sure-you-want-to-remove-this"
 			message="remove"
 			url="<%= removeUserURL %>"
 		/>
