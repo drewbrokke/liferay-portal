@@ -177,7 +177,6 @@ page import="com.liferay.users.admin.web.internal.display.context.SelectUserGrou
 page import="com.liferay.users.admin.web.internal.display.context.UserActionDisplayContext" %><%@
 page import="com.liferay.users.admin.web.internal.display.context.UserDisplayContext" %><%@
 page import="com.liferay.users.admin.web.internal.display.context.ViewOrganizationsManagementToolbarDisplayContext" %><%@
-page import="com.liferay.users.admin.web.internal.display.context.ViewTreeManagementToolbarDisplayContext" %><%@
 page import="com.liferay.users.admin.web.internal.display.context.ViewUsersManagementToolbarDisplayContext" %><%@
 page import="com.liferay.users.admin.web.internal.search.OrganizationResultRowSplitter" %><%@
 page import="com.liferay.users.admin.web.internal.util.CSSClassNames" %><%@
