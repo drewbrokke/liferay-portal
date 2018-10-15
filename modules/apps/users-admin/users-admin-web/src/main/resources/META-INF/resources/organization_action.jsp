@@ -143,7 +143,6 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		%>
 
 			<c:if test="<%= usersAdminPermissionsUtil.isShowAddOrganizationAction(rowOrganizationId) %>">
-
 				<portlet:renderURL var="addSuborganizationURL">
 					<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_organization" />
 					<portlet:param name="redirect" value="<%= currentURL %>" />

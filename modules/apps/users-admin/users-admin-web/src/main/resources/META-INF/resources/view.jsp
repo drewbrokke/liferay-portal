@@ -17,13 +17,22 @@
 <%@ include file="/init.jsp" %>
 
 <%
-String toolbarItem = ParamUtil.getString(request, "toolbarItem", "view-all-users");
-
-String viewUsersRedirect = ParamUtil.getString(request, "viewUsersRedirect");
-
 int status = ParamUtil.getInteger(request, "status", WorkflowConstants.STATUS_APPROVED);
 
-String usersListView = ParamUtil.get(request, "usersListView", UserConstants.LIST_VIEW_FLAT_USERS);
+String defaultToolbarItem = "view-all-users";
+String defaultUsersListView = UserConstants.LIST_VIEW_FLAT_USERS;
+String homeBreadcrumbKey = "users-and-organizations";
+
+if (portletName.equals(UsersAdminPortletKeys.MY_ORGANIZATIONS)) {
+	defaultToolbarItem = "view-all-organizations";
+	defaultUsersListView = UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS;
+	homeBreadcrumbKey = "my-organizations";
+}
+
+String toolbarItem = ParamUtil.getString(request, "toolbarItem", defaultToolbarItem);
+String usersListView = ParamUtil.get(request, "usersListView", defaultUsersListView);
+
+String viewUsersRedirect = ParamUtil.getString(request, "viewUsersRedirect");
 
 PortletURL portletURL = renderResponse.createRenderURL();
 
@@ -60,7 +69,7 @@ if (organizationId != 0) {
 	homeURL.setParameter("toolbarItem", "view-all-organizations");
 	homeURL.setParameter("usersListView", UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS);
 
-	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, "users-and-organizations"), homeURL.toString());
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, homeBreadcrumbKey), homeURL.toString());
 
 	UsersAdminUtil.addPortletBreadcrumbEntries(organization, request, renderResponse);
 }
@@ -81,10 +90,10 @@ else {
 />
 
 <c:choose>
-	<c:when test='<%= portletName.equals(UsersAdminPortletKeys.MY_ORGANIZATIONS) || usersListView.equals(UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS) || (usersListView.equals(UserConstants.LIST_VIEW_TREE) && toolbarItem.equals("view-all-organizations")) %>'>
+	<c:when test='<%= usersListView.equals(UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS) || (usersListView.equals(UserConstants.LIST_VIEW_TREE) && toolbarItem.equals("view-all-organizations")) %>'>
 		<liferay-util:include page="/view_flat_organizations.jsp" servletContext="<%= application %>" />
 	</c:when>
-	<c:when test='<%= usersListView.equals(UserConstants.LIST_VIEW_FLAT_USERS) || (usersListView.equals(UserConstants.LIST_VIEW_TREE) && toolbarItem.equals("view-all-users")) %>'>
+	<c:when test='<%= (!portletName.equals(UsersAdminPortletKeys.MY_ORGANIZATIONS) && usersListView.equals(UserConstants.LIST_VIEW_FLAT_USERS)) || (usersListView.equals(UserConstants.LIST_VIEW_TREE) && toolbarItem.equals("view-all-users")) %>'>
 
 		<%
 		request.setAttribute("view.jsp-status", status);

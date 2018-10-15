@@ -256,16 +256,25 @@ public class UserDisplayContext {
 	public List<NavigationItem> getViewNavigationItems(String portletName) {
 		return new NavigationItemList() {
 			{
+				String defaultToolbarItem = "view-all-users";
+
+				if (portletName.equals(
+						UsersAdminPortletKeys.MY_ORGANIZATIONS)) {
+
+					defaultToolbarItem = "view-all-organizations";
+				}
+
 				long organizationId = ParamUtil.getLong(
 					_request, "organizationId", 0);
 				String toolbarItem = ParamUtil.getString(
-					_request, "toolbarItem", "view-all-users");
+					_request, "toolbarItem", defaultToolbarItem);
 				String usersListView = ParamUtil.getString(
 					_request, "usersListView",
 					UserConstants.LIST_VIEW_FLAT_USERS);
 
 				if (!portletName.equals(
-						UsersAdminPortletKeys.MY_ORGANIZATIONS)) {
+						UsersAdminPortletKeys.MY_ORGANIZATIONS) ||
+					usersListView.equals(UserConstants.LIST_VIEW_TREE)) {
 
 					add(
 						navigationItem -> {
