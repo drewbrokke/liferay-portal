@@ -72,10 +72,10 @@ public class DeleteOrganizationPortletConfigurationIcon
 
 			sb.append("deleteOrganization('");
 
-			Organization organization = ActionUtil.getOrganization(
-				portletRequest);
+			long organizationId = ParamUtil.getLong(
+				portletRequest, "organizationId", 0);
 
-			sb.append(organization.getOrganizationId());
+			sb.append(organizationId);
 
 			sb.append("', '");
 
@@ -85,21 +85,17 @@ public class DeleteOrganizationPortletConfigurationIcon
 			if (Validator.isNull(backURL)) {
 				backURL =
 					UsersAdminPortletURLUtil.createParentOrganizationViewURL(
-						organization.getOrganizationId(), portletRequest,
-						portletResponse);
+						organizationId, portletRequest, portletResponse,
+						"view-all-organizations");
 			}
 
 			sb.append(backURL);
 
 			sb.append("', '");
 
-			long parentOrganizationId = ParamUtil.getLong(
-				portletRequest, "organizationId", 0);
-
 			String errorURL =
 				UsersAdminPortletURLUtil.createOrganizationViewURL(
-					parentOrganizationId, portletRequest, portletResponse,
-					"view-all-organizations");
+					organizationId, portletRequest, portletResponse);
 
 			sb.append(errorURL);
 
