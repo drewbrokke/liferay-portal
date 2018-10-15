@@ -20,23 +20,14 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
 import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.WebKeys;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Samuel Trong Tran
  */
 public class UsersAdminPermissionsUtil {
 
-	public UsersAdminPermissionsUtil(HttpServletRequest request) {
-		_request = request;
-
-		_themeDisplay = (ThemeDisplay)_request.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
-		_permissionChecker = _themeDisplay.getPermissionChecker();
+	public UsersAdminPermissionsUtil(PermissionChecker permissionChecker) {
+		_permissionChecker = permissionChecker;
 	}
 
 	public boolean showAddOrganizationAction(long organizationId)
@@ -133,7 +124,5 @@ public class UsersAdminPermissionsUtil {
 	}
 
 	private final PermissionChecker _permissionChecker;
-	private final HttpServletRequest _request;
-	private final ThemeDisplay _themeDisplay;
 
 }

@@ -27,7 +27,7 @@ Group rowOrganizationGroup = rowOrganization.getGroup();
 
 long rowOrganizationGroupId = rowOrganization.getGroupId();
 
-UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(request);
+UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(permissionChecker);
 %>
 
 <liferay-ui:icon-menu

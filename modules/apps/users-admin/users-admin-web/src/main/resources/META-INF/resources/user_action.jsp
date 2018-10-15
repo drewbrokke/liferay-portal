@@ -25,7 +25,7 @@ User rowUser = (User)row.getObject();
 
 long rowUserid = rowUser.getUserId();
 
-UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(request);
+UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(permissionChecker);
 %>
 
 <liferay-ui:icon-menu

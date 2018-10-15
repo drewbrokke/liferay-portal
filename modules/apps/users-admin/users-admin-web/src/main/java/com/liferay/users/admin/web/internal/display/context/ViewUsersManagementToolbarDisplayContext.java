@@ -70,7 +70,9 @@ public class ViewUsersManagementToolbarDisplayContext {
 
 		_themeDisplay = (ThemeDisplay)_request.getAttribute(
 			WebKeys.THEME_DISPLAY);
-		_usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(_request);
+
+		_usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(
+			_themeDisplay.getPermissionChecker());
 	}
 
 	public List<DropdownItem> getActionDropdownItems() throws PortalException {

@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -71,7 +72,8 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 		_displayStyle = displayStyle;
 		_organizationId = organizationId;
 
-		_usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(request);
+		_usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(
+			PermissionThreadLocal.getPermissionChecker());
 	}
 
 	public List<DropdownItem> getActionDropdownItems() {
