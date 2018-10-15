@@ -202,7 +202,8 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 			<portlet:param name="removeOrganizationIds" value="<%= String.valueOf(rowOrganizationId) %>" />
 		</portlet:actionURL>
 
-		<liferay-ui:icon
+		<liferay-ui:icon-delete
+			confirmation="are-you-sure-you-want-to-remove-this"
 			message="remove"
 			url="<%= removeOrganizationURL %>"
 		/>

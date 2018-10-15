@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocal;
 import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocalCloseable;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
@@ -103,7 +104,7 @@ public class EditOrganizationAssignmentsMVCActionCommand
 
 				_organizationService.updateOrganization(
 					organization.getOrganizationId(),
-					organization.getParentOrganizationId(),
+					OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
 					organization.getName(), organization.getType(),
 					organization.getRegionId(), organization.getCountryId(),
 					organization.getStatusId(), organization.getComments(),

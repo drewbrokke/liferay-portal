@@ -73,7 +73,7 @@ public class ViewUsersManagementToolbarDisplayContext {
 		_usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(_request);
 	}
 
-	public List<DropdownItem> getActionDropdownItems() {
+	public List<DropdownItem> getActionDropdownItems() throws PortalException {
 		return new DropdownItemList() {
 			{
 				if (isShowRestoreButton()) {
@@ -111,6 +111,28 @@ public class ViewUsersManagementToolbarDisplayContext {
 							dropdownItem.setIcon("trash");
 							dropdownItem.setLabel(
 								LanguageUtil.get(_request, action));
+							dropdownItem.setQuickAction(true);
+						});
+				}
+
+				if (_usersAdminPermissionsUtil.showRemoveUserAction(
+						_organizationId)) {
+
+					add(
+						dropdownItem -> {
+							PortletURL currentURL = PortletURLUtil.getCurrent(
+								_renderRequest, _renderResponse);
+
+							dropdownItem.setHref(
+								StringBundler.concat(
+									"javascript:",
+									_renderResponse.getNamespace(),
+									"removeUsers('", currentURL.toString(),
+									"','", _organizationId, "');"));
+
+							dropdownItem.setIcon("times-circle");
+							dropdownItem.setLabel(
+								LanguageUtil.get(_request, "remove"));
 							dropdownItem.setQuickAction(true);
 						});
 				}

@@ -102,19 +102,31 @@ public class UsersAdminPermissionsUtil {
 		return false;
 	}
 
+	public boolean showRemoveUserAction(long organizationId)
+		throws PortalException {
+
+		return showRemoveUserAction(organizationId, 0);
+	}
+
 	public boolean showRemoveUserAction(long organizationId, long userId)
 		throws PortalException {
 
 		if ((organizationId != 0) &&
 			OrganizationPermissionUtil.contains(
 				_permissionChecker, organizationId,
-				ActionKeys.ASSIGN_MEMBERS) &&
-			!OrganizationMembershipPolicyUtil.isMembershipProtected(
-				_permissionChecker, userId, organizationId) &&
-			!OrganizationMembershipPolicyUtil.isMembershipRequired(
-				userId, organizationId)) {
+				ActionKeys.ASSIGN_MEMBERS)) {
 
-			return true;
+			if (userId == 0) {
+				return true;
+			}
+
+			if (!OrganizationMembershipPolicyUtil.isMembershipProtected(
+					_permissionChecker, userId, organizationId) &&
+				!OrganizationMembershipPolicyUtil.isMembershipRequired(
+					userId, organizationId)) {
+
+				return true;
+			}
 		}
 
 		return false;

@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.OrganizationConstants;
+import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
@@ -87,6 +88,27 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 							LanguageUtil.get(_request, "delete"));
 						dropdownItem.setQuickAction(true);
 					});
+
+				if (_organizationId != 0) {
+					add(
+						dropdownItem -> {
+							PortletURL currentURL = PortletURLUtil.getCurrent(
+								_renderRequest, _renderResponse);
+
+							dropdownItem.setHref(
+								StringBundler.concat(
+									"javascript:",
+									_renderResponse.getNamespace(),
+									"removeOrganizations('",
+									currentURL.toString(), "','",
+									_organizationId, "');"));
+
+							dropdownItem.setIcon("times-circle");
+							dropdownItem.setLabel(
+								LanguageUtil.get(_request, "remove"));
+							dropdownItem.setQuickAction(true);
+						});
+				}
 			}
 		};
 	}

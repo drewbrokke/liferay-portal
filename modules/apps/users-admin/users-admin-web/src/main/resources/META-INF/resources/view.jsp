@@ -190,6 +190,44 @@ else {
 		submitForm(form, '<portlet:actionURL name="/users_admin/edit_organization" />');
 	}
 
+	Liferay.provide(
+		window,
+		'<portlet:namespace />doRemoveOrganizations',
+		function(assignmentsRedirect, organizationId, removeOrganizationIds) {
+			if (confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-remove-the-selected-organizations") %>')) {
+				var form = document.getElementById('<portlet:namespace/>fm');
+
+				var removeOrganizationsURL = Liferay.PortletURL.createURL('<portlet:actionURL name="/users_admin/edit_organization_assignments" />');
+
+				removeOrganizationsURL.setParameter('assignmentsRedirect', assignmentsRedirect);
+				removeOrganizationsURL.setParameter('organizationId', organizationId);
+				removeOrganizationsURL.setParameter('removeOrganizationIds', removeOrganizationIds);
+
+				submitForm(form, removeOrganizationsURL.toString());
+			}
+		},
+		['liferay-portlet-url']
+	);
+
+	Liferay.provide(
+		window,
+		'<portlet:namespace />doRemoveUsers',
+		function(assignmentsRedirect, organizationId, removeUserIds) {
+			if (confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-remove-the-selected-users") %>')) {
+				var form = document.getElementById('<portlet:namespace/>fm');
+
+				var removeUsersURL = Liferay.PortletURL.createURL('<portlet:actionURL name="/users_admin/edit_organization_assignments" />');
+
+				removeUsersURL.setParameter('assignmentsRedirect', assignmentsRedirect);
+				removeUsersURL.setParameter('organizationId', organizationId);
+				removeUsersURL.setParameter('removeUserIds', removeUserIds);
+
+				submitForm(form, removeUsersURL.toString());
+			}
+		},
+		['liferay-portlet-url']
+	);
+
 	function <portlet:namespace />getUsersCount(className, ids, status, callback) {
 		AUI.$.ajax(
 			'<liferay-portlet:resourceURL id="/users_admin/get_users_count" />',
@@ -201,6 +239,22 @@ else {
 				},
 				success: callback
 			}
+		);
+	}
+
+	function <portlet:namespace />removeOrganizations(assignmentsRedirect, organizationId) {
+		<portlet:namespace />doRemoveOrganizations(
+			assignmentsRedirect,
+			organizationId,
+			Liferay.Util.listCheckedExcept(document.<portlet:namespace />fm, '<portlet:namespace />allRowIds', '<portlet:namespace />rowIdsOrganization'),
+		);
+	}
+
+	function <portlet:namespace />removeUsers(assignmentsRedirect, organizationId) {
+		<portlet:namespace />doRemoveUsers(
+			assignmentsRedirect,
+			organizationId,
+			Liferay.Util.listCheckedExcept(document.<portlet:namespace />fm, '<portlet:namespace />allRowIds', '<portlet:namespace />rowIdsUser'),
 		);
 	}
 

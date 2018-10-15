@@ -85,11 +85,11 @@ if (filterManageableOrganizations) {
 		<aui:form action="<%= portletURL.toString() %>" cssClass="container-fluid-1280" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "search();" %>'>
 			<liferay-portlet:renderURLParams varImpl="portletURL" />
 			<aui:input name="<%= Constants.CMD %>" type="hidden" />
+			<aui:input name="redirect" type="hidden" value="<%= portletURL.toString() %>" />
 			<aui:input name="toolbarItem" type="hidden" value="<%= toolbarItem %>" />
 			<aui:input name="usersListView" type="hidden" value="<%= usersListView %>" />
 			<aui:input name="deleteOrganizationIds" type="hidden" />
 			<aui:input name="onErrorRedirect" type="hidden" value="<%= portletURL.toString() %>" />
-			<aui:input name="redirect" type="hidden" value="<%= portletURL.toString() %>" />
 
 			<liferay-ui:error exception="<%= RequiredOrganizationException.class %>" message="you-cannot-delete-organizations-that-have-suborganizations-or-users" />
 
