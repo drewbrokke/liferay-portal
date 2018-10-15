@@ -72,11 +72,7 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		/>
 	</c:if>--%>
 
-	<%
-	boolean showManageSiteAction = rowOrganizationGroup.isSite() && (GroupPermissionUtil.contains(permissionChecker, rowOrganizationGroup, ActionKeys.MANAGE_STAGING) || hasUpdatePermission);
-	%>
-
-	<c:if test="<%= showManageSiteAction %>">
+	<c:if test="<%= rowOrganizationGroup.isSite() && (GroupPermissionUtil.contains(permissionChecker, rowOrganizationGroup, ActionKeys.MANAGE_STAGING) || hasUpdatePermission) %>">
 
 		<%
 		PortletURL editSettingsURL = PortletProviderUtil.getPortletURL(request, rowOrganizationGroup, Group.class.getName(), PortletProvider.Action.EDIT);
@@ -90,11 +86,7 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		/>
 	</c:if>
 
-	<%
-	boolean showAssignOrganizationRolesAction = permissionChecker.isGroupOwner(rowOrganizationGroupId) || OrganizationPermissionUtil.contains(permissionChecker, rowOrganization, ActionKeys.ASSIGN_USER_ROLES);
-	%>
-
-	<c:if test="<%= showAssignOrganizationRolesAction %>">
+	<c:if test="<%= permissionChecker.isGroupOwner(rowOrganizationGroupId) || OrganizationPermissionUtil.contains(permissionChecker, rowOrganization, ActionKeys.ASSIGN_USER_ROLES) %>">
 
 		<%
 		PortletURL assignUserRolesURL = PortletProviderUtil.getPortletURL(request, UserGroupRole.class.getName(), PortletProvider.Action.EDIT);
@@ -111,7 +103,7 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		/>
 	</c:if>
 
-	<c:if test="<%= usersAdminPermissionsUtil.showAssignMembersAction(rowOrganizationId) %>">
+	<c:if test="<%= usersAdminPermissionsUtil.isShowAssignMembersAction(rowOrganizationId) %>">
 
 		<%
 		String taglibOnClick = renderResponse.getNamespace() + "openSelectUsersDialog('" + rowOrganizationId + "');";
@@ -124,7 +116,7 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		/>
 	</c:if>
 
-	<c:if test="<%= usersAdminPermissionsUtil.showAddOrganizationUserAction(rowOrganizationId) %>">
+	<c:if test="<%= usersAdminPermissionsUtil.isShowAddOrganizationUserAction(rowOrganizationId) %>">
 
 		<%
 		String parentOrganizationViewUsersURL = UsersAdminPortletURLUtil.createParentOrganizationViewURL(rowOrganizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse), "view-all-users");
@@ -142,10 +134,6 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		/>
 	</c:if>
 
-	<%
-	String parentOrganizationViewSuborganizationsURL = UsersAdminPortletURLUtil.createParentOrganizationViewURL(rowOrganizationId, PortalUtil.getLiferayPortletRequest(renderRequest), PortalUtil.getLiferayPortletResponse(renderResponse), "view-all-organizations");
-	%>
-
 	<c:if test="<%= rowOrganization.isParentable() %>">
 
 		<%
@@ -154,10 +142,11 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		for (String childrenType : childrenTypes) {
 		%>
 
-			<c:if test="<%= usersAdminPermissionsUtil.showAddOrganizationAction(rowOrganizationId) %>">
+			<c:if test="<%= usersAdminPermissionsUtil.isShowAddOrganizationAction(rowOrganizationId) %>">
+
 				<portlet:renderURL var="addSuborganizationURL">
 					<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_organization" />
-					<portlet:param name="redirect" value="<%= parentOrganizationViewSuborganizationsURL %>" />
+					<portlet:param name="redirect" value="<%= currentURL %>" />
 					<portlet:param name="parentOrganizationSearchContainerPrimaryKeys" value="<%= String.valueOf(rowOrganizationId) %>" />
 					<portlet:param name="type" value="<%= childrenType %>" />
 				</portlet:renderURL>
@@ -174,14 +163,10 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 
 	</c:if>
 
-	<%
-	boolean hasDeletePermission = OrganizationPermissionUtil.contains(permissionChecker, rowOrganization, ActionKeys.DELETE);
-	%>
-
-	<c:if test="<%= hasDeletePermission %>">
+	<c:if test="<%= OrganizationPermissionUtil.contains(permissionChecker, rowOrganization, ActionKeys.DELETE) %>">
 
 		<%
-		String taglibDeleteURL = "javascript:" + renderResponse.getNamespace() + "deleteOrganization('" + rowOrganizationId + "', '" + parentOrganizationViewSuborganizationsURL + "', '" + currentURL + "');";
+		String taglibDeleteURL = "javascript:" + renderResponse.getNamespace() + "deleteOrganization('" + rowOrganizationId + "', '" + currentURL + "', '" + currentURL + "');";
 		%>
 
 		<liferay-ui:icon
@@ -195,7 +180,7 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 	long organizationId = ParamUtil.getLong(request, "organizationId", 0);
 	%>
 
-	<c:if test="<%= usersAdminPermissionsUtil.showRemoveOrganizationAction(rowOrganizationId, organizationId) %>">
+	<c:if test="<%= usersAdminPermissionsUtil.isShowRemoveOrganizationAction(rowOrganizationId, organizationId) %>">
 				<portlet:actionURL name="/users_admin/edit_organization_assignments" var="removeOrganizationURL">
 			<portlet:param name="assignmentsRedirect" value="<%= currentURL %>" />
 			<portlet:param name="organizationId" value="<%= String.valueOf(organizationId) %>" />

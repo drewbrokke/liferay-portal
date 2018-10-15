@@ -45,7 +45,7 @@ public class UsersAdminPermissionsUtil {
 		return false;
 	}
 
-	public boolean showAddOrganizationAction(long organizationId)
+	public boolean isShowAddOrganizationAction(long organizationId)
 		throws PortalException {
 
 		if (PortalPermissionUtil.contains(
@@ -61,7 +61,7 @@ public class UsersAdminPermissionsUtil {
 		return false;
 	}
 
-	public boolean showAddOrganizationUserAction(long organizationId)
+	public boolean isShowAddOrganizationUserAction(long organizationId)
 		throws PortalException {
 
 		if (PortalPermissionUtil.contains(
@@ -80,7 +80,7 @@ public class UsersAdminPermissionsUtil {
 		return false;
 	}
 
-	public boolean showAssignMembersAction(long organizationId)
+	public boolean isShowAssignMembersAction(long organizationId)
 		throws PortalException {
 
 		if ((organizationId != 0) &&
@@ -94,27 +94,41 @@ public class UsersAdminPermissionsUtil {
 		return false;
 	}
 
-	public boolean showRemoveOrganizationAction(
+	public boolean isShowRemoveOrganizationAction(long parentOrganizationId)
+		throws PortalException {
+
+		return isShowRemoveOrganizationAction(0, parentOrganizationId);
+	}
+
+	public boolean isShowRemoveOrganizationAction(
 			long organizationId, long parentOrganizationId)
 		throws PortalException {
 
-		if ((organizationId != 0) && (parentOrganizationId != 0) &&
-			OrganizationPermissionUtil.contains(
-				_permissionChecker, organizationId, ActionKeys.UPDATE)) {
+		if ((parentOrganizationId != 0) &&
+			PortalPermissionUtil.contains(
+				_permissionChecker, ActionKeys.ADD_ORGANIZATION)) {
 
-			return true;
+			if (organizationId == 0) {
+				return true;
+			}
+
+			if (OrganizationPermissionUtil.contains(
+					_permissionChecker, organizationId, ActionKeys.UPDATE)) {
+
+				return true;
+			}
 		}
 
 		return false;
 	}
 
-	public boolean showRemoveUserAction(long organizationId)
+	public boolean isShowRemoveUserAction(long organizationId)
 		throws PortalException {
 
-		return showRemoveUserAction(organizationId, 0);
+		return isShowRemoveUserAction(organizationId, 0);
 	}
 
-	public boolean showRemoveUserAction(long organizationId, long userId)
+	public boolean isShowRemoveUserAction(long organizationId, long userId)
 		throws PortalException {
 
 		if ((organizationId != 0) &&

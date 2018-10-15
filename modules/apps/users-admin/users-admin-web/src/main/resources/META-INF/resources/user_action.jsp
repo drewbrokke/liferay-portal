@@ -53,11 +53,7 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		/>
 	</c:if>
 
-	<%
-	boolean hasPermissionsPermission = UserPermissionUtil.contains(permissionChecker, rowUserid, ActionKeys.PERMISSIONS);
-	%>
-
-	<c:if test="<%= hasPermissionsPermission %>">
+	<c:if test="<%= UserPermissionUtil.contains(permissionChecker, rowUserid, ActionKeys.PERMISSIONS) %>">
 		<liferay-security:permissionsURL
 			modelResource="<%= User.class.getName() %>"
 			modelResourceDescription="<%= rowUser.getFullName() %>"
@@ -74,11 +70,7 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		/>
 	</c:if>
 
-	<%
-	boolean layoutsEnabled = (PropsValues.LAYOUT_USER_PRIVATE_LAYOUTS_ENABLED || PropsValues.LAYOUT_USER_PUBLIC_LAYOUTS_ENABLED);
-	%>
-
-	<c:if test="<%= layoutsEnabled && hasUpdatePermission %>">
+	<c:if test="<%= (PropsValues.LAYOUT_USER_PRIVATE_LAYOUTS_ENABLED || PropsValues.LAYOUT_USER_PUBLIC_LAYOUTS_ENABLED) && hasUpdatePermission %>">
 
 		<%
 		PortletURL managePagesURL = PortletProviderUtil.getPortletURL(request, rowUser.getGroup(), Layout.class.getName(), PortletProvider.Action.EDIT);
@@ -90,11 +82,7 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		/>
 	</c:if>
 
-	<%
-	boolean showImpersonateAction = !PropsValues.PORTAL_JAAS_ENABLE && PropsValues.PORTAL_IMPERSONATION_ENABLE && (rowUserid != user.getUserId()) && !themeDisplay.isImpersonated() && UserPermissionUtil.contains(permissionChecker, rowUserid, ActionKeys.IMPERSONATE);
-	%>
-
-	<c:if test="<%= showImpersonateAction %>">
+	<c:if test="<%= !PropsValues.PORTAL_JAAS_ENABLE && PropsValues.PORTAL_IMPERSONATION_ENABLE && (rowUserid != user.getUserId()) && !themeDisplay.isImpersonated() && UserPermissionUtil.contains(permissionChecker, rowUserid, ActionKeys.IMPERSONATE) %>">
 		<liferay-security:doAsURL
 			doAsUserId="<%= rowUserid %>"
 			var="impersonateUserURL"
@@ -107,11 +95,7 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		/>
 	</c:if>
 
-	<%
-	boolean hasDeletePermission = UserPermissionUtil.contains(permissionChecker, rowUserid, ActionKeys.DELETE);
-	%>
-
-	<c:if test="<%= hasDeletePermission %>">
+	<c:if test="<%= UserPermissionUtil.contains(permissionChecker, rowUserid, ActionKeys.DELETE) %>">
 		<c:if test="<%= !rowUser.isActive() %>">
 			<portlet:actionURL name="/users_admin/edit_user" var="restoreUserURL">
 				<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.RESTORE %>" />
@@ -147,7 +131,7 @@ UsersAdminPermissionsUtil usersAdminPermissionsUtil = new UsersAdminPermissionsU
 		</c:if>
 	</c:if>
 
-	<c:if test="<%= usersAdminPermissionsUtil.showRemoveUserAction(organizationId, rowUserid) %>">
+	<c:if test="<%= usersAdminPermissionsUtil.isShowRemoveUserAction(organizationId, rowUserid) %>">
 		<portlet:actionURL name="/users_admin/edit_organization_assignments" var="removeUserURL">
 			<portlet:param name="assignmentsRedirect" value="<%= currentURL %>" />
 			<portlet:param name="organizationId" value="<%= String.valueOf(organizationId) %>" />

@@ -117,7 +117,7 @@ public class ViewUsersManagementToolbarDisplayContext {
 						});
 				}
 
-				if (_usersAdminPermissionsUtil.showRemoveUserAction(
+				if (_usersAdminPermissionsUtil.isShowRemoveUserAction(
 						_organizationId)) {
 
 					add(
@@ -156,7 +156,7 @@ public class ViewUsersManagementToolbarDisplayContext {
 
 		return new CreationMenu() {
 			{
-				if (_usersAdminPermissionsUtil.showAddOrganizationUserAction(
+				if (_usersAdminPermissionsUtil.isShowAddOrganizationUserAction(
 						_organizationId)) {
 
 					addDropdownItem(
@@ -172,7 +172,7 @@ public class ViewUsersManagementToolbarDisplayContext {
 						});
 				}
 
-				if (_usersAdminPermissionsUtil.showAssignMembersAction(
+				if (_usersAdminPermissionsUtil.isShowAssignMembersAction(
 						_organizationId)) {
 
 					addDropdownItem(
@@ -360,9 +360,9 @@ public class ViewUsersManagementToolbarDisplayContext {
 	}
 
 	public boolean showCreationMenu() throws PortalException {
-		if (_usersAdminPermissionsUtil.showAddOrganizationUserAction(
+		if (_usersAdminPermissionsUtil.isShowAddOrganizationUserAction(
 				_organizationId) ||
-			_usersAdminPermissionsUtil.showAssignMembersAction(
+			_usersAdminPermissionsUtil.isShowAssignMembersAction(
 				_organizationId)) {
 
 			return true;

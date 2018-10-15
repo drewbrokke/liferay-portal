@@ -76,7 +76,7 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 			PermissionThreadLocal.getPermissionChecker());
 	}
 
-	public List<DropdownItem> getActionDropdownItems() {
+	public List<DropdownItem> getActionDropdownItems() throws PortalException {
 		return new DropdownItemList() {
 			{
 				add(
@@ -91,7 +91,9 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 						dropdownItem.setQuickAction(true);
 					});
 
-				if (_organizationId != 0) {
+				if (_usersAdminPermissionsUtil.isShowRemoveOrganizationAction(
+						_organizationId)) {
+
 					add(
 						dropdownItem -> {
 							PortletURL currentURL = PortletURLUtil.getCurrent(
@@ -333,7 +335,7 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 	}
 
 	public boolean showCreationMenu() throws PortalException {
-		return _usersAdminPermissionsUtil.showAddOrganizationAction(
+		return _usersAdminPermissionsUtil.isShowAddOrganizationAction(
 			_organizationId);
 	}
 
