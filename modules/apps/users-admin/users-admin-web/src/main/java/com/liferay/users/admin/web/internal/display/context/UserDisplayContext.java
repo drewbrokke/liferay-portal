@@ -256,37 +256,52 @@ public class UserDisplayContext {
 	public List<NavigationItem> getViewNavigationItems(String portletName) {
 		return new NavigationItemList() {
 			{
+				long organizationId = ParamUtil.getLong(
+					_request, "organizationId", 0);
 				String toolbarItem = ParamUtil.getString(
 					_request, "toolbarItem", "view-all-users");
+				String usersListView = ParamUtil.getString(
+					_request, "usersListView",
+					UserConstants.LIST_VIEW_FLAT_USERS);
 
 				if (!portletName.equals(
 						UsersAdminPortletKeys.MY_ORGANIZATIONS)) {
 
 					add(
 						navigationItem -> {
-							navigationItem.setActive(
-								toolbarItem.equals("view-all-users"));
-							navigationItem.setHref(
-								_renderResponse.createRenderURL(),
-								"toolbarItem", "view-all-users",
-								"saveUsersListView", true, "usersListView",
-								UserConstants.LIST_VIEW_FLAT_USERS);
-							navigationItem.setLabel(
-								LanguageUtil.get(_request, "users"));
+							String nextUsersListView =
+								UserConstants.LIST_VIEW_FLAT_USERS;
+
+							if (usersListView.equals(
+									UserConstants.LIST_VIEW_TREE)) {
+
+								nextUsersListView =
+									UserConstants.LIST_VIEW_TREE;
+							}
+
+							_populateNaviationItem(
+								navigationItem, organizationId, toolbarItem,
+								"users", "view-all-users", nextUsersListView);
 						});
 				}
 
 				add(
 					navigationItem -> {
-						navigationItem.setActive(
-							toolbarItem.equals("view-all-organizations"));
-						navigationItem.setHref(
-							_renderResponse.createRenderURL(), "toolbarItem",
-							"view-all-organizations", "saveUsersListView", true,
-							"usersListView",
-							UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS);
-						navigationItem.setLabel(
-							LanguageUtil.get(_request, "organizations"));
+						String languageKey = "organizations";
+						String nextUsersListView =
+							UserConstants.LIST_VIEW_FLAT_ORGANIZATIONS;
+
+						if (usersListView.equals(
+								UserConstants.LIST_VIEW_TREE)) {
+
+							languageKey = "suborganizations";
+							nextUsersListView = UserConstants.LIST_VIEW_TREE;
+						}
+
+						_populateNaviationItem(
+							navigationItem, organizationId, toolbarItem,
+							languageKey, "view-all-organizations",
+							nextUsersListView);
 					});
 			}
 		};
@@ -329,6 +344,22 @@ public class UserDisplayContext {
 		}
 
 		return false;
+	}
+
+	private void _populateNaviationItem(
+		NavigationItem navigationItem, long organizationId,
+		String currentToolbarItem, String languageKey, String nextToolbarItem,
+		String usersListView) {
+
+		navigationItem.setActive(nextToolbarItem.equals(currentToolbarItem));
+
+		navigationItem.setHref(
+			_renderResponse.createRenderURL(), "mvcRenderCommandName",
+			"/users_admin/view", "organizationId", organizationId,
+			"saveUsersListView", true, "toolbarItem", nextToolbarItem,
+			"usersListView", usersListView);
+
+		navigationItem.setLabel(LanguageUtil.get(_request, languageKey));
 	}
 
 	private final InitDisplayContext _initDisplayContext;

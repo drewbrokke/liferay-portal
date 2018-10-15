@@ -17,7 +17,7 @@
 <%@ include file="/init.jsp" %>
 
 <%
-String backURL = GetterUtil.getString(request.getAttribute("view.jsp-backURL"));
+long organizationId = ParamUtil.getLong(request, "organizationId", 0);
 int status = GetterUtil.getInteger(request.getAttribute("view.jsp-status"));
 String usersListView = GetterUtil.getString(request.getAttribute("view.jsp-usersListView"));
 String viewUsersRedirect = GetterUtil.getString(request.getAttribute("view.jsp-viewUsersRedirect"));
@@ -40,7 +40,7 @@ else {
 String navigation = ParamUtil.getString(request, "navigation", "active");
 String toolbarItem = ParamUtil.getString(request, "toolbarItem", "view-all-users");
 
-ViewUsersManagementToolbarDisplayContext viewUsersManagementToolbarDisplayContext = new ViewUsersManagementToolbarDisplayContext(request, renderRequest, renderResponse, displayStyle, navigation, status);
+ViewUsersManagementToolbarDisplayContext viewUsersManagementToolbarDisplayContext = new ViewUsersManagementToolbarDisplayContext(request, renderRequest, renderResponse, displayStyle, navigation, organizationId, status);
 
 SearchContainer searchContainer = viewUsersManagementToolbarDisplayContext.getSearchContainer();
 
@@ -64,6 +64,7 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 <clay:management-toolbar
 	actionDropdownItems="<%= viewUsersManagementToolbarDisplayContext.getActionDropdownItems() %>"
 	clearResultsURL="<%= viewUsersManagementToolbarDisplayContext.getClearResultsURL() %>"
+	componentId="viewUsersManagementToolbar"
 	creationMenu="<%= viewUsersManagementToolbarDisplayContext.getCreationMenu() %>"
 	filterDropdownItems="<%= viewUsersManagementToolbarDisplayContext.getFilterDropdownItems() %>"
 	itemsTotal="<%= searchContainer.getTotal() %>"
@@ -81,14 +82,29 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 <aui:form action="<%= portletURL.toString() %>" cssClass="container-fluid-1280" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "search();" %>'>
 	<liferay-portlet:renderURLParams varImpl="portletURL" />
 	<aui:input name="<%= Constants.CMD %>" type="hidden" />
+	<aui:input name="redirect" type="hidden" value="<%= portletURL.toString() %>" />
 	<aui:input name="toolbarItem" type="hidden" value="<%= toolbarItem %>" />
 	<aui:input name="usersListView" type="hidden" value="<%= usersListView %>" />
-	<aui:input name="redirect" type="hidden" value="<%= portletURL.toString() %>" />
+	<aui:input name="deleteOrganizationIds" type="hidden" />
+	<aui:input name="deleteUserIds" type="hidden" />
+	<aui:input name="onErrorRedirect" type="hidden" value="<%= portletURL.toString() %>" />
 
+	<liferay-ui:error exception="<%= RequiredOrganizationException.class %>" message="you-cannot-delete-organizations-that-have-suborganizations-or-users" />
 	<liferay-ui:error exception="<%= RequiredUserException.class %>" message="you-cannot-delete-or-deactivate-yourself" />
 
 	<c:if test="<%= Validator.isNotNull(viewUsersRedirect) %>">
 		<aui:input name="viewUsersRedirect" type="hidden" value="<%= viewUsersRedirect %>" />
+	</c:if>
+
+	<c:if test="<%= portletName.equals(UsersAdminPortletKeys.USERS_ADMIN) && usersListView.equals(UserConstants.LIST_VIEW_TREE) %>">
+		<div id="breadcrumb">
+			<liferay-ui:breadcrumb
+				showCurrentGroup="<%= false %>"
+				showGuestGroup="<%= false %>"
+				showLayout="<%= false %>"
+				showPortletBreadcrumb="<%= true %>"
+			/>
+		</div>
 	</c:if>
 
 	<liferay-ui:search-container
@@ -110,7 +126,7 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 		>
 			<liferay-portlet:renderURL varImpl="rowURL">
 				<portlet:param name="mvcRenderCommandName" value="/users_admin/edit_user" />
-				<portlet:param name="redirect" value="<%= userSearchContainer.getIteratorURL().toString() %>" />
+				<portlet:param name="backURL" value="<%= currentURL %>" />
 				<portlet:param name="p_u_i_d" value="<%= String.valueOf(user2.getUserId()) %>" />
 			</liferay-portlet:renderURL>
 
@@ -142,3 +158,28 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 		/>
 	</liferay-ui:search-container>
 </aui:form>
+
+<aui:script>
+	var selectUsers = function(organizationId) {
+		<portlet:namespace />openSelectUsersDialog(organizationId);
+	}
+
+	var ACTIONS = {
+		'selectUsers': selectUsers
+	};
+
+	Liferay.componentReady('viewUsersManagementToolbar').then(
+		function(managementToolbar) {
+			managementToolbar.on(
+				'creationMenuItemClicked',
+				function(event) {
+					var itemData = event.data.item.data;
+
+					if (itemData && itemData.action && ACTIONS[itemData.action]) {
+						ACTIONS[itemData.action](itemData.organizationId);
+					}
+				}
+			);
+		}
+	);
+</aui:script>
