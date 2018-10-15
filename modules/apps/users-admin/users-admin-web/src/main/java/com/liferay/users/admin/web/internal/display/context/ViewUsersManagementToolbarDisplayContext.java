@@ -27,9 +27,8 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Constants;
@@ -39,6 +38,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portlet.usersadmin.search.UserSearch;
 import com.liferay.portlet.usersadmin.search.UserSearchTerms;
+import com.liferay.users.admin.web.internal.util.UsersAdminPermissionsUtil;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,17 +58,22 @@ public class ViewUsersManagementToolbarDisplayContext {
 	public ViewUsersManagementToolbarDisplayContext(
 		HttpServletRequest request, RenderRequest renderRequest,
 		RenderResponse renderResponse, String displayStyle, String navigation,
-		int status) {
+		long organizationId, int status) {
 
 		_request = request;
 		_renderRequest = renderRequest;
 		_renderResponse = renderResponse;
 		_displayStyle = displayStyle;
 		_navigation = navigation;
+		_organizationId = organizationId;
 		_status = status;
+
+		_themeDisplay = (ThemeDisplay)_request.getAttribute(
+			WebKeys.THEME_DISPLAY);
+		_usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(_request);
 	}
 
-	public List<DropdownItem> getActionDropdownItems() {
+	public List<DropdownItem> getActionDropdownItems() throws PortalException {
 		return new DropdownItemList() {
 			{
 				if (isShowRestoreButton()) {
@@ -109,6 +114,28 @@ public class ViewUsersManagementToolbarDisplayContext {
 							dropdownItem.setQuickAction(true);
 						});
 				}
+
+				if (_usersAdminPermissionsUtil.showRemoveUserAction(
+						_organizationId)) {
+
+					add(
+						dropdownItem -> {
+							PortletURL currentURL = PortletURLUtil.getCurrent(
+								_renderRequest, _renderResponse);
+
+							dropdownItem.setHref(
+								StringBundler.concat(
+									"javascript:",
+									_renderResponse.getNamespace(),
+									"removeUsers('", currentURL.toString(),
+									"','", _organizationId, "');"));
+
+							dropdownItem.setIcon("times-circle");
+							dropdownItem.setLabel(
+								LanguageUtil.get(_request, "remove"));
+							dropdownItem.setQuickAction(true);
+						});
+				}
 			}
 		};
 	}
@@ -122,16 +149,41 @@ public class ViewUsersManagementToolbarDisplayContext {
 	}
 
 	public CreationMenu getCreationMenu() throws PortalException {
+		PortletURL currentURL = PortletURLUtil.getCurrent(
+			_renderRequest, _renderResponse);
+
 		return new CreationMenu() {
 			{
-				addPrimaryDropdownItem(
-					dropdownItem -> {
-						dropdownItem.setHref(
-							_renderResponse.createRenderURL(),
-							"mvcRenderCommandName", "/users_admin/edit_user");
-						dropdownItem.setLabel(
-							LanguageUtil.get(_request, "add-user"));
-					});
+				if (_usersAdminPermissionsUtil.showAddOrganizationUserAction(
+						_organizationId)) {
+
+					addDropdownItem(
+						dropdownItem -> {
+							dropdownItem.setHref(
+								_renderResponse.createRenderURL(), "backURL",
+								currentURL.toString(), "mvcRenderCommandName",
+								"/users_admin/edit_user",
+								"organizationsSearchContainerPrimaryKeys",
+								_organizationId);
+							dropdownItem.setLabel(
+								LanguageUtil.get(_request, "add-user"));
+						});
+				}
+
+				if (_usersAdminPermissionsUtil.showAssignMembersAction(
+						_organizationId)) {
+
+					addDropdownItem(
+						dropdownItem -> {
+							dropdownItem.putData("action", "selectUsers");
+							dropdownItem.putData(
+								"organizationId",
+								String.valueOf(_organizationId));
+							dropdownItem.setLabel(
+								LanguageUtil.get(_request, "assign-users"));
+							dropdownItem.setQuickAction(true);
+						});
+				}
 			}
 		};
 	}
@@ -179,10 +231,24 @@ public class ViewUsersManagementToolbarDisplayContext {
 			portletURL.setParameter("keywords", keywords[keywords.length - 1]);
 		}
 
+		portletURL.setParameter("mvcRenderCommandName", "/users_admin/view");
+
+		Long organizationId = ParamUtil.getLong(_request, "organizationId", 0);
+
+		String toolbarItem = ParamUtil.getString(
+			_request, "toolbarItem", "view-all-organizations");
+
+		String usersListView = (String)_request.getAttribute(
+			"view.jsp-usersListView");
+
 		portletURL.setParameter("navigation", _navigation);
 		portletURL.setParameter("orderByCol", getOrderByCol());
 		portletURL.setParameter("orderByType", getOrderByType());
+		portletURL.setParameter(
+			"organizationId", String.valueOf(organizationId));
 		portletURL.setParameter("status", String.valueOf(_status));
+		portletURL.setParameter("usersListView", usersListView);
+		portletURL.setParameter("toolbarItem", toolbarItem);
 
 		return portletURL;
 	}
@@ -210,9 +276,6 @@ public class ViewUsersManagementToolbarDisplayContext {
 
 		userSearch.setRowChecker(rowChecker);
 
-		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
 		UserSearchTerms searchTerms =
 			(UserSearchTerms)userSearch.getSearchTerms();
 
@@ -223,17 +286,22 @@ public class ViewUsersManagementToolbarDisplayContext {
 			searchTerms.setStatus(WorkflowConstants.STATUS_INACTIVE);
 		}
 
+		LinkedHashMap<String, Object> params = new LinkedHashMap<>();
+
+		if (_organizationId != 0) {
+			params.put("usersOrgs", Long.valueOf(_organizationId));
+		}
+
 		int total = UserLocalServiceUtil.searchCount(
-			themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-			searchTerms.getStatus(), new LinkedHashMap<String, Object>());
+			_themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+			searchTerms.getStatus(), params);
 
 		userSearch.setTotal(total);
 
 		List<User> results = UserLocalServiceUtil.search(
-			themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-			searchTerms.getStatus(), new LinkedHashMap<String, Object>(),
-			userSearch.getStart(), userSearch.getEnd(),
-			userSearch.getOrderByComparator());
+			_themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+			searchTerms.getStatus(), params, userSearch.getStart(),
+			userSearch.getEnd(), userSearch.getOrderByComparator());
 
 		userSearch.setResults(results);
 
@@ -290,11 +358,15 @@ public class ViewUsersManagementToolbarDisplayContext {
 	}
 
 	public boolean showCreationMenu() throws PortalException {
-		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
-			WebKeys.THEME_DISPLAY);
+		if (_usersAdminPermissionsUtil.showAddOrganizationUserAction(
+				_organizationId) ||
+			_usersAdminPermissionsUtil.showAssignMembersAction(
+				_organizationId)) {
 
-		return PortalPermissionUtil.contains(
-			themeDisplay.getPermissionChecker(), ActionKeys.ADD_USER);
+			return true;
+		}
+
+		return false;
 	}
 
 	private int _getCur() {
@@ -364,10 +436,13 @@ public class ViewUsersManagementToolbarDisplayContext {
 
 	private final String _displayStyle;
 	private final String _navigation;
+	private final Long _organizationId;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
 	private final HttpServletRequest _request;
 	private final int _status;
+	private final ThemeDisplay _themeDisplay;
+	private final UsersAdminPermissionsUtil _usersAdminPermissionsUtil;
 	private UserSearch _userSearch;
 
 }

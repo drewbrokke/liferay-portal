@@ -27,14 +27,13 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.OrganizationConstants;
+import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
-import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
-import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -44,6 +43,7 @@ import com.liferay.portal.util.PropsValues;
 import com.liferay.portlet.usersadmin.search.OrganizationSearch;
 import com.liferay.portlet.usersadmin.search.OrganizationSearchTerms;
 import com.liferay.users.admin.web.internal.search.OrganizationChecker;
+import com.liferay.users.admin.web.internal.util.UsersAdminPermissionsUtil;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -62,12 +62,16 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 
 	public ViewOrganizationsManagementToolbarDisplayContext(
 		HttpServletRequest request, RenderRequest renderRequest,
-		RenderResponse renderResponse, String displayStyle) {
+		RenderResponse renderResponse, String displayStyle,
+		long organizationId) {
 
 		_request = request;
 		_renderRequest = renderRequest;
 		_renderResponse = renderResponse;
 		_displayStyle = displayStyle;
+		_organizationId = organizationId;
+
+		_usersAdminPermissionsUtil = new UsersAdminPermissionsUtil(request);
 	}
 
 	public List<DropdownItem> getActionDropdownItems() {
@@ -84,6 +88,27 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 							LanguageUtil.get(_request, "delete"));
 						dropdownItem.setQuickAction(true);
 					});
+
+				if (_organizationId != 0) {
+					add(
+						dropdownItem -> {
+							PortletURL currentURL = PortletURLUtil.getCurrent(
+								_renderRequest, _renderResponse);
+
+							dropdownItem.setHref(
+								StringBundler.concat(
+									"javascript:",
+									_renderResponse.getNamespace(),
+									"removeOrganizations('",
+									currentURL.toString(), "','",
+									_organizationId, "');"));
+
+							dropdownItem.setIcon("times-circle");
+							dropdownItem.setLabel(
+								LanguageUtil.get(_request, "remove"));
+							dropdownItem.setQuickAction(true);
+						});
+				}
 			}
 		};
 	}
@@ -107,8 +132,10 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 							dropdownItem.setHref(
 								_renderResponse.createRenderURL(),
 								"mvcRenderCommandName",
-								"/users_admin/edit_organization", "redirect",
-								_getViewUsersURL(), "type", organizationType);
+								"/users_admin/edit_organization",
+								"parentOrganizationSearchContainerPrimaryKeys",
+								_organizationId, "redirect", _getViewUsersURL(),
+								"type", organizationType);
 							dropdownItem.setLabel(
 								LanguageUtil.get(_request, organizationType));
 						});
@@ -160,8 +187,15 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 			portletURL.setParameter("keywords", keywords[keywords.length - 1]);
 		}
 
+		portletURL.setParameter("mvcRenderCommandName", "/users_admin/view");
+
 		portletURL.setParameter("orderByCol", getOrderByCol());
 		portletURL.setParameter("orderByType", getOrderByType());
+
+		Long organizationId = ParamUtil.getLong(_request, "organizationId", 0);
+
+		portletURL.setParameter(
+			"organizationId", String.valueOf(organizationId));
 
 		String toolbarItem = ParamUtil.getString(
 			_request, "toolbarItem", "view-all-organizations");
@@ -206,15 +240,19 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		long parentOrganizationId =
-			OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID;
+		long parentOrganizationId;
 
 		OrganizationSearchTerms organizationSearchTerms =
 			(OrganizationSearchTerms)organizationSearch.getSearchTerms();
 
 		String keywords = organizationSearchTerms.getKeywords();
 
-		if (Validator.isNotNull(keywords) || filterManageableOrganizations) {
+		if (_organizationId != 0) {
+			parentOrganizationId = _organizationId;
+		}
+		else if (Validator.isNotNull(keywords) ||
+				 filterManageableOrganizations) {
+
 			parentOrganizationId =
 				OrganizationConstants.ANY_PARENT_ORGANIZATION_ID;
 		}
@@ -224,8 +262,8 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 				OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID);
 		}
 
-		List<Organization> results = null;
-		int total = 0;
+		List<Organization> results;
+		int total;
 
 		Indexer<?> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
 			Organization.class);
@@ -293,11 +331,8 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 	}
 
 	public boolean showCreationMenu() throws PortalException {
-		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
-		return PortalPermissionUtil.contains(
-			themeDisplay.getPermissionChecker(), ActionKeys.ADD_ORGANIZATION);
+		return _usersAdminPermissionsUtil.showAddOrganizationAction(
+			_organizationId);
 	}
 
 	private int _getCur() {
@@ -353,19 +388,25 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 			_request, "toolbarItem", "view-all-organizations");
 		String usersListView = (String)_request.getAttribute(
 			"view.jsp-usersListView");
+		Long organizationId = ParamUtil.getLong(_request, "organizationId", 0);
 
 		PortletURL viewUsersURL = _renderResponse.createRenderURL();
 
+		viewUsersURL.setParameter("mvcRenderCommandName", "/users_admin/view");
 		viewUsersURL.setParameter("toolbarItem", toolbarItem);
 		viewUsersURL.setParameter("usersListView", usersListView);
+		viewUsersURL.setParameter(
+			"organizationId", String.valueOf(organizationId));
 
 		return viewUsersURL.toString();
 	}
 
 	private final String _displayStyle;
+	private final long _organizationId;
 	private OrganizationSearch _organizationSearch;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
 	private final HttpServletRequest _request;
+	private final UsersAdminPermissionsUtil _usersAdminPermissionsUtil;
 
 }
