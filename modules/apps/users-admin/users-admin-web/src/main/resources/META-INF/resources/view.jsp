@@ -119,18 +119,25 @@ else {
 		);
 	}
 
-	function <portlet:namespace />deleteUsers(cmd) {
-		if (((cmd == '<%= Constants.DEACTIVATE %>') && confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-deactivate-the-selected-users") %>')) || ((cmd == '<%= Constants.DELETE %>') && confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-permanently-delete-the-selected-users") %>')) || (cmd == '<%= Constants.RESTORE %>')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
+	Liferay.provide(
+		window,
+		'<portlet:namespace />deleteUsers',
+		function(cmd) {
+			if (((cmd == '<%= Constants.DEACTIVATE %>') && confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-deactivate-the-selected-users") %>')) || ((cmd == '<%= Constants.DELETE %>') && confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-permanently-delete-the-selected-users") %>')) || (cmd == '<%= Constants.RESTORE %>')) {
+				var form = AUI.$(document.<portlet:namespace />fm);
 
-			form.attr('method', 'post');
-			form.fm('<%= Constants.CMD %>').val(cmd);
-			form.fm('redirect').val(form.fm('usersRedirect').val());
-			form.fm('deleteUserIds').val(Liferay.Util.listCheckedExcept(form, '<portlet:namespace />allRowIds', '<portlet:namespace />rowIdsUser'));
+				form.fm('<%= Constants.CMD %>').val(cmd);
+				form.fm('redirect').val(form.fm('usersRedirect').val());
 
-			submitForm(form, '<portlet:actionURL name="/users_admin/edit_user" />');
-		}
-	}
+				var deleteUsersURL = Liferay.PortletURL.createURL('<portlet:actionURL name="/users_admin/edit_user" />');
+
+				deleteUsersURL.setParameter('deleteUserIds', Liferay.Util.listCheckedExcept(form, '<portlet:namespace />allRowIds', '<portlet:namespace />rowIdsUser'));
+
+				submitForm(form, deleteUsersURL.toString());
+			}
+		},
+		['liferay-portlet-url']
+	);
 
 	function <portlet:namespace />doDeleteOrganization(className, ids, organizationsRedirect, onErrorRedirect) {
 		var status = <%= WorkflowConstants.STATUS_INACTIVE %>;
@@ -181,23 +188,30 @@ else {
 		);
 	}
 
-	function <portlet:namespace />doDeleteOrganizations(organizationIds, organizationsRedirect, onErrorRedirect) {
-		var form = AUI.$(document.<portlet:namespace />fm);
+	Liferay.provide(
+		window,
+		'<portlet:namespace />doDeleteOrganizations',
+		function(organizationIds, organizationsRedirect, onErrorRedirect) {
+			var form = AUI.$(document.<portlet:namespace />fm);
 
-		form.attr('method', 'post');
-		form.fm('<%= Constants.CMD %>').val('<%= Constants.DELETE %>');
-		form.fm('deleteOrganizationIds').val(organizationIds);
+			form.fm('<%= Constants.CMD %>').val('<%= Constants.DELETE %>');
 
-		if (onErrorRedirect) {
-			form.fm('onErrorRedirect').val(onErrorRedirect);
-		}
+			if (organizationsRedirect) {
+				form.fm('redirect').val(organizationsRedirect);
+			}
 
-		if (organizationsRedirect) {
-			form.fm('redirect').val(organizationsRedirect);
-		}
+			var deleteOrganizationsURL = Liferay.PortletURL.createURL('<portlet:actionURL name="/users_admin/edit_organization" />');
 
-		submitForm(form, '<portlet:actionURL name="/users_admin/edit_organization" />');
-	}
+			deleteOrganizationsURL.setParameter('deleteOrganizationIds', organizationIds);
+
+			if (onErrorRedirect) {
+				deleteOrganizationsURL.setParameter('onErrorRedirect', onErrorRedirect);
+			}
+
+			submitForm(form, deleteOrganizationsURL.toString());
+		},
+		['liferay-portlet-url']
+	);
 
 	Liferay.provide(
 		window,

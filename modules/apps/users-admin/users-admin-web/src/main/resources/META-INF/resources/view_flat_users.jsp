@@ -83,11 +83,6 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 	<liferay-portlet:renderURLParams varImpl="portletURL" />
 	<aui:input name="<%= Constants.CMD %>" type="hidden" />
 	<aui:input name="redirect" type="hidden" value="<%= portletURL.toString() %>" />
-	<aui:input name="toolbarItem" type="hidden" value="<%= toolbarItem %>" />
-	<aui:input name="usersListView" type="hidden" value="<%= usersListView %>" />
-	<aui:input name="deleteOrganizationIds" type="hidden" />
-	<aui:input name="deleteUserIds" type="hidden" />
-	<aui:input name="onErrorRedirect" type="hidden" value="<%= portletURL.toString() %>" />
 
 	<liferay-ui:error exception="<%= RequiredOrganizationException.class %>" message="you-cannot-delete-organizations-that-have-suborganizations-or-users" />
 	<liferay-ui:error exception="<%= RequiredUserException.class %>" message="you-cannot-delete-or-deactivate-yourself" />
@@ -114,7 +109,6 @@ boolean showRestoreButton = viewUsersManagementToolbarDisplayContext.isShowResto
 		var="userSearchContainer"
 	>
 		<aui:input disabled="<%= true %>" name="usersRedirect" type="hidden" value="<%= currentURLObj.toString() %>" />
-		<aui:input name="deleteUserIds" type="hidden" />
 		<aui:input name="status" type="hidden" value="<%= status %>" />
 
 		<liferay-ui:search-container-row

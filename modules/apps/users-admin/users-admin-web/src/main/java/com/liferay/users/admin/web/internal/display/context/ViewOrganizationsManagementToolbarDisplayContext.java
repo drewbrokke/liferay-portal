@@ -79,12 +79,18 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 	public List<DropdownItem> getActionDropdownItems() throws PortalException {
 		return new DropdownItemList() {
 			{
+				PortletURL currentURL = PortletURLUtil.getCurrent(
+					_renderRequest, _renderResponse);
+
+				String currentURLString = currentURL.toString();
+
 				add(
 					dropdownItem -> {
 						dropdownItem.setHref(
 							StringBundler.concat(
 								"javascript:", _renderResponse.getNamespace(),
-								"deleteOrganizations();"));
+								"deleteOrganizations('", currentURLString,
+								"');"));
 						dropdownItem.setIcon("trash");
 						dropdownItem.setLabel(
 							LanguageUtil.get(_request, "delete"));
@@ -96,16 +102,12 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 
 					add(
 						dropdownItem -> {
-							PortletURL currentURL = PortletURLUtil.getCurrent(
-								_renderRequest, _renderResponse);
-
 							dropdownItem.setHref(
 								StringBundler.concat(
 									"javascript:",
 									_renderResponse.getNamespace(),
-									"removeOrganizations('",
-									currentURL.toString(), "','",
-									_organizationId, "');"));
+									"removeOrganizations('", currentURLString,
+									"','", _organizationId, "');"));
 
 							dropdownItem.setIcon("times-circle");
 							dropdownItem.setLabel(
