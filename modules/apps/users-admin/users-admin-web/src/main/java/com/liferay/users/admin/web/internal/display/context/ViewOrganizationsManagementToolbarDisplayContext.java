@@ -102,12 +102,20 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 
 					add(
 						dropdownItem -> {
+							String confirmationMessage = LanguageUtil.get(
+								_request,
+								"are-you-sure-you-want-to-remove-the-" +
+									"selected-suborganizations");
+
 							dropdownItem.setHref(
 								StringBundler.concat(
 									"javascript:",
 									_renderResponse.getNamespace(),
-									"removeOrganizations('", currentURLString,
-									"','", _organizationId, "');"));
+									"removeOrganizationItems('",
+									currentURL.toString(), "','",
+									confirmationMessage, "','", _organizationId,
+									"','removeOrganizationIds',",
+									"'rowIdsOrganization');"));
 
 							dropdownItem.setIcon("times-circle");
 							dropdownItem.setLabel(

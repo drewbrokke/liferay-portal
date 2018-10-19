@@ -215,37 +215,18 @@ else {
 
 	Liferay.provide(
 		window,
-		'<portlet:namespace />doRemoveOrganizations',
-		function(assignmentsRedirect, organizationId, removeOrganizationIds) {
-			if (confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-remove-the-selected-organizations") %>')) {
+		'<portlet:namespace />doRemoveOrganizationItems',
+		function(assignmentsRedirect, confirmationMessage, organizationId, removeItemIds, removeItemsParameterName, rowIds) {
+			if (confirm(confirmationMessage)) {
 				var form = document.getElementById('<portlet:namespace/>fm');
 
-				var removeOrganizationsURL = Liferay.PortletURL.createURL('<portlet:actionURL name="/users_admin/edit_organization_assignments" />');
+				var removeOrganizationItemsURL = Liferay.PortletURL.createURL('<portlet:actionURL name="/users_admin/edit_organization_assignments" />');
 
-				removeOrganizationsURL.setParameter('assignmentsRedirect', assignmentsRedirect);
-				removeOrganizationsURL.setParameter('organizationId', organizationId);
-				removeOrganizationsURL.setParameter('removeOrganizationIds', removeOrganizationIds);
+				removeOrganizationItemsURL.setParameter('assignmentsRedirect', assignmentsRedirect);
+				removeOrganizationItemsURL.setParameter('organizationId', organizationId);
+				removeOrganizationItemsURL.setParameter(removeItemsParameterName, removeItemIds);
 
-				submitForm(form, removeOrganizationsURL.toString());
-			}
-		},
-		['liferay-portlet-url']
-	);
-
-	Liferay.provide(
-		window,
-		'<portlet:namespace />doRemoveUsers',
-		function(assignmentsRedirect, organizationId, removeUserIds) {
-			if (confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-remove-the-selected-users") %>')) {
-				var form = document.getElementById('<portlet:namespace/>fm');
-
-				var removeUsersURL = Liferay.PortletURL.createURL('<portlet:actionURL name="/users_admin/edit_organization_assignments" />');
-
-				removeUsersURL.setParameter('assignmentsRedirect', assignmentsRedirect);
-				removeUsersURL.setParameter('organizationId', organizationId);
-				removeUsersURL.setParameter('removeUserIds', removeUserIds);
-
-				submitForm(form, removeUsersURL.toString());
+				submitForm(form, removeOrganizationItemsURL.toString());
 			}
 		},
 		['liferay-portlet-url']
@@ -265,19 +246,14 @@ else {
 		);
 	}
 
-	function <portlet:namespace />removeOrganizations(assignmentsRedirect, organizationId) {
-		<portlet:namespace />doRemoveOrganizations(
+	function <portlet:namespace />removeOrganizationItems(assignmentsRedirect, confirmationMessage, organizationId, removeItemsParameterName, rowIds) {
+		<portlet:namespace />doRemoveOrganizationItems(
 			assignmentsRedirect,
+			confirmationMessage,
 			organizationId,
-			Liferay.Util.listCheckedExcept(document.<portlet:namespace />fm, '<portlet:namespace />allRowIds', '<portlet:namespace />rowIdsOrganization'),
-		);
-	}
-
-	function <portlet:namespace />removeUsers(assignmentsRedirect, organizationId) {
-		<portlet:namespace />doRemoveUsers(
-			assignmentsRedirect,
-			organizationId,
-			Liferay.Util.listCheckedExcept(document.<portlet:namespace />fm, '<portlet:namespace />allRowIds', '<portlet:namespace />rowIdsUser'),
+			Liferay.Util.listCheckedExcept(document.<portlet:namespace />fm, '<portlet:namespace />allRowIds', '<portlet:namespace />' + rowIds),
+			removeItemsParameterName,
+			rowIds
 		);
 	}
 

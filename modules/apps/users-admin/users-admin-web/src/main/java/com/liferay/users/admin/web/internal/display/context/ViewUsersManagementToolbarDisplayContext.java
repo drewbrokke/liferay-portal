@@ -122,6 +122,11 @@ public class ViewUsersManagementToolbarDisplayContext {
 
 					add(
 						dropdownItem -> {
+							String confirmationMessage = LanguageUtil.get(
+								_request,
+								"are-you-sure-you-want-to-remove-the-" +
+									"selected-users");
+
 							PortletURL currentURL = PortletURLUtil.getCurrent(
 								_renderRequest, _renderResponse);
 
@@ -129,8 +134,10 @@ public class ViewUsersManagementToolbarDisplayContext {
 								StringBundler.concat(
 									"javascript:",
 									_renderResponse.getNamespace(),
-									"removeUsers('", currentURL.toString(),
-									"','", _organizationId, "');"));
+									"removeOrganizationItems('",
+									currentURL.toString(), "','",
+									confirmationMessage, "','", _organizationId,
+									"','removeUserIds','rowIdsUser');"));
 
 							dropdownItem.setIcon("times-circle");
 							dropdownItem.setLabel(
