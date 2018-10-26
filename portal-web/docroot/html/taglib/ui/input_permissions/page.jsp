@@ -232,6 +232,22 @@ String modelName = (String)request.getAttribute("liferay-ui:input-permissions:mo
 		</div>
 
 		<aui:script>
+			var form = document.getElementById("<portlet:namespace />fm");
+
+			if (form) {
+				var checkBoxDisabledList = form.querySelectorAll("input[type=checkbox][disabled]");
+
+				if (checkBoxDisabledList.length !== 0) {
+					var enableCheckboxes = () => {
+						checkBoxDisabledList.forEach((element) => {
+							element.removeAttribute("disabled");
+						});
+					}
+
+					form.addEventListener('submit', enableCheckboxes);
+				}
+			}
+
 			function <%= uniqueNamespace %>inputPermissionsHideOptions() {
 				<%= uniqueNamespace %>togglePermissionsOptions(false);
 			}
