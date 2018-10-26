@@ -3301,13 +3301,12 @@ public class PortalImpl implements Portal {
 			return themeDisplay.getPathMain() + PATH_PORTAL_LAYOUT;
 		}
 
-		if (layout.isTypeURL()) {
-			String url = layout.getTypeSettingsProperty(
-				LayoutTypePortletConstants.URL);
+		if (layout.isTypeURL() &&
+			Validator.isUrl(
+				layout.getTypeSettingsProperty(
+					LayoutTypePortletConstants.URL))) {
 
-			if (Validator.isUrl(url)) {
-				return getLayoutActualURL(layout);
-			}
+			return getLayoutActualURL(layout);
 		}
 
 		String layoutFriendlyURL = getLayoutFriendlyURL(layout, themeDisplay);
