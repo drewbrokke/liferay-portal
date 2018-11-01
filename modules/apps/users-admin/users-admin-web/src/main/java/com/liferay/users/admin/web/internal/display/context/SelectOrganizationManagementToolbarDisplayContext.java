@@ -14,16 +14,16 @@
 
 package com.liferay.users.admin.web.internal.display.context;
 
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.OrganizationConstants;
-import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
@@ -31,10 +31,6 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portlet.usersadmin.search.OrganizationSearch;
@@ -42,6 +38,7 @@ import com.liferay.portlet.usersadmin.search.OrganizationSearchTerms;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -61,6 +58,9 @@ public class SelectOrganizationManagementToolbarDisplayContext {
 		_request = request;
 		_renderRequest = renderRequest;
 		_renderResponse = renderResponse;
+
+		_currentURL = PortletURLUtil.getCurrent(
+			_renderRequest, _renderResponse);
 	}
 
 	public String getClearResultsURL() {
@@ -71,37 +71,53 @@ public class SelectOrganizationManagementToolbarDisplayContext {
 		return clearResultsURL.toString();
 	}
 
+	public List<DropdownItem> getFilterDropdownItems() {
+		return new DropdownItemList() {
+			{
+				addGroup(
+					dropdownGroupItem -> {
+						dropdownGroupItem.setDropdownItems(
+							_getFilterNavigationDropdownItems());
+						dropdownGroupItem.setLabel(
+							LanguageUtil.get(_request, "filter-by-navigation"));
+					});
+
+				addGroup(
+					dropdownGroupItem -> {
+						dropdownGroupItem.setDropdownItems(
+							_getOrderByDropdownItems());
+						dropdownGroupItem.setLabel(
+							LanguageUtil.get(_request, "order-by"));
+					});
+			}
+		};
+	}
+
+	public String getOrderByCol() {
+		return _organizationSearch.getOrderByCol();
+	}
+
+	public String getOrderByType() {
+		return _organizationSearch.getOrderByType();
+	}
+
 	public PortletURL getPortletURL() {
-		PortletURL portletURL = _renderResponse.createRenderURL();
+		try {
+			PortletURL portletURL = PortletURLUtil.clone(
+				_currentURL, _renderResponse);
 
-		portletURL.setParameter("mvcPath", "/select_organization.jsp");
+			portletURL.setParameter("orderByCol", getOrderByCol());
+			portletURL.setParameter("orderByType", getOrderByType());
 
-		User selUser = _getSelectedUser();
-
-		if (selUser != null) {
-			portletURL.setParameter(
-				"p_u_i_d", String.valueOf(selUser.getUserId()));
+			return portletURL;
 		}
+		catch (Exception e) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(e, e);
+			}
 
-		String eventName = ParamUtil.getString(
-			_request, "eventName",
-			_renderResponse.getNamespace() + "selectOrganization");
-
-		portletURL.setParameter("eventName", eventName);
-
-		String[] keywords = ParamUtil.getStringValues(_request, "keywords");
-
-		if (ArrayUtil.isNotEmpty(keywords)) {
-			portletURL.setParameter("keywords", keywords[keywords.length - 1]);
+			return _renderResponse.createRenderURL();
 		}
-
-		String target = ParamUtil.getString(_request, "target");
-
-		if (Validator.isNotNull(target)) {
-			portletURL.setParameter("target", target);
-		}
-
-		return portletURL;
 	}
 
 	public String getSearchActionURL() {
@@ -130,8 +146,8 @@ public class SelectOrganizationManagementToolbarDisplayContext {
 		OrganizationSearchTerms organizationSearchTerms =
 			(OrganizationSearchTerms)organizationSearch.getSearchTerms();
 
-		List<Organization> results = null;
-		int total = 0;
+		List<Organization> results;
+		int total;
 
 		Indexer<?> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
 			Organization.class);
@@ -182,28 +198,60 @@ public class SelectOrganizationManagementToolbarDisplayContext {
 		return _organizationSearch;
 	}
 
-	public List<ViewTypeItem> getViewTypeItems() {
-		return new ViewTypeItemList(getPortletURL(), "list") {
+	public String getSortingURL() {
+		PortletURL sortingURL = getPortletURL();
+
+		sortingURL.setParameter(
+			"orderByType",
+			Objects.equals(getOrderByType(), "asc") ? "desc" : "asc");
+
+		return sortingURL.toString();
+	}
+
+	private List<DropdownItem> _getFilterNavigationDropdownItems() {
+		return new DropdownItemList() {
 			{
-				addTableViewTypeItem();
+				add(
+					dropdownItem -> {
+						dropdownItem.setActive(true);
+						dropdownItem.setHref(StringPool.BLANK);
+						dropdownItem.setLabel(
+							LanguageUtil.get(_request, "all"));
+					});
 			}
 		};
 	}
 
-	private User _getSelectedUser() {
-		try {
-			return PortalUtil.getSelectedUser(_request);
-		}
-		catch (PortalException pe) {
-			_log.error(pe, pe);
+	private List<DropdownItem> _getOrderByDropdownItems() {
+		return new DropdownItemList() {
+			{
+				add(
+					dropdownItem -> {
+						dropdownItem.setActive(
+							Objects.equals(getOrderByCol(), "name"));
+						dropdownItem.setHref(
+							getPortletURL(), "orderByCol", "name");
+						dropdownItem.setLabel(
+							LanguageUtil.get(_request, "name"));
+					});
 
-			return null;
-		}
+				add(
+					dropdownItem -> {
+						dropdownItem.setActive(
+							Objects.equals(getOrderByCol(), "type"));
+						dropdownItem.setHref(
+							getPortletURL(), "orderByCol", "type");
+						dropdownItem.setLabel(
+							LanguageUtil.get(_request, "type"));
+					});
+			}
+		};
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SelectOrganizationManagementToolbarDisplayContext.class);
 
+	private final PortletURL _currentURL;
 	private OrganizationSearch _organizationSearch;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
