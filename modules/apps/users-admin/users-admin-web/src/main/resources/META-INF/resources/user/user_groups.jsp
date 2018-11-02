@@ -53,6 +53,10 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "userGr
 	</span>
 </h3>
 
+<div class="text-muted" <%= userGroups.isEmpty() ? "" : "hidden" %> id="emptyUserGroupsResultsMessage">
+	<liferay-ui:message key="this-user-does-not-belong-to-a-user-group" />
+</div>
+
 <liferay-util:buffer
 	var="removeUserGroupIcon"
 >
@@ -67,10 +71,8 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "userGr
 <aui:input name="deleteUserGroupIds" type="hidden" />
 
 <liferay-ui:search-container
-	compactEmptyResultsMessage="<%= true %>"
 	cssClass="lfr-search-container-user-groups"
 	curParam="userGroupsCur"
-	emptyResultsMessage="this-user-does-not-belong-to-a-user-group"
 	headerNames="name,null"
 	iteratorURL="<%= currentURLObj %>"
 	total="<%= userGroups.size() %>"
@@ -139,6 +141,8 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "userGr
 
 				document.<portlet:namespace />fm.<portlet:namespace />addUserGroupIds.value = addUserGroupIds.join(',');
 				document.<portlet:namespace />fm.<portlet:namespace />deleteUserGroupIds.value = deleteUserGroupIds.join(',');
+
+				updateEmptyUserGroupsResultsMessage();
 			},
 			'.modify-link'
 		);
@@ -207,9 +211,24 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "userGr
 
 						document.<portlet:namespace />fm.<portlet:namespace />addUserGroupIds.value = addUserGroupIds.join(',');
 						document.<portlet:namespace />fm.<portlet:namespace />deleteUserGroupIds.value = deleteUserGroupIds.join(',');
+
+						updateEmptyUserGroupsResultsMessage();
 					}
 				);
 			}
 		);
+
+		var updateEmptyUserGroupsResultsMessage = function() {
+			var emptyUserGroupsResultsMessage = document.getElementById('emptyUserGroupsResultsMessage');
+
+			var searchContainerData = searchContainer.getData();
+
+			if (searchContainerData.length) {
+				emptyUserGroupsResultsMessage.hidden = true;
+			}
+			else {
+				emptyUserGroupsResultsMessage.hidden = false;
+			}
+		};
 	</aui:script>
 </c:if>
