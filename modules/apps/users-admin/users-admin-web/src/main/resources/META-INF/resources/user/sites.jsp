@@ -54,6 +54,10 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "sites"
 	</span>
 </h3>
 
+<div class="text-muted" <%= (groups.isEmpty() && inheritedSites.isEmpty()) ? "" : "hidden" %> id="emptySitesResultsMessage">
+	<liferay-ui:message key="this-user-does-not-have-any-sites" />
+</div>
+
 <liferay-util:buffer
 	var="removeGroupIcon"
 >
@@ -195,6 +199,8 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "sites"
 
 						document.<portlet:namespace />fm.<portlet:namespace />addGroupIds.value = addGroupIds.join(',');
 						document.<portlet:namespace />fm.<portlet:namespace />deleteGroupIds.value = deleteGroupIds.join(',');
+
+						updateEmptySitesResultsMessage();
 					}
 				);
 			}
@@ -224,6 +230,8 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "sites"
 
 				document.<portlet:namespace />fm.<portlet:namespace />addGroupIds.value = addGroupIds.join(',');
 				document.<portlet:namespace />fm.<portlet:namespace />deleteGroupIds.value = deleteGroupIds.join(',');
+
+				updateEmptySitesResultsMessage();
 			},
 			'.modify-link'
 		);
@@ -254,13 +262,24 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "sites"
 		};
 
 		Liferay.on('destroyPortlet', onDestroyPortlet);
+
+		var updateEmptySitesResultsMessage = function() {
+			var emptySitesResultsMessage = document.getElementById('emptySitesResultsMessage');
+
+			var searchContainerData = searchContainer.getData();
+
+			if (<%= !inheritedSites.isEmpty() %> || searchContainerData.length) {
+				emptySitesResultsMessage.hidden = true;
+			}
+			else {
+				emptySitesResultsMessage.hidden = false;
+			}
+		};
 	</aui:script>
 </c:if>
 
-<h4 class="sheet-tertiary-title"><liferay-ui:message key="inherited-sites" /></h4>
-
-<c:if test="<%= inheritedSites.isEmpty() %>">
-	<div class="sheet-text"><liferay-ui:message key="this-user-does-not-have-any-inherited-sites" /></div>
+<c:if test="<%= !inheritedSites.isEmpty() %>">
+	<h4 class="sheet-tertiary-title"><liferay-ui:message key="inherited-sites" /></h4>
 </c:if>
 
 <liferay-ui:search-container
