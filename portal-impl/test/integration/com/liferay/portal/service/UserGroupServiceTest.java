@@ -15,14 +15,13 @@
 package com.liferay.portal.service;
 
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserGroupServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.StaleDataTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserGroupTestUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -89,6 +88,10 @@ public class UserGroupServiceTest {
 	public void testGetUserGroupsLikeName() throws Exception {
 		List<UserGroup> allUserGroups = UserGroupLocalServiceUtil.getUserGroups(
 			TestPropsValues.getCompanyId());
+
+		StaleDataTestUtil.warn(
+			allUserGroups.isEmpty(),
+			"Expected no user groups, but found " + allUserGroups.size());
 
 		List<UserGroup> likeNameUserGroups = new ArrayList<>();
 
