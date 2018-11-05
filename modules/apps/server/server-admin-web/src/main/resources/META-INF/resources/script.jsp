@@ -61,3 +61,19 @@ String scriptOutput = (String)SessionMessages.get(renderRequest, "scriptOutput")
 <aui:button-row>
 	<aui:button cssClass="save-server-button" data-cmd="runScript" value="execute" />
 </aui:button-row>
+
+<aui:script>
+	var selectLanguage = document.getElementById("<portlet:namespace />language");
+
+	if (selectLanguage) {
+		selectLanguage.addEventListener("change", clearTextArea);
+
+		function clearTextArea () {
+			var textArea = document.getElementById("<portlet:namespace />script");
+
+			if (textArea) {
+				textArea.value = '';
+			}
+		}
+	}
+</aui:script>
