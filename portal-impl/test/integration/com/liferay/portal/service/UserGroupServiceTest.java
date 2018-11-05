@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.StaleDataTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserGroupTestUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerTestRule;
@@ -88,8 +89,9 @@ public class UserGroupServiceTest {
 	public void testGetUserGroupsLikeName() throws Exception {
 		addUserGroup();
 
-		List<UserGroup> allUserGroups = UserGroupLocalServiceUtil.getUserGroups(
-			TestPropsValues.getCompanyId());
+		List<UserGroup> allUserGroups = ListUtil.fromCollection(
+			UserGroupLocalServiceUtil.getUserGroups(
+				TestPropsValues.getCompanyId()));
 
 		StaleDataTestUtil.warn(
 			allUserGroups.isEmpty(),
