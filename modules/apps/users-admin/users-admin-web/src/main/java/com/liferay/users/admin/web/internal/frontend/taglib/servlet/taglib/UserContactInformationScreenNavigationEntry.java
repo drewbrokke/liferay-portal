@@ -18,6 +18,8 @@ import com.liferay.frontend.taglib.servlet.taglib.ScreenNavigationEntry;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.users.admin.constants.UserFormConstants;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -32,7 +34,7 @@ public class UserContactInformationScreenNavigationEntry
 
 	@Override
 	public String getActionCommandName() {
-		return "/users_admin/update_contact_information";
+		return "/users_admin/update_user_contact_information";
 	}
 
 	@Override
@@ -57,6 +59,18 @@ public class UserContactInformationScreenNavigationEntry
 		}
 
 		return true;
+	}
+
+	@Override
+	protected void setContactInformationRequireJSAttribute(
+		HttpServletRequest request) {
+
+		String jsModuleName = npmResolver.resolveModuleName(
+			"users-admin-web/js/contact-information.es");
+
+		request.setAttribute(
+			"contactInformationRequireJS",
+			jsModuleName + " as ContactInformation");
 	}
 
 }

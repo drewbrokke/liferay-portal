@@ -30,6 +30,7 @@ if (selUser != null) {
 	PortalUtil.setPageSubtitle(selUser.getFullName(), request);
 }
 
+long selContactId = (selUser != null) ? selUser.getContactId() : 0;
 long selUserId = (selUser != null) ? selUser.getUserId() : 0;
 
 String screenNavigationCategoryKey = ParamUtil.getString(request, "screenNavigationCategoryKey", UserFormConstants.CATEGORY_KEY_GENERAL);
@@ -63,7 +64,8 @@ if (!portletName.equals(UsersAdminPortletKeys.MY_ACCOUNT)) {
 
 <aui:form action="<%= actionCommandURL %>" cssClass="container-fluid-1280 portlet-users-admin-edit-user" data-senna-off="true" method="post" name="fm">
 	<aui:input name="redirect" type="hidden" value="<%= redirect.toString() %>" />
-	<aui:input name="p_u_i_d" type="hidden" value="<%= selUserId %>" />
+	<aui:input name="contactId" type="hidden" value="<%= String.valueOf(selContactId) %>" />
+	<aui:input name="p_u_i_d" type="hidden" value="<%= String.valueOf(selUserId) %>" />
 	<aui:input name="screenNavigationCategoryKey" type="hidden" value="<%= screenNavigationCategoryKey %>" />
 	<aui:input name="screenNavigationEntryKey" type="hidden" value="<%= screenNavigationEntryKey %>" />
 

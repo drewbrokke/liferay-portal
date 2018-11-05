@@ -21,26 +21,32 @@ import com.liferay.portal.kernel.exception.NoSuchListTypeException;
 import com.liferay.portal.kernel.exception.NoSuchUserException;
 import com.liferay.portal.kernel.exception.PhoneNumberException;
 import com.liferay.portal.kernel.exception.PhoneNumberExtensionException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.UserEmailAddressException;
 import com.liferay.portal.kernel.exception.UserSmsException;
 import com.liferay.portal.kernel.exception.WebsiteURLException;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Contact;
 import com.liferay.portal.kernel.model.ContactConstants;
-import com.liferay.portal.kernel.model.EmailAddress;
-import com.liferay.portal.kernel.model.Phone;
+import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.model.Website;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.ContactLocalService;
+import com.liferay.portal.kernel.service.EmailAddressLocalService;
+import com.liferay.portal.kernel.service.EmailAddressService;
+import com.liferay.portal.kernel.service.PhoneLocalService;
+import com.liferay.portal.kernel.service.PhoneService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.service.WebsiteLocalService;
+import com.liferay.portal.kernel.service.WebsiteService;
 import com.liferay.portal.kernel.service.permission.UserPermissionUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -48,8 +54,10 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.users.admin.constants.UsersAdminPortletKeys;
 import com.liferay.users.admin.kernel.util.UsersAdmin;
-
-import java.util.List;
+import com.liferay.users.admin.web.internal.manager.ContactInfoManager;
+import com.liferay.users.admin.web.internal.manager.EmailAddressContactInfoManager;
+import com.liferay.users.admin.web.internal.manager.PhoneContactInfoManager;
+import com.liferay.users.admin.web.internal.manager.WebsiteContactInfoManager;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -66,11 +74,11 @@ import org.osgi.service.component.annotations.Reference;
 		"javax.portlet.name=" + UsersAdminPortletKeys.MY_ACCOUNT,
 		"javax.portlet.name=" + UsersAdminPortletKeys.MY_ORGANIZATIONS,
 		"javax.portlet.name=" + UsersAdminPortletKeys.USERS_ADMIN,
-		"mvc.command.name=/users_admin/update_contact_information"
+		"mvc.command.name=/users_admin/update_user_contact_information"
 	},
 	service = MVCActionCommand.class
 )
-public class UpdateContactInformationMVCActionCommand
+public class UpdateUserContactInformationMVCActionCommand
 	extends BaseMVCActionCommand {
 
 	@Override
@@ -82,48 +90,22 @@ public class UpdateContactInformationMVCActionCommand
 			ThemeDisplay themeDisplay =
 				(ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
-			User user = _portal.getSelectedUser(actionRequest);
+			long contactId = ParamUtil.getLong(actionRequest, "contactId");
+
+			User user = _userLocalService.getUserByContactId(contactId);
 
 			UserPermissionUtil.check(
 				themeDisplay.getPermissionChecker(), user.getUserId(),
 				ActionKeys.UPDATE);
 
-			List<EmailAddress> emailAddresses = _usersAdmin.getEmailAddresses(
-				actionRequest);
-			List<Phone> phones = _usersAdmin.getPhones(actionRequest);
-			List<Website> websites = _usersAdmin.getWebsites(actionRequest);
+			String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
 
-			if (emailAddresses != null) {
-				_usersAdmin.updateEmailAddresses(
-					Contact.class.getName(), user.getContactId(),
-					emailAddresses);
+			if (Validator.isNotNull(cmd)) {
+				updateContactInformation(actionRequest);
 			}
-
-			if (phones != null) {
-				_usersAdmin.updatePhones(
-					Contact.class.getName(), user.getContactId(), phones);
+			else {
+				saveContactInformationForm(actionRequest);
 			}
-
-			if (websites != null) {
-				_usersAdmin.updateWebsites(
-					Contact.class.getName(), user.getContactId(), websites);
-			}
-
-			String facebookSn = ParamUtil.getString(
-				actionRequest, "facebookSn");
-			String jabberSn = ParamUtil.getString(actionRequest, "jabberSn");
-			String skypeSn = ParamUtil.getString(actionRequest, "skypeSn");
-			String smsSn = ParamUtil.getString(actionRequest, "smsSn");
-			String twitterSn = ParamUtil.getString(actionRequest, "twitterSn");
-
-			_updateContact(
-				user, facebookSn, jabberSn, skypeSn, smsSn, twitterSn);
-
-			String openId = ParamUtil.getString(actionRequest, "openId");
-
-			_validateOpenId(user.getCompanyId(), user.getUserId(), openId);
-
-			_userLocalService.updateOpenId(user.getUserId(), openId);
 
 			String redirect = _portal.escapeRedirect(
 				ParamUtil.getString(actionRequest, "redirect"));
@@ -157,7 +139,82 @@ public class UpdateContactInformationMVCActionCommand
 		}
 	}
 
-	private void _updateContact(
+	protected ContactInfoManager getContactInformationHelper(
+			ActionRequest actionRequest)
+		throws PortalException {
+
+		long contactId = ParamUtil.getLong(actionRequest, "contactId");
+
+		String listType = ParamUtil.getString(actionRequest, "listType");
+
+		if (listType.equals(ListTypeConstants.EMAIL_ADDRESS)) {
+			return new EmailAddressContactInfoManager(
+				Contact.class, contactId, _emailAddressLocalService,
+				_emailAddressService, _usersAdmin);
+		}
+		else if (listType.equals(ListTypeConstants.PHONE)) {
+			return new PhoneContactInfoManager(
+				Contact.class, contactId, _phoneLocalService, _phoneService,
+				_usersAdmin);
+		}
+		else if (listType.equals(ListTypeConstants.WEBSITE)) {
+			return new WebsiteContactInfoManager(
+				Contact.class, contactId, _websiteLocalService, _websiteService,
+				_usersAdmin);
+		}
+
+		return null;
+	}
+
+	protected void saveContactInformationForm(ActionRequest actionRequest)
+		throws Exception {
+
+		long contactId = ParamUtil.getLong(actionRequest, "contactId");
+
+		User user = _userLocalService.getUserByContactId(contactId);
+
+		String facebookSn = ParamUtil.getString(actionRequest, "facebookSn");
+		String jabberSn = ParamUtil.getString(actionRequest, "jabberSn");
+		String skypeSn = ParamUtil.getString(actionRequest, "skypeSn");
+		String smsSn = ParamUtil.getString(actionRequest, "smsSn");
+		String twitterSn = ParamUtil.getString(actionRequest, "twitterSn");
+
+		_saveContactInformation(
+			user, facebookSn, jabberSn, skypeSn, smsSn, twitterSn);
+
+		String openId = ParamUtil.getString(actionRequest, "openId");
+
+		_validateOpenId(user.getCompanyId(), user.getUserId(), openId);
+
+		_userLocalService.updateOpenId(user.getUserId(), openId);
+	}
+
+	protected void updateContactInformation(ActionRequest actionRequest)
+		throws Exception {
+
+		ContactInfoManager contactInformationHelper =
+			getContactInformationHelper(actionRequest);
+
+		if (contactInformationHelper == null) {
+			throw new NoSuchListTypeException();
+		}
+
+		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
+
+		long primaryKey = ParamUtil.getLong(actionRequest, "primaryKey");
+
+		if (cmd.equals(Constants.DELETE)) {
+			contactInformationHelper.delete(primaryKey);
+		}
+		else if (cmd.equals(Constants.EDIT)) {
+			contactInformationHelper.edit(actionRequest);
+		}
+		else if (cmd.equals("makePrimary")) {
+			contactInformationHelper.makePrimary(primaryKey);
+		}
+	}
+
+	private void _saveContactInformation(
 			User user, String facebookSn, String jabberSn, String skypeSn,
 			String smsSn, String twitterSn)
 		throws Exception {
@@ -220,6 +277,18 @@ public class UpdateContactInformationMVCActionCommand
 	private ContactLocalService _contactLocalService;
 
 	@Reference
+	private EmailAddressLocalService _emailAddressLocalService;
+
+	@Reference
+	private EmailAddressService _emailAddressService;
+
+	@Reference
+	private PhoneLocalService _phoneLocalService;
+
+	@Reference
+	private PhoneService _phoneService;
+
+	@Reference
 	private Portal _portal;
 
 	@Reference
@@ -227,5 +296,11 @@ public class UpdateContactInformationMVCActionCommand
 
 	@Reference
 	private UsersAdmin _usersAdmin;
+
+	@Reference
+	private WebsiteLocalService _websiteLocalService;
+
+	@Reference
+	private WebsiteService _websiteService;
 
 }

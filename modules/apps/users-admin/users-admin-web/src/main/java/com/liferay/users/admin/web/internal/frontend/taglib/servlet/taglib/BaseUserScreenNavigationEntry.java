@@ -14,6 +14,7 @@
 
 package com.liferay.users.admin.web.internal.frontend.taglib.servlet.taglib;
 
+import com.liferay.frontend.js.loader.modules.extender.npm.NPMResolver;
 import com.liferay.frontend.taglib.servlet.taglib.ScreenNavigationEntry;
 import com.liferay.frontend.taglib.servlet.taglib.util.JSPRenderer;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -77,6 +78,8 @@ public abstract class BaseUserScreenNavigationEntry
 			UsersAdminWebKeys.FORM_LABEL, getLabel(request.getLocale()));
 		request.setAttribute(UsersAdminWebKeys.JSP_PATH, getJspPath());
 
+		setContactInformationRequireJSAttribute(request);
+
 		jspRenderer.renderJSP(request, response, "/edit_user_navigation.jsp");
 	}
 
@@ -88,8 +91,17 @@ public abstract class BaseUserScreenNavigationEntry
 			resourceBundle, PortalUtil.getResourceBundle(locale));
 	}
 
+	protected void setContactInformationRequireJSAttribute(
+		HttpServletRequest request) {
+
+		return;
+	}
+
 	@Reference
 	protected JSPRenderer jspRenderer;
+
+	@Reference
+	protected NPMResolver npmResolver;
 
 	@Reference
 	protected Portal portal;
