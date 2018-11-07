@@ -86,6 +86,8 @@ public class UserGroupServiceTest {
 
 	@Test
 	public void testGetUserGroupsLikeName() throws Exception {
+		addUserGroup();
+
 		List<UserGroup> allUserGroups = new ArrayList<>();
 
 		allUserGroups.addAll(
