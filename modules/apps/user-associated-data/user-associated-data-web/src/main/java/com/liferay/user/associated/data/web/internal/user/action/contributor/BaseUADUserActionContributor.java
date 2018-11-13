@@ -19,6 +19,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.user.associated.data.constants.UserAssociatedDataPortletKeys;
 import com.liferay.user.associated.data.web.internal.util.UADAnonymizerHelper;
 import com.liferay.users.admin.user.action.contributor.BaseUserActionContributor;
@@ -63,8 +66,15 @@ public abstract class BaseUADUserActionContributor
 	public boolean isShow(
 		PortletRequest portletRequest, User user, User selectedUser) {
 
+		ThemeDisplay themeDisplay = (ThemeDisplay)portletRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		PermissionChecker permissionChecker =
+			themeDisplay.getPermissionChecker();
+
 		if (Objects.equals(user, selectedUser) ||
-			!omniadmin.isOmniadmin(user) ||
+			(!omniadmin.isOmniadmin(user) &&
+			 !permissionChecker.isCompanyAdmin()) ||
 			uadAnonymizerHelper.isAnonymousUser(selectedUser)) {
 
 			return false;
