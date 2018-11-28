@@ -10,13 +10,16 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.configuration.admin.display.ConfigurationFormRenderer;
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalService;
 import com.liferay.frontend.taglib.servlet.taglib.util.JSPRenderer;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.GroupLocalService;
@@ -28,6 +31,15 @@ import com.liferay.portal.kernel.util.Portal;
 @Component(immediate = true, service = ConfigurationFormRenderer.class)
 public class LanguageTemplateConfigurationFormRenderer implements ConfigurationFormRenderer {
 
+    @Activate
+    @Modified
+	public void activate(Map<String, Object> properties) {
+		_siteNavigationLanguageWebTemplateConfiguration =
+			ConfigurableUtil.createConfigurable(
+				SiteNavigationLanguageWebTemplateConfiguration.class,
+				properties);
+	}
+	
 	@Override
 	public String getPid() {
 
