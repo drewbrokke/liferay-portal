@@ -64,6 +64,8 @@ public class LanguageTemplateConfigurationFormRenderer implements ConfigurationF
 	public void render(HttpServletRequest request, HttpServletResponse response)
 		throws IOException {
 
+		System.out.println("I'm rendering the ConfigurationFormRenderer");
+		
 		Locale locale = LocaleThreadLocal.getThemeDisplayLocale();
 
 		LanguageTemplateConfigurationDisplayContext
@@ -92,8 +94,6 @@ public class LanguageTemplateConfigurationFormRenderer implements ConfigurationF
 
 		languageTemplateConfigurationDisplayContext.setRedirect(
 			_portal.getCurrentURL(request));
-
-		languageTemplateConfigurationDisplayContext.setTitle("Language Selection Style");
 
 		languageTemplateConfigurationDisplayContext.setFieldLabel(
 			"language-selection-style");

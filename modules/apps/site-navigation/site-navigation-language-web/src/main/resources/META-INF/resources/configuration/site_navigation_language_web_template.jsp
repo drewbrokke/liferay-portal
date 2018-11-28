@@ -24,11 +24,7 @@ String currentTemplateName = languageTemplateConfigurationDisplayContext.getCurr
 
 <portlet:actionURL name="/site_navigation_language/update_language_template_configuration" var="editURL" />
 
-<div class="sheet sheet-lb">
-	<div class="sheet-header">
-		<h2><%= languageTemplateConfigurationDisplayContext.getTitle() %></h2>
-	</div>
-
+<div class="sheet sheet-lg">
 	<aui:form action="<%= editURL %>" name="fm">
 		<aui:input name="redirect" type="hidden" value="<%= languageTemplateConfigurationDisplayContext.getRedirect() %>" />
 
@@ -45,9 +41,5 @@ String currentTemplateName = languageTemplateConfigurationDisplayContext.getCurr
 			%>
 
 		</aui:select>
-
-		<div class="sheet-footer">
-			<aui:button type="submit" />
-		</div>
 	</aui:form>
 </div>
