@@ -120,7 +120,7 @@ AUI.add(
 						}
 					},
 
-					addRow: function(arr, id) {
+					addRow: function(arr, id, cssArr) {
 						var instance = this;
 
 						var row;
@@ -141,6 +141,10 @@ AUI.add(
 
 										if (cell) {
 											cell.html(item);
+
+											if (cssArr && (arr.length === cssArr.length) && cssArr[index]) {
+												cell.addClass(cssArr[index]);
+											}
 										}
 									}
 								);
