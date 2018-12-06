@@ -211,8 +211,14 @@ if (parentOrganization != null) {
 						rowColumns.push(<portlet:namespace />createURL(href, event.type));
 						rowColumns.push('<a class="modify-link" data-rowId="' + event.entityid + '" href="javascript:;"><%= UnicodeFormatter.toString(removeOrganizationIcon) %></a>');
 
+						var rowClasses = [];
+
+						rowClasses.push('lfr-name-column table-cell-expand');
+						rowClasses.push('lfr-type-column table-cell-expand');
+						rowClasses.push('lfr-entry-action-column');
+
 						searchContainer.deleteRow(1, searchContainer.getData());
-						searchContainer.addRow(rowColumns, event.entityid);
+						searchContainer.addRow(rowColumns, event.entityid, rowClasses);
 						searchContainer.updateDataStore(event.entityid);
 					}
 				);

@@ -227,7 +227,14 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "organi
 							rowColumns.push('');
 							rowColumns.push('<a class="modify-link" data-rowId="' + entityId + '" href="javascript:;"><%= UnicodeFormatter.toString(removeOrganizationIcon) %></a>');
 
-							searchContainer.addRow(rowColumns, entityId);
+							var rowClasses = [];
+
+							rowClasses.push('lfr-name-column table-cell-content');
+							rowClasses.push('lfr-type-column');
+							rowClasses.push('lfr-roles-column table-cell-content');
+							rowClasses.push('lfr-entry-action-column');
+
+							searchContainer.addRow(rowColumns, entityId, rowClasses);
 
 							searchContainer.updateDataStore();
 
