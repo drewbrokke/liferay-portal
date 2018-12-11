@@ -80,7 +80,7 @@ List<Website> websites = WebsiteServiceUtil.getWebsites(className, classPK);
 		modelVar="website"
 	>
 		<liferay-ui:search-container-column-text
-			cssClass="table-cell-content"
+			cssClass="table-cell-expand"
 			name="website"
 			property="url"
 		/>
@@ -92,13 +92,13 @@ List<Website> websites = WebsiteServiceUtil.getWebsites(className, classPK);
 		%>
 
 		<liferay-ui:search-container-column-text
-			cssClass="table-cell-content"
+			cssClass="table-cell-expand-small"
 			name="type"
 			value="<%= LanguageUtil.get(request, websiteTypeKey) %>"
 		/>
 
 		<liferay-ui:search-container-column-text
-			cssClass="table-cell-content"
+			cssClass="table-cell-expand-smaller"
 		>
 			<c:if test="<%= website.isPrimary() %>">
 				<span class="label label-primary">

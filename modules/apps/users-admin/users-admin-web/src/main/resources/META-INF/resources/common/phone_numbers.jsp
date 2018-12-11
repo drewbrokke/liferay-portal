@@ -81,7 +81,7 @@ List<Phone> phones = PhoneServiceUtil.getPhones(className, classPK);
 		modelVar="phone"
 	>
 		<liferay-ui:search-container-column-text
-			cssClass="table-cell-content"
+			cssClass="table-cell-expand"
 			name="phone-number"
 			property="number"
 		/>
@@ -93,19 +93,19 @@ List<Phone> phones = PhoneServiceUtil.getPhones(className, classPK);
 		%>
 
 		<liferay-ui:search-container-column-text
-			cssClass="table-cell-content"
+			cssClass="table-cell-expand-small"
 			name="type"
 			value="<%= LanguageUtil.get(request, phoneTypeKey) %>"
 		/>
 
 		<liferay-ui:search-container-column-text
-			cssClass="table-cell-content"
+			cssClass="table-cell-expand-small"
 			name="extension"
 			property="extension"
 		/>
 
 		<liferay-ui:search-container-column-text
-			cssClass="table-cell-content"
+			cssClass="table-cell-expand-smaller"
 		>
 			<c:if test="<%= phone.isPrimary() %>">
 				<span class="label label-primary">
