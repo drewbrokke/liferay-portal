@@ -31,8 +31,6 @@ Organization organization = organizationScreenNavigationDisplayContext.getOrgani
 </div>
 
 <div class="sheet-section">
-	<h3 class="sheet-subtitle"><liferay-ui:message key="parent-organization" /></h3>
-
 	<liferay-util:include page="/organization/parent_organization.jsp" servletContext="<%= application %>" />
 </div>
 

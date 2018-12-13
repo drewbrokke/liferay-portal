@@ -64,13 +64,40 @@ List<Organization> parentOrganizations = new ArrayList<Organization>();
 if (parentOrganization != null) {
 	parentOrganizations.add(parentOrganization);
 }
+
+String selectOrganizationMessage = "select";
+
+if (parentOrganizations.size() > 0) {
+	selectOrganizationMessage = "change";
+}
 %>
+
+<h3 class="sheet-subtitle">
+	<span class="autofit-padded-no-gutters autofit-row">
+		<span class="autofit-col autofit-col-expand">
+			<span class="heading-text"><liferay-ui:message key="parent-organization" /></span>
+		</span>
+		<span class="autofit-col">
+			<liferay-ui:icon
+				cssClass="modify-link"
+				id="selectOrganizationLink"
+				label="<%= true %>"
+				linkCssClass="btn btn-secondary btn-sm"
+				message="<%= selectOrganizationMessage %>"
+				method="get"
+				url="javascript:;"
+			/>
+		</span>
+	</span>
+</h3>
 
 <liferay-util:buffer
 	var="removeOrganizationIcon"
 >
 	<liferay-ui:icon
-		iconCssClass="icon-remove"
+		icon="times"
+		markupView="lexicon"
+		message="remove"
 	/>
 </liferay-util:buffer>
 
@@ -104,6 +131,8 @@ if (parentOrganization != null) {
 </liferay-ui:error>
 
 <liferay-ui:search-container
+	compactEmptyResultsMessage="<%= true %>"
+	emptyResultsMessage="this-organization-does-not-have-a-parent-organization"
 	headerNames="name,type,null"
 	id="parentOrganizationSearchContainer"
 	total="<%= parentOrganizations.size() %>"
@@ -149,16 +178,6 @@ if (parentOrganization != null) {
 	/>
 </liferay-ui:search-container>
 
-<liferay-ui:icon
-	cssClass="modify-link"
-	id="selectOrganizationLink"
-	label="<%= true %>"
-	linkCssClass="btn btn-secondary"
-	message="select"
-	method="get"
-	url="javascript:;"
-/>
-
 <portlet:renderURL var="selectOrganizationRenderURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 	<portlet:param name="mvcPath" value="/select_organization.jsp" />
 	<portlet:param name="organizationId" value="<%= String.valueOf(organizationId) %>" />
@@ -179,6 +198,12 @@ if (parentOrganization != null) {
 			var tr = link.ancestor('tr');
 
 			searchContainer.deleteRow(tr, link.getAttribute('data-rowId'));
+
+			var selectOrganizationLink = document.getElementById('<portlet:namespace />selectOrganizationLink');
+
+			var span = selectOrganizationLink.firstElementChild;
+
+			span.textContent = '<%= LanguageUtil.get(request, "select") %>';
 		},
 		'.modify-link'
 	);
@@ -214,6 +239,12 @@ if (parentOrganization != null) {
 						searchContainer.deleteRow(1, searchContainer.getData());
 						searchContainer.addRow(rowColumns, event.entityid);
 						searchContainer.updateDataStore(event.entityid);
+
+						var selectOrganizationLink = document.getElementById('<portlet:namespace />selectOrganizationLink');
+
+						var span = selectOrganizationLink.firstElementChild;
+
+						span.textContent = '<%= LanguageUtil.get(request, "change") %>';
 					}
 				);
 			}
