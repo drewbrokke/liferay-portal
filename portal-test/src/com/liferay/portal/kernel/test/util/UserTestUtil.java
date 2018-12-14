@@ -14,15 +14,20 @@
 
 package com.liferay.portal.kernel.test.util;
 
+import com.liferay.announcements.kernel.model.AnnouncementsDelivery;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.EmailAddress;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.Phone;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserGroupRole;
+import com.liferay.portal.kernel.model.Website;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -144,7 +149,6 @@ public class UserTestUtil {
 		String lastName = "UserServiceTest";
 		long prefixId = 0;
 		long suffixId = 0;
-		boolean male = true;
 		int birthdayMonth = Calendar.JANUARY;
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
@@ -165,9 +169,9 @@ public class UserTestUtil {
 				TestPropsValues.getCompanyId(), autoPassword, password1,
 				password2, autoScreenName, screenName, emailAddress, facebookId,
 				openId, locale, firstName, middleName, lastName, prefixId,
-				suffixId, male, birthdayMonth, birthdayDay, birthdayYear,
-				jobTitle, groupIds, organizationIds, roleIds, userGroupIds,
-				sendMail, serviceContext);
+				suffixId, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
+				groupIds, organizationIds, roleIds, userGroupIds, sendMail,
+				serviceContext);
 		}
 		else {
 			String emailAddress =
@@ -177,7 +181,7 @@ public class UserTestUtil {
 				TestPropsValues.getUserId(), TestPropsValues.getCompanyId(),
 				autoPassword, password1, password2, autoScreenName, screenName,
 				emailAddress, facebookId, openId, locale, firstName, middleName,
-				lastName, prefixId, suffixId, male, birthdayMonth, birthdayDay,
+				lastName, prefixId, suffixId, birthdayMonth, birthdayDay,
 				birthdayYear, jobTitle, groupIds, organizationIds, roleIds,
 				userGroupIds, sendMail, serviceContext);
 		}
@@ -253,7 +257,6 @@ public class UserTestUtil {
 		String middleName = StringPool.BLANK;
 		long prefixId = 0;
 		long suffixId = 0;
-		boolean male = true;
 		int birthdayMonth = Calendar.JANUARY;
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
@@ -267,7 +270,7 @@ public class UserTestUtil {
 			userId, companyId, autoPassword, password1, password2,
 			Validator.isNull(screenName), screenName, emailAddress, facebookId,
 			openId, locale, firstName, middleName, lastName, prefixId, suffixId,
-			male, birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
+			birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
 			organizationIds, roleIds, userGroupIds, sendMail, serviceContext);
 	}
 
@@ -346,7 +349,6 @@ public class UserTestUtil {
 		String lastName = "UserServiceTest";
 		long prefixId = 0;
 		long suffixId = 0;
-		boolean male = true;
 		int birthdayMonth = Calendar.JANUARY;
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
@@ -361,16 +363,22 @@ public class UserTestUtil {
 		long[] roleIds = null;
 		List<UserGroupRole> userGroupRoles = null;
 		long[] userGroupIds = null;
+		List<Address> addresses = null;
+		List<EmailAddress> emailAddresses = null;
+		List<Phone> phones = null;
+		List<Website> websites = null;
+		List<AnnouncementsDelivery> announcementsDelivers = null;
 
 		return UserServiceUtil.updateUser(
 			user.getUserId(), oldPassword, newPassword1, newPassword2,
 			passwordReset, reminderQueryQuestion, reminderQueryAnswer,
-			screenName, emailAddress, facebookId, openId, languageId,
-			timeZoneId, greeting, comments, firstName, middleName, lastName,
-			prefixId, suffixId, male, birthdayMonth, birthdayDay, birthdayYear,
-			smsSn, facebookSn, jabberSn, skypeSn, twitterSn, jobTitle, groupIds,
-			organizationIds, roleIds, userGroupRoles, userGroupIds,
-			serviceContext);
+			screenName, emailAddress, facebookId, openId, false, null,
+			languageId, timeZoneId, greeting, comments, firstName, middleName,
+			lastName, prefixId, suffixId, birthdayMonth, birthdayDay,
+			birthdayYear, smsSn, facebookSn, jabberSn, skypeSn, twitterSn,
+			jobTitle, groupIds, organizationIds, roleIds, userGroupRoles,
+			userGroupIds, addresses, emailAddresses, phones, websites,
+			announcementsDelivers, serviceContext);
 	}
 
 }
