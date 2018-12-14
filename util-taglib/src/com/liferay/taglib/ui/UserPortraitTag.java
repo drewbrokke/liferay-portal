@@ -159,7 +159,7 @@ public class UserPortraitTag extends IncludeTag {
 		}
 		else {
 			portraitURL = UserConstants.getPortraitURL(
-				themeDisplay.getPathImage(), true, 0, StringPool.BLANK);
+				themeDisplay.getPathImage(), 0, user.getUserUuid());
 		}
 
 		return portraitURL;
