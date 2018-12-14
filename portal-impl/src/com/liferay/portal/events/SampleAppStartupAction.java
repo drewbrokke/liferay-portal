@@ -76,7 +76,6 @@ public class SampleAppStartupAction extends SimpleAction {
 		String lastName = "Smith";
 		long prefixId = 0;
 		long suffixId = 0;
-		boolean male = true;
 		int birthdayMonth = Calendar.JANUARY;
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
@@ -92,7 +91,7 @@ public class SampleAppStartupAction extends SimpleAction {
 		User paulUser = UserLocalServiceUtil.addUser(
 			creatorUserId, companyId, autoPassword, password1, password2,
 			autoScreenName, screenName, emailAddress, facebookId, openId,
-			locale, firstName, middleName, lastName, prefixId, suffixId, male,
+			locale, firstName, middleName, lastName, prefixId, suffixId,
 			birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
 			organizationIds, roleIds, userGroupIds, sendEmail, serviceContext);
 
@@ -109,7 +108,7 @@ public class SampleAppStartupAction extends SimpleAction {
 		User janeUser = UserLocalServiceUtil.addUser(
 			creatorUserId, companyId, autoPassword, password1, password2,
 			autoScreenName, screenName, emailAddress, facebookId, openId,
-			locale, firstName, middleName, lastName, prefixId, suffixId, male,
+			locale, firstName, middleName, lastName, prefixId, suffixId,
 			birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
 			organizationIds, roleIds, userGroupIds, sendEmail, serviceContext);
 

@@ -398,7 +398,6 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 				defaultContact.setFirstName(StringPool.BLANK);
 				defaultContact.setMiddleName(StringPool.BLANK);
 				defaultContact.setLastName(StringPool.BLANK);
-				defaultContact.setMale(true);
 				defaultContact.setBirthday(now);
 
 				contactPersistence.update(defaultContact);

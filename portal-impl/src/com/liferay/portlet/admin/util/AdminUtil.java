@@ -14,11 +14,16 @@
 
 package com.liferay.portlet.admin.util;
 
+import com.liferay.announcements.kernel.model.AnnouncementsDelivery;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.model.EmailAddress;
+import com.liferay.portal.kernel.model.Phone;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserGroupRole;
+import com.liferay.portal.kernel.model.Website;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserServiceUtil;
@@ -89,6 +94,9 @@ public class AdminUtil {
 
 		String password = getUpdateUserPassword(request, userId);
 
+		boolean portrait = false;
+		byte[] portraitBytes = null;
+
 		User user = UserLocalServiceUtil.getUserById(userId);
 
 		Contact contact = user.getContact();
@@ -106,18 +114,24 @@ public class AdminUtil {
 		long[] roleIds = null;
 		List<UserGroupRole> userGroupRoles = null;
 		long[] userGroupIds = null;
+		List<Address> addresses = null;
+		List<EmailAddress> emailAddresses = null;
+		List<Phone> phones = null;
+		List<Website> websites = null;
+		List<AnnouncementsDelivery> announcementsDelivers = null;
 		ServiceContext serviceContext = new ServiceContext();
 
 		return UserServiceUtil.updateUser(
 			userId, password, StringPool.BLANK, StringPool.BLANK,
 			user.isPasswordReset(), user.getReminderQueryQuestion(),
 			user.getReminderQueryAnswer(), screenName, emailAddress, facebookId,
-			openId, languageId, timeZoneId, greeting, comments,
-			contact.getFirstName(), contact.getMiddleName(),
+			openId, portrait, portraitBytes, languageId, timeZoneId, greeting,
+			comments, contact.getFirstName(), contact.getMiddleName(),
 			contact.getLastName(), contact.getPrefixId(), contact.getSuffixId(),
-			contact.isMale(), birthdayMonth, birthdayDay, birthdayYear, smsSn,
-			facebookSn, jabberSn, skypeSn, twitterSn, contact.getJobTitle(),
-			groupIds, organizationIds, roleIds, userGroupRoles, userGroupIds,
+			birthdayMonth, birthdayDay, birthdayYear, smsSn, facebookSn,
+			jabberSn, skypeSn, twitterSn, contact.getJobTitle(), groupIds,
+			organizationIds, roleIds, userGroupRoles, userGroupIds, addresses,
+			emailAddresses, phones, websites, announcementsDelivers,
 			serviceContext);
 	}
 

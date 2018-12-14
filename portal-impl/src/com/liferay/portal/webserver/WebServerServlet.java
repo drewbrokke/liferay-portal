@@ -403,14 +403,8 @@ public class WebServerServlet extends HttpServlet {
 		else if (path.startsWith("/organization_logo")) {
 			return ImageToolUtil.getDefaultOrganizationLogo();
 		}
-		else if (path.startsWith("/user_female_portrait")) {
-			return ImageToolUtil.getDefaultUserFemalePortrait();
-		}
-		else if (path.startsWith("/user_male_portrait")) {
-			return ImageToolUtil.getDefaultUserMalePortrait();
-		}
 		else if (path.startsWith("/user_portrait")) {
-			return ImageToolUtil.getDefaultUserMalePortrait();
+			return ImageToolUtil.getDefaultUserPortrait();
 		}
 
 		return null;
@@ -522,10 +516,7 @@ public class WebServerServlet extends HttpServlet {
 					}
 				}
 			}
-			else if (path.startsWith("/user_female_portrait") ||
-					 path.startsWith("/user_male_portrait") ||
-					 path.startsWith("/user_portrait")) {
-
+			else if (path.startsWith("/user_portrait")) {
 				image = getUserPortraitImageResized(image, imageId);
 			}
 		}

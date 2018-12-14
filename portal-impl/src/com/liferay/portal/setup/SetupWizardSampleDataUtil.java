@@ -183,11 +183,11 @@ public class SetupWizardSampleDataUtil {
 				languageId, adminUser.getTimeZoneId(), greeting,
 				adminUser.getComments(), firstName, adminUser.getMiddleName(),
 				lastName, contact.getPrefixId(), contact.getSuffixId(),
-				contact.isMale(), birthdayMonth, birthdayDay, birthdayYear,
-				contact.getSmsSn(), contact.getFacebookSn(),
-				contact.getJabberSn(), contact.getSkypeSn(),
-				contact.getTwitterSn(), contact.getJobTitle(), null, null, null,
-				null, null, new ServiceContext());
+				birthdayMonth, birthdayDay, birthdayYear, contact.getSmsSn(),
+				contact.getFacebookSn(), contact.getJabberSn(),
+				contact.getSkypeSn(), contact.getTwitterSn(),
+				contact.getJobTitle(), null, null, null, null, null,
+				new ServiceContext());
 		}
 		else {
 			UserLocalServiceUtil.addDefaultAdminUser(
