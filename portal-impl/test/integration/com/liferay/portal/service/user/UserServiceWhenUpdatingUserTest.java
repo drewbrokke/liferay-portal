@@ -14,12 +14,17 @@
 
 package com.liferay.portal.service.user;
 
+import com.liferay.announcements.kernel.model.AnnouncementsDelivery;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.model.EmailAddress;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
+import com.liferay.portal.kernel.model.Phone;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserGroupRole;
+import com.liferay.portal.kernel.model.Website;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserServiceUtil;
@@ -77,6 +82,9 @@ public class UserServiceWhenUpdatingUserTest {
 	}
 
 	private User _updateUser(User user) throws Exception {
+		boolean portrait = false;
+		byte[] portraitBytes = null;
+
 		Contact contact = user.getContact();
 
 		Calendar birthdayCal = CalendarFactoryUtil.getCalendar();
@@ -92,22 +100,28 @@ public class UserServiceWhenUpdatingUserTest {
 		long[] roleIds = null;
 		List<UserGroupRole> userGroupRoles = null;
 		long[] userGroupIds = null;
+		List<Address> addresses = null;
+		List<EmailAddress> emailAddresses = null;
+		List<Phone> phones = null;
+		List<Website> websites = null;
+		List<AnnouncementsDelivery> announcementsDeliveries = null;
 		ServiceContext serviceContext = new ServiceContext();
 
 		return UserServiceUtil.updateUser(
 			user.getUserId(), user.getPassword(), StringPool.BLANK,
 			StringPool.BLANK, user.isPasswordReset(),
 			user.getReminderQueryQuestion(), user.getReminderQueryAnswer(),
-			user.getScreenName(), user.getEmailAddress(), user.getFacebookId(),
-			user.getOpenId(), user.getLanguageId(), user.getTimeZoneId(),
-			user.getGreeting(), user.getComments(), contact.getFirstName(),
-			contact.getMiddleName(), contact.getLastName(),
-			contact.getPrefixId(), contact.getSuffixId(), contact.isMale(),
+			user.getScreenName(), user.getScreenName(), user.getFacebookId(),
+			user.getOpenId(), portrait, portraitBytes, user.getLanguageId(),
+			user.getTimeZoneId(), user.getGreeting(), user.getComments(),
+			contact.getFirstName(), contact.getMiddleName(),
+			contact.getLastName(), contact.getPrefixId(), contact.getSuffixId(),
 			birthdayMonth, birthdayDay, birthdayYear, contact.getSmsSn(),
 			contact.getFacebookSn(), contact.getJabberSn(),
 			contact.getSkypeSn(), contact.getTwitterSn(), contact.getJobTitle(),
 			groupIds, organizationIds, roleIds, userGroupRoles, userGroupIds,
-			serviceContext);
+			addresses, emailAddresses, phones, websites,
+			announcementsDeliveries, serviceContext);
 	}
 
 }

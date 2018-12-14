@@ -53,7 +53,7 @@ public class ContactLocalServiceTest {
 		ContactLocalServiceUtil.addContact(
 			_user.getUserId(), Contact.class.getName(), _user.getUserId(),
 			_user.getEmailAddress(), _user.getFirstName(),
-			_user.getMiddleName(), _user.getLastName(), 0, 0, _user.getMale(),
+			_user.getMiddleName(), _user.getLastName(), 0, 0,
 			calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE),
 			calendar.get(Calendar.YEAR), "", "", "", "", "",
 			_user.getJobTitle());
@@ -69,7 +69,7 @@ public class ContactLocalServiceTest {
 
 		ContactLocalServiceUtil.updateContact(
 			_user.getContactId(), _user.getEmailAddress(), _user.getFirstName(),
-			_user.getMiddleName(), _user.getLastName(), 0, 0, _user.getMale(),
+			_user.getMiddleName(), _user.getLastName(), 0, 0,
 			calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE),
 			calendar.get(Calendar.YEAR), "", "", "", "", "",
 			_user.getJobTitle());
