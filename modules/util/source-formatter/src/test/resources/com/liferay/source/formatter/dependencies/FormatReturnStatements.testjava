@@ -33,8 +33,8 @@ public class FormatReturnStatements {
 			integerThatHasARidiculouslyLongName2;
 	}
 
-	protected String getGender(User user) {
-		return user.isMale() ? "male" : "female";
+	protected String getPasswordModified(User user) {
+		return user.getPasswordModified() ? "Modified" : "Not Modified";
 	}
 
 	protected boolean hasPermission(

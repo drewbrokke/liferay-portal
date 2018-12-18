@@ -38,12 +38,12 @@ public class FormatReturnStatements {
 		return false;
 	}
 
-	protected String getGender(User user) {
-		if (user.isMale()) {
-			return "male";
+	protected String getPasswordModified(User user) {
+		if (user.getPasswordModified()) {
+			return "Modified";
 		}
 
-		return "female";
+		return "Not Modified";
 	}
 
 	protected boolean hasPermission(
