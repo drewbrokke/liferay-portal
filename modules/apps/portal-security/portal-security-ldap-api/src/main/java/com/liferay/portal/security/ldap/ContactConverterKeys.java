@@ -23,6 +23,10 @@ public interface ContactConverterKeys {
 
 	public static final String FACEBOOK_SN = "facebookSn";
 
+	/**
+	 * @deprecated As of Mueller (7.2.x), with no direct replacement
+	 */
+	@Deprecated
 	public static final String GENDER = "gender";
 
 	public static final String JABBER_SN = "jabberSn";

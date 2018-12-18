@@ -187,8 +187,14 @@ public class LDAPUser {
 		return _autoScreenName;
 	}
 
+	/**
+	 * Always returns true, since this information is no longer stored in the database
+	 *
+	 * @deprecated As of Mueller (7.2.x), with no direct replacement
+	 */
+	@Deprecated
 	public boolean isMale() {
-		return _contact.isMale();
+		return true;
 	}
 
 	public boolean isPasswordReset() {
@@ -281,8 +287,13 @@ public class LDAPUser {
 		_user.setLanguageId(LocaleUtil.toLanguageId(locale));
 	}
 
+	/**
+	 * Does nothing, since this information is no longer stored in the database
+	 *
+	 * @deprecated As of Mueller (7.2.x), with no direct replacement
+	 */
+	@Deprecated
 	public void setMale(boolean male) {
-		_contact.setMale(male);
 	}
 
 	public void setMiddleName(String middleName) {
