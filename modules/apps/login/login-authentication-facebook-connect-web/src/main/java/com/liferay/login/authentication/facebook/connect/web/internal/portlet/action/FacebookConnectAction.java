@@ -53,7 +53,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.portlet.PortletMode;
 import javax.portlet.PortletRequest;
@@ -218,7 +217,6 @@ public class FacebookConnectAction implements StrutsAction {
 		String lastName = jsonObject.getString("last_name");
 		long prefixId = 0;
 		long suffixId = 0;
-		boolean male = Objects.equals(jsonObject.getString("gender"), "male");
 		int birthdayMonth = Calendar.JANUARY;
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
@@ -234,7 +232,7 @@ public class FacebookConnectAction implements StrutsAction {
 		User user = _userLocalService.addUser(
 			creatorUserId, companyId, autoPassword, password1, password2,
 			autoScreenName, screenName, emailAddress, facebookId, openId,
-			locale, firstName, middleName, lastName, prefixId, suffixId, male,
+			locale, firstName, middleName, lastName, prefixId, suffixId,
 			birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
 			organizationIds, roleIds, userGroupIds, sendEmail, serviceContext);
 
@@ -299,8 +297,7 @@ public class FacebookConnectAction implements StrutsAction {
 		throws Exception {
 
 		JSONObject jsonObject = _facebookConnect.getGraphResources(
-			companyId, "/me", token,
-			"id,email,first_name,last_name,gender,verified");
+			companyId, "/me", token, "id,email,first_name,last_name,verified");
 
 		if ((jsonObject == null) ||
 			(jsonObject.getJSONObject("error") != null)) {
@@ -391,12 +388,11 @@ public class FacebookConnectAction implements StrutsAction {
 		String emailAddress = jsonObject.getString("email");
 		String firstName = jsonObject.getString("first_name");
 		String lastName = jsonObject.getString("last_name");
-		boolean male = Objects.equals(jsonObject.getString("gender"), "male");
 
 		if ((facebookId == user.getFacebookId()) &&
 			emailAddress.equals(user.getEmailAddress()) &&
 			firstName.equals(user.getFirstName()) &&
-			lastName.equals(user.getLastName()) && (male == user.isMale())) {
+			lastName.equals(user.getLastName())) {
 
 			return user;
 		}
@@ -435,11 +431,11 @@ public class FacebookConnectAction implements StrutsAction {
 			facebookId, user.getOpenId(), true, null, user.getLanguageId(),
 			user.getTimeZoneId(), user.getGreeting(), user.getComments(),
 			firstName, user.getMiddleName(), lastName, contact.getPrefixId(),
-			contact.getSuffixId(), male, birthdayMonth, birthdayDay,
-			birthdayYear, contact.getSmsSn(), contact.getFacebookSn(),
-			contact.getJabberSn(), contact.getSkypeSn(), contact.getTwitterSn(),
-			contact.getJobTitle(), groupIds, organizationIds, roleIds,
-			userGroupRoles, userGroupIds, serviceContext);
+			contact.getSuffixId(), birthdayMonth, birthdayDay, birthdayYear,
+			contact.getSmsSn(), contact.getFacebookSn(), contact.getJabberSn(),
+			contact.getSkypeSn(), contact.getTwitterSn(), contact.getJobTitle(),
+			groupIds, organizationIds, roleIds, userGroupRoles, userGroupIds,
+			serviceContext);
 	}
 
 	private void _checkAllowUserCreation(long companyId, JSONObject jsonObject)
