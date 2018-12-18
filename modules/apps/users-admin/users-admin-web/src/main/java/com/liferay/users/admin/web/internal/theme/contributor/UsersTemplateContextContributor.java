@@ -59,9 +59,13 @@ public class UsersTemplateContextContributor
 		try {
 			Contact contact = user.getContact();
 
-			contextObjects.put("is_female", !contact.isMale());
-			contextObjects.put("is_male", contact.isMale());
 			contextObjects.put("user_birthday", contact.getBirthday());
+
+			// TODO: LPS-78950 once these theme variables are completely removed
+			// from the Freemarker templates, remove these as well
+
+			contextObjects.put("is_female", false);
+			contextObjects.put("is_male", true);
 		}
 		catch (PortalException pe) {
 			_log.error(pe, pe);

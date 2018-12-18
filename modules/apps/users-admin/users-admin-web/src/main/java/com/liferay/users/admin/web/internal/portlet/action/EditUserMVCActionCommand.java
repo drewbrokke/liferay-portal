@@ -127,7 +127,6 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 		String lastName = ParamUtil.getString(actionRequest, "lastName");
 		long prefixId = ParamUtil.getInteger(actionRequest, "prefixId");
 		long suffixId = ParamUtil.getInteger(actionRequest, "suffixId");
-		boolean male = ParamUtil.getBoolean(actionRequest, "male", true);
 		int birthdayMonth = ParamUtil.getInteger(
 			actionRequest, "birthdayMonth");
 		int birthdayDay = ParamUtil.getInteger(actionRequest, "birthdayDay");
@@ -145,7 +144,7 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 			themeDisplay.getCompanyId(), true, null, null, autoScreenName,
 			screenName, emailAddress, facebookId, null,
 			LocaleUtil.fromLanguageId(languageId), firstName, middleName,
-			lastName, prefixId, suffixId, male, birthdayMonth, birthdayDay,
+			lastName, prefixId, suffixId, birthdayMonth, birthdayDay,
 			birthdayYear, jobTitle, null, organizationIds, null, null,
 			new ArrayList<Address>(), new ArrayList<EmailAddress>(),
 			new ArrayList<Phone>(), new ArrayList<Website>(),
@@ -478,8 +477,6 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 			contact, actionRequest, "prefixId");
 		long suffixId = BeanParamUtil.getInteger(
 			contact, actionRequest, "suffixId");
-		boolean male = BeanParamUtil.getBoolean(
-			user, actionRequest, "male", true);
 
 		Calendar birthdayCal = CalendarFactoryUtil.getCalendar();
 
@@ -505,9 +502,9 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 			null, null, screenName, emailAddress, facebookId, user.getOpenId(),
 			!deleteLogo, portraitBytes, languageId, user.getTimeZoneId(),
 			user.getGreeting(), comments, firstName, middleName, lastName,
-			prefixId, suffixId, male, birthdayMonth, birthdayDay, birthdayYear,
-			null, null, null, null, null, jobTitle, null, null, null, null,
-			null, null, null, null, null, null, serviceContext);
+			prefixId, suffixId, birthdayMonth, birthdayDay, birthdayYear, null,
+			null, null, null, null, jobTitle, null, null, null, null, null,
+			null, null, null, null, null, serviceContext);
 
 		if (oldScreenName.equals(user.getScreenName())) {
 			oldScreenName = StringPool.BLANK;
