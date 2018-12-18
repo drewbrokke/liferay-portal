@@ -71,7 +71,6 @@ public abstract class BaseUserDemoDataCreator implements UserDemoDataCreator {
 			String firstName, String lastName)
 		throws PortalException {
 
-		boolean male = true;
 		Date birthDate = new Date();
 		byte[] portraitBytes = null;
 
@@ -85,8 +84,6 @@ public abstract class BaseUserDemoDataCreator implements UserDemoDataCreator {
 			JSONObject userJSONObject = jsonArray.getJSONObject(0);
 
 			emailAddress = _getEmailAddress(emailAddress, userJSONObject);
-			male = StringUtil.equalsIgnoreCase(
-				userJSONObject.getString("gender"), "male");
 			birthDate = _getBirthDate(birthDate, userJSONObject);
 
 			JSONObject pictureJSONObject = userJSONObject.getJSONObject(
@@ -114,7 +111,7 @@ public abstract class BaseUserDemoDataCreator implements UserDemoDataCreator {
 		}
 
 		user = _createBasicUser(
-			companyId, screenName, emailAddress, firstName, lastName, male,
+			companyId, screenName, emailAddress, firstName, lastName,
 			birthDate);
 
 		_userIds.add(user.getUserId());
@@ -181,7 +178,7 @@ public abstract class BaseUserDemoDataCreator implements UserDemoDataCreator {
 
 	private User _createBasicUser(
 			long companyId, String screenName, String emailAddress,
-			String firstName, String lastName, boolean male, Date birthDate)
+			String firstName, String lastName, Date birthDate)
 		throws PortalException {
 
 		String[] fullNameArray = getFullNameArray(emailAddress);
@@ -224,7 +221,7 @@ public abstract class BaseUserDemoDataCreator implements UserDemoDataCreator {
 			UserConstants.USER_ID_DEFAULT, companyId, autoPassword, password1,
 			password2, autoScreenName, screenName, emailAddress, facebookId,
 			openId, locale, firstName, middleName, lastName, prefixId, suffixId,
-			male, birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
+			birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
 			organizationIds, roleIds, userGroupIds, sendMail,
 			new ServiceContext());
 	}
@@ -283,7 +280,7 @@ public abstract class BaseUserDemoDataCreator implements UserDemoDataCreator {
 	}
 
 	private static final String _RANDOM_USER_API =
-		"https://randomuser.me/api?inc=email,gender,dob,picture&noinfo";
+		"https://randomuser.me/api?inc=email,dob,picture&noinfo";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		BaseUserDemoDataCreator.class);
