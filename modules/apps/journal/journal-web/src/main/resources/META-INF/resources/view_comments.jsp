@@ -41,7 +41,7 @@ String displayStyle = journalDisplayContext.getDisplayStyle();
 		<c:choose>
 			<c:when test='<%= displayStyle.equals("descriptive") %>'>
 				<liferay-ui:search-container-column-image
-					src="<%= (userDisplay != null) ? userDisplay.getPortraitURL(themeDisplay) : UserConstants.getPortraitURL(themeDisplay.getPathImage(), true, 0, null) %>"
+					src="<%= (userDisplay != null) ? userDisplay.getPortraitURL(themeDisplay) : UserConstants.getPortraitURL(themeDisplay.getPathImage(), 0, null) %>"
 					toggleRowChecker="<%= false %>"
 				/>
 
@@ -68,7 +68,7 @@ String displayStyle = journalDisplayContext.getDisplayStyle();
 				<liferay-ui:search-container-column-text>
 					<liferay-frontend:vertical-card
 						cssClass="entry-display-style"
-						imageUrl="<%= (userDisplay != null) ? userDisplay.getPortraitURL(themeDisplay) : UserConstants.getPortraitURL(themeDisplay.getPathImage(), true, 0, null) %>"
+						imageUrl="<%= (userDisplay != null) ? userDisplay.getPortraitURL(themeDisplay) : UserConstants.getPortraitURL(themeDisplay.getPathImage(), 0, null) %>"
 						resultRow="<%= row %>"
 					>
 						<liferay-frontend:vertical-card-header>
