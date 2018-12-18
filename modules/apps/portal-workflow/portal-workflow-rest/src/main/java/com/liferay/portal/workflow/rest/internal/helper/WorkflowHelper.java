@@ -202,18 +202,9 @@ public class WorkflowHelper {
 
 		if (workflowLog.getUserId() != 0) {
 			if (workflowLog.getAuditUserId() == workflowLog.getUserId()) {
-				User user = _userLocalService.getUser(workflowLog.getUserId());
-
-				if (user.isMale()) {
-					message = LanguageUtil.format(
-						locale, "x-assigned-the-task-to-himself",
-						quote(auditUserName));
-				}
-				else {
-					message = LanguageUtil.format(
-						locale, "x-assigned-the-task-to-herself",
-						quote(auditUserName));
-				}
+				message = LanguageUtil.format(
+					locale, "x-assigned-the-task-to-themselves",
+					quote(auditUserName));
 			}
 		}
 		else if (workflowLog.getRoleId() != 0) {

@@ -37,7 +37,7 @@ public class WorkflowUserModel {
 	public WorkflowUserModel(User user) throws PortalException {
 		_name = user.getFullName();
 		_portraitURL = UserConstants.getPortraitURL(
-			PortalUtil.getPathImage(), user.isMale(), user.getPortraitId(),
+			PortalUtil.getPathImage(), user.getPortraitId(),
 			user.getUserUuid());
 		_userId = user.getUserId();
 	}

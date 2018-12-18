@@ -53,7 +53,7 @@ public class WorkflowAssigneeModel {
 
 	public WorkflowAssigneeModel(User user) throws PortalException {
 		_portraitURL = UserConstants.getPortraitURL(
-			PortalUtil.getPathImage(), user.isMale(), user.getPortraitId(),
+			PortalUtil.getPathImage(), user.getPortraitId(),
 			user.getUserUuid());
 		_roleId = null;
 		_roleName = null;
