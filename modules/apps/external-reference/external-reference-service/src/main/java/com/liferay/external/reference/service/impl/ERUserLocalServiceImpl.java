@@ -30,6 +30,14 @@ import java.util.Locale;
  */
 public class ERUserLocalServiceImpl extends ERUserLocalServiceBaseImpl {
 
+	/**
+	 * @deprecated As of Mueller (7.2.x), replaced by {@link
+	 *             #addOrUpdateUser(String, long, long, boolean, String, String,
+	 *             boolean, String, String, Locale, String, String, String,
+	 *             long, long, int, int, int, String, long[], long[], long[],
+	 *             List, long[], boolean, ServiceContext)}
+	 */
+	@Deprecated
 	@Override
 	public User addOrUpdateUser(
 			String externalReferenceCode, long creatorUserId, long companyId,
@@ -43,6 +51,27 @@ public class ERUserLocalServiceImpl extends ERUserLocalServiceBaseImpl {
 			boolean sendEmail, ServiceContext serviceContext)
 		throws PortalException {
 
+		return addOrUpdateUser(
+			externalReferenceCode, creatorUserId, companyId, autoPassword,
+			password1, password2, autoScreenName, screenName, emailAddress,
+			locale, firstName, middleName, lastName, prefixId, suffixId,
+			birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
+			organizationIds, roleIds, userGroupRoles, userGroupIds, sendEmail,
+			serviceContext);
+	}
+
+	public User addOrUpdateUser(
+			String externalReferenceCode, long creatorUserId, long companyId,
+			boolean autoPassword, String password1, String password2,
+			boolean autoScreenName, String screenName, String emailAddress,
+			Locale locale, String firstName, String middleName, String lastName,
+			long prefixId, long suffixId, int birthdayMonth, int birthdayDay,
+			int birthdayYear, String jobTitle, long[] groupIds,
+			long[] organizationIds, long[] roleIds,
+			List<UserGroupRole> userGroupRoles, long[] userGroupIds,
+			boolean sendEmail, ServiceContext serviceContext)
+		throws PortalException {
+
 		User user = userLocalService.fetchUserByReferenceCode(
 			companyId, externalReferenceCode);
 
@@ -50,7 +79,7 @@ public class ERUserLocalServiceImpl extends ERUserLocalServiceBaseImpl {
 			user = userLocalService.addUser(
 				creatorUserId, companyId, autoPassword, password1, password2,
 				autoScreenName, screenName, emailAddress, 0, null, locale,
-				firstName, middleName, lastName, prefixId, suffixId, male,
+				firstName, middleName, lastName, prefixId, suffixId,
 				birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
 				organizationIds, roleIds, userGroupIds, sendEmail,
 				serviceContext);
@@ -76,7 +105,7 @@ public class ERUserLocalServiceImpl extends ERUserLocalServiceBaseImpl {
 				screenName, emailAddress, user.getFacebookId(),
 				user.getOpenId(), hasPortrait, null, user.getLanguageId(),
 				user.getTimeZoneId(), user.getGreeting(), user.getComments(),
-				firstName, middleName, lastName, prefixId, suffixId, male,
+				firstName, middleName, lastName, prefixId, suffixId,
 				birthdayMonth, birthdayDay, birthdayYear, contact.getSmsSn(),
 				contact.getFacebookSn(), contact.getJabberSn(),
 				contact.getSkypeSn(), contact.getTwitterSn(), jobTitle,
