@@ -53,7 +53,6 @@ import com.liferay.portal.security.sso.google.internal.constants.GoogleWebKeys;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import javax.servlet.http.HttpSession;
 
@@ -158,7 +157,6 @@ public class GoogleAuthorizationImpl implements GoogleAuthorization {
 		String lastName = userinfoplus.getFamilyName();
 		long prefixId = 0;
 		long suffixId = 0;
-		boolean male = Objects.equals(userinfoplus.getGender(), "male");
 		int birthdayMonth = Calendar.JANUARY;
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
@@ -174,9 +172,9 @@ public class GoogleAuthorizationImpl implements GoogleAuthorization {
 		User user = _userLocalService.addUser(
 			creatorUserId, companyId, autoPassword, password1, password2,
 			autoScreenName, screenName, emailAddress, 0, openId, locale,
-			firstName, middleName, lastName, prefixId, suffixId, male,
-			birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
-			organizationIds, roleIds, userGroupIds, sendEmail, serviceContext);
+			firstName, middleName, lastName, prefixId, suffixId, birthdayMonth,
+			birthdayDay, birthdayYear, jobTitle, groupIds, organizationIds,
+			roleIds, userGroupIds, sendEmail, serviceContext);
 
 		user = _userLocalService.updateGoogleUserId(
 			user.getUserId(), googleUserId);
@@ -314,11 +312,10 @@ public class GoogleAuthorizationImpl implements GoogleAuthorization {
 		String emailAddress = userinfoplus.getEmail();
 		String firstName = userinfoplus.getGivenName();
 		String lastName = userinfoplus.getFamilyName();
-		boolean male = Objects.equals(userinfoplus.getGender(), "male");
 
 		if (emailAddress.equals(user.getEmailAddress()) &&
 			firstName.equals(user.getFirstName()) &&
-			lastName.equals(user.getLastName()) && (male == user.isMale())) {
+			lastName.equals(user.getLastName())) {
 
 			return user;
 		}
@@ -366,11 +363,11 @@ public class GoogleAuthorizationImpl implements GoogleAuthorization {
 			0, user.getOpenId(), true, null, user.getLanguageId(),
 			user.getTimeZoneId(), user.getGreeting(), user.getComments(),
 			firstName, user.getMiddleName(), lastName, contact.getPrefixId(),
-			contact.getSuffixId(), male, birthdayMonth, birthdayDay,
-			birthdayYear, contact.getSmsSn(), contact.getFacebookSn(),
-			contact.getJabberSn(), contact.getSkypeSn(), contact.getTwitterSn(),
-			contact.getJobTitle(), groupIds, organizationIds, roleIds,
-			userGroupRoles, userGroupIds, serviceContext);
+			contact.getSuffixId(), birthdayMonth, birthdayDay, birthdayYear,
+			contact.getSmsSn(), contact.getFacebookSn(), contact.getJabberSn(),
+			contact.getSkypeSn(), contact.getTwitterSn(), contact.getJobTitle(),
+			groupIds, organizationIds, roleIds, userGroupRoles, userGroupIds,
+			serviceContext);
 	}
 
 	private static final String _ONLINE_ACCESS_TYPE = "online";
