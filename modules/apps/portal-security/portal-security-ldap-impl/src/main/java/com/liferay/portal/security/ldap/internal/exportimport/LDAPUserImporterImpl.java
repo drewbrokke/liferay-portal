@@ -597,11 +597,10 @@ public class LDAPUserImporterImpl implements LDAPUserImporter, UserImporter {
 			ldapUser.getEmailAddress(), 0, StringPool.BLANK,
 			ldapUser.getLocale(), ldapUser.getFirstName(),
 			ldapUser.getMiddleName(), ldapUser.getLastName(), 0, 0,
-			ldapUser.isMale(), birthdayMonth, birthdayDay, birthdayYear,
-			StringPool.BLANK, ldapUser.getGroupIds(),
-			ldapUser.getOrganizationIds(), ldapUser.getRoleIds(),
-			ldapUser.getUserGroupIds(), ldapUser.isSendEmail(),
-			ldapUser.getServiceContext());
+			birthdayMonth, birthdayDay, birthdayYear, StringPool.BLANK,
+			ldapUser.getGroupIds(), ldapUser.getOrganizationIds(),
+			ldapUser.getRoleIds(), ldapUser.getUserGroupIds(),
+			ldapUser.isSendEmail(), ldapUser.getServiceContext());
 
 		if (ldapUser.isUpdatePortrait()) {
 			byte[] portraitBytes = ldapUser.getPortraitBytes();
@@ -1452,10 +1451,7 @@ public class LDAPUserImporterImpl implements LDAPUserImporter, UserImporter {
 		for (String propertyName : _CONTACT_PROPERTY_NAMES) {
 			String mappingPropertyName = propertyName;
 
-			if (propertyName.equals("male")) {
-				mappingPropertyName = ContactConverterKeys.GENDER;
-			}
-			else if (propertyName.equals("prefixId")) {
+			if (propertyName.equals("prefixId")) {
 				mappingPropertyName = ContactConverterKeys.PREFIX;
 			}
 			else if (propertyName.equals("suffixId")) {
@@ -1622,8 +1618,8 @@ public class LDAPUserImporterImpl implements LDAPUserImporter, UserImporter {
 			ldapUser.getTimeZoneId(), ldapUser.getGreeting(),
 			ldapUser.getComments(), ldapUser.getFirstName(),
 			ldapUser.getMiddleName(), ldapUser.getLastName(),
-			ldapUser.getPrefixId(), ldapUser.getSuffixId(), ldapUser.isMale(),
-			birthdayMonth, birthdayDay, birthdayYear, ldapUser.getSmsSn(),
+			ldapUser.getPrefixId(), ldapUser.getSuffixId(), birthdayMonth,
+			birthdayDay, birthdayYear, ldapUser.getSmsSn(),
 			ldapUser.getFacebookSn(), ldapUser.getJabberSn(),
 			ldapUser.getSkypeSn(), ldapUser.getTwitterSn(),
 			ldapUser.getJobTitle(), ldapUser.getGroupIds(),
@@ -1697,8 +1693,8 @@ public class LDAPUserImporterImpl implements LDAPUserImporter, UserImporter {
 	}
 
 	private static final String[] _CONTACT_PROPERTY_NAMES = {
-		"birthday", "employeeNumber", "facebookSn", "jabberSn", "male",
-		"prefixId", "skypeSn", "smsSn", "suffixId", "twitterSn"
+		"birthday", "employeeNumber", "facebookSn", "jabberSn", "prefixId",
+		"skypeSn", "smsSn", "suffixId", "twitterSn"
 	};
 
 	private static final String _IMPORT_BY_GROUP = "group";
