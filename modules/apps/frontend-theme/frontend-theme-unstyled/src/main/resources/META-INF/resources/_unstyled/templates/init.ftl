@@ -59,8 +59,6 @@
 <#if !user_initialized??>
 	<#assign
 		is_default_user = user.isDefaultUser()
-		is_female = user.isFemale()
-		is_male = user.isMale()
 		is_setup_complete = user.isSetupComplete()
 		language = locale.getLanguage()
 		language_id = user.getLanguageId()
@@ -76,6 +74,11 @@
 		user_middle_name = user.getMiddleName()
 		user_name = user.getFullName()
 		w3c_language_id = localeUtil.toW3cLanguageId(theme_display.getLanguageId())
+
+		is_female = false <#-- Deprecated, see LPS-78950 -->
+
+		is_male = true <#-- Deprecated, see LPS-78950 -->
+
 	/>
 </#if>
 
