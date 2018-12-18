@@ -234,6 +234,9 @@ public class LiferayPersonService implements PersonService {
 			person = new PersonImpl(groupId, name.getFormatted(), name);
 		}
 
+		// TODO: LPS-78950 Once we determine that it's safe to do so, remove
+		// this line completely
+
 		person.setGender(Person.Gender.male);
 
 		return person;
@@ -281,9 +284,7 @@ public class LiferayPersonService implements PersonService {
 
 		sb.append(securityToken.getDomain());
 		sb.append(PortalUtil.getPathImage());
-		sb.append("/user_");
-		sb.append(user.isFemale() ? "female" : "male");
-		sb.append("_portrait?img_id=");
+		sb.append("/user_portrait?img_id=");
 		sb.append(user.getPortraitId());
 		sb.append("&t=");
 		sb.append(WebServerServletTokenUtil.getToken(user.getPortraitId()));
@@ -320,13 +321,11 @@ public class LiferayPersonService implements PersonService {
 			person.setEmails(getEmails(user));
 		}
 
+		// TODO: LPS-78950 hard-code to male for now. Once we determine that
+		// it's safe to do so, remove this block completely
+
 		if (fields.contains(Person.Field.GENDER.toString())) {
-			if (user.isFemale()) {
-				person.setGender(Person.Gender.female);
-			}
-			else {
-				person.setGender(Person.Gender.male);
-			}
+			person.setGender(Person.Gender.male);
 		}
 
 		if (fields.contains(Person.Field.NICKNAME.toString())) {
