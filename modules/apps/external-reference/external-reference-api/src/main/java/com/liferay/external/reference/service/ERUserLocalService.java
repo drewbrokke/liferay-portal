@@ -49,6 +49,15 @@ public interface ERUserLocalService extends BaseLocalService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ERUserLocalServiceUtil} to access the er user local service. Add custom service methods to {@link com.liferay.external.reference.service.impl.ERUserLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+
+	/**
+	* @deprecated As of Mueller (7.2.x), replaced by {@link
+	#addOrUpdateUser(String, long, long, boolean, String, String,
+	boolean, String, String, Locale, String, String, String,
+	long, long, int, int, int, String, long[], long[], long[],
+	List, long[], boolean, ServiceContext)}
+	*/
+	@Deprecated
 	public User addOrUpdateUser(String externalReferenceCode,
 		long creatorUserId, long companyId, boolean autoPassword,
 		String password1, String password2, boolean autoScreenName,
@@ -59,6 +68,17 @@ public interface ERUserLocalService extends BaseLocalService {
 		long[] organizationIds, long[] roleIds,
 		List<UserGroupRole> userGroupRoles, long[] userGroupIds,
 		boolean sendEmail, ServiceContext serviceContext)
+		throws PortalException;
+
+	public User addOrUpdateUser(String externalReferenceCode,
+		long creatorUserId, long companyId, boolean autoPassword,
+		String password1, String password2, boolean autoScreenName,
+		String screenName, String emailAddress, Locale locale,
+		String firstName, String middleName, String lastName, long prefixId,
+		long suffixId, int birthdayMonth, int birthdayDay, int birthdayYear,
+		String jobTitle, long[] groupIds, long[] organizationIds,
+		long[] roleIds, List<UserGroupRole> userGroupRoles,
+		long[] userGroupIds, boolean sendEmail, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**

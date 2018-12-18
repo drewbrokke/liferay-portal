@@ -42,6 +42,15 @@ public class ERUserLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.liferay.external.reference.service.impl.ERUserLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	* @deprecated As of Mueller (7.2.x), replaced by {@link
+	#addOrUpdateUser(String, long, long, boolean, String, String,
+	boolean, String, String, Locale, String, String, String,
+	long, long, int, int, int, String, long[], long[], long[],
+	List, long[], boolean, ServiceContext)}
+	*/
+	@Deprecated
 	public static com.liferay.portal.kernel.model.User addOrUpdateUser(
 		String externalReferenceCode, long creatorUserId, long companyId,
 		boolean autoPassword, String password1, String password2,
@@ -59,6 +68,27 @@ public class ERUserLocalServiceUtil {
 			companyId, autoPassword, password1, password2, autoScreenName,
 			screenName, emailAddress, locale, firstName, middleName, lastName,
 			prefixId, suffixId, male, birthdayMonth, birthdayDay, birthdayYear,
+			jobTitle, groupIds, organizationIds, roleIds, userGroupRoles,
+			userGroupIds, sendEmail, serviceContext);
+	}
+
+	public static com.liferay.portal.kernel.model.User addOrUpdateUser(
+		String externalReferenceCode, long creatorUserId, long companyId,
+		boolean autoPassword, String password1, String password2,
+		boolean autoScreenName, String screenName, String emailAddress,
+		java.util.Locale locale, String firstName, String middleName,
+		String lastName, long prefixId, long suffixId, int birthdayMonth,
+		int birthdayDay, int birthdayYear, String jobTitle, long[] groupIds,
+		long[] organizationIds, long[] roleIds,
+		java.util.List<com.liferay.portal.kernel.model.UserGroupRole> userGroupRoles,
+		long[] userGroupIds, boolean sendEmail,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .addOrUpdateUser(externalReferenceCode, creatorUserId,
+			companyId, autoPassword, password1, password2, autoScreenName,
+			screenName, emailAddress, locale, firstName, middleName, lastName,
+			prefixId, suffixId, birthdayMonth, birthdayDay, birthdayYear,
 			jobTitle, groupIds, organizationIds, roleIds, userGroupRoles,
 			userGroupIds, sendEmail, serviceContext);
 	}
