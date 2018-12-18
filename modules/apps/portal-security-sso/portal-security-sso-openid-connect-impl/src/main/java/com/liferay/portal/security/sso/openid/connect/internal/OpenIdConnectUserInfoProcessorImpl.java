@@ -98,7 +98,6 @@ public class OpenIdConnectUserInfoProcessorImpl
 		String middleName = userInfo.getMiddleName();
 		long prefixId = 0;
 		long suffixId = 0;
-		boolean male = true;
 		int birthdayMonth = Calendar.JANUARY;
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
@@ -114,9 +113,9 @@ public class OpenIdConnectUserInfoProcessorImpl
 		user = _userLocalService.addUser(
 			creatorUserId, companyId, autoPassword, password1, password2,
 			autoScreenName, screenName, emailAddress, facebookId, null, locale,
-			firstName, middleName, lastName, prefixId, suffixId, male,
-			birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
-			organizationIds, roleIds, userGroupIds, sendEmail, serviceContext);
+			firstName, middleName, lastName, prefixId, suffixId, birthdayMonth,
+			birthdayDay, birthdayYear, jobTitle, groupIds, organizationIds,
+			roleIds, userGroupIds, sendEmail, serviceContext);
 
 		user = _userLocalService.updatePasswordReset(user.getUserId(), false);
 
