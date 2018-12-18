@@ -102,7 +102,6 @@ public class CreateAnonymousAccountMVCActionCommand
 		String lastName = ParamUtil.getString(actionRequest, "lastName");
 		long prefixId = 0;
 		long suffixId = 0;
-		boolean male = true;
 		int birthdayMonth = 0;
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
@@ -130,7 +129,7 @@ public class CreateAnonymousAccountMVCActionCommand
 			themeDisplay.getCompanyId(), autoPassword, password1, password2,
 			autoScreenName, screenName, emailAddress, facebookId, openId,
 			themeDisplay.getLocale(), firstName, null, lastName, prefixId,
-			suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
+			suffixId, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
 			groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
 			serviceContext);
 
@@ -305,7 +304,6 @@ public class CreateAnonymousAccountMVCActionCommand
 		String lastName = null;
 		long prefixId = 0;
 		long suffixId = 0;
-		boolean male = true;
 		int birthdayMonth = 0;
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
@@ -317,7 +315,7 @@ public class CreateAnonymousAccountMVCActionCommand
 			themeDisplay.getCompanyId(), autoPassword, password1, password2,
 			autoScreenName, screenName, emailAddress, facebookId, openId,
 			themeDisplay.getLocale(), firstName, middleName, lastName, prefixId,
-			suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
+			suffixId, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
 			updateUserInformation, sendEmail, serviceContext);
 
 		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
