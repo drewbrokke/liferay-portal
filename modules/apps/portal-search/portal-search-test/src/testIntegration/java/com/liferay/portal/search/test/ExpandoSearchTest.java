@@ -367,7 +367,6 @@ public class ExpandoSearchTest {
 		String lastName = RandomTestUtil.randomString();
 		long prefixId = 0;
 		long suffixId = 0;
-		boolean male = false;
 		int birthdayMonth = Calendar.JANUARY;
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
@@ -381,7 +380,7 @@ public class ExpandoSearchTest {
 		User user = _userLocalService.addUser(
 			creatorUserId, companyId, autoPassword, password1, password2,
 			autoScreenName, screenName, emailAddress, facebookId, openId,
-			locale, firstName, middleName, lastName, prefixId, suffixId, male,
+			locale, firstName, middleName, lastName, prefixId, suffixId,
 			birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
 			organizationIds, roleIds, userGroupIds, sendMail, serviceContext);
 
