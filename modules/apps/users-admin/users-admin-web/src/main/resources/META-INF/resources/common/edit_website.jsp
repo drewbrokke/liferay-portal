@@ -18,6 +18,7 @@
 
 <%
 String className = ParamUtil.getString(request, "className");
+long classPK = ParamUtil.getLong(request, "classPK");
 
 long websiteId = ParamUtil.getLong(request, "primaryKey", 0L);
 
@@ -49,5 +50,66 @@ if (websiteId > 0L) {
 
 	<liferay-ui:error exception="<%= WebsiteURLException.class %>" message="please-enter-a-valid-url" />
 
+	<div id="WebsiteURLExceptionWrapper"></div>
+
 	<aui:input fieldParam="websiteUrl" id="websiteUrl" name="url" required="<%= true %>" />
 </aui:form>
+
+<portlet:actionURL name="/users_admin/update_user_contact_information" var="actionURL">
+	<portlet:param name="redirect" value="<%= currentURL %>" />
+	<portlet:param name="ajax" value="true" />
+	<portlet:param name="className" value="<%= className %>" />
+	<portlet:param name="classPK" value="<%= String.valueOf(classPK) %>" />
+</portlet:actionURL>
+
+<aui:script use="aui-alert" sandbox="<%= true %>">
+	const form = document.getElementById('<portlet:namespace />fm');
+
+	if (form) {
+		form.addEventListener('submit', function(event) {
+			event.preventDefault();
+
+			const formData = new FormData(form);
+
+			fetch('<%= actionURL %>', { method:'POST', body: formData})
+				.then(function(response) {
+					return response.json();
+				})
+				.then(function(data) {
+					const exception = data.exception;
+					const key = data.key;
+
+					if (exception) {
+						console.log(exception);
+
+						var container = document.getElementById('WebsiteURLExceptionWrapper');
+
+						showErrorMessage('hello', 'WebsiteURLException');
+					}
+					else {
+						var parentWindow = window.opener ? window.opener.parent : window.parent;
+
+						parentWindow.location.reload();
+					}
+				})
+				.catch(function(error) {
+					Liferay.Util.openToast({message: error.message, type: 'danger', title: '<%= LanguageUtil.get(request, "error") + ":" %>'});
+
+					console.error(error);
+				})
+		});
+	}
+
+	function showErrorMessage(container, errorMessage) {
+		new A.Alert(
+			{
+				animated: false,
+				bodyContent: '<strong class="lead"><svg class="lexicon-icon" focusable="false"><use data-href="' + themeDisplay.getPathThemeImages() + '/lexicon/icons.svg#exclamation-full" /><title>Error:</title></svg> Error:</strong>hello',
+				closeable: 'true',
+				cssClass: 'alert-danger',
+				boundingBox: '#WebsiteURLExceptionWrapper',
+				render: true
+			}
+		)
+	}
+</aui:script>

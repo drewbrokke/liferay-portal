@@ -113,6 +113,7 @@ List<Website> websites = WebsiteServiceUtil.getWebsites(className, classPK);
 <portlet:renderURL var="editWebsiteRenderURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 	<portlet:param name="mvcPath" value="/common/edit_website.jsp" />
 	<portlet:param name="className" value="<%= className %>" />
+	<portlet:param name="classPK" value="<%= String.valueOf(classPK) %>" />
 </portlet:renderURL>
 
 <aui:script require="<%= contactInformationRequireJS %>">

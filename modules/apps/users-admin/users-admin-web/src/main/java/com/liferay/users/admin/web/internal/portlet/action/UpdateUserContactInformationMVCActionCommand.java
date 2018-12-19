@@ -29,10 +29,13 @@ import com.liferay.portal.kernel.exception.PhoneNumberExtensionException;
 import com.liferay.portal.kernel.exception.UserEmailAddressException;
 import com.liferay.portal.kernel.exception.UserSmsException;
 import com.liferay.portal.kernel.exception.WebsiteURLException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Contact;
 import com.liferay.portal.kernel.model.ContactConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.JSONPortletResponseUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -41,6 +44,7 @@ import com.liferay.portal.kernel.service.ContactLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.permission.UserPermissionUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -93,10 +97,23 @@ public class UpdateUserContactInformationMVCActionCommand
 
 			if (Validator.isNotNull(cmd)) {
 				updateContactInformation(actionRequest, Contact.class);
+
+				boolean ajax = ParamUtil.getBoolean(actionRequest, "ajax");
+
+				if (ajax) {
+					JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+
+					JSONPortletResponseUtil.writeJSON(
+						actionRequest, actionResponse, jsonObject);
+
+					return;
+				}
 			}
 			else {
 				saveContactInformationForm(actionRequest);
 			}
+
+			SessionMessages.add(actionRequest, "successful");
 
 			String redirect = _portal.escapeRedirect(
 				ParamUtil.getString(actionRequest, "redirect"));
@@ -124,6 +141,22 @@ public class UpdateUserContactInformationMVCActionCommand
 					 e instanceof UserEmailAddressException ||
 					 e instanceof UserSmsException ||
 					 e instanceof WebsiteURLException) {
+
+				boolean ajax = ParamUtil.getBoolean(actionRequest, "ajax");
+
+				if (ajax) {
+					JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+
+					jsonObject.putException(e);
+
+					hideDefaultErrorMessage(actionRequest);
+					hideDefaultSuccessMessage(actionRequest);
+
+					JSONPortletResponseUtil.writeJSON(
+						actionRequest, actionResponse, jsonObject);
+
+					return;
+				}
 
 				SessionErrors.add(actionRequest, e.getClass(), e);
 

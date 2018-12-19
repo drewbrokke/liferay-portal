@@ -34,23 +34,9 @@ function openEditContactInformationWindow(title, primaryKey, baseRenderURL, heig
 							click: function(event) {
 								const {contentWindow} = document.getElementById(modalId + '_iframe_');
 
-								const {form: modalForm, formValidator: modalFormValidator} = contentWindow.Liferay.Form.get(Liferay.Util.ns(portletNamespace, 'fm'));
+								const {form} = contentWindow.Liferay.Form.get(Liferay.Util.ns(portletNamespace, 'fm'));
 
-								modalFormValidator.validate();
-
-								if (!modalFormValidator.hasErrors()) {
-									const mainForm = document.getElementById(Liferay.Util.ns(portletNamespace, 'fm'));
-
-									const editURL = new Uri(mainForm.action);
-
-									const formData = new FormData(modalForm);
-
-									formData.forEach((value, key) => editURL.setParameterValue(key, value));
-
-									submitForm(mainForm, editURL.toString());
-
-									Liferay.Util.getWindow(modalId).hide();
-								}
+								form.dispatchEvent(new Event('submit'));
 							}
 						}
 					}
