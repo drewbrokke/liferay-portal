@@ -49,7 +49,11 @@ if (addressId > 0L) {
 
 	<aui:input checked="<%= (address != null)? address.isPrimary() : false %>" id="addressPrimary" label="make-primary" name="addressPrimary" type="checkbox" />
 
+	<liferay-ui:error key="<%= NoSuchListTypeException.class.getName() + className + ListTypeConstants.ADDRESS %>" message="please-select-a-type" />
+
 	<aui:select label="type" listType="<%= className + ListTypeConstants.ADDRESS %>" name='<%= "addressTypeId" %>' />
+
+	<liferay-ui:error exception="<%= AddressStreetException.class %>" message="please-enter-a-valid-street" />
 
 	<aui:input fieldParam='<%= "addressStreet1" %>' id='<%= "addressStreet1" %>' name="street1" required="<%= true %>" />
 
@@ -57,11 +61,19 @@ if (addressId > 0L) {
 
 	<aui:input fieldParam='<%= "addressStreet3" %>' id='<%= "addressStreet3" %>' name="street3" />
 
+	<liferay-ui:error exception="<%= AddressCityException.class %>" message="please-enter-a-valid-city" />
+
 	<aui:input fieldParam='<%= "addressCity" %>' id='<%= "addressCity" %>' name="city" required="<%= true %>" />
+
+	<liferay-ui:error exception="<%= NoSuchCountryException.class %>" message="please-select-a-country" />
 
 	<aui:select label="country" name='<%= "addressCountryId" %>' />
 
+	<liferay-ui:error exception="<%= NoSuchRegionException.class %>" message="please-select-a-region" />
+
 	<aui:select label="region" name='<%= "addressRegionId" %>' />
+
+	<liferay-ui:error exception="<%= AddressZipException.class %>" message="please-enter-a-valid-postal-code" />
 
 	<aui:input fieldParam='<%= "addressZip" %>' id='<%= "addressZip" %>' label="postal-code" name="zip" required="<%= true %>" />
 
