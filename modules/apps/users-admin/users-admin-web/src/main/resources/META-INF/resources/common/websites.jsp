@@ -114,6 +114,7 @@ List<Website> websites = WebsiteServiceUtil.getWebsites(className, classPK);
 	<portlet:param name="mvcPath" value="/common/edit_website.jsp" />
 	<portlet:param name="className" value="<%= className %>" />
 	<portlet:param name="classPK" value="<%= String.valueOf(classPK) %>" />
+	<portlet:param name="contactInformationRequireJS" value="<%= contactInformationRequireJS %>" />
 </portlet:renderURL>
 
 <aui:script require="<%= contactInformationRequireJS %>">

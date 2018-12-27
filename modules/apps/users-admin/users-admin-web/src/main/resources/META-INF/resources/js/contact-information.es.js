@@ -1,3 +1,4 @@
+import {ClayAlert} from 'clay-alert';
 import dom from 'metal-dom';
 import Uri from 'metal-uri';
 
@@ -78,5 +79,74 @@ function registerContactInformationListener(selector, renderURL, height) {
 	);
 }
 
-export {registerContactInformationListener};
+function registerModalFormListener(actionURL, form) {
+	if (form) {
+		form.addEventListener('submit', function (event) {
+			event.preventDefault();
+
+			const formData = new FormData(form);
+
+			fetch(actionURL, {method: 'POST', body: formData})
+				.then(function (response) {
+					return response.json();
+				})
+				.then(function (data) {
+					const exceptionType = data.exception;
+
+					if (exceptionType) {
+						console.log(exceptionType);
+
+						const wrapper = document.getElementById('WebsiteURLException' + 'Wrapper');
+
+						if (wrapper) {
+							const messageKey = wrapper.getAttribute('data-key');
+
+							showErrorAlert(
+								'WebsiteURLException', messageKey);
+						}
+						else {
+							showErrorToast(Liferay.Language.get('your-request-failed-to-complete'));
+						}
+
+					}
+					else {
+						const parentWindow = window.opener ?
+							window.opener.parent : window.parent;
+
+						parentWindow.location.reload();
+					}
+				})
+				.catch(function (error) {
+					showErrorToast(error.message);
+
+					console.error(error);
+				})
+		});
+	}
+}
+
+function showErrorAlert(exceptionType, messageKey) {
+	new ClayAlert(
+		{
+			closeable: true,
+			destroyOnHide: true,
+			message: Liferay.Language.get(messageKey),
+			spritemap: themeDisplay.getPathThemeImages() + '/lexicon/icons.svg',
+			style: 'danger',
+			title: Liferay.Language.get('error') + ':',
+			visible: true
+		},
+		document.querySelector('#' + exceptionType + 'Wrapper')
+	);
+}
+
+function showErrorToast(message) {
+	Liferay.Util.openToast({
+		message: message,
+		type: 'danger',
+		title: Liferay.Language.get('error') + ':'
+	});
+}
+
+export {registerContactInformationListener, registerModalFormListener};
 export default {registerContactInformationListener};

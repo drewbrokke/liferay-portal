@@ -87,3 +87,22 @@ if (!portletName.equals(UsersAdminPortletKeys.MY_ACCOUNT)) {
 		</c:if>
 	</div>
 </aui:form>
+
+<aui:script>
+	Liferay.provide(
+		window,
+		'<portlet:namespace />showErrorMessage',
+		function(key, type) {
+			new A.Alert(
+				{
+					animated: false,
+					bodyContent: '<strong class="lead"><svg class="lexicon-icon" focusable="false"><use data-href="' + themeDisplay.getPathThemeImages() + '/lexicon/icons.svg#exclamation-full" /><title>Error:</title></svg> Error:</strong>' + errorMessage,
+					closeable: 'true',
+					cssClass: 'alert-danger',
+					boundingBox: '#' + type + 'Wrapper',
+					render: true
+				}
+			)
+		}
+	);
+</aui:script>
