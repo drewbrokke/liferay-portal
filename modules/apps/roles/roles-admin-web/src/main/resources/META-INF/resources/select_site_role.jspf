@@ -45,7 +45,7 @@ if (step == 1) {
 		groups = UsersAdminUtil.filterGroups(permissionChecker, groups);
 	}
 
-	if (groups.size() == 1) {
+	if (groups.size() == 1 && keywords.isEmpty()) {
 		step = 2;
 
 		uniqueGroupId = groups.get(0).getGroupId();
