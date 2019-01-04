@@ -268,6 +268,8 @@ public class DataFactory {
 	public DataFactory(Properties properties) throws Exception {
 		initContext(properties);
 
+		// DELETE ME
+
 		_counter = new SimpleCounter(_maxGroupsCount + 1);
 		_timeCounter = new SimpleCounter();
 		_futureDateCounter = new SimpleCounter();
