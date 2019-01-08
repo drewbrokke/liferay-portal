@@ -178,6 +178,11 @@ public class ServicePreAction extends Action {
 		String i18nPath = (String)request.getAttribute(WebKeys.I18N_PATH);
 
 		if (Validator.isNotNull(i18nPath)) {
+			Locale i18nLocale = LocaleUtil.fromLanguageId(
+				i18nPath.substring(1));
+
+			i18nPath = StringPool.SLASH + i18nLocale.toLanguageTag();
+
 			if (Validator.isNotNull(contextPath)) {
 				String i18nContextPath = contextPath.concat(i18nPath);
 
