@@ -142,6 +142,13 @@ public interface UADDisplay<T> extends UADComponent<T> {
 	 */
 	public String getTypeName(Locale locale);
 
+	public default List<T> search(
+		long userId, long[] groupIds, Serializable parentId, String keywords,
+		String orderByField, String orderByType, int start, int end) {
+
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * Returns paginated sorted entities of type {@code T} related to a user,
 	 * optionally filtered by groups and/or keywords.
