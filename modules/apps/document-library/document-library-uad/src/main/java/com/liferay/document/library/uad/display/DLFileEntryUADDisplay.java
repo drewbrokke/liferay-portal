@@ -16,10 +16,16 @@ package com.liferay.document.library.uad.display;
 
 import com.liferay.document.library.constants.DLPortletKeys;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.user.associated.data.display.UADDisplay;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
@@ -57,6 +63,19 @@ public class DLFileEntryUADDisplay extends BaseDLFileEntryUADDisplay {
 			"fileEntryId", String.valueOf(dlFileEntry.getFileEntryId()));
 
 		return portletURL.toString();
+	}
+
+	@Override
+	public List<DLFileEntry> search(
+		long userId, long[] groupIds, Serializable parentId, String keywords,
+		String orderByField, String orderByType, int start, int end) {
+
+		DynamicQuery dynamicQuery = getSearchDynamicQuery(
+			userId, groupIds, keywords, orderByField, orderByType);
+
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("folderId", parentId));
+
+		return super.doGetRange(dynamicQuery, start, end);
 	}
 
 	@Reference
