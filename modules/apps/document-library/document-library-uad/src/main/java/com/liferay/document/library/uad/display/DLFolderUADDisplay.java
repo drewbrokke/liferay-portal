@@ -36,7 +36,9 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Brian Wing Shun Chan
  */
-@Component(immediate = true, service = UADDisplay.class)
+@Component(
+	immediate = true, service = {UADDisplay.class, DLFolderUADDisplay.class}
+)
 public class DLFolderUADDisplay extends BaseDLFolderUADDisplay {
 
 	@Override
