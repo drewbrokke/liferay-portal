@@ -15,6 +15,7 @@
 package com.liferay.portal.kernel.util;
 
 import com.liferay.petra.string.CharPool;
+import com.liferay.portal.kernel.language.LanguageUtil;
 
 import java.text.NumberFormat;
 
@@ -198,9 +199,13 @@ public class TextFormatter {
 	}
 
 	public static String formatStorageSize(double size, Locale locale) {
-		String suffix = _STORAGE_SIZE_SUFFIX_KB;
+		String suffix = _STORAGE_SIZE_SUFFIX_BYTES;
 
-		size = size / _STORAGE_SIZE_DENOMINATOR;
+		if (size >= _STORAGE_SIZE_DENOMINATOR) {
+			suffix = _STORAGE_SIZE_SUFFIX_KB;
+
+			size = size / _STORAGE_SIZE_DENOMINATOR;
+		}
 
 		if (size >= _STORAGE_SIZE_DENOMINATOR) {
 			suffix = _STORAGE_SIZE_SUFFIX_MB;
@@ -216,7 +221,9 @@ public class TextFormatter {
 
 		NumberFormat numberFormat = NumberFormat.getInstance(locale);
 
-		if (suffix.equals(_STORAGE_SIZE_SUFFIX_KB)) {
+		if (suffix.equals(_STORAGE_SIZE_SUFFIX_BYTES) ||
+			suffix.equals(_STORAGE_SIZE_SUFFIX_KB)) {
+
 			numberFormat.setMaximumFractionDigits(0);
 		}
 		else {
@@ -224,6 +231,11 @@ public class TextFormatter {
 		}
 
 		numberFormat.setMinimumFractionDigits(0);
+
+		if (suffix.equals(_STORAGE_SIZE_SUFFIX_BYTES)) {
+			suffix = CharPool.SPACE + StringUtil.toLowerCase(
+				LanguageUtil.get(locale, _STORAGE_SIZE_SUFFIX_BYTES));
+		}
 
 		return numberFormat.format(size) + suffix;
 	}
@@ -420,6 +432,8 @@ public class TextFormatter {
 	}
 
 	private static final double _STORAGE_SIZE_DENOMINATOR = 1024.0;
+
+	private static final String _STORAGE_SIZE_SUFFIX_BYTES = "bytes";
 
 	private static final String _STORAGE_SIZE_SUFFIX_GB = "GB";
 
