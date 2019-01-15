@@ -19,6 +19,8 @@ package com.liferay.users.admin.constants;
  */
 public class UserFormConstants {
 
+	public static final String ACTION_NAME = "action_name";
+
 	public static final String CATEGORY_KEY_CONTACT = "contact";
 
 	public static final String CATEGORY_KEY_GENERAL = "general";
@@ -47,6 +49,8 @@ public class UserFormConstants {
 		"profile-and-dashboard";
 
 	public static final String ENTRY_KEY_ROLES = "roles";
+
+	public static final String PORTLET_TITLE = "portlet_title";
 
 	public static final String SCREEN_NAVIGATION_KEY_ORGANIZATIONS =
 		"edit.organization.form";

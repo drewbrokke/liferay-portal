@@ -26,14 +26,6 @@ String emptyResultsMessage = ParamUtil.getString(request, "emptyResultsMessage")
 List<EmailAddress> emailAddresses = EmailAddressServiceUtil.getEmailAddresses(className, classPK);
 %>
 
-<liferay-ui:error-marker
-	key="<%= WebKeys.ERROR_SECTION %>"
-	value="additionalEmailAddresses"
-/>
-
-<liferay-ui:error exception="<%= EmailAddressException.class %>" message="please-enter-a-valid-email-address" />
-<liferay-ui:error key="<%= NoSuchListTypeException.class.getName() + className + ListTypeConstants.EMAIL_ADDRESS %>" message="please-select-a-type" />
-
 <h3 class="autofit-row sheet-subtitle">
 	<span class="autofit-col autofit-col-expand">
 		<span class="heading-text"><liferay-ui:message key="additional-email-addresses" /></span>
@@ -97,7 +89,9 @@ List<EmailAddress> emailAddresses = EmailAddressServiceUtil.getEmailAddresses(cl
 			value="<%= LanguageUtil.get(request, emailAddressTypeKey) %>"
 		/>
 
-		<liferay-ui:search-container-column-text>
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand-smaller"
+		>
 			<c:if test="<%= emailAddress.isPrimary() %>">
 				<span class="label label-primary">
 					<span class="label-item label-item-expand"><%= StringUtil.toUpperCase(LanguageUtil.get(request, "primary"), locale) %></span>
