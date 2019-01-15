@@ -1,0 +1,62 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package com.liferay.user.associated.data.display;
+
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+/**
+ * @author Pei-Jung Lan
+ */
+public interface HierarchicalUADDisplay {
+
+	public long countAll(long userId);
+
+	public default String[] getColumnFieldNames() {
+		return getDisplayFieldNames();
+	}
+
+	public String[] getDisplayFieldNames();
+
+	public default String getEditURL(
+			Object object, LiferayPortletRequest liferayPortletRequest,
+			LiferayPortletResponse liferayPortletResponse)
+		throws Exception {
+
+		return null;
+	}
+
+	public Map<String, Object> getFieldValues(
+		Object object, String[] fieldNames);
+
+	public String[] getSortingFieldNames();
+
+	public Class[] getTypeClasses();
+
+	public default String getTypeClassLabel(Class clazz, Locale locale) {
+		return clazz.getSimpleName();
+	}
+
+	public List search(
+		long userId, long[] groupIds, Serializable parentId, String keywords,
+		String orderByField, String orderByType, int start, int end);
+
+}
