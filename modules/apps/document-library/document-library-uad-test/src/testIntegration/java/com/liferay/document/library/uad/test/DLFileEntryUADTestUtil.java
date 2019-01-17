@@ -40,28 +40,6 @@ public class DLFileEntryUADTestUtil {
 
 	public static DLFileEntry addDLFileEntry(
 			DLAppLocalService dlAppLocalService,
-			DLFileEntryLocalService dlFileEntryLocalService, DLFolder dlFolder,
-			long userId)
-		throws Exception {
-
-		ServiceContext serviceContext =
-			ServiceContextTestUtil.getServiceContext();
-
-		byte[] bytes = TestDataConstants.TEST_BYTE_ARRAY;
-
-		InputStream is = new ByteArrayInputStream(bytes);
-
-		FileEntry fileEntry = dlAppLocalService.addFileEntry(
-			userId, dlFolder.getRepositoryId(), dlFolder.getFolderId(),
-			RandomTestUtil.randomString(), ContentTypes.TEXT_PLAIN,
-			RandomTestUtil.randomString(), StringPool.BLANK, StringPool.BLANK,
-			is, bytes.length, serviceContext);
-
-		return dlFileEntryLocalService.getFileEntry(fileEntry.getFileEntryId());
-	}
-
-	public static DLFileEntry addDLFileEntry(
-			DLAppLocalService dlAppLocalService,
 			DLFileEntryLocalService dlFileEntryLocalService,
 			DLFolderLocalService dlFolderLocalService, long userId)
 		throws Exception {
@@ -75,7 +53,30 @@ public class DLFileEntryUADTestUtil {
 			RandomTestUtil.randomString(), false, serviceContext);
 
 		return addDLFileEntry(
-			dlAppLocalService, dlFileEntryLocalService, dlFolder, userId);
+			dlAppLocalService, dlFileEntryLocalService, dlFolder.getFolderId(),
+			userId);
+	}
+
+	public static DLFileEntry addDLFileEntry(
+			DLAppLocalService dlAppLocalService,
+			DLFileEntryLocalService dlFileEntryLocalService, long dlFolderId,
+			long userId)
+		throws Exception {
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext();
+
+		byte[] bytes = TestDataConstants.TEST_BYTE_ARRAY;
+
+		InputStream is = new ByteArrayInputStream(bytes);
+
+		FileEntry fileEntry = dlAppLocalService.addFileEntry(
+			userId, TestPropsValues.getGroupId(), dlFolderId,
+			RandomTestUtil.randomString(), ContentTypes.TEXT_PLAIN,
+			RandomTestUtil.randomString(), StringPool.BLANK, StringPool.BLANK,
+			is, bytes.length, serviceContext);
+
+		return dlFileEntryLocalService.getFileEntry(fileEntry.getFileEntryId());
 	}
 
 	public static void cleanUpDependencies(
