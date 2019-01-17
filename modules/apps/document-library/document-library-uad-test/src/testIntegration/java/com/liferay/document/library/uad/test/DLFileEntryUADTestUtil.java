@@ -40,17 +40,12 @@ public class DLFileEntryUADTestUtil {
 
 	public static DLFileEntry addDLFileEntry(
 			DLAppLocalService dlAppLocalService,
-			DLFileEntryLocalService dlFileEntryLocalService,
-			DLFolderLocalService dlFolderLocalService, long userId)
+			DLFileEntryLocalService dlFileEntryLocalService, DLFolder dlFolder,
+			long userId)
 		throws Exception {
 
 		ServiceContext serviceContext =
 			ServiceContextTestUtil.getServiceContext();
-
-		DLFolder dlFolder = dlFolderLocalService.addFolder(
-			userId, TestPropsValues.getGroupId(), TestPropsValues.getGroupId(),
-			false, 0L, RandomTestUtil.randomString(),
-			RandomTestUtil.randomString(), false, serviceContext);
 
 		byte[] bytes = TestDataConstants.TEST_BYTE_ARRAY;
 
@@ -63,6 +58,24 @@ public class DLFileEntryUADTestUtil {
 			is, bytes.length, serviceContext);
 
 		return dlFileEntryLocalService.getFileEntry(fileEntry.getFileEntryId());
+	}
+
+	public static DLFileEntry addDLFileEntry(
+			DLAppLocalService dlAppLocalService,
+			DLFileEntryLocalService dlFileEntryLocalService,
+			DLFolderLocalService dlFolderLocalService, long userId)
+		throws Exception {
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext();
+
+		DLFolder dlFolder = dlFolderLocalService.addFolder(
+			userId, TestPropsValues.getGroupId(), TestPropsValues.getGroupId(),
+			false, 0L, RandomTestUtil.randomString(),
+			RandomTestUtil.randomString(), false, serviceContext);
+
+		return addDLFileEntry(
+			dlAppLocalService, dlFileEntryLocalService, dlFolder, userId);
 	}
 
 	public static void cleanUpDependencies(
