@@ -62,14 +62,6 @@ public abstract class BaseSystemEventUADExporter extends DynamicQueryUADExporter
 		sb.append("</model-name>");
 
 		sb.append(
-			"<column><column-name>systemEventId</column-name><column-value><![CDATA[");
-		sb.append(systemEvent.getSystemEventId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>userId</column-name><column-value><![CDATA[");
-		sb.append(systemEvent.getUserId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>userName</column-name><column-value><![CDATA[");
 		sb.append(systemEvent.getUserName());
 		sb.append("]]></column-value></column>");

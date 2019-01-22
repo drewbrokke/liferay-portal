@@ -62,14 +62,6 @@ public abstract class BasePortletItemUADExporter extends DynamicQueryUADExporter
 		sb.append("</model-name>");
 
 		sb.append(
-			"<column><column-name>portletItemId</column-name><column-value><![CDATA[");
-		sb.append(portletItem.getPortletItemId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>userId</column-name><column-value><![CDATA[");
-		sb.append(portletItem.getUserId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>userName</column-name><column-value><![CDATA[");
 		sb.append(portletItem.getUserName());
 		sb.append("]]></column-value></column>");

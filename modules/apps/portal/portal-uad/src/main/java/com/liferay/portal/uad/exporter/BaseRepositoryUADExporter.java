@@ -62,14 +62,6 @@ public abstract class BaseRepositoryUADExporter extends DynamicQueryUADExporter<
 		sb.append("</model-name>");
 
 		sb.append(
-			"<column><column-name>repositoryId</column-name><column-value><![CDATA[");
-		sb.append(repository.getRepositoryId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>userId</column-name><column-value><![CDATA[");
-		sb.append(repository.getUserId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>userName</column-name><column-value><![CDATA[");
 		sb.append(repository.getUserName());
 		sb.append("]]></column-value></column>");
