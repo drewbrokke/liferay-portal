@@ -15,16 +15,11 @@
 package com.liferay.announcements.uad.constants;
 
 /**
- * @author Drew Brokke
+ * @author Brian Wing Shun Chan
+ * @generated
  */
 public class AnnouncementsUADConstants {
-
 	public static final String[] USER_ID_FIELD_NAMES_ANNOUNCEMENTS_ENTRY = {
-		"userId"
-	};
-
-	public static final String[] USER_ID_FIELD_NAMES_ANNOUNCEMENTS_FLAG = {
-		"userId"
-	};
-
+			"userId"
+		};
 }
