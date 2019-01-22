@@ -63,14 +63,6 @@ public abstract class BaseCTEntryUADExporter extends DynamicQueryUADExporter<CTE
 		sb.append("</model-name>");
 
 		sb.append(
-			"<column><column-name>ctEntryId</column-name><column-value><![CDATA[");
-		sb.append(ctEntry.getCtEntryId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>userId</column-name><column-value><![CDATA[");
-		sb.append(ctEntry.getUserId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>userName</column-name><column-value><![CDATA[");
 		sb.append(ctEntry.getUserName());
 		sb.append("]]></column-value></column>");
