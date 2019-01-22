@@ -64,20 +64,8 @@ public abstract class BaseCTCollectionUADExporter
 		sb.append("</model-name>");
 
 		sb.append(
-			"<column><column-name>ctCollectionId</column-name><column-value><![CDATA[");
-		sb.append(ctCollection.getCtCollectionId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>statusByUserId</column-name><column-value><![CDATA[");
-		sb.append(ctCollection.getStatusByUserId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>statusByUserName</column-name><column-value><![CDATA[");
 		sb.append(ctCollection.getStatusByUserName());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>userId</column-name><column-value><![CDATA[");
-		sb.append(ctCollection.getUserId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>userName</column-name><column-value><![CDATA[");
