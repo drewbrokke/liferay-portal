@@ -167,9 +167,15 @@ public class DLHierarchicalUADDisplay implements HierarchicalUADDisplay {
 				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 			for (DLFolder dlFolder : dlFolders) {
-				_incrementCount(
-					topLevelFolders,
-					_getTopLevelFolderId(dlFolder, (long)parentFolderId));
+				long topLevelFolderId = _getTopLevelFolderId(
+					dlFolder, (long)parentFolderId);
+
+				if (dlFolder.getFolderId() == topLevelFolderId) {
+					topLevelFolders.putIfAbsent(topLevelFolderId, 0);
+				}
+				else {
+					_incrementCount(topLevelFolders, topLevelFolderId);
+				}
 			}
 
 			List<DLFileEntry> dlFileEntries = _dlFileEntryUADDisplay.search(
