@@ -30,15 +30,13 @@ request.setAttribute("user.selUser", selUser);
 
 long selContactId = (selUser != null) ? selContact.getContactId() : 0;
 
-String contactInformationRequireJS = (String)request.getAttribute(UsersAdminWebKeys.CONTACT_INFORMATION_REQUIRE_JS);
-
 request.setAttribute("contact_information.jsp-className", Contact.class.getName());
 request.setAttribute("contact_information.jsp-classPK", selContactId);
-request.setAttribute("contact_information.jsp-contactInformationRequireJS", contactInformationRequireJS);
-request.setAttribute("contact_information.jsp-mvcActionPath", "/users_admin/update_user_contact_information");
-%>
 
-<aui:input name="classPK" type="hidden" value="<%= String.valueOf(selContactId) %>" />
+long contextOrganizationId = ParamUtil.getLong(request, "contextOrganizationId");
+
+request.setAttribute("contextOrganizationId", contextOrganizationId);
+%>
 
 <div class="sheet-section">
 	<liferay-util:include page="/common/phone_numbers.jsp" servletContext="<%= application %>">

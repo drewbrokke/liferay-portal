@@ -31,31 +31,27 @@ List<OrgLabor> orgLabors = OrgLaborServiceUtil.getOrgLabors(organizationId);
 		</span>
 		<span class="autofit-col">
 			<span class="heading-end">
+
+				<%
+				PortletURL editURL = liferayPortletResponse.createRenderURL();
+
+				editURL.setParameter("className", Organization.class.getName());
+				editURL.setParameter("classPK", String.valueOf(organizationId));
+				editURL.setParameter("contextOrganizationId", String.valueOf(organizationScreenNavigationDisplayContext.getParentOrganizationId()));
+				editURL.setParameter("mvcPath", "/organization/edit_opening_hours.jsp");
+				editURL.setParameter("redirect", currentURL);
+				%>
+
 				<liferay-ui:icon
-					cssClass="modify-opening-hours-link"
-					data="<%=
-						new HashMap<String, Object>() {
-							{
-								put("title", LanguageUtil.get(request, "add-opening-hours"));
-							}
-						}
-					%>"
 					label="<%= true %>"
-					linkCssClass="btn btn-secondary btn-sm"
+					linkCssClass="add-opening-hours-link btn btn-secondary btn-sm"
 					message="add"
-					url="javascript:;"
+					url="<%= editURL.toString() %>"
 				/>
 			</span>
 		</span>
 	</h2>
 </div>
-
-<liferay-ui:error-marker
-	key="<%= WebKeys.ERROR_SECTION %>"
-	value="services"
-/>
-
-<liferay-ui:error key="<%= NoSuchListTypeException.class.getName() + Organization.class.getName() + ListTypeConstants.ORGANIZATION_SERVICE %>" message="please-select-a-type" />
 
 <c:if test="<%= orgLabors.isEmpty() %>">
 	<div class="contact-information-empty-results-message-wrapper">
@@ -64,8 +60,6 @@ List<OrgLabor> orgLabors = OrgLaborServiceUtil.getOrgLabors(organizationId);
 		/>
 	</div>
 </c:if>
-
-<aui:input name="classPK" type="hidden" value="<%= String.valueOf(organizationId) %>" />
 
 <div
 	class="<%=
@@ -125,15 +119,3 @@ List<OrgLabor> orgLabors = OrgLaborServiceUtil.getOrgLabors(organizationId);
 	%>
 
 </div>
-
-<portlet:renderURL var="editOpeningHoursRenderURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-	<portlet:param name="mvcPath" value="/organization/edit_opening_hours.jsp" />
-</portlet:renderURL>
-
-<aui:script require="<%= organizationScreenNavigationDisplayContext.getContactInformationJSRequire() %>">
-	ContactInformation.registerContactInformationListener(
-		'.modify-opening-hours-link a',
-		'<%= editOpeningHoursRenderURL.toString() %>',
-		690
-	);
-</aui:script>

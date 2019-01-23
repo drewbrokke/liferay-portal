@@ -21,9 +21,6 @@ public class UsersAdminWebKeys {
 
 	public static final String ACTION_COMMAND_NAME = "ACTION_COMMAND_NAME";
 
-	public static final String CONTACT_INFORMATION_REQUIRE_JS =
-		"CONTACT_INFORMATION_REQUIRE_JS";
-
 	public static final String EDITABLE = "EDITABLE";
 
 	public static final String FORM_LABEL = "FORM_LABEL";
@@ -32,6 +29,8 @@ public class UsersAdminWebKeys {
 
 	public static final String ORGANIZATION_SCREEN_NAVIGATION_DISPLAY_CONTEXT =
 		"ORGANIZATION_SCREEN_NAVIGATION_DISPLAY_CONTEXT";
+
+	public static final String PORTLET_TITLE = "portlet_title";
 
 	public static final String SELECTED_USER = "SELECTED_USER";
 

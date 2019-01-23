@@ -17,73 +17,123 @@
 <%@ include file="/init.jsp" %>
 
 <%
-long orgLaborId = ParamUtil.getLong(request, "primaryKey", 0L);
+EditContactInformationDisplayContext editContactInformationDisplayContext = new EditContactInformationDisplayContext(renderResponse, request);
+
+editContactInformationDisplayContext.setPortletDisplay(portletDisplay, portletName);
 
 OrgLabor orgLabor = null;
 
-if (orgLaborId > 0L) {
-	orgLabor = OrgLaborServiceUtil.getOrgLabor(orgLaborId);
+if (editContactInformationDisplayContext.getPrimaryKey() > 0) {
+	orgLabor = OrgLaborServiceUtil.getOrgLabor(editContactInformationDisplayContext.getPrimaryKey());
 }
+
+PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, "opening-hours"), editContactInformationDisplayContext.getRedirect());
+
+String sheetTitle;
+
+if (editContactInformationDisplayContext.getPrimaryKey() > 0) {
+	sheetTitle = LanguageUtil.get(request, "edit-opening-hours");
+}
+else {
+	sheetTitle = LanguageUtil.get(request, "add-opening-hours");
+}
+
+PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, sheetTitle), null);
 %>
 
-<aui:form cssClass="modal-body" name="fm">
-	<aui:model-context bean="<%= orgLabor %>" model="<%= OrgLabor.class %>" />
+<portlet:actionURL name="/users_admin/update_contact_information" var="actionURL" />
 
+<aui:form action="<%= actionURL %>" method="post" name="fm">
 	<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.EDIT %>" />
-	<aui:input name="primaryKey" type="hidden" value="<%= orgLaborId %>" />
+	<aui:input name="className" type="hidden" value="<%= editContactInformationDisplayContext.getClassName() %>" />
+	<aui:input name="classPK" type="hidden" value="<%= String.valueOf(editContactInformationDisplayContext.getClassPK()) %>" />
+	<aui:input name="contextOrganizationId" type="hidden" value="<%= String.valueOf(editContactInformationDisplayContext.getContextOrganizationId()) %>" />
+	<aui:input name="errorMVCPath" type="hidden" value="/common/edit_opening_hours.jsp" />
 	<aui:input name="listType" type="hidden" value="<%= ListTypeConstants.ORGANIZATION_SERVICE %>" />
+	<aui:input name="primaryKey" type="hidden" value="<%= String.valueOf(editContactInformationDisplayContext.getPrimaryKey()) %>" />
+	<aui:input name="redirect" type="hidden" value="<%= editContactInformationDisplayContext.getRedirect() %>" />
 
-	<aui:select label="type-of-service" listType="<%= ListTypeConstants.ORGANIZATION_SERVICE %>" name='<%= "orgLaborTypeId" %>' />
+	<div class="container-fluid container-fluid-max-xl">
+		<div class="sheet-lg" id="breadcrumb">
+			<liferay-ui:breadcrumb
+				showCurrentGroup="<%= false %>"
+				showGuestGroup="<%= false %>"
+				showLayout="<%= false %>"
+				showPortletBreadcrumb="<%= true %>"
+			/>
+		</div>
 
-	<table border="0">
+		<div class="sheet sheet-lg">
+			<div class="sheet-header">
+				<h2 class="sheet-title"><liferay-ui:message key="<%= sheetTitle %>" /></h2>
+			</div>
 
-		<%
-		OrgLaborFormDisplay orgLaborFormDisplay = new OrgLaborFormDisplay(locale, orgLabor);
+			<div class="sheet-section">
+				<aui:model-context bean="<%= orgLabor %>" model="<%= OrgLabor.class %>" />
 
-		for (OrgLaborFormDisplay.DayRowDisplay dayRowDisplay : orgLaborFormDisplay.getDayRowDisplays()) {
-		%>
+				<liferay-ui:error key="<%= NoSuchListTypeException.class.getName() + editContactInformationDisplayContext.getClassName() + ListTypeConstants.ORGANIZATION_SERVICE %>" message="please-select-a-type" />
 
-			<tr>
-				<td><h5><%= dayRowDisplay.getLongDayName() %></h5></td>
+				<aui:select label="type-of-service" listType="<%= ListTypeConstants.ORGANIZATION_SERVICE %>" name='<%= "orgLaborTypeId" %>' />
 
-				<td>
-					<aui:select cssClass="input-container" label="" name='<%= dayRowDisplay.getShortDayName() + "Open" %>'>
-						<aui:option value="-1" />
+				<table border="0">
 
-						<%
-						for (OrgLaborFormDisplay.SelectOptionDisplay selectOptionDisplay : dayRowDisplay.getOpenSelectOptionDisplays()) {
-						%>
+					<%
+					OrgLaborFormDisplay orgLaborFormDisplay = new OrgLaborFormDisplay(locale, orgLabor);
 
-							<aui:option label="<%= selectOptionDisplay.getLabel() %>" selected="<%= selectOptionDisplay.isSelected() %>" value="<%= selectOptionDisplay.getValue() %>" />
+					for (OrgLaborFormDisplay.DayRowDisplay dayRowDisplay : orgLaborFormDisplay.getDayRowDisplays()) {
+					%>
 
-						<%
-						}
-						%>
+						<tr>
+							<td><h5><%= dayRowDisplay.getLongDayName() %></h5></td>
 
-					</aui:select>
-				</td>
-				<td><h5><%= StringUtil.lowerCase(LanguageUtil.get(request, "to")) %></h5></td>
+							<td>
+								<aui:select cssClass="input-container" label="" name='<%= dayRowDisplay.getShortDayName() + "Open" %>'>
+									<aui:option value="-1" />
 
-				<td>
-					<aui:select cssClass="input-container" label="" name='<%= dayRowDisplay.getShortDayName() + "Close" %>'>
-						<aui:option value="-1" />
+									<%
+									for (OrgLaborFormDisplay.SelectOptionDisplay selectOptionDisplay : dayRowDisplay.getOpenSelectOptionDisplays()) {
+									%>
 
-						<%
-						for (OrgLaborFormDisplay.SelectOptionDisplay selectOptionDisplay : dayRowDisplay.getCloseSelectOptionDisplays()) {
-						%>
+										<aui:option label="<%= selectOptionDisplay.getLabel() %>" selected="<%= selectOptionDisplay.isSelected() %>" value="<%= selectOptionDisplay.getValue() %>" />
 
-							<aui:option label="<%= selectOptionDisplay.getLabel() %>" selected="<%= selectOptionDisplay.isSelected() %>" value="<%= selectOptionDisplay.getValue() %>" />
+									<%
+									}
+									%>
 
-						<%
-						}
-						%>
+								</aui:select>
+							</td>
+							<td><h5><%= StringUtil.lowerCase(LanguageUtil.get(request, "to")) %></h5></td>
 
-					</aui:select>
-				</td>
-			</tr>
+							<td>
+								<aui:select cssClass="input-container" label="" name='<%= dayRowDisplay.getShortDayName() + "Close" %>'>
+									<aui:option value="-1" />
 
-		<%
-		}
-		%>
+									<%
+									for (OrgLaborFormDisplay.SelectOptionDisplay selectOptionDisplay : dayRowDisplay.getCloseSelectOptionDisplays()) {
+									%>
 
+										<aui:option label="<%= selectOptionDisplay.getLabel() %>" selected="<%= selectOptionDisplay.isSelected() %>" value="<%= selectOptionDisplay.getValue() %>" />
+
+									<%
+									}
+									%>
+
+								</aui:select>
+							</td>
+						</tr>
+
+					<%
+					}
+					%>
+
+				</table>
+			</div>
+
+			<div class="sheet-footer">
+				<aui:button primary="<%= true %>" type="submit" />
+
+				<aui:button href="<%= editContactInformationDisplayContext.getRedirect() %>" type="cancel" />
+			</div>
+		</div>
+	</div>
 </aui:form>

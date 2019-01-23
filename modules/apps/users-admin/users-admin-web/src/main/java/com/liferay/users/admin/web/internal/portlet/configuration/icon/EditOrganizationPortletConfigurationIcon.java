@@ -74,6 +74,10 @@ public class EditOrganizationPortletConfigurationIcon
 				portletRequest);
 
 			portletURL.setParameter(
+				"contextOrganizationId",
+				String.valueOf(organization.getOrganizationId()));
+
+			portletURL.setParameter(
 				"organizationId",
 				String.valueOf(organization.getOrganizationId()));
 

@@ -17,33 +17,82 @@
 <%@ include file="/init.jsp" %>
 
 <%
-String className = ParamUtil.getString(request, "className");
+EditContactInformationDisplayContext editContactInformationDisplayContext = new EditContactInformationDisplayContext(renderResponse, request);
 
-long websiteId = ParamUtil.getLong(request, "primaryKey", 0L);
+editContactInformationDisplayContext.setPortletDisplay(portletDisplay, portletName);
 
 Website website = null;
 
-if (websiteId > 0L) {
-	website = WebsiteServiceUtil.getWebsite(websiteId);
+if (editContactInformationDisplayContext.getPrimaryKey() > 0) {
+	website = WebsiteServiceUtil.getWebsite(editContactInformationDisplayContext.getPrimaryKey());
 }
+
+PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, "contact-information"), editContactInformationDisplayContext.getRedirect());
+
+String sheetTitle;
+
+if (editContactInformationDisplayContext.getPrimaryKey() > 0) {
+	sheetTitle = LanguageUtil.get(request, "edit-website");
+}
+else {
+	sheetTitle = LanguageUtil.get(request, "add-website");
+}
+
+PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, sheetTitle), null);
 %>
 
-<aui:form cssClass="modal-body" name="fm">
-	<clay:alert
-		message='<%= LanguageUtil.format(request, "url-must-start-with-x-or-x", new String[] {"http://", "https://"}, false) %>'
-		style="info"
-		title='<%= LanguageUtil.get(request, "info") + ":" %>'
-	/>
+<portlet:actionURL name="/users_admin/update_contact_information" var="actionURL" />
 
-	<aui:model-context bean="<%= website %>" model="<%= Website.class %>" />
-
+<aui:form action="<%= actionURL %>" method="post" name="fm">
 	<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.EDIT %>" />
-	<aui:input name="primaryKey" type="hidden" value="<%= websiteId %>" />
+	<aui:input name="className" type="hidden" value="<%= editContactInformationDisplayContext.getClassName() %>" />
+	<aui:input name="classPK" type="hidden" value="<%= String.valueOf(editContactInformationDisplayContext.getClassPK()) %>" />
+	<aui:input name="contextOrganizationId" type="hidden" value="<%= String.valueOf(editContactInformationDisplayContext.getContextOrganizationId()) %>" />
+	<aui:input name="errorMVCPath" type="hidden" value="/common/edit_website.jsp" />
 	<aui:input name="listType" type="hidden" value="<%= ListTypeConstants.WEBSITE %>" />
+	<aui:input name="primaryKey" type="hidden" value="<%= String.valueOf(editContactInformationDisplayContext.getPrimaryKey()) %>" />
+	<aui:input name="redirect" type="hidden" value="<%= editContactInformationDisplayContext.getRedirect() %>" />
 
-	<aui:input checked="<%= (website != null)? website.isPrimary() : false %>" id="websitePrimary" label="make-primary" name="websitePrimary" type="checkbox" />
+	<div class="container-fluid container-fluid-max-xl">
+		<div class="sheet-lg" id="breadcrumb">
+			<liferay-ui:breadcrumb
+				showCurrentGroup="<%= false %>"
+				showGuestGroup="<%= false %>"
+				showLayout="<%= false %>"
+				showPortletBreadcrumb="<%= true %>"
+			/>
+		</div>
 
-	<aui:select inlineField="<%= true %>" label="type" listType="<%= className + ListTypeConstants.WEBSITE %>" name="websiteTypeId" />
+		<div class="sheet sheet-lg">
+			<div class="sheet-header">
+				<h2 class="sheet-title"><liferay-ui:message key="<%= sheetTitle %>" /></h2>
+			</div>
 
-	<aui:input fieldParam="websiteUrl" id="websiteUrl" name="url" required="<%= true %>" />
+			<div class="sheet-section">
+				<clay:alert
+					message='<%= LanguageUtil.format(request, "url-must-start-with-x-or-x", new String[] {"http://", "https://"}, false) %>'
+					style="info"
+					title='<%= LanguageUtil.get(request, "info") + ":" %>'
+				/>
+
+				<aui:model-context bean="<%= website %>" model="<%= Website.class %>" />
+
+				<aui:input checked="<%= (website != null)? website.isPrimary() : false %>" id="websitePrimary" label="make-primary" name="websitePrimary" type="checkbox" />
+
+				<liferay-ui:error key="<%= NoSuchListTypeException.class.getName() + editContactInformationDisplayContext.getClassName() + ListTypeConstants.WEBSITE %>" message="please-select-a-type" />
+
+				<aui:select inlineField="<%= true %>" label="type" listType="<%= editContactInformationDisplayContext.getClassName() + ListTypeConstants.WEBSITE %>" name="websiteTypeId" />
+
+				<liferay-ui:error exception="<%= WebsiteURLException.class %>" message="please-enter-a-valid-url" />
+
+				<aui:input fieldParam="websiteUrl" id="websiteUrl" name="url" required="<%= true %>" />
+			</div>
+
+			<div class="sheet-footer">
+				<aui:button primary="<%= true %>" type="submit" />
+
+				<aui:button href="<%= editContactInformationDisplayContext.getRedirect() %>" type="cancel" />
+			</div>
+		</div>
+	</div>
 </aui:form>

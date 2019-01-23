@@ -14,7 +14,6 @@
 
 package com.liferay.users.admin.web.internal.frontend.taglib.servlet.taglib;
 
-import com.liferay.frontend.js.loader.modules.extender.npm.NPMResolver;
 import com.liferay.frontend.taglib.servlet.taglib.ScreenNavigationCategory;
 import com.liferay.frontend.taglib.servlet.taglib.ScreenNavigationEntry;
 import com.liferay.frontend.taglib.servlet.taglib.util.JSPRenderer;
@@ -100,24 +99,21 @@ public class OrganizationScreenNavigationRegistrar {
 		_registerScreenNavigationEntry(
 			_createUpdateOnlyScreenNavigationEntry(
 				"addresses", _CATEGORY_CONTACT, "/organization/addresses.jsp",
-				"/users_admin/update_organization_contact_information", false,
-				false),
+				"/users_admin/update_contact_information", false, false),
 			10);
 
 		_registerScreenNavigationEntry(
 			_createUpdateOnlyScreenNavigationEntry(
 				"contact-information", _CATEGORY_CONTACT,
 				"/organization/contact_information.jsp",
-				"/users_admin/update_organization_contact_information", false,
-				true),
+				"/users_admin/update_contact_information", false, true),
 			20);
 
 		_registerScreenNavigationEntry(
 			_createUpdateOnlyScreenNavigationEntry(
 				"opening-hours", _CATEGORY_CONTACT,
 				"/organization/opening_hours.jsp",
-				"/users_admin/update_organization_contact_information", false,
-				false),
+				"/users_admin/update_contact_information", false, false),
 			30);
 	}
 
@@ -136,9 +132,9 @@ public class OrganizationScreenNavigationRegistrar {
 		BiFunction<User, Organization, Boolean> isVisibleBiFunction) {
 
 		return new OrganizationScreenNavigationEntry(
-			_jspRenderer, _npmResolver, _organizationService, _portal,
-			_portletURLFactory, entryKey, categoryKey, jspPath,
-			mvcActionCommandName, showControls, showTitle, isVisibleBiFunction);
+			_jspRenderer, _organizationService, _portal, _portletURLFactory,
+			entryKey, categoryKey, jspPath, mvcActionCommandName, showControls,
+			showTitle, isVisibleBiFunction);
 	}
 
 	private ScreenNavigationEntry<Organization>
@@ -224,9 +220,6 @@ public class OrganizationScreenNavigationRegistrar {
 
 	@Reference
 	private JSPRenderer _jspRenderer;
-
-	@Reference
-	private NPMResolver _npmResolver;
 
 	@Reference
 	private OrganizationService _organizationService;
