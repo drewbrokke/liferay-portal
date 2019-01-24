@@ -52,12 +52,26 @@ public class DLFileEntryUADTestUtil {
 			false, 0L, RandomTestUtil.randomString(),
 			RandomTestUtil.randomString(), false, serviceContext);
 
+		return addDLFileEntry(
+			dlAppLocalService, dlFileEntryLocalService, dlFolder.getFolderId(),
+			userId);
+	}
+
+	public static DLFileEntry addDLFileEntry(
+			DLAppLocalService dlAppLocalService,
+			DLFileEntryLocalService dlFileEntryLocalService, long dlFolderId,
+			long userId)
+		throws Exception {
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext();
+
 		byte[] bytes = TestDataConstants.TEST_BYTE_ARRAY;
 
 		InputStream is = new ByteArrayInputStream(bytes);
 
 		FileEntry fileEntry = dlAppLocalService.addFileEntry(
-			userId, dlFolder.getRepositoryId(), dlFolder.getFolderId(),
+			userId, TestPropsValues.getGroupId(), dlFolderId,
 			RandomTestUtil.randomString(), ContentTypes.TEXT_PLAIN,
 			RandomTestUtil.randomString(), StringPool.BLANK, StringPool.BLANK,
 			is, bytes.length, serviceContext);
