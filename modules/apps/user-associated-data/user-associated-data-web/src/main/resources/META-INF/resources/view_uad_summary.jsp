@@ -133,9 +133,12 @@ renderResponse.setTitle(StringBundler.concat(selectedUser.getFullName(), " - ", 
 			</div>
 
 			<div class="sheet-text">
-				<portlet:actionURL name="/delete_remaining_uad" var="deleteURL" />
+				<portlet:renderURL var="viewUADNonreviewableURL">
+					<portlet:param name="mvcRenderCommandName" value="/view_uad_non_reviewable_summary" />
+					<portlet:param name="p_u_i_d" value="<%= String.valueOf(selectedUser.getUserId()) %>" />
+				</portlet:renderURL>
 
-				<aui:button cssClass="btn-sm" disabled="<%= step != 4 %>" onClick='<%= renderResponse.getNamespace() + "confirmAction('viewUADSummaryFm', '" + deleteURL.toString() + "', '" + UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-anonymize-the-users-personal-data") + "')" %>' value="anonymize-data" />
+				<aui:button cssClass="btn-sm" disabled="<%= step != 4 %>" onClick="<%= viewUADNonreviewableURL %>" value="anonymize-data" />
 
 				<c:if test="<%= step > 4 %>">
 					<liferay-ui:icon
