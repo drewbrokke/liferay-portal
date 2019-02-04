@@ -82,14 +82,12 @@ String statusLabelPending = StringUtil.toUpperCase(LanguageUtil.get(request, "pe
 				>
 					<liferay-ui:search-container-column-text
 						cssClass="table-cell-expand table-list-title"
-						href="<%= uadNonreviewableSummaryDisplay.getViewURL() %>"
 						name="name"
 						value="<%= UADLanguageUtil.getApplicationName(uadNonreviewableSummaryDisplay.getApplicationKey(), locale) %>"
 					/>
 
 					<liferay-ui:search-container-column-text
 						cssClass="table-cell-expand"
-						href="<%= uadNonreviewableSummaryDisplay.getViewURL() %>"
 						name="items"
 						property="count"
 					/>

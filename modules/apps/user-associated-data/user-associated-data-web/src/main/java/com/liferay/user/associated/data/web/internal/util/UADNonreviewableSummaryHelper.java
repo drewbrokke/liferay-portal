@@ -15,6 +15,7 @@
 package com.liferay.user.associated.data.web.internal.util;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -22,6 +23,7 @@ import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.user.associated.data.anonymizer.UADAnonymizer;
 import com.liferay.user.associated.data.constants.UserAssociatedDataPortletKeys;
 import com.liferay.user.associated.data.display.UADDisplay;
@@ -121,11 +123,11 @@ public class UADNonreviewableSummaryHelper {
 	public List<UADAnonymizer> getApplicationUADAnonymizers(
 		String applicationKey) {
 
-		Stream<UADDisplay> uadDisplayStream =
-			_uadRegistry.getApplicationUADDisplayStream(applicationKey);
+		Stream<UADAnonymizer> uadAnonymizerStream =
+			_uadRegistry.getApplicationUADAnonymizerStream(applicationKey);
 
-		return uadDisplayStream.map(
-			UADDisplay::getTypeClass
+		return uadAnonymizerStream.map(
+			UADAnonymizer::getTypeClass
 		).map(
 			Class::getName
 		).map(
@@ -155,16 +157,16 @@ public class UADNonreviewableSummaryHelper {
 	}
 
 	public String getDefaultUADRegistryKey(String applicationKey) {
-		List<UADDisplay> uadDisplays = _uadRegistry.getApplicationUADDisplays(
-			applicationKey);
+		List<UADAnonymizer> uadAnonymizers =
+			_uadRegistry.getApplicationUADAnonymizers(applicationKey);
 
-		UADDisplay uadDisplay = uadDisplays.get(0);
+		UADAnonymizer uadAnonymizer = uadAnonymizers.get(0);
 
-		if (uadDisplay == null) {
+		if (uadAnonymizer == null) {
 			return null;
 		}
 
-		Class<?> typeClass = uadDisplay.getTypeClass();
+		Class<?> typeClass = uadAnonymizer.getTypeClass();
 
 		return typeClass.getName();
 	}
@@ -195,16 +197,23 @@ public class UADNonreviewableSummaryHelper {
 	}
 
 	public int getReviewableUADEntitiesCount(
-		Stream<UADDisplay> uadDisplayStream, long userId) {
+		Stream<UADAnonymizer> uadAnonymizerStream, long userId) {
 
-		return uadDisplayStream.mapToInt(
-			uadDisplay -> (int)uadDisplay.count(userId)
+		return uadAnonymizerStream.mapToInt(
+			uadAnonymizer -> {
+				try {
+					return (int)uadAnonymizer.count(userId);
+				}
+				catch (PortalException pe) {
+					return 0;
+				}
+			}
 		).sum();
 	}
 
 	public int getTotalReviewableUADEntitiesCount(long userId) {
 		return getReviewableUADEntitiesCount(
-			_uadRegistry.getUADDisplayStream(), userId);
+			_uadRegistry.getUADAnonymizerStream(), userId);
 	}
 
 	public UADNonreviewableSummaryDisplay getUADNonreviewableSummaryDisplay(
@@ -213,11 +222,36 @@ public class UADNonreviewableSummaryHelper {
 		UADNonreviewableSummaryDisplay uadNonreviewableSummaryDisplay =
 			new UADNonreviewableSummaryDisplay();
 
+		Collection<UADAnonymizer> applicationUADAnonymizers =
+			_uadRegistry.getApplicationUADAnonymizers(applicationKey);
+
+		List<UADAnonymizer> nonreviewableUADAnonymizers = new ArrayList(
+			applicationUADAnonymizers);
+
+		List<Class> applicationUADDisplayTypeClasses = new ArrayList<>();
+
 		Collection<UADDisplay> applicationUADDisplays =
 			_uadRegistry.getApplicationUADDisplays(applicationKey);
 
+		if (applicationUADDisplays != null) {
+			for (UADDisplay applicationUADDisplay : applicationUADDisplays) {
+				applicationUADDisplayTypeClasses.add(
+					applicationUADDisplay.getTypeClass());
+			}
+		}
+
+		for (UADAnonymizer applicationUADAnonymizer :
+				applicationUADAnonymizers) {
+
+			if (applicationUADDisplayTypeClasses.contains(
+					applicationUADAnonymizer.getTypeClass())) {
+
+				nonreviewableUADAnonymizers.remove(applicationUADAnonymizer);
+			}
+		}
+
 		int count = getReviewableUADEntitiesCount(
-			applicationUADDisplays.stream(), userId);
+			nonreviewableUADAnonymizers.stream(), userId);
 
 		uadNonreviewableSummaryDisplay.setCount(count);
 
@@ -238,10 +272,10 @@ public class UADNonreviewableSummaryHelper {
 		List<UADNonreviewableSummaryDisplay> uadNonreviewableSummaryDisplays =
 			new ArrayList<>();
 
-		Set<String> applicationUADDisplayKeySet =
-			_uadRegistry.getApplicationUADDisplaysKeySet();
+		Set<String> applicationUADAnonymizerKeySet =
+			_uadRegistry.getApplicationUADAnonymizersKeySet();
 
-		Iterator<String> iterator = applicationUADDisplayKeySet.iterator();
+		Iterator<String> iterator = applicationUADAnonymizerKeySet.iterator();
 
 		while (iterator.hasNext()) {
 			String applicationKey = iterator.next();

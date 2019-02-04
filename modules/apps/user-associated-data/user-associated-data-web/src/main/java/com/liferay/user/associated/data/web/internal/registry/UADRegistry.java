@@ -40,6 +40,25 @@ import org.osgi.service.component.annotations.Deactivate;
 @Component(immediate = true, service = UADRegistry.class)
 public class UADRegistry {
 
+	public List<UADAnonymizer> getApplicationUADAnonymizers(
+		String applicationKey) {
+
+		return _bundleUADAnonymizerServiceTrackerMap.getService(applicationKey);
+	}
+
+	public Set<String> getApplicationUADAnonymizersKeySet() {
+		return _bundleUADAnonymizerServiceTrackerMap.keySet();
+	}
+
+	public Stream<UADAnonymizer> getApplicationUADAnonymizerStream(
+		String applicationKey) {
+
+		List<UADAnonymizer> uadAnonymizerList = getApplicationUADAnonymizers(
+			applicationKey);
+
+		return uadAnonymizerList.stream();
+	}
+
 	public List<UADDisplay> getApplicationUADDisplays(String applicationKey) {
 		return _bundleUADDisplayServiceTrackerMap.getService(applicationKey);
 	}
@@ -73,6 +92,10 @@ public class UADRegistry {
 		return _uadAnonymizerServiceTrackerMap.values();
 	}
 
+	public Stream<UADAnonymizer> getUADAnonymizerStream() {
+		return getUADAnonymizers().stream();
+	}
+
 	public UADDisplay getUADDisplay(String key) {
 		return _uadDisplayServiceTrackerMap.getService(key);
 	}
@@ -91,6 +114,8 @@ public class UADRegistry {
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
+		_bundleUADAnonymizerServiceTrackerMap = getMultiValueServiceTrackerMap(
+			bundleContext, UADAnonymizer.class);
 		_bundleUADDisplayServiceTrackerMap = getMultiValueServiceTrackerMap(
 			bundleContext, UADDisplay.class);
 		_bundleUADExporterServiceTrackerMap = getMultiValueServiceTrackerMap(
@@ -105,6 +130,7 @@ public class UADRegistry {
 
 	@Deactivate
 	protected void deactivate() {
+		_bundleUADAnonymizerServiceTrackerMap.close();
 		_bundleUADDisplayServiceTrackerMap.close();
 		_bundleUADExporterServiceTrackerMap.close();
 		_uadAnonymizerServiceTrackerMap.close();
@@ -143,6 +169,8 @@ public class UADRegistry {
 				}));
 	}
 
+	private ServiceTrackerMap<String, List<UADAnonymizer>>
+		_bundleUADAnonymizerServiceTrackerMap;
 	private ServiceTrackerMap<String, List<UADDisplay>>
 		_bundleUADDisplayServiceTrackerMap;
 	private ServiceTrackerMap<String, List<UADExporter>>
