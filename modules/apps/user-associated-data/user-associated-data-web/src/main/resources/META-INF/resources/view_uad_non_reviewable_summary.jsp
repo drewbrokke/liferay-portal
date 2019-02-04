@@ -17,9 +17,9 @@
 <%@ include file="/init.jsp" %>
 
 <%
-ViewUADNonreviewableSummaryDisplay viewUADNonreviewableSummaryDisplay = (ViewUADNonreviewableSummaryDisplay)request.getAttribute(UADWebKeys.VIEW_UAD_APPLICATIONS_SUMMARY_DISPLAY);
+ViewUADApplicationsSummaryDisplay viewUADApplicationsSummaryDisplay = (ViewUADApplicationsSummaryDisplay)request.getAttribute(UADWebKeys.VIEW_UAD_APPLICATIONS_SUMMARY_DISPLAY);
 
-SearchContainer<UADNonreviewableSummaryDisplay> uadNonreviewableSummaryDisplaySearchContainer = viewUADNonreviewableSummaryDisplay.getSearchContainer();
+SearchContainer<UADApplicationSummaryDisplay> uadNonreviewableSummaryDisplaySearchContainer = viewUADApplicationsSummaryDisplay.getSearchContainer();
 
 UADNonreviewableSummaryManagementToolbarDisplayContext uadNonreviewableSummaryManagementToolbarDisplayContext = new UADNonreviewableSummaryManagementToolbarDisplayContext(liferayPortletRequest, liferayPortletResponse, request, uadNonreviewableSummaryDisplaySearchContainer);
 
@@ -52,7 +52,7 @@ String statusLabelPending = StringUtil.toUpperCase(LanguageUtil.get(request, "pe
 			<div class="autofit-row autofit-row-center">
 				<div class="autofit-col autofit-col-expand">
 					<div class="autofit-section">
-						<strong><liferay-ui:message key="remaining-items" />: </strong><%= viewUADNonreviewableSummaryDisplay.getTotalCount() %>
+						<strong><liferay-ui:message key="remaining-items" />: </strong><%= viewUADApplicationsSummaryDisplay.getTotalCount() %>
 					</div>
 				</div>
 
@@ -75,7 +75,7 @@ String statusLabelPending = StringUtil.toUpperCase(LanguageUtil.get(request, "pe
 				searchContainer="<%= uadNonreviewableSummaryDisplaySearchContainer %>"
 			>
 				<liferay-ui:search-container-row
-					className="com.liferay.user.associated.data.web.internal.display.UADNonreviewableSummaryDisplay"
+					className="com.liferay.user.associated.data.web.internal.display.UADApplicationSummaryDisplay"
 					escapedModel="<%= true %>"
 					keyProperty="key"
 					modelVar="uadNonreviewableSummaryDisplay"

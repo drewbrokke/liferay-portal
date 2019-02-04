@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.user.associated.data.constants.UserAssociatedDataPortletKeys;
 import com.liferay.user.associated.data.web.internal.constants.UADWebKeys;
-import com.liferay.user.associated.data.web.internal.display.ViewUADNonreviewableSummaryDisplay;
+import com.liferay.user.associated.data.web.internal.display.ViewUADApplicationsSummaryDisplay;
 import com.liferay.user.associated.data.web.internal.util.SelectedUserHelper;
 import com.liferay.user.associated.data.web.internal.util.UADNonreviewableSummaryHelper;
 
@@ -54,21 +54,21 @@ public class ViewUADNonreviewableSummaryMVCRenderCommand
 			User selectedUser = _selectedUserHelper.getSelectedUser(
 				renderRequest);
 
-			ViewUADNonreviewableSummaryDisplay
-				viewUADNonreviewableSummaryDisplay =
-					new ViewUADNonreviewableSummaryDisplay();
+			ViewUADApplicationsSummaryDisplay
+				viewUADApplicationsSummaryDisplay =
+					new ViewUADApplicationsSummaryDisplay();
 
-			viewUADNonreviewableSummaryDisplay.setSearchContainer(
+			viewUADApplicationsSummaryDisplay.setSearchContainer(
 				_uadNonreviewableSummaryHelper.createSearchContainer(
 					renderRequest, renderResponse, selectedUser.getUserId()));
-			viewUADNonreviewableSummaryDisplay.setTotalCount(
+			viewUADApplicationsSummaryDisplay.setTotalCount(
 				_uadNonreviewableSummaryHelper.
 					getTotalReviewableUADEntitiesCount(
 						selectedUser.getUserId()));
 
 			renderRequest.setAttribute(
 				UADWebKeys.VIEW_UAD_APPLICATIONS_SUMMARY_DISPLAY,
-				viewUADNonreviewableSummaryDisplay);
+				viewUADApplicationsSummaryDisplay);
 		}
 		catch (PortalException pe) {
 			throw new PortletException(pe);

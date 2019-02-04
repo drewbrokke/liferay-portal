@@ -22,9 +22,11 @@ import com.liferay.user.associated.data.component.UADComponent;
 import com.liferay.user.associated.data.display.UADDisplay;
 import com.liferay.user.associated.data.exporter.UADExporter;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.osgi.framework.Bundle;
@@ -82,6 +84,38 @@ public class UADRegistry {
 
 	public Set<String> getApplicationUADExportersKeySet() {
 		return _bundleUADDisplayServiceTrackerMap.keySet();
+	}
+
+	public List<UADAnonymizer> getNonreviewableApplicationUADAnonymizers(
+		String applicationKey) {
+
+		Collection<UADAnonymizer> applicationUADAnonymizers =
+			getApplicationUADAnonymizers(applicationKey);
+
+		List<UADAnonymizer> nonreviewableApplicationUADAnonymizers =
+			new ArrayList(applicationUADAnonymizers);
+
+		Stream<UADDisplay> applicationUADDisplayStream =
+			getApplicationUADDisplayStream(applicationKey);
+
+		Stream<Class> typeClassStream = applicationUADDisplayStream.map(
+			applicationUADDisplay -> applicationUADDisplay.getTypeClass());
+
+		List<Class> applicationUADDisplayTypeClasses = typeClassStream.collect(
+			Collectors.toList());
+
+		for (UADAnonymizer applicationUADAnonymizer :
+				applicationUADAnonymizers) {
+
+			if (applicationUADDisplayTypeClasses.contains(
+					applicationUADAnonymizer.getTypeClass())) {
+
+				nonreviewableApplicationUADAnonymizers.remove(
+					applicationUADAnonymizer);
+			}
+		}
+
+		return nonreviewableApplicationUADAnonymizers;
 	}
 
 	public UADAnonymizer getUADAnonymizer(String key) {

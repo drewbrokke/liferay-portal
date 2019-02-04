@@ -23,11 +23,9 @@ import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.user.associated.data.anonymizer.UADAnonymizer;
 import com.liferay.user.associated.data.constants.UserAssociatedDataPortletKeys;
-import com.liferay.user.associated.data.display.UADDisplay;
-import com.liferay.user.associated.data.web.internal.display.UADNonreviewableSummaryDisplay;
+import com.liferay.user.associated.data.web.internal.display.UADApplicationSummaryDisplay;
 import com.liferay.user.associated.data.web.internal.registry.UADRegistry;
 
 import java.util.ArrayList;
@@ -56,10 +54,9 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = UADNonreviewableSummaryHelper.class)
 public class UADNonreviewableSummaryHelper {
 
-	public SearchContainer<UADNonreviewableSummaryDisplay>
-		createSearchContainer(
-			RenderRequest renderRequest, RenderResponse renderResponse,
-			long userId) {
+	public SearchContainer<UADApplicationSummaryDisplay> createSearchContainer(
+		RenderRequest renderRequest, RenderResponse renderResponse,
+		long userId) {
 
 		PortletRequest portletRequest =
 			(PortletRequest)renderRequest.getAttribute(
@@ -73,32 +70,31 @@ public class UADNonreviewableSummaryHelper {
 			_portal.getLiferayPortletRequest(portletRequest),
 			liferayPortletResponse);
 
-		SearchContainer<UADNonreviewableSummaryDisplay> searchContainer =
+		SearchContainer<UADApplicationSummaryDisplay> searchContainer =
 			new SearchContainer<>(portletRequest, currentURL, null, null);
 
-		searchContainer.setId("uadNonreviewableSummaryDisplays");
+		searchContainer.setId("uadApplicationSummaryDisplays");
 
 		searchContainer.setOrderByCol(getOrderByCol(renderRequest));
 		searchContainer.setOrderByType(getOrderByType(renderRequest));
 
-		Predicate<UADNonreviewableSummaryDisplay> predicate = getPredicate(
+		Predicate<UADApplicationSummaryDisplay> predicate = getPredicate(
 			getNavigation(renderRequest));
 
-		List<UADNonreviewableSummaryDisplay> uadNonreviewableSummaryDisplays =
-			getUADNonreviewableSummaryDisplays(portletRequest, userId);
+		List<UADApplicationSummaryDisplay> uadApplicationSummaryDisplays =
+			getUADApplicationSummaryDisplays(portletRequest, userId);
 
-		Supplier<Stream<UADNonreviewableSummaryDisplay>> streamSupplier =
-			() -> {
-				Stream<UADNonreviewableSummaryDisplay> stream =
-					uadNonreviewableSummaryDisplays.stream();
+		Supplier<Stream<UADApplicationSummaryDisplay>> streamSupplier = () -> {
+			Stream<UADApplicationSummaryDisplay> stream =
+				uadApplicationSummaryDisplays.stream();
 
-				return stream.filter(predicate);
-			};
+			return stream.filter(predicate);
+		};
 
-		Stream<UADNonreviewableSummaryDisplay> summaryDisplayStream =
+		Stream<UADApplicationSummaryDisplay> summaryDisplayStream =
 			streamSupplier.get();
 
-		List<UADNonreviewableSummaryDisplay> results =
+		List<UADApplicationSummaryDisplay> results =
 			summaryDisplayStream.sorted(
 				getComparator(
 					searchContainer.getOrderByCol(),
@@ -137,16 +133,16 @@ public class UADNonreviewableSummaryHelper {
 		);
 	}
 
-	public Comparator<UADNonreviewableSummaryDisplay> getComparator(
+	public Comparator<UADApplicationSummaryDisplay> getComparator(
 		String orderByColumn, String orderByType) {
 
-		Comparator<UADNonreviewableSummaryDisplay> comparator =
+		Comparator<UADApplicationSummaryDisplay> comparator =
 			Comparator.comparing(
-				UADNonreviewableSummaryDisplay::getApplicationKey);
+				UADApplicationSummaryDisplay::getApplicationKey);
 
 		if (orderByColumn.equals("items") || orderByColumn.equals("status")) {
 			comparator = Comparator.comparingInt(
-				UADNonreviewableSummaryDisplay::getCount);
+				UADApplicationSummaryDisplay::getCount);
 		}
 
 		if (orderByType.equals("desc")) {
@@ -183,7 +179,7 @@ public class UADNonreviewableSummaryHelper {
 		return ParamUtil.getString(renderRequest, "orderByType", "asc");
 	}
 
-	public Predicate<UADNonreviewableSummaryDisplay> getPredicate(
+	public Predicate<UADApplicationSummaryDisplay> getPredicate(
 		String navigation) {
 
 		if (navigation.equals("pending")) {
@@ -205,6 +201,8 @@ public class UADNonreviewableSummaryHelper {
 					return (int)uadAnonymizer.count(userId);
 				}
 				catch (PortalException pe) {
+					pe.printStackTrace();
+
 					return 0;
 				}
 			}
@@ -216,60 +214,35 @@ public class UADNonreviewableSummaryHelper {
 			_uadRegistry.getUADAnonymizerStream(), userId);
 	}
 
-	public UADNonreviewableSummaryDisplay getUADNonreviewableSummaryDisplay(
+	public UADApplicationSummaryDisplay getUADApplicationSummaryDisplay(
 		PortletRequest portletRequest, String applicationKey, long userId) {
 
-		UADNonreviewableSummaryDisplay uadNonreviewableSummaryDisplay =
-			new UADNonreviewableSummaryDisplay();
+		UADApplicationSummaryDisplay uadApplicationSummaryDisplay =
+			new UADApplicationSummaryDisplay();
 
-		Collection<UADAnonymizer> applicationUADAnonymizers =
-			_uadRegistry.getApplicationUADAnonymizers(applicationKey);
-
-		List<UADAnonymizer> nonreviewableUADAnonymizers = new ArrayList(
-			applicationUADAnonymizers);
-
-		List<Class> applicationUADDisplayTypeClasses = new ArrayList<>();
-
-		Collection<UADDisplay> applicationUADDisplays =
-			_uadRegistry.getApplicationUADDisplays(applicationKey);
-
-		if (applicationUADDisplays != null) {
-			for (UADDisplay applicationUADDisplay : applicationUADDisplays) {
-				applicationUADDisplayTypeClasses.add(
-					applicationUADDisplay.getTypeClass());
-			}
-		}
-
-		for (UADAnonymizer applicationUADAnonymizer :
-				applicationUADAnonymizers) {
-
-			if (applicationUADDisplayTypeClasses.contains(
-					applicationUADAnonymizer.getTypeClass())) {
-
-				nonreviewableUADAnonymizers.remove(applicationUADAnonymizer);
-			}
-		}
+		Collection<UADAnonymizer> nonreviewableApplicationUADAnonymizers =
+			_uadRegistry.getNonreviewableApplicationUADAnonymizers(
+				applicationKey);
 
 		int count = getReviewableUADEntitiesCount(
-			nonreviewableUADAnonymizers.stream(), userId);
+			nonreviewableApplicationUADAnonymizers.stream(), userId);
 
-		uadNonreviewableSummaryDisplay.setCount(count);
+		uadApplicationSummaryDisplay.setCount(count);
 
-		uadNonreviewableSummaryDisplay.setApplicationKey(applicationKey);
+		uadApplicationSummaryDisplay.setApplicationKey(applicationKey);
 
 		if (count > 0) {
-			uadNonreviewableSummaryDisplay.setViewURL(
+			uadApplicationSummaryDisplay.setViewURL(
 				getViewURL(portletRequest, applicationKey, userId));
 		}
 
-		return uadNonreviewableSummaryDisplay;
+		return uadApplicationSummaryDisplay;
 	}
 
-	public List<UADNonreviewableSummaryDisplay>
-		getUADNonreviewableSummaryDisplays(
-			PortletRequest portletRequest, long userId) {
+	public List<UADApplicationSummaryDisplay> getUADApplicationSummaryDisplays(
+		PortletRequest portletRequest, long userId) {
 
-		List<UADNonreviewableSummaryDisplay> uadNonreviewableSummaryDisplays =
+		List<UADApplicationSummaryDisplay> uadApplicationSummaryDisplays =
 			new ArrayList<>();
 
 		Set<String> applicationUADAnonymizerKeySet =
@@ -280,22 +253,21 @@ public class UADNonreviewableSummaryHelper {
 		while (iterator.hasNext()) {
 			String applicationKey = iterator.next();
 
-			uadNonreviewableSummaryDisplays.add(
-				getUADNonreviewableSummaryDisplay(
+			uadApplicationSummaryDisplays.add(
+				getUADApplicationSummaryDisplay(
 					portletRequest, applicationKey, userId));
 		}
 
-		uadNonreviewableSummaryDisplays.sort(
-			(uadNonreviewableSummaryDisplay,
-			 uadNonreviewableSummaryDisplay2) -> {
-			String applicationKey1 =
-				uadNonreviewableSummaryDisplay.getApplicationKey();
+		uadApplicationSummaryDisplays.sort(
+			(uadApplicationSummaryDisplay, uadApplicationSummaryDisplay2) -> {
+				String applicationKey1 =
+					uadApplicationSummaryDisplay.getApplicationKey();
 
-			return applicationKey1.compareTo(
-				uadNonreviewableSummaryDisplay2.getApplicationKey());
-		});
+				return applicationKey1.compareTo(
+					uadApplicationSummaryDisplay2.getApplicationKey());
+			});
 
-		return uadNonreviewableSummaryDisplays;
+		return uadApplicationSummaryDisplays;
 	}
 
 	public String getViewURL(
