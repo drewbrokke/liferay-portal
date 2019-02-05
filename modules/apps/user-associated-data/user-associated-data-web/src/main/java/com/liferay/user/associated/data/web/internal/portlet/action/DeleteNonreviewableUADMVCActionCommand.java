@@ -37,11 +37,11 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + UserAssociatedDataPortletKeys.USER_ASSOCIATED_DATA,
-		"mvc.command.name=/delete_remaining_uad"
+		"mvc.command.name=/delete_nonreviewable_uad"
 	},
 	service = MVCActionCommand.class
 )
-public class DeleteRemainingUADMVCActionCommand
+public class DeleteNonreviewableUADMVCActionCommand
 	extends BaseUADMVCActionCommand {
 
 	@Override
@@ -50,7 +50,7 @@ public class DeleteRemainingUADMVCActionCommand
 		throws Exception {
 
 		Collection<UADAnonymizer> uadAnonymizers =
-			_uadRegistry.getUADAnonymizers();
+			_uadRegistry.getNonreviewableUADAnonymizers();
 
 		for (UADAnonymizer uadAnonymizer : uadAnonymizers) {
 			User selectedUser = getSelectedUser(actionRequest);

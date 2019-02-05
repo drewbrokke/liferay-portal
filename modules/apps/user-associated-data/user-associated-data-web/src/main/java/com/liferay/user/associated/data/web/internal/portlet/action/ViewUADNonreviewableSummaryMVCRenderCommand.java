@@ -38,7 +38,7 @@ import org.osgi.service.component.annotations.Reference;
 	property = {
 		"javax.portlet.name=" +
 			UserAssociatedDataPortletKeys.USER_ASSOCIATED_DATA,
-		"mvc.command.name=/view_uad_non_reviewable_summary"
+		"mvc.command.name=/view_uad_nonreviewable_summary"
 	},
 	service = MVCRenderCommand.class
 )
@@ -74,7 +74,7 @@ public class ViewUADNonreviewableSummaryMVCRenderCommand
 			throw new PortletException(pe);
 		}
 
-		return "/view_uad_non_reviewable_summary.jsp";
+		return "/view_uad_nonreviewable_summary.jsp";
 	}
 
 	@Reference

@@ -16,6 +16,7 @@ package com.liferay.user.associated.data.web.internal.util;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -201,9 +202,7 @@ public class UADNonreviewableSummaryHelper {
 					return (int)uadAnonymizer.count(userId);
 				}
 				catch (PortalException pe) {
-					pe.printStackTrace();
-
-					return 0;
+					throw new SystemException(pe);
 				}
 			}
 		).sum();

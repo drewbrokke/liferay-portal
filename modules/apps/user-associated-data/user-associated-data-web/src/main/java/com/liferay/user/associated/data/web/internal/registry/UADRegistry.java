@@ -75,6 +75,10 @@ public class UADRegistry {
 		List<UADDisplay> uadDisplayList = getApplicationUADDisplays(
 			applicationKey);
 
+		if (uadDisplayList == null) {
+			return Stream.empty();
+		}
+
 		return uadDisplayList.stream();
 	}
 
@@ -92,30 +96,21 @@ public class UADRegistry {
 		Collection<UADAnonymizer> applicationUADAnonymizers =
 			getApplicationUADAnonymizers(applicationKey);
 
-		List<UADAnonymizer> nonreviewableApplicationUADAnonymizers =
-			new ArrayList(applicationUADAnonymizers);
-
 		Stream<UADDisplay> applicationUADDisplayStream =
 			getApplicationUADDisplayStream(applicationKey);
 
-		Stream<Class> typeClassStream = applicationUADDisplayStream.map(
-			applicationUADDisplay -> applicationUADDisplay.getTypeClass());
+		return new ArrayList<>(
+			_getNonreviewableUADAnonymizers(
+				applicationUADAnonymizers, applicationUADDisplayStream));
+	}
 
-		List<Class> applicationUADDisplayTypeClasses = typeClassStream.collect(
-			Collectors.toList());
+	public Collection<UADAnonymizer> getNonreviewableUADAnonymizers() {
+		Collection<UADAnonymizer> uadAnonymizers = getUADAnonymizers();
 
-		for (UADAnonymizer applicationUADAnonymizer :
-				applicationUADAnonymizers) {
+		Stream<UADDisplay> uadDisplayStream = getUADDisplayStream();
 
-			if (applicationUADDisplayTypeClasses.contains(
-					applicationUADAnonymizer.getTypeClass())) {
-
-				nonreviewableApplicationUADAnonymizers.remove(
-					applicationUADAnonymizer);
-			}
-		}
-
-		return nonreviewableApplicationUADAnonymizers;
+		return _getNonreviewableUADAnonymizers(
+			uadAnonymizers, uadDisplayStream);
 	}
 
 	public UADAnonymizer getUADAnonymizer(String key) {
@@ -201,6 +196,28 @@ public class UADRegistry {
 
 					emitter.emit(uadClass.getName());
 				}));
+	}
+
+	private Collection<UADAnonymizer> _getNonreviewableUADAnonymizers(
+		Collection<UADAnonymizer> uadAnonymizers,
+		Stream<UADDisplay> uadDisplayStream) {
+
+		Stream<Class> typeClassStream = uadDisplayStream.map(
+			UADDisplay::getTypeClass);
+
+		List<Class> uadDisplayTypeClasses = typeClassStream.collect(
+			Collectors.toList());
+
+		List<UADAnonymizer> nonreviewableUADAnonymizers = new ArrayList<>(
+			uadAnonymizers);
+
+		for (UADAnonymizer uadAnonymizer : uadAnonymizers) {
+			if (uadDisplayTypeClasses.contains(uadAnonymizer.getTypeClass())) {
+				nonreviewableUADAnonymizers.remove(uadAnonymizer);
+			}
+		}
+
+		return nonreviewableUADAnonymizers;
 	}
 
 	private ServiceTrackerMap<String, List<UADAnonymizer>>

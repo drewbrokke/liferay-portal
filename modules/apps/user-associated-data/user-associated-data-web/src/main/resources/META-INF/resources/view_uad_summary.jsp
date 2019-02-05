@@ -134,7 +134,7 @@ renderResponse.setTitle(StringBundler.concat(selectedUser.getFullName(), " - ", 
 
 			<div class="sheet-text">
 				<portlet:renderURL var="viewUADNonreviewableURL">
-					<portlet:param name="mvcRenderCommandName" value="/view_uad_non_reviewable_summary" />
+					<portlet:param name="mvcRenderCommandName" value="/view_uad_nonreviewable_summary" />
 					<portlet:param name="p_u_i_d" value="<%= String.valueOf(selectedUser.getUserId()) %>" />
 				</portlet:renderURL>
 
