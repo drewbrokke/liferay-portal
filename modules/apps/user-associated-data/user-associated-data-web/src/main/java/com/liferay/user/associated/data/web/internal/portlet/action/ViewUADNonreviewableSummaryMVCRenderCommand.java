@@ -17,6 +17,7 @@ package com.liferay.user.associated.data.web.internal.portlet.action;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.user.associated.data.constants.UserAssociatedDataPortletKeys;
 import com.liferay.user.associated.data.web.internal.constants.UADWebKeys;
 import com.liferay.user.associated.data.web.internal.display.ViewUADApplicationsSummaryDisplay;
@@ -60,7 +61,8 @@ public class ViewUADNonreviewableSummaryMVCRenderCommand
 
 			viewUADApplicationsSummaryDisplay.setSearchContainer(
 				_uadNonreviewableSummaryHelper.createSearchContainer(
-					renderRequest, renderResponse, selectedUser.getUserId()));
+					LocaleThreadLocal.getThemeDisplayLocale(), renderRequest,
+					renderResponse, selectedUser.getUserId()));
 			viewUADApplicationsSummaryDisplay.setTotalCount(
 				_uadNonreviewableSummaryHelper.
 					getTotalReviewableUADEntitiesCount(

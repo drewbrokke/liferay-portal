@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author Drew Brokke
+ * @author Samuel Trong Tran
  */
 public class UADNonreviewableSummaryManagementToolbarDisplayContext
 	extends SearchContainerManagementToolbarDisplayContext {

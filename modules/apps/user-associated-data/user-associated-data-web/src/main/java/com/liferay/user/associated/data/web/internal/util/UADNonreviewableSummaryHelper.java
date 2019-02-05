@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -56,8 +57,8 @@ import org.osgi.service.component.annotations.Reference;
 public class UADNonreviewableSummaryHelper {
 
 	public SearchContainer<UADApplicationSummaryDisplay> createSearchContainer(
-		RenderRequest renderRequest, RenderResponse renderResponse,
-		long userId) {
+		Locale locale, RenderRequest renderRequest,
+		RenderResponse renderResponse, long userId) {
 
 		PortletRequest portletRequest =
 			(PortletRequest)renderRequest.getAttribute(
@@ -98,7 +99,7 @@ public class UADNonreviewableSummaryHelper {
 		List<UADApplicationSummaryDisplay> results =
 			summaryDisplayStream.sorted(
 				getComparator(
-					searchContainer.getOrderByCol(),
+					locale, searchContainer.getOrderByCol(),
 					searchContainer.getOrderByType())
 			).skip(
 				searchContainer.getStart()
@@ -135,11 +136,14 @@ public class UADNonreviewableSummaryHelper {
 	}
 
 	public Comparator<UADApplicationSummaryDisplay> getComparator(
-		String orderByColumn, String orderByType) {
+		Locale locale, String orderByColumn, String orderByType) {
 
 		Comparator<UADApplicationSummaryDisplay> comparator =
 			Comparator.comparing(
-				UADApplicationSummaryDisplay::getApplicationKey);
+				uadApplicationSummaryDisplay ->
+					UADLanguageUtil.getApplicationName(
+						uadApplicationSummaryDisplay.getApplicationKey(),
+						locale));
 
 		if (orderByColumn.equals("items") || orderByColumn.equals("status")) {
 			comparator = Comparator.comparingInt(
