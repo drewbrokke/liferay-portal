@@ -16,6 +16,8 @@ package com.liferay.marketplace.app.manager.web.internal.display.context;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItemList;
 import com.liferay.marketplace.app.manager.web.internal.constants.BundleStateConstants;
 import com.liferay.marketplace.app.manager.web.internal.util.AppDisplay;
 import com.liferay.marketplace.app.manager.web.internal.util.AppDisplayFactoryUtil;
@@ -48,6 +50,16 @@ public class ViewAppsManagerManagementToolbarDisplayContext
 		HttpServletRequest request) {
 
 		super(liferayPortletRequest, liferayPortletResponse, request);
+
+		_searchContainer = _createSearchContainer(liferayPortletRequest);
+	}
+
+	public String getClearResultsURL() {
+		PortletURL removeLabelURL = getPortletURL();
+
+		removeLabelURL.setParameter("category", (String)null);
+
+		return removeLabelURL.toString();
 	}
 
 	@Override
@@ -81,6 +93,40 @@ public class ViewAppsManagerManagementToolbarDisplayContext
 		};
 	}
 
+	public List<LabelItem> getFilterLabelItems() {
+		return new LabelItemList() {
+			{
+				String category = getCategory();
+
+				if (!category.equals("all-categories")) {
+					add(
+						labelItem -> {
+							PortletURL removeLabelURL = getPortletURL();
+
+							removeLabelURL.setParameter(
+								"category", (String)null);
+
+							labelItem.putData(
+								"removeLabelURL", removeLabelURL.toString());
+
+							labelItem.setCloseable(true);
+
+							String label = String.format(
+								"%s: %s", LanguageUtil.get(request, "category"),
+								LanguageUtil.get(request, category));
+
+							labelItem.setLabel(label);
+						});
+				}
+			}
+		};
+	}
+
+	@Override
+	public int getItemsTotal() {
+		return _searchContainer.getTotal();
+	}
+
 	@Override
 	public PortletURL getPortletURL() {
 		PortletURL portletURL = liferayPortletResponse.createRenderURL();
@@ -102,10 +148,12 @@ public class ViewAppsManagerManagementToolbarDisplayContext
 	}
 
 	@Override
-	public SearchContainer getSearchContainer() throws Exception {
-		if (_searchContainer != null) {
-			return _searchContainer;
-		}
+	public SearchContainer getSearchContainer() {
+		return _searchContainer;
+	}
+
+	private SearchContainer _createSearchContainer(
+		LiferayPortletRequest liferayPortletRequest) {
 
 		SearchContainer searchContainer = new SearchContainer(
 			liferayPortletRequest, getPortletURL(), null, "no-apps-were-found");
@@ -138,11 +186,9 @@ public class ViewAppsManagerManagementToolbarDisplayContext
 
 		searchContainer.setTotal(appDisplays.size());
 
-		_searchContainer = searchContainer;
-
-		return _searchContainer;
+		return searchContainer;
 	}
 
-	private SearchContainer _searchContainer;
+	private final SearchContainer _searchContainer;
 
 }
