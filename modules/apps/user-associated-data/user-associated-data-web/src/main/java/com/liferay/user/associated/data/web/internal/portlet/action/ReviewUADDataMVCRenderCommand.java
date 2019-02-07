@@ -14,8 +14,6 @@
 
 package com.liferay.user.associated.data.web.internal.portlet.action;
 
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItem;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemList;
 import com.liferay.portal.kernel.dao.search.DisplayTerms;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.RowChecker;
@@ -27,25 +25,27 @@ import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.TextFormatter;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.user.associated.data.constants.UserAssociatedDataPortletKeys;
 import com.liferay.user.associated.data.display.UADDisplay;
 import com.liferay.user.associated.data.web.internal.constants.UADWebKeys;
+import com.liferay.user.associated.data.web.internal.display.UADApplicationSummaryDisplay;
 import com.liferay.user.associated.data.web.internal.display.UADEntity;
 import com.liferay.user.associated.data.web.internal.display.ViewUADEntitiesDisplay;
 import com.liferay.user.associated.data.web.internal.registry.UADRegistry;
 import com.liferay.user.associated.data.web.internal.util.SafeDisplayValueUtil;
 import com.liferay.user.associated.data.web.internal.util.SelectedUserHelper;
+import com.liferay.user.associated.data.web.internal.util.UADApplicationSummaryHelper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.portlet.PortletException;
@@ -57,17 +57,17 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author William Newbury
+ * @author Pei-Jung Lan
  */
 @Component(
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + UserAssociatedDataPortletKeys.USER_ASSOCIATED_DATA,
-		"mvc.command.name=/view_uad_entities"
+		"mvc.command.name=/review_uad_data"
 	},
 	service = MVCRenderCommand.class
 )
-public class ViewUADEntitiesMVCRenderCommand implements MVCRenderCommand {
+public class ReviewUADDataMVCRenderCommand implements MVCRenderCommand {
 
 	@Override
 	public String render(
@@ -78,10 +78,41 @@ public class ViewUADEntitiesMVCRenderCommand implements MVCRenderCommand {
 			User selectedUser = _selectedUserHelper.getSelectedUser(
 				renderRequest);
 
+			List<UADApplicationSummaryDisplay> uadApplicationSummaryDisplays =
+				_uadApplicationSummaryHelper.getUADApplicationSummaryDisplays(
+					selectedUser.getUserId());
+
+			UADApplicationSummaryDisplay uadApplicationSummaryDisplay =
+				uadApplicationSummaryDisplays.get(0);
+
+			for (UADApplicationSummaryDisplay
+					currentUadApplicationSummaryDisplay :
+						uadApplicationSummaryDisplays) {
+
+				if (currentUadApplicationSummaryDisplay.getCount() > 0) {
+					uadApplicationSummaryDisplay =
+						currentUadApplicationSummaryDisplay;
+
+					break;
+				}
+			}
+
 			String applicationKey = ParamUtil.getString(
 				renderRequest, "applicationKey");
+
+			if (Validator.isNull(applicationKey)) {
+				applicationKey =
+					uadApplicationSummaryDisplay.getApplicationKey();
+			}
+
 			String uadRegistryKey = ParamUtil.getString(
 				renderRequest, "uadRegistryKey");
+
+			if (Validator.isNull(uadRegistryKey)) {
+				uadRegistryKey =
+					_uadApplicationSummaryHelper.getDefaultUADRegistryKey(
+						applicationKey);
+			}
 
 			ViewUADEntitiesDisplay viewUADEntitiesDisplay =
 				new ViewUADEntitiesDisplay();
@@ -94,17 +125,13 @@ public class ViewUADEntitiesMVCRenderCommand implements MVCRenderCommand {
 			PortletURL currentURL = PortletURLUtil.getCurrent(
 				renderRequest, renderResponse);
 
-			viewUADEntitiesDisplay.setNavigationItems(
-				_getNavigationItems(
-					applicationKey, uadRegistryKey, currentURL,
-					liferayPortletResponse));
-
 			UADDisplay uadDisplay = _uadRegistry.getUADDisplay(uadRegistryKey);
 
 			viewUADEntitiesDisplay.setSearchContainer(
 				_getSearchContainer(
 					renderRequest, currentURL, uadDisplay,
 					selectedUser.getUserId(), liferayPortletResponse));
+
 			viewUADEntitiesDisplay.setTypeName(
 				uadDisplay.getTypeName(
 					LocaleThreadLocal.getThemeDisplayLocale()));
@@ -112,15 +139,25 @@ public class ViewUADEntitiesMVCRenderCommand implements MVCRenderCommand {
 			viewUADEntitiesDisplay.setUADRegistryKey(uadRegistryKey);
 
 			renderRequest.setAttribute(
+				UADWebKeys.APPLICATION_UAD_DISPLAYS,
+				_uadRegistry.getApplicationUADDisplays(applicationKey));
+			renderRequest.setAttribute(
 				UADWebKeys.INFO_PANEL_UAD_DISPLAY, uadDisplay);
+			renderRequest.setAttribute(
+				UADWebKeys.TOTAL_REVIEWABLE_UAD_ENTITIES_COUNT,
+				_uadApplicationSummaryHelper.getTotalReviewableUADEntitiesCount(
+					selectedUser.getUserId()));
+			renderRequest.setAttribute(
+				UADWebKeys.UAD_APPLICATION_SUMMARY_DISPLAY_LIST,
+				uadApplicationSummaryDisplays);
 			renderRequest.setAttribute(
 				UADWebKeys.VIEW_UAD_ENTITIES_DISPLAY, viewUADEntitiesDisplay);
 		}
-		catch (Exception pe) {
-			throw new PortletException(pe);
+		catch (Exception e) {
+			throw new PortletException(e);
 		}
 
-		return "/view_uad_entities.jsp";
+		return "/review_uad_data.jsp";
 	}
 
 	private <T> UADEntity<T> _constructUADEntity(
@@ -147,36 +184,6 @@ public class ViewUADEntitiesMVCRenderCommand implements MVCRenderCommand {
 		return uadEntity;
 	}
 
-	private List<NavigationItem> _getNavigationItems(
-			String applicationKey, String uadRegistryKey, PortletURL currentURL,
-			LiferayPortletResponse liferayPortletResponse)
-		throws PortletException {
-
-		NavigationItemList navigationItemList = new NavigationItemList();
-
-		Locale locale = LocaleThreadLocal.getThemeDisplayLocale();
-		PortletURL tabPortletURL = PortletURLUtil.clone(
-			currentURL, liferayPortletResponse);
-
-		Collection<UADDisplay> applicationUADDisplays =
-			_uadRegistry.getApplicationUADDisplays(applicationKey);
-
-		applicationUADDisplays.forEach(
-			uadDisplay -> navigationItemList.add(
-				navigationItem -> {
-					Class<?> uadClass = uadDisplay.getTypeClass();
-
-					navigationItem.setActive(
-						uadRegistryKey.equals(uadClass.getName()));
-					navigationItem.setHref(
-						tabPortletURL, "uadRegistryKey", uadClass.getName());
-
-					navigationItem.setLabel(uadDisplay.getTypeName(locale));
-				}));
-
-		return navigationItemList;
-	}
-
 	private SearchContainer<UADEntity> _getSearchContainer(
 			RenderRequest renderRequest, PortletURL currentURL,
 			UADDisplay uadDisplay, long selectedUserId,
@@ -201,8 +208,13 @@ public class ViewUADEntitiesMVCRenderCommand implements MVCRenderCommand {
 		searchContainer.setId("UADEntities");
 
 		String orderByCol = ParamUtil.getString(
-			renderRequest, SearchContainer.DEFAULT_ORDER_BY_COL_PARAM,
-			"modifiedDate");
+			renderRequest, SearchContainer.DEFAULT_ORDER_BY_COL_PARAM);
+
+		if (!ArrayUtil.contains(
+				uadDisplay.getSortingFieldNames(), orderByCol)) {
+
+			orderByCol = "modifiedDate";
+		}
 
 		searchContainer.setOrderByCol(orderByCol);
 
@@ -266,13 +278,16 @@ public class ViewUADEntitiesMVCRenderCommand implements MVCRenderCommand {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		ViewUADEntitiesMVCRenderCommand.class);
+		ReviewUADDataMVCRenderCommand.class);
 
 	@Reference
 	private Portal _portal;
 
 	@Reference
 	private SelectedUserHelper _selectedUserHelper;
+
+	@Reference
+	private UADApplicationSummaryHelper _uadApplicationSummaryHelper;
 
 	@Reference
 	private UADRegistry _uadRegistry;
