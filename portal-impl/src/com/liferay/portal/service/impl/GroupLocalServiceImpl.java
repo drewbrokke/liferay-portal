@@ -2450,14 +2450,15 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 			userGroupRoleLocalService.getUserGroupRoles(userId);
 
 		for (UserGroupRole userGroupRole : userGroupRoles) {
+			Group group = userGroupRole.getGroup();
+
 			Role role = userGroupRole.getRole();
 
 			String roleName = role.getName();
 
-			if (roleName.equals(RoleConstants.SITE_ADMINISTRATOR) ||
-				roleName.equals(RoleConstants.SITE_OWNER)) {
-
-				Group group = userGroupRole.getGroup();
+			if (group.isSite() &&
+				(roleName.equals(RoleConstants.SITE_ADMINISTRATOR) ||
+				 roleName.equals(RoleConstants.SITE_OWNER))) {
 
 				sites.add(group);
 			}
