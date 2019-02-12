@@ -281,6 +281,18 @@ public class GroupServiceUserSitesGroupsTest {
 
 		Assert.assertTrue(
 			groups + " does not contain " + _group, groups.contains(_group));
+
+		// If a group is not a site, do not return it from getUserSitesGroups()
+
+		_group.setSite(false);
+
+		GroupLocalServiceUtil.updateGroup(_group);
+
+		groups = GroupLocalServiceUtil.getUserSitesGroups(
+			_user.getUserId(), false);
+
+		Assert.assertFalse(
+			groups + " should not contain " + _group, groups.contains(_group));
 	}
 
 	@DeleteAfterTestRun
