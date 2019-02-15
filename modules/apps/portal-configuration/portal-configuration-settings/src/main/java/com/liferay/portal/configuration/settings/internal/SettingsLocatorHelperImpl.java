@@ -327,7 +327,7 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 		String configurationPid, Settings parentSettings) {
 
 		ScopedConfigurationManager scopedConfigurationManager =
-			_scopedConfigurationProviders.get(configurationPid);
+			_scopedConfigurationManagers.get(configurationPid);
 
 		if (scopedConfigurationManager == null) {
 			return parentSettings;
@@ -361,7 +361,7 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 	private PortletPreferencesFactory _portletPreferencesFactory;
 	private PortletPreferencesLocalService _portletPreferencesLocalService;
 	private final Map<String, ScopedConfigurationManager>
-		_scopedConfigurationProviders = new ConcurrentHashMap<>();
+		_scopedConfigurationManagers = new ConcurrentHashMap<>();
 
 	private class ConfigurationBeanDeclarationServiceTracker
 		extends ServiceTracker
@@ -455,7 +455,7 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 
 			scopedConfigurationManager.register();
 
-			_scopedConfigurationProviders.put(
+			_scopedConfigurationManagers.put(
 				scopedConfigurationManager.getName(),
 				scopedConfigurationManager);
 
@@ -465,13 +465,14 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 		@Override
 		public void removedService(
 			ServiceReference<ConfigurationBeanDeclaration> reference,
-			ScopedConfigurationManager service) {
+			ScopedConfigurationManager scopedConfigurationManager) {
 
 			context.ungetService(reference);
 
-			_scopedConfigurationProviders.remove(service.getName());
+			_scopedConfigurationManagers.remove(
+				scopedConfigurationManager.getName());
 
-			service.unregister();
+			scopedConfigurationManager.unregister();
 		}
 
 		private ConfigurationBeanDeclarationServiceTrackerFactory(
