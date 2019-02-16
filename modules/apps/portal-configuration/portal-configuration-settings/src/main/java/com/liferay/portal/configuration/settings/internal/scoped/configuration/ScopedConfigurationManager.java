@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.util.Validator;
 import java.io.Serializable;
 
 import java.util.Dictionary;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -58,15 +59,35 @@ public class ScopedConfigurationManager implements ManagedServiceFactory {
 	public void deleted(String pid) {
 		ScopeKey scopeKey = _stringScopeKeyMap.remove(pid);
 
-		if (scopeKey != null) {
-			_configurationBeans.remove(scopeKey);
+		if (scopeKey == null) {
+			return;
+		}
+
+		Map<String, Object> scopeConfigurationBeans =
+			_configurationBeans2.remove(scopeKey);
+
+		scopeConfigurationBeans.remove(pid);
+
+		if (!scopeConfigurationBeans.isEmpty()) {
+			_configurationBeans2.put(scopeKey, scopeConfigurationBeans);
 		}
 	}
 
 	public Object getConfiguration(
 		ExtendedObjectClassDefinition.Scope scope, Serializable scopePK) {
 
-		return _configurationBeans.get(new ScopeKey(scopePK, scope));
+		Map<String, Object> scopeConfigurationBeans = _configurationBeans2.get(
+			new ScopeKey(scopePK, scope));
+
+		if (scopeConfigurationBeans != null &&
+			!scopeConfigurationBeans.isEmpty()) {
+
+			for (Object object : scopeConfigurationBeans.values()) {
+				return object;
+			}
+		}
+
+		return null;
 	}
 
 	public LocationVariableResolver getLocationVariableResolver() {
@@ -151,16 +172,22 @@ public class ScopedConfigurationManager implements ManagedServiceFactory {
 
 		_stringScopeKeyMap.put(pid, scopeKey);
 
-		_configurationBeans.put(
-			scopeKey,
+		Map<String, Object> scopeConfigurations = _configurationBeans2.getOrDefault(scopeKey, new LinkedHashMap<>());
+
+		scopeConfigurations.put(
+			pid,
 			ConfigurableUtil.createConfigurable(
 				_configurationBeanClass, properties));
+
+		_configurationBeans2.put(scopeKey, scopeConfigurations);
 	}
 
 	private final BundleContext _bundleContext;
 	private final Class<?> _configurationBeanClass;
 	private final Map<ScopeKey, Object> _configurationBeans =
 		new ConcurrentHashMap<>();
+
+	private final Map<ScopeKey, Map<String, Object>> _configurationBeans2 = new ConcurrentHashMap<>();
 	private final String _factoryPid;
 	private final LocationVariableResolver _locationVariableResolver;
 	private ServiceRegistration<ManagedServiceFactory>
