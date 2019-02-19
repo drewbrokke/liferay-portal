@@ -28,7 +28,17 @@ import java.util.Dictionary;
 @ProviderType
 public interface ConfigurationProvider {
 
+	public <T> void deleteCompanyConfiguration(
+			Class<T> clazz, long companyId, String propertyKey,
+			Object propertyValue)
+		throws ConfigurationException;
+
 	public <T> void deleteCompanyConfiguration(Class<T> clazz, long companyId)
+		throws ConfigurationException;
+
+	public <T> void deleteGroupConfiguration(
+			Class<T> clazz, long groupId, String propertyKey,
+			Object propertyValue)
 		throws ConfigurationException;
 
 	public <T> void deleteGroupConfiguration(Class<T> clazz, long groupId)
@@ -36,6 +46,11 @@ public interface ConfigurationProvider {
 
 	public <T> void deletePortletInstanceConfiguration(
 			Class<T> clazz, String portletId)
+		throws ConfigurationException;
+
+	public <T> void deletePortletInstanceConfiguration(
+			Class<T> clazz, String portletId, String propertyKey,
+			Object propertyValue)
 		throws ConfigurationException;
 
 	public <T> void deleteSystemConfiguration(Class<T> clazz)
@@ -72,13 +87,28 @@ public interface ConfigurationProvider {
 			Dictionary<String, Object> properties)
 		throws ConfigurationException;
 
+	public <T> void saveCompanyConfiguration(
+			Class<T> clazz, long companyId, String propertyKey,
+			Object propertyValue, Dictionary<String, Object> properties)
+		throws ConfigurationException;
+
 	public <T> void saveGroupConfiguration(
 			Class<T> clazz, long groupId, Dictionary<String, Object> properties)
+		throws ConfigurationException;
+
+	public <T> void saveGroupConfiguration(
+			Class<T> clazz, long groupId, String propertyKey,
+			Object propertyValue, Dictionary<String, Object> properties)
 		throws ConfigurationException;
 
 	public <T> void savePortletInstanceConfiguration(
 			Class<T> clazz, String portletId,
 			Dictionary<String, Object> properties)
+		throws ConfigurationException;
+
+	public <T> void savePortletInstanceConfiguration(
+			Class<T> clazz, String portletId, String propertyKey,
+			Object propertyValue, Dictionary<String, Object> properties)
 		throws ConfigurationException;
 
 	public <T> void saveSystemConfiguration(
