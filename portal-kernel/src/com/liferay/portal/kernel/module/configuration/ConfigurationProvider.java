@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.PortletInstance;
 import com.liferay.portal.kernel.settings.SettingsLocator;
 
+import java.io.Serializable;
 import java.util.Dictionary;
 
 /**
@@ -30,7 +31,7 @@ public interface ConfigurationProvider {
 
 	public <T> void deleteCompanyConfiguration(
 			Class<T> clazz, long companyId, String propertyKey,
-			Object propertyValue)
+			Serializable propertyValue)
 		throws ConfigurationException;
 
 	public <T> void deleteCompanyConfiguration(Class<T> clazz, long companyId)
@@ -38,7 +39,7 @@ public interface ConfigurationProvider {
 
 	public <T> void deleteGroupConfiguration(
 			Class<T> clazz, long groupId, String propertyKey,
-			Object propertyValue)
+			Serializable propertyValue)
 		throws ConfigurationException;
 
 	public <T> void deleteGroupConfiguration(Class<T> clazz, long groupId)
@@ -50,7 +51,7 @@ public interface ConfigurationProvider {
 
 	public <T> void deletePortletInstanceConfiguration(
 			Class<T> clazz, String portletId, String propertyKey,
-			Object propertyValue)
+			Serializable propertyValue)
 		throws ConfigurationException;
 
 	public <T> void deleteSystemConfiguration(Class<T> clazz)
@@ -89,7 +90,7 @@ public interface ConfigurationProvider {
 
 	public <T> void saveCompanyConfiguration(
 			Class<T> clazz, long companyId, String propertyKey,
-			Object propertyValue, Dictionary<String, Object> properties)
+			Serializable propertyValue, Dictionary<String, Object> properties)
 		throws ConfigurationException;
 
 	public <T> void saveGroupConfiguration(
@@ -98,7 +99,7 @@ public interface ConfigurationProvider {
 
 	public <T> void saveGroupConfiguration(
 			Class<T> clazz, long groupId, String propertyKey,
-			Object propertyValue, Dictionary<String, Object> properties)
+			Serializable propertyValue, Dictionary<String, Object> properties)
 		throws ConfigurationException;
 
 	public <T> void savePortletInstanceConfiguration(
@@ -108,7 +109,7 @@ public interface ConfigurationProvider {
 
 	public <T> void savePortletInstanceConfiguration(
 			Class<T> clazz, String portletId, String propertyKey,
-			Object propertyValue, Dictionary<String, Object> properties)
+			Serializable propertyValue, Dictionary<String, Object> properties)
 		throws ConfigurationException;
 
 	public <T> void saveSystemConfiguration(
