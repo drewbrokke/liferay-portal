@@ -35,6 +35,12 @@ portletDisplay.setShowBackIcon(true);
 portletDisplay.setURLBack(String.valueOf(renderResponse.createRenderURL()));
 
 renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-password-policy") : passwordPolicy.getName());
+
+Map<String, Long> durations = new LinkedHashMap<>();
+
+for (long duration : PropsValues.PASSWORDS_POLICY_DURATIONS) {
+	durations.put(LanguageUtil.getTimeDescription(request, duration * 1000), duration);
+}
 %>
 
 <liferay-util:include page="/edit_password_policy_tabs.jsp" servletContext="<%= application %>" />
@@ -80,10 +86,10 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 							<aui:option label="none" value="0" />
 
 							<%
-							for (int i = 0; i < 15; i++) {
+							for (Map.Entry<String, Long> entry : durations.entrySet()) {
 							%>
 
-								<aui:option label="<%= LanguageUtil.getTimeDescription(request, _DURATIONS[i] * 1000) %>" value="<%= _DURATIONS[i] %>" />
+								<aui:option label="<%= entry.getKey() %>" value="<%= entry.getValue() %>" />
 
 							<%
 							}
@@ -96,10 +102,10 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 						<aui:option label="eternal" value="0" />
 
 						<%
-						for (int i = 0; i < 15; i++) {
+						for (Map.Entry<String, Long> entry : durations.entrySet()) {
 						%>
 
-							<aui:option label="<%= LanguageUtil.getTimeDescription(request, _DURATIONS[i] * 1000) %>" value="<%= _DURATIONS[i] %>" />
+							<aui:option label="<%= entry.getKey() %>" value="<%= entry.getValue() %>" />
 
 						<%
 						}
@@ -188,10 +194,10 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 						<aui:select helpMessage="maximum-age-help" label="maximum-age" name="maxAge">
 
 							<%
-							for (int i = 15; i < _DURATIONS.length; i++) {
+							for (Map.Entry<String, Long> entry : durations.entrySet()) {
 							%>
 
-								<aui:option label="<%= LanguageUtil.getTimeDescription(request, _DURATIONS[i] * 1000) %>" value="<%= _DURATIONS[i] %>" />
+								<aui:option label="<%= entry.getKey() %>" value="<%= entry.getValue() %>" />
 
 							<%
 							}
@@ -202,10 +208,10 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 						<aui:select helpMessage="warning-time-help" name="warningTime">
 
 							<%
-							for (int i = 7; i < 16; i++) {
+							for (Map.Entry<String, Long> entry : durations.entrySet()) {
 							%>
 
-								<aui:option label="<%= LanguageUtil.getTimeDescription(request, _DURATIONS[i] * 1000) %>" value="<%= _DURATIONS[i] %>" />
+								<aui:option label="<%= entry.getKey() %>" value="<%= entry.getValue() %>" />
 
 							<%
 							}
@@ -236,10 +242,10 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 						<aui:select helpMessage="reset-failure-count-help" name="resetFailureCount">
 
 							<%
-							for (int i = 0; i < 15; i++) {
+							for (Map.Entry<String, Long> entry : durations.entrySet()) {
 							%>
 
-								<aui:option label="<%= LanguageUtil.getTimeDescription(request, _DURATIONS[i] * 1000) %>" value="<%= _DURATIONS[i] %>" />
+								<aui:option label="<%= entry.getKey() %>" value="<%= entry.getValue() %>" />
 
 							<%
 							}
@@ -251,10 +257,10 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 							<aui:option label="until-unlocked-by-an-administrator" value="0" />
 
 							<%
-							for (int i = 0; i < 15; i++) {
+							for (Map.Entry<String, Long> entry : durations.entrySet()) {
 							%>
 
-								<aui:option label="<%= LanguageUtil.getTimeDescription(request, _DURATIONS[i] * 1000) %>" value="<%= _DURATIONS[i] %>" />
+								<aui:option label="<%= entry.getKey() %>" value="<%= entry.getValue() %>" />
 
 							<%
 							}
@@ -290,10 +296,6 @@ if (passwordPolicy != null) {
 else {
 	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, "add-user"), currentURL);
 }
-%>
-
-<%!
-private static final long[] _DURATIONS = {300, 600, 1800, 3600, 7200, 10800, 21600, 43200, 86400, 172800, 259200, 345600, 432000, 518400, 604800, 1209600, 1814400, 2419200, 4838400, 7862400, 15724800, 31449600};
 %>
 
 <%@ include file="/action/delete_password_policy.jspf" %>
