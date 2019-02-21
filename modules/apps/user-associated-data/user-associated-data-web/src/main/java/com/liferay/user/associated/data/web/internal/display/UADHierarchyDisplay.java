@@ -23,11 +23,15 @@ import com.liferay.user.associated.data.display.UADHierarchyDeclaration;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Drew Brokke
@@ -56,6 +60,23 @@ public class UADHierarchyDisplay {
 		}
 
 		return count;
+	}
+
+	public List<Class> getContainerTypeClasses() {
+		UADDisplay<?>[] containerUADDisplays =
+			_uadHierarchyDeclaration.getContainerUADDisplays();
+
+		if (containerUADDisplays.length == 0) {
+			return Collections.emptyList();
+		}
+
+		Stream<UADDisplay> stream = Arrays.stream(containerUADDisplays);
+
+		return stream.map(
+			UADDisplay::getTypeClass
+		).collect(
+			Collectors.toList()
+		);
 	}
 
 	public <T> Map<String, Object> getFieldValues(
@@ -98,6 +119,20 @@ public class UADHierarchyDisplay {
 		}
 
 		return fieldValues;
+	}
+
+	public UADDisplay getUADDisplay(Class clazz) {
+		for (Class typeClass : _uadDisplayMap.keySet()) {
+			if (typeClass.isAssignableFrom(clazz)) {
+				return _uadDisplayMap.get(typeClass);
+			}
+		}
+
+		return null;
+	}
+
+	public UADDisplay<?>[] getUADDisplays() {
+		return _uadDisplays;
 	}
 
 	public List<Object> search(
