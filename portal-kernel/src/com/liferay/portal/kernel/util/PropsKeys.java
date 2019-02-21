@@ -2550,6 +2550,9 @@ public interface PropsKeys {
 		PASSWORDS_PASSWORDPOLICYTOOLKIT_VALIDATOR_CHARSET_UPPERCASE =
 			"passwords.passwordpolicytoolkit.validator.charset.uppercase";
 
+	public static final String PASSWORDS_POLICY_DURATIONS =
+		"passwords.policy.durations";
+
 	public static final String PASSWORDS_REGEXPTOOLKIT_CHARSET =
 		"passwords.regexptoolkit.charset";
 

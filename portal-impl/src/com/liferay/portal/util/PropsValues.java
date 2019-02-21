@@ -2241,6 +2241,9 @@ public class PropsValues {
 				PropsKeys.
 					PASSWORDS_PASSWORDPOLICYTOOLKIT_VALIDATOR_CHARSET_UPPERCASE);
 
+	public static final long[] PASSWORDS_POLICY_DURATIONS = StringUtil.split(
+		PropsUtil.get(PropsKeys.PASSWORDS_POLICY_DURATIONS), 0L);
+
 	public static final boolean PERMISSIONS_CHECK_GUEST_ENABLED =
 		GetterUtil.getBoolean(
 			PropsUtil.get(PropsKeys.PERMISSIONS_CHECK_GUEST_ENABLED));
