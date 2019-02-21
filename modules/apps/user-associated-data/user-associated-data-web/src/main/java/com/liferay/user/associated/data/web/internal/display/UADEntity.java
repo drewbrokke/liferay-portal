@@ -26,10 +26,13 @@ import java.util.List;
  */
 public class UADEntity<T> {
 
-	public UADEntity(T entity, Serializable primaryKey, String editURL) {
+	public UADEntity(
+		T entity, Serializable primaryKey, String editURL, String viewURL) {
+
 		_entity = entity;
 		_primaryKey = primaryKey;
 		_editURL = editURL;
+		_viewURL = viewURL;
 	}
 
 	public void addColumnEntry(String key, Object value) {
@@ -58,9 +61,14 @@ public class UADEntity<T> {
 		return _primaryKey;
 	}
 
+	public String getViewURL() {
+		return _viewURL;
+	}
+
 	private final List<KeyValuePair> _columnEntries = new ArrayList<>();
 	private final String _editURL;
 	private final T _entity;
 	private final Serializable _primaryKey;
+	private final String _viewURL;
 
 }
