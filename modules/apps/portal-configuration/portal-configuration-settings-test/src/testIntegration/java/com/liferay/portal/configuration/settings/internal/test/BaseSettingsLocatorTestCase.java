@@ -28,9 +28,11 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.PortletKeys;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashSet;
@@ -110,7 +112,7 @@ public abstract class BaseSettingsLocatorTestCase {
 
 	protected String saveFactoryConfiguration(
 			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
-			String scopePrimKey)
+			String scopePrimKey, String propertyKey, Serializable propertyValue)
 		throws Exception {
 
 		String value = RandomTestUtil.randomString();
@@ -118,6 +120,12 @@ public abstract class BaseSettingsLocatorTestCase {
 		Dictionary<String, Object> properties = new HashMapDictionary<>();
 
 		properties.put(scope.getPropertyKey(), scopePrimKey);
+
+		if (Validator.isNotNull(propertyKey) &&
+			Validator.isNotNull(propertyValue)) {
+
+			properties.put(propertyKey, propertyValue);
+		}
 
 		properties.put(SettingsLocatorTestConstants.TEST_KEY, value);
 
@@ -127,6 +135,16 @@ public abstract class BaseSettingsLocatorTestCase {
 		_factoryConfigurationPids.add(pid);
 
 		return value;
+	}
+
+	protected String saveFactoryConfiguration(
+			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
+			String scopePrimKey)
+		throws Exception {
+
+		return saveFactoryConfiguration(
+			factoryPid, scope, scopePrimKey, null,
+			null);
 	}
 
 	protected String savePortletPreferences(long ownerId, int ownerType)

@@ -30,6 +30,11 @@ import org.junit.Test;
 public class SettingsLocatorHelperTest extends BaseSettingsLocatorTestCase {
 
 	@Test
+	public void testGetCompanyScopedFactoryConfigurationSettings() throws Exception {
+
+	}
+
+	@Test
 	public void testGetCompanyScopedConfigurationSettings() throws Exception {
 		Settings companySettings =
 			_settingsLocatorHelper.getCompanyConfigurationBeanSettings(
