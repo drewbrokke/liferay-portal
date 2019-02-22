@@ -112,7 +112,7 @@ public abstract class BaseSettingsLocatorTestCase {
 
 	protected String saveFactoryConfiguration(
 			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
-			String scopePrimKey, String propertyKey, Serializable propertyValue)
+			Serializable scopePrimKey, String propertyKey, Serializable propertyValue)
 		throws Exception {
 
 		String value = RandomTestUtil.randomString();
@@ -139,7 +139,7 @@ public abstract class BaseSettingsLocatorTestCase {
 
 	protected String saveFactoryConfiguration(
 			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
-			String scopePrimKey)
+			Serializable scopePrimKey)
 		throws Exception {
 
 		return saveFactoryConfiguration(
@@ -171,14 +171,8 @@ public abstract class BaseSettingsLocatorTestCase {
 	}
 
 	protected String saveScopedConfiguration(
-			ExtendedObjectClassDefinition.Scope scope, long scopePrimKey)
-		throws Exception {
-
-		return saveScopedConfiguration(scope, String.valueOf(scopePrimKey));
-	}
-
-	protected String saveScopedConfiguration(
-			ExtendedObjectClassDefinition.Scope scope, String scopePrimKey)
+			ExtendedObjectClassDefinition.Scope scope,
+			Serializable scopePrimKey)
 		throws Exception {
 
 		return saveFactoryConfiguration(

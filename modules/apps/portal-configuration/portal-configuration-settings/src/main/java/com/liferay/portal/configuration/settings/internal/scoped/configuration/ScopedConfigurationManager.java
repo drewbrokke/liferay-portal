@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.settings.LocationVariableResolver;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapDictionary;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -69,6 +70,7 @@ public class ScopedConfigurationManager implements ManagedServiceFactory {
 		Map<String, Object> scopeConfigurationBeans = _configurationBeans2.get(
 			new ScopeKey(scopePK, scope));
 
+		// todo drew: return the last object instead of the first object
 		if (!MapUtil.isEmpty(scopeConfigurationBeans)) {
 			for (Object object : scopeConfigurationBeans.values()) {
 				return object;
