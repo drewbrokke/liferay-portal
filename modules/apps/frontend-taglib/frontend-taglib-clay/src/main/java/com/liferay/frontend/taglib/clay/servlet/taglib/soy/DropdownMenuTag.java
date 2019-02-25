@@ -77,7 +77,7 @@ public class DropdownMenuTag extends BaseClayTag {
 	}
 
 	public void setLabel(String label) {
-		putValue("label", label);
+		putHTMLValue("label", label);
 	}
 
 	public void setSearchable(Boolean searchable) {
