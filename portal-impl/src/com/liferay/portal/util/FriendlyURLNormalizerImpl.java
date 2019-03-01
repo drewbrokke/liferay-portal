@@ -205,7 +205,11 @@ public class FriendlyURLNormalizerImpl implements FriendlyURLNormalizer {
 			return friendlyURL;
 		}
 
-		friendlyURL = Normalizer.normalizeToAscii(friendlyURL);
+		String newFriendlyURL = Normalizer.normalizeToAscii(friendlyURL);
+
+		if (friendlyURL.equals(newFriendlyURL)) {
+			return friendlyURL;
+		}
 
 		StringBuilder sb = new StringBuilder(friendlyURL.length());
 
