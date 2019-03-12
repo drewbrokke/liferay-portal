@@ -32,7 +32,9 @@ import org.junit.Test;
 public class SettingsLocatorHelperTest extends BaseSettingsLocatorTestCase {
 
 	@Test
-	public void testGetCompanyScopedFactoryConfigurationSettings() throws Exception {
+	public void testGetCompanyScopedFactoryConfigurationSettings()
+		throws Exception {
+
 		String testKey = "factoryAlternateKey";
 		String testValue1 = RandomTestUtil.randomString();
 		String testValue2 = RandomTestUtil.randomString();
@@ -54,6 +56,19 @@ public class SettingsLocatorHelperTest extends BaseSettingsLocatorTestCase {
 
 		Assert.assertEquals(
 			testValue2, companySettings.getValue(testKey, null));
+
+		deleteFactoryConfiguration(
+			SettingsLocatorTestConstants.TEST_CONFIGURATION_PID,
+			ExtendedObjectClassDefinition.Scope.COMPANY,
+			TestPropsValues.getCompanyId(), testKey, testValue2);
+
+		companySettings = _settingsLocatorHelper.
+			getCompanyConfigurationBeanSettings(
+				TestPropsValues.getCompanyId(),
+				SettingsLocatorTestConstants.TEST_CONFIGURATION_PID, null);
+
+		Assert.assertEquals(
+			testValue1, companySettings.getValue(testKey, null));
 	}
 
 	@Test
