@@ -28,9 +28,11 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.io.Serializable;
 
+import java.util.Collection;
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -70,11 +72,11 @@ public class ScopedConfigurationManager implements ManagedServiceFactory {
 		Map<String, Object> scopeConfigurationBeans = _configurationBeans2.get(
 			new ScopeKey(scopePK, scope));
 
-		// todo drew: return the last object instead of the first object
 		if (!MapUtil.isEmpty(scopeConfigurationBeans)) {
-			for (Object object : scopeConfigurationBeans.values()) {
-				return object;
-			}
+			List<Object> valuesList = ListUtil.fromCollection(
+				scopeConfigurationBeans.values());
+
+			return valuesList.get(valuesList.size() - 1);
 		}
 
 		return null;
