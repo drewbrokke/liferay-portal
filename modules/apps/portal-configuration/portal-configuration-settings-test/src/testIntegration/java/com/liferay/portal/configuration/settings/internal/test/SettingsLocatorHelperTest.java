@@ -81,6 +81,8 @@ public class SettingsLocatorHelperTest extends BaseSettingsLocatorTestCase {
 		String testValue1 = RandomTestUtil.randomString();
 		String testValue2 = RandomTestUtil.randomString();
 
+		// Adds two configurations to the same scope
+
 		saveFactoryConfiguration(
 			SettingsLocatorTestConstants.TEST_CONFIGURATION_PID,
 			ExtendedObjectClassDefinition.Scope.COMPANY,
@@ -96,8 +98,12 @@ public class SettingsLocatorHelperTest extends BaseSettingsLocatorTestCase {
 				TestPropsValues.getCompanyId(),
 				SettingsLocatorTestConstants.TEST_CONFIGURATION_PID, null);
 
+		// Asserts that the second one (most recently added) is returned
+
 		Assert.assertEquals(
 			testValue2, companySettings.getValue(testKey, null));
+
+		// Delete the most recent one
 
 		deleteFactoryConfiguration(
 			SettingsLocatorTestConstants.TEST_CONFIGURATION_PID,
@@ -108,6 +114,8 @@ public class SettingsLocatorHelperTest extends BaseSettingsLocatorTestCase {
 			_settingsLocatorHelper.getCompanyConfigurationBeanSettings(
 				TestPropsValues.getCompanyId(),
 				SettingsLocatorTestConstants.TEST_CONFIGURATION_PID, null);
+
+		// Asserts that the first one is returned
 
 		Assert.assertEquals(
 			testValue1, companySettings.getValue(testKey, null));
