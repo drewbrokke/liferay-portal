@@ -64,19 +64,6 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 	}
 
 	@Override
-	public <T> void deleteCompanyConfiguration(
-			Class<T> clazz, long companyId, String propertyKey,
-			Serializable propertyValue)
-		throws ConfigurationException {
-
-		String configurationPid = _getConfigurationPid(clazz);
-
-		_deleteFactoryConfiguration(
-			configurationPid, ExtendedObjectClassDefinition.Scope.COMPANY,
-			companyId, propertyKey, propertyValue);
-	}
-
-	@Override
 	public <T> void deleteGroupConfiguration(Class<T> clazz, long groupId)
 		throws ConfigurationException {
 
@@ -85,19 +72,6 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 		_deleteFactoryConfiguration(
 			configurationPid, ExtendedObjectClassDefinition.Scope.GROUP,
 			groupId);
-	}
-
-	@Override
-	public <T> void deleteGroupConfiguration(
-			Class<T> clazz, long groupId, String propertyKey,
-			Serializable propertyValue)
-		throws ConfigurationException {
-
-		String configurationPid = _getConfigurationPid(clazz);
-
-		_deleteFactoryConfiguration(
-			configurationPid, ExtendedObjectClassDefinition.Scope.GROUP,
-			groupId, propertyKey, propertyValue);
 	}
 
 	@Override
@@ -110,20 +84,6 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 		_deleteFactoryConfiguration(
 			configurationPid,
 			ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE, portletId);
-	}
-
-	@Override
-	public <T> void deletePortletInstanceConfiguration(
-			Class<T> clazz, String portletId, String propertyKey,
-			Serializable propertyValue)
-		throws ConfigurationException {
-
-		String configurationPid = _getConfigurationPid(clazz);
-
-		_deleteFactoryConfiguration(
-			configurationPid,
-			ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE, portletId,
-			propertyKey, propertyValue);
 	}
 
 	@Override
@@ -237,19 +197,6 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 	}
 
 	@Override
-	public <T> void saveCompanyConfiguration(
-			Class<T> clazz, long companyId, String propertyKey,
-			Serializable propertyValue, Dictionary<String, Object> properties)
-		throws ConfigurationException {
-
-		String configurationPid = _getConfigurationPid(clazz);
-
-		_saveFactoryConfiguration(
-			configurationPid, ExtendedObjectClassDefinition.Scope.COMPANY,
-			companyId, propertyKey, propertyValue, properties);
-	}
-
-	@Override
 	public <T> void saveGroupConfiguration(
 			Class<T> clazz, long groupId, Dictionary<String, Object> properties)
 		throws ConfigurationException {
@@ -259,19 +206,6 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 		_saveFactoryConfiguration(
 			configurationPid, ExtendedObjectClassDefinition.Scope.GROUP,
 			groupId, properties);
-	}
-
-	@Override
-	public <T> void saveGroupConfiguration(
-			Class<T> clazz, long groupId, String propertyKey,
-			Serializable propertyValue, Dictionary<String, Object> properties)
-		throws ConfigurationException {
-
-		String configurationPid = _getConfigurationPid(clazz);
-
-		_saveFactoryConfiguration(
-			configurationPid, ExtendedObjectClassDefinition.Scope.GROUP,
-			groupId, propertyKey, propertyValue, properties);
 	}
 
 	@Override
@@ -286,20 +220,6 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 			configurationPid,
 			ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE, portletId,
 			properties);
-	}
-
-	@Override
-	public <T> void savePortletInstanceConfiguration(
-			Class<T> clazz, String portletId, String propertyKey,
-			Serializable propertyValue, Dictionary<String, Object> properties)
-		throws ConfigurationException {
-
-		String configurationPid = _getConfigurationPid(clazz);
-
-		_saveFactoryConfiguration(
-			configurationPid,
-			ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE, portletId,
-			propertyKey, propertyValue, properties);
 	}
 
 	@Override
@@ -338,18 +258,9 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 			Serializable scopePK)
 		throws ConfigurationException {
 
-		_deleteFactoryConfiguration(factoryPid, scope, scopePK, null, null);
-	}
-
-	private void _deleteFactoryConfiguration(
-			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
-			Serializable scopePK, String propertyKey,
-			Serializable propertyValue)
-		throws ConfigurationException {
-
 		try {
 			Configuration configuration = _getFactoryConfiguration(
-				factoryPid, scope, scopePK, propertyKey, propertyValue);
+				factoryPid, scope, scopePK);
 
 			if (configuration != null) {
 				configuration.delete();
@@ -373,16 +284,14 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 
 	private Configuration _getFactoryConfiguration(
 			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
-			Serializable scopePK, String propertyKey,
-			Serializable propertyValue)
+			Serializable scopePK)
 		throws ConfigurationException {
 
 		try {
 			String filterString = StringBundler.concat(
 				"(&",
 				_getPropertyFilterString("service.factoryPid", factoryPid),
-				_getPropertyFilterString(scope.getPropertyKey(), scopePK),
-				_getPropertyFilterString(propertyKey, propertyValue), ")");
+				_getPropertyFilterString(scope.getPropertyKey(), scopePK), ")");
 
 			Configuration[] configurations =
 				_configurationAdmin.listConfigurations(filterString);
@@ -447,19 +356,9 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 			Serializable scopePK, Dictionary<String, Object> properties)
 		throws ConfigurationException {
 
-		_saveFactoryConfiguration(
-			factoryPid, scope, scopePK, null, null, properties);
-	}
-
-	private void _saveFactoryConfiguration(
-			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
-			Serializable scopePK, String propertyKey,
-			Serializable propertyValue, Dictionary<String, Object> properties)
-		throws ConfigurationException {
-
 		try {
 			Configuration configuration = _getFactoryConfiguration(
-				factoryPid, scope, scopePK, propertyKey, propertyValue);
+				factoryPid, scope, scopePK);
 
 			if (configuration == null) {
 				configuration = _configurationAdmin.createFactoryConfiguration(
@@ -467,12 +366,6 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 			}
 
 			properties.put(scope.getPropertyKey(), scopePK);
-
-			if (Validator.isNotNull(propertyKey) &&
-				Validator.isNotNull(propertyValue)) {
-
-				properties.put(propertyKey, propertyValue);
-			}
 
 			configuration.update(properties);
 		}
