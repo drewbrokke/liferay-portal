@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.io.Serializable;
 
-import java.util.Collection;
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
