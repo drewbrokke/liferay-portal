@@ -37,6 +37,7 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.io.IOException;
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashSet;
@@ -48,6 +49,7 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
+
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
@@ -86,6 +88,57 @@ public abstract class BaseSettingsLocatorTestCase {
 		_factoryConfigurationPids.clear();
 	}
 
+	protected void deleteFactoryConfiguration(
+			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
+			Serializable scopePrimKey, String propertyKey,
+			Serializable propertyValue)
+		throws Exception {
+
+		Configuration configuration = getFactoryConfiguration(
+			factoryPid, scope, scopePrimKey, propertyKey, propertyValue);
+
+		if (configuration != null) {
+			ConfigurationTestUtil.deleteConfiguration(configuration);
+		}
+	}
+
+	protected Configuration getFactoryConfiguration(
+			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
+			Serializable scopePK, String propertyKey,
+			Serializable propertyValue)
+		throws ConfigurationException {
+
+		try {
+			String filterString = StringBundler.concat(
+				"(&", getPropertyFilterString("service.factoryPid", factoryPid),
+				getPropertyFilterString(scope.getPropertyKey(), scopePK),
+				getPropertyFilterString(propertyKey, propertyValue), ")");
+
+			Configuration[] configurations =
+				_configurationAdmin.listConfigurations(filterString);
+
+			if (configurations != null) {
+				return configurations[0];
+			}
+
+			return null;
+		}
+		catch (InvalidSyntaxException | IOException e) {
+			throw new ConfigurationException(
+				"Unable to retrieve factory configuration " + factoryPid, e);
+		}
+	}
+
+	protected String getPropertyFilterString(String key, Serializable value) {
+		if (Validator.isNull(key) || Validator.isNull(value)) {
+			return StringPool.BLANK;
+		}
+
+		return StringBundler.concat(
+			StringPool.OPEN_PARENTHESIS, key, StringPool.EQUAL, value,
+			StringPool.CLOSE_PARENTHESIS);
+	}
+
 	protected String getSettingsValue() throws Exception {
 		if (settingsLocator == null) {
 			return null;
@@ -117,64 +170,19 @@ public abstract class BaseSettingsLocatorTestCase {
 		return value;
 	}
 
-	protected void deleteFactoryConfiguration(
+	protected String saveFactoryConfiguration(
 			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
-			Serializable scopePrimKey, String propertyKey,
-			Serializable propertyValue)
+			Serializable scopePrimKey)
 		throws Exception {
 
-		Configuration configuration = getFactoryConfiguration(
-			factoryPid, scope, scopePrimKey, propertyKey, propertyValue);
-
-		if (configuration != null) {
-			ConfigurationTestUtil.deleteConfiguration(configuration);
-		}
+		return saveFactoryConfiguration(
+			factoryPid, scope, scopePrimKey, null, null);
 	}
-
-	protected Configuration getFactoryConfiguration(
-		String factoryPid, ExtendedObjectClassDefinition.Scope scope,
-		Serializable scopePK, String propertyKey,
-		Serializable propertyValue)
-		throws ConfigurationException {
-
-		try {
-			String filterString = StringBundler.concat(
-				"(&",
-				getPropertyFilterString("service.factoryPid", factoryPid),
-				getPropertyFilterString(scope.getPropertyKey(), scopePK),
-				getPropertyFilterString(propertyKey, propertyValue), ")");
-
-			Configuration[] configurations =
-				_configurationAdmin.listConfigurations(filterString);
-
-			if (configurations != null) {
-				return configurations[0];
-			}
-
-			return null;
-		}
-		catch (InvalidSyntaxException | IOException e) {
-			throw new ConfigurationException(
-				"Unable to retrieve factory configuration " + factoryPid, e);
-		}
-	}
-
-	protected String getPropertyFilterString(String key, Serializable value) {
-		if (Validator.isNull(key) || Validator.isNull(value)) {
-			return StringPool.BLANK;
-		}
-
-		return StringBundler.concat(
-			StringPool.OPEN_PARENTHESIS, key, StringPool.EQUAL, value,
-			StringPool.CLOSE_PARENTHESIS);
-	}
-
-	@Inject
-	private ConfigurationAdmin _configurationAdmin;
 
 	protected String saveFactoryConfiguration(
 			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
-			Serializable scopePrimKey, String propertyKey, Serializable propertyValue)
+			Serializable scopePrimKey, String propertyKey,
+			Serializable propertyValue)
 		throws Exception {
 
 		String value = RandomTestUtil.randomString();
@@ -197,16 +205,6 @@ public abstract class BaseSettingsLocatorTestCase {
 		_factoryConfigurationPids.add(pid);
 
 		return value;
-	}
-
-	protected String saveFactoryConfiguration(
-			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
-			Serializable scopePrimKey)
-		throws Exception {
-
-		return saveFactoryConfiguration(
-			factoryPid, scope, scopePrimKey, null,
-			null);
 	}
 
 	protected String savePortletPreferences(long ownerId, int ownerType)
@@ -255,6 +253,9 @@ public abstract class BaseSettingsLocatorTestCase {
 	@Inject
 	private static PortletPreferencesLocalService
 		_portletPreferencesLocalService;
+
+	@Inject
+	private ConfigurationAdmin _configurationAdmin;
 
 	@DeleteAfterTestRun
 	private final List<PortletPreferences> _portletPreferencesList =
