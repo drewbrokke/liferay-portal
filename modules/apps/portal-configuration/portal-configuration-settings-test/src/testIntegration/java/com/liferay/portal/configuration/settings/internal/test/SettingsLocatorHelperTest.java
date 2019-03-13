@@ -16,7 +16,6 @@ package com.liferay.portal.configuration.settings.internal.test;
 
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 import com.liferay.portal.configuration.settings.internal.constants.SettingsLocatorTestConstants;
-import com.liferay.portal.configuration.test.util.ConfigurationTestUtil;
 import com.liferay.portal.kernel.settings.Settings;
 import com.liferay.portal.kernel.settings.SettingsLocatorHelper;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -30,46 +29,6 @@ import org.junit.Test;
  * @author Drew Brokke
  */
 public class SettingsLocatorHelperTest extends BaseSettingsLocatorTestCase {
-
-	@Test
-	public void testGetCompanyScopedFactoryConfigurationSettings()
-		throws Exception {
-
-		String testKey = "factoryAlternateKey";
-		String testValue1 = RandomTestUtil.randomString();
-		String testValue2 = RandomTestUtil.randomString();
-
-		saveFactoryConfiguration(
-			SettingsLocatorTestConstants.TEST_CONFIGURATION_PID,
-			ExtendedObjectClassDefinition.Scope.COMPANY,
-			TestPropsValues.getCompanyId(), testKey, testValue1);
-
-		saveFactoryConfiguration(
-			SettingsLocatorTestConstants.TEST_CONFIGURATION_PID,
-			ExtendedObjectClassDefinition.Scope.COMPANY,
-			TestPropsValues.getCompanyId(), testKey, testValue2);
-
-		Settings companySettings = _settingsLocatorHelper.
-			getCompanyConfigurationBeanSettings(
-				TestPropsValues.getCompanyId(),
-				SettingsLocatorTestConstants.TEST_CONFIGURATION_PID, null);
-
-		Assert.assertEquals(
-			testValue2, companySettings.getValue(testKey, null));
-
-		deleteFactoryConfiguration(
-			SettingsLocatorTestConstants.TEST_CONFIGURATION_PID,
-			ExtendedObjectClassDefinition.Scope.COMPANY,
-			TestPropsValues.getCompanyId(), testKey, testValue2);
-
-		companySettings = _settingsLocatorHelper.
-			getCompanyConfigurationBeanSettings(
-				TestPropsValues.getCompanyId(),
-				SettingsLocatorTestConstants.TEST_CONFIGURATION_PID, null);
-
-		Assert.assertEquals(
-			testValue1, companySettings.getValue(testKey, null));
-	}
 
 	@Test
 	public void testGetCompanyScopedConfigurationSettings() throws Exception {
@@ -112,6 +71,46 @@ public class SettingsLocatorHelperTest extends BaseSettingsLocatorTestCase {
 			companySettings.getValue(
 				SettingsLocatorTestConstants.TEST_KEY,
 				SettingsLocatorTestConstants.TEST_DEFAULT_VALUE));
+	}
+
+	@Test
+	public void testGetCompanyScopedFactoryConfigurationSettings()
+		throws Exception {
+
+		String testKey = "factoryAlternateKey";
+		String testValue1 = RandomTestUtil.randomString();
+		String testValue2 = RandomTestUtil.randomString();
+
+		saveFactoryConfiguration(
+			SettingsLocatorTestConstants.TEST_CONFIGURATION_PID,
+			ExtendedObjectClassDefinition.Scope.COMPANY,
+			TestPropsValues.getCompanyId(), testKey, testValue1);
+
+		saveFactoryConfiguration(
+			SettingsLocatorTestConstants.TEST_CONFIGURATION_PID,
+			ExtendedObjectClassDefinition.Scope.COMPANY,
+			TestPropsValues.getCompanyId(), testKey, testValue2);
+
+		Settings companySettings =
+			_settingsLocatorHelper.getCompanyConfigurationBeanSettings(
+				TestPropsValues.getCompanyId(),
+				SettingsLocatorTestConstants.TEST_CONFIGURATION_PID, null);
+
+		Assert.assertEquals(
+			testValue2, companySettings.getValue(testKey, null));
+
+		deleteFactoryConfiguration(
+			SettingsLocatorTestConstants.TEST_CONFIGURATION_PID,
+			ExtendedObjectClassDefinition.Scope.COMPANY,
+			TestPropsValues.getCompanyId(), testKey, testValue2);
+
+		companySettings =
+			_settingsLocatorHelper.getCompanyConfigurationBeanSettings(
+				TestPropsValues.getCompanyId(),
+				SettingsLocatorTestConstants.TEST_CONFIGURATION_PID, null);
+
+		Assert.assertEquals(
+			testValue1, companySettings.getValue(testKey, null));
 	}
 
 	@Test
