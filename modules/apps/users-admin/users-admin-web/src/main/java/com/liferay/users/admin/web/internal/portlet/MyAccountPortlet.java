@@ -38,7 +38,6 @@ import org.osgi.service.component.annotations.Reference;
 		"com.liferay.portlet.private-session-attributes=false",
 		"com.liferay.portlet.render-weight=50",
 		"com.liferay.portlet.struts-path=users_admin",
-		"com.liferay.portlet.system=true",
 		"com.liferay.portlet.use-default-template=true",
 		"javax.portlet.display-name=My Account",
 		"javax.portlet.expiration-cache=0",
