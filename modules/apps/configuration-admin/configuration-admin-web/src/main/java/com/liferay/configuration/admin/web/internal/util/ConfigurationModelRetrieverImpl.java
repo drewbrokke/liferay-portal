@@ -97,6 +97,12 @@ public class ConfigurationModelRetrieverImpl
 			if (configurations != null) {
 				return configurations[0];
 			}
+			else if (scope.equals(
+						ExtendedObjectClassDefinition.Scope.COMPANY)) {
+
+				return getConfiguration(
+					pid, ExtendedObjectClassDefinition.Scope.SYSTEM, null);
+			}
 		}
 		catch (InvalidSyntaxException | IOException e) {
 			ReflectionUtil.throwException(e);
@@ -358,7 +364,14 @@ public class ConfigurationModelRetrieverImpl
 		String pid, ExtendedObjectClassDefinition.Scope scope,
 		Serializable scopePK) {
 
-		return getPropertyFilterString(Constants.SERVICE_PID, pid);
+		if (scope.equals(ExtendedObjectClassDefinition.Scope.SYSTEM)) {
+			return getPropertyFilterString(Constants.SERVICE_PID, pid);
+		}
+
+		return getAndFilterString(
+			getPropertyFilterString(ConfigurationAdmin.SERVICE_FACTORYPID, pid),
+			getPropertyFilterString(
+				scope.getPropertyKey(), String.valueOf(scopePK)));
 	}
 
 	protected String getPropertyFilterString(String key, String value) {
