@@ -60,6 +60,11 @@ public class PortalSettingsConfigurationScreen implements ConfigurationScreen {
 	}
 
 	@Override
+	public boolean isStrictScope() {
+		return true;
+	}
+
+	@Override
 	public void render(HttpServletRequest request, HttpServletResponse response)
 		throws IOException {
 
