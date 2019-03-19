@@ -111,6 +111,12 @@ public class ConfigurationEntryRetrieverImpl
 		for (ConfigurationScreen configurationScreen :
 				_configurationScreenServiceTrackerMap.values()) {
 
+			if (configurationScreen.isStrictScope() &&
+				!scope.equals(configurationScreen.getScope())) {
+
+				continue;
+			}
+
 			_populateConfigurationCategorySectionDisplay(
 				configurationCategorySectionDisplaysMap,
 				configurationScreen.getCategoryKey());
