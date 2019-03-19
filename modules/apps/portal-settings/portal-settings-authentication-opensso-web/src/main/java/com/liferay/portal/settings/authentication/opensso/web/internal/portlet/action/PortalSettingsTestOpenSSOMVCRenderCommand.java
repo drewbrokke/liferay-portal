@@ -14,6 +14,7 @@
 
 package com.liferay.portal.settings.authentication.opensso.web.internal.portlet.action;
 
+import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
@@ -38,6 +39,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	property = {
+		"javax.portlet.name=" + ConfigurationAdminPortletKeys.INSTANCE_SETTINGS,
 		"javax.portlet.name=" + PortalSettingsPortletKeys.PORTAL_SETTINGS,
 		"mvc.command.name=/portal_settings/test_opensso"
 	},
