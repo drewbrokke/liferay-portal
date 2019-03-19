@@ -14,6 +14,7 @@
 
 package com.liferay.portal.settings.authentication.ldap.web.internal.portlet.action;
 
+import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
 import com.liferay.counter.kernel.service.CounterLocalService;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.PortletContextFactory;
@@ -63,6 +64,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	property = {
+		"javax.portlet.name=" + ConfigurationAdminPortletKeys.INSTANCE_SETTINGS,
 		"javax.portlet.name=" + PortalSettingsPortletKeys.PORTAL_SETTINGS,
 		"mvc.command.name=/portal_settings/edit_ldap_server"
 	},
@@ -95,9 +97,10 @@ public class PortalSettingsEditLDAPServerMVCActionCommand
 
 				SessionErrors.add(actionRequest, e.getClass());
 
+				String portletId = _portal.getPortletId(actionRequest);
+
 				PortletURL portletURL = PortletURLFactoryUtil.create(
-					actionRequest, PortalSettingsPortletKeys.PORTAL_SETTINGS,
-					PortletRequest.RENDER_PHASE);
+					actionRequest, portletId, PortletRequest.RENDER_PHASE);
 
 				portletURL.setParameter(
 					"mvcRenderCommandName",
