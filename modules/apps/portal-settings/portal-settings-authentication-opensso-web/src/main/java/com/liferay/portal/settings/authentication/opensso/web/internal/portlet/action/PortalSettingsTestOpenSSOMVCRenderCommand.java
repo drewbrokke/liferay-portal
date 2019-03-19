@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderConstants;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.settings.constants.PortalSettingsPortletKeys;
 
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
@@ -40,7 +39,6 @@ import org.osgi.service.component.annotations.Reference;
 @Component(
 	property = {
 		"javax.portlet.name=" + ConfigurationAdminPortletKeys.INSTANCE_SETTINGS,
-		"javax.portlet.name=" + PortalSettingsPortletKeys.PORTAL_SETTINGS,
 		"mvc.command.name=/portal_settings/test_opensso"
 	},
 	service = MVCRenderCommand.class
