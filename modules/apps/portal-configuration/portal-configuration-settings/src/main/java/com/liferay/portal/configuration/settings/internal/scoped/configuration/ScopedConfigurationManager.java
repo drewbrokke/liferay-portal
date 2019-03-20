@@ -56,8 +56,9 @@ public class ScopedConfigurationManager implements ManagedServiceFactory {
 		_configurationBeanClass = configurationBeanClass;
 		_locationVariableResolver = locationVariableResolver;
 
-		_factoryPid = ConfigurationPidUtil.getConfigurationPid(
-			configurationBeanClass);
+		_factoryPid =
+			ConfigurationPidUtil.getConfigurationPid(configurationBeanClass) +
+				".scoped";
 	}
 
 	@Override
