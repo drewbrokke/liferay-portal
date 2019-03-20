@@ -189,21 +189,26 @@ public class BindConfigurationMVCActionCommand implements MVCActionCommand {
 		}
 
 		try {
+			boolean scoped = !scope.equals(
+				ExtendedObjectClassDefinition.Scope.SYSTEM.getValue());
+
 			if ((configuration == null) ||
 				!configurationModel.hasScopeConfiguration(scope)) {
 
-				if (configurationModel.isFactory() ||
-					!scope.equals(
-						ExtendedObjectClassDefinition.Scope.SYSTEM.
-							getValue())) {
-
+				if (configurationModel.isFactory() || scoped) {
 					if (_log.isDebugEnabled()) {
 						_log.debug("Creating factory PID");
 					}
 
+					String pid = configurationModel.getID();
+
+					if (scoped) {
+						pid = pid + ".scoped";
+					}
+
 					configuration =
 						_configurationAdmin.createFactoryConfiguration(
-							configurationModel.getID(), StringPool.QUESTION);
+							pid, StringPool.QUESTION);
 				}
 				else {
 					if (_log.isDebugEnabled()) {
@@ -244,9 +249,7 @@ public class BindConfigurationMVCActionCommand implements MVCActionCommand {
 					ConfigurationModel.PROPERTY_VALUE_COMPANY_ID_DEFAULT);
 			}
 
-			if (!scope.equals(
-					ExtendedObjectClassDefinition.Scope.SYSTEM.getValue())) {
-
+			if (scoped) {
 				configuredProperties.put(scope.getPropertyKey(), scopePK);
 			}
 

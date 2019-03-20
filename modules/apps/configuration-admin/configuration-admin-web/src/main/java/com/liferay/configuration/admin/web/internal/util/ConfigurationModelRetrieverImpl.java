@@ -373,7 +373,8 @@ public class ConfigurationModelRetrieverImpl
 		}
 
 		return getAndFilterString(
-			getPropertyFilterString(ConfigurationAdmin.SERVICE_FACTORYPID, pid),
+			getPropertyFilterString(
+				ConfigurationAdmin.SERVICE_FACTORYPID, pid + ".scoped"),
 			getPropertyFilterString(
 				scope.getPropertyKey(), String.valueOf(scopePK)));
 	}
