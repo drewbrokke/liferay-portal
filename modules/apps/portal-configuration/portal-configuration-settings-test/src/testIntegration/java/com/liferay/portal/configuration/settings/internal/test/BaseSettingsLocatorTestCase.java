@@ -110,7 +110,9 @@ public abstract class BaseSettingsLocatorTestCase {
 
 		try {
 			String filterString = StringBundler.concat(
-				"(&", getPropertyFilterString("service.factoryPid", factoryPid),
+				"(&",
+				getPropertyFilterString(
+					"service.factoryPid", factoryPid + ".scoped"),
 				getPropertyFilterString(scope.getPropertyKey(), scopePK),
 				getPropertyFilterString(propertyKey, propertyValue), ")");
 
@@ -199,7 +201,7 @@ public abstract class BaseSettingsLocatorTestCase {
 		properties.put(SettingsLocatorTestConstants.TEST_KEY, value);
 
 		String pid = ConfigurationTestUtil.createFactoryConfiguration(
-			factoryPid, properties);
+			factoryPid + ".scoped", properties);
 
 		_factoryConfigurationPids.add(pid);
 
