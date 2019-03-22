@@ -16,6 +16,7 @@ package com.liferay.configuration.admin.web.internal.portlet.action;
 
 import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
 import com.liferay.configuration.admin.web.internal.constants.ConfigurationAdminWebKeys;
+import com.liferay.configuration.admin.web.internal.display.ConfigurationScopeDisplayContext;
 import com.liferay.configuration.admin.web.internal.model.ConfigurationModel;
 import com.liferay.configuration.admin.web.internal.search.FieldNames;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationEntryRetriever;
@@ -49,6 +50,7 @@ import org.osgi.service.component.annotations.Reference;
 @Component(
 	immediate = true,
 	property = {
+		"javax.portlet.name=" + ConfigurationAdminPortletKeys.INSTANCE_SETTINGS,
 		"javax.portlet.name=" + ConfigurationAdminPortletKeys.SYSTEM_SETTINGS,
 		"mvc.command.name=/search"
 	},
@@ -87,8 +89,13 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 
 			Document[] documents = hits.getDocs();
 
+			ConfigurationScopeDisplayContext configurationScopeDisplayContext =
+				new ConfigurationScopeDisplayContext(renderRequest);
+
 			Map<String, ConfigurationModel> configurationModels =
-				_configurationModelRetriever.getConfigurationModels();
+				_configurationModelRetriever.getConfigurationModels(
+					configurationScopeDisplayContext.getScope(),
+					configurationScopeDisplayContext.getScopePK());
 
 			List<ConfigurationModel> searchResults = new ArrayList<>(
 				documents.length);

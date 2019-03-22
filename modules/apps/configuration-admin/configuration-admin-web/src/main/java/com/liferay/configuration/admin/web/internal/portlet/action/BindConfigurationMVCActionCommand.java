@@ -16,6 +16,7 @@ package com.liferay.configuration.admin.web.internal.portlet.action;
 
 import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
 import com.liferay.configuration.admin.display.ConfigurationFormRenderer;
+import com.liferay.configuration.admin.web.internal.display.ConfigurationScopeDisplayContext;
 import com.liferay.configuration.admin.web.internal.model.ConfigurationModel;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationFormRendererRetriever;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationModelRetriever;
@@ -27,6 +28,7 @@ import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 import com.liferay.portal.configuration.persistence.listener.ConfigurationModelListenerException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.log.Log;
@@ -43,6 +45,7 @@ import com.liferay.portal.util.PropsValues;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import java.net.URI;
 
@@ -75,6 +78,7 @@ import org.osgi.service.component.annotations.Reference;
 @Component(
 	immediate = true,
 	property = {
+		"javax.portlet.name=" + ConfigurationAdminPortletKeys.INSTANCE_SETTINGS,
 		"javax.portlet.name=" + ConfigurationAdminPortletKeys.SYSTEM_SETTINGS,
 		"mvc.command.name=bindConfiguration"
 	},
@@ -100,9 +104,14 @@ public class BindConfigurationMVCActionCommand implements MVCActionCommand {
 
 		ConfigurationModel configurationModel = null;
 
+		ConfigurationScopeDisplayContext configurationScopeDisplayContext =
+			new ConfigurationScopeDisplayContext(actionRequest);
+
 		Map<String, ConfigurationModel> configurationModels =
 			_configurationModelRetriever.getConfigurationModels(
-				themeDisplay.getLanguageId());
+				themeDisplay.getLanguageId(),
+				configurationScopeDisplayContext.getScope(),
+				configurationScopeDisplayContext.getScopePK());
 
 		if (Validator.isNotNull(factoryPid)) {
 			configurationModel = configurationModels.get(factoryPid);
@@ -112,7 +121,9 @@ public class BindConfigurationMVCActionCommand implements MVCActionCommand {
 		}
 
 		Configuration configuration =
-			_configurationModelRetriever.getConfiguration(pid);
+			_configurationModelRetriever.getConfiguration(
+				pid, configurationScopeDisplayContext.getScope(),
+				configurationScopeDisplayContext.getScopePK());
 
 		Dictionary<String, Object> properties = null;
 
@@ -143,7 +154,9 @@ public class BindConfigurationMVCActionCommand implements MVCActionCommand {
 
 		try {
 			configureTargetService(
-				configurationModel, configuration, properties);
+				configurationModel, configuration, properties,
+				configurationScopeDisplayContext.getScope(),
+				configurationScopeDisplayContext.getScopePK());
 
 			String redirect = ParamUtil.getString(actionRequest, "redirect");
 
@@ -167,7 +180,8 @@ public class BindConfigurationMVCActionCommand implements MVCActionCommand {
 
 	protected void configureTargetService(
 			ConfigurationModel configurationModel, Configuration configuration,
-			Dictionary<String, Object> properties)
+			Dictionary<String, Object> properties,
+			ExtendedObjectClassDefinition.Scope scope, Serializable scopePK)
 		throws ConfigurationModelListenerException, PortletException {
 
 		if (_log.isDebugEnabled()) {
@@ -175,15 +189,26 @@ public class BindConfigurationMVCActionCommand implements MVCActionCommand {
 		}
 
 		try {
-			if (configuration == null) {
-				if (configurationModel.isFactory()) {
+			boolean scoped = !scope.equals(
+				ExtendedObjectClassDefinition.Scope.SYSTEM.getValue());
+
+			if ((configuration == null) ||
+				!configurationModel.hasScopeConfiguration(scope)) {
+
+				if (configurationModel.isFactory() || scoped) {
 					if (_log.isDebugEnabled()) {
 						_log.debug("Creating factory PID");
 					}
 
+					String pid = configurationModel.getID();
+
+					if (scoped) {
+						pid = pid + ".scoped";
+					}
+
 					configuration =
 						_configurationAdmin.createFactoryConfiguration(
-							configurationModel.getID(), StringPool.QUESTION);
+							pid, StringPool.QUESTION);
 				}
 				else {
 					if (_log.isDebugEnabled()) {
@@ -222,6 +247,10 @@ public class BindConfigurationMVCActionCommand implements MVCActionCommand {
 				configuredProperties.put(
 					ConfigurationModel.PROPERTY_KEY_COMPANY_ID,
 					ConfigurationModel.PROPERTY_VALUE_COMPANY_ID_DEFAULT);
+			}
+
+			if (scoped) {
+				configuredProperties.put(scope.getPropertyKey(), scopePK);
 			}
 
 			// LPS-69521

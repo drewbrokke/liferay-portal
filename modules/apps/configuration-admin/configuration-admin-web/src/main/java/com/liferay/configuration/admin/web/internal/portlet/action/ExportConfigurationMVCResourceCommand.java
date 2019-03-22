@@ -20,6 +20,7 @@ import com.liferay.configuration.admin.web.internal.model.ConfigurationModel;
 import com.liferay.configuration.admin.web.internal.util.AttributeDefinitionUtil;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationModelRetriever;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition.Scope;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedAttributeDefinition;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedObjectClassDefinition;
 import com.liferay.portal.kernel.portlet.PortletResponseUtil;
@@ -103,7 +104,7 @@ public class ExportConfigurationMVCResourceCommand
 
 		Map<String, ConfigurationModel> configurationModels =
 			_configurationModelRetriever.getConfigurationModels(
-				themeDisplay.getLanguageId());
+				themeDisplay.getLanguageId(), Scope.SYSTEM, null);
 
 		for (ConfigurationModel configurationModel :
 				configurationModels.values()) {
@@ -113,7 +114,7 @@ public class ExportConfigurationMVCResourceCommand
 
 				List<ConfigurationModel> factoryInstances =
 					_configurationModelRetriever.getFactoryInstances(
-						configurationModel);
+						configurationModel, Scope.SYSTEM, null);
 
 				for (ConfigurationModel factoryInstance : factoryInstances) {
 					String curPid = factoryInstance.getID();
@@ -161,14 +162,14 @@ public class ExportConfigurationMVCResourceCommand
 
 		Map<String, ConfigurationModel> configurationModels =
 			_configurationModelRetriever.getConfigurationModels(
-				themeDisplay.getLanguageId());
+				themeDisplay.getLanguageId(), Scope.SYSTEM, null);
 
 		ConfigurationModel factoryConfigurationModel = configurationModels.get(
 			factoryPid);
 
 		List<ConfigurationModel> factoryInstances =
 			_configurationModelRetriever.getFactoryInstances(
-				factoryConfigurationModel);
+				factoryConfigurationModel, Scope.SYSTEM, null);
 
 		for (ConfigurationModel factoryInstance : factoryInstances) {
 			String curPid = factoryInstance.getID();
@@ -231,7 +232,8 @@ public class ExportConfigurationMVCResourceCommand
 		Properties properties = new Properties();
 
 		Map<String, ConfigurationModel> configurationModels =
-			_configurationModelRetriever.getConfigurationModels(languageId);
+			_configurationModelRetriever.getConfigurationModels(
+				languageId, Scope.SYSTEM, null);
 
 		ConfigurationModel configurationModel = configurationModels.get(pid);
 
@@ -244,7 +246,8 @@ public class ExportConfigurationMVCResourceCommand
 		}
 
 		Configuration configuration =
-			_configurationModelRetriever.getConfiguration(pid);
+			_configurationModelRetriever.getConfiguration(
+				pid, Scope.SYSTEM, null);
 
 		if (configuration == null) {
 			return properties;

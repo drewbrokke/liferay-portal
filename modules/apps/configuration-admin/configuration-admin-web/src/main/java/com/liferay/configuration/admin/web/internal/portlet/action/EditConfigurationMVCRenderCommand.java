@@ -20,6 +20,7 @@ import com.liferay.configuration.admin.web.internal.constants.ConfigurationAdmin
 import com.liferay.configuration.admin.web.internal.display.ConfigurationCategoryMenuDisplay;
 import com.liferay.configuration.admin.web.internal.display.ConfigurationEntry;
 import com.liferay.configuration.admin.web.internal.display.ConfigurationModelConfigurationEntry;
+import com.liferay.configuration.admin.web.internal.display.ConfigurationScopeDisplayContext;
 import com.liferay.configuration.admin.web.internal.model.ConfigurationModel;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationEntryRetriever;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationFormRendererRetriever;
@@ -51,6 +52,7 @@ import org.osgi.service.component.annotations.Reference;
 @Component(
 	immediate = true,
 	property = {
+		"javax.portlet.name=" + ConfigurationAdminPortletKeys.INSTANCE_SETTINGS,
 		"javax.portlet.name=" + ConfigurationAdminPortletKeys.SYSTEM_SETTINGS,
 		"mvc.command.name=/edit_configuration",
 		"service.ranking:Integer=" + (Integer.MAX_VALUE - 1000)
@@ -71,9 +73,14 @@ public class EditConfigurationMVCRenderCommand implements MVCRenderCommand {
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
+		ConfigurationScopeDisplayContext configurationScopeDisplayContext =
+			new ConfigurationScopeDisplayContext(renderRequest);
+
 		Map<String, ConfigurationModel> configurationModels =
 			_configurationModelRetriever.getConfigurationModels(
-				themeDisplay.getLanguageId());
+				themeDisplay.getLanguageId(),
+				configurationScopeDisplayContext.getScope(),
+				configurationScopeDisplayContext.getScopePK());
 
 		ConfigurationModel configurationModel = configurationModels.get(pid);
 
@@ -85,7 +92,9 @@ public class EditConfigurationMVCRenderCommand implements MVCRenderCommand {
 			!configurationModel.isCompanyFactory()) {
 
 			Configuration configuration =
-				_configurationModelRetriever.getConfiguration(pid);
+				_configurationModelRetriever.getConfiguration(
+					pid, configurationScopeDisplayContext.getScope(),
+					configurationScopeDisplayContext.getScopePK());
 
 			configurationModel = new ConfigurationModel(
 				configurationModel.getExtendedObjectClassDefinition(),
@@ -99,7 +108,9 @@ public class EditConfigurationMVCRenderCommand implements MVCRenderCommand {
 				_configurationEntryRetriever.
 					getConfigurationCategoryMenuDisplay(
 						configurationModel.getCategory(),
-						themeDisplay.getLanguageId());
+						themeDisplay.getLanguageId(),
+						configurationScopeDisplayContext.getScope(),
+						configurationScopeDisplayContext.getScopePK());
 
 			renderRequest.setAttribute(
 				ConfigurationAdminWebKeys.CONFIGURATION_CATEGORY_MENU_DISPLAY,
