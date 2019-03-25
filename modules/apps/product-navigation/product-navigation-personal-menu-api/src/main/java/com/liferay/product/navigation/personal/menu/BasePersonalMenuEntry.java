@@ -18,6 +18,8 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchLayoutException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
@@ -83,6 +85,13 @@ public abstract class BasePersonalMenuEntry implements PersonalMenuEntry {
 				PropsValues.CONTROL_PANEL_LAYOUT_FRIENDLY_URL);
 		}
 		catch (NoSuchLayoutException nsle) {
+
+			// LPS-52675
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(nsle, nsle);
+			}
+
 			layout = addEmbeddedPersonalApplicationLayout(
 				user.getUserId(), group.getGroupId());
 		}
@@ -157,6 +166,9 @@ public abstract class BasePersonalMenuEntry implements PersonalMenuEntry {
 	protected void setPortlet(Portlet portlet) {
 		_portlet = portlet;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		BasePersonalMenuEntry.class);
 
 	private Portlet _portlet;
 
