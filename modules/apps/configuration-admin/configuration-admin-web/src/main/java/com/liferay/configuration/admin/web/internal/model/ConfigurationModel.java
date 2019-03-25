@@ -19,6 +19,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition.Scope;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedAttributeDefinition;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedObjectClassDefinition;
+import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -223,6 +224,34 @@ public class ConfigurationModel implements ExtendedObjectClassDefinition {
 		return HashUtil.hash(0, getID());
 	}
 
+	public boolean hasScopeConfiguration(Scope scope) {
+		if (!hasConfiguration()) {
+			return false;
+		}
+
+		Dictionary properties = _configuration.getProperties();
+
+		if (properties == null) {
+			return false;
+		}
+
+		long companyId = GetterUtil.getLong(
+			properties.get(Scope.COMPANY.getPropertyKey()),
+			CompanyConstants.SYSTEM);
+
+		if ((companyId != CompanyConstants.SYSTEM) &&
+			Scope.COMPANY.equals(scope.getValue())) {
+
+			return true;
+		}
+
+		if (Scope.SYSTEM.equals(scope.getValue())) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public boolean isCompanyFactory() {
 		if (!isFactory()) {
 			return false;
@@ -238,7 +267,7 @@ public class ConfigurationModel implements ExtendedObjectClassDefinition {
 	}
 
 	public boolean isCompanyScope() {
-		return Objects.equals(getScope(), Scope.COMPANY);
+		return isScope(Scope.COMPANY);
 	}
 
 	public boolean isFactory() {
@@ -255,15 +284,15 @@ public class ConfigurationModel implements ExtendedObjectClassDefinition {
 	}
 
 	public boolean isGroupScope() {
-		return Objects.equals(getScope(), Scope.GROUP);
+		return isScope(Scope.GROUP);
 	}
 
 	public boolean isPortletInstanceScope() {
-		return Objects.equals(getScope(), Scope.PORTLET_INSTANCE);
+		return isScope(Scope.PORTLET_INSTANCE);
 	}
 
 	public boolean isSystemScope() {
-		return Objects.equals(getScope(), Scope.SYSTEM);
+		return isScope(Scope.SYSTEM);
 	}
 
 	protected String getLabelAttributeValue() {
@@ -287,6 +316,10 @@ public class ConfigurationModel implements ExtendedObjectClassDefinition {
 		}
 
 		return value;
+	}
+
+	protected boolean isScope(Scope scope) {
+		return scope.equals(getScope());
 	}
 
 	protected ExtendedAttributeDefinition[] removeFactoryInstanceLabelAttribute(

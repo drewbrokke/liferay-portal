@@ -18,12 +18,14 @@ import com.liferay.configuration.admin.web.internal.model.ConfigurationModel;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedMetaTypeInformation;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedMetaTypeService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -82,15 +84,24 @@ public class ConfigurationModelRetrieverImpl
 	}
 
 	@Override
-	public Configuration getConfiguration(String pid) {
+	public Configuration getConfiguration(
+		String pid, ExtendedObjectClassDefinition.Scope scope,
+		Serializable scopePK) {
+
 		try {
-			String pidFilter = getPidFilterString(pid, false);
+			String pidFilter = getPidFilterString(pid, scope, scopePK);
 
 			Configuration[] configurations =
 				_configurationAdmin.listConfigurations(pidFilter);
 
 			if (configurations != null) {
 				return configurations[0];
+			}
+			else if (scope.equals(
+						ExtendedObjectClassDefinition.Scope.COMPANY)) {
+
+				return getConfiguration(
+					pid, ExtendedObjectClassDefinition.Scope.SYSTEM, null);
 			}
 		}
 		catch (InvalidSyntaxException | IOException e) {
@@ -101,25 +112,31 @@ public class ConfigurationModelRetrieverImpl
 	}
 
 	@Override
-	public Map<String, ConfigurationModel> getConfigurationModels() {
-		return getConfigurationModels((String)null);
-	}
-
-	@Override
 	public Map<String, ConfigurationModel> getConfigurationModels(
-		Bundle bundle) {
+		Bundle bundle, ExtendedObjectClassDefinition.Scope scope,
+		Serializable scopePK) {
 
 		Map<String, ConfigurationModel> configurationModels = new HashMap<>();
 
-		collectConfigurationModels(bundle, configurationModels, true, null);
-		collectConfigurationModels(bundle, configurationModels, false, null);
+		collectConfigurationModels(
+			bundle, configurationModels, true, null, scope, scopePK);
+		collectConfigurationModels(
+			bundle, configurationModels, false, null, scope, scopePK);
 
 		return configurationModels;
 	}
 
 	@Override
 	public Map<String, ConfigurationModel> getConfigurationModels(
-		String locale) {
+		ExtendedObjectClassDefinition.Scope scope, Serializable scopePK) {
+
+		return getConfigurationModels((String)null, scope, scopePK);
+	}
+
+	@Override
+	public Map<String, ConfigurationModel> getConfigurationModels(
+		String locale, ExtendedObjectClassDefinition.Scope scope,
+		Serializable scopePK) {
 
 		Map<String, ConfigurationModel> configurationModels = new HashMap<>();
 
@@ -131,9 +148,9 @@ public class ConfigurationModelRetrieverImpl
 			}
 
 			collectConfigurationModels(
-				bundle, configurationModels, true, locale);
+				bundle, configurationModels, true, locale, scope, scopePK);
 			collectConfigurationModels(
-				bundle, configurationModels, false, locale);
+				bundle, configurationModels, false, locale, scope, scopePK);
 		}
 
 		return configurationModels;
@@ -141,10 +158,11 @@ public class ConfigurationModelRetrieverImpl
 
 	@Override
 	public Set<ConfigurationModel> getConfigurationModels(
-		String configurationCategory, String languageId) {
+		String configurationCategory, String languageId,
+		ExtendedObjectClassDefinition.Scope scope, Serializable scopePK) {
 
 		Map<String, ConfigurationModel> configurationModelsMap =
-			getConfigurationModels(languageId);
+			getConfigurationModels(languageId, scope, scopePK);
 
 		Map<String, Set<ConfigurationModel>> categorizedConfigurationModels =
 			categorizeConfigurationModels(configurationModelsMap);
@@ -161,7 +179,8 @@ public class ConfigurationModelRetrieverImpl
 
 	@Override
 	public List<ConfigurationModel> getFactoryInstances(
-			ConfigurationModel factoryConfigurationModel)
+			ConfigurationModel factoryConfigurationModel,
+			ExtendedObjectClassDefinition.Scope scope, Serializable scopePK)
 		throws IOException {
 
 		Configuration[] configurations = getFactoryConfigurations(
@@ -192,7 +211,8 @@ public class ConfigurationModelRetrieverImpl
 
 	protected void collectConfigurationModels(
 		Bundle bundle, Map<String, ConfigurationModel> configurationModels,
-		boolean factory, String locale) {
+		boolean factory, String locale,
+		ExtendedObjectClassDefinition.Scope scope, Serializable scopePK) {
 
 		ExtendedMetaTypeInformation extendedMetaTypeInformation =
 			_extendedMetaTypeService.getMetaTypeInformation(bundle);
@@ -213,7 +233,7 @@ public class ConfigurationModelRetrieverImpl
 
 		for (String pid : pids) {
 			ConfigurationModel configurationModel = getConfigurationModel(
-				bundle, pid, factory, locale);
+				bundle, pid, factory, locale, scope, scopePK);
 
 			if (configurationModel == null) {
 				continue;
@@ -221,6 +241,25 @@ public class ConfigurationModelRetrieverImpl
 
 			configurationModels.put(pid, configurationModel);
 		}
+	}
+
+	protected String getAndFilterString(String... filterStrings) {
+		StringBundler sb = new StringBundler(filterStrings.length + 3);
+
+		sb.append(StringPool.OPEN_PARENTHESIS);
+		sb.append(StringPool.AMPERSAND);
+
+		for (String filterString : filterStrings) {
+			if (Validator.isNull(filterString)) {
+				return StringPool.BLANK;
+			}
+
+			sb.append(filterString);
+		}
+
+		sb.append(StringPool.CLOSE_PARENTHESIS);
+
+		return sb.toString();
 	}
 
 	protected Configuration getCompanyDefaultConfiguration(String factoryPid) {
@@ -243,7 +282,8 @@ public class ConfigurationModelRetrieverImpl
 	}
 
 	protected ConfigurationModel getConfigurationModel(
-		Bundle bundle, String pid, boolean factory, String locale) {
+		Bundle bundle, String pid, boolean factory, String locale,
+		ExtendedObjectClassDefinition.Scope scope, Serializable scopePK) {
 
 		ExtendedMetaTypeInformation metaTypeInformation =
 			_extendedMetaTypeService.getMetaTypeInformation(bundle);
@@ -254,8 +294,16 @@ public class ConfigurationModelRetrieverImpl
 
 		ConfigurationModel configurationModel = new ConfigurationModel(
 			metaTypeInformation.getObjectClassDefinition(pid, locale),
-			getConfiguration(pid), bundle.getSymbolicName(),
+			getConfiguration(pid, scope, scopePK), bundle.getSymbolicName(),
 			StringPool.QUESTION, factory);
+
+		if (!scope.equals(scope.SYSTEM) && configurationModel.isFactory()) {
+			return null;
+		}
+
+		if (scope.equals(scope.COMPANY) && configurationModel.isSystemScope()) {
+			return null;
+		}
 
 		if (configurationModel.isCompanyFactory()) {
 			Configuration configuration = getCompanyDefaultConfiguration(pid);
@@ -285,31 +333,19 @@ public class ConfigurationModelRetrieverImpl
 
 		Configuration[] configurations = null;
 
-		StringBundler sb = new StringBundler(13);
+		String filterString = getPropertyFilterString(
+			ConfigurationAdmin.SERVICE_FACTORYPID, factoryPid);
 
-		if (Validator.isNotNull(property) && Validator.isNotNull(value)) {
-			sb.append(StringPool.OPEN_PARENTHESIS);
-			sb.append(StringPool.AMPERSAND);
-		}
+		String propertyFilterString = getPropertyFilterString(property, value);
 
-		sb.append(StringPool.OPEN_PARENTHESIS);
-		sb.append(ConfigurationAdmin.SERVICE_FACTORYPID);
-		sb.append(StringPool.EQUAL);
-		sb.append(factoryPid);
-		sb.append(StringPool.CLOSE_PARENTHESIS);
-
-		if (Validator.isNotNull(property) && Validator.isNotNull(value)) {
-			sb.append(StringPool.OPEN_PARENTHESIS);
-			sb.append(property);
-			sb.append(StringPool.EQUAL);
-			sb.append(value);
-			sb.append(StringPool.CLOSE_PARENTHESIS);
-			sb.append(StringPool.CLOSE_PARENTHESIS);
+		if (Validator.isNotNull(propertyFilterString)) {
+			filterString = getAndFilterString(
+				filterString, propertyFilterString);
 		}
 
 		try {
 			configurations = _configurationAdmin.listConfigurations(
-				sb.toString());
+				filterString);
 		}
 		catch (InvalidSyntaxException ise) {
 			ReflectionUtil.throwException(ise);
@@ -318,23 +354,29 @@ public class ConfigurationModelRetrieverImpl
 		return configurations;
 	}
 
-	protected String getPidFilterString(String pid, boolean factory) {
-		StringBundler sb = new StringBundler(5);
+	protected String getPidFilterString(
+		String pid, ExtendedObjectClassDefinition.Scope scope,
+		Serializable scopePK) {
 
-		sb.append(StringPool.OPEN_PARENTHESIS);
-
-		if (factory) {
-			sb.append(ConfigurationAdmin.SERVICE_FACTORYPID);
-		}
-		else {
-			sb.append(Constants.SERVICE_PID);
+		if (scope.equals(ExtendedObjectClassDefinition.Scope.SYSTEM)) {
+			return getPropertyFilterString(Constants.SERVICE_PID, pid);
 		}
 
-		sb.append(StringPool.EQUAL);
-		sb.append(pid);
-		sb.append(StringPool.CLOSE_PARENTHESIS);
+		return getAndFilterString(
+			getPropertyFilterString(
+				ConfigurationAdmin.SERVICE_FACTORYPID, pid + ".scoped"),
+			getPropertyFilterString(
+				scope.getPropertyKey(), String.valueOf(scopePK)));
+	}
 
-		return sb.toString();
+	protected String getPropertyFilterString(String key, String value) {
+		if (Validator.isNull(key) || Validator.isNull(value)) {
+			return StringPool.BLANK;
+		}
+
+		return StringBundler.concat(
+			StringPool.OPEN_PARENTHESIS, key, StringPool.EQUAL, value,
+			StringPool.CLOSE_PARENTHESIS);
 	}
 
 	private BundleContext _bundleContext;

@@ -25,10 +25,13 @@ import com.liferay.configuration.admin.web.internal.display.ConfigurationScreenC
 import com.liferay.configuration.admin.web.internal.model.ConfigurationModel;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.LocaleUtil;
+
+import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +69,8 @@ public class ConfigurationEntryRetrieverImpl
 
 	@Override
 	public ConfigurationCategoryMenuDisplay getConfigurationCategoryMenuDisplay(
-		String configurationCategory, String languageId) {
+		String configurationCategory, String languageId,
+		ExtendedObjectClassDefinition.Scope scope, Serializable scopePK) {
 
 		ConfigurationCategoryDisplay configurationCategoryDisplay =
 			new ConfigurationCategoryDisplay(
@@ -74,18 +78,20 @@ public class ConfigurationEntryRetrieverImpl
 
 		return new ConfigurationCategoryMenuDisplay(
 			configurationCategoryDisplay,
-			getConfigurationEntries(configurationCategory, languageId));
+			getConfigurationEntries(
+				configurationCategory, languageId, scope, scopePK));
 	}
 
 	@Override
 	public List<ConfigurationCategorySectionDisplay>
-		getConfigurationCategorySectionDisplays() {
+		getConfigurationCategorySectionDisplays(
+			ExtendedObjectClassDefinition.Scope scope, Serializable scopePK) {
 
 		Locale locale = LocaleThreadLocal.getThemeDisplayLocale();
 
 		Map<String, ConfigurationModel> configurationModelsMap =
 			_configurationModelRetriever.getConfigurationModels(
-				locale.getLanguage());
+				locale.getLanguage(), scope, scopePK);
 
 		Map<String, Set<ConfigurationModel>> categorizedConfigurationModels =
 			_configurationModelRetriever.categorizeConfigurationModels(
@@ -97,37 +103,21 @@ public class ConfigurationEntryRetrieverImpl
 		for (String curConfigurationCategoryKey :
 				categorizedConfigurationModels.keySet()) {
 
-			ConfigurationCategory curConfigurationCategory =
-				_configurationCategoryServiceTrackerMap.getService(
-					curConfigurationCategoryKey);
+			_populateConfigurationCategorySectionDisplay(
+				configurationCategorySectionDisplaysMap,
+				curConfigurationCategoryKey);
+		}
 
-			if (curConfigurationCategory == null) {
-				curConfigurationCategory = new AdhocConfigurationCategory(
-					curConfigurationCategoryKey);
+		for (ConfigurationScreen configurationScreen :
+				_configurationScreenServiceTrackerMap.values()) {
 
-				_registerConfigurationCategory(curConfigurationCategory);
+			if (!scope.equals(configurationScreen.getScope())) {
+				continue;
 			}
 
-			ConfigurationCategorySectionDisplay
-				configurationCategorySectionDisplay =
-					configurationCategorySectionDisplaysMap.get(
-						curConfigurationCategory.getCategorySection());
-
-			if (configurationCategorySectionDisplay == null) {
-				configurationCategorySectionDisplay =
-					new ConfigurationCategorySectionDisplay(
-						curConfigurationCategory.getCategorySection());
-
-				configurationCategorySectionDisplaysMap.put(
-					curConfigurationCategory.getCategorySection(),
-					configurationCategorySectionDisplay);
-			}
-
-			ConfigurationCategoryDisplay configurationCategoryDisplay =
-				new ConfigurationCategoryDisplay(curConfigurationCategory);
-
-			configurationCategorySectionDisplay.add(
-				configurationCategoryDisplay);
+			_populateConfigurationCategorySectionDisplay(
+				configurationCategorySectionDisplaysMap,
+				configurationScreen.getCategoryKey());
 		}
 
 		Set<ConfigurationCategorySectionDisplay> configurationCategorySections =
@@ -141,7 +131,8 @@ public class ConfigurationEntryRetrieverImpl
 
 	@Override
 	public Set<ConfigurationEntry> getConfigurationEntries(
-		String configurationCategory, String languageId) {
+		String configurationCategory, String languageId,
+		ExtendedObjectClassDefinition.Scope scope, Serializable scopePK) {
 
 		Set<ConfigurationEntry> configurationEntries = new TreeSet(
 			getConfigurationEntryComparator());
@@ -150,7 +141,7 @@ public class ConfigurationEntryRetrieverImpl
 
 		Set<ConfigurationModel> configurationModels =
 			_configurationModelRetriever.getConfigurationModels(
-				configurationCategory, languageId);
+				configurationCategory, languageId, scope, scopePK);
 
 		for (ConfigurationModel configurationModel : configurationModels) {
 			if (configurationModel.isGenerateUI()) {
@@ -259,6 +250,43 @@ public class ConfigurationEntryRetrieverImpl
 		}
 
 		return configurationCategoriesSet;
+	}
+
+	private void _populateConfigurationCategorySectionDisplay(
+		Map<String, ConfigurationCategorySectionDisplay>
+			configurationCategorySectionDisplaysMap,
+		String curConfigurationCategoryKey) {
+
+		ConfigurationCategory curConfigurationCategory =
+			_configurationCategoryServiceTrackerMap.getService(
+				curConfigurationCategoryKey);
+
+		if (curConfigurationCategory == null) {
+			curConfigurationCategory = new AdhocConfigurationCategory(
+				curConfigurationCategoryKey);
+
+			_registerConfigurationCategory(curConfigurationCategory);
+		}
+
+		ConfigurationCategorySectionDisplay
+			configurationCategorySectionDisplay =
+				configurationCategorySectionDisplaysMap.get(
+					curConfigurationCategory.getCategorySection());
+
+		if (configurationCategorySectionDisplay == null) {
+			configurationCategorySectionDisplay =
+				new ConfigurationCategorySectionDisplay(
+					curConfigurationCategory.getCategorySection());
+
+			configurationCategorySectionDisplaysMap.put(
+				curConfigurationCategory.getCategorySection(),
+				configurationCategorySectionDisplay);
+		}
+
+		ConfigurationCategoryDisplay configurationCategoryDisplay =
+			new ConfigurationCategoryDisplay(curConfigurationCategory);
+
+		configurationCategorySectionDisplay.add(configurationCategoryDisplay);
 	}
 
 	private void _registerConfigurationCategory(
