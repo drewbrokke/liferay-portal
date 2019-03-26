@@ -43,7 +43,7 @@ String referringPortletResource = ParamUtil.getString(request, "referringPortlet
 			curFolder = (JournalFolder)result;
 		}
 		else {
-			curArticle = (JournalArticle)result;
+			curArticle = journalDisplayContext.getLatestArticle((JournalArticle)result);
 		}
 		%>
 

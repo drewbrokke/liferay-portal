@@ -550,6 +550,19 @@ public class JournalDisplayContext {
 		return _keywords;
 	}
 
+	public JournalArticle getLatestArticle(JournalArticle journalArticle) {
+		JournalArticle latestArticle =
+			JournalArticleLocalServiceUtil.fetchLatestArticle(
+				journalArticle.getGroupId(), journalArticle.getArticleId(),
+				WorkflowConstants.STATUS_ANY);
+
+		if (latestArticle != null) {
+			return latestArticle;
+		}
+
+		return journalArticle;
+	}
+
 	public String getNavigation() {
 		if (_navigation != null) {
 			return _navigation;
@@ -926,6 +939,8 @@ public class JournalDisplayContext {
 				if (className.equals(JournalArticle.class.getName())) {
 					JournalArticle article = null;
 
+					boolean visible = true;
+
 					if (!showVersions) {
 						article =
 							JournalArticleLocalServiceUtil.fetchLatestArticle(
@@ -940,9 +955,16 @@ public class JournalDisplayContext {
 
 						article = JournalArticleLocalServiceUtil.fetchArticle(
 							groupId, articleId, version);
+
+						visible =
+							_journalChangeTrackingHelper.
+								isJournalArticleInChangeList(
+									_themeDisplay.getUserId(), article.getId());
 					}
 
-					results.add(article);
+					if (visible) {
+						results.add(article);
+					}
 				}
 				else if (className.equals(JournalFolder.class.getName())) {
 					JournalFolder folder =
