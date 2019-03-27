@@ -106,8 +106,8 @@ public interface CTConfigurationBuilder<T, U> {
 	public interface VersionEntityDetailsStep<U> {
 
 		public EntityIdsFromVersionEntityStep<U> setVersionEntityDetails(
-			List<Function<U, ? extends BaseModel>>
-				versionEntityRelatedEntityFunctions,
+			List<Function<U, List<? extends BaseModel>>>
+				versionEntityRelatedEntitiesFunctions,
 			Function<U, String> versionEntitySiteNameFunction,
 			Function<U, String> versionEntityTitleFunction,
 			Function<U, Serializable> versionEntityVersionFunction);

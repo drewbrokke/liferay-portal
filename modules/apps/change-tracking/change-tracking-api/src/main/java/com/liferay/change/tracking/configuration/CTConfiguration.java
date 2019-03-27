@@ -156,8 +156,8 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 	 * @return the list of functions that each retrieve a related entity of a
 	 *         version entity
 	 */
-	public List<Function<U, ? extends BaseModel>>
-		getVersionEntityRelatedEntityFunctions();
+	public List<Function<U, List<? extends BaseModel>>>
+		getVersionEntityRelatedEntitiesFunctions();
 
 	public Function<U, String> getVersionEntitySiteNameFunction();
 

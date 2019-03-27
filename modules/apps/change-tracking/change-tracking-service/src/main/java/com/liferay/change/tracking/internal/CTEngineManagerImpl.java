@@ -609,7 +609,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		_generateCTEntryAggregateForCTEntry(
 			long userId, CTConfiguration ctConfiguration,
 			CTCollection ctCollection, CTEntry ctEntry,
-			List<Function<V, R>> versionEntityRelatedEntityFunctions) {
+			List<Function<V, List<R>>> versionEntityRelatedEntitiesFunctions) {
 
 		Function<Long, V> versionEntityByVersionEntityIdFunction =
 			ctConfiguration.getVersionEntityByVersionEntityIdFunction();
@@ -617,66 +617,72 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		V versionEntity = versionEntityByVersionEntityIdFunction.apply(
 			ctEntry.getModelClassPK());
 
-		versionEntityRelatedEntityFunctions.forEach(
-			relatedEntityFunction -> _generateCTEntryAggregateForVersionEntity(
-				userId, ctCollection, ctEntry, versionEntity,
-				relatedEntityFunction));
+		versionEntityRelatedEntitiesFunctions.forEach(
+			relatedEntitiesFunction ->
+				_generateCTEntryAggregateForVersionEntity(
+					userId, ctCollection, ctEntry, versionEntity,
+					relatedEntitiesFunction));
 	}
 
 	private <V extends BaseModel, R extends BaseModel> void
 		_generateCTEntryAggregateForVersionEntity(
 			long userId, CTCollection ctCollection, CTEntry ctEntry,
 			V versionEntity,
-			Function<V, R> versionEntityRelatedEntityFunction) {
+			Function<V, List<R>> versionEntityRelatedEntityFunction) {
 
-		R relatedEntity = versionEntityRelatedEntityFunction.apply(
+		List<R> relatedEntities = versionEntityRelatedEntityFunction.apply(
 			versionEntity);
 
-		if (relatedEntity == null) {
-			return;
-		}
-
-		long relatedEntityClassPK = (Long)relatedEntity.getPrimaryKeyObj();
-
-		CTEntry relatedCTEntry = _ctEntryLocalService.fetchCTEntry(
-			_portal.getClassNameId(relatedEntity.getModelClassName()),
-			relatedEntityClassPK);
-
-		if (relatedCTEntry == null) {
-			List<CTEntry> relatedCTEntries =
-				_ctEntryLocalService.fetchCTEntries(
-					ctCollection.getCtCollectionId(), relatedEntityClassPK,
-					new QueryDefinition<>());
-
-			if (ListUtil.isEmpty(relatedCTEntries)) {
-				return;
-			}
-
-			relatedCTEntry = relatedCTEntries.get(0);
-		}
-
-		CTEntryAggregate ctEntryAggregate =
-			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
-				ctCollection.getCtCollectionId(), ctEntry.getCtEntryId());
-
-		if (ctEntryAggregate == null) {
-			try {
-				ctEntryAggregate =
-					_ctEntryAggregateLocalService.addCTEntryAggregate(
-						userId, ctCollection.getCtCollectionId(),
-						ctEntry.getCtEntryId(), new ServiceContext());
-			}
-			catch (PortalException pe) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(
-						"Unable to add CTEntryAggregate: " +
-							pe.getLocalizedMessage());
+		relatedEntities.forEach(
+			relatedEntity -> {
+				if (relatedEntity == null) {
+					return;
 				}
-			}
-		}
 
-		_ctEntryAggregateLocalService.addCTEntry(
-			ctEntryAggregate, relatedCTEntry);
+				long relatedEntityClassPK =
+					(Long)relatedEntity.getPrimaryKeyObj();
+
+				CTEntry relatedCTEntry = _ctEntryLocalService.fetchCTEntry(
+					_portal.getClassNameId(relatedEntity.getModelClassName()),
+					relatedEntityClassPK);
+
+				if (relatedCTEntry == null) {
+					List<CTEntry> relatedCTEntries =
+						_ctEntryLocalService.fetchCTEntries(
+							ctCollection.getCtCollectionId(),
+							relatedEntityClassPK, new QueryDefinition<>());
+
+					if (ListUtil.isEmpty(relatedCTEntries)) {
+						return;
+					}
+
+					relatedCTEntry = relatedCTEntries.get(0);
+				}
+
+				CTEntryAggregate ctEntryAggregate =
+					_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
+						ctCollection.getCtCollectionId(),
+						ctEntry.getCtEntryId());
+
+				if (ctEntryAggregate == null) {
+					try {
+						ctEntryAggregate =
+							_ctEntryAggregateLocalService.addCTEntryAggregate(
+								userId, ctCollection.getCtCollectionId(),
+								ctEntry.getCtEntryId(), new ServiceContext());
+					}
+					catch (PortalException pe) {
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"Unable to add CTEntryAggregate: " +
+									pe.getLocalizedMessage());
+						}
+					}
+				}
+
+				_ctEntryAggregateLocalService.addCTEntry(
+					ctEntryAggregate, relatedCTEntry);
+			});
 	}
 
 	private <V extends BaseModel, R extends BaseModel> void
@@ -684,10 +690,10 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			long userId, CTConfiguration ctConfiguration,
 			CTCollection ctCollection) {
 
-		List<Function<V, R>> versionEntityRelatedEntityFunctions =
-			ctConfiguration.getVersionEntityRelatedEntityFunctions();
+		List<Function<V, List<R>>> versionEntityRelatedEntitiesFunctions =
+			ctConfiguration.getVersionEntityRelatedEntitiesFunctions();
 
-		if (ListUtil.isEmpty(versionEntityRelatedEntityFunctions)) {
+		if (ListUtil.isEmpty(versionEntityRelatedEntitiesFunctions)) {
 			return;
 		}
 
@@ -699,7 +705,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		ctEntries.forEach(
 			ctEntry -> _generateCTEntryAggregateForCTEntry(
 				userId, ctConfiguration, ctCollection, ctEntry,
-				versionEntityRelatedEntityFunctions));
+				versionEntityRelatedEntitiesFunctions));
 	}
 
 	private long _getCompanyId(long userId) {

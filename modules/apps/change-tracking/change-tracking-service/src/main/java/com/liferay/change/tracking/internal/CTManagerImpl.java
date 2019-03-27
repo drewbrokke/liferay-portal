@@ -483,18 +483,18 @@ public class CTManagerImpl implements CTManager {
 		CTConfiguration<?, V> ctConfiguration =
 			(CTConfiguration<?, V>)ctConfigurationOptional.get();
 
-		List<Function<V, ? extends BaseModel>> relatedEntityFunctions =
-			ctConfiguration.getVersionEntityRelatedEntityFunctions();
+		List<Function<V, List<? extends BaseModel>>> relatedEntitiesFunctions =
+			ctConfiguration.getVersionEntityRelatedEntitiesFunctions();
 
 		Function<Long, V> versionEntityByVersionEntityIdFunction =
 			ctConfiguration.getVersionEntityByVersionEntityIdFunction();
 
 		V versionEntity = versionEntityByVersionEntityIdFunction.apply(classPK);
 
-		relatedEntityFunctions.forEach(
-			relatedEntityFunction -> _registerRelatedChange(
+		relatedEntitiesFunctions.forEach(
+			relatedEntitiesFunction -> _registerRelatedChange(
 				userId, classNameId, classPK, versionEntity,
-				relatedEntityFunction, force));
+				relatedEntitiesFunction, force));
 	}
 
 	@Override
@@ -713,10 +713,10 @@ public class CTManagerImpl implements CTManager {
 		}
 	}
 
-	private <V extends BaseModel, R extends BaseModel> void
-		_registerRelatedChange(
-			long userId, long classNameId, long classPK, V versionEntity,
-			Function<V, R> relatedEntityFunction, boolean force) {
+	private <V extends BaseModel> void _registerRelatedChange(
+		long userId, long classNameId, long classPK, V versionEntity,
+		Function<V, List<? extends BaseModel>> relatedEntitiesFunction,
+		boolean force) {
 
 		Optional<CTEntry> versionEntityCTEntryOptional =
 			getModelChangeCTEntryOptional(userId, classNameId, classPK);
@@ -725,32 +725,39 @@ public class CTManagerImpl implements CTManager {
 			return;
 		}
 
-		R relatedEntity = relatedEntityFunction.apply(versionEntity);
+		List<? extends BaseModel> relatedEntities =
+			relatedEntitiesFunction.apply(versionEntity);
 
-		if (relatedEntity == null) {
-			return;
-		}
+		relatedEntities.forEach(
+			relatedEntity -> {
+				if (relatedEntity == null) {
+					return;
+				}
 
-		long relatedEntityClassPK = (Long)relatedEntity.getPrimaryKeyObj();
+				long relatedEntityClassPK =
+					(Long)relatedEntity.getPrimaryKeyObj();
 
-		Optional<CTEntry> relatedEntityCTEntryOptional =
-			getModelChangeCTEntryOptional(
-				userId,
-				_portal.getClassNameId(relatedEntity.getModelClassName()),
-				relatedEntityClassPK);
+				Optional<CTEntry> relatedEntityCTEntryOptional =
+					getModelChangeCTEntryOptional(
+						userId,
+						_portal.getClassNameId(
+							relatedEntity.getModelClassName()),
+						relatedEntityClassPK);
 
-		if (!relatedEntityCTEntryOptional.isPresent()) {
-			relatedEntityCTEntryOptional = getLatestModelChangeCTEntryOptional(
-				userId, relatedEntityClassPK);
-		}
+				if (!relatedEntityCTEntryOptional.isPresent()) {
+					relatedEntityCTEntryOptional =
+						getLatestModelChangeCTEntryOptional(
+							userId, relatedEntityClassPK);
+				}
 
-		if (!relatedEntityCTEntryOptional.isPresent()) {
-			return;
-		}
+				if (!relatedEntityCTEntryOptional.isPresent()) {
+					return;
+				}
 
-		addRelatedCTEntry(
-			userId, versionEntityCTEntryOptional.get(),
-			relatedEntityCTEntryOptional.get(), force);
+				addRelatedCTEntry(
+					userId, versionEntityCTEntryOptional.get(),
+					relatedEntityCTEntryOptional.get(), force);
+			});
 	}
 
 	private void _updateCTEntryInCTEntryAggregate(
