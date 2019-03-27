@@ -17,9 +17,7 @@ package com.liferay.portal.settings.web.internal.configuration.admin.display;
 import com.liferay.configuration.admin.display.ConfigurationScreen;
 import com.liferay.frontend.taglib.servlet.taglib.util.JSPRenderer;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.language.UnicodeLanguageUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.settings.portlet.action.PortalSettingsConfigurationScreenContributor;
 
 import java.io.IOException;
 
@@ -29,38 +27,32 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Drew Brokke
  */
-public class PortalSettingsConfigurationScreen implements ConfigurationScreen {
-
-	public PortalSettingsConfigurationScreen(
-		PortalSettingsConfigurationScreenContributor
-			portalSettingsConfigurationScreenContributor,
-		JSPRenderer jspRenderer, ServletContext servletContext) {
-
-		_portalSettingsConfigurationScreenContributor =
-			portalSettingsConfigurationScreenContributor;
-		_jspRenderer = jspRenderer;
-		_servletContext = servletContext;
-	}
+@Component(service = ConfigurationScreen.class)
+public class LegacyPortalSettingsConfigurationScreen
+	implements ConfigurationScreen {
 
 	@Override
 	public String getCategoryKey() {
-		return _portalSettingsConfigurationScreenContributor.getCategoryKey();
+		return "portal-settings";
 	}
 
 	@Override
 	public String getKey() {
-		return _portalSettingsConfigurationScreenContributor.getKey();
+		return "portal-settings";
 	}
 
 	@Override
 	public String getName(Locale locale) {
 		return LanguageUtil.get(
 			ResourceBundleUtil.getBundle(
-				locale, PortalSettingsConfigurationScreen.class),
-			_portalSettingsConfigurationScreenContributor.getName(locale));
+				locale, LegacyPortalSettingsConfigurationScreen.class),
+			"category.portal-settings");
 	}
 
 	@Override
@@ -72,25 +64,16 @@ public class PortalSettingsConfigurationScreen implements ConfigurationScreen {
 	public void render(HttpServletRequest request, HttpServletResponse response)
 		throws IOException {
 
-		request.setAttribute(
-			"deleteConfirmationText",
-			UnicodeLanguageUtil.get(
-				ResourceBundleUtil.getBundle(
-					request.getLocale(),
-					PortalSettingsConfigurationScreen.class),
-				"are-you-sure-you-want-to-reset-the-configured-values"));
-		request.setAttribute(
-			"portalSettingsConfigurationScreenContributor",
-			_portalSettingsConfigurationScreenContributor);
-
 		_jspRenderer.renderJSP(
-			_servletContext, request, response,
-			"/configuration/screen/entry.jsp");
+			_servletContext, request, response, "/edit_company.jsp");
 	}
 
-	private final JSPRenderer _jspRenderer;
-	private final PortalSettingsConfigurationScreenContributor
-		_portalSettingsConfigurationScreenContributor;
-	private final ServletContext _servletContext;
+	@Reference
+	private JSPRenderer _jspRenderer;
+
+	@Reference(
+		target = "(osgi.web.symbolicname=com.liferay.portal.settings.web)"
+	)
+	private ServletContext _servletContext;
 
 }
