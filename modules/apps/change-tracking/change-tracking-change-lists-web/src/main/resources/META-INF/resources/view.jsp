@@ -25,6 +25,8 @@ renderResponse.setTitle(title);
 SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayContext.getSearchContainer();
 
 DisplayTerms displayTerms = ctCollectionSearchContainer.getDisplayTerms();
+
+PortletURL histotryURL = PortletURLFactoryUtil.create(request, CTPortletKeys.CHANGE_LISTS_HISTORY, PortletRequest.RENDER_PHASE);
 %>
 
 <liferay-ui:success key='<%= portletDisplay.getPortletName() + "checkoutProductionSuccess" %>' message="production-checked-out-success-message" />
@@ -135,13 +137,34 @@ DisplayTerms displayTerms = ctCollectionSearchContainer.getDisplayTerms();
 									url="<%= editCollectionURL %>"
 								/>
 
-								<liferay-portlet:actionURL name="/change_lists/publish_ct_collection" var="publishCollectionURL">
-									<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
-								</liferay-portlet:actionURL>
+								<liferay-portlet:renderURL var="publishModalURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+									<liferay-portlet:param name="mvcRenderCommandName" value="/change_lists/publish_modal" />
+									<liferay-portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
+								</liferay-portlet:renderURL>
+
+								<script>
+									function handleClickPublish() {
+										Liferay.Util.openWindow(
+											{
+												dialog: {
+													destroyOnHide: false,
+													width: 500,
+													height: 400
+												},
+												dialogIframe: {
+													bodyCssClass: 'dialog-with-footer'
+												},
+												id: '<portlet:namespace/>publishIconDialog',
+												title: '<%= LanguageUtil.get(request, "publish-change-list") %>',
+												uri: '<%= publishModalURL %>'
+											});
+									}
+								</script>
 
 								<liferay-ui:icon
 									message="publish"
-									url="<%= publishCollectionURL %>"
+									onClick="javascript:handleClickPublish();"
+									url="#"
 								/>
 
 								<liferay-portlet:actionURL var="deleteCollectionURL">
@@ -284,13 +307,34 @@ DisplayTerms displayTerms = ctCollectionSearchContainer.getDisplayTerms();
 													url="<%= editCollectionURL %>"
 												/>
 
-												<liferay-portlet:actionURL name="/change_lists/publish_ct_collection" var="publishCollectionURL">
-													<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
-												</liferay-portlet:actionURL>
+												<liferay-portlet:renderURL var="publishModalURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+													<liferay-portlet:param name="mvcRenderCommandName" value="/change_lists/publish_modal" />
+													<liferay-portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
+												</liferay-portlet:renderURL>
+
+												<script>
+													function handleClickPublish() {
+														Liferay.Util.openWindow(
+															{
+																dialog: {
+																	destroyOnHide: false,
+																	width: 500,
+																	height: 400
+																},
+																dialogIframe: {
+																	bodyCssClass: 'dialog-with-footer'
+																},
+																id: '<portlet:namespace/>publishIconDialog',
+																title: '<%= LanguageUtil.get(request, "publish-change-list") %>',
+																uri: '<%= publishModalURL %>'
+															});
+													}
+												</script>
 
 												<liferay-ui:icon
 													message="publish"
-													url="<%= publishCollectionURL %>"
+													onClick="javascript:handleClickPublish();"
+													url="#"
 												/>
 
 												<liferay-portlet:actionURL var="deleteCollectionURL">
@@ -317,3 +361,15 @@ DisplayTerms displayTerms = ctCollectionSearchContainer.getDisplayTerms();
 		</c:when>
 	</c:choose>
 </div>
+
+<script>
+	Liferay.on(
+		'refreshSelectChangeList',
+		function(event) {
+			setTimeout(
+				function() {
+					Liferay.Util.navigate('<%= histotryURL %>');
+				},
+				1000);
+	});
+</script>

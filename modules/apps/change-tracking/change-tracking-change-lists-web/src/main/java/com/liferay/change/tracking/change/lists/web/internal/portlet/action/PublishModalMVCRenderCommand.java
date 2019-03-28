@@ -14,19 +14,20 @@
 
 package com.liferay.change.tracking.change.lists.web.internal.portlet.action;
 
-import com.liferay.change.tracking.CTEngineManager;
+import com.liferay.change.tracking.CTManager;
 import com.liferay.change.tracking.constants.CTPortletKeys;
-import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.change.tracking.model.CTCollection;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.Optional;
 
 /**
  * @author Máté Thurzó
@@ -35,31 +36,21 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + CTPortletKeys.CHANGE_LISTS,
-		"mvc.command.name=/change_lists/publish_ct_collection"
+		"mvc.command.name=/change_lists/publish_modal"
 	},
-	service = MVCActionCommand.class
+	service = MVCRenderCommand.class
 )
-public class PublishCTCollectionMVCActionCommand extends BaseMVCActionCommand {
+public class PublishModalMVCRenderCommand implements MVCRenderCommand {
 
 	@Override
-	protected void doProcessAction(
-			ActionRequest actionRequest, ActionResponse actionResponse)
-		throws Exception {
+	public String render(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws PortletException {
 
-		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
-			WebKeys.THEME_DISPLAY);
-
-		long ctCollectionId = ParamUtil.getLong(
-			actionRequest, "ctCollectionId");
-
-		boolean ignoreCollision = ParamUtil.getBoolean(
-			actionRequest, "ignoreCollision");
-
-		_ctEngineManager.publishCTCollection(
-			themeDisplay.getUserId(), ctCollectionId, ignoreCollision);
+		return "/publish_modal.jsp";
 	}
 
 	@Reference
-	private CTEngineManager _ctEngineManager;
+	private CTManager _ctManager;
 
 }
