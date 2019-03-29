@@ -167,7 +167,7 @@ PortletURL histotryURL = PortletURLFactoryUtil.create(request, CTPortletKeys.CHA
 									url="#"
 								/>
 
-								<liferay-portlet:actionURL var="deleteCollectionURL">
+								<liferay-portlet:actionURL name="/change_lists/delete_ct_collection" var="deleteCollectionURL">
 									<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
 								</liferay-portlet:actionURL>
 
@@ -337,7 +337,7 @@ PortletURL histotryURL = PortletURLFactoryUtil.create(request, CTPortletKeys.CHA
 													url="#"
 												/>
 
-												<liferay-portlet:actionURL var="deleteCollectionURL">
+												<liferay-portlet:actionURL name="/change_lists/delete_ct_collection" var="deleteCollectionURL">
 													<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
 												</liferay-portlet:actionURL>
 
