@@ -5,6 +5,7 @@
 	{@param? changeListDescription: string}
 	{@param? changeListName: string}
 	{@param? _handleCloseDialogClick: any}
+	{@param? _handleIgnoreCollisionChange: any}
 	{@param? _handlePublishClick: any}
 
 	{call liferay.frontend.Modal.render}
@@ -27,6 +28,9 @@
 
 			{call ClayCheckbox.render}
 				{param checked: false /}
+				{param events: [
+					'change': $_handleIgnoreCollisionChange
+				] /}
 				{param label: $ignoreCollisionLabel /}
 			{/call}
 

@@ -52,7 +52,7 @@ class PublishChangeList extends Component {
 			method: this.urlPublishChangeList.type
 		};
 
-		let url = this.urlPublishChangeList.href + '?userId=' + Liferay.ThemeDisplay.getUserId();
+		let url = this.urlPublishChangeList.href + '?userId=' + Liferay.ThemeDisplay.getUserId() + '&ignoreCollision=' + this.ignoreCollision;
 
 		fetch(url, init)
 			.then(
@@ -101,6 +101,16 @@ class PublishChangeList extends Component {
 			);
 	}
 
+	_handleIgnoreCollisionChange(event) {
+
+		if (event.target.checked) {
+			this.ignoreCollision = true;
+		}
+		else {
+			this.ignoreCollision = false;
+		}
+	}
+
 }
 
 /**
@@ -114,6 +124,8 @@ PublishChangeList.STATE = {
 	changeListDescription: Config.string(),
 
 	changeListName: Config.string(),
+
+	ignoreCollision: Config.bool(),
 
 	/**
 	 * Path to images.
