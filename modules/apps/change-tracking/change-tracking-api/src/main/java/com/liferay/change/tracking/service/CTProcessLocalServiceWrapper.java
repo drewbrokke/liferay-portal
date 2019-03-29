@@ -50,12 +50,12 @@ public class CTProcessLocalServiceWrapper
 
 	@Override
 	public com.liferay.change.tracking.model.CTProcess addCTProcess(
-			long userId, long ctCollectionId,
+			long userId, long ctCollectionId, boolean collisionIgnored,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _ctProcessLocalService.addCTProcess(
-			userId, ctCollectionId, serviceContext);
+			userId, ctCollectionId, collisionIgnored, serviceContext);
 	}
 
 	/**
