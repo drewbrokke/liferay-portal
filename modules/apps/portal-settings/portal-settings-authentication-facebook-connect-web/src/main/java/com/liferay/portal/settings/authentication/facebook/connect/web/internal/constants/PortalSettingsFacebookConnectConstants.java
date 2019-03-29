@@ -19,6 +19,12 @@ package com.liferay.portal.settings.authentication.facebook.connect.web.internal
  */
 public class PortalSettingsFacebookConnectConstants {
 
+	public static final String DELETE_MVC_ACTION_COMMAND_NAME =
+		"/portal_settings/facebook_connect_delete";
+
 	public static final String FORM_PARAMETER_NAMESPACE = "facebook_";
+
+	public static final String SAVE_MVC_ACTION_COMMAND_NAME =
+		"/portal_settings/facebook_connect";
 
 }
