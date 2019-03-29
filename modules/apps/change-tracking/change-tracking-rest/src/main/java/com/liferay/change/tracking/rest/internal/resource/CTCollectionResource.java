@@ -233,12 +233,14 @@ public class CTCollectionResource {
 	@POST
 	public Response publishCTCollection(
 			@PathParam("ctCollectionId") long ctCollectionId,
-			@QueryParam("userId") long userId)
+			@QueryParam("userId") long userId,
+			@QueryParam("ignoreCollision") boolean ignoreCollision)
 		throws CTJaxRsException {
 
 		User user = CTJaxRsUtil.getUser(userId);
 
-		_ctEngineManager.publishCTCollection(user.getUserId(), ctCollectionId);
+		_ctEngineManager.publishCTCollection(
+			user.getUserId(), ctCollectionId, ignoreCollision);
 
 		return _accepted();
 	}

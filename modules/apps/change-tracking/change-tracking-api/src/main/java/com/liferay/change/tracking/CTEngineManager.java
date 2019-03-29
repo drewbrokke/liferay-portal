@@ -248,8 +248,10 @@ public interface CTEngineManager {
 	 *
 	 * @param userId the primary key of the user
 	 * @param ctCollectionId the primary key of the change collection
+	 * @param ignoreCollision publishing process will start anyway if true
 	 */
-	public void publishCTCollection(long userId, long ctCollectionId);
+	public void publishCTCollection(
+		long userId, long ctCollectionId, boolean ignoreCollision);
 
 	/**
 	 * Returns all the change tracking collection associated with the given

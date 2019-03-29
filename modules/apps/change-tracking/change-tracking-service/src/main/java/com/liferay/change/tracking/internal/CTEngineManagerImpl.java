@@ -377,7 +377,9 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
-	public void publishCTCollection(long userId, long ctCollectionId) {
+	public void publishCTCollection(
+		long userId, long ctCollectionId, boolean ignoreCollision) {
+
 		long companyId = _getCompanyId(userId);
 
 		if (companyId <= 0) {
@@ -397,7 +399,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 
 		try {
 			_ctProcessLocalService.addCTProcess(
-				userId, ctCollectionId, new ServiceContext());
+				userId, ctCollectionId, ignoreCollision, new ServiceContext());
 		}
 		catch (Throwable t) {
 			if (_log.isWarnEnabled()) {
