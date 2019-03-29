@@ -17,31 +17,31 @@
 <%@ include file="/init.jsp" %>
 
 <%
-	String changeListName = ParamUtil.getString(request, "changeListName");
-	String changeListDescription = ParamUtil.getString(request, "changeListDescription");
-	long ctCollectionId = ParamUtil.getLong(request, "ctCollectionId");
+String changeListName = ParamUtil.getString(request, "changeListName");
+String changeListDescription = ParamUtil.getString(request, "changeListDescription");
+long ctCollectionId = ParamUtil.getLong(request, "ctCollectionId");
 
-	CTCollection ctCollection = CTCollectionLocalServiceUtil.fetchCTCollection(ctCollectionId);
+CTCollection ctCollection = CTCollectionLocalServiceUtil.fetchCTCollection(ctCollectionId);
 
-	if (ctCollection != null) {
-
-		changeListName = ctCollection.getName();
-		changeListDescription = ctCollection.getDescription();
-	}
+if (ctCollection != null) {
+	changeListName = ctCollection.getName();
+	changeListDescription = ctCollection.getDescription();
+}
 %>
+
 <div class="change-list-publish-modal modal-body">
 	<liferay-portlet:actionURL name="/change_lists/publish_ct_collection" var="publishCollectionURL">
 		<portlet:param name="ctCollectionId" value="<%= String.valueOf(ctCollectionId) %>" />
 	</liferay-portlet:actionURL>
 
-	<aui:form action="<%= publishCollectionURL.toString() %>" method="POST" name="fm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "submitForm()"%>'>
-		<h4><liferay-ui:message key="change-list"/></h4>
+	<aui:form action="<%= publishCollectionURL.toString() %>" method="POST" name="fm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "submitForm()" %>'>
+		<h4><liferay-ui:message key="change-list" /></h4>
 
 		<div class="sheet-text">
-			<%= changeListName%>
+			<%= changeListName %>
 		</div>
 
-		<h4><liferay-ui:message key="description"/></h4>
+		<h4><liferay-ui:message key="description" /></h4>
 
 		<div class="sheet-text">
 			<%= changeListDescription %>
@@ -52,11 +52,10 @@
 		<aui:input label="schedule-publication" name="schedulePublication" type="checkbox" />
 
 		<aui:button-row>
-			<aui:button onClick='<%= renderResponse.getNamespace() + "closeModal(true);"%>' value="cancel"/>
+			<aui:button onClick='<%= renderResponse.getNamespace() + "closeModal(true);" %>' value="cancel" />
 			<aui:button type="submit" value="publish" />
 		</aui:button-row>
 	</aui:form>
-
 
 	<script>
 		function <portlet:namespace/>closeModal(destroy) {
