@@ -39,7 +39,9 @@ public class FacebookConnectPortalSettingsFormContributor
 
 	@Override
 	public Optional<String> getDeleteMVCActionCommandNameOptional() {
-		return Optional.of("/portal_settings/facebook_connect_delete");
+		return Optional.of(
+			PortalSettingsFacebookConnectConstants.
+				DELETE_MVC_ACTION_COMMAND_NAME);
 	}
 
 	@Override
@@ -49,7 +51,9 @@ public class FacebookConnectPortalSettingsFormContributor
 
 	@Override
 	public Optional<String> getSaveMVCActionCommandNameOptional() {
-		return Optional.of("/portal_settings/facebook_connect");
+		return Optional.of(
+			PortalSettingsFacebookConnectConstants.
+				SAVE_MVC_ACTION_COMMAND_NAME);
 	}
 
 	@Override
