@@ -35,7 +35,8 @@ public class OpenIdPortalSettingsFormContributor
 
 	@Override
 	public Optional<String> getDeleteMVCActionCommandNameOptional() {
-		return Optional.of("/portal_settings/openid_delete");
+		return Optional.of(
+			PortalSettingsOpenIdConstants.DELETE_MVC_ACTION_COMMAND_NAME);
 	}
 
 	@Override
@@ -45,7 +46,8 @@ public class OpenIdPortalSettingsFormContributor
 
 	@Override
 	public Optional<String> getSaveMVCActionCommandNameOptional() {
-		return Optional.of("/portal_settings/openid");
+		return Optional.of(
+			PortalSettingsOpenIdConstants.SAVE_MVC_ACTION_COMMAND_NAME);
 	}
 
 	@Override

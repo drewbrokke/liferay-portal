@@ -19,6 +19,12 @@ package com.liferay.portal.security.sso.openid.settings.authentication.web.inter
  */
 public class PortalSettingsOpenIdConstants {
 
+	public static final String DELETE_MVC_ACTION_COMMAND_NAME =
+		"/portal_settings/openid_delete";
+
 	public static final String FORM_PARAMETER_NAMESPACE = "openid_";
+
+	public static final String SAVE_MVC_ACTION_COMMAND_NAME =
+		"/portal_settings/openid";
 
 }
