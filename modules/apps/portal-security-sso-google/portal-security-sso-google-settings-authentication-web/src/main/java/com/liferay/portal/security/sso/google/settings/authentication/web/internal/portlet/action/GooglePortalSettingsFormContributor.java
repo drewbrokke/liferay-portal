@@ -38,7 +38,8 @@ public class GooglePortalSettingsFormContributor
 
 	@Override
 	public Optional<String> getDeleteMVCActionCommandNameOptional() {
-		return Optional.of("/portal_settings/google_delete");
+		return Optional.of(
+			PortalSettingsGoogleConstants.DELETE_MVC_ACTION_COMMAND_NAME);
 	}
 
 	@Override
@@ -48,7 +49,8 @@ public class GooglePortalSettingsFormContributor
 
 	@Override
 	public Optional<String> getSaveMVCActionCommandNameOptional() {
-		return Optional.of("/portal_settings/google");
+		return Optional.of(
+			PortalSettingsGoogleConstants.SAVE_MVC_ACTION_COMMAND_NAME);
 	}
 
 	@Override
