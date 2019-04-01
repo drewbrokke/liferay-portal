@@ -20,16 +20,6 @@
 PortletURL portletURL = renderResponse.createRenderURL();
 
 portletURL.setParameter("mvcRenderCommandName", "/portal_settings/view");
-
-request.setAttribute("addresses.className", Account.class.getName());
-request.setAttribute("emailAddresses.className", Account.class.getName());
-request.setAttribute("phones.className", Account.class.getName());
-request.setAttribute("websites.className", Account.class.getName());
-
-request.setAttribute("addresses.classPK", company.getAccountId());
-request.setAttribute("emailAddresses.classPK", company.getAccountId());
-request.setAttribute("phones.classPK", company.getAccountId());
-request.setAttribute("websites.classPK", company.getAccountId());
 %>
 
 <portlet:actionURL name="/portal_settings/edit_company" var="editCompanyURL" />
