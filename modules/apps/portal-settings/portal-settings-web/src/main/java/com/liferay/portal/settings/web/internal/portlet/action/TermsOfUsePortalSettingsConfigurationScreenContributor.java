@@ -12,14 +12,13 @@
  * details.
  */
 
-package com.liferay.portal.settings.web.internal.servlet.taglib.ui;
+package com.liferay.portal.settings.web.internal.portlet.action;
 
-import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorConstants;
-import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorEntry;
 import com.liferay.portal.kernel.terms.of.use.TermsOfUseContentProvider;
+import com.liferay.portal.settings.portlet.action.PortalSettingsConfigurationScreenContributor;
 import com.liferay.portal.settings.web.internal.constants.PortalSettingsWebKeys;
 
-import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -29,20 +28,20 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author Eduardo García
- * @author Philip Jones
+ * @author Drew Brokke
  */
-@Component(
-	immediate = true, property = "form.navigator.entry.order:Integer=50",
-	service = FormNavigatorEntry.class
-)
-public class CompanySettingsTermsOfUseFormNavigatorEntry
-	extends BaseCompanySettingsFormNavigatorEntry {
+@Component(service = PortalSettingsConfigurationScreenContributor.class)
+public class TermsOfUsePortalSettingsConfigurationScreenContributor
+	implements PortalSettingsConfigurationScreenContributor {
 
 	@Override
 	public String getCategoryKey() {
-		return FormNavigatorConstants.
-			CATEGORY_KEY_COMPANY_SETTINGS_CONFIGURATION;
+		return "portal-settings";
+	}
+
+	@Override
+	public String getJspPath() {
+		return "/terms_of_use.jsp";
 	}
 
 	@Override
@@ -51,30 +50,34 @@ public class CompanySettingsTermsOfUseFormNavigatorEntry
 	}
 
 	@Override
-	public void include(
-			HttpServletRequest request, HttpServletResponse response)
-		throws IOException {
+	public String getName(Locale locale) {
+		return "terms-of-use";
+	}
+
+	@Override
+	public String getSaveMVCActionCommandName() {
+		return "/portal_settings/edit_company";
+	}
+
+	@Override
+	public ServletContext getServletContext() {
+		return _servletContext;
+	}
+
+	@Override
+	public void setAttributes(
+		HttpServletRequest request, HttpServletResponse response) {
 
 		request.setAttribute(
 			PortalSettingsWebKeys.TERMS_OF_USE_CONTENT_PROVIDER,
 			_termsOfUseContentProvider);
-
-		super.include(request, response);
 	}
 
-	@Override
 	@Reference(
 		target = "(osgi.web.symbolicname=com.liferay.portal.settings.web)",
 		unbind = "-"
 	)
-	public void setServletContext(ServletContext servletContext) {
-		super.setServletContext(servletContext);
-	}
-
-	@Override
-	protected String getJspPath() {
-		return "/terms_of_use.jsp";
-	}
+	private ServletContext _servletContext;
 
 	@Reference
 	private TermsOfUseContentProvider _termsOfUseContentProvider;
