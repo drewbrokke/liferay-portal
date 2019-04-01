@@ -12,10 +12,11 @@
  * details.
  */
 
-package com.liferay.portal.settings.web.internal.servlet.taglib.ui;
+package com.liferay.portal.settings.web.internal.portlet.action;
 
-import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorConstants;
-import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorEntry;
+import com.liferay.portal.settings.portlet.action.PortalSettingsConfigurationScreenContributor;
+
+import java.util.Locale;
 
 import javax.servlet.ServletContext;
 
@@ -23,20 +24,20 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author Pei-Jung Lan
- * @author Philip Jones
+ * @author Drew Brokke
  */
-@Component(
-	immediate = true, property = "form.navigator.entry.order:Integer=40",
-	service = FormNavigatorEntry.class
-)
-public class CompanySettingsMailHostNamesFormNavigatorEntry
-	extends BaseCompanySettingsFormNavigatorEntry {
+@Component(service = PortalSettingsConfigurationScreenContributor.class)
+public class MailHostNamesPortalSettingsConfigurationScreenContributor
+	implements PortalSettingsConfigurationScreenContributor {
 
 	@Override
 	public String getCategoryKey() {
-		return FormNavigatorConstants.
-			CATEGORY_KEY_COMPANY_SETTINGS_CONFIGURATION;
+		return "email";
+	}
+
+	@Override
+	public String getJspPath() {
+		return "/mail_host_names.jsp";
 	}
 
 	@Override
@@ -45,17 +46,24 @@ public class CompanySettingsMailHostNamesFormNavigatorEntry
 	}
 
 	@Override
+	public String getName(Locale locale) {
+		return "mail-host-names";
+	}
+
+	@Override
+	public String getSaveMVCActionCommandName() {
+		return "/portal_settings/edit_company";
+	}
+
+	@Override
+	public ServletContext getServletContext() {
+		return _servletContext;
+	}
+
 	@Reference(
 		target = "(osgi.web.symbolicname=com.liferay.portal.settings.web)",
 		unbind = "-"
 	)
-	public void setServletContext(ServletContext servletContext) {
-		super.setServletContext(servletContext);
-	}
-
-	@Override
-	protected String getJspPath() {
-		return "/mail_host_names.jsp";
-	}
+	private ServletContext _servletContext;
 
 }
