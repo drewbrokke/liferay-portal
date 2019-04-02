@@ -19,6 +19,12 @@ package com.liferay.portal.settings.authentication.openid.connect.web.internal.c
  */
 public class PortalSettingsOpenIdConnectConstants {
 
+	public static final String DELETE_MVC_ACTION_COMMAND_NAME =
+		"/portal_settings/openid_connect_delete";
+
 	public static final String FORM_PARAMETER_NAMESPACE = "openid_connect_";
+
+	public static final String SAVE_MVC_ACTION_COMMAND_NAME =
+		"/portal_settings/openid_connect";
 
 }
