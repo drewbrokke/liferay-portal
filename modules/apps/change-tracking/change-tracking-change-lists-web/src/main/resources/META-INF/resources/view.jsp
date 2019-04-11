@@ -325,7 +325,6 @@ PortletURL histotryURL = PortletURLFactoryUtil.create(request, CTPortletKeys.CHA
 </div>
 
 <script>
-
 	Liferay.on(
 		'refreshSelectChangeList',
 		function(event) {
