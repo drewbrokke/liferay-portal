@@ -102,7 +102,6 @@ class PublishChangeList extends Component {
 	}
 
 	_handleIgnoreCollisionChange(event) {
-
 		if (event.target.checked) {
 			this.ignoreCollision = true;
 		}

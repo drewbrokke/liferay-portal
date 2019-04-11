@@ -67,10 +67,9 @@ if (ctCollection != null) {
 		}
 
 		function <portlet:namespace/>submitForm(event) {
-
 			var form = AUI().one('#<portlet:namespace/>fm');
 
-			Liferay.Util.getOpener().Liferay.fire("refreshSelectChangeList");
+			Liferay.Util.getOpener().Liferay.fire('refreshSelectChangeList');
 
 			Liferay.Util.submitForm(form);
 
