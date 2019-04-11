@@ -20,13 +20,17 @@ import com.liferay.change.tracking.rest.internal.exception.CTJaxRsException;
 import com.liferay.change.tracking.rest.internal.model.configuration.CTConfigurationModel;
 import com.liferay.change.tracking.rest.internal.model.configuration.CTConfigurationUpdateModel;
 import com.liferay.change.tracking.rest.internal.util.CTJaxRsUtil;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -62,22 +66,25 @@ public class CTConfigurationResource {
 	@Path("/{companyId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public CTConfigurationModel getCtConfigurationModel(
-			@PathParam("companyId") long companyId)
+			@PathParam("companyId") long companyId, @Context User user)
 		throws CTJaxRsException {
 
 		CTJaxRsUtil.checkCompany(companyId);
 
-		return _getCTConfigurationModel(companyId);
+		return _getCTConfigurationModel(companyId, user.getLocale());
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<CTConfigurationModel> getCTConfigurationModels() {
+	public List<CTConfigurationModel> getCTConfigurationModels(
+		@Context User user) {
+
 		List<CTConfigurationModel> ctConfigurationModels = new ArrayList<>();
 
 		for (Company company : _companyLocalService.getCompanies()) {
 			ctConfigurationModels.add(
-				_getCTConfigurationModel(company.getCompanyId()));
+				_getCTConfigurationModel(
+					company.getCompanyId(), user.getLocale()));
 		}
 
 		return ctConfigurationModels;
@@ -97,7 +104,7 @@ public class CTConfigurationResource {
 		_updateChangeTrackingEnabled(
 			companyId, user, ctConfigurationUpdateModel);
 
-		return _getCTConfigurationModel(companyId);
+		return _getCTConfigurationModel(companyId, user.getLocale());
 	}
 
 	@Reference(
@@ -108,9 +115,14 @@ public class CTConfigurationResource {
 		_ctConfigurations.add(ctConfiguration);
 	}
 
-	private CTConfigurationModel _getCTConfigurationModel(long companyId) {
+	private CTConfigurationModel _getCTConfigurationModel(
+		long companyId, Locale locale) {
+
 		Set<String> supportedContentTypeLanguageKeys = new HashSet<>();
 		Set<String> supportedContentTypes = new HashSet<>();
+
+		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
+			"content.Language", locale, getClass());
 
 		Stream<CTConfiguration<?, ?>> stream = _ctConfigurations.stream();
 
@@ -118,7 +130,12 @@ public class CTConfigurationResource {
 			ctConfiguration -> {
 				supportedContentTypeLanguageKeys.add(
 					ctConfiguration.getContentTypeLanguageKey());
-				supportedContentTypes.add(ctConfiguration.getContentType());
+
+				String contentType = LanguageUtil.get(
+					resourceBundle,
+					ctConfiguration.getContentTypeLanguageKey());
+
+				supportedContentTypes.add(contentType);
 			});
 
 		CTConfigurationModel.Builder builder = CTConfigurationModel.forCompany(

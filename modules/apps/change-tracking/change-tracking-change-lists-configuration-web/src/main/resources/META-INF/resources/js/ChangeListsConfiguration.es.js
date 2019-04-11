@@ -22,6 +22,9 @@ class ChangeListsConfiguration extends PortletBase {
 
 					response.supportedContentTypes.forEach(
 						(supportedContentType) => {
+							if (this.tooltipBody.length > 0) {
+								this.tooltipBody = this.tooltipBody.concat(' ');
+							}
 							this.tooltipBody = this.tooltipBody.concat(supportedContentType);
 						}
 					);

@@ -1,3 +1,11 @@
 Bundle-Name: Liferay Change Tracking REST
 Bundle-SymbolicName: com.liferay.change.tracking.rest
 Bundle-Version: 2.0.0
+Liferay-Configuration-Path: /configuration
+Provide-Capability:\
+	liferay.resource.bundle;\
+		resource.bundle.aggregate:String="(bundle.symbolic.name=com.liferay.change.tracking.lang)";\
+		resource.bundle.base.name="content.Language"
+Require-Capability:\
+	liferay.resource.bundle;\
+		filter:="(bundle.symbolic.name=com.liferay.change.tracking.lang)"
