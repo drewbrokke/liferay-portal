@@ -23,10 +23,20 @@ import com.liferay.journal.service.JournalArticleResourceLocalService;
 import com.liferay.journal.service.JournalArticleServiceWrapper;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionFactory;
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -56,6 +66,10 @@ public class CTJournalArticleServiceWrapper
 		long groupId, String articleId, int start, int end,
 		OrderByComparator<JournalArticle> obc) {
 
+		if (!_hasPermission(groupId, articleId)) {
+			return Collections.emptyList();
+		}
+
 		return _journalArticleLocalService.dynamicQuery(
 			_getArticlesByArticleIdDynamicQuery(groupId, articleId), start, end,
 			obc);
@@ -63,6 +77,10 @@ public class CTJournalArticleServiceWrapper
 
 	@Override
 	public int getArticlesCountByArticleId(long groupId, String articleId) {
+		if (!_hasPermission(groupId, articleId)) {
+			return 0;
+		}
+
 		return (int)_journalArticleLocalService.dynamicQueryCount(
 			_getArticlesByArticleIdDynamicQuery(groupId, articleId));
 	}
@@ -101,6 +119,46 @@ public class CTJournalArticleServiceWrapper
 		return query;
 	}
 
+	private boolean _hasPermission(long groupId, String articleId) {
+		PermissionChecker permissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
+
+		if (permissionChecker == null) {
+			return false;
+		}
+
+		JournalArticle journalArticle =
+			_journalArticleLocalService.fetchArticle(groupId, articleId);
+
+		if (journalArticle == null) {
+			return false;
+		}
+
+		try {
+			_journalArticleModelResourcePermission.check(
+				permissionChecker, journalArticle.getPrimaryKey(),
+				ActionKeys.VIEW);
+
+			return true;
+		}
+		catch (PortalException pe) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(pe.getMessage());
+			}
+
+			return false;
+		}
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		CTJournalArticleServiceWrapper.class);
+
+	private static volatile ModelResourcePermission<JournalArticle>
+		_journalArticleModelResourcePermission =
+			ModelResourcePermissionFactory.getInstance(
+				CTJournalArticleServiceWrapper.class,
+				"_journalArticleModelResourcePermission", JournalArticle.class);
+
 	@Reference
 	private CTManager _ctManager;
 
@@ -110,5 +168,8 @@ public class CTJournalArticleServiceWrapper
 	@Reference
 	private JournalArticleResourceLocalService
 		_journalArticleResourceLocalService;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }
