@@ -27,8 +27,7 @@ import {
 } from './SiteNavigationMenuItemDOMHandler.es';
 
 /**
- * List of keys used for moving elements with keyboard.
- * @review
+ * List of keys used for moving elements with the keyboard.
  */
 
 const KEYS = {
@@ -42,14 +41,12 @@ const KEYS = {
 
 /**
  * SiteNavigationMenuEditor
- * @review
  */
 
 class SiteNavigationMenuEditor extends State {
 
 	/**
 	 * @inheritDoc
-	 * @review
 	 */
 
 	constructor(config, ...args) {
@@ -108,7 +105,6 @@ class SiteNavigationMenuEditor extends State {
 
 	/**
 	 * @inheritDoc
-	 * @review
 	 */
 
 	dispose(...args) {
@@ -131,11 +127,10 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * This is called when user drags the item across the container.
+	 * This is called when the user drags the item across the container.
 	 * @param {!object} data Drag event data
 	 * @param {!Event} event Drag event
 	 * @private
-	 * @review
 	 */
 
 	_handleDragItem(data, event) {
@@ -196,7 +191,6 @@ class SiteNavigationMenuEditor extends State {
 	 * @param {!object} data Drag event data
 	 * @param {!Event} event Drag event
 	 * @private
-	 * @review
 	 */
 
 	_handleDragStart(data, event) {
@@ -212,7 +206,6 @@ class SiteNavigationMenuEditor extends State {
 	 * @param {!object} data Drop event data
 	 * @param {!Event} event Drop event
 	 * @private
-	 * @review
 	 */
 
 	_handleDropItem(data, event) {
@@ -242,7 +235,7 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * This is called when user clicks on menu item.
+	 * This is called when user clicks on a menu item.
 	 * @param {!Event} event Click event data
 	 * @private
 	 * @review
@@ -257,10 +250,9 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * This is called when user presses a key on menu item.
+	 * This is called when user presses a key on a menu item.
 	 * @param {!Event} event KeyUp event data
 	 * @private
-	 * @review
 	 */
 
 	_handleItemKeyUp(event) {
@@ -356,10 +348,9 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * Handle selectedMenuItem property change.
+	 * Handles the event when the selectedMenuItem property changes.
 	 * @param {{newVal: HTMLElement|null}} event
 	 * @private
-	 * @review
 	 */
 
 	_handleSelectedMenuItemChanged(event) {
@@ -371,7 +362,7 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * Send layout information to the server and returns a promise
+	 * Sends layout information to the server and returns a promise
 	 * that resolves after finishing.
 	 * @param {{
 	 *   dragOrder: !string,
@@ -380,7 +371,6 @@ class SiteNavigationMenuEditor extends State {
 	 * }} data
 	 * @private
 	 * @return {Promise}
-	 * @review
 	 */
 
 	_updateParentAndOrder(data) {
@@ -414,7 +404,6 @@ class SiteNavigationMenuEditor extends State {
 
 /**
  * State definition.
- * @review
  * @static
  * @type {!Object}
  */
@@ -426,7 +415,6 @@ SiteNavigationMenuEditor.STATE = {
 	 * @default undefined
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
-	 * @review
 	 * @type {!string}
 	 */
 
@@ -437,7 +425,6 @@ SiteNavigationMenuEditor.STATE = {
 	 * @default undefined
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
-	 * @review
 	 * @type {!string}
 	 */
 
@@ -448,7 +435,6 @@ SiteNavigationMenuEditor.STATE = {
 	 * @default null
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
-	 * @review
 	 * @type {HTMLElement}
 	 */
 
@@ -460,7 +446,6 @@ SiteNavigationMenuEditor.STATE = {
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @private
-	 * @review
 	 * @type {number}
 	 */
 
@@ -471,7 +456,6 @@ SiteNavigationMenuEditor.STATE = {
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @private
-	 * @review
 	 * @type {number}
 	 */
 
@@ -482,7 +466,6 @@ SiteNavigationMenuEditor.STATE = {
 	 * @default null
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
-	 * @review
 	 * @type {object|null}
 	 */
 
@@ -494,7 +477,6 @@ SiteNavigationMenuEditor.STATE = {
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @private
-	 * @review
 	 * @type {HTMLElement|null}
 	 */
 
@@ -506,7 +488,6 @@ SiteNavigationMenuEditor.STATE = {
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @private
-	 * @review
 	 * @type {number}
 	 */
 
