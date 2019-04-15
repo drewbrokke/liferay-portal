@@ -24,7 +24,6 @@ const MENU_ITEM_SELECTED_CLASSNAME = `${MENU_ITEM_CLASSNAME}--selected`;
  * Returns an array with the menuItem children of the given menuItem.
  * @param {HTMLElement} menuItem
  * @return {Array<HTMLElement>}
- * @review
  */
 
 const getChildren = function(menuItem) {
@@ -37,7 +36,6 @@ const getChildren = function(menuItem) {
  * Returns a menuItem element, parent of a given menuItemContent.
  * @param {HTMLElement} menuItemContent
  * @return {HTMLElement|null}
- * @review
  */
 
 const getFromContentElement = function(menuItemContent) {
@@ -80,7 +78,6 @@ const getNextSibling = function(menuItem) {
  * Returns a menuItem element, parent of a given menuItem.
  * @param {HTMLElement} menuItem
  * @return {HTMLElement|null}
- * @review
  */
 
 const getParent = function(menuItem) {
@@ -91,7 +88,6 @@ const getParent = function(menuItem) {
  * For a given menuItem element, returns it's sibblings
  * @param {HTMLElement} menuItem
  * @return {Array<HTMLElement>}
- * @review
  */
 
 const getSiblings = function(menuItem) {
