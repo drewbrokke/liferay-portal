@@ -86,6 +86,17 @@ public class CTDDMTemplateLocalServiceWrapper
 	}
 
 	@Override
+	public DDMTemplate fetchDDMTemplate(long templateId) {
+		DDMTemplate ddmTemplate = super.fetchDDMTemplate(templateId);
+
+		if (_isRetrievable(ddmTemplate)) {
+			return _populateDDMTemplate(ddmTemplate);
+		}
+
+		return null;
+	}
+
+	@Override
 	public DDMTemplate fetchTemplate(long templateId) {
 		DDMTemplate ddmTemplate = super.fetchTemplate(templateId);
 
