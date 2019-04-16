@@ -60,7 +60,7 @@ class PublishChangeList extends Component {
 					if (response.status === 202) {
 						openToast(
 							{
-								message: Liferay.Util.sub(Liferay.Language.get('publishing-x-has-started-successfully'), this.changeListName),
+								message: Liferay.Util.sub(Liferay.Language.get('publishing-x-has-started-successfully'), AUI().Lang.String.escapeHTML(this.changeListName)),
 								title: Liferay.Language.get('success'),
 								type: 'success'
 							}
@@ -74,7 +74,7 @@ class PublishChangeList extends Component {
 								data => {
 									openToast(
 										{
-											message: Liferay.Util.sub(Liferay.Language.get('an-error-occured-when-trying-publishing-x-x'), this.changeListName, data.message),
+											message: Liferay.Util.sub(Liferay.Language.get('an-error-occured-when-trying-publishing-x-x'), AUI().Lang.String.escapeHTML(this.changeListName), data.message),
 											title: Liferay.Language.get('error'),
 											type: 'danger'
 										}
@@ -88,7 +88,7 @@ class PublishChangeList extends Component {
 				error => {
 					const message = typeof error === 'string' ?
 						error :
-						Liferay.Util.sub(Liferay.Language.get('an-error-occured-when-trying-publishing-x'), this.changeListName);
+						Liferay.Util.sub(Liferay.Language.get('an-error-occured-when-trying-publishing-x'), AUI().Lang.String.escapeHTML(this.changeListName));
 
 					openToast(
 						{
