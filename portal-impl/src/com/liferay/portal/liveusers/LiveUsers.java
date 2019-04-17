@@ -190,7 +190,8 @@ public class LiveUsers {
 				long userId = userSessions.getKey();
 
 				for (String sessionId : userSessions.getValue()) {
-					signOut(clusterNodeId, companyId, userId, sessionId);
+					_doSignOut(
+						clusterNodeId, companyId, userId, sessionId, true);
 				}
 			}
 		}
@@ -230,48 +231,9 @@ public class LiveUsers {
 	public static void signOut(
 		String clusterNodeId, long companyId, long userId, String sessionId) {
 
-		_removeClusterUser(clusterNodeId, companyId, userId, sessionId);
-
-		List<UserTracker> userTrackers = _getUserTrackers(companyId, userId);
-
-		if ((userTrackers == null) || (userTrackers.size() <= 1)) {
-			_updateGroupStatus(companyId, userId, false);
-		}
-
-		Map<String, UserTracker> sessionUsers = getSessionUsers(companyId);
-
-		UserTracker userTracker = sessionUsers.remove(sessionId);
-
-		if (userTracker == null) {
-			return;
-		}
-
-		try {
-			if (ClusterMasterExecutorUtil.isMaster()) {
-				UserTrackerLocalServiceUtil.addUserTracker(
-					userTracker.getCompanyId(), userTracker.getUserId(),
-					userTracker.getModifiedDate(), sessionId,
-					userTracker.getRemoteAddr(), userTracker.getRemoteHost(),
-					userTracker.getUserAgent(), userTracker.getPaths());
-			}
-		}
-		catch (Exception e) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(e.getMessage());
-			}
-		}
-
-		try {
-			HttpSession session = PortalSessionContext.get(sessionId);
-
-			if (session != null) {
-				session.invalidate();
-			}
-		}
-		catch (Exception e) {
-		}
-
-		_removeUserTracker(companyId, userId, userTracker);
+		_doSignOut(
+			clusterNodeId, companyId, userId, sessionId,
+			ClusterMasterExecutorUtil.isMaster());
 	}
 
 	private static void _addClusterUser(
@@ -327,6 +289,54 @@ public class LiveUsers {
 
 			userTrackersMap.put(userId, userTrackers);
 		}
+	}
+
+	private static void _doSignOut(
+		String clusterNodeId, long companyId, long userId, String sessionId,
+		boolean persistUserTracker) {
+
+		_removeClusterUser(clusterNodeId, companyId, userId, sessionId);
+
+		List<UserTracker> userTrackers = _getUserTrackers(companyId, userId);
+
+		if ((userTrackers == null) || (userTrackers.size() <= 1)) {
+			_updateGroupStatus(companyId, userId, false);
+		}
+
+		Map<String, UserTracker> sessionUsers = getSessionUsers(companyId);
+
+		UserTracker userTracker = sessionUsers.remove(sessionId);
+
+		if (userTracker == null) {
+			return;
+		}
+
+		try {
+			if (persistUserTracker) {
+				UserTrackerLocalServiceUtil.addUserTracker(
+					userTracker.getCompanyId(), userTracker.getUserId(),
+					userTracker.getModifiedDate(), sessionId,
+					userTracker.getRemoteAddr(), userTracker.getRemoteHost(),
+					userTracker.getUserAgent(), userTracker.getPaths());
+			}
+		}
+		catch (Exception e) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(e.getMessage());
+			}
+		}
+
+		try {
+			HttpSession session = PortalSessionContext.get(sessionId);
+
+			if (session != null) {
+				session.invalidate();
+			}
+		}
+		catch (Exception e) {
+		}
+
+		_removeUserTracker(companyId, userId, userTracker);
 	}
 
 	private static Set<Long> _getGroupUsers(
