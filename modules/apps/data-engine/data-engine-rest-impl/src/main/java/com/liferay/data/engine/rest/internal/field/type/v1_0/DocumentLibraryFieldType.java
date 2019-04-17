@@ -114,7 +114,7 @@ public class DocumentLibraryFieldType extends BaseFieldType {
 		).put(
 			"strings",
 			CustomPropertyUtil.toJSONObject(
-				CustomPropertyUtil.getMap(
+				(Map<String, String>)CustomPropertyUtil.getMap(
 					dataDefinitionField.getCustomProperties(), "strings"))
 		);
 	}
