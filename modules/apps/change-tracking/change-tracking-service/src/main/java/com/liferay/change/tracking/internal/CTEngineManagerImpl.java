@@ -62,6 +62,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -226,6 +228,19 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		finally {
 			ChangeTrackingThreadLocal.setModelUpdateInProgress(false);
 		}
+	}
+
+	@Override
+	public Map<Integer, Long> getCTCollectionChangeTypeCounts(
+		long ctCollectionId) {
+
+		List<CTEntry> ctEntries = getCTEntries(ctCollectionId);
+
+		Stream<CTEntry> ctEntriesStream = ctEntries.stream();
+
+		return ctEntriesStream.collect(
+			Collectors.groupingBy(
+				CTEntry::getChangeType, Collectors.counting()));
 	}
 
 	@Override
