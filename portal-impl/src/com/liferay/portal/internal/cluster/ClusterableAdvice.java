@@ -16,10 +16,12 @@ package com.liferay.portal.internal.cluster;
 
 import com.liferay.portal.kernel.aop.AopMethodInvocation;
 import com.liferay.portal.kernel.aop.ChainableMethodAdvice;
+import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
 import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
 import com.liferay.portal.kernel.cluster.ClusterMasterExecutorUtil;
 import com.liferay.portal.kernel.cluster.Clusterable;
 import com.liferay.portal.kernel.cluster.ClusterableInvokerUtil;
+import com.liferay.portal.util.PropsValues;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -30,6 +32,13 @@ import java.util.Map;
  * @author Shuyang Zhou
  */
 public class ClusterableAdvice extends ChainableMethodAdvice {
+
+	public ClusterableAdvice() {
+		if (PropsValues.LIVE_USERS_ENABLED) {
+			ClusterExecutorUtil.addClusterEventListener(
+				new LiveUsersClusterEventListenerImpl());
+		}
+	}
 
 	@Override
 	public Object createMethodContext(
