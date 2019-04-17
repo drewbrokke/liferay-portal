@@ -50,6 +50,7 @@ import com.liferay.portal.kernel.util.Portal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -713,6 +714,32 @@ public class CTManagerImpl implements CTManager {
 		}
 	}
 
+	private void _registerRelatedChange(
+		long userId, CTEntry versionEntityCTEntry, BaseModel relatedEntity,
+		boolean force) {
+
+		long relatedEntityClassPK = (Long)relatedEntity.getPrimaryKeyObj();
+
+		Optional<CTEntry> relatedEntityCTEntryOptional =
+			getModelChangeCTEntryOptional(
+				userId,
+				_portal.getClassNameId(relatedEntity.getModelClassName()),
+				relatedEntityClassPK);
+
+		if (!relatedEntityCTEntryOptional.isPresent()) {
+			relatedEntityCTEntryOptional = getLatestModelChangeCTEntryOptional(
+				userId, relatedEntityClassPK);
+		}
+
+		if (!relatedEntityCTEntryOptional.isPresent()) {
+			return;
+		}
+
+		addRelatedCTEntry(
+			userId, versionEntityCTEntry, relatedEntityCTEntryOptional.get(),
+			force);
+	}
+
 	private <V extends BaseModel> void _registerRelatedChange(
 		long userId, long classNameId, long classPK, V versionEntity,
 		Function<V, List<? extends BaseModel>> relatedEntitiesFunction,
@@ -728,36 +755,16 @@ public class CTManagerImpl implements CTManager {
 		List<? extends BaseModel> relatedEntities =
 			relatedEntitiesFunction.apply(versionEntity);
 
-		relatedEntities.forEach(
-			relatedEntity -> {
-				if (relatedEntity == null) {
-					return;
-				}
+		Stream<? extends BaseModel> relatedEntitiesStream =
+			relatedEntities.stream();
 
-				long relatedEntityClassPK =
-					(Long)relatedEntity.getPrimaryKeyObj();
-
-				Optional<CTEntry> relatedEntityCTEntryOptional =
-					getModelChangeCTEntryOptional(
-						userId,
-						_portal.getClassNameId(
-							relatedEntity.getModelClassName()),
-						relatedEntityClassPK);
-
-				if (!relatedEntityCTEntryOptional.isPresent()) {
-					relatedEntityCTEntryOptional =
-						getLatestModelChangeCTEntryOptional(
-							userId, relatedEntityClassPK);
-				}
-
-				if (!relatedEntityCTEntryOptional.isPresent()) {
-					return;
-				}
-
-				addRelatedCTEntry(
-					userId, versionEntityCTEntryOptional.get(),
-					relatedEntityCTEntryOptional.get(), force);
-			});
+		relatedEntitiesStream.filter(
+			Objects::nonNull
+		).forEach(
+			relatedEntity -> _registerRelatedChange(
+				userId, versionEntityCTEntryOptional.get(), relatedEntity,
+				force)
+		);
 	}
 
 	private void _updateCTEntryInCTEntryAggregate(

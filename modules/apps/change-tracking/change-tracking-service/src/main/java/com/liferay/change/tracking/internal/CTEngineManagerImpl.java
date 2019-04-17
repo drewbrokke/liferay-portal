@@ -60,6 +60,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -534,6 +535,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 				userId, ctConfiguration, ctCollection));
 	}
 
+	@SuppressWarnings("unchecked")
 	private void _generateCTEntriesForCTConfiguration(
 		long userId, CTConfiguration ctConfiguration,
 		CTCollection ctCollection) {
@@ -560,6 +562,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void _generateCTEntriesForResourceEntity(
 		long userId, CTConfiguration ctConfiguration, CTCollection ctCollection,
 		BaseModel resourceEntity, Serializable resourcePrimKey) {
@@ -605,6 +608,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private <V extends BaseModel, R extends BaseModel> void
 		_generateCTEntryAggregateForCTEntry(
 			long userId, CTConfiguration ctConfiguration,
@@ -619,13 +623,61 @@ public class CTEngineManagerImpl implements CTEngineManager {
 
 		versionEntityRelatedEntitiesFunctions.forEach(
 			relatedEntitiesFunction ->
-				_generateCTEntryAggregateForVersionEntity(
+				_generateCTEntryAggregateForRelatedEntity(
 					userId, ctCollection, ctEntry, versionEntity,
 					relatedEntitiesFunction));
 	}
 
+	private <R extends BaseModel> void
+		_generateCTEntryAggregateForRelatedEntity(
+			long userId, CTCollection ctCollection, CTEntry ctEntry,
+			R relatedEntity) {
+
+		long relatedEntityClassPK = (Long)relatedEntity.getPrimaryKeyObj();
+
+		CTEntry relatedCTEntry = _ctEntryLocalService.fetchCTEntry(
+			_portal.getClassNameId(relatedEntity.getModelClassName()),
+			relatedEntityClassPK);
+
+		if (relatedCTEntry == null) {
+			List<CTEntry> relatedCTEntries =
+				_ctEntryLocalService.fetchCTEntries(
+					ctCollection.getCtCollectionId(), relatedEntityClassPK,
+					new QueryDefinition<>());
+
+			if (ListUtil.isEmpty(relatedCTEntries)) {
+				return;
+			}
+
+			relatedCTEntry = relatedCTEntries.get(0);
+		}
+
+		CTEntryAggregate ctEntryAggregate =
+			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
+				ctCollection.getCtCollectionId(), ctEntry.getCtEntryId());
+
+		if (ctEntryAggregate == null) {
+			try {
+				ctEntryAggregate =
+					_ctEntryAggregateLocalService.addCTEntryAggregate(
+						userId, ctCollection.getCtCollectionId(),
+						ctEntry.getCtEntryId(), new ServiceContext());
+			}
+			catch (PortalException pe) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(
+						"Unable to add CTEntryAggregate: " +
+							pe.getLocalizedMessage());
+				}
+			}
+		}
+
+		_ctEntryAggregateLocalService.addCTEntry(
+			ctEntryAggregate, relatedCTEntry);
+	}
+
 	private <V extends BaseModel, R extends BaseModel> void
-		_generateCTEntryAggregateForVersionEntity(
+		_generateCTEntryAggregateForRelatedEntity(
 			long userId, CTCollection ctCollection, CTEntry ctEntry,
 			V versionEntity,
 			Function<V, List<R>> versionEntityRelatedEntityFunction) {
@@ -633,58 +685,17 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		List<R> relatedEntities = versionEntityRelatedEntityFunction.apply(
 			versionEntity);
 
-		relatedEntities.forEach(
-			relatedEntity -> {
-				if (relatedEntity == null) {
-					return;
-				}
+		Stream<R> relatedEntityStream = relatedEntities.stream();
 
-				long relatedEntityClassPK =
-					(Long)relatedEntity.getPrimaryKeyObj();
-
-				CTEntry relatedCTEntry = _ctEntryLocalService.fetchCTEntry(
-					_portal.getClassNameId(relatedEntity.getModelClassName()),
-					relatedEntityClassPK);
-
-				if (relatedCTEntry == null) {
-					List<CTEntry> relatedCTEntries =
-						_ctEntryLocalService.fetchCTEntries(
-							ctCollection.getCtCollectionId(),
-							relatedEntityClassPK, new QueryDefinition<>());
-
-					if (ListUtil.isEmpty(relatedCTEntries)) {
-						return;
-					}
-
-					relatedCTEntry = relatedCTEntries.get(0);
-				}
-
-				CTEntryAggregate ctEntryAggregate =
-					_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
-						ctCollection.getCtCollectionId(),
-						ctEntry.getCtEntryId());
-
-				if (ctEntryAggregate == null) {
-					try {
-						ctEntryAggregate =
-							_ctEntryAggregateLocalService.addCTEntryAggregate(
-								userId, ctCollection.getCtCollectionId(),
-								ctEntry.getCtEntryId(), new ServiceContext());
-					}
-					catch (PortalException pe) {
-						if (_log.isWarnEnabled()) {
-							_log.warn(
-								"Unable to add CTEntryAggregate: " +
-									pe.getLocalizedMessage());
-						}
-					}
-				}
-
-				_ctEntryAggregateLocalService.addCTEntry(
-					ctEntryAggregate, relatedCTEntry);
-			});
+		relatedEntityStream.filter(
+			Objects::nonNull
+		).forEach(
+			relatedEntity -> _generateCTEntryAggregateForRelatedEntity(
+				userId, ctCollection, ctEntry, relatedEntity)
+		);
 	}
 
+	@SuppressWarnings("unchecked")
 	private <V extends BaseModel, R extends BaseModel> void
 		_generateCTEntryAggregatesForCTConfiguration(
 			long userId, CTConfiguration ctConfiguration,

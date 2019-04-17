@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -95,14 +96,15 @@ public class JournalCTConfigurationRegistrar {
 	private Function<JournalArticle, List<? extends BaseModel>>
 		_getDDMStructures() {
 
-		return journalArticle -> Arrays.asList(
+		return journalArticle -> Collections.singletonList(
 			journalArticle.getDDMStructure());
 	}
 
 	private Function<JournalArticle, List<? extends BaseModel>>
 		_getDDMTemplates() {
 
-		return journalArticle -> Arrays.asList(journalArticle.getDDMTemplate());
+		return journalArticle -> Collections.singletonList(
+			journalArticle.getDDMTemplate());
 	}
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
