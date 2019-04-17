@@ -249,19 +249,32 @@ renderResponse.setTitle(title);
 											<div class="select-card-sheet-block">
 												<span class="card-h4"><liferay-ui:message key="changes" /></span>
 
+												<%
+												Map<Integer, Long> changeTypeCounts = changeListsDisplayContext.getCTCollectionChangeTypeCounts(curCTCollection.getCtCollectionId());
+												%>
+
 												<div class="changes-row">
 													<div class="changes">
-														<div class="big-number" data-qa-id="changesAdded">0</div>
+														<div class="big-number" data-qa-id="changesAdded">
+															<%= changeTypeCounts.getOrDefault(CTConstants.CT_CHANGE_TYPE_ADDITION, 0L) %>
+														</div>
+
 														<div class=""><liferay-ui:message key="added" /></div>
 													</div>
 
 													<div class="changes">
-														<div class="big-number" data-qa-id="changesModified">0</div>
+														<div class="big-number" data-qa-id="changesModified">
+															<%= changeTypeCounts.getOrDefault(CTConstants.CT_CHANGE_TYPE_MODIFICATION, 0L) %>
+														</div>
+
 														<div class=""><liferay-ui:message key="modified" /></div>
 													</div>
 
 													<div class="changes">
-														<div class="big-number" data-qa-id="changesDeleted">0</div>
+														<div class="big-number" data-qa-id="changesDeleted">
+															<%= changeTypeCounts.getOrDefault(CTConstants.CT_CHANGE_TYPE_DELETION, 0L) %>
+														</div>
+
 														<div class=""><liferay-ui:message key="deleted" /></div>
 													</div>
 												</div>

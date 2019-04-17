@@ -41,6 +41,7 @@ import com.liferay.portal.template.soy.util.SoyContextFactoryUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -145,6 +146,12 @@ public class ChangeListsDisplayContext {
 			});
 
 		return creationMenu;
+	}
+
+	public Map<Integer, Long> getCTCollectionChangeTypeCounts(
+		long ctCollectionId) {
+
+		return _ctEngineManager.getCTCollectionChangeTypeCounts(ctCollectionId);
 	}
 
 	public String getDisplayStyle() {
