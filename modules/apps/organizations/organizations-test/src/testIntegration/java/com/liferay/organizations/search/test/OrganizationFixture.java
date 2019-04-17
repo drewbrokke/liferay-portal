@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.service.CountryService;
 import com.liferay.portal.kernel.service.OrganizationService;
 import com.liferay.portal.kernel.service.RegionService;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
@@ -140,6 +141,13 @@ public class OrganizationFixture {
 		ServiceTestUtil.setUser(TestPropsValues.getUser());
 
 		CompanyThreadLocal.setCompanyId(TestPropsValues.getCompanyId());
+	}
+
+	public void updateDisplaySettings(Locale locale) throws Exception {
+		Group group = GroupTestUtil.updateDisplaySettings(
+			_group.getGroupId(), null, locale);
+
+		_group.setModelAttributes(group.getModelAttributes());
 	}
 
 	protected long getUserId() throws Exception {
