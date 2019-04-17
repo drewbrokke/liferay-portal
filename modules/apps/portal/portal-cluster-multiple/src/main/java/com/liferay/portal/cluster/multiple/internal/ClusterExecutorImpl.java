@@ -283,6 +283,9 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 			return;
 		}
 
+		fireClusterEvent(
+			ClusterEvent.depart(_localClusterNodeStatus.getClusterNode()));
+
 		if (_clusterChannel != null) {
 			_clusterChannel.close();
 		}
