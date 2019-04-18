@@ -417,7 +417,7 @@ definition {
 			entryContent = "Blogs Entry Content 3",
 			entryTitle = "Blogs Entry Title 3");
 
-		BlogsEntry.addEntryExternalURL(entryExternalURL = "www.liferay.com");
+		AlloyEditor.addEntryExternalURL(entryExternalURL = "www.liferay.com");
 
 		PortletEntry.publish();
 
