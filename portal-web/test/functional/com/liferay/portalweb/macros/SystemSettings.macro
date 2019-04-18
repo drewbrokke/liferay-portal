@@ -14,45 +14,32 @@ definition {
 		SystemSettings.saveConfiguration();
 	}
 
-	macro configureAssetDynamicExportSetting {
-		if ("${enableDynamicExport}" == "true") {
-			Check.toggleSwitch(locator1 = "SystemSettings#ASSETS_DYNAMIC_EXPORT_CHECKBOX");
+	macro configureDynamicExportLimit {
+		Type(locator1 = "SystemSettings#ASSETS_DYNAMIC_EXPORT_LIMIT", value1 = "${exportLimitNumber}");
 
-			SystemSettings.saveConfiguration();
-
-			AssertChecked.assertCheckedNotVisible(locator1 = "SystemSettings#ASSETS_DYNAMIC_EXPORT_CHECKBOX");
-
-			if ("${exportLimit}" == "true") {
-				Type(
-					locator1 = "SystemSettings#ASSETS_DYNAMIC_EXPORT_LIMIT",
-					value1 = "${exportLimitNumber}");
-
-				SystemSettings.saveConfiguration();
-			}
-		}
-		else if ("${enableDynamicExport}" == "false") {
-			Uncheck.uncheckToggleSwitch(locator1 = "SystemSettings#ASSETS_DYNAMIC_EXPORT_CHECKBOX");
-
-			SystemSettings.saveConfiguration();
-
-			AssertNotChecked.assertNotCheckedNotVisible(locator1 = "SystemSettings#ASSETS_DYNAMIC_EXPORT_CHECKBOX");
-		}
+		SystemSettings.saveConfiguration();
 	}
 
-	macro configureAssetManualExportSetting {
-		if ("${enableManualExport}" == "true") {
-			Check.toggleSwitch(locator1 = "SystemSettings#ASSETS_MANUAL_EXPORT_CHECKBOX");
+	macro configureSystemSetting {
+		var key_settingFieldName = "${settingFieldName}";
+
+		if ("${enableSetting}" == "true") {
+			Check.toggleSwitch(locator1 = "SystemSettings#SETTING_FIELD_NAME_CHECKBOX");
 
 			SystemSettings.saveConfiguration();
 
-			AssertChecked.assertCheckedNotVisible(locator1 = "SystemSettings#ASSETS_MANUAL_EXPORT_CHECKBOX");
+			AssertChecked.assertCheckedNotVisible(
+				locator1 = "SystemSettings#SETTING_FIELD_NAME_CHECKBOX"
+			);
 		}
-		else if ("${enableManualExport}" == "false") {
-			Uncheck.uncheckToggleSwitch(locator1 = "SystemSettings#ASSETS_MANUAL_EXPORT_CHECKBOX");
+		else if ("${enableSetting}" == "false") {
+			Uncheck.uncheckToggleSwitch(locator1 = "SystemSettings#SETTING_FIELD_NAME_CHECKBOX");
 
 			SystemSettings.saveConfiguration();
 
-			AssertNotChecked.assertNotCheckedNotVisible(locator1 = "SystemSettings#ASSETS_MANUAL_EXPORT_CHECKBOX");
+			AssertNotChecked.assertNotCheckedNotVisible(
+				locator1 = "SystemSettings#SETTING_FIELD_NAME_CHECKBOX"
+			);
 		}
 	}
 
