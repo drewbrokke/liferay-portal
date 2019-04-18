@@ -355,9 +355,16 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			PortletPreferencesFactoryUtil.getPortalPreferences(
 				userId, !user.isDefaultUser());
 
-		return GetterUtil.getLong(
-			portalPreferences.getValue(
-				CTPortletKeys.CHANGE_LISTS, _RECENT_CT_COLLECTION_ID));
+		Optional<CTCollection> ctCollectionOptional = getCTCollectionOptional(
+			GetterUtil.getLong(
+				portalPreferences.getValue(
+					CTPortletKeys.CHANGE_LISTS, _RECENT_CT_COLLECTION_ID)));
+
+		return ctCollectionOptional.map(
+			CTCollection::getCtCollectionId
+		).orElse(
+			0L
+		);
 	}
 
 	@Override
