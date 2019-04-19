@@ -47,10 +47,6 @@ public class UserModelPreFilterContributor
 		BooleanFilter contextBooleanFilter,
 		ModelSearchSettings modelSearchSettings, SearchContext searchContext) {
 
-		contextBooleanFilter.addTerm(
-			"defaultUser", Boolean.TRUE.toString(),
-			BooleanClauseOccur.MUST_NOT);
-
 		int status = GetterUtil.getInteger(
 			searchContext.getAttribute(Field.STATUS),
 			WorkflowConstants.STATUS_APPROVED);
