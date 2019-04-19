@@ -1,11 +1,10 @@
 components:
     schemas:
         AggregateRating:
-            #@review
-            description: https://www.schema.org/AggregateRating
+            description: Represents the average rating. See [AggregateRating](https://www.schema.org/AggregateRating) for more information.
             properties:
                 bestRating:
-                    description: The best rating possible (by default normalized to 1.0).
+                    description: The highest possible rating (by default normalized to 1.0).
                     format: double
                     readOnly: true
                     type: number
@@ -19,116 +18,115 @@ components:
                     readOnly: true
                     type: number
                 worstRating:
-                    description: The worst rating possible (by default normalized to 0.0).
+                    description: The lowest possible rating (by default normalized to 0.0).
                     format: double
                     readOnly: true
                     type: number
             type: object
         BlogPosting:
-            #@review
-            description: https://www.schema.org/BlogPosting
+            description: Represents a blog post. See [BlogPosting](https://www.schema.org/BlogPosting) for more information.
             properties:
                 aggregateRating:
                     allOf:
                         - $ref: "#/components/schemas/AggregateRating"
-                    description: The information of the ratings (average, number) associated with this resource.
+                    description: The blog post's average rating.
                     readOnly: true
                 alternativeHeadline:
-                    description: The subtitle of this BlogPosting.
+                    description: The blog post's subtitle.
                     type: string
                 articleBody:
-                    description: The article content of this BlogPosting.
+                    description: The blog post's body (content).
                     type: string
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the BlogPosting
+                    description: The blog post's author.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the BlogPosting.
+                    description: The blog post's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the BlogPosting changed.
+                    description: The blog post's most recent modification date.
                     format: date-time
                     readOnly: true
                     type: string
                 datePublished:
-                    description: The date when the BlogPosting was published.
+                    description: The blog post's publication date.
                     format: date-time
                     type: string
                 description:
-                    description: A description explaining this BlogPosting.
+                    description: The blog post's description.
                     type: string
                 encodingFormat:
-                    description: The media format of the content (html, bbcode...).
+                    description: The blog post's media format (e.g., html, BBCode, etc.).
                     readOnly: true
                     type: string
                 friendlyUrlPath:
-                    description: A relative URL where this content will be accesible.
+                    description: The blog post's relative URL.
                     type: string
                 headline:
-                    description: The main title of this BlogPosting.
+                    description: The blog post's main title.
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The blog post's identifier.
                     format: int64
                     readOnly: true
                     type: integer
                 image:
-                    description: The cover image of the BlogPosting.
+                    description: The blog post's cover image.
                     properties:
                         caption:
-                            description: A text describing the BlogPosting image.
+                            description: The text describing the image.
                             type: string
                         contentUrl:
-                            description: A relative URL to the image.
+                            description: The image's relative URL.
                             format: uri
                             readOnly: true
                             type: string
                         imageId:
-                            description: An identifier of the image, can be used to retrieve more information in the Document API.
+                            description: The image's ID. This can be used to retrieve more information in the `Document` API.
                             format: int64
                             type: integer
                     type: object
                 keywords:
-                    description: A list of keywords describing the BlogPosting.
+                    description: A list of keywords describing the blog post.
                     items:
                         type: string
                     type: array
                 numberOfComments:
-                    description: The number of comments this BlogPosting has received.
+                    description: The number of comments this blog post has received.
                     readOnly: true
                     type: integer
                 siteId:
-                    description: The site identifier where this BlogPosting is scoped.
+                    description: The ID of the site to which this blog post is scoped.
                     format: int64
                     readOnly: true
                     type: integer
                 taxonomyCategories:
-                    description: The categories asociated with this BlogPosting.
+                    description: The categories asociated with this blog post.
                     items:
                         properties:
                             taxonomyCategoryId:
-                                description: The id of the category, can be used to retrieve more information in the TaxonomyCategory API.
+                                description: The category's ID. This can be used to retrieve more information in the `TaxonomyCategory` API.
                                 format: int64
                                 type: integer
                             taxonomyCategoryName:
-                                description: The name of the category.
+                                description: The category's name.
                                 type: string
                         type: object
                     readOnly: true
                     type: array
                 taxonomyCategoryIds:
-                    description: A write only field to add TaxonomyCategory to this resource.
+                    description: A write-only field that adds a `TaxonomyCategory` to this resource.
                     items:
                         format: int64
                         type: integer
                     type: array
                     writeOnly: true
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
@@ -137,142 +135,138 @@ components:
                 - headline
             type: object
         BlogPostingImage:
-            #@review
-            description: An image of a BlogPosting item. Properties follow https://schema.org/image specification
+            description: Represents a blog post's image. Properties follow the [image](https://schema.org/image) specification.
             properties:
                 contentUrl:
-                    description: A relative URL to the binary image.
+                    description: The image's absolute URL.
                     readOnly: true
                     type: string
                 encodingFormat:
-                    description: The content type of this image (application/png...).
+                    description: The image's content type (e.g., `application/png`, etc.).
                     readOnly: true
                     type: string
                 fileExtension:
-                    description: The extension of the image.
+                    description: The image's file extension.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The image's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 sizeInBytes:
-                    description: The size in bytes of the image.
+                    description: The image's size in bytes.
                     format: int64
                     readOnly: true
                     type: integer
                 title:
-                    description: The title of the image.
+                    description: The image's title text.
                     type: string
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
             type: object
         Comment:
-            #@review
-            description: https://www.schema.org/Comment
+            description: Represents a comment. See [Comment](https://www.schema.org/Comment) for more details.
             properties:
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the Comment
+                    description: The comment's author.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the Comment.
+                    description: The comment's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the Comment changed.
+                    description: The comment's latest modification date.
                     format: date-time
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The comment's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 numberOfComments:
-                    description: The number of child comments associated with this Comment.
+                    description: The number of child comments on this comment.
                     readOnly: true
                     type: integer
                 text:
-                    description: The content of the Comment.
+                    description: The comment's text content.
                     type: string
             type: object
         ContentDocument:
-            #@review
-            description: A document (binary data and metadata) associated with a StructuredContent. Properties follow https://schema.org/MediaObject specification.
+            description: Represents a document (binary data and metadata) associated with structured content. Properties follow the [Media Object](https://schema.org/MediaObject) specification.
             properties:
                 contentUrl:
-                    description: A relative URL to the binary file.
+                    description: The document's absolute URL.
                     format: uri
                     readOnly: true
                     type: string
                 description:
-                    description: The description of the file.
+                    description: The document's description.
                     type: string
                 encodingFormat:
-                    description: The content type (application/pdf) of the binary file.
+                    description: The document's content type (e.g., `application/pdf`, etc.).
                     readOnly: true
                     type: string
                 fileExtension:
-                    description: The file extension.
+                    description: The document's file extension.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The document's ID.
                     format: int64
                     type: integer
                 sizeInBytes:
-                    description: The size in bytes of the ContentDocument.
+                    description: The document's file size in bytes.
                     format: int64
                     readOnly: true
                     type: integer
                 title:
-                    description: The title of the ContentDocument.
+                    description: The document's title.
                     type: string
             type: object
         ContentField:
-            #@review
-            description: Represents each field value of a StructuredContent and can contain different types of information, geolocalization position, a ContentDocument...
+            description: Represents the value of each field in structured content. Fields can contain different information types (e.g., geolocation, documents, etc.).
             properties:
                 dataType:
-                    description: The type of field (image, text).
+                    description: The field type (e.g., image, text, etc.).
                     readOnly: true
                     type: string
                 inputControl:
-                    description: The type of control that has be used to render the content (text, textarea...).
+                    description: The field's control type (e.g., text, text area, etc.).
                     readOnly: true
                     type: string
                 label:
-                    description: The label of the field.
+                    description: The field's label.
                     readOnly: true
                     type: string
                 name:
-                    description: The internal name of the field, valid for comparisons and unique in the StructuredContent.
+                    description: The field's internal name. This is valid for comparisons and unique in the structured content.
                     type: string
                 nestedFields:
-                    description: A list of child ContentFields that depend on this resource.
+                    description: A list of child content fields that depend on this resource.
                     items:
                         $ref: "#/components/schemas/ContentField"
                     type: array
                 repeatable:
-                    description: A flag indicating if this field can be filled multiple times.
+                    description: A flag that indicates whether this field can be rendered multiple times.
                     readOnly: true
                     type: boolean
                 value:
                     properties:
                         data:
-                            description: The content of this field for simple types.
+                            description: The field's content for simple types.
                             type: string
                         document:
                             allOf:
                                 - $ref: "#/components/schemas/ContentDocument"
-                            description: A ContentDocument element.
+                            description: A content document element.
                         geo:
                             description: A point determined by latitude and longitude.
                             properties:
@@ -288,56 +282,54 @@ components:
                         image:
                             allOf:
                                 - $ref: "#/components/schemas/ContentDocument"
-                            description: A ContentDocument element storing an image file.
+                            description: A content document element that stores an image file.
                         link:
-                            description: A link to a page inside the server.
+                            description: A link to a page on the server.
                             format: uri
                             type: string
                         structuredContentLink:
-                            description: A link to a StructuredContent stored in the server.
+                            description: A link to structured content on the server.
                             properties:
                                 id:
-                                    description: The identifier of the resource.
+                                    description: The resource's ID.
                                     format: int64
                                     type: integer
                                 title:
-                                    description: The title of the resouce.
+                                    description: The resource's title.
                                     type: string
                             type: object
                     type: object
         ContentSetElement:
-            #@review
-            description: Represents each member of a ContentSet and can contain different types of assets.
+            description: Represents each member of a content set and can contain different types of assets.
             properties:
                 content:
-                    description: All the fields of the content.
+                    description: The content's fields.
                     readOnly: true
                     type: object
                 contentType:
-                    description: The type of the content.
+                    description: The content set element's type.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The content set element's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 title:
-                    description: The title of the content.
+                    description: The content's title.
                     readOnly: true
                     type: string
         ContentStructure:
-            #@review
-            description: The ContentStructure backing a StructuredContent. Defines which form fields are available and the possible types and values.
+            description: Represents the content structure that backs structured content. This defines which form fields are available and the possible types and values.
             properties:
                 availableLanguages:
-                    description: A list of languages the structure has a translation for.
+                    description: The list of languages the structure has a translation for.
                     items:
                         type: string
                     readOnly: true
                     type: array
                 contentStructureFields:
-                    description: A list of fields that belong to this ContentStructure.
+                    description: The list of the content structure's fields.
                     items:
                         $ref: "#/components/schemas/ContentStructureField"
                     readOnly: true
@@ -345,67 +337,66 @@ components:
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the ContentStructure
+                    description: The content structure's creator.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the ContentStructure.
+                    description: The content structure's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the ContentStructure changed.
+                    description: The last time a field of the content structure changed.
                     format: date-time
                     readOnly: true
                     type: string
                 description:
-                    description: The description of the ContentStructure
+                    description: The content structure's description.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The content structure's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The name of the ContentStructure.
+                    description: The content structure's name.
                     readOnly: true
                     type: string
                 siteId:
-                    description: The site identifier where this ContentStructure is scoped.
+                    description: The ID of the site to which the content structure is scoped.
                     format: int64
                     readOnly: true
                     type: integer
             type: object
         ContentStructureField:
-            #@review
-            description: Represents each field of a ContentStructure, backed by a ContentField.
+            description: Represents each field in a content structure, backed by a content field.
             properties:
                 dataType:
-                    description: The type of the form field (date, geo, text...).
+                    description: The form field's type (e.g., date, geolocation, text, etc.).
                     readOnly: true
                     type: string
                 inputControl:
-                    description: The type of the input used to render the content (text, textarea, select...).
+                    description: The form field's input control type (e.g., text, textarea, select field, etc.).
                     readOnly: true
                     type: string
                 label:
-                    description: The label of the form field.
+                    description: The form field's label.
                     readOnly: true
                     type: string
                 localizable:
-                    description: A flag indicating if the field can be accesible in different languages.
+                    description: A flag that indicates whether the content is accesible in different languages.
                     readOnly: true
                     type: boolean
                 multiple:
-                    description: A flag indicating that this form field can have several values.
+                    description: A flag that indicates whether the form field can have several values.
                     readOnly: true
                     type: boolean
                 name:
-                    description: The name of the form field.
+                    description: The form field's name.
                     readOnly: true
                     type: string
                 nestedContentStructureFields:
-                    description: The child ContentStructureFields that depends on this resource.
+                    description: The child content structure fields that depend on this form field.
                     items:
                         $ref: "#/components/schemas/ContentStructureField"
                     readOnly: true
@@ -415,91 +406,89 @@ components:
                     items:
                         properties:
                             label:
-                                description: The label of the Option.
+                                description: The option's label.
                                 type: string
                             value:
-                                description: The internal value of the Option.
+                                description: The internal value of the field option.
                                 type: string
                         type: object
                     readOnly: true
                     type: array
                 predefinedValue:
-                    description: The default value of the form field.
+                    description: The form field's default value.
                     readOnly: true
                     type: string
                 repeatable:
-                    description: A flag indicating if this form field can be rendered (and answered) several times.
+                    description: A flag that indicates whether this content can be rendered (and answered) several times.
                     readOnly: true
                     type: boolean
                 required:
-                    description: A flag to indicate that this form field is required, form can't be filled without it.
+                    description: A flag that indicates whether this form field is required.
                     readOnly: true
                     type: boolean
                 showLabel:
-                    description: A flag indicating if the end target of this structure should render the label of the field.
+                    description: A flag that indicates whether the structure's end target should render the field label.
                     readOnly: true
                     type: boolean
             type: object
         Creator:
-            #@review
-            description: Represents the UserAccount who created/authored the content. Properties follow https://schema.org/creator specification.
+            description: Represents the user account of the content's creator/author. Properties follow the [creator](https://schema.org/creator) specification.
             properties:
                 additionalName:
-                    description: An additional name, can be used for a middle name.
+                    description: The author's additional name (e.g., middle name).
                     readOnly: true
                     type: string
                 familyName:
-                    description: In the US, the surname of the UserAccount.
+                    description: The author's surname.
                     readOnly: true
                     type: string
                 givenName:
-                    description: In the US, the first name of the UserAccount.
+                    description: The author's first name.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The author's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 image:
-                    description: A relative URL to the image profile of the UserAccount.
+                    description: A relative URL to the author's profile image.
                     format: uri
                     readOnly: true
                     type: string
                 name:
-                    description: The full name of the UserAccount.
+                    description: The author's full name.
                     readOnly: true
                     type: string
                 profileURL:
-                    description: A relative URL to the profile of the UserAccount.
+                    description: A relative URL to the author's user profile.
                     format: uri
                     readOnly: true
                     type: string
             type: object
         Document:
-            #@review
-            description: A document, storing binary and metadata information. Properties follow https://schema.org/MediaObject specification.
+            description: Represents a Document Library file, storing binary and metadata information. Properties follow the [MediaObject](https://schema.org/MediaObject) specification.
             properties:
                 adaptedImages:
-                    description: An array of images in several resolutions and sizes, created by the adaptive media framework.
+                    description: An array of images in several resolutions and sizes, created by the Adaptive Media framework.
                     items:
                         properties:
                             contentUrl:
-                                description: A relative URL to the image.
+                                description: The image's relative URL.
                                 format: uri
                                 type: string
                             height:
-                                description: The height of the image in pixels.
+                                description: The image's height in pixels.
                                 type: integer
                             resolutionName:
-                                description: A descriptive name of this version.
+                                description: The name of the image's Adaptive Media image resolution.
                                 type: string
                             sizeInBytes:
-                                description: The size in bytes of the image.
+                                description: The image's size in bytes.
                                 format: int64
                                 type: integer
                             width:
-                                description: The width of the image in pixels.
+                                description: The image's width in pixels.
                                 type: integer
                         type: object
                     readOnly: true
@@ -507,138 +496,137 @@ components:
                 aggregateRating:
                     allOf:
                         - $ref: "#/components/schemas/AggregateRating"
-                    description: The information of the ratings (average, number) associated with this resource.
+                    description: The document's average rating.
                     readOnly: true
                 contentUrl:
-                    description: A relative URL to the binary Document.
+                    description: The document's relative URL.
                     format: binary
                     readOnly: true
                     type: string
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the Document
+                    description: The document's creator.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the Document.
+                    description: The document's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the Document changed.
+                    description: The last time a field of the document changed.
                     format: date-time
                     readOnly: true
                     type: string
                 description:
-                    description: The description of the Document.
+                    description: The document's description.
                     type: string
                 documentFolderId:
-                    description: The id of the DocumentFolder where this Document is stored.
+                    description: The ID of the `DocumentFolder` where this document is stored.
                     format: int64
                     readOnly: true
                     type: integer
                 encodingFormat:
-                    description: The content type (application/pdf) of the Document.
+                    description: The document's content type (e.g., `application/pdf`, etc.).
                     readOnly: true
                     type: string
                 fileExtension:
-                    description: The file extension of the binary file.
+                    description: The document's file extension.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The document's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 keywords:
-                    description: A list of keywords describing the Document.
+                    description: A list of keywords describing the document.
                     items:
                         type: string
                     type: array
                 numberOfComments:
-                    description: A list of comments this Document has received.
+                    description: The number of comments on the document.
                     readOnly: true
                     type: integer
                 sizeInBytes:
-                    description: The size in bytes of the binary file.
+                    description: The document's size in bytes.
                     format: int64
                     readOnly: true
                     type: integer
                 taxonomyCategories:
-                    description: The categories asociated with this Document.
+                    description: The categories asociated with this document.
                     items:
                         properties:
                             taxonomyCategoryId:
-                                description: The id of the category, can be used to retrieve more information in the TaxonomyCategory API.
+                                description: The category's ID. This can be used to retrieve more information via the `TaxonomyCategory` API.
                                 format: int64
                                 type: integer
                             taxonomyCategoryName:
-                                description: The name of the category.
+                                description: The category's name.
                                 type: string
                         type: object
                     readOnly: true
                     type: array
                 taxonomyCategoryIds:
-                    description: A write only field to add TaxonomyCategory to this resource.
+                    description: A write-only field that adds `TaxonomyCategory` instances to the document.
                     items:
                         format: int64
                         type: integer
                     type: array
                     writeOnly: true
                 title:
-                    description: The title of the Document.
+                    description: The document's main title/name.
                     type: string
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the document's default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
             type: object
         DocumentFolder:
-            #@review
-            description: A DocumentFolder containing other DocumentFolders or several Documents.
+            description: Represents a document folder that can contain documents and other folders.
             properties:
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the DocumentFolder
+                    description: The folder's creator.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the DocumentFolder.
+                    description: The folder's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the DocumentFolder changed.
+                    description: The last time a field of the folder changed.
                     format: date-time
                     readOnly: true
                     type: string
                 description:
-                    description: The description of the DocumentFolder
+                    description: The folder's description.
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The folder's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The name of the DocumentFolder
+                    description: The folder's main title/name.
                     type: string
                 numberOfDocumentFolders:
-                    description: The number of child DocumentFolders that depend on this resources.
+                    description: The number of this folder's child folders.
                     readOnly: true
                     type: integer
                 numberOfDocuments:
-                    description: The number of Documents stored in this DocumentFolder.
+                    description: The number of documents in this folder.
                     readOnly: true
                     type: integer
                 siteId:
-                    description: The site identifier where this DocumentFolder is scoped.
+                    description: The ID of the site to which this folder is scoped.
                     format: int64
                     readOnly: true
                     type: integer
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the folder's default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
@@ -646,108 +634,107 @@ components:
                 - name
             type: object
         KnowledgeBaseArticle:
-            #@review
-            description: A KnowledgeBase article, the main entity in the knowledge base API, modeling for example, an article in a FAQ section.
+            description: Represents a Knowledge Base article (`KBArticle`), the main entity in the Knowledge Base API.
             properties:
                 aggregateRating:
                     allOf:
                         - $ref: "#/components/schemas/AggregateRating"
-                    description: The information of the ratings (average, number) associated with this resource.
+                    description: The article's average rating.
                     readOnly: true
                 articleBody:
-                    description: The main content of this resouce.
+                    description: The article's main content.
                     type: string
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the KnowledgeBaseArticle
+                    description: The article's author.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the KnowledgeBaseArticle.
+                    description: The date the article was created.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the KnowledgeBaseArticle changed.
+                    description: The last time the article's content or metadata changed.
                     format: date-time
                     readOnly: true
                     type: string
                 description:
-                    description: The description of the KnowledgeBaseArticle.
+                    description: The article's description.
                     type: string
                 encodingFormat:
-                    description: The media type (html, bbcode) of the content.
+                    description: The article's media type (e.g., HTML, BBCode).
                     readOnly: true
                     type: string
                 friendlyUrlPath:
-                    description: A relative URL to access this resource.
+                    description: The article's relative URL.
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The article's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 keywords:
-                    description: A list of keywords describing the KnowledgeBaseArticle.
+                    description: A list of keywords describing the article.
                     items:
                         type: string
                     type: array
                 numberOfAttachments:
-                    description: The number of KnowledgeBaseAttachments that are associated with this article.
+                    description: The article's number attachments.
                     readOnly: true
                     type: integer
                 numberOfKnowledgeBaseArticles:
-                    description: The number of child KnowledgeBaseArticles that are associated with this resouce.
+                    description: The number of this article's child articles.
                     readOnly: true
                     type: integer
                 parentKnowledgeBaseFolder:
-                    description: The parent KnowledgeBaseFolder of this article, if any.
+                    description: The article's parent folder, if it exists.
                     properties:
                         folderId:
-                            description: The identifier of the folder.
+                            description: The parent folder's ID.
                             format: int64
                             type: integer
                         folderName:
-                            description: The name of the folder.
+                            description: The parent folder's name.
                             type: string
                     readOnly: true
                     type: object
                 parentKnowledgeBaseFolderId:
-                    description: The parent KnowledgeBaseFolder identifier of this article, if any.
+                    description: The ID of the article's parent folder, if that folder exists.
                     format: int64
                     type: integer
                     writeOnly: true
                 siteId:
-                    description: The site identifier where this KnowledgeBaseArticle is scoped.
+                    description: The ID of the site to which this article is scoped.
                     format: int64
                     readOnly: true
                     type: integer
                 taxonomyCategories:
-                    description: The categories associated with this KnowledgeBaseArticle.
+                    description: The categories asociated with this article.
                     items:
                         properties:
                             taxonomyCategoryId:
-                                description: The id of the category, can be used to retrieve more information in the TaxonomyCategory API.
+                                description: The category's ID, which can be used to retrieve more information in the `TaxonomyCategory` API.
                                 format: int64
                                 type: integer
                             taxonomyCategoryName:
-                                description: The name of the category.
+                                description: The category's name.
                                 type: string
                         type: object
                     readOnly: true
                     type: array
                 taxonomyCategoryIds:
-                    description: A write only field to add TaxonomyCategory to this resource.
+                    description: A write-only field that adds taxonomy categories to this article.
                     items:
                         format: int64
                         type: integer
                     type: array
                     writeOnly: true
                 title:
-                    description: The main title of the KnowledgeBaseArticle.
+                    description: The article's main title.
                     type: string
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the article's default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
@@ -756,97 +743,95 @@ components:
                 - title
             type: object
         KnowledgeBaseAttachment:
-            #@review
-            description: A binary file asociated with a KnowledgeBaseArticle.
+            description: Represents a binary file attached to a Knowledge Base article.
             properties:
                 contentUrl:
-                    description: A relative URL to the binary file.
+                    description: The file's relative URL.
                     readOnly: true
                     type: string
                 encodingFormat:
-                    description: The media type (application/pdf...) of the binary file.
+                    description: The file's media type (e.g., application/pdf, etc.).
                     readOnly: true
                     type: string
                 fileExtension:
-                    description: The file extension.
+                    description: The file's extension.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The file's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 sizeInBytes:
-                    description: The size in bytes of the binary file.
+                    description: The file's size in bytes.
                     format: int64
                     readOnly: true
                     type: integer
                 title:
-                    description: The main title of the binary file.
+                    description: The file's main title.
                     type: string
             type: object
         KnowledgeBaseFolder:
-            #@review
-            description: A folder to classify KnowledgeBaseArticles.
+            description: Represents a folder for organizing Knowledge Base articles.
             properties:
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the KnowledgeBaseFolder.
+                    description: The folder's creator.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the KnowledgeBaseFolder.
+                    description: The date the folder was created.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the KnowledgeBaseFolder changed.
+                    description: The last time the folder was modified.
                     format: date-time
                     readOnly: true
                     type: string
                 description:
-                    description: The description of the KnowledgeBaseFolder.
+                    description: The folder's description.
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The folder's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The name of the KnowledgeBaseFolder.
+                    description: The folder's main title/name.
                     type: string
                 numberOfKnowledgeBaseArticles:
-                    description: The number of KnowledgeBaseArticles stored in this KnowledgeBaseFolder.
+                    description: The number of Knowledge Base articles in this folder.
                     readOnly: true
                     type: integer
                 numberOfKnowledgeBaseFolders:
-                    description: The number of child KnowledgeBaseFolders associated with this resource.
+                    description: The number of Knowledge Base folders in this folder.
                     readOnly: true
                     type: integer
                 parentKnowledgeBaseFolder:
-                    description: The parent KnowledgeBaseFolder of this article, if any.
+                    description: The folder's parent Knowledge Base folder, if it exists.
                     properties:
                         folderId:
-                            description: The identifier of the folder.
+                            description: The parent folder's ID.
                             format: int64
                             type: integer
                         folderName:
-                            description: The name of the folder.
+                            description: The parent folder's name.
                             type: string
                     readOnly: true
                     type: object
                 parentKnowledgeBaseFolderId:
-                    description: The parent KnowledgeBaseFolder identifier of this article, if any.
+                    description: The ID of the folder's parent Knowledge Base folder, if such a parent folder exists.
                     format: int64
                     type: integer
                     writeOnly: true
                 siteId:
-                    description: The site identifier where this KnowledgeBaseFolder is scoped.
+                    description: The ID of the site to which this folder is scoped.
                     format: int64
                     readOnly: true
                     type: integer
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the folder's default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
@@ -854,149 +839,146 @@ components:
                 - name
             type: object
         MessageBoardAttachment:
-            #@review
-            description: A binary file linked to a MessageBoardMessage.
+            description: A binary file attached to a message on a message board (`MessageBoardMessage`).
             properties:
                 contentUrl:
-                    description: A relative URL to the binary file.
+                    description: The file's relative URL.
                     readOnly: true
                     type: string
                 encodingFormat:
-                    description: The media format of the binary file (application/pdf...).
+                    description: The file's media format (e.g., application/pdf, etc.).
                     readOnly: true
                     type: string
                 fileExtension:
-                    description: The extension of the binary file.
+                    description: The file's extension.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The file's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 sizeInBytes:
-                    description: The size in bytes of the binary file.
+                    description: The file's size in bytes.
                     format: int64
                     readOnly: true
                     type: integer
                 title:
-                    description: The title of the binary file.
+                    description: The file's title.
                     type: string
             type: object
         MessageBoardMessage:
-            #@review
-            description: A message answering a thread in a forum. Properties follow https://schema.org/DiscussionForumPosting specification.
+            description: Represents a message on a message board. Properties follow the [Discussion Forum Posting](https://schema.org/DiscussionForumPosting) specification.
             properties:
                 aggregateRating:
                     allOf:
                         - $ref: "#/components/schemas/AggregateRating"
-                    description: The information of the ratings (average, number) associated with this resource.
+                    description: The message's average rating.
                     readOnly: true
                 anonymous:
-                    description: A flag to indicate that this message is not going to return the creator information.
+                    description: A flag that indicates whether the message's author is anonymous.
                     type: boolean
                 articleBody:
-                    description: The main content of the MessageBoardMessage.
+                    description: The message's main content.
                     type: string
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the MessageBoardMessage
+                    description: The message's author.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the MessageBoardMessage.
+                    description: The date the message was created.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the MessageBoardMessage changed.
+                    description: The last time that the content or metadata of the message was changed.
                     format: date-time
                     readOnly: true
                     type: string
                 encodingFormat:
-                    description: The media format of the content (html, bbcode...).
+                    description: The message's media format (e.g., HTML, BBCode, etc.).
                     readOnly: true
                     type: string
                 headline:
-                    description: The main title of the MessageBoardMessage.
+                    description: The message's main title.
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The message's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 keywords:
-                    description: A list of keywords describing the MessageBoardMessage.
+                    description: A list of keywords describing the message.
                     items:
                         type: string
                     type: array
                 numberOfMessageBoardAttachments:
-                    description: The number of attachments associated with this resource.
+                    description: The number of the message's attachments.
                     readOnly: true
                     type: integer
                 numberOfMessageBoardMessages:
-                    description: The number of child MessageBoardMessages that are associated with this resource.
+                    description: The number of the message's child messages.
                     readOnly: true
                     type: integer
                 showAsAnswer:
-                    description: A flag to indicate if this MessageBoardMessage is marked as an answer.
+                    description: A flag that indicates whether the message is answering a question.
                     type: boolean
                 siteId:
-                    description: The site identifier where this MessageBoardMessage is scoped.
+                    description: The ID of the site to which this message is scoped.
                     format: int64
                     readOnly: true
                     type: integer
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
             type: object
         MessageBoardSection:
-            #@review
-            description: Represents a folder inside a forum, classifying several MessageBoardThreads.
+            description: Represents a section/folder on a message board, used to organize messages.
             properties:
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the MessageBoardSection
+                    description: The section's creator.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the MessageBoardSection.
+                    description: The date the section was created.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the MessageBoardSection changed.
+                    description: The last time the section was changed.
                     format: date-time
                     readOnly: true
                     type: string
                 description:
-                    description: The description of the MessageBoardSection
+                    description: The section's description.
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The section's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 numberOfMessageBoardSections:
-                    description: The number of child MessageBoardSections that belong to this MessageBoardSection.
+                    description: The number of this section's child sections.
                     readOnly: true
                     type: integer
                 numberOfMessageBoardThreads:
-                    description: The number of MessageBoardThreads that belong to this MessageBoardSection.
+                    description: The number of message board threads in this section.
                     readOnly: true
                     type: integer
                 siteId:
-                    description: The site identifier where this MessageBoardSection is scoped.
+                    description: The ID of the site to which this section is scoped.
                     format: int64
                     readOnly: true
                     type: integer
                 title:
-                    description: The title of the resource.
+                    description: The section's main title.
                     type: string
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
@@ -1004,70 +986,69 @@ components:
                 - title
             type: object
         MessageBoardThread:
-            #@review
-            description: A thread inside a forum, internally modelled with the MBThread class.
+            description: Represents a discussion thread in a message board.
             properties:
                 aggregateRating:
                     allOf:
                         - $ref: "#/components/schemas/AggregateRating"
-                    description: The information of the ratings (average, number) associated with this resource.
+                    description: The thread's average rating.
                     readOnly: true
                 articleBody:
-                    description: The main content of the thread, the message written as description of the thread.
+                    description: The thread's main body content (the message written as the thread's description).
                     type: string
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the MessageBoardThread
+                    description: The thread's creator.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the MessageBoardThread.
+                    description: The date the thread was created.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the MessageBoardThread changed.
+                    description: The last time any field of the thread changed.
                     format: date-time
                     readOnly: true
                     type: string
                 encodingFormat:
-                    description: The media format of the content (html, bbcode...).
+                    description: The media format of the thread's content (e.g., HTML, BBCode, etc.).
                     readOnly: true
                     type: string
                 headline:
-                    description: The title of the thread.
+                    description: The thread's main title.
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The thread's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 keywords:
-                    description: A list of keywords describing the MessageBoardThread.
+                    description: A list of keywords describing the thread.
                     items:
                         type: string
                     type: array
                 numberOfMessageBoardAttachments:
-                    description: The number of attachments associated with the MessageBoardThread.
+                    description: The number of the thread's attachments.
                     readOnly: true
                     type: integer
                 numberOfMessageBoardMessages:
-                    description: The number of MessageBoardMessages associated with the MessageBoardThread.
+                    description: The number of the thread's messages.
                     readOnly: true
                     type: integer
                 showAsQuestion:
-                    description: A flag indicating that this thread is posting a question that can receive approved answers.
+                    description: A flag that indicates whether this thread was posted a question that can receive aproved answers.
                     type: boolean
                 siteId:
-                    description: The site identifier where this MessageBoardThread is scoped.
+                    description: The ID of the site to which this thread is scoped.
                     format: int64
                     readOnly: true
                     type: integer
                 threadType:
-                    description: The type of the thread.
+                    description: The thread's type.
                     type: string
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the thread's default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
@@ -1075,117 +1056,115 @@ components:
                 - headline
             type: object
         Rating:
-            #@review
-            description: Represents a score received by any kind of asset. Properties follow https://schema.org/Rating specification.
+            description: Represents a rating/score received by any kind of asset. Properties follow the [Rating](https://schema.org/Rating) specification.
             properties:
                 bestRating:
-                    description: The best possible rating a content can receive, by default normalized to 1.0.
+                    description: The best possible rating an asset can receive (normalized to 1.0 by default).
                     format: double
                     readOnly: true
                     type: number
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the Rating
+                    description: The rating's creator.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the Rating.
+                    description: The rating's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the Rating changed.
+                    description: The last time a field of the rating changed.
                     format: date-time
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The rating's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 ratingValue:
-                    description: The value of the Rating.
+                    description: The rating's value.
                     format: double
                     type: number
                 worstRating:
-                    description: The worst possible rating a content can receive, by default normalized to 0.0.
+                    description: The worst possible rating an asset can receive (normalized to 0.0 by default).
                     format: double
                     readOnly: true
                     type: number
             type: object
         StructuredContent:
-            #@review
-            description: A content with fields and rendered by a template backed by a ContentStructure. Internally modeled as a JournalArticle.
+            description: Represents content that has fields and is rendered by a template backed by a `ContentStructure`. Internally modeled as a `JournalArticle`.
             properties:
                 aggregateRating:
                     allOf:
                         - $ref: "#/components/schemas/AggregateRating"
-                    description: The information of the ratings (average, number) associated with this resource.
+                    description: The structured content's average rating.
                     readOnly: true
                 availableLanguages:
-                    description: A list of languages the content has a translation for.
+                    description: The list of languages the structured content has a translation for.
                     items:
                         type: string
                     readOnly: true
                     type: array
                 contentFields:
-                    description: A list of fields that store the information of the StructuredContent.
+                    description: The list of fields that store the structured content's information.
                     items:
                         $ref: "#/components/schemas/ContentField"
                     type: array
                 contentStructureId:
-                    description: The identifier of the ContentStructure.
+                    description: The ID of the `ContentStructure`.
                     format: int64
                     type: integer
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the StructuredContent
+                    description: The structured content's creator.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the StructuredContent.
+                    description: The structured content's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the StructuredContent changed.
+                    description: The last time any field of the structured content was changed.
                     format: date-time
                     readOnly: true
                     type: string
                 datePublished:
-                    description: The date when this version of the StructuredContent was published.
+                    description: The structured content's most recent pubulication date.
                     format: date-time
                     type: string
                 description:
-                    description: The description of the StructuredContent
+                    description: The structured content's description.
                     type: string
                 friendlyUrlPath:
-                    description: A relative URL to the rendered content of the StructuredContent.
+                    description: A relative URL to the structured content's rendered content.
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The structured content's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 key:
-                    description: An identifier, indepedent of the database, that can be used to reference the resource.
+                    description: An identifier, indepedent of the database, that can be used to reference the structured content.
                     readOnly: true
                     type: string
                 keywords:
-                    description: A list of keywords describing the StructuredContent.
+                    description: A list of keywords describing the structured content.
                     items:
                         type: string
                     type: array
                 numberOfComments:
-                    description: The number of comments this StructuredContent has received.
+                    description: The number of comments the structured content has received.
                     readOnly: true
                     type: integer
                 renderedContents:
-                    description: A list of rendered StructuredContents, the result of using a template to process the content, returning html.
+                    description: A list of rendered structured content, which results from using a template to process the content and return HTML.
                     items:
                         properties:
                             renderedContentURL:
-                                description: An absolute URL to the binary image.
+                                description: An absolute URL to the rendered content.
                                 format: uri
                                 type: string
                             templateName:
@@ -1195,40 +1174,40 @@ components:
                     readOnly: true
                     type: array
                 siteId:
-                    description: The site identifier where this StructuredContent is scoped.
+                    description: The ID of the site to which this structured content is scoped.
                     format: int64
                     readOnly: true
                     type: integer
                 taxonomyCategories:
-                    description: The categories associated with this StructuredContent.
+                    description: The categories asociated with this structured content.
                     items:
                         properties:
                             taxonomyCategoryId:
-                                description: The id of the category, can be used to retrieve more information in the TaxonomyCategory API.
+                                description: The category's ID, which can be used to retrieve more information via the `TaxonomyCategory` API.
                                 format: int64
                                 type: integer
                             taxonomyCategoryName:
-                                description: The name of the category.
+                                description: The category's name.
                                 type: string
                         type: object
                     readOnly: true
                     type: array
                 taxonomyCategoryIds:
-                    description: A write only field to add TaxonomyCategory to this resource.
+                    description: A write-only field to add a category to this structured content.
                     items:
                         format: int64
                         type: integer
                     type: array
                     writeOnly: true
                 title:
-                    description: The title of the StructuredContent.
+                    description: The structured content's main title.
                     type: string
                 uuid:
-                    description: A valid external identifier to reference this content.
+                    description: A valid external identifier to reference this structured content.
                     readOnly: true
                     type: string
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the structured content's default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
@@ -1236,50 +1215,49 @@ components:
                 - contentStructureId
                 - title
         StructuredContentFolder:
-            #@review
-            description: https://www.schema.org/StructuredContentFolder
+            description: Represents a folder that can be used to organize structured content.
             properties:
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the StructuredContentFolder
+                    description: The folder's creator.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the StructuredContentFolder.
+                    description: The date the folder was created.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the StructuredContentFolder changed.
+                    description: The last time any of the folder's fields changed.
                     format: date-time
                     readOnly: true
                     type: string
                 description:
-                    description: The description of the StructuredContentFolder
+                    description: The folder's description.
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The folder's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The name of the StructuredContentFolder.
+                    description: The folder's name.
                     type: string
                 numberOfStructuredContentFolders:
-                    description: The number of child StructuredContentFolders that belong to this resource.
+                    description: The number of structured content folders inside this folder.
                     readOnly: true
                     type: integer
                 numberOfStructuredContents:
-                    description: The number of StructuredContents that are stored in this StructuredContentFolder.
+                    description: The number of structured content objects inside this folder.
                     readOnly: true
                     type: integer
                 siteId:
-                    description: The site identifier where this StructuredContentFolder is scoped.
+                    description: The ID of the site to which this folder is scoped.
                     format: int64
                     readOnly: true
                     type: integer
                 viewableBy:
-                    description: Write only property to specify the default permissions.
+                    description: A write-only property that specifies the folder's default permissions.
                     enum: [Anyone, Members, Owner]
                     type: string
                     writeOnly: true
