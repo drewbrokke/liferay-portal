@@ -160,17 +160,11 @@ public class NumericFieldType extends BaseFieldType {
 	}
 
 	private static DecimalFormat _getNumberFormat(Locale locale) {
-		DecimalFormat formatter = _decimalFormattersMap.get(locale);
+		DecimalFormat formatter = (DecimalFormat)DecimalFormat.getInstance(locale);
 
-		if (formatter == null) {
-			formatter = (DecimalFormat)DecimalFormat.getInstance(locale);
-
-			formatter.setGroupingUsed(false);
-			formatter.setMaximumFractionDigits(Integer.MAX_VALUE);
-			formatter.setParseBigDecimal(true);
-
-			_decimalFormattersMap.put(locale, formatter);
-		}
+		formatter.setGroupingUsed(false);
+		formatter.setMaximumFractionDigits(Integer.MAX_VALUE);
+		formatter.setParseBigDecimal(true);
 
 		return formatter;
 	}
@@ -192,8 +186,5 @@ public class NumericFieldType extends BaseFieldType {
 
 		return symbolsMap;
 	}
-
-	private static final Map<Locale, DecimalFormat> _decimalFormattersMap =
-		new ConcurrentHashMap<>();
 
 }
