@@ -185,16 +185,11 @@ public class FragmentEntryLinkRichTextEditorConfigContributor
 	}
 
 	protected JSONObject getStyleFormatsJSONObject(Locale locale) {
-		JSONObject stylesJSONObject = JSONFactoryUtil.createJSONObject();
-
-		stylesJSONObject.put("styles", getStyleFormatsJSONArray(locale));
-
-		JSONObject styleFormatsJSONObject = JSONFactoryUtil.createJSONObject();
-
-		styleFormatsJSONObject.put("cfg", stylesJSONObject);
-		styleFormatsJSONObject.put("name", "styles");
-
-		return styleFormatsJSONObject;
+		return JSONUtil.put(
+			"cfg", JSONUtil.put("styles", getStyleFormatsJSONArray(locale))
+		).put(
+			"name", "styles"
+		);
 	}
 
 	protected JSONObject getStyleJSONObject(
