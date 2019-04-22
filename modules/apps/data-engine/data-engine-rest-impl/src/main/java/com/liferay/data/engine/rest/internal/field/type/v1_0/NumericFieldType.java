@@ -17,7 +17,6 @@ package com.liferay.data.engine.rest.internal.field.type.v1_0;
 import com.liferay.data.engine.rest.dto.v1_0.DataDefinitionField;
 import com.liferay.data.engine.rest.internal.dto.v1_0.util.LocalizedValueUtil;
 import com.liferay.data.engine.rest.internal.field.type.v1_0.util.CustomPropertyUtil;
-import com.liferay.data.engine.rest.internal.field.type.v1_0.util.NumericFieldUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.template.soy.data.SoyDataFactory;
 
@@ -25,6 +24,19 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Gabriel Albuquerque
@@ -111,7 +123,7 @@ public class NumericFieldType extends BaseFieldType {
 					dataDefinitionField.getCustomProperties(), "placeholder")));
 		context.put(
 			"predefinedValue",
-			NumericFieldUtil.getFormattedValue(
+			_getFormattedValue(
 				LocalizedValueUtil.getLocalizedValue(
 					httpServletRequest.getLocale(),
 					CustomPropertyUtil.getLocalizedValue(
@@ -120,7 +132,7 @@ public class NumericFieldType extends BaseFieldType {
 				httpServletRequest.getLocale()));
 		context.put(
 			"symbols",
-			NumericFieldUtil.getSymbolsMap(httpServletRequest.getLocale()));
+			_getSymbolsMap(httpServletRequest.getLocale()));
 		context.put(
 			"tooltip",
 			LocalizedValueUtil.getLocalizedValue(
@@ -129,10 +141,59 @@ public class NumericFieldType extends BaseFieldType {
 					dataDefinitionField.getCustomProperties(), "tooltip")));
 		context.put(
 			"value",
-			NumericFieldUtil.getFormattedValue(
+			_getFormattedValue(
 				CustomPropertyUtil.getString(
 					dataDefinitionField.getCustomProperties(), "value"),
 				httpServletRequest.getLocale()));
 	}
+
+	private static String _getFormattedValue(Object value, Locale locale) {
+		if (Validator.isNull(value) ||
+			StringUtil.equals((String)value, "NaN")) {
+
+			return StringPool.BLANK;
+		}
+
+		DecimalFormat numberFormat = _getNumberFormat(locale);
+
+		return numberFormat.format(GetterUtil.getNumber(value));
+	}
+
+	private static DecimalFormat _getNumberFormat(Locale locale) {
+		DecimalFormat formatter = _decimalFormattersMap.get(locale);
+
+		if (formatter == null) {
+			formatter = (DecimalFormat)DecimalFormat.getInstance(locale);
+
+			formatter.setGroupingUsed(false);
+			formatter.setMaximumFractionDigits(Integer.MAX_VALUE);
+			formatter.setParseBigDecimal(true);
+
+			_decimalFormattersMap.put(locale, formatter);
+		}
+
+		return formatter;
+	}
+
+	private static Map<String, String> _getSymbolsMap(Locale locale) {
+		DecimalFormat formatter = _getNumberFormat(locale);
+
+		DecimalFormatSymbols decimalFormatSymbols =
+			formatter.getDecimalFormatSymbols();
+
+		Map<String, String> symbolsMap = new HashMap<>();
+
+		symbolsMap.put(
+			"decimalSymbol",
+			String.valueOf(decimalFormatSymbols.getDecimalSeparator()));
+		symbolsMap.put(
+			"thousandsSeparator",
+			String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
+
+		return symbolsMap;
+	}
+
+	private static final Map<Locale, DecimalFormat> _decimalFormattersMap =
+		new ConcurrentHashMap<>();
 
 }
