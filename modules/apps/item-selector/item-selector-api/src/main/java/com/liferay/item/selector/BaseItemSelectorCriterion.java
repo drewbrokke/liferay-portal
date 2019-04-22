@@ -14,6 +14,7 @@
 
 package com.liferay.item.selector;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,6 +26,14 @@ public abstract class BaseItemSelectorCriterion
 	@Override
 	public List<ItemSelectorReturnType> getDesiredItemSelectorReturnTypes() {
 		return _desiredItemSelectorReturnTypes;
+	}
+
+	@Override
+	public void setDesiredItemSelectorReturnTypes(
+		ItemSelectorReturnType... desiredItemSelectorReturnType) {
+
+		_desiredItemSelectorReturnTypes = Arrays.asList(
+			desiredItemSelectorReturnType);
 	}
 
 	@Override

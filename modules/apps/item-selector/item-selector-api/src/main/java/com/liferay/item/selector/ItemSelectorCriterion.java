@@ -60,6 +60,9 @@ public interface ItemSelectorCriterion {
 	 */
 	public List<ItemSelectorReturnType> getDesiredItemSelectorReturnTypes();
 
+	public void setDesiredItemSelectorReturnTypes(
+		ItemSelectorReturnType... desiredItemSelectorReturnType);
+
 	/**
 	 * Sets a list of desired return types that the caller expects and can
 	 * handle, ordered by preference.

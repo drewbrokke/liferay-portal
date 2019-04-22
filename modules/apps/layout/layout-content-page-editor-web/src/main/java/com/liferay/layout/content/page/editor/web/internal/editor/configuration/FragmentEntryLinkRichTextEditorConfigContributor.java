@@ -38,7 +38,6 @@ import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -292,7 +291,7 @@ public class FragmentEntryLinkRichTextEditorConfigContributor
 			new URLItemSelectorCriterion();
 
 		urlItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			Arrays.as(new URLItemSelectorReturnType()));
+			new URLItemSelectorReturnType());
 
 		return urlItemSelectorCriterion;
 	}
