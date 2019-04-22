@@ -67,8 +67,6 @@ portletDisplay.setShowBackIcon(true);
 portletDisplay.setURLBack(portletURL.toString());
 
 renderResponse.setTitle(categoryDisplayName);
-
-List<ConfigurationMenuItem> configurationMenuItems = (List<ConfigurationMenuItem>)request.getAttribute(ConfigurationAdminWebKeys.CONFIGURATION_MENU_ITEMS);
 %>
 
 <liferay-ui:error exception="<%= ConfigurationModelListenerException.class %>">
@@ -177,6 +175,10 @@ List<ConfigurationMenuItem> configurationMenuItems = (List<ConfigurationMenuItem
 										url="<%= exportURL %>"
 									/>
 								</c:if>
+
+								<%
+								List<ConfigurationMenuItem> configurationMenuItems = (List<ConfigurationMenuItem>)request.getAttribute(ConfigurationAdminWebKeys.CONFIGURATION_MENU_ITEMS);
+								%>
 
 								<c:if test="<%= ListUtil.isNotEmpty(configurationMenuItems) %>">
 
