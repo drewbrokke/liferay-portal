@@ -128,11 +128,10 @@ public class NumericFieldType extends BaseFieldType {
 					httpServletRequest.getLocale(),
 					CustomPropertyUtil.getLocalizedValue(
 						dataDefinitionField.getCustomProperties(),
-						"predefinedValue")),
-				httpServletRequest.getLocale()));
+						"predefinedValue"))));
 		context.put(
 			"symbols",
-			_getSymbolsMap(httpServletRequest.getLocale()));
+			_getSymbolsMap());
 		context.put(
 			"tooltip",
 			LocalizedValueUtil.getLocalizedValue(
@@ -143,24 +142,24 @@ public class NumericFieldType extends BaseFieldType {
 			"value",
 			_getFormattedValue(
 				CustomPropertyUtil.getString(
-					dataDefinitionField.getCustomProperties(), "value"),
-				httpServletRequest.getLocale()));
+					dataDefinitionField.getCustomProperties(), "value")));
 	}
 
-	private static String _getFormattedValue(Object value, Locale locale) {
+	private String _getFormattedValue(Object value) {
 		if (Validator.isNull(value) ||
 			StringUtil.equals((String)value, "NaN")) {
 
 			return StringPool.BLANK;
 		}
 
-		DecimalFormat numberFormat = _getDecimalFormat(locale);
+		DecimalFormat numberFormat = _getDecimalFormat();
 
 		return numberFormat.format(GetterUtil.getNumber(value));
 	}
 
-	private static DecimalFormat _getDecimalFormat(Locale locale) {
-		DecimalFormat decimalFormat = (DecimalFormat)DecimalFormat.getInstance(locale);
+	private DecimalFormat _getDecimalFormat() {
+		DecimalFormat decimalFormat = (DecimalFormat)DecimalFormat.getInstance(
+			httpServletRequest.getLocale());
 
 		decimalFormat.setGroupingUsed(false);
 		decimalFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
@@ -169,8 +168,8 @@ public class NumericFieldType extends BaseFieldType {
 		return decimalFormat;
 	}
 
-	private static Map<String, String> _getSymbolsMap(Locale locale) {
-		DecimalFormat decimalFormat = _getDecimalFormat(locale);
+	private Map<String, String> _getSymbolsMap() {
+		DecimalFormat decimalFormat = _getDecimalFormat();
 
 		DecimalFormatSymbols decimalFormatSymbols =
 			decimalFormat.getDecimalFormatSymbols();
