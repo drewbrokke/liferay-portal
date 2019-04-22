@@ -152,9 +152,9 @@ public class NumericFieldType extends BaseFieldType {
 			return StringPool.BLANK;
 		}
 
-		DecimalFormat numberFormat = _getDecimalFormat();
+		DecimalFormat decimalFormat = _getDecimalFormat();
 
-		return numberFormat.format(GetterUtil.getNumber(value));
+		return decimalFormat.format(GetterUtil.getNumber(value));
 	}
 
 	private DecimalFormat _getDecimalFormat() {
