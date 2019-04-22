@@ -138,51 +138,40 @@ public abstract class BaseWikiAttachmentImageEditorConfigContributor
 		uploadURL.setParameter(
 			"resourcePrimKey", String.valueOf(wikiPageResourcePrimKey));
 
-		ItemSelectorCriterion uploadItemSelectorCriterion =
+		ItemSelectorCriterion itemSelectorCriterion =
 			new UploadItemSelectorCriterion(
 				WikiPortletKeys.WIKI, uploadURL.toString(),
 				LanguageUtil.get(themeDisplay.getLocale(), "page-attachments"));
 
-		List<ItemSelectorReturnType> uploadDesiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		uploadDesiredItemSelectorReturnTypes.add(
+		itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
 			new FileEntryItemSelectorReturnType());
 
-		uploadItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			uploadDesiredItemSelectorReturnTypes);
-
-		return uploadItemSelectorCriterion;
+		return itemSelectorCriterion;
 	}
 
 	protected ItemSelectorCriterion getURLItemSelectorCriterion() {
-		ItemSelectorCriterion urlItemSelectorCriterion =
+		ItemSelectorCriterion itemSelectorCriterion =
 			new URLItemSelectorCriterion();
 
-		List<ItemSelectorReturnType> urlDesiredItemSelectorReturnTypes =
-			new ArrayList<>();
+		itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+			 new URLItemSelectorReturnType());
 
-		urlDesiredItemSelectorReturnTypes.add(new URLItemSelectorReturnType());
-
-		urlItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			urlDesiredItemSelectorReturnTypes);
-
-		return urlItemSelectorCriterion;
+		return itemSelectorCriterion;
 	}
 
 	protected ItemSelectorCriterion getWikiAttachmentItemSelectorCriterion(
 		long wikiPageResourcePrimKey,
 		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes) {
 
-		ItemSelectorCriterion attachmentItemSelectorCriterion =
+		ItemSelectorCriterion itemSelectorCriterion =
 			new WikiAttachmentItemSelectorCriterion(
 				wikiPageResourcePrimKey,
 				PropsValues.DL_FILE_ENTRY_PREVIEW_IMAGE_MIME_TYPES);
 
-		attachmentItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+		itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
 			desiredItemSelectorReturnTypes);
 
-		return attachmentItemSelectorCriterion;
+		return itemSelectorCriterion;
 	}
 
 }
