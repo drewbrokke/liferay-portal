@@ -131,7 +131,7 @@ public class NumericFieldType extends BaseFieldType {
 						"predefinedValue"))));
 		context.put(
 			"symbols",
-			_getSymbolsMap());
+			_getSymbols());
 		context.put(
 			"tooltip",
 			LocalizedValueUtil.getLocalizedValue(
@@ -168,7 +168,7 @@ public class NumericFieldType extends BaseFieldType {
 		return decimalFormat;
 	}
 
-	private Map<String, String> _getSymbolsMap() {
+	private Map<String, String> _getSymbols() {
 		DecimalFormat decimalFormat = _getDecimalFormat();
 
 		DecimalFormatSymbols decimalFormatSymbols =
