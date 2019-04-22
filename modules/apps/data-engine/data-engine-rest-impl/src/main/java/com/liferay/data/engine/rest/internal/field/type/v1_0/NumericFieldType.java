@@ -160,20 +160,20 @@ public class NumericFieldType extends BaseFieldType {
 	}
 
 	private static DecimalFormat _getNumberFormat(Locale locale) {
-		DecimalFormat formatter = (DecimalFormat)DecimalFormat.getInstance(locale);
+		DecimalFormat decimalFormat = (DecimalFormat)DecimalFormat.getInstance(locale);
 
-		formatter.setGroupingUsed(false);
-		formatter.setMaximumFractionDigits(Integer.MAX_VALUE);
-		formatter.setParseBigDecimal(true);
+		decimalFormat.setGroupingUsed(false);
+		decimalFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+		decimalFormat.setParseBigDecimal(true);
 
-		return formatter;
+		return decimalFormat;
 	}
 
 	private static Map<String, String> _getSymbolsMap(Locale locale) {
-		DecimalFormat formatter = _getNumberFormat(locale);
+		DecimalFormat decimalFormat = _getNumberFormat(locale);
 
 		DecimalFormatSymbols decimalFormatSymbols =
-			formatter.getDecimalFormatSymbols();
+			decimalFormat.getDecimalFormatSymbols();
 
 		Map<String, String> symbolsMap = new HashMap<>();
 
