@@ -68,7 +68,6 @@
 					%>
 
 				</div>
-
 			</liferay-frontend:fieldset>
 		</liferay-frontend:fieldset-group>
 	</liferay-frontend:edit-form-body>
