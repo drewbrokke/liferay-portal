@@ -716,8 +716,9 @@ public class JournalArticleActionDropdownItemsProvider {
 		return dropdownItem -> {
 			dropdownItem.setHref(
 				_liferayPortletResponse.createRenderURL(), "mvcPath",
-				"/view_usages.jsp", "redirect", _getRedirect(), "groupId",
-				_article.getGroupId(), "articleId", _article.getArticleId());
+				"/view_asset_entry_usages.jsp", "redirect", _getRedirect(),
+				"groupId", _article.getGroupId(), "articleId",
+				_article.getArticleId());
 			dropdownItem.setLabel(LanguageUtil.get(_request, "view-usages"));
 		};
 	}
