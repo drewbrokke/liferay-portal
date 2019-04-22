@@ -154,12 +154,12 @@ public class NumericFieldType extends BaseFieldType {
 			return StringPool.BLANK;
 		}
 
-		DecimalFormat numberFormat = _getNumberFormat(locale);
+		DecimalFormat numberFormat = _getDecimalFormat(locale);
 
 		return numberFormat.format(GetterUtil.getNumber(value));
 	}
 
-	private static DecimalFormat _getNumberFormat(Locale locale) {
+	private static DecimalFormat _getDecimalFormat(Locale locale) {
 		DecimalFormat decimalFormat = (DecimalFormat)DecimalFormat.getInstance(locale);
 
 		decimalFormat.setGroupingUsed(false);
@@ -170,7 +170,7 @@ public class NumericFieldType extends BaseFieldType {
 	}
 
 	private static Map<String, String> _getSymbolsMap(Locale locale) {
-		DecimalFormat decimalFormat = _getNumberFormat(locale);
+		DecimalFormat decimalFormat = _getDecimalFormat(locale);
 
 		DecimalFormatSymbols decimalFormatSymbols =
 			decimalFormat.getDecimalFormatSymbols();
