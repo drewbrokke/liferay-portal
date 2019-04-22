@@ -88,7 +88,7 @@ public class ItemSelectorCriterionHandlerTest {
 				new TestItemSelectorCriterion();
 
 			itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-				Arrays.asList(new TestItemSelectorReturnType()));
+				Arraysnew TestItemSelectorReturnType());
 
 			List<ItemSelectorView<TestItemSelectorCriterion>>
 				itemSelectorViews =

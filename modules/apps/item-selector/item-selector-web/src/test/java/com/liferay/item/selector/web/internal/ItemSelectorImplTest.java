@@ -35,7 +35,6 @@ import com.liferay.portal.model.impl.GroupImpl;
 import com.liferay.portal.util.HttpImpl;
 import com.liferay.portal.util.PortalImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,13 +56,8 @@ public class ItemSelectorImplTest extends PowerMockito {
 	public void setUp() {
 		_flickrItemSelectorCriterion = new FlickrItemSelectorCriterion();
 
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		desiredItemSelectorReturnTypes.add(_testURLItemSelectorReturnType);
-
 		_flickrItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			desiredItemSelectorReturnTypes);
+			_testURLItemSelectorReturnType);
 
 		_itemSelectorImpl = new ItemSelectorImpl();
 
@@ -87,14 +81,9 @@ public class ItemSelectorImplTest extends PowerMockito {
 		_mediaItemSelectorCriterion.setFileExtension("jpg");
 		_mediaItemSelectorCriterion.setMaxSize(2048);
 
-		desiredItemSelectorReturnTypes = new ArrayList<>();
-
-		desiredItemSelectorReturnTypes.add(
-			new TestFileEntryItemSelectorReturnType());
-		desiredItemSelectorReturnTypes.add(_testURLItemSelectorReturnType);
-
 		_mediaItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			desiredItemSelectorReturnTypes);
+			new TestFileEntryItemSelectorReturnType(),
+			_testURLItemSelectorReturnType);
 
 		HttpUtil httpUtil = new HttpUtil();
 

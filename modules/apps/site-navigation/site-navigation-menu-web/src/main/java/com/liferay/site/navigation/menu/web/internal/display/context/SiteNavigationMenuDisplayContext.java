@@ -15,7 +15,7 @@
 package com.liferay.site.navigation.menu.web.internal.display.context;
 
 import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.ItemSelectorReturnType;
+import com.liferay.item.selector.ItemSelectorCriterion;
 import com.liferay.item.selector.criteria.UUIDItemSelectorReturnType;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -34,9 +34,6 @@ import com.liferay.site.navigation.menu.web.configuration.SiteNavigationMenuPort
 import com.liferay.site.navigation.menu.web.internal.constants.SiteNavigationMenuWebKeys;
 import com.liferay.site.navigation.model.SiteNavigationMenu;
 import com.liferay.site.navigation.service.SiteNavigationMenuLocalServiceUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.portlet.PortletURL;
 
@@ -188,21 +185,15 @@ public class SiteNavigationMenuDisplayContext {
 		ItemSelector itemSelector = (ItemSelector)_request.getAttribute(
 			SiteNavigationMenuWebKeys.ITEM_SELECTOR);
 
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-			new ArrayList<>();
+		ItemSelectorCriterion itemSelectorCriterion =
+			new SiteNavigationMenuItemItemSelectorCriterion();
 
-		desiredItemSelectorReturnTypes.add(new UUIDItemSelectorReturnType());
-
-		SiteNavigationMenuItemItemSelectorCriterion
-			siteNavigationMenuItemItemSelectorCriterion =
-				new SiteNavigationMenuItemItemSelectorCriterion();
-
-		siteNavigationMenuItemItemSelectorCriterion.
-			setDesiredItemSelectorReturnTypes(desiredItemSelectorReturnTypes);
+		itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+			new UUIDItemSelectorReturnType());
 
 		PortletURL itemSelectorURL = itemSelector.getItemSelectorURL(
 			RequestBackedPortletURLFactoryUtil.create(_request), eventName,
-			siteNavigationMenuItemItemSelectorCriterion);
+			itemSelectorCriterion);
 
 		return itemSelectorURL.toString();
 	}
@@ -307,21 +298,15 @@ public class SiteNavigationMenuDisplayContext {
 		ItemSelector itemSelector = (ItemSelector)_request.getAttribute(
 			SiteNavigationMenuWebKeys.ITEM_SELECTOR);
 
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-			new ArrayList<>();
+		ItemSelectorCriterion itemSelectorCriterion =
+			new SiteNavigationMenuItemSelectorCriterion();
 
-		desiredItemSelectorReturnTypes.add(new UUIDItemSelectorReturnType());
-
-		SiteNavigationMenuItemSelectorCriterion
-			siteNavigationMenuItemSelectorCriterion =
-				new SiteNavigationMenuItemSelectorCriterion();
-
-		siteNavigationMenuItemSelectorCriterion.
-			setDesiredItemSelectorReturnTypes(desiredItemSelectorReturnTypes);
+		itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+			new UUIDItemSelectorReturnType());
 
 		PortletURL itemSelectorURL = itemSelector.getItemSelectorURL(
 			RequestBackedPortletURLFactoryUtil.create(_request), eventName,
-			siteNavigationMenuItemSelectorCriterion);
+			itemSelectorCriterion);
 
 		return itemSelectorURL.toString();
 	}

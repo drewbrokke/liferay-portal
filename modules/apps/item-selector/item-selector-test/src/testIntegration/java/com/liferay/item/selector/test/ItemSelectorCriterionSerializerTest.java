@@ -85,7 +85,7 @@ public class ItemSelectorCriterionSerializerTest {
 				new TestItemSelectorCriterion();
 
 			itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-				Arrays.asList(new TestItemSelectorReturnType()));
+				new TestItemSelectorReturnType());
 
 			String serializedItemSelectorCriterionJSON =
 				_itemSelectorCriterionSerializer.serialize(

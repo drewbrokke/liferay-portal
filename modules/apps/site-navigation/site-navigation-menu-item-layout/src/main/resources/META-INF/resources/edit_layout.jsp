@@ -70,15 +70,11 @@ String eventName = renderResponse.getNamespace() + "selectLayout";
 
 ItemSelector itemSelector = (ItemSelector)request.getAttribute(SiteNavigationMenuItemTypeLayoutWebKeys.ITEM_SELECTOR);
 
-LayoutItemSelectorCriterion layoutItemSelectorCriterion = new LayoutItemSelectorCriterion();
+ItemSelectorCriterion itemSelectorCriterion = new LayoutItemSelectorCriterion();
 
-List<ItemSelectorReturnType> desiredItemSelectorReturnTypes = new ArrayList<ItemSelectorReturnType>();
+itemSelectorCriterion.setDesiredItemSelectorReturnTypes(new UUIDItemSelectorReturnType());
 
-desiredItemSelectorReturnTypes.add(new UUIDItemSelectorReturnType());
-
-layoutItemSelectorCriterion.setDesiredItemSelectorReturnTypes(desiredItemSelectorReturnTypes);
-
-PortletURL itemSelectorURL = itemSelector.getItemSelectorURL(RequestBackedPortletURLFactoryUtil.create(renderRequest), eventName, layoutItemSelectorCriterion);
+PortletURL itemSelectorURL = itemSelector.getItemSelectorURL(RequestBackedPortletURLFactoryUtil.create(renderRequest), eventName, itemSelectorCriterion);
 
 if (selLayout != null) {
 	itemSelectorURL.setParameter("layoutUuid", selLayout.getUuid());

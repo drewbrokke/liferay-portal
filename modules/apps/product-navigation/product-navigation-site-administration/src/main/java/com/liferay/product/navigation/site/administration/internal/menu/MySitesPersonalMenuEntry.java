@@ -15,6 +15,7 @@
 package com.liferay.product.navigation.site.administration.internal.menu;
 
 import com.liferay.item.selector.ItemSelector;
+import com.liferay.item.selector.ItemSelectorCriterion;
 import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -76,20 +77,15 @@ public class MySitesPersonalMenuEntry implements PersonalMenuEntry {
 
 		String eventName = namespace + "selectSite";
 
-		SiteItemSelectorCriterion siteItemSelectorCriterion =
+		ItemSelectorCriterion itemSelectorCriterion =
 			new SiteItemSelectorCriterion();
 
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		desiredItemSelectorReturnTypes.add(new URLItemSelectorReturnType());
-
-		siteItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			desiredItemSelectorReturnTypes);
+		itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+			new URLItemSelectorReturnType());
 
 		PortletURL itemSelectorURL = _itemSelector.getItemSelectorURL(
 			RequestBackedPortletURLFactoryUtil.create(request), eventName,
-			siteItemSelectorCriterion);
+			itemSelectorCriterion);
 
 		StringBuilder sb = new StringBuilder(11);
 

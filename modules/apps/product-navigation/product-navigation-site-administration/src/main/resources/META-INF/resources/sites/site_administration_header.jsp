@@ -41,15 +41,11 @@ PanelCategory panelCategory = siteAdministrationPanelCategoryDisplayContext.getP
 
 	ItemSelector itemSelector = (ItemSelector)request.getAttribute(SiteAdministrationWebKeys.ITEM_SELECTOR);
 
-	SiteItemSelectorCriterion siteItemSelectorCriterion = new SiteItemSelectorCriterion();
+	ItemSelectorCriterion itemSelectorCriterion = new SiteItemSelectorCriterion();
 
-	List<ItemSelectorReturnType> desiredItemSelectorReturnTypes = new ArrayList<ItemSelectorReturnType>();
+	itemSelectorCriterion.setDesiredItemSelectorReturnTypes(new URLItemSelectorReturnType());
 
-	desiredItemSelectorReturnTypes.add(new URLItemSelectorReturnType());
-
-	siteItemSelectorCriterion.setDesiredItemSelectorReturnTypes(desiredItemSelectorReturnTypes);
-
-	PortletURL itemSelectorURL = itemSelector.getItemSelectorURL(RequestBackedPortletURLFactoryUtil.create(liferayPortletRequest), eventName, siteItemSelectorCriterion);
+	PortletURL itemSelectorURL = itemSelector.getItemSelectorURL(RequestBackedPortletURLFactoryUtil.create(liferayPortletRequest), eventName, itemSelectorCriterion);
 	%>
 
 	<aui:script sandbox="<%= true %>">

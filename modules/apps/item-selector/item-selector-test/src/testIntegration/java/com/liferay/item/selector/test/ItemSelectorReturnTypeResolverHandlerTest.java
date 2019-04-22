@@ -97,7 +97,7 @@ public class ItemSelectorReturnTypeResolverHandlerTest {
 				new TestItemSelectorCriterion();
 
 			testItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-				Arrays.asList(new TestItemSelectorReturnType()));
+				new TestItemSelectorReturnType());
 
 			ItemSelectorReturnTypeResolver itemSelectorReturnTypeResolver =
 				_itemSelectorReturnTypeResolverHandler.
