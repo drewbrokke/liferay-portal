@@ -216,21 +216,21 @@ public class SiteNavigationMenuServiceTest {
 	public void testGetSiteNavigationMenuByCreateDateComparatorAndKeywordsAsc()
 		throws Exception {
 
-		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime localDateTime = LocalDateTime.now();
 
 		SiteNavigationMenu siteNavigationMenu =
 			SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-				_group, Timestamp.valueOf(now), "CC Name");
+				_group, Timestamp.valueOf(localDateTime), "CC Name");
 
-		now = now.plus(1, ChronoUnit.SECONDS);
-
-		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-			_group, Timestamp.valueOf(now), "BB");
-
-		now = now.plus(1, ChronoUnit.SECONDS);
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
 
 		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-			_group, Timestamp.valueOf(now), "AA Name");
+			_group, Timestamp.valueOf(localDateTime), "BB");
+
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
+
+		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
+			_group, Timestamp.valueOf(localDateTime), "AA Name");
 
 		SiteNavigationMenuCreateDateComparator
 			siteNavigationMenuCreateDateComparator =
@@ -250,21 +250,21 @@ public class SiteNavigationMenuServiceTest {
 	public void testGetSiteNavigationMenuByCreateDateComparatorAndKeywordsDesc()
 		throws Exception {
 
-		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime localDateTime = LocalDateTime.now();
 
 		SiteNavigationMenu siteNavigationMenu =
 			SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-				_group, Timestamp.valueOf(now), "CC Name");
+				_group, Timestamp.valueOf(localDateTime), "CC Name");
 
-		now = now.plus(1, ChronoUnit.SECONDS);
-
-		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-			_group, Timestamp.valueOf(now), "BB");
-
-		now = now.plus(1, ChronoUnit.SECONDS);
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
 
 		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-			_group, Timestamp.valueOf(now), "AA Name");
+			_group, Timestamp.valueOf(localDateTime), "BB");
+
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
+
+		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
+			_group, Timestamp.valueOf(localDateTime), "AA Name");
 
 		SiteNavigationMenuCreateDateComparator
 			siteNavigationMenuCreateDateComparator =
@@ -306,21 +306,21 @@ public class SiteNavigationMenuServiceTest {
 	public void testGetSiteNavigationMenusByCreateDateComparatorAsc()
 		throws Exception {
 
-		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime localDateTime = LocalDateTime.now();
 
 		SiteNavigationMenu siteNavigationMenu =
 			SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-				_group, Timestamp.valueOf(now), "CC Name");
+				_group, Timestamp.valueOf(localDateTime), "CC Name");
 
-		now = now.plus(1, ChronoUnit.SECONDS);
-
-		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-			_group, Timestamp.valueOf(now), "BB Name");
-
-		now = now.plus(1, ChronoUnit.SECONDS);
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
 
 		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-			_group, Timestamp.valueOf(now), "AA Name");
+			_group, Timestamp.valueOf(localDateTime), "BB Name");
+
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
+
+		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
+			_group, Timestamp.valueOf(localDateTime), "AA Name");
 
 		SiteNavigationMenuCreateDateComparator
 			siteNavigationMenuCreateDateComparator =
@@ -340,21 +340,21 @@ public class SiteNavigationMenuServiceTest {
 	public void testGetSiteNavigationMenusByCreateDateComparatorDesc()
 		throws Exception {
 
-		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime localDateTime = LocalDateTime.now();
 
 		SiteNavigationMenu siteNavigationMenu =
 			SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-				_group, Timestamp.valueOf(now), "CC Name");
+				_group, Timestamp.valueOf(localDateTime), "CC Name");
 
-		now = now.plus(1, ChronoUnit.SECONDS);
-
-		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-			_group, Timestamp.valueOf(now), "BB Name");
-
-		now = now.plus(1, ChronoUnit.SECONDS);
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
 
 		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
-			_group, Timestamp.valueOf(now), "AA Name");
+			_group, Timestamp.valueOf(localDateTime), "BB Name");
+
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
+
+		SiteNavigationMenuTestUtil.addSiteNavigationMenu(
+			_group, Timestamp.valueOf(localDateTime), "AA Name");
 
 		SiteNavigationMenuCreateDateComparator
 			siteNavigationMenuCreateDateComparator =

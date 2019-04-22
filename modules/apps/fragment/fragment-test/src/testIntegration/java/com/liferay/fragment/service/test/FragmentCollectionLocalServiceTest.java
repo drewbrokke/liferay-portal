@@ -241,24 +241,24 @@ public class FragmentCollectionLocalServiceTest {
 	public void testGetFragmentCollectionsByOrderByCreateDateComparatorAsc()
 		throws Exception {
 
-		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime localDateTime = LocalDateTime.now();
 
 		FragmentCollection fragmentCollection =
 			FragmentTestUtil.addFragmentCollection(
 				_group.getGroupId(), "Fragment Collection",
-				Timestamp.valueOf(now));
+				Timestamp.valueOf(localDateTime));
 
-		now = now.plus(1, ChronoUnit.SECONDS);
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
 
 		FragmentTestUtil.addFragmentCollection(
 			_group.getGroupId(), "A Fragment Collection",
-			Timestamp.valueOf(now));
+			Timestamp.valueOf(localDateTime));
 
-		now = now.plus(1, ChronoUnit.SECONDS);
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
 
 		FragmentTestUtil.addFragmentCollection(
 			_group.getGroupId(), "B Fragment Collection",
-			Timestamp.valueOf(now));
+			Timestamp.valueOf(localDateTime));
 
 		FragmentCollectionCreateDateComparator
 			fragmentCollectionCreateDateComparator =
@@ -278,24 +278,24 @@ public class FragmentCollectionLocalServiceTest {
 	public void testGetFragmentCollectionsByOrderByCreateDateComparatorDesc()
 		throws Exception {
 
-		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime localDateTime = LocalDateTime.now();
 
 		FragmentCollection fragmentCollection =
 			FragmentTestUtil.addFragmentCollection(
 				_group.getGroupId(), "Fragment Collection",
-				Timestamp.valueOf(now));
+				Timestamp.valueOf(localDateTime));
 
-		now = now.plus(1, ChronoUnit.SECONDS);
+		localDateTime = localDateTime.plus(1, ChronoUnit.SECONDS);
 
 		FragmentTestUtil.addFragmentCollection(
 			_group.getGroupId(), "A Fragment Collection",
-			Timestamp.valueOf(now));
+			Timestamp.valueOf(localDateTime));
 
-		now = now.plus(1, ChronoUnit.MINUTES);
+		localDateTime = localDateTime.plus(1, ChronoUnit.MINUTES);
 
 		FragmentTestUtil.addFragmentCollection(
 			_group.getGroupId(), "B Fragment Collection",
-			Timestamp.valueOf(now));
+			Timestamp.valueOf(localDateTime));
 
 		FragmentCollectionCreateDateComparator
 			fragmentCollectionCreateDateComparator =
