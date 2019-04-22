@@ -58,7 +58,7 @@ public abstract class BaseEmailAddressResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "emailAddressId")}
 	)
 	@Path("/email-addresses/{emailAddressId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "EmailAddress")})
 	public EmailAddress getEmailAddress(
 			@NotNull @Parameter(hidden = true) @PathParam("emailAddressId") Long
@@ -74,7 +74,7 @@ public abstract class BaseEmailAddressResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "organizationId")}
 	)
 	@Path("/organizations/{organizationId}/email-addresses")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "EmailAddress")})
 	public Page<EmailAddress> getOrganizationEmailAddressesPage(
 			@NotNull @Parameter(hidden = true) @PathParam("organizationId") Long
@@ -90,7 +90,7 @@ public abstract class BaseEmailAddressResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "userAccountId")}
 	)
 	@Path("/user-accounts/{userAccountId}/email-addresses")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "EmailAddress")})
 	public Page<EmailAddress> getUserAccountEmailAddressesPage(
 			@NotNull @Parameter(hidden = true) @PathParam("userAccountId") Long

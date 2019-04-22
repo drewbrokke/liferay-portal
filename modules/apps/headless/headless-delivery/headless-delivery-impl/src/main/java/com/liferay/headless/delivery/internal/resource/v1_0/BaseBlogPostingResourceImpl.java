@@ -82,7 +82,7 @@ public abstract class BaseBlogPostingResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "blogPostingId")}
 	)
 	@Path("/blog-postings/{blogPostingId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPosting")})
 	public BlogPosting getBlogPosting(
 			@NotNull @Parameter(hidden = true) @PathParam("blogPostingId") Long
@@ -93,13 +93,13 @@ public abstract class BaseBlogPostingResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PATCH
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "blogPostingId")}
 	)
 	@Path("/blog-postings/{blogPostingId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPosting")})
 	public BlogPosting patchBlogPosting(
 			@NotNull @Parameter(hidden = true) @PathParam("blogPostingId") Long
@@ -177,13 +177,13 @@ public abstract class BaseBlogPostingResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "blogPostingId")}
 	)
 	@Path("/blog-postings/{blogPostingId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPosting")})
 	public BlogPosting putBlogPosting(
 			@NotNull @Parameter(hidden = true) @PathParam("blogPostingId") Long
@@ -214,7 +214,7 @@ public abstract class BaseBlogPostingResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "blogPostingId")}
 	)
 	@Path("/blog-postings/{blogPostingId}/my-rating")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPosting")})
 	public Rating getBlogPostingMyRating(
 			@NotNull @Parameter(hidden = true) @PathParam("blogPostingId") Long
@@ -225,13 +225,13 @@ public abstract class BaseBlogPostingResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "blogPostingId")}
 	)
 	@Path("/blog-postings/{blogPostingId}/my-rating")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPosting")})
 	public Rating postBlogPostingMyRating(
 			@NotNull @Parameter(hidden = true) @PathParam("blogPostingId") Long
@@ -243,13 +243,13 @@ public abstract class BaseBlogPostingResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "blogPostingId")}
 	)
 	@Path("/blog-postings/{blogPostingId}/my-rating")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPosting")})
 	public Rating putBlogPostingMyRating(
 			@NotNull @Parameter(hidden = true) @PathParam("blogPostingId") Long
@@ -273,7 +273,7 @@ public abstract class BaseBlogPostingResourceImpl
 		}
 	)
 	@Path("/sites/{siteId}/blog-postings")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPosting")})
 	public Page<BlogPosting> getSiteBlogPostingsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -286,11 +286,11 @@ public abstract class BaseBlogPostingResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
 	@Path("/sites/{siteId}/blog-postings")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPosting")})
 	public BlogPosting postSiteBlogPosting(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,

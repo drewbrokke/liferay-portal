@@ -81,7 +81,7 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 		}
 	)
 	@Path("/message-board-attachments/{messageBoardAttachmentId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardAttachment")})
 	public MessageBoardAttachment getMessageBoardAttachment(
 			@NotNull @Parameter(hidden = true)
@@ -102,7 +102,7 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 	@Path(
 		"/message-board-messages/{messageBoardMessageId}/message-board-attachments"
 	)
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardAttachment")})
 	public Page<MessageBoardAttachment>
 			getMessageBoardMessageMessageBoardAttachmentsPage(
@@ -124,7 +124,7 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 	@Path(
 		"/message-board-messages/{messageBoardMessageId}/message-board-attachments"
 	)
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardAttachment")})
 	public MessageBoardAttachment postMessageBoardMessageMessageBoardAttachment(
 			@NotNull @Parameter(hidden = true)
@@ -145,7 +145,7 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 	@Path(
 		"/message-board-threads/{messageBoardThreadId}/message-board-attachments"
 	)
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardAttachment")})
 	public Page<MessageBoardAttachment>
 			getMessageBoardThreadMessageBoardAttachmentsPage(
@@ -167,7 +167,7 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 	@Path(
 		"/message-board-threads/{messageBoardThreadId}/message-board-attachments"
 	)
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardAttachment")})
 	public MessageBoardAttachment postMessageBoardThreadMessageBoardAttachment(
 			@NotNull @Parameter(hidden = true)

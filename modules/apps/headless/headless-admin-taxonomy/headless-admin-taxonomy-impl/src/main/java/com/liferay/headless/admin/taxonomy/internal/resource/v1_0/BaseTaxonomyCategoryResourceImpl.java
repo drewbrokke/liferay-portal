@@ -76,7 +76,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 		}
 	)
 	@Path("/taxonomy-categories/{parentTaxonomyCategoryId}/taxonomy-categories")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyCategory")})
 	public Page<TaxonomyCategory> getTaxonomyCategoryTaxonomyCategoriesPage(
 			@NotNull @Parameter(hidden = true)
@@ -91,7 +91,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(
 		value = {
@@ -99,7 +99,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 		}
 	)
 	@Path("/taxonomy-categories/{parentTaxonomyCategoryId}/taxonomy-categories")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyCategory")})
 	public TaxonomyCategory postTaxonomyCategoryTaxonomyCategory(
 			@NotNull @Parameter(hidden = true)
@@ -131,7 +131,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "taxonomyCategoryId")}
 	)
 	@Path("/taxonomy-categories/{taxonomyCategoryId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyCategory")})
 	public TaxonomyCategory getTaxonomyCategory(
 			@NotNull @Parameter(hidden = true) @PathParam("taxonomyCategoryId")
@@ -142,13 +142,13 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PATCH
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "taxonomyCategoryId")}
 	)
 	@Path("/taxonomy-categories/{taxonomyCategoryId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyCategory")})
 	public TaxonomyCategory patchTaxonomyCategory(
 			@NotNull @Parameter(hidden = true) @PathParam("taxonomyCategoryId")
@@ -200,13 +200,13 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "taxonomyCategoryId")}
 	)
 	@Path("/taxonomy-categories/{taxonomyCategoryId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyCategory")})
 	public TaxonomyCategory putTaxonomyCategory(
 			@NotNull @Parameter(hidden = true) @PathParam("taxonomyCategoryId")
@@ -230,7 +230,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 		}
 	)
 	@Path("/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyCategory")})
 	public Page<TaxonomyCategory> getTaxonomyVocabularyTaxonomyCategoriesPage(
 			@NotNull @Parameter(hidden = true)
@@ -244,7 +244,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(
 		value = {
@@ -252,7 +252,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 		}
 	)
 	@Path("/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyCategory")})
 	public TaxonomyCategory postTaxonomyVocabularyTaxonomyCategory(
 			@NotNull @Parameter(hidden = true)

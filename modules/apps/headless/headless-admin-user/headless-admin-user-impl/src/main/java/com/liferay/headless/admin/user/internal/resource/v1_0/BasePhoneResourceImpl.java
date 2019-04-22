@@ -57,7 +57,7 @@ public abstract class BasePhoneResourceImpl implements PhoneResource {
 		value = {@Parameter(in = ParameterIn.PATH, name = "organizationId")}
 	)
 	@Path("/organizations/{organizationId}/phones")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Phone")})
 	public Page<Phone> getOrganizationPhonesPage(
 			@NotNull @Parameter(hidden = true) @PathParam("organizationId") Long
@@ -71,7 +71,7 @@ public abstract class BasePhoneResourceImpl implements PhoneResource {
 	@GET
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "phoneId")})
 	@Path("/phones/{phoneId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Phone")})
 	public Phone getPhone(
 			@NotNull @Parameter(hidden = true) @PathParam("phoneId") Long
@@ -87,7 +87,7 @@ public abstract class BasePhoneResourceImpl implements PhoneResource {
 		value = {@Parameter(in = ParameterIn.PATH, name = "userAccountId")}
 	)
 	@Path("/user-accounts/{userAccountId}/phones")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Phone")})
 	public Page<Phone> getUserAccountPhonesPage(
 			@NotNull @Parameter(hidden = true) @PathParam("userAccountId") Long

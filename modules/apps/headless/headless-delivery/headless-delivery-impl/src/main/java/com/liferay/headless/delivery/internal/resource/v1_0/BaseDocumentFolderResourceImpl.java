@@ -81,7 +81,7 @@ public abstract class BaseDocumentFolderResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "documentFolderId")}
 	)
 	@Path("/document-folders/{documentFolderId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "DocumentFolder")})
 	public DocumentFolder getDocumentFolder(
 			@NotNull @Parameter(hidden = true) @PathParam("documentFolderId")
@@ -92,13 +92,13 @@ public abstract class BaseDocumentFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PATCH
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "documentFolderId")}
 	)
 	@Path("/document-folders/{documentFolderId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "DocumentFolder")})
 	public DocumentFolder patchDocumentFolder(
 			@NotNull @Parameter(hidden = true) @PathParam("documentFolderId")
@@ -153,13 +153,13 @@ public abstract class BaseDocumentFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "documentFolderId")}
 	)
 	@Path("/document-folders/{documentFolderId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "DocumentFolder")})
 	public DocumentFolder putDocumentFolder(
 			@NotNull @Parameter(hidden = true) @PathParam("documentFolderId")
@@ -183,7 +183,7 @@ public abstract class BaseDocumentFolderResourceImpl
 		}
 	)
 	@Path("/document-folders/{parentDocumentFolderId}/document-folders")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "DocumentFolder")})
 	public Page<DocumentFolder> getDocumentFolderDocumentFoldersPage(
 			@NotNull @Parameter(hidden = true)
@@ -197,7 +197,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(
 		value = {
@@ -205,7 +205,7 @@ public abstract class BaseDocumentFolderResourceImpl
 		}
 	)
 	@Path("/document-folders/{parentDocumentFolderId}/document-folders")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "DocumentFolder")})
 	public DocumentFolder postDocumentFolderDocumentFolder(
 			@NotNull @Parameter(hidden = true)
@@ -230,7 +230,7 @@ public abstract class BaseDocumentFolderResourceImpl
 		}
 	)
 	@Path("/sites/{siteId}/document-folders")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "DocumentFolder")})
 	public Page<DocumentFolder> getSiteDocumentFoldersPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -244,11 +244,11 @@ public abstract class BaseDocumentFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
 	@Path("/sites/{siteId}/document-folders")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "DocumentFolder")})
 	public DocumentFolder postSiteDocumentFolder(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,

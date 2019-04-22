@@ -68,7 +68,7 @@ public abstract class BaseOrganizationResourceImpl
 		}
 	)
 	@Path("/organizations")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Organization")})
 	public Page<Organization> getOrganizationsPage(
 			@Parameter(hidden = true) @QueryParam("search") String search,
@@ -85,7 +85,7 @@ public abstract class BaseOrganizationResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "organizationId")}
 	)
 	@Path("/organizations/{organizationId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Organization")})
 	public Organization getOrganization(
 			@NotNull @Parameter(hidden = true) @PathParam("organizationId") Long
@@ -108,7 +108,7 @@ public abstract class BaseOrganizationResourceImpl
 		}
 	)
 	@Path("/organizations/{parentOrganizationId}/organizations")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Organization")})
 	public Page<Organization> getOrganizationOrganizationsPage(
 			@NotNull @Parameter(hidden = true)

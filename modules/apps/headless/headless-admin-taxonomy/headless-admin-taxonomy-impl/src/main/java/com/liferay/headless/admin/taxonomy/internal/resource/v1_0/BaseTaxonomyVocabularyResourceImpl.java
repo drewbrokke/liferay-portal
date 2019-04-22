@@ -74,7 +74,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 		}
 	)
 	@Path("/sites/{siteId}/taxonomy-vocabularies")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyVocabulary")})
 	public Page<TaxonomyVocabulary> getSiteTaxonomyVocabulariesPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -87,11 +87,11 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
 	@Path("/sites/{siteId}/taxonomy-vocabularies")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyVocabulary")})
 	public TaxonomyVocabulary postSiteTaxonomyVocabulary(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -125,7 +125,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 		}
 	)
 	@Path("/taxonomy-vocabularies/{taxonomyVocabularyId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyVocabulary")})
 	public TaxonomyVocabulary getTaxonomyVocabulary(
 			@NotNull @Parameter(hidden = true)
@@ -136,7 +136,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PATCH
 	@Parameters(
 		value = {
@@ -144,7 +144,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 		}
 	)
 	@Path("/taxonomy-vocabularies/{taxonomyVocabularyId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyVocabulary")})
 	public TaxonomyVocabulary patchTaxonomyVocabulary(
 			@NotNull @Parameter(hidden = true)
@@ -201,7 +201,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(
 		value = {
@@ -209,7 +209,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 		}
 	)
 	@Path("/taxonomy-vocabularies/{taxonomyVocabularyId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "TaxonomyVocabulary")})
 	public TaxonomyVocabulary putTaxonomyVocabulary(
 			@NotNull @Parameter(hidden = true)

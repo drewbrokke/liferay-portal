@@ -75,7 +75,7 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 		}
 	)
 	@Path("/document-folders/{documentFolderId}/documents")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Document")})
 	public Page<Document> getDocumentFolderDocumentsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("documentFolderId")
@@ -95,7 +95,7 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 		value = {@Parameter(in = ParameterIn.PATH, name = "documentFolderId")}
 	)
 	@Path("/document-folders/{documentFolderId}/documents")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Document")})
 	public Document postDocumentFolderDocument(
 			@NotNull @Parameter(hidden = true) @PathParam("documentFolderId")
@@ -126,7 +126,7 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 		value = {@Parameter(in = ParameterIn.PATH, name = "documentId")}
 	)
 	@Path("/documents/{documentId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Document")})
 	public Document getDocument(
 			@NotNull @Parameter(hidden = true) @PathParam("documentId") Long
@@ -143,7 +143,7 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 		value = {@Parameter(in = ParameterIn.PATH, name = "documentId")}
 	)
 	@Path("/documents/{documentId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Document")})
 	public Document patchDocument(
 			@NotNull @Parameter(hidden = true) @PathParam("documentId") Long
@@ -161,7 +161,7 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 		value = {@Parameter(in = ParameterIn.PATH, name = "documentId")}
 	)
 	@Path("/documents/{documentId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Document")})
 	public Document putDocument(
 			@NotNull @Parameter(hidden = true) @PathParam("documentId") Long
@@ -192,7 +192,7 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 		value = {@Parameter(in = ParameterIn.PATH, name = "documentId")}
 	)
 	@Path("/documents/{documentId}/my-rating")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Document")})
 	public Rating getDocumentMyRating(
 			@NotNull @Parameter(hidden = true) @PathParam("documentId") Long
@@ -203,13 +203,13 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "documentId")}
 	)
 	@Path("/documents/{documentId}/my-rating")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Document")})
 	public Rating postDocumentMyRating(
 			@NotNull @Parameter(hidden = true) @PathParam("documentId") Long
@@ -221,13 +221,13 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "documentId")}
 	)
 	@Path("/documents/{documentId}/my-rating")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Document")})
 	public Rating putDocumentMyRating(
 			@NotNull @Parameter(hidden = true) @PathParam("documentId") Long
@@ -252,7 +252,7 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 		}
 	)
 	@Path("/sites/{siteId}/documents")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Document")})
 	public Page<Document> getSiteDocumentsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -270,7 +270,7 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 	@POST
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
 	@Path("/sites/{siteId}/documents")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Document")})
 	public Document postSiteDocument(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,

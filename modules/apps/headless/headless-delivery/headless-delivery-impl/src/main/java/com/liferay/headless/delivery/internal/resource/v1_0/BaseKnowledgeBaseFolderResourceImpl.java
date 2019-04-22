@@ -82,7 +82,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 		}
 	)
 	@Path("/knowledge-base-folders/{knowledgeBaseFolderId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "KnowledgeBaseFolder")})
 	public KnowledgeBaseFolder getKnowledgeBaseFolder(
 			@NotNull @Parameter(hidden = true)
@@ -93,7 +93,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PATCH
 	@Parameters(
 		value = {
@@ -101,7 +101,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 		}
 	)
 	@Path("/knowledge-base-folders/{knowledgeBaseFolderId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "KnowledgeBaseFolder")})
 	public KnowledgeBaseFolder patchKnowledgeBaseFolder(
 			@NotNull @Parameter(hidden = true)
@@ -163,7 +163,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(
 		value = {
@@ -171,7 +171,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 		}
 	)
 	@Path("/knowledge-base-folders/{knowledgeBaseFolderId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "KnowledgeBaseFolder")})
 	public KnowledgeBaseFolder putKnowledgeBaseFolder(
 			@NotNull @Parameter(hidden = true)
@@ -196,7 +196,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	@Path(
 		"/knowledge-base-folders/{parentKnowledgeBaseFolderId}/knowledge-base-folders"
 	)
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "KnowledgeBaseFolder")})
 	public Page<KnowledgeBaseFolder>
 			getKnowledgeBaseFolderKnowledgeBaseFoldersPage(
@@ -210,7 +210,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(
 		value = {
@@ -222,7 +222,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	@Path(
 		"/knowledge-base-folders/{parentKnowledgeBaseFolderId}/knowledge-base-folders"
 	)
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "KnowledgeBaseFolder")})
 	public KnowledgeBaseFolder postKnowledgeBaseFolderKnowledgeBaseFolder(
 			@NotNull @Parameter(hidden = true)
@@ -244,7 +244,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 		}
 	)
 	@Path("/sites/{siteId}/knowledge-base-folders")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "KnowledgeBaseFolder")})
 	public Page<KnowledgeBaseFolder> getSiteKnowledgeBaseFoldersPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -255,11 +255,11 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
 	@Path("/sites/{siteId}/knowledge-base-folders")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "KnowledgeBaseFolder")})
 	public KnowledgeBaseFolder postSiteKnowledgeBaseFolder(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,

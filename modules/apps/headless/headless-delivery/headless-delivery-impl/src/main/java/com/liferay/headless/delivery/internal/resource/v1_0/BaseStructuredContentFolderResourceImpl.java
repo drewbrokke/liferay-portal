@@ -75,7 +75,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 		}
 	)
 	@Path("/sites/{siteId}/structured-content-folders")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "StructuredContentFolder")})
 	public Page<StructuredContentFolder> getSiteStructuredContentFoldersPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -89,11 +89,11 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
 	@Path("/sites/{siteId}/structured-content-folders")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "StructuredContentFolder")})
 	public StructuredContentFolder postSiteStructuredContentFolder(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -120,7 +120,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	@Path(
 		"/structured-content-folders/{parentStructuredContentFolderId}/structured-content-folders"
 	)
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "StructuredContentFolder")})
 	public Page<StructuredContentFolder>
 			getStructuredContentFolderStructuredContentFoldersPage(
@@ -136,7 +136,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(
 		value = {
@@ -148,7 +148,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	@Path(
 		"/structured-content-folders/{parentStructuredContentFolderId}/structured-content-folders"
 	)
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "StructuredContentFolder")})
 	public StructuredContentFolder
 			postStructuredContentFolderStructuredContentFolder(
@@ -190,7 +190,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 		}
 	)
 	@Path("/structured-content-folders/{structuredContentFolderId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {})
 	public StructuredContentFolder getStructuredContentFolder(
 			@NotNull @Parameter(hidden = true)
@@ -202,7 +202,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PATCH
 	@Parameters(
 		value = {
@@ -212,7 +212,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 		}
 	)
 	@Path("/structured-content-folders/{structuredContentFolderId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "StructuredContentFolder")})
 	public StructuredContentFolder patchStructuredContentFolder(
 			@NotNull @Parameter(hidden = true)
@@ -273,7 +273,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(
 		value = {
@@ -283,7 +283,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 		}
 	)
 	@Path("/structured-content-folders/{structuredContentFolderId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "StructuredContentFolder")})
 	public StructuredContentFolder putStructuredContentFolder(
 			@NotNull @Parameter(hidden = true)

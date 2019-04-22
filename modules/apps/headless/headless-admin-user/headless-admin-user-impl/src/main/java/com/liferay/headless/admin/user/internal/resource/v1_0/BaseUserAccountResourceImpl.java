@@ -59,7 +59,7 @@ public abstract class BaseUserAccountResourceImpl
 	@Override
 	@GET
 	@Path("/my-user-account")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "UserAccount")})
 	public UserAccount getMyUserAccount() throws Exception {
 		return new UserAccount();
@@ -78,7 +78,7 @@ public abstract class BaseUserAccountResourceImpl
 		}
 	)
 	@Path("/organizations/{organizationId}/user-accounts")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "UserAccount")})
 	public Page<UserAccount> getOrganizationUserAccountsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("organizationId") Long
@@ -103,7 +103,7 @@ public abstract class BaseUserAccountResourceImpl
 		}
 	)
 	@Path("/user-accounts")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "UserAccount")})
 	public Page<UserAccount> getUserAccountsPage(
 			@Parameter(hidden = true) @QueryParam("search") String search,
@@ -120,7 +120,7 @@ public abstract class BaseUserAccountResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "userAccountId")}
 	)
 	@Path("/user-accounts/{userAccountId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "UserAccount")})
 	public UserAccount getUserAccount(
 			@NotNull @Parameter(hidden = true) @PathParam("userAccountId") Long
@@ -143,7 +143,7 @@ public abstract class BaseUserAccountResourceImpl
 		}
 	)
 	@Path("/web-sites/{webSiteId}/user-accounts")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "UserAccount")})
 	public Page<UserAccount> getWebSiteUserAccountsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("webSiteId") Long

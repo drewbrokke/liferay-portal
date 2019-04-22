@@ -61,7 +61,7 @@ public abstract class BaseRoleResourceImpl implements RoleResource {
 		}
 	)
 	@Path("/roles")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Role")})
 	public Page<Role> getRolesPage(@Context Pagination pagination)
 		throws Exception {
@@ -73,7 +73,7 @@ public abstract class BaseRoleResourceImpl implements RoleResource {
 	@GET
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "roleId")})
 	@Path("/roles/{roleId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Role")})
 	public Role getRole(
 			@NotNull @Parameter(hidden = true) @PathParam("roleId") Long roleId)

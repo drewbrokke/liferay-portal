@@ -75,7 +75,7 @@ public abstract class BaseKeywordResourceImpl implements KeywordResource {
 	@GET
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "keywordId")})
 	@Path("/keywords/{keywordId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Keyword")})
 	public Keyword getKeyword(
 			@NotNull @Parameter(hidden = true) @PathParam("keywordId") Long
@@ -86,11 +86,11 @@ public abstract class BaseKeywordResourceImpl implements KeywordResource {
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "keywordId")})
 	@Path("/keywords/{keywordId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Keyword")})
 	public Keyword putKeyword(
 			@NotNull @Parameter(hidden = true) @PathParam("keywordId") Long
@@ -114,7 +114,7 @@ public abstract class BaseKeywordResourceImpl implements KeywordResource {
 		}
 	)
 	@Path("/sites/{siteId}/keywords")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Keyword")})
 	public Page<Keyword> getSiteKeywordsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -127,11 +127,11 @@ public abstract class BaseKeywordResourceImpl implements KeywordResource {
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
 	@Path("/sites/{siteId}/keywords")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Keyword")})
 	public Keyword postSiteKeyword(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,

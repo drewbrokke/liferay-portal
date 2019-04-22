@@ -62,7 +62,7 @@ public abstract class BaseContentStructureResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "contentStructureId")}
 	)
 	@Path("/content-structures/{contentStructureId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "ContentStructure")})
 	public ContentStructure getContentStructure(
 			@NotNull @Parameter(hidden = true) @PathParam("contentStructureId")
@@ -85,7 +85,7 @@ public abstract class BaseContentStructureResourceImpl
 		}
 	)
 	@Path("/sites/{siteId}/content-structures")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "ContentStructure")})
 	public Page<ContentStructure> getSiteContentStructuresPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,

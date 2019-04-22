@@ -77,7 +77,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 	@Path(
 		"/message-board-sections/{messageBoardSectionId}/message-board-threads"
 	)
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardThread")})
 	public Page<MessageBoardThread>
 			getMessageBoardSectionMessageBoardThreadsPage(
@@ -92,7 +92,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(
 		value = {
@@ -102,7 +102,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 	@Path(
 		"/message-board-sections/{messageBoardSectionId}/message-board-threads"
 	)
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardThread")})
 	public MessageBoardThread postMessageBoardSectionMessageBoardThread(
 			@NotNull @Parameter(hidden = true)
@@ -137,7 +137,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 		}
 	)
 	@Path("/message-board-threads/{messageBoardThreadId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardThread")})
 	public MessageBoardThread getMessageBoardThread(
 			@NotNull @Parameter(hidden = true)
@@ -148,7 +148,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PATCH
 	@Parameters(
 		value = {
@@ -156,7 +156,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 		}
 	)
 	@Path("/message-board-threads/{messageBoardThreadId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardThread")})
 	public MessageBoardThread patchMessageBoardThread(
 			@NotNull @Parameter(hidden = true)
@@ -234,7 +234,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(
 		value = {
@@ -242,7 +242,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 		}
 	)
 	@Path("/message-board-threads/{messageBoardThreadId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardThread")})
 	public MessageBoardThread putMessageBoardThread(
 			@NotNull @Parameter(hidden = true)
@@ -277,7 +277,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 		}
 	)
 	@Path("/message-board-threads/{messageBoardThreadId}/my-rating")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardThread")})
 	public Rating getMessageBoardThreadMyRating(
 			@NotNull @Parameter(hidden = true)
@@ -288,7 +288,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(
 		value = {
@@ -296,7 +296,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 		}
 	)
 	@Path("/message-board-threads/{messageBoardThreadId}/my-rating")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardThread")})
 	public Rating postMessageBoardThreadMyRating(
 			@NotNull @Parameter(hidden = true)
@@ -308,7 +308,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@PUT
 	@Parameters(
 		value = {
@@ -316,7 +316,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 		}
 	)
 	@Path("/message-board-threads/{messageBoardThreadId}/my-rating")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardThread")})
 	public Rating putMessageBoardThreadMyRating(
 			@NotNull @Parameter(hidden = true)
@@ -341,7 +341,7 @@ public abstract class BaseMessageBoardThreadResourceImpl
 		}
 	)
 	@Path("/sites/{siteId}/message-board-threads")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardThread")})
 	public Page<MessageBoardThread> getSiteMessageBoardThreadsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -355,11 +355,11 @@ public abstract class BaseMessageBoardThreadResourceImpl
 	}
 
 	@Override
-	@Consumes("application/json")
+	@Consumes({"application/json", "application/xml"})
 	@POST
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
 	@Path("/sites/{siteId}/message-board-threads")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "MessageBoardThread")})
 	public MessageBoardThread postSiteMessageBoardThread(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,

@@ -57,7 +57,7 @@ public abstract class BaseWebUrlResourceImpl implements WebUrlResource {
 		value = {@Parameter(in = ParameterIn.PATH, name = "organizationId")}
 	)
 	@Path("/organizations/{organizationId}/web-urls")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "WebUrl")})
 	public Page<WebUrl> getOrganizationWebUrlsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("organizationId") Long
@@ -73,7 +73,7 @@ public abstract class BaseWebUrlResourceImpl implements WebUrlResource {
 		value = {@Parameter(in = ParameterIn.PATH, name = "userAccountId")}
 	)
 	@Path("/user-accounts/{userAccountId}/web-urls")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "WebUrl")})
 	public Page<WebUrl> getUserAccountWebUrlsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("userAccountId") Long
@@ -87,7 +87,7 @@ public abstract class BaseWebUrlResourceImpl implements WebUrlResource {
 	@GET
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "webUrlId")})
 	@Path("/web-urls/{webUrlId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "WebUrl")})
 	public WebUrl getWebUrl(
 			@NotNull @Parameter(hidden = true) @PathParam("webUrlId") Long

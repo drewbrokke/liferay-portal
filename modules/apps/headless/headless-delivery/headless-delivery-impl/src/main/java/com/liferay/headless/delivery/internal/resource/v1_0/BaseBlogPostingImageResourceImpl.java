@@ -80,7 +80,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "blogPostingImageId")}
 	)
 	@Path("/blog-posting-images/{blogPostingImageId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPostingImage")})
 	public BlogPostingImage getBlogPostingImage(
 			@NotNull @Parameter(hidden = true) @PathParam("blogPostingImageId")
@@ -103,7 +103,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 		}
 	)
 	@Path("/sites/{siteId}/blog-posting-images")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPostingImage")})
 	public Page<BlogPostingImage> getSiteBlogPostingImagesPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
@@ -120,7 +120,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 	@POST
 	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
 	@Path("/sites/{siteId}/blog-posting-images")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "BlogPostingImage")})
 	public BlogPostingImage postSiteBlogPostingImage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,

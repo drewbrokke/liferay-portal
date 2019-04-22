@@ -65,7 +65,7 @@ public abstract class BaseSegmentUserResourceImpl
 		}
 	)
 	@Path("/segments/{segmentId}/user-accounts")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "SegmentUser")})
 	public Page<SegmentUser> getSegmentUserAccountsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("segmentId") Long

@@ -58,7 +58,7 @@ public abstract class BasePostalAddressResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "organizationId")}
 	)
 	@Path("/organizations/{organizationId}/postal-addresses")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "PostalAddress")})
 	public Page<PostalAddress> getOrganizationPostalAddressesPage(
 			@NotNull @Parameter(hidden = true) @PathParam("organizationId") Long
@@ -74,7 +74,7 @@ public abstract class BasePostalAddressResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "postalAddressId")}
 	)
 	@Path("/postal-addresses/{postalAddressId}")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "PostalAddress")})
 	public PostalAddress getPostalAddress(
 			@NotNull @Parameter(hidden = true) @PathParam("postalAddressId")
@@ -90,7 +90,7 @@ public abstract class BasePostalAddressResourceImpl
 		value = {@Parameter(in = ParameterIn.PATH, name = "userAccountId")}
 	)
 	@Path("/user-accounts/{userAccountId}/postal-addresses")
-	@Produces("application/json")
+	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "PostalAddress")})
 	public Page<PostalAddress> getUserAccountPostalAddressesPage(
 			@NotNull @Parameter(hidden = true) @PathParam("userAccountId") Long
