@@ -369,7 +369,12 @@ public class JournalEditArticleDisplayContext {
 			}
 		}
 
-		sb.append(group.getPathFriendlyURL(privateLayout, _themeDisplay));
+		if (privateLayout) {
+			sb.append(PortalUtil.getPathFriendlyURLPrivateGroup());
+		}
+		else {
+			sb.append(PortalUtil.getPathFriendlyURLPublic());
+		}
 
 		sb.append(group.getFriendlyURL());
 
