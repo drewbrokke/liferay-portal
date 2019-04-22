@@ -172,26 +172,27 @@ public class FragmentEntryLinkRichTextEditorConfigContributor
 
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "small"), "p", "small", 1));
-		jsonArray.put(
+				LanguageUtil.get(resourceBundle, "small"), "p", "small", 1)
+		).put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "lead"), "p", "lead", 1));
-		jsonArray.put(
+				LanguageUtil.get(resourceBundle, "lead"), "p", "lead", 1)
+		).put(
 			getStyleFormatJSONObject(
 				LanguageUtil.format(resourceBundle, "heading-x", "1"), "h1",
-				null, 1));
-		jsonArray.put(
+				null, 1)
+		).put(
 			getStyleFormatJSONObject(
 				LanguageUtil.format(resourceBundle, "heading-x", "2"), "h2",
-				null, 1));
-		jsonArray.put(
+				null, 1)
+		).put(
 			getStyleFormatJSONObject(
 				LanguageUtil.format(resourceBundle, "heading-x", "3"), "h3",
-				null, 1));
-		jsonArray.put(
+				null, 1)
+		).put(
 			getStyleFormatJSONObject(
 				LanguageUtil.format(resourceBundle, "heading-x", "4"), "h4",
-				null, 1));
+				null, 1)
+		);
 
 		return jsonArray;
 	}
