@@ -123,7 +123,7 @@ public class NumericFieldType extends BaseFieldType {
 					dataDefinitionField.getCustomProperties(), "placeholder")));
 		context.put(
 			"predefinedValue",
-			_getFormattedValue(
+			_format(
 				LocalizedValueUtil.getLocalizedValue(
 					httpServletRequest.getLocale(),
 					CustomPropertyUtil.getLocalizedValue(
@@ -140,12 +140,12 @@ public class NumericFieldType extends BaseFieldType {
 					dataDefinitionField.getCustomProperties(), "tooltip")));
 		context.put(
 			"value",
-			_getFormattedValue(
+			_format(
 				CustomPropertyUtil.getString(
 					dataDefinitionField.getCustomProperties(), "value")));
 	}
 
-	private String _getFormattedValue(Object value) {
+	private String _format(Object value) {
 		if (Validator.isNull(value) ||
 			StringUtil.equals((String)value, "NaN")) {
 
