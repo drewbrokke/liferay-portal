@@ -5,118 +5,118 @@ import Soy from 'metal-soy';
 import templates from './Paragraph.soy.js';
 import {Config} from 'metal-state';
 
-class Paragraph extends Component {
-	static STATE = {
+class Paragraph extends Component {}
 
-		/**
-		 * @default 'string'
-		 * @instance
-		 * @memberof Text
-		 * @type {?(string|undefined)}
-		 */
+Paragraph.STATE = {
 
-		dataType: Config.string().value('string'),
+	/**
+	 * @default 'string'
+	 * @instance
+	 * @memberof Text
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Paragraph
-		 * @type {?(string|undefined)}
-		 */
+	dataType: Config.string().value('string'),
 
-		fieldName: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Paragraph
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Paragraph
-		 * @type {?(string|undefined)}
-		 */
+	fieldName: Config.string(),
 
-		id: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Paragraph
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Paragraph
-		 * @type {?(string|undefined)}
-		 */
+	id: Config.string(),
 
-		label: Config.string().value(''),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Paragraph
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Paragraph
-		 * @type {?(string|undefined)}
-		 */
+	label: Config.string().value(''),
 
-		name: Config.string().required(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Paragraph
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Paragraph
-		 * @type {?(string|undefined)}
-		 */
+	name: Config.string().required(),
 
-		placeholder: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Paragraph
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(bool|undefined)}
-		 */
+	placeholder: Config.string(),
 
-		repeatable: Config.bool(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(bool|undefined)}
+	 */
 
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Paragraph
-		 * @type {?(bool|undefined)}
-		 */
+	repeatable: Config.bool(),
 
-		required: Config.bool().value(false),
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Paragraph
+	 * @type {?(bool|undefined)}
+	 */
 
-		/**
-		 * @default true
-		 * @instance
-		 * @memberof Paragraph
-		 * @type {?(bool|undefined)}
-		 */
+	required: Config.bool().value(false),
 
-		showLabel: Config.bool().value(true),
+	/**
+	 * @default true
+	 * @instance
+	 * @memberof Paragraph
+	 * @type {?(bool|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Paragraph
-		 * @type {?(string|undefined)}
-		 */
+	showLabel: Config.bool().value(true),
 
-		spritemap: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Paragraph
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(string|undefined)}
-		 */
+	spritemap: Config.string(),
 
-		tooltip: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Text
-		 * @type {?(string|undefined)}
-		 */
+	tooltip: Config.string(),
 
-		type: Config.string().value('paragraph')
-	};
-}
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Text
+	 * @type {?(string|undefined)}
+	 */
+
+	type: Config.string().value('paragraph')
+};
 
 Soy.register(Paragraph, templates);
 

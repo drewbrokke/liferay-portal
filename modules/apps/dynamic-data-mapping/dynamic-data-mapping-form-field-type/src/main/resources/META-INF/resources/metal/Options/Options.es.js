@@ -18,162 +18,6 @@ import {
  */
 
 class Options extends Component {
-	static STATE = {
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Options
-		 * @type {?string}
-		 */
-
-		defaultLanguageId: Config.string(),
-
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Options
-		 * @type {?bool}
-		 */
-
-		defaultOption: Config.bool().internal().value(false),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Options
-		 * @type {?string}
-		 */
-
-		editingLanguageId: Config.string(),
-
-		/**
-		 * @default 'boolean'
-		 * @instance
-		 * @memberof Options
-		 * @type {?(boolean|undefined)}
-		 */
-
-		evaluable: Config.bool().value(false),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Options
-		 * @type {?string}
-		 */
-
-		fieldName: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Options
-		 * @type {?(string|undefined)}
-		 */
-
-		items: Config.arrayOf(
-			Config.shapeOf(
-				{
-					disabled: Config.bool().value(false),
-					label: Config.string(),
-					name: Config.string(),
-					value: Config.string()
-				}
-			)
-		).internal().valueFn('_internalItemsValueFn'),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Options
-		 * @type {?(string|undefined)}
-		 */
-
-		label: Config.string(),
-
-		/**
-		 * @default enter-an-option
-		 * @instance
-		 * @memberof Options
-		 * @type {?(string)}
-		 */
-
-		placeholder: Config.string().value(Liferay.Language.get('enter-an-option')),
-
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Options
-		 * @type {?bool}
-		 */
-
-		readOnly: Config.bool().value(false),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(bool|undefined)}
-		 */
-
-		repeatable: Config.bool(),
-
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Options
-		 * @type {?bool}
-		 */
-
-		required: Config.bool().value(false),
-
-		/**
-		 * @default true
-		 * @instance
-		 * @memberof Options
-		 * @type {?bool}
-		 */
-
-		showLabel: Config.bool().value(true),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Options
-		 * @type {?(string|undefined)}
-		 */
-
-		spritemap: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Options
-		 * @type {?(string|undefined)}
-		 */
-
-		tip: Config.string(),
-
-		/**
-		 * @default options
-		 * @instance
-		 * @memberof Options
-		 * @type {?(string|undefined)}
-		 */
-
-		type: Config.string().value('options'),
-
-		/**
-		 * @default {}
-		 * @instance
-		 * @memberof Options
-		 * @type {?string}
-		 */
-
-		value: Config.object().setter('_setValue').value({})
-	};
-
 	attached() {
 		let defaultOption = false;
 		const defaultOptionLabel = Liferay.Language.get('option').toLowerCase();
@@ -580,6 +424,162 @@ class Options extends Component {
 		return formattedValue;
 	}
 }
+
+Options.STATE = {
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Options
+	 * @type {?string}
+	 */
+
+	defaultLanguageId: Config.string(),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Options
+	 * @type {?bool}
+	 */
+
+	defaultOption: Config.bool().internal().value(false),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Options
+	 * @type {?string}
+	 */
+
+	editingLanguageId: Config.string(),
+
+	/**
+	 * @default 'boolean'
+	 * @instance
+	 * @memberof Options
+	 * @type {?(boolean|undefined)}
+	 */
+
+	evaluable: Config.bool().value(false),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Options
+	 * @type {?string}
+	 */
+
+	fieldName: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Options
+	 * @type {?(string|undefined)}
+	 */
+
+	items: Config.arrayOf(
+		Config.shapeOf(
+			{
+				disabled: Config.bool().value(false),
+				label: Config.string(),
+				name: Config.string(),
+				value: Config.string()
+			}
+		)
+	).internal().valueFn('_internalItemsValueFn'),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Options
+	 * @type {?(string|undefined)}
+	 */
+
+	label: Config.string(),
+
+	/**
+	 * @default enter-an-option
+	 * @instance
+	 * @memberof Options
+	 * @type {?(string)}
+	 */
+
+	placeholder: Config.string().value(Liferay.Language.get('enter-an-option')),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Options
+	 * @type {?bool}
+	 */
+
+	readOnly: Config.bool().value(false),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(bool|undefined)}
+	 */
+
+	repeatable: Config.bool(),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Options
+	 * @type {?bool}
+	 */
+
+	required: Config.bool().value(false),
+
+	/**
+	 * @default true
+	 * @instance
+	 * @memberof Options
+	 * @type {?bool}
+	 */
+
+	showLabel: Config.bool().value(true),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Options
+	 * @type {?(string|undefined)}
+	 */
+
+	spritemap: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Options
+	 * @type {?(string|undefined)}
+	 */
+
+	tip: Config.string(),
+
+	/**
+	 * @default options
+	 * @instance
+	 * @memberof Options
+	 * @type {?(string|undefined)}
+	 */
+
+	type: Config.string().value('options'),
+
+	/**
+	 * @default {}
+	 * @instance
+	 * @memberof Options
+	 * @type {?string}
+	 */
+
+	value: Config.object().setter('_setValue').value({})
+};
 
 Soy.register(Options, templates);
 

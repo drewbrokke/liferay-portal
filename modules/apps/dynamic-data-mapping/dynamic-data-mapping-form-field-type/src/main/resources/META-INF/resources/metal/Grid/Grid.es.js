@@ -5,128 +5,128 @@ import Soy from 'metal-soy';
 import templates from './Grid.soy.js';
 import {Config} from 'metal-state';
 
-class Grid extends Component {
-	static STATE = {
+class Grid extends Component {}
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Select
-		 * @type {?array<object>}
-		 */
+Grid.STATE = {
 
-		columns: Config.arrayOf(
-			Config.shapeOf(
-				{
-					label: Config.string(),
-					value: Config.string()
-				}
-			)
-		).value(
-			[
-				{
-					label: 'col1',
-					value: 'fieldId'
-				}
-			]
-		),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Select
+	 * @type {?array<object>}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Grid
-		 * @type {?(string|undefined)}
-		 */
+	columns: Config.arrayOf(
+		Config.shapeOf(
+			{
+				label: Config.string(),
+				value: Config.string()
+			}
+		)
+	).value(
+		[
+			{
+				label: 'col1',
+				value: 'fieldId'
+			}
+		]
+	),
 
-		label: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Grid
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Grid
-		 * @type {?bool}
-		 */
+	label: Config.string(),
 
-		readOnly: Config.bool().value(false),
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Grid
+	 * @type {?bool}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Grid
-		 * @type {?(bool|undefined)}
-		 */
+	readOnly: Config.bool().value(false),
 
-		repeatable: Config.bool(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Grid
+	 * @type {?(bool|undefined)}
+	 */
 
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Grid
-		 * @type {?(bool|undefined)}
-		 */
+	repeatable: Config.bool(),
 
-		required: Config.bool().value(false),
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Grid
+	 * @type {?(bool|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Select
-		 * @type {?array<object>}
-		 */
+	required: Config.bool().value(false),
 
-		rows: Config.arrayOf(
-			Config.shapeOf(
-				{
-					label: Config.string(),
-					value: Config.string()
-				}
-			)
-		).value(
-			[
-				{
-					label: 'row',
-					value: 'jehf'
-				}
-			]
-		),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Select
+	 * @type {?array<object>}
+	 */
 
-		/**
-		 * @default true
-		 * @instance
-		 * @memberof Grid
-		 * @type {?(bool|undefined)}
-		 */
+	rows: Config.arrayOf(
+		Config.shapeOf(
+			{
+				label: Config.string(),
+				value: Config.string()
+			}
+		)
+	).value(
+		[
+			{
+				label: 'row',
+				value: 'jehf'
+			}
+		]
+	),
 
-		showLabel: Config.bool().value(true),
+	/**
+	 * @default true
+	 * @instance
+	 * @memberof Grid
+	 * @type {?(bool|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Grid
-		 * @type {?(string|undefined)}
-		 */
+	showLabel: Config.bool().value(true),
 
-		spritemap: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Grid
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Grid
-		 * @type {?(string|undefined)}
-		 */
+	spritemap: Config.string(),
 
-		tip: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Grid
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Grid
-		 * @type {?(string|undefined)}
-		 */
+	tip: Config.string(),
 
-		type: Config.string().value('grid')
-	};
-}
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Grid
+	 * @type {?(string|undefined)}
+	 */
+
+	type: Config.string().value('grid')
+};
 
 Soy.register(Grid, templates);
 

@@ -12,199 +12,6 @@ import {Config} from 'metal-state';
 import {EventHandler} from 'metal-events';
 
 class Select extends Component {
-	static STATE = {
-
-		/**
-		 * @default 'string'
-		 * @instance
-		 * @memberof Select
-		 * @type {?(string|undefined)}
-		 */
-
-		dataSourceType: Config.string(),
-
-		/**
-		 * @default 'string'
-		 * @instance
-		 * @memberof Select
-		 * @type {?(string|undefined)}
-		 */
-
-		dataType: Config.string().value('string'),
-
-		/**
-		 * @default 'boolean'
-		 * @instance
-		 * @memberof Select
-		 * @type {?(boolean|undefined)}
-		 */
-
-		evaluable: Config.bool().value(false),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Select
-		 * @type {?bool}
-		 */
-
-		expanded: Config.bool().internal().value(false),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Text
-		 * @type {?(string|undefined)}
-		 */
-
-		fieldName: Config.string(),
-
-		fixedOptions: Config.arrayOf(
-			Config.shapeOf(
-				{
-					active: Config.bool().value(false),
-					disabled: Config.bool().value(false),
-					id: Config.string(),
-					inline: Config.bool().value(false),
-					label: Config.string(),
-					name: Config.string(),
-					showLabel: Config.bool().value(true),
-					value: Config.string()
-				}
-			)
-		).value([]),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Select
-		 * @type {?(string|undefined)}
-		 */
-
-		label: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Select
-		 * @type {?(string|undefined)}
-		 */
-
-		multiple: Config.bool(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Select
-		 * @type {?array<object>}
-		 */
-
-		options: Config.arrayOf(
-			Config.shapeOf(
-				{
-					active: Config.bool().value(false),
-					disabled: Config.bool().value(false),
-					id: Config.string(),
-					inline: Config.bool().value(false),
-					label: Config.string(),
-					name: Config.string(),
-					showLabel: Config.bool().value(true),
-					value: Config.string()
-				}
-			)
-		).value([]),
-
-		/**
-		 * @default Choose an Option
-		 * @instance
-		 * @memberof Select
-		 * @type {?string}
-		 */
-
-		placeholder: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Select
-		 * @type {?string}
-		 */
-
-		predefinedValue: Config.oneOfType([Config.array(), Config.string()]).value([]),
-
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Select
-		 * @type {?bool}
-		 */
-
-		readOnly: Config.bool().value(false),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(bool|undefined)}
-		 */
-
-		repeatable: Config.bool(),
-
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Select
-		 * @type {?bool}
-		 */
-
-		required: Config.bool().value(false),
-
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Select
-		 * @type {?bool}
-		 */
-
-		showLabel: Config.bool().value(true),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Select
-		 * @type {?(string|undefined)}
-		 */
-
-		spritemap: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(string|undefined)}
-		 */
-
-		tip: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Text
-		 * @type {?(string|undefined)}
-		 */
-
-		type: Config.string().value('select'),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Select
-		 * @type {?(string|undefined)}
-		 */
-
-		value: Config.oneOfType([Config.array(), Config.string()])
-	};
-
 	addValue(value) {
 		const currentValue = this._getArrayValue(this.value);
 		const newValue = [...currentValue];
@@ -396,6 +203,199 @@ class Select extends Component {
 		};
 	}
 }
+
+Select.STATE = {
+
+	/**
+	 * @default 'string'
+	 * @instance
+	 * @memberof Select
+	 * @type {?(string|undefined)}
+	 */
+
+	dataSourceType: Config.string(),
+
+	/**
+	 * @default 'string'
+	 * @instance
+	 * @memberof Select
+	 * @type {?(string|undefined)}
+	 */
+
+	dataType: Config.string().value('string'),
+
+	/**
+	 * @default 'boolean'
+	 * @instance
+	 * @memberof Select
+	 * @type {?(boolean|undefined)}
+	 */
+
+	evaluable: Config.bool().value(false),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Select
+	 * @type {?bool}
+	 */
+
+	expanded: Config.bool().internal().value(false),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Text
+	 * @type {?(string|undefined)}
+	 */
+
+	fieldName: Config.string(),
+
+	fixedOptions: Config.arrayOf(
+		Config.shapeOf(
+			{
+				active: Config.bool().value(false),
+				disabled: Config.bool().value(false),
+				id: Config.string(),
+				inline: Config.bool().value(false),
+				label: Config.string(),
+				name: Config.string(),
+				showLabel: Config.bool().value(true),
+				value: Config.string()
+			}
+		)
+	).value([]),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Select
+	 * @type {?(string|undefined)}
+	 */
+
+	label: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Select
+	 * @type {?(string|undefined)}
+	 */
+
+	multiple: Config.bool(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Select
+	 * @type {?array<object>}
+	 */
+
+	options: Config.arrayOf(
+		Config.shapeOf(
+			{
+				active: Config.bool().value(false),
+				disabled: Config.bool().value(false),
+				id: Config.string(),
+				inline: Config.bool().value(false),
+				label: Config.string(),
+				name: Config.string(),
+				showLabel: Config.bool().value(true),
+				value: Config.string()
+			}
+		)
+	).value([]),
+
+	/**
+	 * @default Choose an Option
+	 * @instance
+	 * @memberof Select
+	 * @type {?string}
+	 */
+
+	placeholder: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Select
+	 * @type {?string}
+	 */
+
+	predefinedValue: Config.oneOfType([Config.array(), Config.string()]).value([]),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Select
+	 * @type {?bool}
+	 */
+
+	readOnly: Config.bool().value(false),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(bool|undefined)}
+	 */
+
+	repeatable: Config.bool(),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Select
+	 * @type {?bool}
+	 */
+
+	required: Config.bool().value(false),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Select
+	 * @type {?bool}
+	 */
+
+	showLabel: Config.bool().value(true),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Select
+	 * @type {?(string|undefined)}
+	 */
+
+	spritemap: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
+	 */
+
+	tip: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Text
+	 * @type {?(string|undefined)}
+	 */
+
+	type: Config.string().value('select'),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Select
+	 * @type {?(string|undefined)}
+	 */
+
+	value: Config.oneOfType([Config.array(), Config.string()])
+};
 
 Soy.register(Select, templates);
 

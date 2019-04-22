@@ -6,144 +6,6 @@ import templates from './Editor.soy.js';
 import {Config} from 'metal-state';
 
 class Editor extends Component {
-	static STATE = {
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(string|undefined)}
-		 */
-
-		editorValue: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(string|undefined)}
-		 */
-
-		fieldName: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(string|undefined)}
-		 */
-
-		id: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(string|undefined)}
-		 */
-
-		label: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(string|undefined)}
-		 */
-
-		name: Config.string().required(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(string|undefined)}
-		 */
-
-		placeholder: Config.string(),
-
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Editor
-		 * @type {?bool}
-		 */
-
-		readOnly: Config.bool().value(false),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(bool|undefined)}
-		 */
-
-		repeatable: Config.bool(),
-
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(bool|undefined)}
-		 */
-
-		required: Config.bool().value(false),
-
-		/**
-		 * @default true
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(bool|undefined)}
-		 */
-
-		showLabel: Config.bool().value(true),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(string|undefined)}
-		 */
-
-		spritemap: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(string|undefined)}
-		 */
-
-		tip: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(string|undefined)}
-		 */
-
-		tooltip: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Text
-		 * @type {?(string|undefined)}
-		 */
-
-		type: Config.string().value('editor'),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Editor
-		 * @type {?(string|undefined)}
-		 */
-
-		value: Config.string().value('')
-	};
-
 	attached() {
 		this._createEditor();
 	}
@@ -233,6 +95,144 @@ class Editor extends Component {
 		);
 	}
 }
+
+Editor.STATE = {
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(string|undefined)}
+	 */
+
+	editorValue: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(string|undefined)}
+	 */
+
+	fieldName: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(string|undefined)}
+	 */
+
+	id: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(string|undefined)}
+	 */
+
+	label: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(string|undefined)}
+	 */
+
+	name: Config.string().required(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(string|undefined)}
+	 */
+
+	placeholder: Config.string(),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Editor
+	 * @type {?bool}
+	 */
+
+	readOnly: Config.bool().value(false),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(bool|undefined)}
+	 */
+
+	repeatable: Config.bool(),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(bool|undefined)}
+	 */
+
+	required: Config.bool().value(false),
+
+	/**
+	 * @default true
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(bool|undefined)}
+	 */
+
+	showLabel: Config.bool().value(true),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(string|undefined)}
+	 */
+
+	spritemap: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(string|undefined)}
+	 */
+
+	tip: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
+	 */
+
+	tooltip: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Text
+	 * @type {?(string|undefined)}
+	 */
+
+	type: Config.string().value('editor'),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Editor
+	 * @type {?(string|undefined)}
+	 */
+
+	value: Config.string().value('')
+};
 
 Soy.register(Editor, templates);
 

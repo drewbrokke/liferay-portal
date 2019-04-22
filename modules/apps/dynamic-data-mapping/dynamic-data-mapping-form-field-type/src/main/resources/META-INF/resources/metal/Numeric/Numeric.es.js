@@ -8,180 +8,6 @@ import vanillaTextMask from 'vanilla-text-mask';
 import {Config} from 'metal-state';
 
 class Numeric extends Component {
-	static STATE = {
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Text
-		 * @type {?(string|undefined)}
-		 */
-
-		_value: Config.string().internal().valueFn('_internalValueFn'),
-
-		/**
-		 * @default 'integer'
-		 * @instance
-		 * @memberof Numeric
-		 * @type {string}
-		 */
-
-		dataType: Config.string().value('integer'),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(string|undefined)}
-		 */
-
-		fieldName: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(string|undefined)}
-		 */
-
-		id: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(string|undefined)}
-		 */
-
-		label: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(string|undefined)}
-		 */
-
-		name: Config.string().required(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(string|undefined)}
-		 */
-
-		placeholder: Config.string(),
-
-		/**
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(string)}
-		 */
-
-		predefinedValue: Config.string(),
-
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?bool}
-		 */
-
-		readOnly: Config.bool().value(false),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(bool|undefined)}
-		 */
-
-		repeatable: Config.bool(),
-
-		/**
-		 * @default false
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(bool|undefined)}
-		 */
-
-		required: Config.bool().value(false),
-
-		/**
-		 * @default true
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(bool|undefined)}
-		 */
-
-		showLabel: Config.bool().value(true),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(string|undefined)}
-		 */
-
-		spritemap: Config.string(),
-
-		/**
-		 * @default object
-		 * @instance
-		 * @memberof Numeric
-		 * @type {object}
-		 */
-
-		symbols: Config.shapeOf(
-			{
-				decimalSymbol: Config.string(),
-				thousandsSeparator: Config.string()
-			}
-		).value(
-			{
-				decimalSymbol: '.',
-				thousandsSeparator: ','
-			}
-		),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(string|undefined)}
-		 */
-
-		tip: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(string|undefined)}
-		 */
-
-		tooltip: Config.string(),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Text
-		 * @type {?(string|undefined)}
-		 */
-
-		type: Config.string().value('numeric'),
-
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof Numeric
-		 * @type {?(string|undefined)}
-		 */
-
-		value: Config.string()
-	};
-
 	applyMask() {
 		const {dataType, element} = this;
 		const inputElement = element.querySelector('input');
@@ -271,6 +97,180 @@ class Numeric extends Component {
 		return value;
 	}
 }
+
+Numeric.STATE = {
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Text
+	 * @type {?(string|undefined)}
+	 */
+
+	_value: Config.string().internal().valueFn('_internalValueFn'),
+
+	/**
+	 * @default 'integer'
+	 * @instance
+	 * @memberof Numeric
+	 * @type {string}
+	 */
+
+	dataType: Config.string().value('integer'),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(string|undefined)}
+	 */
+
+	fieldName: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(string|undefined)}
+	 */
+
+	id: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(string|undefined)}
+	 */
+
+	label: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(string|undefined)}
+	 */
+
+	name: Config.string().required(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(string|undefined)}
+	 */
+
+	placeholder: Config.string(),
+
+	/**
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(string)}
+	 */
+
+	predefinedValue: Config.string(),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?bool}
+	 */
+
+	readOnly: Config.bool().value(false),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(bool|undefined)}
+	 */
+
+	repeatable: Config.bool(),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(bool|undefined)}
+	 */
+
+	required: Config.bool().value(false),
+
+	/**
+	 * @default true
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(bool|undefined)}
+	 */
+
+	showLabel: Config.bool().value(true),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(string|undefined)}
+	 */
+
+	spritemap: Config.string(),
+
+	/**
+	 * @default object
+	 * @instance
+	 * @memberof Numeric
+	 * @type {object}
+	 */
+
+	symbols: Config.shapeOf(
+		{
+			decimalSymbol: Config.string(),
+			thousandsSeparator: Config.string()
+		}
+	).value(
+		{
+			decimalSymbol: '.',
+			thousandsSeparator: ','
+		}
+	),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(string|undefined)}
+	 */
+
+	tip: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
+	 */
+
+	tooltip: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Text
+	 * @type {?(string|undefined)}
+	 */
+
+	type: Config.string().value('numeric'),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Numeric
+	 * @type {?(string|undefined)}
+	 */
+
+	value: Config.string()
+};
 
 Soy.register(Numeric, templates);
 

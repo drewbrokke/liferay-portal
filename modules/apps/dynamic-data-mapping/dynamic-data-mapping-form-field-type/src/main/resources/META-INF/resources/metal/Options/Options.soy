@@ -28,11 +28,11 @@
 		{param contentRenderer kind="html"}
 			{if $items}
 				<div class="ddm-field-options-container">
-					{for $option in $items}
-						<div class="ddm-options-target" data-index={index($option)}></div>
+					{foreach $option in $items}
+						<div class="ddm-options-target" data-index="{index($option)}"></div>
 
 						{let $fieldConfig kind="html"}
-							<div class="ddm-field-options" data-index={index($option)}>
+							<div class="ddm-field-options" data-index="{index($option)}">
 								<span class="ddm-options-drag {$readOnly ? 'disabled': ''}">
 									<svg
 										aria-hidden="true"
@@ -65,7 +65,7 @@
 									{/call}
 
 									{if not isLast($option) and not $readOnly}
-										<button class="close close-modal" data-onclick={$_handleOptionDeleted} type="button">
+										<button class="close close-modal" data-onclick="{$_handleOptionDeleted}" type="button">
 											<svg
 												aria-hidden="true"
 												class="lexicon-icon lexicon-icon-times"
@@ -79,7 +79,7 @@
 						{/let}
 
 						{$fieldConfig}
-					{/for}
+					{/foreach}
 				</div>
 			{/if}
 		{/param}

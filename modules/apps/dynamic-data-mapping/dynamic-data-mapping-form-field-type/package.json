@@ -122,37 +122,7 @@
 		"text-mask-addons": "^3.7.1",
 		"vanilla-text-mask": "^5.0.1"
 	},
-	"devDependencies": {
-		"babel-cli": "^6.26.0",
-		"babel-eslint": "^8.2.6",
-		"babel-plugin-transform-class-properties": "^6.24.1",
-		"babel-plugin-transform-decorators-legacy": "^1.3.5",
-		"babel-plugin-transform-object-rest-spread": "^6.26.0",
-		"babel-preset-env": "^1.7.0",
-		"browser-sync": "^2.24.7",
-		"check-source-formatting": "^2.0.14",
-		"cross-env": "^5.2.0",
-		"eslint": "^4.10.0",
-		"eslint-config-liferay": "^2.0.8",
-		"eslint-plugin-react": "^7.4.0",
-		"eslint-plugin-sort-class-members": "^1.4.0",
-		"jest": "^24.5.0",
-		"metal-jest-serializer": "^2.0.0",
-		"metal-soy-critic": "^2.4.0",
-		"metal-tools-soy": "^6.0.0",
-		"opn-cli": "^4.0.0",
-		"rimraf": "^2.6.2"
-	},
 	"jest": {
-		"automock": false,
-		"browser": true,
-		"coverageDirectory": "build/coverage",
-		"coverageThreshold": {
-			"global": {
-				"functions": 70,
-				"lines": 70
-			}
-		},
 		"moduleNameMapper": {
 			"(.*)\\.soy$": "$1.soy.js",
 			"dynamic-data-mapping-form-builder/(.*)": "<rootDir>/../dynamic-data-mapping-form-builder/src/main/resources/META-INF/resources/$1",
@@ -163,35 +133,32 @@
 			"/__mock__/",
 			"/classes/"
 		],
-		"setupTestFrameworkScriptFile": "<rootDir>/test/metal/setup/setup_framework.es.js",
+		"setupFiles": [
+			"<rootDir>/jest-setup.config.js"
+		],
 		"snapshotSerializers": [
 			"metal-jest-serializer"
 		],
-		"testMatch": [
-			"<rootDir>/test/metal/js/**/*.js"
+		"testPathIgnorePatterns": [
+			"DatePicker",
+			"Numeric",
+			"Options",
+			"Select",
+			"Tooltip",
+			"Validation"
 		],
-		"testResultsProcessor": "./node_modules/liferay-jest-junit-reporter",
-		"testURL": "http://localhost",
-		"transformIgnorePatterns": [
-			"<rootDir>.*(node_modules)(?!.*metal.*).*$",
-			"<rootDir>.*(node_modules)(?!.*clay.*).*$"
-		]
+		"transform": {
+			".+": "./jest-workspaces-transform.js"
+		}
 	},
 	"main": "./",
 	"name": "dynamic-data-mapping-form-field-type",
 	"private": true,
 	"scripts": {
-		"build": "npm run build-soy && babel --source-maps -d classes/META-INF/resources src/main/resources/META-INF/resources && liferay-npm-bundler && npm run clean",
-		"build-soy": "metalsoy --externalMsgFormat \"Liferay.Language.get('\\$2')\" --soyDeps \"../../../node_modules/+(clay-*|frontend-js-web)/src/**/*.soy\"",
-		"build-soy-tests": "npm run build-soy && metalsoy -s \"test/**/*.soy\" -d \"test\"",
+		"build": "liferay-npm-scripts build",
 		"checkFormat": "liferay-npm-scripts lint",
-		"clean": "rimraf \"src/**/*.soy.js\" \"test/**/*.soy.js\"",
 		"format": "liferay-npm-scripts format",
-		"lint": "eslint src/main/resources/META-INF/resources/metal/",
-		"start": "node watch.js",
-		"test:coverage:open": "opn build/coverage/lcov-report/index.html",
-		"test:snapshots": "npm run build-soy-tests && cross-env NODE_ENV=test jest --coverage -u && npm run clean",
-		"test_DISABLED": "npm run build-soy-tests && cross-env NODE_ENV=test jest --coverage && npm run clean"
+		"test": "liferay-npm-scripts test"
 	},
 	"version": "4.0.0"
 }

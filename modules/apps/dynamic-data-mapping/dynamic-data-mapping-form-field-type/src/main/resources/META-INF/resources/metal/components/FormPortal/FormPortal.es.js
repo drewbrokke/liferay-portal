@@ -5,19 +5,19 @@ import {Config} from 'metal-state';
 
 import templates from './FormPortal.soy.js';
 
-class FormPortal extends Component {
-	static STATE = {
+class FormPortal extends Component {}
 
-		/**
-		 * @default input
-		 * @instance
-		 * @memberof FormPortal
-		 * @type {?html}
-		 */
+FormPortal.STATE = {
 
-		contentRenderer: Config.any()
-	}
-}
+	/**
+	 * @default input
+	 * @instance
+	 * @memberof FormPortal
+	 * @type {?html}
+	 */
+
+	contentRenderer: Config.any()
+};
 
 Soy.register(FormPortal, templates);
 

@@ -5,91 +5,91 @@ import Soy from 'metal-soy';
 import templates from './FieldBase.soy.js';
 import {Config} from 'metal-state';
 
-class FieldBase extends Component {
-	static STATE = {
+class FieldBase extends Component {}
 
-		/**
-		 * @default input
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?html}
-		 */
+FieldBase.STATE = {
 
-		contentRenderer: Config.any(),
+	/**
+	 * @default input
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?html}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(string|undefined)}
-		 */
+	contentRenderer: Config.any(),
 
-		id: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(string|undefined)}
-		 */
+	id: Config.string(),
 
-		label: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(bool|undefined)}
-		 */
+	label: Config.string(),
 
-		repeatable: Config.bool(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(bool|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(bool|undefined)}
-		 */
+	repeatable: Config.bool(),
 
-		required: Config.bool(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(bool|undefined)}
+	 */
 
-		/**
-		 * @default true
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(bool|undefined)}
-		 */
+	required: Config.bool(),
 
-		showLabel: Config.bool().value(true),
+	/**
+	 * @default true
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(bool|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(string|undefined)}
-		 */
+	showLabel: Config.bool().value(true),
 
-		spritemap: Config.string().required(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(string|undefined)}
-		 */
+	spritemap: Config.string().required(),
 
-		tip: Config.string(),
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
+	 */
 
-		/**
-		 * @default undefined
-		 * @instance
-		 * @memberof FieldBase
-		 * @type {?(string|undefined)}
-		 */
+	tip: Config.string(),
 
-		tooltip: Config.string()
-	};
-}
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
+	 */
+
+	tooltip: Config.string()
+};
 
 Soy.register(FieldBase, templates);
 

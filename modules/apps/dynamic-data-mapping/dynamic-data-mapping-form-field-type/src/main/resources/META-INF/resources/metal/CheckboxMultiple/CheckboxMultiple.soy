@@ -53,14 +53,14 @@
 
 	<div class="form-group">
 		{if $options}
-			{for $option in $options}
+			{foreach $option in $options}
 				{let $isChecked kind="text"}
 					{if $predefinedValue and length($predefinedValue) > 0}
-						{for $predefined in $predefinedValue}
+						{foreach $predefined in $predefinedValue}
 							{if $predefined == $option.value}
 								isChecked
 							{/if}
-						{/for}
+						{/foreach}
 					{/if}
 				{/let}
 				{if $showAsSwitcher}
@@ -81,7 +81,7 @@
 						{param label: $option.label /}
 					{/call}
 				{/if}
-			{/for}
+			{/foreach}
 		{/if}
 	</div>
 {/template}

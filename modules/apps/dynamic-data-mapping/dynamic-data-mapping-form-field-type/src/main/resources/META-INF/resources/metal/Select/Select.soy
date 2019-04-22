@@ -78,8 +78,8 @@
 						<ul class="multiple-label-list">
 					{/if}
 
-					{for $currentValue in $value}
-						{for $option in $options}
+					{foreach $currentValue in $value}
+						{foreach $option in $options}
 							{if $currentValue == $option.value}
 								{if $multiple}
 									<li>
@@ -100,7 +100,7 @@
 									<div class="option-selected">{$option.label}</div>
 								{/if}
 							{/if}
-						{/for}
+						{/foreach}
 
 						{ifempty}
 							<div class="option-selected option-selected-placeholder">
@@ -110,7 +110,7 @@
 									{msg desc=""}choose-an-option{/msg}
 								{/if}
 							</div>
-					{/for}
+					{/foreach}
 
 					{if $multiple}
 						</ul>
