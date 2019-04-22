@@ -113,12 +113,12 @@ public class RadioFieldType extends BaseFieldType {
 					"predefinedValue")));
 		context.put(
 			"value",
-			getValue(
+			_getValue(
 				CustomPropertyUtil.getString(
 					dataDefinitionField.getCustomProperties(), "value", "[]")));
 	}
 
-	protected String getValue(String json) {
+	private String _getValue(String json) {
 		try {
 			JSONArray jsonArray = JSONFactoryUtil.createJSONArray(json);
 
