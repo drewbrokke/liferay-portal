@@ -198,16 +198,14 @@ public class FragmentEntryLinkRichTextEditorConfigContributor
 		JSONObject styleJSONObject = JSONFactoryUtil.createJSONObject();
 
 		if (Validator.isNotNull(cssClass)) {
-			JSONObject attributesJSONObject =
-				JSONFactoryUtil.createJSONObject();
-
-			attributesJSONObject.put("class", cssClass);
-
-			styleJSONObject.put("attributes", attributesJSONObject);
+			styleJSONObject.put("attributes", JSONUtil.put("class", cssClass));
 		}
 
-		styleJSONObject.put("element", element);
-		styleJSONObject.put("type", type);
+		styleJSONObject.put(
+			"element", element
+		).put(
+			"type", type
+		);
 
 		return styleJSONObject;
 	}
