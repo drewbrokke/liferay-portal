@@ -57,8 +57,9 @@ public class AssetUsagesTag extends IncludeTag {
 			if (_log.isDebugEnabled()) {
 				_log.debug(
 					StringBundler.concat(
-						"Unable to check asset entry usages for ", _className,
-						", ", String.valueOf(_classPK)),
+						"Unable to check asset entry usages for class name ",
+						_className, " and class PK ",
+						String.valueOf(_classPK)),
 					pe);
 			}
 		}
