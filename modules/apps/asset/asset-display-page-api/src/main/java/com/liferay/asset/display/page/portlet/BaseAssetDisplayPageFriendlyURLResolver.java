@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.model.LayoutFriendlyURLComposite;
 import com.liferay.portal.kernel.portlet.FriendlyURLResolver;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -136,6 +137,9 @@ public abstract class BaseAssetDisplayPageFriendlyURLResolver
 	protected AssetHelper assetHelper;
 
 	@Reference
+	protected Http http;
+
+	@Reference
 	protected InfoDisplayContributorTracker infoDisplayContributorTracker;
 
 	@Reference
@@ -221,7 +225,7 @@ public abstract class BaseAssetDisplayPageFriendlyURLResolver
 	private String _getUrlTitle(String friendlyURL) {
 		List<String> paths = StringUtil.split(friendlyURL, CharPool.SLASH);
 
-		return paths.get(1);
+		return http.encodePath(paths.get(1));
 	}
 
 	private long _getVersionClassPK(String friendlyURL) {
