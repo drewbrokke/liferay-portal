@@ -154,14 +154,14 @@ public class FragmentEntryLinkRichTextEditorConfigContributor
 
 		Class<?> clazz = getClass();
 
+		ResourceBundle resourceBundle = null;
+
 		ResourceBundleLoader resourceBundleLoader =
 			new AggregateResourceBundleLoader(
 				ResourceBundleUtil.getResourceBundleLoader(
 					"content.Language", clazz.getClassLoader()),
 				_resourceBundleLoader,
 				LanguageUtil.getPortalResourceBundleLoader());
-
-		ResourceBundle resourceBundle = null;
 
 		try {
 			resourceBundle = resourceBundleLoader.loadResourceBundle(locale);
