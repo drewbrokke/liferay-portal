@@ -17,7 +17,6 @@ package com.liferay.frontend.editor.alloyeditor.web.internal.editor.configuratio
 import com.liferay.frontend.editor.alloyeditor.web.internal.constants.AlloyEditorConstants;
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion;
 import com.liferay.layout.item.selector.criterion.LayoutItemSelectorCriterion;
@@ -28,8 +27,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.portlet.PortletURL;
@@ -107,19 +104,14 @@ public abstract class BaseAlloyEditorConfigContributor
 		ItemSelectorCriterion fileItemSelectorCriterion =
 			new FileItemSelectorCriterion();
 
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		desiredItemSelectorReturnTypes.add(new URLItemSelectorReturnType());
-
 		fileItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			desiredItemSelectorReturnTypes);
+			new URLItemSelectorReturnType());
 
 		LayoutItemSelectorCriterion layoutItemSelectorCriterion =
 			new LayoutItemSelectorCriterion();
 
 		layoutItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			desiredItemSelectorReturnTypes);
+			new URLItemSelectorReturnType());
 		layoutItemSelectorCriterion.setShowHiddenPages(true);
 
 		PortletURL itemSelectorURL = _itemSelector.getItemSelectorURL(

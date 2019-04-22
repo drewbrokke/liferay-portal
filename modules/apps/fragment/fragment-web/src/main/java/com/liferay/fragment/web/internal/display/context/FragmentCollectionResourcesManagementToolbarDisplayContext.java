@@ -25,7 +25,6 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
 import com.liferay.item.selector.criteria.upload.criterion.UploadItemSelectorCriterion;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -37,7 +36,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadServletRequestConfigurationHelperUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -155,27 +153,21 @@ public class FragmentCollectionResourcesManagementToolbarDisplayContext
 			ActionRequest.ACTION_NAME,
 			"/fragment/upload_fragment_collection_resource");
 
-		ItemSelectorCriterion uploadItemSelectorCriterion =
+		ItemSelectorCriterion itemSelectorCriterion =
 			new UploadItemSelectorCriterion(
 				FragmentPortletKeys.FRAGMENT, uploadURL.toString(),
 				LanguageUtil.get(_themeDisplay.getLocale(), "resources"),
 				UploadServletRequestConfigurationHelperUtil.getMaxSize(),
 				_fragmentPortletConfiguration.thumbnailExtensions());
 
-		List<ItemSelectorReturnType> uploadDesiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		uploadDesiredItemSelectorReturnTypes.add(
+		itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
 			new FileEntryItemSelectorReturnType());
-
-		uploadItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			uploadDesiredItemSelectorReturnTypes);
 
 		PortletURL itemSelectorURL = _itemSelector.getItemSelectorURL(
 			RequestBackedPortletURLFactoryUtil.create(request),
 			liferayPortletResponse.getNamespace() +
 				"uploadFragmentCollectionResource",
-			uploadItemSelectorCriterion);
+			itemSelectorCriterion);
 
 		return itemSelectorURL.toString();
 	}

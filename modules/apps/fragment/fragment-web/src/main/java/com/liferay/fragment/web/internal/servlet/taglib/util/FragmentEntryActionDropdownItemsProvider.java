@@ -24,7 +24,6 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
 import com.liferay.item.selector.criteria.upload.criterion.UploadItemSelectorCriterion;
 import com.liferay.petra.function.UnsafeConsumer;
@@ -36,7 +35,6 @@ import com.liferay.portal.kernel.upload.UploadServletRequestConfigurationHelperU
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -229,26 +227,20 @@ public class FragmentEntryActionDropdownItemsProvider {
 			ActionRequest.ACTION_NAME,
 			"/fragment/upload_fragment_entry_preview");
 
-		ItemSelectorCriterion uploadItemSelectorCriterion =
+		ItemSelectorCriterion itemSelectorCriterion =
 			new UploadItemSelectorCriterion(
 				FragmentPortletKeys.FRAGMENT, uploadURL.toString(),
 				LanguageUtil.get(_themeDisplay.getLocale(), "fragments"),
 				UploadServletRequestConfigurationHelperUtil.getMaxSize(),
 				_fragmentPortletConfiguration.thumbnailExtensions());
 
-		List<ItemSelectorReturnType> uploadDesiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		uploadDesiredItemSelectorReturnTypes.add(
+		itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
 			new FileEntryItemSelectorReturnType());
-
-		uploadItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			uploadDesiredItemSelectorReturnTypes);
 
 		PortletURL itemSelectorURL = _itemSelector.getItemSelectorURL(
 			RequestBackedPortletURLFactoryUtil.create(_request),
 			_renderResponse.getNamespace() + "changePreview",
-			uploadItemSelectorCriterion);
+			itemSelectorCriterion);
 
 		itemSelectorURL.setParameter(
 			"fragmentEntryId",

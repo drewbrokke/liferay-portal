@@ -17,7 +17,7 @@ package com.liferay.blogs.web.internal;
 import com.liferay.blogs.constants.BlogsPortletKeys;
 import com.liferay.blogs.item.selector.criterion.BlogsItemSelectorCriterion;
 import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.ItemSelectorReturnType;
+import com.liferay.item.selector.ItemSelectorCriterion;
 import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
 import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
 import com.liferay.item.selector.criteria.upload.criterion.UploadItemSelectorCriterion;
@@ -27,9 +27,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletURL;
@@ -54,28 +51,16 @@ public class BlogsItemSelectorHelper {
 			return null;
 		}
 
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		desiredItemSelectorReturnTypes.add(
-			new FileEntryItemSelectorReturnType());
-
-		BlogsItemSelectorCriterion blogsItemSelectorCriterion =
+		ItemSelectorCriterion blogsItemSelectorCriterion =
 			new BlogsItemSelectorCriterion();
 
 		blogsItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			desiredItemSelectorReturnTypes);
+			new FileEntryItemSelectorReturnType());
 
 		ImageItemSelectorCriterion imageItemSelectorCriterion =
 			new ImageItemSelectorCriterion();
 
 		imageItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			desiredItemSelectorReturnTypes);
-
-		List<ItemSelectorReturnType>
-			uploadCriterionDesiredItemSelectorReturnTypes = new ArrayList<>();
-
-		uploadCriterionDesiredItemSelectorReturnTypes.add(
 			new FileEntryItemSelectorReturnType());
 
 		PortletURL uploadURL = requestBackedPortletURLFactory.createActionURL(
@@ -87,14 +72,14 @@ public class BlogsItemSelectorHelper {
 		String[] extensions = PropsUtil.getArray(
 			PropsKeys.BLOGS_IMAGE_EXTENSIONS);
 
-		UploadItemSelectorCriterion uploadItemSelectorCriterion =
+		ItemSelectorCriterion uploadItemSelectorCriterion =
 			new UploadItemSelectorCriterion(
 				BlogsPortletKeys.BLOGS, uploadURL.toString(),
 				LanguageUtil.get(themeDisplay.getLocale(), "blog-images"),
 				PropsValues.BLOGS_IMAGE_MAX_SIZE, extensions);
 
 		uploadItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			uploadCriterionDesiredItemSelectorReturnTypes);
+			new FileEntryItemSelectorReturnType());
 
 		PortletURL itemSelectorURL = _itemSelector.getItemSelectorURL(
 			requestBackedPortletURLFactory, itemSelectedEventName,
