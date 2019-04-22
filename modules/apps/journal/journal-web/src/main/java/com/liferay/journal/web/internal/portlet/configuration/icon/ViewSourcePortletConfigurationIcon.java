@@ -48,7 +48,7 @@ import org.osgi.service.component.annotations.Reference;
 	},
 	service = PortletConfigurationIcon.class
 )
-public class ViewJournalSourcePortletConfigurationIcon
+public class ViewSourcePortletConfigurationIcon
 	extends BaseJSPPortletConfigurationIcon {
 
 	@Override
