@@ -8552,12 +8552,10 @@ public class JournalArticleLocalServiceImpl
 
 			ddmStorageLinkLocalService.updateDDMStorageLink(ddmStorageLink);
 
-			int ddmStructureLinkCount =
-				ddmStructureLinkLocalService.getStructureLinksCount(
-					classNameLocalService.getClassNameId(JournalArticle.class),
-					id);
+			int count = ddmStructureLinkLocalService.getStructureLinksCount(
+				classNameLocalService.getClassNameId(JournalArticle.class), id);
 
-			if (ddmStructureLinkCount == 0) {
+			if (count == 0) {
 				ddmStructureLinkLocalService.addStructureLink(
 					classNameLocalService.getClassNameId(JournalArticle.class),
 					id, ddmStructure.getStructureId());
