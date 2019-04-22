@@ -74,13 +74,13 @@ public abstract class BaseMessageBodyWriter
 
 		ObjectMapper objectMapper = _getObjectMapper(clazz);
 
-		ObjectWriter writer = objectMapper.writer();
+		ObjectWriter objectWriter = objectMapper.writer();
 
 		if (MediaType.APPLICATION_XML_TYPE.equals(mediaType)) {
-			writer = writer.withRootName(clazz.getSimpleName());
+			objectWriter = objectWriter.withRootName(clazz.getSimpleName());
 		}
 
-		writer.writeValue(outputStream, object);
+		objectWriter.writeValue(outputStream, object);
 
 		outputStream.flush();
 	}
