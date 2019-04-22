@@ -139,7 +139,6 @@ public class DiscardDraftLayoutMVCActionCommand extends BaseMVCActionCommand {
 
 				long classNameId = GetterUtil.getLong(
 					typeSettingsProperties.getProperty("assetClassNameId"));
-
 				long classTypeId = GetterUtil.getLong(
 					typeSettingsProperties.getProperty("assetClassTypeId"));
 
