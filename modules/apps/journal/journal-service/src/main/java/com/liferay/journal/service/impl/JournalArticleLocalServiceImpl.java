@@ -8552,15 +8552,28 @@ public class JournalArticleLocalServiceImpl
 
 			ddmStorageLinkLocalService.updateDDMStorageLink(ddmStorageLink);
 
-			DDMStructureLink ddmStructureLink =
-				ddmStructureLinkLocalService.getUniqueStructureLink(
+			int ddmStructureLinkCount =
+				ddmStructureLinkLocalService.getStructureLinksCount(
 					classNameLocalService.getClassNameId(JournalArticle.class),
 					id);
 
-			ddmStructureLink.setStructureId(ddmStructure.getStructureId());
+			if (ddmStructureLinkCount == 0) {
+				ddmStructureLinkLocalService.addStructureLink(
+					classNameLocalService.getClassNameId(JournalArticle.class),
+					id, ddmStructure.getStructureId());
+			}
+			else {
+				DDMStructureLink ddmStructureLink =
+					ddmStructureLinkLocalService.getUniqueStructureLink(
+						classNameLocalService.getClassNameId(
+							JournalArticle.class),
+						id);
 
-			ddmStructureLinkLocalService.updateDDMStructureLink(
-				ddmStructureLink);
+				ddmStructureLink.setStructureId(ddmStructure.getStructureId());
+
+				ddmStructureLinkLocalService.updateDDMStructureLink(
+					ddmStructureLink);
+			}
 
 			if (ddmTemplate != null) {
 				ddmTemplateLinkLocalService.updateTemplateLink(
