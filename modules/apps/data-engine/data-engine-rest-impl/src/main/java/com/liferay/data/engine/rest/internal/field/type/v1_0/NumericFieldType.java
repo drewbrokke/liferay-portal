@@ -17,26 +17,21 @@ package com.liferay.data.engine.rest.internal.field.type.v1_0;
 import com.liferay.data.engine.rest.dto.v1_0.DataDefinitionField;
 import com.liferay.data.engine.rest.internal.dto.v1_0.util.LocalizedValueUtil;
 import com.liferay.data.engine.rest.internal.field.type.v1_0.util.CustomPropertyUtil;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.template.soy.data.SoyDataFactory;
-
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.template.soy.data.SoyDataFactory;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Gabriel Albuquerque
@@ -129,9 +124,7 @@ public class NumericFieldType extends BaseFieldType {
 					CustomPropertyUtil.getLocalizedValue(
 						dataDefinitionField.getCustomProperties(),
 						"predefinedValue"))));
-		context.put(
-			"symbols",
-			_getSymbols());
+		context.put("symbols", _getSymbols());
 		context.put(
 			"tooltip",
 			LocalizedValueUtil.getLocalizedValue(
