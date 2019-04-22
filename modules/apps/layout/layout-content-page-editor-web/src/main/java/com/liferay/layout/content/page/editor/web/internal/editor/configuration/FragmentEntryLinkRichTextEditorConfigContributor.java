@@ -257,35 +257,33 @@ public class FragmentEntryLinkRichTextEditorConfigContributor
 	protected JSONObject getToolbarsStylesSelectionsTextJSONObject(
 		Locale locale) {
 
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+		return JSONUtil.put(
+			"buttons",
+			JSONUtil.put(
+				getStyleFormatsJSONObject(locale),
+				"bold", "italic", "underline", "ol",
+				"ul", "linkBrowse",
 
-		JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
+				// Separate
 
-		jsonArray.put(getStyleFormatsJSONObject(locale));
-		jsonArray.put("bold");
-		jsonArray.put("italic");
-		jsonArray.put("underline");
-		jsonArray.put("ol");
-		jsonArray.put("ul");
-		jsonArray.put("linkBrowse");
+				"paragraphLeft", "paragraphCenter",
+				"paragraphRight", "paragraphJustify",
 
-		jsonArray.put("paragraphLeft");
-		jsonArray.put("paragraphCenter");
-		jsonArray.put("paragraphRight");
-		jsonArray.put("paragraphJustify");
+				// Separate
 
-		jsonArray.put("spacing");
+				"spacing",
 
-		jsonArray.put("color");
+				// Separate
 
-		jsonArray.put("removeFormat");
+				"color",
 
-		jsonObject.put("buttons", jsonArray);
+				// Separate
 
-		jsonObject.put("name", "text");
-		jsonObject.put("test", "AlloyEditor.SelectionTest.text");
-
-		return jsonObject;
+				"removeFormat"
+			)
+		).put(
+			"name", "text"
+		).put("test", "AlloyEditor.SelectionTest.text");
 	}
 
 	protected ItemSelectorCriterion getURLItemSelectorCriterion() {
