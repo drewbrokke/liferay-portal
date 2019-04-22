@@ -175,16 +175,17 @@ public class NumericFieldType extends BaseFieldType {
 		DecimalFormatSymbols decimalFormatSymbols =
 			decimalFormat.getDecimalFormatSymbols();
 
-		Map<String, String> symbolsMap = new HashMap<>();
-
-		symbolsMap.put(
-			"decimalSymbol",
-			String.valueOf(decimalFormatSymbols.getDecimalSeparator()));
-		symbolsMap.put(
-			"thousandsSeparator",
-			String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
-
-		return symbolsMap;
+		return new HashMap<String, String>() {
+			{
+				put(
+					"decimalSymbol",
+					String.valueOf(decimalFormatSymbols.getDecimalSeparator()));
+				put(
+					"thousandsSeparator",
+					String.valueOf(
+						decimalFormatSymbols.getGroupingSeparator()));
+			}
+		};
 	}
 
 }
