@@ -78,11 +78,10 @@ public class BlogsPortletDisplayTemplateHandler
 
 	@Override
 	public String getName(Locale locale) {
-		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
-			"content.Language", locale, getClass());
-
 		String portletTitle = _portal.getPortletTitle(
-			BlogsPortletKeys.BLOGS, resourceBundle);
+			BlogsPortletKeys.BLOGS,
+			ResourceBundleUtil.getBundle(
+				"content.Language", locale, getClass()));
 
 		return LanguageUtil.format(locale, "x-template", portletTitle, false);
 	}
