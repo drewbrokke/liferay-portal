@@ -19,9 +19,11 @@ import com.liferay.journal.service.JournalFolderLocalService;
 import com.liferay.petra.string.CharPool;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BaseIndexer;
+import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.FolderIndexer;
@@ -34,6 +36,8 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.trash.TrashHelper;
 
@@ -56,10 +60,12 @@ public class JournalFolderIndexer
 
 	public JournalFolderIndexer() {
 		setDefaultSelectedFieldNames(
-			Field.COMPANY_ID, Field.DESCRIPTION, Field.ENTRY_CLASS_NAME,
-			Field.ENTRY_CLASS_PK, Field.TITLE, Field.UID);
+			Field.COMPANY_ID, Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK,
+			Field.UID);
+		setDefaultSelectedLocalizedFieldNames(Field.DESCRIPTION, Field.TITLE);
 		setFilterSearch(true);
 		setPermissionAware(true);
+		setSelectAllLocales(true);
 	}
 
 	@Override
@@ -91,38 +97,56 @@ public class JournalFolderIndexer
 	}
 
 	@Override
-	protected void doDelete(JournalFolder journalFolder) throws Exception {
-		deleteDocument(
-			journalFolder.getCompanyId(), journalFolder.getFolderId());
+	public void postProcessSearchQuery(
+			BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter,
+			SearchContext searchContext)
+		throws Exception {
+
+		addSearchLocalizedTerm(
+			searchQuery, searchContext, Field.DESCRIPTION, false);
+		addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, false);
 	}
 
 	@Override
-	protected Document doGetDocument(JournalFolder journalFolder)
-		throws Exception {
+	protected void doDelete(JournalFolder folder) throws Exception {
+		deleteDocument(folder.getCompanyId(), folder.getFolderId());
+	}
 
+	@Override
+	protected Document doGetDocument(JournalFolder folder) throws Exception {
 		if (_log.isDebugEnabled()) {
-			_log.debug("Indexing journalFolder " + journalFolder);
+			_log.debug("Indexing folder " + folder);
 		}
 
-		Document document = getBaseModelDocument(CLASS_NAME, journalFolder);
+		Document document = getBaseModelDocument(CLASS_NAME, folder);
 
-		document.addText(Field.DESCRIPTION, journalFolder.getDescription());
-		document.addKeyword(Field.FOLDER_ID, journalFolder.getParentFolderId());
+		String title = folder.getName();
 
-		String title = journalFolder.getName();
-
-		if (journalFolder.isInTrash()) {
+		if (folder.isInTrash()) {
 			title = _trashHelper.getOriginalTitle(title);
 		}
 
-		document.addText(Field.TITLE, title);
+		for (Locale locale :
+				LanguageUtil.getAvailableLocales(folder.getGroupId())) {
 
+			String languageId = LocaleUtil.toLanguageId(locale);
+
+			document.addText(
+				LocalizationUtil.getLocalizedName(
+					Field.DESCRIPTION, languageId),
+				folder.getDescription());
+			document.addText(
+				LocalizationUtil.getLocalizedName(Field.TITLE, languageId),
+				title);
+		}
+
+		document.addKeyword(Field.FOLDER_ID, folder.getParentFolderId());
 		document.addKeyword(
 			Field.TREE_PATH,
-			StringUtil.split(journalFolder.getTreePath(), CharPool.SLASH));
+			StringUtil.split(folder.getTreePath(), CharPool.SLASH));
 
 		if (_log.isDebugEnabled()) {
-			_log.debug("Document " + journalFolder + " indexed successfully");
+			_log.debug("Document " + folder + " indexed successfully");
 		}
 
 		return document;
@@ -142,11 +166,11 @@ public class JournalFolderIndexer
 	}
 
 	@Override
-	protected void doReindex(JournalFolder journalFolder) throws Exception {
-		Document document = getDocument(journalFolder);
+	protected void doReindex(JournalFolder folder) throws Exception {
+		Document document = getDocument(folder);
 
 		_indexWriterHelper.updateDocument(
-			getSearchEngineId(), journalFolder.getCompanyId(), document,
+			getSearchEngineId(), folder.getCompanyId(), document,
 			isCommitImmediately());
 	}
 
@@ -192,19 +216,13 @@ public class JournalFolderIndexer
 		indexableActionableDynamicQuery.performActions();
 	}
 
-	@Reference(unbind = "-")
-	protected void setJournalFolderLocalService(
-		JournalFolderLocalService journalFolderLocalService) {
-
-		_journalFolderLocalService = journalFolderLocalService;
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		JournalFolderIndexer.class);
 
 	@Reference
 	private IndexWriterHelper _indexWriterHelper;
 
+	@Reference
 	private JournalFolderLocalService _journalFolderLocalService;
 
 	@Reference(
