@@ -105,6 +105,10 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 	@Override
 	@Test
 	public void testGetUserAccountsPage() throws Exception {
+
+		// See LPS-94496 for why we have to delete all users except for the
+		// test user
+
 		List<User> users = UserLocalServiceUtil.getUsers(
 			PortalUtil.getDefaultCompanyId(), false,
 			WorkflowConstants.STATUS_APPROVED, QueryUtil.ALL_POS,
