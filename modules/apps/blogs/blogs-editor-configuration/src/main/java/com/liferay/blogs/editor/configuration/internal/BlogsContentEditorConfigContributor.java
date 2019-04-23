@@ -18,7 +18,6 @@ import com.liferay.blogs.constants.BlogsPortletKeys;
 import com.liferay.blogs.item.selector.criterion.BlogsItemSelectorCriterion;
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
@@ -38,8 +37,6 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -110,38 +107,25 @@ public class BlogsContentEditorConfigContributor
 		RequestBackedPortletURLFactory requestBackedPortletURLFactory,
 		String eventName) {
 
-		List<ItemSelectorReturnType>
-			blogsContentEditorDesiredItemSelectorReturnTypes =
-				new ArrayList<>();
-
-		blogsContentEditorDesiredItemSelectorReturnTypes.add(
-			new FileEntryItemSelectorReturnType());
-
-		blogsContentEditorDesiredItemSelectorReturnTypes.add(
-			new URLItemSelectorReturnType());
-
 		ItemSelectorCriterion blogsItemSelectorCriterion =
 			new BlogsItemSelectorCriterion();
 
 		blogsItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			blogsContentEditorDesiredItemSelectorReturnTypes);
+			new FileEntryItemSelectorReturnType(),
+			new URLItemSelectorReturnType());
 
 		ItemSelectorCriterion imageItemSelectorCriterion =
 			new ImageItemSelectorCriterion();
 
 		imageItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			blogsContentEditorDesiredItemSelectorReturnTypes);
+			new FileEntryItemSelectorReturnType(),
+			new URLItemSelectorReturnType());
 
 		ItemSelectorCriterion urlItemSelectorCriterion =
 			new URLItemSelectorCriterion();
 
-		List<ItemSelectorReturnType> urlDesiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		urlDesiredItemSelectorReturnTypes.add(new URLItemSelectorReturnType());
-
 		urlItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			urlDesiredItemSelectorReturnTypes);
+			new URLItemSelectorReturnType());
 
 		PortletURL uploadURL = requestBackedPortletURLFactory.createActionURL(
 			PortletKeys.BLOGS);
@@ -158,14 +142,8 @@ public class BlogsContentEditorConfigContributor
 				LanguageUtil.get(themeDisplay.getLocale(), "blog-images"),
 				PropsValues.BLOGS_IMAGE_MAX_SIZE, extensions);
 
-		List<ItemSelectorReturnType> uploadDesiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		uploadDesiredItemSelectorReturnTypes.add(
-			new FileEntryItemSelectorReturnType());
-
 		uploadItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			uploadDesiredItemSelectorReturnTypes);
+			new FileEntryItemSelectorReturnType());
 
 		PortletURL itemSelectorURL = _itemSelector.getItemSelectorURL(
 			requestBackedPortletURLFactory, eventName,

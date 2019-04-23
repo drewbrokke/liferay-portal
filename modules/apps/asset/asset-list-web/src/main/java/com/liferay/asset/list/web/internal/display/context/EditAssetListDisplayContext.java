@@ -37,7 +37,7 @@ import com.liferay.dynamic.data.mapping.util.DDMIndexer;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.ItemSelectorReturnType;
+import com.liferay.item.selector.ItemSelectorCriterion;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -514,20 +514,15 @@ public class EditAssetListDisplayContext {
 		ItemSelector itemSelector = (ItemSelector)_request.getAttribute(
 			AssetListWebKeys.ITEM_SELECTOR);
 
-		SiteItemSelectorCriterion siteItemSelectorCriterion =
+		ItemSelectorCriterion itemSelectorCriterion =
 			new SiteItemSelectorCriterion();
 
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		desiredItemSelectorReturnTypes.add(new SiteItemSelectorReturnType());
-
-		siteItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			desiredItemSelectorReturnTypes);
+		itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+			new SiteItemSelectorReturnType());
 
 		PortletURL itemSelectorURL = itemSelector.getItemSelectorURL(
 			RequestBackedPortletURLFactoryUtil.create(_request),
-			getSelectGroupEventName(), siteItemSelectorCriterion);
+			getSelectGroupEventName(), itemSelectorCriterion);
 
 		itemSelectorURL.setParameter(
 			"portletResource", AssetListPortletKeys.ASSET_LIST);

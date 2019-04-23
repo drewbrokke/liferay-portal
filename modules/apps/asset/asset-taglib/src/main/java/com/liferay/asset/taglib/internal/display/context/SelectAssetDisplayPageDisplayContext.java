@@ -26,7 +26,6 @@ import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.taglib.internal.item.selector.ItemSelectorUtil;
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.UUIDItemSelectorReturnType;
 import com.liferay.layout.item.selector.criterion.LayoutItemSelectorCriterion;
 import com.liferay.layout.page.template.model.LayoutPageTemplateEntry;
@@ -118,47 +117,34 @@ public class SelectAssetDisplayPageDisplayContext {
 	public String getAssetDisplayPageItemSelectorURL() throws PortalException {
 		ItemSelector itemSelector = ItemSelectorUtil.getItemSelector();
 
-		List<ItemSelectorCriterion> criteria = new ArrayList<>();
+		List<ItemSelectorCriterion> itemSelectorCriteria = new ArrayList<>();
 
 		AssetDisplayPageSelectorCriterion assetDisplayPageSelectorCriterion =
 			new AssetDisplayPageSelectorCriterion();
 
 		assetDisplayPageSelectorCriterion.setClassNameId(_classNameId);
 		assetDisplayPageSelectorCriterion.setClassTypeId(_classTypeId);
-
-		List<ItemSelectorReturnType>
-			desiredAssetDisplayPageItemSelectorReturnTypes = new ArrayList<>();
-
-		desiredAssetDisplayPageItemSelectorReturnTypes.add(
+		assetDisplayPageSelectorCriterion.setDesiredItemSelectorReturnTypes(
 			new UUIDItemSelectorReturnType());
 
-		assetDisplayPageSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			desiredAssetDisplayPageItemSelectorReturnTypes);
-
-		criteria.add(assetDisplayPageSelectorCriterion);
+		itemSelectorCriteria.add(assetDisplayPageSelectorCriterion);
 
 		if (_showPortletLayouts) {
 			LayoutItemSelectorCriterion layoutItemSelectorCriterion =
 				new LayoutItemSelectorCriterion();
 
 			layoutItemSelectorCriterion.setCheckDisplayPage(true);
+			layoutItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+				new UUIDItemSelectorReturnType());
 			layoutItemSelectorCriterion.setShowHiddenPages(true);
 
-			List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-				new ArrayList<>();
-
-			desiredItemSelectorReturnTypes.add(
-				new UUIDItemSelectorReturnType());
-
-			layoutItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-				desiredItemSelectorReturnTypes);
-
-			criteria.add(layoutItemSelectorCriterion);
+			itemSelectorCriteria.add(layoutItemSelectorCriterion);
 		}
 
 		PortletURL itemSelectorURL = itemSelector.getItemSelectorURL(
 			RequestBackedPortletURLFactoryUtil.create(_liferayPortletRequest),
-			_eventName, criteria.toArray(new ItemSelectorCriterion[0]));
+			_eventName,
+			itemSelectorCriteria.toArray(new ItemSelectorCriterion[0]));
 
 		itemSelectorURL.setParameter("layoutUuid", getLayoutUuid());
 
