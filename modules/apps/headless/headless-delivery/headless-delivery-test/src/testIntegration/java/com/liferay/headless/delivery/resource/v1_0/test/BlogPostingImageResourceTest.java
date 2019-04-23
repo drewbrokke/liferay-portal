@@ -46,7 +46,7 @@ public class BlogPostingImageResourceTest
 	extends BaseBlogPostingImageResourceTestCase {
 
 	@Test
-	public void testPostSiteBlogPostingImageUsesTransaction() throws Exception {
+	public void testPostSiteBlogPostingImageRollback() throws Exception {
 		Folder folder = BlogsEntryLocalServiceUtil.fetchAttachmentsFolder(
 			UserLocalServiceUtil.getDefaultUserId(testGroup.getCompanyId()),
 			testGroup.getGroupId());
