@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.container.ContainerRequestContext;
@@ -37,6 +38,7 @@ import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.MessageBodyWriter;
@@ -92,23 +94,32 @@ public class AccessControlledContainerRequestResponseFilterExceptionMapper
 
 	@Override
 	public Response toResponse(SecurityException exception) {
-		String acceptHeader = _httpHeaders.getHeaderString("Accept");
+		List<MediaType> mediaTypes = _httpHeaders.getAcceptableMediaTypes();
 
-		MessageBodyWriter<ForbiddenEntity> messageBodyWriter =
-			_providers.getMessageBodyWriter(
-				ForbiddenEntity.class, null, null,
-				MediaType.valueOf(acceptHeader));
+		MediaType mediaType = null;
 
-		if (messageBodyWriter == null) {
-			acceptHeader = "application/xml";
+		for (MediaType currentMediaType : mediaTypes) {
+			MessageBodyWriter<ForbiddenEntity> messageBodyWriter =
+				_providers.getMessageBodyWriter(
+					ForbiddenEntity.class, null, null, currentMediaType);
+
+			if (messageBodyWriter != null) {
+				mediaType = currentMediaType;
+
+				break;
+			}
+		}
+
+		if (mediaType == null) {
+			mediaType = MediaType.APPLICATION_XML_TYPE;
 		}
 
 		return Response.status(
 			Response.Status.FORBIDDEN
 		).entity(
 			new ForbiddenEntity(exception)
-		).header(
-			"Content-Type", acceptHeader
+		).type(
+			mediaType
 		).build();
 	}
 
@@ -189,6 +200,9 @@ public class AccessControlledContainerRequestResponseFilterExceptionMapper
 
 	@Context
 	private Providers _providers;
+
+	@Context
+	private Request _request;
 
 	@Context
 	private ResourceInfo _resourceInfo;
