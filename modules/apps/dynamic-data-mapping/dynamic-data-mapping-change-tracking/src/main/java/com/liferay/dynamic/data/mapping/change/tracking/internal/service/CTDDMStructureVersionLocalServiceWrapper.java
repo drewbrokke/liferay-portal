@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 import com.liferay.portal.kernel.util.Portal;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.osgi.service.component.annotations.Component;
@@ -55,11 +56,11 @@ public class CTDDMStructureVersionLocalServiceWrapper
 	public DDMStructureVersion getLatestStructureVersion(long structureId)
 		throws PortalException {
 
-		DDMStructureVersion latestStructureVersion =
+		DDMStructureVersion latestDDMStructureVersion =
 			super.getLatestStructureVersion(structureId);
 
-		if (!_isChangeTrackingEnabled(latestStructureVersion)) {
-			return latestStructureVersion;
+		if (!_isChangeTrackingEnabled(latestDDMStructureVersion)) {
+			return latestDDMStructureVersion;
 		}
 
 		Optional<CTEntry> ctEntryOptional =
@@ -71,7 +72,7 @@ public class CTDDMStructureVersionLocalServiceWrapper
 		).map(
 			_ddmStructureVersionLocalService::fetchDDMStructureVersion
 		).orElse(
-			latestStructureVersion
+			latestDDMStructureVersion
 		);
 	}
 
@@ -92,7 +93,7 @@ public class CTDDMStructureVersionLocalServiceWrapper
 		catch (PortalException pe) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
-					"Unable to find structure with id " +
+					"Unable to get dynamic data mapping structure " +
 						ddmStructureVersion.getStructureId(),
 					pe);
 			}
@@ -103,7 +104,8 @@ public class CTDDMStructureVersionLocalServiceWrapper
 		long journalClassNameId = _portal.getClassNameId(JournalArticle.class);
 
 		if ((ddmStructure.getClassNameId() != journalClassNameId) ||
-			!"BASIC-WEB-CONTENT".equals(ddmStructure.getStructureKey())) {
+			!Objects.equals(
+				ddmStructure.getStructureKey(), "BASIC-WEB-CONTENT")) {
 
 			return false;
 		}
