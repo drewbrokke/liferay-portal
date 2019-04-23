@@ -291,6 +291,10 @@ public class StagingLocalServiceImpl extends StagingLocalServiceBaseImpl {
 			boolean branchingPrivate, ServiceContext serviceContext)
 		throws PortalException {
 
+		if (StagingUtil.isChangeTrackingEnabled(liveGroup.getCompanyId())) {
+			return;
+		}
+
 		if (liveGroup.isLayout()) {
 			enableLocalStaging(
 				userId, liveGroup.getParentGroup(), branchingPublic,
@@ -376,6 +380,10 @@ public class StagingLocalServiceImpl extends StagingLocalServiceBaseImpl {
 			String remotePathContext, boolean secureConnection,
 			long remoteGroupId, ServiceContext serviceContext)
 		throws PortalException {
+
+		if (StagingUtil.isChangeTrackingEnabled(stagingGroup.getCompanyId())) {
+			return;
+		}
 
 		groupLocalService.validateRemote(
 			stagingGroup.getGroupId(), remoteAddress, remotePort,
