@@ -1,94 +1,91 @@
 components:
     schemas:
         Creator:
-            #@review
-            description: Represents the UserAccount who created/authored the content. Properties follow https://schema.org/creator specification.
+            description: Represents the user who created/authored the content. Properties follow the [creator](https://schema.org/creator) specification.
             properties:
                 additionalName:
-                    description: An additional name, can be used for a middle name.
+                    description: The user's additional name, which can be used as a middle name.
                     readOnly: true
                     type: string
                 familyName:
-                    description: In the US, the surname of the UserAccount.
+                    description: The user's surname (last name).
                     readOnly: true
                     type: string
                 givenName:
-                    description: In the US, the first name of the UserAccount.
+                    description: The user's first name.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The user's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 image:
-                    description: A relative URL to the image profile of the UserAccount.
+                    description: A relative URL to the user's profile image.
                     format: uri
                     readOnly: true
                     type: string
                 name:
-                    description: The full name of the UserAccount.
+                    description: The user's full name.
                     readOnly: true
                     type: string
                 profileURL:
-                    description: A relative URL to the profile of the UserAccount.
+                    description: A relative URL to the the user's profile.
                     format: uri
                     readOnly: true
                     type: string
             type: object
         EmailAddress:
-            #@review
-            description: Email address. Properties follow https://schema.org/email specification.
+            description: Represents an email address. Properties follow the [email](https://schema.org/email) specification.
             properties:
                 emailAddress:
                     description: The email address.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The email address's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 primary:
-                    description: A flag that identifies if the email address is the main one of the UserAccount/Organization.
+                    description: A flag that indicates whether this is the main email address of the user/organization.
                     readOnly: true
                     type: boolean
                 type:
-                    description: The type of the email address.
+                    description: The email address's type.
                     readOnly: true
                     type: string
             type: object
         Organization:
-            #@review
-            description: An organization, can be either directly belong to a company or a suborganization inside a parent Organization. Properties follow https://schema.org/Organization specification.
+            description: Represents an organization. Organizations can contain other organizations (suborganizations). Properties follow the [Organization](https://schema.org/Organization) specification.
             properties:
                 comment:
-                    description: The text of a comment associated with the Organization.
+                    description: The text of a comment associated with the organization.
                     readOnly: true
                     type: string
                 contactInformation:
-                    description: The contact information for an Organization, with the list of email addresses, postal addresses, telephones and web urls linked to that Organization.
+                    description: The organization's contact information, which includes email addresses, postal addresses, phone numbers, and web URLs.
                     properties:
                         emailAddresses:
-                            description: A list of email addresses. One is optionally marked as primary.
+                            description: The organization's email addresses, with one optionally marked as primary.
                             items:
                                 $ref: "#/components/schemas/EmailAddress"
                             readOnly: true
                             type: array
                         postalAddresses:
-                            description: A list of postal addresses. One is optionally marked as primary.
+                            description: The organization's postal addresses, with one optionally marked as primary.
                             items:
                                 $ref: "#/components/schemas/PostalAddress"
                             readOnly: true
                             type: array
                         telephones:
-                            description: A list of telephones. One is optionally marked as primary.
+                            description: The organization's phones numbers, with one optionally marked as primary.
                             items:
                                 $ref: "#/components/schemas/Phone"
                             readOnly: true
                             type: array
                         webUrls:
-                            description: A list of web urls. One is optionally marked as primary.
+                            description: The organization's web URLs, with one optionally marked as primary.
                             items:
                                 $ref: "#/components/schemas/WebUrl"
                             readOnly: true
@@ -96,72 +93,72 @@ components:
                     readOnly: true
                     type: object
                 dateCreated:
-                    description: The creation date of the Organization.
+                    description: The organization's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the Organization changed.
+                    description: The most recent time any of the organization's fields changed.
                     format: date-time
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The organization's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 image:
-                    description: A relative URL to the image associated with the Organization.
+                    description: A relative URL to the organization's image.
                     format: uri
                     readOnly: true
                     type: string
                 keywords:
-                    description: A list of keywords describing the Organization.
+                    description: A list of keywords describing the organization.
                     items:
                         type: string
                     readOnly: true
                     type: array
                 location:
-                    description: Postal information (country and region) where the Organization is located.
+                    description: The organization's postal information (country and region).
                     properties:
                         addressCountry:
-                            description: The country where the Organization is located. Follows https://schema.org/addressCountry specification.
+                            description: The organization's country. This follows the [`addressCountry`](https://schema.org/addressCountry) specification.
                             readOnly: true
                             type: string
                         addressRegion:
-                            description: The region where the Organization is located. Follows https://schema.org/addressRegion specification.
+                            description: The organization's region. This follows the [`addressRegion`](https://schema.org/addressRegion) specification.
                             readOnly: true
                             type: string
                         id:
-                            description: The identifier of the resource.
+                            description: The location's ID.
                             format: int64
                             readOnly: true
                             type: integer
                     readOnly: true
                     type: object
                 name:
-                    description: The name of the Organization.
+                    description: The organization's name.
                     readOnly: true
                     type: string
                 numberOfOrganizations:
-                    description: The number of child Organizations that belong to this Organization.
+                    description: The number of this organization's child organizations.
                     readOnly: true
                     type: integer
                 parentOrganization:
                     allOf:
                         - $ref: "#/components/schemas/Organization"
-                    description: The parent Organization of this resource, if any.
+                    description: The organization's parent organization.
                     readOnly: true
                 services:
-                    description: A list of services provided by an Organization. Follows https://www.schema.org/Service specification.
+                    description: A list of services the organization provides. This follows the [`Service`](https://www.schema.org/Service) specification.
                     items:
                         properties:
                             hoursAvailable:
-                                description: A list of hours when the organization is open. Follows https://www.schema.org/OpeningHoursSpecification specification.
+                                description: A list of hours when the organization is open. This follows the [`OpeningHoursSpecification`](https://www.schema.org/OpeningHoursSpecification) specification.
                                 items:
                                     properties:
                                         closes:
-                                            description: An hour in HH:MM format that marks when the Organization closes.
+                                            description: The organization's closing time (in `HH:MM` format).
                                             readOnly: true
                                             type: string
                                         dayOfWeek:
@@ -169,14 +166,14 @@ components:
                                             readOnly: true
                                             type: string
                                         opens:
-                                            description: An hour in HH:MM format that marks when the Organization opens.
+                                            description: The organization's opening time (in `HH:MM` format).
                                             readOnly: true
                                             type: string
                                     type: object
                                 readOnly: true
                                 type: array
                             serviceType:
-                                description: The type of the service provided.
+                                description: The type of service the organization provides.
                                 readOnly: true
                                 type: string
                         type: object
@@ -184,97 +181,93 @@ components:
                     type: array
             type: object
         OrganizationBrief:
-            #@review
-            description: https://www.schema.org/OrganizationBrief
+            description: Represents an organization's basic information, to be embedded in other resources. This resource's ID can be used to query the organization's complete information.
             properties:
                 id:
-                    description: The identifier of the resource. Can be used to query the Organization APIs.
+                    description: The organization's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The name of the Organization.
+                    description: The organization's name.
                     readOnly: true
                     type: string
             type: object
         Phone:
-            #@review
-            description: A phone number. Follows https://schema.org/telephone specification.
+            description: Represents a phone number. This follows the [telephone](https://schema.org/telephone) specification.
             properties:
                 extension:
-                    description: the phone extension.
+                    description: The phone number's extension.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The phone number's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 phoneNumber:
-                    description: the phone number, without extension.
+                    description: The phone number without its extension.
                     readOnly: true
                     type: string
                 phoneType:
-                    description: the type of phone number.
+                    description: The phone number's type.
                     readOnly: true
                     type: string
                 primary:
-                    description: A flag that identifies if the phone is the main one of the UserAccount/Organization.
+                    description: A flag that identifies whether this is the main phone number of the user/organization.
                     readOnly: true
                     type: boolean
             type: object
         PostalAddress:
-            #@review
-            description: The mailing address. Follows https://www.schema.org/PostalAddress specification.
+            description: Represents a mailing address. This follows the [`PostalAddress`](https://www.schema.org/PostalAddress) specification.
             properties:
                 addressCountry:
-                    description: The country. For example, USA.
+                    description: The address's country (e.g., USA).
                     readOnly: true
                     type: string
                 addressLocality:
-                    description: The locality. For example, Diamond Bar.
+                    description: The address's locality (e.g., city).
                     readOnly: true
                     type: string
                 addressRegion:
-                    description: The region. For example, CA.
+                    description: The address's region (e.g., state).
                     readOnly: true
                     type: string
                 addressType:
-                    description: The type of address.
+                    description: The address's type.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The address's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 postalCode:
-                    description: The postal code. For example, 94043.
+                    description: The address's postal code (e.g., zip code).
                     readOnly: true
                     type: string
                 primary:
-                    description: A flag that identifies if the postal address is the main one of the UserAccount/Organization.
+                    description: A flag that identifies whether this is the main address of the user/organization.
                     readOnly: true
                     type: boolean
                 streetAddressLine1:
-                    description: The first componente of a street address. For example, 1600 Amphitheatre Pkwy.
+                    description: The street address's first line (e.g., 1600 Amphitheatre Pkwy.).
                     readOnly: true
                     type: string
                 streetAddressLine2:
-                    description: The second componente of a street address. For example, 4º B.
+                    description: The street address's second line.
                     readOnly: true
                     type: string
                 streetAddressLine3:
-                    description: The third componente of a street address.
+                    description: The street address's third line.
                     readOnly: true
                     type: string
             type: object
         Role:
-            #@review
-            description: Represents a relationship between a UserAccount and a Company or a Site. Follows https://www.schema.org/Role specification.
+            description: Represents a relationship between a user and a company or site. This follows the [`Role`](https://www.schema.org/Role) specification.
             properties:
                 availableLanguages:
-                    description: A list of languages the content has a translation for.
+                    description: A list of languages for which the role has a translation.
                     items:
                         type: string
                     readOnly: true
@@ -282,88 +275,86 @@ components:
                 creator:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The creator of the Role
+                    description: The role's creator.
                     readOnly: true
                 dateCreated:
-                    description: The creation date of the Role.
+                    description: The role's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the Role changed.
+                    description: The last time any of the role's fields were changed.
                     format: date-time
                     readOnly: true
                     type: string
                 description:
-                    description: The description of the Role
+                    description: The role's description.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The role's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The name of the Role.
+                    description: The role's name.
                     readOnly: true
                     type: string
                 roleType:
-                    description: The type of the Role.
+                    description: The role's type.
                     readOnly: true
                     type: string
             type: object
         RoleBrief:
-            #@review
-            description: https://www.schema.org/RoleBrief
+            description: Represents a role's basic information, to be embedded with other resources. The ID of this resource can be used to query the role's complete information.
             properties:
                 id:
-                    description: The identifier of the resource. It can be used to retrieve the full resource in the Role API.
+                    description: The role's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The name of the Role.
+                    description: The role's name.
                     readOnly: true
                     type: string
             type: object
         Segment:
-            #@review
-            description: Represents a set of users that meet certain criteria. Segments may be used to create customized experiences for their members.
+            description: Represents a set of users that meet certain criteria. Segments may be used to create customized experiences for users.
             properties:
                 active:
-                    description: The active of the segment
+                    description: A flag that indicates whether the segment is active.
                     readOnly: true
                     type: boolean
                 criteria:
-                    description: The criteria of the segment
+                    description: The segment's criteria.
                     readOnly: true
                     type: string
                 dateCreated:
-                    description: The create date of the segment
+                    description: The segment's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The modified date of the segment
+                    description: The segment's most recent modification date.
                     format: date-time
                     readOnly: true
                     type: string
                 id:
-                    description: The internal ID of the segment
+                    description: The segment's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The name of the segment
+                    description: The segment's name.
                     readOnly: true
                     type: string
                 siteId:
-                    description: The site of the segment
+                    description: The ID of the segment's site.
                     format: int64
                     readOnly: true
                     type: integer
                 source:
-                    description: The source of the segment
+                    description: The segment's source.
                     readOnly: true
                     type: string
             required:
@@ -371,203 +362,199 @@ components:
                 - name
             type: object
         SegmentUser:
-            #@review
             description: Represents a user who belongs to a segment.
             properties:
                 emailAddress:
-                    description: The email address of the segment user
+                    description: The user's email address.
                     readOnly: true
                     type: string
                 id:
-                    description: The internal ID of the segment user
+                    description: The user's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The full name of the segment user
+                    description: The user's full name.
                     readOnly: true
                     type: string
             type: object
         SiteBrief:
-            #@review
-            description: https://www.schema.org/SiteBrief
+            description: Represents a site's basic information.
             properties:
                 id:
-                    description: The identifier of the resource.
+                    description: The site's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The name of the Site.
+                    description: The site's name.
                     readOnly: true
                     type: string
             type: object
         UserAccount:
-            #@review
-            description: https://www.schema.org/UserAccount
+            description: Represents a user.
             properties:
                 additionalName:
-                    description: An additional name, can be used for a middle name.
+                    description: The user's additional name (e.g., middle name).
                     readOnly: true
                     type: string
                 alternateName:
-                    description: An alias or screen name for the UserAcount.
+                    description: The user's alias or screen name.
                     readOnly: true
                     type: string
                 birthDate:
-                    description: The date of birth, in ISO 8601 format.
+                    description: The user's date of birth, in ISO 8601 format.
                     format: date-time
                     readOnly: true
                     type: string
                 contactInformation:
-                    description: https://www.schema.org/ContactInformation
+                    description: The user's contact information.
                     properties:
                         emailAddresses:
-                            description: A list of email addresses. One is optionally marked as primary.
+                            description: A list of the user's email addresses, with one optionally marked as primary.
                             items:
                                 $ref: "#/components/schemas/EmailAddress"
                             readOnly: true
                             type: array
                         facebook:
-                            description: The facebook account of the UserAccount.
+                            description: The user's Facebook account.
                             readOnly: true
                             type: string
                         id:
-                            description: The identifier of the resource.
+                            description: The ID of the `contactInformation`.
                             format: int64
                             readOnly: true
                             type: integer
                         jabber:
-                            description: The jabber handle of the UserAccount.
+                            description: The user's Jabber handle.
                             readOnly: true
                             type: string
                         postalAddresses:
-                            description: A list of postal addresses. One is optionally marked as primary.
+                            description: A list of user's postal addresses, with one optionally marked as primary.
                             items:
                                 $ref: "#/components/schemas/PostalAddress"
                             readOnly: true
                             type: array
                         skype:
-                            description: The skype handle of the UserAccount.
+                            description: The user's Skype handle.
                             readOnly: true
                             type: string
                         sms:
-                            description: The sms number of the UserAccount.
+                            description: The user's SMS number.
                             readOnly: true
                             type: string
                         telephones:
-                            description: A list of telephones. One is optionally marked as primary.
+                            description: A list of the user's phone numbers, with one optionally marked as primary.
                             items:
                                 $ref: "#/components/schemas/Phone"
                             readOnly: true
                             type: array
                         twitter:
-                            description: The twitter handle of the UserAccount.
+                            description: The user's Twitter handle.
                             readOnly: true
                             type: string
                         webUrls:
-                            description: A list of web urls associated with the UserAccount. One is optionally marked as primary.
+                            description: A list of the user's web URLs, with one optionally marked as primary.
                             items:
                                 $ref: "#/components/schemas/WebUrl"
                             readOnly: true
                             type: array
                     type: object
                 dashboardURL:
-                    description: A relative URL to the dashboard of the UserAccount.
+                    description: A relative URL to the user's dashboard.
                     readOnly: true
                     type: string
                 dateCreated:
-                    description: The creation date of the UserAccount.
+                    description: The creation date of the user's account.
                     format: date-time
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time a field of the UserAccount changed.
+                    description: The last time any field of the user's account was changed.
                     format: date-time
                     readOnly: true
                     type: string
                 emailAddress:
-                    description: The main email address of the UserAccount.
+                    description: The user's main email address.
                     readOnly: true
                     type: string
                 familyName:
-                    description: In the US, the surname of the UserAccount.
+                    description: The user's surname (last name).
                     readOnly: true
                     type: string
                 givenName:
-                    description: In the US, the first name of the UserAccount.
+                    description: The user's first name.
                     readOnly: true
                     type: string
                 honorificPrefix:
-                    description: The UserAccount title (dr, mr, mrs, ms...)
+                    description: The user's title (e.g., Dr., Mr., Mrs, Ms., etc.).
                     readOnly: true
                     type: string
                 honorificSuffix:
-                    description: The UserAccount honorific suffix (ii, jr, phd...)
+                    description: The user's suffix (e.g., II, Jr., PhD, etc.).
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The user's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 image:
-                    description: A relative URL to profile image.
+                    description: A relative URL to the user's profile image.
                     format: uri
                     readOnly: true
                     type: string
                 jobTitle:
-                    description: The UserAccount job title.
+                    description: The user's job title.
                     readOnly: true
                     type: string
                 keywords:
-                    description: A list of keywords describing the UserAccount.
+                    description: A list of keywords describing the user.
                     items:
                         type: string
                     readOnly: true
                     type: array
                 name:
-                    description: The full name of the UserAccount.
+                    description: The user's full name.
                     readOnly: true
                     type: string
                 organizationBriefs:
-                    description: A list of Organizations the UserAccount belongs to.
+                    description: A list of the user's organizations.
                     items:
                         $ref: "#/components/schemas/OrganizationBrief"
                     readOnly: true
                     type: array
                 profileURL:
-                    description: A relative URL to the profile of the UserAccount.
+                    description: A relative URL to the user's profile.
                     readOnly: true
                     type: string
                 roleBriefs:
-                    description: A list of Roles the UserAccount has.
+                    description: A list of the user's roles.
                     items:
                         $ref: "#/components/schemas/RoleBrief"
                     readOnly: true
                     type: array
                 siteBriefs:
-                    description: A list of sites the UserAccount belongs to.
+                    description: A list of the user's sites.
                     items:
                         $ref: "#/components/schemas/SiteBrief"
                     readOnly: true
                     type: array
             type: object
         WebUrl:
-            #@review
-            description: https://www.schema.org/WebUrl
+            description: Represents a URL to an external site. This is modelled internally as a `WebSite`.
             properties:
                 id:
-                    description: The identifier of the resource.
+                    description: The URL's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 url:
-                    description: An absolute URL.
+                    description: The absolute URL.
                     readOnly: true
                     type: string
                 urlType:
-                    description: The type of the URL.
+                    description: The URL's type.
                     readOnly: true
                     type: string
             type: object
@@ -955,8 +942,7 @@ paths:
     "/segments/{segmentId}/user-accounts":
         get:
             operationId: getSegmentUserAccountsPage
-            #@review
-            description: Get users of a segment
+            description: Gets a segment's users.
             parameters:
                 - in: path
                   name: segmentId
@@ -990,8 +976,7 @@ paths:
     "/sites/{siteId}/segments":
         get:
             operationId: getSiteSegmentsPage
-            #@review
-            description: Get segments of a site
+            description: Gets a site's segments.
             parameters:
                 - in: path
                   name: siteId
@@ -1025,8 +1010,7 @@ paths:
     "/sites/{siteId}/user-accounts/{userAccountId}/segments":
         get:
             operationId: getSiteUserAccountSegmentsPage
-            #@review
-            description: Get segments of an user
+            description: Gets a user's segments.
             parameters:
                 - in: path
                   name: siteId

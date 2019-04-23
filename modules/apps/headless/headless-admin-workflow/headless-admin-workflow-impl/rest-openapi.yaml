@@ -1,195 +1,188 @@
 components:
     schemas:
         ChangeTransition:
-            #@review
-            description: Write Only schema to update the transition of a Workflow.
+            description: Represents a write-only schema to update a workflow's transition.
             properties:
                 transition:
                     type: string
                     writeOnly: true
             type: object
         Creator:
-            #@review
-            description: Represents the UserAccount who created/authored the content. Properties follow https://schema.org/creator specification.
+            description: Represents the user who created/authored the content. Properties follow the [creator](https://schema.org/creator) specification.
             properties:
                 additionalName:
-                    description: An additional name, can be used for a middle name.
+                    description: The user's additional name, which can be used as a middle name.
                     readOnly: true
                     type: string
                 familyName:
-                    description: In the US, the surname of the UserAccount.
+                    description: The user's surname (last name).
                     readOnly: true
                     type: string
                 givenName:
-                    description: In the US, the first name of the UserAccount.
+                    description: The user's first name.
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The user's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 image:
-                    description: A relative URL to the image profile of the UserAccount.
+                    description: A relative URL to the user's profile image.
                     format: uri
                     readOnly: true
                     type: string
                 name:
-                    description: The full name of the UserAccount.
+                    description: The user's full name.
                     readOnly: true
                     type: string
                 profileURL:
-                    description: A relative URL to the profile of the UserAccount.
+                    description: A relative URL to the user's profile.
                     format: uri
                     readOnly: true
                     type: string
             type: object
         ObjectReviewed:
-            #@review
-            description: Represents the resource modified by the current Workflow.
+            description: Represents the resource modified by the current workflow.
             properties:
                 id:
-                    description: The identifier of the resource.
+                    description: The resource's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 resourceType:
-                    description: The type of the resource.
+                    description: The resource's type.
                     readOnly: true
                     type: string
             type: object
         WorkflowLog:
-            #@review
-            description: Represents the history activity of the workflow, transitions, asignees...
+            description: Represents the log containing the workflow's activity history (e.g., transitions, assignees, etc.).
             properties:
                 auditPerson:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The UserAccount auditing the Workflow.
+                    description: The user account of the person auditing the workflow.
                     readOnly: true
                 commentLog:
-                    description: The log of comments.
+                    description: The log's comments.
                     readOnly: true
                     type: string
                 dateCreated:
-                    description: The creation date of the Organization.
+                    description: The log's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The log's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 person:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The person being assigned with the Workflow.
+                    description: The person assigned to the workflow.
                     readOnly: true
                 previousPerson:
                     allOf:
                         - $ref: "#/components/schemas/Creator"
-                    description: The previous person being assigned with the Workflow.
+                    description: The previous person assigned to the workflow.
                     readOnly: true
                 previousState:
-                    description: The previous state of the Workflow.
+                    description: The workflow's previous state.
                     readOnly: true
                     type: string
                 state:
-                    description: The current state of the Workflow.
+                    description: The workflow's current state.
                     readOnly: true
                     type: string
                 taskId:
-                    description: The task asociated with this WorkflowLog.
+                    description: The task asociated with this workflow log.
                     format: int64
                     readOnly: true
                     type: integer
                 type:
-                    description: The type of WorkflowLog.
+                    description: The workflow log's type.
                     readOnly: true
                     type: string
             type: object
         WorkflowTask:
-            #@review
-            description: Represents a task to be executed in a Workflow.
+            description: Represents a task to be executed in a workflow.
             properties:
                 completed:
-                    description: Represents a task to be executed in a Workflow.
+                    description: A flag that indicates whether the task is complete.
                     readOnly: true
                     type: boolean
                 dateCompleted:
-                    description: The creation date of the Organization.
+                    description: The task's completion date.
                     format: date-time
                     readOnly: true
                     type: string
                 dateCreated:
-                    description: The creation date of the Organization.
+                    description: The task's creation date.
                     format: date-time
                     readOnly: true
                     type: string
                 definitionName:
-                    description: The name of the definition of the Workflow.
+                    description: The name of the task's workflow definition.
                     readOnly: true
                     type: string
                 description:
-                    description: A description of the WorkflowTask.
+                    description: The task's description.
                     readOnly: true
                     type: string
                 dueDate:
-                    description: A date where the WorkflowTask should be executed.
+                    description: The date the task should be completed by.
                     format: date-time
                     readOnly: true
                     type: string
                 id:
-                    description: The identifier of the resource.
+                    description: The task's ID.
                     format: int64
                     readOnly: true
                     type: integer
                 name:
-                    description: The name of the WorkflowTask.
+                    description: The task's name.
                     readOnly: true
                     type: string
                 objectReviewed:
                     allOf:
                         - $ref: "#/components/schemas/ObjectReviewed"
-                    description: The object/asset that is being managed by a Workflow.
+                    description: The object/asset that the task's workflow is managing.
                     readOnly: true
                 transitions:
-                    description: A list of transitions to be launched by the Workflow.
+                    description: A list of transitions to be launched by the task's workflow.
                     items:
                         type: string
                     readOnly: true
                     type: array
             type: object
         WorkflowTaskAssignToMe:
-            #@review
-            description: A write only schema to assign a WorkflowTask to the current logged user.
+            description: Represents a write-only schema to assign a workflow task to the currently logged-in user.
             properties:
                 comment:
-                    description: An optional comment to be added while accepting the WorkflowTask.
+                    description: An optional comment to add when accepting the workflow task.
                     type: string
                     writeOnly: true
                 dueDate:
-                    description: A date where the WorkflowTask should be executed.
+                    description: The date on which the workflow task should be executed.
                     format: date-time
                     type: string
                     writeOnly: true
             type: object
         WorkflowTaskAssignToUser:
-            #@review
-            description: A write only schema to assign a WorkflowTask to a specific user.
+            description: Represents a write-only schema to assign a workflow task to a specific user.
             properties:
                 assigneeId:
-                    description: The UserAccount identifier of the user being asigned the WorkflowTask.
+                    description: The ID of the user to assign the workflow task.
                     format: int64
                     type: integer
                     writeOnly: true
                 comment:
-                    description: An optional comment to be added while assigning the WorkflowTask.
+                    description: An optional comment to add when assigning the workflow task.
                     type: string
                     writeOnly: true
                 dueDate:
-                    description: A date where the WorkflowTask should be executed.
+                    description: The date on which the workflow task should be executed.
                     format: date-time
                     type: string
                     writeOnly: true
