@@ -15,7 +15,7 @@
 package com.liferay.arquillian.extension.junit.bridge.server;
 
 import com.liferay.arquillian.extension.junit.bridge.constants.Headers;
-import com.liferay.arquillian.extension.junit.bridge.string.StringUtil;
+import com.liferay.arquillian.extension.junit.bridge.util.StringUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
