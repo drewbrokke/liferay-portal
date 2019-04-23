@@ -97,7 +97,7 @@ class AssetVocabularyCategoriesSelector extends Component {
 	}
 
 	/**
-	 * Show the category error
+	 * Shows the category error.
 	 *
 	 * @private
 	 */
@@ -109,10 +109,9 @@ class AssetVocabularyCategoriesSelector extends Component {
 	}
 
 	/**
-	 * Prevent auto clean
+	 * Prevents auto cleaning.
 	 *
 	 * @private
-	 * @review
 	 */
 	_handleInputOnBlur(event) {
 		event.preventDefault();
