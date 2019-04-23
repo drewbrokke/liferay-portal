@@ -351,7 +351,7 @@ class DatePicker extends Component {
 
 DatePicker.STATE = {
 
-   /**
+	/**
 	* The day selected by the user.
 	* @default Date Month
 	* @instance
@@ -359,9 +359,9 @@ DatePicker.STATE = {
 	* @type {!Date}
 	*/
 
-   _daySelected: Config.any().internal(),
+	_daySelected: Config.any().internal(),
 
-   /**
+	/**
 	* The selected month.
 	* @default undefined
 	* @instance
@@ -369,9 +369,9 @@ DatePicker.STATE = {
 	* @type {!int}
 	*/
 
-   _month: Config.number().internal(),
+	_month: Config.number().internal(),
 
-   /**
+	/**
 	* An array of the weeks and days list for the current month
 	* @default undefined
 	* @instance
@@ -379,9 +379,9 @@ DatePicker.STATE = {
 	* @type {!Array<Array>}
 	*/
 
-   _weeks: Config.array(Config.array()).internal(),
+	_weeks: Config.array(Config.array()).internal(),
 
-   /**
+	/**
 	* The selected year.
 	* @default undefined
 	* @instance
@@ -389,9 +389,9 @@ DatePicker.STATE = {
 	* @type {!int}
 	*/
 
-   _year: Config.number().internal(),
+	_year: Config.number().internal(),
 
-   /**
+	/**
 	* Aria label attribute for the button element.
 	* @default undefined
 	* @instance
@@ -399,9 +399,9 @@ DatePicker.STATE = {
 	* @type {?(string|undefined)}
 	*/
 
-   ariaLabel: Config.string(),
+	ariaLabel: Config.string(),
 
-   /**
+	/**
 	* Indicates the current month rendered on the screen.
 	* @default undefined
 	* @instance
@@ -409,18 +409,18 @@ DatePicker.STATE = {
 	* @type {!Date}
 	*/
 
-   currentMonth: Config.instanceOf(Date).internal(),
+	currentMonth: Config.instanceOf(Date).internal(),
 
-   /**
+	/**
 	* Database type.
 	* @default string
 	* @instance
 	* @memberof DatePicker
 	* @type {!string}
 	*/
-   dataType: Config.string().value('string'),
+	dataType: Config.string().value('string'),
 
-   /**
+	/**
 	* Set the format of how the date will appear in the input element.
 	* See available: https://momentjs.com/docs/#/parsing/string-format/
 	* @default YYYY-MM-DD
@@ -429,9 +429,9 @@ DatePicker.STATE = {
 	* @type {?string}
 	*/
 
-   dateFormat: Config.string().valueFn('_dateFormatValueFn'),
+	dateFormat: Config.string().valueFn('_dateFormatValueFn'),
 
-   /**
+	/**
 	* CSS classes to be applied to the element.
 	* @default undefined
 	* @instance
@@ -439,9 +439,9 @@ DatePicker.STATE = {
 	* @type {?(string|undefined)}
 	*/
 
-   elementClasses: Config.string(),
+	elementClasses: Config.string(),
 
-   /**
+	/**
 	* Flag to indicate if date is expanded.
 	* @default false
 	* @instance
@@ -449,18 +449,18 @@ DatePicker.STATE = {
 	* @type {?bool}
 	*/
 
-   expanded: Config.bool().internal().value(false),
+	expanded: Config.bool().internal().value(false),
 
-   /**
+	/**
 	* @default undefined
 	* @instance
 	* @memberof DatePicker
 	* @type {?(string|undefined)}
 	*/
 
-   fieldName: Config.string(),
+	fieldName: Config.string(),
 
-   /**
+	/**
 	* Set the first day of the week, starting from 0
 	* (Sunday) to 6 (Saturday).
 	* @default 0
@@ -469,9 +469,9 @@ DatePicker.STATE = {
 	* @type {?int}
 	*/
 
-   firstDayOfWeek: Config.oneOf([0, 1, 2, 3, 4, 5, 6]).value(0),
+	firstDayOfWeek: Config.oneOf([0, 1, 2, 3, 4, 5, 6]).value(0),
 
-   /**
+	/**
 	* Id to be applied to the element.
 	* @default undefined
 	* @instance
@@ -479,9 +479,9 @@ DatePicker.STATE = {
 	* @type {?(string|undefined)}
 	*/
 
-   id: Config.string(),
+	id: Config.string(),
 
-   /**
+	/**
 	* The month to display in the calendar on the first render.
 	* @default Date
 	* @instance
@@ -489,18 +489,18 @@ DatePicker.STATE = {
 	* @type {!Date}
 	*/
 
-   initialMonth: Config.instanceOf(Date).value(new Date()),
+	initialMonth: Config.instanceOf(Date).value(new Date()),
 
-   /**
+	/**
 	* @default undefined
 	* @instance
 	* @memberof DatePicker
 	* @type {?(string|undefined)}
 	*/
 
-   label: Config.string(),
+	label: Config.string(),
 
-   /**
+	/**
 	* The names of the months.
 	* @default January...
 	* @instance
@@ -508,33 +508,33 @@ DatePicker.STATE = {
 	* @type {?array<String>}
 	*/
 
-   months: Config.array().value(
-	   [
-		   'January',
-		   'February',
-		   'March',
-		   'April',
-		   'May',
-		   'June',
-		   'July',
-		   'August',
-		   'September',
-		   'October',
-		   'November',
-		   'December'
-	   ]
-   ),
+	months: Config.array().value(
+		[
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
+		]
+	),
 
-   /**
+	/**
 	* @default undefined
 	* @instance
 	* @memberof DatePicker
 	* @type {?(string|undefined)}
 	*/
 
-   name: Config.string().required(),
+	name: Config.string().required(),
 
-   /**
+	/**
 	* Describe a brief tip to help users interact.
 	* @default undefined
 	* @instance
@@ -542,9 +542,9 @@ DatePicker.STATE = {
 	* @type {?(string|undefined)}
 	*/
 
-   placeholder: Config.string(),
+	placeholder: Config.string(),
 
-   /**
+	/**
 	* Set the initial value of the input.
 	* @default undefined
 	* @instance
@@ -552,40 +552,40 @@ DatePicker.STATE = {
 	* @type {?(Date|string|undefined)}
 	*/
 
-   predefinedValue: Config.oneOfType(
-	   [
-		   Config.instanceOf(Date),
-		   Config.string()
-	   ]
-   ).setter('_setValue'),
+	predefinedValue: Config.oneOfType(
+		[
+			Config.instanceOf(Date),
+			Config.string()
+		]
+	).setter('_setValue'),
 
-   /**
+	/**
 	* @default undefined
 	* @instance
 	* @memberof DatePicker
 	* @type {?(bool|undefined)}
 	*/
-   readOnly: Config.bool().value(false),
+	readOnly: Config.bool().value(false),
 
-   /**
+	/**
 	* @default undefined
 	* @instance
 	* @memberof DatePicker
 	* @type {?(bool|undefined)}
 	*/
 
-   repeatable: Config.bool(),
+	repeatable: Config.bool(),
 
-   /**
+	/**
 	* @default false
 	* @instance
 	* @memberof DatePicker
 	* @type {?(bool|undefined)}
 	*/
 
-   required: Config.bool().value(false),
+	required: Config.bool().value(false),
 
-   /**
+	/**
 	* Wether to show the field label or not.
 	* @default true
 	* @instance
@@ -593,9 +593,9 @@ DatePicker.STATE = {
 	* @type {!boolean}
 	*/
 
-   showLabel: Config.bool().value(true),
+	showLabel: Config.bool().value(true),
 
-   /**
+	/**
 	* The path to the SVG spritemap file containing the icons.
 	* @default undefined
 	* @instance
@@ -603,41 +603,41 @@ DatePicker.STATE = {
 	* @type {!string}
 	*/
 
-   spritemap: Config.string().required(),
+	spritemap: Config.string().required(),
 
-   /**
+	/**
 	* @default undefined
 	* @instance
 	* @memberof DatePicker
 	* @type {?(string|undefined)}
 	*/
 
-   tip: Config.string(),
+	tip: Config.string(),
 
-   /**
+	/**
 	* @default undefined
 	* @instance
 	* @memberof DatePicker
 	* @type {?(string|undefined)}
 	*/
 
-   type: Config.string().value('text'),
+	type: Config.string().value('text'),
 
-   /**
+	/**
 	* @default undefined
 	* @instance
 	* @memberof DatePicker
 	* @type {?(string|undefined)}
 	*/
 
-   value: Config.oneOfType(
-	   [
-		   Config.instanceOf(Date),
-		   Config.string()
-	   ]
-   ).setter('_setValue').internal(),
+	value: Config.oneOfType(
+		[
+			Config.instanceOf(Date),
+			Config.string()
+		]
+	).setter('_setValue').internal(),
 
-   /**
+	/**
 	* Short names of days of the week to use in the header
 	* of the month. It should start from Sunday.
 	* @default S M T W T F S
@@ -646,9 +646,9 @@ DatePicker.STATE = {
 	* @type {!Array<String>}
 	*/
 
-   weekdaysShort: Config.array().value(['S', 'M', 'T', 'W', 'T', 'F', 'S']),
+	weekdaysShort: Config.array().value(['S', 'M', 'T', 'W', 'T', 'F', 'S']),
 
-   /**
+	/**
 	* List of years available for navigate that are added in the selector.
 	* @default undefined
 	* @instance
@@ -656,17 +656,17 @@ DatePicker.STATE = {
 	* @type {!Array<String>}
 	*/
 
-   years: Config.array().value(
-	   [
-		   '2018',
-		   '2019',
-		   '2020',
-		   '2021',
-		   '2022',
-		   '2023',
-		   '2024'
-	   ]
-   )
+	years: Config.array().value(
+		[
+			'2018',
+			'2019',
+			'2020',
+			'2021',
+			'2022',
+			'2023',
+			'2024'
+		]
+	)
 };
 
 Soy.register(DatePicker, templates);
