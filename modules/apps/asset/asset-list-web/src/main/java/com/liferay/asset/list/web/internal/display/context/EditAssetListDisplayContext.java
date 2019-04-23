@@ -249,10 +249,14 @@ public class EditAssetListDisplayContext {
 				queryValues = _filterAssetTagNames(
 					_themeDisplay.getScopeGroupId(), queryValues);
 
-				List<Map<String, String>> selectedItems = new ArrayList<>();
-
 				String[] tagNames = StringUtil.split(
 					queryValues, StringPool.COMMA);
+
+				if (ArrayUtil.isEmpty(tagNames)) {
+					continue;
+				}
+
+				List<Map<String, String>> selectedItems = new ArrayList<>();
 
 				for (String tagName : tagNames) {
 					Map<String, String> item = new HashMap<>();
@@ -270,10 +274,14 @@ public class EditAssetListDisplayContext {
 					_request, "queryCategoryIds" + queryLogicIndex,
 					queryValues);
 
-				List<HashMap<String, Object>> selectedItems = new ArrayList<>();
-
 				List<AssetCategory> categories = _filterAssetCategories(
 					GetterUtil.getLongValues(queryValues.split(",")));
+
+				if (ListUtil.isEmpty(categories)) {
+					continue;
+				}
+
+				List<HashMap<String, Object>> selectedItems = new ArrayList<>();
 
 				for (AssetCategory category : categories) {
 					HashMap<String, Object> selectedCategory = new HashMap<>();
