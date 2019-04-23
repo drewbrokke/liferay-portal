@@ -83,15 +83,17 @@ public class LayoutCopyHelperTest {
 	@Before
 	public void setUp() throws Exception {
 		_group = GroupTestUtil.addGroup();
+
+		_serviceContext = ServiceContextTestUtil.getServiceContext(
+			_group.getGroupId());
+
+		ServiceContextThreadLocal.pushServiceContext(_serviceContext);
 	}
 
 	@Test
 	public void testCopyContentLayoutStructure() throws Exception {
 		Layout sourceLayout = LayoutTestUtil.addLayout(
 			_group.getGroupId(), StringPool.BLANK);
-
-		ServiceContext serviceContext =
-			ServiceContextTestUtil.getServiceContext(_group.getGroupId());
 
 		List<FragmentEntryLink> fragmentEntryLinks = new ArrayList<>();
 
@@ -100,7 +102,7 @@ public class LayoutCopyHelperTest {
 				sourceLayout.getUserId(), sourceLayout.getGroupId(), 0,
 				_portal.getClassNameId(Layout.class), sourceLayout.getPlid(),
 				StringPool.BLANK, StringPool.BLANK, StringPool.BLANK,
-				StringPool.BLANK, 0, serviceContext);
+				StringPool.BLANK, 0, _serviceContext);
 
 		fragmentEntryLinks.add(fragmentEntryLink1);
 
@@ -109,7 +111,7 @@ public class LayoutCopyHelperTest {
 				sourceLayout.getUserId(), sourceLayout.getGroupId(), 0,
 				_portal.getClassNameId(Layout.class), sourceLayout.getPlid(),
 				StringPool.BLANK, StringPool.BLANK, StringPool.BLANK,
-				StringPool.BLANK, 0, serviceContext);
+				StringPool.BLANK, 0, _serviceContext);
 
 		fragmentEntryLinks.add(fragmentEntryLink2);
 
@@ -120,7 +122,7 @@ public class LayoutCopyHelperTest {
 		_layoutPageTemplateStructureLocalService.addLayoutPageTemplateStructure(
 			sourceLayout.getUserId(), sourceLayout.getGroupId(),
 			_portal.getClassNameId(Layout.class), sourceLayout.getPlid(),
-			jsonObject.toString(), serviceContext);
+			jsonObject.toString(), _serviceContext);
 
 		Layout targetLayout = LayoutTestUtil.addLayout(
 			_group.getGroupId(), StringPool.BLANK);
@@ -289,10 +291,7 @@ public class LayoutCopyHelperTest {
 			PortletPreferencesFactoryUtil.toXML(targetPortletPreferences),
 			PortletPreferencesFactoryUtil.toXML(sourcePortletPreferences));
 
-		ServiceContext serviceContext =
-			ServiceContextTestUtil.getServiceContext(_group.getGroupId());
-
-		ServiceContextThreadLocal.pushServiceContext(serviceContext);
+		ServiceContextThreadLocal.pushServiceContext(_serviceContext);
 
 		_layoutCopyHelper.copyLayout(sourceLayout, targetLayout);
 
@@ -417,5 +416,7 @@ public class LayoutCopyHelperTest {
 
 	@Inject(filter = "javax.portlet.name=" + PortletKeys.TEST)
 	private final Portlet _portlet = null;
+
+	private ServiceContext _serviceContext;
 
 }
