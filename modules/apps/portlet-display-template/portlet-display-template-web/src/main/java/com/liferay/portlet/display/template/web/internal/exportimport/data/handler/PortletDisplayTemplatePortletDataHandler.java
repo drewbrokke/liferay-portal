@@ -241,7 +241,7 @@ public class PortletDisplayTemplatePortletDataHandler
 	}
 
 	private PortletDataHandlerControl[] _getPortletDataHandlerControls() {
-		ArrayList<PortletDataHandlerControl> portletDataHandlerControls =
+		List<PortletDataHandlerControl> portletDataHandlerControls =
 			new ArrayList<>();
 
 		portletDataHandlerControls.add(
