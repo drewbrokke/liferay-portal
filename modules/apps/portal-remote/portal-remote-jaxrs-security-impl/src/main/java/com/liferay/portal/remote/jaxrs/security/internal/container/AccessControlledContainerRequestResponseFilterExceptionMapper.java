@@ -94,9 +94,9 @@ public class AccessControlledContainerRequestResponseFilterExceptionMapper
 
 	@Override
 	public Response toResponse(SecurityException exception) {
-		List<MediaType> mediaTypes = _httpHeaders.getAcceptableMediaTypes();
-
 		MediaType mediaType = null;
+
+		List<MediaType> mediaTypes = _httpHeaders.getAcceptableMediaTypes();
 
 		for (MediaType currentMediaType : mediaTypes) {
 			MessageBodyWriter<ForbiddenEntity> messageBodyWriter =
