@@ -57,6 +57,15 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 				<portlet:param name="mvcRenderCommandName" value="staging" />
 			</portlet:renderURL>
 
+			<c:if test="<%= StagingUtil.isChangeTrackingEnabled(company.getCompanyId()) %>">
+				<liferay-staging:alert
+					dismissible="<%= true %>"
+					type="WARNING"
+				>
+					<liferay-ui:message key='<%= LanguageUtil.get(request, "staging-change-tracking-warning") %>' />
+				</liferay-staging:alert>
+			</c:if>
+
 			<aui:form action="<%= editStagingConfigurationURL %>" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "saveGroup();" %>'>
 				<aui:input name="redirect" type="hidden" value="<%= redirectURL %>" />
 				<aui:input name="groupId" type="hidden" value="<%= liveGroupId %>" />
@@ -193,4 +202,16 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 			allCheckboxes.prop('checked', this.checked);
 		}
 	);
+</aui:script>
+
+<aui:script>
+	<c:if test="<%= StagingUtil.isChangeTrackingEnabled(company.getCompanyId()) %>">
+		var form = document.getElementById('<portlet:namespace />fm');
+
+		var formElements = form.elements;
+
+		for (var i = 0; i < formElements.length; ++i) {
+			formElements[i].disabled = true;
+		}
+	</c:if>
 </aui:script>
