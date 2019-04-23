@@ -62,6 +62,8 @@ import com.liferay.journal.model.JournalArticleLocalization;
 import com.liferay.journal.model.JournalArticleResource;
 import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.model.impl.JournalArticleDisplayImpl;
+import com.liferay.journal.service.JournalArticleResourceLocalService;
+import com.liferay.journal.service.JournalContentSearchLocalService;
 import com.liferay.journal.service.base.JournalArticleLocalServiceBaseImpl;
 import com.liferay.journal.util.JournalDefaultTemplateProvider;
 import com.liferay.journal.util.JournalHelper;
@@ -407,7 +409,7 @@ public class JournalArticleLocalServiceImpl
 			serviceContext.getAttribute("articleResourceUuid"));
 
 		long resourcePrimKey =
-			journalArticleResourceLocalService.getArticleResourcePrimKey(
+			_journalArticleResourceLocalService.getArticleResourcePrimKey(
 				articleResourceUuid, groupId, articleId);
 
 		JournalArticle article = journalArticlePersistence.create(id);
@@ -850,7 +852,7 @@ public class JournalArticleLocalServiceImpl
 		}
 
 		long resourcePrimKey =
-			journalArticleResourceLocalService.getArticleResourcePrimKey(
+			_journalArticleResourceLocalService.getArticleResourcePrimKey(
 				groupId, articleId);
 
 		article.setResourcePrimKey(resourcePrimKey);
@@ -981,7 +983,7 @@ public class JournalArticleLocalServiceImpl
 		long id = counterLocalService.increment();
 
 		long resourcePrimKey =
-			journalArticleResourceLocalService.getArticleResourcePrimKey(
+			_journalArticleResourceLocalService.getArticleResourcePrimKey(
 				groupId, newArticleId);
 
 		JournalArticle newArticle = journalArticlePersistence.create(id);
@@ -1160,7 +1162,7 @@ public class JournalArticleLocalServiceImpl
 		throws PortalException {
 
 		JournalArticleResource articleResource =
-			journalArticleResourceLocalService.fetchArticleResource(
+			_journalArticleResourceLocalService.fetchArticleResource(
 				article.getGroupId(), article.getArticleId());
 
 		if (article.isApproved() &&
@@ -1254,7 +1256,7 @@ public class JournalArticleLocalServiceImpl
 
 			// Content searches
 
-			journalContentSearchLocalService.deleteArticleContentSearches(
+			_journalContentSearchLocalService.deleteArticleContentSearches(
 				article.getGroupId(), article.getArticleId());
 
 			// Images
@@ -1289,8 +1291,8 @@ public class JournalArticleLocalServiceImpl
 			// Resource
 
 			if (articleResource != null) {
-				journalArticleResourceLocalService.deleteJournalArticleResource(
-					articleResource);
+				_journalArticleResourceLocalService.
+					deleteJournalArticleResource(articleResource);
 			}
 		}
 
@@ -1380,7 +1382,7 @@ public class JournalArticleLocalServiceImpl
 		SystemEventHierarchyEntryThreadLocal.push(JournalArticle.class);
 
 		JournalArticleResource articleResource =
-			journalArticleResourceLocalService.fetchArticleResource(
+			_journalArticleResourceLocalService.fetchArticleResource(
 				groupId, articleId);
 
 		try {
@@ -1428,7 +1430,7 @@ public class JournalArticleLocalServiceImpl
 						article.getResourcePrimKey())) {
 
 					articleResource =
-						journalArticleResourceLocalService.getArticleResource(
+						_journalArticleResourceLocalService.getArticleResource(
 							article.getResourcePrimKey());
 
 					articleResources.add(articleResource);
@@ -1494,7 +1496,7 @@ public class JournalArticleLocalServiceImpl
 						article.getResourcePrimKey())) {
 
 					articleResource =
-						journalArticleResourceLocalService.getArticleResource(
+						_journalArticleResourceLocalService.getArticleResource(
 							article.getResourcePrimKey());
 
 					articleResources.add(articleResource);
@@ -4098,7 +4100,7 @@ public class JournalArticleLocalServiceImpl
 		// Trash
 
 		JournalArticleResource articleResource =
-			journalArticleResourceLocalService.getArticleResource(
+			_journalArticleResourceLocalService.getArticleResource(
 				article.getResourcePrimKey());
 
 		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
@@ -6419,7 +6421,7 @@ public class JournalArticleLocalServiceImpl
 		}
 		else {
 			JournalArticleResource journalArticleResource =
-				journalArticleResourceLocalService.getArticleResource(
+				_journalArticleResourceLocalService.getArticleResource(
 					article.getResourcePrimKey());
 
 			Date publishDate = null;
@@ -7451,7 +7453,7 @@ public class JournalArticleLocalServiceImpl
 		}
 
 		JournalArticleResource articleResource =
-			journalArticleResourceLocalService.
+			_journalArticleResourceLocalService.
 				fetchJournalArticleResourceByUuidAndGroupId(
 					article.getArticleResourceUuid(), liveGroupId);
 
@@ -9074,6 +9076,13 @@ public class JournalArticleLocalServiceImpl
 
 	@Reference
 	private Http _http;
+
+	@Reference
+	private JournalArticleResourceLocalService
+		_journalArticleResourceLocalService;
+
+	@Reference
+	private JournalContentSearchLocalService _journalContentSearchLocalService;
 
 	@Reference
 	private JournalDefaultTemplateProvider _journalDefaultTemplateProvider;
