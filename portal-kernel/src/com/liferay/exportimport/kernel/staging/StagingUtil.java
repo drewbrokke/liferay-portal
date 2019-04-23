@@ -435,6 +435,10 @@ public class StagingUtil {
 		return _staging.hasWorkflowTask(userId, layoutRevision);
 	}
 
+	public static boolean isChangeTrackingEnabled(long companyId) {
+		return _staging.isChangeTrackingEnabled(companyId);
+	}
+
 	public static boolean isGroupAccessible(Group group, Group fromGroup) {
 		return _staging.isGroupAccessible(group, fromGroup);
 	}

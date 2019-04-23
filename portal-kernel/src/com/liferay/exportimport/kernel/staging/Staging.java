@@ -283,6 +283,8 @@ public interface Staging {
 	public boolean hasWorkflowTask(long userId, LayoutRevision layoutRevision)
 		throws PortalException;
 
+	public boolean isChangeTrackingEnabled(long companyId);
+
 	public boolean isGroupAccessible(Group group, Group fromGroup);
 
 	public boolean isGroupAccessible(long groupId, long fromGroupId)
