@@ -88,7 +88,7 @@ public class TransactionContainerRequestFilter
 			}
 			catch (Throwable throwable) {
 				if (_log.isDebugEnabled()) {
-					_log.debug("Could not rollback the transation", throwable);
+					_log.debug("Unable to rollback the transaction", throwable);
 				}
 			}
 		}
