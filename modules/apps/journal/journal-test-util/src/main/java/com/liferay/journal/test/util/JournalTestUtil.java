@@ -693,6 +693,15 @@ public class JournalTestUtil {
 			long parentFolderId, String name, ServiceContext serviceContext)
 		throws Exception {
 
+		return addFolder(
+			parentFolderId, name, "This is a test folder.", serviceContext);
+	}
+
+	public static JournalFolder addFolder(
+			long parentFolderId, String name, String description,
+			ServiceContext serviceContext)
+		throws Exception {
+
 		JournalFolder folder = JournalFolderLocalServiceUtil.fetchFolder(
 			serviceContext.getScopeGroupId(), parentFolderId, name);
 
@@ -702,7 +711,7 @@ public class JournalTestUtil {
 
 		return JournalFolderLocalServiceUtil.addFolder(
 			serviceContext.getUserId(), serviceContext.getScopeGroupId(),
-			parentFolderId, name, "This is a test folder.", serviceContext);
+			parentFolderId, name, description, serviceContext);
 	}
 
 	public static Element addMetadataElement(
