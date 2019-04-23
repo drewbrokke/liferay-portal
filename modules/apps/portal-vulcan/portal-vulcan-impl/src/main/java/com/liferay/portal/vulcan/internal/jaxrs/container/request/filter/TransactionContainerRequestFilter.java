@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.vulcan.internal.jaxrs.transaction;
+package com.liferay.portal.vulcan.internal.jaxrs.container.request.filter;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
@@ -42,7 +42,7 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 @Transactional(rollbackFor = Exception.class)
-public class TransactionContainerFilter
+public class TransactionContainerRequestFilter
 	implements ContainerRequestFilter, ContainerResponseFilter {
 
 	@Override
@@ -95,16 +95,16 @@ public class TransactionContainerFilter
 	}
 
 	private static final String _TRANSACTION_STATUS_ADAPTER =
-		TransactionContainerFilter.class.getName() +
+		TransactionContainerRequestFilter.class.getName() +
 			".TRANSACTION_STATUS_ADAPTER";
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		TransactionContainerFilter.class);
+		TransactionContainerRequestFilter.class);
 
 	private static final TransactionAttributeAdapter
 		_transactionAttributeAdapter = new TransactionAttributeAdapter(
 			TransactionAttributeBuilder.build(
-				TransactionContainerFilter.class.getAnnotation(
+				TransactionContainerRequestFilter.class.getAnnotation(
 					Transactional.class)));
 	private static final TransactionHandler _transactionHandler =
 		(TransactionHandler)PortalBeanLocatorUtil.locate("transactionExecutor");

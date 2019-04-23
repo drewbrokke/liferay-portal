@@ -26,6 +26,7 @@ import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.ServiceEventsContainerRequestFilter;
 import com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.SiteValidatorContainerRequestFilter;
+import com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.TransactionContainerRequestFilter;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.AcceptLanguageContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.CompanyContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.FieldsQueryParamContextProvider;
@@ -50,7 +51,6 @@ import com.liferay.portal.vulcan.internal.jaxrs.message.body.JSONMessageBodyWrit
 import com.liferay.portal.vulcan.internal.jaxrs.message.body.MultipartBodyMessageBodyReader;
 import com.liferay.portal.vulcan.internal.jaxrs.message.body.XMLMessageBodyReader;
 import com.liferay.portal.vulcan.internal.jaxrs.message.body.XMLMessageBodyWriter;
-import com.liferay.portal.vulcan.internal.jaxrs.transaction.TransactionContainerFilter;
 import com.liferay.portal.vulcan.internal.jaxrs.validation.BeanValidationInterceptor;
 
 import javax.ws.rs.core.Feature;
@@ -99,7 +99,7 @@ public class VulcanFeature implements Feature {
 		featureContext.register(PortalExceptionMapper.class);
 		featureContext.register(PrincipalExceptionMapper.class);
 		featureContext.register(ServiceEventsContainerRequestFilter.class);
-		featureContext.register(TransactionContainerFilter.class);
+		featureContext.register(TransactionContainerRequestFilter.class);
 		featureContext.register(UnrecognizedPropertyExceptionMapper.class);
 		featureContext.register(ValidationExceptionMapper.class);
 		featureContext.register(WebApplicationExceptionMapper.class);
