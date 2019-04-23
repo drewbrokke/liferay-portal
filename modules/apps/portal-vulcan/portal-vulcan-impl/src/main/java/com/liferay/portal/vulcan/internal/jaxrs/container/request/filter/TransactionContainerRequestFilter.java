@@ -96,7 +96,7 @@ public class TransactionContainerRequestFilter
 
 	private static final String _TRANSACTION_STATUS_ADAPTER =
 		TransactionContainerRequestFilter.class.getName() +
-			".TRANSACTION_STATUS_ADAPTER";
+			"#TRANSACTION_STATUS_ADAPTER";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		TransactionContainerRequestFilter.class);
