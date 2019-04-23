@@ -105,7 +105,16 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 	@Override
 	@Test
 	public void testGetUserAccountsPage() throws Exception {
-		_removeAllUsersExceptAdmin();
+		List<User> users = UserLocalServiceUtil.getUsers(
+			PortalUtil.getDefaultCompanyId(), false,
+			WorkflowConstants.STATUS_APPROVED, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+
+		for (User user : users) {
+			if (user.getUserId() != _testUser.getUserId()) {
+				UserLocalServiceUtil.deleteUser(user);
+			}
+		}
 
 		UserAccount userAccount1 = testGetUserAccountsPage_addUserAccount(
 			randomUserAccount());
@@ -252,19 +261,6 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 		_users.add(UserLocalServiceUtil.getUser(user.getUserId()));
 
 		return userAccount;
-	}
-
-	private void _removeAllUsersExceptAdmin() throws Exception {
-		List<User> users = UserLocalServiceUtil.getUsers(
-			PortalUtil.getDefaultCompanyId(), false,
-			WorkflowConstants.STATUS_APPROVED, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
-
-		for (User user : users) {
-			if (user.getUserId() != _testUser.getUserId()) {
-				UserLocalServiceUtil.deleteUser(user);
-			}
-		}
 	}
 
 	@DeleteAfterTestRun
