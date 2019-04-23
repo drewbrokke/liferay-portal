@@ -28,7 +28,9 @@ class SourceEditorToolbar extends Component {
 	}
 
 	/**
-	 * Updates the <code>_syntaxLabel</code> attribute mapping with the given syntax.
+	 * Updates the <code>_syntaxLabel</code> attribute mapping with the given
+	 * syntax.
+	 *
 	 * @param {!string} syntax
 	 * @private
 	 */
@@ -48,6 +50,7 @@ SourceEditorToolbar.SYNTAX_LABEL = {
 
 /**
  * State definition.
+ *
  * @static
  * @type {!Object}
  */
@@ -55,6 +58,7 @@ SourceEditorToolbar.STATE = {
 
 	/**
 	 * Syntax used for the editor toolbar.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf SourceEditorToolbar
@@ -64,6 +68,7 @@ SourceEditorToolbar.STATE = {
 
 	/**
 	 * Syntax label shown in the toolbar markup.
+	 *
 	 * @default ''
 	 * @instance
 	 * @memberOf SourceEditorToolbar

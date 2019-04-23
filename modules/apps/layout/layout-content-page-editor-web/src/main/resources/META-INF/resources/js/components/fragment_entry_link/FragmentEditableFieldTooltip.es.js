@@ -73,6 +73,7 @@ class FragmentEditableFieldTooltip extends Component {
 
 	/**
 	 * Aligns the tooltip position for editable fields.
+	 *
 	 * @private
 	 */
 	_alignTooltip() {
@@ -87,6 +88,7 @@ class FragmentEditableFieldTooltip extends Component {
 
 	/**
 	 * Handles a button click.
+	 *
 	 * @param {MouseEvent} event
 	 */
 	_handleButtonClick(event) {
@@ -103,6 +105,7 @@ class FragmentEditableFieldTooltip extends Component {
 
 	/**
 	 * Hides the tooltip when a document click occurs outside the tooltip.
+	 *
 	 * @param {MouseEvent} event The document click.
 	 */
 	_handleDocumentClick(event) {
@@ -117,6 +120,7 @@ class FragmentEditableFieldTooltip extends Component {
 
 	/**
 	 * Callback executed to align the tooltip when the window is resized.
+	 *
 	 * @private
 	 */
 	_handleWindowResize() {
@@ -127,6 +131,7 @@ class FragmentEditableFieldTooltip extends Component {
 
 /**
  * State definition.
+ *
  * @static
  * @type {!Object}
  */
@@ -134,6 +139,7 @@ FragmentEditableFieldTooltip.STATE = {
 
 	/**
 	 * Reference element the tooltip alignment is based on.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf FragmentEditableFieldTooltip
@@ -143,6 +149,7 @@ FragmentEditableFieldTooltip.STATE = {
 
 	/**
 	 * List of buttons rendered inside the tooltip.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf FragmentEditableFieldTooltip

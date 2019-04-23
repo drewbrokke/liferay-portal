@@ -107,6 +107,7 @@ class ImageEditor extends PortletBase {
 	/**
 	 * Notifies the opener app that the user wants to close the editor without
 	 * saving the changes.
+	 *
 	 * @protected
 	 */
 	close_() {
@@ -115,6 +116,7 @@ class ImageEditor extends PortletBase {
 
 	/**
 	 * Creates a new history entry state.
+	 *
 	 * @param  {ImageData} imageData The image data of the new image.
 	 * @protected
 	 */
@@ -138,6 +140,7 @@ class ImageEditor extends PortletBase {
 
 	/**
 	 * Retrieves the editor canvas DOM node.
+	 *
 	 * @return {Element} The canvas element
 	 */
 	getImageEditorCanvas() {
@@ -146,6 +149,7 @@ class ImageEditor extends PortletBase {
 
 	/**
 	 * Retrieves the blob representation of the current image.
+	 *
 	 * @return {CancellablePromise} A promise that resolves with the image blob.
 	 */
 	getImageEditorImageBlob() {
@@ -178,6 +182,7 @@ class ImageEditor extends PortletBase {
 
 	/**
 	 * Retrieves the image data representation of the current image.
+	 *
 	 * @return {CancellablePromise} A promise that resolves with the image data.
 	 */
 	getImageEditorImageData() {
@@ -185,7 +190,8 @@ class ImageEditor extends PortletBase {
 	}
 
 	/**
-	 * Returns a list of all possible image editor capabilities
+	 * Returns a list of all possible image editor capabilities.
+	 *
 	 * @return {Array<{Object}>}
 	 */
 	getPossibleControls() {
@@ -195,6 +201,7 @@ class ImageEditor extends PortletBase {
 	/**
 	 * Normalizes different MIME types to the most similar MIME type available
 	 * to canvas implementations.
+	 *
 	 * @param  {String} mimeType The original MIME type.
 	 * @return {String} The normalized MIME type.
 	 * @see http://kangax.github.io/jstests/toDataUrl_mime_type_test/
@@ -205,6 +212,7 @@ class ImageEditor extends PortletBase {
 
 	/**
 	 * Notifies the opener app of the result of the save action.
+	 *
 	 * @param  {Object} result The server response to the save action.
 	 * @protected
 	 */
@@ -238,6 +246,7 @@ class ImageEditor extends PortletBase {
 
 	/**
 	 * Selects a control and starts its editing phase with filters.
+	 *
 	 * @param  {MouseEvent} event The mouse event.
 	 */
 	requestImageEditorEditFilters(event) {
@@ -256,6 +265,7 @@ class ImageEditor extends PortletBase {
 
 	/**
 	 * Select a control and starts its editing phase.
+	 *
 	 * @param {MouseEvent} event The mouse event.
 	 */
 	requestImageEditorEdit(event) {

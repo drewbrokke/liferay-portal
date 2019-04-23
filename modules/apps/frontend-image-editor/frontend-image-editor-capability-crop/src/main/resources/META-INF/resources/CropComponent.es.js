@@ -13,6 +13,7 @@ class CropComponent extends Component {
 
 	/**
 	 * Applies the brightness filter to generate a final version of the image.
+	 *
 	 * @param  {Object} imageData The image representations.
 	 * @return {CancellablePromise} A promise that resolves when the webworker
 	 * finishes processing the image for preview.
@@ -57,6 +58,7 @@ class CropComponent extends Component {
 
 /**
  * State definition.
+ *
  * @static
  * @type {!Object}
  */
@@ -64,6 +66,7 @@ CropComponent.STATE = {
 
 	/**
 	 * Injected helper that retrieves the editor canvas.
+	 *
 	 * @type {Function}
 	 */
 	getImageEditorCanvas: {

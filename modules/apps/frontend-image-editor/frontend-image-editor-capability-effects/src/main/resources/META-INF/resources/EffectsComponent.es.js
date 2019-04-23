@@ -34,6 +34,7 @@ class EffectsComponent extends Component {
 
 	/**
 	 * Returns <code>true</code> if the carousel can be scrolled to the right.
+	 *
 	 * @private
 	 * @return {boolean} <code>True</code> if the carousel can be scrolled to
 	 * the right; <code>false</code> otherwise.
@@ -50,6 +51,7 @@ class EffectsComponent extends Component {
 
 	/**
 	 * Generates a thumbnail for a given effect.
+	 *
 	 * @param  {String} effect The effect to generate the thumbnail for.
 	 * @param  {ImageData} imageData The image data to which the effect is applied.
 	 * @return {CancellablePromise} A promise that resolves when the thumbnail
@@ -71,6 +73,7 @@ class EffectsComponent extends Component {
 
 	/**
 	 * Generates the complete set of thumbnails for the component effects.
+	 *
 	 * @param  {ImageData} imageData The thumbnail image data (small version).
 	 * @return {CancellablePromise} A promise that resolves when the thumbnails
 	 * are generated.
@@ -84,6 +87,7 @@ class EffectsComponent extends Component {
 	/**
 	 * Generates a resized version of the image data to generate the thumbnails
 	 * more efficiently.
+	 *
 	 * @param  {ImageData} imageData The original image data.
 	 * @return {ImageData} The resized image data.
 	 */
@@ -111,6 +115,7 @@ class EffectsComponent extends Component {
 
 	/**
 	 * Prefetches all the effect results.
+	 *
 	 * @return {CancellablePromise} A promise that resolves when all the effects
 	 * are prefetched.
 	 */
@@ -133,6 +138,7 @@ class EffectsComponent extends Component {
 
 	/**
 	 * Applies the selected effect to the image.
+	 *
 	 * @param  {ImageData} imageData The image data representation of the image.
 	 * @return {CancellablePromise} A promise that resolves when the webworker
 	 * finishes processing the image.
@@ -144,6 +150,7 @@ class EffectsComponent extends Component {
 	/**
 	 * Notifies the editor that the component wants to generate a new preview of
 	 * the current image.
+	 *
 	 * @param  {MouseEvent} event The mouse event.
 	 */
 	previewEffect(event) {
@@ -153,6 +160,7 @@ class EffectsComponent extends Component {
 
 	/**
 	 * Applies the selected effect to the image.
+	 *
 	 * @param  {ImageData} imageData The image data representation of the image.
 	 * @param {String} effectName The effect to apply to the image.
 	 * @return {CancellablePromise} A promise that resolves when the webworker
@@ -176,6 +184,7 @@ class EffectsComponent extends Component {
 
 	/**
 	 * Makes the carousel scroll left to reveal options of the visible area.
+	 *
 	 * @return void
 	 */
 	scrollLeft() {
@@ -192,6 +201,7 @@ class EffectsComponent extends Component {
 
 	/**
 	 * Makes the carousel scroll right to reveal options of the visible area.
+	 *
 	 * @return void
 	 */
 	scrollRight() {
@@ -206,6 +216,7 @@ class EffectsComponent extends Component {
 
 	/**
 	 * Spawns a webworker to process the image in a different thread.
+	 *
 	 * @param  {String} workerURI The URI of the worker to spawn.
 	 * @param  {Object} message The image and effect preset.
 	 * @return {CancellablePromise} A promise that resolves when the webworker
@@ -223,6 +234,7 @@ class EffectsComponent extends Component {
 
 /**
  * State definition.
+ *
  * @static
  * @type {!Object}
  */
@@ -230,6 +242,7 @@ EffectsComponent.STATE = {
 
 	/**
 	 * Offset in pixels (<code>px</code> postfix) for the carousel item.
+	 *
 	 * @type {String}
 	 */
 	carouselOffset: {
@@ -239,6 +252,7 @@ EffectsComponent.STATE = {
 
 	/**
 	 * Array of available effects.
+	 *
 	 * @type {Object}
 	 */
 	effects: {
@@ -248,6 +262,7 @@ EffectsComponent.STATE = {
 
 	/**
 	 * Injected helper that retrieves the editor image data.
+	 *
 	 * @type {Function}
 	 */
 	getImageEditorImageData: {
@@ -256,6 +271,7 @@ EffectsComponent.STATE = {
 
 	/**
 	 * Path of this module.
+	 *
 	 * @type {Function}
 	 */
 	modulePath: {
@@ -264,6 +280,7 @@ EffectsComponent.STATE = {
 
 	/**
 	 * Injected helper that retrieves the editor image data.
+	 *
 	 * @type {Function}
 	 */
 	requestImageEditorPreview: {
@@ -272,6 +289,7 @@ EffectsComponent.STATE = {
 
 	/**
 	 * Size of the thumbnails (size x size).
+	 *
 	 * @type {Number}
 	 */
 	thumbnailSize: {

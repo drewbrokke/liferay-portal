@@ -27,6 +27,7 @@ class FragmentEditor extends PortletBase {
 
 	/**
 	 * Returns content for the fragment.
+	 *
 	 * @public
 	 * @return {{
 	 *   css: string,
@@ -44,6 +45,7 @@ class FragmentEditor extends PortletBase {
 
 	/**
 	 * Returns <code>true</code> when HTML content is valid.
+	 *
 	 * @public
 	 * @return {boolean} <code>true</code> when HTML is valid; <code>false</code>
 	 * otherwise.
@@ -55,6 +57,7 @@ class FragmentEditor extends PortletBase {
 	/**
 	 * Callback that propagates the <code>contentChanged</code> event when
 	 * content is modified.
+	 *
 	 * @private
 	 */
 	_handleContentChanged() {
@@ -66,6 +69,7 @@ class FragmentEditor extends PortletBase {
 
 	/**
 	 * Callback executed when the CSS editor changes.
+	 *
 	 * @param {!Event} event
 	 * @private
 	 */
@@ -76,6 +80,7 @@ class FragmentEditor extends PortletBase {
 
 	/**
 	 * Callback executed when the HTML editor changes.
+	 *
 	 * @param {!Event} event
 	 * @private
 	 */
@@ -88,6 +93,7 @@ class FragmentEditor extends PortletBase {
 
 	/**
 	 * Callback executed when the JS editor changes.
+	 *
 	 * @param {!Event} event
 	 * @private
 	 */
@@ -98,6 +104,7 @@ class FragmentEditor extends PortletBase {
 
 	/**
 	 * Saves the fragment content when the Save button is clicked.
+	 *
 	 * @param {!Event} event
 	 * @private
 	 */
@@ -169,6 +176,7 @@ class FragmentEditor extends PortletBase {
 
 /**
  * State definition.
+ *
  * @static
  * @type {!Object}
  */
@@ -176,6 +184,7 @@ FragmentEditor.STATE = {
 
 	/**
 	 * List of tags for custom autocompletion in the HTML editor.
+	 *
 	 * @default []
 	 * @instance
 	 * @memberOf FragmentEditor
@@ -192,6 +201,7 @@ FragmentEditor.STATE = {
 
 	/**
 	 * Fragment collection ID.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf FragmentEditor
@@ -201,6 +211,7 @@ FragmentEditor.STATE = {
 
 	/**
 	 * Fragment entry ID.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf FragmentEditor
@@ -210,6 +221,7 @@ FragmentEditor.STATE = {
 
 	/**
 	 * Fragment name.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf FragmentEditor
@@ -219,6 +231,7 @@ FragmentEditor.STATE = {
 
 	/**
 	 * URLs used for communicating with back-end logic.
+	 *
 	 * @instance
 	 * @memberOf FragmentEditor
 	 * @type {{
@@ -236,6 +249,7 @@ FragmentEditor.STATE = {
 	/**
 	 * Updated CSS content of the editor. This value is propagated to the
 	 * preview pane.
+	 *
 	 * @default ''
 	 * @instance
 	 * @memberOf FragmentEditor
@@ -249,6 +263,7 @@ FragmentEditor.STATE = {
 	/**
 	 * Updated HTML content of the editor. This value is propagated to the
 	 * preview pane.
+	 *
 	 * @default ''
 	 * @instance
 	 * @memberOf FragmentEditor
@@ -261,6 +276,7 @@ FragmentEditor.STATE = {
 
 	/**
 	 * Flag to specify if the editor's updated HTML content is valid.
+	 *
 	 * @default true
 	 * @instance
 	 * @memberOf FragmentEditor
@@ -274,26 +290,26 @@ FragmentEditor.STATE = {
 	/**
 	 * Updated JS content of the editor. This value is propagated to the preview
 	 * pane.
+	 *
 	 * @default ''
 	 * @instance
 	 * @memberOf FragmentEditor
 	 * @private
 	 * @type {string}
 	 */
-
 	_js: Config.string()
 		.internal()
 		.value(''),
 
 	/**
 	 * If <code>true</code>, the fragment is saved.
+	 *
 	 * @default false
 	 * @instance
 	 * @memberOf FragmentEditor
 	 * @private
 	 * @type {bool}
 	 */
-
 	_saving: Config.bool()
 		.internal()
 		.value(false)

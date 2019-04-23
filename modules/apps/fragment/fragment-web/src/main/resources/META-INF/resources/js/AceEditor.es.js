@@ -107,6 +107,7 @@ class AceEditor extends Component {
 	/**
 	 * Returns a match object (if any) for <code>lfr-</code> tags inside the
 	 * given content.
+	 *
 	 * @param {string} content The given content.
 	 * @private
 	 * @return {object} The matching result.
@@ -136,6 +137,7 @@ class AceEditor extends Component {
 	/**
 	 * Returns a tag completion suggestion for the given match and selected
 	 * suggestion.
+	 *
 	 * @param {object} match The match.
 	 * @param {string} selectedSuggestion The selected suggestion.
 	 * @private
@@ -152,6 +154,7 @@ class AceEditor extends Component {
 	/**
 	 * Callback executed when the internal Ace Editor is modified; this
 	 * propagates the <code>contentChanged</code> event.
+	 *
 	 * @private
 	 */
 	_handleDocumentChanged() {
@@ -176,6 +179,7 @@ class AceEditor extends Component {
 	/**
 	 * Overrides Ace Editor's session <code>setAnnotations</code> method to avoid
 	 * showing misleading messages.
+	 *
 	 * @param {Object} session AceEditor session
 	 * @private
 	 */
@@ -193,6 +197,7 @@ class AceEditor extends Component {
 
 /**
  * Available Ace Editor syntax.
+ *
  * @static
  * @type {Object}
  */
@@ -204,6 +209,7 @@ AceEditor.SYNTAX = {
 
 /**
  * State definition.
+ *
  * @static
  * @type {!Object}
  */
@@ -211,6 +217,7 @@ AceEditor.STATE = {
 
 	/**
 	 * List of tags for custom autocompletion in the HTML editor.
+	 *
 	 * @default []
 	 * @instance
 	 * @memberOf AceEditor
@@ -227,6 +234,7 @@ AceEditor.STATE = {
 
 	/**
 	 * Initial content sent to the editor.
+	 *
 	 * @default ''
 	 * @instance
 	 * @memberOf AceEditor
@@ -236,6 +244,7 @@ AceEditor.STATE = {
 
 	/**
 	 * Syntax used for the Ace Editor that is rendered on the interface.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf AceEditor

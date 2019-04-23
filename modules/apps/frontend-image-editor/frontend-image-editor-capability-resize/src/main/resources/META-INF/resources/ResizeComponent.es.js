@@ -31,6 +31,7 @@ class ResizeComponent extends Component {
 
 	/**
 	 * Executes the resize operation to get the final version of the image.
+	 *
 	 * @param  {ImageData} imageData The image data representation of the image.
 	 * @return {CancellablePromise} A promise that resolves with the resized
 	 * image data representation.
@@ -41,6 +42,7 @@ class ResizeComponent extends Component {
 
 	/**
 	 * Resizes image data to the user's selected width and height values.
+	 *
 	 * @param  {ImageData} imageData The original image data.
 	 * @return {ImageData} The resized image data with the component width and
 	 * height values specified by the user.
@@ -65,6 +67,7 @@ class ResizeComponent extends Component {
 	/**
 	 * Keeps the width/height ratio in sync when <code>lockProportions</code> is
 	 * <code>true</code>.
+	 *
 	 * @param  {InputEvent} event The input event.
 	 */
 	syncDimensions(event) {
@@ -92,6 +95,7 @@ class ResizeComponent extends Component {
 	 * Toggles the value of the <code>lockProportions</code> attribute. When
 	 * enabled, changes in one of the dimensions cascades changes to the other
 	 * to keep the original image ratio.
+	 *
 	 * @param  {MouseEvent} event
 	 */
 	toggleLockProportions(event) {
@@ -101,6 +105,7 @@ class ResizeComponent extends Component {
 
 /**
  * State definition.
+ *
  * @static
  * @type {!Object}
  */
@@ -108,6 +113,7 @@ ResizeComponent.STATE = {
 
 	/**
 	 * Injected helper that retrieves the editor image data.
+	 *
 	 * @type {Function}
 	 */
 	getImageEditorImageData: {

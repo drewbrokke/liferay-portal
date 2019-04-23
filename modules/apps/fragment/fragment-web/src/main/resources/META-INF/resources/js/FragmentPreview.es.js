@@ -7,6 +7,7 @@ import templates from './FragmentPreview.soy';
 
 /**
  * Defined ratios for preview sizing.
+ *
  * @type {Object}
  */
 const SIZE_RATIO = {
@@ -26,6 +27,7 @@ const SIZE_RATIO = {
 
 /**
  * Available preview sizes.
+ *
  * @type {Array<string>}
  */
 const PREVIEW_SIZES = Object.keys(SIZE_RATIO);
@@ -38,7 +40,6 @@ class FragmentPreview extends PortletBase {
 	/**
 	 * @inheritDoc
 	 */
-
 	attached() {
 		this._updatePreview = debounce(
 			this._updatePreview.bind(this),
@@ -84,6 +85,7 @@ class FragmentPreview extends PortletBase {
 
 	/**
 	 * Callback executed when the preview frame content is loaded.
+	 *
 	 * @private
 	 */
 	_handlePreviewLoaded() {
@@ -92,6 +94,7 @@ class FragmentPreview extends PortletBase {
 
 	/**
 	 * Changes the preview size.
+	 *
 	 * @param {Event} event
 	 * @protected
 	 */
@@ -101,6 +104,7 @@ class FragmentPreview extends PortletBase {
 
 	/**
 	 * Sets the preview size property and queues an update.
+	 *
 	 * @param {string} previewSize
 	 * @protected
 	 * @return {string}
@@ -114,6 +118,7 @@ class FragmentPreview extends PortletBase {
 	/**
 	 * Updates the rendered preview with the given content. It encapsulates the
 	 * given code inside a frame and renders it.
+	 *
 	 * @protected
 	 */
 	_updatePreview() {
@@ -144,6 +149,7 @@ class FragmentPreview extends PortletBase {
 
 	/**
 	 * Updates the preview size using the corresponding ratio.
+	 *
 	 * @protected
 	 */
 	_updatePreviewSize() {
@@ -176,6 +182,7 @@ class FragmentPreview extends PortletBase {
 
 /**
  * State definition.
+ *
  * @type {!Object}
  * @static
  */
@@ -183,6 +190,7 @@ FragmentPreview.STATE = {
 
 	/**
 	 * CSS content of the preview.
+	 *
 	 * @instance
 	 * @memberOf FragmentPreview
 	 * @type {!string}
@@ -191,6 +199,7 @@ FragmentPreview.STATE = {
 
 	/**
 	 * HTML content of the preview.
+	 *
 	 * @instance
 	 * @memberOf FragmentPreview
 	 * @type {!string}
@@ -199,6 +208,7 @@ FragmentPreview.STATE = {
 
 	/**
 	 * JS content of the preview.
+	 *
 	 * @instance
 	 * @memberOf FragmentPreview
 	 * @type {!string}
@@ -207,6 +217,7 @@ FragmentPreview.STATE = {
 
 	/**
 	 * Path of the available icons.
+	 *
 	 * @instance
 	 * @memberOf FragmentEditor
 	 * @type {!string}
@@ -215,6 +226,7 @@ FragmentPreview.STATE = {
 
 	/**
 	 * URLs used for communicating with the back-end logic.
+	 *
 	 * @instance
 	 * @memberOf FragmentPreview
 	 * @type {{
@@ -231,6 +243,7 @@ FragmentPreview.STATE = {
 	 * Ratio of the preview being rendered. This property is modified internally
 	 * with the UI buttons presented to the user, but it can be safely altered
 	 * externally.
+	 *
 	 * @default 'full'
 	 * @instance
 	 * @memberOf FragmentPreview
@@ -244,6 +257,7 @@ FragmentPreview.STATE = {
 
 	/**
 	 * Flag that checks if the preview content is loading.
+	 *
 	 * @default false
 	 * @instance
 	 * @memberOf FragmentPreview
@@ -256,6 +270,7 @@ FragmentPreview.STATE = {
 
 	/**
 	 * List of available sizes.
+	 *
 	 * @default PREVIEW_SIZES
 	 * @instance
 	 * @memberOf FragmentPreview

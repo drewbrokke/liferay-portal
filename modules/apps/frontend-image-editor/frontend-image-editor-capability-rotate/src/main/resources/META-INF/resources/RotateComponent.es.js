@@ -28,6 +28,7 @@ class RotateComponent extends Component {
 
 	/**
 	 * Rotates the image to the current selected rotation angle.
+	 *
 	 * @param  {ImageData} imageData The image data representation of the image.
 	 * @return {CancellablePromise} A promise that resolves when processing is
 	 * complete.
@@ -38,6 +39,7 @@ class RotateComponent extends Component {
 
 	/**
 	 * Rotates the image to the current selected rotation angle.
+	 *
 	 * @param  {ImageData} imageData The image data representation of the image.
 	 * @return {CancellablePromise} A promise that resolves when processing is
 	 * complete.
@@ -56,6 +58,7 @@ class RotateComponent extends Component {
 
 	/**
 	 * Rotates the passed image data to the current rotation angle.
+	 *
 	 * @param  {ImageData} imageData The image data to rotate.
 	 * @param  {number} rotationAngle The normalized rotation angle (in degrees)
 	 * in the range [0-360).
@@ -111,6 +114,7 @@ class RotateComponent extends Component {
 
 /**
  * State definition.
+ *
  * @static
  * @type {!Object}
  */
@@ -118,6 +122,7 @@ RotateComponent.STATE = {
 
 	/**
 	 * Path of this module.
+	 *
 	 * @type {Function}
 	 */
 	modulePath: {
@@ -127,6 +132,7 @@ RotateComponent.STATE = {
 	/**
 	 * Injected method that notifies the editor that this component wants to
 	 * generate a preview version of the image.
+	 *
 	 * @type {Function}
 	 */
 	requestImageEditorPreview: {
