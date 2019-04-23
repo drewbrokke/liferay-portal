@@ -16,15 +16,11 @@ package com.liferay.wiki.editor.configuration.internal;
 
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
 import com.liferay.portal.kernel.editor.configuration.EditorConfigContributor;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.wiki.constants.WikiPortletKeys;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.portlet.PortletURL;
 
@@ -53,14 +49,9 @@ public class WikiAttachmentImageHTMLEditorConfigContributor
 		String itemSelectedEventName, long wikiPageResourcePrimKey,
 		ThemeDisplay themeDisplay) {
 
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-			new ArrayList<>();
-
-		desiredItemSelectorReturnTypes.add(
-			new FileEntryItemSelectorReturnType());
-
 		ItemSelectorCriterion imageItemSelectorCriterion =
-			getImageItemSelectorCriterion(desiredItemSelectorReturnTypes);
+			getImageItemSelectorCriterion(
+				new FileEntryItemSelectorReturnType());
 
 		ItemSelectorCriterion urlItemSelectorCriterion =
 			getURLItemSelectorCriterion();
@@ -75,7 +66,8 @@ public class WikiAttachmentImageHTMLEditorConfigContributor
 		else {
 			ItemSelectorCriterion attachmentItemSelectorCriterion =
 				getWikiAttachmentItemSelectorCriterion(
-					wikiPageResourcePrimKey, desiredItemSelectorReturnTypes);
+					wikiPageResourcePrimKey,
+					new FileEntryItemSelectorReturnType());
 
 			ItemSelectorCriterion uploadItemSelectorCriterion =
 				getUploadItemSelectorCriterion(

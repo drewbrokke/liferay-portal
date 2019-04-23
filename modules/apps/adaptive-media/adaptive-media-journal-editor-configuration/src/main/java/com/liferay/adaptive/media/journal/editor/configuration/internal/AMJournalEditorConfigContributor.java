@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -134,7 +135,8 @@ public class AMJournalEditorConfigContributor
 		ItemSelectorCriterion itemSelectorCriterion) {
 
 		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes =
-			itemSelectorCriterion.getDesiredItemSelectorReturnTypes();
+			new ArrayList<>(
+				itemSelectorCriterion.getDesiredItemSelectorReturnTypes());
 
 		desiredItemSelectorReturnTypes.add(
 			new AMImageFileEntryItemSelectorReturnType());

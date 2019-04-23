@@ -32,7 +32,6 @@ import com.liferay.portal.util.PropsValues;
 import com.liferay.wiki.constants.WikiPortletKeys;
 import com.liferay.wiki.item.selector.criterion.WikiAttachmentItemSelectorCriterion;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -107,7 +106,7 @@ public abstract class BaseWikiAttachmentImageEditorConfigContributor
 	}
 
 	protected ItemSelectorCriterion getImageItemSelectorCriterion(
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes) {
+		ItemSelectorReturnType... desiredItemSelectorReturnTypes) {
 
 		ItemSelectorCriterion imageItemSelectorCriterion =
 			new ImageItemSelectorCriterion();
@@ -160,7 +159,7 @@ public abstract class BaseWikiAttachmentImageEditorConfigContributor
 
 	protected ItemSelectorCriterion getWikiAttachmentItemSelectorCriterion(
 		long wikiPageResourcePrimKey,
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes) {
+		ItemSelectorReturnType... desiredItemSelectorReturnTypes) {
 
 		ItemSelectorCriterion itemSelectorCriterion =
 			new WikiAttachmentItemSelectorCriterion(
