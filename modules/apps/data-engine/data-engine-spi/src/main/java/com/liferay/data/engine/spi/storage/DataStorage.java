@@ -30,8 +30,8 @@ public interface DataStorage {
 		throws Exception;
 
 	public long save(
-			long dataRecordCollectionId, Map<String, Object> dataRecordValuesMap,
-			long siteId)
+			long dataRecordCollectionId,
+			Map<String, Object> dataRecordValuesMap, long siteId)
 		throws Exception;
 
 }
