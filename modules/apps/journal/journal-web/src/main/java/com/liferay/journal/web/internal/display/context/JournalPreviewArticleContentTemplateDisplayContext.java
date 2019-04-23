@@ -63,8 +63,6 @@ public class JournalPreviewArticleContentTemplateDisplayContext {
 			return _articleDisplay;
 		}
 
-		int page = ParamUtil.getInteger(_renderRequest, "page");
-
 		String ddmTemplateKey = StringPool.BLANK;
 
 		DDMTemplate ddmTemplate = getDDMTemplate();
@@ -72,6 +70,8 @@ public class JournalPreviewArticleContentTemplateDisplayContext {
 		if (ddmTemplate != null) {
 			ddmTemplateKey = ddmTemplate.getTemplateKey();
 		}
+
+		int page = ParamUtil.getInteger(_renderRequest, "page");
 
 		_articleDisplay = JournalArticleLocalServiceUtil.getArticleDisplay(
 			article, ddmTemplateKey, null, _themeDisplay.getLanguageId(), page,
