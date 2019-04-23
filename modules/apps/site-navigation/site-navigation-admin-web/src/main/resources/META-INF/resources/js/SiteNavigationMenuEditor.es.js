@@ -29,7 +29,6 @@ import {
 /**
  * List of keys used for moving elements with the keyboard.
  */
-
 const KEYS = {
 	ARROW_DOWN: 'ArrowDown',
 	ARROW_LEFT: 'ArrowLeft',
@@ -40,15 +39,13 @@ const KEYS = {
 };
 
 /**
- * SiteNavigationMenuEditor
+ * Provides the Site Navigation Menu Editor.
  */
-
 class SiteNavigationMenuEditor extends State {
 
 	/**
 	 * @inheritDoc
 	 */
-
 	constructor(config, ...args) {
 		super(config, ...args);
 
@@ -106,7 +103,6 @@ class SiteNavigationMenuEditor extends State {
 	/**
 	 * @inheritDoc
 	 */
-
 	dispose(...args) {
 		if (this._dragDrop) {
 			this._dragDrop.dispose();
@@ -127,12 +123,12 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * This is called when the user drags the item across the container.
-	 * @param {!object} data Drag event data
-	 * @param {!Event} event Drag event
+	 * Handles the event when the user drags the item across the container.
+	 *
+	 * @param {!object} data The drag event data.
+	 * @param {!Event} event The drag event.
 	 * @private
 	 */
-
 	_handleDragItem(data, event) {
 		const placeholderMenuItem = data.placeholder;
 		const sourceMenuItem = data.source;
@@ -187,12 +183,13 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * This is called when user starts to drag the item across the container.
-	 * @param {!object} data Drag event data
-	 * @param {!Event} event Drag event
+	 * Handles the event when the user starts to drag the item across the
+	 * container.
+	 *
+	 * @param {!object} data The drag event data.
+	 * @param {!Event} event The drag event.
 	 * @private
 	 */
-
 	_handleDragStart(data, event) {
 		const menuItem = event.target.getActiveDrag();
 
@@ -202,12 +199,12 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * This is called when user drops the item on the container.
-	 * @param {!object} data Drop event data
-	 * @param {!Event} event Drop event
+	 * Handles the event when the user drops the item on the container.
+	 *
+	 * @param {!object} data The drop event data.
+	 * @param {!Event} event The drop event.
 	 * @private
 	 */
-
 	_handleDropItem(data, event) {
 		event.preventDefault();
 
@@ -235,12 +232,11 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * This is called when user clicks on a menu item.
-	 * @param {!Event} event Click event data
+	 * Handles the event when the user clicks on a menu item.
+	 *
+	 * @param {!Event} event The click event data.
 	 * @private
-	 * @review
 	 */
-
 	_handleItemClick(event) {
 		const menuItem = getFromContentElement(
 			event.delegateTarget
@@ -250,11 +246,11 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * This is called when user presses a key on a menu item.
-	 * @param {!Event} event KeyUp event data
+	 * Handles the event when the user presses a key on a menu item.
+	 *
+	 * @param {!Event} event The key up event data.
 	 * @private
 	 */
-
 	_handleItemKeyUp(event) {
 		event.stopPropagation();
 
@@ -348,11 +344,11 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * Handles the event when the selectedMenuItem property changes.
+	 * Handles the event when the selected menu item property changes.
+	 *
 	 * @param {{newVal: HTMLElement|null}} event
 	 * @private
 	 */
-
 	_handleSelectedMenuItemChanged(event) {
 		unselectAll();
 
@@ -362,17 +358,17 @@ class SiteNavigationMenuEditor extends State {
 	}
 
 	/**
-	 * Sends layout information to the server and returns a promise
-	 * that resolves after finishing.
+	 * Sends layout information to the server and returns a promise that
+	 * resolves after finishing.
+	 *
 	 * @param {{
 	 *   dragOrder: !string,
 	 *   parentId: !string,
 	 *   siteNavigationMenuItemId: !string
 	 * }} data
 	 * @private
-	 * @return {Promise}
+	 * @return {Promise} The promise.
 	 */
-
 	_updateParentAndOrder(data) {
 		const formData = new FormData();
 
@@ -404,51 +400,51 @@ class SiteNavigationMenuEditor extends State {
 
 /**
  * State definition.
+ *
  * @static
  * @type {!Object}
  */
-
 SiteNavigationMenuEditor.STATE = {
 
 	/**
-	 * URL for edit site navigation menu item parent action.
+	 * URL for the edit site navigation menu item parent action.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @type {!string}
 	 */
-
 	editSiteNavigationMenuItemParentURL: Config.string().required(),
 
 	/**
-	 * Portlet namespace to use in edit action.
+	 * Portlet namespace to use in the edit action.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @type {!string}
 	 */
-
 	namespace: Config.string().required(),
 
 	/**
-	 * Selected menuItem DOM element.
+	 * Selected menu item DOM element.
+	 *
 	 * @default null
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @type {HTMLElement}
 	 */
-
 	selectedMenuItem: Config.object().value(null),
 
 	/**
 	 * Control menu height.
+	 *
 	 * @default 0
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @private
 	 * @type {number}
 	 */
-
 	_controlMenuHeight: Config.number().internal().value(0),
 
 	/**
@@ -458,39 +454,38 @@ SiteNavigationMenuEditor.STATE = {
 	 * @private
 	 * @type {number}
 	 */
-
 	_currentYPosition: Config.number().internal().value(-1),
 
 	/**
-	 * Internal DragDrop instance.
+	 * Internal <code>DragDrop</code> instance.
+	 *
 	 * @default null
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @type {object|null}
 	 */
-
 	_dragDrop: Config.internal().value(null),
 
 	/**
 	 * Dragged item.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @private
 	 * @type {HTMLElement|null}
 	 */
-
 	_draggedItemRegion: Config.object().internal(),
 
 	/**
-	 * Management bar height
+	 * Management bar height.
+	 *
 	 * @default 0
 	 * @instance
 	 * @memberOf SiteNavigationMenuEditor
 	 * @private
 	 * @type {number}
 	 */
-
 	_managementBarHeight: Config.number().internal().value(0)
 
 };
