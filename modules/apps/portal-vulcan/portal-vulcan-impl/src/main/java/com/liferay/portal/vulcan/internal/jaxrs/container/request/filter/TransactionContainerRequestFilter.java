@@ -49,7 +49,7 @@ public class TransactionContainerRequestFilter
 	public void filter(ContainerRequestContext containerRequestContext)
 		throws IOException {
 
-		if (_transactionVerbs.contains(containerRequestContext.getMethod())) {
+		if (_transactionRequiredMethodNames.contains(containerRequestContext.getMethod())) {
 			containerRequestContext.setProperty(
 				_TRANSACTION_STATUS_ADAPTER,
 				_transactionHandler.start(_transactionAttributeAdapter));
@@ -108,7 +108,7 @@ public class TransactionContainerRequestFilter
 					Transactional.class)));
 	private static final TransactionHandler _transactionHandler =
 		(TransactionHandler)PortalBeanLocatorUtil.locate("transactionExecutor");
-	private static final Set<String> _transactionVerbs = new HashSet<>(
+	private static final Set<String> _transactionRequiredMethodNames = new HashSet<>(
 		Arrays.asList("DELETE", "PATCH", "POST", "PUT"));
 
 }
