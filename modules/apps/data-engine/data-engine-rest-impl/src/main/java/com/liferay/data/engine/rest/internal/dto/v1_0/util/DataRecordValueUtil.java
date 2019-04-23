@@ -43,16 +43,18 @@ public class DataRecordValueUtil {
 			DataRecordValue[] dataRecordValues)
 		throws Exception {
 
-		Map<String, Object> map = toMap(dataRecordValues);
+		Map<String, Object> dataRecordValuesMap = toMap(dataRecordValues);
 
 		if (dataDefinitionField.getLocalizable()) {
-			return (Map<String, Object>)map.get(dataDefinitionField.getName());
+			return (Map<String, Object>)dataRecordValuesMap.get(
+				dataDefinitionField.getName());
 		}
 		else if (dataDefinitionField.getRepeatable()) {
-			return (Object[])map.get(dataDefinitionField.getName());
+			return (Object[])dataRecordValuesMap.get(
+				dataDefinitionField.getName());
 		}
 
-		return map.get(dataDefinitionField.getName());
+		return dataRecordValuesMap.get(dataDefinitionField.getName());
 	}
 
 	public static DataRecordValue[] toDataRecordValues(
@@ -100,7 +102,8 @@ public class DataRecordValueUtil {
 	}
 
 	public static String toJSON(
-			DataDefinition dataDefinition, Map<String, Object> dataRecordValues)
+			DataDefinition dataDefinition,
+			Map<String, Object> dataRecordValuesMap)
 		throws Exception {
 
 		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
@@ -116,7 +119,7 @@ public class DataRecordValueUtil {
 		for (Map.Entry<String, DataDefinitionField> entry :
 				dataDefinitionFields.entrySet()) {
 
-			if (!dataRecordValues.containsKey(entry.getKey())) {
+			if (!dataRecordValuesMap.containsKey(entry.getKey())) {
 				continue;
 			}
 
@@ -126,18 +129,18 @@ public class DataRecordValueUtil {
 				jsonObject.put(
 					entry.getKey(),
 					_toJSONObject(
-						(Map<String, Object>)dataRecordValues.get(
+						(Map<String, Object>)dataRecordValuesMap.get(
 							dataDefinitionField.getName())));
 			}
 			else if (dataDefinitionField.getRepeatable()) {
 				jsonObject.put(
 					entry.getKey(),
 					JSONFactoryUtil.createJSONArray(
-						(Object[])dataRecordValues.get(entry.getKey())));
+						(Object[])dataRecordValuesMap.get(entry.getKey())));
 			}
 			else {
 				jsonObject.put(
-					entry.getKey(), dataRecordValues.get(entry.getKey()));
+					entry.getKey(), dataRecordValuesMap.get(entry.getKey()));
 			}
 		}
 
@@ -147,13 +150,14 @@ public class DataRecordValueUtil {
 	public static Map<String, Object> toMap(DataRecordValue[] dataRecordValues)
 		throws Exception {
 
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> dataRecordValuesMap = new HashMap<>();
 
 		for (DataRecordValue dataRecordValue : dataRecordValues) {
-			map.put(dataRecordValue.getKey(), dataRecordValue.getValue());
+			dataRecordValuesMap.put(
+				dataRecordValue.getKey(), dataRecordValue.getValue());
 		}
 
-		return map;
+		return dataRecordValuesMap;
 	}
 
 	private static Object _toDataRecordValueValue(

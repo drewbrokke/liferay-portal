@@ -72,8 +72,8 @@ public class JSONDataStorage implements DataStorage {
 
 	@Override
 	public long save(
-			long dataRecordCollectionId, Map<String, Object> dataRecordValues,
-			long siteId)
+			long dataRecordCollectionId,
+			Map<String, Object> dataRecordValuesMap, long siteId)
 		throws Exception {
 
 		DataRecordCollection dataRecordCollection =
@@ -87,7 +87,7 @@ public class JSONDataStorage implements DataStorage {
 				DataDefinitionUtil.toDataDefinition(
 					_ddmStructureLocalService.getStructure(
 						dataRecordCollection.getDataDefinitionId())),
-				dataRecordValues),
+				dataRecordValuesMap),
 			new ServiceContext() {
 				{
 					setScopeGroupId(siteId);
