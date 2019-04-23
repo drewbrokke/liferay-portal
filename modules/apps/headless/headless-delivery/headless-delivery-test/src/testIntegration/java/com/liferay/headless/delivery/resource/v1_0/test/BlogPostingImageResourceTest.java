@@ -46,7 +46,7 @@ public class BlogPostingImageResourceTest
 	extends BaseBlogPostingImageResourceTestCase {
 
 	@Test
-	public void testPostSiteBlogPostingImageUsesTransation() throws Exception {
+	public void testPostSiteBlogPostingImageUsesTransaction() throws Exception {
 		Folder folder = BlogsEntryLocalServiceUtil.fetchAttachmentsFolder(
 			UserLocalServiceUtil.getDefaultUserId(testGroup.getCompanyId()),
 			testGroup.getGroupId());
