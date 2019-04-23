@@ -250,6 +250,7 @@ public abstract class BaseCORSClientTestCase {
 			properties = new HashMapDictionary<>();
 		}
 
+		properties.put("liferay.access.control.disable", true);
 		properties.put("liferay.oauth2", false);
 		properties.put("osgi.jaxrs.application.base", "/" + path);
 
