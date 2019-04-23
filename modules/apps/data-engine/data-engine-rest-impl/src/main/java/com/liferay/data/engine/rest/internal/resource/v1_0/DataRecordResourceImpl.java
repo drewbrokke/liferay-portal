@@ -28,6 +28,7 @@ import com.liferay.data.engine.rest.internal.rule.function.v1_0.DataRuleFunction
 import com.liferay.data.engine.rest.internal.storage.DataRecordExporter;
 import com.liferay.data.engine.rest.internal.storage.JSONDataStorage;
 import com.liferay.data.engine.rest.resource.v1_0.DataRecordResource;
+import com.liferay.data.engine.spi.storage.DataStorage;
 import com.liferay.dynamic.data.lists.model.DDLRecord;
 import com.liferay.dynamic.data.lists.model.DDLRecordSet;
 import com.liferay.dynamic.data.lists.model.DDLRecordSetVersion;
@@ -336,7 +337,7 @@ public class DataRecordResourceImpl extends BaseDataRecordResourceImpl {
 	}
 
 	private DataRecordExporter _dataRecordExporter;
-	private JSONDataStorage _dataStorage;
+	private DataStorage _dataStorage;
 
 	@Reference
 	private DDLRecordLocalService _ddlRecordLocalService;
