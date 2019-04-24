@@ -890,7 +890,7 @@ public abstract class Base${schemaName}ResourceTestCase {
 
 		<#assign
 			invokeArguments = arguments?replace("filter", "filterString")?replace("sorts", "sortString")
-			invokeParameters = parameters?replace("com.liferay.portal.kernel.search.filter.Filter filter", "String filterString")?replace("com.liferay.portal.kernel.search.Sort[] sorts", "String sortString")?replace(".dto.", ".client.dto.")
+			invokeParameters = parameters?replace(".dto.", ".client.dto.")?replace("com.liferay.portal.kernel.search.filter.Filter filter", "String filterString")?replace("com.liferay.portal.kernel.search.Sort[] sorts", "String sortString")
 		/>
 
 		protected ${javaMethodSignature.returnType?replace(".dto.", ".client.dto.")?replace("com.liferay.portal.vulcan.pagination", "${configYAML.apiPackagePath}.client.pagination")} invoke${javaMethodSignature.methodName?cap_first}(${invokeParameters}) throws Exception {

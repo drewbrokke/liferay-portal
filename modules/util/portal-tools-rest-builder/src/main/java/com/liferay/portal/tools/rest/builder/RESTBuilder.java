@@ -141,7 +141,9 @@ public class RESTBuilder {
 
 		if (Validator.isNotNull(_configYAML.getClientDir())) {
 			_createClientBaseJSONParserFile(context);
+			_createClientHttpInvokerFile(context);
 			_createClientPageFile(context);
+			_createClientPaginationFile(context);
 			_createClientUnsafeSupplierFile(context);
 		}
 
@@ -419,6 +421,30 @@ public class RESTBuilder {
 				_copyrightFile, "client_dto", context));
 	}
 
+	private void _createClientHttpInvokerFile(Map<String, Object> context)
+		throws Exception {
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(_configYAML.getClientDir());
+		sb.append("/");
+
+		String apiPackagePath = _configYAML.getApiPackagePath();
+
+		sb.append(apiPackagePath.replace('.', '/'));
+
+		sb.append("/client/http/HttpInvoker.java");
+
+		File file = new File(sb.toString());
+
+		_files.add(file);
+
+		FileUtil.write(
+			file,
+			FreeMarkerUtil.processTemplate(
+				_copyrightFile, "client_http_invoker", context));
+	}
+
 	private void _createClientPageFile(Map<String, Object> context)
 		throws Exception {
 
@@ -441,6 +467,30 @@ public class RESTBuilder {
 			file,
 			FreeMarkerUtil.processTemplate(
 				_copyrightFile, "client_page", context));
+	}
+
+	private void _createClientPaginationFile(Map<String, Object> context)
+		throws Exception {
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(_configYAML.getClientDir());
+		sb.append("/");
+
+		String apiPackagePath = _configYAML.getApiPackagePath();
+
+		sb.append(apiPackagePath.replace('.', '/'));
+
+		sb.append("/client/pagination/Pagination.java");
+
+		File file = new File(sb.toString());
+
+		_files.add(file);
+
+		FileUtil.write(
+			file,
+			FreeMarkerUtil.processTemplate(
+				_copyrightFile, "client_pagination", context));
 	}
 
 	private void _createClientResourceFile(
