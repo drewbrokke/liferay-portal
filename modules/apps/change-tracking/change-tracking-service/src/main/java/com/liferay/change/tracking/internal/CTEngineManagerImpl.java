@@ -35,15 +35,18 @@ import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.transaction.Propagation;
@@ -63,6 +66,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -365,6 +369,23 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		).orElse(
 			0L
 		);
+	}
+
+	@Override
+	public boolean isChangeTrackingAllowed(long companyId) {
+		List<Group> groups = _groupLocalService.getCompanyGroups(
+			companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Stream<Group> groupStream = groups.parallelStream();
+
+		Predicate<Group> groupPredicate =
+			group -> group.isStagingGroup() || group.isStaged();
+
+		if (groupStream.anyMatch(groupPredicate)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
@@ -823,6 +844,9 @@ public class CTEngineManagerImpl implements CTEngineManager {
 
 	@Reference
 	private CTProcessLocalService _ctProcessLocalService;
+
+	@Reference
+	private GroupLocalService _groupLocalService;
 
 	@Reference
 	private Portal _portal;

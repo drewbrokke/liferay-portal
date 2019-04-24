@@ -220,6 +220,16 @@ public interface CTEngineManager {
 	public long getRecentCTCollectionId(long userId);
 
 	/**
+	 * Returns <code>true</code> if the change tracking is allowed in the scope
+	 * of the given company or <code>false</code> if not.
+	 *
+	 * @param  companyId the primary key of the company
+	 * @return <code>true</code> if change tracking is allowed in the scope of
+	 *         the given company; <code>false</code> otherwise.
+	 */
+	public boolean isChangeTrackingAllowed(long companyId);
+
+	/**
 	 * Returns <code>true</code> if the change tracking is enabled in the scope
 	 * of the given company or <code>false</code> if not.
 	 *
