@@ -80,7 +80,6 @@ refererURL.setParameter("updateLayout", "true");
 					<li class="my-2">
 						<aui:icon image="live" label="can-be-added-once" markupView="lexicon" />
 					</li>
-
 					<li class="my-2">
 						<aui:icon image="grid" label="can-be-added-several-times" markupView="lexicon" />
 					</li>
