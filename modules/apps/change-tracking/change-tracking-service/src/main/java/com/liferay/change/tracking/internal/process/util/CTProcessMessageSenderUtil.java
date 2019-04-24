@@ -42,7 +42,7 @@ import org.osgi.util.tracker.ServiceTracker;
 public class CTProcessMessageSenderUtil {
 
 	public static void logCTEntryCollision(
-		boolean ignoreCollision, CTEntry ctEntry) {
+		CTEntry ctEntry, boolean ignoreCollision) {
 
 		if (ctEntry == null) {
 			return;

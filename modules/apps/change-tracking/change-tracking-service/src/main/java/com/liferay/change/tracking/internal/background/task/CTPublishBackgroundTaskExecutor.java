@@ -167,7 +167,7 @@ public class CTPublishBackgroundTaskExecutor
 		}
 
 		CTProcessMessageSenderUtil.logCTEntryCollision(
-			ignoreCollision, ctEntry);
+			ctEntry, ignoreCollision);
 
 		if (!ignoreCollision) {
 			throw new CTEntryCollisionException(
