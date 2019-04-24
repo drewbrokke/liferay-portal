@@ -46,12 +46,10 @@ public class EmailAddressResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return EmailAddressSerDes.toDTO(content);
@@ -83,12 +81,10 @@ public class EmailAddressResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		return Page.of(content, EmailAddressSerDes::toDTO);
 	}
@@ -111,12 +107,10 @@ public class EmailAddressResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		return Page.of(content, EmailAddressSerDes::toDTO);
 	}

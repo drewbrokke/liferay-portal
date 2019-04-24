@@ -47,12 +47,10 @@ public class BlogPostingResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public BlogPosting getBlogPosting(Long blogPostingId) throws Exception {
@@ -70,12 +68,10 @@ public class BlogPostingResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return BlogPostingSerDes.toDTO(content);
@@ -110,12 +106,10 @@ public class BlogPostingResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return BlogPostingSerDes.toDTO(content);
@@ -150,12 +144,10 @@ public class BlogPostingResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return BlogPostingSerDes.toDTO(content);
@@ -184,12 +176,10 @@ public class BlogPostingResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public com.liferay.headless.delivery.client.dto.v1_0.Rating
@@ -210,12 +200,10 @@ public class BlogPostingResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return com.liferay.headless.delivery.client.serdes.v1_0.
@@ -250,12 +238,10 @@ public class BlogPostingResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return com.liferay.headless.delivery.client.serdes.v1_0.
@@ -290,12 +276,10 @@ public class BlogPostingResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return com.liferay.headless.delivery.client.serdes.v1_0.
@@ -337,12 +321,10 @@ public class BlogPostingResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		return Page.of(content, BlogPostingSerDes::toDTO);
 	}
@@ -367,12 +349,10 @@ public class BlogPostingResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return BlogPostingSerDes.toDTO(content);

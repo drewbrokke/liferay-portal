@@ -54,12 +54,10 @@ public class DataLayoutResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		return Page.of(content, DataLayoutSerDes::toDTO);
 	}
@@ -85,12 +83,10 @@ public class DataLayoutResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return DataLayoutSerDes.toDTO(content);
@@ -124,12 +120,10 @@ public class DataLayoutResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public void deleteDataLayout(Long dataLayoutId) throws Exception {
@@ -147,12 +141,10 @@ public class DataLayoutResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public DataLayout getDataLayout(Long dataLayoutId) throws Exception {
@@ -170,12 +162,10 @@ public class DataLayoutResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return DataLayoutSerDes.toDTO(content);
@@ -209,12 +199,10 @@ public class DataLayoutResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return DataLayoutSerDes.toDTO(content);
@@ -250,12 +238,10 @@ public class DataLayoutResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		return Page.of(content, DataLayoutSerDes::toDTO);
 	}
@@ -280,12 +266,10 @@ public class DataLayoutResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 	}
 
 	private static final Logger _logger = Logger.getLogger(

@@ -55,12 +55,10 @@ public class DataRecordCollectionResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		return Page.of(content, DataRecordCollectionSerDes::toDTO);
 	}
@@ -87,12 +85,10 @@ public class DataRecordCollectionResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return DataRecordCollectionSerDes.toDTO(content);
@@ -123,12 +119,10 @@ public class DataRecordCollectionResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public DataRecordCollection getDataRecordCollection(
@@ -149,12 +143,10 @@ public class DataRecordCollectionResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return DataRecordCollectionSerDes.toDTO(content);
@@ -191,12 +183,10 @@ public class DataRecordCollectionResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		try {
 			return DataRecordCollectionSerDes.toDTO(content);
@@ -230,12 +220,10 @@ public class DataRecordCollectionResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public void postSiteDataRecordCollectionPermission(
@@ -258,12 +246,10 @@ public class DataRecordCollectionResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public Page<DataRecordCollection> getSiteDataRecordCollectionsPage(
@@ -288,12 +274,10 @@ public class DataRecordCollectionResource {
 
 		String content = httpResponse.getContent();
 
-		_logger.log(Level.FINE, "HTTP response content: " + content);
+		_logger.fine("HTTP response content: " + content);
 
-		_logger.log(
-			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
-		_logger.log(
-			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+		_logger.fine("HTTP response message: " + httpResponse.getMessage());
+		_logger.fine("HTTP response status: " + httpResponse.getStatus());
 
 		return Page.of(content, DataRecordCollectionSerDes::toDTO);
 	}
