@@ -38,7 +38,7 @@ public interface EditableElementParser {
 	public String getFieldTemplate();
 
 	public default JSONObject getFieldTemplateConfigJSONObject(
-		String fieldName, Locale locale) {
+		String fieldName, Locale locale, Object fieldValue) {
 
 		return JSONFactoryUtil.createJSONObject();
 	}

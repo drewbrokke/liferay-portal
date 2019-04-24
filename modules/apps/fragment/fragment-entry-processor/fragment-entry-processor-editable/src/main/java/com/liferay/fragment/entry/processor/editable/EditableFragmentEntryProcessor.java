@@ -434,7 +434,7 @@ public class EditableFragmentEntryProcessor implements FragmentEntryProcessor {
 
 		if (Validator.isNotNull(value)) {
 			return editableElementParser.getFieldTemplateConfigJSONObject(
-				value, locale);
+				value, locale, null);
 		}
 
 		if (!_isMapped(jsonObject, mode)) {
@@ -462,8 +462,15 @@ public class EditableFragmentEntryProcessor implements FragmentEntryProcessor {
 
 		String fieldId = jsonObject.getString("fieldId");
 
+		InfoDisplayContributor infoDisplayContributor =
+			_infoDisplayContributorTracker.getInfoDisplayContributor(
+				_portal.getClassName(classNameId));
+
+		Object fieldValue = infoDisplayContributor.getInfoDisplayFieldValue(
+			assetEntry, fieldId, locale);
+
 		return editableElementParser.getFieldTemplateConfigJSONObject(
-			fieldId, locale);
+			fieldId, locale, fieldValue);
 	}
 
 	private String _getSegmentsExperienceValue(
