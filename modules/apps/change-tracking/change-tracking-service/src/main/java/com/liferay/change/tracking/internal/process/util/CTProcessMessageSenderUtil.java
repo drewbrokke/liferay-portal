@@ -42,13 +42,13 @@ import org.osgi.util.tracker.ServiceTracker;
 public class CTProcessMessageSenderUtil {
 
 	public static void logCTEntryCollision(
-		boolean collisionIgnored, CTEntry ctEntry) {
+		boolean ignoreCollision, CTEntry ctEntry) {
 
 		if (ctEntry == null) {
 			return;
 		}
 
-		if (collisionIgnored) {
+		if (ignoreCollision) {
 			_sendBackgroundTaskStatusMessage(
 				new Date(), Level.WARN,
 				"collision-detected-for-x-x-ignore-collision-is-selected",

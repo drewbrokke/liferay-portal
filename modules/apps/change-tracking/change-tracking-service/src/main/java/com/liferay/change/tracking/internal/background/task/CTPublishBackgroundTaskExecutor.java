@@ -107,8 +107,8 @@ public class CTPublishBackgroundTaskExecutor
 		final long ctCollectionId = GetterUtil.getLong(
 			taskContextMap.get("ctCollectionId"));
 
-		final boolean collisionIgnored = GetterUtil.getBoolean(
-			taskContextMap.get("collisionIgnored"));
+		final boolean ignoreCollision = GetterUtil.getBoolean(
+			taskContextMap.get("ignoreCollision"));
 
 		try {
 			TransactionInvokerUtil.invoke(
@@ -116,7 +116,7 @@ public class CTPublishBackgroundTaskExecutor
 				() -> {
 					_publishCTCollection(
 						backgroundTask, ctProcessId, ctCollectionId,
-						collisionIgnored);
+						ignoreCollision);
 
 					return null;
 				});
@@ -161,7 +161,7 @@ public class CTPublishBackgroundTaskExecutor
 	}
 
 	private void _checkExistingCollisions(
-			CTEntry ctEntry, boolean collisionIgnored)
+			CTEntry ctEntry, boolean ignoreCollision)
 		throws CTEntryCollisionException {
 
 		if (!ctEntry.isCollision()) {
@@ -169,9 +169,9 @@ public class CTPublishBackgroundTaskExecutor
 		}
 
 		CTProcessMessageSenderUtil.logCTEntryCollision(
-			collisionIgnored, ctEntry);
+			ignoreCollision, ctEntry);
 
-		if (!collisionIgnored) {
+		if (!ignoreCollision) {
 			throw new CTEntryCollisionException(
 				ctEntry.getCompanyId(), ctEntry.getCtEntryId());
 		}
@@ -179,7 +179,7 @@ public class CTPublishBackgroundTaskExecutor
 
 	private void _publishCTCollection(
 			BackgroundTask backgroundTask, long ctProcessId,
-			long ctCollectionId, boolean collisionIgnored)
+			long ctCollectionId, boolean ignoreCollision)
 		throws Exception {
 
 		CTProcess ctProcess = CTProcessLocalServiceUtil.getCTProcess(
@@ -204,14 +204,14 @@ public class CTPublishBackgroundTaskExecutor
 
 		_publishCTEntriesAndCTEntryAggregates(
 			backgroundTask.getUserId(), ctCollectionId, ctEntries,
-			ctEntryAggregates, collisionIgnored);
+			ctEntryAggregates, ignoreCollision);
 
 		_attachLogs(backgroundTask);
 	}
 
 	private void _publishCTEntriesAndCTEntryAggregates(
 			long userId, long ctCollectionId, List<CTEntry> ctEntries,
-			List<CTEntryAggregate> ctEntryAggregates, boolean collisionIgnored)
+			List<CTEntryAggregate> ctEntryAggregates, boolean ignoreCollision)
 		throws Exception {
 
 		User user = UserLocalServiceUtil.getUser(userId);
@@ -229,8 +229,7 @@ public class CTPublishBackgroundTaskExecutor
 		);
 
 		for (CTEntry ctEntry : ctEntries) {
-			_publishCTEntry(
-				ctEntry, productionCTCollectionId, collisionIgnored);
+			_publishCTEntry(ctEntry, productionCTCollectionId, ignoreCollision);
 
 			CTProcessMessageSenderUtil.logCTEntryPublished(ctEntry);
 		}
@@ -269,10 +268,10 @@ public class CTPublishBackgroundTaskExecutor
 
 	private void _publishCTEntry(
 			CTEntry ctEntry, long productionCTCollectionId,
-			boolean collisionIgnored)
+			boolean ignoreCollision)
 		throws CTEntryCollisionException {
 
-		_checkExistingCollisions(ctEntry, collisionIgnored);
+		_checkExistingCollisions(ctEntry, ignoreCollision);
 
 		CTEntryLocalServiceUtil.addCTCollectionCTEntry(
 			productionCTCollectionId, ctEntry);
