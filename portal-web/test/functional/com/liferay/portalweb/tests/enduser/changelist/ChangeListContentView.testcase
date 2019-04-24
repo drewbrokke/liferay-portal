@@ -97,8 +97,8 @@ definition {
 			locator1 = "ChangeList#CHECK_CIRCLE");
 	}
 
-	@priority = "5"
-	test ViewChangeListInformationOnWebContentHistoryScreen {
+	@priority = "4"
+	test ViewChangeListInformationOnWebContentHistoryDeletion {
 		ProductMenu.gotoPortlet(
 			category = "Change Lists",
 			panel = "Control Panel",
@@ -147,6 +147,6 @@ definition {
 			panel = "Control Panel",
 			portlet = "Change Lists");
 
-		ChangeList.viewDeletedItemCounter(nbrOfDeletedItems = "1");
+		ChangeList.viewDeletedItemCounter(nbrOfDeletedItems = "0");
 	}
 }

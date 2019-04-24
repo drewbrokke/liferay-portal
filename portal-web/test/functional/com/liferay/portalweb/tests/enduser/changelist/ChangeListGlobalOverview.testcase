@@ -125,6 +125,8 @@ definition {
 			contentTitle = "Web Content Title",
 			contentType = "Web Content");
 
+		ChangeList.viewAddedItemCounter(nbrOfAddedItems = "1");
+
 		ProductMenu.gotoPortlet(
 			category = "Content &amp; Data",
 			panel = "Site Administration",
@@ -147,6 +149,8 @@ definition {
 			contentTitle = "Web Content Title Edit",
 			contentType = "Web Content");
 
+		ChangeList.viewModifiedItemCounter(nbrOfModifiedItems = "1");
+
 		ProductMenu.gotoPortlet(
 			category = "Content &amp; Data",
 			panel = "Site Administration",
@@ -165,6 +169,12 @@ definition {
 			contentChangeType = "Deleted",
 			contentTitle = "Web Content Title Edit",
 			contentType = "Web Content");
+
+		ChangeList.viewAddedItemCounter(nbrOfAddedItems = "1");
+
+		ChangeList.viewModifiedItemCounter(nbrOfModifiedItems = "0");
+
+		ChangeList.viewDeletedItemCounter(nbrOfDeletedItems = "1");
 	}
 
 	@priority = "4"
