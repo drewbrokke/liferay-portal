@@ -594,7 +594,9 @@ class FragmentEditableField extends PortletBase {
 				)
 				.then(
 					response => {
-						this._mappedFieldValue = response.fieldValue;
+						if (response.fieldValue && response.fieldValue.url) {
+							this._mappedFieldValue = response.fieldValue.url;
+						}
 					}
 				);
 		}
