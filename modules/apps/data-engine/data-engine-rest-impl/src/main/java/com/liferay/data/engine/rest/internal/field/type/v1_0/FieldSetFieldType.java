@@ -16,7 +16,6 @@ package com.liferay.data.engine.rest.internal.field.type.v1_0;
 
 import com.liferay.data.engine.rest.dto.v1_0.DataDefinitionField;
 import com.liferay.data.engine.rest.internal.field.type.v1_0.util.CustomPropertyUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.template.soy.data.SoyDataFactory;
@@ -48,7 +47,8 @@ public class FieldSetFieldType extends BaseFieldType {
 	}
 
 	protected static List<Object> getNestedFields(
-		Map<String, List<Object>> nestedFieldsMap, String[] nestedFieldNames) {
+		Map<String, List<Object>> nestedFieldsMap,
+		Set<String> nestedFieldNames) {
 
 		Set<Map.Entry<String, List<Object>>> entrySet =
 			nestedFieldsMap.entrySet();
@@ -56,7 +56,7 @@ public class FieldSetFieldType extends BaseFieldType {
 		Stream<Map.Entry<String, List<Object>>> stream = entrySet.stream();
 
 		return stream.filter(
-			entry -> ArrayUtil.contains(nestedFieldNames, entry.getKey())
+			entry -> nestedFieldNames.contains(entry.getKey())
 		).map(
 			entry -> entry.getValue()
 		).collect(
@@ -105,15 +105,18 @@ public class FieldSetFieldType extends BaseFieldType {
 		return _FULL_COLUMN_SIZE / nestedFieldsSize;
 	}
 
-	protected String[] getNestedFieldNames(
+	protected Set<String> getNestedFieldNames(
 		String nestedFieldNames, Set<String> defaultNestedFieldNames) {
 
 		if (Validator.isNotNull(nestedFieldNames)) {
-			return StringUtil.split(nestedFieldNames);
+			return Stream.of(
+				StringUtil.split(nestedFieldNames)
+			).collect(
+				Collectors.toSet()
+			);
 		}
 
-		return defaultNestedFieldNames.toArray(
-			new String[defaultNestedFieldNames.size()]);
+		return defaultNestedFieldNames;
 	}
 
 	private static final int _FULL_COLUMN_SIZE = 12;
