@@ -66,9 +66,8 @@ public class FieldSetFieldType extends BaseFieldType {
 
 	@Override
 	protected void addContext(Map<String, Object> context) {
-		Map<String, List<Object>> map =
-			(Map<String, List<Object>>)CustomPropertyUtil.getMap(
-				dataDefinitionField.getCustomProperties(), "nestedFields");
+		Map<String, List<Object>> map = CustomPropertyUtil.getMap(
+			dataDefinitionField.getCustomProperties(), "nestedFields");
 
 		if (!map.isEmpty()) {
 			List<Object> nestedFields = getNestedFields(

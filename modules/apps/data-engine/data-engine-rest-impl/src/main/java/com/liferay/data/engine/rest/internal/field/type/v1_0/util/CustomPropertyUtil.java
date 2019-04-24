@@ -115,7 +115,7 @@ public class CustomPropertyUtil {
 		return Long.valueOf(0);
 	}
 
-	public static Map<?, ?> getMap(
+	public static <K, V> Map<K, V> getMap(
 		CustomProperty[] customProperties, String key) {
 
 		if (ArrayUtil.isEmpty(customProperties)) {
@@ -124,7 +124,7 @@ public class CustomPropertyUtil {
 
 		for (CustomProperty customProperty : customProperties) {
 			if (StringUtils.equals(key, customProperty.getKey())) {
-				return (Map<?, ?>)customProperty.getValue();
+				return (Map<K, V>)customProperty.getValue();
 			}
 		}
 
