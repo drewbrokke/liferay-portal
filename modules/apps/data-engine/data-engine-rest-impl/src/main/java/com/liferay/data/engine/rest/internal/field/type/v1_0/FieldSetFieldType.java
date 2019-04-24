@@ -95,14 +95,14 @@ public class FieldSetFieldType extends BaseFieldType {
 
 	private int _getColumnSize(int nestedFieldsSize, String orientation) {
 		if (Objects.equals(orientation, "vertical")) {
-			return _FULL_COLUMN_SIZE;
+			return _COLUMN_SIZE_FULL;
 		}
 
 		if (nestedFieldsSize == 0) {
 			return 0;
 		}
 
-		return _FULL_COLUMN_SIZE / nestedFieldsSize;
+		return _COLUMN_SIZE_FULL / nestedFieldsSize;
 	}
 
 	private Set<String> _getNestedFieldNames(
@@ -119,6 +119,6 @@ public class FieldSetFieldType extends BaseFieldType {
 		return defaultNestedFieldNames;
 	}
 
-	private static final int _FULL_COLUMN_SIZE = 12;
+	private static final int _COLUMN_SIZE_FULL = 12;
 
 }
