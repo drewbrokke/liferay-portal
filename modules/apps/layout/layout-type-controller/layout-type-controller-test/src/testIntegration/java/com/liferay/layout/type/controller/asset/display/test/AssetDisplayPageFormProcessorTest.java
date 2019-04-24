@@ -146,12 +146,12 @@ public class AssetDisplayPageFormProcessorTest {
 							fileEntry.getFileEntryId());
 
 				Assert.assertEquals(
-					defaultLayoutPageTemplateEntry.getType(),
-					AssetDisplayPageConstants.TYPE_DEFAULT);
-				Assert.assertEquals(
 					defaultLayoutPageTemplateEntry.
 						getLayoutPageTemplateEntryId(),
 					assetDisplayPageEntry.getLayoutPageTemplateEntryId());
+				Assert.assertEquals(
+					defaultLayoutPageTemplateEntry.getType(),
+					AssetDisplayPageConstants.TYPE_DEFAULT);
 			});
 	}
 
@@ -181,12 +181,12 @@ public class AssetDisplayPageFormProcessorTest {
 							fileEntry.getFileEntryId());
 
 				Assert.assertEquals(
-					defaultLayoutPageTemplateEntry.getType(),
-					AssetDisplayPageConstants.TYPE_DEFAULT);
-				Assert.assertEquals(
 					defaultLayoutPageTemplateEntry.
 						getLayoutPageTemplateEntryId(),
 					assetDisplayPageEntry.getLayoutPageTemplateEntryId());
+				Assert.assertEquals(
+					defaultLayoutPageTemplateEntry.getType(),
+					AssetDisplayPageConstants.TYPE_DEFAULT);
 			});
 	}
 
@@ -289,21 +289,21 @@ public class AssetDisplayPageFormProcessorTest {
 
 			_parameters = new HashMap<String, String[]>() {
 				{
-					put("displayPageType", new String[] {displayPageType});
+					put(
+						Constants.CMD,
+						new String[] {RandomTestUtil.randomString()});
 					put(
 						"assetDisplayPageId",
 						new String[] {assetDisplayPageId});
 					put(
-						Constants.CMD,
-						new String[] {RandomTestUtil.randomString()});
+						"assetEntryVisible",
+						new String[] {String.valueOf(Boolean.TRUE)});
+					put("displayPageType", new String[] {displayPageType});
 					put(
 						"formDate",
 						new String[] {
 							String.valueOf(RandomTestUtil.randomLong())
 						});
-					put(
-						"assetEntryVisible",
-						new String[] {String.valueOf(Boolean.TRUE)});
 				}
 			};
 		}
