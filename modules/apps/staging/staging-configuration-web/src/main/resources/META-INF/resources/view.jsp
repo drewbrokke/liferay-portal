@@ -62,7 +62,7 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 					dismissible="<%= true %>"
 					type="WARNING"
 				>
-					<liferay-ui:message key='<%= LanguageUtil.get(request, "staging-change-tracking-warning") %>' />
+					<liferay-ui:message key='<%= LanguageUtil.get(request, "staging-change-lists-warning") %>' />
 				</liferay-staging:alert>
 			</c:if>
 
