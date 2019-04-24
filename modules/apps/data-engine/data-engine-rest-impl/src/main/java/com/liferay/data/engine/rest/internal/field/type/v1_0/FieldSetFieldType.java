@@ -46,7 +46,36 @@ public class FieldSetFieldType extends BaseFieldType {
 			soyDataFactory);
 	}
 
-	protected static List<Object> getNestedFields(
+	@Override
+	protected void addContext(Map<String, Object> context) {
+		Map<String, List<Object>> map = CustomPropertyUtil.getMap(
+			dataDefinitionField.getCustomProperties(), "nestedFields");
+
+		if (!map.isEmpty()) {
+			List<Object> nestedFields = _getNestedFields(
+				map,
+				_getNestedFieldNames(
+					CustomPropertyUtil.getString(
+						dataDefinitionField.getCustomProperties(),
+						"nestedFieldNames"),
+					map.keySet()));
+
+			context.put(
+				"columnSize",
+				_getColumnSize(
+					nestedFields.size(),
+					CustomPropertyUtil.getString(
+						dataDefinitionField.getCustomProperties(),
+						"orientation", "horizontal")));
+			context.put("nestedFields", nestedFields);
+		}
+
+		if (context.containsKey("label")) {
+			context.put("showLabel", true);
+		}
+	}
+
+	private static List<Object> _getNestedFields(
 		Map<String, List<Object>> nestedFieldsMap,
 		Set<String> nestedFieldNames) {
 
@@ -64,36 +93,7 @@ public class FieldSetFieldType extends BaseFieldType {
 		);
 	}
 
-	@Override
-	protected void addContext(Map<String, Object> context) {
-		Map<String, List<Object>> map = CustomPropertyUtil.getMap(
-			dataDefinitionField.getCustomProperties(), "nestedFields");
-
-		if (!map.isEmpty()) {
-			List<Object> nestedFields = getNestedFields(
-				map,
-				getNestedFieldNames(
-					CustomPropertyUtil.getString(
-						dataDefinitionField.getCustomProperties(),
-						"nestedFieldNames"),
-					map.keySet()));
-
-			context.put(
-				"columnSize",
-				getColumnSize(
-					nestedFields.size(),
-					CustomPropertyUtil.getString(
-						dataDefinitionField.getCustomProperties(),
-						"orientation", "horizontal")));
-			context.put("nestedFields", nestedFields);
-		}
-
-		if (context.containsKey("label")) {
-			context.put("showLabel", true);
-		}
-	}
-
-	protected int getColumnSize(int nestedFieldsSize, String orientation) {
+	private int _getColumnSize(int nestedFieldsSize, String orientation) {
 		if (Objects.equals(orientation, "vertical")) {
 			return _FULL_COLUMN_SIZE;
 		}
@@ -105,7 +105,7 @@ public class FieldSetFieldType extends BaseFieldType {
 		return _FULL_COLUMN_SIZE / nestedFieldsSize;
 	}
 
-	protected Set<String> getNestedFieldNames(
+	private Set<String> _getNestedFieldNames(
 		String nestedFieldNames, Set<String> defaultNestedFieldNames) {
 
 		if (Validator.isNotNull(nestedFieldNames)) {
