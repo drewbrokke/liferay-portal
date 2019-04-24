@@ -117,14 +117,14 @@ public class SelectFieldType extends BaseFieldType {
 				CustomPropertyUtil.getLocalizedValue(
 					dataDefinitionField.getCustomProperties(),
 					"predefinedValue")));
-		context.put("strings", getLanguageTerms());
+		context.put("strings", _getLanguageTerms());
 		context.put(
 			"value",
 			CustomPropertyUtil.getValues(
 				dataDefinitionField.getCustomProperties(), "value"));
 	}
 
-	protected Map<String, String> getLanguageTerms() {
+	private Map<String, String> _getLanguageTerms() {
 		Map<String, String> languageTerms = new HashMap<>();
 
 		languageTerms.put(
