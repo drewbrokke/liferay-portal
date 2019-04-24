@@ -108,26 +108,28 @@ public class AssetDisplayPageFormProcessorImpl
 		InfoDisplayContributor infoDisplayContributor =
 			_infoDisplayContributorTracker.getInfoDisplayContributor(className);
 
-		if (infoDisplayContributor != null) {
-			InfoDisplayObjectProvider infoDisplayObjectProvider =
-				infoDisplayContributor.getInfoDisplayObjectProvider(classPK);
-
-			if (infoDisplayObjectProvider != null) {
-				LayoutPageTemplateEntry defaultAssetDisplayPage =
-					_layoutPageTemplateEntryService.
-						fetchDefaultLayoutPageTemplateEntry(
-							themeDisplay.getScopeGroupId(),
-							_portal.getClassNameId(className),
-							infoDisplayObjectProvider.getClassTypeId());
-
-				if (defaultAssetDisplayPage != null) {
-					return defaultAssetDisplayPage.
-						getLayoutPageTemplateEntryId();
-				}
-			}
+		if (infoDisplayContributor == null) {
+			return 0;
 		}
 
-		return 0;
+		InfoDisplayObjectProvider infoDisplayObjectProvider =
+			infoDisplayContributor.getInfoDisplayObjectProvider(classPK);
+
+		if (infoDisplayObjectProvider == null) {
+			return 0;
+		}
+
+		LayoutPageTemplateEntry defaultAssetDisplayPage =
+			_layoutPageTemplateEntryService.fetchDefaultLayoutPageTemplateEntry(
+				themeDisplay.getScopeGroupId(),
+				_portal.getClassNameId(className),
+				infoDisplayObjectProvider.getClassTypeId());
+
+		if (defaultAssetDisplayPage == null) {
+			return 0;
+		}
+
+		return defaultAssetDisplayPage.getLayoutPageTemplateEntryId();
 	}
 
 	@Reference
