@@ -17,9 +17,11 @@ package com.liferay.fragment.entry.processor.editable.parser.impl;
 import com.liferay.fragment.entry.processor.editable.EditableFragmentEntryProcessor;
 import com.liferay.fragment.entry.processor.editable.parser.EditableElementParser;
 import com.liferay.fragment.exception.FragmentEntryContentException;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -69,6 +71,17 @@ public class ImageEditableElementParser implements EditableElementParser {
 		Element replaceableElement = elements.get(0);
 
 		return replaceableElement.attr("src");
+	}
+
+	@Override
+	public String parseFieldValue(Object fieldValue) {
+		if (!(fieldValue instanceof JSONObject)) {
+			return StringPool.BLANK;
+		}
+
+		JSONObject jsonObject = (JSONObject)fieldValue;
+
+		return GetterUtil.getString(jsonObject.getString("url"));
 	}
 
 	@Override
