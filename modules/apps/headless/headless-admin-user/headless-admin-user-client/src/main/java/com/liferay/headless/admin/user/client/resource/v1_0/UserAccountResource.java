@@ -14,6 +14,15 @@
 
 package com.liferay.headless.admin.user.client.resource.v1_0;
 
+import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
+import com.liferay.headless.admin.user.client.http.HttpInvoker;
+import com.liferay.headless.admin.user.client.pagination.Page;
+import com.liferay.headless.admin.user.client.pagination.Pagination;
+import com.liferay.headless.admin.user.client.serdes.v1_0.UserAccountSerDes;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.annotation.Generated;
 
 /**
@@ -22,4 +31,142 @@ import javax.annotation.Generated;
  */
 @Generated("")
 public class UserAccountResource {
+
+	public UserAccount getMyUserAccount() throws Exception {
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/my-user-account");
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		try {
+			return UserAccountSerDes.toDTO(httpResponse.getContent());
+		}
+		catch (Exception e) {
+			_logger.log(
+				Level.WARNING,
+				"Unable to process HTTP response: " + httpResponse.getContent(),
+				e);
+
+			throw e;
+		}
+	}
+
+	public Page<UserAccount> getOrganizationUserAccountsPage(
+			Long organizationId, String search, String filterString,
+			Pagination pagination, String sortString)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.parameter("filter", filterString);
+
+		httpInvoker.parameter("page", String.valueOf(pagination.getPage()));
+		httpInvoker.parameter(
+			"pageSize", String.valueOf(pagination.getPageSize()));
+
+		httpInvoker.parameter("sort", sortString);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts",
+			organizationId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return Page.of(httpResponse.getContent(), UserAccountSerDes::toDTO);
+	}
+
+	public Page<UserAccount> getUserAccountsPage(
+			String search, String filterString, Pagination pagination,
+			String sortString)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.parameter("filter", filterString);
+
+		httpInvoker.parameter("page", String.valueOf(pagination.getPage()));
+		httpInvoker.parameter(
+			"pageSize", String.valueOf(pagination.getPageSize()));
+
+		httpInvoker.parameter("sort", sortString);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/user-accounts");
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return Page.of(httpResponse.getContent(), UserAccountSerDes::toDTO);
+	}
+
+	public UserAccount getUserAccount(Long userAccountId) throws Exception {
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}",
+			userAccountId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		try {
+			return UserAccountSerDes.toDTO(httpResponse.getContent());
+		}
+		catch (Exception e) {
+			_logger.log(
+				Level.WARNING,
+				"Unable to process HTTP response: " + httpResponse.getContent(),
+				e);
+
+			throw e;
+		}
+	}
+
+	public Page<UserAccount> getWebSiteUserAccountsPage(
+			Long webSiteId, String search, String filterString,
+			Pagination pagination, String sortString)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.parameter("filter", filterString);
+
+		httpInvoker.parameter("page", String.valueOf(pagination.getPage()));
+		httpInvoker.parameter(
+			"pageSize", String.valueOf(pagination.getPageSize()));
+
+		httpInvoker.parameter("sort", sortString);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/web-sites/{webSiteId}/user-accounts",
+			webSiteId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return Page.of(httpResponse.getContent(), UserAccountSerDes::toDTO);
+	}
+
+	private static final Logger _logger = Logger.getLogger(
+		UserAccountResource.class.getName());
+
 }

@@ -14,6 +14,13 @@
 
 package com.liferay.headless.form.client.resource.v1_0;
 
+import com.liferay.headless.form.client.dto.v1_0.FormRecordForm;
+import com.liferay.headless.form.client.http.HttpInvoker;
+import com.liferay.headless.form.client.serdes.v1_0.FormRecordFormSerDes;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.annotation.Generated;
 
 /**
@@ -22,4 +29,74 @@ import javax.annotation.Generated;
  */
 @Generated("")
 public class FormRecordFormResource {
+
+	public com.liferay.headless.form.client.dto.v1_0.FormRecord putFormRecord(
+			Long formRecordId, FormRecordForm formRecordForm)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.body(
+			FormRecordFormSerDes.toJSON(formRecordForm), "application/json");
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-form/v1.0/form-records/{formRecordId}",
+			formRecordId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		try {
+			return com.liferay.headless.form.client.serdes.v1_0.
+				FormRecordSerDes.toDTO(httpResponse.getContent());
+		}
+		catch (Exception e) {
+			_logger.log(
+				Level.WARNING,
+				"Unable to process HTTP response: " + httpResponse.getContent(),
+				e);
+
+			throw e;
+		}
+	}
+
+	public com.liferay.headless.form.client.dto.v1_0.FormRecord
+			postFormFormRecord(Long formId, FormRecordForm formRecordForm)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.body(
+			FormRecordFormSerDes.toJSON(formRecordForm), "application/json");
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-form/v1.0/forms/{formId}/form-records",
+			formId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		try {
+			return com.liferay.headless.form.client.serdes.v1_0.
+				FormRecordSerDes.toDTO(httpResponse.getContent());
+		}
+		catch (Exception e) {
+			_logger.log(
+				Level.WARNING,
+				"Unable to process HTTP response: " + httpResponse.getContent(),
+				e);
+
+			throw e;
+		}
+	}
+
+	private static final Logger _logger = Logger.getLogger(
+		FormRecordFormResource.class.getName());
+
 }

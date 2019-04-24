@@ -14,6 +14,14 @@
 
 package com.liferay.headless.admin.user.client.resource.v1_0;
 
+import com.liferay.headless.admin.user.client.dto.v1_0.WebUrl;
+import com.liferay.headless.admin.user.client.http.HttpInvoker;
+import com.liferay.headless.admin.user.client.pagination.Page;
+import com.liferay.headless.admin.user.client.serdes.v1_0.WebUrlSerDes;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.annotation.Generated;
 
 /**
@@ -22,4 +30,70 @@ import javax.annotation.Generated;
  */
 @Generated("")
 public class WebUrlResource {
+
+	public Page<WebUrl> getOrganizationWebUrlsPage(Long organizationId)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/web-urls",
+			organizationId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return Page.of(httpResponse.getContent(), WebUrlSerDes::toDTO);
+	}
+
+	public Page<WebUrl> getUserAccountWebUrlsPage(Long userAccountId)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/web-urls",
+			userAccountId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return Page.of(httpResponse.getContent(), WebUrlSerDes::toDTO);
+	}
+
+	public WebUrl getWebUrl(Long webUrlId) throws Exception {
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/web-urls/{webUrlId}",
+			webUrlId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		try {
+			return WebUrlSerDes.toDTO(httpResponse.getContent());
+		}
+		catch (Exception e) {
+			_logger.log(
+				Level.WARNING,
+				"Unable to process HTTP response: " + httpResponse.getContent(),
+				e);
+
+			throw e;
+		}
+	}
+
+	private static final Logger _logger = Logger.getLogger(
+		WebUrlResource.class.getName());
+
 }

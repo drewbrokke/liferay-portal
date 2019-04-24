@@ -14,6 +14,14 @@
 
 package com.liferay.headless.admin.user.client.resource.v1_0;
 
+import com.liferay.headless.admin.user.client.dto.v1_0.SegmentUser;
+import com.liferay.headless.admin.user.client.http.HttpInvoker;
+import com.liferay.headless.admin.user.client.pagination.Page;
+import com.liferay.headless.admin.user.client.pagination.Pagination;
+import com.liferay.headless.admin.user.client.serdes.v1_0.SegmentUserSerDes;
+
+import java.util.logging.Logger;
+
 import javax.annotation.Generated;
 
 /**
@@ -22,4 +30,31 @@ import javax.annotation.Generated;
  */
 @Generated("")
 public class SegmentUserResource {
+
+	public Page<SegmentUser> getSegmentUserAccountsPage(
+			Long segmentId, Pagination pagination)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.parameter("page", String.valueOf(pagination.getPage()));
+		httpInvoker.parameter(
+			"pageSize", String.valueOf(pagination.getPageSize()));
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/segments/{segmentId}/user-accounts",
+			segmentId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return Page.of(httpResponse.getContent(), SegmentUserSerDes::toDTO);
+	}
+
+	private static final Logger _logger = Logger.getLogger(
+		SegmentUserResource.class.getName());
+
 }

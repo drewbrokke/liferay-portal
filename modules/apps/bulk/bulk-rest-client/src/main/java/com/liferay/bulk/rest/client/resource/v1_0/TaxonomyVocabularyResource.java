@@ -14,6 +14,13 @@
 
 package com.liferay.bulk.rest.client.resource.v1_0;
 
+import com.liferay.bulk.rest.client.dto.v1_0.TaxonomyVocabulary;
+import com.liferay.bulk.rest.client.http.HttpInvoker;
+import com.liferay.bulk.rest.client.pagination.Page;
+import com.liferay.bulk.rest.client.serdes.v1_0.TaxonomyVocabularySerDes;
+
+import java.util.logging.Logger;
+
 import javax.annotation.Generated;
 
 /**
@@ -22,4 +29,30 @@ import javax.annotation.Generated;
  */
 @Generated("")
 public class TaxonomyVocabularyResource {
+
+	public Page<TaxonomyVocabulary> postSiteTaxonomyVocabulariesCommonPage(
+			Long siteId,
+			com.liferay.bulk.rest.client.dto.v1_0.DocumentBulkSelection
+				documentBulkSelection)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/bulk-rest/v1.0/sites/{siteId}/taxonomy-vocabularies/common",
+			siteId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return Page.of(
+			httpResponse.getContent(), TaxonomyVocabularySerDes::toDTO);
+	}
+
+	private static final Logger _logger = Logger.getLogger(
+		TaxonomyVocabularyResource.class.getName());
+
 }

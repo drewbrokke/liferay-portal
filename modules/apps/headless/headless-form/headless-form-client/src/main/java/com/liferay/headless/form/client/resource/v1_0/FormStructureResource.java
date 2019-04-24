@@ -14,6 +14,15 @@
 
 package com.liferay.headless.form.client.resource.v1_0;
 
+import com.liferay.headless.form.client.dto.v1_0.FormStructure;
+import com.liferay.headless.form.client.http.HttpInvoker;
+import com.liferay.headless.form.client.pagination.Page;
+import com.liferay.headless.form.client.pagination.Pagination;
+import com.liferay.headless.form.client.serdes.v1_0.FormStructureSerDes;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.annotation.Generated;
 
 /**
@@ -22,4 +31,59 @@ import javax.annotation.Generated;
  */
 @Generated("")
 public class FormStructureResource {
+
+	public FormStructure getFormStructure(Long formStructureId)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-form/v1.0/form-structures/{formStructureId}",
+			formStructureId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		try {
+			return FormStructureSerDes.toDTO(httpResponse.getContent());
+		}
+		catch (Exception e) {
+			_logger.log(
+				Level.WARNING,
+				"Unable to process HTTP response: " + httpResponse.getContent(),
+				e);
+
+			throw e;
+		}
+	}
+
+	public Page<FormStructure> getSiteFormStructuresPage(
+			Long siteId, Pagination pagination)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.parameter("page", String.valueOf(pagination.getPage()));
+		httpInvoker.parameter(
+			"pageSize", String.valueOf(pagination.getPageSize()));
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-form/v1.0/sites/{siteId}/form-structures",
+			siteId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return Page.of(httpResponse.getContent(), FormStructureSerDes::toDTO);
+	}
+
+	private static final Logger _logger = Logger.getLogger(
+		FormStructureResource.class.getName());
+
 }

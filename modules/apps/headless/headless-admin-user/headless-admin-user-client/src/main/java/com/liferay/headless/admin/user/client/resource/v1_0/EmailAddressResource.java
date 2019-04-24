@@ -14,6 +14,14 @@
 
 package com.liferay.headless.admin.user.client.resource.v1_0;
 
+import com.liferay.headless.admin.user.client.dto.v1_0.EmailAddress;
+import com.liferay.headless.admin.user.client.http.HttpInvoker;
+import com.liferay.headless.admin.user.client.pagination.Page;
+import com.liferay.headless.admin.user.client.serdes.v1_0.EmailAddressSerDes;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.annotation.Generated;
 
 /**
@@ -22,4 +30,72 @@ import javax.annotation.Generated;
  */
 @Generated("")
 public class EmailAddressResource {
+
+	public EmailAddress getEmailAddress(Long emailAddressId) throws Exception {
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/email-addresses/{emailAddressId}",
+			emailAddressId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		try {
+			return EmailAddressSerDes.toDTO(httpResponse.getContent());
+		}
+		catch (Exception e) {
+			_logger.log(
+				Level.WARNING,
+				"Unable to process HTTP response: " + httpResponse.getContent(),
+				e);
+
+			throw e;
+		}
+	}
+
+	public Page<EmailAddress> getOrganizationEmailAddressesPage(
+			Long organizationId)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/email-addresses",
+			organizationId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return Page.of(httpResponse.getContent(), EmailAddressSerDes::toDTO);
+	}
+
+	public Page<EmailAddress> getUserAccountEmailAddressesPage(
+			Long userAccountId)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/email-addresses",
+			userAccountId);
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return Page.of(httpResponse.getContent(), EmailAddressSerDes::toDTO);
+	}
+
+	private static final Logger _logger = Logger.getLogger(
+		EmailAddressResource.class.getName());
+
 }

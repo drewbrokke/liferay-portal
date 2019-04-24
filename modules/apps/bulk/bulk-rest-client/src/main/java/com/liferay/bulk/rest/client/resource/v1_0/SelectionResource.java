@@ -14,6 +14,12 @@
 
 package com.liferay.bulk.rest.client.resource.v1_0;
 
+import com.liferay.bulk.rest.client.dto.v1_0.Selection;
+import com.liferay.bulk.rest.client.http.HttpInvoker;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.annotation.Generated;
 
 /**
@@ -22,4 +28,38 @@ import javax.annotation.Generated;
  */
 @Generated("")
 public class SelectionResource {
+
+	public Selection postBulkSelection(
+			com.liferay.bulk.rest.client.dto.v1_0.DocumentBulkSelection
+				documentBulkSelection)
+		throws Exception {
+
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
+
+		httpInvoker.path(
+			"http://localhost:8080/o/bulk-rest/v1.0/bulk-selection");
+
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		try {
+			return com.liferay.bulk.rest.client.serdes.v1_0.SelectionSerDes.
+				toDTO(httpResponse.getContent());
+		}
+		catch (Exception e) {
+			_logger.log(
+				Level.WARNING,
+				"Unable to process HTTP response: " + httpResponse.getContent(),
+				e);
+
+			throw e;
+		}
+	}
+
+	private static final Logger _logger = Logger.getLogger(
+		SelectionResource.class.getName());
+
 }
