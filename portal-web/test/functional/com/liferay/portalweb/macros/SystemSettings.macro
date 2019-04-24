@@ -15,7 +15,9 @@ definition {
 	}
 
 	macro configureDynamicExportLimit {
-		Type(locator1 = "SystemSettings#ASSETS_DYNAMIC_EXPORT_LIMIT", value1 = "${exportLimitNumber}");
+		Type(
+			locator1 = "SystemSettings#ASSETS_DYNAMIC_EXPORT_LIMIT",
+			value1 = "${exportLimitNumber}");
 
 		SystemSettings.saveConfiguration();
 	}
@@ -28,18 +30,14 @@ definition {
 
 			SystemSettings.saveConfiguration();
 
-			AssertChecked.assertCheckedNotVisible(
-				locator1 = "SystemSettings#SETTING_FIELD_NAME_CHECKBOX"
-			);
+			AssertChecked.assertCheckedNotVisible(locator1 = "SystemSettings#SETTING_FIELD_NAME_CHECKBOX");
 		}
 		else if ("${enableSetting}" == "false") {
 			Uncheck.uncheckToggleSwitch(locator1 = "SystemSettings#SETTING_FIELD_NAME_CHECKBOX");
 
 			SystemSettings.saveConfiguration();
 
-			AssertNotChecked.assertNotCheckedNotVisible(
-				locator1 = "SystemSettings#SETTING_FIELD_NAME_CHECKBOX"
-			);
+			AssertNotChecked.assertNotCheckedNotVisible(locator1 = "SystemSettings#SETTING_FIELD_NAME_CHECKBOX");
 		}
 	}
 

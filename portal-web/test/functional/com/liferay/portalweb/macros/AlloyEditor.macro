@@ -12,14 +12,15 @@ definition {
 	}
 
 	macro addEntryExternalURL {
-		SelectFieldText(locator1 = "AlloyEditor#EDITOR", key_editor = "content");
+		SelectFieldText(
+			key_editor = "content",
+			locator1 = "AlloyEditor#EDITOR");
 
 		Click(locator1 = "AlloyEditor#TEXT_FORMATTING_LINK");
 
 		Type(
 			locator1 = "AlloyEditor#TEXT_FORMATTING_LINK_INPUT",
-			value1 = "${entryExternalURL}"
-		);
+			value1 = "${entryExternalURL}");
 
 		Click(locator1 = "AlloyEditor#TEXT_FORMATTING_LINK_INPUT_CONFIRM");
 	}

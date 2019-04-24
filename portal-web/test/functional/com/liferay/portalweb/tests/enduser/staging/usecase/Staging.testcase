@@ -1677,13 +1677,11 @@ definition {
 
 		SystemSettings.configureSystemSetting(
 			enableSetting = "true",
-			settingFieldName = "Enable Dynamic Export"
-		);
+			settingFieldName = "Enable Dynamic Export");
 
 		SystemSettings.configureSystemSetting(
 			enableSetting = "true",
-			settingFieldName = "Enable Manual Export"
-		);
+			settingFieldName = "Enable Manual Export");
 
 		Navigator.gotoSitePage(
 			pageName = "Staging Test Page",
