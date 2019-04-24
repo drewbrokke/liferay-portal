@@ -100,8 +100,6 @@ public class CTJournalArticleServiceWrapper
 				groupId, articleId);
 
 		if (journalArticleResource != null) {
-			_ctManager.getActiveCTCollectionOptional(userId);
-
 			List<CTEntry> ctEntries = _ctManager.getModelChangeCTEntries(
 				userId, journalArticleResource.getResourcePrimKey());
 
