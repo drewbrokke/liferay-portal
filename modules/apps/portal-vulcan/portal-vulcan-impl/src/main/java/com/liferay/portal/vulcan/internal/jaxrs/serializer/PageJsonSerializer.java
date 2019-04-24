@@ -41,9 +41,11 @@ public class PageJsonSerializer extends JsonSerializer<Page> {
 		toXmlGenerator.writeStartObject();
 
 		toXmlGenerator.writeFieldName("items");
+
 		toXmlGenerator.writeStartObject();
 
 		toXmlGenerator.writeFieldName("items");
+
 		toXmlGenerator.writeStartArray();
 
 		for (Object item : page.getItems()) {
@@ -62,11 +64,15 @@ public class PageJsonSerializer extends JsonSerializer<Page> {
 		}
 
 		toXmlGenerator.writeEndArray();
+
 		toXmlGenerator.writeEndObject();
 
 		toXmlGenerator.writeObjectField("lastPage", page.getLastPage());
+
 		toXmlGenerator.writeObjectField("page", page.getPage());
+
 		toXmlGenerator.writeObjectField("pageSize", page.getPageSize());
+
 		toXmlGenerator.writeObjectField("totalCount", page.getTotalCount());
 
 		toXmlGenerator.writeEndObject();
