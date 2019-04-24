@@ -2075,7 +2075,6 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 		subscriptionSender.setFullName(fullName);
 		subscriptionSender.setHtmlFormat(htmlFormat);
 		subscriptionSender.setInReplyTo(inReplyTo);
-
 		subscriptionSender.setLocalizedContextAttribute(
 			"[$SITE_NAME$]",
 			new EscapableLocalizableFunction(
