@@ -64,7 +64,7 @@ components:
                     readOnly: true
                     type: string
                 contactInformation:
-                    description: The organization's contact information, which includes email addresses, postal addresses, phone numbers, and web URLs.
+                    description: The organization's contact information, which includes email addresses, postal addresses, phone numbers, and web URLs. This is modelled internally as a `Contact`.
                     properties:
                         emailAddresses:
                             description: The organization's email addresses, with one optionally marked as primary.
