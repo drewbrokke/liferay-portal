@@ -51,7 +51,7 @@ public class DataRecordValueUtil {
 
 			dataRecordValues.put(
 				dataDefinitionField.getName(),
-				_toDataRecordValueValue(dataDefinitionField, jsonObject));
+				_toDataRecordValue(dataDefinitionField, jsonObject));
 		}
 
 		return dataRecordValues;
@@ -101,7 +101,7 @@ public class DataRecordValueUtil {
 		return jsonObject.toString();
 	}
 
-	private static Object _toDataRecordValueValue(
+	private static Object _toDataRecordValue(
 		DataDefinitionField dataDefinitionField, JSONObject jsonObject) {
 
 		if (dataDefinitionField.getLocalizable()) {
