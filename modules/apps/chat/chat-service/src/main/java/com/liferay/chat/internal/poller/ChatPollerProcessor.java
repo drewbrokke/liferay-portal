@@ -287,18 +287,6 @@ public class ChatPollerProcessor extends BasePollerProcessor {
 		}
 	}
 
-	@Reference(unbind = "-")
-	protected void setLayoutSetLocalService(
-		LayoutSetLocalService layoutSetLocalService) {
-
-		_layoutSetLocalService = layoutSetLocalService;
-	}
-
-	@Reference(unbind = "-")
-	protected void setUserLocalService(UserLocalService userLocalService) {
-		_userLocalService = userLocalService;
-	}
-
 	protected void updateStatus(PollerRequest pollerRequest) throws Exception {
 		int online = getInteger(pollerRequest, "online");
 		int awake = getInteger(pollerRequest, "awake");
@@ -326,12 +314,15 @@ public class ChatPollerProcessor extends BasePollerProcessor {
 	@Reference
 	private Http _http;
 
+	@Reference
 	private LayoutSetLocalService _layoutSetLocalService;
 
 	@Reference
 	private Portal _portal;
 
 	private final Set<Long> _processedEntryIds = new HashSet<>();
+
+	@Reference
 	private UserLocalService _userLocalService;
 
 }

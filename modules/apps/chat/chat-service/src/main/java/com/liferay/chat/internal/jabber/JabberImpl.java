@@ -477,11 +477,6 @@ public class JabberImpl implements Jabber {
 			user.getScreenName(), password, attributes);
 	}
 
-	@Reference(unbind = "-")
-	protected void setUserLocalService(UserLocalService userLocalService) {
-		_userLocalService = userLocalService;
-	}
-
 	protected void updateStatus(
 		long userId, int online, Connection connection) {
 
@@ -525,6 +520,8 @@ public class JabberImpl implements Jabber {
 	private ConnectionConfiguration _connectionConfiguration;
 	private final Map<Long, Connection> _connections = new HashMap<>();
 	private final Set<Long> _onlineUserIds = new HashSet<>();
+
+	@Reference(unbind = "-")
 	private UserLocalService _userLocalService;
 
 }
