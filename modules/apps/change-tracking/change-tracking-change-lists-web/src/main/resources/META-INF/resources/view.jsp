@@ -17,16 +17,14 @@
 <%@ include file="/init.jsp" %>
 
 <%
-String title = LanguageUtil.get(request, "select-change-list");
-
-portletDisplay.setTitle(title);
-renderResponse.setTitle(title);
-
 SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayContext.getSearchContainer();
 
 DisplayTerms displayTerms = ctCollectionSearchContainer.getDisplayTerms();
 
-PortletURL histotryURL = PortletURLFactoryUtil.create(request, CTPortletKeys.CHANGE_LISTS_HISTORY, PortletRequest.RENDER_PHASE);
+String title = LanguageUtil.get(request, "select-change-list");
+
+portletDisplay.setTitle(title);
+renderResponse.setTitle(title);
 %>
 
 <liferay-ui:success key='<%= portletDisplay.getPortletName() + "checkoutProductionSuccess" %>' message="production-checked-out-success-message" />
@@ -330,13 +328,12 @@ PortletURL histotryURL = PortletURLFactoryUtil.create(request, CTPortletKeys.CHA
 		function(event) {
 			setTimeout(
 				function() {
-					Liferay.Util.navigate('<%= histotryURL %>');
+					Liferay.Util.navigate('<%= PortletURLFactoryUtil.create(request, CTPortletKeys.CHANGE_LISTS_HISTORY, PortletRequest.RENDER_PHASE) %>');
 				},
 				1000);
 	});
 
 	function <portlet:namespace/>handleClickPublish(url) {
-
 		Liferay.Util.openWindow(
 			{
 				dialog: {

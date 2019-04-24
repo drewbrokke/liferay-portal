@@ -98,16 +98,14 @@ public class CTPublishBackgroundTaskExecutor
 	public BackgroundTaskResult execute(BackgroundTask backgroundTask)
 		throws Exception {
 
-		final Map<String, Serializable> taskContextMap =
+		Map<String, Serializable> taskContextMap =
 			backgroundTask.getTaskContextMap();
 
-		final long ctProcessId = GetterUtil.getLong(
+		long ctProcessId = GetterUtil.getLong(
 			taskContextMap.get("ctProcessId"));
-
-		final long ctCollectionId = GetterUtil.getLong(
+		long ctCollectionId = GetterUtil.getLong(
 			taskContextMap.get("ctCollectionId"));
-
-		final boolean ignoreCollision = GetterUtil.getBoolean(
+		boolean ignoreCollision = GetterUtil.getBoolean(
 			taskContextMap.get("ignoreCollision"));
 
 		try {

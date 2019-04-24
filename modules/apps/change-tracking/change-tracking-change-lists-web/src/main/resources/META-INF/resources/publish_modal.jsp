@@ -17,11 +17,12 @@
 <%@ include file="/init.jsp" %>
 
 <%
-String changeListName = ParamUtil.getString(request, "changeListName");
-String changeListDescription = ParamUtil.getString(request, "changeListDescription");
 long ctCollectionId = ParamUtil.getLong(request, "ctCollectionId");
 
 CTCollection ctCollection = CTCollectionLocalServiceUtil.fetchCTCollection(ctCollectionId);
+
+String changeListName = ParamUtil.getString(request, "changeListName");
+String changeListDescription = ParamUtil.getString(request, "changeListDescription");
 
 if (ctCollection != null) {
 	changeListName = ctCollection.getName();
