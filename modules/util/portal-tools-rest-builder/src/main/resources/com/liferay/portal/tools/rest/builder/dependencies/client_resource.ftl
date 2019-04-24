@@ -69,16 +69,23 @@ public class ${schemaName}Resource {
 
 			HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+			String content = httpResponse.getContent();
+
+			_logger.log(Level.FINE, "HTTP response content: " + content);
+
+			_logger.log(Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+			_logger.log(Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 			<#if javaMethodSignature.returnType?contains("Page<")>
-				return Page.of(httpResponse.getContent(), ${schemaName}SerDes::toDTO);
+				return Page.of(content, ${schemaName}SerDes::toDTO);
 			<#elseif javaMethodSignature.returnType?ends_with("String")>
-				return httpResponse.getContent();
+				return content;
 			<#elseif !stringUtil.equals(javaMethodSignature.returnType, "void")>
 				try {
-					return ${javaMethodSignature.returnType?replace(".dto.", ".client.serdes.")}SerDes.toDTO(httpResponse.getContent());
+					return ${javaMethodSignature.returnType?replace(".dto.", ".client.serdes.")}SerDes.toDTO(content);
 				}
 				catch (Exception e) {
-					_logger.log(Level.WARNING, "Unable to process HTTP response: " + httpResponse.getContent(), e);
+					_logger.log(Level.WARNING, "Unable to process HTTP response: " + content, e);
 
 					throw e;
 				}
