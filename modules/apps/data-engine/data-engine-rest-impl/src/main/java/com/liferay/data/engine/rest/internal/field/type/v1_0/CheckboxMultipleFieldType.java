@@ -118,8 +118,8 @@ public class CheckboxMultipleFieldType extends BaseFieldType {
 				false));
 		context.put(
 			"value",
-			CustomPropertyUtil.getString(
-				dataDefinitionField.getCustomProperties(), "value", "[]"));
+			CustomPropertyUtil.getValues(
+				dataDefinitionField.getCustomProperties(), "value"));
 	}
 
 }

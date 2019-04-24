@@ -18,16 +18,11 @@ import com.liferay.data.engine.rest.dto.v1_0.DataDefinitionField;
 import com.liferay.data.engine.rest.internal.dto.v1_0.util.LocalizedValueUtil;
 import com.liferay.data.engine.rest.internal.field.type.v1_0.util.CustomPropertyUtil;
 import com.liferay.data.engine.rest.internal.field.type.v1_0.util.DataFieldOptionUtil;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.template.soy.data.SoyDataFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -125,9 +120,8 @@ public class SelectFieldType extends BaseFieldType {
 		context.put("strings", getStringsMap());
 		context.put(
 			"value",
-			getValues(
-				CustomPropertyUtil.getString(
-					dataDefinitionField.getCustomProperties(), "value", "[]")));
+			CustomPropertyUtil.getValues(
+				dataDefinitionField.getCustomProperties(), "value"));
 	}
 
 	protected Map<String, String> getStringsMap() {
@@ -148,25 +142,6 @@ public class SelectFieldType extends BaseFieldType {
 			"search", LanguageUtil.get(httpServletRequest, "search"));
 
 		return stringsMap;
-	}
-
-	protected List<String> getValues(String valueString) {
-		JSONArray jsonArray = null;
-
-		try {
-			jsonArray = JSONFactoryUtil.createJSONArray(valueString);
-		}
-		catch (JSONException jsone) {
-			jsonArray = JSONFactoryUtil.createJSONArray();
-		}
-
-		List<String> values = new ArrayList<>(jsonArray.length());
-
-		for (int i = 0; i < jsonArray.length(); i++) {
-			values.add(String.valueOf(jsonArray.get(i)));
-		}
-
-		return values;
 	}
 
 }

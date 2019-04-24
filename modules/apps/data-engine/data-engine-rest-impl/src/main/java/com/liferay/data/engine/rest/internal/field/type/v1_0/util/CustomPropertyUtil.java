@@ -18,11 +18,14 @@ import com.liferay.data.engine.rest.dto.v1_0.CustomProperty;
 import com.liferay.data.engine.rest.dto.v1_0.LocalizedValue;
 import com.liferay.data.engine.rest.internal.field.type.v1_0.DataFieldOption;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -151,6 +154,29 @@ public class CustomPropertyUtil {
 		}
 
 		return defaultValue;
+	}
+
+	public static List<String> getValues(
+		CustomProperty[] customProperties, String key) {
+
+		String json = getString(customProperties, key, "[]");
+
+		JSONArray jsonArray = null;
+
+		try {
+			jsonArray = JSONFactoryUtil.createJSONArray(json);
+		}
+		catch (JSONException jsone) {
+			jsonArray = JSONFactoryUtil.createJSONArray();
+		}
+
+		List<String> values = new ArrayList<>(jsonArray.length());
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			values.add(String.valueOf(jsonArray.get(i)));
+		}
+
+		return values;
 	}
 
 	public static JSONObject toJSONObject(Map<String, String> values)
