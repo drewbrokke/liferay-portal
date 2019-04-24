@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.trash.TrashHandler;
 import com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -423,7 +422,7 @@ public class EditableFragmentEntryProcessor implements FragmentEntryProcessor {
 			fieldValue = contentAccessor.getContent();
 		}
 
-		return GetterUtil.get(fieldValue, StringPool.BLANK);
+		return editableElementParser.parseFieldValue(fieldValue);
 	}
 
 	private JSONObject _getMappedValueConfigJSONObject(
