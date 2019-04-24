@@ -45,6 +45,11 @@ public class CTConfigurationModel {
 	}
 
 	@XmlElement
+	public boolean isChangeTrackingAllowed() {
+		return _changeTrackingAllowed;
+	}
+
+	@XmlElement
 	public boolean isChangeTrackingEnabled() {
 		return _changeTrackingEnabled;
 	}
@@ -53,6 +58,13 @@ public class CTConfigurationModel {
 
 		public CTConfigurationModel build() {
 			return _ctConfigurationModel;
+		}
+
+		public Builder setChangeTrackingAllowed(boolean changeTrackingAllowed) {
+			_ctConfigurationModel._changeTrackingAllowed =
+				changeTrackingAllowed;
+
+			return this;
 		}
 
 		public Builder setChangeTrackingEnabled(boolean changeTrackingEnabled) {
@@ -93,6 +105,7 @@ public class CTConfigurationModel {
 	private CTConfigurationModel() {
 	}
 
+	private boolean _changeTrackingAllowed;
 	private boolean _changeTrackingEnabled;
 	private long _companyId;
 	private Set<String> _supportedContentTypeLanguageKeys;

@@ -141,7 +141,9 @@ public class CTConfigurationResource {
 		CTConfigurationModel.Builder builder = CTConfigurationModel.forCompany(
 			companyId);
 
-		return builder.setChangeTrackingEnabled(
+		return builder.setChangeTrackingAllowed(
+			_ctEngineManager.isChangeTrackingAllowed(companyId)
+		).setChangeTrackingEnabled(
 			_ctEngineManager.isChangeTrackingEnabled(companyId)
 		).setSupportedContentTypeLanguageKeys(
 			supportedContentTypeLanguageKeys
