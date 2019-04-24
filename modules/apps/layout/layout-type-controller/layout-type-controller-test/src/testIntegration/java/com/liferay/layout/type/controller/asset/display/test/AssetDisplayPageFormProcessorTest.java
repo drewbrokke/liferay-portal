@@ -149,6 +149,7 @@ public class AssetDisplayPageFormProcessorTest {
 					defaultLayoutPageTemplateEntry.
 						getLayoutPageTemplateEntryId(),
 					assetDisplayPageEntry.getLayoutPageTemplateEntryId());
+
 				Assert.assertEquals(
 					defaultLayoutPageTemplateEntry.getType(),
 					AssetDisplayPageConstants.TYPE_DEFAULT);
@@ -184,6 +185,7 @@ public class AssetDisplayPageFormProcessorTest {
 					defaultLayoutPageTemplateEntry.
 						getLayoutPageTemplateEntryId(),
 					assetDisplayPageEntry.getLayoutPageTemplateEntryId());
+
 				Assert.assertEquals(
 					defaultLayoutPageTemplateEntry.getType(),
 					AssetDisplayPageConstants.TYPE_DEFAULT);
