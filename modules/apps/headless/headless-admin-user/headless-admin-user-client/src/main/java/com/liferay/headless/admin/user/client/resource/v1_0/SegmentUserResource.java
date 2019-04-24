@@ -20,6 +20,7 @@ import com.liferay.headless.admin.user.client.pagination.Page;
 import com.liferay.headless.admin.user.client.pagination.Pagination;
 import com.liferay.headless.admin.user.client.serdes.v1_0.SegmentUserSerDes;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Generated;
@@ -51,7 +52,16 @@ public class SegmentUserResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(httpResponse.getContent(), SegmentUserSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, SegmentUserSerDes::toDTO);
 	}
 
 	private static final Logger _logger = Logger.getLogger(

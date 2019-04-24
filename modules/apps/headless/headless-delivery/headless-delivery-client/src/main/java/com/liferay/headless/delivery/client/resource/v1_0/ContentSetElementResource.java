@@ -20,6 +20,7 @@ import com.liferay.headless.delivery.client.pagination.Page;
 import com.liferay.headless.delivery.client.pagination.Pagination;
 import com.liferay.headless.delivery.client.serdes.v1_0.ContentSetElementSerDes;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Generated;
@@ -51,8 +52,16 @@ public class ContentSetElementResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(
-			httpResponse.getContent(), ContentSetElementSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, ContentSetElementSerDes::toDTO);
 	}
 
 	public Page<ContentSetElement> getSiteContentSetByKeyContentSetElementsPage(
@@ -75,8 +84,16 @@ public class ContentSetElementResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(
-			httpResponse.getContent(), ContentSetElementSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, ContentSetElementSerDes::toDTO);
 	}
 
 	public Page<ContentSetElement>
@@ -100,8 +117,16 @@ public class ContentSetElementResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(
-			httpResponse.getContent(), ContentSetElementSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, ContentSetElementSerDes::toDTO);
 	}
 
 	private static final Logger _logger = Logger.getLogger(

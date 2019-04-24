@@ -46,6 +46,15 @@ public class KnowledgeBaseFolderResource {
 		httpInvoker.userNameAndPassword("test@liferay.com:test");
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public KnowledgeBaseFolder getKnowledgeBaseFolder(
@@ -64,13 +73,21 @@ public class KnowledgeBaseFolderResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return KnowledgeBaseFolderSerDes.toDTO(httpResponse.getContent());
+			return KnowledgeBaseFolderSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
@@ -97,13 +114,21 @@ public class KnowledgeBaseFolderResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return KnowledgeBaseFolderSerDes.toDTO(httpResponse.getContent());
+			return KnowledgeBaseFolderSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
@@ -130,13 +155,21 @@ public class KnowledgeBaseFolderResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return KnowledgeBaseFolderSerDes.toDTO(httpResponse.getContent());
+			return KnowledgeBaseFolderSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
@@ -164,8 +197,16 @@ public class KnowledgeBaseFolderResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(
-			httpResponse.getContent(), KnowledgeBaseFolderSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, KnowledgeBaseFolderSerDes::toDTO);
 	}
 
 	public KnowledgeBaseFolder postKnowledgeBaseFolderKnowledgeBaseFolder(
@@ -189,13 +230,21 @@ public class KnowledgeBaseFolderResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return KnowledgeBaseFolderSerDes.toDTO(httpResponse.getContent());
+			return KnowledgeBaseFolderSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
@@ -222,8 +271,16 @@ public class KnowledgeBaseFolderResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(
-			httpResponse.getContent(), KnowledgeBaseFolderSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, KnowledgeBaseFolderSerDes::toDTO);
 	}
 
 	public KnowledgeBaseFolder postSiteKnowledgeBaseFolder(
@@ -246,13 +303,21 @@ public class KnowledgeBaseFolderResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return KnowledgeBaseFolderSerDes.toDTO(httpResponse.getContent());
+			return KnowledgeBaseFolderSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;

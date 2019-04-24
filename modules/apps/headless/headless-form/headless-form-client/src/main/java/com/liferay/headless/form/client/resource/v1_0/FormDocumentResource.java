@@ -41,6 +41,15 @@ public class FormDocumentResource {
 		httpInvoker.userNameAndPassword("test@liferay.com:test");
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public FormDocument getFormDocument(Long formDocumentId) throws Exception {
@@ -56,14 +65,22 @@ public class FormDocumentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
 			return com.liferay.headless.form.client.serdes.v1_0.
-				FormDocumentSerDes.toDTO(httpResponse.getContent());
+				FormDocumentSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;

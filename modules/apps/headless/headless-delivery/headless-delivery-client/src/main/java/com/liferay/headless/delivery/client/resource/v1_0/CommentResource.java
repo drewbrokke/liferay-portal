@@ -57,7 +57,16 @@ public class CommentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(httpResponse.getContent(), CommentSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, CommentSerDes::toDTO);
 	}
 
 	public Comment postBlogPostingComment(Long blogPostingId, Comment comment)
@@ -77,13 +86,21 @@ public class CommentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return CommentSerDes.toDTO(httpResponse.getContent());
+			return CommentSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
@@ -102,6 +119,15 @@ public class CommentResource {
 		httpInvoker.userNameAndPassword("test@liferay.com:test");
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public Comment getComment(Long commentId) throws Exception {
@@ -117,13 +143,21 @@ public class CommentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return CommentSerDes.toDTO(httpResponse.getContent());
+			return CommentSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
@@ -147,13 +181,21 @@ public class CommentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return CommentSerDes.toDTO(httpResponse.getContent());
+			return CommentSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
@@ -185,7 +227,16 @@ public class CommentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(httpResponse.getContent(), CommentSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, CommentSerDes::toDTO);
 	}
 
 	public Comment postCommentComment(Long parentCommentId, Comment comment)
@@ -205,13 +256,21 @@ public class CommentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return CommentSerDes.toDTO(httpResponse.getContent());
+			return CommentSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
@@ -243,7 +302,16 @@ public class CommentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(httpResponse.getContent(), CommentSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, CommentSerDes::toDTO);
 	}
 
 	public Comment postDocumentComment(Long documentId, Comment comment)
@@ -263,13 +331,21 @@ public class CommentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return CommentSerDes.toDTO(httpResponse.getContent());
+			return CommentSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
@@ -301,7 +377,16 @@ public class CommentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(httpResponse.getContent(), CommentSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, CommentSerDes::toDTO);
 	}
 
 	public Comment postStructuredContentComment(
@@ -322,13 +407,21 @@ public class CommentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return CommentSerDes.toDTO(httpResponse.getContent());
+			return CommentSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;

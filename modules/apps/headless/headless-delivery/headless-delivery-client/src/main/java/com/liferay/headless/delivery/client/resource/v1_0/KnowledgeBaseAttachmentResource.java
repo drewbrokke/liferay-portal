@@ -51,8 +51,16 @@ public class KnowledgeBaseAttachmentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
-		return Page.of(
-			httpResponse.getContent(), KnowledgeBaseAttachmentSerDes::toDTO);
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
+		return Page.of(content, KnowledgeBaseAttachmentSerDes::toDTO);
 	}
 
 	public KnowledgeBaseAttachment
@@ -82,14 +90,21 @@ public class KnowledgeBaseAttachmentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return KnowledgeBaseAttachmentSerDes.toDTO(
-				httpResponse.getContent());
+			return KnowledgeBaseAttachmentSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
@@ -110,6 +125,15 @@ public class KnowledgeBaseAttachmentResource {
 		httpInvoker.userNameAndPassword("test@liferay.com:test");
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
 	}
 
 	public KnowledgeBaseAttachment getKnowledgeBaseAttachment(
@@ -128,14 +152,21 @@ public class KnowledgeBaseAttachmentResource {
 
 		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
 
+		String content = httpResponse.getContent();
+
+		_logger.log(Level.FINE, "HTTP response content: " + content);
+
+		_logger.log(
+			Level.FINE, "HTTP response message: " + httpResponse.getMessage());
+		_logger.log(
+			Level.FINE, "HTTP response status: " + httpResponse.getStatus());
+
 		try {
-			return KnowledgeBaseAttachmentSerDes.toDTO(
-				httpResponse.getContent());
+			return KnowledgeBaseAttachmentSerDes.toDTO(content);
 		}
 		catch (Exception e) {
 			_logger.log(
-				Level.WARNING,
-				"Unable to process HTTP response: " + httpResponse.getContent(),
+				Level.WARNING, "Unable to process HTTP response: " + content,
 				e);
 
 			throw e;
