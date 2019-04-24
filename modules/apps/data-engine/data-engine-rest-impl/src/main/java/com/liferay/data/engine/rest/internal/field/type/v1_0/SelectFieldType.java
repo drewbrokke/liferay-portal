@@ -117,31 +117,31 @@ public class SelectFieldType extends BaseFieldType {
 				CustomPropertyUtil.getLocalizedValue(
 					dataDefinitionField.getCustomProperties(),
 					"predefinedValue")));
-		context.put("strings", getStringsMap());
+		context.put("strings", getLanguageTerms());
 		context.put(
 			"value",
 			CustomPropertyUtil.getValues(
 				dataDefinitionField.getCustomProperties(), "value"));
 	}
 
-	protected Map<String, String> getStringsMap() {
-		Map<String, String> stringsMap = new HashMap<>();
+	protected Map<String, String> getLanguageTerms() {
+		Map<String, String> languageTerms = new HashMap<>();
 
-		stringsMap.put(
+		languageTerms.put(
 			"chooseAnOption",
 			LanguageUtil.get(httpServletRequest, "choose-an-option"));
-		stringsMap.put(
+		languageTerms.put(
 			"chooseOptions",
 			LanguageUtil.get(httpServletRequest, "choose-options"));
-		stringsMap.put(
+		languageTerms.put(
 			"dynamicallyLoadedData",
 			LanguageUtil.get(httpServletRequest, "dynamically-loaded-data"));
-		stringsMap.put(
+		languageTerms.put(
 			"emptyList", LanguageUtil.get(httpServletRequest, "empty-list"));
-		stringsMap.put(
+		languageTerms.put(
 			"search", LanguageUtil.get(httpServletRequest, "search"));
 
-		return stringsMap;
+		return languageTerms;
 	}
 
 }
