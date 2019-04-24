@@ -63,7 +63,7 @@ public class JSONDataStorage implements DataStorage {
 		DDMContent ddmContent = _ddmContentLocalService.getContent(
 			dataStorageId);
 
-		return DataRecordValueUtil.toDataRecordValuesMap(
+		return DataRecordValueUtil.toDataRecordValues(
 			DataDefinitionUtil.toDataDefinition(
 				_ddmStructureLocalService.getStructure(dataDefinitionId)),
 			ddmContent.getData());
@@ -71,7 +71,7 @@ public class JSONDataStorage implements DataStorage {
 
 	@Override
 	public long save(
-			long dataRecordCollectionId, Map<String, ?> dataRecordValuesMap,
+			long dataRecordCollectionId, Map<String, ?> dataRecordValues,
 			long siteId)
 		throws Exception {
 
@@ -86,7 +86,7 @@ public class JSONDataStorage implements DataStorage {
 				DataDefinitionUtil.toDataDefinition(
 					_ddmStructureLocalService.getStructure(
 						dataRecordCollection.getDataDefinitionId())),
-				dataRecordValuesMap),
+				dataRecordValues),
 			new ServiceContext() {
 				{
 					setScopeGroupId(siteId);

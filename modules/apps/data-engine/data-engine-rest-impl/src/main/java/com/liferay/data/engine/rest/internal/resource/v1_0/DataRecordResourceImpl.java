@@ -250,9 +250,9 @@ public class DataRecordResourceImpl extends BaseDataRecordResourceImpl {
 			Collectors.toSet()
 		);
 
-		Map<String, ?> dataRecordValuesMap = dataRecord.getDataRecordValues();
+		Map<String, ?> dataRecordValues = dataRecord.getDataRecordValues();
 
-		Set<String> fieldNames = dataRecordValuesMap.keySet();
+		Set<String> fieldNames = dataRecordValues.keySet();
 
 		List<String> missingFieldNames = fieldNames.stream(
 		).filter(
@@ -309,7 +309,7 @@ public class DataRecordResourceImpl extends BaseDataRecordResourceImpl {
 					dataRuleFunction.validate(
 						dataDefinitionField,
 						dataDefinitionRule.getDataDefinitionRuleParameters(),
-						dataRecordValuesMap.get(dataDefinitionField.getName()));
+						dataRecordValues.get(dataDefinitionField.getName()));
 
 				if (dataRuleFunctionResult.isValid()) {
 					continue;

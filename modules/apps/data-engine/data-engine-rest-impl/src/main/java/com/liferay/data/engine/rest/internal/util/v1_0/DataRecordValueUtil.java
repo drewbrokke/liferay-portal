@@ -34,11 +34,11 @@ import java.util.stream.StreamSupport;
  */
 public class DataRecordValueUtil {
 
-	public static Map<String, ?> toDataRecordValuesMap(
+	public static Map<String, ?> toDataRecordValues(
 			DataDefinition dataDefinition, String json)
 		throws Exception {
 
-		Map<String, Object> dataRecordValuesMap = new HashMap<>();
+		Map<String, Object> dataRecordValues = new HashMap<>();
 
 		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(json);
 
@@ -49,16 +49,16 @@ public class DataRecordValueUtil {
 				continue;
 			}
 
-			dataRecordValuesMap.put(
+			dataRecordValues.put(
 				dataDefinitionField.getName(),
 				_toDataRecordValueValue(dataDefinitionField, jsonObject));
 		}
 
-		return dataRecordValuesMap;
+		return dataRecordValues;
 	}
 
 	public static String toJSON(
-		DataDefinition dataDefinition, Map<String, ?> dataRecordValuesMap) {
+		DataDefinition dataDefinition, Map<String, ?> dataRecordValues) {
 
 		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
 
@@ -73,7 +73,7 @@ public class DataRecordValueUtil {
 		for (Map.Entry<String, DataDefinitionField> entry :
 				dataDefinitionFields.entrySet()) {
 
-			if (!dataRecordValuesMap.containsKey(entry.getKey())) {
+			if (!dataRecordValues.containsKey(entry.getKey())) {
 				continue;
 			}
 
@@ -83,18 +83,18 @@ public class DataRecordValueUtil {
 				jsonObject.put(
 					entry.getKey(),
 					_toJSONObject(
-						(Map<String, Object>)dataRecordValuesMap.get(
+						(Map<String, Object>)dataRecordValues.get(
 							dataDefinitionField.getName())));
 			}
 			else if (dataDefinitionField.getRepeatable()) {
 				jsonObject.put(
 					entry.getKey(),
 					JSONFactoryUtil.createJSONArray(
-						(Object[])dataRecordValuesMap.get(entry.getKey())));
+						(Object[])dataRecordValues.get(entry.getKey())));
 			}
 			else {
 				jsonObject.put(
-					entry.getKey(), dataRecordValuesMap.get(entry.getKey()));
+					entry.getKey(), dataRecordValues.get(entry.getKey()));
 			}
 		}
 
