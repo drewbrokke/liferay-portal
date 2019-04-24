@@ -54,12 +54,12 @@ public class CTProcessLocalServiceUtil {
 	}
 
 	public static com.liferay.change.tracking.model.CTProcess addCTProcess(
-			long userId, long ctCollectionId, boolean collisionIgnored,
+			long userId, long ctCollectionId, boolean ignoreCollision,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addCTProcess(
-			userId, ctCollectionId, collisionIgnored, serviceContext);
+			userId, ctCollectionId, ignoreCollision, serviceContext);
 	}
 
 	/**

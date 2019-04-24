@@ -73,7 +73,7 @@ public interface CTProcessLocalService
 	public CTProcess addCTProcess(CTProcess ctProcess);
 
 	public CTProcess addCTProcess(
-			long userId, long ctCollectionId, boolean collisionIgnored,
+			long userId, long ctCollectionId, boolean ignoreCollision,
 			ServiceContext serviceContext)
 		throws PortalException;
 
