@@ -212,6 +212,15 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			return;
 		}
 
+		if (!isChangeTrackingAllowed(companyId)) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Change tracking is not allowed in company " + companyId);
+			}
+
+			return;
+		}
+
 		if (isChangeTrackingEnabled(companyId)) {
 			return;
 		}
