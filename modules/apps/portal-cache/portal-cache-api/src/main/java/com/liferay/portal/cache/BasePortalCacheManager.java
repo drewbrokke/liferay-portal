@@ -391,10 +391,10 @@ public abstract class BasePortalCacheManager<K extends Serializable, V>
 		}
 
 		if (mvcc) {
-			sb.append("mvcc ");
+			sb.append("MVCC ");
 		}
 		else {
-			sb.append("non-mvcc ");
+			sb.append("non-MVCC ");
 		}
 
 		sb.append("portal cache, cause a ");
@@ -407,10 +407,10 @@ public abstract class BasePortalCacheManager<K extends Serializable, V>
 		}
 
 		if (portalCache.isMVCC()) {
-			sb.append("mvcc ");
+			sb.append("MVCC ");
 		}
 		else {
-			sb.append("non-mvcc ");
+			sb.append("non-MVCC ");
 		}
 
 		sb.append("portal cache with same name exists.");

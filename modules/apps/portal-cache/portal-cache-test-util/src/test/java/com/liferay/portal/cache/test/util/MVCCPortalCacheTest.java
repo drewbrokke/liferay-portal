@@ -264,10 +264,9 @@ public class MVCCPortalCacheTest {
 	}
 
 	protected void doTestMVCCCache(final boolean timeToLive) {
-		Assert.assertTrue(_mvccPortalCache.isMVCC());
-
 		Assert.assertNull(_mvccPortalCache.get(_KEY_1));
 		Assert.assertNull(_mvccPortalCache.get(_KEY_2));
+		Assert.assertTrue(_mvccPortalCache.isMVCC());
 
 		// Put 1
 

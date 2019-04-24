@@ -143,11 +143,7 @@ public class PortalCacheClusterEvent implements Serializable {
 	public String toString() {
 		StringBundler sb = new StringBundler(13);
 
-		sb.append("{portalCacheManagerName=");
-		sb.append(_portalCacheManagerName);
-		sb.append(", portalCacheName=");
-		sb.append(_portalCacheName);
-		sb.append(", elementKey=");
+		sb.append("{elementKey=");
 		sb.append(_elementKey);
 
 		if (_elementValueBytes != null) {
@@ -159,6 +155,10 @@ public class PortalCacheClusterEvent implements Serializable {
 		sb.append(_timeToLive);
 		sb.append(", portalCacheClusterEventType=");
 		sb.append(_portalCacheClusterEventType);
+		sb.append(", portalCacheManagerName=");
+		sb.append(_portalCacheManagerName);
+		sb.append(", portalCacheName=");
+		sb.append(_portalCacheName);
 		sb.append("}");
 
 		return sb.toString();
