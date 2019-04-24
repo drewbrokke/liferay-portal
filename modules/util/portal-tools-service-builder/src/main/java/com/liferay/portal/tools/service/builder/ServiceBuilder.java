@@ -6170,11 +6170,12 @@ public class ServiceBuilder {
 
 		if (entity.isUADEnabled()) {
 			if (!_uadApplicationEntities.containsKey(uadApplicationName)) {
-				_Arrays.asList(
-					entity
-				).put(
-					uadApplicationName, uadApplicationEntities
-				);
+				List<Entity> uadApplicationEntities = new ArrayList<>();
+
+				uadApplicationEntities.add(entity);
+
+				_uadApplicationEntities.put(
+					uadApplicationName, uadApplicationEntities);
 			}
 			else {
 				List<Entity> uadApplicationEntities =
