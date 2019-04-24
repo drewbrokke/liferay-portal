@@ -53,9 +53,9 @@ public class LayoutModelListenerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		_group = GroupTestUtil.addGroup();
 		_classNameId = _classNameLocalService.getClassNameId(
 			Layout.class.getName());
+		_group = GroupTestUtil.addGroup();
 	}
 
 	@Test
