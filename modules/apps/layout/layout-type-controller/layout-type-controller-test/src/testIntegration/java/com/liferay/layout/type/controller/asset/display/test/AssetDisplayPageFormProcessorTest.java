@@ -505,7 +505,7 @@ public class AssetDisplayPageFormProcessorTest {
 		}
 
 		@Override
-		public boolean isUserInRole(String s) {
+		public boolean isUserInRole(String role) {
 			throw new UnsupportedOperationException();
 		}
 
