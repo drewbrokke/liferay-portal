@@ -59,7 +59,7 @@ public class LayoutModelListenerTest {
 	}
 
 	@Test
-	public void testRelatedSegmentsExperiencesAreRemoveAfterRemovingLayout()
+	public void testRelatedSegmentsExperiencesAreRemovedAfterRemovingLayout()
 		throws Exception {
 
 		Layout layout = LayoutTestUtil.addLayout(_group);
