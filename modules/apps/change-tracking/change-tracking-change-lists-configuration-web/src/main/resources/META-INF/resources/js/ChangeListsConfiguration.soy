@@ -5,6 +5,7 @@
  */
 {template .render}
 	{@param spritemap: string}
+	{@param? changeTrackingAllowed: bool}
 	{@param? changeTrackingEnabled: bool}
 	{@param? initialFetch: bool}
 	{@param? tooltipBody: string}
@@ -15,6 +16,17 @@
 	<div class="change-lists-configuration-sheet sheet sheet-lg">
 		{if not $initialFetch}
 			{call .loading}{/call}
+		{/if}
+
+		{if not $changeTrackingAllowed}
+			{call ClayAlert.render}
+				{param message kind="text"}
+					{msg desc=""}change-lists-staging-warning{/msg}
+				{/param}
+				{param spritemap: $spritemap /}
+				{param style: 'warning' /}
+				{param title: '' /}
+			{/call}
 		{/if}
 
 		<div class="sheet-header">
@@ -45,7 +57,7 @@
 
 		<div class="form-group">
 			<label class="toggle-switch">
-				<input class="toggle-switch-check" data-onchange="{$_handleCheck}" data-qa-id="changelist-toggle" {if $changeTrackingEnabled}checked{/if} type="checkbox"/>
+				<input class="toggle-switch-check" data-onchange="{$_handleCheck}" data-qa-id="changelist-toggle" {if $changeTrackingEnabled}checked{/if} {if not $changeTrackingAllowed}disabled{/if} type="checkbox"/>
 				<span aria-hidden="true" class="toggle-switch-bar">
 					<span class="toggle-switch-handle"></span>
 				</span>
@@ -60,13 +72,13 @@
 		<div class="sheet-footer sheet-footer-btn-block-sm-down">
 			<div class="btn-group">
 				<div class="btn-group-item">
-					<button class="btn btn-primary" data-onclick="{$_handleSave}" type="button">
+					<button class="btn btn-primary" data-onclick="{$_handleSave}" {if not $changeTrackingAllowed}disabled{/if} type="button">
 						{msg desc=""}save{/msg}
 					</button>
 				</div>
 
 				<div class="btn-group-item">
-					<button class="btn btn-secondary" data-onclick="{$_handleSaveAndGoToOverview}" {if not $changeTrackingEnabled}disabled{/if} type="button">{msg desc=""}save-and-go-to-overview{/msg}</button>
+					<button class="btn btn-secondary" data-onclick="{$_handleSaveAndGoToOverview}" {if (not $changeTrackingEnabled) or (not $changeTrackingAllowed)}disabled{/if} type="button">{msg desc=""}save-and-go-to-overview{/msg}</button>
 				</div>
 			</div>
 		</div>

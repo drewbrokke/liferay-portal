@@ -16,6 +16,7 @@ class ChangeListsConfiguration extends PortletBase {
 			this.urlChangeTrackingConfiguration,
 			response => {
 				if (response) {
+					this.changeTrackingAllowed = response.changeTrackingAllowed;
 					this.changeTrackingEnabled = response.changeTrackingEnabled;
 					this.initialFetch = true;
 					this.tooltipBody = '';
@@ -168,6 +169,16 @@ class ChangeListsConfiguration extends PortletBase {
  * @type {!Object}
  */
 ChangeListsConfiguration.STATE = {
+
+	/**
+	 * If true, change tracking is allowed
+	 * @instance
+	 * @memberOf ChangeListsConfiguration
+	 * @review
+	 * @type {boolean}
+	 */
+
+	changeTrackingAllowed: Config.bool(),
 
 	/**
 	 * If true, change tracking is enabled
