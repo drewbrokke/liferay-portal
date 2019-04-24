@@ -144,7 +144,7 @@ PortletURL histotryURL = PortletURLFactoryUtil.create(request, CTPortletKeys.CHA
 
 								<liferay-ui:icon
 									message="publish"
-									onClick='<%= "javascript:handleClickPublish(\'" + publishModalURL.toString() + "\');" %>'
+									onClick='<%= "javascript:" + renderResponse.getNamespace() + "handleClickPublish(\'" + publishModalURL.toString() + "\');" %>'
 									url="#"
 								/>
 
@@ -295,7 +295,7 @@ PortletURL histotryURL = PortletURLFactoryUtil.create(request, CTPortletKeys.CHA
 
 												<liferay-ui:icon
 													message="publish"
-													onClick='<%= "javascript:handleClickPublish(\'" + publishModalURL.toString() + "\');" %>'
+													onClick='<%= "javascript:" + renderResponse.getNamespace() + "handleClickPublish(\'" + publishModalURL.toString() + "\');" %>'
 													url="#"
 												/>
 
@@ -326,7 +326,7 @@ PortletURL histotryURL = PortletURLFactoryUtil.create(request, CTPortletKeys.CHA
 
 <script>
 	Liferay.on(
-		'refreshSelectChangeList',
+		'<portlet:namespace/>refreshSelectChangeList',
 		function(event) {
 			setTimeout(
 				function() {
@@ -335,7 +335,7 @@ PortletURL histotryURL = PortletURLFactoryUtil.create(request, CTPortletKeys.CHA
 				1000);
 	});
 
-	function handleClickPublish(url) {
+	function <portlet:namespace/>handleClickPublish(url) {
 
 		Liferay.Util.openWindow(
 			{
