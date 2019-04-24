@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.template.soy.data.SoyDataFactory;
 
 import java.util.HashMap;
@@ -53,28 +52,21 @@ public class ValidationFieldType extends BaseFieldType {
 	}
 
 	private Map<String, String> _getValue() {
-		Map<String, String> value = new HashMap<>();
+		Map<String, String> value = new HashMap();
 
-		String valueString = CustomPropertyUtil.getString(
-			dataDefinitionField.getCustomProperties(), "value");
+		try {
+			JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
+				CustomPropertyUtil.getString(
+					dataDefinitionField.getCustomProperties(), "value"));
 
-		if (Validator.isNotNull(valueString)) {
-			try {
-				JSONObject valueJSONObject = JSONFactoryUtil.createJSONObject(
-					valueString);
-
-				value.put(
-					"errorMessage", valueJSONObject.getString("errorMessage"));
-				value.put(
-					"expression", valueJSONObject.getString("expression"));
-			}
-			catch (JSONException jsone) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(jsone, jsone);
-				}
-			}
+			value.put("errorMessage", jsonObject.getString("errorMessage"));
+			value.put("expression", jsonObject.getString("expression"));
 		}
-		else {
+		catch (JSONException jsone) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(jsone, jsone);
+			}
+
 			value.put("errorMessage", StringPool.BLANK);
 			value.put("expression", StringPool.BLANK);
 		}
