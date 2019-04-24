@@ -976,15 +976,15 @@ public class JournalContentDisplayContext {
 	}
 
 	private JournalArticle _getArticleByPreviewAssetId() {
-		long previewAssetId = ParamUtil.getLong(
-			_portletRequest, "previewAssetId");
+		long previewAssetEntryId = ParamUtil.getLong(
+			_portletRequest, "previewAssetEntryId");
 
-		if (previewAssetId <= 0) {
+		if (previewAssetEntryId <= 0) {
 			return null;
 		}
 
 		AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(
-			previewAssetId);
+			previewAssetEntryId);
 
 		if (assetEntry == null) {
 			return null;

@@ -140,7 +140,7 @@ public class JournalArticleAssetEntryUsageActionMenuContributor
 	}
 
 	private String _getURL(
-		AssetEntryUsage assetEntryUsage, long previewAssetId,
+		AssetEntryUsage assetEntryUsage, long previewAssetEntryId,
 		HttpServletRequest request) {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
@@ -150,9 +150,9 @@ public class JournalArticleAssetEntryUsageActionMenuContributor
 			request, assetEntryUsage.getContainerKey(),
 			assetEntryUsage.getPlid(), PortletRequest.RENDER_PHASE);
 
-		if (previewAssetId > 0) {
+		if (previewAssetEntryId > 0) {
 			portletURL.setParameter(
-				"previewAssetId", String.valueOf(previewAssetId));
+				"previewAssetEntryId", String.valueOf(previewAssetEntryId));
 		}
 
 		String portletURLString = _http.setParameter(
