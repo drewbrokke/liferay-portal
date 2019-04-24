@@ -3,7 +3,11 @@ import PortletBase from 'frontend-js-web/liferay/PortletBase.es';
 import Soy from 'metal-soy';
 
 import getConnectedComponent from '../../store/ConnectedComponent.es';
-import {HIDE_MAPPING_TYPE_DIALOG, SELECT_MAPPEABLE_TYPE} from '../../actions/actions.es';
+import {
+	HIDE_MAPPING_TYPE_DIALOG,
+	SELECT_MAPPEABLE_TYPE,
+	UPDATE_LAST_SAVE_DATE
+} from '../../actions/actions.es';
 import {setIn} from '../../utils/FragmentsEditorUpdateUtils.es';
 import templates from './SelectMappingTypeForm.soy';
 
@@ -168,6 +172,11 @@ class SelectMappingTypeForm extends PortletBase {
 					mappingTypes,
 					selectedMappingSubtypeId: this._selectedMappingSubtypeId,
 					selectedMappingTypeId: this._selectedMappingTypeId
+				}
+			).dispatchAction(
+				UPDATE_LAST_SAVE_DATE,
+				{
+					lastSaveDate: new Date()
 				}
 			);
 	}
