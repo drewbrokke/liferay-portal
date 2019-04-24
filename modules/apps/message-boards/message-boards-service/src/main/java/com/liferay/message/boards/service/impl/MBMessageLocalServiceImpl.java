@@ -2125,11 +2125,11 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 			long userId, MBMessage message, ServiceContext serviceContext)
 		throws PortalException {
 
-		MBDiscussion mbDiscussion =
-			mbDiscussionLocalService.getThreadDiscussion(message.getThreadId());
-
 		CommentGroupServiceConfiguration commentGroupServiceConfiguration =
 			_getCommentGroupServiceConfiguration(message.getGroupId());
+
+		MBDiscussion mbDiscussion =
+			mbDiscussionLocalService.getThreadDiscussion(message.getThreadId());
 
 		String contentURL = (String)serviceContext.getAttribute("contentURL");
 
