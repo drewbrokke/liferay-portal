@@ -22,10 +22,10 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -170,13 +170,7 @@ public class CustomPropertyUtil {
 			jsonArray = JSONFactoryUtil.createJSONArray();
 		}
 
-		List<String> values = new ArrayList<>(jsonArray.length());
-
-		for (int i = 0; i < jsonArray.length(); i++) {
-			values.add(String.valueOf(jsonArray.get(i)));
-		}
-
-		return values;
+		return JSONUtil.toStringList(jsonArray);
 	}
 
 	public static JSONObject toJSONObject(Map<String, String> values)
