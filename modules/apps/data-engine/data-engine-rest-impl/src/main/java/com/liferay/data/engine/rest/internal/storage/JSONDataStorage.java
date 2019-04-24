@@ -18,7 +18,7 @@ import com.liferay.data.engine.rest.dto.v1_0.DataRecord;
 import com.liferay.data.engine.rest.dto.v1_0.DataRecordCollection;
 import com.liferay.data.engine.rest.internal.dto.v1_0.util.DataDefinitionUtil;
 import com.liferay.data.engine.rest.internal.dto.v1_0.util.DataRecordCollectionUtil;
-import com.liferay.data.engine.rest.internal.util.v1_0.DataRecordValueUtil;
+import com.liferay.data.engine.rest.internal.dto.v1_0.util.DataRecordValuesUtil;
 import com.liferay.data.engine.spi.storage.DataStorage;
 import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalService;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
@@ -63,7 +63,7 @@ public class JSONDataStorage implements DataStorage {
 		DDMContent ddmContent = _ddmContentLocalService.getContent(
 			dataStorageId);
 
-		return DataRecordValueUtil.toDataRecordValues(
+		return DataRecordValuesUtil.toDataRecordValues(
 			DataDefinitionUtil.toDataDefinition(
 				_ddmStructureLocalService.getStructure(dataDefinitionId)),
 			ddmContent.getData());
@@ -82,7 +82,7 @@ public class JSONDataStorage implements DataStorage {
 		DDMContent ddmContent = _ddmContentLocalService.addContent(
 			PrincipalThreadLocal.getUserId(), siteId,
 			DataRecord.class.getName(), null,
-			DataRecordValueUtil.toJSON(
+			DataRecordValuesUtil.toJSON(
 				DataDefinitionUtil.toDataDefinition(
 					_ddmStructureLocalService.getStructure(
 						dataRecordCollection.getDataDefinitionId())),
