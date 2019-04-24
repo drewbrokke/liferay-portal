@@ -19,8 +19,18 @@
 	<td></td>
 </tr>
 <tr>
+	<td>CHANGE_LIST_ADDED</td>
+	<td>//div[contains(@data-qa-id,'changesAdded')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>CHANGE_LIST_DELETED</td>
 	<td>//div[contains(@data-qa-id,'changesDeleted')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CHANGE_LIST_MODIFIED</td>
+	<td>//div[contains(@data-qa-id,'changesModified')]</td>
 	<td></td>
 </tr>
 <tr>

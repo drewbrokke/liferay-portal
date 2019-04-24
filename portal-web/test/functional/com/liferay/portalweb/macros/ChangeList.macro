@@ -109,6 +109,12 @@ definition {
 			rowEntry = "${rowEntry}");
 	}
 
+	macro viewAddedItemCounter {
+		AssertTextEquals(
+			locator1 = "ChangeList#CHANGE_LIST_ADDED",
+			value1 = "${nbrOfAddedItems}");
+	}
+
 	macro viewChangeOnOverview {
 		var key_contentTitle = "${contentTitle}";
 
@@ -154,6 +160,12 @@ definition {
 			key_portlet = "Staging",
 			locator1 = "ProductMenu#PORTLET",
 			value1 = "Staging");
+	}
+
+	macro viewModifiedItemCounter {
+		AssertTextEquals(
+			locator1 = "ChangeList#CHANGE_LIST_MODIFIED",
+			value1 = "${nbrOfModifiedItems}");
 	}
 
 	macro viewPublishedChangeListDetails {
