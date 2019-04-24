@@ -16,15 +16,17 @@ package com.liferay.data.engine.rest.internal.field.type.v1_0;
 
 import com.liferay.data.engine.rest.dto.v1_0.DataDefinitionField;
 import com.liferay.data.engine.rest.internal.field.type.v1_0.util.CustomPropertyUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.template.soy.data.SoyDataFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,13 +50,18 @@ public class FieldSetFieldType extends BaseFieldType {
 	protected static List<Object> getNestedFields(
 		Map<String, List<Object>> nestedFieldsMap, String[] nestedFieldNames) {
 
-		List<Object> nestedFields = new ArrayList<>();
+		Set<Map.Entry<String, List<Object>>> entrySet =
+			nestedFieldsMap.entrySet();
 
-		for (String nestedFieldName : nestedFieldNames) {
-			nestedFields.addAll(nestedFieldsMap.get(nestedFieldName));
-		}
+		Stream<Map.Entry<String, List<Object>>> stream = entrySet.stream();
 
-		return nestedFields;
+		return stream.filter(
+			entry -> ArrayUtil.contains(nestedFieldNames, entry.getKey())
+		).map(
+			entry -> entry.getValue()
+		).collect(
+			Collectors.toList()
+		);
 	}
 
 	@Override
