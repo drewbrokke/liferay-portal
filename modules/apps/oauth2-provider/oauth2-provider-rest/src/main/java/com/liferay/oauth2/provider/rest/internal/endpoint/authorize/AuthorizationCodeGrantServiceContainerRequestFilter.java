@@ -161,7 +161,7 @@ public class AuthorizationCodeGrantServiceContainerRequestFilter
 			requestURIString = requestURIString.substring(portalURL.length());
 		}
 
-		// Workaround LPS-94559
+		// Workaround for LPS-94559
 
 		requestURIString = requestURIString.replaceFirst(
 			"\\?.*",
