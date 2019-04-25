@@ -251,28 +251,28 @@ public class CalendarDisplayContext {
 		String active = ParamUtil.getString(
 			_renderRequest, "active", Boolean.TRUE.toString());
 
-		return new NavigationItemList() {
-			{
-				add(
-					navigationItem -> {
-						navigationItem.setActive(tabs1.equals("calendar"));
-						navigationItem.setHref(
-							_renderResponse.createRenderURL(), "tabs1",
-							"calendar");
-						navigationItem.setLabel(
-							LanguageUtil.get(request, "calendar"));
-					});
-				add(
-					navigationItem -> {
-						navigationItem.setActive(tabs1.equals("resources"));
-						navigationItem.setHref(
-							_renderResponse.createRenderURL(), "tabs1",
-							"resources", "scope", scope, "active", active);
-						navigationItem.setLabel(
-							LanguageUtil.get(request, "resources"));
-					});
-			}
-		};
+		return NavigationItemList.of(
+			() -> {
+				NavigationItem navigationItem = new NavigationItem();
+
+				navigationItem.setActive(tabs1.equals("calendar"));
+				navigationItem.setHref(
+					_renderResponse.createRenderURL(), "tabs1", "calendar");
+				navigationItem.setLabel(LanguageUtil.get(request, "calendar"));
+
+				return navigationItem;
+			},
+			() -> {
+				NavigationItem navigationItem = new NavigationItem();
+
+				navigationItem.setActive(tabs1.equals("resources"));
+				navigationItem.setHref(
+					_renderResponse.createRenderURL(), "tabs1", "resources",
+					"scope", scope, "active", active);
+				navigationItem.setLabel(LanguageUtil.get(request, "resources"));
+
+				return navigationItem;
+			});
 	}
 
 	public List<Calendar> getOtherCalendars(User user, long[] calendarIds)

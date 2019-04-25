@@ -14,6 +14,7 @@
 
 package com.liferay.roles.admin.web.internal.display.context;
 
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownGroupItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
@@ -92,21 +93,20 @@ public class EditRoleAssignmentsManagementToolbarDisplayContext {
 	}
 
 	public List<DropdownItem> getActionDropdownItems() {
-		return new DropdownItemList() {
-			{
-				add(
-					dropdownItem -> {
-						dropdownItem.setHref(
-							StringBundler.concat(
-								"javascript:", _renderResponse.getNamespace(),
-								"unsetRoleAssignments();"));
-						dropdownItem.setIcon("trash");
-						dropdownItem.setLabel(
-							LanguageUtil.get(_request, "delete"));
-						dropdownItem.setQuickAction(true);
-					});
-			}
-		};
+		return DropdownItemList.of(
+			() -> {
+				DropdownItem dropdownItem = new DropdownItem();
+
+				dropdownItem.setHref(
+					StringBundler.concat(
+						"javascript:", _renderResponse.getNamespace(),
+						"unsetRoleAssignments();"));
+				dropdownItem.setIcon("trash");
+				dropdownItem.setLabel(LanguageUtil.get(_request, "delete"));
+				dropdownItem.setQuickAction(true);
+
+				return dropdownItem;
+			});
 	}
 
 	public String getClearResultsURL() {
@@ -118,25 +118,49 @@ public class EditRoleAssignmentsManagementToolbarDisplayContext {
 	}
 
 	public List<DropdownItem> getFilterDropdownItems() {
-		return new DropdownItemList() {
-			{
-				addGroup(
-					dropdownGroupItem -> {
-						dropdownGroupItem.setDropdownItems(
-							_getFilterNavigationDropdownItems());
-						dropdownGroupItem.setLabel(
-							LanguageUtil.get(_request, "filter-by-navigation"));
-					});
+		return DropdownItemList.of(
+			() -> {
+				DropdownGroupItem dropdownGroupItem = new DropdownGroupItem();
 
-				addGroup(
-					dropdownGroupItem -> {
-						dropdownGroupItem.setDropdownItems(
-							_getOrderByDropdownItems());
-						dropdownGroupItem.setLabel(
-							LanguageUtil.get(_request, "order-by"));
-					});
-			}
-		};
+				dropdownGroupItem.setDropdownItems(
+					DropdownItemList.of(
+						() -> {
+							DropdownItem dropdownItem = new DropdownItem();
+
+							dropdownItem.setActive(true);
+							dropdownItem.setHref(StringPool.BLANK);
+							dropdownItem.setLabel(
+								LanguageUtil.get(_request, "all"));
+
+							return dropdownItem;
+						}));
+				dropdownGroupItem.setLabel(
+					LanguageUtil.get(_request, "filter-by-navigation"));
+
+				return dropdownGroupItem;
+			},
+			() -> {
+				DropdownGroupItem dropdownGroupItem = new DropdownGroupItem();
+
+				dropdownGroupItem.setDropdownItems(
+					DropdownItemList.of(
+						() -> {
+							DropdownItem dropdownItem = new DropdownItem();
+
+							dropdownItem.setActive(
+								Objects.equals(getOrderByCol(), "name"));
+							dropdownItem.setHref(
+								getPortletURL(), "orderByCol", "name");
+							dropdownItem.setLabel(
+								LanguageUtil.get(_request, "name"));
+
+							return dropdownItem;
+						}));
+				dropdownGroupItem.setLabel(
+					LanguageUtil.get(_request, "order-by"));
+
+				return dropdownGroupItem;
+			});
 	}
 
 	public SearchContainer getGroupSearchContainer() {
@@ -456,36 +480,6 @@ public class EditRoleAssignmentsManagementToolbarDisplayContext {
 				addCardViewTypeItem();
 				addListViewTypeItem();
 				addTableViewTypeItem();
-			}
-		};
-	}
-
-	private List<DropdownItem> _getFilterNavigationDropdownItems() {
-		return new DropdownItemList() {
-			{
-				add(
-					dropdownItem -> {
-						dropdownItem.setActive(true);
-						dropdownItem.setHref(StringPool.BLANK);
-						dropdownItem.setLabel(
-							LanguageUtil.get(_request, "all"));
-					});
-			}
-		};
-	}
-
-	private List<DropdownItem> _getOrderByDropdownItems() {
-		return new DropdownItemList() {
-			{
-				add(
-					dropdownItem -> {
-						dropdownItem.setActive(
-							Objects.equals(getOrderByCol(), "name"));
-						dropdownItem.setHref(
-							getPortletURL(), "orderByCol", "name");
-						dropdownItem.setLabel(
-							LanguageUtil.get(_request, "name"));
-					});
 			}
 		};
 	}
