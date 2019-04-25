@@ -398,6 +398,9 @@ AUI.add(
 					return instance._INSTANCES[id];
 				},
 
+				/*
+				* @deprecated since 7.2, unused
+				*/
 				register: function(config) {
 					var instance = this;
 

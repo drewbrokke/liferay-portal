@@ -56,6 +56,10 @@ AUI.add(
 				NS: 'item-selector-dialog',
 
 				prototype: {
+
+					/*
+					* @deprecated since 7.2, unused
+					*/
 					close: function() {
 						var instance = this;
 

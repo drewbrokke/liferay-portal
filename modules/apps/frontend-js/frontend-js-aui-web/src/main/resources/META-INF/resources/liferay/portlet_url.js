@@ -212,6 +212,9 @@ AUI.add(
 				return instance;
 			},
 
+			/*
+			* @deprecated since 7.2, unused
+			*/
 			setSecure: function(secure) {
 				var instance = this;
 
