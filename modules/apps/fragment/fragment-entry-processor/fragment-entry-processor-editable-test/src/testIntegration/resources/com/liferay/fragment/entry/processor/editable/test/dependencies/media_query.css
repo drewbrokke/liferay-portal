@@ -1,0 +1,11 @@
+.growing-box-fragment {
+	background-color: red;
+	padding: 2em;
+}
+
+@media (min-width: 768px) {
+	.growing-box-fragment {
+		background-color: blue;
+		padding: 10em;
+	}
+}
