@@ -15,8 +15,6 @@
 package com.liferay.layout.page.template.service.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
-import com.liferay.asset.display.page.model.AssetDisplayPageEntry;
-import com.liferay.asset.display.page.service.AssetDisplayPageEntryLocalServiceUtil;
 import com.liferay.fragment.model.FragmentCollection;
 import com.liferay.fragment.model.FragmentEntry;
 import com.liferay.fragment.model.FragmentEntryLink;
@@ -49,10 +47,8 @@ import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -76,25 +72,6 @@ public class LayoutPageTemplateEntryServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		_group = GroupTestUtil.addGroup();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		for (AssetDisplayPageEntry assetDisplayPageEntry :
-				_assetDisplayPageEntries) {
-
-			AssetDisplayPageEntryLocalServiceUtil.deleteAssetDisplayPageEntry(
-				assetDisplayPageEntry);
-		}
-
-		for (LayoutPageTemplateCollection layoutPageTemplateCollection :
-				_layoutPageTemplateCollections) {
-
-			_layoutPageTemplateCollectionService.
-				deleteLayoutPageTemplateCollection(
-					layoutPageTemplateCollection.
-						getLayoutPageTemplateCollectionId());
-		}
 	}
 
 	@Test(expected = DuplicateLayoutPageTemplateEntryException.class)
@@ -568,14 +545,8 @@ public class LayoutPageTemplateEntryServiceTest {
 			"Layout Page Template Entry", serviceContext);
 	}
 
-	private final List<AssetDisplayPageEntry> _assetDisplayPageEntries =
-		new ArrayList<>();
-
 	@DeleteAfterTestRun
 	private Group _group;
-
-	private final List<LayoutPageTemplateCollection>
-		_layoutPageTemplateCollections = new ArrayList<>();
 
 	@Inject
 	private LayoutPageTemplateCollectionService
