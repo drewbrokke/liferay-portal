@@ -292,9 +292,21 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 			FriendlyURLNormalizerUtil.normalizeWithEncoding(
 				_getURLTitle(friendlyURL));
 
-		JournalArticle journalArticle =
-			_journalArticleLocalService.fetchLatestArticleByUrlTitle(
-				groupId, normalizedUrlTitle, WorkflowConstants.STATUS_APPROVED);
+		JournalArticle journalArticle = null;
+
+		double version = _getVersion(friendlyURL);
+
+		if (version > 0) {
+			journalArticle = _journalArticleLocalService.fetchArticleByUrlTitle(
+				groupId, normalizedUrlTitle, version);
+		}
+		else {
+			journalArticle =
+				_journalArticleLocalService.fetchLatestArticleByUrlTitle(
+					groupId, normalizedUrlTitle,
+					WorkflowConstants.STATUS_APPROVED);
+		}
+
 
 		if (journalArticle == null) {
 			PermissionChecker permissionChecker =
@@ -332,6 +344,16 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 		List<String> paths = StringUtil.split(friendlyURL, CharPool.SLASH);
 
 		return paths.get(1);
+	}
+
+	private double _getVersion(String friendlyURL) {
+		List<String> paths = StringUtil.split(friendlyURL, CharPool.SLASH);
+
+		if (paths.size() == 3) {
+			return Double.valueOf(paths.get(2));
+		}
+
+		return 0;
 	}
 
 	@Reference
