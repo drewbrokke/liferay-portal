@@ -471,7 +471,9 @@ public class JournalArticleAssetRenderer
 
 		viewUsagesURL.setParameter("redirect", themeDisplay.getURLCurrent());
 		viewUsagesURL.setParameter(
-			"assetEntryId", String.valueOf(assetEntry.getEntryId()));
+			"className", String.valueOf(assetEntry.getClassName()));
+		viewUsagesURL.setParameter(
+			"classPK", String.valueOf(assetEntry.getClassPK()));
 
 		return viewUsagesURL.toString();
 	}
