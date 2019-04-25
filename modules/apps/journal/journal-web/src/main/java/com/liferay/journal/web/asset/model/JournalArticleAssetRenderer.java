@@ -33,6 +33,7 @@ import com.liferay.journal.util.JournalContent;
 import com.liferay.journal.util.JournalConverter;
 import com.liferay.journal.web.asset.JournalArticleDDMFormValuesReader;
 import com.liferay.journal.web.internal.security.permission.resource.JournalArticlePermission;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -440,13 +441,15 @@ public class JournalArticleAssetRenderer
 				group.getGroupId(), layout.isPrivateLayout()),
 			themeDisplay);
 
-		return PortalUtil.addPreservedParameters(
-			themeDisplay,
-			groupFriendlyURL.concat(
-				JournalArticleConstants.CANONICAL_URL_SEPARATOR
-			).concat(
-				_article.getUrlTitle(themeDisplay.getLocale())
-			));
+		StringBundler sb = new StringBundler(5);
+
+		sb.append(groupFriendlyURL);
+		sb.append(JournalArticleConstants.CANONICAL_URL_SEPARATOR);
+		sb.append(_article.getUrlTitle(themeDisplay.getLocale()));
+		sb.append(StringPool.SLASH);
+		sb.append(_article.getVersion());
+
+		return PortalUtil.addPreservedParameters(themeDisplay, sb.toString());
 	}
 
 	@Override
