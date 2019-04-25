@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ContentDocument")
 public class ContentDocument {
 
-	@Schema(description = "A relative URL to the binary file.")
+	@Schema(description = "The document's relative URL.")
 	public String getContentUrl() {
 		return contentUrl;
 	}
@@ -70,7 +70,7 @@ public class ContentDocument {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String contentUrl;
 
-	@Schema(description = "The description of the file.")
+	@Schema(description = "The document's description.")
 	public String getDescription() {
 		return description;
 	}
@@ -99,7 +99,7 @@ public class ContentDocument {
 	protected String description;
 
 	@Schema(
-		description = "The content type (application/pdf) of the binary file."
+		description = "The document's content type (e.g., `application/pdf`, etc.)."
 	)
 	public String getEncodingFormat() {
 		return encodingFormat;
@@ -128,7 +128,7 @@ public class ContentDocument {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String encodingFormat;
 
-	@Schema(description = "The file extension.")
+	@Schema(description = "The document's file extension.")
 	public String getFileExtension() {
 		return fileExtension;
 	}
@@ -156,7 +156,7 @@ public class ContentDocument {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String fileExtension;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The document's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -182,7 +182,7 @@ public class ContentDocument {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
-	@Schema(description = "The size in bytes of the ContentDocument.")
+	@Schema(description = "The document's file size in bytes.")
 	public Long getSizeInBytes() {
 		return sizeInBytes;
 	}
@@ -210,7 +210,7 @@ public class ContentDocument {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long sizeInBytes;
 
-	@Schema(description = "The title of the ContentDocument.")
+	@Schema(description = "The document's title.")
 	public String getTitle() {
 		return title;
 	}

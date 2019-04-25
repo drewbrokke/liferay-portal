@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Image")
 public class Image {
 
-	@Schema(description = "A text describing the BlogPosting image.")
+	@Schema(description = "The text describing the image.")
 	public String getCaption() {
 		return caption;
 	}
@@ -70,7 +70,7 @@ public class Image {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String caption;
 
-	@Schema(description = "A relative URL to the image.")
+	@Schema(description = "The image's relative URL.")
 	public String getContentUrl() {
 		return contentUrl;
 	}
@@ -99,7 +99,7 @@ public class Image {
 	protected String contentUrl;
 
 	@Schema(
-		description = "An identifier of the image, can be used to retrieve more information in the Document API."
+		description = "The image's ID. This can be used to retrieve more information in the `Document` API."
 	)
 	public Long getImageId() {
 		return imageId;

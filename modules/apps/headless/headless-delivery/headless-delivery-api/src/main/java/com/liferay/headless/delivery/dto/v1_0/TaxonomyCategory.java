@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class TaxonomyCategory {
 
 	@Schema(
-		description = "The id of the category, can be used to retrieve more information in the TaxonomyCategory API."
+		description = "The category's ID, which can be used to retrieve more information via the `TaxonomyCategory` API."
 	)
 	public Long getTaxonomyCategoryId() {
 		return taxonomyCategoryId;
@@ -72,7 +72,7 @@ public class TaxonomyCategory {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long taxonomyCategoryId;
 
-	@Schema(description = "The name of the category.")
+	@Schema(description = "The category's name.")
 	public String getTaxonomyCategoryName() {
 		return taxonomyCategoryName;
 	}

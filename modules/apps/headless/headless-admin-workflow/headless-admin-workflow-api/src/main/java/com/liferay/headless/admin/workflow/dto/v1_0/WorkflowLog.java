@@ -46,7 +46,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "WorkflowLog")
 public class WorkflowLog {
 
-	@Schema(description = "The UserAccount auditing the Workflow.")
+	@Schema(
+		description = "The user account of the person auditing the workflow."
+	)
 	public Creator getAuditPerson() {
 		return auditPerson;
 	}
@@ -74,7 +76,7 @@ public class WorkflowLog {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator auditPerson;
 
-	@Schema(description = "The log of comments.")
+	@Schema(description = "The log's comments.")
 	public String getCommentLog() {
 		return commentLog;
 	}
@@ -102,7 +104,7 @@ public class WorkflowLog {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String commentLog;
 
-	@Schema(description = "The creation date of the Organization.")
+	@Schema(description = "The log's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -130,7 +132,7 @@ public class WorkflowLog {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The log's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -156,7 +158,7 @@ public class WorkflowLog {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The person being assigned with the Workflow.")
+	@Schema(description = "The person assigned to the workflow.")
 	public Creator getPerson() {
 		return person;
 	}
@@ -184,9 +186,7 @@ public class WorkflowLog {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator person;
 
-	@Schema(
-		description = "The previous person being assigned with the Workflow."
-	)
+	@Schema(description = "The previous person assigned to the workflow.")
 	public Creator getPreviousPerson() {
 		return previousPerson;
 	}
@@ -214,7 +214,7 @@ public class WorkflowLog {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator previousPerson;
 
-	@Schema(description = "The previous state of the Workflow.")
+	@Schema(description = "The workflow's previous state.")
 	public String getPreviousState() {
 		return previousState;
 	}
@@ -242,7 +242,7 @@ public class WorkflowLog {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String previousState;
 
-	@Schema(description = "The current state of the Workflow.")
+	@Schema(description = "The workflow's current state.")
 	public String getState() {
 		return state;
 	}
@@ -270,7 +270,7 @@ public class WorkflowLog {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String state;
 
-	@Schema(description = "The task asociated with this WorkflowLog.")
+	@Schema(description = "The task asociated with this workflow log.")
 	public Long getTaskId() {
 		return taskId;
 	}
@@ -298,7 +298,7 @@ public class WorkflowLog {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long taskId;
 
-	@Schema(description = "The type of WorkflowLog.")
+	@Schema(description = "The workflow log's type.")
 	public String getType() {
 		return type;
 	}

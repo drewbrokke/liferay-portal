@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ContentStructure {
 
 	@Schema(
-		description = "A list of languages the structure has a translation for."
+		description = "The list of languages the structure has a translation for."
 	)
 	public String[] getAvailableLanguages() {
 		return availableLanguages;
@@ -76,9 +76,7 @@ public class ContentStructure {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] availableLanguages;
 
-	@Schema(
-		description = "A list of fields that belong to this ContentStructure."
-	)
+	@Schema(description = "The list of the content structure's fields.")
 	public ContentStructureField[] getContentStructureFields() {
 		return contentStructureFields;
 	}
@@ -109,7 +107,7 @@ public class ContentStructure {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected ContentStructureField[] contentStructureFields;
 
-	@Schema(description = "The creator of the ContentStructure")
+	@Schema(description = "The content structure's creator.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -137,7 +135,7 @@ public class ContentStructure {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the ContentStructure.")
+	@Schema(description = "The content structure's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -166,7 +164,7 @@ public class ContentStructure {
 	protected Date dateCreated;
 
 	@Schema(
-		description = "The last time a field of the ContentStructure changed."
+		description = "The last time a field of the content structure changed."
 	)
 	public Date getDateModified() {
 		return dateModified;
@@ -195,7 +193,7 @@ public class ContentStructure {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The description of the ContentStructure")
+	@Schema(description = "The content structure's description.")
 	public String getDescription() {
 		return description;
 	}
@@ -223,7 +221,7 @@ public class ContentStructure {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String description;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The content structure's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -249,7 +247,7 @@ public class ContentStructure {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The name of the ContentStructure.")
+	@Schema(description = "The content structure's name.")
 	public String getName() {
 		return name;
 	}
@@ -276,7 +274,7 @@ public class ContentStructure {
 	protected String name;
 
 	@Schema(
-		description = "The site identifier where this ContentStructure is scoped."
+		description = "The ID of the site to which the content structure is scoped."
 	)
 	public Long getSiteId() {
 		return siteId;

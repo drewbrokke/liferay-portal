@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "PostalAddress")
 public class PostalAddress {
 
-	@Schema(description = "The country. For example, USA.")
+	@Schema(description = "The address's country (e.g., USA).")
 	public String getAddressCountry() {
 		return addressCountry;
 	}
@@ -70,7 +70,7 @@ public class PostalAddress {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String addressCountry;
 
-	@Schema(description = "The locality. For example, Diamond Bar.")
+	@Schema(description = "The address's locality (e.g., city).")
 	public String getAddressLocality() {
 		return addressLocality;
 	}
@@ -98,7 +98,7 @@ public class PostalAddress {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String addressLocality;
 
-	@Schema(description = "The region. For example, CA.")
+	@Schema(description = "The address's region (e.g., state).")
 	public String getAddressRegion() {
 		return addressRegion;
 	}
@@ -126,7 +126,7 @@ public class PostalAddress {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String addressRegion;
 
-	@Schema(description = "The type of address.")
+	@Schema(description = "The address's type.")
 	public String getAddressType() {
 		return addressType;
 	}
@@ -154,7 +154,7 @@ public class PostalAddress {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String addressType;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The address's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -180,7 +180,7 @@ public class PostalAddress {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The postal code. For example, 94043.")
+	@Schema(description = "The address's postal code (e.g., zip code).")
 	public String getPostalCode() {
 		return postalCode;
 	}
@@ -209,7 +209,7 @@ public class PostalAddress {
 	protected String postalCode;
 
 	@Schema(
-		description = "A flag that identifies if the postal address is the main one of the UserAccount/Organization."
+		description = "A flag that identifies whether this is the main address of the user/organization."
 	)
 	public Boolean getPrimary() {
 		return primary;
@@ -239,7 +239,7 @@ public class PostalAddress {
 	protected Boolean primary;
 
 	@Schema(
-		description = "The first componente of a street address. For example, 1600 Amphitheatre Pkwy."
+		description = "The street address's first line (e.g., 1600 Amphitheatre Pkwy.)."
 	)
 	public String getStreetAddressLine1() {
 		return streetAddressLine1;
@@ -268,9 +268,7 @@ public class PostalAddress {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String streetAddressLine1;
 
-	@Schema(
-		description = "The second componente of a street address. For example, 4º B."
-	)
+	@Schema(description = "The street address's second line.")
 	public String getStreetAddressLine2() {
 		return streetAddressLine2;
 	}
@@ -298,7 +296,7 @@ public class PostalAddress {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String streetAddressLine2;
 
-	@Schema(description = "The third componente of a street address.")
+	@Schema(description = "The street address's third line.")
 	public String getStreetAddressLine3() {
 		return streetAddressLine3;
 	}

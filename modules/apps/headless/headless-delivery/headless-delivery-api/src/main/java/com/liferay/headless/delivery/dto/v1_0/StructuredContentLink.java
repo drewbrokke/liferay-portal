@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "StructuredContentLink")
 public class StructuredContentLink {
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The resource's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -68,7 +68,7 @@ public class StructuredContentLink {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
-	@Schema(description = "The title of the resouce.")
+	@Schema(description = "The resource's title.")
 	public String getTitle() {
 		return title;
 	}

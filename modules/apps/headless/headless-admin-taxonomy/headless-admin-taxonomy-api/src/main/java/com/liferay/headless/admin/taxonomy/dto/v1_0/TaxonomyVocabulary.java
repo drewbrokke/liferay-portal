@@ -85,7 +85,7 @@ public class TaxonomyVocabulary {
 	}
 
 	@Schema(
-		description = "A list of assets that can be asociated with this TaxonomyVocabulary."
+		description = "A list of asset types that can be associated with this vocabulary."
 	)
 	public AssetType[] getAssetTypes() {
 		return assetTypes;
@@ -115,7 +115,7 @@ public class TaxonomyVocabulary {
 	protected AssetType[] assetTypes;
 
 	@Schema(
-		description = "A list of languages the TaxonomyVocabulary has a translation for."
+		description = "A list of languages the vocabulary has a translation for."
 	)
 	public String[] getAvailableLanguages() {
 		return availableLanguages;
@@ -144,7 +144,7 @@ public class TaxonomyVocabulary {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] availableLanguages;
 
-	@Schema(description = "The creator of this TaxonomyVocabulary.")
+	@Schema(description = "The vocabulary's creator.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -172,7 +172,7 @@ public class TaxonomyVocabulary {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the TaxonomyVocabulary.")
+	@Schema(description = "The vocabulary's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -200,9 +200,7 @@ public class TaxonomyVocabulary {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(
-		description = "The last time a field of the TaxonomyVocabulary changed."
-	)
+	@Schema(description = "The vocabulary's most recent modification date.")
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -230,9 +228,7 @@ public class TaxonomyVocabulary {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(
-		description = "A text description describing the TaxonomyVocabulary."
-	)
+	@Schema(description = "The vocabulary's text description.")
 	public String getDescription() {
 		return description;
 	}
@@ -260,7 +256,7 @@ public class TaxonomyVocabulary {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The vocabulary's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -286,7 +282,7 @@ public class TaxonomyVocabulary {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The name of the TaxonomyVocabulary.")
+	@Schema(description = "The vocabulary's name.")
 	public String getName() {
 		return name;
 	}
@@ -314,7 +310,7 @@ public class TaxonomyVocabulary {
 	protected String name;
 
 	@Schema(
-		description = "The number of TaxonomyCategories that directly depend on this resource."
+		description = "The number of categories that directly depend on this vocabulary."
 	)
 	public Integer getNumberOfTaxonomyCategories() {
 		return numberOfTaxonomyCategories;
@@ -348,7 +344,7 @@ public class TaxonomyVocabulary {
 	protected Integer numberOfTaxonomyCategories;
 
 	@Schema(
-		description = "The site identifier where this TaxonomyVocabulary is scoped."
+		description = "The ID of the site to which this vocabulary is scoped."
 	)
 	public Long getSiteId() {
 		return siteId;
@@ -378,7 +374,7 @@ public class TaxonomyVocabulary {
 	protected Long siteId;
 
 	@Schema(
-		description = "Write only property to specify the default permissions."
+		description = "A write-only property that specifies the vocabulary's default permissions."
 	)
 	public ViewableBy getViewableBy() {
 		return viewableBy;

@@ -84,9 +84,7 @@ public class BlogPosting {
 
 	}
 
-	@Schema(
-		description = "The information of the ratings (average, number) associated with this resource."
-	)
+	@Schema(description = "The blog post's average rating.")
 	public AggregateRating getAggregateRating() {
 		return aggregateRating;
 	}
@@ -115,7 +113,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected AggregateRating aggregateRating;
 
-	@Schema(description = "The subtitle of this BlogPosting.")
+	@Schema(description = "The blog post's subtitle.")
 	public String getAlternativeHeadline() {
 		return alternativeHeadline;
 	}
@@ -143,7 +141,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String alternativeHeadline;
 
-	@Schema(description = "The article content of this BlogPosting.")
+	@Schema(description = "The blog post's body (content).")
 	public String getArticleBody() {
 		return articleBody;
 	}
@@ -172,7 +170,7 @@ public class BlogPosting {
 	@NotEmpty
 	protected String articleBody;
 
-	@Schema(description = "The creator of the BlogPosting")
+	@Schema(description = "The blog post's author.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -200,7 +198,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the BlogPosting.")
+	@Schema(description = "The blog post's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -228,7 +226,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The last time a field of the BlogPosting changed.")
+	@Schema(description = "The blog post's most recent modification date.")
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -256,7 +254,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The date when the BlogPosting was published.")
+	@Schema(description = "The blog post's publication date.")
 	public Date getDatePublished() {
 		return datePublished;
 	}
@@ -284,7 +282,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date datePublished;
 
-	@Schema(description = "A description explaining this BlogPosting.")
+	@Schema(description = "The blog post's description.")
 	public String getDescription() {
 		return description;
 	}
@@ -312,7 +310,9 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
-	@Schema(description = "The media format of the content (html, bbcode...).")
+	@Schema(
+		description = "The blog post's media format (e.g., HTML, BBCode, etc.)."
+	)
 	public String getEncodingFormat() {
 		return encodingFormat;
 	}
@@ -340,9 +340,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String encodingFormat;
 
-	@Schema(
-		description = "A relative URL where this content will be accesible."
-	)
+	@Schema(description = "The blog post's relative URL.")
 	public String getFriendlyUrlPath() {
 		return friendlyUrlPath;
 	}
@@ -370,7 +368,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String friendlyUrlPath;
 
-	@Schema(description = "The main title of this BlogPosting.")
+	@Schema(description = "The blog post's main title.")
 	public String getHeadline() {
 		return headline;
 	}
@@ -399,7 +397,7 @@ public class BlogPosting {
 	@NotEmpty
 	protected String headline;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The blog post's identifier.")
 	public Long getId() {
 		return id;
 	}
@@ -425,7 +423,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The cover image of the BlogPosting.")
+	@Schema(description = "The blog post's cover image.")
 	public Image getImage() {
 		return image;
 	}
@@ -451,7 +449,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Image image;
 
-	@Schema(description = "A list of keywords describing the BlogPosting.")
+	@Schema(description = "A list of keywords describing the blog post.")
 	public String[] getKeywords() {
 		return keywords;
 	}
@@ -479,9 +477,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] keywords;
 
-	@Schema(
-		description = "The number of comments this BlogPosting has received."
-	)
+	@Schema(description = "The number of comments this blog post has received.")
 	public Integer getNumberOfComments() {
 		return numberOfComments;
 	}
@@ -510,7 +506,7 @@ public class BlogPosting {
 	protected Integer numberOfComments;
 
 	@Schema(
-		description = "The site identifier where this BlogPosting is scoped."
+		description = "The ID of the site to which this blog post is scoped."
 	)
 	public Long getSiteId() {
 		return siteId;
@@ -539,7 +535,7 @@ public class BlogPosting {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long siteId;
 
-	@Schema(description = "The categories asociated with this BlogPosting.")
+	@Schema(description = "The categories associated with this blog post.")
 	public TaxonomyCategory[] getTaxonomyCategories() {
 		return taxonomyCategories;
 	}
@@ -569,7 +565,7 @@ public class BlogPosting {
 	protected TaxonomyCategory[] taxonomyCategories;
 
 	@Schema(
-		description = "A write only field to add TaxonomyCategory to this resource."
+		description = "A write-only field that adds a `TaxonomyCategory` to this resource."
 	)
 	public Long[] getTaxonomyCategoryIds() {
 		return taxonomyCategoryIds;
@@ -599,7 +595,7 @@ public class BlogPosting {
 	protected Long[] taxonomyCategoryIds;
 
 	@Schema(
-		description = "Write only property to specify the default permissions."
+		description = "A write-only property that specifies the default permissions."
 	)
 	public ViewableBy getViewableBy() {
 		return viewableBy;

@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ParentKnowledgeBaseFolder")
 public class ParentKnowledgeBaseFolder {
 
-	@Schema(description = "The identifier of the folder.")
+	@Schema(description = "The parent folder's ID.")
 	public Long getFolderId() {
 		return folderId;
 	}
@@ -70,7 +70,7 @@ public class ParentKnowledgeBaseFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long folderId;
 
-	@Schema(description = "The name of the folder.")
+	@Schema(description = "The parent folder's name.")
 	public String getFolderName() {
 		return folderName;
 	}

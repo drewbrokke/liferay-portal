@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Service {
 
 	@Schema(
-		description = "A list of hours when the organization is open. Follows https://www.schema.org/OpeningHoursSpecification specification."
+		description = "A list of hours when the organization is open. This follows the [`OpeningHoursSpecification`](https://www.schema.org/OpeningHoursSpecification) specification."
 	)
 	public HoursAvailable[] getHoursAvailable() {
 		return hoursAvailable;
@@ -73,7 +73,7 @@ public class Service {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected HoursAvailable[] hoursAvailable;
 
-	@Schema(description = "The type of the service provided.")
+	@Schema(description = "The type of service the organization provides.")
 	public String getServiceType() {
 		return serviceType;
 	}

@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "AssetType")
 public class AssetType {
 
-	@Schema(description = "Flag that marks if this type is required.")
+	@Schema(description = "A flag that marks if this type is required.")
 	public Boolean getRequired() {
 		return required;
 	}
@@ -70,7 +70,7 @@ public class AssetType {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean required;
 
-	@Schema(description = "Subtype of the asset.")
+	@Schema(description = "The asset's subtype.")
 	public String getSubtype() {
 		return subtype;
 	}
@@ -99,7 +99,7 @@ public class AssetType {
 	protected String subtype;
 
 	@Schema(
-		description = "Represents the type of the asset (BlogPosting, Document...)."
+		description = "The asset's type (e.g., `BlogPosting`, `Document`, etc.)."
 	)
 	public String getType() {
 		return type;

@@ -42,9 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "OrganizationBrief")
 public class OrganizationBrief {
 
-	@Schema(
-		description = "The identifier of the resource. Can be used to query the Organization APIs."
-	)
+	@Schema(description = "The organization's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -70,7 +68,7 @@ public class OrganizationBrief {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The name of the Organization.")
+	@Schema(description = "The organization's name.")
 	public String getName() {
 		return name;
 	}

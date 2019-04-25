@@ -85,7 +85,7 @@ public class TaxonomyCategory {
 	}
 
 	@Schema(
-		description = "A list of languages the TaxonomyCategory has a translation for."
+		description = "A list of languages the category has a translation for."
 	)
 	public String[] getAvailableLanguages() {
 		return availableLanguages;
@@ -114,7 +114,7 @@ public class TaxonomyCategory {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] availableLanguages;
 
-	@Schema(description = "The creator of this TaxonomyCategory.")
+	@Schema(description = "The category's creator.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -142,7 +142,7 @@ public class TaxonomyCategory {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the TaxonomyCategory.")
+	@Schema(description = "The category's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -170,9 +170,7 @@ public class TaxonomyCategory {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(
-		description = "The last time a field of the TaxonomyCategory changed."
-	)
+	@Schema(description = "The category's most recent modification date.")
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -200,7 +198,7 @@ public class TaxonomyCategory {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "A text description describing the TaxonomyCategory.")
+	@Schema(description = "The category's text description.")
 	public String getDescription() {
 		return description;
 	}
@@ -228,7 +226,7 @@ public class TaxonomyCategory {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The category's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -254,7 +252,7 @@ public class TaxonomyCategory {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The name of the TaxonomyCategory.")
+	@Schema(description = "The category's name.")
 	public String getName() {
 		return name;
 	}
@@ -282,7 +280,7 @@ public class TaxonomyCategory {
 	protected String name;
 
 	@Schema(
-		description = "The number of child TaxonomyCategories associated with this TaxonomyCategory."
+		description = "The number of times this category has been used in other assets."
 	)
 	public Integer getNumberOfTaxonomyCategories() {
 		return numberOfTaxonomyCategories;
@@ -315,9 +313,7 @@ public class TaxonomyCategory {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfTaxonomyCategories;
 
-	@Schema(
-		description = "In the hierarchical structure of categories, the parent TaxonomyCategory, if exists."
-	)
+	@Schema(description = "The category's parent category, if it exists.")
 	public ParentTaxonomyCategory getParentTaxonomyCategory() {
 		return parentTaxonomyCategory;
 	}
@@ -349,7 +345,7 @@ public class TaxonomyCategory {
 	protected ParentTaxonomyCategory parentTaxonomyCategory;
 
 	@Schema(
-		description = "In the hierarchical structure of categories, the parent TaxonomyVocabulary."
+		description = "The parent category's `TaxonomyVocabulary`, if such a parent category exists."
 	)
 	public ParentTaxonomyVocabulary getParentTaxonomyVocabulary() {
 		return parentTaxonomyVocabulary;
@@ -383,7 +379,7 @@ public class TaxonomyCategory {
 	protected ParentTaxonomyVocabulary parentTaxonomyVocabulary;
 
 	@Schema(
-		description = "Write only property to specify the default permissions."
+		description = "A write-only property that specifies the category's default permissions."
 	)
 	public ViewableBy getViewableBy() {
 		return viewableBy;

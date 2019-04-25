@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Rating {
 
 	@Schema(
-		description = "The best possible rating a content can receive, by default normalized to 1.0."
+		description = "The best possible rating an asset can receive (normalized to 1.0 by default)."
 	)
 	public Double getBestRating() {
 		return bestRating;
@@ -76,7 +76,7 @@ public class Rating {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Double bestRating;
 
-	@Schema(description = "The creator of the Rating")
+	@Schema(description = "The rating's creator.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -104,7 +104,7 @@ public class Rating {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the Rating.")
+	@Schema(description = "The rating's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -132,7 +132,7 @@ public class Rating {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The last time a field of the Rating changed.")
+	@Schema(description = "The last time a field of the rating changed.")
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -160,7 +160,7 @@ public class Rating {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The rating's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -186,7 +186,7 @@ public class Rating {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The value of the Rating.")
+	@Schema(description = "The rating's value.")
 	public Double getRatingValue() {
 		return ratingValue;
 	}
@@ -215,7 +215,7 @@ public class Rating {
 	protected Double ratingValue;
 
 	@Schema(
-		description = "The worst possible rating a content can receive, by default normalized to 0.0."
+		description = "The worst possible rating an asset can receive (normalized to 0.0 by default)."
 	)
 	public Double getWorstRating() {
 		return worstRating;

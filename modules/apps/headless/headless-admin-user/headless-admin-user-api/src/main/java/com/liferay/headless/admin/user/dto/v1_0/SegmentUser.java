@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "SegmentUser")
 public class SegmentUser {
 
-	@Schema(description = "The email address of the segment user")
+	@Schema(description = "The user's email address.")
 	public String getEmailAddress() {
 		return emailAddress;
 	}
@@ -70,7 +70,7 @@ public class SegmentUser {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String emailAddress;
 
-	@Schema(description = "The internal ID of the segment user")
+	@Schema(description = "The user's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -96,7 +96,7 @@ public class SegmentUser {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The full name of the segment user")
+	@Schema(description = "The user's full name.")
 	public String getName() {
 		return name;
 	}

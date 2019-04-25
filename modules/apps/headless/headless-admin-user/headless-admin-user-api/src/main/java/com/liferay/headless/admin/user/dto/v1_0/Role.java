@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Role {
 
 	@Schema(
-		description = "A list of languages the content has a translation for."
+		description = "A list of languages for which the role has a translation."
 	)
 	public String[] getAvailableLanguages() {
 		return availableLanguages;
@@ -76,7 +76,7 @@ public class Role {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] availableLanguages;
 
-	@Schema(description = "The creator of the Role")
+	@Schema(description = "The role's creator.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -104,7 +104,7 @@ public class Role {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the Role.")
+	@Schema(description = "The role's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -132,7 +132,9 @@ public class Role {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The last time a field of the Role changed.")
+	@Schema(
+		description = "The last time any of the role's fields were changed."
+	)
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -160,7 +162,7 @@ public class Role {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The description of the Role")
+	@Schema(description = "The role's description.")
 	public String getDescription() {
 		return description;
 	}
@@ -188,7 +190,7 @@ public class Role {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String description;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The role's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -214,7 +216,7 @@ public class Role {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The name of the Role.")
+	@Schema(description = "The role's name.")
 	public String getName() {
 		return name;
 	}
@@ -240,7 +242,7 @@ public class Role {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String name;
 
-	@Schema(description = "The type of the Role.")
+	@Schema(description = "The role's type.")
 	public String getRoleType() {
 		return roleType;
 	}

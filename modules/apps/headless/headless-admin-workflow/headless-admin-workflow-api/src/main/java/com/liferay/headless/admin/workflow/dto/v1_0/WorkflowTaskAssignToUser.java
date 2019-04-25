@@ -46,9 +46,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "WorkflowTaskAssignToUser")
 public class WorkflowTaskAssignToUser {
 
-	@Schema(
-		description = "The UserAccount identifier of the user being asigned the WorkflowTask."
-	)
+	@Schema(description = "The ID of the user to assign the workflow task.")
 	public Long getAssigneeId() {
 		return assigneeId;
 	}
@@ -77,7 +75,7 @@ public class WorkflowTaskAssignToUser {
 	protected Long assigneeId;
 
 	@Schema(
-		description = "An optional comment to be added while assigning the WorkflowTask."
+		description = "An optional comment to add when assigning the workflow task."
 	)
 	public String getComment() {
 		return comment;
@@ -106,7 +104,9 @@ public class WorkflowTaskAssignToUser {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String comment;
 
-	@Schema(description = "A date where the WorkflowTask should be executed.")
+	@Schema(
+		description = "The date on which the workflow task should be executed."
+	)
 	public Date getDueDate() {
 		return dueDate;
 	}

@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "RenderedContent")
 public class RenderedContent {
 
-	@Schema(description = "An absolute URL to the binary image.")
+	@Schema(description = "An absolute URL to the rendered content.")
 	public String getRenderedContentURL() {
 		return renderedContentURL;
 	}

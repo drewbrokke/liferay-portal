@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class WorkflowTaskAssignToMe {
 
 	@Schema(
-		description = "An optional comment to be added while accepting the WorkflowTask."
+		description = "An optional comment to add when accepting the workflow task."
 	)
 	public String getComment() {
 		return comment;
@@ -76,7 +76,9 @@ public class WorkflowTaskAssignToMe {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String comment;
 
-	@Schema(description = "A date where the WorkflowTask should be executed.")
+	@Schema(
+		description = "The date on which the workflow task should be executed."
+	)
 	public Date getDueDate() {
 		return dueDate;
 	}

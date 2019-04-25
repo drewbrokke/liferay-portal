@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Option")
 public class Option {
 
-	@Schema(description = "The label of the Option.")
+	@Schema(description = "The option's label.")
 	public String getLabel() {
 		return label;
 	}
@@ -70,7 +70,7 @@ public class Option {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String label;
 
-	@Schema(description = "The internal value of the Option.")
+	@Schema(description = "The internal value of the field option.")
 	public String getValue() {
 		return value;
 	}

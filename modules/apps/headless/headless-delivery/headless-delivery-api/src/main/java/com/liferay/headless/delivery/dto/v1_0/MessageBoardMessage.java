@@ -81,9 +81,7 @@ public class MessageBoardMessage {
 
 	}
 
-	@Schema(
-		description = "The information of the ratings (average, number) associated with this resource."
-	)
+	@Schema(description = "The message's average rating.")
 	public AggregateRating getAggregateRating() {
 		return aggregateRating;
 	}
@@ -113,7 +111,7 @@ public class MessageBoardMessage {
 	protected AggregateRating aggregateRating;
 
 	@Schema(
-		description = "A flag to indicate that this message is not going to return the creator information."
+		description = "A flag that indicates whether the message's author is anonymous."
 	)
 	public Boolean getAnonymous() {
 		return anonymous;
@@ -142,7 +140,7 @@ public class MessageBoardMessage {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean anonymous;
 
-	@Schema(description = "The main content of the MessageBoardMessage.")
+	@Schema(description = "The message's main content.")
 	public String getArticleBody() {
 		return articleBody;
 	}
@@ -170,7 +168,7 @@ public class MessageBoardMessage {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String articleBody;
 
-	@Schema(description = "The creator of the MessageBoardMessage")
+	@Schema(description = "The message's author.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -198,7 +196,7 @@ public class MessageBoardMessage {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the MessageBoardMessage.")
+	@Schema(description = "The date the message was created.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -227,7 +225,7 @@ public class MessageBoardMessage {
 	protected Date dateCreated;
 
 	@Schema(
-		description = "The last time a field of the MessageBoardMessage changed."
+		description = "The last time the content or metadata of the message was changed."
 	)
 	public Date getDateModified() {
 		return dateModified;
@@ -256,7 +254,9 @@ public class MessageBoardMessage {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The media format of the content (html, bbcode...).")
+	@Schema(
+		description = "The message's media format (e.g., HTML, BBCode, etc.)."
+	)
 	public String getEncodingFormat() {
 		return encodingFormat;
 	}
@@ -284,7 +284,7 @@ public class MessageBoardMessage {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String encodingFormat;
 
-	@Schema(description = "The main title of the MessageBoardMessage.")
+	@Schema(description = "The message's main title.")
 	public String getHeadline() {
 		return headline;
 	}
@@ -312,7 +312,7 @@ public class MessageBoardMessage {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String headline;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The message's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -338,9 +338,7 @@ public class MessageBoardMessage {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(
-		description = "A list of keywords describing the MessageBoardMessage."
-	)
+	@Schema(description = "A list of keywords describing the message.")
 	public String[] getKeywords() {
 		return keywords;
 	}
@@ -368,9 +366,7 @@ public class MessageBoardMessage {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] keywords;
 
-	@Schema(
-		description = "The number of attachments associated with this resource."
-	)
+	@Schema(description = "The number of the message's attachments.")
 	public Integer getNumberOfMessageBoardAttachments() {
 		return numberOfMessageBoardAttachments;
 	}
@@ -402,9 +398,7 @@ public class MessageBoardMessage {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfMessageBoardAttachments;
 
-	@Schema(
-		description = "The number of child MessageBoardMessages that are associated with this resource."
-	)
+	@Schema(description = "The number of the message's child messages.")
 	public Integer getNumberOfMessageBoardMessages() {
 		return numberOfMessageBoardMessages;
 	}
@@ -437,7 +431,7 @@ public class MessageBoardMessage {
 	protected Integer numberOfMessageBoardMessages;
 
 	@Schema(
-		description = "A flag to indicate if this MessageBoardMessage is marked as an answer."
+		description = "A flag that indicates whether the message is answering a question."
 	)
 	public Boolean getShowAsAnswer() {
 		return showAsAnswer;
@@ -466,9 +460,7 @@ public class MessageBoardMessage {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean showAsAnswer;
 
-	@Schema(
-		description = "The site identifier where this MessageBoardMessage is scoped."
-	)
+	@Schema(description = "The ID of the site to which this message is scoped.")
 	public Long getSiteId() {
 		return siteId;
 	}
@@ -497,7 +489,7 @@ public class MessageBoardMessage {
 	protected Long siteId;
 
 	@Schema(
-		description = "Write only property to specify the default permissions."
+		description = "A write-only property that specifies the default permissions."
 	)
 	public ViewableBy getViewableBy() {
 		return viewableBy;

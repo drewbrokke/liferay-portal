@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Keyword")
 public class Keyword {
 
-	@Schema(description = "The creator of this Keyword.")
+	@Schema(description = "The keyword's creator.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -77,7 +77,7 @@ public class Keyword {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the Keyword.")
+	@Schema(description = "The keyword's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -105,7 +105,7 @@ public class Keyword {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The last time a field of the Keyword changed.")
+	@Schema(description = "The keyword's most recent modification date.")
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -133,7 +133,7 @@ public class Keyword {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The keyword's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -160,7 +160,7 @@ public class Keyword {
 	protected Long id;
 
 	@Schema(
-		description = "The number of times this Keyword has been used in other Assets."
+		description = "The number of times this keyword has been used with other assets."
 	)
 	public Integer getKeywordUsageCount() {
 		return keywordUsageCount;
@@ -189,7 +189,7 @@ public class Keyword {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer keywordUsageCount;
 
-	@Schema(description = "The name of the Keyword.")
+	@Schema(description = "The keyword's name.")
 	public String getName() {
 		return name;
 	}
@@ -216,7 +216,7 @@ public class Keyword {
 	@NotEmpty
 	protected String name;
 
-	@Schema(description = "The site identifier where this Keyword is scoped.")
+	@Schema(description = "The ID of the site to which this keyword is scoped.")
 	public Long getSiteId() {
 		return siteId;
 	}

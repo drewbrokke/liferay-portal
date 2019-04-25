@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Organization {
 
 	@Schema(
-		description = "The text of a comment associated with the Organization."
+		description = "The text of a comment associated with the organization."
 	)
 	public String getComment() {
 		return comment;
@@ -77,7 +77,7 @@ public class Organization {
 	protected String comment;
 
 	@Schema(
-		description = "The contact information for an Organization, with the list of email addresses, postal addresses, telephones and web urls linked to that Organization."
+		description = "The organization's contact information, which includes email addresses, postal addresses, phone numbers, and web URLs. This is modeled internally as a `Contact`."
 	)
 	public ContactInformation getContactInformation() {
 		return contactInformation;
@@ -107,7 +107,7 @@ public class Organization {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected ContactInformation contactInformation;
 
-	@Schema(description = "The creation date of the Organization.")
+	@Schema(description = "The organization's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -135,7 +135,9 @@ public class Organization {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The last time a field of the Organization changed.")
+	@Schema(
+		description = "The most recent time any of the organization's fields changed."
+	)
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -163,7 +165,7 @@ public class Organization {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The organization's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -189,9 +191,7 @@ public class Organization {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(
-		description = "A relative URL to the image associated with the Organization."
-	)
+	@Schema(description = "A relative URL to the organization's image.")
 	public String getImage() {
 		return image;
 	}
@@ -219,7 +219,7 @@ public class Organization {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String image;
 
-	@Schema(description = "A list of keywords describing the Organization.")
+	@Schema(description = "A list of keywords describing the organization.")
 	public String[] getKeywords() {
 		return keywords;
 	}
@@ -248,7 +248,7 @@ public class Organization {
 	protected String[] keywords;
 
 	@Schema(
-		description = "Postal information (country and region) where the Organization is located."
+		description = "The organization's postal information (country and region)."
 	)
 	public Location getLocation() {
 		return location;
@@ -277,7 +277,7 @@ public class Organization {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Location location;
 
-	@Schema(description = "The name of the Organization.")
+	@Schema(description = "The organization's name.")
 	public String getName() {
 		return name;
 	}
@@ -304,7 +304,7 @@ public class Organization {
 	protected String name;
 
 	@Schema(
-		description = "The number of child Organizations that belong to this Organization."
+		description = "The number of this organization's child organizations."
 	)
 	public Integer getNumberOfOrganizations() {
 		return numberOfOrganizations;
@@ -334,7 +334,7 @@ public class Organization {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfOrganizations;
 
-	@Schema(description = "The parent Organization of this resource, if any.")
+	@Schema(description = "The organization's parent organization.")
 	public Organization getParentOrganization() {
 		return parentOrganization;
 	}
@@ -364,7 +364,7 @@ public class Organization {
 	protected Organization parentOrganization;
 
 	@Schema(
-		description = "A list of services provided by an Organization. Follows https://www.schema.org/Service specification."
+		description = "A list of services the organization provides. This follows the [`Service`](https://www.schema.org/Service) specification."
 	)
 	public Service[] getServices() {
 		return services;

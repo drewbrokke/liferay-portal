@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ObjectReviewed")
 public class ObjectReviewed {
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The resource's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -68,7 +68,7 @@ public class ObjectReviewed {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The type of the resource.")
+	@Schema(description = "The resource's type.")
 	public String getResourceType() {
 		return resourceType;
 	}

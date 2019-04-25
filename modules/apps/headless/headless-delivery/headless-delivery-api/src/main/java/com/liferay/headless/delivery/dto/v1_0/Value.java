@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Value")
 public class Value {
 
-	@Schema(description = "The content of this field for simple types.")
+	@Schema(description = "The field's content for simple types.")
 	public String getData() {
 		return data;
 	}
@@ -68,7 +68,7 @@ public class Value {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String data;
 
-	@Schema(description = "A ContentDocument element.")
+	@Schema(description = "A content document element.")
 	public ContentDocument getDocument() {
 		return document;
 	}
@@ -122,7 +122,9 @@ public class Value {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Geo geo;
 
-	@Schema(description = "A ContentDocument element storing an image file.")
+	@Schema(
+		description = "A content document element that stores an image file."
+	)
 	public ContentDocument getImage() {
 		return image;
 	}
@@ -150,7 +152,7 @@ public class Value {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ContentDocument image;
 
-	@Schema(description = "A link to a page inside the server.")
+	@Schema(description = "A link to a page on the server.")
 	public String getLink() {
 		return link;
 	}
@@ -176,7 +178,7 @@ public class Value {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String link;
 
-	@Schema(description = "A link to a StructuredContent stored in the server.")
+	@Schema(description = "A link to structured content on the server.")
 	public StructuredContentLink getStructuredContentLink() {
 		return structuredContentLink;
 	}

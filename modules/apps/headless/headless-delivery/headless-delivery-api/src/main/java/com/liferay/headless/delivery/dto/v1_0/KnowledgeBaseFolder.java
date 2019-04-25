@@ -84,7 +84,7 @@ public class KnowledgeBaseFolder {
 
 	}
 
-	@Schema(description = "The creator of the KnowledgeBaseFolder.")
+	@Schema(description = "The folder's creator.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -112,7 +112,7 @@ public class KnowledgeBaseFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the KnowledgeBaseFolder.")
+	@Schema(description = "The date the folder was created.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -140,9 +140,7 @@ public class KnowledgeBaseFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(
-		description = "The last time a field of the KnowledgeBaseFolder changed."
-	)
+	@Schema(description = "The last time the folder was modified.")
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -170,7 +168,7 @@ public class KnowledgeBaseFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The description of the KnowledgeBaseFolder.")
+	@Schema(description = "The folder's description.")
 	public String getDescription() {
 		return description;
 	}
@@ -198,7 +196,7 @@ public class KnowledgeBaseFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The folder's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -224,7 +222,7 @@ public class KnowledgeBaseFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The name of the KnowledgeBaseFolder.")
+	@Schema(description = "The folder's main title/name.")
 	public String getName() {
 		return name;
 	}
@@ -252,7 +250,7 @@ public class KnowledgeBaseFolder {
 	protected String name;
 
 	@Schema(
-		description = "The number of KnowledgeBaseArticles stored in this KnowledgeBaseFolder."
+		description = "The number of Knowledge Base articles in this folder."
 	)
 	public Integer getNumberOfKnowledgeBaseArticles() {
 		return numberOfKnowledgeBaseArticles;
@@ -286,7 +284,7 @@ public class KnowledgeBaseFolder {
 	protected Integer numberOfKnowledgeBaseArticles;
 
 	@Schema(
-		description = "The number of child KnowledgeBaseFolders associated with this resource."
+		description = "The number of Knowledge Base folders in this folder."
 	)
 	public Integer getNumberOfKnowledgeBaseFolders() {
 		return numberOfKnowledgeBaseFolders;
@@ -320,7 +318,7 @@ public class KnowledgeBaseFolder {
 	protected Integer numberOfKnowledgeBaseFolders;
 
 	@Schema(
-		description = "The parent KnowledgeBaseFolder of this article, if any."
+		description = "The folder's parent Knowledge Base folder, if it exists."
 	)
 	public ParentKnowledgeBaseFolder getParentKnowledgeBaseFolder() {
 		return parentKnowledgeBaseFolder;
@@ -354,7 +352,7 @@ public class KnowledgeBaseFolder {
 	protected ParentKnowledgeBaseFolder parentKnowledgeBaseFolder;
 
 	@Schema(
-		description = "The parent KnowledgeBaseFolder identifier of this article, if any."
+		description = "The ID of the folder's parent Knowledge Base folder, if such a parent folder exists."
 	)
 	public Long getParentKnowledgeBaseFolderId() {
 		return parentKnowledgeBaseFolderId;
@@ -387,9 +385,7 @@ public class KnowledgeBaseFolder {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Long parentKnowledgeBaseFolderId;
 
-	@Schema(
-		description = "The site identifier where this KnowledgeBaseFolder is scoped."
-	)
+	@Schema(description = "The ID of the site to which this folder is scoped.")
 	public Long getSiteId() {
 		return siteId;
 	}
@@ -418,7 +414,7 @@ public class KnowledgeBaseFolder {
 	protected Long siteId;
 
 	@Schema(
-		description = "Write only property to specify the default permissions."
+		description = "A write-only property that specifies the folder's default permissions."
 	)
 	public ViewableBy getViewableBy() {
 		return viewableBy;

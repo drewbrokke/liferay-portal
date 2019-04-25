@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Creator")
 public class Creator {
 
-	@Schema(description = "An additional name, can be used for a middle name.")
+	@Schema(description = "The author's additional name (e.g., middle name).")
 	public String getAdditionalName() {
 		return additionalName;
 	}
@@ -70,7 +70,7 @@ public class Creator {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String additionalName;
 
-	@Schema(description = "In the US, the surname of the UserAccount.")
+	@Schema(description = "The author's surname.")
 	public String getFamilyName() {
 		return familyName;
 	}
@@ -98,7 +98,7 @@ public class Creator {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String familyName;
 
-	@Schema(description = "In the US, the first name of the UserAccount.")
+	@Schema(description = "The author's first name.")
 	public String getGivenName() {
 		return givenName;
 	}
@@ -126,7 +126,7 @@ public class Creator {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String givenName;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The author's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -152,9 +152,7 @@ public class Creator {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(
-		description = "A relative URL to the image profile of the UserAccount."
-	)
+	@Schema(description = "A relative URL to the author's profile image.")
 	public String getImage() {
 		return image;
 	}
@@ -182,7 +180,7 @@ public class Creator {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String image;
 
-	@Schema(description = "The full name of the UserAccount.")
+	@Schema(description = "The author's full name.")
 	public String getName() {
 		return name;
 	}
@@ -208,7 +206,7 @@ public class Creator {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String name;
 
-	@Schema(description = "A relative URL to the profile of the UserAccount.")
+	@Schema(description = "A relative URL to the author's user profile.")
 	public String getProfileURL() {
 		return profileURL;
 	}

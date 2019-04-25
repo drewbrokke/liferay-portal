@@ -84,7 +84,7 @@ public class StructuredContentFolder {
 
 	}
 
-	@Schema(description = "The creator of the StructuredContentFolder")
+	@Schema(description = "The folder's creator.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -112,7 +112,7 @@ public class StructuredContentFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the StructuredContentFolder.")
+	@Schema(description = "The date the folder was created.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -140,9 +140,7 @@ public class StructuredContentFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(
-		description = "The last time a field of the StructuredContentFolder changed."
-	)
+	@Schema(description = "The last time any of the folder's fields changed.")
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -170,7 +168,7 @@ public class StructuredContentFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The description of the StructuredContentFolder")
+	@Schema(description = "The folder's description.")
 	public String getDescription() {
 		return description;
 	}
@@ -198,7 +196,7 @@ public class StructuredContentFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The folder's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -224,7 +222,7 @@ public class StructuredContentFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The name of the StructuredContentFolder.")
+	@Schema(description = "The folder's name.")
 	public String getName() {
 		return name;
 	}
@@ -252,7 +250,7 @@ public class StructuredContentFolder {
 	protected String name;
 
 	@Schema(
-		description = "The number of child StructuredContentFolders that belong to this resource."
+		description = "The number of structured content folders inside this folder."
 	)
 	public Integer getNumberOfStructuredContentFolders() {
 		return numberOfStructuredContentFolders;
@@ -287,7 +285,7 @@ public class StructuredContentFolder {
 	protected Integer numberOfStructuredContentFolders;
 
 	@Schema(
-		description = "The number of StructuredContents that are stored in this StructuredContentFolder."
+		description = "The number of structured content objects inside this folder."
 	)
 	public Integer getNumberOfStructuredContents() {
 		return numberOfStructuredContents;
@@ -320,9 +318,7 @@ public class StructuredContentFolder {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfStructuredContents;
 
-	@Schema(
-		description = "The site identifier where this StructuredContentFolder is scoped."
-	)
+	@Schema(description = "The ID of the site to which this folder is scoped.")
 	public Long getSiteId() {
 		return siteId;
 	}
@@ -351,7 +347,7 @@ public class StructuredContentFolder {
 	protected Long siteId;
 
 	@Schema(
-		description = "Write only property to specify the default permissions."
+		description = "A write-only property that specifies the folder's default permissions."
 	)
 	public ViewableBy getViewableBy() {
 		return viewableBy;

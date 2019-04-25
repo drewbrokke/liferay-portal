@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "SiteBrief")
 public class SiteBrief {
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The site's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -68,7 +68,7 @@ public class SiteBrief {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The name of the Site.")
+	@Schema(description = "The site's name.")
 	public String getName() {
 		return name;
 	}

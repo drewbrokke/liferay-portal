@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "KnowledgeBaseAttachment")
 public class KnowledgeBaseAttachment {
 
-	@Schema(description = "A relative URL to the binary file.")
+	@Schema(description = "The file's relative URL.")
 	public String getContentUrl() {
 		return contentUrl;
 	}
@@ -71,7 +71,7 @@ public class KnowledgeBaseAttachment {
 	protected String contentUrl;
 
 	@Schema(
-		description = "The media type (application/pdf...) of the binary file."
+		description = "The file's media type (e.g., application/pdf, etc.)."
 	)
 	public String getEncodingFormat() {
 		return encodingFormat;
@@ -100,7 +100,7 @@ public class KnowledgeBaseAttachment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String encodingFormat;
 
-	@Schema(description = "The file extension.")
+	@Schema(description = "The file's extension.")
 	public String getFileExtension() {
 		return fileExtension;
 	}
@@ -128,7 +128,7 @@ public class KnowledgeBaseAttachment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String fileExtension;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The file's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -154,7 +154,7 @@ public class KnowledgeBaseAttachment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The size in bytes of the binary file.")
+	@Schema(description = "The file's size in bytes.")
 	public Long getSizeInBytes() {
 		return sizeInBytes;
 	}
@@ -182,7 +182,7 @@ public class KnowledgeBaseAttachment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long sizeInBytes;
 
-	@Schema(description = "The main title of the binary file.")
+	@Schema(description = "The file's main title.")
 	public String getTitle() {
 		return title;
 	}

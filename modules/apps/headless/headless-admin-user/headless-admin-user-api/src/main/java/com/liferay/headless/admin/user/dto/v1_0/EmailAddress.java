@@ -70,7 +70,7 @@ public class EmailAddress {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String emailAddress;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The email address's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -97,7 +97,7 @@ public class EmailAddress {
 	protected Long id;
 
 	@Schema(
-		description = "A flag that identifies if the email address is the main one of the UserAccount/Organization."
+		description = "A flag that indicates whether this is the main email address of the user/organization."
 	)
 	public Boolean getPrimary() {
 		return primary;
@@ -126,7 +126,7 @@ public class EmailAddress {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean primary;
 
-	@Schema(description = "The type of the email address.")
+	@Schema(description = "The email address's type.")
 	public String getType() {
 		return type;
 	}

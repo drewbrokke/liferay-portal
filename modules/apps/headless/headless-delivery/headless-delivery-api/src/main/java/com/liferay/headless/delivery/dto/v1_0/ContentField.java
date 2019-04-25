@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ContentField")
 public class ContentField {
 
-	@Schema(description = "The type of field (image, text).")
+	@Schema(description = "The field type (e.g., image, text, etc.).")
 	public String getDataType() {
 		return dataType;
 	}
@@ -71,7 +71,7 @@ public class ContentField {
 	protected String dataType;
 
 	@Schema(
-		description = "The type of control that has be used to render the content (text, textarea...)."
+		description = "The field's control type (e.g., text, text area, etc.)."
 	)
 	public String getInputControl() {
 		return inputControl;
@@ -100,7 +100,7 @@ public class ContentField {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String inputControl;
 
-	@Schema(description = "The label of the field.")
+	@Schema(description = "The field's label.")
 	public String getLabel() {
 		return label;
 	}
@@ -129,7 +129,7 @@ public class ContentField {
 	protected String label;
 
 	@Schema(
-		description = "The internal name of the field, valid for comparisons and unique in the StructuredContent."
+		description = "The field's internal name. This is valid for comparisons and unique in the structured content."
 	)
 	public String getName() {
 		return name;
@@ -157,7 +157,7 @@ public class ContentField {
 	protected String name;
 
 	@Schema(
-		description = "A list of child ContentFields that depend on this resource."
+		description = "A list of child content fields that depend on this resource."
 	)
 	public ContentField[] getNestedFields() {
 		return nestedFields;
@@ -187,7 +187,7 @@ public class ContentField {
 	protected ContentField[] nestedFields;
 
 	@Schema(
-		description = "A flag indicating if this field can be filled multiple times."
+		description = "A flag that indicates whether this field can be rendered multiple times."
 	)
 	public Boolean getRepeatable() {
 		return repeatable;
@@ -216,7 +216,6 @@ public class ContentField {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean repeatable;
 
-	@Schema
 	public Value getValue() {
 		return value;
 	}

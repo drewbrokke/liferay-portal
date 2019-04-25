@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "UserAccount")
 public class UserAccount {
 
-	@Schema(description = "An additional name, can be used for a middle name.")
+	@Schema(description = "The user's additional name (e.g., middle name).")
 	public String getAdditionalName() {
 		return additionalName;
 	}
@@ -74,7 +74,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String additionalName;
 
-	@Schema(description = "An alias or screen name for the UserAcount.")
+	@Schema(description = "The user's alias or screen name.")
 	public String getAlternateName() {
 		return alternateName;
 	}
@@ -102,7 +102,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String alternateName;
 
-	@Schema(description = "The date of birth, in ISO 8601 format.")
+	@Schema(description = "The user's date of birth, in ISO 8601 format.")
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -130,7 +130,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date birthDate;
 
-	@Schema(description = "https://www.schema.org/ContactInformation")
+	@Schema(description = "The user's contact information.")
 	public ContactInformation getContactInformation() {
 		return contactInformation;
 	}
@@ -159,7 +159,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ContactInformation contactInformation;
 
-	@Schema(description = "A relative URL to the dashboard of the UserAccount.")
+	@Schema(description = "A relative URL to the user's dashboard.")
 	public String getDashboardURL() {
 		return dashboardURL;
 	}
@@ -187,7 +187,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String dashboardURL;
 
-	@Schema(description = "The creation date of the UserAccount.")
+	@Schema(description = "The creation date of the user's account.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -215,7 +215,9 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The last time a field of the UserAccount changed.")
+	@Schema(
+		description = "The last time any field of the user's account was changed."
+	)
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -243,7 +245,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The main email address of the UserAccount.")
+	@Schema(description = "The user's main email address.")
 	public String getEmailAddress() {
 		return emailAddress;
 	}
@@ -271,7 +273,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String emailAddress;
 
-	@Schema(description = "In the US, the surname of the UserAccount.")
+	@Schema(description = "The user's surname (last name).")
 	public String getFamilyName() {
 		return familyName;
 	}
@@ -299,7 +301,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String familyName;
 
-	@Schema(description = "In the US, the first name of the UserAccount.")
+	@Schema(description = "The user's first name.")
 	public String getGivenName() {
 		return givenName;
 	}
@@ -327,7 +329,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String givenName;
 
-	@Schema(description = "The UserAccount title (dr, mr, mrs, ms...)")
+	@Schema(description = "The user's title (e.g., Dr., Mr., Mrs, Ms., etc.).")
 	public String getHonorificPrefix() {
 		return honorificPrefix;
 	}
@@ -355,7 +357,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String honorificPrefix;
 
-	@Schema(description = "The UserAccount honorific suffix (ii, jr, phd...)")
+	@Schema(description = "The user's suffix (e.g., II, Jr., PhD, etc.).")
 	public String getHonorificSuffix() {
 		return honorificSuffix;
 	}
@@ -383,7 +385,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String honorificSuffix;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The user's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -409,7 +411,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "A relative URL to profile image.")
+	@Schema(description = "A relative URL to the user's profile image.")
 	public String getImage() {
 		return image;
 	}
@@ -437,7 +439,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String image;
 
-	@Schema(description = "The UserAccount job title.")
+	@Schema(description = "The user's job title.")
 	public String getJobTitle() {
 		return jobTitle;
 	}
@@ -465,7 +467,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String jobTitle;
 
-	@Schema(description = "A list of keywords describing the UserAccount.")
+	@Schema(description = "A list of keywords describing the user.")
 	public String[] getKeywords() {
 		return keywords;
 	}
@@ -493,7 +495,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] keywords;
 
-	@Schema(description = "The full name of the UserAccount.")
+	@Schema(description = "The user's full name.")
 	public String getName() {
 		return name;
 	}
@@ -519,7 +521,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String name;
 
-	@Schema(description = "A list of Organizations the UserAccount belongs to.")
+	@Schema(description = "A list of the user's organizations.")
 	public OrganizationBrief[] getOrganizationBriefs() {
 		return organizationBriefs;
 	}
@@ -548,7 +550,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected OrganizationBrief[] organizationBriefs;
 
-	@Schema(description = "A relative URL to the profile of the UserAccount.")
+	@Schema(description = "A relative URL to the user's profile.")
 	public String getProfileURL() {
 		return profileURL;
 	}
@@ -576,7 +578,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String profileURL;
 
-	@Schema(description = "A list of Roles the UserAccount has.")
+	@Schema(description = "A list of the user's roles.")
 	public RoleBrief[] getRoleBriefs() {
 		return roleBriefs;
 	}
@@ -604,7 +606,7 @@ public class UserAccount {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected RoleBrief[] roleBriefs;
 
-	@Schema(description = "A list of sites the UserAccount belongs to.")
+	@Schema(description = "A list of the user's sites.")
 	public SiteBrief[] getSiteBriefs() {
 		return siteBriefs;
 	}

@@ -24,8 +24,6 @@ import com.liferay.petra.string.StringBundler;
 import graphql.annotations.annotationTypes.GraphQLField;
 import graphql.annotations.annotationTypes.GraphQLName;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.util.Objects;
 
 import javax.annotation.Generated;
@@ -42,7 +40,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ChangeTransition")
 public class ChangeTransition {
 
-	@Schema
 	public String getTransition() {
 		return transition;
 	}

@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Comment")
 public class Comment {
 
-	@Schema(description = "The creator of the Comment")
+	@Schema(description = "The comment's author.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -74,7 +74,7 @@ public class Comment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the Comment.")
+	@Schema(description = "The comment's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -102,7 +102,7 @@ public class Comment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The last time a field of the Comment changed.")
+	@Schema(description = "The comment's latest modification date.")
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -130,7 +130,7 @@ public class Comment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The comment's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -156,9 +156,7 @@ public class Comment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(
-		description = "The number of child comments associated with this Comment."
-	)
+	@Schema(description = "The number of child comments on this comment.")
 	public Integer getNumberOfComments() {
 		return numberOfComments;
 	}
@@ -186,7 +184,7 @@ public class Comment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfComments;
 
-	@Schema(description = "The content of the Comment.")
+	@Schema(description = "The comment's text content.")
 	public String getText() {
 		return text;
 	}

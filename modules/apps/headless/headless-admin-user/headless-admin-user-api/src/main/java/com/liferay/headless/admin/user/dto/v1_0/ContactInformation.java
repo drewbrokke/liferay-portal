@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ContactInformation {
 
 	@Schema(
-		description = "A list of email addresses. One is optionally marked as primary."
+		description = "A list of the user's email addresses, with one optionally marked as primary."
 	)
 	public EmailAddress[] getEmailAddresses() {
 		return emailAddresses;
@@ -73,7 +73,7 @@ public class ContactInformation {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected EmailAddress[] emailAddresses;
 
-	@Schema(description = "The facebook account of the UserAccount.")
+	@Schema(description = "The user's Facebook account.")
 	public String getFacebook() {
 		return facebook;
 	}
@@ -101,7 +101,7 @@ public class ContactInformation {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String facebook;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The ID of the `contactInformation`.")
 	public Long getId() {
 		return id;
 	}
@@ -127,7 +127,7 @@ public class ContactInformation {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The jabber handle of the UserAccount.")
+	@Schema(description = "The user's Jabber handle.")
 	public String getJabber() {
 		return jabber;
 	}
@@ -156,7 +156,7 @@ public class ContactInformation {
 	protected String jabber;
 
 	@Schema(
-		description = "A list of postal addresses. One is optionally marked as primary."
+		description = "A list of user's postal addresses, with one optionally marked as primary."
 	)
 	public PostalAddress[] getPostalAddresses() {
 		return postalAddresses;
@@ -186,7 +186,7 @@ public class ContactInformation {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected PostalAddress[] postalAddresses;
 
-	@Schema(description = "The skype handle of the UserAccount.")
+	@Schema(description = "The user's Skype handle.")
 	public String getSkype() {
 		return skype;
 	}
@@ -214,7 +214,7 @@ public class ContactInformation {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String skype;
 
-	@Schema(description = "The sms number of the UserAccount.")
+	@Schema(description = "The user's SMS number.")
 	public String getSms() {
 		return sms;
 	}
@@ -241,7 +241,7 @@ public class ContactInformation {
 	protected String sms;
 
 	@Schema(
-		description = "A list of telephones. One is optionally marked as primary."
+		description = "A list of the user's phone numbers, with one optionally marked as primary."
 	)
 	public Phone[] getTelephones() {
 		return telephones;
@@ -270,7 +270,7 @@ public class ContactInformation {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Phone[] telephones;
 
-	@Schema(description = "The twitter handle of the UserAccount.")
+	@Schema(description = "The user's Twitter handle.")
 	public String getTwitter() {
 		return twitter;
 	}
@@ -299,7 +299,7 @@ public class ContactInformation {
 	protected String twitter;
 
 	@Schema(
-		description = "A list of web urls associated with the UserAccount. One is optionally marked as primary."
+		description = "A list of the user's web URLs, with one optionally marked as primary."
 	)
 	public WebUrl[] getWebUrls() {
 		return webUrls;

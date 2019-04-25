@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ContentSetElement")
 public class ContentSetElement {
 
-	@Schema(description = "All the fields of the content.")
+	@Schema(description = "The content's fields.")
 	public Object getContent() {
 		return content;
 	}
@@ -70,7 +70,7 @@ public class ContentSetElement {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Object content;
 
-	@Schema(description = "The type of the content.")
+	@Schema(description = "The content set element's type.")
 	public String getContentType() {
 		return contentType;
 	}
@@ -98,7 +98,7 @@ public class ContentSetElement {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String contentType;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The content set element's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -124,7 +124,7 @@ public class ContentSetElement {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The title of the content.")
+	@Schema(description = "The content's title.")
 	public String getTitle() {
 		return title;
 	}

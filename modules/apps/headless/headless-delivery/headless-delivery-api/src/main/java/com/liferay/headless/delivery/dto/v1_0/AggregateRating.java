@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AggregateRating {
 
 	@Schema(
-		description = "The best rating possible (by default normalized to 1.0)."
+		description = "The highest possible rating (by default normalized to 1.0)."
 	)
 	public Double getBestRating() {
 		return bestRating;
@@ -129,7 +129,7 @@ public class AggregateRating {
 	protected Double ratingValue;
 
 	@Schema(
-		description = "The worst rating possible (by default normalized to 0.0)."
+		description = "The lowest possible rating (by default normalized to 0.0)."
 	)
 	public Double getWorstRating() {
 		return worstRating;

@@ -42,9 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "RoleBrief")
 public class RoleBrief {
 
-	@Schema(
-		description = "The identifier of the resource. It can be used to retrieve the full resource in the Role API."
-	)
+	@Schema(description = "The role's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -70,7 +68,7 @@ public class RoleBrief {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The name of the Role.")
+	@Schema(description = "The role's name.")
 	public String getName() {
 		return name;
 	}

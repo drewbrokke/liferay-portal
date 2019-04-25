@@ -77,7 +77,7 @@ public class BlogPostingImage {
 
 	}
 
-	@Schema(description = "A relative URL to the binary image.")
+	@Schema(description = "The image's relative URL.")
 	public String getContentUrl() {
 		return contentUrl;
 	}
@@ -106,7 +106,7 @@ public class BlogPostingImage {
 	protected String contentUrl;
 
 	@Schema(
-		description = "The content type of this image (application/png...)."
+		description = "The image's content type (e.g., `application/png`, etc.)."
 	)
 	public String getEncodingFormat() {
 		return encodingFormat;
@@ -135,7 +135,7 @@ public class BlogPostingImage {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String encodingFormat;
 
-	@Schema(description = "The extension of the image.")
+	@Schema(description = "The image's file extension.")
 	public String getFileExtension() {
 		return fileExtension;
 	}
@@ -163,7 +163,7 @@ public class BlogPostingImage {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String fileExtension;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The image's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -189,7 +189,7 @@ public class BlogPostingImage {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The size in bytes of the image.")
+	@Schema(description = "The image's size in bytes.")
 	public Long getSizeInBytes() {
 		return sizeInBytes;
 	}
@@ -217,7 +217,7 @@ public class BlogPostingImage {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long sizeInBytes;
 
-	@Schema(description = "The title of the image.")
+	@Schema(description = "The image's title text.")
 	public String getTitle() {
 		return title;
 	}
@@ -246,7 +246,7 @@ public class BlogPostingImage {
 	protected String title;
 
 	@Schema(
-		description = "Write only property to specify the default permissions."
+		description = "A write-only property that specifies the default permissions."
 	)
 	public ViewableBy getViewableBy() {
 		return viewableBy;

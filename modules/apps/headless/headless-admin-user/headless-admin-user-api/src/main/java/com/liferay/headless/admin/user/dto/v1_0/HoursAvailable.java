@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class HoursAvailable {
 
 	@Schema(
-		description = "An hour in HH:MM format that marks when the Organization closes."
+		description = "The organization's closing time (in `HH:MM` format)."
 	)
 	public String getCloses() {
 		return closes;
@@ -101,7 +101,7 @@ public class HoursAvailable {
 	protected String dayOfWeek;
 
 	@Schema(
-		description = "An hour in HH:MM format that marks when the Organization opens."
+		description = "The organization's opening time (in `HH:MM` format)."
 	)
 	public String getOpens() {
 		return opens;

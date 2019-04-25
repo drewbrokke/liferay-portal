@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "WebUrl")
 public class WebUrl {
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The URL's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -68,7 +68,7 @@ public class WebUrl {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "An absolute URL.")
+	@Schema(description = "The absolute URL.")
 	public String getUrl() {
 		return url;
 	}
@@ -94,7 +94,7 @@ public class WebUrl {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String url;
 
-	@Schema(description = "The type of the URL.")
+	@Schema(description = "The URL's type.")
 	public String getUrlType() {
 		return urlType;
 	}

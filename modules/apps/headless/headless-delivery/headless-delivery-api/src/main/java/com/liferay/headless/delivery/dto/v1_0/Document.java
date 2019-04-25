@@ -82,7 +82,7 @@ public class Document {
 	}
 
 	@Schema(
-		description = "An array of images in several resolutions and sizes, created by the adaptive media framework."
+		description = "An array of images in several resolutions and sizes, created by the Adaptive Media framework."
 	)
 	public AdaptedImage[] getAdaptedImages() {
 		return adaptedImages;
@@ -111,9 +111,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected AdaptedImage[] adaptedImages;
 
-	@Schema(
-		description = "The information of the ratings (average, number) associated with this resource."
-	)
+	@Schema(description = "The document's average rating.")
 	public AggregateRating getAggregateRating() {
 		return aggregateRating;
 	}
@@ -142,7 +140,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected AggregateRating aggregateRating;
 
-	@Schema(description = "A relative URL to the binary Document.")
+	@Schema(description = "The document's relative URL.")
 	public String getContentUrl() {
 		return contentUrl;
 	}
@@ -170,7 +168,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String contentUrl;
 
-	@Schema(description = "The creator of the Document")
+	@Schema(description = "The document's creator.")
 	public Creator getCreator() {
 		return creator;
 	}
@@ -198,7 +196,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
-	@Schema(description = "The creation date of the Document.")
+	@Schema(description = "The document's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -226,7 +224,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The last time a field of the Document changed.")
+	@Schema(description = "The last time a field of the document changed.")
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -254,7 +252,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The description of the Document.")
+	@Schema(description = "The document's description.")
 	public String getDescription() {
 		return description;
 	}
@@ -283,7 +281,7 @@ public class Document {
 	protected String description;
 
 	@Schema(
-		description = "The id of the DocumentFolder where this Document is stored."
+		description = "The ID of the `DocumentFolder` where this document is stored."
 	)
 	public Long getDocumentFolderId() {
 		return documentFolderId;
@@ -312,7 +310,9 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long documentFolderId;
 
-	@Schema(description = "The content type (application/pdf) of the Document.")
+	@Schema(
+		description = "The document's content type (e.g., `application/pdf`, etc.)."
+	)
 	public String getEncodingFormat() {
 		return encodingFormat;
 	}
@@ -340,7 +340,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String encodingFormat;
 
-	@Schema(description = "The file extension of the binary file.")
+	@Schema(description = "The document's file extension.")
 	public String getFileExtension() {
 		return fileExtension;
 	}
@@ -368,7 +368,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String fileExtension;
 
-	@Schema(description = "The identifier of the resource.")
+	@Schema(description = "The document's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -394,7 +394,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "A list of keywords describing the Document.")
+	@Schema(description = "A list of keywords describing the document.")
 	public String[] getKeywords() {
 		return keywords;
 	}
@@ -422,7 +422,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] keywords;
 
-	@Schema(description = "A list of comments this Document has received.")
+	@Schema(description = "The number of comments on the document.")
 	public Integer getNumberOfComments() {
 		return numberOfComments;
 	}
@@ -450,7 +450,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfComments;
 
-	@Schema(description = "The size in bytes of the binary file.")
+	@Schema(description = "The document's size in bytes.")
 	public Long getSizeInBytes() {
 		return sizeInBytes;
 	}
@@ -478,7 +478,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long sizeInBytes;
 
-	@Schema(description = "The categories asociated with this Document.")
+	@Schema(description = "The categories associated with this document.")
 	public TaxonomyCategory[] getTaxonomyCategories() {
 		return taxonomyCategories;
 	}
@@ -508,7 +508,7 @@ public class Document {
 	protected TaxonomyCategory[] taxonomyCategories;
 
 	@Schema(
-		description = "A write only field to add TaxonomyCategory to this resource."
+		description = "A write-only field that adds `TaxonomyCategory` instances to the document."
 	)
 	public Long[] getTaxonomyCategoryIds() {
 		return taxonomyCategoryIds;
@@ -537,7 +537,7 @@ public class Document {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Long[] taxonomyCategoryIds;
 
-	@Schema(description = "The title of the Document.")
+	@Schema(description = "The document's main title/name.")
 	public String getTitle() {
 		return title;
 	}
@@ -566,7 +566,7 @@ public class Document {
 	protected String title;
 
 	@Schema(
-		description = "Write only property to specify the default permissions."
+		description = "A write-only property that specifies the document's default permissions."
 	)
 	public ViewableBy getViewableBy() {
 		return viewableBy;

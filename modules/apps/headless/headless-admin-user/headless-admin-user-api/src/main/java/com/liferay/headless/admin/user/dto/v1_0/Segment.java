@@ -49,7 +49,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Segment")
 public class Segment {
 
-	@Schema(description = "The active of the segment")
+	@Schema(
+		description = "A flag that indicates whether the segment is active."
+	)
 	public Boolean getActive() {
 		return active;
 	}
@@ -77,7 +79,7 @@ public class Segment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean active;
 
-	@Schema(description = "The criteria of the segment")
+	@Schema(description = "The segment's criteria.")
 	public String getCriteria() {
 		return criteria;
 	}
@@ -106,7 +108,7 @@ public class Segment {
 	@NotEmpty
 	protected String criteria;
 
-	@Schema(description = "The create date of the segment")
+	@Schema(description = "The segment's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -134,7 +136,7 @@ public class Segment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The modified date of the segment")
+	@Schema(description = "The segment's most recent modification date.")
 	public Date getDateModified() {
 		return dateModified;
 	}
@@ -162,7 +164,7 @@ public class Segment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
-	@Schema(description = "The internal ID of the segment")
+	@Schema(description = "The segment's ID.")
 	public Long getId() {
 		return id;
 	}
@@ -188,7 +190,7 @@ public class Segment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema(description = "The name of the segment")
+	@Schema(description = "The segment's name.")
 	public String getName() {
 		return name;
 	}
@@ -215,7 +217,7 @@ public class Segment {
 	@NotEmpty
 	protected String name;
 
-	@Schema(description = "The site of the segment")
+	@Schema(description = "The ID of the segment's site.")
 	public Long getSiteId() {
 		return siteId;
 	}
@@ -243,7 +245,7 @@ public class Segment {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long siteId;
 
-	@Schema(description = "The source of the segment")
+	@Schema(description = "The segment's source.")
 	public String getSource() {
 		return source;
 	}
