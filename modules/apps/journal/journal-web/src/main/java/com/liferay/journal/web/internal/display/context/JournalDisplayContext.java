@@ -938,7 +938,6 @@ public class JournalDisplayContext {
 
 				if (className.equals(JournalArticle.class.getName())) {
 					JournalArticle article = null;
-
 					boolean visible = true;
 
 					if (!showVersions) {

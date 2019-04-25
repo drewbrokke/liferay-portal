@@ -66,7 +66,8 @@ public class JournalCTConfigurationRegistrar {
 			).setVersionEntityByVersionEntityIdFunction(
 				_journalArticleLocalService::fetchJournalArticle
 			).setVersionEntityDetails(
-				Arrays.asList(_getDDMStructures(), _getDDMTemplates()),
+				Arrays.asList(
+					_getDDMStructuresFunction(), _getDDMTemplatesFunction()),
 				CTFunctions.getFetchSiteNameFunction(),
 				JournalArticle::getTitle, JournalArticle::getVersion
 			).setEntityIdsFromVersionEntityFunctions(
@@ -94,14 +95,14 @@ public class JournalCTConfigurationRegistrar {
 	}
 
 	private Function<JournalArticle, List<? extends BaseModel>>
-		_getDDMStructures() {
+		_getDDMStructuresFunction() {
 
 		return journalArticle -> Collections.singletonList(
 			journalArticle.getDDMStructure());
 	}
 
 	private Function<JournalArticle, List<? extends BaseModel>>
-		_getDDMTemplates() {
+		_getDDMTemplatesFunction() {
 
 		return journalArticle -> Collections.singletonList(
 			journalArticle.getDDMTemplate());
