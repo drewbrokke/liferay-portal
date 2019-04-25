@@ -101,7 +101,6 @@ public class JournalDDMStructuresDisplayContext {
 				_getKeywords(), WorkflowConstants.STATUS_ANY,
 				ddmStructureSearch.getStart(), ddmStructureSearch.getEnd(),
 				ddmStructureSearch.getOrderByComparator());
-
 			total = DDMStructureServiceUtil.searchCount(
 				themeDisplay.getCompanyId(), groupIds,
 				PortalUtil.getClassNameId(JournalArticle.class.getName()),
@@ -113,7 +112,6 @@ public class JournalDDMStructuresDisplayContext {
 				PortalUtil.getClassNameId(JournalArticle.class.getName()),
 				ddmStructureSearch.getStart(), ddmStructureSearch.getEnd(),
 				ddmStructureSearch.getOrderByComparator());
-
 			total = DDMStructureServiceUtil.getStructuresCount(
 				themeDisplay.getCompanyId(), groupIds,
 				PortalUtil.getClassNameId(JournalArticle.class.getName()));

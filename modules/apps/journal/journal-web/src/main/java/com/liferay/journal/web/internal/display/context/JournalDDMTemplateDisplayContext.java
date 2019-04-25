@@ -141,6 +141,8 @@ public class JournalDDMTemplateDisplayContext {
 			ddmTemplateSearch.getStart(), ddmTemplateSearch.getEnd(),
 			ddmTemplateSearch.getOrderByComparator());
 
+		ddmTemplateSearch.setResults(results);
+
 		int total = DDMTemplateServiceUtil.searchCount(
 			themeDisplay.getCompanyId(), groupIds,
 			new long[] {PortalUtil.getClassNameId(DDMStructure.class)},
@@ -148,7 +150,6 @@ public class JournalDDMTemplateDisplayContext {
 			PortalUtil.getClassNameId(JournalArticle.class), _getKeywords(),
 			StringPool.BLANK, StringPool.BLANK, WorkflowConstants.STATUS_ANY);
 
-		ddmTemplateSearch.setResults(results);
 		ddmTemplateSearch.setTotal(total);
 
 		_ddmTemplateSearch = ddmTemplateSearch;
