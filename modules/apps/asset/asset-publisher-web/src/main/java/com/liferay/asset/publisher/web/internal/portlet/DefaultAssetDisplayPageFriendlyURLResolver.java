@@ -17,7 +17,9 @@ package com.liferay.asset.publisher.web.internal.portlet;
 import com.liferay.asset.display.page.portlet.BaseAssetDisplayPageFriendlyURLResolver;
 import com.liferay.asset.display.page.util.AssetDisplayPageHelper;
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
+import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.asset.publisher.constants.AssetPublisherPortletKeys;
 import com.liferay.friendly.url.model.FriendlyURLEntryLocalization;
 import com.liferay.friendly.url.service.FriendlyURLEntryLocalService;
@@ -57,6 +59,7 @@ import com.liferay.portal.kernel.workflow.permission.WorkflowPermissionUtil;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.portlet.WindowState;
 
@@ -212,7 +215,18 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 
 		Locale locale = _portal.getLocale(request);
 
-		actualParams.put(namespace + "urlTitle", new String[] {urlTitle});
+		AssetEntry assetEntry = Optional.ofNullable(
+			_assetEntryLocalService.fetchEntry(
+				JournalArticle.class.getName(), journalArticle.getPrimaryKey())
+		).orElse(
+			assetRendererFactory.getAssetEntry(
+				JournalArticle.class.getName(),
+				journalArticle.getResourcePrimKey())
+		);
+
+		actualParams.put(
+			namespace + "assetEntryId",
+			new String[] {String.valueOf(assetEntry.getEntryId())});
 
 		String ddmTemplateKey = _getDDMTemplateKey(friendlyURL);
 
@@ -307,7 +321,6 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 					WorkflowConstants.STATUS_APPROVED);
 		}
 
-
 		if (journalArticle == null) {
 			PermissionChecker permissionChecker =
 				PermissionThreadLocal.getPermissionChecker();
@@ -355,6 +368,9 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 
 		return 0;
 	}
+
+	@Reference
+	private AssetEntryLocalService _assetEntryLocalService;
 
 	@Reference
 	private ClassNameLocalService _classNameLocalService;
