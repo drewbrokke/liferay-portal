@@ -60,7 +60,7 @@ components:
                     description: The blog post's description.
                     type: string
                 encodingFormat:
-                    description: The blog post's media format (e.g., html, BBCode, etc.).
+                    description: The blog post's media format (e.g., HTML, BBCode, etc.).
                     readOnly: true
                     type: string
                 friendlyUrlPath:
@@ -105,7 +105,7 @@ components:
                     readOnly: true
                     type: integer
                 taxonomyCategories:
-                    description: The categories asociated with this blog post.
+                    description: The categories associated with this blog post.
                     items:
                         properties:
                             taxonomyCategoryId:
@@ -138,7 +138,7 @@ components:
             description: Represents a blog post's image. Properties follow the [image](https://schema.org/image) specification.
             properties:
                 contentUrl:
-                    description: The image's absolute URL.
+                    description: The image's relative URL.
                     readOnly: true
                     type: string
                 encodingFormat:
@@ -203,7 +203,7 @@ components:
             description: Represents a document (binary data and metadata) associated with structured content. Properties follow the [Media Object](https://schema.org/MediaObject) specification.
             properties:
                 contentUrl:
-                    description: The document's absolute URL.
+                    description: The document's relative URL.
                     format: uri
                     readOnly: true
                     type: string
@@ -384,7 +384,7 @@ components:
                     readOnly: true
                     type: string
                 localizable:
-                    description: A flag that indicates whether the content is accesible in different languages.
+                    description: A flag that indicates whether the content is accessible in different languages.
                     readOnly: true
                     type: boolean
                 multiple:
@@ -402,7 +402,7 @@ components:
                     readOnly: true
                     type: array
                 options:
-                    description: The list of the different possible values.
+                    description: The list of different possible values.
                     items:
                         properties:
                             label:
@@ -554,7 +554,7 @@ components:
                     readOnly: true
                     type: integer
                 taxonomyCategories:
-                    description: The categories asociated with this document.
+                    description: The categories associated with this document.
                     items:
                         properties:
                             taxonomyCategoryId:
@@ -663,7 +663,7 @@ components:
                     description: The article's description.
                     type: string
                 encodingFormat:
-                    description: The article's media type (e.g., HTML, BBCode).
+                    description: The article's media type (e.g., HTML, BBCode, etc.).
                     readOnly: true
                     type: string
                 friendlyUrlPath:
@@ -710,7 +710,7 @@ components:
                     readOnly: true
                     type: integer
                 taxonomyCategories:
-                    description: The categories asociated with this article.
+                    description: The categories associated with this article.
                     items:
                         properties:
                             taxonomyCategoryId:
@@ -892,7 +892,7 @@ components:
                     readOnly: true
                     type: string
                 dateModified:
-                    description: The last time that the content or metadata of the message was changed.
+                    description: The last time the content or metadata of the message was changed.
                     format: date-time
                     readOnly: true
                     type: string
@@ -1037,7 +1037,7 @@ components:
                     readOnly: true
                     type: integer
                 showAsQuestion:
-                    description: A flag that indicates whether this thread was posted a question that can receive aproved answers.
+                    description: A flag that indicates whether this thread was posted as a question that can receive approved answers.
                     type: boolean
                 siteId:
                     description: The ID of the site to which this thread is scoped.
@@ -1094,7 +1094,7 @@ components:
                     type: number
             type: object
         StructuredContent:
-            description: Represents content that has fields and is rendered by a template backed by a `ContentStructure`. Internally modeled as a `JournalArticle`.
+            description: Represents content that has fields and is rendered by a template backed by a `ContentStructure`. This is modeled internally as a `JournalArticle`.
             properties:
                 aggregateRating:
                     allOf:
@@ -1132,7 +1132,7 @@ components:
                     readOnly: true
                     type: string
                 datePublished:
-                    description: The structured content's most recent pubulication date.
+                    description: The structured content's most recent publication date.
                     format: date-time
                     type: string
                 description:
@@ -1147,7 +1147,7 @@ components:
                     readOnly: true
                     type: integer
                 key:
-                    description: An identifier, indepedent of the database, that can be used to reference the structured content.
+                    description: An identifier, independent of the database, that can be used to reference the structured content.
                     readOnly: true
                     type: string
                 keywords:
@@ -1179,7 +1179,7 @@ components:
                     readOnly: true
                     type: integer
                 taxonomyCategories:
-                    description: The categories asociated with this structured content.
+                    description: The categories associated with this structured content.
                     items:
                         properties:
                             taxonomyCategoryId:

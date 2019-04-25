@@ -30,7 +30,7 @@ components:
                     readOnly: true
                     type: string
                 profileURL:
-                    description: A relative URL to the the user's profile.
+                    description: A relative URL to the user's profile.
                     format: uri
                     readOnly: true
                     type: string
@@ -64,7 +64,7 @@ components:
                     readOnly: true
                     type: string
                 contactInformation:
-                    description: The organization's contact information, which includes email addresses, postal addresses, phone numbers, and web URLs. This is modelled internally as a `Contact`.
+                    description: The organization's contact information, which includes email addresses, postal addresses, phone numbers, and web URLs. This is modeled internally as a `Contact`.
                     properties:
                         emailAddresses:
                             description: The organization's email addresses, with one optionally marked as primary.
@@ -542,7 +542,7 @@ components:
                     type: array
             type: object
         WebUrl:
-            description: Represents a URL to an external site. This is modelled internally as a `WebSite`.
+            description: Represents a URL to an external site. This is modeled internally as a `WebSite`.
             properties:
                 id:
                     description: The URL's ID.

@@ -1,7 +1,7 @@
 components:
     schemas:
         AssetType:
-            description: Represents the type of asset asociated with a `TaxonomyCategory`.
+            description: Represents the asset type associated with a `TaxonomyCategory`.
             properties:
                 required:
                     description: A flag that marks if this type is required.
@@ -87,7 +87,7 @@ components:
                 - name
             type: object
         TaxonomyCategory:
-            description: Represents a category, which is a hierarchical clasification that can be asociated with particular asset types. Properties follow the [category](https://schema.org/category) specification.
+            description: Represents a category, which is a hierarchical classification that can be associated with particular asset types. Properties follow the [category](https://schema.org/category) specification.
             properties:
                 availableLanguages:
                     description: A list of languages the category has a translation for.
@@ -154,10 +154,10 @@ components:
                 - name
             type: object
         TaxonomyVocabulary:
-            description: Represents a vocabulary, which is grouping of categories for a specific purpose (e.g., clasification, sorting, etc.).
+            description: Represents a vocabulary, which is a grouping of categories for a specific purpose (e.g., classification, sorting, etc.).
             properties:
                 assetTypes:
-                    description: A list of asset types that can be asociated with this vocabulary.
+                    description: A list of asset types that can be associated with this vocabulary.
                     items:
                         $ref: "#/components/schemas/AssetType"
                     type: array
