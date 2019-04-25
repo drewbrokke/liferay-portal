@@ -189,4 +189,25 @@ definition {
 			locator1 = "ChangeList#VIEW_CHANGE_LIST_NAME_HISTORY",
 			value1 = "${changeListName}");
 	}
+
+	macro workOnProduction {
+		if (IsTextEqual(locator1 = "ChangeList#OVERVIEW_PAGE_TITLE", value1 = "Change Lists")) {
+			Click(locator1 = "ChangeList#SELECT_CHANGE_LIST_DROPDOWN");
+
+			Click(
+				key_changeListName = "Work on Production",
+				locator1 = "ChangeList#SELECT_CHANGE_LIST_VALUE");
+
+			AssertTextEquals(
+				locator1 = "ChangeList#OVERVIEW_PAGE_TITLE",
+				value1 = "Select Change List");
+		}
+		else {
+			Click(
+				key_changeListName = "Work on Production",
+				locator1 = "ChangeList#CHANGE_LIST_NAME_CARD_VIEW");
+		}
+		Alert.viewSuccessMessageText(successMessage = "Production has been checked out. All your modifications will be added to the live site immediately.");
+
+	}
 }
