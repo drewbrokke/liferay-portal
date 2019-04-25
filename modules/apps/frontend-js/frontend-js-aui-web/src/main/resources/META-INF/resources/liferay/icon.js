@@ -1,3 +1,10 @@
+/**
+ * The Icon Component.
+ *
+ * @deprecated since 7.2, unused
+ * @module liferay-icon
+ */
+
 AUI.add(
 	'liferay-icon',
 	function(A) {
