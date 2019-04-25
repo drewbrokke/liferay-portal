@@ -123,6 +123,10 @@
 		<aui:script use="aui-base,liferay-ddm-form">
 			var Lang = A.Lang;
 
+			var ddmFormDefinition = <%= DDMUtil.getDDMFormJSONString(ddmForm) %>;
+
+			ddmFormDefinition.defaultLanguageId = '<%= defaultLanguageId %>';
+
 			var liferayDDMForm = Liferay.component(
 				'<portlet:namespace /><%= HtmlUtil.escapeJS(fieldsNamespace) %>ddmForm',
 				new Liferay.DDM.Form(
@@ -131,7 +135,7 @@
 						ddmFormValuesInput: '#<portlet:namespace /><%= HtmlUtil.getAUICompatibleId(ddmFormValuesInputName) %>',
 						defaultEditLocale: '<%= (defaultEditLocale == null) ? StringPool.BLANK : HtmlUtil.escapeJS(defaultEditLocale.toString()) %>',
 						documentLibrarySelectorURL: '<%= documentLibrarySelectorURL %>',
-						definition: <%= DDMUtil.getDDMFormJSONString(ddmForm) %>,
+						definition: ddmFormDefinition,
 						doAsGroupId: <%= scopeGroupId %>,
 						fieldsNamespace: '<%= HtmlUtil.escapeJS(fieldsNamespace) %>',
 						imageSelectorURL: '<%= imageSelectorURL %>',
