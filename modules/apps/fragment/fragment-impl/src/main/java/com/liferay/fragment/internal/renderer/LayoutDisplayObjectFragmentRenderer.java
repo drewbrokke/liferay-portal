@@ -82,6 +82,10 @@ public class LayoutDisplayObjectFragmentRenderer implements FragmentRenderer {
 		Object displayObject = _getDisplayObject(httpServletRequest);
 
 		if (displayObject == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append("<div class=\"portlet-msg-info\">");
+
 			ThemeDisplay themeDisplay =
 				(ThemeDisplay)httpServletRequest.getAttribute(
 					WebKeys.THEME_DISPLAY);
@@ -89,12 +93,10 @@ public class LayoutDisplayObjectFragmentRenderer implements FragmentRenderer {
 			ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 				"content.Language", themeDisplay.getLocale(), getClass());
 
-			StringBundler sb = new StringBundler(3);
-
-			sb.append("<div class=\"portlet-msg-info\">");
 			sb.append(
 				LanguageUtil.get(
 					resourceBundle, "the-rendered-content-will-be-shown-here"));
+
 			sb.append("</div>");
 
 			try {
