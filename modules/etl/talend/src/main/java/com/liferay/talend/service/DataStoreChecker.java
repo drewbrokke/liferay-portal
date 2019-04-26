@@ -53,8 +53,9 @@ public class DataStoreChecker {
 
 		InputDataSet inputDataSet = new InputDataSet();
 
-		String loginEndpoint = "/c/portal/login";
 		inputDataSet.setGenericDataStore(genericDataStore);
+
+		String loginEndpoint = "/c/portal/login";
 
 		try {
 			_connectionService.getResponseRawString(
