@@ -10,8 +10,7 @@ import {Config} from 'metal-state';
 import templates from './ChangeListsHistory.soy';
 
 /**
- * Handles the tags of the selected
- * fileEntries inside a modal.
+ * Handles the tags of the selected file entries inside a modal.
  */
 class ChangeListsHistory extends PortletBase {
 
@@ -108,6 +107,7 @@ class ChangeListsHistory extends PortletBase {
 
 /**
  * State definition.
+ *
  * @ignore
  * @static
  * @type {!Object}

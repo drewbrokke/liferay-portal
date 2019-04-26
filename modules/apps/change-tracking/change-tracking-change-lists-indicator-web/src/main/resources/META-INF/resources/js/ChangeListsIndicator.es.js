@@ -9,8 +9,7 @@ import {openToast} from 'frontend-js-web/liferay/toast/commands/OpenToast.es';
 import templates from './ChangeListsIndicator.soy';
 
 /**
- * Component for the Change Lists indicator screen
- * @review
+ * Provides the component for the Change Lists indicator screen.
  */
 class ChangeListsIndicator extends PortletBase {
 
@@ -62,7 +61,7 @@ class ChangeListsIndicator extends PortletBase {
 
 /**
  * State definition.
- * @review
+ *
  * @static
  * @type {!Object}
  */
@@ -70,35 +69,31 @@ ChangeListsIndicator.STATE = {
 
 	/**
 	 * Name of the active change list.
+	 *
 	 * @default
 	 * @instance
 	 * @memberOf ChangeListsIndicator
-	 * @review
 	 * @type {!string}
 	 */
-
 	activeChangeListName: Config.string().value(''),
 
 	/**
 	 * Path of the available icons.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf ChangeListsIndicator
-	 * @review
 	 * @type {!string}
 	 */
-
 	spritemap: Config.string().required(),
 
 	/**
-	 * BBase REST API URL to collection resource
+	 * BBase REST API URL to the collection resource.
 	 * @default
 	 * @instance
 	 * @memberOf ChangeListsIndicator
-	 * @review
 	 * @type {string}
 	 */
-
 	urlCollectionsBase: Config.string()
 
 };

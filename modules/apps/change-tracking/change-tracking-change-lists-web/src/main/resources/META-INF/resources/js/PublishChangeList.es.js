@@ -8,7 +8,7 @@ import {openToast} from 'frontend-js-web/liferay/toast/commands/OpenToast.es';
 import templates from './PublishChangeList.soy';
 
 /**
- * Handles the publish change list dialog
+ * Handles the Change Lists publication dialog.
  */
 class PublishChangeList extends Component {
 
@@ -114,6 +114,7 @@ class PublishChangeList extends Component {
 
 /**
  * State definition.
+ *
  * @ignore
  * @static
  * @type {!Object}
@@ -127,11 +128,10 @@ PublishChangeList.STATE = {
 	ignoreCollision: Config.bool(),
 
 	/**
-	 * Path to images.
+	 * Path to the images.
 	 *
 	 * @instance
 	 * @memberOf PublishChangeList
-	 * @review
 	 * @type {String}
 	 */
 	spritemap: Config.string().required(),

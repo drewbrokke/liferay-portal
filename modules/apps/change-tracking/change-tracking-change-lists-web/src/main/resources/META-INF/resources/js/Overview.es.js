@@ -9,8 +9,7 @@ import {PublishChangeList} from './PublishChangeList.es';
 import templates from './Overview.soy';
 
 /**
- * Component for the Overview configuration screen
- * @review
+ * Provides the component for the Overview configuration screen.
  */
 class Overview extends PortletBase {
 
@@ -435,32 +434,30 @@ class Overview extends PortletBase {
 
 /**
  * State definition.
- * @review
+ *
  * @static
  * @type {!Object}
  */
 Overview.STATE = {
 
 	/**
-	 * Contains the active CT Collection id retrieved from the REST service.
+	 * Active change tracking collection ID retrieved from the REST service.
+	 *
 	 * @default 0
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {number}
 	 */
-
 	activeCTCollectionId: Config.number().value(0),
 
 	/**
-	 * Contains the number of changes for the active change list
+	 * Number of changes for the active change list.
+	 *
 	 * @default
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {object}
 	 */
-
 	changes: Config.shapeOf(
 		{
 			added: Config.number().value(0),
@@ -470,32 +467,31 @@ Overview.STATE = {
 	),
 
 	/**
-	 * Contains the card description
+	 * Active change list card description.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf Overview
 	 * @type {string}
 	 */
-
 	descriptionActiveChangeList: Config.string(),
 
 	/**
-	 * Card description
+	 * Production card description.
+	 *
 	 * @default
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {string}
 	 */
-
 	descriptionProductionInformation: Config.string(),
 
 	/**
-	 * Contains a json array of translation properties
+	 * JSON array of translation properties.
+	 *
 	 * @default
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {object}
 	 */
 	entityNameTranslations: Config.arrayOf(
@@ -508,14 +504,13 @@ Overview.STATE = {
 	),
 
 	/**
-	 * Contains the change entries for the currently selected CT Collection.
+	 * Change entries for the currently selected change tracking collection.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {object}
 	 */
-
 	changeEntries: Config.arrayOf(
 		Config.shapeOf(
 			{
@@ -532,14 +527,13 @@ Overview.STATE = {
 	),
 
 	/**
-	 * List of drop down menu items
+	 * List of drop down menu items.
+	 *
 	 * @default []
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {array}
 	 */
-
 	changeListsDropdownMenu: Config.arrayOf(
 		Config.shapeOf(
 			{
@@ -550,21 +544,21 @@ Overview.STATE = {
 	),
 
 	/**
-	 * Stores if fetching collission is in progress.
+	 * Number of collisions loaded (only stored if fetching is in progress).
+	 *
 	 * @default true
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {boolean}
 	 */
 	collisionsLoading: Config.bool().value(true),
 
 	/**
-	 * Stores the number of collisions.
+	 * Number of collisions.
+	 *
 	 * @default true
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {boolean}
 	 */
 	collisionsCount: Config.number().value(0),
@@ -572,46 +566,43 @@ Overview.STATE = {
 	collisionsTooltip: Config.string(),
 
 	/**
-	 * Stores if the head button is disabled or not.
+	 * If <code>true</code>, head button is disabled.
+	 *
 	 * @default false
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {boolean}
 	 */
-
 	headerButtonDisabled: Config.bool().value(false),
 
 	/**
-	 * Contains the card header title
+	 * Active change list's card header title.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf Overview
 	 * @type {string}
 	 */
-
 	headerTitleActiveChangeList: Config.string(),
 
 	/**
-	 * Card header title
+	 * Production's card header title.
+	 *
 	 * @default
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {string}
 	 */
-
 	headerTitleProductionInformation: Config.string(),
 
 	/**
-	 * If true, an initial fetch has already happened
+	 * If <code>true</code>, an initial fetch has already occurred.
+	 *
 	 * @default false
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {boolean}
 	 */
-
 	initialFetch: Config.bool().value(false),
 
 	productionCTCollectionId: Config.number(),
@@ -619,13 +610,12 @@ Overview.STATE = {
 	productionFound: Config.bool().value(false),
 
 	/**
-	 * Information of who published to production
+	 * Information of who published to production.
+	 *
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {object}
 	 */
-
 	publisedBy: Config.shapeOf(
 		{
 			dateTime: Config.string(),
@@ -636,14 +626,13 @@ Overview.STATE = {
 	),
 
 	/**
-	 * BBase REST API URL to collection resource
+	 * BBase REST API URL to the collection resource.
+	 *
 	 * @default
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {string}
 	 */
-
 	urlCollectionsBase: Config.string(),
 
 	urlActiveCollectionPublish: Config.object(),
@@ -651,59 +640,52 @@ Overview.STATE = {
 	urlChangeListsHistory: Config.string().required(),
 
 	/**
-	 * The URL for the REST service to the change entries
+	 * The URL for the REST service to the change entries.
 	 * @default
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {string}
 	 */
-
 	urlChangeEntries: Config.string(),
 
 	/**
-	 * Property that contains the url for the REST service to the change
-	 * tracking production information
+	 * URL for the REST service to the change tracking production information.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {!string}
 	 */
-
 	urlProductionInformation: Config.string().required(),
 
 	/**
-	 * Property that contains the url for the production view
+	 * URL for the production view.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {!string}
 	 */
-
 	urlProductionView: Config.string().required(),
 
 	/**
-	 * Property that contains the url for the list view with
-	 * production checked out
+	 * URL for the list view with production checked out.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {string}
 	 */
 	urlSelectProduction: Config.string(),
 
 	/**
 	 * Path of the available icons.
+	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf Overview
-	 * @review
 	 * @type {!string}
 	 */
-
 	spritemap: Config.string().required()
 
 };
