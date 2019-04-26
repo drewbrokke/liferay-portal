@@ -52,6 +52,7 @@ public class LiferayService {
 	 *
 	 * @param  openAPISpecURL Liferay OpenAPI specification URL
 	 * @return endpoint location
+	 * @review
 	 */
 	public String extractEndpointPathSegment(URL openAPISpecURL) {
 		String openAPISpecRef = openAPISpecURL.toExternalForm();
