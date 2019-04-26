@@ -1730,6 +1730,45 @@ public class JournalArticleLocalServiceImpl
 	}
 
 	@Override
+	public JournalArticle fetchArticleByUrlTitle(
+		long groupId, String urlTitle, double version) {
+
+		FriendlyURLEntry friendlyURLEntry =
+			friendlyURLEntryLocalService.fetchFriendlyURLEntry(
+				groupId, JournalArticle.class, urlTitle);
+
+		if (friendlyURLEntry != null) {
+			JournalArticle article = fetchLatestArticle(
+				friendlyURLEntry.getClassPK(), WorkflowConstants.STATUS_ANY,
+				true);
+
+			if (article.getVersion() == version) {
+				return article;
+			}
+		}
+
+		JournalArticle article = fetchLatestArticleByUrlTitle(
+			groupId, urlTitle, WorkflowConstants.STATUS_APPROVED);
+
+		if ((article != null) && (article.getVersion() == version)) {
+			return article;
+		}
+
+		article = fetchLatestArticleByUrlTitle(
+			groupId, urlTitle, WorkflowConstants.STATUS_ANY);
+
+		if ((article != null) && (article.getVersion() == version)) {
+			return article;
+		}
+		else if (article != null) {
+			return fetchArticle(
+				article.getGroupId(), article.getArticleId(), version);
+		}
+
+		return null;
+	}
+
+	@Override
 	public JournalArticle fetchDisplayArticle(long groupId, String articleId) {
 		List<JournalArticle> articles = journalArticlePersistence.findByG_A_ST(
 			groupId, articleId, WorkflowConstants.STATUS_APPROVED);
