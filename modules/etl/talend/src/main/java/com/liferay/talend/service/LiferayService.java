@@ -269,9 +269,9 @@ public class LiferayService {
 	 *         according given pattern
 	 */
 	private Map<String, String> _mapKeysToPatternEvaluations(
-		final String pattern, JsonObject jsonObject) {
+		String pattern, JsonObject jsonObject) {
 
-		final Map<String, String> evaluatedPatterns = new HashMap<>();
+		Map<String, String> evaluatedPatterns = new HashMap<>();
 
 		jsonObject.forEach(
 			(key, jsonValue) -> {
