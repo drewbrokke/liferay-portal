@@ -44,8 +44,8 @@ public interface CTEngineManager {
 	public void checkoutCTCollection(long userId, long ctCollectionId);
 
 	/**
-	 * Returns the number of change tracking collections with the
-	 * given company and keywords.
+	 * Returns the number of change tracking collections with the given company
+	 * and keywords.
 	 *
 	 * @param  companyId the primary key of the company
 	 * @param  queryDefinition the settings regarding pagination, order, and
@@ -74,9 +74,9 @@ public interface CTEngineManager {
 	public void deleteCTCollection(long ctCollectionId);
 
 	/**
-	 * Disables the change tracking functionality for the given
-	 * company. As a side effect, it deletes all the related change tracking
-	 * collections and entries.
+	 * Disables the change tracking functionality for the given company. As a
+	 * side effect, it deletes all the related change tracking collections and
+	 * entries.
 	 *
 	 * @param companyId the primary key of the company
 	 */
@@ -93,7 +93,7 @@ public interface CTEngineManager {
 	 * Returns the number of changes per change type within a given change
 	 * tracking collection.
 	 *
-	 * @param ctCollectionId the primary key of the change collection
+	 * @param  ctCollectionId the primary key of the change collection
 	 * @return the change counts per change type
 	 */
 	public Map<Integer, Long> getCTCollectionChangeTypeCounts(
@@ -117,20 +117,18 @@ public interface CTEngineManager {
 	public List<CTCollection> getCTCollections(long companyId);
 
 	/**
-	 * Returns the change entries associated with the given
-	 * change collection.
+	 * Returns the change entries associated with the given change collection.
 	 *
 	 * @param  ctCollection the primary key of the change collection
 	 * @param  groupIds the group primary keys
 	 * @param  userIds the user primary keys
 	 * @param  classNameIds the class name primary keys
 	 * @param  changeTypes the change types
-	 * @param  collision whether the change entries collide with the
-	 *         production change collection
-	 * @param  queryDefinition the settings regarding
-	 *         pagination, order, and status filtering
-	 * @return the change entries associated with the given
+	 * @param  collision whether the change entries collide with the production
 	 *         change collection
+	 * @param  queryDefinition the settings regarding pagination, order, and
+	 *         status filtering
+	 * @return the change entries associated with the given change collection
 	 */
 	public List<CTEntry> getCTEntries(
 		CTCollection ctCollection, long[] groupIds, long[] userIds,
@@ -151,28 +149,27 @@ public interface CTEngineManager {
 	 * collection and query definition.
 	 *
 	 * @param  ctCollectionId the primary key of the change collection
-	 * @param  queryDefinition the settings regarding
-	 *         pagination, order, and status filtering
+	 * @param  queryDefinition the settings regarding pagination, order, and
+	 *         status filtering
 	 * @return the change entries
 	 */
 	public List<CTEntry> getCTEntries(
 		long ctCollectionId, QueryDefinition<CTEntry> queryDefinition);
 
 	/**
-	 * Returns the number of change entries associated with the
-	 * given change collection and filters.
+	 * Returns the number of change entries associated with the given change
+	 * collection and filters.
 	 *
 	 * @param  ctCollection the primary key of the change collection
 	 * @param  groupIds the group primary keys
 	 * @param  userIds the user primary keys
 	 * @param  classNameIds the class name primary keys
 	 * @param  changeTypes the change types
-	 * @param  collision whether the change entries collide with the
-	 *         production change collection
-	 * @param  queryDefinition the settings regarding the status
-	 *         filtering
-	 * @return the number of change tracking entries with
-	 *         the given change collection and filters
+	 * @param  collision whether the change entries collide with the production
+	 *         change collection
+	 * @param  queryDefinition the settings regarding the status filtering
+	 * @return the number of change tracking entries with the given change
+	 *         collection and filters
 	 */
 	public int getCTEntriesCount(
 		CTCollection ctCollection, long[] groupIds, long[] userIds,
@@ -201,8 +198,8 @@ public interface CTEngineManager {
 	public List<CTEntryAggregate> getCTEntryAggregates(long ctCollectionId);
 
 	/**
-	 * Returns the production change tracking collection that
-	 * contains all the changes published before.
+	 * Returns the production change tracking collection that contains all the
+	 * changes published before.
 	 *
 	 * @param  companyId the primary key of the company
 	 * @return the production change tracking collection
@@ -219,22 +216,21 @@ public interface CTEngineManager {
 	public long getRecentCTCollectionId(long userId);
 
 	/**
-	 * Returns <code>true</code> if change tracking is allowed for
-	 * the given company.
+	 * Returns <code>true</code> if change tracking is allowed for the given
+	 * company.
 	 *
 	 * @param  companyId the primary key of the company
-	 * @return <code>true</code> if change tracking is allowed for the
-	 *         company; <code>false</code> otherwise
+	 * @return <code>true</code> if change tracking is allowed for the company;
+	 *         <code>false</code> otherwise
 	 */
 	public boolean isChangeTrackingAllowed(long companyId);
 
 	/**
-	 * Returns <code>true</code> if change tracking is enabled for
-	 * the company.
+	 * Returns <code>true</code> if change tracking is enabled for the company.
 	 *
 	 * @param  companyId the primary key of the company
-	 * @return <code>true</code> if change tracking is enabled for the
-	 *         company; <code>false</code> otherwise
+	 * @return <code>true</code> if change tracking is enabled for the company;
+	 *         <code>false</code> otherwise
 	 */
 	public boolean isChangeTrackingEnabled(long companyId);
 
@@ -279,8 +275,8 @@ public interface CTEngineManager {
 	 * company and keywords.
 	 *
 	 * @param  companyId the primary key of the company
-	 * @param  queryDefinition the settings regarding
-	 *         pagination, order, and filter (keywords)
+	 * @param  queryDefinition the settings regarding pagination, order, and
+	 *         filter (keywords)
 	 * @return the change tracking collections
 	 */
 	public List<CTCollection> searchByKeywords(

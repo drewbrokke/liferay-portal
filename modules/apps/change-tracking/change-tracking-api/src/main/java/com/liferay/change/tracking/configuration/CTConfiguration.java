@@ -31,9 +31,9 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 
 	/**
 	 * Returns the content type human readable text for this configuration. It
-	 * is a group name of the entities handled in this configuration. For example,
-	 * <code>JournalArticle</code> and <code>JournalResource</code> have the
-	 * content type <code>Web Content</code>.
+	 * is a group name of the entities handled in this configuration. For
+	 * example, <code>JournalArticle</code> and <code>JournalResource</code>
+	 * have the content type <code>Web Content</code>.
 	 *
 	 * @return the content type handled in this configuration
 	 */
@@ -41,9 +41,8 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 
 	/**
 	 * Returns the content type's language key. The content type and application
-	 * could be written in differing languages; the
-	 * language key would provide the language agnostic display of the content
-	 * type.
+	 * could be written in differing languages; the language key would provide
+	 * the language agnostic display of the content type.
 	 *
 	 * @return the content type's language key
 	 */
@@ -53,8 +52,7 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 	 * Returns the configuration's function that retrieves resource entities
 	 * from the company.
 	 *
-	 * @return the function that retrieves resource entities
-	 *         from the company
+	 * @return the function that retrieves resource entities from the company
 	 */
 	public Function<Long, List<T>> getResourceEntitiesByCompanyIdFunction();
 
@@ -62,8 +60,8 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 	 * Returns the configuration's function that retrieves the resource entity
 	 * by its primary key.
 	 *
-	 * @return the function that retrieves the resource entity
-	 *         by its primary key
+	 * @return the function that retrieves the resource entity by its primary
+	 *         key
 	 */
 	public Function<Long, T> getResourceEntityByResourceEntityIdFunction();
 
@@ -75,31 +73,31 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 	public Class<T> getResourceEntityClass();
 
 	/**
-	 * Returns the configuration's function that retrieves the resource
-	 * entity's primary key from the resource entity.
+	 * Returns the configuration's function that retrieves the resource entity's
+	 * primary key from the resource entity.
 	 *
-	 * @return the function that retrieves the resource
-	 *         entity's primary key from the resource entity
+	 * @return the function that retrieves the resource entity's primary key
+	 *         from the resource entity
 	 */
 	public Function<T, Serializable>
 		getResourceEntityIdFromResourceEntityFunction();
 
 	/**
-	 * Returns the configuration's function that retrieves the resource
-	 * entity's primary key from the version entity.
+	 * Returns the configuration's function that retrieves the resource entity's
+	 * primary key from the version entity.
 	 *
-	 * @return the function that retrieves the resource
-	 *         entity's primary key from the version entity
+	 * @return the function that retrieves the resource entity's primary key
+	 *         from the version entity
 	 */
 	public Function<U, Serializable>
 		getResourceEntityIdFromVersionEntityFunction();
 
 	/**
-	 * Returns the configuration's function that retrieves the
-	 * version entities for a given resource entity.
+	 * Returns the configuration's function that retrieves the version entities
+	 * for a given resource entity.
 	 *
-	 * @return the function that retrieves the version entities
-	 *         for a given resource entity
+	 * @return the function that retrieves the version entities for a given
+	 *         resource entity
 	 */
 	public Function<T, List<U>> getVersionEntitiesFromResourceEntityFunction();
 
@@ -112,8 +110,8 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 	public Integer[] getVersionEntityAllowedStatuses();
 
 	/**
-	 * Returns the configuration's function that retrieves the version
-	 * entity by it's primary key.
+	 * Returns the configuration's function that retrieves the version entity by
+	 * it's primary key.
 	 *
 	 * @return the function that retrieves the version entity by it's primary
 	 *         key
@@ -128,8 +126,8 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 	public Class<U> getVersionEntityClass();
 
 	/**
-	 * Returns the configuration's function that retrieves the version
-	 * entity's primary key from the resource entity.
+	 * Returns the configuration's function that retrieves the version entity's
+	 * primary key from the resource entity.
 	 *
 	 * @return the function that retrieves the version entity's primary key from
 	 *         the resource entity
@@ -138,21 +136,21 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 		getVersionEntityIdFromResourceEntityFunction();
 
 	/**
-	 * Returns the configuration's function that retrieves the version
-	 * entity's primary key from the version entity.
+	 * Returns the configuration's function that retrieves the version entity's
+	 * primary key from the version entity.
 	 *
-	 * @return the function that retrieves the version
-	 *         entity's primary key from the version entity
+	 * @return the function that retrieves the version entity's primary key from
+	 *         the version entity
 	 */
 	public Function<U, Serializable>
 		getVersionEntityIdFromVersionEntityFunction();
 
 	/**
-	 * Returns the functions that each retrieve related
-	 * entities of a version entity.
+	 * Returns the functions that each retrieve related entities of a version
+	 * entity.
 	 *
-	 * @return the functions that each retrieve related
-	 *         entities of a version entity
+	 * @return the functions that each retrieve related entities of a version
+	 *         entity
 	 */
 	public List<Function<U, List<? extends BaseModel>>>
 		getVersionEntityRelatedEntitiesFunctions();
@@ -160,11 +158,11 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 	public Function<U, String> getVersionEntitySiteNameFunction();
 
 	/**
-	 * Returns the configuration's function that retrieves the version
-	 * entity's workflow status from the version entity.
+	 * Returns the configuration's function that retrieves the version entity's
+	 * workflow status from the version entity.
 	 *
-	 * @return the function that retrieves the version
-	 *         entity's workflow status from the version entity
+	 * @return the function that retrieves the version entity's workflow status
+	 *         from the version entity
 	 */
 	public Function<U, Integer> getVersionEntityStatusFunction();
 
