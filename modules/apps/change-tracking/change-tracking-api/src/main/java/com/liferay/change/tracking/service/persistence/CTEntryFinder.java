@@ -23,13 +23,13 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public interface CTEntryFinder {
 
-	public int countByCTCollectionId(
-		long ctCollectionId,
+	public int countByRelatedCTEntries(
+		long ctEntryId,
 		com.liferay.portal.kernel.dao.orm.QueryDefinition
 			<com.liferay.change.tracking.model.CTEntry> queryDefinition);
 
-	public int countByRelatedCTEntries(
-		long ctEntryId,
+	public int countByCTCollectionId(
+		long ctCollectionId,
 		com.liferay.portal.kernel.dao.orm.QueryDefinition
 			<com.liferay.change.tracking.model.CTEntry> queryDefinition);
 
