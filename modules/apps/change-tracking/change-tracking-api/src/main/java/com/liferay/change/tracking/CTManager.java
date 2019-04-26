@@ -33,19 +33,18 @@ import java.util.Optional;
  * tracking framework.
  *
  * @author Daniel Kocsis
- * @review
  */
 @ProviderType
 public interface CTManager {
 
 	/**
-	 * Puts a model change to a change entry aggregate associated with the owner
-	 * model change. If there is no change aggregate associated with the owner
-	 * it creates a new one. Also creates a new aggregate if the related entry
-	 * was already part of the aggregate, and it is being changed.
+	 * Assigns a model change to the change entry aggregate associated with the owner
+	 * model change. If there is no change aggregate associated with the owner,
+	 * it creates a new one. Also, a new aggregate is created if the related entry
+	 * was already part of the aggregate and is being changed.
 	 *
 	 * @param  userId the primary key of the user
-	 * @param  ownerCTEntry the owner of the change bag
+	 * @param  ownerCTEntry the change bag's owner
 	 * @param  relatedCTEntry the change to add to the bag
 	 * @return the created or updated change entry aggregate
 	 */
@@ -53,16 +52,16 @@ public interface CTManager {
 		long userId, CTEntry ownerCTEntry, CTEntry relatedCTEntry);
 
 	/**
-	 * Puts a model change to a change entry aggregate associated with the owner
-	 * model change. If there is no change aggregate associated with the owner
-	 * it creates a new one. Also creates a new aggregate if the related entry
-	 * was already part of the aggregate, and it is being changed, except when
-	 * the <code>force</code> attribute is <code>true</code>.
+	 * Assigns a model change to the change entry aggregate associated with the owner
+	 * model change. If there is no change aggregate associated with the owner,
+	 * it creates a new one. Also, a new aggregate is created if the related entry
+	 * was already part of the aggregate and is being changed, unless you force
+	 * the override of the existing change entry aggregate.
 	 *
 	 * @param  userId the primary key of the user
 	 * @param  ownerCTEntry the owner of the change bag
 	 * @param  relatedCTEntry the change to add to the bag
-	 * @param  force forces to override existing change entry in aggregate
+	 * @param  force whether to override the existing change entry aggregate
 	 * @return the created or updated change entry aggregate
 	 */
 	public Optional<CTEntryAggregate> addRelatedCTEntry(
@@ -70,13 +69,13 @@ public interface CTManager {
 		boolean force);
 
 	/**
-	 * Puts a model change to a change entry aggregate associated with the owner
-	 * model change. If there is no change aggregate associated with the owner
-	 * it creates a new one. Also creates a new aggregate if the related entry
-	 * was already part of the aggregate, and it is being changed.
+	 * Assigns a model change to the change entry aggregate associated with the owner
+	 * model change. If there is no change aggregate associated with the owner,
+	 * it creates a new one. Also, a new aggregate is created if the related entry
+	 * was already part of the aggregate and is being changed.
 	 *
 	 * @param  userId the primary key of the user
-	 * @param  ownerCTEntryId the primary key of the owner of the change bag
+	 * @param  ownerCTEntryId the primary key of the change bag's owner
 	 * @param  relatedCTEntryId the primary key of the change to add to the bag
 	 * @return the created or updated change entry aggregate
 	 */
@@ -84,21 +83,21 @@ public interface CTManager {
 		long userId, long ownerCTEntryId, long relatedCTEntryId);
 
 	/**
-	 * Executes a model addition or update using the given supplier, with
-	 * setting and un-setting the flag that indicates the update before and
-	 * after the operation. Therefore during the execution {@link
+	 * Executes a model addition or update using the given supplier, toggling
+	 * the flag that indicates the update before and
+	 * after the operation. Therefore, during the execution, {@link
 	 * #isModelUpdateInProgress()} will return <code>true</code>.
 	 *
-	 * @param  modelUpdateSupplier The supplier that performs the add or update
+	 * @param  modelUpdateSupplier the supplier that performs the add or update
 	 *         and supplies the resulting model
-	 * @return The created or updated model of type T
+	 * @return the created or updated model
 	 */
 	public <T> T executeModelUpdate(
 			UnsafeSupplier<T, PortalException> modelUpdateSupplier)
 		throws PortalException;
 
 	/**
-	 * Retrieves a model change in the context of the current user's active
+	 * Returns the model change of the current user's active
 	 * change collection.
 	 *
 	 * @param  userId the primary key of the user
@@ -111,8 +110,7 @@ public interface CTManager {
 		long userId, long modelClassNameId, long modelClassPK);
 
 	/**
-	 * Returns the active change tracking collection associated with the given
-	 * user in the scope of the given company.
+	 * Returns the active change tracking collection associated with the user.
 	 *
 	 * @param  userId the primary key of the user
 	 * @return the selected change tracking collection
@@ -134,20 +132,19 @@ public interface CTManager {
 		long companyId, long userId, boolean includeProduction,
 		boolean includeActive, QueryDefinition<CTCollection> queryDefinition);
 
-	/**
-	 * Returns the change entry aggregate containing the given change entry and
-	 * associated with the given change entry collection.
+	 * Returns the change entry aggregate containing the change entry and
+	 * change entry collection.
 	 *
-	 * @param  ctEntry a model change entry
-	 * @param  ctCollection a model change entry collection
-	 * @return the change entry aggregate containing the given change entry and
-	 *         associated with the given change entry collection.
+	 * @param  ctEntry the model change entry
+	 * @param  ctCollection the model change entry collection
+	 * @return the change entry aggregate containing the change entry and
+	 *         change entry collection
 	 */
 	public Optional<CTEntryAggregate> getCTEntryAggregateOptional(
 		CTEntry ctEntry, CTCollection ctCollection);
 
 	/**
-	 * Retrieves the latest model change in the context of the current user's
+	 * Returns the latest model change for the current user's
 	 * active change collection.
 	 *
 	 * @param  userId the primary key of the user
@@ -159,7 +156,7 @@ public interface CTManager {
 		long userId, long modelResourcePrimKey);
 
 	/**
-	 * Retrieves all model changes in the context of the current user's active
+	 * Returns all model changes for the current user's active
 	 * change collection.
 	 *
 	 * @param  userId the primary key of the user
@@ -172,14 +169,14 @@ public interface CTManager {
 		long userId, long modelResourcePrimKey);
 
 	/**
-	 * Retrieves a paginated and ordered list of all model changes in the
+	 * Returns a paginated and ordered list of all model changes in the
 	 * context of the current user's active change collection.
 	 *
 	 * @param  userId the primary key of the user
 	 * @param  modelResourcePrimKey the primary key of the changed resource
 	 *         model
-	 * @param  queryDefinition the object contains settings regarding
-	 *         pagination, order and filter
+	 * @param  queryDefinition the settings regarding
+	 *         pagination, order, and filter
 	 * @return a list of change tracking entries representing the registered
 	 *         model changes
 	 */
@@ -188,9 +185,9 @@ public interface CTManager {
 		QueryDefinition<CTEntry> queryDefinition);
 
 	/**
-	 * Retrieves a model change's bag, first looking for it in the current
-	 * user's active change collection, and if it doesn't exist, looking for it
-	 * in the production change collection
+	 * Returns a model change's bag, first searching for it in the current
+	 * user's active change collection; if it doesn't exist there, the
+	 * production change collection is searched.
 	 *
 	 * @param  userId the primary key of the user
 	 * @param  modelClassNameId the primary key of the changed version model's
@@ -202,9 +199,9 @@ public interface CTManager {
 		long userId, long modelClassNameId, long modelClassPK);
 
 	/**
-	 * Retrieves a model change, first looking for it in the current user's
-	 * active change collection, and if it doesn't exist, looking for it in the
-	 * production change collection
+	 * Returns a model change, first searching for it in the current user's
+	 * active change collection; if it doesn't exist there, the
+	 * production change collection is searched.
 	 *
 	 * @param  userId the primary key of the user
 	 * @param  modelClassNameId the primary key of the changed version model's
@@ -216,7 +213,7 @@ public interface CTManager {
 		long userId, long modelClassNameId, long modelClassPK);
 
 	/**
-	 * Retrieves a model change from the production change collection.
+	 * Retrurns a model change from the production change collection.
 	 *
 	 * @param  userId the primary key of the user
 	 * @param  modelClassNameId the primary key of the changed version model's
@@ -228,13 +225,13 @@ public interface CTManager {
 		long userId, long modelClassNameId, long modelClassPK);
 
 	/**
-	 * Returns the list of change related change entries associated with the
+	 * Returns the change related change entries associated with the
 	 * given change entry collection.
 	 *
-	 * @param  ctEntry a model change entry
-	 * @param  ctCollection a model change entry collection
-	 * @return the list of change related change entries associated with the
-	 *         given change entry collection.
+	 * @param  ctEntry the model change entry
+	 * @param  ctCollection the model change entry collection
+	 * @return the change related change entries associated with the
+	 *         given change entry collection
 	 */
 	public List<CTEntry> getRelatedCTEntries(
 		CTEntry ctEntry, CTCollection ctCollection);
@@ -249,25 +246,23 @@ public interface CTManager {
 	 */
 	public int getRelatedOwnerCTEntriesCount(long ctEntryId);
 
-	/**
-	 * Indicates whether an add or update is in progress for a model. This will
-	 * only return <code>true</code> if the add or update is being executed with
+	 * Returns <code>true</code> if a model addition or update is in progress. This
+	 * only returns <code>true</code> if the addition or update is being executed with
 	 * {@link #executeModelUpdate(UnsafeSupplier)} and the execution is in
-	 * progress. Useful to be able to bypass change tracking consideration when
-	 * a get or fetch is executed for a model during it's own addition or
+	 * progress. It's useful to bypass change tracking consideration when
+	 * a get or fetch is executed for a model during its own addition or
 	 * update.
 	 *
-	 * @return <code>true</code> if an add or update is in progress for a model
-	 *         using {@link #executeModelUpdate(UnsafeSupplier)}
+	 * @return <code>true</code> if a model addition or update is in progress;
+	 *         <code>false</code> otherwise
 	 */
 	public boolean isModelUpdateInProgress();
 
 	/**
-	 * Registers a model change into the change tracking framework in the
-	 * context of the current user's active change collection. Throws
-	 * <code>DuplicateCTEntryException</code> if a change tracking entry already
-	 * exists with the same <code>modelClassNameId</code> and
-	 * <code>modelClassPK</code>.
+	 * Registers the model change into the change tracking framework for the
+	 * current user's active change collection. A
+	 * <code>DuplicateCTEntryException</code> is thrown if the change tracking entry already
+	 * exists with the same model class name ID and model class primary key.
 	 *
 	 * @param  userId the primary key of the user
 	 * @param  modelClassNameId the primary key of the changed version model's
@@ -275,7 +270,7 @@ public interface CTManager {
 	 * @param  modelClassPK the primary key of the changed version model
 	 * @param  modelResourcePrimKey the primary key of the changed resource
 	 *         model
-	 * @param  changeType the type of the model change
+	 * @param  changeType the model change's type
 	 * @return the change tracking entry representing the registered model
 	 *         change
 	 */
@@ -285,12 +280,11 @@ public interface CTManager {
 		throws CTException;
 
 	/**
-	 * Registers a model change into the change tracking framework in the
-	 * context of the current user's active change collection. Throws
-	 * <code>DuplicateCTEntryException</code> if a change tracking entry already
-	 * exists with the same <code>modelClassNameId</code> and
-	 * <code>modelClassPK</code>, except when the <code>force</code> attribute
-	 * is <code>true</code>.
+	 * Registers a model change into the change tracking framework for
+	 * the current user's active change collection. A
+	 * <code>DuplicateCTEntryException</code> is thrown if a change tracking entry already
+	 * exists with the same model class name ID and model class primary key, unless you force
+	 * the override of the existing change entry.
 	 *
 	 * @param  userId the primary key of the user
 	 * @param  modelClassNameId the primary key of the changed version model's
@@ -298,8 +292,8 @@ public interface CTManager {
 	 * @param  modelClassPK the primary key of the changed version model
 	 * @param  modelResourcePrimKey the primary key of the changed resource
 	 *         model
-	 * @param  changeType the type of the model change
-	 * @param  force forces to override an existing change entry
+	 * @param  changeType the model change's type
+	 * @param  force whether to override an existing change entry
 	 * @return the change tracking entry representing the registered model
 	 *         change
 	 */
@@ -309,8 +303,8 @@ public interface CTManager {
 		throws CTException;
 
 	/**
-	 * Puts all related model changes to a change entry aggregate associated
-	 * with the owner model change. Creates a new aggregate if the related entry
+	 * Assigns all related model changes to a change entry aggregate associated
+	 * with the owner model change. A new aggregate is created if the related entry
 	 * was already part of the aggregate.
 	 *
 	 * @param userId the primary key of the user
@@ -321,15 +315,15 @@ public interface CTManager {
 		long userId, long classNameId, long classPK);
 
 	/**
-	 * Puts all related model changes to a change entry aggregate associated
-	 * with the owner model change. Creates a new aggregate if the related entry
-	 * was already part of the aggregate, except when the <code>force</code>
-	 * attribute is <code>true</code>.
+	 * Assigns all related model changes to a change entry aggregate associated
+	 * with the owner model change. A new aggregate is created if the related entry
+	 * was already part of the aggregate, unless you force
+	 * the override of the existing change entry aggregate.
 	 *
 	 * @param userId the primary key of the user
 	 * @param classNameId the primary key of the owner version model's class
 	 * @param classPK the primary key of the owner version model
-	 * @param force forces to override existing change entry in aggregate
+	 * @param force whether to override the existing change entry aggregate
 	 */
 	public <V extends BaseModel> void registerRelatedChanges(
 		long userId, long classNameId, long classPK, boolean force);
