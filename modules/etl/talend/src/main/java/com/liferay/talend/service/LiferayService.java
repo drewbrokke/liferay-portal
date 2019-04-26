@@ -103,7 +103,7 @@ public class LiferayService {
 			inputDataSet);
 
 		Map<String, String> pathResponseEntities = _mapKeysToPatternEvaluations(
-			_GET_METHOD_RESPONSE_PATTERN,
+			_GET_METHOD_RESPONSE_REGEX,
 			openAPISpecJsonObject.getJsonObject("paths"));
 
 		String entityName = pathResponseEntities.get(endpoint);
@@ -168,7 +168,7 @@ public class LiferayService {
 		JsonObject openAPISpecJsonObject) {
 
 		Map<String, String> pathResponseEntities = _mapKeysToPatternEvaluations(
-			_GET_METHOD_RESPONSE_PATTERN,
+			_GET_METHOD_RESPONSE_REGEX,
 			openAPISpecJsonObject.getJsonObject("paths"));
 
 		return _filterPageableEndpoints(
@@ -220,7 +220,7 @@ public class LiferayService {
 		patternEvaluations.forEach(
 			(endpoint, entity) -> {
 				String typeValue = _evaluatePattern(
-					String.format(_SCHEMA_PROPERTY_ITEMS_TYPE_PATTERN, entity),
+					String.format(_SCHEMA_PROPERTY_ITEMS_TYPE_REGEX, entity),
 					openAPISpecJsonObject);
 
 				if (!"array".equals(typeValue)) {
@@ -228,7 +228,7 @@ public class LiferayService {
 				}
 
 				typeValue = _evaluatePattern(
-					String.format(_SCHEMA_PROPERTY_PAGE_TYPE_PATTERN, entity),
+					String.format(_SCHEMA_PROPERTY_PAGE_TYPE_REGEX, entity),
 					openAPISpecJsonObject);
 
 				if (!"integer".equals(typeValue)) {
@@ -287,13 +287,13 @@ public class LiferayService {
 		return evaluatedPatterns;
 	}
 
-	private static final String _GET_METHOD_RESPONSE_PATTERN =
+	private static final String _GET_METHOD_RESPONSE_REGEX =
 		"get>responses>default>content>application/json>schema>$ref";
 
-	private static final String _SCHEMA_PROPERTY_ITEMS_TYPE_PATTERN =
+	private static final String _SCHEMA_PROPERTY_ITEMS_TYPE_REGEX =
 		"components>schemas>%s>properties>items>type";
 
-	private static final String _SCHEMA_PROPERTY_PAGE_TYPE_PATTERN =
+	private static final String _SCHEMA_PROPERTY_PAGE_TYPE_REGEX =
 		"components>schemas>%s>properties>page>type";
 
 	private static final Pattern _openAPISpecURLPattern = Pattern.compile(
