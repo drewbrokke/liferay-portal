@@ -159,7 +159,7 @@ public class LiferayInputEmitter implements Serializable {
 				String name = schemaEntry.getName();
 				Schema.Type type = schemaEntry.getType();
 
-				final JsonNode fieldJsonNode = itemJsonNode.path(name);
+				JsonNode fieldJsonNode = itemJsonNode.path(name);
 
 				if (Schema.Type.ARRAY == type) {
 					if (!fieldJsonNode.isArray()) {
