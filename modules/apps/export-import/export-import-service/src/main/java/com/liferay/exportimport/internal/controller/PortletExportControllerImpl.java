@@ -472,7 +472,7 @@ public class PortletExportControllerImpl implements PortletExportController {
 			if (!portlet.isPreferencesUniquePerLayout()) {
 				StringBundler sb = new StringBundler(5);
 
-				sb.append(portletDataContext.getPortletId());
+				sb.append(portlet.getPortletId());
 				sb.append(StringPool.AT);
 				sb.append(portletDataContext.getScopeType());
 				sb.append(StringPool.AT);
