@@ -14,6 +14,8 @@
 
 package com.liferay.fragment.renderer;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.fragment.constants.FragmentConstants;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -28,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Jorge Ferrer
  */
+@ProviderType
 public interface FragmentRenderer {
 
 	public String getCollectionKey();
