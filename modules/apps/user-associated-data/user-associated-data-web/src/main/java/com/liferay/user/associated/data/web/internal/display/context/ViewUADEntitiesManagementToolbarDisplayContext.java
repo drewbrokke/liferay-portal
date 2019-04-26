@@ -18,7 +18,6 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchCon
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -26,10 +25,10 @@ import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.user.associated.data.web.internal.constants.UADConstants;
 import com.liferay.user.associated.data.web.internal.display.ViewUADEntitiesDisplay;
+import com.liferay.user.associated.data.web.internal.util.JavascriptComponentNamespaceUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -55,6 +54,8 @@ public class ViewUADEntitiesManagementToolbarDisplayContext
 			liferayPortletRequest, liferayPortletResponse, request,
 			viewUADEntitiesDisplay.getSearchContainer());
 
+		_componentId = JavascriptComponentNamespaceUtil.namespace(
+			liferayPortletRequest, "viewUADEntitiesManagementToolbar");
 		_viewUADEntitiesDisplay = viewUADEntitiesDisplay;
 	}
 
@@ -96,9 +97,7 @@ public class ViewUADEntitiesManagementToolbarDisplayContext
 
 	@Override
 	public String getComponentId() {
-		return StringBundler.concat(
-			"viewUADEntitiesManagementToolbar", StringPool.UNDERLINE,
-			StringUtil.randomId());
+		return _componentId;
 	}
 
 	@Override
@@ -171,6 +170,7 @@ public class ViewUADEntitiesManagementToolbarDisplayContext
 	private static final Log _log = LogFactoryUtil.getLog(
 		ViewUADEntitiesManagementToolbarDisplayContext.class);
 
+	private final String _componentId;
 	private final ViewUADEntitiesDisplay _viewUADEntitiesDisplay;
 
 }
