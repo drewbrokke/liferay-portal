@@ -32,7 +32,7 @@ public enum OpenApiType {
 		}
 
 		throw new OpenApiException(
-			"Unknown Open API type " + openApiTypeDefinition);
+			"Unknown OpenAPI type " + openApiTypeDefinition);
 	}
 
 	private OpenApiType(String openApiTypeDefinition) {
