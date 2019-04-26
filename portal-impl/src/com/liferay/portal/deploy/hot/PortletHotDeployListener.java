@@ -164,7 +164,7 @@ public class PortletHotDeployListener extends BaseHotDeployListener {
 		if ((beanFilterNames != null) || (beanPortletIds != null)) {
 			if (_log.isDebugEnabled()) {
 				_log.debug(
-					"Detected bean portlet from ServletContext attributes");
+					"Detected bean portlet from servlet context attributes");
 			}
 
 			return;
