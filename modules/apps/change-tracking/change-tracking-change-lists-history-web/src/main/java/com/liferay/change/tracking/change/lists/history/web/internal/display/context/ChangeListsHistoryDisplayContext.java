@@ -127,21 +127,17 @@ public class ChangeListsHistoryDisplayContext {
 			WorkflowConstants.STATUS_DRAFT, true, searchContainer.getStart(),
 			searchContainer.getEnd(), orderByComparator);
 
+		queryDefinition.setEnd(searchContainer.getEnd());
 		queryDefinition.setOrderByComparator(orderByComparator);
+		queryDefinition.setStart(searchContainer.getStart());
 		queryDefinition.setStatus(WorkflowConstants.STATUS_APPROVED);
 
-		int ctEntriesCount = _ctEngineManager.getCTEntriesCount(
-			ctCollection.getCtCollectionId(), queryDefinition);
-
-		queryDefinition.setStart(searchContainer.getStart());
-		queryDefinition.setEnd(searchContainer.getEnd());
-
-		List<CTEntry> ctEntries = _ctEngineManager.getCTEntries(
-			ctCollection.getCtCollectionId(), queryDefinition);
-
-		searchContainer.setResults(ctEntries);
-
-		searchContainer.setTotal(ctEntriesCount);
+		searchContainer.setResults(
+			_ctEngineManager.getCTEntries(
+				ctCollection.getCtCollectionId(), queryDefinition));
+		searchContainer.setTotal(
+			_ctEngineManager.getCTEntriesCount(
+				ctCollection.getCtCollectionId(), queryDefinition));
 
 		return searchContainer;
 	}
