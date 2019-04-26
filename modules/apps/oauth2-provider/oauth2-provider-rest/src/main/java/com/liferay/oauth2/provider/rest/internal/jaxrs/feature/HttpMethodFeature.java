@@ -85,7 +85,6 @@ public class HttpMethodFeature implements Feature {
 		}
 
 		context.register((DynamicFeature)this::_collectHttpMethods);
-
 		context.register(
 			new HttpScopeCheckerContainerRequestFilter(),
 			Collections.singletonMap(
