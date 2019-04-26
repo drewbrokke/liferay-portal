@@ -100,26 +100,26 @@ public class TalendService {
 		else if (openApiFormat == OpenApiFormat.BINARY) {
 			entryBuilder.withType(Schema.Type.BYTES);
 		}
+		else if (openApiFormat == OpenApiFormat.DATE) {
+			entryBuilder.withType(Schema.Type.DATETIME);
+		}
+		else if (openApiFormat == OpenApiFormat.DATE_TIME) {
+			entryBuilder.withType(Schema.Type.DATETIME);
+		}
+		else if (openApiFormat == OpenApiFormat.DOUBLE) {
+			entryBuilder.withType(Schema.Type.DOUBLE);
+		}
+		else if (openApiFormat == OpenApiFormat.FLOAT) {
+			entryBuilder.withType(Schema.Type.FLOAT);
+		}
 		else if (openApiFormat == OpenApiFormat.INT32) {
 			entryBuilder.withType(Schema.Type.INT);
 		}
 		else if (openApiFormat == OpenApiFormat.INT64) {
 			entryBuilder.withType(Schema.Type.LONG);
 		}
-		else if (openApiFormat == OpenApiFormat.FLOAT) {
-			entryBuilder.withType(Schema.Type.FLOAT);
-		}
-		else if (openApiFormat == OpenApiFormat.DOUBLE) {
-			entryBuilder.withType(Schema.Type.DOUBLE);
-		}
 		else if (openApiFormat == OpenApiFormat.STRING) {
 			entryBuilder.withType(Schema.Type.STRING);
-		}
-		else if (openApiFormat == OpenApiFormat.DATE) {
-			entryBuilder.withType(Schema.Type.DATETIME);
-		}
-		else if (openApiFormat == OpenApiFormat.DATE_TIME) {
-			entryBuilder.withType(Schema.Type.DATETIME);
 		}
 
 		return entryBuilder;
