@@ -22,7 +22,7 @@ import javax.ws.rs.core.Application;
 /**
  * @author Carlos Sierra Andrés
  */
-public class TestAnnotatedApplicationInterface
+public class TestInterfaceAnnotatedApplication
 	extends Application implements TestAnnotatedInterface {
 
 	@Override

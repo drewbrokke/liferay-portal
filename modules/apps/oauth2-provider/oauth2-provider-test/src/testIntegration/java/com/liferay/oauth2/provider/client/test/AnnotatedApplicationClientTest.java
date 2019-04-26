@@ -15,7 +15,7 @@
 package com.liferay.oauth2.provider.client.test;
 
 import com.liferay.oauth2.provider.test.internal.TestAnnotatedApplication;
-import com.liferay.oauth2.provider.test.internal.TestAnnotatedApplicationInterface;
+import com.liferay.oauth2.provider.test.internal.TestInterfaceAnnotatedApplication;
 import com.liferay.oauth2.provider.test.internal.activator.BaseTestPreparatorBundleActivator;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.User;
@@ -76,7 +76,7 @@ public class AnnotatedApplicationClientTest extends BaseClientTestCase {
 			properties.put("oauth2.scope.checker.type", "annotations");
 
 			registerJaxRsApplication(
-				new TestAnnotatedApplicationInterface(), "annotated-interface",
+				new TestInterfaceAnnotatedApplication(), "annotated-interface",
 				properties);
 
 			registerJaxRsApplication(
