@@ -85,6 +85,7 @@ public class ConnectionService {
 
 		if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
 			_liferayHttpClient.base(endpoint);
+
 			endpoint = "";
 		}
 
