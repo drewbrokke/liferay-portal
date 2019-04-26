@@ -26,9 +26,9 @@ import java.sql.Statement;
 /**
  * @author Pavel Savinov
  */
-public class UpgradeJournalImages extends UpgradeProcess {
+public class UpgradeJournalArticleImage extends UpgradeProcess {
 
-	public UpgradeJournalImages(ImageLocalService imageLocalService) {
+	public UpgradeJournalArticleImage(ImageLocalService imageLocalService) {
 		_imageLocalService = imageLocalService;
 	}
 
@@ -58,7 +58,7 @@ public class UpgradeJournalImages extends UpgradeProcess {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		UpgradeJournalImages.class);
+		UpgradeJournalArticleImage.class);
 
 	private final ImageLocalService _imageLocalService;
 
