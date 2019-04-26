@@ -76,12 +76,12 @@ public class HttpMethodFeature implements Feature {
 			(Map<String, Object>)configuration.getProperty(
 				"osgi.jaxrs.application.serviceProperties");
 
-		Object ignoreScopesObject = applicationProperties.get(
+		Object ignoreMissingScopesObject = applicationProperties.get(
 			"ignore.missing.scopes");
 
-		if (ignoreScopesObject != null) {
+		if (ignoreMissingScopesObject != null) {
 			_ignoreMissingScopes = new HashSet<>(
-				StringPlus.asList(ignoreScopesObject));
+				StringPlus.asList(ignoreMissingScopesObject));
 		}
 
 		context.register((DynamicFeature)this::_collectHttpMethods);
