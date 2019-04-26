@@ -5,7 +5,8 @@ $removedItemHighlightColor: #FFEEF0;
 $addedItemHighlightColor: #E6FFED;
 
 .assign-scopes-modal {
-	max-width: 100%;
+	max-width: 100% !important;
+	width: 800px;
 
 	.inline {
 		display: inline-block;
