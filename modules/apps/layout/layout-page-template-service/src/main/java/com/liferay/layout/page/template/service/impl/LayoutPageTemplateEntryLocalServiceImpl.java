@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.model.LayoutPrototype;
+import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.model.ModelHintsUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
@@ -260,7 +261,10 @@ public class LayoutPageTemplateEntryLocalServiceImpl
 		Layout layout = layoutLocalService.fetchLayout(
 			layoutPageTemplateEntry.getPlid());
 
-		if (layout != null) {
+		LayoutSet layoutSet = layoutSetLocalService.fetchLayoutSet(
+			layoutPageTemplateEntry.getGroupId(), false);
+
+		if ((layout != null) && (layoutSet != null)) {
 			layoutLocalService.deleteLayout(layout);
 		}
 
