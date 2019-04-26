@@ -161,23 +161,7 @@ public class LiferayInputEmitter implements Serializable {
 
 				final JsonNode fieldJsonNode = itemJsonNode.path(name);
 
-				if (Schema.Type.BOOLEAN == type) {
-					recordBuilder.withBoolean(
-						schemaEntry, fieldJsonNode.booleanValue());
-				}
-				else if (Schema.Type.BYTES == type) {
-					try {
-						recordBuilder.withBytes(
-							schemaEntry, fieldJsonNode.binaryValue());
-					}
-					catch (IOException ioe) {
-						String fieldAsText = fieldJsonNode.asText();
-
-						recordBuilder.withBytes(
-							schemaEntry, fieldAsText.getBytes());
-					}
-				}
-				else if (Schema.Type.ARRAY == type) {
+				if (Schema.Type.ARRAY == type) {
 					if (!fieldJsonNode.isArray()) {
 						String arrayJsonNodeAsText = fieldJsonNode.asText();
 
@@ -194,6 +178,22 @@ public class LiferayInputEmitter implements Serializable {
 					}
 
 					recordBuilder.withArray(schemaEntry, arrayFields);
+				}
+				else if (Schema.Type.BOOLEAN == type) {
+					recordBuilder.withBoolean(
+						schemaEntry, fieldJsonNode.booleanValue());
+				}
+				else if (Schema.Type.BYTES == type) {
+					try {
+						recordBuilder.withBytes(
+							schemaEntry, fieldJsonNode.binaryValue());
+					}
+					catch (IOException ioe) {
+						String fieldAsText = fieldJsonNode.asText();
+
+						recordBuilder.withBytes(
+							schemaEntry, fieldAsText.getBytes());
+					}
 				}
 				else if (Schema.Type.DATETIME == type) {
 					Date date = null;
