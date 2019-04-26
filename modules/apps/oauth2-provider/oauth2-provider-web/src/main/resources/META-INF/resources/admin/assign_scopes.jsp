@@ -165,16 +165,6 @@ AssignScopesDisplayContext assignScopesDisplayContext = (AssignScopesDisplayCont
 						dom.append(modalBody, globalAccordion);
 					}
 
-					var boundingBox = modal.get('boundingBox');
-
-					handle = boundingBox.once(
-						'clickoutside',
-						function() {
-							modal.hide();
-						},
-						modal
-					);
-
 					event.preventDefault();
 
 					return false;
