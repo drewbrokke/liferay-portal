@@ -110,7 +110,8 @@ public interface CTManager {
 		long userId, long modelClassNameId, long modelClassPK);
 
 	/**
-	 * Returns the active change tracking collection associated with the user.
+	 * Returns the active change tracking collection associated with the user
+	 * in the scope of the company.
 	 *
 	 * @param  userId the primary key of the user
 	 * @return the selected change tracking collection
