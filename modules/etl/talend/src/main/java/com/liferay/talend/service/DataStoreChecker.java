@@ -55,11 +55,9 @@ public class DataStoreChecker {
 
 		inputDataSet.setGenericDataStore(genericDataStore);
 
-		String loginEndpoint = "/c/portal/login";
-
 		try {
 			_connectionService.getResponseRawString(
-				inputDataSet, loginEndpoint);
+				inputDataSet, "/c/portal/login");
 		}
 		catch (ConnectionException ce) {
 			return new HealthCheckStatus(
