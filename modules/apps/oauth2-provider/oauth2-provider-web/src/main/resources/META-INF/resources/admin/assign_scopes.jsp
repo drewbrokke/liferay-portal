@@ -137,6 +137,19 @@ AssignScopesDisplayContext assignScopesDisplayContext = (AssignScopesDisplayCont
 						}
 					);
 
+					modal.addToolbar(
+						[
+							{
+								cssClass: 'btn-primary',
+								label: '<liferay-ui:message key="close" />',
+								on: {
+									click: function() {
+										modal.hide();
+									}
+								}
+							}
+						]);
+
 					var scopeAliases = currentTarget.attr("data-slave").split(" ");
 
 					document.querySelectorAll('#<portlet:namespace />globalAccordion .panel').forEach(
