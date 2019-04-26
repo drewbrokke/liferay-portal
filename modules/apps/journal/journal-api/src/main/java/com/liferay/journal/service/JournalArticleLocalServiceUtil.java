@@ -928,6 +928,12 @@ public class JournalArticleLocalServiceUtil {
 		return getService().fetchArticleByUrlTitle(groupId, urlTitle);
 	}
 
+	public static com.liferay.journal.model.JournalArticle
+		fetchArticleByUrlTitle(long groupId, String urlTitle, double version) {
+
+		return getService().fetchArticleByUrlTitle(groupId, urlTitle, version);
+	}
+
 	public static com.liferay.journal.model.JournalArticle fetchDisplayArticle(
 		long groupId, String articleId) {
 

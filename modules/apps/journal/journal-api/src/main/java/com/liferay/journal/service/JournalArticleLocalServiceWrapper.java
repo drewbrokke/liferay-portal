@@ -961,6 +961,14 @@ public class JournalArticleLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.journal.model.JournalArticle fetchArticleByUrlTitle(
+		long groupId, String urlTitle, double version) {
+
+		return _journalArticleLocalService.fetchArticleByUrlTitle(
+			groupId, urlTitle, version);
+	}
+
+	@Override
 	public com.liferay.journal.model.JournalArticle fetchDisplayArticle(
 		long groupId, String articleId) {
 
