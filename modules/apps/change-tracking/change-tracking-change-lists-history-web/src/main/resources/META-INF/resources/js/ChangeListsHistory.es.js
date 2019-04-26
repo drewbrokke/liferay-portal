@@ -74,7 +74,7 @@ class ChangeListsHistory extends PortletBase {
 
 						const viewLink = Liferay.PortletURL.createURL(this.baseURL);
 
-						detailsLink.setParameter('backURL', viewLink.toString())
+						detailsLink.setParameter('backURL', viewLink.toString());
 
 						this.processEntries.push(
 							{
