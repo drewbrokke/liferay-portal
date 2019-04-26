@@ -40,7 +40,7 @@ public class TalendService {
 
 		JsonArray requiredJsonArray = schemaJsonObject.getJsonArray("required");
 
-		String requiredJsonArrayRaw = requiredJsonArray.toString();
+		String requiredJSON = requiredJsonArray.toString();
 
 		JsonObject propertiesJsonObject = schemaJsonObject.getJsonObject(
 			"properties");
@@ -51,7 +51,7 @@ public class TalendService {
 
 			entryBuilder.withName(propertyName);
 
-			_addNullable(entryBuilder, propertyName, requiredJsonArrayRaw);
+			_addNullable(entryBuilder, propertyName, requiredJSON);
 
 			_addEntryType(
 				entryBuilder, propertiesJsonObject.getJsonObject(propertyName));
