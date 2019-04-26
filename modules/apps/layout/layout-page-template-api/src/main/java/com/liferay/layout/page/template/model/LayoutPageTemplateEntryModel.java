@@ -339,6 +339,20 @@ public interface LayoutPageTemplateEntryModel
 	public void setLayoutPrototypeId(long layoutPrototypeId);
 
 	/**
+	 * Returns the plid of this layout page template entry.
+	 *
+	 * @return the plid of this layout page template entry
+	 */
+	public long getPlid();
+
+	/**
+	 * Sets the plid of this layout page template entry.
+	 *
+	 * @param plid the plid of this layout page template entry
+	 */
+	public void setPlid(long plid);
+
+	/**
 	 * Returns the last publish date of this layout page template entry.
 	 *
 	 * @return the last publish date of this layout page template entry
@@ -353,20 +367,6 @@ public interface LayoutPageTemplateEntryModel
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate);
-
-	/**
-	 * Returns the plid of this layout page template entry.
-	 *
-	 * @return the plid of this layout page template entry
-	 */
-	public long getPlid();
-
-	/**
-	 * Sets the plid of this layout page template entry.
-	 *
-	 * @param plid the plid of this layout page template entry
-	 */
-	public void setPlid(long plid);
 
 	/**
 	 * Returns the status of this layout page template entry.

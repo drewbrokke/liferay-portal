@@ -164,10 +164,10 @@ public class LayoutPageTemplateEntryPersistenceTest {
 		newLayoutPageTemplateEntry.setLayoutPrototypeId(
 			RandomTestUtil.nextLong());
 
+		newLayoutPageTemplateEntry.setPlid(RandomTestUtil.nextLong());
+
 		newLayoutPageTemplateEntry.setLastPublishDate(
 			RandomTestUtil.nextDate());
-
-		newLayoutPageTemplateEntry.setPlid(RandomTestUtil.nextLong());
 
 		newLayoutPageTemplateEntry.setStatus(RandomTestUtil.nextInt());
 
@@ -237,13 +237,13 @@ public class LayoutPageTemplateEntryPersistenceTest {
 			existingLayoutPageTemplateEntry.getLayoutPrototypeId(),
 			newLayoutPageTemplateEntry.getLayoutPrototypeId());
 		Assert.assertEquals(
+			existingLayoutPageTemplateEntry.getPlid(),
+			newLayoutPageTemplateEntry.getPlid());
+		Assert.assertEquals(
 			Time.getShortTimestamp(
 				existingLayoutPageTemplateEntry.getLastPublishDate()),
 			Time.getShortTimestamp(
 				newLayoutPageTemplateEntry.getLastPublishDate()));
-		Assert.assertEquals(
-			existingLayoutPageTemplateEntry.getPlid(),
-			newLayoutPageTemplateEntry.getPlid());
 		Assert.assertEquals(
 			existingLayoutPageTemplateEntry.getStatus(),
 			newLayoutPageTemplateEntry.getStatus());
@@ -514,7 +514,7 @@ public class LayoutPageTemplateEntryPersistenceTest {
 			"modifiedDate", true, "layoutPageTemplateCollectionId", true,
 			"classNameId", true, "classTypeId", true, "name", true, "type",
 			true, "previewFileEntryId", true, "defaultTemplate", true,
-			"layoutPrototypeId", true, "lastPublishDate", true, "plid", true,
+			"layoutPrototypeId", true, "plid", true, "lastPublishDate", true,
 			"status", true, "statusByUserId", true, "statusByUserName", true,
 			"statusDate", true);
 	}
@@ -838,9 +838,9 @@ public class LayoutPageTemplateEntryPersistenceTest {
 
 		layoutPageTemplateEntry.setLayoutPrototypeId(RandomTestUtil.nextLong());
 
-		layoutPageTemplateEntry.setLastPublishDate(RandomTestUtil.nextDate());
-
 		layoutPageTemplateEntry.setPlid(RandomTestUtil.nextLong());
+
+		layoutPageTemplateEntry.setLastPublishDate(RandomTestUtil.nextDate());
 
 		layoutPageTemplateEntry.setStatus(RandomTestUtil.nextInt());
 

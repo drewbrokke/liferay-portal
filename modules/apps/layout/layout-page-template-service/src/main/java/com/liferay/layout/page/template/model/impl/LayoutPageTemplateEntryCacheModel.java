@@ -101,10 +101,10 @@ public class LayoutPageTemplateEntryCacheModel
 		sb.append(defaultTemplate);
 		sb.append(", layoutPrototypeId=");
 		sb.append(layoutPrototypeId);
-		sb.append(", lastPublishDate=");
-		sb.append(lastPublishDate);
 		sb.append(", plid=");
 		sb.append(plid);
+		sb.append(", lastPublishDate=");
+		sb.append(lastPublishDate);
 		sb.append(", status=");
 		sb.append(status);
 		sb.append(", statusByUserId=");
@@ -173,6 +173,7 @@ public class LayoutPageTemplateEntryCacheModel
 		layoutPageTemplateEntryImpl.setPreviewFileEntryId(previewFileEntryId);
 		layoutPageTemplateEntryImpl.setDefaultTemplate(defaultTemplate);
 		layoutPageTemplateEntryImpl.setLayoutPrototypeId(layoutPrototypeId);
+		layoutPageTemplateEntryImpl.setPlid(plid);
 
 		if (lastPublishDate == Long.MIN_VALUE) {
 			layoutPageTemplateEntryImpl.setLastPublishDate(null);
@@ -182,7 +183,6 @@ public class LayoutPageTemplateEntryCacheModel
 				new Date(lastPublishDate));
 		}
 
-		layoutPageTemplateEntryImpl.setPlid(plid);
 		layoutPageTemplateEntryImpl.setStatus(status);
 		layoutPageTemplateEntryImpl.setStatusByUserId(statusByUserId);
 
@@ -234,9 +234,9 @@ public class LayoutPageTemplateEntryCacheModel
 		defaultTemplate = objectInput.readBoolean();
 
 		layoutPrototypeId = objectInput.readLong();
-		lastPublishDate = objectInput.readLong();
 
 		plid = objectInput.readLong();
+		lastPublishDate = objectInput.readLong();
 
 		status = objectInput.readInt();
 
@@ -292,9 +292,9 @@ public class LayoutPageTemplateEntryCacheModel
 		objectOutput.writeBoolean(defaultTemplate);
 
 		objectOutput.writeLong(layoutPrototypeId);
-		objectOutput.writeLong(lastPublishDate);
 
 		objectOutput.writeLong(plid);
+		objectOutput.writeLong(lastPublishDate);
 
 		objectOutput.writeInt(status);
 
@@ -326,8 +326,8 @@ public class LayoutPageTemplateEntryCacheModel
 	public long previewFileEntryId;
 	public boolean defaultTemplate;
 	public long layoutPrototypeId;
-	public long lastPublishDate;
 	public long plid;
+	public long lastPublishDate;
 	public int status;
 	public long statusByUserId;
 	public String statusByUserName;
