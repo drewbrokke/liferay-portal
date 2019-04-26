@@ -39,6 +39,7 @@ import org.talend.sdk.component.api.service.record.RecordBuilderFactory;
  * @author Igor Beslic
  * @author Zoltán Takács
  * @author Matija Petanjek
+ * @review
  */
 @Service
 public class LiferayService {
@@ -52,7 +53,6 @@ public class LiferayService {
 	 *
 	 * @param  openAPISpecURL Liferay OpenAPI specification URL
 	 * @return endpoint location
-	 * @review
 	 */
 	public String extractEndpointPathSegment(URL openAPISpecURL) {
 		String openAPISpecRef = openAPISpecURL.toExternalForm();
