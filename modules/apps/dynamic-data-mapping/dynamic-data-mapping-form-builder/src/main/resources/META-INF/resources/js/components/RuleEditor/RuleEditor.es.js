@@ -483,6 +483,10 @@ class RuleEditor extends Component {
 		return list;
 	}
 
+	isValueOperand({type}) {
+		return type !== 'field' && type !== 'user';
+	}
+
 	populateActionTargetValue(id, index) {
 		const {actions, pageOptions} = this;
 
@@ -577,7 +581,7 @@ class RuleEditor extends Component {
 					firstOperandOptions,
 					operands: condition.operands.map(
 						(operand, index) => {
-							if (index === 1 && operand.type !== 'field' && operand.type !== 'user') {
+							if (index === 1 && this.isValueOperand(operand)) {
 								operand = {
 									...operand,
 									dataType: getFieldProperty(pages, condition.operands[0].value, 'dataType'),
