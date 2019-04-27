@@ -14,7 +14,7 @@ function getDocumentHeight() {
 	const heights = [
 		document.body.clientHeight,
 		document.documentElement.clientHeight,
-		document.documentElement.scrollHeight,
+		document.documentElement.scrollHeight
 	];
 
 	return Math.max(...heights);
@@ -24,11 +24,14 @@ function getDimensions(element) {
 	if (element) {
 		const boundingClientRect = element.getBoundingClientRect();
 		const {bottom, height, top} = boundingClientRect;
-		return {bottom, height, top};
+		return {bottom,
+height,
+top};
 	}
 	const height = getDocumentHeight();
 	const top = getCurrentScrollPosition();
-	return {height, top};
+	return {height,
+top};
 }
 
 class ScrollTracker {

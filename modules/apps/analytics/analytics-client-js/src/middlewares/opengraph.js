@@ -5,7 +5,7 @@ const openGraphTagPatterns = [
 	/^article:/,
 	/^book:/,
 	/^profile:/,
-	/^fb:/,
+	/^fb:/
 ];
 
 /**
@@ -42,13 +42,13 @@ function openGraph(request) {
 	const openGraphData = openGraphElements.reduce((data, meta) => {
 		return {
 			[meta.getAttribute('property')]: meta.getAttribute('content'),
-			...data,
+			...data
 		};
 	}, {});
 
 	request.context = {
 		...openGraphData,
-		...request.context,
+		...request.context
 	};
 
 	return request;

@@ -12,11 +12,12 @@ function getWebContentPayload(webContent) {
 	const {dataset} = webContent;
 
 	let payload = {
-		articleId: dataset.analyticsAssetId,
+		articleId: dataset.analyticsAssetId
 	};
 
 	if (dataset.analyticsAssetTitle) {
-		payload = {...payload, title: dataset.analyticsAssetTitle};
+		payload = {...payload,
+title: dataset.analyticsAssetTitle};
 	}
 
 	return payload;
@@ -47,7 +48,7 @@ function trackWebContentClicked(analytics) {
 
 		const payload = {
 			...getWebContentPayload(webContentElement),
-			tagName,
+			tagName
 		};
 
 		if (tagName === 'a') {
@@ -83,7 +84,8 @@ function trackWebContentViewed(analytics) {
 				let payload = getWebContentPayload(element);
 				const numberOfWords = getNumberOfWords(element);
 
-				payload = {numberOfWords, ...payload};
+				payload = {numberOfWords,
+...payload};
 
 				analytics.send('webContentViewed', applicationId, payload);
 			});

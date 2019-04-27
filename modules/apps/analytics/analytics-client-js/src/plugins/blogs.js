@@ -14,11 +14,12 @@ function getBlogPayload(blog) {
 	const {dataset} = blog;
 
 	let payload = {
-		entryId: dataset.analyticsAssetId,
+		entryId: dataset.analyticsAssetId
 	};
 
 	if (dataset.analyticsAssetTitle) {
-		payload = {...payload, title: dataset.analyticsAssetTitle};
+		payload = {...payload,
+title: dataset.analyticsAssetTitle};
 	}
 
 	return payload;
@@ -47,7 +48,7 @@ function trackBlogsScroll(analytics, blogElements) {
 				analytics.send('blogDepthReached', applicationId, {
 					...getBlogPayload(element),
 					depth,
-					sessionId: scrollSessionId,
+					sessionId: scrollSessionId
 				});
 			}, element);
 		});
@@ -76,7 +77,8 @@ function trackBlogViewed(analytics) {
 				let payload = getBlogPayload(element);
 				const numberOfWords = getNumberOfWords(element);
 
-				payload = {numberOfWords, ...payload};
+				payload = {numberOfWords,
+...payload};
 
 				blogElements.push(element);
 
@@ -106,7 +108,7 @@ function trackBlogClicked(analytics) {
 
 		const payload = {
 			...getBlogPayload(blogElement),
-			tagName,
+			tagName
 		};
 
 		if (tagName === 'a') {

@@ -63,7 +63,6 @@ public class SegmentsEntryModelDocumentContributor
 				segmentsEntry.getDefaultLanguageId(),
 				segmentsEntry.getGroupId()),
 			true, true);
-
 	}
 
 	private Locale _getSiteDefaultLocale(long groupId) {

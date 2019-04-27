@@ -21,32 +21,32 @@
 	word-wrap: break-word;
 
 	@include media-breakpoint-up(md) {
-		width: 25%
+		width: 25%;
 	}
 
 	@include media-breakpoint-up(lg) {
-		width: 16.6%
+		width: 16.6%;
 	}
 
 	@include media-breakpoint-up(sm) {
-		width: 33.33%
+		width: 33.33%;
 	}
 
 	@include media-breakpoint-up(xl) {
-		width: 12.5%
+		width: 12.5%;
 	}
 
 	.controls-visible.open & {
 		@include media-breakpoint-up(md) {
-			width: 50%
+			width: 50%;
 		}
 
 		@include media-breakpoint-up(lg) {
-			width: 25%
+			width: 25%;
 		}
 
 		@include media-breakpoint-up(xl) {
-			width: 16.6%
+			width: 16.6%;
 		}
 	}
 

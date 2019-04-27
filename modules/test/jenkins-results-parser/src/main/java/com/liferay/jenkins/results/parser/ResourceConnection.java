@@ -102,8 +102,7 @@ public class ResourceConnection implements Comparable {
 			_node.delete();
 		}
 		else {
-			System.out.println(
-				"Node " + _node.getKey() + " does not exist.");
+			System.out.println("Node " + _node.getKey() + " does not exist.");
 		}
 	}
 

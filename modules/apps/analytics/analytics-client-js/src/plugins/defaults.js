@@ -9,6 +9,7 @@ import webContents from './web-contents';
 
 export {blogs, documents, forms, resolution, scrolling, timing, webContents};
 export default [
+
 	// Resolution should come first, because it chages the context
 
 	resolution,
@@ -19,5 +20,5 @@ export default [
 	forms,
 	scrolling,
 	timing,
-	webContents,
+	webContents
 ];

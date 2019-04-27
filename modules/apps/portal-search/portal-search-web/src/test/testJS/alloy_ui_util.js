@@ -3,7 +3,7 @@ var withAlloyUI = function(testCase, dependencies) {
 		AUI().use(
 			['aui-base', 'aui-node'].concat(dependencies || []),
 			function(A) {
-				testCase(done, A)
+				testCase(done, A);
 			}
 		);
 	};

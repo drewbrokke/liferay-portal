@@ -11,6 +11,7 @@ import State from 'metal-state/src/State';
  * Porygon theme.
  */
 class TopSearch extends State {
+
 	/**
 	 * @inheritDoc
 	 */
@@ -104,6 +105,7 @@ class TopSearch extends State {
  * @static
  */
 TopSearch.STATE = {
+
 	/**
 	 * Indicates if the component is visible or not.
 	 * @type {Object}

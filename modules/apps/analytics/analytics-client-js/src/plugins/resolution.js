@@ -20,7 +20,7 @@ function extendContextWithResolutionData(request) {
 		devicePixelRatio,
 		screenHeight,
 		screenWidth,
-		...request.context,
+		...request.context
 	};
 
 	return request;

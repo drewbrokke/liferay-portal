@@ -50,7 +50,7 @@ class Client {
 			credentials: 'same-origin',
 			headers,
 			method: 'POST',
-			mode: 'cors',
+			mode: 'cors'
 		};
 	}
 
@@ -71,7 +71,7 @@ class Client {
 			dataSourceId,
 			events,
 			protocolVersion: '1.0',
-			userId,
+			userId
 		};
 	}
 

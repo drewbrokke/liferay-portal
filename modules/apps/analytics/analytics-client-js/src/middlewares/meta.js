@@ -26,7 +26,7 @@ function meta(request) {
 		title: getAttribute('title', 'textContent'),
 		url: location.href,
 		userAgent: navigator.userAgent,
-		...request.context,
+		...request.context
 	};
 
 	return request;
