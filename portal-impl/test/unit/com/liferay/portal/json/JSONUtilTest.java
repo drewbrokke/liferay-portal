@@ -96,12 +96,11 @@ public class JSONUtilTest {
 
 	@Test
 	public void testHasValue() {
+		Assert.assertFalse(
+			JSONUtil.hasValue(JSONUtil.putAll("alpha", "beta", "gamma"), "1"));
 		Assert.assertTrue(
 			JSONUtil.hasValue(
 				JSONUtil.putAll("alpha", "beta", "gamma"), "gamma"));
-
-		Assert.assertFalse(
-			JSONUtil.hasValue(JSONUtil.putAll("alpha", "beta", "gamma"), "1"));
 	}
 
 	@Test
@@ -283,7 +282,6 @@ public class JSONUtilTest {
 		Assert.assertEquals(
 			new ArrayList<Integer>(),
 			JSONUtil.toList(null, jsonObject -> jsonObject.getInt("foo")));
-
 		Assert.assertEquals(
 			new ArrayList<Integer>() {
 				{
@@ -323,7 +321,6 @@ public class JSONUtilTest {
 	@Test
 	public void testToLongList() {
 		Assert.assertEquals(Collections.emptyList(), JSONUtil.toLongList(null));
-
 		Assert.assertEquals(
 			new ArrayList<Long>() {
 				{
@@ -339,7 +336,6 @@ public class JSONUtilTest {
 	public void testToLongListWithKey() {
 		Assert.assertEquals(
 			Collections.emptyList(), JSONUtil.toLongList(null, "alpha"));
-
 		Assert.assertEquals(
 			new ArrayList<Long>() {
 				{
@@ -358,7 +354,6 @@ public class JSONUtilTest {
 	@Test
 	public void testToLongSet() {
 		Assert.assertEquals(Collections.emptySet(), JSONUtil.toLongSet(null));
-
 		Assert.assertEquals(
 			new HashSet<Long>() {
 				{
@@ -374,7 +369,6 @@ public class JSONUtilTest {
 	public void testToLongSetWithKey() {
 		Assert.assertEquals(
 			Collections.emptySet(), JSONUtil.toLongSet(null, "alpha"));
-
 		Assert.assertEquals(
 			new HashSet<Long>() {
 				{
@@ -392,7 +386,6 @@ public class JSONUtilTest {
 	@Test
 	public void testToObjectArray() {
 		Assert.assertArrayEquals(new Object[0], JSONUtil.toObjectArray(null));
-
 		Assert.assertArrayEquals(
 			new Object[] {1, "beta", true},
 			JSONUtil.toObjectArray(JSONUtil.putAll(1, "beta", true)));
@@ -402,7 +395,6 @@ public class JSONUtilTest {
 	public void testToObjectArrayWithKey() {
 		Assert.assertArrayEquals(
 			new Object[0], JSONUtil.toObjectArray(null, "alpha"));
-
 		Assert.assertArrayEquals(
 			new Object[] {1, true},
 			JSONUtil.toObjectArray(
@@ -416,7 +408,6 @@ public class JSONUtilTest {
 	public void testToObjectList() {
 		Assert.assertEquals(
 			Collections.emptyList(), JSONUtil.toObjectList(null));
-
 		Assert.assertEquals(
 			new ArrayList<Object>() {
 				{
@@ -432,7 +423,6 @@ public class JSONUtilTest {
 	public void testToObjectListWithKey() {
 		Assert.assertEquals(
 			Collections.emptyList(), JSONUtil.toObjectList(null, "alpha"));
-
 		Assert.assertEquals(
 			new ArrayList<Object>() {
 				{
@@ -450,7 +440,6 @@ public class JSONUtilTest {
 	@Test
 	public void testToObjectSet() {
 		Assert.assertEquals(Collections.emptySet(), JSONUtil.toObjectSet(null));
-
 		Assert.assertEquals(
 			new HashSet<Object>() {
 				{
@@ -466,7 +455,6 @@ public class JSONUtilTest {
 	public void testToObjectSetWithKey() {
 		Assert.assertEquals(
 			Collections.emptySet(), JSONUtil.toObjectSet(null, "alpha"));
-
 		Assert.assertEquals(
 			new HashSet<Object>() {
 				{
@@ -484,7 +472,6 @@ public class JSONUtilTest {
 	@Test
 	public void testToStringArray() {
 		Assert.assertArrayEquals(new String[0], JSONUtil.toStringArray(null));
-
 		Assert.assertArrayEquals(
 			new String[] {"alpha", "beta", "gamma"},
 			JSONUtil.toStringArray(JSONUtil.putAll("alpha", "beta", "gamma")));
@@ -494,7 +481,6 @@ public class JSONUtilTest {
 	public void testToStringArrayWithKey() {
 		Assert.assertArrayEquals(
 			new String[0], JSONUtil.toStringArray(null, "alpha"));
-
 		Assert.assertArrayEquals(
 			new String[] {"alpha", "beta"},
 			JSONUtil.toStringArray(
@@ -509,7 +495,6 @@ public class JSONUtilTest {
 	public void testToStringList() {
 		Assert.assertEquals(
 			Collections.emptyList(), JSONUtil.toStringList(null));
-
 		Assert.assertEquals(
 			new ArrayList<String>() {
 				{
@@ -525,7 +510,6 @@ public class JSONUtilTest {
 	public void testToStringListWithKey() {
 		Assert.assertEquals(
 			Collections.emptyList(), JSONUtil.toStringList(null, "alpha"));
-
 		Assert.assertEquals(
 			new ArrayList<String>() {
 				{
@@ -544,7 +528,6 @@ public class JSONUtilTest {
 	@Test
 	public void testToStringSet() {
 		Assert.assertEquals(Collections.emptySet(), JSONUtil.toStringSet(null));
-
 		Assert.assertEquals(
 			new HashSet<String>() {
 				{
@@ -560,7 +543,6 @@ public class JSONUtilTest {
 	public void testToStringSetWithKey() {
 		Assert.assertEquals(
 			Collections.emptySet(), JSONUtil.toStringSet(null, "alpha"));
-
 		Assert.assertEquals(
 			new HashSet<String>() {
 				{
