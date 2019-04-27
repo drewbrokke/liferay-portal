@@ -233,17 +233,17 @@ public class DataRecordResourceImpl extends BaseDataRecordResourceImpl {
 		_modelResourcePermission = modelResourcePermission;
 	}
 
-	private DataStorage _getDataStorage(String storageType) {
-		if (Validator.isNull(storageType)) {
-			throw new BadRequestException("Storage type is null");
+	private DataStorage _getDataStorage(String dataStorageType) {
+		if (Validator.isNull(dataStorageType)) {
+			throw new BadRequestException("Data storage type is null");
 		}
 
 		DataStorage dataStorage = _dataStorageTracker.getDataStorage(
-			storageType);
+			dataStorageType);
 
 		if (dataStorage == null) {
 			throw new BadRequestException(
-				"Unsupported storage type: " + storageType);
+				"Unsupported data storage type: " + dataStorageType);
 		}
 
 		return dataStorage;

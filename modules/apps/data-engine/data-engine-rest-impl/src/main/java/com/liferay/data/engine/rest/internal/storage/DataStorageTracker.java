@@ -33,8 +33,8 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 @Component(immediate = true, service = DataStorageTracker.class)
 public class DataStorageTracker {
 
-	public DataStorage getDataStorage(String type) {
-		return _dataStorages.get(type);
+	public DataStorage getDataStorage(String dataStorageType) {
+		return _dataStorages.get(dataStorageType);
 	}
 
 	@Reference(
@@ -45,9 +45,10 @@ public class DataStorageTracker {
 	protected void addDataStorage(
 		DataStorage dataStorage, Map<String, Object> properties) {
 
-		String type = MapUtil.getString(properties, "data.storage.type");
+		String dataStorageType = MapUtil.getString(
+			properties, "data.storage.type");
 
-		_dataStorages.put(type, dataStorage);
+		_dataStorages.put(dataStorageType, dataStorage);
 	}
 
 	@Deactivate
@@ -58,9 +59,10 @@ public class DataStorageTracker {
 	protected void removeDataStorage(
 		DataStorage dataStorage, Map<String, Object> properties) {
 
-		String type = MapUtil.getString(properties, "data.storage.type");
+		String dataStorageType = MapUtil.getString(
+			properties, "data.storage.type");
 
-		_dataStorages.remove(type);
+		_dataStorages.remove(dataStorageType);
 	}
 
 	private final Map<String, DataStorage> _dataStorages = new TreeMap<>();
