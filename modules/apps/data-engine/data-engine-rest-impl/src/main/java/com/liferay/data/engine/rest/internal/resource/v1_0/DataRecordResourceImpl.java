@@ -235,7 +235,7 @@ public class DataRecordResourceImpl extends BaseDataRecordResourceImpl {
 
 	private DataStorage _getDataStorage(String storageType) {
 		if (Validator.isNull(storageType)) {
-			throw new BadRequestException("Missing storage type");
+			throw new BadRequestException("Storage type is null");
 		}
 
 		DataStorage dataStorage = _dataStorageTracker.getDataStorage(
@@ -243,7 +243,7 @@ public class DataRecordResourceImpl extends BaseDataRecordResourceImpl {
 
 		if (dataStorage == null) {
 			throw new BadRequestException(
-				"Storage type not supported: " + storageType);
+				"Unsupported storage type: " + storageType);
 		}
 
 		return dataStorage;
