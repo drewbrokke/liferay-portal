@@ -132,6 +132,7 @@ public interface CTManager {
 		long companyId, long userId, boolean includeProduction,
 		boolean includeActive, QueryDefinition<CTCollection> queryDefinition);
 
+	/**
 	 * Returns the change entry aggregate containing the change entry and change
 	 * entry collection.
 	 *
@@ -246,6 +247,7 @@ public interface CTManager {
 	 */
 	public int getRelatedOwnerCTEntriesCount(long ctEntryId);
 
+	/**
 	 * Returns <code>true</code> if a model addition or update is in progress.
 	 * This only returns <code>true</code> if the addition or update is being
 	 * executed with {@link #executeModelUpdate(UnsafeSupplier)} and the
