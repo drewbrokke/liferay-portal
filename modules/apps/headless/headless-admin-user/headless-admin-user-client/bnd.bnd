@@ -1,7 +1,3 @@
 Bundle-Name: Liferay Headless Admin User Client
 Bundle-SymbolicName: com.liferay.headless.admin.user.client
 Bundle-Version: 2.0.0
-Export-Package:\
-	com.liferay.headless.admin.user.client.dto.v1_0,\
-	com.liferay.headless.admin.user.client.pagination,\
-	com.liferay.headless.admin.user.client.serdes.v1_0

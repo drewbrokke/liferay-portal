@@ -1,7 +1,3 @@
 Bundle-Name: Liferay Headless Form Client
 Bundle-SymbolicName: com.liferay.headless.form.client
 Bundle-Version: 2.0.0
-Export-Package:\
-	com.liferay.headless.form.client.dto.v1_0,\
-	com.liferay.headless.form.client.pagination,\
-	com.liferay.headless.form.client.serdes.v1_0
