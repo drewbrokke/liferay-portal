@@ -103,7 +103,7 @@ public class ResourceConnection implements Comparable {
 		}
 		else {
 			System.out.println(
-				"WARNING: " + _node.getKey() + " does not exist.");
+				"Node " + _node.getKey() + " does not exist.");
 		}
 	}
 
