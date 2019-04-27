@@ -181,9 +181,9 @@ public interface CTEngineManager {
 	 * collection.
 	 *
 	 * @param  ctCollectionId the primary key of the change collection
-	 * @param  queryDefinition the object contains settings regarding
-	 *         pagination, order and status filtering
-	 * @return the number of the change entries
+	 * @param  queryDefinition the settings regarding pagination, order and
+	 *         status filtering
+	 * @return the number of change entries
 	 */
 	public int getCTEntriesCount(
 		long ctCollectionId, QueryDefinition<CTEntry> queryDefinition);
@@ -193,7 +193,7 @@ public interface CTEngineManager {
 	 * collection.
 	 *
 	 * @param  ctCollectionId the primary key of the change collection
-	 * @return the list of change entry aggregates
+	 * @return the change entry aggregates
 	 */
 	public List<CTEntryAggregate> getCTEntryAggregates(long ctCollectionId);
 

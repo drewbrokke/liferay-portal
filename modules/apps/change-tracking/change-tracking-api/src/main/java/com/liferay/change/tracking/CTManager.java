@@ -119,14 +119,14 @@ public interface CTManager {
 
 	/**
 	 * Returns change tracking collections associated with
-	 * the given company, with or without production or active change lists.
+	 * the given company, optionally including production or active change lists.
 	 *
 	 * @param  companyId the primary key of the company
-	 * @param  includeProduction has to return production change list
-	 * @param  includeActive has to return active change lists
-	 * @param  queryDefinition the object contains settings regarding
+	 * @param  includeProduction whether to return the production change list
+	 * @param  includeActive whether to return the active change lists
+	 * @param  queryDefinition the settings regarding
 	 *         pagination, order and filter
-	 * @return the list of change tracking collections
+	 * @return the change tracking collections
 	 */
 	public List<CTCollection> getCTCollections(
 		long companyId, long userId, boolean includeProduction,
@@ -242,7 +242,7 @@ public interface CTManager {
 	 *
 	 * @param  ctEntryId a model change entry
 	 * @return the number of change related change entries associated with the
-	 *         given change entry.
+	 *         given change entry
 	 */
 	public int getRelatedOwnerCTEntriesCount(long ctEntryId);
 
