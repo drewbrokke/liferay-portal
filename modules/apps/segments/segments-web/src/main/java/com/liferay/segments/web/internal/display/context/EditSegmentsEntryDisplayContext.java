@@ -205,6 +205,23 @@ public class EditSegmentsEntryDisplayContext {
 		return _segmentsEntryId;
 	}
 
+	public String getSegmentsEntryKey() throws PortalException {
+		if (_segmentsEntryKey != null) {
+			return _segmentsEntryKey;
+		}
+
+		SegmentsEntry segmentsEntry = getSegmentsEntry();
+
+		if (segmentsEntry == null) {
+			_segmentsEntryKey = StringPool.BLANK;
+		}
+		else {
+			_segmentsEntryKey = segmentsEntry.getSegmentsEntryKey();
+		}
+
+		return _segmentsEntryKey;
+	}
+
 	public String getSource() throws PortalException {
 		SegmentsEntry segmentsEntry = getSegmentsEntry();
 
@@ -283,6 +300,7 @@ public class EditSegmentsEntryDisplayContext {
 	private SegmentsEntry _segmentsEntry;
 	private Integer _segmentsEntryClassPKsCount;
 	private Long _segmentsEntryId;
+	private String _segmentsEntryKey;
 	private final SegmentsEntryProvider _segmentsEntryProvider;
 	private final SegmentsEntryService _segmentsEntryService;
 	private Boolean _showInEditMode;
