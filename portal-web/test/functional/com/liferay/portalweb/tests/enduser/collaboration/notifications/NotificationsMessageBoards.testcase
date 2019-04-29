@@ -157,7 +157,7 @@ definition {
 
 		Navigator.gotoNotifications();
 
-		LexiconEntry.gotoEllipsisMenuItemDM(menuItem = "Configuration");
+		Portlet.gotoPortletOptions(portletOption = "Configuration");
 
 		IFrame.selectConfigurationFrame();
 
@@ -205,7 +205,7 @@ definition {
 
 		Navigator.gotoNotifications();
 
-		LexiconEntry.gotoEllipsisMenuItemDM(menuItem = "Configuration");
+		Portlet.gotoPortletOptions(portletOption = "Configuration");
 
 		IFrame.selectConfigurationFrame();
 
