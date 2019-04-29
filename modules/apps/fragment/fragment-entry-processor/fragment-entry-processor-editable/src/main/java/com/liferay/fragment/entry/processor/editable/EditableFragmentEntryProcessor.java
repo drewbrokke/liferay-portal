@@ -245,16 +245,12 @@ public class EditableFragmentEntryProcessor implements FragmentEntryProcessor {
 			JSONObject editableValueJSONObject =
 				editableValuesJSONObject.getJSONObject(id);
 
-			String value = StringPool.BLANK;
-
 			JSONObject configJSONObject = editableValueJSONObject.getJSONObject(
 				"config");
 
-			if (_isMapped(editableValueJSONObject, mode)) {
-				value = _getMappedValue(
-					editableElementParser, editableValueJSONObject, mode,
-					locale, previewClassPK);
+			String value = StringPool.BLANK;
 
+			if (_isMapped(editableValueJSONObject, mode)) {
 				JSONObject mappedValueConfigJSONObject =
 					_getMappedValueConfigJSONObject(
 						editableElementParser, editableValueJSONObject, mode,
@@ -262,6 +258,10 @@ public class EditableFragmentEntryProcessor implements FragmentEntryProcessor {
 
 				configJSONObject = JSONUtil.merge(
 					configJSONObject, mappedValueConfigJSONObject);
+
+				value = _getMappedValue(
+					editableElementParser, editableValueJSONObject, mode,
+					locale, previewClassPK);
 			}
 
 			if (Validator.isNull(value)) {
