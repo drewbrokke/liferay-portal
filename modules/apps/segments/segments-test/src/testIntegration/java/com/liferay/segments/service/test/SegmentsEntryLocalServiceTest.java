@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
-import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.service.test.ServiceTestUtil;
@@ -291,7 +290,7 @@ public class SegmentsEntryLocalServiceTest {
 				ServiceContextTestUtil.getServiceContext(_group.getGroupId()));
 
 		Assert.assertEquals(
-			FriendlyURLNormalizerUtil.normalize(segmentsEntryKey),
+			StringUtil.toUpperCase(segmentsEntryKey.trim()),
 			updatedSegmentsEntry.getSegmentsEntryKey());
 		Assert.assertEquals(
 			nameMap.get(LocaleUtil.getDefault()),
