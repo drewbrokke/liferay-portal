@@ -112,7 +112,7 @@ public abstract class BaseJSONParser<T> {
 		);
 	}
 
-	public Map parseToMap(String json) {
+	public Map<String, Object> parseToMap(String json) {
 		if (json == null) {
 			throw new IllegalArgumentException("JSON is null");
 		}
@@ -157,8 +157,7 @@ public abstract class BaseJSONParser<T> {
 		_readWhileLastCharIsWhiteSpace();
 
 		if (!_ifLastCharMatchesThenRead('}')) {
-			throw new IllegalArgumentException(
-				"Expected either ',' or '}', but found '" + _lastChar + "'");
+			throw new IllegalArgumentException("Expected either ',' or '}', but found '" + _lastChar + "'");
 		}
 
 		return map;

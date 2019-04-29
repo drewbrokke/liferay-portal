@@ -41,12 +41,6 @@ public class ${schemaName}SerDes {
 		return ${schemaVarName}JSONParser.parseToDTOs(json);
 	}
 
-	public static Map toMap(String json) {
-		${schemaName}JSONParser ${schemaVarName}JSONParser = new ${schemaName}JSONParser();
-
-		return ${schemaVarName}JSONParser.parseToMap(json);
-	}
-
 	public static String toJSON(${schemaName} ${schemaVarName}) {
 		if (${schemaVarName} == null) {
 			return "null";
@@ -142,6 +136,12 @@ public class ${schemaName}SerDes {
 		return sb.toString();
 	}
 
+	public static Map<String, Object> toMap(String json) {
+		${schemaName}JSONParser ${schemaVarName}JSONParser = new ${schemaName}JSONParser();
+
+		return ${schemaVarName}JSONParser.parseToMap(json);
+	}
+
 	public static Map<String, String> toMap(${schemaName} ${schemaVarName}) {
 		if (${schemaVarName} == null) {
 			return null;
@@ -195,12 +195,13 @@ public class ${schemaName}SerDes {
 	}
 
 	private static String _toJSON(Map<String, ?> map) {
+		StringBuilder sb = new StringBuilder("{");
 
+		@SuppressWarnings("unchecked")
 		Set set = map.entrySet();
 
+		@SuppressWarnings("unchecked")
 		Iterator<Map.Entry<String, ?>> iterator = set.iterator();
-
-		StringBuilder sb = new StringBuilder("{");
 
 		while (iterator.hasNext()) {
 			Map.Entry<String, ?> entry = iterator.next();
@@ -208,7 +209,6 @@ public class ${schemaName}SerDes {
 			sb.append("\"");
 			sb.append(entry.getKey());
 			sb.append("\":");
-
 			sb.append("\"");
 			sb.append(entry.getValue());
 			sb.append("\"");
@@ -260,14 +260,14 @@ public class ${schemaName}SerDes {
 							Long.valueOf((String)jsonParserFieldValue)
 						<#elseif stringUtil.equals(propertyType, "Long[]")>
 							toLongs((Object[])jsonParserFieldValue)
+						<#elseif stringUtil.startsWith(propertyType, "Map<")>
+							${schemaName}SerDes.toMap((String)jsonParserFieldValue)
 						<#elseif stringUtil.equals(propertyType, "Number")>
 							Integer.valueOf((String)jsonParserFieldValue)
 						<#elseif stringUtil.equals(propertyType, "Number[]")>
 							toIntegers((Object[])jsonParserFieldValue)
 						<#elseif stringUtil.equals(propertyType, "String[]")>
 							toStrings((Object[])jsonParserFieldValue)
-						<#elseif stringUtil.startsWith(propertyType, "Map<")>
-							${schemaName}SerDes.toMap((String)jsonParserFieldValue)
 						<#elseif allSchemas?keys?seq_contains(propertyType)>
 							${propertyType}SerDes.toDTO((String)jsonParserFieldValue)
 						<#elseif propertyType?ends_with("[]") && allSchemas?keys?seq_contains(propertyType?remove_ending("[]"))>

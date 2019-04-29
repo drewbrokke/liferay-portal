@@ -22,8 +22,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.annotation.Generated;
 
@@ -266,6 +268,8 @@ public class ${schemaName} <#if dtoParentClassName?has_content>extends ${dtoPare
 								</#if>
 
 								sb.append("\"");
+							<#elseif stringUtil.startsWith(propertyType, "Map<")>
+								sb.append(_toJSON(${propertyName}[i]));
 							<#elseif allSchemas[propertyType?remove_ending("[]")]??>
 								sb.append(String.valueOf(${propertyName}[i]));
 							<#else>
@@ -291,6 +295,8 @@ public class ${schemaName} <#if dtoParentClassName?has_content>extends ${dtoPare
 							</#if>
 
 							sb.append("\"");
+						<#elseif stringUtil.startsWith(propertyType, "Map<")>
+							sb.append(_toJSON(${propertyName}));
 						<#else>
 							sb.append(${propertyName});
 						</#if>
@@ -308,6 +314,35 @@ public class ${schemaName} <#if dtoParentClassName?has_content>extends ${dtoPare
 		String string = String.valueOf(object);
 
 		return string.replaceAll("\"", "\\\\\"");
+	}
+
+	private static String _toJSON(Map<String, ?> map) {
+		StringBuilder sb = new StringBuilder("{");
+
+		@SuppressWarnings("unchecked")
+		Set set = map.entrySet();
+
+		@SuppressWarnings("unchecked")
+		Iterator<Map.Entry<String, ?>> iterator = set.iterator();
+
+		while (iterator.hasNext()) {
+			Map.Entry<String, ?> entry = iterator.next();
+
+			sb.append("\"");
+			sb.append(entry.getKey());
+			sb.append("\":");
+			sb.append("\"");
+			sb.append(entry.getValue());
+			sb.append("\"");
+
+			if (iterator.hasNext()) {
+				sb.append(",");
+			}
+		}
+
+		sb.append("}");
+
+		return sb.toString();
 	}
 
 }
