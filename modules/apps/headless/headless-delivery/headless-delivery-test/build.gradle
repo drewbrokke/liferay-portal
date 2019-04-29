@@ -1,5 +1,9 @@
+copyLibs {
+	enabled = true
+}
+
 dependencies {
-	compileInclude project(":apps:headless:headless-delivery:headless-delivery-client")
+	compileOnly project(":apps:headless:headless-delivery:headless-delivery-client")
 
 	testIntegrationCompile group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.9.8"
 	testIntegrationCompile group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.9.8"

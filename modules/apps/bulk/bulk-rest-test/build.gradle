@@ -1,5 +1,9 @@
+copyLibs {
+	enabled = true
+}
+
 dependencies {
-	compileInclude project(":apps:bulk:bulk-rest-client")
+	compileOnly project(":apps:bulk:bulk-rest-client")
 
 	testIntegrationCompile group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.9.8"
 	testIntegrationCompile group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.9.8"

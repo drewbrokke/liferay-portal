@@ -1,5 +1,9 @@
+copyLibs {
+	enabled = true
+}
+
 dependencies {
-	compileInclude project(":apps:headless:headless-admin-workflow:headless-admin-workflow-client")
+	compileOnly project(":apps:headless:headless-admin-workflow:headless-admin-workflow-client")
 
 	testIntegrationCompile group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.9.8"
 	testIntegrationCompile group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.9.8"
