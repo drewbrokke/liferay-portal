@@ -208,9 +208,6 @@ public class LayoutsAdminDisplayContext {
 	}
 
 	public JSONArray getBreadcrumbEntriesJSONArray() throws PortalException {
-		JSONArray breadcrumbEntriesJSONArray =
-			JSONFactoryUtil.createJSONArray();
-
 		boolean privatePages = isPrivateLayout();
 
 		Layout selLayout = getSelLayout();
@@ -238,7 +235,8 @@ public class LayoutsAdminDisplayContext {
 
 		breadcrumbEntryJSONObject.put("url", portletURL.toString());
 
-		breadcrumbEntriesJSONArray.put(breadcrumbEntryJSONObject);
+		JSONArray breadcrumbEntriesJSONArray = JSONUtil.put(
+			breadcrumbEntryJSONObject);
 
 		if (isFirstColumn()) {
 			return breadcrumbEntriesJSONArray;
@@ -1598,8 +1596,6 @@ public class LayoutsAdminDisplayContext {
 	}
 
 	private JSONArray _getLayoutColumnsJSONArray() throws Exception {
-		JSONArray layoutColumnsJSONArray = JSONFactoryUtil.createJSONArray();
-
 		JSONArray firstColumnJSONArray = JSONFactoryUtil.createJSONArray();
 
 		Layout selLayout = getSelLayout();
@@ -1634,7 +1630,7 @@ public class LayoutsAdminDisplayContext {
 			firstColumnJSONArray.put(_getFirstColumn(true, active));
 		}
 
-		layoutColumnsJSONArray.put(firstColumnJSONArray);
+		JSONArray layoutColumnsJSONArray = JSONUtil.put(firstColumnJSONArray);
 
 		if (isFirstColumn()) {
 			return layoutColumnsJSONArray;
