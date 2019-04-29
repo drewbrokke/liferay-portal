@@ -1465,7 +1465,9 @@ public class DDMTemplateLocalServiceImpl
 
 		template.setVersionUserId(user.getUserId());
 		template.setVersionUserName(user.getFullName());
-		template.setNameMap(nameMap);
+		template.setNameMap(
+			nameMap,
+			LocaleUtil.fromLanguageId(template.getDefaultLanguageId()));
 		template.setDescriptionMap(descriptionMap);
 		template.setType(type);
 		template.setMode(mode);
