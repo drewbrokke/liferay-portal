@@ -29,6 +29,12 @@ portletDisplay.setShowBackIcon(true);
 portletDisplay.setURLBack(PortalUtil.escapeRedirect(redirect));
 
 renderResponse.setTitle((ddmStructure != null) ? LanguageUtil.format(request, "edit-x", ddmStructure.getName(locale), false) : LanguageUtil.get(request, "new-structure"));
+
+DDMForm ddmForm = null;
+
+if (ddmStructure != null) {
+	ddmForm = ddmStructure.getDDMForm();
+}
 %>
 
 <portlet:actionURL name="/journal/add_ddm_structure" var="addDDMStructureURL">
@@ -51,7 +57,7 @@ renderResponse.setTitle((ddmStructure != null) ? LanguageUtil.format(request, "e
 		<div class="container-fluid container-fluid-max-xl">
 			<ul class="tbar-nav">
 				<li class="tbar-item tbar-item-expand">
-					<aui:input cssClass="form-control-inline" label="" name="name" placeholder='<%= LanguageUtil.format(request, "untitled-x", "structure") %>' wrapperCssClass="article-content-title mb-0" />
+					<aui:input cssClass="form-control-inline" defaultLanguageId="<%= (ddmStructure == null) ? LocaleUtil.toLanguageId(LocaleUtil.getSiteDefault()): LocaleUtil.toLanguageId(ddmForm.getDefaultLocale()) %>" label="" name="name" placeholder='<%= LanguageUtil.format(request, "untitled-x", "structure") %>' wrapperCssClass="article-content-title mb-0" />
 				</li>
 				<li class="tbar-item">
 					<div class="journal-article-button-row tbar-section text-right">

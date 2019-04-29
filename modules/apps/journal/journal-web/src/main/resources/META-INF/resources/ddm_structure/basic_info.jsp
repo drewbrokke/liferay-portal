@@ -20,6 +20,12 @@
 JournalEditDDMStructuresDisplayContext journalEditDDMStructuresDisplayContext = new JournalEditDDMStructuresDisplayContext(request);
 
 DDMStructure ddmStructure = journalEditDDMStructuresDisplayContext.getDDMStructure();
+
+DDMForm ddmForm = null;
+
+if (ddmStructure != null) {
+ddmForm = ddmStructure.getDDMForm();
+}
 %>
 
 <aui:model-context bean="<%= ddmStructure %>" model="<%= DDMStructure.class %>" />
@@ -30,7 +36,7 @@ DDMStructure ddmStructure = journalEditDDMStructuresDisplayContext.getDDMStructu
 	<aui:input disabled="<%= ddmStructure != null %>" name="ddmStructureKey" />
 </c:if>
 
-<aui:input name="description" />
+<aui:input defaultLanguageId="<%= (ddmStructure == null) ? LocaleUtil.toLanguageId(LocaleUtil.getSiteDefault()): LocaleUtil.toLanguageId(ddmForm.getDefaultLocale()) %>" name="description" />
 
 <aui:input name="parentDDMStructureId" type="hidden" value="<%= journalEditDDMStructuresDisplayContext.getParentDDMStructureId() %>" />
 
