@@ -71,6 +71,27 @@ processSanitizerConfiguration {
 				|	</allowed-empty-tags>
 				|
 				|${line}
+				|		<tag name="article" action="validate" />
+				|		<tag name="aside" action="validate" />
+				|		<tag name="bdi" action="validate" />
+				|		<tag name="details" action="validate" />
+				|		<tag name="dialog" action="validate" />
+				|		<tag name="figcaption" action="validate" />
+				|		<tag name="figure" action="validate" />
+				|		<tag name="footer" action="validate" />
+				|		<tag name="header" action="validate" />
+				|		<tag name="main" action="validate" />
+				|		<tag name="mark" action="validate" />
+				|		<tag name="meter" action="validate" />
+				|		<tag name="nav" action="validate" />
+				|		<tag name="progress" action="validate" />
+				|		<tag name="rp" action="validate" />
+				|		<tag name="rt" action="validate" />
+				|		<tag name="ruby" action="validate" />
+				|		<tag name="section" action="validate" />
+				|		<tag name="summary" action="validate" />
+				|		<tag name="time" action="validate" />
+				|		<tag name="wbr" action="validate" />
 				|		<tag name="picture" action="validate">
 				|			<attribute name="data-fileentryid" onInvalid="removeAttribute">
 				|				<regexp-list>
