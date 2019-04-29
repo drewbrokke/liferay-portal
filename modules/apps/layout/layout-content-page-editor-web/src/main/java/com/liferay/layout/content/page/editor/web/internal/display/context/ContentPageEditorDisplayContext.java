@@ -501,18 +501,16 @@ public class ContentPageEditorDisplayContext {
 
 		SoyContext soyContext = SoyContextFactoryUtil.createSoyContext();
 
-		Map<String, FragmentEntry> fragmentCollectionContributorEntries =
-			_fragmentCollectionContributorTracker.
-				getFragmentCollectionContributorEntries();
+		Map<String, FragmentEntry> fragmentEntries =
+			_fragmentCollectionContributorTracker.getFragmentEntries();
 
-		FragmentEntry contributedFragmentEntry =
-			fragmentCollectionContributorEntries.get(rendererKey);
+		FragmentEntry fragmentEntry = fragmentEntries.get(rendererKey);
 
-		if (contributedFragmentEntry != null) {
+		if (fragmentEntry != null) {
 			soyContext.put(
 				"fragmentEntryId", 0
 			).put(
-				"name", contributedFragmentEntry.getName()
+				"name", fragmentEntry.getName()
 			);
 		}
 

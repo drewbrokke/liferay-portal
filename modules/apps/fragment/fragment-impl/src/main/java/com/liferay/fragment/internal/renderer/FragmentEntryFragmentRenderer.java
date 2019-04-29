@@ -93,12 +93,10 @@ public class FragmentEntryFragmentRenderer implements FragmentRenderer {
 	private FragmentEntry _getContributedFragmentEntry(
 		FragmentEntryLink fragmentEntryLink) {
 
-		Map<String, FragmentEntry> fragmentCollectionContributorEntries =
-			_fragmentCollectionContributorTracker.
-				getFragmentCollectionContributorEntries();
+		Map<String, FragmentEntry> fragmentEntries =
+			_fragmentCollectionContributorTracker.getFragmentEntries();
 
-		return fragmentCollectionContributorEntries.get(
-			fragmentEntryLink.getRendererKey());
+		return fragmentEntries.get(fragmentEntryLink.getRendererKey());
 	}
 
 	private FragmentEntryLink _getFragmentEntryLink(

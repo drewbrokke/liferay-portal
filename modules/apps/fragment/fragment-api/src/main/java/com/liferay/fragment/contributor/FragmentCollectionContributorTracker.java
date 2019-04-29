@@ -14,6 +14,8 @@
 
 package com.liferay.fragment.contributor;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.fragment.model.FragmentEntry;
 
 import java.util.List;
@@ -22,11 +24,18 @@ import java.util.Map;
 /**
  * @author Jürgen Kappler
  */
+@ProviderType
 public interface FragmentCollectionContributorTracker {
 
+	/**
+	 * @deprecated As of Mueller (7.2.x), replaced by #getFragmentEntries
+	 */
+	@Deprecated
 	public Map<String, FragmentEntry> getFragmentCollectionContributorEntries();
 
 	public List<FragmentCollectionContributor>
 		getFragmentCollectionContributors();
+
+	public Map<String, FragmentEntry> getFragmentEntries();
 
 }

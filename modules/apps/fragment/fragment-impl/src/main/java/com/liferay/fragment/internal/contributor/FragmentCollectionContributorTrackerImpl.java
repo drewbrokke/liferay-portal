@@ -40,11 +40,15 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 public class FragmentCollectionContributorTrackerImpl
 	implements FragmentCollectionContributorTracker {
 
+	/**
+	 * @deprecated As of Mueller (7.2.x), replaced by #getFragmentEntries
+	 */
+	@Deprecated
 	@Override
 	public Map<String, FragmentEntry>
 		getFragmentCollectionContributorEntries() {
 
-		return new HashMap<>(_fragmentCollectionContributorEntries);
+		return getFragmentEntries();
 	}
 
 	@Override
@@ -52,6 +56,11 @@ public class FragmentCollectionContributorTrackerImpl
 		getFragmentCollectionContributors() {
 
 		return new ArrayList<>(_fragmentCollectionContributors);
+	}
+
+	@Override
+	public Map<String, FragmentEntry> getFragmentEntries() {
+		return new HashMap<>(_fragmentEntries);
 	}
 
 	@Reference(
@@ -67,7 +76,7 @@ public class FragmentCollectionContributorTrackerImpl
 			for (FragmentEntry fragmentEntry :
 					fragmentCollectionContributor.getFragmentEntries(type)) {
 
-				_fragmentCollectionContributorEntries.put(
+				_fragmentEntries.put(
 					fragmentEntry.getFragmentEntryKey(), fragmentEntry);
 			}
 		}
@@ -80,8 +89,7 @@ public class FragmentCollectionContributorTrackerImpl
 			for (FragmentEntry fragmentEntry :
 					fragmentCollectionContributor.getFragmentEntries(type)) {
 
-				_fragmentCollectionContributorEntries.remove(
-					fragmentEntry.getFragmentEntryKey());
+				_fragmentEntries.remove(fragmentEntry.getFragmentEntryKey());
 			}
 		}
 
@@ -92,9 +100,9 @@ public class FragmentCollectionContributorTrackerImpl
 		FragmentConstants.TYPE_COMPONENT, FragmentConstants.TYPE_SECTION
 	};
 
-	private final Map<String, FragmentEntry>
-		_fragmentCollectionContributorEntries = new ConcurrentHashMap<>();
 	private final List<FragmentCollectionContributor>
 		_fragmentCollectionContributors = new CopyOnWriteArrayList<>();
+	private final Map<String, FragmentEntry> _fragmentEntries =
+		new ConcurrentHashMap<>();
 
 }

@@ -398,12 +398,11 @@ public class AssetEntryUsagesDisplayContext {
 			return StringPool.BLANK;
 		}
 
-		Map<String, FragmentEntry> fragmentCollectionContributorEntries =
-			_fragmentCollectionContributorTracker.
-				getFragmentCollectionContributorEntries();
+		Map<String, FragmentEntry> fragmentEntries =
+			_fragmentCollectionContributorTracker.getFragmentEntries();
 
-		FragmentEntry contributedFragmentEntry =
-			fragmentCollectionContributorEntries.get(rendererKey);
+		FragmentEntry contributedFragmentEntry = fragmentEntries.get(
+			rendererKey);
 
 		if (contributedFragmentEntry != null) {
 			return contributedFragmentEntry.getName();
@@ -457,12 +456,11 @@ public class AssetEntryUsagesDisplayContext {
 			return 0;
 		}
 
-		Map<String, FragmentEntry> fragmentCollectionContributorEntries =
-			_fragmentCollectionContributorTracker.
-				getFragmentCollectionContributorEntries();
+		Map<String, FragmentEntry> fragmentEntries =
+			_fragmentCollectionContributorTracker.getFragmentEntries();
 
-		FragmentEntry contributedFragmentEntry =
-			fragmentCollectionContributorEntries.get(rendererKey);
+		FragmentEntry contributedFragmentEntry = fragmentEntries.get(
+			rendererKey);
 
 		if (contributedFragmentEntry != null) {
 			return contributedFragmentEntry.getType();

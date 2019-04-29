@@ -181,8 +181,7 @@ public class AddFragmentEntryLinkMVCActionCommand extends BaseMVCActionCommand {
 		String fragmentEntryKey) {
 
 		Map<String, FragmentEntry> fragmentEntries =
-			_fragmentCollectionContributorTracker.
-				getFragmentCollectionContributorEntries();
+			_fragmentCollectionContributorTracker.getFragmentEntries();
 
 		return fragmentEntries.get(fragmentEntryKey);
 	}
