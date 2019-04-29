@@ -34,6 +34,7 @@ import com.liferay.asset.list.service.AssetListEntrySegmentsEntryRelLocalService
 import com.liferay.asset.util.AssetHelper;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Hits;
@@ -332,14 +333,24 @@ public class AssetListEntryImpl extends AssetListEntryBaseImpl {
 			ClassTypeReader classTypeReader =
 				assetRendererFactory.getClassTypeReader();
 
-			List<ClassType> classTypes = classTypeReader.getAvailableClassTypes(
-				new long[] {getGroupId()}, LocaleUtil.getDefault());
+			try {
+				List<ClassType> classTypes =
+					classTypeReader.getAvailableClassTypes(
+						PortalUtil.getSharedContentSiteGroupIds(
+							getCompanyId(), getGroupId(), getUserId()),
+						LocaleUtil.getDefault());
 
-			Stream<ClassType> stream = classTypes.stream();
+				Stream<ClassType> stream = classTypes.stream();
 
-			availableClassTypeIds = stream.mapToLong(
-				classType -> classType.getClassTypeId()
-			).toArray();
+				availableClassTypeIds = stream.mapToLong(
+					classType -> classType.getClassTypeId()
+				).toArray();
+			}
+			catch (PortalException pe) {
+				_log.error(
+					"Unable to get class types for class name " + className,
+					pe);
+			}
 		}
 
 		boolean anyAssetType = GetterUtil.getBoolean(
