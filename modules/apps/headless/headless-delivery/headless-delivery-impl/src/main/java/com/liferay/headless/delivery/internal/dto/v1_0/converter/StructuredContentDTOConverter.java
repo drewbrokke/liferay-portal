@@ -14,7 +14,6 @@
 
 package com.liferay.headless.delivery.internal.dto.v1_0.converter;
 
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
@@ -31,7 +30,6 @@ import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.dynamic.data.mapping.util.FieldsToDDMFormValuesConverter;
 import com.liferay.headless.delivery.dto.v1_0.ContentField;
 import com.liferay.headless.delivery.dto.v1_0.Geo;
-import com.liferay.headless.delivery.dto.v1_0.RelatedContent;
 import com.liferay.headless.delivery.dto.v1_0.RenderedContent;
 import com.liferay.headless.delivery.dto.v1_0.StructuredContent;
 import com.liferay.headless.delivery.dto.v1_0.StructuredContentLink;
@@ -101,10 +99,6 @@ public class StructuredContentDTOConverter implements DTOConverter {
 
 		DDMStructure ddmStructure = journalArticle.getDDMStructure();
 
-		AssetEntry assetEntry = _assetEntryLocalService.getEntry(
-			JournalArticle.class.getName(),
-			journalArticle.getResourcePrimKey());
-
 		return new StructuredContent() {
 			{
 				availableLanguages = LocaleUtil.toW3cLanguageIds(
@@ -139,14 +133,11 @@ public class StructuredContentDTOConverter implements DTOConverter {
 				numberOfComments = _commentManager.getCommentsCount(
 					JournalArticle.class.getName(),
 					journalArticle.getResourcePrimKey());
-				relatedContents = TransformUtil.transformToArray(
-					_assetLinkLocalService.getDirectLinks(
-						assetEntry.getEntryId()),
-					assetLink -> RelatedContentUtil.toRelatedContent(
-						_assetEntryLocalService.getEntry(
-							assetLink.getEntryId2()),
-						_dtoConverterRegistry, dtoConverterContext.getLocale()),
-					RelatedContent.class);
+				relatedContents = RelatedContentUtil.toRelatedContents(
+					_assetEntryLocalService, _assetLinkLocalService,
+					JournalArticle.class.getName(),
+					journalArticle.getResourcePrimKey(), _dtoConverterRegistry,
+					dtoConverterContext.getLocale());
 				renderedContents = _toRenderedContents(
 					ddmStructure, journalArticle,
 					dtoConverterContext.getLocale(),

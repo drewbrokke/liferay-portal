@@ -15,9 +15,12 @@
 package com.liferay.headless.delivery.internal.dto.v1_0.util;
 
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalService;
+import com.liferay.asset.kernel.service.AssetLinkLocalService;
 import com.liferay.headless.delivery.dto.v1_0.RelatedContent;
 import com.liferay.headless.delivery.dto.v1_0.converter.DTOConverter;
 import com.liferay.headless.delivery.internal.dto.v1_0.converter.DTOConverterRegistry;
+import com.liferay.portal.vulcan.util.TransformUtil;
 
 import java.util.Locale;
 
@@ -26,7 +29,25 @@ import java.util.Locale;
  */
 public class RelatedContentUtil {
 
-	public static RelatedContent toRelatedContent(
+	public static RelatedContent[] toRelatedContents(
+			AssetEntryLocalService assetEntryLocalService,
+			AssetLinkLocalService assetLinkLocalService, String className,
+			long classPK, DTOConverterRegistry dtoConverterRegistry,
+			Locale locale)
+		throws Exception {
+
+		AssetEntry assetEntry = assetEntryLocalService.getEntry(
+			className, classPK);
+
+		return TransformUtil.transformToArray(
+			assetLinkLocalService.getDirectLinks(assetEntry.getEntryId()),
+			assetLink -> _toRelatedContent(
+				assetEntryLocalService.getEntry(assetLink.getEntryId2()),
+				dtoConverterRegistry, locale),
+			RelatedContent.class);
+	}
+
+	private static RelatedContent _toRelatedContent(
 		AssetEntry assetEntry, DTOConverterRegistry dtoConverterRegistry,
 		Locale locale) {
 

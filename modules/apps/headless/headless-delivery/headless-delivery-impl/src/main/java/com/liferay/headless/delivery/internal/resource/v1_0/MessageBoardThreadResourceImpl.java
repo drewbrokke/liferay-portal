@@ -14,7 +14,6 @@
 
 package com.liferay.headless.delivery.internal.resource.v1_0;
 
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.asset.kernel.service.AssetLinkLocalService;
@@ -23,7 +22,6 @@ import com.liferay.headless.common.spi.resource.SPIRatingResource;
 import com.liferay.headless.common.spi.service.context.ServiceContextUtil;
 import com.liferay.headless.delivery.dto.v1_0.MessageBoardThread;
 import com.liferay.headless.delivery.dto.v1_0.Rating;
-import com.liferay.headless.delivery.dto.v1_0.RelatedContent;
 import com.liferay.headless.delivery.internal.dto.v1_0.converter.DTOConverterRegistry;
 import com.liferay.headless.delivery.internal.dto.v1_0.util.AggregateRatingUtil;
 import com.liferay.headless.delivery.internal.dto.v1_0.util.CreatorUtil;
@@ -65,7 +63,6 @@ import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 import com.liferay.portal.vulcan.util.SearchUtil;
-import com.liferay.portal.vulcan.util.TransformUtil;
 import com.liferay.ratings.kernel.service.RatingsEntryLocalService;
 import com.liferay.ratings.kernel.service.RatingsStatsLocalService;
 
@@ -324,9 +321,6 @@ public class MessageBoardThreadResourceImpl
 		MBMessage mbMessage = _mbMessageService.getMessage(
 			mbThread.getRootMessageId());
 
-		AssetEntry assetEntry = _assetEntryLocalService.getEntry(
-			mbMessage.getModelClassName(), mbMessage.getMessageId());
-
 		return new MessageBoardThread() {
 			{
 				aggregateRating = AggregateRatingUtil.toAggregateRating(
@@ -350,15 +344,11 @@ public class MessageBoardThreadResourceImpl
 					_mbMessageLocalService.getChildMessagesCount(
 						mbMessage.getMessageId(),
 						WorkflowConstants.STATUS_APPROVED);
-				relatedContents = TransformUtil.transformToArray(
-					_assetLinkLocalService.getDirectLinks(
-						assetEntry.getEntryId()),
-					assetLink -> RelatedContentUtil.toRelatedContent(
-						_assetEntryLocalService.getEntry(
-							assetLink.getEntryId2()),
-						_dtoConverterRegistry,
-						contextAcceptLanguage.getPreferredLocale()),
-					RelatedContent.class);
+				relatedContents = RelatedContentUtil.toRelatedContents(
+					_assetEntryLocalService, _assetLinkLocalService,
+					mbMessage.getModelClassName(), mbMessage.getMessageId(),
+					_dtoConverterRegistry,
+					contextAcceptLanguage.getPreferredLocale());
 				showAsQuestion = mbThread.isQuestion();
 				siteId = mbThread.getGroupId();
 				threadType = _toThreadType(

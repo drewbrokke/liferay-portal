@@ -14,7 +14,6 @@
 
 package com.liferay.headless.delivery.internal.dto.v1_0.converter;
 
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
@@ -26,7 +25,6 @@ import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.document.library.util.DLURLHelper;
 import com.liferay.headless.delivery.dto.v1_0.BlogPosting;
 import com.liferay.headless.delivery.dto.v1_0.Image;
-import com.liferay.headless.delivery.dto.v1_0.RelatedContent;
 import com.liferay.headless.delivery.dto.v1_0.TaxonomyCategory;
 import com.liferay.headless.delivery.dto.v1_0.converter.DTOConverter;
 import com.liferay.headless.delivery.dto.v1_0.converter.DTOConverterContext;
@@ -68,9 +66,6 @@ public class BlogPostingDTOConverter implements DTOConverter {
 		BlogsEntry blogsEntry = _blogsEntryService.getEntry(
 			dtoConverterContext.getResourcePrimKey());
 
-		AssetEntry assetEntry = _assetEntryLocalService.getEntry(
-			blogsEntry.getModelClassName(), blogsEntry.getEntryId());
-
 		return new BlogPosting() {
 			{
 				alternativeHeadline = blogsEntry.getSubtitle();
@@ -95,14 +90,10 @@ public class BlogPostingDTOConverter implements DTOConverter {
 					AssetTag.NAME_ACCESSOR);
 				numberOfComments = _commentManager.getCommentsCount(
 					BlogsEntry.class.getName(), blogsEntry.getEntryId());
-				relatedContents = TransformUtil.transformToArray(
-					_assetLinkLocalService.getDirectLinks(
-						assetEntry.getEntryId()),
-					assetLink -> RelatedContentUtil.toRelatedContent(
-						_assetEntryLocalService.getEntry(
-							assetLink.getEntryId2()),
-						_dtoConverterRegistry, dtoConverterContext.getLocale()),
-					RelatedContent.class);
+				relatedContents = RelatedContentUtil.toRelatedContents(
+					_assetEntryLocalService, _assetLinkLocalService,
+					blogsEntry.getModelClassName(), blogsEntry.getEntryId(),
+					_dtoConverterRegistry, dtoConverterContext.getLocale());
 				siteId = blogsEntry.getGroupId();
 				taxonomyCategories = TransformUtil.transformToArray(
 					_assetCategoryLocalService.getCategories(
