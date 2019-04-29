@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.GroupThreadLocal;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -313,8 +312,7 @@ public class SegmentsEntryLocalServiceImpl
 		SegmentsEntry segmentsEntry = segmentsEntryPersistence.findByPrimaryKey(
 			segmentsEntryId);
 
-		segmentsEntryKey = FriendlyURLNormalizerUtil.normalize(
-			segmentsEntryKey);
+		segmentsEntryKey = StringUtil.toUpperCase(segmentsEntryKey.trim());
 
 		validate(segmentsEntryId, segmentsEntry.getGroupId(), segmentsEntryKey);
 
