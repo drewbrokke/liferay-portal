@@ -27,8 +27,6 @@ SegmentsEntry segmentsEntry = editSegmentsEntryDisplayContext.getSegmentsEntry()
 
 long segmentsEntryId = editSegmentsEntryDisplayContext.getSegmentsEntryId();
 
-String type = editSegmentsEntryDisplayContext.getType();
-
 if (Validator.isNotNull(backURL)) {
 	portletDisplay.setShowBackIcon(true);
 	portletDisplay.setURLBack(backURL);
@@ -45,7 +43,7 @@ renderResponse.setTitle(editSegmentsEntryDisplayContext.getTitle(locale));
 <aui:form action="<%= updateSegmentsEntryActionURL %>" method="post" name="editSegmentFm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "saveSegmentsEntry();" %>'>
 	<aui:input name="redirect" type="hidden" value="<%= redirect %>" />
 	<aui:input name="segmentsEntryId" type="hidden" value="<%= segmentsEntryId %>" />
-	<aui:input name="type" type="hidden" value="<%= type %>" />
+	<aui:input name="type" type="hidden" value="<%= editSegmentsEntryDisplayContext.getType() %>" />
 	<aui:input name="dynamic" type="hidden" value="<%= true %>" />
 
 	<%
