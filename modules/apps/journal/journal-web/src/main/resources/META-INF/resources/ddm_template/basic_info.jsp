@@ -62,7 +62,7 @@ DDMStructure ddmStructure = journalEditDDMTemplateDisplayContext.getDDMStructure
 	<aui:input disabled="<%= ddmTemplate != null %>" name="ddmTemplateKey" />
 </c:if>
 
-<aui:input name="description" />
+<aui:input defaultLanguageId="<%= (ddmTemplate == null) ? LocaleUtil.toLanguageId(LocaleUtil.getSiteDefault()): ddmTemplate.getDefaultLanguageId() %>" name="description" />
 
 <c:if test="<%= ddmTemplate != null %>">
 	<aui:input helpMessage="template-key-help" name="ddmTemplateKey" type="resource" value="<%= ddmTemplate.getTemplateKey() %>" />
