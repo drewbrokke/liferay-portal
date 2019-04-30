@@ -55,6 +55,74 @@ definition {
 			value1 = "Active");
 	}
 
+	@priority = "5"
+	test AssertOnChangesDisplayedOnSelectChangeList {
+		ProductMenu.gotoPortlet(
+			category = "Content &amp; Data",
+			panel = "Site Administration",
+			portlet = "Web Content");
+
+		WebContentNavigator.gotoAddCP();
+
+		WebContent.addCP(
+			webContentContent = "WC WebContent Content",
+			webContentTitle = "Web Content Title");
+
+		PortletEntry.publish();
+
+		ProductMenu.gotoPortlet(
+			category = "Change Lists",
+			panel = "Control Panel",
+			portlet = "Change Lists");
+
+		ChangeList.selectChangeList(changeListName = "Select Change List");
+
+		ChangeList.viewAddedItemCounter(nbrOfAddedItems = "1");
+
+		ProductMenu.gotoPortlet(
+			category = "Content &amp; Data",
+			panel = "Site Administration",
+			portlet = "Web Content");
+
+		WebContentNavigator.gotoEditCP(webContentTitle = "Web Content Title");
+
+		WebContent.editCP(
+			webContentContentEdit = "WC WebContent Content Edit",
+			webContentTitle = "Web Content Title",
+			webContentTitleEdit = "Web Content Title Edit");
+
+		ProductMenu.gotoPortlet(
+			category = "Change Lists",
+			panel = "Control Panel",
+			portlet = "Change Lists");
+
+		ChangeList.selectChangeList(changeListName = "Select Change List");
+
+		ChangeList.viewModifiedItemCounter(nbrOfModifiedItems = "1");
+
+		ProductMenu.gotoPortlet(
+			category = "Content &amp; Data",
+			panel = "Site Administration",
+			portlet = "Web Content");
+
+		WebContent.moveToRecycleBinCP(
+			assetType = "Web Content Article",
+			webContentTitle = "Web Content Title Edit");
+
+		ProductMenu.gotoPortlet(
+			category = "Change Lists",
+			panel = "Control Panel",
+			portlet = "Change Lists");
+
+		ChangeList.selectChangeList(changeListName = "Select Change List");
+
+		ChangeList.viewAddedItemCounter(nbrOfAddedItems = "1");
+
+		ChangeList.viewModifiedItemCounter(nbrOfModifiedItems = "0");
+
+		ChangeList.viewDeletedItemCounter(nbrOfDeletedItems = "1");
+	}
+
 	@priority = "4"
 	test WorkOnProduction {
 		ChangeList.workOnProduction();
