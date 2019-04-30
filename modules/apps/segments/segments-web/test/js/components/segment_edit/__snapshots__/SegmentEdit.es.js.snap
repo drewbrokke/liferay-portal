@@ -138,7 +138,7 @@ exports[`SegmentEdit should render 1`] = `
               class="btn-group-item"
             >
               <a
-                class="btn btn-secondary btn-sm disabled"
+                class="btn btn-secondary btn-sm"
                 href="/test-url"
               >
                 cancel
