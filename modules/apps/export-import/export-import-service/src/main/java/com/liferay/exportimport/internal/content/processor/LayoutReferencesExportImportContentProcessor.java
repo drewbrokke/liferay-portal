@@ -212,7 +212,7 @@ public class LayoutReferencesExportImportContentProcessor
 
 		StringBuilder sb = new StringBuilder(content);
 
-		String[] patterns = {"href=", "[["};
+		String[] patterns = {"href=", "[[", "{{"};
 
 		int beginPos = -1;
 		int endPos = content.length();
@@ -238,7 +238,9 @@ public class LayoutReferencesExportImportContentProcessor
 					offset++;
 				}
 			}
-			else if (content.charAt(beginPos) == CharPool.OPEN_BRACKET) {
+			else if ((content.charAt(beginPos) == CharPool.OPEN_BRACKET) ||
+					 (content.charAt(beginPos) == CharPool.OPEN_CURLY_BRACE)) {
+
 				offset = 2;
 			}
 
@@ -714,7 +716,7 @@ public class LayoutReferencesExportImportContentProcessor
 
 		Group group = _groupLocalService.getGroup(groupId);
 
-		String[] patterns = {"href=", "[["};
+		String[] patterns = {"href=", "[[", "{{"};
 
 		int beginPos = -1;
 		int endPos = content.length();
@@ -740,7 +742,9 @@ public class LayoutReferencesExportImportContentProcessor
 					offset++;
 				}
 			}
-			else if (content.charAt(beginPos) == CharPool.OPEN_BRACKET) {
+			else if ((content.charAt(beginPos) == CharPool.OPEN_BRACKET) ||
+					 (content.charAt(beginPos) == CharPool.OPEN_CURLY_BRACE)) {
+
 				offset = 2;
 			}
 
