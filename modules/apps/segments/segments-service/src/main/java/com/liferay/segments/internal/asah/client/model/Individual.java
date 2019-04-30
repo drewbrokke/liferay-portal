@@ -14,11 +14,11 @@
 
 package com.liferay.segments.internal.asah.client.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Matthew Kong
@@ -28,7 +28,7 @@ public class Individual {
 	public Individual() {
 	}
 
-	public Map<String, Set<String>> getDataSourceIndividualPKs() {
+	public List<DataSourceIndividualPK> getDataSourceIndividualPKs() {
 		return _dataSourceIndividualPKs;
 	}
 
@@ -49,7 +49,7 @@ public class Individual {
 	}
 
 	public void setDataSourceIndividualPKs(
-		Map<String, Set<String>> dataSourceIndividualPKs) {
+		List<DataSourceIndividualPK> dataSourceIndividualPKs) {
 
 		_dataSourceIndividualPKs = dataSourceIndividualPKs;
 	}
@@ -72,24 +72,61 @@ public class Individual {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder(11);
+		final StringBuilder sb = new StringBuilder(12);
 
-		sb.append("{dataSourceIndividualPKs=");
+		sb.append("Individual{");
+		sb.append("_dataSourceIndividualPKs='");
 		sb.append(_dataSourceIndividualPKs);
-		sb.append(", dateCreated=");
+		sb.append("', _dateCreated='");
 		sb.append(_dateCreated);
-		sb.append(", dateModified=");
+		sb.append("', _dateModified='");
 		sb.append(_dateModified);
-		sb.append(", demographics=");
+		sb.append("', _demographics='");
 		sb.append(_demographics);
-		sb.append(", id=");
+		sb.append("', _id='");
 		sb.append(_id);
 		sb.append("}");
 
 		return sb.toString();
 	}
 
-	private Map<String, Set<String>> _dataSourceIndividualPKs = new HashMap<>();
+	public static class DataSourceIndividualPK {
+
+		public DataSourceIndividualPK() {
+		}
+
+		public String getDataSourceId() {
+			return _dataSourceId;
+		}
+
+		public String getDataSourceType() {
+			return _dataSourceType;
+		}
+
+		public List<String> getIndividualPKs() {
+			return _individualPKs;
+		}
+
+		public void setDataSourceId(String dataSourceId) {
+			_dataSourceId = dataSourceId;
+		}
+
+		public void setDataSourceType(String dataSourceType) {
+			_dataSourceType = dataSourceType;
+		}
+
+		public void setIndividualPKs(List<String> individualPKs) {
+			_individualPKs = individualPKs;
+		}
+
+		private String _dataSourceId;
+		private String _dataSourceType;
+		private List<String> _individualPKs;
+
+	}
+
+	private List<DataSourceIndividualPK> _dataSourceIndividualPKs =
+		new ArrayList<>();
 	private Date _dateCreated;
 	private Date _dateModified;
 	private Map<String, List<Field>> _demographics = new HashMap<>();
