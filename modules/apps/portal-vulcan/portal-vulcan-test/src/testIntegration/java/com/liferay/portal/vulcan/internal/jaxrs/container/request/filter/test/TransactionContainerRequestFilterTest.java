@@ -81,29 +81,29 @@ public class TransactionContainerRequestFilterTest {
 		_serviceRegistration.unregister();
 	}
 
-	@Test
-	public void testFailureRequest() throws Exception {
-		Group group = GroupTestUtil.addGroup();
-
-		Assert.assertEquals(
-			500,
-			_getHttpResponseCode(
-				"http://localhost:8080/o/test-vulcan/failure/" +
-					group.getGroupId()));
-		Assert.assertNotNull(
-			GroupLocalServiceUtil.getGroup(group.getGroupId()));
-	}
-
 	@Test(expected = NoSuchGroupException.class)
-	public void testSuccessRequest() throws Exception {
+	public void testCommit() throws Exception {
 		Group group = GroupTestUtil.addGroup();
 
 		Assert.assertEquals(
 			204,
-			_getHttpResponseCode(
-				"http://localhost:8080/o/test-vulcan/success/" +
+			_getResponseCode(
+				"http://localhost:8080/o/test-vulcan/commit/" +
 					group.getGroupId()));
 		Assert.assertNull(GroupLocalServiceUtil.getGroup(group.getGroupId()));
+	}
+
+	@Test
+	public void testRollback() throws Exception {
+		Group group = GroupTestUtil.addGroup();
+
+		Assert.assertEquals(
+			500,
+			_getResponseCode(
+				"http://localhost:8080/o/test-vulcan/rollback/" +
+					group.getGroupId()));
+		Assert.assertNotNull(
+			GroupLocalServiceUtil.getGroup(group.getGroupId()));
 	}
 
 	public static class TestApplication extends Application {
@@ -114,8 +114,16 @@ public class TransactionContainerRequestFilterTest {
 		}
 
 		@DELETE
-		@Path("/failure/{siteId}")
-		public void testFailure(@PathParam("siteId") long siteId)
+		@Path("/commit/{siteId}")
+		public void testCommit(@PathParam("siteId") long siteId)
+			throws Exception {
+
+			GroupLocalServiceUtil.deleteGroup(siteId);
+		}
+
+		@DELETE
+		@Path("/rollback/{siteId}")
+		public void testRollback(@PathParam("siteId") long siteId)
 			throws Exception {
 
 			GroupLocalServiceUtil.deleteGroup(siteId);
@@ -123,17 +131,9 @@ public class TransactionContainerRequestFilterTest {
 			throw new RuntimeException();
 		}
 
-		@DELETE
-		@Path("/success/{siteId}")
-		public void testSuccess(@PathParam("siteId") long siteId)
-			throws Exception {
-
-			GroupLocalServiceUtil.deleteGroup(siteId);
-		}
-
 	}
 
-	private int _getHttpResponseCode(String urlString) throws IOException {
+	private int _getResponseCode(String urlString) throws IOException {
 		HttpURLConnection httpURLConnection =
 			(HttpURLConnection)URLConnectionUtil.createURLConnection(urlString);
 
