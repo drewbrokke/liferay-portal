@@ -156,6 +156,8 @@ public class RuntimeTag extends TagSupport implements DirectTag {
 			HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
+		instanceId = PortalUtil.getJsSafePortletId(instanceId);
+
 		if (pageContext != null) {
 			if (response == pageContext.getResponse()) {
 				response = PipingServletResponse.createPipingServletResponse(
@@ -166,8 +168,6 @@ public class RuntimeTag extends TagSupport implements DirectTag {
 					response, pageContext.getOut());
 			}
 		}
-
-		instanceId = PortalUtil.getJsSafePortletId(instanceId);
 
 		HttpServletRequest originalRequest =
 			PortalUtil.getOriginalServletRequest(request);
