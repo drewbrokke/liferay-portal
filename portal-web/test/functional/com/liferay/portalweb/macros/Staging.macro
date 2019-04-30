@@ -1139,7 +1139,7 @@ definition {
 				locator1 = "Staging#HISTORY_VERSION_2",
 				value1 = "${historyVersion}");
 		}
-		else if (IsElementPresent(locator1 = "Staging#HISTORY_VERSION")) {
+		else if (IsElementPresent.isVisible(locator1 = "Staging#HISTORY_VERSION")) {
 			AssertTextEquals(
 				locator1 = "Staging#HISTORY_VERSION",
 				value1 = "${historyVersion}");
