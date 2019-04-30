@@ -24,11 +24,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -45,16 +41,14 @@ public class IndividualJSONObjectMapperTest {
 
 		Assert.assertNotNull(individual);
 
-		Assert.assertEquals("327206046201282216", individual.getId());
+		Assert.assertEquals("352412408151322817", individual.getId());
 
-		Map<String, Set<String>> dataSourceIndividualPKs =
+		List<Individual.DataSourceIndividualPK> dataSourceIndividualPKs =
 			individual.getDataSourceIndividualPKs();
 
 		Assert.assertEquals(
-			new HashSet<>(
-				Collections.singletonList(
-					"fa08b246-2f0c-25c3-588a-6da21da8cb46")),
-			dataSourceIndividualPKs.get("327205908165727542"));
+			dataSourceIndividualPKs.toString(), 1,
+			dataSourceIndividualPKs.size());
 	}
 
 	@Test(expected = IOException.class)
@@ -67,22 +61,36 @@ public class IndividualJSONObjectMapperTest {
 		Results<Individual> results = _individualJSONObjectMapper.mapToResults(
 			_read("get-individuals.json"));
 
-		Assert.assertEquals(1, results.getTotal());
+		Assert.assertEquals(2, results.getTotal());
 
 		List<Individual> individuals = results.getItems();
 
 		Individual individual = individuals.get(0);
 
-		Assert.assertEquals("327206046201282216", individual.getId());
+		Assert.assertEquals("337338657439093764", individual.getId());
 
-		Map<String, Set<String>> dataSourceIndividualPKs =
+		List<Individual.DataSourceIndividualPK> dataSourceIndividualPKs =
 			individual.getDataSourceIndividualPKs();
 
 		Assert.assertEquals(
-			new HashSet<>(
-				Collections.singletonList(
-					"fa08b246-2f0c-25c3-588a-6da21da8cb46")),
-			dataSourceIndividualPKs.get("327205908165727542"));
+			dataSourceIndividualPKs.toString(), 8,
+			dataSourceIndividualPKs.size());
+
+		Individual.DataSourceIndividualPK dataSourceIndividualPK =
+			dataSourceIndividualPKs.get(0);
+
+		Assert.assertEquals(
+			"335470356976861111", dataSourceIndividualPK.getDataSourceId());
+
+		Assert.assertEquals(
+			"LIFERAY", dataSourceIndividualPK.getDataSourceType());
+
+		List<String> individualPKs = dataSourceIndividualPK.getIndividualPKs();
+
+		Assert.assertEquals(individualPKs.toString(), 13, individualPKs.size());
+
+		Assert.assertTrue(
+			individualPKs.contains("bd537758-b907-f00f-91c2-b18dd46e3b32"));
 	}
 
 	@Test(expected = IOException.class)
