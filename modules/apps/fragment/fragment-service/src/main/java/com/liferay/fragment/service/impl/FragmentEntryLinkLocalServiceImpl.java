@@ -88,6 +88,20 @@ public class FragmentEntryLinkLocalServiceImpl
 			String rendererKey, ServiceContext serviceContext)
 		throws PortalException {
 
+		return addFragmentEntryLink(
+			userId, groupId, originalFragmentEntryLinkId, fragmentEntryId,
+			classNameId, classPK, css, html, js, editableValues,
+			StringPool.BLANK, position, rendererKey, serviceContext);
+	}
+
+	@Override
+	public FragmentEntryLink addFragmentEntryLink(
+			long userId, long groupId, long originalFragmentEntryLinkId,
+			long fragmentEntryId, long classNameId, long classPK, String css,
+			String html, String js, String editableValues, String namespace,
+			int position, String rendererKey, ServiceContext serviceContext)
+		throws PortalException {
+
 		User user = userLocalService.getUser(userId);
 
 		long fragmentEntryLinkId = counterLocalService.increment();
@@ -127,7 +141,12 @@ public class FragmentEntryLinkLocalServiceImpl
 
 		fragmentEntryLink.setEditableValues(editableValues);
 
-		fragmentEntryLink.setNamespace(StringUtil.randomId());
+		if (Validator.isNull(namespace)) {
+			namespace = StringUtil.randomId();
+		}
+
+		fragmentEntryLink.setNamespace(namespace);
+
 		fragmentEntryLink.setPosition(position);
 		fragmentEntryLink.setRendererKey(rendererKey);
 		fragmentEntryLink.setLastPropagationDate(
@@ -333,6 +352,21 @@ public class FragmentEntryLinkLocalServiceImpl
 			String editableValues, int position, ServiceContext serviceContext)
 		throws PortalException {
 
+		return updateFragmentEntryLink(
+			userId, fragmentEntryLinkId, originalFragmentEntryLinkId,
+			fragmentEntryId, classNameId, classPK, css, html, js,
+			editableValues, StringPool.BLANK, position, serviceContext);
+	}
+
+	@Override
+	public FragmentEntryLink updateFragmentEntryLink(
+			long userId, long fragmentEntryLinkId,
+			long originalFragmentEntryLinkId, long fragmentEntryId,
+			long classNameId, long classPK, String css, String html, String js,
+			String editableValues, String namespace, int position,
+			ServiceContext serviceContext)
+		throws PortalException {
+
 		User user = userLocalService.getUser(userId);
 
 		FragmentEntryLink fragmentEntryLink = fetchFragmentEntryLink(
@@ -351,6 +385,11 @@ public class FragmentEntryLinkLocalServiceImpl
 		fragmentEntryLink.setHtml(html);
 		fragmentEntryLink.setJs(js);
 		fragmentEntryLink.setEditableValues(editableValues);
+
+		if (Validator.isNotNull(namespace)) {
+			fragmentEntryLink.setNamespace(namespace);
+		}
+
 		fragmentEntryLink.setPosition(position);
 
 		fragmentEntryLinkPersistence.update(fragmentEntryLink);
