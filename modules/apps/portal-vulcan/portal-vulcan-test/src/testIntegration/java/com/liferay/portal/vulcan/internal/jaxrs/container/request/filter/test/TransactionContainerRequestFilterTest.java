@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.vulcan.internal.test.util.URLConnectionUtil;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceRegistration;
@@ -27,11 +28,7 @@ import com.liferay.registry.ServiceRegistration;
 import java.io.IOException;
 
 import java.net.HttpURLConnection;
-import java.net.URL;
 
-import java.nio.charset.StandardCharsets;
-
-import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,12 +85,11 @@ public class TransactionContainerRequestFilterTest {
 	public void testFailureRequest() throws Exception {
 		Group group = GroupTestUtil.addGroup();
 
-		URL url = new URL(
-			"http://localhost:8080/o/test-vulcan/failure/" +
-				group.getGroupId());
-
-		Assert.assertEquals(500, _getHttpResponseCode(url));
-
+		Assert.assertEquals(
+			500,
+			_getHttpResponseCode(
+				"http://localhost:8080/o/test-vulcan/failure/" +
+					group.getGroupId()));
 		Assert.assertNotNull(
 			GroupLocalServiceUtil.getGroup(group.getGroupId()));
 	}
@@ -102,12 +98,11 @@ public class TransactionContainerRequestFilterTest {
 	public void testSuccessRequest() throws Exception {
 		Group group = GroupTestUtil.addGroup();
 
-		URL url = new URL(
-			"http://localhost:8080/o/test-vulcan/success/" +
-				group.getGroupId());
-
-		Assert.assertEquals(204, _getHttpResponseCode(url));
-
+		Assert.assertEquals(
+			204,
+			_getHttpResponseCode(
+				"http://localhost:8080/o/test-vulcan/success/" +
+					group.getGroupId()));
 		Assert.assertNull(GroupLocalServiceUtil.getGroup(group.getGroupId()));
 	}
 
@@ -138,18 +133,11 @@ public class TransactionContainerRequestFilterTest {
 
 	}
 
-	private int _getHttpResponseCode(URL url) throws IOException {
+	private int _getHttpResponseCode(String urlString) throws IOException {
 		HttpURLConnection httpURLConnection =
-			(HttpURLConnection)url.openConnection();
-
-		Base64.Encoder encoder = Base64.getEncoder();
-
-		String basicAuth = encoder.encodeToString(
-			"test@liferay.com:test".getBytes(StandardCharsets.UTF_8));
+			(HttpURLConnection)URLConnectionUtil.createURLConnection(urlString);
 
 		httpURLConnection.setRequestMethod("DELETE");
-		httpURLConnection.setRequestProperty(
-			"Authorization", "Basic " + basicAuth);
 
 		return httpURLConnection.getResponseCode();
 	}

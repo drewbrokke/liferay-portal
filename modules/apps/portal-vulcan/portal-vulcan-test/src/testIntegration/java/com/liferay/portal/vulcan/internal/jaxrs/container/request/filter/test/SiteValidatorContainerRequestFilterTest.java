@@ -23,23 +23,15 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.vulcan.internal.test.util.URLConnectionUtil;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceRegistration;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
-import java.net.URL;
-import java.net.URLConnection;
-
-import java.nio.charset.StandardCharsets;
-
-import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,9 +86,7 @@ public class SiteValidatorContainerRequestFilterTest {
 
 	@Test(expected = FileNotFoundException.class)
 	public void testInValidGroup() throws Exception {
-		URL url = new URL("http://localhost:8080/o/test-vulcan/0/name");
-
-		StringUtil.read(_getInputStream(url));
+		URLConnectionUtil.read("http://localhost:8080/o/test-vulcan/0/name");
 	}
 
 	@Test
@@ -109,11 +99,9 @@ public class SiteValidatorContainerRequestFilterTest {
 			defaultCompanyId, user.getUserId(),
 			GroupConstants.DEFAULT_PARENT_GROUP_ID);
 
-		URL url = new URL(
+		String groupName = URLConnectionUtil.read(
 			"http://localhost:8080/o/test-vulcan/" + group.getGroupId() +
 				"/name");
-
-		String groupName = StringUtil.read(_getInputStream(url));
 
 		Assert.assertEquals(group.getName(LocaleUtil.getDefault()), groupName);
 	}
@@ -135,21 +123,6 @@ public class SiteValidatorContainerRequestFilterTest {
 			return group.getName(LocaleUtil.getDefault());
 		}
 
-	}
-
-	private InputStream _getInputStream(URL url) throws IOException {
-		URLConnection urlConnection = url.openConnection();
-
-		Base64.Encoder encoder = Base64.getEncoder();
-
-		String basicAuth = encoder.encodeToString(
-			"test@liferay.com:test".getBytes(StandardCharsets.UTF_8));
-
-		urlConnection.setRequestProperty("Authorization", "Basic " + basicAuth);
-
-		urlConnection.connect();
-
-		return urlConnection.getInputStream();
 	}
 
 	@Inject

@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.DocumentException;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
+import com.liferay.portal.vulcan.internal.test.util.URLConnectionUtil;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceRegistration;
@@ -30,13 +31,9 @@ import com.liferay.registry.ServiceRegistration;
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.net.URL;
 import java.net.URLConnection;
 
-import java.nio.charset.StandardCharsets;
-
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -193,17 +190,10 @@ public class XMLMessageBodyWriterTest {
 	private Document _getDocument(String urlString)
 		throws DocumentException, IOException {
 
-		URL url = new URL(urlString);
-
-		URLConnection urlConnection = url.openConnection();
-
-		Base64.Encoder encoder = Base64.getEncoder();
-
-		String basicAuth = encoder.encodeToString(
-			"test@liferay.com:test".getBytes(StandardCharsets.UTF_8));
+		URLConnection urlConnection = URLConnectionUtil.createURLConnection(
+			urlString);
 
 		urlConnection.setRequestProperty("Accept", MediaType.APPLICATION_XML);
-		urlConnection.setRequestProperty("Authorization", "Basic " + basicAuth);
 
 		try (InputStream inputStream = urlConnection.getInputStream()) {
 			String content = StringUtil.read(inputStream);

@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
+import com.liferay.portal.vulcan.internal.test.util.URLConnectionUtil;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceRegistration;
@@ -27,12 +28,8 @@ import com.liferay.registry.ServiceRegistration;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 
-import java.net.URL;
 import java.net.URLConnection;
 
-import java.nio.charset.StandardCharsets;
-
-import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,17 +76,10 @@ public class XMLMessageBodyReaderTest {
 
 	@Test
 	public void testIsReadFromXML() throws Exception {
-		URL url = new URL("http://localhost:8080/o/test-vulcan/test-class");
-
-		URLConnection urlConnection = url.openConnection();
-
-		Base64.Encoder encoder = Base64.getEncoder();
-
-		String basicAuth = encoder.encodeToString(
-			"test@liferay.com:test".getBytes(StandardCharsets.UTF_8));
+		URLConnection urlConnection = URLConnectionUtil.createURLConnection(
+			"http://localhost:8080/o/test-vulcan/test-class");
 
 		urlConnection.setDoOutput(true);
-		urlConnection.setRequestProperty("Authorization", "Basic " + basicAuth);
 		urlConnection.setRequestProperty(
 			"Content-Type", MediaType.APPLICATION_XML);
 
