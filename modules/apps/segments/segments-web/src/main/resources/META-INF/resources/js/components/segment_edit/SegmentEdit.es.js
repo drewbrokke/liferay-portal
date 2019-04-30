@@ -182,13 +182,11 @@ class SegmentEdit extends Component {
 			values
 		} = this.props;
 
-		const {changesUnsaved, editing} = this.state;
+		const {editing} = this.state;
 
 		const {assetsPath} = this.context;
 
-		const disabledCancel = !editing;
-		const disabledSave = !editing || this._isQueryEmpty();
-		const editingToggleDisabled = changesUnsaved;
+		const disabledSave = this._isQueryEmpty();
 
 		return (
 			<div className="segment-edit-page-root">
@@ -244,7 +242,6 @@ class SegmentEdit extends Component {
 									<ClayToggle
 										checked={editing}
 										className="toggle-editing"
-										disabled={editingToggleDisabled}
 										iconOff="pencil"
 										iconOn="pencil"
 										onChange={this._handleCriteriaEdit}
@@ -255,7 +252,6 @@ class SegmentEdit extends Component {
 							<div className="btn-group">
 								<div className="btn-group-item">
 									<ClayButton
-										disabled={disabledCancel}
 										href={redirect}
 										label={Liferay.Language.get('cancel')}
 										size="sm"
