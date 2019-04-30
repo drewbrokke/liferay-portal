@@ -152,20 +152,12 @@ definition {
 	macro viewNoStagingMenuitemsNotAvailable {
 		AssertElementNotPresent(locator1 = "Icon#HEADER_VERTICAL_ELLIPSIS");
 
-		ProductMenuHelper.expandPanel(panel = "Site Administration");
+		ProductMenu.gotoPortlet(
+			category = "Publishing",
+			panel = "Site Administration",
+			portlet = "Staging");
 
-		ProductMenuHelper.expandCategory(category = "Publishing");
-
-		AssertElementNotPresent(
-			key_portlet = "Staging",
-			locator1 = "ProductMenu#PORTLET",
-			value1 = "Staging");
-	}
-
-	macro viewModifiedItemCounter {
-		AssertTextEquals(
-			locator1 = "ChangeList#CHANGE_LIST_MODIFIED",
-			value1 = "${nbrOfModifiedItems}");
+		Alert.viewWarningSpecific(warningMessage = "Change lists are enabled for the current virtual instance. Staging and change lists cannot be used together.");
 	}
 
 	macro viewPublishedChangeListDetails {
