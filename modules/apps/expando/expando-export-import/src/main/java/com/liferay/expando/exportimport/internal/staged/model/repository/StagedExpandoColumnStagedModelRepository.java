@@ -63,7 +63,7 @@ public class StagedExpandoColumnStagedModelRepository
 		ExpandoColumn expandoColumn = _expandoColumnLocalService.addColumn(
 			stagedExpandoColumn.getTableId(), stagedExpandoColumn.getName(),
 			stagedExpandoColumn.getType(),
-			stagedExpandoColumn.getDefaultData());
+			stagedExpandoColumn.getDefaultValue());
 
 		expandoColumn = _expandoColumnLocalService.updateTypeSettings(
 			expandoColumn.getColumnId(), stagedExpandoColumn.getTypeSettings());
