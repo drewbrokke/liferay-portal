@@ -22,6 +22,10 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.SearchException;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -29,7 +33,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class FolderTitleLookupImpl implements FolderTitleLookup {
 
-	public FolderTitleLookupImpl(HttpServletRequest request) {
+	public FolderTitleLookupImpl(
+		FolderSearcher folderSearcher, HttpServletRequest request) {
+
+		_folderSearcher = folderSearcher;
 		_request = request;
 	}
 
@@ -43,9 +50,22 @@ public class FolderTitleLookupImpl implements FolderTitleLookup {
 
 		Document document = results.doc(0);
 
-		Field field = document.getField(Field.TITLE);
+		Map<String, Field> fieldsMap = document.getFields();
 
-		return field.getValue();
+		Set<Map.Entry<String, Field>> fieldsMapEntrySet = fieldsMap.entrySet();
+
+		Stream<Map.Entry<String, Field>> stream = fieldsMapEntrySet.stream();
+
+		return stream.filter(
+			this::isTitleFieldEntry
+		).findAny(
+		).map(
+			Map.Entry::getValue
+		).map(
+			Field::getValue
+		).orElse(
+			null
+		);
 	}
 
 	protected SearchContext getSearchContext(long curFolderId) {
@@ -59,17 +79,30 @@ public class FolderTitleLookupImpl implements FolderTitleLookup {
 		return searchContext;
 	}
 
-	protected Hits searchFolder(long curFolderId) {
-		FolderSearcher folderSearcher = new FolderSearcher();
+	protected boolean isTitleFieldEntry(Map.Entry<String, Field> entry) {
+		String key = entry.getKey();
 
+		if (!key.startsWith(Field.TITLE)) {
+			return false;
+		}
+
+		if (key.endsWith("_sortable")) {
+			return false;
+		}
+
+		return true;
+	}
+
+	protected Hits searchFolder(long curFolderId) {
 		try {
-			return folderSearcher.search(getSearchContext(curFolderId));
+			return _folderSearcher.search(getSearchContext(curFolderId));
 		}
 		catch (SearchException se) {
 			throw new RuntimeException(se);
 		}
 	}
 
+	private final FolderSearcher _folderSearcher;
 	private final HttpServletRequest _request;
 
 }

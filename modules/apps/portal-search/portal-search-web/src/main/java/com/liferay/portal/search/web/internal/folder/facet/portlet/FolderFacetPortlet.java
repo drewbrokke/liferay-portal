@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.search.web.internal.facet.display.builder.FolderSearchFacetDisplayBuilder;
 import com.liferay.portal.search.web.internal.facet.display.context.FolderSearchFacetDisplayContext;
+import com.liferay.portal.search.web.internal.facet.display.context.FolderSearcher;
 import com.liferay.portal.search.web.internal.facet.display.context.FolderTitleLookup;
 import com.liferay.portal.search.web.internal.facet.display.context.FolderTitleLookupImpl;
 import com.liferay.portal.search.web.internal.folder.facet.constants.FolderFacetPortletKeys;
@@ -97,7 +98,7 @@ public class FolderFacetPortlet extends MVCPortlet {
 			getAggregationName(renderRequest));
 
 		FolderTitleLookup folderTitleLookup = new FolderTitleLookupImpl(
-			portal.getHttpServletRequest(renderRequest));
+			new FolderSearcher(), portal.getHttpServletRequest(renderRequest));
 
 		FolderFacetConfiguration folderFacetConfiguration =
 			new FolderFacetConfigurationImpl(facet.getFacetConfiguration());
