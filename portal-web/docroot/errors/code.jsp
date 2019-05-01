@@ -66,6 +66,7 @@ String xRequestWith = request.getHeader(HttpHeaders.X_REQUESTED_WITH);
 	</c:when>
 	<c:when test="<%= !StringUtil.equalsIgnoreCase(HttpHeaders.XML_HTTP_REQUEST, xRequestWith) %>">
 		<%@ page contentType="text/html; charset=UTF-8" %>
+
 		<html>
 
 			<%
@@ -109,6 +110,7 @@ String xRequestWith = request.getHeader(HttpHeaders.X_REQUESTED_WITH);
 	</c:when>
 	<c:otherwise>
 		<%@ page contentType="text/html; charset=UTF-8" %>
+
 		<html>
 			<head>
 				<title>Http Status <%= code %> - <%= LanguageUtil.get(request, "http-status-code[" + code + "]") %></title>
