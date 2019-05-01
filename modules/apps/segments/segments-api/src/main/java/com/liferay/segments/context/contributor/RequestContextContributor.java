@@ -34,6 +34,7 @@ public interface RequestContextContributor {
 	 * @param  request the current request
 	 * @review
 	 */
-	public void contribute(Context context, HttpServletRequest request);
+	public void contribute(
+		Context context, HttpServletRequest httpServletRequest);
 
 }
