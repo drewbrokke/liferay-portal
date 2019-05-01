@@ -59,12 +59,12 @@ public class ApplicationJSONPortalErrorCodeDynamicInclude
 	protected void writeMessage(
 		String message, int statusCode, PrintWriter printWriter) {
 
-		JSONObject jsonObject = _jsonFactory.createJSONObject();
-
-		jsonObject.put("message", message);
-		jsonObject.put("statusCode", statusCode);
-
-		printWriter.write(jsonObject.toString());
+		printWriter.write(
+			JSONUtil.put(
+				"message", message
+			).put(
+				"statusCode", statusCode
+			).toString());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
