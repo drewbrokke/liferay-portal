@@ -17,6 +17,7 @@ package com.liferay.portal.error.code.internal.servlet.taglib;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
@@ -40,32 +41,15 @@ public class ApplicationJSONPortalErrorCodeDynamicInclude
 		String message, int statusCode, String requestURI, Throwable throwable,
 		PrintWriter printWriter) {
 
-		JSONObject jsonObject = _jsonFactory.createJSONObject();
-
-		jsonObject.put("message", message);
-
-		jsonObject.put("statusCode", statusCode);
-
-		jsonObject.put("requestURI", requestURI);
+		JSONObject jsonObject = JSONUtil.put(
+			"message", message
+		).put("statusCode", statusCode
+		).put("requestURI", requestURI);
 
 		if (throwable != null) {
-			try {
-				jsonObject.put(
-					"throwable",
-					_jsonFactory.createJSONObject(
-						_jsonFactory.serializeThrowable(throwable)));
-			}
-			catch (JSONException jsone) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						"Unable to serialize throwable " + throwable.toString(),
-						jsone);
-				}
-
-				jsonObject.put(
-					"throwableSerialized",
-					_jsonFactory.serializeThrowable(throwable));
-			}
+			jsonObject.put(
+				"throwable",
+				JSONUtil.put(throwable));
 		}
 
 		printWriter.write(jsonObject.toString());
