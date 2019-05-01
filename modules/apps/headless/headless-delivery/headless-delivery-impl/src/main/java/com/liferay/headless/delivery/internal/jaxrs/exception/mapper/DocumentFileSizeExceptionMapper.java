@@ -26,7 +26,6 @@ import org.osgi.service.component.annotations.Component;
  * Converts any {@code FileSizeException} to a {@code 400} error.
  *
  * @author Alejandro Hernández
- * @review
  */
 @Component(
 	property = {

@@ -23,11 +23,9 @@ import javax.ws.rs.ext.ExceptionMapper;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * Converts any {@code DuplicateKBFolderNameException} to a {@code 422}
- * error.
+ * Converts any {@code DuplicateKBFolderNameException} to a {@code 422} error.
  *
  * @author Alejandro Hernández
- * @review
  */
 @Component(
 	property = {

@@ -27,7 +27,6 @@ import org.osgi.service.component.annotations.Component;
  * error.
  *
  * @author Alejandro Hernández
- * @review
  */
 @Component(
 	property = {

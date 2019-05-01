@@ -27,7 +27,6 @@ import org.osgi.service.component.annotations.Component;
  * Converts any {@code DuplicateFileEntryException} to a {@code 409} error.
  *
  * @author Alejandro Hernández
- * @review
  */
 @Component(
 	property = {

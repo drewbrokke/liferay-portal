@@ -26,7 +26,6 @@ import org.osgi.service.component.annotations.Component;
  * Converts any {@code KBArticleTitleException} to a {@code 400} error.
  *
  * @author Víctor Galán
- * @review
  */
 @Component(
 	property = {

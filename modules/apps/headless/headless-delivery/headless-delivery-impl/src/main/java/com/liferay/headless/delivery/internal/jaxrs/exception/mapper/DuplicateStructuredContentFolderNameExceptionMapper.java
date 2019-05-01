@@ -26,7 +26,6 @@ import org.osgi.service.component.annotations.Component;
  * Converts any {@code DuplicateFolderNameException} to a {@code 409} error.
  *
  * @author Víctor Galán
- * @review
  */
 @Component(
 	property = {
