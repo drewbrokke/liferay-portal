@@ -225,10 +225,8 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 
 		Value value = ddmFormFieldValue.getValue();
 
-		String valueString = value.getString(
-			LocaleThreadLocal.getDefaultLocale());
-
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(valueString);
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
+			value.getString(LocaleThreadLocal.getDefaultLocale()));
 
 		return jsonObject.getLong("fileEntryId");
 	}
