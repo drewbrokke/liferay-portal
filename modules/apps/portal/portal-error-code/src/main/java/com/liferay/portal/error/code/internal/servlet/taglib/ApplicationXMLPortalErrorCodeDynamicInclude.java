@@ -48,11 +48,11 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 
 		messageElement.addText(message);
 
-		Element requestURIElement = errorElement.addElement("requestURI");
+		Element requestURIElement = errorElement.addElement("request-uri");
 
 		requestURIElement.addText(requestURI);
 
-		Element statusCodeElement = errorElement.addElement("statusCode");
+		Element statusCodeElement = errorElement.addElement("status-code");
 
 		statusCodeElement.addText(String.valueOf(statusCode));
 
@@ -81,7 +81,7 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 
 		messageElement.addText(message);
 
-		Element statusCodeElement = errorElement.addElement("statusCode");
+		Element statusCodeElement = errorElement.addElement("status-code");
 
 		statusCodeElement.addText(String.valueOf(statusCode));
 
