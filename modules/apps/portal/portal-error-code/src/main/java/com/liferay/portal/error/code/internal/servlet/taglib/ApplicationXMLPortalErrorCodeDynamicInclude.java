@@ -48,13 +48,13 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 
 		messageElement.addText(message);
 
-		Element statusCodeElement = errorElement.addElement("statusCode");
-
-		statusCodeElement.addText(String.valueOf(statusCode));
-
 		Element requestURIElement = errorElement.addElement("requestURI");
 
 		requestURIElement.addText(requestURI);
+
+		Element statusCodeElement = errorElement.addElement("statusCode");
+
+		statusCodeElement.addText(String.valueOf(statusCode));
 
 		if (throwable != null) {
 			Element throwableElement = errorElement.addElement("throwable");
