@@ -41,13 +41,13 @@ public class TextHTMLPortalErrorCodeJSPDynamicInclude
 
 	@Override
 	public void include(
-			HttpServletRequest request, HttpServletResponse response,
+			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			String key)
 		throws IOException {
 
-		response.setContentType(_contentType);
+		httpServletResponse.setContentType(_contentType);
 
-		super.include(request, response, key);
+		super.include(httpServletRequest, httpServletResponse, key);
 	}
 
 	@Override
