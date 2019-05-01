@@ -221,17 +221,6 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 		return serviceContext;
 	}
 
-	private Long _getFileEntryId(DDMFormFieldValue ddmFormFieldValue)
-		throws JSONException {
-
-		Value value = ddmFormFieldValue.getValue();
-
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
-			value.getString(LocaleThreadLocal.getDefaultLocale()));
-
-		return jsonObject.getLong("fileEntryId");
-	}
-
 	private void _linkFiles(DDMForm ddmForm, DDMFormValues ddmFormValues) {
 		List<DDMFormField> ddmFormFields = ddmForm.getDDMFormFields();
 
@@ -259,44 +248,7 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 					for (DDMFormFieldValue ddmFormFieldValue :
 							ddmFormFieldValues) {
 
-						long fileEntryId = _getFileEntryId(ddmFormFieldValue);
-
-						if (fileEntryId == 0) {
-							return;
-						}
-
-						FileEntry fileEntry = _dlAppService.getFileEntry(
-							fileEntryId);
-
-						JSONObject jsonObject = JSONUtil.put(
-							"fileEntryId", fileEntry.getFileEntryId()
-						).put(
-							"groupId", fileEntry.getGroupId()
-						).put(
-							"title", fileEntry.getTitle()
-						).put(
-							"type", fileEntry.getMimeType()
-						).put(
-							"uuid", fileEntry.getUuid()
-						).put(
-							"version", fileEntry.getVersion()
-						);
-
-						DDMFormField ddmFormField =
-							ddmFormFieldValue.getDDMFormField();
-
-						String json = jsonObject.toString();
-
-						Value value = new UnlocalizedValue(json);
-
-						if (ddmFormField.isLocalizable()) {
-							value = new LocalizedValue();
-
-							value.addString(
-								value.getDefaultLocale(), json);
-						}
-
-						ddmFormFieldValue.setValue(value);
+						_setValue(ddmFormFieldValue);
 					}
 				}
 				catch (Exception e) {
@@ -306,6 +258,50 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 				}
 			}
 		);
+	}
+
+	private void _setValue(DDMFormFieldValue ddmFormFieldValue) throws Exception {
+		Value value = ddmFormFieldValue.getValue();
+
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
+			value.getString(LocaleThreadLocal.getDefaultLocale()));
+
+		long fileEntryId = jsonObject.getLong("fileEntryId");
+
+		if (fileEntryId == 0) {
+			return;
+		}
+
+		FileEntry fileEntry = _dlAppService.getFileEntry(
+			fileEntryId);
+
+		String json = JSONUtil.put(
+			"fileEntryId", fileEntry.getFileEntryId()
+		).put(
+			"groupId", fileEntry.getGroupId()
+		).put(
+			"title", fileEntry.getTitle()
+		).put(
+			"type", fileEntry.getMimeType()
+		).put(
+			"uuid", fileEntry.getUuid()
+		).put(
+			"version", fileEntry.getVersion()
+		).toString();
+
+		value = new UnlocalizedValue(json);
+
+		DDMFormField ddmFormField =
+			ddmFormFieldValue.getDDMFormField();
+
+		if (ddmFormField.isLocalizable()) {
+			value = new LocalizedValue();
+
+			value.addString(
+				value.getDefaultLocale(), json);
+		}
+
+		ddmFormFieldValue.setValue(value);
 	}
 
 	private DDMFormFieldValue _toDDMFormFieldValue(
