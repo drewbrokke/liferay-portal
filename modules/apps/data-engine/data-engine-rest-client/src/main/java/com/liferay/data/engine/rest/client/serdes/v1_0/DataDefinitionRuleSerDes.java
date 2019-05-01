@@ -19,8 +19,10 @@ import com.liferay.data.engine.rest.client.dto.v1_0.DataDefinitionRuleParameter;
 import com.liferay.data.engine.rest.client.json.BaseJSONParser;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import javax.annotation.Generated;
@@ -150,6 +152,13 @@ public class DataDefinitionRuleSerDes {
 		return sb.toString();
 	}
 
+	public static Map<String, Object> toMap(String json) {
+		DataDefinitionRuleJSONParser dataDefinitionRuleJSONParser =
+			new DataDefinitionRuleJSONParser();
+
+		return dataDefinitionRuleJSONParser.parseToMap(json);
+	}
+
 	public static Map<String, String> toMap(
 		DataDefinitionRule dataDefinitionRule) {
 
@@ -201,6 +210,35 @@ public class DataDefinitionRuleSerDes {
 		String string = String.valueOf(object);
 
 		return string.replaceAll("\"", "\\\\\"");
+	}
+
+	private static String _toJSON(Map<String, ?> map) {
+		StringBuilder sb = new StringBuilder("{");
+
+		@SuppressWarnings("unchecked")
+		Set set = map.entrySet();
+
+		@SuppressWarnings("unchecked")
+		Iterator<Map.Entry<String, ?>> iterator = set.iterator();
+
+		while (iterator.hasNext()) {
+			Map.Entry<String, ?> entry = iterator.next();
+
+			sb.append("\"");
+			sb.append(entry.getKey());
+			sb.append("\":");
+			sb.append("\"");
+			sb.append(entry.getValue());
+			sb.append("\"");
+
+			if (iterator.hasNext()) {
+				sb.append(",");
+			}
+		}
+
+		sb.append("}");
+
+		return sb.toString();
 	}
 
 	private static class DataDefinitionRuleJSONParser
