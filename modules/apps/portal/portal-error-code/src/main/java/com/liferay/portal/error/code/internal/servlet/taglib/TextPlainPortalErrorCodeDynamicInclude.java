@@ -35,11 +35,11 @@ public class TextPlainPortalErrorCodeDynamicInclude
 		printWriter.print("Message: ");
 		printWriter.println(message);
 
-		printWriter.print("Status Code: ");
-		printWriter.println(String.valueOf(statusCode));
-
 		printWriter.print("Request URI: ");
 		printWriter.println(requestURI);
+
+		printWriter.print("Status Code: ");
+		printWriter.println(String.valueOf(statusCode));
 
 		if (throwable != null) {
 			printWriter.print("Throwable: ");
