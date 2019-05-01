@@ -285,15 +285,15 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 						DDMFormField ddmFormField =
 							ddmFormFieldValue.getDDMFormField();
 
-						String jsonValue = jsonObject.toString();
+						String json = jsonObject.toString();
 
-						Value value = new UnlocalizedValue(jsonValue);
+						Value value = new UnlocalizedValue(json);
 
 						if (ddmFormField.isLocalizable()) {
 							value = new LocalizedValue();
 
 							value.addString(
-								value.getDefaultLocale(), jsonValue);
+								value.getDefaultLocale(), json);
 						}
 
 						ddmFormFieldValue.setValue(value);
