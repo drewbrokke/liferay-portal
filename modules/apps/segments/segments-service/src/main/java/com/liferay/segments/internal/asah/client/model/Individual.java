@@ -72,18 +72,17 @@ public class Individual {
 
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder(12);
+		StringBuilder sb = new StringBuilder(11);
 
-		sb.append("Individual{");
-		sb.append("_dataSourceIndividualPKs='");
+		sb.append("{dataSourceIndividualPKs=");
 		sb.append(_dataSourceIndividualPKs);
-		sb.append("', _dateCreated='");
+		sb.append(", dateCreated=");
 		sb.append(_dateCreated);
-		sb.append("', _dateModified='");
+		sb.append(", dateModified=");
 		sb.append(_dateModified);
-		sb.append("', _demographics='");
+		sb.append(", demographics=");
 		sb.append(_demographics);
-		sb.append("', _id='");
+		sb.append(", id=");
 		sb.append(_id);
 		sb.append("}");
 
