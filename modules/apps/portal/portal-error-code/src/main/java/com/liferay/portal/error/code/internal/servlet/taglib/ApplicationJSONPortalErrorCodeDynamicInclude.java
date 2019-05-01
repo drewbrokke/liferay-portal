@@ -43,8 +43,11 @@ public class ApplicationJSONPortalErrorCodeDynamicInclude
 
 		JSONObject jsonObject = JSONUtil.put(
 			"message", message
-		).put("statusCode", statusCode
-		).put("requestURI", requestURI);
+		).put(
+			"requestURI", requestURI
+		).put(
+			"statusCode", statusCode
+		);
 
 		if (throwable != null) {
 			jsonObject.put(
