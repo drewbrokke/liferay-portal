@@ -57,11 +57,11 @@ public abstract class BasePortalErrorCodeDynamicInclude
 			Throwable throwable = (Throwable)httpServletRequest.getAttribute(
 				JavaConstants.JAVAX_SERVLET_ERROR_EXCEPTION);
 
-			writeDetailedMessage(
+			write(
 				message, printWriter, requestURI, statusCode, throwable);
 		}
 		else {
-			writeMessage(message, printWriter, statusCode);
+			write(message, printWriter, statusCode);
 		}
 	}
 
@@ -82,11 +82,11 @@ public abstract class BasePortalErrorCodeDynamicInclude
 		_key = "/errors/code.jsp#".concat(mimeType);
 	}
 
-	protected abstract void writeDetailedMessage(
+	protected abstract void write(
 		String message, PrintWriter printWriter, String requestURI,
 		int statusCode, Throwable throwable);
 
-	protected abstract void writeMessage(
+	protected abstract void write(
 		String message, PrintWriter printWriter, int statusCode);
 
 	private static final String _CHARSET = "; charset=UTF-8";

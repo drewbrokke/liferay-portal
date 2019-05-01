@@ -33,7 +33,7 @@ public class ApplicationJSONPortalErrorCodeDynamicInclude
 	extends BasePortalErrorCodeDynamicInclude {
 
 	@Override
-	protected void writeDetailedMessage(
+	protected void write(
 		String message, PrintWriter printWriter, String requestURI,
 		int statusCode, Throwable throwable) {
 
@@ -54,7 +54,7 @@ public class ApplicationJSONPortalErrorCodeDynamicInclude
 	}
 
 	@Override
-	protected void writeMessage(
+	protected void write(
 		String message, PrintWriter printWriter, int statusCode) {
 
 		printWriter.write(

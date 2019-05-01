@@ -36,7 +36,7 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 	extends BasePortalErrorCodeDynamicInclude {
 
 	@Override
-	protected void writeDetailedMessage(
+	protected void write(
 		String message, PrintWriter printWriter, String requestURI,
 		int statusCode, Throwable throwable) {
 
@@ -66,7 +66,7 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 	}
 
 	@Override
-	protected void writeMessage(
+	protected void write(
 		String message, PrintWriter printWriter, int statusCode) {
 
 		Document document = _saxReader.createDocument(StringPool.UTF8);

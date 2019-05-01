@@ -28,7 +28,7 @@ public class TextPlainPortalErrorCodeDynamicInclude
 	extends BasePortalErrorCodeDynamicInclude {
 
 	@Override
-	protected void writeDetailedMessage(
+	protected void write(
 		String message, PrintWriter printWriter, String requestURI,
 		int statusCode, Throwable throwable) {
 
@@ -49,7 +49,7 @@ public class TextPlainPortalErrorCodeDynamicInclude
 	}
 
 	@Override
-	protected void writeMessage(
+	protected void write(
 		String message, PrintWriter printWriter, int statusCode) {
 
 		printWriter.print("Message: ");
