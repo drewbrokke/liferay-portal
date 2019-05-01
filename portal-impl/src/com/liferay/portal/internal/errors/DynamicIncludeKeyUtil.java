@@ -33,7 +33,7 @@ public class DynamicIncludeKeyUtil {
 	public static String getDynamicIncludeKey(String accept) {
 		List<String> mediaRangeStrings = StringUtil.split(accept);
 
-		List<Map.Entry<String, Double>> mediaRanges = new ArrayList<>(
+		List<Map.Entry<String, Double>> entries = new ArrayList<>(
 			mediaRangeStrings.size());
 
 		for (int i = 0; i < mediaRangeStrings.size(); i++) {
@@ -71,16 +71,16 @@ public class DynamicIncludeKeyUtil {
 				mediaRangeString = mediaRangeString.trim();
 			}
 
-			mediaRanges.add(
+			entries.add(
 				new AbstractMap.SimpleImmutableEntry<>(
 					mediaRangeString, weight));
 		}
 
-		mediaRanges.sort(_comparator);
+		entries.sort(_comparator);
 
-		for (Map.Entry<String, Double> mediaRange : mediaRanges) {
+		for (Map.Entry<String, Double> entry : entries) {
 			String dynamicIncludeKey =
-				_DYNAMIC_INCLUDE_KEY_PREFIX + mediaRange.getKey();
+				_DYNAMIC_INCLUDE_KEY_PREFIX + entry.getKey();
 
 			if (DynamicIncludeUtil.hasDynamicInclude(dynamicIncludeKey)) {
 				return dynamicIncludeKey;
