@@ -29,6 +29,17 @@ public class TextPlainPortalErrorCodeDynamicInclude
 
 	@Override
 	protected void write(
+		String message, PrintWriter printWriter, int statusCode) {
+
+		printWriter.print("Message: ");
+		printWriter.println(message);
+
+		printWriter.print("Status Code: ");
+		printWriter.println(String.valueOf(statusCode));
+	}
+
+	@Override
+	protected void write(
 		String message, PrintWriter printWriter, String requestURI,
 		int statusCode, Throwable throwable) {
 
@@ -46,17 +57,6 @@ public class TextPlainPortalErrorCodeDynamicInclude
 
 			throwable.printStackTrace(printWriter);
 		}
-	}
-
-	@Override
-	protected void write(
-		String message, PrintWriter printWriter, int statusCode) {
-
-		printWriter.print("Message: ");
-		printWriter.println(message);
-
-		printWriter.print("Status Code: ");
-		printWriter.println(String.valueOf(statusCode));
 	}
 
 }

@@ -37,6 +37,25 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 
 	@Override
 	protected void write(
+		String message, PrintWriter printWriter, int statusCode) {
+
+		Document document = _saxReader.createDocument(StringPool.UTF8);
+
+		Element errorElement = document.addElement("error");
+
+		Element messageElement = errorElement.addElement("message");
+
+		messageElement.addText(message);
+
+		Element statusCodeElement = errorElement.addElement("status-code");
+
+		statusCodeElement.addText(String.valueOf(statusCode));
+
+		printWriter.print(document.asXML());
+	}
+
+	@Override
+	protected void write(
 		String message, PrintWriter printWriter, String requestURI,
 		int statusCode, Throwable throwable) {
 
@@ -61,25 +80,6 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 
 			throwableElement.addCDATA(StackTraceUtil.getStackTrace(throwable));
 		}
-
-		printWriter.print(document.asXML());
-	}
-
-	@Override
-	protected void write(
-		String message, PrintWriter printWriter, int statusCode) {
-
-		Document document = _saxReader.createDocument(StringPool.UTF8);
-
-		Element errorElement = document.addElement("error");
-
-		Element messageElement = errorElement.addElement("message");
-
-		messageElement.addText(message);
-
-		Element statusCodeElement = errorElement.addElement("status-code");
-
-		statusCodeElement.addText(String.valueOf(statusCode));
 
 		printWriter.print(document.asXML());
 	}

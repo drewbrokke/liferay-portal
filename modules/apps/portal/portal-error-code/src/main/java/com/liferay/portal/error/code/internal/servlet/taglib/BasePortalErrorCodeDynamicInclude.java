@@ -57,8 +57,7 @@ public abstract class BasePortalErrorCodeDynamicInclude
 			Throwable throwable = (Throwable)httpServletRequest.getAttribute(
 				JavaConstants.JAVAX_SERVLET_ERROR_EXCEPTION);
 
-			write(
-				message, printWriter, requestURI, statusCode, throwable);
+			write(message, printWriter, requestURI, statusCode, throwable);
 		}
 		else {
 			write(message, printWriter, statusCode);
@@ -83,11 +82,11 @@ public abstract class BasePortalErrorCodeDynamicInclude
 	}
 
 	protected abstract void write(
-		String message, PrintWriter printWriter, String requestURI,
-		int statusCode, Throwable throwable);
+		String message, PrintWriter printWriter, int statusCode);
 
 	protected abstract void write(
-		String message, PrintWriter printWriter, int statusCode);
+		String message, PrintWriter printWriter, String requestURI,
+		int statusCode, Throwable throwable);
 
 	private static final String _CHARSET = "; charset=UTF-8";
 
