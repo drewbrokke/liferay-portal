@@ -59,11 +59,11 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 		if (throwable != null) {
 			Element throwableElement = errorElement.addElement("throwable");
 
-			StringWriter stackTrace = new StringWriter();
+			StringWriter stringWriter = new StringWriter();
 
-			throwable.printStackTrace(new PrintWriter(stackTrace));
+			throwable.printStackTrace(new PrintWriter(stringWriter));
 
-			throwableElement.addCDATA(stackTrace.toString());
+			throwableElement.addCDATA(stringWriter.toString());
 		}
 
 		printWriter.print(document.asXML());
