@@ -227,7 +227,7 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 		Stream<DDMFormField> ddmFormFieldsStream = ddmFormFields.stream();
 
 		ddmFormFieldsStream.filter(
-			formField -> Objects.equals(formField.getType(), "document_library")
+			ddmFormField -> Objects.equals(ddmFormField.getType(), "document_library")
 		).map(
 			field -> {
 				List<DDMFormFieldValue> ddmFormFieldValues =
