@@ -133,14 +133,11 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 		DDMFormInstance ddmFormInstance =
 			_ddmFormInstanceService.getFormInstance(formId);
 
-		DDMForm ddmForm = ddmFormInstance.getDDMForm();
-
 		DDMFormValues ddmFormValues = _createDDMFormValues(
 			ddmFormInstance, formRecord.getFieldValues(),
 			contextAcceptLanguage.getPreferredLocale());
 
-		_linkFiles(
-			ddmForm.getDDMFormFields(), ddmFormValues.getDDMFormFieldValues());
+		_linkFiles(ddmFormInstance.getDDMForm(), ddmFormValues);
 
 		return FormRecordUtil.toFormRecord(
 			_ddmFormInstanceRecordService.addFormInstanceRecord(
@@ -162,14 +159,11 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 		DDMFormInstance ddmFormInstance =
 			ddmFormInstanceRecord.getFormInstance();
 
-		DDMForm ddmForm = ddmFormInstance.getDDMForm();
-
 		DDMFormValues ddmFormValues = _createDDMFormValues(
 			ddmFormInstance, formRecord.getFieldValues(),
 			contextAcceptLanguage.getPreferredLocale());
 
-		_linkFiles(
-			ddmForm.getDDMFormFields(), ddmFormValues.getDDMFormFieldValues());
+		_linkFiles(ddmFormInstance.getDDMForm(), ddmFormValues);
 
 		return FormRecordUtil.toFormRecord(
 			_ddmFormInstanceRecordService.updateFormInstanceRecord(
@@ -238,9 +232,11 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 		return jsonObject.getLong("fileEntryId");
 	}
 
-	private void _linkFiles(
-		List<DDMFormField> ddmFormFields,
-		List<DDMFormFieldValue> ddmFormFieldValues) {
+	private void _linkFiles(DDMForm ddmForm, DDMFormValues ddmFormValues) {
+		List<DDMFormField> ddmFormFields = ddmForm.getDDMFormFields();
+
+		List<DDMFormFieldValue> ddmFormFieldValues =
+			ddmFormValues.getDDMFormFieldValues();
 
 		Stream<DDMFormField> ddmFormFieldsStream = ddmFormFields.stream();
 
