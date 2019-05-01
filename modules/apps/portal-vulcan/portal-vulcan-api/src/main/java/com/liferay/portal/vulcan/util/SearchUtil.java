@@ -95,11 +95,15 @@ public class SearchUtil {
 		SearchContext searchContext = new SearchContext();
 
 		searchContext.setBooleanClauses(new BooleanClause[] {booleanClause});
+
+		if (pagination != null) {
+			searchContext.setEnd(pagination.getEndPosition());
+		}
+
 		searchContext.setKeywords(keywords);
 		searchContext.setSorts(sorts);
 
 		if (pagination != null) {
-			searchContext.setEnd(pagination.getEndPosition());
 			searchContext.setStart(pagination.getStartPosition());
 		}
 
