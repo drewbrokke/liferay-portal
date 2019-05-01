@@ -183,13 +183,14 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 
 		DDMForm ddmForm = ddmStructure.getDDMForm();
 
-		Map<String, DDMFormField> ddmFormFieldsMap =
-			ddmForm.getDDMFormFieldsMap(true);
-
 		DDMFormValues ddmFormValues = new DDMFormValues(ddmForm);
 
 		ddmFormValues.addAvailableLocale(locale);
 		ddmFormValues.setDefaultLocale(locale);
+
+		Map<String, DDMFormField> ddmFormFieldsMap =
+			ddmForm.getDDMFormFieldsMap(true);
+
 		ddmFormValues.setDDMFormFieldValues(
 			transformToList(
 				fieldValues,
