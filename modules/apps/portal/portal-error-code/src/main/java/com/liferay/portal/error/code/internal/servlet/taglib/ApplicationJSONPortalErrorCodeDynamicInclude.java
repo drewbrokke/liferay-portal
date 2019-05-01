@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Reference;
 @Component(
 	property = "mime.type=application/json", service = DynamicInclude.class
 )
-public class ApplicationJsonPortalErrorCodeDynamicInclude
+public class ApplicationJSONPortalErrorCodeDynamicInclude
 	extends BasePortalErrorCodeDynamicInclude {
 
 	@Override
@@ -84,7 +84,7 @@ public class ApplicationJsonPortalErrorCodeDynamicInclude
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		ApplicationJsonPortalErrorCodeDynamicInclude.class);
+		ApplicationJSONPortalErrorCodeDynamicInclude.class);
 
 	@Reference
 	private JSONFactory _jsonFactory;

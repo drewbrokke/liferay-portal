@@ -36,7 +36,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Carlos Sierra Andrés
  */
 @Component(property = "mime.type=text/html", service = DynamicInclude.class)
-public class TextHtmlPortalErrorCodeJSPDynamicInclude
+public class TextHTMLPortalErrorCodeJSPDynamicInclude
 	extends BaseJSPDynamicInclude {
 
 	@Override
@@ -89,7 +89,7 @@ public class TextHtmlPortalErrorCodeJSPDynamicInclude
 	private static final String _CHARSET = "; charset=UTF-8";
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		TextHtmlPortalErrorCodeJSPDynamicInclude.class);
+		TextHTMLPortalErrorCodeJSPDynamicInclude.class);
 
 	private String _contentType;
 	private String _key;
