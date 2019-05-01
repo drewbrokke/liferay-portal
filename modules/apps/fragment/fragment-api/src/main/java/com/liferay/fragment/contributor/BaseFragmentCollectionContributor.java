@@ -91,9 +91,8 @@ public abstract class BaseFragmentCollectionContributor
 			while (enumeration.hasMoreElements()) {
 				URL url = enumeration.nextElement();
 
-				String path = FileUtil.getPath(url.getPath());
-
-				FragmentEntry fragmentEntry = _getFragmentEntry(path);
+				FragmentEntry fragmentEntry = _getFragmentEntry(
+					FileUtil.getPath(url.getPath()));
 
 				_updateFragmentEntryLinks(fragmentEntry);
 
