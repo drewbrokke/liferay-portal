@@ -854,9 +854,9 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 				layout.getGroupId(), layout.isPrivateLayout());
 		}
 
-		// User portal preferences for customizable pages
+		// Portal preferences
 
-		_removeUserPortalPreferences(layout);
+		_resetPortalPreferences(layout);
 
 		// System event
 
@@ -3589,7 +3589,7 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 		return true;
 	}
 
-	private void _removeUserPortalPreferences(Layout layout) {
+	private void _resetPortalPreferences(Layout layout) {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
 			PortalPreferences.class, getClassLoader());
 
