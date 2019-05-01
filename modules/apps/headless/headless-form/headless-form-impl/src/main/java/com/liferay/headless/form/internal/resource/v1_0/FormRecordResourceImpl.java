@@ -234,15 +234,15 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 	private void _linkFiles(DDMForm ddmForm, DDMFormValues ddmFormValues) {
 		List<DDMFormField> ddmFormFields = ddmForm.getDDMFormFields();
 
-		List<DDMFormFieldValue> ddmFormFieldValues =
-			ddmFormValues.getDDMFormFieldValues();
-
 		Stream<DDMFormField> ddmFormFieldsStream = ddmFormFields.stream();
 
 		ddmFormFieldsStream.filter(
 			formField -> Objects.equals(formField.getType(), "document_library")
 		).map(
 			field -> {
+				List<DDMFormFieldValue> ddmFormFieldValues =
+					ddmFormValues.getDDMFormFieldValues();
+
 				Stream<DDMFormFieldValue> ddmFormFieldValuesStream =
 					ddmFormFieldValues.stream();
 
