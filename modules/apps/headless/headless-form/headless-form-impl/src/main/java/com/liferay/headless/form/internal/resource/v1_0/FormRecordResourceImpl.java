@@ -309,13 +309,11 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 
 		DDMFormFieldValue ddmFormFieldValue = new DDMFormFieldValue();
 
-		String name = fieldValue.getName();
-
-		ddmFormFieldValue.setName(name);
+		ddmFormFieldValue.setName(fieldValue.getName());
 
 		Value value = _VALUE;
 
-		DDMFormField ddmFormField = ddmFormFieldsMap.get(name);
+		DDMFormField ddmFormField = ddmFormFieldsMap.get(fieldValue.getName());
 
 		if (ddmFormField != null) {
 			value = Optional.ofNullable(
