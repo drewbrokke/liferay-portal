@@ -137,7 +137,7 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 			ddmFormInstance, formRecord.getFieldValues(),
 			contextAcceptLanguage.getPreferredLocale());
 
-		_linkFiles(ddmFormInstance.getDDMForm(), ddmFormValues);
+		_linkFileEntries(ddmFormInstance.getDDMForm(), ddmFormValues);
 
 		return FormRecordUtil.toFormRecord(
 			_ddmFormInstanceRecordService.addFormInstanceRecord(
@@ -163,7 +163,7 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 			ddmFormInstance, formRecord.getFieldValues(),
 			contextAcceptLanguage.getPreferredLocale());
 
-		_linkFiles(ddmFormInstance.getDDMForm(), ddmFormValues);
+		_linkFileEntries(ddmFormInstance.getDDMForm(), ddmFormValues);
 
 		return FormRecordUtil.toFormRecord(
 			_ddmFormInstanceRecordService.updateFormInstanceRecord(
@@ -221,7 +221,9 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 		return serviceContext;
 	}
 
-	private void _linkFiles(DDMForm ddmForm, DDMFormValues ddmFormValues) {
+	private void _linkFileEntries(
+		DDMForm ddmForm, DDMFormValues ddmFormValues) {
+
 		List<DDMFormField> ddmFormFields = ddmForm.getDDMFormFields();
 
 		Stream<DDMFormField> ddmFormFieldsStream = ddmFormFields.stream();
