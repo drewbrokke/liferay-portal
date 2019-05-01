@@ -300,7 +300,7 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 					}
 				}
 				catch (Exception e) {
-					_log.error(e.getMessage());
+					_log.error(e, e);
 
 					throw new BadRequestException(e);
 				}
