@@ -253,9 +253,9 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 				);
 			}
 		).forEach(
-			values -> {
+			ddmFormFieldValues -> {
 				try {
-					for (DDMFormFieldValue ddmFormFieldValue : values) {
+					for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
 						long fileEntryId = _getFileEntryId(ddmFormFieldValue);
 
 						if (fileEntryId == 0) {
