@@ -74,8 +74,6 @@ public class FormResourceImpl extends BaseFormResourceImpl {
 			Long formId, MultipartBody multipartBody)
 		throws Exception {
 
-		BinaryFile binaryFile = multipartBody.getBinaryFile("file");
-
 		DDMFormInstance ddmFormInstance =
 			_ddmFormInstanceService.getFormInstance(formId);
 
@@ -87,6 +85,8 @@ public class FormResourceImpl extends BaseFormResourceImpl {
 		).orElse(
 			0L
 		);
+
+		BinaryFile binaryFile = multipartBody.getBinaryFile("file");
 
 		return FormDocumentUtil.toFormDocument(
 			_dlurlHelper,

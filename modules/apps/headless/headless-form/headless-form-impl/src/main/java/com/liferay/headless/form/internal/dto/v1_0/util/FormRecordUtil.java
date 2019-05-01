@@ -108,11 +108,11 @@ public class FormRecordUtil {
 			}
 		}
 
-		if (fileEntry != null) {
-			return FormDocumentUtil.toFormDocument(dlurlHelper, fileEntry);
+		if (fileEntry == null) {
+			return null;
 		}
 
-		return null;
+		return FormDocumentUtil.toFormDocument(dlurlHelper, fileEntry);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(FormRecordUtil.class);
