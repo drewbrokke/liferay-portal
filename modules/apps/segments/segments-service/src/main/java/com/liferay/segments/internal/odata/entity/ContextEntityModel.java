@@ -43,12 +43,12 @@ public class ContextEntityModel implements EntityModel {
 
 	public ContextEntityModel(List<EntityField> customEntityFields) {
 		_entityFieldsMap = Stream.of(
-			new ComplexEntityField("customContext", customEntityFields),
 			new BooleanEntityField(
 				Context.SIGNED_IN, locale -> Context.SIGNED_IN),
 			new CollectionEntityField(
 				new StringEntityField(
 					Context.COOKIES, locale -> Context.COOKIES)),
+			new ComplexEntityField("customContext", customEntityFields),
 			new DateEntityField(
 				Context.LOCAL_DATE, locale -> Context.LOCAL_DATE,
 				locale -> Context.LOCAL_DATE),
