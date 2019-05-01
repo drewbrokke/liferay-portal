@@ -103,6 +103,14 @@ public class LayoutPageTemplateEntryStagedModelDataHandler
 			StagedModelDataHandlerUtil.exportReferenceStagedModel(
 				portletDataContext, layoutPageTemplateEntry, layout,
 				PortletDataContext.REFERENCE_TYPE_DEPENDENCY);
+
+			Element layoutPageTemplateEntryElement =
+				portletDataContext.getExportDataElement(
+					layoutPageTemplateEntry);
+
+			portletDataContext.addReferenceElement(
+				layoutPageTemplateEntry, layoutPageTemplateEntryElement, layout,
+				PortletDataContext.REFERENCE_TYPE_DEPENDENCY, false);
 		}
 
 		_exportAssetDisplayPages(portletDataContext, layoutPageTemplateEntry);
