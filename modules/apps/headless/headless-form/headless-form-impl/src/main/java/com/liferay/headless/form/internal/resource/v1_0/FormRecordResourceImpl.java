@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -255,7 +256,9 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 		).forEach(
 			ddmFormFieldValues -> {
 				try {
-					for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
+					for (DDMFormFieldValue ddmFormFieldValue :
+							ddmFormFieldValues) {
+
 						long fileEntryId = _getFileEntryId(ddmFormFieldValue);
 
 						if (fileEntryId == 0) {
@@ -265,10 +268,7 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 						FileEntry fileEntry = _dlAppService.getFileEntry(
 							fileEntryId);
 
-						JSONObject jsonObject =
-							JSONFactoryUtil.createJSONObject();
-
-						jsonObject.put(
+						JSONObject jsonObject = JSONUtil.put(
 							"fileEntryId", fileEntry.getFileEntryId()
 						).put(
 							"groupId", fileEntry.getGroupId()
