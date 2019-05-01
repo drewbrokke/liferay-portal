@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.sharing.internal.configuration.display;
+package com.liferay.sharing.internal.configuration.admin.display;
 
 import com.liferay.configuration.admin.display.ConfigurationVisibilityController;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
