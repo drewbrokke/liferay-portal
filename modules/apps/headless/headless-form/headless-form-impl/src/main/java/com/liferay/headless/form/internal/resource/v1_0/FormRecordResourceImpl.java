@@ -35,7 +35,6 @@ import com.liferay.headless.form.dto.v1_0.FormRecord;
 import com.liferay.headless.form.internal.dto.v1_0.util.FormRecordUtil;
 import com.liferay.headless.form.resource.v1_0.FormRecordResource;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
@@ -227,7 +226,8 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 		Stream<DDMFormField> ddmFormFieldsStream = ddmFormFields.stream();
 
 		ddmFormFieldsStream.filter(
-			ddmFormField -> Objects.equals(ddmFormField.getType(), "document_library")
+			ddmFormField -> Objects.equals(
+				ddmFormField.getType(), "document_library")
 		).map(
 			field -> {
 				List<DDMFormFieldValue> ddmFormFieldValues =
@@ -260,7 +260,9 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 		);
 	}
 
-	private void _setValue(DDMFormFieldValue ddmFormFieldValue) throws Exception {
+	private void _setValue(DDMFormFieldValue ddmFormFieldValue)
+		throws Exception {
+
 		Value value = ddmFormFieldValue.getValue();
 
 		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
@@ -272,8 +274,7 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 			return;
 		}
 
-		FileEntry fileEntry = _dlAppService.getFileEntry(
-			fileEntryId);
+		FileEntry fileEntry = _dlAppService.getFileEntry(fileEntryId);
 
 		String json = JSONUtil.put(
 			"fileEntryId", fileEntry.getFileEntryId()
@@ -291,14 +292,12 @@ public class FormRecordResourceImpl extends BaseFormRecordResourceImpl {
 
 		value = new UnlocalizedValue(json);
 
-		DDMFormField ddmFormField =
-			ddmFormFieldValue.getDDMFormField();
+		DDMFormField ddmFormField = ddmFormFieldValue.getDDMFormField();
 
 		if (ddmFormField.isLocalizable()) {
 			value = new LocalizedValue();
 
-			value.addString(
-				value.getDefaultLocale(), json);
+			value.addString(value.getDefaultLocale(), json);
 		}
 
 		ddmFormFieldValue.setValue(value);
