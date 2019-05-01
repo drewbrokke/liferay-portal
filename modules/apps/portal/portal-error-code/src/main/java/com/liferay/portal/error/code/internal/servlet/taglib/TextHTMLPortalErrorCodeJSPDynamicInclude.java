@@ -60,7 +60,7 @@ public class TextHTMLPortalErrorCodeJSPDynamicInclude
 		String mimeType = MapUtil.getString(properties, "mime.type", null);
 
 		if (mimeType == null) {
-			throw new IllegalArgumentException("mime.type is null");
+			throw new IllegalArgumentException("Mime type is null");
 		}
 
 		_contentType = mimeType.concat(_CHARSET);
