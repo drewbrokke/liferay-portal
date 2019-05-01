@@ -17,6 +17,7 @@ package com.liferay.portal.error.code.internal.servlet.taglib;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
+import com.liferay.portal.kernel.util.StackTraceUtil;
 
 import java.io.PrintWriter;
 
@@ -45,7 +46,8 @@ public class ApplicationJSONPortalErrorCodeDynamicInclude
 		);
 
 		if (throwable != null) {
-			jsonObject.put("throwable", JSONUtil.put(throwable));
+			jsonObject.put(
+				"throwable", StackTraceUtil.getStackTrace(throwable));
 		}
 
 		printWriter.write(jsonObject.toString());

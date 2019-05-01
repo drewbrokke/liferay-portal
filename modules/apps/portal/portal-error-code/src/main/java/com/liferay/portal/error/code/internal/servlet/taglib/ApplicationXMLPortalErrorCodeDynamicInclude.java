@@ -16,12 +16,12 @@ package com.liferay.portal.error.code.internal.servlet.taglib;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
+import com.liferay.portal.kernel.util.StackTraceUtil;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReader;
 
 import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -59,11 +59,7 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 		if (throwable != null) {
 			Element throwableElement = errorElement.addElement("throwable");
 
-			StringWriter stringWriter = new StringWriter();
-
-			throwable.printStackTrace(new PrintWriter(stringWriter));
-
-			throwableElement.addCDATA(stringWriter.toString());
+			throwableElement.addCDATA(StackTraceUtil.getStackTrace(throwable));
 		}
 
 		printWriter.print(document.asXML());
