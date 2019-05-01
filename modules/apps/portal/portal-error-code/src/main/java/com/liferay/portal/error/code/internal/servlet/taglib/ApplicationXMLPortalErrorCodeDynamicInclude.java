@@ -37,8 +37,8 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 
 	@Override
 	protected void writeDetailedMessage(
-		String message, int statusCode, String requestURI, Throwable throwable,
-		PrintWriter printWriter) {
+		String message, PrintWriter printWriter, String requestURI,
+		int statusCode, Throwable throwable) {
 
 		Document document = _saxReader.createDocument(StringPool.UTF8);
 
@@ -71,7 +71,7 @@ public class ApplicationXMLPortalErrorCodeDynamicInclude
 
 	@Override
 	protected void writeMessage(
-		String message, int statusCode, PrintWriter printWriter) {
+		String message, PrintWriter printWriter, int statusCode) {
 
 		Document document = _saxReader.createDocument(StringPool.UTF8);
 

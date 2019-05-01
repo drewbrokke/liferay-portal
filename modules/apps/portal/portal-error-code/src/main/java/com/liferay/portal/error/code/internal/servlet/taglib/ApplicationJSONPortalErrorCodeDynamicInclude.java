@@ -38,8 +38,8 @@ public class ApplicationJSONPortalErrorCodeDynamicInclude
 
 	@Override
 	protected void writeDetailedMessage(
-		String message, int statusCode, String requestURI, Throwable throwable,
-		PrintWriter printWriter) {
+		String message, PrintWriter printWriter, String requestURI,
+		int statusCode, Throwable throwable) {
 
 		JSONObject jsonObject = JSONUtil.put(
 			"message", message
@@ -60,7 +60,7 @@ public class ApplicationJSONPortalErrorCodeDynamicInclude
 
 	@Override
 	protected void writeMessage(
-		String message, int statusCode, PrintWriter printWriter) {
+		String message, PrintWriter printWriter, int statusCode) {
 
 		printWriter.write(
 			JSONUtil.put(
