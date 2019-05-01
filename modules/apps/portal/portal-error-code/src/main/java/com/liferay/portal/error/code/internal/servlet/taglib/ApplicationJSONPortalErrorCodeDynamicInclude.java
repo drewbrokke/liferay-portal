@@ -14,18 +14,13 @@
 
 package com.liferay.portal.error.code.internal.servlet.taglib;
 
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
 
 import java.io.PrintWriter;
 
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Carlos Sierra Andrés
@@ -50,9 +45,7 @@ public class ApplicationJSONPortalErrorCodeDynamicInclude
 		);
 
 		if (throwable != null) {
-			jsonObject.put(
-				"throwable",
-				JSONUtil.put(throwable));
+			jsonObject.put("throwable", JSONUtil.put(throwable));
 		}
 
 		printWriter.write(jsonObject.toString());
@@ -69,11 +62,5 @@ public class ApplicationJSONPortalErrorCodeDynamicInclude
 				"statusCode", statusCode
 			).toString());
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		ApplicationJSONPortalErrorCodeDynamicInclude.class);
-
-	@Reference
-	private JSONFactory _jsonFactory;
 
 }

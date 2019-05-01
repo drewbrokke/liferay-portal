@@ -41,8 +41,8 @@ public class TextHTMLPortalErrorCodeJSPDynamicInclude
 
 	@Override
 	public void include(
-			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-			String key)
+			HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse, String key)
 		throws IOException {
 
 		httpServletResponse.setContentType(_contentType);
