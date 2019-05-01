@@ -120,14 +120,14 @@ public abstract class BaseFragmentCollectionContributor
 	protected FragmentEntryLocalService fragmentEntryLocalService;
 
 	private String _getContributedCollectionName() throws Exception {
-		Class<?> resourceClass = getClass();
+		Class<?> clazz = getClass();
 
-		String structure = StringUtil.read(
-			resourceClass.getResourceAsStream(
+		String json = StringUtil.read(
+			clazz.getResourceAsStream(
 				"dependencies/" +
 					FragmentExportImportConstants.FILE_NAME_COLLECTION_CONFIG));
 
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(structure);
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(json);
 
 		return jsonObject.getString("name");
 	}
@@ -135,7 +135,7 @@ public abstract class BaseFragmentCollectionContributor
 	private String _getFileContent(String path, String fileName)
 		throws Exception {
 
-		Class<?> resourceClass = getClass();
+		Class<?> clazz = getClass();
 
 		StringBundler sb = new StringBundler(3);
 
@@ -143,8 +143,7 @@ public abstract class BaseFragmentCollectionContributor
 		sb.append("/");
 		sb.append(fileName);
 
-		return StringUtil.read(
-			resourceClass.getResourceAsStream(sb.toString()));
+		return StringUtil.read(clazz.getResourceAsStream(sb.toString()));
 	}
 
 	private FragmentEntry _getFragmentEntry(String path) throws Exception {
@@ -195,12 +194,11 @@ public abstract class BaseFragmentCollectionContributor
 	}
 
 	private JSONObject _getStructure(String path) throws Exception {
-		Class<?> resourceClass = getClass();
+		Class<?> clazz = getClass();
 
-		String structure = StringUtil.read(
-			resourceClass.getResourceAsStream(path));
+		String json = StringUtil.read(clazz.getResourceAsStream(path));
 
-		return JSONFactoryUtil.createJSONObject(structure);
+		return JSONFactoryUtil.createJSONObject(json);
 	}
 
 	private void _updateFragmentEntryLinks(FragmentEntry fragmentEntry)
