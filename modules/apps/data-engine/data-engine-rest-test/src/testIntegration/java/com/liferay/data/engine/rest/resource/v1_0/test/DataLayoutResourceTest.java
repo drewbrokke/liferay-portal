@@ -46,11 +46,11 @@ public class DataLayoutResourceTest extends BaseDataLayoutResourceTestCase {
 	protected DataLayout randomDataLayout() {
 		return new DataLayout() {
 			{
-				id = RandomTestUtil.randomLong();
 				dataDefinitionId = _ddmStructure.getStructureId();
 				dateCreated = RandomTestUtil.nextDate();
 				dateModified = RandomTestUtil.nextDate();
 				defaultLanguageId = "en_US";
+				id = RandomTestUtil.randomLong();
 				name = new LocalizedValue[] {
 					new LocalizedValue() {
 						{
