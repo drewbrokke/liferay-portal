@@ -204,9 +204,8 @@ class Analytics {
 			return Promise.resolve(this._generateUserId());
 		}
 
-			return Promise.resolve(storage.get(STORAGE_KEY_USER_ID));
-
-	}
+		return Promise.resolve(storage.get(STORAGE_KEY_USER_ID));
+}
 
 	/**
 	 * Sends the identity information and user id to the Identity Service.

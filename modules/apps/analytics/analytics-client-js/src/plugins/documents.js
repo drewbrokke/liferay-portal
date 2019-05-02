@@ -18,7 +18,7 @@ function getDocumentPayload(documentElement) {
 
 	if (dataset.analyticsAssetTitle) {
 		payload = {...payload,
-title: dataset.analyticsAssetTitle};
+			title: dataset.analyticsAssetTitle};
 	}
 
 	return payload;

@@ -17,7 +17,7 @@ function getWebContentPayload(webContent) {
 
 	if (dataset.analyticsAssetTitle) {
 		payload = {...payload,
-title: dataset.analyticsAssetTitle};
+			title: dataset.analyticsAssetTitle};
 	}
 
 	return payload;
@@ -85,7 +85,7 @@ function trackWebContentViewed(analytics) {
 				const numberOfWords = getNumberOfWords(element);
 
 				payload = {numberOfWords,
-...payload};
+					...payload};
 
 				analytics.send('webContentViewed', applicationId, payload);
 			});

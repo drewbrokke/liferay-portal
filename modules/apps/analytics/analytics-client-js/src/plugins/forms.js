@@ -41,7 +41,7 @@ function getFormPayload(form) {
 
 	if (form.dataset.analyticsAssetTitle) {
 		payload = {...payload,
-title: form.dataset.analyticsAssetTitle};
+			title: form.dataset.analyticsAssetTitle};
 	}
 
 	return payload;

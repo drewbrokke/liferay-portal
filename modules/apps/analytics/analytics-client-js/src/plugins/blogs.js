@@ -19,7 +19,7 @@ function getBlogPayload(blog) {
 
 	if (dataset.analyticsAssetTitle) {
 		payload = {...payload,
-title: dataset.analyticsAssetTitle};
+			title: dataset.analyticsAssetTitle};
 	}
 
 	return payload;
@@ -78,7 +78,7 @@ function trackBlogViewed(analytics) {
 				const numberOfWords = getNumberOfWords(element);
 
 				payload = {numberOfWords,
-...payload};
+					...payload};
 
 				blogElements.push(element);
 

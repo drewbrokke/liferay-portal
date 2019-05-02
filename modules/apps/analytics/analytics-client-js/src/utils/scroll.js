@@ -25,13 +25,13 @@ function getDimensions(element) {
 		const boundingClientRect = element.getBoundingClientRect();
 		const {bottom, height, top} = boundingClientRect;
 		return {bottom,
-height,
-top};
+			height,
+			top};
 	}
 	const height = getDocumentHeight();
 	const top = getCurrentScrollPosition();
 	return {height,
-top};
+		top};
 }
 
 class ScrollTracker {
