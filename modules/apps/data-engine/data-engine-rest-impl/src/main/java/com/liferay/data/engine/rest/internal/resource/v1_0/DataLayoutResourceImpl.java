@@ -46,6 +46,8 @@ import com.liferay.portal.vulcan.pagination.Pagination;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
@@ -66,6 +68,25 @@ public class DataLayoutResourceImpl extends BaseDataLayoutResourceImpl {
 			ActionKeys.DELETE);
 
 		_ddmStructureLayoutLocalService.deleteDDMStructureLayout(dataLayoutId);
+	}
+
+	@Override
+	public Page<DataLayout> getDataDefinitionDataLayoutsPage(
+			@NotNull Long dataDefinitionId, Pagination pagination)
+		throws Exception {
+
+		DDMStructure ddmStructure = _ddmStructureLocalService.getStructure(
+			dataDefinitionId);
+
+		return Page.of(
+			transform(
+				_ddmStructureLayoutLocalService.getStructureLayouts(
+					ddmStructure.getGroupId(), pagination.getStartPosition(),
+					pagination.getEndPosition()),
+				this::_toDataLayout),
+			pagination,
+			_ddmStructureLayoutLocalService.getStructureLayoutsCount(
+				ddmStructure.getGroupId()));
 	}
 
 	@Override
