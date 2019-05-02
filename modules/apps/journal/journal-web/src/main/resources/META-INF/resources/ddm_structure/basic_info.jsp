@@ -24,7 +24,7 @@ DDMStructure ddmStructure = journalEditDDMStructuresDisplayContext.getDDMStructu
 DDMForm ddmForm = null;
 
 if (ddmStructure != null) {
-ddmForm = ddmStructure.getDDMForm();
+	ddmForm = ddmStructure.getDDMForm();
 }
 %>
 
@@ -36,7 +36,7 @@ ddmForm = ddmStructure.getDDMForm();
 	<aui:input disabled="<%= ddmStructure != null %>" name="ddmStructureKey" />
 </c:if>
 
-<aui:input defaultLanguageId="<%= (ddmStructure == null) ? LocaleUtil.toLanguageId(LocaleUtil.getSiteDefault()): LocaleUtil.toLanguageId(ddmForm.getDefaultLocale()) %>" name="description" />
+<aui:input defaultLanguageId="<%= (ddmForm == null) ? LocaleUtil.toLanguageId(LocaleUtil.getSiteDefault()): LocaleUtil.toLanguageId(ddmForm.getDefaultLocale()) %>" name="description" />
 
 <aui:input name="parentDDMStructureId" type="hidden" value="<%= journalEditDDMStructuresDisplayContext.getParentDDMStructureId() %>" />
 
