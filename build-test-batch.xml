@@ -448,17 +448,17 @@ mariadb.executable=${mariadb.executable}]]></echo>
 					}
 
 					public List getTestUtilModules() {
-						List appBnds = findFiles(new File(projectDir, "modules/apps"), ".+/app.bnd");
+						List appBndFiles = findFiles(new File(projectDir, "modules/apps"), ".+/app.bnd");
 
-						File privateAppsDirectory = new File(projectDir, "modules/private/apps");
+						File privateAppsDir = new File(projectDir, "modules/private/apps");
 
-						if (privateAppsDirectory.exists()) {
-							appBnds.addAll(findFiles(privateAppsDirectory, ".+/app.bnd"));
+						if (privateAppsDir.exists()) {
+							appBndFiles.addAll(findFiles(privateAppsDir, ".+/app.bnd"));
 						}
 
 						List releasedAppDirs = new ArrayList();
 
-						for (File appBnd : appBnds) {
+						for (File appBnd : appBndFiles) {
 							String fileContent = FileUtils.readFileToString(appBnd);
 
 							if (fileContent.contains("Liferay-Releng-Bundle: true")) {
