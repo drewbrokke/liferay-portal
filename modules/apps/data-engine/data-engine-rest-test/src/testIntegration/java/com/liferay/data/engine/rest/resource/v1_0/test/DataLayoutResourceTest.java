@@ -35,6 +35,8 @@ public class DataLayoutResourceTest extends BaseDataLayoutResourceTestCase {
 		super.setUp();
 
 		_ddmStructure = DataDefinitionTestUtil.addDDMStructure(testGroup);
+		_irrelevantDDMStructure = DataDefinitionTestUtil.addDDMStructure(
+			irrelevantGroup);
 	}
 
 	@Override
@@ -70,13 +72,6 @@ public class DataLayoutResourceTest extends BaseDataLayoutResourceTestCase {
 	}
 
 	@Override
-	protected Long testGetDataDefinitionDataLayoutsPage_getDataDefinitionId()
-		throws Exception {
-
-		return _ddmStructure.getStructureId();
-	}
-
-	@Override
 	protected DataLayout testGetDataLayout_addDataLayout() throws Exception {
 		return invokePostDataDefinitionDataLayout(
 			_ddmStructure.getStructureId(), randomDataLayout());
@@ -87,25 +82,25 @@ public class DataLayoutResourceTest extends BaseDataLayoutResourceTestCase {
 			Long siteId, DataLayout dataLayout)
 		throws Exception {
 
-		long dataDefinitionId = _ddmStructure.getStructureId();
-
 		return invokePostDataDefinitionDataLayout(
-			dataDefinitionId, randomDataLayout());
-	}
-
-	protected Long testGetSiteDataLayoutPage_getIrrelevantSiteId()
-		throws Exception {
-
-		return irrelevantGroup.getGroupId();
+			dataLayout.getDataDefinitionId(), dataLayout);
 	}
 
 	@Override
-	protected DataLayout testPostDataDefinitionDataLayout_addDataLayout(
-			DataLayout dataLayout)
+	protected DataLayout randomIrrelevantDataLayout() {
+		DataLayout dataLayout = randomDataLayout();
+
+		dataLayout.setDataDefinitionId(
+			_irrelevantDDMStructure.getStructureId());
+
+		return dataLayout;
+	}
+
+	@Override
+	protected Long testGetDataDefinitionDataLayoutsPage_getDataDefinitionId()
 		throws Exception {
 
-		return invokePostDataDefinitionDataLayout(
-			_ddmStructure.getStructureId(), dataLayout);
+		return _ddmStructure.getStructureId();
 	}
 
 	@Override
@@ -115,5 +110,6 @@ public class DataLayoutResourceTest extends BaseDataLayoutResourceTestCase {
 	}
 
 	private DDMStructure _ddmStructure;
+	private DDMStructure _irrelevantDDMStructure;
 
 }
