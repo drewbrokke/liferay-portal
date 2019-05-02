@@ -96,7 +96,7 @@ public class DataLayoutResourceTest extends BaseDataLayoutResourceTestCase {
 	protected Long testGetSiteDataLayoutPage_getIrrelevantSiteId()
 		throws Exception {
 
-		return null;
+		return irrelevantGroup.getGroupId();
 	}
 
 	@Override
