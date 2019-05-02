@@ -458,11 +458,11 @@ mariadb.executable=${mariadb.executable}]]></echo>
 
 						List releasedAppDirs = new ArrayList();
 
-						for (File appBnd : appBndFiles) {
-							String fileContent = FileUtils.readFileToString(appBnd);
+						for (File appBndFile : appBndFiles) {
+							String fileContent = FileUtils.readFileToString(appBndFile);
 
 							if (fileContent.contains("Liferay-Releng-Bundle: true")) {
-								releasedAppDirs.add(appBnd.getParentFile());
+								releasedAppDirs.add(appBndFile.getParentFile());
 							}
 						}
 
