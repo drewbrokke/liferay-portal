@@ -66,7 +66,7 @@ public class UploadServletRequestConfigurationModelListener
 				throw new ConfigurationModelListenerException(
 					ResourceBundleUtil.getString(
 						_getResourceBundle(),
-						"invalid-temporary-storage-directory-message"),
+						"please-enter-a-valid-temporary-storage-directory"),
 					UploadServletRequestConfiguration.class, getClass(),
 					properties);
 			}
