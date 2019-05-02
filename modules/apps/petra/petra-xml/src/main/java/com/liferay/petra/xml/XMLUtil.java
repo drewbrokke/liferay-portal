@@ -57,12 +57,11 @@ public class XMLUtil {
 
 	public static String formatXML(String xml) {
 
-		// LPS-85393 if the closing token of a CDATA container is found inside
-		// the CDATA container, split the CDATA container into two separate
-		// CDATA containers. Since there is no real way to escape those
-		// characters, this is the generally accepted method of "escaping" for
-		// this case. See explanation here:
-		// https://github.com/drewbrokke/liferay-portal/pull/690#issue-238232513
+		// If the closing token of a CDATA container is found inside the CDATA
+		// container, split the CDATA container into two separate CDATA
+		// containers. This is generally accepted method of "escaping" for this
+		// case since there is no real way to escape those characters. See
+		// LPS-85393 for more information.
 
 		xml = StringUtil.replace(xml, "]]><", "[$SPECIAL_CHARACTER$]");
 		xml = StringUtil.replace(xml, "]]>", "]]]]><![CDATA[>");
