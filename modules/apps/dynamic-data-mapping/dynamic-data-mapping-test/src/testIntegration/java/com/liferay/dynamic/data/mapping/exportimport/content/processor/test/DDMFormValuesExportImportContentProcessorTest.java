@@ -186,6 +186,7 @@ public class DDMFormValuesExportImportContentProcessorTest {
 	@After
 	public void tearDown() throws Exception {
 		_journalArticleLocalService.deleteArticles(_stagingGroup.getGroupId());
+
 		_journalArticleLocalService.deleteArticles(_liveGroup.getGroupId());
 
 		if (_ddmTemplate != null) {
