@@ -94,7 +94,7 @@ public class SearchHttpUtil {
 
 		if (_log.isWarnEnabled()) {
 			if (completeURL.contains("?&")) {
-				_log.warn("Invalid url " + completeURL);
+				_log.warn("Invalid URL " + completeURL);
 			}
 		}
 
