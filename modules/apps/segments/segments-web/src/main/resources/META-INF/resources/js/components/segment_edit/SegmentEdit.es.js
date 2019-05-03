@@ -56,9 +56,14 @@ class SegmentEdit extends Component {
 		portletNamespace: ''
 	};
 
-	state = {
-		editing: this.props.showInEditMode
-	};
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			disabledSave: this._isQueryEmpty(),
+			editing: this.props.showInEditMode
+		};
+	}
 
 	_handleCriteriaEdit = () => {
 		this.setState(
@@ -67,6 +72,14 @@ class SegmentEdit extends Component {
 			}
 		);
 	}
+
+	_handleQueryChange = () => {
+		this.setState(
+			{
+				disabledSave: this._isQueryEmpty()
+			},
+		);
+	};
 
 	_handleSegmentNameBlur = event => {
 		const {
@@ -111,6 +124,7 @@ class SegmentEdit extends Component {
 					formId={formId}
 					initialContributors={contributors}
 					membersCount={initialMembersCount}
+					onQueryChange={this._handleQueryChange}
 					previewMembersURL={previewMembersURL}
 					propertyGroups={propertyGroups}
 					requestMembersCountURL={requestMembersCountURL}
@@ -172,11 +186,9 @@ class SegmentEdit extends Component {
 			values
 		} = this.props;
 
-		const {editing} = this.state;
+		const {disabledSave, editing} = this.state;
 
 		const {assetsPath} = this.context;
-
-		const disabledSave = this._isQueryEmpty();
 
 		return (
 			<div className="segment-edit-page-root">
