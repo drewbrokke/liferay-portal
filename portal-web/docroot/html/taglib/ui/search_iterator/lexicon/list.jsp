@@ -167,6 +167,8 @@ if (!resultRowSplitterEntries.isEmpty()) {
 		<tbody>
 
 			<%
+			String[] columnClassNames = null;
+
 			for (ResultRowSplitterEntry resultRowSplitterEntry : resultRowSplitterEntries) {
 				List<com.liferay.portal.kernel.dao.search.ResultRow> curResultRows = resultRowSplitterEntry.getResultRows();
 			%>
@@ -239,6 +241,12 @@ if (!resultRowSplitterEntries.isEmpty()) {
 					<tr class="<%= GetterUtil.getString(row.getClassName()) %> <%= row.getCssClass() %> <%= row.getState() %> <%= rowIsChecked ? "active" : StringPool.BLANK %>" data-qa-id="row" <%= AUIUtil.buildData(data) %>>
 
 						<%
+						String[] tempColumnClassNames = null;
+
+						if (columnClassNames == null) {
+							tempColumnClassNames = new String[entries.size()];
+						}
+
 						for (int j = 0; j < entries.size(); j++) {
 							com.liferay.portal.kernel.dao.search.SearchEntry entry = (com.liferay.portal.kernel.dao.search.SearchEntry)entries.get(j);
 
@@ -277,6 +285,10 @@ if (!resultRowSplitterEntries.isEmpty()) {
 							if (Validator.isNull(normalizedColumnName)) {
 								columnClassName += " lfr-entry-action-column";
 							}
+
+							if (columnClassNames == null) {
+								tempColumnClassNames[j] = columnClassName;
+							}
 						%>
 
 							<td class="<%= columnClassName %>" colspan="<%= entry.getColspan() %>">
@@ -303,6 +315,10 @@ if (!resultRowSplitterEntries.isEmpty()) {
 
 						<%
 						}
+
+						if (columnClassNames == null) {
+							columnClassNames = tempColumnClassNames;
+						}
 						%>
 
 					</tr>
@@ -321,9 +337,14 @@ if (!resultRowSplitterEntries.isEmpty()) {
 
 					<%
 					for (int i = 0; i < headerNames.size(); i++) {
+						String columnClassName = StringPool.BLANK;
+
+						if (columnClassNames != null) {
+							columnClassName = columnClassNames[i];
+						}
 					%>
 
-						<td></td>
+						<td class="<%= columnClassName %>"></td>
 
 					<%
 					}
