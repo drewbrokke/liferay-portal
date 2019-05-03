@@ -57,16 +57,7 @@ class SegmentEdit extends Component {
 	};
 
 	state = {
-		changesUnsaved: false,
 		editing: this.props.showInEditMode
-	};
-
-	_handleQueryChange = () => {
-		this.setState(
-			{
-				changesUnsaved: true
-			},
-		);
 	};
 
 	_handleCriteriaEdit = () => {
@@ -120,7 +111,6 @@ class SegmentEdit extends Component {
 					formId={formId}
 					initialContributors={contributors}
 					membersCount={initialMembersCount}
-					onQueryChange={this._handleQueryChange}
 					previewMembersURL={previewMembersURL}
 					propertyGroups={propertyGroups}
 					requestMembersCountURL={requestMembersCountURL}
