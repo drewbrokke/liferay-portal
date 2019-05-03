@@ -1,0 +1,45 @@
+definition {
+	macro _selectCard {
+		if (isSet(collectionName)) {
+			Navigator.gotoNavNested(navNested = "${collectionName}");
+
+			LexiconCard.clickCard(card = "${pageTemplateName}");
+		}
+		else {
+			Navigator.gotoNavNested(navNested = "Basic Pages");
+
+			LexiconCard.clickCard(card = "Widget Page");
+		}
+	}
+
+	macro addPage {
+		var key_breadcrumbName="Pages";
+
+		if (IsElementPresent(locator1 = "Message#EMPTY_INFO_TAGLIB")) {
+			SitePages.gotoAddFirstPage(pageType = "Public Page");
+		}
+		else {
+			AssertClick(
+				locator1 = "Breadcrumb#BREADCRUMB_ENTRY",
+				value1 = "Pages");
+
+			LexiconEntry.gotoAddMenuItem(menuItem = "Public Page");
+		}
+
+		ContentPages._selectCard(
+			collectionName = "${collectionName}",
+			pageTemplateName = "${pageTemplateName}");
+
+		SelectFrame(locator1 = "IFrame#DIALOG");
+
+		PortletEntry.inputName(name = "${pageName}");
+
+		Button.clickAdd();
+
+		SelectFrame.selectFrameTop();
+	}
+
+	macro clickPencil {
+		Click(locator1 = "Icon#EDIT_PENCIL");
+	}
+}

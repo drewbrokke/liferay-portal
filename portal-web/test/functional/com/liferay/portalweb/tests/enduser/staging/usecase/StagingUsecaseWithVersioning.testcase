@@ -806,7 +806,7 @@ definition {
 			panel = "Site Administration",
 			portlet = "Pages");
 
-		ContentPages.addPage(
+		WidgetPages.addPage(
 			collectionName = "Page Template Collection",
 			pageName = "Test Page Name",
 			pageTemplateName = "Page Template Name");
