@@ -1164,7 +1164,8 @@
 				if (searchParamsIndex === -1) {
 					var baseURL = action;
 					var queryString = '';
-				} else {
+				}
+				else {
 					var baseURL = action.slice(0, searchParamsIndex);
 					var queryString = action.slice(searchParamsIndex + 1);
 				}
