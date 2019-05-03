@@ -46,7 +46,6 @@ out.println(PortalUtil.escapeRedirect("/"));
 			value1 = "/");
 	}
 
-	@ignore = "true"
 	@priority = "5"
 	test NoGuestRoleFromWCDArticleHistoryURL {
 		property portal.acceptance = "false";
