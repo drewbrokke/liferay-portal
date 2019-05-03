@@ -60,7 +60,7 @@ public class UpgradeAssetDisplayLayout extends UpgradeProcess {
 
 	@Override
 	protected void doUpgrade() throws Exception {
-		_upgradeAssetDisplayPages();
+		_upgradeAssetDisplayLayouts();
 		_upgradeSchema();
 	}
 
@@ -103,7 +103,7 @@ public class UpgradeAssetDisplayLayout extends UpgradeProcess {
 		return layout.getPlid();
 	}
 
-	private void _upgradeAssetDisplayPages() throws Exception {
+	private void _upgradeAssetDisplayLayouts() throws Exception {
 		ActionableDynamicQuery actionableDynamicQuery =
 			_layoutLocalService.getActionableDynamicQuery();
 
