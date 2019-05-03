@@ -126,7 +126,6 @@ public class FolderSearchFacetDisplayBuilder {
 		buildFolderSearchFacetTermDisplayContext(TermCollector termCollector) {
 
 		long folderId = GetterUtil.getLong(termCollector.getTerm());
-
 		String displayName = getDisplayName(folderId);
 
 		if ((folderId == 0) || (displayName == null)) {
