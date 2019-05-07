@@ -99,6 +99,30 @@
 			</div>
 		</aui:field-wrapper>
 	</c:when>
+	<c:when test="<%= propertyDisplayType.equals(ExpandoColumnConstants.PROPERTY_DISPLAY_TYPE_GEOLOCATION) %>">
+
+		<%
+		String defaultLatitude = StringPool.BLANK;
+		String defaultLongitude = StringPool.BLANK;
+
+		if ((defaultValue != null) && (expandoColumn != null)) {
+			JSONObject defaultValuesJSONOBject = (JSONObject)expandoBridge.getAttributeDefault(expandoColumn.getName());
+
+			defaultLatitude = defaultValuesJSONOBject.getString("latitude");
+			defaultLongitude = defaultValuesJSONOBject.getString("longitude");
+		}
+		%>
+
+		<div class="form-group-autofit">
+			<div class="form-group-item">
+				<aui:input label="default-latitude" name="latitude" type="text" value="<%= defaultLatitude %>" />
+			</div>
+
+			<div class="form-group-item">
+				<aui:input label="default-longitude" name="longitude" type="text" value="<%= defaultLongitude %>" />
+			</div>
+		</div>
+	</c:when>
 	<c:otherwise>
 		<c:if test="<%= propertyDisplayType.equals(ExpandoColumnConstants.PROPERTY_DISPLAY_TYPE_INPUT_FIELD) %>">
 			<aui:select disabled="<%= expandoColumn != null %>" label="data-type" name="dataType" onChange="setDataType(false)" value="<%= ExpandoColumnConstants.getDataType(type) %>">
