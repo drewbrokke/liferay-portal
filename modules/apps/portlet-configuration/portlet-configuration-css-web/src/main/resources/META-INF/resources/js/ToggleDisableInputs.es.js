@@ -84,6 +84,30 @@ ToggleDisableInputs.STATE = {
 
 	label: {
 		validator: core.isString
+	},
+
+	/**
+	 * Label of the "off" state
+	 * @type {String}
+	 */
+
+	labelOff: {
+		validator: core.isString,
+		valueFn: function() {
+			return (Liferay.Language.get('no')).toUpperCase();
+		}
+	},
+
+	/**
+	 * Label of the "on" state
+	 * @type {String}
+	 */
+
+	labelOn: {
+		validator: core.isString,
+		valueFn: function() {
+			return (Liferay.Language.get('yes')).toUpperCase();
+		}
 	}
 };
 
