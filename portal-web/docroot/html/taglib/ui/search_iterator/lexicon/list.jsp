@@ -55,7 +55,6 @@ if (fixedHeader) {
 			<liferay-util:buffer
 				var="theadContent"
 			>
-				<tr>
 
 					<%
 					List entries = Collections.emptyList();
@@ -166,18 +165,19 @@ if (fixedHeader) {
 					}
 					%>
 
-				</tr>
 			</liferay-util:buffer>
 
 			<thead>
-				<%= theadContent %>
-			</thead>
-
-			<c:if test="<%= fixedHeader %>">
-				<thead aria-hidden="true" class="hide lfr-search-iterator-fixed-header" id="<%= namespace + id %>fixedHeader">
+				<tr>
 					<%= theadContent %>
-				</thead>
-			</c:if>
+				</tr>
+
+				<c:if test="<%= fixedHeader %>">
+					<tr aria-hidden="true" class="hide lfr-search-iterator-fixed-header" id="<%= namespace + id %>fixedHeader">
+						<%= theadContent %>
+					</tr>
+				</c:if>
+			</thead>
 		</c:if>
 
 		<tbody>
