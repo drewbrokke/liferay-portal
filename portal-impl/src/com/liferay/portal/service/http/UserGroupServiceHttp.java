@@ -481,6 +481,139 @@ public class UserGroupServiceHttp {
 		}
 	}
 
+	public static java.util.List<com.liferay.portal.kernel.model.UserGroup>
+		search(
+			HttpPrincipal httpPrincipal, long companyId, String keywords,
+			java.util.LinkedHashMap<String, Object> params, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.UserGroup> obc) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				UserGroupServiceUtil.class, "search", _searchParameterTypes12);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, keywords, params, start, end, obc);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (java.util.List<com.liferay.portal.kernel.model.UserGroup>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.UserGroup>
+		search(
+			HttpPrincipal httpPrincipal, long companyId, String name,
+			String description, java.util.LinkedHashMap<String, Object> params,
+			boolean andOperator, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.UserGroup> obc) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				UserGroupServiceUtil.class, "search", _searchParameterTypes13);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, name, description, params, andOperator,
+				start, end, obc);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (java.util.List<com.liferay.portal.kernel.model.UserGroup>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static int searchCount(
+		HttpPrincipal httpPrincipal, long companyId, String keywords,
+		java.util.LinkedHashMap<String, Object> params) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				UserGroupServiceUtil.class, "searchCount",
+				_searchCountParameterTypes14);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, keywords, params);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return ((Integer)returnObj).intValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static int searchCount(
+		HttpPrincipal httpPrincipal, long companyId, String name,
+		String description, java.util.LinkedHashMap<String, Object> params,
+		boolean andOperator) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				UserGroupServiceUtil.class, "searchCount",
+				_searchCountParameterTypes15);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, name, description, params, andOperator);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return ((Integer)returnObj).intValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static void unsetGroupUserGroups(
 			HttpPrincipal httpPrincipal, long groupId, long[] userGroupIds)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -488,7 +621,7 @@ public class UserGroupServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				UserGroupServiceUtil.class, "unsetGroupUserGroups",
-				_unsetGroupUserGroupsParameterTypes12);
+				_unsetGroupUserGroupsParameterTypes16);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, userGroupIds);
@@ -522,7 +655,7 @@ public class UserGroupServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				UserGroupServiceUtil.class, "unsetTeamUserGroups",
-				_unsetTeamUserGroupsParameterTypes13);
+				_unsetTeamUserGroupsParameterTypes17);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, teamId, userGroupIds);
@@ -558,7 +691,7 @@ public class UserGroupServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				UserGroupServiceUtil.class, "updateUserGroup",
-				_updateUserGroupParameterTypes14);
+				_updateUserGroupParameterTypes18);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, userGroupId, name, description, serviceContext);
@@ -619,11 +752,27 @@ public class UserGroupServiceHttp {
 		new Class[] {long.class, String.class};
 	private static final Class<?>[] _getUserUserGroupsParameterTypes11 =
 		new Class[] {long.class};
-	private static final Class<?>[] _unsetGroupUserGroupsParameterTypes12 =
+	private static final Class<?>[] _searchParameterTypes12 = new Class[] {
+		long.class, String.class, java.util.LinkedHashMap.class, int.class,
+		int.class, com.liferay.portal.kernel.util.OrderByComparator.class
+	};
+	private static final Class<?>[] _searchParameterTypes13 = new Class[] {
+		long.class, String.class, String.class, java.util.LinkedHashMap.class,
+		boolean.class, int.class, int.class,
+		com.liferay.portal.kernel.util.OrderByComparator.class
+	};
+	private static final Class<?>[] _searchCountParameterTypes14 = new Class[] {
+		long.class, String.class, java.util.LinkedHashMap.class
+	};
+	private static final Class<?>[] _searchCountParameterTypes15 = new Class[] {
+		long.class, String.class, String.class, java.util.LinkedHashMap.class,
+		boolean.class
+	};
+	private static final Class<?>[] _unsetGroupUserGroupsParameterTypes16 =
 		new Class[] {long.class, long[].class};
-	private static final Class<?>[] _unsetTeamUserGroupsParameterTypes13 =
+	private static final Class<?>[] _unsetTeamUserGroupsParameterTypes17 =
 		new Class[] {long.class, long[].class};
-	private static final Class<?>[] _updateUserGroupParameterTypes14 =
+	private static final Class<?>[] _updateUserGroupParameterTypes18 =
 		new Class[] {
 			long.class, String.class, String.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
