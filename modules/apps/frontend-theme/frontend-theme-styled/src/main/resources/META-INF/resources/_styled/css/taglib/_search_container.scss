@@ -118,6 +118,11 @@
 .lfr-role-column {
 	max-width: 375px;
 	min-width: 375px;
+
+	// &.lfr-search-iterator-fixed-table-data {
+	// 	max-width: 225px;
+	// 	min-width: 225px;
+	// }
 }
 
 .lfr-email-address-column,
@@ -156,11 +161,25 @@
 }
 
 .lfr-search-iterator-fixed-header {
-	position: absolute;
 	width: 100%;
+}
+
+.table-list .lfr-search-iterator-fixed-table-data {
+	background-color: transparent;
 	z-index: $zindex-sticky;
 }
 
-.lfr-search-iterator-fixed-header-table {
+.lfr-search-iterator-fixed-table-data-content {
+	background: #FFF;
+	padding-right: 6px;
+}
+
+.lfr-search-iterator-fixed-header {
+	position: absolute;
+	z-index: $zindex-sticky;
+}
+
+.lfr-search-iterator-fixed-header-table,
+.lfr-search-iterator-fixed-header-table-row {
 	position: relative;
 }
