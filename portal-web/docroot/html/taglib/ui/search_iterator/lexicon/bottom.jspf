@@ -96,6 +96,8 @@
 			var contentBox = searchContainer.get('contentBox');
 			var insideIframe = window !== Liferay.Util.getOpener();
 
+			var boundingClientReactangleObject = {};
+
 			if (contentBox) {
 				var tableElement;
 
@@ -117,7 +119,7 @@
 				if (fixedHeader && mainContent) {
 					var scrollingContainer = insideIframe ? mainContent.getDOM() : window;
 
-					var trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
+					boundingClientReactangleObject.trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
 
 					tableElement = fixedHeader.parentElement.parentElement;
 
@@ -127,14 +129,14 @@
 						function(event) {
 							var scrollTop = scrollingContainer.scrollTop;
 
-							var trDomRecTop = trDomRect.top;
+							var trDomRectTop = boundingClientReactangleObject.trDomRect.top;
 
-							fixedHeader.style.transform = 'translateY(' + Math.ceil(scrollTop - tableElement.offsetTop - trDomRect.height) + 'px)';
+							fixedHeader.style.transform = 'translateY(' + Math.ceil(scrollTop - tableElement.offsetTop - boundingClientReactangleObject.trDomRect.height) + 'px)';
 
-							if (fixedHeader.classList.contains('hide') && scrollTop >= trDomRecTop) {
+							if (fixedHeader.classList.contains('hide') && scrollTop >= trDomRectTop) {
 								fixedHeader.classList.remove('hide');
 							}
-							else if (scrollingContainer.scrollTop < trDomRecTop) {
+							else if (scrollingContainer.scrollTop < trDomRectTop) {
 								fixedHeader.classList.add('hide');
 							}
 						}
@@ -160,7 +162,7 @@
 
 					var horizontalScrollElements = document.querySelectorAll('.lfr-search-iterator-fixed-horizontal-scroll');
 
-					var tdDomRect = horizontalScrollElements[1].getBoundingClientRect();
+					boundingClientReactangleObject.tdDomRect = horizontalScrollElements[1].getBoundingClientRect();
 
 					tableElement = tableResponsiveNode.firstElementChild;
 
@@ -173,7 +175,14 @@
 						canResetTransform = translateXAmount > 0;
 					};
 
+					var resestClientBoundingReactangle = function() {
+						boundingClientReactangleObject.tdDomRect = document.querySelectorAll('.lfr-search-iterator-fixed-horizontal-scroll')[1].getBoundingClientRect();
+						boundingClientReactangleObject.trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
+					}
+
 					var tryResetTransform = function() {
+						resestClientBoundingReactangle();
+
 						if (Liferay.Util.isPhone() && canResetTransform) {
 							transformHorizontalScrollElements(0);
 						}
@@ -189,7 +198,7 @@
 								if (!Liferay.Util.isPhone()) {
 									var translateXValue = Math.ceil(scrollLeft - tableElement.offsetLeft);
 
-									var updateTransformValue = translateXValue > 0 && scrollLeft >= tdDomRect.left;
+									var updateTransformValue = translateXValue > 0 && scrollLeft >= boundingClientReactangleObject.tdDomRect.left;
 
 									transformHorizontalScrollElements(updateTransformValue ? translateXValue : 0);
 								}
