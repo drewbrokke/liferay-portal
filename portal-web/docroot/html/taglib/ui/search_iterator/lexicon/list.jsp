@@ -125,6 +125,10 @@ if (fixedHeader) {
 							}
 						}
 					}
+
+					if (i == 0) {
+						cssClass += " lfr-search-iterator-fixed-horizontal-scroll";
+					}
 				%>
 
 					<th class="<%= cssClass %>" id="<%= namespace + id %>_col-<%= normalizedHeaderName %>">
@@ -296,17 +300,8 @@ if (fixedHeader) {
 								columnClassName += " lfr-entry-action-column";
 							}
 						%>
-							<td class="<%= columnClassName %> <%= isFixedHeaderAndFirst ? "lfr-search-iterator-fixed-table-data" : StringPool.BLANK %>" colspan="<%= entry.getColspan() %>">
+							<td class="<%= columnClassName %> <%= isFixedHeaderAndFirst ? "lfr-search-iterator-fixed-horizontal-scroll" : StringPool.BLANK %>" colspan="<%= entry.getColspan() %>">
 								<c:choose>
-									<c:when test="<%= isFixedHeaderAndFirst %>">
-										<span class="lfr-search-iterator-fixed-table-data-content <%= truncate ? "truncate-text" : StringPool.BLANK %>">
-
-											<%
-											entry.print(pageContext.getOut(), request, response);
-											%>
-
-										</span>
-									</c:when>
 									<c:when test="<%= truncate %>">
 										<span class="truncate-text">
 

@@ -155,23 +155,14 @@
 	}
 }
 
-.lfr-search-iterator-fixed-header {
-	width: 100%;
-}
-
-.table-list .lfr-search-iterator-fixed-table-data {
-	background-color: transparent;
+.lfr-search-iterator-fixed-horizontal-scroll {
 	z-index: $zindex-sticky;
-}
-
-.lfr-search-iterator-fixed-table-data-content {
-	background: #FFF;
-	padding-right: 6px;
 }
 
 .lfr-search-iterator-fixed-header {
 	position: absolute;
 	z-index: $zindex-sticky + 5;
+	width: 100%;
 }
 
 .lfr-search-iterator-fixed-header-table,

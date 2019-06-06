@@ -96,28 +96,34 @@
 			var contentBox = searchContainer.get('contentBox');
 
 			if (contentBox) {
+				var tableElement;
+
 				var fixedHeader = document.getElementById('<%= namespace + id %>fixedHeader');
-				var fixedTableData = document.querySelectorAll('.lfr-search-iterator-fixed-table-data');
 				var mainContent = contentBox.ancestor('#main-content');
 				var tableResponsive = contentBox.one('.table-responsive');
 
-				var selectorAndEventListenerTupleArray = [];
+				var setElementTransformValue = function(element, translateX, translateY) {
+					element.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px)';
+				};
+
+				var selectorAndEventTypeAndEventListenerTupleArray = [];
 
 				if (mainContent) {
 					var scrollingContainer = window === Liferay.Util.getOpener() ? window : mainContent._node;
-
-					var table = fixedHeader.parentElement.parentElement;
 					var trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
 
-					selectorAndEventListenerTupleArray.push(
+					tableElement = fixedHeader.parentElement.parentElement;
+
+					selectorAndEventTypeAndEventListenerTupleArray.push(
 						[
 							scrollingContainer,
+							'scroll',
 							function(event) {
 								var scrollTop = scrollingContainer.scrollTop;
 
 								var trDomRecTop = trDomRect.top;
 
-								fixedHeader.style.transform = 'translateY(' + Math.ceil(scrollTop - table.offsetTop - trDomRect.height) + 'px)';
+								setElementTransformValue(fixedHeader, 0, Math.ceil(scrollTop - tableElement.offsetTop - trDomRect.height));
 
 								if (fixedHeader.classList.contains('hide') && (scrollTop >= trDomRecTop)) {
 									fixedHeader.classList.remove('hide');
@@ -131,46 +137,105 @@
 				}
 
 				if (tableResponsive) {
-					var tdDomRect = fixedTableData[0].getBoundingClientRect();
-					var table = tableResponsive._node.firstElementChild;
+					var tableResponsiveNode = tableResponsive._node;
 
-					selectorAndEventListenerTupleArray.push(
+					var currentScrollLeft = tableResponsiveNode.scrollLeft;
+					var horizontalScrollElements = document.querySelectorAll('.lfr-search-iterator-fixed-horizontal-scroll');
+					var resetTransform = true;
+					var tdDomRect = horizontalScrollElements[1].getBoundingClientRect();
+
+					tableElement = tableResponsiveNode.firstElementChild;
+
+					selectorAndEventTypeAndEventListenerTupleArray.push(
 						[
-							tableResponsive._node,
+							tableResponsiveNode,
+							'scroll',
 							function(event) {
-								var scrollLeft = event.target.scrollLeft;
+								if (currentScrollLeft != event.target.scrollLeft) {
+									var scrollLeft = event.target.scrollLeft;
 
-								var translateXValue =  Math.ceil(scrollLeft - table.offsetLeft);
-								console.log(translateXValue);
+									if (!Liferay.Util.isTablet()) {
+										var translateXValue = Math.ceil(scrollLeft - tableElement.offsetLeft);
 
-								var tdDomRectLeft = tdDomRect.left;
+										var updateTransformValue = (translateXValue > 0) && (scrollLeft >= tdDomRect.left);
 
-								for (let index = 0; index < fixedTableData.length; index++) {
-									var element = fixedTableData[index];
+										for (let index = 0; index < horizontalScrollElements.length; index++) {
+											setElementTransformValue(horizontalScrollElements[index], updateTransformValue ? translateXValue : 0, 0);
+										}
 
-									if ((translateXValue > 0) && (scrollLeft >= tdDomRectLeft)) {
-										element.style.transform = 'translateX(' + translateXValue + 'px)';
+										resetTransform = true;
 									}
-									else if (scrollLeft < tdDomRectLeft) {
-										element.style.transform = '';
+									else if (Liferay.Util.isTablet() && resetTransform) {
+										for (let index = 0; index < horizontalScrollElements.length; index++) {
+											setElementTransformValue(horizontalScrollElements[index], 0, 0);
+										}
+
+										resetTransform = false;
 									}
+
+									currentScrollLeft = scrollLeft;
 								}
 							}
 						]
 					);
+
+					var debounce = function(func, wait, immediate) {
+						var timeout;
+
+						return function executedFunction() {
+							var instance = this;
+
+							var args = arguments;
+
+							var later = function() {
+								timeout = null;
+
+								if (!immediate) {
+									func.apply(instance, args);
+								}
+							};
+
+							var callNow = immediate && !timeout;
+
+							clearTimeout(timeout);
+
+							timeout = setTimeout(later, wait);
+
+							if (callNow) {
+								func.apply(instance, args);
+							}
+						};
+					};
+
+					selectorAndEventTypeAndEventListenerTupleArray.push(
+						[
+							window,
+							'resize',
+							debounce(
+								function() {
+									if (Liferay.Util.isTablet()) {
+										for (let index = 0; index < horizontalScrollElements.length; index++) {
+											setElementTransformValue(horizontalScrollElements[index], 0, 0);
+										}
+									}
+								},
+								100
+							)
+						]
+					);
 				}
+				selectorAndEventTypeAndEventListenerTupleArray.forEach(
+					function(selectorAndEventTypeAndEventListenerTuple) {
+						var event = selectorAndEventTypeAndEventListenerTuple[2];
+						var eventType = selectorAndEventTypeAndEventListenerTuple[1];
+						var selector = selectorAndEventTypeAndEventListenerTuple[0];
 
-				selectorAndEventListenerTupleArray.forEach(
-					function(selectorAndEventListenerTuple) {
-						var selector = selectorAndEventListenerTuple[0];
-						var event = selectorAndEventListenerTuple[1];
-
-						selector.addEventListener('scroll', event);
+						selector.addEventListener(eventType, event);
 
 						Liferay.on(
-							'destroyPortlet',
+						'destroyPortlet',
 							function() {
-								selector.removeEventListener('scroll', event);
+								selector.removeEventListener(eventType, event);
 							}
 						);
 					}
