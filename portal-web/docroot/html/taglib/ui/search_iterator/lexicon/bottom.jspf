@@ -102,11 +102,26 @@
 				var mainContent = contentBox.ancestor('#main-content');
 				var tableResponsive = contentBox.one('.table-responsive');
 
+				var addAndRemoveEventListener = function(selector, eventType, event) {
+					selector.addEventListener(eventType, event);
+
+					Liferay.on(
+					'destroyPortlet',
+						function() {
+							selector.removeEventListener(eventType, event);
+						}
+					);
+				};
+
 				var setElementTransformValue = function(element, translateX, translateY) {
 					element.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px)';
 				};
 
-				var selectorAndEventTypeAndEventListenerTupleArray = [];
+				var iterateElementsAndSetElementTransform = function(elementList, translateX, translateY) {
+					for (var index = 0; index < elementList.length; index++) {
+						setElementTransformValue(elementList[index], translateX, translateY);
+					}
+				};
 
 				if (mainContent) {
 					var scrollingContainer = window === Liferay.Util.getOpener() ? window : mainContent._node;
@@ -114,25 +129,23 @@
 
 					tableElement = fixedHeader.parentElement.parentElement;
 
-					selectorAndEventTypeAndEventListenerTupleArray.push(
-						[
-							scrollingContainer,
-							'scroll',
-							function(event) {
-								var scrollTop = scrollingContainer.scrollTop;
+					addAndRemoveEventListener(
+						scrollingContainer,
+						'scroll',
+						function(event) {
+							var scrollTop = scrollingContainer.scrollTop;
 
-								var trDomRecTop = trDomRect.top;
+							var trDomRecTop = trDomRect.top;
 
-								setElementTransformValue(fixedHeader, 0, Math.ceil(scrollTop - tableElement.offsetTop - trDomRect.height));
+							setElementTransformValue(fixedHeader, 0, Math.ceil(scrollTop - tableElement.offsetTop - trDomRect.height));
 
-								if (fixedHeader.classList.contains('hide') && (scrollTop >= trDomRecTop)) {
-									fixedHeader.classList.remove('hide');
-								}
-								else if (scrollingContainer.scrollTop < trDomRecTop) {
-									fixedHeader.classList.add('hide');
-								}
+							if (fixedHeader.classList.contains('hide') && (scrollTop >= trDomRecTop)) {
+								fixedHeader.classList.remove('hide');
 							}
-						]
+							else if (scrollingContainer.scrollTop < trDomRecTop) {
+								fixedHeader.classList.add('hide');
+							}
+						}
 					);
 				}
 
@@ -146,100 +159,55 @@
 
 					tableElement = tableResponsiveNode.firstElementChild;
 
-					selectorAndEventTypeAndEventListenerTupleArray.push(
-						[
-							tableResponsiveNode,
-							'scroll',
-							function(event) {
-								if (currentScrollLeft != event.target.scrollLeft) {
-									var scrollLeft = event.target.scrollLeft;
+					addAndRemoveEventListener(
+						tableResponsiveNode,
+						'scroll',
+						function(event) {
+							if (currentScrollLeft != event.target.scrollLeft) {
+								var scrollLeft = event.target.scrollLeft;
 
-									if (!Liferay.Util.isTablet()) {
-										var translateXValue = Math.ceil(scrollLeft - tableElement.offsetLeft);
+								if (!Liferay.Util.isTablet()) {
+									var translateXValue = Math.ceil(scrollLeft - tableElement.offsetLeft);
 
-										var updateTransformValue = (translateXValue > 0) && (scrollLeft >= tdDomRect.left);
+									var updateTransformValue = (translateXValue > 0) && (scrollLeft >= tdDomRect.left);
 
-										for (let index = 0; index < horizontalScrollElements.length; index++) {
-											setElementTransformValue(horizontalScrollElements[index], updateTransformValue ? translateXValue : 0, 0);
-										}
+									iterateElementsAndSetElementTransform(
+										horizontalScrollElements,
+										updateTransformValue ? translateXValue : 0,
+										0
+									);
 
-										resetTransform = true;
-									}
-									else if (Liferay.Util.isTablet() && resetTransform) {
-										for (let index = 0; index < horizontalScrollElements.length; index++) {
-											setElementTransformValue(horizontalScrollElements[index], 0, 0);
-										}
-
-										resetTransform = false;
-									}
-
-									currentScrollLeft = scrollLeft;
+									resetTransform = true;
 								}
+								else if (Liferay.Util.isTablet() && resetTransform) {
+									iterateElementsAndSetElementTransform(horizontalScrollElements, 0, 0);
+
+									resetTransform = false;
+								}
+
+								currentScrollLeft = scrollLeft;
 							}
-						]
+						}
 					);
 
-					var debounce = function(func, wait, immediate) {
-						var timeout;
-
-						return function executedFunction() {
-							var instance = this;
-
-							var args = arguments;
-
-							var later = function() {
-								timeout = null;
-
-								if (!immediate) {
-									func.apply(instance, args);
-								}
-							};
-
-							var callNow = immediate && !timeout;
-
-							clearTimeout(timeout);
-
-							timeout = setTimeout(later, wait);
-
-							if (callNow) {
-								func.apply(instance, args);
-							}
-						};
-					};
-
-					selectorAndEventTypeAndEventListenerTupleArray.push(
-						[
-							window,
-							'resize',
-							debounce(
-								function() {
-									if (Liferay.Util.isTablet()) {
-										for (let index = 0; index < horizontalScrollElements.length; index++) {
-											setElementTransformValue(horizontalScrollElements[index], 0, 0);
+					Liferay.Loader.require(
+						'metal-debounce/src/debounce',
+						function(main) {
+							addAndRemoveEventListener(
+								window,
+								'resize',
+								main.debounce(
+									function() {
+										if (Liferay.Util.isTablet()) {
+											iterateElementsAndSetElementTransform(horizontalScrollElements, 0, 0);
 										}
-									}
-								},
-								100
-							)
-						]
+									},
+									50
+								)
+							);
+						}
 					);
 				}
-				selectorAndEventTypeAndEventListenerTupleArray.forEach(
-					function(selectorAndEventTypeAndEventListenerTuple) {
-						var event = selectorAndEventTypeAndEventListenerTuple[2];
-						var eventType = selectorAndEventTypeAndEventListenerTuple[1];
-						var selector = selectorAndEventTypeAndEventListenerTuple[0];
-
-						selector.addEventListener(eventType, event);
-
-						Liferay.on(
-						'destroyPortlet',
-							function() {
-								selector.removeEventListener(eventType, event);
-							}
-						);
-					}
-				);
 			}
 		</c:if>
 
