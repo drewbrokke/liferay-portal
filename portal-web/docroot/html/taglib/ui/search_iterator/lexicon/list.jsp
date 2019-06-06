@@ -300,6 +300,7 @@ if (fixedHeader) {
 								columnClassName += " lfr-entry-action-column";
 							}
 						%>
+
 							<td class="<%= columnClassName %> <%= isFixedHeaderAndFirst ? "lfr-search-iterator-fixed-horizontal-scroll" : StringPool.BLANK %>" colspan="<%= entry.getColspan() %>">
 								<c:choose>
 									<c:when test="<%= truncate %>">
@@ -320,6 +321,7 @@ if (fixedHeader) {
 									</c:otherwise>
 								</c:choose>
 							</td>
+
 						<%
 						}
 						%>
