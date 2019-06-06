@@ -157,6 +157,12 @@
 						canResetTransform = translateXAmount > 0;
 					};
 
+					var tryResetTransform = function() {
+						if (Liferay.Util.isTablet() && canResetTransform) {
+							transformHorizontalScrollElements(0);
+						}
+					};
+
 					registerEventListener(
 						tableResponsiveNode,
 						'scroll',
@@ -171,8 +177,8 @@
 
 									transformHorizontalScrollElements(updateTransformValue ? translateXValue : 0);
 								}
-								else if (Liferay.Util.isTablet() && canResetTransform) {
-									transformHorizontalScrollElements(0);
+								else {
+									tryResetTransform();
 								}
 
 								currentScrollLeft = scrollLeft;
@@ -186,12 +192,7 @@
 							registerEventListener(
 								window,
 								'resize',
-								main.debounce(
-									function() {
-										transformHorizontalScrollElements(0);
-									},
-									50
-								)
+								main.debounce(tryResetTransform, 50)
 							);
 						}
 					);
