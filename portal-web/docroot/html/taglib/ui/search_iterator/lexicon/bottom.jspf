@@ -106,7 +106,7 @@
 					element.addEventListener(eventType, eventListener);
 
 					Liferay.on(
-					'destroyPortlet',
+						'destroyPortlet',
 						function() {
 							element.removeEventListener(eventType, eventListener);
 						}
