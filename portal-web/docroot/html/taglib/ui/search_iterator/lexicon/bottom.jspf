@@ -158,7 +158,7 @@
 					};
 
 					var tryResetTransform = function() {
-						if (Liferay.Util.isTablet() && canResetTransform) {
+						if (Liferay.Util.isPhone() && canResetTransform) {
 							transformHorizontalScrollElements(0);
 						}
 					};
@@ -170,7 +170,7 @@
 							if (currentScrollLeft != event.target.scrollLeft) {
 								var scrollLeft = event.target.scrollLeft;
 
-								if (!Liferay.Util.isTablet()) {
+								if (!Liferay.Util.isPhone()) {
 									var translateXValue = Math.ceil(scrollLeft - tableElement.offsetLeft);
 
 									var updateTransformValue = (translateXValue > 0) && (scrollLeft >= tdDomRect.left);
