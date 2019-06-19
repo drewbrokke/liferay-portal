@@ -22,8 +22,8 @@ import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.EmailAddress;
 import com.liferay.portal.kernel.model.Phone;
-import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.model.Website;
+import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.util.UnicodeProperties;
@@ -417,8 +417,11 @@ public class CompanyServiceImpl extends CompanyServiceBaseImpl {
 	public void updatePreferences(long companyId, UnicodeProperties properties)
 		throws PortalException {
 
-		if (!roleLocalService.hasUserRole(
-				getUserId(), companyId, RoleConstants.ADMINISTRATOR, true)) {
+		if (!(roleLocalService.hasUserRole(
+				getUserId(), companyId, RoleConstants.ADMINISTRATOR, true) ||
+			  roleLocalService.hasUserRole(
+				  getUserId(), companyId, RoleConstants.ANALYTICS_ADMINISTRATOR,
+				  true))) {
 
 			throw new PrincipalException();
 		}

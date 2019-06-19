@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.kernel.model;
+package com.liferay.portal.kernel.model.role;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -25,10 +25,7 @@ import java.util.Locale;
  * and the role types.
  *
  * @author Brian Wing Shun Chan
- * @deprecated As of Mueller (7.2.x), replaced by {@link
- *             com.liferay.portal.kernel.model.role.RoleConstants}
  */
-@Deprecated
 public class RoleConstants {
 
 	public static final String ADMINISTRATOR = "Administrator";
