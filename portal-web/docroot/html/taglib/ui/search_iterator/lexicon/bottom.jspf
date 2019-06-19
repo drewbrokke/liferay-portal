@@ -95,38 +95,116 @@
 		<c:if test="<%= fixedHeader && displayStyle.equals(SearchIteratorTag.DEFAULT_DISPLAY_STYLE) %>">
 			var contentBox = searchContainer.get('contentBox');
 
-			var fixedHeader = document.getElementById('<%= namespace + id %>fixedHeader');
-
 			if (contentBox) {
+				var tableElement;
+
+				var fixedHeader = document.getElementById('<%= namespace + id %>fixedHeader');
 				var mainContent = contentBox.ancestor('#main-content');
+				var tableResponsive = contentBox.one('.table-responsive');
+
+				var addAndRemoveEventListener = function(selector, eventType, event) {
+					selector.addEventListener(eventType, event);
+
+					Liferay.on(
+					'destroyPortlet',
+						function() {
+							selector.removeEventListener(eventType, event);
+						}
+					);
+				};
+
+				var setElementTransformValue = function(element, translateX, translateY) {
+					element.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px)';
+				};
+
+				var iterateElementsAndSetElementTransform = function(elementList, translateX, translateY) {
+					for (var index = 0; index < elementList.length; index++) {
+						setElementTransformValue(elementList[index], translateX, translateY);
+					}
+				};
 
 				if (mainContent) {
 					var scrollingContainer = window === Liferay.Util.getOpener() ? window : mainContent._node;
-
-					var table = fixedHeader.parentElement.parentElement;
 					var trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
 
-					var fixedHeaderEventHandler = function(event) {
-						var scrollTop = scrollingContainer.scrollTop;
+					tableElement = fixedHeader.parentElement.parentElement;
 
-						var trDomRecTop = trDomRect.top;
+					addAndRemoveEventListener(
+						scrollingContainer,
+						'scroll',
+						function(event) {
+							var scrollTop = scrollingContainer.scrollTop;
 
-						fixedHeader.style.transform = 'translateY(' + Math.ceil(scrollTop - table.offsetTop - trDomRect.height) + 'px)';
+							var trDomRecTop = trDomRect.top;
 
-						if (fixedHeader.classList.contains('hide') && (scrollTop >= trDomRecTop)) {
-							fixedHeader.classList.remove('hide');
+							setElementTransformValue(fixedHeader, 0, Math.ceil(scrollTop - tableElement.offsetTop - trDomRect.height));
+
+							if (fixedHeader.classList.contains('hide') && (scrollTop >= trDomRecTop)) {
+								fixedHeader.classList.remove('hide');
+							}
+							else if (scrollingContainer.scrollTop < trDomRecTop) {
+								fixedHeader.classList.add('hide');
+							}
 						}
-						else if (scrollingContainer.scrollTop < trDomRecTop) {
-							fixedHeader.classList.add('hide');
+					);
+				}
+
+				if (tableResponsive) {
+					var tableResponsiveNode = tableResponsive._node;
+
+					var currentScrollLeft = tableResponsiveNode.scrollLeft;
+					var horizontalScrollElements = document.querySelectorAll('.lfr-search-iterator-fixed-horizontal-scroll');
+					var resetTransform = true;
+					var tdDomRect = horizontalScrollElements[1].getBoundingClientRect();
+
+					tableElement = tableResponsiveNode.firstElementChild;
+
+					addAndRemoveEventListener(
+						tableResponsiveNode,
+						'scroll',
+						function(event) {
+							if (currentScrollLeft != event.target.scrollLeft) {
+								var scrollLeft = event.target.scrollLeft;
+
+								if (!Liferay.Util.isTablet()) {
+									var translateXValue = Math.ceil(scrollLeft - tableElement.offsetLeft);
+
+									var updateTransformValue = (translateXValue > 0) && (scrollLeft >= tdDomRect.left);
+
+									iterateElementsAndSetElementTransform(
+										horizontalScrollElements,
+										updateTransformValue ? translateXValue : 0,
+										0
+									);
+
+									resetTransform = true;
+								}
+								else if (Liferay.Util.isTablet() && resetTransform) {
+									iterateElementsAndSetElementTransform(horizontalScrollElements, 0, 0);
+
+									resetTransform = false;
+								}
+
+								currentScrollLeft = scrollLeft;
+							}
 						}
-					};
+					);
 
-					scrollingContainer.addEventListener('scroll', fixedHeaderEventHandler);
-
-					Liferay.on(
-						'destroyPortlet',
-						function() {
-							scrollingContainer.removeEventListener('scroll', fixedHeaderEventHandler);
+					Liferay.Loader.require(
+						'metal-debounce/src/debounce',
+						function(main) {
+							addAndRemoveEventListener(
+								window,
+								'resize',
+								main.debounce(
+									function() {
+										if (Liferay.Util.isTablet()) {
+											iterateElementsAndSetElementTransform(horizontalScrollElements, 0, 0);
+										}
+									},
+									50
+								)
+							);
 						}
 					);
 				}

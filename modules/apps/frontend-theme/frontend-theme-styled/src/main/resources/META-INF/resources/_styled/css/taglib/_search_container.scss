@@ -155,12 +155,17 @@
 	}
 }
 
-.lfr-search-iterator-fixed-header {
-	position: absolute;
-	width: 100%;
-	z-index: $zindex-sticky;
+.lfr-search-iterator-fixed-horizontal-scroll {
+	z-index: $zindex-dropdown - 10;
 }
 
-.lfr-search-iterator-fixed-header-table {
+.lfr-search-iterator-fixed-header {
+	position: absolute;
+	z-index: $zindex-dropdown - 5;
+	width: 100%;
+}
+
+.lfr-search-iterator-fixed-header-table,
+.lfr-search-iterator-fixed-header-table-row {
 	position: relative;
 }
