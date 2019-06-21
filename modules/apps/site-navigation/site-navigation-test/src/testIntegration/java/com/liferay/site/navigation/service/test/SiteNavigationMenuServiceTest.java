@@ -142,6 +142,8 @@ public class SiteNavigationMenuServiceTest {
 			ServiceContextTestUtil.getServiceContext(
 				_group, _groupUser.getUserId());
 
+		// mark
+
 		_addSiteMemberRoleResourcePermission(
 			"com.liferay.site.navigation",
 			SiteNavigationActionKeys.ADD_SITE_NAVIGATION_MENU);
