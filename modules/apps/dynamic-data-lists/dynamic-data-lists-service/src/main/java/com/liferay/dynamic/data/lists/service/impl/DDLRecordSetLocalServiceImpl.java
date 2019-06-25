@@ -409,7 +409,7 @@ public class DDLRecordSetLocalServiceImpl
 	}
 
 	public List<DDLRecordSet> getRecordSets(long groupId, int start, int end) {
-		return ddlRecordSetPersistence.filterFindByGroupId(groupId, start, end);
+		return ddlRecordSetPersistence.findByGroupId(groupId, start, end);
 	}
 
 	/**
