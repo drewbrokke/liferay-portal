@@ -1,3 +1,4 @@
+import com.liferay.gradle.plugins.lang.builder.BuildLangTask
 import com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask
 import com.liferay.gradle.plugins.node.tasks.NpmRunTask
 import com.liferay.gradle.util.FileUtil
@@ -197,6 +198,64 @@ gradle.beforeProject {
 
 		pluginManager.withPlugin("com.liferay.ant.plugin") {
 			task buildLang(dependsOn: "build-lang")
+
+			Project appProject = _getAppProject(project)
+
+			if ((appProject != null) && FileUtil.exists(appProject, "app.bnd-localization/bundle.properties")) {
+				configurations {
+					langBuilder
+				}
+
+				dependencies {
+					langBuilder group: "com.liferay", name: "com.liferay.lang.builder", version: "latest.release"
+				}
+
+				repositories {
+					maven {
+						url System.properties["repository.url"] ?: "https://repository-cdn.liferay.com/nexus/content/groups/public"
+					}
+				}
+
+				File appLangFile = appProject.file("app.bnd-localization/bundle.properties")
+
+				task appBuildLang(type: BuildLangTask) {
+					classpath configurations.langBuilder
+					langDir appLangFile.parentFile
+					langFileName "bundle"
+				}
+
+				buildLang.dependsOn appBuildLang
+
+				task copyAppLangDir(type: Copy) {
+					eachFile {
+						filter {
+							project.properties.each {
+								String key, Object value ->
+
+								if ((value instanceof String) && key.startsWith("liferay.releng")) {
+									it = it.replace '${' + key + '}', (String)value
+								}
+							}
+
+							return it
+						}
+					}
+					from appLangFile.parentFile
+					into project.file("docroot/WEB-INF/src/OSGI-INF/l10n")
+				}
+
+				task deleteAppLangDir(type: Delete) {
+					delete project.file("docroot/WEB-INF/src/OSGI-INF/l10n")
+				}
+
+				deploy.dependsOn copyAppLangDir
+				deploy.finalizedBy deleteAppLangDir
+
+				ant.importBuild "build.xml"
+
+				war.dependsOn copyAppLangDir
+				war.finalizedBy deleteAppLangDir
+			}
 
 			if (FileUtil.exists(project, "docroot/WEB-INF/service.xml")) {
 				task buildService(dependsOn: "build-service")
@@ -418,6 +477,22 @@ gradle.taskGraph.useFilter {
 	}
 
 	return true
+}
+
+private Project _getAppProject(Project project) {
+	while (true) {
+		File appBndFile = project.file("app.bnd");
+
+		if (appBndFile.exists()) {
+			return project;
+		}
+
+		project = project.getParent();
+
+		if (project == null) {
+			return null;
+		}
+	}
 }
 
 private File _getRootDir(File dir, String markerFileName) {
