@@ -57,7 +57,7 @@ public class UserGroupKeywordQueryContributor
 			queryHelper.addSearchTerm(
 				booleanQuery, searchContext, "description", false);
 			queryHelper.addSearchTerm(
-				booleanQuery, searchContext, "name", false);
+				booleanQuery, searchContext, "userGroupName", false);
 		}
 		catch (Exception e) {
 			throw new SystemException(e);

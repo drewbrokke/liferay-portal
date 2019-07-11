@@ -543,8 +543,6 @@ public class UserGroupLocalServiceImpl extends UserGroupLocalServiceBaseImpl {
 				companyId, keywords, params, start, end, obc);
 		}
 
-		String orderByCol = obc.getOrderByFields()[0];
-
 		String orderByType = "asc";
 
 		if (!obc.isAscending()) {
@@ -552,7 +550,7 @@ public class UserGroupLocalServiceImpl extends UserGroupLocalServiceBaseImpl {
 		}
 
 		Sort sort = SortFactoryUtil.getSort(
-			UserGroup.class, orderByCol, orderByType);
+			UserGroup.class, "userGroupName", orderByType);
 
 		try {
 			return UsersAdminUtil.getUserGroups(

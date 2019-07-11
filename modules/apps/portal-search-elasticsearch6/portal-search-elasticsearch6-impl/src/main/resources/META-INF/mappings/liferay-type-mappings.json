@@ -797,6 +797,11 @@
 				"store": true,
 				"type": "keyword"
 			},
+			"userGroupName": {
+				"analyzer": "kuromoji",
+				"store": true,
+				"type": "text"
+			},
 			"userId": {
 				"store": true,
 				"type": "keyword"
