@@ -152,6 +152,7 @@
 					var transformHorizontalScrollElements = function(translateXAmount) {
 						for (var index = 0; index < horizontalScrollElements.length; index++) {
 							horizontalScrollElements[index].style.transform = 'translateX(' + translateXAmount + 'px)';
+							horizontalScrollElements[index].classList.toggle('lfr-search-iterator-fixed-horizontal-scrolling', (translateXAmount > 0));
 						}
 
 						canResetTransform = translateXAmount > 0;

@@ -169,3 +169,11 @@
 .lfr-search-iterator-fixed-header-table-row {
 	position: relative;
 }
+
+.lfr-search-iterator-fixed-header-table {
+	.lfr-search-iterator-fixed-horizontal-scrolling.lfr-search-iterator-fixed-horizontal-scrolling {
+		box-shadow: inset 0 #{$table-list-border-y-width} $table-list-border-color, // top
+		inset #{-$table-list-border-x-width} 0 $table-list-border-color, // right
+		0 #{$table-list-border-y-width} $table-list-border-color;
+	}
+}
