@@ -156,13 +156,13 @@
 }
 
 .lfr-search-iterator-fixed-horizontal-scroll {
-	z-index: $zindex-dropdown - 10;
+	z-index: $zindex-dropdown - 15;
 }
 
 .lfr-search-iterator-fixed-header {
 	position: absolute;
 	width: 100%;
-	z-index: $zindex-dropdown - 5;
+	z-index: $zindex-dropdown - 10;
 }
 
 .lfr-search-iterator-fixed-header-table,
@@ -176,4 +176,8 @@
 		inset #{-$table-list-border-x-width} 0 $table-list-border-color, // right
 		0 #{$table-list-border-y-width} $table-list-border-color;
 	}
+}
+
+.lfr-search-iterator-fixed-header-button-holder {
+	z-index: $zindex-dropdown - 5;
 }

@@ -94,6 +94,7 @@
 
 		<c:if test="<%= fixedHeader && displayStyle.equals(SearchIteratorTag.DEFAULT_DISPLAY_STYLE) %>">
 			var contentBox = searchContainer.get('contentBox');
+			var insideIframe = window !== Liferay.Util.getOpener();
 
 			if (contentBox) {
 				var tableElement;
@@ -114,7 +115,7 @@
 				};
 
 				if (mainContent) {
-					var scrollingContainer = window === Liferay.Util.getOpener() ? window : mainContent._node;
+					var scrollingContainer = insideIframe ? mainContent._node : window;
 					var trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
 
 					tableElement = fixedHeader.parentElement.parentElement;
@@ -137,6 +138,10 @@
 							}
 						}
 					);
+
+					if (insideIframe) {
+						scrollingContainer.querySelector('.button-holder').classList.add('lfr-search-iterator-fixed-header-button-holder');
+					}
 				}
 
 				if (tableResponsive) {
