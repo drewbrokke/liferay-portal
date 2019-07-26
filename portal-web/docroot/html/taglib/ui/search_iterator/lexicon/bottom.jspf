@@ -100,8 +100,8 @@
 				var tableElement;
 
 				var fixedHeader = document.getElementById('<%= namespace + id %>fixedHeader');
+
 				var mainContent = contentBox.ancestor('#main-content');
-				var tableResponsive = contentBox.one('.table-responsive');
 
 				var registerEventListener = function(element, eventType, eventListener) {
 					element.addEventListener(eventType, eventListener);
@@ -114,8 +114,9 @@
 					);
 				};
 
-				if (mainContent) {
-					var scrollingContainer = insideIframe ? mainContent._node : window;
+				if (fixedHeader && mainContent) {
+					var scrollingContainer = insideIframe ? mainContent.getDOM() : window;
+
 					var trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
 
 					tableElement = fixedHeader.parentElement.parentElement;
@@ -130,7 +131,7 @@
 
 							fixedHeader.style.transform = 'translateY(' + Math.ceil(scrollTop - tableElement.offsetTop - trDomRect.height) + 'px)';
 
-							if (fixedHeader.classList.contains('hide') && (scrollTop >= trDomRecTop)) {
+							if (fixedHeader.classList.contains('hide') && scrollTop >= trDomRecTop) {
 								fixedHeader.classList.remove('hide');
 							}
 							else if (scrollingContainer.scrollTop < trDomRecTop) {
@@ -140,16 +141,25 @@
 					);
 
 					if (insideIframe) {
-						scrollingContainer.querySelector('.button-holder').classList.add('lfr-search-iterator-fixed-header-button-holder');
+						var buttonHolder = scrollingContainer.querySelector('.button-holder');
+
+						if (buttonHolder) {
+							buttonHolder.classList.add('lfr-search-iterator-fixed-header-button-holder');
+						}
 					}
 				}
 
+				var tableResponsive = contentBox.one('.table-responsive');
+
 				if (tableResponsive) {
-					var tableResponsiveNode = tableResponsive._node;
+					var tableResponsiveNode = tableResponsive.getDOM();
 
 					var canResetTransform = true;
+
 					var currentScrollLeft = tableResponsiveNode.scrollLeft;
+
 					var horizontalScrollElements = document.querySelectorAll('.lfr-search-iterator-fixed-horizontal-scroll');
+
 					var tdDomRect = horizontalScrollElements[1].getBoundingClientRect();
 
 					tableElement = tableResponsiveNode.firstElementChild;
@@ -157,7 +167,7 @@
 					var transformHorizontalScrollElements = function(translateXAmount) {
 						for (var index = 0; index < horizontalScrollElements.length; index++) {
 							horizontalScrollElements[index].style.transform = 'translateX(' + translateXAmount + 'px)';
-							horizontalScrollElements[index].classList.toggle('lfr-search-iterator-fixed-horizontal-scrolling', (translateXAmount > 0));
+							horizontalScrollElements[index].classList.toggle('lfr-search-iterator-fixed-horizontal-scrolling', translateXAmount > 0);
 						}
 
 						canResetTransform = translateXAmount > 0;
@@ -173,13 +183,13 @@
 						tableResponsiveNode,
 						'scroll',
 						function(event) {
-							if (currentScrollLeft != event.target.scrollLeft) {
-								var scrollLeft = event.target.scrollLeft;
+							var scrollLeft = event.target.scrollLeft;
 
+							if (currentScrollLeft != scrollLeft) {
 								if (!Liferay.Util.isPhone()) {
 									var translateXValue = Math.ceil(scrollLeft - tableElement.offsetLeft);
 
-									var updateTransformValue = (translateXValue > 0) && (scrollLeft >= tdDomRect.left);
+									var updateTransformValue = translateXValue > 0 && scrollLeft >= tdDomRect.left;
 
 									transformHorizontalScrollElements(updateTransformValue ? translateXValue : 0);
 								}
