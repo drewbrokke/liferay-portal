@@ -58,6 +58,7 @@ if (Validator.isNotNull(portletConfigurationPermissionsDisplayContext.getModelRe
 
 					<liferay-ui:search-container-column-text
 						name="role"
+						truncate="<%= false %>"
 					>
 
 						<%
@@ -147,6 +148,7 @@ if (Validator.isNotNull(portletConfigurationPermissionsDisplayContext.getModelRe
 						<liferay-ui:search-container-column-text
 							cssClass="table-column-text-center"
 							name="<%= ResourceActionsUtil.getAction(request, action) %>"
+							truncate="<%= false %>"
 						>
 							<c:if test="<%= disabled && checked %>">
 								<input name="<%= renderResponse.getNamespace() + role.getRoleId() + actionSeparator + action %>" type="hidden" value="<%= true %>" />

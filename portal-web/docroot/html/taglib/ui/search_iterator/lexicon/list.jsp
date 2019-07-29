@@ -125,6 +125,10 @@ if (fixedHeader) {
 							}
 						}
 					}
+
+					if (i == 0) {
+						cssClass += " lfr-search-iterator-fixed-horizontal-scroll";
+					}
 				%>
 
 					<th class="<%= cssClass %>" id="<%= namespace + id %>_col-<%= normalizedHeaderName %>">
@@ -252,7 +256,7 @@ if (fixedHeader) {
 					}
 				%>
 
-					<tr class="<%= GetterUtil.getString(row.getClassName()) %> <%= row.getCssClass() %> <%= row.getState() %> <%= rowIsChecked ? "active" : StringPool.BLANK %>" data-qa-id="row" <%= AUIUtil.buildData(data) %>>
+					<tr class="<%= GetterUtil.getString(row.getClassName()) %> <%= row.getCssClass() %> <%= row.getState() %> <%= rowIsChecked ? "active" : StringPool.BLANK %> <%= fixedHeader ? "lfr-search-iterator-fixed-header-table-row" : StringPool.BLANK %>" data-qa-id="row" <%= AUIUtil.buildData(data) %>>
 
 						<%
 						for (int j = 0; j < entries.size(); j++) {
@@ -261,6 +265,8 @@ if (fixedHeader) {
 							entry.setIndex(j);
 
 							request.setAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW_ENTRY, entry);
+
+							boolean isFixedHeaderAndFirst = fixedHeader && (j == 0);
 
 							boolean truncate = false;
 
@@ -295,7 +301,7 @@ if (fixedHeader) {
 							}
 						%>
 
-							<td class="<%= columnClassName %>" colspan="<%= entry.getColspan() %>">
+							<td class="<%= columnClassName %> <%= isFixedHeaderAndFirst ? "lfr-search-iterator-fixed-horizontal-scroll" : StringPool.BLANK %>" colspan="<%= entry.getColspan() %>">
 								<c:choose>
 									<c:when test="<%= truncate %>">
 										<span class="truncate-text">
@@ -314,7 +320,6 @@ if (fixedHeader) {
 
 									</c:otherwise>
 								</c:choose>
-
 							</td>
 
 						<%
