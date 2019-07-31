@@ -14,8 +14,6 @@
 
 package com.liferay.user.associated.data.web.internal.portlet.action;
 
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.service.GroupLocalService;
@@ -37,7 +35,6 @@ import com.liferay.user.associated.data.web.internal.util.UADApplicationSummaryH
 import com.liferay.user.associated.data.web.internal.util.UADSearchContainerBuilder;
 
 import javax.portlet.PortletException;
-import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -63,23 +60,15 @@ public class ViewUADHierarchyMVCRenderCommand implements MVCRenderCommand {
 		throws PortletException {
 
 		try {
-			User selectedUser = _selectedUserHelper.getSelectedUser(
-				renderRequest);
+			ViewUADEntitiesDisplay viewUADEntitiesDisplay =
+				new ViewUADEntitiesDisplay();
 
 			String applicationKey = ParamUtil.getString(
 				renderRequest, "applicationKey");
 
-			ViewUADEntitiesDisplay viewUADEntitiesDisplay =
-				new ViewUADEntitiesDisplay();
-
 			viewUADEntitiesDisplay.setApplicationKey(applicationKey);
+
 			viewUADEntitiesDisplay.setHierarchy(true);
-
-			LiferayPortletResponse liferayPortletResponse =
-				_portal.getLiferayPortletResponse(renderResponse);
-
-			PortletURL currentURL = PortletURLUtil.getCurrent(
-				renderRequest, renderResponse);
 
 			UADHierarchyDisplay uadHierarchyDisplay =
 				_uadRegistry.getUADHierarchyDisplay(applicationKey);
@@ -88,13 +77,32 @@ public class ViewUADHierarchyMVCRenderCommand implements MVCRenderCommand {
 				new UADHierarchyResultRowSplitter(
 					LocaleThreadLocal.getThemeDisplayLocale(),
 					uadHierarchyDisplay.getUADDisplays()));
+
+			UADDisplay uadDisplay = _uadRegistry.getUADDisplay(
+				ParamUtil.getString(renderRequest, "parentContainerClass"));
+
+			viewUADEntitiesDisplay.setSearchContainer(
+				_uadSearchContainerBuilder.getSearchContainer(
+					renderRequest,
+					_portal.getLiferayPortletResponse(renderResponse),
+					applicationKey,
+					PortletURLUtil.getCurrent(renderRequest, renderResponse),
+					GroupUtil.getGroupIds(
+						_groupLocalService,
+						_selectedUserHelper.getSelectedUser(renderRequest),
+						ParamUtil.getString(
+							renderRequest, "scope",
+							UADConstants.SCOPE_PERSONAL_SITE)),
+					uadDisplay.getTypeClass(),
+					ParamUtil.getLong(renderRequest, "parentContainerId"),
+					_selectedUserHelper.getSelectedUser(renderRequest),
+					uadHierarchyDisplay));
+
 			viewUADEntitiesDisplay.setTypeClasses(
 				uadHierarchyDisplay.getTypeClasses());
 
-			String className = ParamUtil.getString(
-				renderRequest, "parentContainerClass");
-
-			UADDisplay uadDisplay = _uadRegistry.getUADDisplay(className);
+			renderRequest.setAttribute(
+				UADWebKeys.UAD_HIERARCHY_DISPLAY, uadHierarchyDisplay);
 
 			UADInfoPanelDisplay uadInfoPanelDisplay = new UADInfoPanelDisplay();
 
@@ -102,27 +110,9 @@ public class ViewUADHierarchyMVCRenderCommand implements MVCRenderCommand {
 			uadInfoPanelDisplay.setTopLevelView(false);
 			uadInfoPanelDisplay.setUADDisplay(uadDisplay);
 
-			Class<?> typeClass = uadDisplay.getTypeClass();
-
-			String scope = ParamUtil.getString(
-				renderRequest, "scope", UADConstants.SCOPE_PERSONAL_SITE);
-
-			long parentContainerId = ParamUtil.getLong(
-				renderRequest, "parentContainerId");
-
-			viewUADEntitiesDisplay.setSearchContainer(
-				_uadSearchContainerBuilder.getSearchContainer(
-					renderRequest, liferayPortletResponse, applicationKey,
-					currentURL,
-					GroupUtil.getGroupIds(
-						_groupLocalService, selectedUser, scope),
-					typeClass, parentContainerId, selectedUser,
-					uadHierarchyDisplay));
-
-			renderRequest.setAttribute(
-				UADWebKeys.UAD_HIERARCHY_DISPLAY, uadHierarchyDisplay);
 			renderRequest.setAttribute(
 				UADWebKeys.UAD_INFO_PANEL_DISPLAY, uadInfoPanelDisplay);
+
 			renderRequest.setAttribute(
 				UADWebKeys.VIEW_UAD_ENTITIES_DISPLAY, viewUADEntitiesDisplay);
 		}
