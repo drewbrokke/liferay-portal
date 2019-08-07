@@ -15,3 +15,11 @@
 --%>
 
 <%@ include file="/init.jsp" %>
+
+<%
+ViewAccountsManagementToolbarDisplayContext viewAccountsManagementToolbarDisplayContext = new ViewAccountsManagementToolbarDisplayContext(liferayPortletRequest, liferayPortletResponse, request);
+%>
+
+<clay:management-toolbar
+	displayContext="<%= viewAccountsManagementToolbarDisplayContext %>"
+/>
