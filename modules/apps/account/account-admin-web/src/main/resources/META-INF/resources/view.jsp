@@ -17,9 +17,54 @@
 <%@ include file="/init.jsp" %>
 
 <%
-ViewAccountsManagementToolbarDisplayContext viewAccountsManagementToolbarDisplayContext = new ViewAccountsManagementToolbarDisplayContext(liferayPortletRequest, liferayPortletResponse, request);
+AccountsAdminPortletDisplayContext accountsAdminPortletDisplayContext = new AccountsAdminPortletDisplayContext(liferayPortletRequest, liferayPortletResponse);
+
+ViewAccountsManagementToolbarDisplayContext viewAccountsManagementToolbarDisplayContext = new ViewAccountsManagementToolbarDisplayContext(liferayPortletRequest, liferayPortletResponse, request, accountsAdminPortletDisplayContext.getAccountsSearchContainer());
 %>
 
 <clay:management-toolbar
 	displayContext="<%= viewAccountsManagementToolbarDisplayContext %>"
 />
+
+<div class="container-fluid-1280">
+	<liferay-ui:search-container
+		searchContainer="<%= accountsAdminPortletDisplayContext.getAccountsSearchContainer() %>"
+	>
+		<liferay-ui:search-container-row
+			className="com.liferay.account.model.AccountEntry"
+			keyProperty="accountEntryId"
+			modelVar="accountEntry"
+		>
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand table-title"
+				name="name"
+				property="name"
+			/>
+
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand"
+				name="parent-account"
+			/>
+
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand"
+				name="website"
+			/>
+
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand"
+				name="account-owner"
+			/>
+
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand"
+				name="active"
+				value='<%= LanguageUtil.get(request, Objects.equals(WorkflowConstants.STATUS_APPROVED, accountEntry.getStatus()) ? "yes" : "no") %>'
+			/>
+		</liferay-ui:search-container-row>
+
+		<liferay-ui:search-iterator
+			markupView="lexicon"
+		/>
+	</liferay-ui:search-container>
+</div>
