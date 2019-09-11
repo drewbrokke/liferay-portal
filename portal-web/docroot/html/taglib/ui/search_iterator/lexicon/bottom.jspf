@@ -181,8 +181,6 @@
 					}
 
 					var tryResetTransform = function() {
-						resestClientBoundingReactangle();
-
 						if (Liferay.Util.isPhone() && canResetTransform) {
 							transformHorizontalScrollElements(0);
 						}
@@ -217,7 +215,13 @@
 							registerEventListener(
 								window,
 								'resize',
-								main.debounce(tryResetTransform, 50)
+								main.debounce(
+									function() {
+										resestClientBoundingReactangle();
+										tryResetTransform();
+									},
+									50
+								)
 							);
 						}
 					);
