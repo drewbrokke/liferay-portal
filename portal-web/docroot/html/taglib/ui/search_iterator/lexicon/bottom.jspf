@@ -96,14 +96,13 @@
 			var contentBox = searchContainer.get('contentBox');
 			var insideIframe = window !== Liferay.Util.getOpener();
 
-			var boundingClientReactangleObject = {};
-
 			if (contentBox) {
 				var tableElement;
 
 				var fixedHeader = document.getElementById('<%= namespace + id %>fixedHeader');
 
 				var mainContent = contentBox.ancestor('#main-content');
+				var tableResponsive = contentBox.one('.table-responsive');
 
 				var registerEventListener = function(element, eventType, eventListener) {
 					element.addEventListener(eventType, eventListener);
@@ -116,10 +115,22 @@
 					);
 				};
 
+				var boundingClientReactangleObject = {};
+
+				var resestClientBoundingReactangle = function() {
+					if (tableResponsive) {
+						boundingClientReactangleObject.tdDomRect = document.querySelectorAll('.lfr-search-iterator-fixed-horizontal-scroll')[1].getBoundingClientRect();
+					}
+
+					if (fixedHeader) {
+						boundingClientReactangleObject.trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
+					}
+				}
+
+				resestClientBoundingReactangle();
+
 				if (fixedHeader && mainContent) {
 					var scrollingContainer = insideIframe ? mainContent.getDOM() : window;
-
-					boundingClientReactangleObject.trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
 
 					tableElement = fixedHeader.parentElement.parentElement;
 
@@ -151,8 +162,6 @@
 					}
 				}
 
-				var tableResponsive = contentBox.one('.table-responsive');
-
 				if (tableResponsive) {
 					var tableResponsiveNode = tableResponsive.getDOM();
 
@@ -161,8 +170,6 @@
 					var currentScrollLeft = tableResponsiveNode.scrollLeft;
 
 					var horizontalScrollElements = document.querySelectorAll('.lfr-search-iterator-fixed-horizontal-scroll');
-
-					boundingClientReactangleObject.tdDomRect = horizontalScrollElements[1].getBoundingClientRect();
 
 					tableElement = tableResponsiveNode.firstElementChild;
 
@@ -174,11 +181,6 @@
 
 						canResetTransform = translateXAmount > 0;
 					};
-
-					var resestClientBoundingReactangle = function() {
-						boundingClientReactangleObject.tdDomRect = document.querySelectorAll('.lfr-search-iterator-fixed-horizontal-scroll')[1].getBoundingClientRect();
-						boundingClientReactangleObject.trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
-					}
 
 					var tryResetTransform = function() {
 						if (Liferay.Util.isPhone() && canResetTransform) {
