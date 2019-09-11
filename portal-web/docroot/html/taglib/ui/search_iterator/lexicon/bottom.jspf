@@ -115,19 +115,28 @@
 					);
 				};
 
-				var boundingClientReactangleObject = {};
+				var bounds = {
+					tdLeft: 0,
+					trHeight: 0,
+					trTop: 0
+				};
 
-				var resestClientBoundingReactangle = function() {
+				var calculateBounds = function() {
 					if (tableResponsive) {
-						boundingClientReactangleObject.tdDomRect = document.querySelectorAll('.lfr-search-iterator-fixed-horizontal-scroll')[1].getBoundingClientRect();
+						var tdDomRect = document.querySelectorAll('.lfr-search-iterator-fixed-horizontal-scroll')[1].getBoundingClientRect();
+
+						bounds.tdLeft = tdDomRect.left;
 					}
 
 					if (fixedHeader) {
-						boundingClientReactangleObject.trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
+						var trDomRect = fixedHeader.previousElementSibling.getBoundingClientRect();
+
+						bounds.trHeight = trDomRect.height;
+						bounds.trTop = trDomRect.top;
 					}
 				}
 
-				resestClientBoundingReactangle();
+				calculateBounds();
 
 				if (fixedHeader && mainContent) {
 					var scrollingContainer = insideIframe ? mainContent.getDOM() : window;
@@ -140,14 +149,12 @@
 						function(event) {
 							var scrollTop = scrollingContainer.scrollTop;
 
-							var trDomRectTop = boundingClientReactangleObject.trDomRect.top;
+							fixedHeader.style.transform = 'translateY(' + Math.ceil(scrollTop - tableElement.offsetTop - bounds.trHeight) + 'px)';
 
-							fixedHeader.style.transform = 'translateY(' + Math.ceil(scrollTop - tableElement.offsetTop - boundingClientReactangleObject.trDomRect.height) + 'px)';
-
-							if (fixedHeader.classList.contains('hide') && scrollTop >= trDomRectTop) {
+							if (fixedHeader.classList.contains('hide') && scrollTop >= bounds.trTop) {
 								fixedHeader.classList.remove('hide');
 							}
-							else if (scrollingContainer.scrollTop < trDomRectTop) {
+							else if (scrollingContainer.scrollTop < bounds.trTop) {
 								fixedHeader.classList.add('hide');
 							}
 						}
@@ -198,7 +205,7 @@
 								if (!Liferay.Util.isPhone()) {
 									var translateXValue = Math.ceil(scrollLeft - tableElement.offsetLeft);
 
-									var updateTransformValue = translateXValue > 0 && scrollLeft >= boundingClientReactangleObject.tdDomRect.left;
+									var updateTransformValue = translateXValue > 0 && scrollLeft >= bounds.tdLeft;
 
 									transformHorizontalScrollElements(updateTransformValue ? translateXValue : 0);
 								}
@@ -219,7 +226,7 @@
 								'resize',
 								main.debounce(
 									function() {
-										resestClientBoundingReactangle();
+										calculateBounds();
 										tryResetTransform();
 									},
 									50
