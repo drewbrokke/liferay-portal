@@ -425,14 +425,14 @@ public class AccountEntryUserRelPersistenceTest {
 				newAccountEntryUserRel.getPrimaryKey());
 
 		Assert.assertEquals(
-			Long.valueOf(existingAccountEntryUserRel.getAccountEntryId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingAccountEntryUserRel, "getOriginalAccountEntryId",
-				new Class<?>[0]));
-		Assert.assertEquals(
 			Long.valueOf(existingAccountEntryUserRel.getUserId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAccountEntryUserRel, "getOriginalUserId",
+				new Class<?>[0]));
+		Assert.assertEquals(
+			Long.valueOf(existingAccountEntryUserRel.getAccountEntryId()),
+			ReflectionTestUtil.<Long>invoke(
+				existingAccountEntryUserRel, "getOriginalAccountEntryId",
 				new Class<?>[0]));
 	}
 

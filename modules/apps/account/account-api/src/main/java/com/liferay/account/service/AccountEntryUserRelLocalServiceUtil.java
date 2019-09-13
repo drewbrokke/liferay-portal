@@ -254,6 +254,12 @@ public class AccountEntryUserRelLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
+	public static java.util.List<com.liferay.account.model.AccountEntryUserRel>
+		getByAccountEntryId(long accountEntryId) {
+
+		return getService().getByAccountEntryId(accountEntryId);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {

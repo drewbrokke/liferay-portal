@@ -274,6 +274,14 @@ public class AccountEntryUserRelLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.liferay.account.model.AccountEntryUserRel>
+		getByAccountEntryId(long accountEntryId) {
+
+		return _accountEntryUserRelLocalService.getByAccountEntryId(
+			accountEntryId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 		getIndexableActionableDynamicQuery() {
 
