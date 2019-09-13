@@ -63,6 +63,9 @@
 
 		<!-- Finder methods -->
 
+		<finder name="A" return-type="Collection">
+			<finder-column name="accountEntryId" />
+		</finder>
 		<finder name="A_U" return-type="AccountEntryUserRel">
 			<finder-column name="userId" />
 			<finder-column name="accountEntryId" />
