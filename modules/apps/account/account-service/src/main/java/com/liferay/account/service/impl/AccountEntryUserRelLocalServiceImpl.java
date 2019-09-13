@@ -21,7 +21,6 @@ import com.liferay.account.service.base.AccountEntryUserRelLocalServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
@@ -74,7 +73,7 @@ public class AccountEntryUserRelLocalServiceImpl
 
 	@Override
 	public List<AccountEntryUserRel> getByAccountEntryId(long accountEntryId) {
-		return Collections.emptyList();
+		return accountEntryUserRelPersistence.findByA(accountEntryId);
 	}
 
 	@Reference
