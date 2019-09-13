@@ -151,6 +151,13 @@ public class AccountEntryUserRelPersistenceTest {
 	}
 
 	@Test
+	public void testCountByA() throws Exception {
+		_persistence.countByA(RandomTestUtil.nextLong());
+
+		_persistence.countByA(0L);
+	}
+
+	@Test
 	public void testCountByA_U() throws Exception {
 		_persistence.countByA_U(
 			RandomTestUtil.nextLong(), RandomTestUtil.nextLong());
