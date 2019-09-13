@@ -86,34 +86,562 @@ public class AccountEntryUserRelPersistenceImpl
 	private FinderPath _finderPathWithPaginationFindAll;
 	private FinderPath _finderPathWithoutPaginationFindAll;
 	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByA;
+	private FinderPath _finderPathWithoutPaginationFindByA;
+	private FinderPath _finderPathCountByA;
+
+	/**
+	 * Returns all the account entry user rels where accountEntryId = &#63;.
+	 *
+	 * @param accountEntryId the account entry ID
+	 * @return the matching account entry user rels
+	 */
+	@Override
+	public List<AccountEntryUserRel> findByA(long accountEntryId) {
+		return findByA(
+			accountEntryId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the account entry user rels where accountEntryId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AccountEntryUserRelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param accountEntryId the account entry ID
+	 * @param start the lower bound of the range of account entry user rels
+	 * @param end the upper bound of the range of account entry user rels (not inclusive)
+	 * @return the range of matching account entry user rels
+	 */
+	@Override
+	public List<AccountEntryUserRel> findByA(
+		long accountEntryId, int start, int end) {
+
+		return findByA(accountEntryId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the account entry user rels where accountEntryId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AccountEntryUserRelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param accountEntryId the account entry ID
+	 * @param start the lower bound of the range of account entry user rels
+	 * @param end the upper bound of the range of account entry user rels (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching account entry user rels
+	 */
+	@Override
+	public List<AccountEntryUserRel> findByA(
+		long accountEntryId, int start, int end,
+		OrderByComparator<AccountEntryUserRel> orderByComparator) {
+
+		return findByA(accountEntryId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the account entry user rels where accountEntryId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AccountEntryUserRelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param accountEntryId the account entry ID
+	 * @param start the lower bound of the range of account entry user rels
+	 * @param end the upper bound of the range of account entry user rels (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching account entry user rels
+	 */
+	@Override
+	public List<AccountEntryUserRel> findByA(
+		long accountEntryId, int start, int end,
+		OrderByComparator<AccountEntryUserRel> orderByComparator,
+		boolean useFinderCache) {
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByA;
+				finderArgs = new Object[] {accountEntryId};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByA;
+			finderArgs = new Object[] {
+				accountEntryId, start, end, orderByComparator
+			};
+		}
+
+		List<AccountEntryUserRel> list = null;
+
+		if (useFinderCache) {
+			list = (List<AccountEntryUserRel>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (AccountEntryUserRel accountEntryUserRel : list) {
+					if ((accountEntryId !=
+							accountEntryUserRel.getAccountEntryId())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_ACCOUNTENTRYUSERREL_WHERE);
+
+			query.append(_FINDER_COLUMN_A_ACCOUNTENTRYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(AccountEntryUserRelModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(accountEntryId);
+
+				if (!pagination) {
+					list = (List<AccountEntryUserRel>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<AccountEntryUserRel>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception e) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first account entry user rel in the ordered set where accountEntryId = &#63;.
+	 *
+	 * @param accountEntryId the account entry ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching account entry user rel
+	 * @throws NoSuchEntryUserRelException if a matching account entry user rel could not be found
+	 */
+	@Override
+	public AccountEntryUserRel findByA_First(
+			long accountEntryId,
+			OrderByComparator<AccountEntryUserRel> orderByComparator)
+		throws NoSuchEntryUserRelException {
+
+		AccountEntryUserRel accountEntryUserRel = fetchByA_First(
+			accountEntryId, orderByComparator);
+
+		if (accountEntryUserRel != null) {
+			return accountEntryUserRel;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("accountEntryId=");
+		msg.append(accountEntryId);
+
+		msg.append("}");
+
+		throw new NoSuchEntryUserRelException(msg.toString());
+	}
+
+	/**
+	 * Returns the first account entry user rel in the ordered set where accountEntryId = &#63;.
+	 *
+	 * @param accountEntryId the account entry ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching account entry user rel, or <code>null</code> if a matching account entry user rel could not be found
+	 */
+	@Override
+	public AccountEntryUserRel fetchByA_First(
+		long accountEntryId,
+		OrderByComparator<AccountEntryUserRel> orderByComparator) {
+
+		List<AccountEntryUserRel> list = findByA(
+			accountEntryId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last account entry user rel in the ordered set where accountEntryId = &#63;.
+	 *
+	 * @param accountEntryId the account entry ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching account entry user rel
+	 * @throws NoSuchEntryUserRelException if a matching account entry user rel could not be found
+	 */
+	@Override
+	public AccountEntryUserRel findByA_Last(
+			long accountEntryId,
+			OrderByComparator<AccountEntryUserRel> orderByComparator)
+		throws NoSuchEntryUserRelException {
+
+		AccountEntryUserRel accountEntryUserRel = fetchByA_Last(
+			accountEntryId, orderByComparator);
+
+		if (accountEntryUserRel != null) {
+			return accountEntryUserRel;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("accountEntryId=");
+		msg.append(accountEntryId);
+
+		msg.append("}");
+
+		throw new NoSuchEntryUserRelException(msg.toString());
+	}
+
+	/**
+	 * Returns the last account entry user rel in the ordered set where accountEntryId = &#63;.
+	 *
+	 * @param accountEntryId the account entry ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching account entry user rel, or <code>null</code> if a matching account entry user rel could not be found
+	 */
+	@Override
+	public AccountEntryUserRel fetchByA_Last(
+		long accountEntryId,
+		OrderByComparator<AccountEntryUserRel> orderByComparator) {
+
+		int count = countByA(accountEntryId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<AccountEntryUserRel> list = findByA(
+			accountEntryId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the account entry user rels before and after the current account entry user rel in the ordered set where accountEntryId = &#63;.
+	 *
+	 * @param accountEntryUserRelId the primary key of the current account entry user rel
+	 * @param accountEntryId the account entry ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next account entry user rel
+	 * @throws NoSuchEntryUserRelException if a account entry user rel with the primary key could not be found
+	 */
+	@Override
+	public AccountEntryUserRel[] findByA_PrevAndNext(
+			long accountEntryUserRelId, long accountEntryId,
+			OrderByComparator<AccountEntryUserRel> orderByComparator)
+		throws NoSuchEntryUserRelException {
+
+		AccountEntryUserRel accountEntryUserRel = findByPrimaryKey(
+			accountEntryUserRelId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			AccountEntryUserRel[] array = new AccountEntryUserRelImpl[3];
+
+			array[0] = getByA_PrevAndNext(
+				session, accountEntryUserRel, accountEntryId, orderByComparator,
+				true);
+
+			array[1] = accountEntryUserRel;
+
+			array[2] = getByA_PrevAndNext(
+				session, accountEntryUserRel, accountEntryId, orderByComparator,
+				false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected AccountEntryUserRel getByA_PrevAndNext(
+		Session session, AccountEntryUserRel accountEntryUserRel,
+		long accountEntryId,
+		OrderByComparator<AccountEntryUserRel> orderByComparator,
+		boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_ACCOUNTENTRYUSERREL_WHERE);
+
+		query.append(_FINDER_COLUMN_A_ACCOUNTENTRYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(AccountEntryUserRelModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(accountEntryId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						accountEntryUserRel)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<AccountEntryUserRel> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the account entry user rels where accountEntryId = &#63; from the database.
+	 *
+	 * @param accountEntryId the account entry ID
+	 */
+	@Override
+	public void removeByA(long accountEntryId) {
+		for (AccountEntryUserRel accountEntryUserRel :
+				findByA(
+					accountEntryId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(accountEntryUserRel);
+		}
+	}
+
+	/**
+	 * Returns the number of account entry user rels where accountEntryId = &#63;.
+	 *
+	 * @param accountEntryId the account entry ID
+	 * @return the number of matching account entry user rels
+	 */
+	@Override
+	public int countByA(long accountEntryId) {
+		FinderPath finderPath = _finderPathCountByA;
+
+		Object[] finderArgs = new Object[] {accountEntryId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_ACCOUNTENTRYUSERREL_WHERE);
+
+			query.append(_FINDER_COLUMN_A_ACCOUNTENTRYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(accountEntryId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_A_ACCOUNTENTRYID_2 =
+		"accountEntryUserRel.accountEntryId = ?";
+
 	private FinderPath _finderPathFetchByA_U;
 	private FinderPath _finderPathCountByA_U;
 
 	/**
-	 * Returns the account entry user rel where userId = &#63; and accountEntryId = &#63; or throws a <code>NoSuchEntryUserRelException</code> if it could not be found.
+	 * Returns the account entry user rel where accountEntryId = &#63; and userId = &#63; or throws a <code>NoSuchEntryUserRelException</code> if it could not be found.
 	 *
-	 * @param userId the user ID
 	 * @param accountEntryId the account entry ID
+	 * @param userId the user ID
 	 * @return the matching account entry user rel
 	 * @throws NoSuchEntryUserRelException if a matching account entry user rel could not be found
 	 */
 	@Override
-	public AccountEntryUserRel findByA_U(long userId, long accountEntryId)
+	public AccountEntryUserRel findByA_U(long accountEntryId, long userId)
 		throws NoSuchEntryUserRelException {
 
 		AccountEntryUserRel accountEntryUserRel = fetchByA_U(
-			userId, accountEntryId);
+			accountEntryId, userId);
 
 		if (accountEntryUserRel == null) {
 			StringBundler msg = new StringBundler(6);
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("userId=");
-			msg.append(userId);
-
-			msg.append(", accountEntryId=");
+			msg.append("accountEntryId=");
 			msg.append(accountEntryId);
+
+			msg.append(", userId=");
+			msg.append(userId);
 
 			msg.append("}");
 
@@ -128,33 +656,33 @@ public class AccountEntryUserRelPersistenceImpl
 	}
 
 	/**
-	 * Returns the account entry user rel where userId = &#63; and accountEntryId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the account entry user rel where accountEntryId = &#63; and userId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * @param userId the user ID
 	 * @param accountEntryId the account entry ID
+	 * @param userId the user ID
 	 * @return the matching account entry user rel, or <code>null</code> if a matching account entry user rel could not be found
 	 */
 	@Override
-	public AccountEntryUserRel fetchByA_U(long userId, long accountEntryId) {
-		return fetchByA_U(userId, accountEntryId, true);
+	public AccountEntryUserRel fetchByA_U(long accountEntryId, long userId) {
+		return fetchByA_U(accountEntryId, userId, true);
 	}
 
 	/**
-	 * Returns the account entry user rel where userId = &#63; and accountEntryId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the account entry user rel where accountEntryId = &#63; and userId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * @param userId the user ID
 	 * @param accountEntryId the account entry ID
+	 * @param userId the user ID
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching account entry user rel, or <code>null</code> if a matching account entry user rel could not be found
 	 */
 	@Override
 	public AccountEntryUserRel fetchByA_U(
-		long userId, long accountEntryId, boolean useFinderCache) {
+		long accountEntryId, long userId, boolean useFinderCache) {
 
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
-			finderArgs = new Object[] {userId, accountEntryId};
+			finderArgs = new Object[] {accountEntryId, userId};
 		}
 
 		Object result = null;
@@ -168,8 +696,8 @@ public class AccountEntryUserRelPersistenceImpl
 			AccountEntryUserRel accountEntryUserRel =
 				(AccountEntryUserRel)result;
 
-			if ((userId != accountEntryUserRel.getUserId()) ||
-				(accountEntryId != accountEntryUserRel.getAccountEntryId())) {
+			if ((accountEntryId != accountEntryUserRel.getAccountEntryId()) ||
+				(userId != accountEntryUserRel.getUserId())) {
 
 				result = null;
 			}
@@ -180,9 +708,9 @@ public class AccountEntryUserRelPersistenceImpl
 
 			query.append(_SQL_SELECT_ACCOUNTENTRYUSERREL_WHERE);
 
-			query.append(_FINDER_COLUMN_A_U_USERID_2);
-
 			query.append(_FINDER_COLUMN_A_U_ACCOUNTENTRYID_2);
+
+			query.append(_FINDER_COLUMN_A_U_USERID_2);
 
 			String sql = query.toString();
 
@@ -195,9 +723,9 @@ public class AccountEntryUserRelPersistenceImpl
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(userId);
-
 				qPos.add(accountEntryId);
+
+				qPos.add(userId);
 
 				List<AccountEntryUserRel> list = q.list();
 
@@ -214,7 +742,7 @@ public class AccountEntryUserRelPersistenceImpl
 						if (_log.isWarnEnabled()) {
 							if (!useFinderCache) {
 								finderArgs = new Object[] {
-									userId, accountEntryId
+									accountEntryId, userId
 								};
 							}
 
@@ -253,34 +781,34 @@ public class AccountEntryUserRelPersistenceImpl
 	}
 
 	/**
-	 * Removes the account entry user rel where userId = &#63; and accountEntryId = &#63; from the database.
+	 * Removes the account entry user rel where accountEntryId = &#63; and userId = &#63; from the database.
 	 *
-	 * @param userId the user ID
 	 * @param accountEntryId the account entry ID
+	 * @param userId the user ID
 	 * @return the account entry user rel that was removed
 	 */
 	@Override
-	public AccountEntryUserRel removeByA_U(long userId, long accountEntryId)
+	public AccountEntryUserRel removeByA_U(long accountEntryId, long userId)
 		throws NoSuchEntryUserRelException {
 
 		AccountEntryUserRel accountEntryUserRel = findByA_U(
-			userId, accountEntryId);
+			accountEntryId, userId);
 
 		return remove(accountEntryUserRel);
 	}
 
 	/**
-	 * Returns the number of account entry user rels where userId = &#63; and accountEntryId = &#63;.
+	 * Returns the number of account entry user rels where accountEntryId = &#63; and userId = &#63;.
 	 *
-	 * @param userId the user ID
 	 * @param accountEntryId the account entry ID
+	 * @param userId the user ID
 	 * @return the number of matching account entry user rels
 	 */
 	@Override
-	public int countByA_U(long userId, long accountEntryId) {
+	public int countByA_U(long accountEntryId, long userId) {
 		FinderPath finderPath = _finderPathCountByA_U;
 
-		Object[] finderArgs = new Object[] {userId, accountEntryId};
+		Object[] finderArgs = new Object[] {accountEntryId, userId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -289,9 +817,9 @@ public class AccountEntryUserRelPersistenceImpl
 
 			query.append(_SQL_COUNT_ACCOUNTENTRYUSERREL_WHERE);
 
-			query.append(_FINDER_COLUMN_A_U_USERID_2);
-
 			query.append(_FINDER_COLUMN_A_U_ACCOUNTENTRYID_2);
+
+			query.append(_FINDER_COLUMN_A_U_USERID_2);
 
 			String sql = query.toString();
 
@@ -304,9 +832,9 @@ public class AccountEntryUserRelPersistenceImpl
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(userId);
-
 				qPos.add(accountEntryId);
+
+				qPos.add(userId);
 
 				count = (Long)q.uniqueResult();
 
@@ -325,11 +853,11 @@ public class AccountEntryUserRelPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_U_USERID_2 =
-		"accountEntryUserRel.userId = ? AND ";
-
 	private static final String _FINDER_COLUMN_A_U_ACCOUNTENTRYID_2 =
-		"accountEntryUserRel.accountEntryId = ?";
+		"accountEntryUserRel.accountEntryId = ? AND ";
+
+	private static final String _FINDER_COLUMN_A_U_USERID_2 =
+		"accountEntryUserRel.userId = ?";
 
 	public AccountEntryUserRelPersistenceImpl() {
 		setModelClass(AccountEntryUserRel.class);
@@ -352,8 +880,8 @@ public class AccountEntryUserRelPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByA_U,
 			new Object[] {
-				accountEntryUserRel.getUserId(),
-				accountEntryUserRel.getAccountEntryId()
+				accountEntryUserRel.getAccountEntryId(),
+				accountEntryUserRel.getUserId()
 			},
 			accountEntryUserRel);
 
@@ -435,8 +963,8 @@ public class AccountEntryUserRelPersistenceImpl
 		AccountEntryUserRelModelImpl accountEntryUserRelModelImpl) {
 
 		Object[] args = new Object[] {
-			accountEntryUserRelModelImpl.getUserId(),
-			accountEntryUserRelModelImpl.getAccountEntryId()
+			accountEntryUserRelModelImpl.getAccountEntryId(),
+			accountEntryUserRelModelImpl.getUserId()
 		};
 
 		finderCache.putResult(
@@ -451,8 +979,8 @@ public class AccountEntryUserRelPersistenceImpl
 
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-				accountEntryUserRelModelImpl.getUserId(),
-				accountEntryUserRelModelImpl.getAccountEntryId()
+				accountEntryUserRelModelImpl.getAccountEntryId(),
+				accountEntryUserRelModelImpl.getUserId()
 			};
 
 			finderCache.removeResult(_finderPathCountByA_U, args);
@@ -463,8 +991,8 @@ public class AccountEntryUserRelPersistenceImpl
 			 _finderPathFetchByA_U.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				accountEntryUserRelModelImpl.getOriginalUserId(),
-				accountEntryUserRelModelImpl.getOriginalAccountEntryId()
+				accountEntryUserRelModelImpl.getOriginalAccountEntryId(),
+				accountEntryUserRelModelImpl.getOriginalUserId()
 			};
 
 			finderCache.removeResult(_finderPathCountByA_U, args);
@@ -633,9 +1161,37 @@ public class AccountEntryUserRelPersistenceImpl
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
 		else if (isNew) {
+			Object[] args = new Object[] {
+				accountEntryUserRelModelImpl.getAccountEntryId()
+			};
+
+			finderCache.removeResult(_finderPathCountByA, args);
+			finderCache.removeResult(_finderPathWithoutPaginationFindByA, args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((accountEntryUserRelModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByA.getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					accountEntryUserRelModelImpl.getOriginalAccountEntryId()
+				};
+
+				finderCache.removeResult(_finderPathCountByA, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByA, args);
+
+				args = new Object[] {
+					accountEntryUserRelModelImpl.getAccountEntryId()
+				};
+
+				finderCache.removeResult(_finderPathCountByA, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByA, args);
+			}
 		}
 
 		entityCache.putResult(
@@ -948,13 +1504,34 @@ public class AccountEntryUserRelPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
+		_finderPathWithPaginationFindByA = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryUserRelImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByA",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByA = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryUserRelImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByA",
+			new String[] {Long.class.getName()},
+			AccountEntryUserRelModelImpl.ACCOUNTENTRYID_COLUMN_BITMASK);
+
+		_finderPathCountByA = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA",
+			new String[] {Long.class.getName()});
+
 		_finderPathFetchByA_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AccountEntryUserRelImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByA_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			AccountEntryUserRelModelImpl.USERID_COLUMN_BITMASK |
-			AccountEntryUserRelModelImpl.ACCOUNTENTRYID_COLUMN_BITMASK);
+			AccountEntryUserRelModelImpl.ACCOUNTENTRYID_COLUMN_BITMASK |
+			AccountEntryUserRelModelImpl.USERID_COLUMN_BITMASK);
 
 		_finderPathCountByA_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,

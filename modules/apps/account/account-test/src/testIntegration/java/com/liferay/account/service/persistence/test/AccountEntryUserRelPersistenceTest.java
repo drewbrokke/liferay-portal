@@ -151,6 +151,13 @@ public class AccountEntryUserRelPersistenceTest {
 	}
 
 	@Test
+	public void testCountByA() throws Exception {
+		_persistence.countByA(RandomTestUtil.nextLong());
+
+		_persistence.countByA(0L);
+	}
+
+	@Test
 	public void testCountByA_U() throws Exception {
 		_persistence.countByA_U(
 			RandomTestUtil.nextLong(), RandomTestUtil.nextLong());
@@ -425,14 +432,14 @@ public class AccountEntryUserRelPersistenceTest {
 				newAccountEntryUserRel.getPrimaryKey());
 
 		Assert.assertEquals(
-			Long.valueOf(existingAccountEntryUserRel.getUserId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingAccountEntryUserRel, "getOriginalUserId",
-				new Class<?>[0]));
-		Assert.assertEquals(
 			Long.valueOf(existingAccountEntryUserRel.getAccountEntryId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAccountEntryUserRel, "getOriginalAccountEntryId",
+				new Class<?>[0]));
+		Assert.assertEquals(
+			Long.valueOf(existingAccountEntryUserRel.getUserId()),
+			ReflectionTestUtil.<Long>invoke(
+				existingAccountEntryUserRel, "getOriginalUserId",
 				new Class<?>[0]));
 	}
 
