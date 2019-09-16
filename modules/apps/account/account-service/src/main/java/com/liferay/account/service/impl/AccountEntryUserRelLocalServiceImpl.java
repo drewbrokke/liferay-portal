@@ -50,7 +50,7 @@ public class AccountEntryUserRelLocalServiceImpl
 			long accountEntryId, long userId)
 		throws PortalException {
 
-		if (accountEntryUserRelPersistence.fetchByA_U(accountEntryId, userId) !=
+		if (accountEntryUserRelPersistence.fetchByU_A(userId, accountEntryId) !=
 				null) {
 
 			throw new DuplicateAccountEntryUserRelException();
