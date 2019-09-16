@@ -192,7 +192,7 @@ public interface AccountEntryUserRelPersistence
 	 * @return the matching account entry user rel
 	 * @throws NoSuchEntryUserRelException if a matching account entry user rel could not be found
 	 */
-	public AccountEntryUserRel findByA_U(long userId, long accountEntryId)
+	public AccountEntryUserRel findByU_A(long userId, long accountEntryId)
 		throws NoSuchEntryUserRelException;
 
 	/**
@@ -202,7 +202,7 @@ public interface AccountEntryUserRelPersistence
 	 * @param accountEntryId the account entry ID
 	 * @return the matching account entry user rel, or <code>null</code> if a matching account entry user rel could not be found
 	 */
-	public AccountEntryUserRel fetchByA_U(long userId, long accountEntryId);
+	public AccountEntryUserRel fetchByU_A(long userId, long accountEntryId);
 
 	/**
 	 * Returns the account entry user rel where userId = &#63; and accountEntryId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
@@ -212,7 +212,7 @@ public interface AccountEntryUserRelPersistence
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching account entry user rel, or <code>null</code> if a matching account entry user rel could not be found
 	 */
-	public AccountEntryUserRel fetchByA_U(
+	public AccountEntryUserRel fetchByU_A(
 		long userId, long accountEntryId, boolean useFinderCache);
 
 	/**
@@ -222,7 +222,7 @@ public interface AccountEntryUserRelPersistence
 	 * @param accountEntryId the account entry ID
 	 * @return the account entry user rel that was removed
 	 */
-	public AccountEntryUserRel removeByA_U(long userId, long accountEntryId)
+	public AccountEntryUserRel removeByU_A(long userId, long accountEntryId)
 		throws NoSuchEntryUserRelException;
 
 	/**
@@ -232,7 +232,7 @@ public interface AccountEntryUserRelPersistence
 	 * @param accountEntryId the account entry ID
 	 * @return the number of matching account entry user rels
 	 */
-	public int countByA_U(long userId, long accountEntryId);
+	public int countByU_A(long userId, long accountEntryId);
 
 	/**
 	 * Caches the account entry user rel in the entity cache if it is enabled.

@@ -614,8 +614,8 @@ public class AccountEntryUserRelPersistenceImpl
 	private static final String _FINDER_COLUMN_A_ACCOUNTENTRYID_2 =
 		"accountEntryUserRel.accountEntryId = ?";
 
-	private FinderPath _finderPathFetchByA_U;
-	private FinderPath _finderPathCountByA_U;
+	private FinderPath _finderPathFetchByU_A;
+	private FinderPath _finderPathCountByU_A;
 
 	/**
 	 * Returns the account entry user rel where userId = &#63; and accountEntryId = &#63; or throws a <code>NoSuchEntryUserRelException</code> if it could not be found.
@@ -626,10 +626,10 @@ public class AccountEntryUserRelPersistenceImpl
 	 * @throws NoSuchEntryUserRelException if a matching account entry user rel could not be found
 	 */
 	@Override
-	public AccountEntryUserRel findByA_U(long userId, long accountEntryId)
+	public AccountEntryUserRel findByU_A(long userId, long accountEntryId)
 		throws NoSuchEntryUserRelException {
 
-		AccountEntryUserRel accountEntryUserRel = fetchByA_U(
+		AccountEntryUserRel accountEntryUserRel = fetchByU_A(
 			userId, accountEntryId);
 
 		if (accountEntryUserRel == null) {
@@ -663,8 +663,8 @@ public class AccountEntryUserRelPersistenceImpl
 	 * @return the matching account entry user rel, or <code>null</code> if a matching account entry user rel could not be found
 	 */
 	@Override
-	public AccountEntryUserRel fetchByA_U(long userId, long accountEntryId) {
-		return fetchByA_U(userId, accountEntryId, true);
+	public AccountEntryUserRel fetchByU_A(long userId, long accountEntryId) {
+		return fetchByU_A(userId, accountEntryId, true);
 	}
 
 	/**
@@ -676,7 +676,7 @@ public class AccountEntryUserRelPersistenceImpl
 	 * @return the matching account entry user rel, or <code>null</code> if a matching account entry user rel could not be found
 	 */
 	@Override
-	public AccountEntryUserRel fetchByA_U(
+	public AccountEntryUserRel fetchByU_A(
 		long userId, long accountEntryId, boolean useFinderCache) {
 
 		Object[] finderArgs = null;
@@ -689,7 +689,7 @@ public class AccountEntryUserRelPersistenceImpl
 
 		if (useFinderCache) {
 			result = finderCache.getResult(
-				_finderPathFetchByA_U, finderArgs, this);
+				_finderPathFetchByU_A, finderArgs, this);
 		}
 
 		if (result instanceof AccountEntryUserRel) {
@@ -708,9 +708,9 @@ public class AccountEntryUserRelPersistenceImpl
 
 			query.append(_SQL_SELECT_ACCOUNTENTRYUSERREL_WHERE);
 
-			query.append(_FINDER_COLUMN_A_U_USERID_2);
+			query.append(_FINDER_COLUMN_U_A_USERID_2);
 
-			query.append(_FINDER_COLUMN_A_U_ACCOUNTENTRYID_2);
+			query.append(_FINDER_COLUMN_U_A_ACCOUNTENTRYID_2);
 
 			String sql = query.toString();
 
@@ -732,7 +732,7 @@ public class AccountEntryUserRelPersistenceImpl
 				if (list.isEmpty()) {
 					if (useFinderCache) {
 						finderCache.putResult(
-							_finderPathFetchByA_U, finderArgs, list);
+							_finderPathFetchByU_A, finderArgs, list);
 					}
 				}
 				else {
@@ -747,7 +747,7 @@ public class AccountEntryUserRelPersistenceImpl
 							}
 
 							_log.warn(
-								"AccountEntryUserRelPersistenceImpl.fetchByA_U(long, long, boolean) with parameters (" +
+								"AccountEntryUserRelPersistenceImpl.fetchByU_A(long, long, boolean) with parameters (" +
 									StringUtil.merge(finderArgs) +
 										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
@@ -762,7 +762,7 @@ public class AccountEntryUserRelPersistenceImpl
 			}
 			catch (Exception e) {
 				if (useFinderCache) {
-					finderCache.removeResult(_finderPathFetchByA_U, finderArgs);
+					finderCache.removeResult(_finderPathFetchByU_A, finderArgs);
 				}
 
 				throw processException(e);
@@ -788,10 +788,10 @@ public class AccountEntryUserRelPersistenceImpl
 	 * @return the account entry user rel that was removed
 	 */
 	@Override
-	public AccountEntryUserRel removeByA_U(long userId, long accountEntryId)
+	public AccountEntryUserRel removeByU_A(long userId, long accountEntryId)
 		throws NoSuchEntryUserRelException {
 
-		AccountEntryUserRel accountEntryUserRel = findByA_U(
+		AccountEntryUserRel accountEntryUserRel = findByU_A(
 			userId, accountEntryId);
 
 		return remove(accountEntryUserRel);
@@ -805,8 +805,8 @@ public class AccountEntryUserRelPersistenceImpl
 	 * @return the number of matching account entry user rels
 	 */
 	@Override
-	public int countByA_U(long userId, long accountEntryId) {
-		FinderPath finderPath = _finderPathCountByA_U;
+	public int countByU_A(long userId, long accountEntryId) {
+		FinderPath finderPath = _finderPathCountByU_A;
 
 		Object[] finderArgs = new Object[] {userId, accountEntryId};
 
@@ -817,9 +817,9 @@ public class AccountEntryUserRelPersistenceImpl
 
 			query.append(_SQL_COUNT_ACCOUNTENTRYUSERREL_WHERE);
 
-			query.append(_FINDER_COLUMN_A_U_USERID_2);
+			query.append(_FINDER_COLUMN_U_A_USERID_2);
 
-			query.append(_FINDER_COLUMN_A_U_ACCOUNTENTRYID_2);
+			query.append(_FINDER_COLUMN_U_A_ACCOUNTENTRYID_2);
 
 			String sql = query.toString();
 
@@ -853,10 +853,10 @@ public class AccountEntryUserRelPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_U_USERID_2 =
+	private static final String _FINDER_COLUMN_U_A_USERID_2 =
 		"accountEntryUserRel.userId = ? AND ";
 
-	private static final String _FINDER_COLUMN_A_U_ACCOUNTENTRYID_2 =
+	private static final String _FINDER_COLUMN_U_A_ACCOUNTENTRYID_2 =
 		"accountEntryUserRel.accountEntryId = ?";
 
 	public AccountEntryUserRelPersistenceImpl() {
@@ -878,7 +878,7 @@ public class AccountEntryUserRelPersistenceImpl
 			accountEntryUserRel.getPrimaryKey(), accountEntryUserRel);
 
 		finderCache.putResult(
-			_finderPathFetchByA_U,
+			_finderPathFetchByU_A,
 			new Object[] {
 				accountEntryUserRel.getUserId(),
 				accountEntryUserRel.getAccountEntryId()
@@ -968,9 +968,9 @@ public class AccountEntryUserRelPersistenceImpl
 		};
 
 		finderCache.putResult(
-			_finderPathCountByA_U, args, Long.valueOf(1), false);
+			_finderPathCountByU_A, args, Long.valueOf(1), false);
 		finderCache.putResult(
-			_finderPathFetchByA_U, args, accountEntryUserRelModelImpl, false);
+			_finderPathFetchByU_A, args, accountEntryUserRelModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -983,20 +983,20 @@ public class AccountEntryUserRelPersistenceImpl
 				accountEntryUserRelModelImpl.getAccountEntryId()
 			};
 
-			finderCache.removeResult(_finderPathCountByA_U, args);
-			finderCache.removeResult(_finderPathFetchByA_U, args);
+			finderCache.removeResult(_finderPathCountByU_A, args);
+			finderCache.removeResult(_finderPathFetchByU_A, args);
 		}
 
 		if ((accountEntryUserRelModelImpl.getColumnBitmask() &
-			 _finderPathFetchByA_U.getColumnBitmask()) != 0) {
+			 _finderPathFetchByU_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
 				accountEntryUserRelModelImpl.getOriginalUserId(),
 				accountEntryUserRelModelImpl.getOriginalAccountEntryId()
 			};
 
-			finderCache.removeResult(_finderPathCountByA_U, args);
-			finderCache.removeResult(_finderPathFetchByA_U, args);
+			finderCache.removeResult(_finderPathCountByU_A, args);
+			finderCache.removeResult(_finderPathFetchByU_A, args);
 		}
 	}
 
@@ -1525,17 +1525,17 @@ public class AccountEntryUserRelPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA",
 			new String[] {Long.class.getName()});
 
-		_finderPathFetchByA_U = new FinderPath(
+		_finderPathFetchByU_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AccountEntryUserRelImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByA_U",
+			"fetchByU_A",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			AccountEntryUserRelModelImpl.USERID_COLUMN_BITMASK |
 			AccountEntryUserRelModelImpl.ACCOUNTENTRYID_COLUMN_BITMASK);
 
-		_finderPathCountByA_U = new FinderPath(
+		_finderPathCountByU_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_U",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_A",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 

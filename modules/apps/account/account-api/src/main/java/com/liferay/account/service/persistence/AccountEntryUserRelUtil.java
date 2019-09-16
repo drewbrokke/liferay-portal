@@ -306,11 +306,11 @@ public class AccountEntryUserRelUtil {
 	 * @return the matching account entry user rel
 	 * @throws NoSuchEntryUserRelException if a matching account entry user rel could not be found
 	 */
-	public static AccountEntryUserRel findByA_U(
+	public static AccountEntryUserRel findByU_A(
 			long userId, long accountEntryId)
 		throws com.liferay.account.exception.NoSuchEntryUserRelException {
 
-		return getPersistence().findByA_U(userId, accountEntryId);
+		return getPersistence().findByU_A(userId, accountEntryId);
 	}
 
 	/**
@@ -320,10 +320,10 @@ public class AccountEntryUserRelUtil {
 	 * @param accountEntryId the account entry ID
 	 * @return the matching account entry user rel, or <code>null</code> if a matching account entry user rel could not be found
 	 */
-	public static AccountEntryUserRel fetchByA_U(
+	public static AccountEntryUserRel fetchByU_A(
 		long userId, long accountEntryId) {
 
-		return getPersistence().fetchByA_U(userId, accountEntryId);
+		return getPersistence().fetchByU_A(userId, accountEntryId);
 	}
 
 	/**
@@ -334,10 +334,10 @@ public class AccountEntryUserRelUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching account entry user rel, or <code>null</code> if a matching account entry user rel could not be found
 	 */
-	public static AccountEntryUserRel fetchByA_U(
+	public static AccountEntryUserRel fetchByU_A(
 		long userId, long accountEntryId, boolean useFinderCache) {
 
-		return getPersistence().fetchByA_U(
+		return getPersistence().fetchByU_A(
 			userId, accountEntryId, useFinderCache);
 	}
 
@@ -348,11 +348,11 @@ public class AccountEntryUserRelUtil {
 	 * @param accountEntryId the account entry ID
 	 * @return the account entry user rel that was removed
 	 */
-	public static AccountEntryUserRel removeByA_U(
+	public static AccountEntryUserRel removeByU_A(
 			long userId, long accountEntryId)
 		throws com.liferay.account.exception.NoSuchEntryUserRelException {
 
-		return getPersistence().removeByA_U(userId, accountEntryId);
+		return getPersistence().removeByU_A(userId, accountEntryId);
 	}
 
 	/**
@@ -362,8 +362,8 @@ public class AccountEntryUserRelUtil {
 	 * @param accountEntryId the account entry ID
 	 * @return the number of matching account entry user rels
 	 */
-	public static int countByA_U(long userId, long accountEntryId) {
-		return getPersistence().countByA_U(userId, accountEntryId);
+	public static int countByU_A(long userId, long accountEntryId) {
+		return getPersistence().countByU_A(userId, accountEntryId);
 	}
 
 	/**
