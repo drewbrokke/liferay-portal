@@ -18,12 +18,20 @@ import com.liferay.account.exception.DuplicateAccountEntryUserRelException;
 import com.liferay.account.model.AccountEntryUserRel;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.base.AccountEntryUserRelLocalServiceBaseImpl;
+import com.liferay.petra.string.CharPool;
+import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.aop.AopService;
+import com.liferay.portal.kernel.dao.orm.Disjunction;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Property;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.Validator;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
@@ -69,7 +77,46 @@ public class AccountEntryUserRelLocalServiceImpl
 		long accountEntryId, String keywords, int start, int end,
 		OrderByComparator<User> orderByComparator) {
 
-		return Collections.emptyList();
+		DynamicQuery userDynamicQuery = userLocalService.dynamicQuery();
+
+		DynamicQuery accountEntryUserRelDynamicQuery =
+			accountEntryUserRelLocalService.dynamicQuery();
+
+		accountEntryUserRelDynamicQuery.add(
+			RestrictionsFactoryUtil.eq("accountEntryId", accountEntryId));
+		accountEntryUserRelDynamicQuery.setProjection(
+			ProjectionFactoryUtil.property("accountUserId"));
+
+		List<Long> userIds = accountEntryUserRelLocalService.dynamicQuery(
+			accountEntryUserRelDynamicQuery);
+
+		Property userIdProperty = PropertyFactoryUtil.forName("userId");
+
+		userDynamicQuery.add(userIdProperty.in(userIds));
+
+		if (Validator.isNotNull(keywords)) {
+			Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+
+			for (String keyword : StringUtil.split(keywords, CharPool.SPACE)) {
+				keyword = CharPool.PERCENT + keyword + CharPool.PERCENT;
+
+				disjunction.add(
+					RestrictionsFactoryUtil.ilike("firstName", keyword));
+				disjunction.add(
+					RestrictionsFactoryUtil.ilike("middleName", keyword));
+				disjunction.add(
+					RestrictionsFactoryUtil.ilike("lastName", keyword));
+				disjunction.add(
+					RestrictionsFactoryUtil.ilike("screenName", keyword));
+				disjunction.add(
+					RestrictionsFactoryUtil.ilike("emailAddress", keyword));
+			}
+
+			userDynamicQuery.add(disjunction);
+		}
+
+		return userLocalService.dynamicQuery(
+			userDynamicQuery, start, end, orderByComparator);
 	}
 
 	@Reference
