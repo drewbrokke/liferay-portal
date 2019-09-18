@@ -20,6 +20,11 @@ import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.base.AccountEntryUserRelLocalServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -57,6 +62,14 @@ public class AccountEntryUserRelLocalServiceImpl
 		accountEntryUserRel.setAccountUserId(accountUserId);
 
 		return addAccountEntryUserRel(accountEntryUserRel);
+	}
+
+	@Override
+	public List<User> searchAccountEntryUsers(
+		long accountEntryId, String keywords, int start, int end,
+		OrderByComparator<User> orderByComparator) {
+
+		return Collections.emptyList();
 	}
 
 	@Reference
