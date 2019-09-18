@@ -291,6 +291,17 @@ public class AccountEntryUserRelLocalServiceWrapper
 			primaryKeyObj);
 	}
 
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.User>
+		searchAccountEntryUsers(
+			long accountEntryId, String keywords, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.User> orderByComparator) {
+
+		return _accountEntryUserRelLocalService.searchAccountEntryUsers(
+			accountEntryId, keywords, start, end, orderByComparator);
+	}
+
 	/**
 	 * Updates the account entry user rel in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
