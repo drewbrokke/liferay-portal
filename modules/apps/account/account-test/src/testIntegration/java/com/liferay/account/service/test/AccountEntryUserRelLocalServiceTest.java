@@ -21,11 +21,14 @@ import com.liferay.account.model.AccountEntryUserRel;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.NoSuchUserException;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
@@ -102,6 +105,67 @@ public class AccountEntryUserRelLocalServiceTest {
 			_user.getUserId() + RandomTestUtil.nextLong());
 	}
 
+	@Test
+	public void testSearchAccountEntryUsersWithKeywords() throws Exception {
+		User accountUser1 = _addAccountEntryUser(
+			_accountEntry.getAccountEntryId());
+		User accountUser2 = _addAccountEntryUser(
+			_accountEntry.getAccountEntryId());
+
+		List<User> expectedAccountEntryUsers = new ArrayList<>();
+
+		expectedAccountEntryUsers.add(accountUser1);
+		expectedAccountEntryUsers.add(accountUser2);
+
+		List<User> results =
+			_accountEntryUserRelLocalService.searchAccountEntryUsers(
+				_accountEntry.getAccountEntryId(), accountUser1.getScreenName(),
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+		Assert.assertEquals(results.toString(), 1, results.size());
+		Assert.assertEquals(accountUser1, results.get(0));
+
+		results = _accountEntryUserRelLocalService.searchAccountEntryUsers(
+			_accountEntry.getAccountEntryId(), accountUser2.getFullName(),
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+		Assert.assertEquals(results.toString(), 1, results.size());
+		Assert.assertEquals(accountUser2, results.get(0));
+	}
+
+	@Test
+	public void testSearchAccountEntryUsersWithNoKeywords() throws Exception {
+		List<User> expectedAccountEntryUsers = new ArrayList<>();
+
+		expectedAccountEntryUsers.add(
+			_addAccountEntryUser(_accountEntry.getAccountEntryId()));
+		expectedAccountEntryUsers.add(
+			_addAccountEntryUser(_accountEntry.getAccountEntryId()));
+		expectedAccountEntryUsers.add(
+			_addAccountEntryUser(_accountEntry.getAccountEntryId()));
+
+		List<User> accountEntryUsers =
+			_accountEntryUserRelLocalService.searchAccountEntryUsers(
+				_accountEntry.getAccountEntryId(), null, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS,
+				OrderByComparatorFactoryUtil.create("User_", "userId", true));
+
+		Assert.assertEquals(
+			accountEntryUsers.toString(), expectedAccountEntryUsers,
+			accountEntryUsers);
+	}
+
+	private User _addAccountEntryUser(long accountEntryId) throws Exception {
+		User user = UserTestUtil.addUser();
+
+		_users.add(user);
+
+		_accountEntryUserRelLocalService.addAccountEntryUserRel(
+			accountEntryId, user.getUserId());
+
+		return user;
+	}
+
 	@DeleteAfterTestRun
 	private AccountEntry _accountEntry;
 
@@ -117,5 +181,11 @@ public class AccountEntryUserRelLocalServiceTest {
 
 	@DeleteAfterTestRun
 	private User _user;
+
+	@Inject
+	private UserLocalService _userLocalService;
+
+	@DeleteAfterTestRun
+	private final List<User> _users = new ArrayList<>();
 
 }
