@@ -1,5 +1,33 @@
 definition {
 
+	macro _clickResultEllipsisItem {
+		Click(
+			key_assetTitle = "${assetTitle}",
+			locator1 = "SearchTuning#RESULT_RANKINGS_RESULT_ELLIPSIS");
+
+		MenuItem.clickNoError(menuItem = "${menuItem}");
+	}
+
+	macro addResult {
+		Button.click(button = "Add Result");
+
+		Type(
+			locator1 = "SearchTuning#RESULT_RANKINGS_ADD_RESULT_SEARCH_BAR",
+			value1 = "${searchTerm}");
+
+		KeyPress(
+			locator1 = "SearchTuning#RESULT_RANKINGS_ADD_RESULT_SEARCH_BAR",
+			value1 = "\RETURN");
+
+		FormFields.enableCheckbox(fieldName = "${assetTitle}");
+
+		Button.click(button = "Add");
+
+		AssertElementPresent(
+			key_assetTitle = "${assetTitle}",
+			locator1 = "SearchTuning#RESULT_RANKINGS_RESULT_PINNED");
+	}
+
 	macro addResultRanking {
 		LexiconEntry.gotoAdd();
 
@@ -12,12 +40,137 @@ definition {
 		Alert.viewSuccessMessage();
 	}
 
-	macro clickResultEllipsisItem {
-		Click(
-			assetTitle = "${assetTitle}",
-			locator1 = "SearchTuning#RESULT_RANKINGS_RESULT_ELLIPSIS");
+	macro addSynonymSet {
+		LexiconEntry.gotoAdd();
 
-		MenuItem.clickNoError(menuItem = "${menuItem}");
+		Type(
+			locator1 = "SearchTuning#SYNONYMS_MULTI_SELECT_FIELD",
+			value1 = "${synonyms}");
+
+		KeyPress(
+			locator1 = "SearchTuning#SYNONYMS_MULTI_SELECT_FIELD",
+			value1 = ",");
+
+		for (var synonym : list "${synonyms}") {
+			AssertElementPresent(
+				key_synonym = "${synonym}",
+				locator1 = "SearchTuning#SYNONYMS_MULTI_SELECT_VALUE");
+		}
+
+		Button.clickPublish();
+	}
+
+	macro configureAliases {
+		if (isSet(deleteAlias)) {
+			Click(
+				key_alias = "${deleteAlias}",
+				locator1 = "SearchTuning#RESULT_RANKINGS_ALIAS_REMOVE");
+
+			AssertElementNotPresent(
+				key_alias = "${deleteAlias}",
+				locator1 = "SearchTuning#RESULT_RANKINGS_ALIAS_VALUE");
+		}
+
+		if (isSet(addAlias)) {
+			Type(
+				locator1 = "SearchTuning#RESULT_RANKINGS_ALIAS_FIELD",
+				value1 = "${addAlias}");
+
+			KeyPress(
+				locator1 = "SearchTuning#RESULT_RANKINGS_ALIAS_FIELD",
+				value1 = ",");
+
+			AssertElementPresent(
+				key_alias = "${addAlias}",
+				locator1 = "SearchTuning#RESULT_RANKINGS_ALIAS_VALUE");
+		}
+	}
+
+	macro deleteSynonymSet {
+		LexiconEntry.delete(rowEntry = "${synonymSet}");
+
+		AssertElementNotPresent(
+			key_synonyms = "${synonymSet}",
+			locator1 = "SearchTuning#SYNONYMS_ENTRY");
+	}
+
+	macro editSynonymSet {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = "${synonymSet}");
+
+		if (isSet(deleteSynonym)) {
+			Click(
+				key_synonym = "${deleteSynonym}",
+				locator1 = "SearchTuning#SYNONYMS_MULTI_SELECT_REMOVE");
+
+			AssertElementNotPresent(
+				key_synonym = "${deleteSynonym}",
+				locator1 = "SearchTuning#SYNONYMS_MULTI_SELECT_VALUE");
+		}
+
+		if (isSet(addSynonyms)) {
+			Type(
+				locator1 = "SearchTuning#SYNONYMS_MULTI_SELECT_FIELD",
+				value1 = "${addSynonyms}");
+
+			KeyPress(
+				locator1 = "SearchTuning#SYNONYMS_MULTI_SELECT_FIELD",
+				value1 = ",");
+		}
+
+		Button.clickPublish();
+	}
+
+	macro hideResult {
+		SearchTuning._clickResultEllipsisItem(
+			assetTitle = "${assetTitle}",
+			menuItem = "Hide Result");
+
+		AssertElementNotPresent(
+			key_assetTitle = "${assetTitle}",
+			locator1 = "SearchTuning#RESULT_RANKINGS_RESULT");
+	}
+
+	macro pinResult {
+		SearchTuning._clickResultEllipsisItem(
+			assetTitle = "${assetTitle}",
+			menuItem = "Pin Result");
+
+		AssertElementPresent(
+			key_assetTitle = "${assetTitle}",
+			locator1 = "SearchTuning#RESULT_RANKINGS_RESULT_PINNED");
+	}
+
+	macro unhideResult {
+		if (IsElementNotPresent(key_tab = "Hidden", locator1 = "NavTab#ACTIVE_TAB_LINK")) {
+			Navigator.gotoNavTab(navTab = "Hidden");
+		}
+
+		if ("${pinResult}" == "true") {
+			SearchTuning._clickResultEllipsisItem(
+				assetTitle = "${assetTitle}",
+				menuItem = "Pin Result");
+		}
+		else {
+			SearchTuning._clickResultEllipsisItem(
+				assetTitle = "${assetTitle}",
+				menuItem = "Show Result");
+		}
+
+		AssertElementNotPresent(
+			key_assetTitle = "${assetTitle}",
+			locator1 = "SearchTuning#RESULT_RANKINGS_RESULT");
+	}
+
+	macro unpinResult {
+		SearchTuning._clickResultEllipsisItem(
+			assetTitle = "${assetTitle}",
+			menuItem = "Unpin Result");
+
+		AssertElementNotPresent(
+			key_assetTitle = "${assetTitle}",
+			locator1 = "SearchTuning#RESULT_RANKINGS_RESULT_PINNED");
 	}
 
 }

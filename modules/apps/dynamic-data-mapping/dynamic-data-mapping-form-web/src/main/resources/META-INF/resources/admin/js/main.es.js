@@ -218,9 +218,8 @@ class Form extends Component {
 			'paginationModeChanged',
 			this._handlePaginationModeChanded.bind(this)
 		);
-		store.on('ruleAdded', this._handleRuleSaved.bind(this));
 		store.on('ruleCancelled', this.showAddButton.bind(this));
-		store.on('ruleSaved', this._handleRuleSaved.bind(this));
+		store.on('rulesModified', this._handleRulesModified.bind(this));
 	}
 
 	checkEditorLimit(event, limit) {
@@ -746,7 +745,7 @@ class Form extends Component {
 		});
 	}
 
-	_handleRuleSaved() {
+	_handleRulesModified() {
 		this._autoSave.save(true);
 
 		this.showAddButton();

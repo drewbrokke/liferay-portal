@@ -35,19 +35,15 @@ import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeyBuilder;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
 import org.mule.runtime.api.metadata.resolving.FailureCode;
-import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
-import org.mule.runtime.http.api.domain.message.response.HttpResponse;
 
 /**
  * @author Matija Petanjek
  */
-public abstract class BaseTypeKeysResolver implements TypeKeysResolver {
+public class MetadataKeysBuilder {
 
-	public Set<MetadataKey> getEndpointKeys(
+	public Set<MetadataKey> buildMetadataKeys(
 			MetadataContext metadataContext, String operation)
 		throws ConnectionException, MetadataResolvingException {
-
-		Set<MetadataKey> metadataKeys = new HashSet<>();
 
 		Optional<LiferayConnection> liferayConnectionOptional =
 			metadataContext.getConnection();
@@ -56,32 +52,10 @@ public abstract class BaseTypeKeysResolver implements TypeKeysResolver {
 			LiferayConnection liferayConnection =
 				liferayConnectionOptional.get();
 
-			HttpResponse openAPISpecHttpResponse =
-				liferayConnection.getOpenAPISpec();
-
-			JsonNode openAPISpecJsonNode = _jsonNodeReader.fromHttpResponse(
-				openAPISpecHttpResponse);
-
-			JsonNode pathsJsonNode = openAPISpecJsonNode.get(
-				OASConstants.PATHS);
-
-			Iterator<Map.Entry<String, JsonNode>> pathsIterator =
-				pathsJsonNode.fields();
-
-			while (pathsIterator.hasNext()) {
-				Map.Entry<String, JsonNode> pathEntry = pathsIterator.next();
-
-				JsonNode pathJsonNode = pathEntry.getValue();
-
-				if (pathJsonNode.has(operation)) {
-					String path = pathEntry.getKey();
-
-					MetadataKeyBuilder metadataKeyBuilder =
-						MetadataKeyBuilder.newKey(path);
-
-					metadataKeys.add(metadataKeyBuilder.build());
-				}
-			}
+			return _getMetadataKeys(
+				_jsonNodeReader.fromHttpResponse(
+					liferayConnection.getOpenAPISpec()),
+				operation);
 		}
 		catch (IOException ioe) {
 			throw new MetadataResolvingException(
@@ -90,6 +64,32 @@ public abstract class BaseTypeKeysResolver implements TypeKeysResolver {
 		catch (TimeoutException te) {
 			throw new MetadataResolvingException(
 				te.getMessage(), FailureCode.CONNECTION_FAILURE);
+		}
+	}
+
+	private Set<MetadataKey> _getMetadataKeys(
+		JsonNode openAPISpecJsonNode, String operation) {
+
+		Set<MetadataKey> metadataKeys = new HashSet<>();
+
+		JsonNode pathsJsonNode = openAPISpecJsonNode.get(OASConstants.PATHS);
+
+		Iterator<Map.Entry<String, JsonNode>> pathsIterator =
+			pathsJsonNode.fields();
+
+		while (pathsIterator.hasNext()) {
+			Map.Entry<String, JsonNode> pathEntry = pathsIterator.next();
+
+			JsonNode pathJsonNode = pathEntry.getValue();
+
+			if (pathJsonNode.has(operation)) {
+				String path = pathEntry.getKey();
+
+				MetadataKeyBuilder metadataKeyBuilder =
+					MetadataKeyBuilder.newKey(path);
+
+				metadataKeys.add(metadataKeyBuilder.build());
+			}
 		}
 
 		return metadataKeys;

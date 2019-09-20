@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 
 import java.io.IOException;
 
-import java.util.concurrent.Callable;
-
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
@@ -71,17 +69,10 @@ public class SaveFormInstanceMVCResourceCommand
 			final ResourceResponse resourceResponse)
 		throws Throwable {
 
-		Callable<DDMFormInstance> callable = new Callable<DDMFormInstance>() {
-
-			@Override
-			public DDMFormInstance call() throws Exception {
-				return saveFormInstanceMVCCommandHelper.saveFormInstance(
-					resourceRequest, resourceResponse);
-			}
-
-		};
-
-		return TransactionInvokerUtil.invoke(_transactionConfig, callable);
+		return TransactionInvokerUtil.invoke(
+			_transactionConfig,
+			() -> saveFormInstanceMVCCommandHelper.saveFormInstance(
+				resourceRequest, resourceResponse));
 	}
 
 	@Reference

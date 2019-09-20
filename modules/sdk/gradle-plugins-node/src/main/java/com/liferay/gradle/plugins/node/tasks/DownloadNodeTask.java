@@ -15,6 +15,7 @@
 package com.liferay.gradle.plugins.node.tasks;
 
 import com.liferay.gradle.plugins.node.internal.NodeExecutor;
+import com.liferay.gradle.plugins.node.internal.util.DigestUtil;
 import com.liferay.gradle.plugins.node.internal.util.FileUtil;
 import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.node.internal.util.NodePluginUtil;
@@ -25,11 +26,13 @@ import com.liferay.gradle.util.copy.StripPathSegmentsAction;
 import java.io.File;
 import java.io.IOException;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.gradle.api.Action;
 import org.gradle.api.AntBuilder;
@@ -56,9 +59,9 @@ public class DownloadNodeTask extends DefaultTask {
 
 				@Override
 				public boolean isSatisfiedBy(Task task) {
-					File nodeDir = getNodeDir();
+					String oldDigest = DigestUtil.getDigest(_getDigestFile());
 
-					if ((nodeDir != null) && nodeDir.exists()) {
+					if (Objects.equals(oldDigest, _getDigest())) {
 						return false;
 					}
 
@@ -140,6 +143,11 @@ public class DownloadNodeTask extends DefaultTask {
 
 			Files.createSymbolicLink(linkPath, linkTargetFile.toPath());
 		}
+
+		String digest = _getDigest();
+		File digestFile = _getDigestFile();
+
+		FileUtil.write(digestFile, digest.getBytes(StandardCharsets.UTF_8));
 	}
 
 	@OutputDirectory
@@ -202,6 +210,14 @@ public class DownloadNodeTask extends DefaultTask {
 		}
 
 		return FileUtil.get(getProject(), url, destinationFile);
+	}
+
+	private String _getDigest() {
+		return DigestUtil.getDigest(getNodeUrl(), getNpmUrl());
+	}
+
+	private File _getDigestFile() {
+		return new File(getNodeDir(), ".digest");
 	}
 
 	private final NodeExecutor _nodeExecutor;

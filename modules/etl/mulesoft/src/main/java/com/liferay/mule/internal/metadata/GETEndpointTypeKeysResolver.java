@@ -22,22 +22,27 @@ import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 
 /**
  * @author Matija Petanjek
  */
-public class GETEndpointTypeKeysResolver extends BaseTypeKeysResolver {
+public class GETEndpointTypeKeysResolver implements TypeKeysResolver {
 
 	@Override
 	public String getCategoryName() {
-		return "Liferay";
+		return "liferay-get";
 	}
 
 	@Override
 	public Set<MetadataKey> getKeys(MetadataContext metadataContext)
 		throws ConnectionException, MetadataResolvingException {
 
-		return getEndpointKeys(metadataContext, OASConstants.OPERATION_GET);
+		return _metadataKeysBuilder.buildMetadataKeys(
+			metadataContext, OASConstants.OPERATION_GET);
 	}
+
+	private static final MetadataKeysBuilder _metadataKeysBuilder =
+		new MetadataKeysBuilder();
 
 }

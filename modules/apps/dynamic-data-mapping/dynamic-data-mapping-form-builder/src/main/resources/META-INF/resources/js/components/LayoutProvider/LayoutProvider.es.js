@@ -485,6 +485,8 @@ class LayoutProvider extends Component {
 		this.setState({
 			rules: [...this.state.rules, rule]
 		});
+
+		this.emit('rulesModified');
 	}
 
 	_handleRuleDeleted({ruleId}) {
@@ -493,6 +495,8 @@ class LayoutProvider extends Component {
 		this.setState({
 			rules: rules.filter((rule, index) => index !== ruleId)
 		});
+
+		this.emit('rulesModified');
 	}
 
 	_handleRuleSaved(event) {
@@ -512,7 +516,7 @@ class LayoutProvider extends Component {
 			rules
 		});
 
-		this.emit('ruleSaved', newRule);
+		this.emit('rulesModified');
 	}
 
 	_handleSidebarFieldBlurred() {

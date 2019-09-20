@@ -26,6 +26,8 @@ public class OASConstants {
 
 	public static final String OPERATION_GET = "get";
 
+	public static final String OPERATION_POST = "post";
+
 	public static final String PATH_COMPONENTS_SCHEMAS_PATTERN =
 		"components>schemas>SCHEMA_TPL";
 
@@ -33,7 +35,7 @@ public class OASConstants {
 
 	public static final String
 		PATH_REQUEST_BODY_CONTENT_APPLICATION_JSON_SCHEMA_PATTERN =
-			"paths>ENDPOINT_TPL>get>responses>default>content>" +
+			"paths>ENDPOINT_TPL>OPERATION_TPL>responses>default>content>" +
 				"application/json>schema>$ref";
 
 	public static final String PATH_SCHEMA_REFERENCE = "#/components/schemas/";

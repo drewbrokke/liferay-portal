@@ -14,11 +14,44 @@
 
 package com.liferay.mule.internal.connection;
 
+import java.io.IOException;
+
+import java.util.concurrent.TimeoutException;
+
+import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionProvider;
+import org.mule.runtime.api.connection.ConnectionValidationResult;
+import org.mule.runtime.http.api.domain.message.response.HttpResponse;
 
 /**
  * @author Matija Petanjek
  */
 public abstract class BaseConnectionProvider
 	implements ConnectionProvider<LiferayConnection> {
+
+	@Override
+	public ConnectionValidationResult validate(
+		LiferayConnection liferayConnection) {
+
+		try {
+			HttpResponse httpResponse = liferayConnection.getOpenAPISpec();
+
+			int statusCode = httpResponse.getStatusCode();
+
+			if ((statusCode >= 200) && (statusCode < 300)) {
+				return ConnectionValidationResult.success();
+			}
+
+			return ConnectionValidationResult.failure(
+				String.format(
+					"%s (%d)", httpResponse.getReasonPhrase(),
+					httpResponse.getStatusCode()),
+				new ConnectionException(
+					"Unable to connect to Liferay instance"));
+		}
+		catch (IOException | TimeoutException e) {
+			return ConnectionValidationResult.failure(e.getMessage(), e);
+		}
+	}
+
 }

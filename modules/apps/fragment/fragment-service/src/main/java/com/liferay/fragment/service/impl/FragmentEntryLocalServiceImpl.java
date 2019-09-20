@@ -421,6 +421,10 @@ public class FragmentEntryLocalServiceImpl
 
 		fragmentEntryPersistence.update(fragmentEntry);
 
+		// Resources
+
+		resourceLocalService.addModelResources(fragmentEntry, serviceContext);
+
 		return fragmentEntry;
 	}
 
