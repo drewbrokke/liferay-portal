@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -56,56 +55,33 @@ public class EditDocumentLibraryExtraSettingsMVCActionCommand
 		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
 
 		if (cmd.equals("convert")) {
-			convert(actionRequest, actionResponse);
+			_convert(actionRequest);
 		}
 
 		sendRedirect(actionRequest, actionResponse);
 	}
 
-	protected int addCustomField(long companyId, String name, String preset)
-		throws Exception {
-
-		ExpandoBridge expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(
-			companyId, DLFileEntryConstants.getClassName(), 0);
-
-		int type = GetterUtil.getInteger(preset);
-
-		expandoBridge.addAttribute(name, type);
-
-		return type;
-	}
-
-	protected void convert(
-			ActionRequest actionRequest, ActionResponse actionResponse)
-		throws Exception {
-
+	private void _convert(ActionRequest actionRequest) throws Exception {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
+
+		ExpandoBridge expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(
+			themeDisplay.getCompanyId(), DLFileEntryConstants.getClassName(),
+			0);
 
 		String[] keys = StringUtil.split(
 			ParamUtil.getString(actionRequest, "keys"));
 
-		String[] presets = new String[keys.length];
+		for (String key : keys) {
+			int type = ParamUtil.getInteger(actionRequest, "type_" + key);
 
-		int[] types = new int[keys.length];
-
-		for (int i = 0; i < keys.length; i++) {
-			presets[i] = ParamUtil.getString(actionRequest, "type_" + keys[i]);
-
-			types[i] = addCustomField(
-				themeDisplay.getCompanyId(), keys[i], presets[i]);
+			expandoBridge.addAttribute(key, type);
 		}
 
 		_dlFileEntryLocalService.convertExtraSettings(keys);
 	}
 
-	@Reference(unbind = "-")
-	protected void setDLFileEntryLocalService(
-		DLFileEntryLocalService dlFileEntryLocalService) {
-
-		_dlFileEntryLocalService = dlFileEntryLocalService;
-	}
-
+	@Reference
 	private DLFileEntryLocalService _dlFileEntryLocalService;
 
 }

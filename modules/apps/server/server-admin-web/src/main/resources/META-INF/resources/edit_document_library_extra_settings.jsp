@@ -56,8 +56,8 @@ if (!dlFileEntries.isEmpty()) {
 %>
 
 <c:choose>
-	<c:when test="<%= dlFileEntry == null %>">
-		<div class="alert alert-success">
+	<c:when test="<%= (dlFileEntry == null) || (keys == null) %>">
+		<div class="alert alert-info">
 			<liferay-ui:message key="there-are-no-longer-any-documents-and-media-files-with-extra-settings" />
 		</div>
 	</c:when>
@@ -68,56 +68,55 @@ if (!dlFileEntries.isEmpty()) {
 			</div>
 		</c:if>
 
-		<portlet:actionURL name="/server_admin/edit_document_library_extra_settings" var="convertDocumentLibraryExtraSettingsURL" />
+		<aui:input name="<%= Constants.CMD %>" type="hidden" />
+		<aui:input name="keys" type="hidden" value="<%= StringUtil.merge(keys) %>" />
 
-		<aui:form action="<%= convertDocumentLibraryExtraSettingsURL %>" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "convertDocumentLibraryExtraSettings();" %>'>
-			<aui:input name="<%= Constants.CMD %>" type="hidden" />
-			<aui:input name="keys" type="hidden" value="<%= StringUtil.merge(keys) %>" />
+		<%
+		for (String key : keys) {
+		%>
 
-			<%
-			for (String key : keys) {
-				String selectName = "type_" + key;
-			%>
+			<aui:fieldset>
+				<liferay-ui:message arguments="<%= key %>" key="convert-extra-settings-key-from-x-to" translateArguments="<%= false %>" />
 
-				<aui:fieldset>
-					<liferay-ui:message arguments="<%= key %>" key="convert-extra-settings-key-from-x-to" translateArguments="<%= false %>" />
+				<br />
 
-					<br />
+				<aui:select helpMessage="custom-field-type-help" label="type" name='<%= "type_" + key %>'>
 
-					<aui:select helpMessage="custom-field-type-help" label="type" name="<%= selectName %>">
-
-						<%
-						for (int curType : ExpandoColumnConstants.TYPES) {
-							if ((curType == ExpandoColumnConstants.BOOLEAN_ARRAY) || (curType == ExpandoColumnConstants.DATE_ARRAY)) {
-								continue;
-							}
-						%>
-
-							<aui:option label="<%= ExpandoColumnConstants.getTypeLabel(curType) %>" value="<%= curType %>" />
-
-						<%
+					<%
+					for (int curType : ExpandoColumnConstants.TYPES) {
+						if ((curType == ExpandoColumnConstants.BOOLEAN_ARRAY) || (curType == ExpandoColumnConstants.DATE_ARRAY)) {
+							continue;
 						}
-						%>
+					%>
 
-					</aui:select>
-				</aui:fieldset>
+						<aui:option label="<%= ExpandoColumnConstants.getTypeLabel(curType) %>" value="<%= curType %>" />
 
-			<%
-			}
-			%>
+					<%
+					}
+					%>
 
-			<aui:button-row>
-				<aui:button type="submit" />
-			</aui:button-row>
-		</aui:form>
+				</aui:select>
+			</aui:fieldset>
+
+		<%
+		}
+		%>
+
+		<aui:button-row>
+			<aui:button onClick='<%= "javascript:" + renderResponse.getNamespace() + "convertDocumentLibraryExtraSettings(event)" %>' type="submit" />
+		</aui:button-row>
 	</c:otherwise>
 </c:choose>
 
 <aui:script>
-	function <portlet:namespace />convertDocumentLibraryExtraSettings() {
+	function <portlet:namespace />convertDocumentLibraryExtraSettings(event) {
+		event.preventDefault();
+
 		var form = document.getElementById('<portlet:namespace />fm');
 
 		if (form) {
+			form.action = '<portlet:actionURL name="/server_admin/edit_document_library_extra_settings" />';
+
 			var cmd = form.querySelector('#<portlet:namespace /><%= Constants.CMD %>');
 
 			if (cmd) {
