@@ -133,7 +133,7 @@ if (accountDisplay != null) {
 						dialog: {
 							constrain: true,
 							destroyOnHide: true,
-							height: 365,
+							height: 425,
 							modal: true,
 							width: 800
 						},

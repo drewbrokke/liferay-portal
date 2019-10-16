@@ -21,6 +21,14 @@ String eventName = ParamUtil.getString(request, "eventName", liferayPortletRespo
 %>
 
 <div class="modal-body">
+	<clay:alert
+		elementClasses="hide"
+		id='<%= renderResponse.getNamespace() + "domainAlert" %>'
+		message='<%= LanguageUtil.get(request, "please-enter-valid-mail-domains-separated-by-commas") %>'
+		style="danger"
+		title='<%= LanguageUtil.get(request, "error") %>'
+	/>
+
 	<aui:field-wrapper cssClass="form-group">
 		<aui:input label="domain" name="domain" type="textarea" />
 
@@ -38,6 +46,28 @@ String eventName = ParamUtil.getString(request, "eventName", liferayPortletRespo
 
 <aui:script>
 	function <portlet:namespace />addDomains() {
+		var domainsInput = document.getElementById('<portlet:namespace />domain');
+
+		var domains = domainsInput.value.split(',');
+
+		const pattern = /^([a-zA-Z0-9]+[a-zA-Z0-9-]*\.)+[a-zA-Z]{2,}$/;
+
+		for (domain of domains) {
+			if (!pattern.test(domain.trim())) {
+				var domainAlert = document.getElementById('<portlet:namespace />domainAlert');
+
+				domainAlert.classList.remove('hide');
+
+				domainsInput.focus();
+
+				return;
+			}
+		}
+
+		<portlet:namespace/>closePopup();
+	}
+
+	function <portlet:namespace/>closePopup() {
 		var Util = Liferay.Util;
 
 		var openingLiferay = Util.getOpener().Liferay;
