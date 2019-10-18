@@ -41,6 +41,7 @@ import com.liferay.product.navigation.personal.menu.web.internal.PersonalMenuEnt
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.portlet.PortletRequest;
@@ -90,10 +91,26 @@ public class GetPersonalMenuItemsMVCResourceCommand
 	private JSONArray _getImpersonationItemsJSONArray(
 		PortletRequest portletRequest, ThemeDisplay themeDisplay) {
 
+		String currentURL = ParamUtil.getString(portletRequest, "currentURL");
+
+		User realUser = themeDisplay.getRealUser();
+		User user = themeDisplay.getUser();
+
+		String realUserScreenName = realUser.getScreenName();
+		String userScreenName = user.getScreenName();
+
+		Map<String, String[]> currentURLParameters =
+			_http.parameterMapFromString(currentURL);
+
+		if (currentURL.contains(userScreenName) &&
+			(currentURLParameters.size() == 1)) {
+
+			currentURL = StringUtil.replace(
+				currentURL, userScreenName, realUserScreenName);
+		}
+
 		JSONObject jsonObject1 = JSONUtil.put(
-			"href",
-			_http.removeParameter(
-				ParamUtil.getString(portletRequest, "currentURL"), "doAsUserId")
+			"href", _http.removeParameter(currentURL, "doAsUserId")
 		).put(
 			"icon", "change"
 		).put(
@@ -102,9 +119,6 @@ public class GetPersonalMenuItemsMVCResourceCommand
 		);
 
 		JSONArray jsonArray = JSONUtil.put(jsonObject1);
-
-		User realUser = themeDisplay.getRealUser();
-		User user = themeDisplay.getUser();
 
 		Locale realUserLocale = realUser.getLocale();
 		Locale userLocale = user.getLocale();
