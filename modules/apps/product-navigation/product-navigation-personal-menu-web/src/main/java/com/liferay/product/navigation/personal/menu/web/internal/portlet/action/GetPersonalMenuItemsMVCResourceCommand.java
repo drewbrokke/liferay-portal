@@ -41,7 +41,6 @@ import com.liferay.product.navigation.personal.menu.web.internal.PersonalMenuEnt
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 
 import javax.portlet.PortletRequest;
@@ -99,15 +98,8 @@ public class GetPersonalMenuItemsMVCResourceCommand
 		String realUserScreenName = realUser.getScreenName();
 		String userScreenName = user.getScreenName();
 
-		Map<String, String[]> currentURLParameters =
-			_http.parameterMapFromString(currentURL);
-
-		if (currentURL.contains(userScreenName) &&
-			(currentURLParameters.size() == 1)) {
-
-			currentURL = StringUtil.replace(
-				currentURL, userScreenName, realUserScreenName);
-		}
+		currentURL = StringUtil.replace(
+			currentURL, userScreenName, realUserScreenName);
 
 		JSONObject jsonObject1 = JSONUtil.put(
 			"href", _http.removeParameter(currentURL, "doAsUserId")
