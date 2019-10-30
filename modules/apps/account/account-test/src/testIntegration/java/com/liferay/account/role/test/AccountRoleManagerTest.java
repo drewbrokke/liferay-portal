@@ -109,9 +109,6 @@ public class AccountRoleManagerTest {
 		_addAccountRole(
 			_accountEntry1.getAccountEntryId(),
 			RandomTestUtil.randomString(50));
-
-		// This should not show up in the search results
-
 		_addAccountRole(
 			_accountEntry2.getAccountEntryId(),
 			RandomTestUtil.randomString(50));
@@ -137,8 +134,6 @@ public class AccountRoleManagerTest {
 			_addAccountRole(
 				_accountEntry1.getAccountEntryId(),
 				RandomTestUtil.randomString(50)));
-
-		// This should not show up in the results
 
 		_addAccountRole(
 			_accountEntry2.getAccountEntryId(),
