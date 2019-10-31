@@ -1,7 +1,7 @@
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 import com.liferay.portal.kernel.cache.PortalCache;
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 
+PortalCache<String, String> testPortalCache = PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM, "test.cache");
 
-PortalCache<String, String> testCache = MultiVMPoolUtil.getPortalCache("test.cache");
-
-testCache.remove("test.key");
+testPortalCache.remove("test.key");

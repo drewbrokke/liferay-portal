@@ -34,4 +34,13 @@ public interface AnalyticsConfiguration {
 	@Meta.AD(name = "token", required = false)
 	public String token();
 
+	@Meta.AD(name = "syncedGroupIds", required = false)
+	public String[] syncedGroupIds();
+
+	@Meta.AD(name = "siteReportingGrouping", required = false)
+	public String siteReportingGrouping();
+
+	@Meta.AD(name = "syncAllContacts", required = false)
+	public boolean syncAllContacts();
+
 }

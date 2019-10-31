@@ -549,6 +549,411 @@ public class DEDataDefinitionFieldLinkUtil {
 	}
 
 	/**
+	 * Returns all the de data definition field links where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @return the matching de data definition field links
+	 */
+	public static List<DEDataDefinitionFieldLink> findByC_C(
+		long classNameId, long classPK) {
+
+		return getPersistence().findByC_C(classNameId, classPK);
+	}
+
+	/**
+	 * Returns a range of all the de data definition field links where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DEDataDefinitionFieldLinkModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param start the lower bound of the range of de data definition field links
+	 * @param end the upper bound of the range of de data definition field links (not inclusive)
+	 * @return the range of matching de data definition field links
+	 */
+	public static List<DEDataDefinitionFieldLink> findByC_C(
+		long classNameId, long classPK, int start, int end) {
+
+		return getPersistence().findByC_C(classNameId, classPK, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the de data definition field links where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DEDataDefinitionFieldLinkModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param start the lower bound of the range of de data definition field links
+	 * @param end the upper bound of the range of de data definition field links (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching de data definition field links
+	 */
+	public static List<DEDataDefinitionFieldLink> findByC_C(
+		long classNameId, long classPK, int start, int end,
+		OrderByComparator<DEDataDefinitionFieldLink> orderByComparator) {
+
+		return getPersistence().findByC_C(
+			classNameId, classPK, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the de data definition field links where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DEDataDefinitionFieldLinkModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param start the lower bound of the range of de data definition field links
+	 * @param end the upper bound of the range of de data definition field links (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching de data definition field links
+	 */
+	public static List<DEDataDefinitionFieldLink> findByC_C(
+		long classNameId, long classPK, int start, int end,
+		OrderByComparator<DEDataDefinitionFieldLink> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByC_C(
+			classNameId, classPK, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
+	 * Returns the first de data definition field link in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching de data definition field link
+	 * @throws NoSuchDataDefinitionFieldLinkException if a matching de data definition field link could not be found
+	 */
+	public static DEDataDefinitionFieldLink findByC_C_First(
+			long classNameId, long classPK,
+			OrderByComparator<DEDataDefinitionFieldLink> orderByComparator)
+		throws com.liferay.data.engine.exception.
+			NoSuchDataDefinitionFieldLinkException {
+
+		return getPersistence().findByC_C_First(
+			classNameId, classPK, orderByComparator);
+	}
+
+	/**
+	 * Returns the first de data definition field link in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching de data definition field link, or <code>null</code> if a matching de data definition field link could not be found
+	 */
+	public static DEDataDefinitionFieldLink fetchByC_C_First(
+		long classNameId, long classPK,
+		OrderByComparator<DEDataDefinitionFieldLink> orderByComparator) {
+
+		return getPersistence().fetchByC_C_First(
+			classNameId, classPK, orderByComparator);
+	}
+
+	/**
+	 * Returns the last de data definition field link in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching de data definition field link
+	 * @throws NoSuchDataDefinitionFieldLinkException if a matching de data definition field link could not be found
+	 */
+	public static DEDataDefinitionFieldLink findByC_C_Last(
+			long classNameId, long classPK,
+			OrderByComparator<DEDataDefinitionFieldLink> orderByComparator)
+		throws com.liferay.data.engine.exception.
+			NoSuchDataDefinitionFieldLinkException {
+
+		return getPersistence().findByC_C_Last(
+			classNameId, classPK, orderByComparator);
+	}
+
+	/**
+	 * Returns the last de data definition field link in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching de data definition field link, or <code>null</code> if a matching de data definition field link could not be found
+	 */
+	public static DEDataDefinitionFieldLink fetchByC_C_Last(
+		long classNameId, long classPK,
+		OrderByComparator<DEDataDefinitionFieldLink> orderByComparator) {
+
+		return getPersistence().fetchByC_C_Last(
+			classNameId, classPK, orderByComparator);
+	}
+
+	/**
+	 * Returns the de data definition field links before and after the current de data definition field link in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param deDataDefinitionFieldLinkId the primary key of the current de data definition field link
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next de data definition field link
+	 * @throws NoSuchDataDefinitionFieldLinkException if a de data definition field link with the primary key could not be found
+	 */
+	public static DEDataDefinitionFieldLink[] findByC_C_PrevAndNext(
+			long deDataDefinitionFieldLinkId, long classNameId, long classPK,
+			OrderByComparator<DEDataDefinitionFieldLink> orderByComparator)
+		throws com.liferay.data.engine.exception.
+			NoSuchDataDefinitionFieldLinkException {
+
+		return getPersistence().findByC_C_PrevAndNext(
+			deDataDefinitionFieldLinkId, classNameId, classPK,
+			orderByComparator);
+	}
+
+	/**
+	 * Removes all the de data definition field links where classNameId = &#63; and classPK = &#63; from the database.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 */
+	public static void removeByC_C(long classNameId, long classPK) {
+		getPersistence().removeByC_C(classNameId, classPK);
+	}
+
+	/**
+	 * Returns the number of de data definition field links where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @return the number of matching de data definition field links
+	 */
+	public static int countByC_C(long classNameId, long classPK) {
+		return getPersistence().countByC_C(classNameId, classPK);
+	}
+
+	/**
+	 * Returns all the de data definition field links where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 * @return the matching de data definition field links
+	 */
+	public static List<DEDataDefinitionFieldLink> findByC_DDMSI_F(
+		long classNameId, long ddmStructureId, String fieldName) {
+
+		return getPersistence().findByC_DDMSI_F(
+			classNameId, ddmStructureId, fieldName);
+	}
+
+	/**
+	 * Returns a range of all the de data definition field links where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DEDataDefinitionFieldLinkModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 * @param start the lower bound of the range of de data definition field links
+	 * @param end the upper bound of the range of de data definition field links (not inclusive)
+	 * @return the range of matching de data definition field links
+	 */
+	public static List<DEDataDefinitionFieldLink> findByC_DDMSI_F(
+		long classNameId, long ddmStructureId, String fieldName, int start,
+		int end) {
+
+		return getPersistence().findByC_DDMSI_F(
+			classNameId, ddmStructureId, fieldName, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the de data definition field links where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DEDataDefinitionFieldLinkModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 * @param start the lower bound of the range of de data definition field links
+	 * @param end the upper bound of the range of de data definition field links (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching de data definition field links
+	 */
+	public static List<DEDataDefinitionFieldLink> findByC_DDMSI_F(
+		long classNameId, long ddmStructureId, String fieldName, int start,
+		int end,
+		OrderByComparator<DEDataDefinitionFieldLink> orderByComparator) {
+
+		return getPersistence().findByC_DDMSI_F(
+			classNameId, ddmStructureId, fieldName, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the de data definition field links where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DEDataDefinitionFieldLinkModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 * @param start the lower bound of the range of de data definition field links
+	 * @param end the upper bound of the range of de data definition field links (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching de data definition field links
+	 */
+	public static List<DEDataDefinitionFieldLink> findByC_DDMSI_F(
+		long classNameId, long ddmStructureId, String fieldName, int start,
+		int end, OrderByComparator<DEDataDefinitionFieldLink> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByC_DDMSI_F(
+			classNameId, ddmStructureId, fieldName, start, end,
+			orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first de data definition field link in the ordered set where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching de data definition field link
+	 * @throws NoSuchDataDefinitionFieldLinkException if a matching de data definition field link could not be found
+	 */
+	public static DEDataDefinitionFieldLink findByC_DDMSI_F_First(
+			long classNameId, long ddmStructureId, String fieldName,
+			OrderByComparator<DEDataDefinitionFieldLink> orderByComparator)
+		throws com.liferay.data.engine.exception.
+			NoSuchDataDefinitionFieldLinkException {
+
+		return getPersistence().findByC_DDMSI_F_First(
+			classNameId, ddmStructureId, fieldName, orderByComparator);
+	}
+
+	/**
+	 * Returns the first de data definition field link in the ordered set where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching de data definition field link, or <code>null</code> if a matching de data definition field link could not be found
+	 */
+	public static DEDataDefinitionFieldLink fetchByC_DDMSI_F_First(
+		long classNameId, long ddmStructureId, String fieldName,
+		OrderByComparator<DEDataDefinitionFieldLink> orderByComparator) {
+
+		return getPersistence().fetchByC_DDMSI_F_First(
+			classNameId, ddmStructureId, fieldName, orderByComparator);
+	}
+
+	/**
+	 * Returns the last de data definition field link in the ordered set where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching de data definition field link
+	 * @throws NoSuchDataDefinitionFieldLinkException if a matching de data definition field link could not be found
+	 */
+	public static DEDataDefinitionFieldLink findByC_DDMSI_F_Last(
+			long classNameId, long ddmStructureId, String fieldName,
+			OrderByComparator<DEDataDefinitionFieldLink> orderByComparator)
+		throws com.liferay.data.engine.exception.
+			NoSuchDataDefinitionFieldLinkException {
+
+		return getPersistence().findByC_DDMSI_F_Last(
+			classNameId, ddmStructureId, fieldName, orderByComparator);
+	}
+
+	/**
+	 * Returns the last de data definition field link in the ordered set where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching de data definition field link, or <code>null</code> if a matching de data definition field link could not be found
+	 */
+	public static DEDataDefinitionFieldLink fetchByC_DDMSI_F_Last(
+		long classNameId, long ddmStructureId, String fieldName,
+		OrderByComparator<DEDataDefinitionFieldLink> orderByComparator) {
+
+		return getPersistence().fetchByC_DDMSI_F_Last(
+			classNameId, ddmStructureId, fieldName, orderByComparator);
+	}
+
+	/**
+	 * Returns the de data definition field links before and after the current de data definition field link in the ordered set where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63;.
+	 *
+	 * @param deDataDefinitionFieldLinkId the primary key of the current de data definition field link
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next de data definition field link
+	 * @throws NoSuchDataDefinitionFieldLinkException if a de data definition field link with the primary key could not be found
+	 */
+	public static DEDataDefinitionFieldLink[] findByC_DDMSI_F_PrevAndNext(
+			long deDataDefinitionFieldLinkId, long classNameId,
+			long ddmStructureId, String fieldName,
+			OrderByComparator<DEDataDefinitionFieldLink> orderByComparator)
+		throws com.liferay.data.engine.exception.
+			NoSuchDataDefinitionFieldLinkException {
+
+		return getPersistence().findByC_DDMSI_F_PrevAndNext(
+			deDataDefinitionFieldLinkId, classNameId, ddmStructureId, fieldName,
+			orderByComparator);
+	}
+
+	/**
+	 * Removes all the de data definition field links where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63; from the database.
+	 *
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 */
+	public static void removeByC_DDMSI_F(
+		long classNameId, long ddmStructureId, String fieldName) {
+
+		getPersistence().removeByC_DDMSI_F(
+			classNameId, ddmStructureId, fieldName);
+	}
+
+	/**
+	 * Returns the number of de data definition field links where classNameId = &#63; and ddmStructureId = &#63; and fieldName = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param ddmStructureId the ddm structure ID
+	 * @param fieldName the field name
+	 * @return the number of matching de data definition field links
+	 */
+	public static int countByC_DDMSI_F(
+		long classNameId, long ddmStructureId, String fieldName) {
+
+		return getPersistence().countByC_DDMSI_F(
+			classNameId, ddmStructureId, fieldName);
+	}
+
+	/**
 	 * Returns the de data definition field link where classNameId = &#63; and classPK = &#63; and ddmStructureId = &#63; and fieldName = &#63; or throws a <code>NoSuchDataDefinitionFieldLinkException</code> if it could not be found.
 	 *
 	 * @param classNameId the class name ID
@@ -558,13 +963,13 @@ public class DEDataDefinitionFieldLinkUtil {
 	 * @return the matching de data definition field link
 	 * @throws NoSuchDataDefinitionFieldLinkException if a matching de data definition field link could not be found
 	 */
-	public static DEDataDefinitionFieldLink findByC_C_D_F(
+	public static DEDataDefinitionFieldLink findByC_C_DDMSI_F(
 			long classNameId, long classPK, long ddmStructureId,
 			String fieldName)
 		throws com.liferay.data.engine.exception.
 			NoSuchDataDefinitionFieldLinkException {
 
-		return getPersistence().findByC_C_D_F(
+		return getPersistence().findByC_C_DDMSI_F(
 			classNameId, classPK, ddmStructureId, fieldName);
 	}
 
@@ -577,10 +982,10 @@ public class DEDataDefinitionFieldLinkUtil {
 	 * @param fieldName the field name
 	 * @return the matching de data definition field link, or <code>null</code> if a matching de data definition field link could not be found
 	 */
-	public static DEDataDefinitionFieldLink fetchByC_C_D_F(
+	public static DEDataDefinitionFieldLink fetchByC_C_DDMSI_F(
 		long classNameId, long classPK, long ddmStructureId, String fieldName) {
 
-		return getPersistence().fetchByC_C_D_F(
+		return getPersistence().fetchByC_C_DDMSI_F(
 			classNameId, classPK, ddmStructureId, fieldName);
 	}
 
@@ -594,11 +999,11 @@ public class DEDataDefinitionFieldLinkUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching de data definition field link, or <code>null</code> if a matching de data definition field link could not be found
 	 */
-	public static DEDataDefinitionFieldLink fetchByC_C_D_F(
+	public static DEDataDefinitionFieldLink fetchByC_C_DDMSI_F(
 		long classNameId, long classPK, long ddmStructureId, String fieldName,
 		boolean useFinderCache) {
 
-		return getPersistence().fetchByC_C_D_F(
+		return getPersistence().fetchByC_C_DDMSI_F(
 			classNameId, classPK, ddmStructureId, fieldName, useFinderCache);
 	}
 
@@ -611,13 +1016,13 @@ public class DEDataDefinitionFieldLinkUtil {
 	 * @param fieldName the field name
 	 * @return the de data definition field link that was removed
 	 */
-	public static DEDataDefinitionFieldLink removeByC_C_D_F(
+	public static DEDataDefinitionFieldLink removeByC_C_DDMSI_F(
 			long classNameId, long classPK, long ddmStructureId,
 			String fieldName)
 		throws com.liferay.data.engine.exception.
 			NoSuchDataDefinitionFieldLinkException {
 
-		return getPersistence().removeByC_C_D_F(
+		return getPersistence().removeByC_C_DDMSI_F(
 			classNameId, classPK, ddmStructureId, fieldName);
 	}
 
@@ -630,10 +1035,10 @@ public class DEDataDefinitionFieldLinkUtil {
 	 * @param fieldName the field name
 	 * @return the number of matching de data definition field links
 	 */
-	public static int countByC_C_D_F(
+	public static int countByC_C_DDMSI_F(
 		long classNameId, long classPK, long ddmStructureId, String fieldName) {
 
-		return getPersistence().countByC_C_D_F(
+		return getPersistence().countByC_C_DDMSI_F(
 			classNameId, classPK, ddmStructureId, fieldName);
 	}
 

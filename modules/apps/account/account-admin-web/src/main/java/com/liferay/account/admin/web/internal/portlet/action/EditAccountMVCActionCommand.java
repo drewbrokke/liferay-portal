@@ -15,6 +15,7 @@
 package com.liferay.account.admin.web.internal.portlet.action;
 
 import com.liferay.account.constants.AccountsPortletKeys;
+import com.liferay.account.exception.AccountEntryDomainsException;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
@@ -28,6 +29,7 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -61,10 +63,12 @@ public class EditAccountMVCActionCommand extends BaseMVCActionCommand {
 			actionRequest, "parentAccountEntryId");
 		String name = ParamUtil.getString(actionRequest, "name");
 		String description = ParamUtil.getString(actionRequest, "description");
+		String domains = ParamUtil.getString(actionRequest, "domains");
 
 		return _accountEntryLocalService.addAccountEntry(
 			themeDisplay.getUserId(), parentAccountEntryId, name, description,
-			_getLogoBytes(actionRequest), _getStatus(actionRequest));
+			StringUtil.split(domains), _getLogoBytes(actionRequest),
+			_getStatus(actionRequest));
 	}
 
 	@Override
@@ -100,6 +104,9 @@ public class EditAccountMVCActionCommand extends BaseMVCActionCommand {
 
 				mvcPath = "/error.jsp";
 			}
+			else if (e instanceof AccountEntryDomainsException) {
+				SessionErrors.add(actionRequest, e.getClass());
+			}
 			else {
 				throw e;
 			}
@@ -119,10 +126,12 @@ public class EditAccountMVCActionCommand extends BaseMVCActionCommand {
 		String name = ParamUtil.getString(actionRequest, "name");
 		String description = ParamUtil.getString(actionRequest, "description");
 		boolean deleteLogo = ParamUtil.getBoolean(actionRequest, "deleteLogo");
+		String domains = ParamUtil.getString(actionRequest, "domains");
 
 		_accountEntryLocalService.updateAccountEntry(
 			accountEntryId, parentAccountEntryId, name, description, deleteLogo,
-			_getLogoBytes(actionRequest), _getStatus(actionRequest));
+			StringUtil.split(domains), _getLogoBytes(actionRequest),
+			_getStatus(actionRequest));
 	}
 
 	private byte[] _getLogoBytes(ActionRequest actionRequest) throws Exception {

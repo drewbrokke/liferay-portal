@@ -56,6 +56,10 @@ public interface DataDefinitionResource {
 			Long dataDefinitionId, DataDefinition dataDefinition)
 		throws Exception;
 
+	public String getDataDefinitionDataDefinitionFieldLink(
+			Long dataDefinitionId, String fieldName)
+		throws Exception;
+
 	public void postDataDefinitionDataDefinitionPermission(
 			Long dataDefinitionId, String operation,
 			DataDefinitionPermission dataDefinitionPermission)

@@ -1698,6 +1698,8 @@ public class ServiceBuilder {
 			methodName.equals("deactivate") || methodName.equals("destroy") ||
 			methodName.equals("equals") ||
 			methodName.equals("getAopInterfaces") ||
+			methodName.equals("getCTIgnoredAttributeNames") ||
+			methodName.equals("getCTMergeableAttributeNames") ||
 			methodName.equals("getCTPersistence") ||
 			methodName.equals("getClass") ||
 			methodName.equals("getModelClass") ||
@@ -5839,6 +5841,19 @@ public class ServiceBuilder {
 				columnElement.attributeValue("localized"));
 			boolean colJsonEnabled = GetterUtil.getBoolean(
 				columnElement.attributeValue("json-enabled"), jsonEnabled);
+
+			String changeTrackingMode = "strict";
+
+			if (columnName.equals("modifiedDate") &&
+				columnType.equals("Date")) {
+
+				changeTrackingMode = "ignore";
+			}
+
+			changeTrackingMode = GetterUtil.getString(
+				columnElement.attributeValue("change-tracking-mode"),
+				changeTrackingMode);
+
 			boolean containerModel = GetterUtil.getBoolean(
 				columnElement.attributeValue("container-model"));
 			boolean parentContainerModel = GetterUtil.getBoolean(
@@ -5862,8 +5877,8 @@ public class ServiceBuilder {
 				columnName, columnDBName, columnType, primary, accessor,
 				filterPrimary, columnEntityName, mappingTableName, idType,
 				idParam, convertNull, lazy, localized, colJsonEnabled,
-				containerModel, parentContainerModel, uadAnonymizeFieldName,
-				uadNonanonymizable);
+				changeTrackingMode, containerModel, parentContainerModel,
+				uadAnonymizeFieldName, uadNonanonymizable);
 
 			if (primary) {
 				if (!columnType.equals("int") && !columnType.equals("long") &&
@@ -5876,6 +5891,17 @@ public class ServiceBuilder {
 				}
 
 				pkEntityColumns.add(entityColumn);
+			}
+
+			if (!changeTrackingMode.equals("strict") &&
+				(primary ||
+				 (!changeTrackingMode.equals("ignore") &&
+				  !changeTrackingMode.equals("merge")))) {
+
+				throw new ServiceBuilderException(
+					StringBundler.concat(
+						"Illegal change-tracking-mode ", changeTrackingMode,
+						" for entity ", entityName, " on column ", columnName));
 			}
 
 			if (columnType.equals("Collection")) {
@@ -6336,8 +6362,8 @@ public class ServiceBuilder {
 		if (versioned) {
 			EntityColumn headEntityColumn = new EntityColumn(
 				"head", "head", "boolean", false, false, false, null, null,
-				null, null, true, false, false, false, false, false, null,
-				false);
+				null, null, true, false, false, false, "strict", false, false,
+				null, false);
 
 			headEntityColumn.setComparator("=");
 			headEntityColumn.setFinderPath(true);

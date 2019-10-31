@@ -409,6 +409,30 @@ paths:
                     description:
                         ""
             tags: ["DataDefinition"]
+    "/data-definitions/{dataDefinitionId}/data-definition-field-links":
+        get:
+            operationId: getDataDefinitionDataDefinitionFieldLink
+            parameters:
+                - in: path
+                  name: dataDefinitionId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: fieldName
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                    description:
+                        ""
+            tags: ["DataDefinition"]
     "/data-definitions/{dataDefinitionId}/data-definition-permissions":
         post:
             operationId: postDataDefinitionDataDefinitionPermission

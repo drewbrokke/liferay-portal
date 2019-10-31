@@ -1985,9 +1985,9 @@ public class DEDataListViewPersistenceImpl
 	private static final String _FINDER_COLUMN_DDMSTRUCTUREID_DDMSTRUCTUREID_2 =
 		"deDataListView.ddmStructureId = ?";
 
-	private FinderPath _finderPathWithPaginationFindByG_C_D;
-	private FinderPath _finderPathWithoutPaginationFindByG_C_D;
-	private FinderPath _finderPathCountByG_C_D;
+	private FinderPath _finderPathWithPaginationFindByG_C_DDMSI;
+	private FinderPath _finderPathWithoutPaginationFindByG_C_DDMSI;
+	private FinderPath _finderPathCountByG_C_DDMSI;
 
 	/**
 	 * Returns all the de data list views where groupId = &#63; and companyId = &#63; and ddmStructureId = &#63;.
@@ -1998,10 +1998,10 @@ public class DEDataListViewPersistenceImpl
 	 * @return the matching de data list views
 	 */
 	@Override
-	public List<DEDataListView> findByG_C_D(
+	public List<DEDataListView> findByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId) {
 
-		return findByG_C_D(
+		return findByG_C_DDMSI(
 			groupId, companyId, ddmStructureId, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
@@ -2021,10 +2021,10 @@ public class DEDataListViewPersistenceImpl
 	 * @return the range of matching de data list views
 	 */
 	@Override
-	public List<DEDataListView> findByG_C_D(
+	public List<DEDataListView> findByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId, int start, int end) {
 
-		return findByG_C_D(
+		return findByG_C_DDMSI(
 			groupId, companyId, ddmStructureId, start, end, null);
 	}
 
@@ -2044,11 +2044,11 @@ public class DEDataListViewPersistenceImpl
 	 * @return the ordered range of matching de data list views
 	 */
 	@Override
-	public List<DEDataListView> findByG_C_D(
+	public List<DEDataListView> findByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId, int start, int end,
 		OrderByComparator<DEDataListView> orderByComparator) {
 
-		return findByG_C_D(
+		return findByG_C_DDMSI(
 			groupId, companyId, ddmStructureId, start, end, orderByComparator,
 			true);
 	}
@@ -2070,7 +2070,7 @@ public class DEDataListViewPersistenceImpl
 	 * @return the ordered range of matching de data list views
 	 */
 	@Override
-	public List<DEDataListView> findByG_C_D(
+	public List<DEDataListView> findByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId, int start, int end,
 		OrderByComparator<DEDataListView> orderByComparator,
 		boolean useFinderCache) {
@@ -2082,12 +2082,12 @@ public class DEDataListViewPersistenceImpl
 			(orderByComparator == null)) {
 
 			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByG_C_D;
+				finderPath = _finderPathWithoutPaginationFindByG_C_DDMSI;
 				finderArgs = new Object[] {groupId, companyId, ddmStructureId};
 			}
 		}
 		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByG_C_D;
+			finderPath = _finderPathWithPaginationFindByG_C_DDMSI;
 			finderArgs = new Object[] {
 				groupId, companyId, ddmStructureId, start, end,
 				orderByComparator
@@ -2128,11 +2128,11 @@ public class DEDataListViewPersistenceImpl
 
 			query.append(_SQL_SELECT_DEDATALISTVIEW_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_D_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_DDMSI_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_C_D_COMPANYID_2);
+			query.append(_FINDER_COLUMN_G_C_DDMSI_COMPANYID_2);
 
-			query.append(_FINDER_COLUMN_G_C_D_DDMSTRUCTUREID_2);
+			query.append(_FINDER_COLUMN_G_C_DDMSI_DDMSTRUCTUREID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
@@ -2194,12 +2194,12 @@ public class DEDataListViewPersistenceImpl
 	 * @throws NoSuchDataListViewException if a matching de data list view could not be found
 	 */
 	@Override
-	public DEDataListView findByG_C_D_First(
+	public DEDataListView findByG_C_DDMSI_First(
 			long groupId, long companyId, long ddmStructureId,
 			OrderByComparator<DEDataListView> orderByComparator)
 		throws NoSuchDataListViewException {
 
-		DEDataListView deDataListView = fetchByG_C_D_First(
+		DEDataListView deDataListView = fetchByG_C_DDMSI_First(
 			groupId, companyId, ddmStructureId, orderByComparator);
 
 		if (deDataListView != null) {
@@ -2234,11 +2234,11 @@ public class DEDataListViewPersistenceImpl
 	 * @return the first matching de data list view, or <code>null</code> if a matching de data list view could not be found
 	 */
 	@Override
-	public DEDataListView fetchByG_C_D_First(
+	public DEDataListView fetchByG_C_DDMSI_First(
 		long groupId, long companyId, long ddmStructureId,
 		OrderByComparator<DEDataListView> orderByComparator) {
 
-		List<DEDataListView> list = findByG_C_D(
+		List<DEDataListView> list = findByG_C_DDMSI(
 			groupId, companyId, ddmStructureId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2259,12 +2259,12 @@ public class DEDataListViewPersistenceImpl
 	 * @throws NoSuchDataListViewException if a matching de data list view could not be found
 	 */
 	@Override
-	public DEDataListView findByG_C_D_Last(
+	public DEDataListView findByG_C_DDMSI_Last(
 			long groupId, long companyId, long ddmStructureId,
 			OrderByComparator<DEDataListView> orderByComparator)
 		throws NoSuchDataListViewException {
 
-		DEDataListView deDataListView = fetchByG_C_D_Last(
+		DEDataListView deDataListView = fetchByG_C_DDMSI_Last(
 			groupId, companyId, ddmStructureId, orderByComparator);
 
 		if (deDataListView != null) {
@@ -2299,17 +2299,17 @@ public class DEDataListViewPersistenceImpl
 	 * @return the last matching de data list view, or <code>null</code> if a matching de data list view could not be found
 	 */
 	@Override
-	public DEDataListView fetchByG_C_D_Last(
+	public DEDataListView fetchByG_C_DDMSI_Last(
 		long groupId, long companyId, long ddmStructureId,
 		OrderByComparator<DEDataListView> orderByComparator) {
 
-		int count = countByG_C_D(groupId, companyId, ddmStructureId);
+		int count = countByG_C_DDMSI(groupId, companyId, ddmStructureId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<DEDataListView> list = findByG_C_D(
+		List<DEDataListView> list = findByG_C_DDMSI(
 			groupId, companyId, ddmStructureId, count - 1, count,
 			orderByComparator);
 
@@ -2332,7 +2332,7 @@ public class DEDataListViewPersistenceImpl
 	 * @throws NoSuchDataListViewException if a de data list view with the primary key could not be found
 	 */
 	@Override
-	public DEDataListView[] findByG_C_D_PrevAndNext(
+	public DEDataListView[] findByG_C_DDMSI_PrevAndNext(
 			long deDataListViewId, long groupId, long companyId,
 			long ddmStructureId,
 			OrderByComparator<DEDataListView> orderByComparator)
@@ -2347,13 +2347,13 @@ public class DEDataListViewPersistenceImpl
 
 			DEDataListView[] array = new DEDataListViewImpl[3];
 
-			array[0] = getByG_C_D_PrevAndNext(
+			array[0] = getByG_C_DDMSI_PrevAndNext(
 				session, deDataListView, groupId, companyId, ddmStructureId,
 				orderByComparator, true);
 
 			array[1] = deDataListView;
 
-			array[2] = getByG_C_D_PrevAndNext(
+			array[2] = getByG_C_DDMSI_PrevAndNext(
 				session, deDataListView, groupId, companyId, ddmStructureId,
 				orderByComparator, false);
 
@@ -2367,7 +2367,7 @@ public class DEDataListViewPersistenceImpl
 		}
 	}
 
-	protected DEDataListView getByG_C_D_PrevAndNext(
+	protected DEDataListView getByG_C_DDMSI_PrevAndNext(
 		Session session, DEDataListView deDataListView, long groupId,
 		long companyId, long ddmStructureId,
 		OrderByComparator<DEDataListView> orderByComparator, boolean previous) {
@@ -2385,11 +2385,11 @@ public class DEDataListViewPersistenceImpl
 
 		query.append(_SQL_SELECT_DEDATALISTVIEW_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_D_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_DDMSI_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_G_C_D_COMPANYID_2);
+		query.append(_FINDER_COLUMN_G_C_DDMSI_COMPANYID_2);
 
-		query.append(_FINDER_COLUMN_G_C_D_DDMSTRUCTUREID_2);
+		query.append(_FINDER_COLUMN_G_C_DDMSI_DDMSTRUCTUREID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
@@ -2493,11 +2493,11 @@ public class DEDataListViewPersistenceImpl
 	 * @param ddmStructureId the ddm structure ID
 	 */
 	@Override
-	public void removeByG_C_D(
+	public void removeByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId) {
 
 		for (DEDataListView deDataListView :
-				findByG_C_D(
+				findByG_C_DDMSI(
 					groupId, companyId, ddmStructureId, QueryUtil.ALL_POS,
 					QueryUtil.ALL_POS, null)) {
 
@@ -2514,8 +2514,10 @@ public class DEDataListViewPersistenceImpl
 	 * @return the number of matching de data list views
 	 */
 	@Override
-	public int countByG_C_D(long groupId, long companyId, long ddmStructureId) {
-		FinderPath finderPath = _finderPathCountByG_C_D;
+	public int countByG_C_DDMSI(
+		long groupId, long companyId, long ddmStructureId) {
+
+		FinderPath finderPath = _finderPathCountByG_C_DDMSI;
 
 		Object[] finderArgs = new Object[] {groupId, companyId, ddmStructureId};
 
@@ -2526,11 +2528,11 @@ public class DEDataListViewPersistenceImpl
 
 			query.append(_SQL_COUNT_DEDATALISTVIEW_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_D_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_DDMSI_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_C_D_COMPANYID_2);
+			query.append(_FINDER_COLUMN_G_C_DDMSI_COMPANYID_2);
 
-			query.append(_FINDER_COLUMN_G_C_D_DDMSTRUCTUREID_2);
+			query.append(_FINDER_COLUMN_G_C_DDMSI_DDMSTRUCTUREID_2);
 
 			String sql = query.toString();
 
@@ -2566,13 +2568,13 @@ public class DEDataListViewPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_D_GROUPID_2 =
+	private static final String _FINDER_COLUMN_G_C_DDMSI_GROUPID_2 =
 		"deDataListView.groupId = ? AND ";
 
-	private static final String _FINDER_COLUMN_G_C_D_COMPANYID_2 =
+	private static final String _FINDER_COLUMN_G_C_DDMSI_COMPANYID_2 =
 		"deDataListView.companyId = ? AND ";
 
-	private static final String _FINDER_COLUMN_G_C_D_DDMSTRUCTUREID_2 =
+	private static final String _FINDER_COLUMN_G_C_DDMSI_DDMSTRUCTUREID_2 =
 		"deDataListView.ddmStructureId = ?";
 
 	public DEDataListViewPersistenceImpl() {
@@ -2935,9 +2937,9 @@ public class DEDataListViewPersistenceImpl
 				deDataListViewModelImpl.getDdmStructureId()
 			};
 
-			finderCache.removeResult(_finderPathCountByG_C_D, args);
+			finderCache.removeResult(_finderPathCountByG_C_DDMSI, args);
 			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_C_D, args);
+				_finderPathWithoutPaginationFindByG_C_DDMSI, args);
 
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
@@ -3010,8 +3012,8 @@ public class DEDataListViewPersistenceImpl
 			}
 
 			if ((deDataListViewModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_C_D.getColumnBitmask()) !=
-					 0) {
+				 _finderPathWithoutPaginationFindByG_C_DDMSI.
+					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
 					deDataListViewModelImpl.getOriginalGroupId(),
@@ -3019,9 +3021,9 @@ public class DEDataListViewPersistenceImpl
 					deDataListViewModelImpl.getOriginalDdmStructureId()
 				};
 
-				finderCache.removeResult(_finderPathCountByG_C_D, args);
+				finderCache.removeResult(_finderPathCountByG_C_DDMSI, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C_D, args);
+					_finderPathWithoutPaginationFindByG_C_DDMSI, args);
 
 				args = new Object[] {
 					deDataListViewModelImpl.getGroupId(),
@@ -3029,9 +3031,9 @@ public class DEDataListViewPersistenceImpl
 					deDataListViewModelImpl.getDdmStructureId()
 				};
 
-				finderCache.removeResult(_finderPathCountByG_C_D, args);
+				finderCache.removeResult(_finderPathCountByG_C_DDMSI, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C_D, args);
+					_finderPathWithoutPaginationFindByG_C_DDMSI, args);
 			}
 		}
 
@@ -3402,18 +3404,18 @@ public class DEDataListViewPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDDMStructureId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByG_C_D = new FinderPath(
+		_finderPathWithPaginationFindByG_C_DDMSI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DEDataListViewImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_D",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_DDMSI",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_C_D = new FinderPath(
+		_finderPathWithoutPaginationFindByG_C_DDMSI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DEDataListViewImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_D",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_DDMSI",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -3421,9 +3423,9 @@ public class DEDataListViewPersistenceImpl
 			DEDataListViewModelImpl.COMPANYID_COLUMN_BITMASK |
 			DEDataListViewModelImpl.DDMSTRUCTUREID_COLUMN_BITMASK);
 
-		_finderPathCountByG_C_D = new FinderPath(
+		_finderPathCountByG_C_DDMSI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_D",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_DDMSI",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});

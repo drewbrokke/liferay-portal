@@ -17,7 +17,9 @@ package com.liferay.portal.kernel.service.persistence.change.tracking;
 import com.liferay.portal.kernel.model.change.tracking.CTModel;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Preston Crary
@@ -26,6 +28,14 @@ public interface CTPersistence<T extends CTModel<T>>
 	extends BasePersistence<T> {
 
 	public List<T> findByCTCollectionId(long ctCollectionId);
+
+	public default Set<String> getCTIgnoredAttributeNames() {
+		return Collections.emptySet();
+	}
+
+	public default Set<String> getCTMergeableAttributeNames() {
+		return Collections.emptySet();
+	}
 
 	public List<String[]> getUniqueIndexColumnNames();
 

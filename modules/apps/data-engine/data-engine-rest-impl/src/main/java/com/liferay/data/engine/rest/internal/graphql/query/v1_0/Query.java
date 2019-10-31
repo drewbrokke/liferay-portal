@@ -133,6 +133,25 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {dataDefinitionDataDefinitionFieldLink(dataDefinitionId: ___, fieldName: ___){}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField
+	public String dataDefinitionDataDefinitionFieldLink(
+			@GraphQLName("dataDefinitionId") Long dataDefinitionId,
+			@GraphQLName("fieldName") String fieldName)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_dataDefinitionResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			dataDefinitionResource ->
+				dataDefinitionResource.getDataDefinitionDataDefinitionFieldLink(
+					dataDefinitionId, fieldName));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {dataDefinitions(keywords: ___, page: ___, pageSize: ___, siteId: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField
@@ -535,6 +554,33 @@ public class Query {
 					dataRecordResource.getDataDefinitionDataRecordsPage(
 						_dataDefinition.getId(),
 						Pagination.of(page, pageSize))));
+		}
+
+		private DataDefinition _dataDefinition;
+
+	}
+
+	@GraphQLTypeExtension(DataDefinition.class)
+	public class GetDataDefinitionDataDefinitionFieldLinkTypeExtension {
+
+		public GetDataDefinitionDataDefinitionFieldLinkTypeExtension(
+			DataDefinition dataDefinition) {
+
+			_dataDefinition = dataDefinition;
+		}
+
+		@GraphQLField
+		public String dataDefinitionFieldLink(
+				@GraphQLName("fieldName") String fieldName)
+			throws Exception {
+
+			return _applyComponentServiceObjects(
+				_dataDefinitionResourceComponentServiceObjects,
+				Query.this::_populateResourceContext,
+				dataDefinitionResource ->
+					dataDefinitionResource.
+						getDataDefinitionDataDefinitionFieldLink(
+							_dataDefinition.getId(), fieldName));
 		}
 
 		private DataDefinition _dataDefinition;

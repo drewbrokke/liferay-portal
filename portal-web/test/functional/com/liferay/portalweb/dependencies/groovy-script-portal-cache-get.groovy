@@ -1,11 +1,12 @@
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 import com.liferay.portal.kernel.cache.PortalCache;
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
+
 import java.util.List;
 
+PortalCache<String, String> testPortalCache = PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM, "test.cache");
 
-PortalCache<String, String> testCache = MultiVMPoolUtil.getPortalCache("test.cache");
-
-List<String> keys = testCache.getKeys();
+List<String> keys = testPortalCache.getKeys();
 
 if (keys.isEmpty()) {
 	out.println("test.cache is empty");
@@ -14,5 +15,5 @@ if (keys.isEmpty()) {
 }
 
 for (String key : keys) {
-	out.println(key  + "=" + testCache.get(key));
+	out.println(key  + "=" + testPortalCache.get(key));
 }

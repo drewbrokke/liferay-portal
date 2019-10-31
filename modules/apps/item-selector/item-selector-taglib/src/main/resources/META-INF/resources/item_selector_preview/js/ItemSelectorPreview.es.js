@@ -30,7 +30,7 @@ const TPL_EDIT_DIALOG_TITLE = '{edit} {title} ({copy})';
 
 class ItemSelectorPreview extends Component {
 	static propTypes = {
-		container: PropTypes.node,
+		container: PropTypes.instanceOf(Element),
 		currentIndex: PropTypes.number.isRequired,
 		editItemURL: PropTypes.string.isRequired,
 		handleSelectedItem: PropTypes.func.isRequired,
@@ -51,6 +51,8 @@ class ItemSelectorPreview extends Component {
 			currentItemIndex: currentIndex,
 			items
 		};
+
+		this.infoButtonRef = React.createRef();
 	}
 
 	componentDidMount() {
@@ -58,6 +60,17 @@ class ItemSelectorPreview extends Component {
 			'keydown',
 			this.handleOnKeyDown.bind(this)
 		);
+
+		const sidenavToggle = this.infoButtonRef.current;
+
+		if (sidenavToggle) {
+			Liferay.SideNavigation.initialize(sidenavToggle, {
+				container: '.sidenav-container',
+				position: 'right',
+				typeMobile: 'fixed',
+				width: '320px'
+			});
+		}
 	}
 
 	componentWillUnmount() {
@@ -223,6 +236,7 @@ class ItemSelectorPreview extends Component {
 					handleClickDone={this.handleClickDone}
 					handleClickEdit={this.handleClickEdit}
 					headerTitle={this.props.headerTitle}
+					infoButtonRef={this.infoButtonRef}
 				/>
 
 				<Carousel

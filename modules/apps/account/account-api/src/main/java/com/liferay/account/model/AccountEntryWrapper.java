@@ -52,6 +52,7 @@ public class AccountEntryWrapper
 		attributes.put("parentAccountEntryId", getParentAccountEntryId());
 		attributes.put("name", getName());
 		attributes.put("description", getDescription());
+		attributes.put("domains", getDomains());
 		attributes.put("logoId", getLogoId());
 		attributes.put("status", getStatus());
 
@@ -121,6 +122,12 @@ public class AccountEntryWrapper
 			setDescription(description);
 		}
 
+		String domains = (String)attributes.get("domains");
+
+		if (domains != null) {
+			setDomains(domains);
+		}
+
 		Long logoId = (Long)attributes.get("logoId");
 
 		if (logoId != null) {
@@ -182,6 +189,16 @@ public class AccountEntryWrapper
 	@Override
 	public String getDescription() {
 		return model.getDescription();
+	}
+
+	/**
+	 * Returns the domains of this account entry.
+	 *
+	 * @return the domains of this account entry
+	 */
+	@Override
+	public String getDomains() {
+		return model.getDomains();
 	}
 
 	/**
@@ -332,6 +349,16 @@ public class AccountEntryWrapper
 	@Override
 	public void setDescription(String description) {
 		model.setDescription(description);
+	}
+
+	/**
+	 * Sets the domains of this account entry.
+	 *
+	 * @param domains the domains of this account entry
+	 */
+	@Override
+	public void setDomains(String domains) {
+		model.setDomains(domains);
 	}
 
 	/**

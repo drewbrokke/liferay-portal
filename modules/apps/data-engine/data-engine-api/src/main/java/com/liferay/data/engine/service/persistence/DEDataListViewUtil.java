@@ -720,10 +720,11 @@ public class DEDataListViewUtil {
 	 * @param ddmStructureId the ddm structure ID
 	 * @return the matching de data list views
 	 */
-	public static List<DEDataListView> findByG_C_D(
+	public static List<DEDataListView> findByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId) {
 
-		return getPersistence().findByG_C_D(groupId, companyId, ddmStructureId);
+		return getPersistence().findByG_C_DDMSI(
+			groupId, companyId, ddmStructureId);
 	}
 
 	/**
@@ -740,10 +741,10 @@ public class DEDataListViewUtil {
 	 * @param end the upper bound of the range of de data list views (not inclusive)
 	 * @return the range of matching de data list views
 	 */
-	public static List<DEDataListView> findByG_C_D(
+	public static List<DEDataListView> findByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId, int start, int end) {
 
-		return getPersistence().findByG_C_D(
+		return getPersistence().findByG_C_DDMSI(
 			groupId, companyId, ddmStructureId, start, end);
 	}
 
@@ -762,11 +763,11 @@ public class DEDataListViewUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching de data list views
 	 */
-	public static List<DEDataListView> findByG_C_D(
+	public static List<DEDataListView> findByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId, int start, int end,
 		OrderByComparator<DEDataListView> orderByComparator) {
 
-		return getPersistence().findByG_C_D(
+		return getPersistence().findByG_C_DDMSI(
 			groupId, companyId, ddmStructureId, start, end, orderByComparator);
 	}
 
@@ -786,12 +787,12 @@ public class DEDataListViewUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching de data list views
 	 */
-	public static List<DEDataListView> findByG_C_D(
+	public static List<DEDataListView> findByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId, int start, int end,
 		OrderByComparator<DEDataListView> orderByComparator,
 		boolean useFinderCache) {
 
-		return getPersistence().findByG_C_D(
+		return getPersistence().findByG_C_DDMSI(
 			groupId, companyId, ddmStructureId, start, end, orderByComparator,
 			useFinderCache);
 	}
@@ -806,12 +807,12 @@ public class DEDataListViewUtil {
 	 * @return the first matching de data list view
 	 * @throws NoSuchDataListViewException if a matching de data list view could not be found
 	 */
-	public static DEDataListView findByG_C_D_First(
+	public static DEDataListView findByG_C_DDMSI_First(
 			long groupId, long companyId, long ddmStructureId,
 			OrderByComparator<DEDataListView> orderByComparator)
 		throws com.liferay.data.engine.exception.NoSuchDataListViewException {
 
-		return getPersistence().findByG_C_D_First(
+		return getPersistence().findByG_C_DDMSI_First(
 			groupId, companyId, ddmStructureId, orderByComparator);
 	}
 
@@ -824,11 +825,11 @@ public class DEDataListViewUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching de data list view, or <code>null</code> if a matching de data list view could not be found
 	 */
-	public static DEDataListView fetchByG_C_D_First(
+	public static DEDataListView fetchByG_C_DDMSI_First(
 		long groupId, long companyId, long ddmStructureId,
 		OrderByComparator<DEDataListView> orderByComparator) {
 
-		return getPersistence().fetchByG_C_D_First(
+		return getPersistence().fetchByG_C_DDMSI_First(
 			groupId, companyId, ddmStructureId, orderByComparator);
 	}
 
@@ -842,12 +843,12 @@ public class DEDataListViewUtil {
 	 * @return the last matching de data list view
 	 * @throws NoSuchDataListViewException if a matching de data list view could not be found
 	 */
-	public static DEDataListView findByG_C_D_Last(
+	public static DEDataListView findByG_C_DDMSI_Last(
 			long groupId, long companyId, long ddmStructureId,
 			OrderByComparator<DEDataListView> orderByComparator)
 		throws com.liferay.data.engine.exception.NoSuchDataListViewException {
 
-		return getPersistence().findByG_C_D_Last(
+		return getPersistence().findByG_C_DDMSI_Last(
 			groupId, companyId, ddmStructureId, orderByComparator);
 	}
 
@@ -860,11 +861,11 @@ public class DEDataListViewUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching de data list view, or <code>null</code> if a matching de data list view could not be found
 	 */
-	public static DEDataListView fetchByG_C_D_Last(
+	public static DEDataListView fetchByG_C_DDMSI_Last(
 		long groupId, long companyId, long ddmStructureId,
 		OrderByComparator<DEDataListView> orderByComparator) {
 
-		return getPersistence().fetchByG_C_D_Last(
+		return getPersistence().fetchByG_C_DDMSI_Last(
 			groupId, companyId, ddmStructureId, orderByComparator);
 	}
 
@@ -879,13 +880,13 @@ public class DEDataListViewUtil {
 	 * @return the previous, current, and next de data list view
 	 * @throws NoSuchDataListViewException if a de data list view with the primary key could not be found
 	 */
-	public static DEDataListView[] findByG_C_D_PrevAndNext(
+	public static DEDataListView[] findByG_C_DDMSI_PrevAndNext(
 			long deDataListViewId, long groupId, long companyId,
 			long ddmStructureId,
 			OrderByComparator<DEDataListView> orderByComparator)
 		throws com.liferay.data.engine.exception.NoSuchDataListViewException {
 
-		return getPersistence().findByG_C_D_PrevAndNext(
+		return getPersistence().findByG_C_DDMSI_PrevAndNext(
 			deDataListViewId, groupId, companyId, ddmStructureId,
 			orderByComparator);
 	}
@@ -897,10 +898,10 @@ public class DEDataListViewUtil {
 	 * @param companyId the company ID
 	 * @param ddmStructureId the ddm structure ID
 	 */
-	public static void removeByG_C_D(
+	public static void removeByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId) {
 
-		getPersistence().removeByG_C_D(groupId, companyId, ddmStructureId);
+		getPersistence().removeByG_C_DDMSI(groupId, companyId, ddmStructureId);
 	}
 
 	/**
@@ -911,10 +912,10 @@ public class DEDataListViewUtil {
 	 * @param ddmStructureId the ddm structure ID
 	 * @return the number of matching de data list views
 	 */
-	public static int countByG_C_D(
+	public static int countByG_C_DDMSI(
 		long groupId, long companyId, long ddmStructureId) {
 
-		return getPersistence().countByG_C_D(
+		return getPersistence().countByG_C_DDMSI(
 			groupId, companyId, ddmStructureId);
 	}
 

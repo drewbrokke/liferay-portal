@@ -25,7 +25,16 @@
 		<finder name="DDMStructureId" return-type="Collection">
 			<finder-column name="ddmStructureId" />
 		</finder>
-		<finder name="C_C_D_F" return-type="DEDataDefinitionFieldLink" unique="true">
+		<finder name="C_C" return-type="Collection">
+			<finder-column name="classNameId" />
+			<finder-column name="classPK" />
+		</finder>
+		<finder name="C_DDMSI_F" return-type="Collection">
+			<finder-column name="classNameId" />
+			<finder-column name="ddmStructureId" />
+			<finder-column name="fieldName" />
+		</finder>
+		<finder name="C_C_DDMSI_F" return-type="DEDataDefinitionFieldLink" unique="true">
 			<finder-column name="classNameId" />
 			<finder-column name="classPK" />
 			<finder-column name="ddmStructureId" />
@@ -63,7 +72,7 @@
 		<finder name="DDMStructureId" return-type="Collection">
 			<finder-column name="ddmStructureId" />
 		</finder>
-		<finder name="G_C_D" return-type="Collection">
+		<finder name="G_C_DDMSI" return-type="Collection">
 			<finder-column name="groupId" />
 			<finder-column name="companyId" />
 			<finder-column name="ddmStructureId" />

@@ -361,6 +361,13 @@ public abstract class BaseDataDefinitionResourceTestCase {
 	}
 
 	@Test
+	public void testGetDataDefinitionDataDefinitionFieldLink()
+		throws Exception {
+
+		Assert.assertTrue(false);
+	}
+
+	@Test
 	public void testPostDataDefinitionDataDefinitionPermission()
 		throws Exception {
 

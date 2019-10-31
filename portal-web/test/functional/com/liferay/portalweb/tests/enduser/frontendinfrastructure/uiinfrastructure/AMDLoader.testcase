@@ -1,0 +1,69 @@
+@component-name = "portal-frontend-infrastructure"
+definition {
+
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "AMD Loader";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if ("${testPortalInstance}" == "true") {
+			PortalInstances.tearDownCP();
+		}
+	}
+
+	@priority = "5"
+	test CheckAMDLoaderLogLevel {
+		property test.name.skip.portal.instance = "AMDLoader#CheckAMDLoaderLogLevel";
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "System Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Infrastructure",
+			configurationName = "JavaScript Loader",
+			configurationScope = "System Scope");
+
+		FormFields.viewSelectOption(
+			fieldName = "Log Level",
+			selectOption = "Warn");
+
+		var logLevel = AMDLoader.getAMDLoaderLogLevel();
+
+		if ("${logLevel}" != "warn") {
+			fail("AMD log level isn't set to Warn in JS console.");
+		}
+
+		for (var logLevelOptionName : list "Off,Error,Info,Debug") {
+			var logLevelOptionNameLowercase = StringUtil.lowerCase("${logLevelOptionName}");
+
+			SystemSettings.selectOptionSetting(
+				fieldName = "Log Level",
+				selectOption = "${logLevelOptionName}");
+
+			SystemSettings.saveConfiguration();
+
+			Refresh();
+
+			FormFields.viewSelectOption(
+				fieldName = "Log Level",
+				selectOption = "${logLevelOptionName}");
+
+			var logLevel = AMDLoader.getAMDLoaderLogLevel();
+
+			if ("${logLevel}" != "${logLevelOptionNameLowercase}") {
+				fail("AMD log level isn't set to ${logLevelOptionName} in JS console.");
+			}
+		}
+	}
+
+}

@@ -16,7 +16,7 @@ configurations {
 dependencies {
 	compile group: "com.github.jk1", name: "gradle-license-report", version: "1.8"
 	compile group: "com.gradle.publish", name: "plugin-publish-plugin", version: "0.9.9"
-	compile group: "com.liferay", name: "com.liferay.gradle.plugins", version: "4.4.59"
+	compile group: "com.liferay", name: "com.liferay.gradle.plugins", version: "4.4.62"
 	compile group: "com.liferay", name: "com.liferay.gradle.plugins.app.javadoc.builder", version: "1.2.2"
 	compile group: "com.liferay", name: "com.liferay.gradle.plugins.baseline", version: "2.2.1"
 	compile group: "com.liferay", name: "com.liferay.gradle.plugins.cache", version: "1.0.16"
@@ -26,7 +26,7 @@ dependencies {
 	compile group: "com.liferay", name: "com.liferay.gradle.plugins.jsdoc", version: "2.0.46"
 	compile group: "com.liferay", name: "com.liferay.gradle.plugins.lang.merger", version: "1.1.2"
 	compile group: "com.liferay", name: "com.liferay.gradle.plugins.patcher", version: "1.0.16"
-	compile group: "com.liferay", name: "com.liferay.gradle.plugins.poshi.runner", version: "2.2.15"
+	compile group: "com.liferay", name: "com.liferay.gradle.plugins.poshi.runner", version: "2.2.16"
 	compile group: "com.liferay", name: "com.liferay.gradle.plugins.whip", version: "1.0.7"
 	compile group: "com.netflix.nebula", name: "gradle-extra-configurations-plugin", version: "3.1.0"
 	compile group: "org.apache.aries.jmx", name: "org.apache.aries.jmx.api", version: "1.1.0"

@@ -72,6 +72,9 @@ public class DataListViewResourceImpl
 
 	@Override
 	public void deleteDataListView(Long dataListViewId) throws Exception {
+		_deDataDefinitionFieldLinkLocalService.deleteDEDataDefinitionFieldLinks(
+			_getClassNameId(), dataListViewId);
+
 		_deDataListViewLocalService.deleteDEDataListView(dataListViewId);
 	}
 
@@ -167,12 +170,9 @@ public class DataListViewResourceImpl
 				LocalizedValueUtil.toLocaleStringMap(dataListView.getName()),
 				dataListView.getSortField()));
 
-		for (String fieldName : dataListView.getFieldNames()) {
-			_deDataDefinitionFieldLinkLocalService.addDEDataDefinitionFieldLink(
-				dataListView.getSiteId(),
-				_portal.getClassNameId(DEDataListView.class),
-				dataListView.getId(), ddmStructure.getStructureId(), fieldName);
-		}
+		_addDataDefinitionFieldLinks(
+			dataListView.getDataDefinitionId(), dataListView.getId(),
+			dataListView.getFieldNames(), dataListView.getSiteId());
 
 		return dataListView;
 	}
@@ -182,13 +182,37 @@ public class DataListViewResourceImpl
 			Long dataListViewId, DataListView dataListView)
 		throws Exception {
 
-		return _toDataListView(
+		dataListView = _toDataListView(
 			_deDataListViewLocalService.updateDEDataListView(
 				dataListViewId,
 				MapUtil.toString(dataListView.getAppliedFilters()),
 				Arrays.toString(dataListView.getFieldNames()),
 				LocalizedValueUtil.toLocaleStringMap(dataListView.getName()),
 				dataListView.getSortField()));
+
+		_deDataDefinitionFieldLinkLocalService.deleteDEDataDefinitionFieldLinks(
+			_getClassNameId(), dataListViewId);
+
+		_addDataDefinitionFieldLinks(
+			dataListView.getDataDefinitionId(), dataListView.getId(),
+			dataListView.getFieldNames(), dataListView.getSiteId());
+
+		return dataListView;
+	}
+
+	private void _addDataDefinitionFieldLinks(
+		long dataDefinitionId, long dataListViewId, String[] fieldNames,
+		long groupId) {
+
+		for (String fieldName : fieldNames) {
+			_deDataDefinitionFieldLinkLocalService.addDEDataDefinitionFieldLink(
+				groupId, _getClassNameId(), dataListViewId, dataDefinitionId,
+				fieldName);
+		}
+	}
+
+	private long _getClassNameId() {
+		return _portal.getClassNameId(DEDataListView.class);
 	}
 
 	private DataListView _toDataListView(DEDataListView deDataListView)

@@ -91,6 +91,9 @@ public class DataLayoutResourceImpl
 			ActionKeys.DELETE);
 
 		_ddmStructureLayoutLocalService.deleteDDMStructureLayout(dataLayoutId);
+
+		_deDataDefinitionFieldLinkLocalService.deleteDEDataDefinitionFieldLinks(
+			_getClassNameId(), dataLayoutId);
 	}
 
 	@Override
@@ -281,16 +284,9 @@ public class DataLayoutResourceImpl
 			InternalDataLayout.class.getName(), dataLayout.getId(),
 			serviceContext.getModelPermissions());
 
-		DocumentContext documentContext = JsonPath.parse(dataLayoutJSON);
-
-		List<String> fieldNames = documentContext.read(
-			"$[\"pages\"][*][\"rows\"][*][\"columns\"][*][\"fieldNames\"][*]");
-
-		for (String fieldName : fieldNames) {
-			_deDataDefinitionFieldLinkLocalService.addDEDataDefinitionFieldLink(
-				dataLayout.getSiteId(), _getClassNameId(), dataLayout.getId(),
-				dataDefinitionId, fieldName);
-		}
+		_addDataDefinitionFieldLinks(
+			dataDefinitionId, dataLayout.getId(), dataLayoutJSON,
+			dataLayout.getSiteId());
 
 		return dataLayout;
 	}
@@ -374,14 +370,25 @@ public class DataLayoutResourceImpl
 			PermissionThreadLocal.getPermissionChecker(), dataLayoutId,
 			ActionKeys.UPDATE);
 
-		return _toDataLayout(
+		String dataLayoutJSON = DataLayoutUtil.toJSON(dataLayout);
+
+		dataLayout = _toDataLayout(
 			_ddmStructureLayoutLocalService.updateStructureLayout(
 				dataLayoutId,
 				_getDDMStructureVersionId(dataLayout.getDataDefinitionId()),
 				LocalizedValueUtil.toLocaleStringMap(dataLayout.getName()),
 				LocalizedValueUtil.toLocaleStringMap(
 					dataLayout.getDescription()),
-				DataLayoutUtil.toJSON(dataLayout), new ServiceContext()));
+				dataLayoutJSON, new ServiceContext()));
+
+		_deDataDefinitionFieldLinkLocalService.deleteDEDataDefinitionFieldLinks(
+			_getClassNameId(), dataLayoutId);
+
+		_addDataDefinitionFieldLinks(
+			dataLayout.getDataDefinitionId(), dataLayoutId, dataLayoutJSON,
+			dataLayout.getSiteId());
+
+		return dataLayout;
 	}
 
 	@Reference(
@@ -393,6 +400,22 @@ public class DataLayoutResourceImpl
 			modelResourcePermission) {
 
 		_modelResourcePermission = modelResourcePermission;
+	}
+
+	private void _addDataDefinitionFieldLinks(
+		long dataDefinitionId, long dataLayoutId, String dataLayoutJSON,
+		long groupId) {
+
+		DocumentContext documentContext = JsonPath.parse(dataLayoutJSON);
+
+		List<String> fieldNames = documentContext.read(
+			"$[\"pages\"][*][\"rows\"][*][\"columns\"][*][\"fieldNames\"][*]");
+
+		for (String fieldName : fieldNames) {
+			_deDataDefinitionFieldLinkLocalService.addDEDataDefinitionFieldLink(
+				groupId, _getClassNameId(), dataLayoutId, dataDefinitionId,
+				fieldName);
+		}
 	}
 
 	private long _getClassNameId() {
