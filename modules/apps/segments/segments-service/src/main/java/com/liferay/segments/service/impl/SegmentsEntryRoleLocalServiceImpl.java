@@ -32,17 +32,7 @@ import java.util.List;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * The implementation of the segments entry role local service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>com.liferay.segments.service.SegmentsEntryRoleLocalService</code> interface.
- *
- * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
- * </p>
- *
  * @author Eduardo García
- * @see SegmentsEntryRoleLocalServiceBaseImpl
  */
 @Component(
 	property = "model.class.name=com.liferay.segments.model.SegmentsEntryRole",
@@ -55,6 +45,8 @@ public class SegmentsEntryRoleLocalServiceImpl
 	public SegmentsEntryRole addSegmentsEntryRole(
 			long roleId, long segmentsEntryId, ServiceContext serviceContext)
 		throws PortalException {
+
+		// Segments entry role
 
 		User user = userLocalService.getUser(serviceContext.getUserId());
 
@@ -88,6 +80,8 @@ public class SegmentsEntryRoleLocalServiceImpl
 			long roleId, long segmentsEntryId)
 		throws PortalException {
 
+		// Segments entry role
+
 		SegmentsEntryRole segmentsEntryRole =
 			segmentsEntryRolePersistence.removeByR_S(roleId, segmentsEntryId);
 
@@ -103,6 +97,8 @@ public class SegmentsEntryRoleLocalServiceImpl
 	public void deleteSegmentsEntryRoles(long segmentsEntryId)
 		throws PortalException {
 
+		// Segments entry role
+
 		segmentsEntryRolePersistence.removeBySegmentsEntryId(segmentsEntryId);
 
 		// Indexer
@@ -114,6 +110,8 @@ public class SegmentsEntryRoleLocalServiceImpl
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public void deleteSegmentsEntryRolesByRoleId(long roleId)
 		throws PortalException {
+
+		// Segments entry role
 
 		List<SegmentsEntryRole> segmentsEntryRoles =
 			segmentsEntryRolePersistence.findByRoleId(roleId);
