@@ -63,7 +63,7 @@ public class SegmentsEntryRoleLocalServiceTest {
 	public void testAddSegmentsEntryRole() throws PortalException {
 		SegmentsEntryRole segmentsEntryRole =
 			_segmentsEntryRoleLocalService.addSegmentsEntryRole(
-				_role.getRoleId(), _segmentsEntry.getSegmentsEntryId(),
+				_segmentsEntry.getSegmentsEntryId(), _role.getRoleId(),
 				ServiceContextTestUtil.getServiceContext());
 
 		Assert.assertNotNull(segmentsEntryRole);
@@ -80,11 +80,11 @@ public class SegmentsEntryRoleLocalServiceTest {
 	@Test
 	public void testDeleteSegmentsEntryRole() throws PortalException {
 		_segmentsEntryRoleLocalService.addSegmentsEntryRole(
-			_role.getRoleId(), _segmentsEntry.getSegmentsEntryId(),
+			_segmentsEntry.getSegmentsEntryId(), _role.getRoleId(),
 			ServiceContextTestUtil.getServiceContext());
 
 		_segmentsEntryRoleLocalService.deleteSegmentsEntryRole(
-			_role.getRoleId(), _segmentsEntry.getSegmentsEntryId());
+			_segmentsEntry.getSegmentsEntryId(), _role.getRoleId());
 
 		Assert.assertEquals(
 			0,
@@ -95,7 +95,7 @@ public class SegmentsEntryRoleLocalServiceTest {
 	@Test
 	public void testDeleteSegmentsEntryRolesByRoleId() throws PortalException {
 		_segmentsEntryRoleLocalService.addSegmentsEntryRole(
-			_role.getRoleId(), _segmentsEntry.getSegmentsEntryId(),
+			_segmentsEntry.getSegmentsEntryId(), _role.getRoleId(),
 			ServiceContextTestUtil.getServiceContext());
 
 		_segmentsEntryRoleLocalService.deleteSegmentsEntryRolesByRoleId(
@@ -112,7 +112,7 @@ public class SegmentsEntryRoleLocalServiceTest {
 		throws PortalException {
 
 		_segmentsEntryRoleLocalService.addSegmentsEntryRole(
-			_role.getRoleId(), _segmentsEntry.getSegmentsEntryId(),
+			_segmentsEntry.getSegmentsEntryId(), _role.getRoleId(),
 			ServiceContextTestUtil.getServiceContext());
 
 		_segmentsEntryRoleLocalService.deleteSegmentsEntryRoles(
@@ -128,7 +128,7 @@ public class SegmentsEntryRoleLocalServiceTest {
 	public void testGetSegmentsEntryRoles() throws PortalException {
 		SegmentsEntryRole segmentsEntryRole =
 			_segmentsEntryRoleLocalService.addSegmentsEntryRole(
-				_role.getRoleId(), _segmentsEntry.getSegmentsEntryId(),
+				_segmentsEntry.getSegmentsEntryId(), _role.getRoleId(),
 				ServiceContextTestUtil.getServiceContext());
 
 		List<SegmentsEntryRole> segmentsEntryRoles =
@@ -144,7 +144,7 @@ public class SegmentsEntryRoleLocalServiceTest {
 	public void testGetSegmentsEntryRolesByRoleId() throws PortalException {
 		SegmentsEntryRole segmentsEntryRole =
 			_segmentsEntryRoleLocalService.addSegmentsEntryRole(
-				_role.getRoleId(), _segmentsEntry.getSegmentsEntryId(),
+				_segmentsEntry.getSegmentsEntryId(), _role.getRoleId(),
 				ServiceContextTestUtil.getServiceContext());
 
 		List<SegmentsEntryRole> segmentsEntryRoles =

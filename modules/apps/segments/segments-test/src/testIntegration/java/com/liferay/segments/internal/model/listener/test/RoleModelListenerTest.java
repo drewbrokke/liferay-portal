@@ -60,7 +60,7 @@ public class RoleModelListenerTest {
 		throws Exception {
 
 		_segmentsEntryRoleLocalService.addSegmentsEntryRole(
-			_role.getRoleId(), _segmentsEntry.getSegmentsEntryId(),
+			_segmentsEntry.getSegmentsEntryId(), _role.getRoleId(),
 			ServiceContextTestUtil.getServiceContext());
 
 		_roleLocalService.deleteRole(_role.getRoleId());

@@ -43,7 +43,7 @@ public class SegmentsEntryRoleLocalServiceImpl
 
 	@Override
 	public SegmentsEntryRole addSegmentsEntryRole(
-			long roleId, long segmentsEntryId, ServiceContext serviceContext)
+			long segmentsEntryId, long roleId, ServiceContext serviceContext)
 		throws PortalException {
 
 		// Segments entry role
@@ -62,8 +62,8 @@ public class SegmentsEntryRoleLocalServiceImpl
 			serviceContext.getCreateDate(new Date()));
 		segmentsEntryRole.setModifiedDate(
 			serviceContext.getModifiedDate(new Date()));
-		segmentsEntryRole.setRoleId(roleId);
 		segmentsEntryRole.setSegmentsEntryId(segmentsEntryId);
+		segmentsEntryRole.setRoleId(roleId);
 
 		segmentsEntryRolePersistence.update(segmentsEntryRole);
 
@@ -77,13 +77,13 @@ public class SegmentsEntryRoleLocalServiceImpl
 	@Override
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public SegmentsEntryRole deleteSegmentsEntryRole(
-			long roleId, long segmentsEntryId)
+			long segmentsEntryId, long roleId)
 		throws PortalException {
 
 		// Segments entry role
 
 		SegmentsEntryRole segmentsEntryRole =
-			segmentsEntryRolePersistence.removeByR_S(roleId, segmentsEntryId);
+			segmentsEntryRolePersistence.removeByS_R(segmentsEntryId, roleId);
 
 		// Indexer
 

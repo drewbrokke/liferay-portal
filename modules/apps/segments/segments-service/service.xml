@@ -134,20 +134,20 @@
 
 		<!-- Other fields -->
 
-		<column name="roleId" type="long" />
 		<column name="segmentsEntryId" type="long" />
+		<column name="roleId" type="long" />
 
 		<!-- Finder methods -->
 
-		<finder name="RoleId" return-type="Collection">
-			<finder-column name="roleId" />
-		</finder>
 		<finder name="SegmentsEntryId" return-type="Collection">
 			<finder-column name="segmentsEntryId" />
 		</finder>
-		<finder name="R_S" return-type="SegmentsEntryRole" unique="true">
+		<finder name="RoleId" return-type="Collection">
 			<finder-column name="roleId" />
+		</finder>
+		<finder name="S_R" return-type="SegmentsEntryRole" unique="true">
 			<finder-column name="segmentsEntryId" />
+			<finder-column name="roleId" />
 		</finder>
 	</entity>
 	<entity local-service="true" name="SegmentsExperience" remote-service="true" uuid="true">
