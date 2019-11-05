@@ -67,7 +67,6 @@ public class SegmentsEntryModelDocumentContributor
 				segmentsEntry.getDefaultLanguageId(),
 				segmentsEntry.getGroupId()),
 			true, true);
-
 		document.addKeyword(
 			"roleIds", _getRoleIds(segmentsEntry.getSegmentsEntryId()));
 	}
