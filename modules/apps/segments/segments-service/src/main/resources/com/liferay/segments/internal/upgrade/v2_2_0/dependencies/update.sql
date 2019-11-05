@@ -6,11 +6,11 @@ create table SegmentsEntryRole (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	roleId LONG,
-	segmentsEntryId LONG
+	segmentsEntryId LONG,
+	roleId LONG
 );
 
-create unique index IX_B2DD086A on SegmentsEntryRole (roleId, segmentsEntryId);
-create index IX_1B24832F on SegmentsEntryRole (segmentsEntryId);
+create index IX_65648B53 on SegmentsEntryRole (roleId);
+create unique index IX_1E3D8394 on SegmentsEntryRole (segmentsEntryId, roleId);
 
 COMMIT_TRANSACTION;
