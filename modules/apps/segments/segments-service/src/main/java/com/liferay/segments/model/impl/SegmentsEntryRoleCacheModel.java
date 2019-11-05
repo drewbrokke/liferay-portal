@@ -94,10 +94,10 @@ public class SegmentsEntryRoleCacheModel
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
-		sb.append(", roleId=");
-		sb.append(roleId);
 		sb.append(", segmentsEntryId=");
 		sb.append(segmentsEntryId);
+		sb.append(", roleId=");
+		sb.append(roleId);
 		sb.append("}");
 
 		return sb.toString();
@@ -134,8 +134,8 @@ public class SegmentsEntryRoleCacheModel
 			segmentsEntryRoleImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
-		segmentsEntryRoleImpl.setRoleId(roleId);
 		segmentsEntryRoleImpl.setSegmentsEntryId(segmentsEntryId);
+		segmentsEntryRoleImpl.setRoleId(roleId);
 
 		segmentsEntryRoleImpl.resetOriginalValues();
 
@@ -155,9 +155,9 @@ public class SegmentsEntryRoleCacheModel
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 
-		roleId = objectInput.readLong();
-
 		segmentsEntryId = objectInput.readLong();
+
+		roleId = objectInput.readLong();
 	}
 
 	@Override
@@ -180,9 +180,9 @@ public class SegmentsEntryRoleCacheModel
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 
-		objectOutput.writeLong(roleId);
-
 		objectOutput.writeLong(segmentsEntryId);
+
+		objectOutput.writeLong(roleId);
 	}
 
 	public long mvccVersion;
@@ -192,7 +192,7 @@ public class SegmentsEntryRoleCacheModel
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
-	public long roleId;
 	public long segmentsEntryId;
+	public long roleId;
 
 }

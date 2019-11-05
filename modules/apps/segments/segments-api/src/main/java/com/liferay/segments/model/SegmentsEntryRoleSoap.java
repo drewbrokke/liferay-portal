@@ -38,8 +38,8 @@ public class SegmentsEntryRoleSoap implements Serializable {
 		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
-		soapModel.setRoleId(model.getRoleId());
 		soapModel.setSegmentsEntryId(model.getSegmentsEntryId());
+		soapModel.setRoleId(model.getRoleId());
 
 		return soapModel;
 	}
@@ -157,20 +157,20 @@ public class SegmentsEntryRoleSoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
-	public long getRoleId() {
-		return _roleId;
-	}
-
-	public void setRoleId(long roleId) {
-		_roleId = roleId;
-	}
-
 	public long getSegmentsEntryId() {
 		return _segmentsEntryId;
 	}
 
 	public void setSegmentsEntryId(long segmentsEntryId) {
 		_segmentsEntryId = segmentsEntryId;
+	}
+
+	public long getRoleId() {
+		return _roleId;
+	}
+
+	public void setRoleId(long roleId) {
+		_roleId = roleId;
 	}
 
 	private long _mvccVersion;
@@ -180,7 +180,7 @@ public class SegmentsEntryRoleSoap implements Serializable {
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
-	private long _roleId;
 	private long _segmentsEntryId;
+	private long _roleId;
 
 }

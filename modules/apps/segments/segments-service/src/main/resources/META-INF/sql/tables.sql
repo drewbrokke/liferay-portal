@@ -40,8 +40,8 @@ create table SegmentsEntryRole (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	roleId LONG,
-	segmentsEntryId LONG
+	segmentsEntryId LONG,
+	roleId LONG
 );
 
 create table SegmentsExperience (

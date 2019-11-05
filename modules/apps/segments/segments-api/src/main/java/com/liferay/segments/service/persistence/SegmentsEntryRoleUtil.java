@@ -126,171 +126,6 @@ public class SegmentsEntryRoleUtil {
 	}
 
 	/**
-	 * Returns all the segments entry roles where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @return the matching segments entry roles
-	 */
-	public static List<SegmentsEntryRole> findByRoleId(long roleId) {
-		return getPersistence().findByRoleId(roleId);
-	}
-
-	/**
-	 * Returns a range of all the segments entry roles where roleId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SegmentsEntryRoleModelImpl</code>.
-	 * </p>
-	 *
-	 * @param roleId the role ID
-	 * @param start the lower bound of the range of segments entry roles
-	 * @param end the upper bound of the range of segments entry roles (not inclusive)
-	 * @return the range of matching segments entry roles
-	 */
-	public static List<SegmentsEntryRole> findByRoleId(
-		long roleId, int start, int end) {
-
-		return getPersistence().findByRoleId(roleId, start, end);
-	}
-
-	/**
-	 * Returns an ordered range of all the segments entry roles where roleId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SegmentsEntryRoleModelImpl</code>.
-	 * </p>
-	 *
-	 * @param roleId the role ID
-	 * @param start the lower bound of the range of segments entry roles
-	 * @param end the upper bound of the range of segments entry roles (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching segments entry roles
-	 */
-	public static List<SegmentsEntryRole> findByRoleId(
-		long roleId, int start, int end,
-		OrderByComparator<SegmentsEntryRole> orderByComparator) {
-
-		return getPersistence().findByRoleId(
-			roleId, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the segments entry roles where roleId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SegmentsEntryRoleModelImpl</code>.
-	 * </p>
-	 *
-	 * @param roleId the role ID
-	 * @param start the lower bound of the range of segments entry roles
-	 * @param end the upper bound of the range of segments entry roles (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching segments entry roles
-	 */
-	public static List<SegmentsEntryRole> findByRoleId(
-		long roleId, int start, int end,
-		OrderByComparator<SegmentsEntryRole> orderByComparator,
-		boolean useFinderCache) {
-
-		return getPersistence().findByRoleId(
-			roleId, start, end, orderByComparator, useFinderCache);
-	}
-
-	/**
-	 * Returns the first segments entry role in the ordered set where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching segments entry role
-	 * @throws NoSuchEntryRoleException if a matching segments entry role could not be found
-	 */
-	public static SegmentsEntryRole findByRoleId_First(
-			long roleId, OrderByComparator<SegmentsEntryRole> orderByComparator)
-		throws com.liferay.segments.exception.NoSuchEntryRoleException {
-
-		return getPersistence().findByRoleId_First(roleId, orderByComparator);
-	}
-
-	/**
-	 * Returns the first segments entry role in the ordered set where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching segments entry role, or <code>null</code> if a matching segments entry role could not be found
-	 */
-	public static SegmentsEntryRole fetchByRoleId_First(
-		long roleId, OrderByComparator<SegmentsEntryRole> orderByComparator) {
-
-		return getPersistence().fetchByRoleId_First(roleId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last segments entry role in the ordered set where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching segments entry role
-	 * @throws NoSuchEntryRoleException if a matching segments entry role could not be found
-	 */
-	public static SegmentsEntryRole findByRoleId_Last(
-			long roleId, OrderByComparator<SegmentsEntryRole> orderByComparator)
-		throws com.liferay.segments.exception.NoSuchEntryRoleException {
-
-		return getPersistence().findByRoleId_Last(roleId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last segments entry role in the ordered set where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching segments entry role, or <code>null</code> if a matching segments entry role could not be found
-	 */
-	public static SegmentsEntryRole fetchByRoleId_Last(
-		long roleId, OrderByComparator<SegmentsEntryRole> orderByComparator) {
-
-		return getPersistence().fetchByRoleId_Last(roleId, orderByComparator);
-	}
-
-	/**
-	 * Returns the segments entry roles before and after the current segments entry role in the ordered set where roleId = &#63;.
-	 *
-	 * @param segmentsEntryRoleId the primary key of the current segments entry role
-	 * @param roleId the role ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next segments entry role
-	 * @throws NoSuchEntryRoleException if a segments entry role with the primary key could not be found
-	 */
-	public static SegmentsEntryRole[] findByRoleId_PrevAndNext(
-			long segmentsEntryRoleId, long roleId,
-			OrderByComparator<SegmentsEntryRole> orderByComparator)
-		throws com.liferay.segments.exception.NoSuchEntryRoleException {
-
-		return getPersistence().findByRoleId_PrevAndNext(
-			segmentsEntryRoleId, roleId, orderByComparator);
-	}
-
-	/**
-	 * Removes all the segments entry roles where roleId = &#63; from the database.
-	 *
-	 * @param roleId the role ID
-	 */
-	public static void removeByRoleId(long roleId) {
-		getPersistence().removeByRoleId(roleId);
-	}
-
-	/**
-	 * Returns the number of segments entry roles where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @return the number of matching segments entry roles
-	 */
-	public static int countByRoleId(long roleId) {
-		return getPersistence().countByRoleId(roleId);
-	}
-
-	/**
 	 * Returns all the segments entry roles where segmentsEntryId = &#63;.
 	 *
 	 * @param segmentsEntryId the segments entry ID
@@ -467,70 +302,235 @@ public class SegmentsEntryRoleUtil {
 	}
 
 	/**
-	 * Returns the segments entry role where roleId = &#63; and segmentsEntryId = &#63; or throws a <code>NoSuchEntryRoleException</code> if it could not be found.
+	 * Returns all the segments entry roles where roleId = &#63;.
 	 *
 	 * @param roleId the role ID
+	 * @return the matching segments entry roles
+	 */
+	public static List<SegmentsEntryRole> findByRoleId(long roleId) {
+		return getPersistence().findByRoleId(roleId);
+	}
+
+	/**
+	 * Returns a range of all the segments entry roles where roleId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SegmentsEntryRoleModelImpl</code>.
+	 * </p>
+	 *
+	 * @param roleId the role ID
+	 * @param start the lower bound of the range of segments entry roles
+	 * @param end the upper bound of the range of segments entry roles (not inclusive)
+	 * @return the range of matching segments entry roles
+	 */
+	public static List<SegmentsEntryRole> findByRoleId(
+		long roleId, int start, int end) {
+
+		return getPersistence().findByRoleId(roleId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the segments entry roles where roleId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SegmentsEntryRoleModelImpl</code>.
+	 * </p>
+	 *
+	 * @param roleId the role ID
+	 * @param start the lower bound of the range of segments entry roles
+	 * @param end the upper bound of the range of segments entry roles (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching segments entry roles
+	 */
+	public static List<SegmentsEntryRole> findByRoleId(
+		long roleId, int start, int end,
+		OrderByComparator<SegmentsEntryRole> orderByComparator) {
+
+		return getPersistence().findByRoleId(
+			roleId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the segments entry roles where roleId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SegmentsEntryRoleModelImpl</code>.
+	 * </p>
+	 *
+	 * @param roleId the role ID
+	 * @param start the lower bound of the range of segments entry roles
+	 * @param end the upper bound of the range of segments entry roles (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching segments entry roles
+	 */
+	public static List<SegmentsEntryRole> findByRoleId(
+		long roleId, int start, int end,
+		OrderByComparator<SegmentsEntryRole> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByRoleId(
+			roleId, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first segments entry role in the ordered set where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching segments entry role
+	 * @throws NoSuchEntryRoleException if a matching segments entry role could not be found
+	 */
+	public static SegmentsEntryRole findByRoleId_First(
+			long roleId, OrderByComparator<SegmentsEntryRole> orderByComparator)
+		throws com.liferay.segments.exception.NoSuchEntryRoleException {
+
+		return getPersistence().findByRoleId_First(roleId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first segments entry role in the ordered set where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching segments entry role, or <code>null</code> if a matching segments entry role could not be found
+	 */
+	public static SegmentsEntryRole fetchByRoleId_First(
+		long roleId, OrderByComparator<SegmentsEntryRole> orderByComparator) {
+
+		return getPersistence().fetchByRoleId_First(roleId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last segments entry role in the ordered set where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching segments entry role
+	 * @throws NoSuchEntryRoleException if a matching segments entry role could not be found
+	 */
+	public static SegmentsEntryRole findByRoleId_Last(
+			long roleId, OrderByComparator<SegmentsEntryRole> orderByComparator)
+		throws com.liferay.segments.exception.NoSuchEntryRoleException {
+
+		return getPersistence().findByRoleId_Last(roleId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last segments entry role in the ordered set where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching segments entry role, or <code>null</code> if a matching segments entry role could not be found
+	 */
+	public static SegmentsEntryRole fetchByRoleId_Last(
+		long roleId, OrderByComparator<SegmentsEntryRole> orderByComparator) {
+
+		return getPersistence().fetchByRoleId_Last(roleId, orderByComparator);
+	}
+
+	/**
+	 * Returns the segments entry roles before and after the current segments entry role in the ordered set where roleId = &#63;.
+	 *
+	 * @param segmentsEntryRoleId the primary key of the current segments entry role
+	 * @param roleId the role ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next segments entry role
+	 * @throws NoSuchEntryRoleException if a segments entry role with the primary key could not be found
+	 */
+	public static SegmentsEntryRole[] findByRoleId_PrevAndNext(
+			long segmentsEntryRoleId, long roleId,
+			OrderByComparator<SegmentsEntryRole> orderByComparator)
+		throws com.liferay.segments.exception.NoSuchEntryRoleException {
+
+		return getPersistence().findByRoleId_PrevAndNext(
+			segmentsEntryRoleId, roleId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the segments entry roles where roleId = &#63; from the database.
+	 *
+	 * @param roleId the role ID
+	 */
+	public static void removeByRoleId(long roleId) {
+		getPersistence().removeByRoleId(roleId);
+	}
+
+	/**
+	 * Returns the number of segments entry roles where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @return the number of matching segments entry roles
+	 */
+	public static int countByRoleId(long roleId) {
+		return getPersistence().countByRoleId(roleId);
+	}
+
+	/**
+	 * Returns the segments entry role where segmentsEntryId = &#63; and roleId = &#63; or throws a <code>NoSuchEntryRoleException</code> if it could not be found.
+	 *
 	 * @param segmentsEntryId the segments entry ID
+	 * @param roleId the role ID
 	 * @return the matching segments entry role
 	 * @throws NoSuchEntryRoleException if a matching segments entry role could not be found
 	 */
-	public static SegmentsEntryRole findByR_S(long roleId, long segmentsEntryId)
+	public static SegmentsEntryRole findByS_R(long segmentsEntryId, long roleId)
 		throws com.liferay.segments.exception.NoSuchEntryRoleException {
 
-		return getPersistence().findByR_S(roleId, segmentsEntryId);
+		return getPersistence().findByS_R(segmentsEntryId, roleId);
 	}
 
 	/**
-	 * Returns the segments entry role where roleId = &#63; and segmentsEntryId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the segments entry role where segmentsEntryId = &#63; and roleId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * @param roleId the role ID
 	 * @param segmentsEntryId the segments entry ID
+	 * @param roleId the role ID
 	 * @return the matching segments entry role, or <code>null</code> if a matching segments entry role could not be found
 	 */
-	public static SegmentsEntryRole fetchByR_S(
-		long roleId, long segmentsEntryId) {
+	public static SegmentsEntryRole fetchByS_R(
+		long segmentsEntryId, long roleId) {
 
-		return getPersistence().fetchByR_S(roleId, segmentsEntryId);
+		return getPersistence().fetchByS_R(segmentsEntryId, roleId);
 	}
 
 	/**
-	 * Returns the segments entry role where roleId = &#63; and segmentsEntryId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the segments entry role where segmentsEntryId = &#63; and roleId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * @param roleId the role ID
 	 * @param segmentsEntryId the segments entry ID
+	 * @param roleId the role ID
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching segments entry role, or <code>null</code> if a matching segments entry role could not be found
 	 */
-	public static SegmentsEntryRole fetchByR_S(
-		long roleId, long segmentsEntryId, boolean useFinderCache) {
+	public static SegmentsEntryRole fetchByS_R(
+		long segmentsEntryId, long roleId, boolean useFinderCache) {
 
-		return getPersistence().fetchByR_S(
-			roleId, segmentsEntryId, useFinderCache);
+		return getPersistence().fetchByS_R(
+			segmentsEntryId, roleId, useFinderCache);
 	}
 
 	/**
-	 * Removes the segments entry role where roleId = &#63; and segmentsEntryId = &#63; from the database.
+	 * Removes the segments entry role where segmentsEntryId = &#63; and roleId = &#63; from the database.
 	 *
-	 * @param roleId the role ID
 	 * @param segmentsEntryId the segments entry ID
+	 * @param roleId the role ID
 	 * @return the segments entry role that was removed
 	 */
-	public static SegmentsEntryRole removeByR_S(
-			long roleId, long segmentsEntryId)
+	public static SegmentsEntryRole removeByS_R(
+			long segmentsEntryId, long roleId)
 		throws com.liferay.segments.exception.NoSuchEntryRoleException {
 
-		return getPersistence().removeByR_S(roleId, segmentsEntryId);
+		return getPersistence().removeByS_R(segmentsEntryId, roleId);
 	}
 
 	/**
-	 * Returns the number of segments entry roles where roleId = &#63; and segmentsEntryId = &#63;.
+	 * Returns the number of segments entry roles where segmentsEntryId = &#63; and roleId = &#63;.
 	 *
-	 * @param roleId the role ID
 	 * @param segmentsEntryId the segments entry ID
+	 * @param roleId the role ID
 	 * @return the number of matching segments entry roles
 	 */
-	public static int countByR_S(long roleId, long segmentsEntryId) {
-		return getPersistence().countByR_S(roleId, segmentsEntryId);
+	public static int countByS_R(long segmentsEntryId, long roleId) {
+		return getPersistence().countByS_R(segmentsEntryId, roleId);
 	}
 
 	/**

@@ -188,20 +188,6 @@ public interface SegmentsEntryRoleModel
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
-	 * Returns the role ID of this segments entry role.
-	 *
-	 * @return the role ID of this segments entry role
-	 */
-	public long getRoleId();
-
-	/**
-	 * Sets the role ID of this segments entry role.
-	 *
-	 * @param roleId the role ID of this segments entry role
-	 */
-	public void setRoleId(long roleId);
-
-	/**
 	 * Returns the segments entry ID of this segments entry role.
 	 *
 	 * @return the segments entry ID of this segments entry role
@@ -214,5 +200,19 @@ public interface SegmentsEntryRoleModel
 	 * @param segmentsEntryId the segments entry ID of this segments entry role
 	 */
 	public void setSegmentsEntryId(long segmentsEntryId);
+
+	/**
+	 * Returns the role ID of this segments entry role.
+	 *
+	 * @return the role ID of this segments entry role
+	 */
+	public long getRoleId();
+
+	/**
+	 * Sets the role ID of this segments entry role.
+	 *
+	 * @param roleId the role ID of this segments entry role
+	 */
+	public void setRoleId(long roleId);
 
 }

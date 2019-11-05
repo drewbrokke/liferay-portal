@@ -69,8 +69,8 @@ public class SegmentsEntryRoleModelImpl
 		{"mvccVersion", Types.BIGINT}, {"segmentsEntryRoleId", Types.BIGINT},
 		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
 		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
-		{"modifiedDate", Types.TIMESTAMP}, {"roleId", Types.BIGINT},
-		{"segmentsEntryId", Types.BIGINT}
+		{"modifiedDate", Types.TIMESTAMP}, {"segmentsEntryId", Types.BIGINT},
+		{"roleId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -84,12 +84,12 @@ public class SegmentsEntryRoleModelImpl
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("roleId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("segmentsEntryId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("roleId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table SegmentsEntryRole (mvccVersion LONG default 0 not null,segmentsEntryRoleId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,roleId LONG,segmentsEntryId LONG)";
+		"create table SegmentsEntryRole (mvccVersion LONG default 0 not null,segmentsEntryRoleId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,segmentsEntryId LONG,roleId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table SegmentsEntryRole";
 
@@ -287,16 +287,16 @@ public class SegmentsEntryRoleModelImpl
 			"modifiedDate",
 			(BiConsumer<SegmentsEntryRole, Date>)
 				SegmentsEntryRole::setModifiedDate);
-		attributeGetterFunctions.put("roleId", SegmentsEntryRole::getRoleId);
-		attributeSetterBiConsumers.put(
-			"roleId",
-			(BiConsumer<SegmentsEntryRole, Long>)SegmentsEntryRole::setRoleId);
 		attributeGetterFunctions.put(
 			"segmentsEntryId", SegmentsEntryRole::getSegmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<SegmentsEntryRole, Long>)
 				SegmentsEntryRole::setSegmentsEntryId);
+		attributeGetterFunctions.put("roleId", SegmentsEntryRole::getRoleId);
+		attributeSetterBiConsumers.put(
+			"roleId",
+			(BiConsumer<SegmentsEntryRole, Long>)SegmentsEntryRole::setRoleId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -402,28 +402,6 @@ public class SegmentsEntryRoleModelImpl
 	}
 
 	@Override
-	public long getRoleId() {
-		return _roleId;
-	}
-
-	@Override
-	public void setRoleId(long roleId) {
-		_columnBitmask |= ROLEID_COLUMN_BITMASK;
-
-		if (!_setOriginalRoleId) {
-			_setOriginalRoleId = true;
-
-			_originalRoleId = _roleId;
-		}
-
-		_roleId = roleId;
-	}
-
-	public long getOriginalRoleId() {
-		return _originalRoleId;
-	}
-
-	@Override
 	public long getSegmentsEntryId() {
 		return _segmentsEntryId;
 	}
@@ -443,6 +421,28 @@ public class SegmentsEntryRoleModelImpl
 
 	public long getOriginalSegmentsEntryId() {
 		return _originalSegmentsEntryId;
+	}
+
+	@Override
+	public long getRoleId() {
+		return _roleId;
+	}
+
+	@Override
+	public void setRoleId(long roleId) {
+		_columnBitmask |= ROLEID_COLUMN_BITMASK;
+
+		if (!_setOriginalRoleId) {
+			_setOriginalRoleId = true;
+
+			_originalRoleId = _roleId;
+		}
+
+		_roleId = roleId;
+	}
+
+	public long getOriginalRoleId() {
+		return _originalRoleId;
 	}
 
 	public long getColumnBitmask() {
@@ -489,8 +489,8 @@ public class SegmentsEntryRoleModelImpl
 		segmentsEntryRoleImpl.setUserName(getUserName());
 		segmentsEntryRoleImpl.setCreateDate(getCreateDate());
 		segmentsEntryRoleImpl.setModifiedDate(getModifiedDate());
-		segmentsEntryRoleImpl.setRoleId(getRoleId());
 		segmentsEntryRoleImpl.setSegmentsEntryId(getSegmentsEntryId());
+		segmentsEntryRoleImpl.setRoleId(getRoleId());
 
 		segmentsEntryRoleImpl.resetOriginalValues();
 
@@ -555,15 +555,15 @@ public class SegmentsEntryRoleModelImpl
 
 		segmentsEntryRoleModelImpl._setModifiedDate = false;
 
-		segmentsEntryRoleModelImpl._originalRoleId =
-			segmentsEntryRoleModelImpl._roleId;
-
-		segmentsEntryRoleModelImpl._setOriginalRoleId = false;
-
 		segmentsEntryRoleModelImpl._originalSegmentsEntryId =
 			segmentsEntryRoleModelImpl._segmentsEntryId;
 
 		segmentsEntryRoleModelImpl._setOriginalSegmentsEntryId = false;
+
+		segmentsEntryRoleModelImpl._originalRoleId =
+			segmentsEntryRoleModelImpl._roleId;
+
+		segmentsEntryRoleModelImpl._setOriginalRoleId = false;
 
 		segmentsEntryRoleModelImpl._columnBitmask = 0;
 	}
@@ -608,9 +608,9 @@ public class SegmentsEntryRoleModelImpl
 			segmentsEntryRoleCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
-		segmentsEntryRoleCacheModel.roleId = getRoleId();
-
 		segmentsEntryRoleCacheModel.segmentsEntryId = getSegmentsEntryId();
+
+		segmentsEntryRoleCacheModel.roleId = getRoleId();
 
 		return segmentsEntryRoleCacheModel;
 	}
@@ -696,12 +696,12 @@ public class SegmentsEntryRoleModelImpl
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
-	private long _roleId;
-	private long _originalRoleId;
-	private boolean _setOriginalRoleId;
 	private long _segmentsEntryId;
 	private long _originalSegmentsEntryId;
 	private boolean _setOriginalSegmentsEntryId;
+	private long _roleId;
+	private long _originalRoleId;
+	private boolean _setOriginalRoleId;
 	private long _columnBitmask;
 	private SegmentsEntryRole _escapedModel;
 

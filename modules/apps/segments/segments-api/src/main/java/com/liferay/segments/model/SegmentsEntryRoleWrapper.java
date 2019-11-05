@@ -49,8 +49,8 @@ public class SegmentsEntryRoleWrapper
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("roleId", getRoleId());
 		attributes.put("segmentsEntryId", getSegmentsEntryId());
+		attributes.put("roleId", getRoleId());
 
 		return attributes;
 	}
@@ -99,16 +99,16 @@ public class SegmentsEntryRoleWrapper
 			setModifiedDate(modifiedDate);
 		}
 
-		Long roleId = (Long)attributes.get("roleId");
-
-		if (roleId != null) {
-			setRoleId(roleId);
-		}
-
 		Long segmentsEntryId = (Long)attributes.get("segmentsEntryId");
 
 		if (segmentsEntryId != null) {
 			setSegmentsEntryId(segmentsEntryId);
+		}
+
+		Long roleId = (Long)attributes.get("roleId");
+
+		if (roleId != null) {
+			setRoleId(roleId);
 		}
 	}
 

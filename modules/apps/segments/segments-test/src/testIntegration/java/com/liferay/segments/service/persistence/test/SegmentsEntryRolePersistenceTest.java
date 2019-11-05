@@ -136,9 +136,9 @@ public class SegmentsEntryRolePersistenceTest {
 
 		newSegmentsEntryRole.setModifiedDate(RandomTestUtil.nextDate());
 
-		newSegmentsEntryRole.setRoleId(RandomTestUtil.nextLong());
-
 		newSegmentsEntryRole.setSegmentsEntryId(RandomTestUtil.nextLong());
+
+		newSegmentsEntryRole.setRoleId(RandomTestUtil.nextLong());
 
 		_segmentsEntryRoles.add(_persistence.update(newSegmentsEntryRole));
 
@@ -167,18 +167,11 @@ public class SegmentsEntryRolePersistenceTest {
 			Time.getShortTimestamp(existingSegmentsEntryRole.getModifiedDate()),
 			Time.getShortTimestamp(newSegmentsEntryRole.getModifiedDate()));
 		Assert.assertEquals(
-			existingSegmentsEntryRole.getRoleId(),
-			newSegmentsEntryRole.getRoleId());
-		Assert.assertEquals(
 			existingSegmentsEntryRole.getSegmentsEntryId(),
 			newSegmentsEntryRole.getSegmentsEntryId());
-	}
-
-	@Test
-	public void testCountByRoleId() throws Exception {
-		_persistence.countByRoleId(RandomTestUtil.nextLong());
-
-		_persistence.countByRoleId(0L);
+		Assert.assertEquals(
+			existingSegmentsEntryRole.getRoleId(),
+			newSegmentsEntryRole.getRoleId());
 	}
 
 	@Test
@@ -189,11 +182,18 @@ public class SegmentsEntryRolePersistenceTest {
 	}
 
 	@Test
-	public void testCountByR_S() throws Exception {
-		_persistence.countByR_S(
+	public void testCountByRoleId() throws Exception {
+		_persistence.countByRoleId(RandomTestUtil.nextLong());
+
+		_persistence.countByRoleId(0L);
+	}
+
+	@Test
+	public void testCountByS_R() throws Exception {
+		_persistence.countByS_R(
 			RandomTestUtil.nextLong(), RandomTestUtil.nextLong());
 
-		_persistence.countByR_S(0L, 0L);
+		_persistence.countByS_R(0L, 0L);
 	}
 
 	@Test
@@ -223,8 +223,8 @@ public class SegmentsEntryRolePersistenceTest {
 		return OrderByComparatorFactoryUtil.create(
 			"SegmentsEntryRole", "mvccVersion", true, "segmentsEntryRoleId",
 			true, "companyId", true, "userId", true, "userName", true,
-			"createDate", true, "modifiedDate", true, "roleId", true,
-			"segmentsEntryId", true);
+			"createDate", true, "modifiedDate", true, "segmentsEntryId", true,
+			"roleId", true);
 	}
 
 	@Test
@@ -457,14 +457,14 @@ public class SegmentsEntryRolePersistenceTest {
 			_persistence.findByPrimaryKey(newSegmentsEntryRole.getPrimaryKey());
 
 		Assert.assertEquals(
-			Long.valueOf(existingSegmentsEntryRole.getRoleId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingSegmentsEntryRole, "getOriginalRoleId",
-				new Class<?>[0]));
-		Assert.assertEquals(
 			Long.valueOf(existingSegmentsEntryRole.getSegmentsEntryId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSegmentsEntryRole, "getOriginalSegmentsEntryId",
+				new Class<?>[0]));
+		Assert.assertEquals(
+			Long.valueOf(existingSegmentsEntryRole.getRoleId()),
+			ReflectionTestUtil.<Long>invoke(
+				existingSegmentsEntryRole, "getOriginalRoleId",
 				new Class<?>[0]));
 	}
 
@@ -485,9 +485,9 @@ public class SegmentsEntryRolePersistenceTest {
 
 		segmentsEntryRole.setModifiedDate(RandomTestUtil.nextDate());
 
-		segmentsEntryRole.setRoleId(RandomTestUtil.nextLong());
-
 		segmentsEntryRole.setSegmentsEntryId(RandomTestUtil.nextLong());
+
+		segmentsEntryRole.setRoleId(RandomTestUtil.nextLong());
 
 		_segmentsEntryRoles.add(_persistence.update(segmentsEntryRole));
 

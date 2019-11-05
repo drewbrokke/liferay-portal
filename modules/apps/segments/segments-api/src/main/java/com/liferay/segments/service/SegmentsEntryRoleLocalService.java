@@ -64,7 +64,7 @@ public interface SegmentsEntryRoleLocalService
 	 * Never modify or reference this interface directly. Always use {@link SegmentsEntryRoleLocalServiceUtil} to access the segments entry role local service. Add custom service methods to <code>com.liferay.segments.service.impl.SegmentsEntryRoleLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	public SegmentsEntryRole addSegmentsEntryRole(
-			long roleId, long segmentsEntryId, ServiceContext serviceContext)
+			long segmentsEntryId, long roleId, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**
@@ -106,7 +106,7 @@ public interface SegmentsEntryRoleLocalService
 
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public SegmentsEntryRole deleteSegmentsEntryRole(
-			long roleId, long segmentsEntryId)
+			long segmentsEntryId, long roleId)
 		throws PortalException;
 
 	/**

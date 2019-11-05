@@ -45,8 +45,8 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
-		<field name="roleId" type="long" />
 		<field name="segmentsEntryId" type="long" />
+		<field name="roleId" type="long" />
 	</model>
 	<model name="com.liferay.segments.model.SegmentsExperience">
 		<field name="mvccVersion" type="long" />
