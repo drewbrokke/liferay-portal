@@ -44,6 +44,7 @@ import com.liferay.portal.kernel.exception.NoSuchTicketException;
 import com.liferay.portal.kernel.exception.NoSuchUserException;
 import com.liferay.portal.kernel.exception.PasswordExpiredException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.RequiredRoleException;
 import com.liferay.portal.kernel.exception.RequiredUserException;
 import com.liferay.portal.kernel.exception.SendPasswordException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -4022,19 +4023,19 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		String roleName = role.getName();
 
-		if ((roleName.equals(RoleConstants.ADMINISTRATOR) &&
-			 (getRoleUsersCount(role.getRoleId()) <= 1)) ||
-			roleName.equals(RoleConstants.USER)) {
+		if (roleName.equals(RoleConstants.ADMINISTRATOR) &&
+			(getRoleUsersCount(role.getRoleId()) <= users.size())) {
 
-			return;
+			throw new RequiredRoleException.RequiredAdminRoleException();
+		}
+
+		if (roleName.equals(RoleConstants.USER)) {
+			throw new RequiredRoleException.RequiredUserRoleException();
 		}
 
 		rolePersistence.removeUsers(roleId, users);
 
-		Indexer<User> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			User.class);
-
-		indexer.reindex(users);
+		reindex(users);
 	}
 
 	/**
@@ -4047,20 +4048,17 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 	public void unsetRoleUsers(long roleId, long[] userIds)
 		throws PortalException {
 
-		Role role = rolePersistence.findByPrimaryKey(roleId);
+		List<User> users = new ArrayList<>(userIds.length);
 
-		String roleName = role.getName();
+		for (Long userId : userIds) {
+			User user = userLocalService.fetchUser(userId);
 
-		if (roleName.equals(RoleConstants.USER) ||
-			(roleName.equals(RoleConstants.ADMINISTRATOR) &&
-			 (getRoleUsersCount(role.getRoleId()) <= 1))) {
-
-			return;
+			if (user != null) {
+				users.add(user);
+			}
 		}
 
-		rolePersistence.removeUsers(roleId, userIds);
-
-		reindex(userIds);
+		unsetRoleUsers(roleId, users);
 	}
 
 	/**

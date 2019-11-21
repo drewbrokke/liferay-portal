@@ -16,6 +16,7 @@ package com.liferay.portal.kernel.exception;
 
 /**
  * @author Brian Wing Shun Chan
+ * @author Roberto Díaz
  */
 public class RequiredRoleException extends PortalException {
 
@@ -32,6 +33,46 @@ public class RequiredRoleException extends PortalException {
 
 	public RequiredRoleException(Throwable cause) {
 		super(cause);
+	}
+
+	public static class RequiredAdminRoleException
+		extends RequiredRoleException {
+
+		public RequiredAdminRoleException() {
+		}
+
+		public RequiredAdminRoleException(String msg) {
+			super(msg);
+		}
+
+		public RequiredAdminRoleException(String msg, Throwable cause) {
+			super(msg, cause);
+		}
+
+		public RequiredAdminRoleException(Throwable cause) {
+			super(cause);
+		}
+
+	}
+
+	public static class RequiredUserRoleException
+		extends RequiredRoleException {
+
+		public RequiredUserRoleException() {
+		}
+
+		public RequiredUserRoleException(String msg) {
+			super(msg);
+		}
+
+		public RequiredUserRoleException(String msg, Throwable cause) {
+			super(msg, cause);
+		}
+
+		public RequiredUserRoleException(Throwable cause) {
+			super(cause);
+		}
+
 	}
 
 }
