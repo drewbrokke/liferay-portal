@@ -117,7 +117,15 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 				/>
 			</liferay-ui:search-container-column-text>
 
-			<c:if test="<%= !portletName.equals(myAccountPortletId) && !RoleMembershipPolicyUtil.isRoleRequired(selUser.getUserId(), role.getRoleId()) %>">
+			<%
+			int adminRoleUsersCount = 0;
+
+			if (Objects.equals(role.getName(), RoleConstants.ADMINISTRATOR)) {
+				adminRoleUsersCount = UserLocalServiceUtil.getRoleUsersCount(role.getRoleId());
+			}
+			%>
+
+			<c:if test="<%= !portletName.equals(myAccountPortletId) && !RoleMembershipPolicyUtil.isRoleRequired(selUser.getUserId(), role.getRoleId()) && (adminRoleUsersCount != 1) %>">
 				<liferay-ui:search-container-column-text>
 					<a class="modify-link" data-rowId="<%= role.getRoleId() %>" href="javascript:;"><%= removeRoleIcon %></a>
 				</liferay-ui:search-container-column-text>
