@@ -14,10 +14,13 @@
 
 package com.liferay.portlet.usersadmin.util;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.EmailAddress;
 import com.liferay.portal.kernel.model.Group;
@@ -177,6 +180,13 @@ public class UsersAdminImpl implements UsersAdmin {
 			!ArrayUtil.contains(roleIds, administratorRole.getRoleId()) &&
 			(administratorUserIds.length == 1)) {
 
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					StringBundler.concat(
+						"Administrator role could not been revoked because ",
+						user.getFullName(), " is the last one."));
+			}
+
 			roleIds = ArrayUtil.append(roleIds, administratorRole.getRoleId());
 		}
 
@@ -184,6 +194,10 @@ public class UsersAdminImpl implements UsersAdmin {
 			user.getCompanyId(), RoleConstants.USER);
 
 		if (!ArrayUtil.contains(roleIds, userRole.getRoleId())) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("User role is mandatory and could not be revoked");
+			}
+
 			roleIds = ArrayUtil.append(roleIds, userRole.getRoleId());
 		}
 
@@ -1504,5 +1518,7 @@ public class UsersAdminImpl implements UsersAdmin {
 
 		return userGroupRoles;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(UsersAdminImpl.class);
 
 }
