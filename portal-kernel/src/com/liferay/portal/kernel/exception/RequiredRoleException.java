@@ -35,41 +35,43 @@ public class RequiredRoleException extends PortalException {
 		super(cause);
 	}
 
-	public static final class RequiredAdminRoleException
+	public static final class MustNotUnsetAdminRoleToLastAdminUser
 		extends RequiredRoleException {
 
-		public RequiredAdminRoleException() {
+		public MustNotUnsetAdminRoleToLastAdminUser() {
 		}
 
-		public RequiredAdminRoleException(String msg) {
+		public MustNotUnsetAdminRoleToLastAdminUser(String msg) {
 			super(msg);
 		}
 
-		public RequiredAdminRoleException(String msg, Throwable cause) {
+		public MustNotUnsetAdminRoleToLastAdminUser(
+			String msg, Throwable cause) {
+
 			super(msg, cause);
 		}
 
-		public RequiredAdminRoleException(Throwable cause) {
+		public MustNotUnsetAdminRoleToLastAdminUser(Throwable cause) {
 			super(cause);
 		}
 
 	}
 
-	public static final class RequiredUserRoleException
+	public static final class MustNotUnsetUserRole
 		extends RequiredRoleException {
 
-		public RequiredUserRoleException() {
+		public MustNotUnsetUserRole() {
 		}
 
-		public RequiredUserRoleException(String msg) {
+		public MustNotUnsetUserRole(String msg) {
 			super(msg);
 		}
 
-		public RequiredUserRoleException(String msg, Throwable cause) {
+		public MustNotUnsetUserRole(String msg, Throwable cause) {
 			super(msg, cause);
 		}
 
-		public RequiredUserRoleException(Throwable cause) {
+		public MustNotUnsetUserRole(Throwable cause) {
 			super(cause);
 		}
 

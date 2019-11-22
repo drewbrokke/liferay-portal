@@ -4026,11 +4026,12 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		if (roleName.equals(RoleConstants.ADMINISTRATOR) &&
 			(getRoleUsersCount(role.getRoleId()) <= users.size())) {
 
-			throw new RequiredRoleException.RequiredAdminRoleException();
+			throw new RequiredRoleException.
+				MustNotUnsetAdminRoleToLastAdminUser();
 		}
 
 		if (roleName.equals(RoleConstants.USER)) {
-			throw new RequiredRoleException.RequiredUserRoleException();
+			throw new RequiredRoleException.MustNotUnsetUserRole();
 		}
 
 		rolePersistence.removeUsers(roleId, users);

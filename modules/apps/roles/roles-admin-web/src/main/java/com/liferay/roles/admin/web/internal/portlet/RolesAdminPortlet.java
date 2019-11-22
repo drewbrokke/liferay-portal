@@ -282,8 +282,8 @@ public class RolesAdminPortlet extends MVCPortlet {
 				_userService.addRoleUsers(roleId, addUserIds);
 				_userService.unsetRoleUsers(roleId, removeUserIds);
 			}
-			catch (RequiredRoleException.RequiredAdminRoleException |
-				   RequiredRoleException.RequiredUserRoleException rre) {
+			catch (RequiredRoleException.MustNotUnsetAdminRoleToLastAdminUser |
+				   RequiredRoleException.MustNotUnsetUserRole rre) {
 
 				SessionErrors.add(actionRequest, rre.getClass());
 			}
@@ -510,11 +510,11 @@ public class RolesAdminPortlet extends MVCPortlet {
 					 renderRequest, PrincipalException.getNestedClasses()) ||
 				 SessionErrors.contains(
 					 renderRequest,
-					 RequiredRoleException.RequiredAdminRoleException.class.
-						 getName()) ||
+					 RequiredRoleException.MustNotUnsetAdminRoleToLastAdminUser.
+						 class.getName()) ||
 				 SessionErrors.contains(
 					 renderRequest,
-					 RequiredRoleException.RequiredUserRoleException.class.
+					 RequiredRoleException.MustNotUnsetUserRole.class.
 						 getName()) ||
 				 SessionErrors.contains(
 					 renderRequest, RoleAssignmentException.class.getName()) ||

@@ -125,7 +125,8 @@ public class UpdateUserRolesMVCActionCommand extends BaseMVCActionCommand {
 				ArrayUtil.contains(administratorUserIds, user.getUserId()) &&
 				!ArrayUtil.contains(roleIds, administratorRole.getRoleId())) {
 
-				throw new RequiredRoleException.RequiredAdminRoleException();
+				throw new RequiredRoleException.
+					MustNotUnsetAdminRoleToLastAdminUser();
 			}
 
 			user = _userService.updateUser(
@@ -156,7 +157,9 @@ public class UpdateUserRolesMVCActionCommand extends BaseMVCActionCommand {
 		catch (Exception e) {
 			if (e instanceof NoSuchUserException ||
 				e instanceof PrincipalException ||
-				e instanceof RequiredRoleException.RequiredAdminRoleException) {
+				e instanceof
+					RequiredRoleException.
+						MustNotUnsetAdminRoleToLastAdminUser) {
 
 				SessionErrors.add(actionRequest, e.getClass());
 
