@@ -125,11 +125,11 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 			}
 			%>
 
-			<c:if test="<%= !portletName.equals(myAccountPortletId) && !RoleMembershipPolicyUtil.isRoleRequired(selUser.getUserId(), role.getRoleId()) && (adminRoleUsersCount != 1) %>">
-				<liferay-ui:search-container-column-text>
+			<liferay-ui:search-container-column-text>
+				<c:if test="<%= !portletName.equals(myAccountPortletId) && !RoleMembershipPolicyUtil.isRoleRequired(selUser.getUserId(), role.getRoleId()) && (adminRoleUsersCount != 1) %>">
 					<a class="modify-link" data-rowId="<%= role.getRoleId() %>" href="javascript:;"><%= removeRoleIcon %></a>
-				</liferay-ui:search-container-column-text>
-			</c:if>
+				</c:if>
+			</liferay-ui:search-container-column-text>
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator
