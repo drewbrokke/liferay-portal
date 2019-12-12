@@ -20,7 +20,6 @@
 String namespace = StringUtil.randomId() + StringPool.UNDERLINE;
 
 long color = (long)request.getAttribute("liferay-product-navigation:personal-menu:color");
-boolean expanded = (boolean)request.getAttribute("liferay-product-navigation:personal-menu:expanded");
 String label = (String)request.getAttribute("liferay-product-navigation:personal-menu:label");
 String size = (String)request.getAttribute("liferay-product-navigation:personal-menu:size");
 User user2 = (User)request.getAttribute("liferay-product-navigation:personal-menu:user");
@@ -57,28 +56,6 @@ if (size != null) {
 </style>
 
 <div class="personal-menu-dropdown" id="<%= namespace + "personal_menu_dropdown" %>">
-	<c:choose>
-		<c:when test="<%= Validator.isNotNull(label) %>">
-			<div><%= label %></div>
-		</c:when>
-		<c:otherwise>
-			<button aria-expanded="true" aria-haspopup="true" class="btn btn-unstyled dropdown-toggle" id="<%= namespace + "personal_menu_dropdown_toggle" %>" ref="triggerButton" type="button">
-				<span class="<%= userStickerCssClasses %>">
-					<span class="<%= userStickerCssClasses + " sticker-circle user-icon-color-" + color %>">
-						<aui:icon image="user" markupView="lexicon" />
-					</span>
-
-					<c:if test="<%= themeDisplay.isImpersonated() %>">
-						<span class="<%= impersonateStickerCssClasses + " sticker-bottom-right sticker-circle sticker-outside sticker-user-icon" %>" id="impersonate-user-sticker">
-							<span class="sticker-overlay">
-								<aui:icon id="impersonate-user-icon" image="user" markupView="lexicon" />
-							</span>
-						</span>
-					</c:if>
-				</span>
-			</button>
-		</c:otherwise>
-	</c:choose>
 
 	<%
 	ResourceURL resourceURL = PortletURLFactoryUtil.create(request, PersonalMenuPortletKeys.PERSONAL_MENU, PortletRequest.RESOURCE_PHASE);
