@@ -475,6 +475,25 @@ public abstract class BaseOrganizationResourceTestCase {
 	}
 
 	@Test
+	public void testPostOrganization() throws Exception {
+		Organization randomOrganization = randomOrganization();
+
+		Organization postOrganization = testPostOrganization_addOrganization(
+			randomOrganization);
+
+		assertEquals(randomOrganization, postOrganization);
+		assertValid(postOrganization);
+	}
+
+	protected Organization testPostOrganization_addOrganization(
+			Organization organization)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
 	public void testGetOrganization() throws Exception {
 		Organization postOrganization = testGetOrganization_addOrganization();
 
