@@ -33,10 +33,16 @@ import com.liferay.headless.admin.user.internal.dto.v1_0.util.WebUrlUtil;
 import com.liferay.headless.admin.user.internal.odata.entity.v1_0.OrganizationEntityModel;
 import com.liferay.headless.admin.user.resource.v1_0.OrganizationResource;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Country;
 import com.liferay.portal.kernel.model.ListType;
+import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.OrgLabor;
+import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.model.Region;
+import com.liferay.portal.kernel.model.Website;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Sort;
@@ -51,6 +57,7 @@ import com.liferay.portal.kernel.service.OrgLaborService;
 import com.liferay.portal.kernel.service.OrganizationService;
 import com.liferay.portal.kernel.service.PhoneService;
 import com.liferay.portal.kernel.service.RegionService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.WebsiteService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -64,6 +71,10 @@ import com.liferay.portal.vulcan.util.SearchUtil;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -112,6 +123,38 @@ public class OrganizationResourceImpl
 			0L, flatten, search, filter, pagination, sorts);
 	}
 
+	@Override
+	public Organization postOrganization(Organization organization)
+		throws Exception {
+
+		long parentOrganizationId = _getDefaultParentOrganizationId(
+			organization);
+		String name = organization.getName();
+		String type = OrganizationConstants.TYPE_ORGANIZATION;
+
+		long countryId = _getCountryId(organization);
+
+		long regionId = _getRegionId(organization, countryId);
+
+		long statusId = ListTypeConstants.ORGANIZATION_STATUS_DEFAULT;
+		String comments = organization.getComment();
+		boolean site = false;
+		List<Address> addresses = _getAddresses(organization);
+		List<com.liferay.portal.kernel.model.EmailAddress> emailAddresses =
+			_getEmailAddresses(organization);
+		List<OrgLabor> orgLabors = _getOrgLabors(organization);
+		List<com.liferay.portal.kernel.model.Phone> phones = _getPhones(
+			organization);
+		List<Website> websites = _getWebsites(organization);
+		ServiceContext serviceContext = null;
+
+		return _toOrganization(
+			_organizationService.addOrganization(
+				parentOrganizationId, name, type, regionId, countryId, statusId,
+				comments, site, addresses, emailAddresses, orgLabors, phones,
+				websites, serviceContext));
+	}
+
 	private HoursAvailable _createHoursAvailable(
 		int closeHour, String day, int openHour) {
 
@@ -142,6 +185,65 @@ public class OrganizationResourceImpl
 		};
 
 		return decimalFormat.format(hour);
+	}
+
+	private List<Address> _getAddresses(Organization organization) {
+		return Collections.emptyList();
+	}
+
+	private Country _getCountry(String addressCountry) {
+		try {
+			Country country = _countryService.fetchCountryByA2(addressCountry);
+
+			if (country != null) {
+				return country;
+			}
+
+			country = _countryService.fetchCountryByA3(addressCountry);
+
+			if (country != null) {
+				return country;
+			}
+
+			return _countryService.getCountryByName(addressCountry);
+		}
+		catch (Exception e) {
+			if (_log.isInfoEnabled()) {
+				_log.info(e, e);
+			}
+		}
+
+		return null;
+	}
+
+	private long _getCountryId(Organization organization) {
+		return Optional.ofNullable(
+			organization.getLocation()
+		).map(
+			Location::getAddressCountry
+		).map(
+			this::_getCountry
+		).map(
+			Country::getCountryId
+		).orElse(
+			(long)0
+		);
+	}
+
+	private long _getDefaultParentOrganizationId(Organization organization) {
+		return Optional.ofNullable(
+			organization.getParentOrganization()
+		).map(
+			Organization::getId
+		).orElse(
+			(long)OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID
+		);
+	}
+
+	private List<com.liferay.portal.kernel.model.EmailAddress>
+		_getEmailAddresses(Organization organization) {
+
+		return Collections.emptyList();
 	}
 
 	private Page<Organization> _getOrganizationsPage(
@@ -185,6 +287,55 @@ public class OrganizationResourceImpl
 				_organizationService.getOrganization(
 					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
 			sorts);
+	}
+
+	private List<OrgLabor> _getOrgLabors(Organization organization) {
+		return Collections.emptyList();
+	}
+
+	private List<com.liferay.portal.kernel.model.Phone> _getPhones(
+		Organization organization) {
+
+		return Collections.emptyList();
+	}
+
+	private long _getRegionId(Organization organization, long countryId) {
+		return Optional.ofNullable(
+			organization.getLocation()
+		).map(
+			Location::getAddressRegion
+		).map(
+			addressRegion -> {
+				if (countryId <= 0) {
+					return null;
+				}
+
+				Region region = _regionService.fetchRegion(
+					countryId, addressRegion);
+
+				if (region != null) {
+					return region;
+				}
+
+				List<Region> regions = _regionService.getRegions(countryId);
+
+				for (Region curRegion : regions) {
+					if (addressRegion.equalsIgnoreCase(curRegion.getName())) {
+						return curRegion;
+					}
+				}
+
+				return null;
+			}
+		).map(
+			Region::getRegionId
+		).orElse(
+			(long)0
+		);
+	}
+
+	private List<Website> _getWebsites(Organization organization) {
+		return Collections.emptyList();
 	}
 
 	private Organization _toOrganization(
@@ -325,6 +476,9 @@ public class OrganizationResourceImpl
 			}
 		};
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		OrganizationResourceImpl.class);
 
 	private static final EntityModel _entityModel =
 		new OrganizationEntityModel();

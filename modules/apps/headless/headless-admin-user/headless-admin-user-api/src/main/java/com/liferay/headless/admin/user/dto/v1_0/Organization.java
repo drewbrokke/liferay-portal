@@ -79,7 +79,7 @@ public class Organization {
 	@GraphQLField(
 		description = "The text of a comment associated with the organization."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String comment;
 
 	@Schema(
@@ -228,7 +228,7 @@ public class Organization {
 	}
 
 	@GraphQLField(description = "The organization's ID.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
 	@Schema(description = "A relative URL to the organization's image.")
@@ -319,7 +319,7 @@ public class Organization {
 	@GraphQLField(
 		description = "The organization's postal information (country and region)."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Location location;
 
 	@Schema(description = "The organization's name.")
@@ -345,7 +345,7 @@ public class Organization {
 	}
 
 	@GraphQLField(description = "The organization's name.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
 	@Schema(
@@ -408,7 +408,7 @@ public class Organization {
 	}
 
 	@GraphQLField(description = "The organization's parent organization.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Organization parentOrganization;
 
 	@Schema(
