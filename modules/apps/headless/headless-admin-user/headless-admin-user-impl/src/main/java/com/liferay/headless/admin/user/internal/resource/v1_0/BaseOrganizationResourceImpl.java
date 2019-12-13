@@ -99,7 +99,7 @@ public abstract class BaseOrganizationResourceImpl
 	 */
 	@Override
 	@DELETE
-	@Operation(description = "Deletes an organization")
+	@Operation(description = "Deletes an organization.")
 	@Parameters(
 		value = {@Parameter(in = ParameterIn.PATH, name = "organizationId")}
 	)

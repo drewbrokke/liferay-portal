@@ -54,7 +54,7 @@ public class Mutation {
 			subscriptionResourceComponentServiceObjects;
 	}
 
-	@GraphQLField(description = "Deletes an organization")
+	@GraphQLField(description = "Deletes an organization.")
 	public boolean deleteOrganization(
 			@GraphQLName("organizationId") Long organizationId)
 		throws Exception {
