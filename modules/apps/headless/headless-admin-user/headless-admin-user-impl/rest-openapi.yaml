@@ -980,7 +980,7 @@ paths:
         delete:
             # @review
             description:
-                Deletes an organization
+                Deletes an organization.
             operationId: deleteOrganization
             parameters:
                 - in: path
