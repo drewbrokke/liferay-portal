@@ -17,6 +17,8 @@ package com.liferay.headless.admin.user.resource.v1_0.test;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.headless.admin.user.client.dto.v1_0.Organization;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -171,12 +173,23 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 				organizations) {
 
 			try {
-				OrganizationLocalServiceUtil.deleteUserOrganization(
-					_user.getUserId(), organization);
 				OrganizationLocalServiceUtil.deleteOrganization(
 					organization.getOrganizationId());
 			}
 			catch (Exception e) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(e, e);
+				}
+			}
+
+			try {
+				OrganizationLocalServiceUtil.deleteUserOrganization(
+					_user.getUserId(), organization);
+			}
+			catch (Exception e) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(e, e);
+				}
 			}
 		}
 	}
@@ -193,6 +206,9 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 			}
 		};
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		OrganizationResourceTest.class);
 
 	private final List<com.liferay.portal.kernel.model.Organization>
 		_childOrganizations = new ArrayList<>();
