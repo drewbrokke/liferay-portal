@@ -113,17 +113,19 @@ serverURL.setParameter("tabs2", tabs2);
 	}
 
 	List filteredPropertiesList = ListUtil.fromCollection(filteredProperties.entrySet());
+
+	SearchContainer propertiesConfigurationSearchContainer = new SearchContainer(renderRequest, serverURL, null, tabs2.equals("portal-properties") ? "no-portal-properties-were-found-that-matched-the-keywords" : "no-system-properties-were-found-that-matched-the-keywords");
+
+	List propertiesConfigurationResults = ListUtil.subList(filteredPropertiesList, propertiesConfigurationSearchContainer.getStart(), propertiesConfigurationSearchContainer.getEnd());
+
+	propertiesConfigurationSearchContainer.setResults(propertiesConfigurationResults);
+	propertiesConfigurationSearchContainer.setTotal(filteredPropertiesList.size());
+
 	%>
 
 	<liferay-ui:search-container
-		emptyResultsMessage='<%= tabs2.equals("portal-properties") ? "no-portal-properties-were-found-that-matched-the-keywords" : "no-system-properties-were-found-that-matched-the-keywords" %>'
-		iteratorURL="<%= serverURL %>"
-		total="<%= filteredPropertiesList.size() %>"
+		searchContainer="<%= propertiesConfigurationSearchContainer %>"
 	>
-		<liferay-ui:search-container-results
-			results="<%= ListUtil.subList(filteredPropertiesList, searchContainer.getStart(), searchContainer.getEnd()) %>"
-		/>
-
 		<liferay-ui:search-container-row
 			className="java.util.Map.Entry"
 			modelVar="entry"
