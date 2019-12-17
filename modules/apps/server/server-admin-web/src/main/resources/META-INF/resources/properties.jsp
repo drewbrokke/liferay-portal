@@ -50,14 +50,6 @@ serverURL.setParameter("tabs2", tabs2);
 			%>
 
 		</aui:nav>
-
-		<aui:nav-bar-search>
-			<liferay-ui:input-search
-				autoFocus="<%= windowState.equals(WindowState.MAXIMIZED) %>"
-				markupView="lexicon"
-				placeholder='<%= LanguageUtil.get(request, "keywords") %>'
-			/>
-		</aui:nav-bar-search>
 	</aui:nav-bar>
 
 	<%
@@ -121,7 +113,21 @@ serverURL.setParameter("tabs2", tabs2);
 	propertiesConfigurationSearchContainer.setResults(propertiesConfigurationResults);
 	propertiesConfigurationSearchContainer.setTotal(filteredPropertiesList.size());
 
+	PortletURL searchActionURL = PortletURLUtil.clone(currentURLObj, renderResponse);
+
+	searchActionURL.setParameter("cur", "1");
+
+	PortletURL clearResultsURL = PortletURLUtil.clone(searchActionURL, renderResponse);
+
+	clearResultsURL.setParameter("keywords", StringPool.BLANK);
 	%>
+
+	<clay:management-toolbar
+		clearResultsURL="<%= clearResultsURL.toString() %>"
+		itemsTotal="<%= filteredPropertiesList.size() %>"
+		searchActionURL="<%= searchActionURL.toString() %>"
+		selectable="<%= false %>"
+	/>
 
 	<liferay-ui:search-container
 		searchContainer="<%= propertiesConfigurationSearchContainer %>"
