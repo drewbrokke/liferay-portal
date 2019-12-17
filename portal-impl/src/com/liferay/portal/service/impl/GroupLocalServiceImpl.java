@@ -33,9 +33,6 @@ import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskConstants;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil;
 import com.liferay.portal.kernel.cache.thread.local.ThreadLocalCachable;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
-import com.liferay.portal.kernel.dao.orm.Property;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.DuplicateGroupException;
 import com.liferay.portal.kernel.exception.GroupFriendlyURLException;
@@ -82,8 +79,6 @@ import com.liferay.portal.kernel.model.WorkflowDefinitionLink;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelperUtil;
 import com.liferay.portal.kernel.scheduler.StorageType;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.auth.HttpPrincipal;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
@@ -4659,38 +4654,7 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 	protected void reindex(long companyId, long[] userIds)
 		throws PortalException {
 
-		Indexer<User> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			User.class);
-
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-			userLocalService.getIndexableActionableDynamicQuery();
-
-		indexableActionableDynamicQuery.setAddCriteriaMethod(
-			dynamicQuery -> {
-				Property userId = PropertyFactoryUtil.forName("userId");
-
-				dynamicQuery.add(userId.in(userIds));
-			});
-		indexableActionableDynamicQuery.setCompanyId(companyId);
-		indexableActionableDynamicQuery.setPerformActionMethod(
-			(User user) -> {
-				if (!user.isDefaultUser()) {
-					try {
-						indexableActionableDynamicQuery.addDocuments(
-							indexer.getDocument(user));
-					}
-					catch (PortalException pe) {
-						if (_log.isWarnEnabled()) {
-							_log.warn(
-								"Unable to index user " + user.getUserId(), pe);
-						}
-					}
-				}
-			});
-		indexableActionableDynamicQuery.setSearchEngineId(
-			indexer.getSearchEngineId());
-
-		indexableActionableDynamicQuery.performActions();
+		UserReindexManager.INSTANCE.reindex(userIds);
 	}
 
 	protected void reindexUsersInOrganization(long organizationId)

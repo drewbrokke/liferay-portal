@@ -16,9 +16,6 @@ package com.liferay.portal.service.impl;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
-import com.liferay.portal.kernel.dao.orm.Property;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.DuplicateOrganizationException;
@@ -28,8 +25,6 @@ import com.liferay.portal.kernel.exception.OrganizationTypeException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.RequiredOrganizationException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Country;
 import com.liferay.portal.kernel.model.Group;
@@ -2315,38 +2310,7 @@ public class OrganizationLocalServiceImpl
 	protected void reindex(long companyId, long[] userIds)
 		throws PortalException {
 
-		final Indexer<User> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			User.class);
-
-		final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-			userLocalService.getIndexableActionableDynamicQuery();
-
-		indexableActionableDynamicQuery.setAddCriteriaMethod(
-			dynamicQuery -> {
-				Property userId = PropertyFactoryUtil.forName("userId");
-
-				dynamicQuery.add(userId.in(userIds));
-			});
-		indexableActionableDynamicQuery.setCompanyId(companyId);
-		indexableActionableDynamicQuery.setPerformActionMethod(
-			(User user) -> {
-				if (!user.isDefaultUser()) {
-					try {
-						indexableActionableDynamicQuery.addDocuments(
-							indexer.getDocument(user));
-					}
-					catch (PortalException pe) {
-						if (_log.isWarnEnabled()) {
-							_log.warn(
-								"Unable to index user " + user.getUserId(), pe);
-						}
-					}
-				}
-			});
-		indexableActionableDynamicQuery.setSearchEngineId(
-			indexer.getSearchEngineId());
-
-		indexableActionableDynamicQuery.performActions();
+		UserReindexManager.INSTANCE.reindex(userIds);
 	}
 
 	protected void reindexUsers(List<Organization> organizations)
@@ -2476,9 +2440,6 @@ public class OrganizationLocalServiceImpl
 			companyId, 0, parentOrganizationId, name, type, countryId,
 			statusId);
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		OrganizationLocalServiceImpl.class);
 
 	private static volatile OrganizationTypesSettings
 		_organizationTypesSettings =

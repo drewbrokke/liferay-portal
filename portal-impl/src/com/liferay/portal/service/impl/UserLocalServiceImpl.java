@@ -6126,46 +6126,19 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 	}
 
 	protected void reindex(final List<User> users) throws SearchException {
-		Indexer<User> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			User.class);
-
-		try {
-			indexer.reindex(users);
-		}
-		catch (SearchException se) {
-			throw new SystemException(se);
-		}
+		UserReindexManager.INSTANCE.reindex(users);
 	}
 
 	protected void reindex(long userId) throws SearchException {
-		Indexer<User> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			User.class);
-
-		User user = userLocalService.fetchUser(userId);
-
-		indexer.reindex(user);
+		UserReindexManager.INSTANCE.reindex(userId);
 	}
 
 	protected void reindex(long[] userIds) throws SearchException {
-		Indexer<User> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			User.class);
-
-		List<User> users = new ArrayList<>(userIds.length);
-
-		for (Long userId : userIds) {
-			User user = userLocalService.fetchUser(userId);
-
-			users.add(user);
-		}
-
-		indexer.reindex(users);
+		UserReindexManager.INSTANCE.reindex(userIds);
 	}
 
 	protected void reindex(final User user) throws SearchException {
-		Indexer<User> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			User.class);
-
-		indexer.reindex(user);
+		UserReindexManager.INSTANCE.reindex(user);
 	}
 
 	protected User resetFailedLoginAttempts(User user) {
