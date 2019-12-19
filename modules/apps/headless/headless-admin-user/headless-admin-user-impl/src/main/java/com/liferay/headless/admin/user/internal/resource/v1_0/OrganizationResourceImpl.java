@@ -201,26 +201,30 @@ public class OrganizationResourceImpl
 			return null;
 		}
 
-		Address address = _addressLocalService.createAddress(
-			GetterUtil.getLong(postalAddress.getId()));
+		long addressId = GetterUtil.getLong(postalAddress.getId());
+		long regionId = _getRegionId(
+			postalAddress.getAddressRegion(), countryId);
+		long typeId = _toAddressTypeId(
+			Optional.ofNullable(
+				postalAddress.getAddressType()
+			).orElse(
+				PostalAddress.AddressType.OTHER
+			));
+
+		boolean primary = GetterUtil.getBoolean(postalAddress.getPrimary());
+
+		Address address = _addressLocalService.createAddress(addressId);
 
 		address.setStreet1(street1);
 		address.setStreet2(street2);
 		address.setStreet3(street3);
 		address.setCity(city);
 		address.setZip(zip);
-		address.setRegionId(
-			_getRegionId(postalAddress.getAddressRegion(), countryId));
+		address.setRegionId(regionId);
 		address.setCountryId(countryId);
-		address.setTypeId(
-			_toAddressTypeId(
-				Optional.ofNullable(
-					postalAddress.getAddressType()
-				).orElse(
-					PostalAddress.AddressType.OTHER
-				)));
+		address.setTypeId(typeId);
 		address.setMailing(true);
-		address.setPrimary(GetterUtil.getBoolean(postalAddress.getPrimary()));
+		address.setPrimary(primary);
 
 		return address;
 	}
