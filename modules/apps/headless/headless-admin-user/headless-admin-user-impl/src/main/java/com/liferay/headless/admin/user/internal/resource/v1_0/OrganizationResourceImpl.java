@@ -33,6 +33,7 @@ import com.liferay.headless.admin.user.internal.dto.v1_0.util.WebUrlUtil;
 import com.liferay.headless.admin.user.internal.odata.entity.v1_0.OrganizationEntityModel;
 import com.liferay.headless.admin.user.resource.v1_0.OrganizationResource;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Address;
@@ -81,6 +82,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.osgi.service.component.annotations.Component;
@@ -142,13 +144,14 @@ public class OrganizationResourceImpl
 		return _toOrganization(
 			_organizationService.addOrganization(
 				_getDefaultParentOrganizationId(organization),
-				organization.getName(), OrganizationConstants.TYPE_ORGANIZATION,
+				organization.getName(),
+				OrganizationConstants.TYPE_ORGANIZATION,
 				_getRegionId(organization, countryId), countryId,
 				ListTypeConstants.ORGANIZATION_STATUS_DEFAULT,
-				organization.getComment(), false, _getAddresses(organization),
+				organization.getComment(), false,
+				_getAddresses(organization), Collections.emptyList(),
 				Collections.emptyList(), Collections.emptyList(),
-				Collections.emptyList(), Collections.emptyList(),
-				new ServiceContext()));
+				Collections.emptyList(), new ServiceContext()));
 	}
 
 	private HoursAvailable _createHoursAvailable(
@@ -183,6 +186,45 @@ public class OrganizationResourceImpl
 		return decimalFormat.format(hour);
 	}
 
+	private Address _toAddress(PostalAddress postalAddress) {
+		String street1 = postalAddress.getStreetAddressLine1();
+		String street2 = postalAddress.getStreetAddressLine2();
+		String street3 = postalAddress.getStreetAddressLine3();
+		String city = postalAddress.getAddressLocality();
+		String zip = postalAddress.getPostalCode();
+		long countryId = _toCountryId(postalAddress.getAddressCountry());
+
+		if (Validator.isNull(street1) && Validator.isNull(street2) &&
+			Validator.isNull(street3) && Validator.isNull(city) &&
+			Validator.isNull(zip) && (countryId == 0)) {
+
+			return null;
+		}
+
+		Address address = _addressLocalService.createAddress(
+			GetterUtil.getLong(postalAddress.getId()));
+
+		address.setStreet1(street1);
+		address.setStreet2(street2);
+		address.setStreet3(street3);
+		address.setCity(city);
+		address.setZip(zip);
+		address.setRegionId(
+			_getRegionId(postalAddress.getAddressRegion(), countryId));
+		address.setCountryId(countryId);
+		address.setTypeId(
+			_toAddressTypeId(
+				Optional.ofNullable(
+					postalAddress.getAddressType()
+				).orElse(
+					PostalAddress.AddressType.OTHER
+				)));
+		address.setMailing(true);
+		address.setPrimary(GetterUtil.getBoolean(postalAddress.getPrimary()));
+
+		return address;
+	}
+
 	private List<Address> _getAddresses(Organization organization) {
 		return Optional.ofNullable(
 			organization.getOrganizationContactInformation()
@@ -198,6 +240,38 @@ public class OrganizationResourceImpl
 		);
 	}
 
+	private long _toAddressTypeId(PostalAddress.AddressType addressType) {
+		ListType listType = _listTypeLocalService.getListType(
+			addressType.getValue(), ListTypeConstants.ORGANIZATION_ADDRESS);
+
+		return listType.getListTypeId();
+	}
+
+	private Country _toCountry(String addressCountry) {
+		try {
+			Country country = _countryService.fetchCountryByA2(addressCountry);
+
+			if (country != null) {
+				return country;
+			}
+
+			country = _countryService.fetchCountryByA3(addressCountry);
+
+			if (country != null) {
+				return country;
+			}
+
+			return _countryService.getCountryByName(addressCountry);
+		}
+		catch (Exception e) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(e, e);
+			}
+		}
+
+		return null;
+	}
+
 	private long _getCountryId(Organization organization) {
 		return Optional.ofNullable(
 			organization.getLocation()
@@ -206,6 +280,18 @@ public class OrganizationResourceImpl
 		).map(
 			this::_toCountryId
 		).get();
+	}
+
+	private long _toCountryId(String addressCountry) {
+		return Optional.ofNullable(
+			addressCountry
+		).map(
+			this::_toCountry
+		).map(
+			Country::getCountryId
+		).orElse(
+			(long)0
+		);
 	}
 
 	private long _getDefaultParentOrganizationId(Organization organization) {
@@ -295,89 +381,6 @@ public class OrganizationResourceImpl
 		}
 
 		return 0;
-	}
-
-	private Address _toAddress(PostalAddress postalAddress) {
-		String street1 = postalAddress.getStreetAddressLine1();
-		String street2 = postalAddress.getStreetAddressLine2();
-		String street3 = postalAddress.getStreetAddressLine3();
-		String city = postalAddress.getAddressLocality();
-		String zip = postalAddress.getPostalCode();
-		long countryId = _toCountryId(postalAddress.getAddressCountry());
-
-		if (Validator.isNull(street1) && Validator.isNull(street2) &&
-			Validator.isNull(street3) && Validator.isNull(city) &&
-			Validator.isNull(zip) && (countryId == 0)) {
-
-			return null;
-		}
-
-		Address address = _addressLocalService.createAddress(
-			GetterUtil.getLong(postalAddress.getId()));
-
-		address.setStreet1(street1);
-		address.setStreet2(street2);
-		address.setStreet3(street3);
-		address.setCity(city);
-		address.setZip(zip);
-		address.setRegionId(
-			_getRegionId(postalAddress.getAddressRegion(), countryId));
-		address.setCountryId(countryId);
-		address.setTypeId(
-			_toAddressTypeId(
-				Optional.ofNullable(
-					postalAddress.getAddressType()
-				).orElse(
-					PostalAddress.AddressType.OTHER
-				)));
-		address.setMailing(true);
-		address.setPrimary(GetterUtil.getBoolean(postalAddress.getPrimary()));
-
-		return address;
-	}
-
-	private long _toAddressTypeId(PostalAddress.AddressType addressType) {
-		ListType listType = _listTypeLocalService.getListType(
-			addressType.getValue(), ListTypeConstants.ORGANIZATION_ADDRESS);
-
-		return listType.getListTypeId();
-	}
-
-	private Country _toCountry(String addressCountry) {
-		try {
-			Country country = _countryService.fetchCountryByA2(addressCountry);
-
-			if (country != null) {
-				return country;
-			}
-
-			country = _countryService.fetchCountryByA3(addressCountry);
-
-			if (country != null) {
-				return country;
-			}
-
-			return _countryService.getCountryByName(addressCountry);
-		}
-		catch (Exception e) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(e, e);
-			}
-		}
-
-		return null;
-	}
-
-	private long _toCountryId(String addressCountry) {
-		return Optional.ofNullable(
-			addressCountry
-		).map(
-			this::_toCountry
-		).map(
-			Country::getCountryId
-		).orElse(
-			(long)0
-		);
 	}
 
 	private Organization _toOrganization(
