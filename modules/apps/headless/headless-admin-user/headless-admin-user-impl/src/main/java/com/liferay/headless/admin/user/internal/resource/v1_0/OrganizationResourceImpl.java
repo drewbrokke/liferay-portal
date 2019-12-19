@@ -251,7 +251,7 @@ public class OrganizationResourceImpl
 		return listType.getListTypeId();
 	}
 
-	private Country _toCountry(String addressCountry) {
+	private Country _getCountry(String addressCountry) {
 		try {
 			Country country = _countryService.fetchCountryByA2(addressCountry);
 
@@ -290,7 +290,7 @@ public class OrganizationResourceImpl
 		return Optional.ofNullable(
 			addressCountry
 		).map(
-			this::_toCountry
+			this::_getCountry
 		).map(
 			Country::getCountryId
 		).orElse(
