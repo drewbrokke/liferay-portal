@@ -111,7 +111,7 @@ public class OrganizationContactInformation {
 	@GraphQLField(
 		description = "The organization's postal addresses, with one optionally marked as primary."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected PostalAddress[] postalAddresses;
 
 	@Schema(

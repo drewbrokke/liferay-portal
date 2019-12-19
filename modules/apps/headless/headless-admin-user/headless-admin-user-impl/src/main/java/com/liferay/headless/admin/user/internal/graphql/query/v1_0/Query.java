@@ -422,11 +422,11 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {segments(page: ___, pageSize: ___, siteId: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {segments(page: ___, pageSize: ___, siteKey: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Gets a site's segments.")
 	public SegmentPage segments(
-			Long siteId, @GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("pageSize") int pageSize,
 			@GraphQLName("page") int page)
 		throws Exception {
@@ -436,17 +436,17 @@ public class Query {
 			this::_populateResourceContext,
 			segmentResource -> new SegmentPage(
 				segmentResource.getSiteSegmentsPage(
-					siteId, Pagination.of(page, pageSize))));
+					Long.valueOf(siteKey), Pagination.of(page, pageSize))));
 	}
 
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {userAccountSegments(siteId: ___, userAccountId: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {userAccountSegments(siteKey: ___, userAccountId: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Gets a user's segments.")
 	public SegmentPage userAccountSegments(
-			Long siteId, @GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("userAccountId") Long userAccountId)
 		throws Exception {
 
@@ -455,7 +455,7 @@ public class Query {
 			this::_populateResourceContext,
 			segmentResource -> new SegmentPage(
 				segmentResource.getSiteUserAccountSegmentsPage(
-					siteId, userAccountId)));
+					Long.valueOf(siteKey), userAccountId)));
 	}
 
 	/**
@@ -517,17 +517,16 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {site(siteId: ___){availableLanguages, creator, description, friendlyUrlPath, id, key, membershipType, name, sites}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {site(siteKey: ___){availableLanguages, creator, description, friendlyUrlPath, id, key, membershipType, name, sites}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField
-	public Site site(
-			Long siteId, @GraphQLName("siteKey") @NotEmpty String siteKey)
+	public Site site(@GraphQLName("siteKey") @NotEmpty String siteKey)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_siteResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			siteResource -> siteResource.getSite(siteId));
+			siteResource -> siteResource.getSite(Long.valueOf(siteKey)));
 	}
 
 	/**
@@ -614,13 +613,13 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {siteUserAccounts(filter: ___, page: ___, pageSize: ___, search: ___, siteId: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {siteUserAccounts(filter: ___, page: ___, pageSize: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
 		description = "Retrieves the site members' user accounts. Results can be paginated, filtered, searched, and sorted."
 	)
 	public UserAccountPage siteUserAccounts(
-			Long siteId, @GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("search") String search,
 			@GraphQLName("filter") String filterString,
 			@GraphQLName("pageSize") int pageSize,
@@ -633,7 +632,7 @@ public class Query {
 			this::_populateResourceContext,
 			userAccountResource -> new UserAccountPage(
 				userAccountResource.getSiteUserAccountsPage(
-					siteId, search,
+					Long.valueOf(siteKey), search,
 					_filterBiFunction.apply(userAccountResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(userAccountResource, sortsString))));
