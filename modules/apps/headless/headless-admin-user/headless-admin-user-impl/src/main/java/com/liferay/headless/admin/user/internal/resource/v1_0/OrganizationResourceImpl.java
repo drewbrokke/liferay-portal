@@ -186,7 +186,7 @@ public class OrganizationResourceImpl
 		return decimalFormat.format(hour);
 	}
 
-	private Address _toAddress(PostalAddress postalAddress) {
+	private Address _getAddress(PostalAddress postalAddress) {
 		String street1 = postalAddress.getStreetAddressLine1();
 		String street2 = postalAddress.getStreetAddressLine2();
 		String street3 = postalAddress.getStreetAddressLine3();
@@ -237,7 +237,7 @@ public class OrganizationResourceImpl
 		).map(
 			postalAddresses -> ListUtil.filter(
 				TransformUtil.transformToList(
-					postalAddresses, this::_toAddress),
+					postalAddresses, this::_getAddress),
 				Objects::nonNull)
 		).orElse(
 			Collections.emptyList()
