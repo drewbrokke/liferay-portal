@@ -360,7 +360,7 @@ public class OrganizationResourceImpl
 	}
 
 	private long _getRegionId(String addressRegion, long countryId) {
-		if (Validator.isNull(addressRegion) || (countryId <= 0)) {
+		if ((countryId <= 0) || Validator.isNull(addressRegion)) {
 			return 0;
 		}
 
