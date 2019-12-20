@@ -325,8 +325,8 @@ public class OrganizationResourceImpl
 		address.setCountryId(countryId);
 		address.setTypeId(
 			_toListTypeId(
-				ListTypeConstants.ORGANIZATION_ADDRESS,
-				postalAddress.getAddressType(), "other"));
+				"other", postalAddress.getAddressType(),
+				ListTypeConstants.ORGANIZATION_ADDRESS));
 		address.setMailing(true);
 		address.setPrimary(GetterUtil.getBoolean(postalAddress.getPrimary()));
 
@@ -370,7 +370,7 @@ public class OrganizationResourceImpl
 		);
 	}
 
-	private long _toListTypeId(String type, String name, String defaultName) {
+	private long _toListTypeId(String defaultName, String name, String type) {
 		ListType listType = _listTypeLocalService.getListType(name, type);
 
 		if (listType == null) {
