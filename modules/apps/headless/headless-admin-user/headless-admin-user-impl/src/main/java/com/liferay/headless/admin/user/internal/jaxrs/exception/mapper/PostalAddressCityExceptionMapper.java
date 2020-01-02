@@ -14,7 +14,7 @@
 
 package com.liferay.headless.admin.user.internal.jaxrs.exception.mapper;
 
-import com.liferay.portal.kernel.exception.AddressStreetException;
+import com.liferay.portal.kernel.exception.AddressCityException;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.BaseExceptionMapper;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.Problem;
 
@@ -30,20 +30,17 @@ import org.osgi.service.component.annotations.Component;
 	property = {
 		"osgi.jaxrs.application.select=(osgi.jaxrs.name=Liferay.Headless.Admin.User)",
 		"osgi.jaxrs.extension=true",
-		"osgi.jaxrs.name=Liferay.Headless.Admin.User.AddressStreetExceptionMapper"
+		"osgi.jaxrs.name=Liferay.Headless.Admin.User.PostalAddressCityExceptionMapper"
 	},
 	service = ExceptionMapper.class
 )
-public class AddressStreetExceptionMapper
-	extends BaseExceptionMapper<AddressStreetException> {
+public class PostalAddressCityExceptionMapper
+	extends BaseExceptionMapper<AddressCityException> {
 
 	@Override
-	protected Problem getProblem(
-		AddressStreetException addressStreetException) {
-
+	protected Problem getProblem(AddressCityException addressCityException) {
 		return new Problem(
-			Response.Status.BAD_REQUEST,
-			"A street name is required for an address");
+			Response.Status.BAD_REQUEST, "A city is required for an address");
 	}
 
 }

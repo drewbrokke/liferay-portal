@@ -14,7 +14,7 @@
 
 package com.liferay.headless.admin.user.internal.jaxrs.exception.mapper;
 
-import com.liferay.portal.kernel.exception.AddressZipException;
+import com.liferay.portal.kernel.exception.AddressStreetException;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.BaseExceptionMapper;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.Problem;
 
@@ -30,18 +30,20 @@ import org.osgi.service.component.annotations.Component;
 	property = {
 		"osgi.jaxrs.application.select=(osgi.jaxrs.name=Liferay.Headless.Admin.User)",
 		"osgi.jaxrs.extension=true",
-		"osgi.jaxrs.name=Liferay.Headless.Admin.User.AddressZipExceptionMapper"
+		"osgi.jaxrs.name=Liferay.Headless.Admin.User.PostalAddressStreetExceptionMapper"
 	},
 	service = ExceptionMapper.class
 )
-public class AddressZipExceptionMapper
-	extends BaseExceptionMapper<AddressZipException> {
+public class PostalAddressStreetExceptionMapper
+	extends BaseExceptionMapper<AddressStreetException> {
 
 	@Override
-	protected Problem getProblem(AddressZipException addressZipException) {
+	protected Problem getProblem(
+		AddressStreetException addressStreetException) {
+
 		return new Problem(
 			Response.Status.BAD_REQUEST,
-			"A zip code is required for an address");
+			"A street name is required for an address");
 	}
 
 }
