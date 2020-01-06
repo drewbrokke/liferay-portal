@@ -672,10 +672,10 @@ public class OrganizationResourceImpl
 			try {
 				Calendar calendar = CalendarFactoryUtil.getCalendar();
 
-				SimpleDateFormat parseDateFormat = new SimpleDateFormat(
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 					"HH:mm");
 
-				calendar.setTime(parseDateFormat.parse(timeString));
+				calendar.setTime(simpleDateFormat.parse(timeString));
 
 				return Integer.parseInt(
 					calendar.get(Calendar.HOUR_OF_DAY) +
