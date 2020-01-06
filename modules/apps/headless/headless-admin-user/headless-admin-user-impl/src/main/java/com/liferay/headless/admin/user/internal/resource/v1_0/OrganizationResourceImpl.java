@@ -37,7 +37,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Country;
-import com.liferay.portal.kernel.model.CountryConstants;
 import com.liferay.portal.kernel.model.ListType;
 import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.OrgLabor;
@@ -668,27 +667,27 @@ public class OrganizationResourceImpl
 	}
 
 	private int _toTime(String timeString) {
-		if (Validator.isNotNull(timeString)) {
-			try {
-				Calendar calendar = CalendarFactoryUtil.getCalendar();
-
-				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-					"HH:mm");
-
-				calendar.setTime(simpleDateFormat.parse(timeString));
-
-				return Integer.parseInt(
-					calendar.get(Calendar.HOUR_OF_DAY) +
-						calendar.get(Calendar.MINUTE) + "");
-			}
-			catch (NumberFormatException | ParseException e) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(e, e);
-				}
-			}
+		if (Validator.isNull(timeString)) {
+			return -1;
 		}
 
-		return -1;
+		Calendar calendar = CalendarFactoryUtil.getCalendar();
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+
+		try {
+			calendar.setTime(simpleDateFormat.parse(timeString));
+		}
+		catch (ParseException pe) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(pe, pe);
+			}
+
+			return -1;
+		}
+
+		return calendar.get(Calendar.HOUR_OF_DAY) +
+			calendar.get(Calendar.MINUTE);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
