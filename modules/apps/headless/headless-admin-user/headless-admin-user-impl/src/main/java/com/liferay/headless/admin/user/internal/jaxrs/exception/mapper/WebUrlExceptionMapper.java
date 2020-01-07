@@ -41,7 +41,7 @@ public class WebUrlExceptionMapper
 	protected Problem getProblem(WebsiteURLException websiteURLException) {
 		return new Problem(
 			Response.Status.BAD_REQUEST,
-			"Invalid URL: " + websiteURLException.getMessage());
+			"Invalid web URL: " + websiteURLException.getMessage());
 	}
 
 }
