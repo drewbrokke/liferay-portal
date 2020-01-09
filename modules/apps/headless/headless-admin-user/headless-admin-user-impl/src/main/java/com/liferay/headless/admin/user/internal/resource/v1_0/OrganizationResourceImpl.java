@@ -168,12 +168,10 @@ public class OrganizationResourceImpl
 			Long organizationId, Organization organization)
 		throws Exception {
 
-		long countryId = _getCountryId(organization);
-
 		com.liferay.portal.kernel.model.Organization
 			serviceBuilderOrganization = _organizationService.getOrganization(
 				organizationId);
-
+		long countryId = _getCountryId(organization);
 		Group group = serviceBuilderOrganization.getGroup();
 
 		return _toOrganization(
