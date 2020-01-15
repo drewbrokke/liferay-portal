@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.ModelHintsUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Portal;
@@ -33,6 +34,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.users.admin.kernel.file.uploads.UserFileUploadsSettings;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.validator.routines.DomainValidator;
@@ -197,6 +199,14 @@ public class AccountEntryLocalServiceImpl
 	@Override
 	public int getAccountEntriesCount(long companyId, int status) {
 		return accountEntryPersistence.countByC_S(companyId, status);
+	}
+
+	@Override
+	public BaseModelSearchResult<AccountEntry> search(
+		long companyId, String keywords, LinkedHashMap<String, Object> params,
+		long cur, long delta, String orderByField, boolean reverse) {
+
+		return null;
 	}
 
 	@Override
