@@ -16,16 +16,28 @@ package com.liferay.account.service.test;
 
 import com.liferay.account.exception.AccountEntryDomainsException;
 import com.liferay.account.model.AccountEntry;
+import com.liferay.account.retriever.AccountUserRetriever;
 import com.liferay.account.service.AccountEntryLocalService;
+import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
+import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
@@ -35,6 +47,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -50,6 +63,12 @@ public class AccountEntryLocalServiceTest {
 	@Rule
 	public static final LiferayIntegrationTestRule liferayIntegrationTestRule =
 		new LiferayIntegrationTestRule();
+
+	@Before
+	public void setUp() throws Exception {
+		_accountEntryIndexer = IndexerRegistryUtil.getIndexer(
+			AccountEntry.class);
+	}
 
 	@After
 	public void tearDown() throws Exception {
@@ -269,6 +288,59 @@ public class AccountEntryLocalServiceTest {
 		_assertDeleted(accountEntry.getAccountEntryId());
 	}
 
+	@Test
+	public void testIndexerDocument() throws Exception {
+
+		/**
+		 * Set up
+		 */
+		AccountEntry accountEntry = _addAccountEntry();
+
+		User user = UserTestUtil.addUser();
+
+		_users.add(user);
+
+		_accountEntryUserRelLocalService.addAccountEntryUserRel(
+			accountEntry.getAccountEntryId(), user.getUserId());
+
+		User user1 = UserTestUtil.addUser();
+
+		_users.add(user1);
+
+		_accountEntryUserRelLocalService.addAccountEntryUserRel(
+			accountEntry.getAccountEntryId(), user1.getUserId());
+
+		accountEntry.setDomains("one,two,three");
+
+		/**
+		 * Create Document
+		 */
+		Document document = _accountEntryIndexer.getDocument(accountEntry);
+
+		/**
+		 * Assert
+		 */
+		Assert.assertEquals(
+			accountEntry.getDescription(), document.get(Field.DESCRIPTION));
+		Assert.assertEquals(accountEntry.getName(), document.get(Field.NAME));
+		Assert.assertEquals(
+			accountEntry.getStatus(),
+			GetterUtil.getInteger(document.get(Field.STATUS), -1));
+		Assert.assertArrayEquals(
+			_getAccountUserIds(accountEntry),
+			GetterUtil.getLongValues(document.getValues("accountUserIds")));
+		Assert.assertArrayEquals(
+			_getDomains(accountEntry), document.getValues("domains"));
+		Assert.assertEquals(
+			accountEntry.getParentAccountEntryId(),
+			GetterUtil.getLong(document.get("parentAccountEntryId"), -1L));
+	}
+
+	@Test
+	public void testIndexerExists() throws Exception {
+		Assert.assertNotNull(_accountEntryIndexer);
+	}
+
 	private long[] _addAccountEntries() throws Exception {
 		return _addAccountEntries(WorkflowConstants.STATUS_APPROVED);
 	}
@@ -320,15 +392,37 @@ public class AccountEntryLocalServiceTest {
 		Assert.assertEquals(expectedStatus, accountEntry.getStatus());
 	}
 
+	private long[] _getAccountUserIds(AccountEntry accountEntry) {
+		return ListUtil.toLongArray(
+			_accountUserRetriever.getAccountUsers(
+				accountEntry.getAccountEntryId()),
+			User.USER_ID_ACCESSOR);
+	}
+
+	private String[] _getDomains(AccountEntry accountEntry) {
+		return ArrayUtil.toStringArray(
+			StringUtil.split(accountEntry.getDomains(), CharPool.COMMA));
+	}
+
 	private final List<AccountEntry> _accountEntries = new ArrayList<>();
+	private Indexer<AccountEntry> _accountEntryIndexer;
 
 	@Inject
 	private AccountEntryLocalService _accountEntryLocalService;
+
+	@Inject
+	private AccountEntryUserRelLocalService _accountEntryUserRelLocalService;
+
+	@Inject
+	private AccountUserRetriever _accountUserRetriever;
 
 	@Inject
 	private ClassNameLocalService _classNameLocalService;
 
 	@Inject
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
+
+	@DeleteAfterTestRun
+	private final List<User> _users = new ArrayList<>();
 
 }
