@@ -264,7 +264,7 @@ public interface AccountEntryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public BaseModelSearchResult<AccountEntry> search(
 		long companyId, String keywords, LinkedHashMap<String, Object> params,
-		long cur, long delta, String orderByField, boolean reverse);
+		int cur, int delta, String orderByField, boolean reverse);
 
 	/**
 	 * Updates the account entry in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

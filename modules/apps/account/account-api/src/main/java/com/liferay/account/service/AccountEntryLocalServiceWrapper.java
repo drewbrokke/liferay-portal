@@ -355,8 +355,8 @@ public class AccountEntryLocalServiceWrapper
 	public com.liferay.portal.kernel.search.BaseModelSearchResult
 		<com.liferay.account.model.AccountEntry> search(
 			long companyId, String keywords,
-			java.util.LinkedHashMap<String, Object> params, long cur,
-			long delta, String orderByField, boolean reverse) {
+			java.util.LinkedHashMap<String, Object> params, int cur, int delta,
+			String orderByField, boolean reverse) {
 
 		return _accountEntryLocalService.search(
 			companyId, keywords, params, cur, delta, orderByField, reverse);
