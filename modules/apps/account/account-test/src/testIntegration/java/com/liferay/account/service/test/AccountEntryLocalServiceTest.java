@@ -370,6 +370,28 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	@Test
+	public void testSearchFilterByStatus() throws Exception {
+		List<AccountEntry> activeAccountEntries = Arrays.asList(
+			_addAccountEntry(), _addAccountEntry(), _addAccountEntry());
+		List<AccountEntry> inactiveAccountEntries = Arrays.asList(
+			_addAccountEntry(WorkflowConstants.STATUS_INACTIVE),
+			_addAccountEntry(WorkflowConstants.STATUS_INACTIVE),
+			_addAccountEntry(WorkflowConstants.STATUS_INACTIVE),
+			_addAccountEntry(WorkflowConstants.STATUS_INACTIVE));
+
+		_assertSearchWithParams(
+			activeAccountEntries,
+			_getLinkedHashMap("status", WorkflowConstants.STATUS_APPROVED));
+		_assertSearchWithParams(activeAccountEntries, new LinkedHashMap<>());
+		_assertSearchWithParams(
+			inactiveAccountEntries,
+			_getLinkedHashMap("status", WorkflowConstants.STATUS_INACTIVE));
+		_assertSearchWithParams(
+			ListUtil.concat(activeAccountEntries, inactiveAccountEntries),
+			_getLinkedHashMap("status", WorkflowConstants.STATUS_ANY));
+	}
+
+	@Test
 	public void testSearchIndexerDocument() throws Exception {
 
 		/**
@@ -590,6 +612,22 @@ public class AccountEntryLocalServiceTest {
 				expectedAccountEntries.get(start + i),
 				actualAccountEntries.get(i));
 		}
+	}
+
+	private void _assertSearchWithParams(
+			List<AccountEntry> expectedAccountEntries,
+			LinkedHashMap<String, Object> params)
+		throws Exception {
+
+		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
+			_searchWithParams(params);
+
+		Assert.assertEquals(
+			expectedAccountEntries.size(), baseModelSearchResult.getLength());
+
+		Assert.assertTrue(
+			expectedAccountEntries.containsAll(
+				baseModelSearchResult.getBaseModels()));
 	}
 
 	private void _assertStatus(long accountEntryId, int expectedStatus) {
