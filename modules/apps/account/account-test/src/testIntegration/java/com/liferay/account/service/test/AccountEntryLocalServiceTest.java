@@ -22,6 +22,7 @@ import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringUtil;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.ResourceConstants;
@@ -46,6 +47,7 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.After;
@@ -365,11 +367,30 @@ public class AccountEntryLocalServiceTest {
 	public void testSearchNoKeywords() throws Exception {
 		_addAccountEntries();
 
+		List<AccountEntry> expectedAccountEntries =
+			_accountEntryLocalService.getAccountEntries(
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
 		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
 			_keywordSearch(null);
 
 		Assert.assertEquals(
-			_accountEntries.size(), baseModelSearchResult.getLength());
+			expectedAccountEntries.size(), baseModelSearchResult.getLength());
+	}
+
+	@Test
+	public void testSearchPagination() throws Exception {
+		String keywords = RandomTestUtil.randomString();
+
+		List<AccountEntry> expectedAccountEntries = Arrays.asList(
+			_addAccountEntry(RandomTestUtil.randomString(), keywords),
+			_addAccountEntry(RandomTestUtil.randomString(), keywords),
+			_addAccountEntry(RandomTestUtil.randomString(), keywords),
+			_addAccountEntry(RandomTestUtil.randomString(), keywords),
+			_addAccountEntry(RandomTestUtil.randomString(), keywords));
+
+		_assertPaginationSort(expectedAccountEntries, keywords, false);
+		_assertPaginationSort(expectedAccountEntries, keywords, true);
 	}
 
 	private long[] _addAccountEntries() throws Exception {
@@ -427,6 +448,40 @@ public class AccountEntryLocalServiceTest {
 		Assert.assertEquals(0, resourcePermissionsCount);
 	}
 
+	private void _assertPaginationSort(
+			List<AccountEntry> expectedAccountEntries, String keywords,
+			boolean reversed)
+		throws Exception {
+
+		int delta = 3;
+		int start = 1;
+
+		if (reversed) {
+			expectedAccountEntries.sort(_accountEntryNameComparator.reversed());
+		}
+		else {
+			expectedAccountEntries.sort(_accountEntryNameComparator);
+		}
+
+		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
+			_accountEntryLocalService.search(
+				TestPropsValues.getCompanyId(), keywords, null, start, delta,
+				"name", reversed);
+
+		List<AccountEntry> actualAccountEntries =
+			baseModelSearchResult.getBaseModels();
+
+		Assert.assertEquals(
+			actualAccountEntries.toString(), delta,
+			actualAccountEntries.size());
+
+		for (int i = 0; i < delta; i++) {
+			Assert.assertEquals(
+				expectedAccountEntries.get(start + i),
+				actualAccountEntries.get(i));
+		}
+	}
+
 	private void _assertStatus(long accountEntryId, int expectedStatus) {
 		AccountEntry accountEntry = _accountEntryLocalService.fetchAccountEntry(
 			accountEntryId);
@@ -452,6 +507,14 @@ public class AccountEntryLocalServiceTest {
 		return _accountEntryLocalService.search(
 			TestPropsValues.getCompanyId(), keywords, null, 0, 10, null, false);
 	}
+
+	private static final Comparator<AccountEntry> _accountEntryNameComparator =
+		(accountEntry1, accountEntry2) -> {
+			String name1 = accountEntry1.getName();
+			String name2 = accountEntry2.getName();
+
+			return name1.compareToIgnoreCase(name2);
+		};
 
 	private final List<AccountEntry> _accountEntries = new ArrayList<>();
 	private Indexer<AccountEntry> _accountEntryIndexer;
