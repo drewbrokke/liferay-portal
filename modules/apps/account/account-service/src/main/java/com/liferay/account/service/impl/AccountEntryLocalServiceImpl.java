@@ -23,7 +23,6 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.Account;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.ModelHintsUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
@@ -315,7 +314,7 @@ public class AccountEntryLocalServiceImpl
 
 			FieldSort sort = _sorts.field(
 				_sortFieldBuilder.getSortField(
-					Account.class.getName(), orderByField),
+					AccountEntry.class.getName(), orderByField),
 				sortOrder);
 
 			searchRequestBuilder.sorts(sort);
