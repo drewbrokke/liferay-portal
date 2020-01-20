@@ -294,7 +294,7 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	@Test
-	public void testIndexerDocument() throws Exception {
+	public void testSearchIndexerDocument() throws Exception {
 
 		/**
 		 * Set up
@@ -342,7 +342,7 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	@Test
-	public void testIndexerExists() throws Exception {
+	public void testSearchIndexerExists() throws Exception {
 		Assert.assertNotNull(_accountEntryIndexer);
 	}
 
