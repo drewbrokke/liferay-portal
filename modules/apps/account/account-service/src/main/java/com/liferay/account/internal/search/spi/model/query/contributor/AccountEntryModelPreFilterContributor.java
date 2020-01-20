@@ -56,7 +56,7 @@ public class AccountEntryModelPreFilterContributor
 		String[] domains = (String[])searchContext.getAttribute("domains");
 
 		if (ArrayUtil.isNotEmpty(domains)) {
-			TermsFilter domainTermsFilter = new TermsFilter("domain");
+			TermsFilter domainTermsFilter = new TermsFilter("domains");
 
 			domainTermsFilter.addValues(domains);
 
