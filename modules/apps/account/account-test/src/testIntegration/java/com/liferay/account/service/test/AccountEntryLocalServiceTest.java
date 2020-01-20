@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.Inject;
@@ -48,6 +49,7 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.junit.After;
@@ -294,6 +296,30 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	@Test
+	public void testSearchFilterByAccountUserIds() throws Exception {
+		_addAccountEntries();
+
+		User user1 = UserTestUtil.addUser();
+		User user2 = UserTestUtil.addUser();
+
+		List<AccountEntry> expectedAccountEntries = Arrays.asList(
+			_addAccountEntryWithUser(user1), _addAccountEntryWithUser(user2));
+
+		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
+			_searchWithParams(
+				_getLinkedHashMap(
+					"accountUserIds",
+					new long[] {user1.getUserId(), user2.getUserId()}));
+
+		Assert.assertEquals(
+			expectedAccountEntries.size(), baseModelSearchResult.getLength());
+
+		Assert.assertTrue(
+			expectedAccountEntries.containsAll(
+				baseModelSearchResult.getBaseModels()));
+	}
+
+	@Test
 	public void testSearchIndexerDocument() throws Exception {
 
 		/**
@@ -435,6 +461,15 @@ public class AccountEntryLocalServiceTest {
 		return accountEntry;
 	}
 
+	private AccountEntry _addAccountEntryWithUser(User user) throws Exception {
+		AccountEntry accountEntry = _addAccountEntry();
+
+		_accountEntryUserRelLocalService.addAccountEntryUserRel(
+			accountEntry.getAccountEntryId(), user.getUserId());
+
+		return accountEntry;
+	}
+
 	private void _assertDeleted(long accountEntryId) throws Exception {
 		Assert.assertNull(
 			_accountEntryLocalService.fetchAccountEntry(accountEntryId));
@@ -501,11 +536,27 @@ public class AccountEntryLocalServiceTest {
 			StringUtil.split(accountEntry.getDomains(), CharPool.COMMA));
 	}
 
+	private LinkedHashMap<String, Object> _getLinkedHashMap(
+		String key, Object value) {
+
+		return LinkedHashMapBuilder.<String, Object>put(
+			key, value
+		).build();
+	}
+
 	private BaseModelSearchResult<AccountEntry> _keywordSearch(String keywords)
 		throws Exception {
 
 		return _accountEntryLocalService.search(
 			TestPropsValues.getCompanyId(), keywords, null, 0, 10, null, false);
+	}
+
+	private BaseModelSearchResult<AccountEntry> _searchWithParams(
+			LinkedHashMap<String, Object> params)
+		throws Exception {
+
+		return _accountEntryLocalService.search(
+			TestPropsValues.getCompanyId(), null, params, 0, 10, null, false);
 	}
 
 	private static final Comparator<AccountEntry> _accountEntryNameComparator =
