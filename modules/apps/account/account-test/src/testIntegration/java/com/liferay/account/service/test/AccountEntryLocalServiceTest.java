@@ -320,6 +320,30 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	@Test
+	public void testSearchFilterByDomains() throws Exception {
+		_addAccountEntries();
+
+		String emailDomain1 = "foo.com";
+		String emailDomain2 = "bar.com";
+
+		List<AccountEntry> expectedAccountEntries = Arrays.asList(
+			_addAccountEntryWithEmailDomain(emailDomain1),
+			_addAccountEntryWithEmailDomain(emailDomain2));
+
+		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
+			_searchWithParams(
+				_getLinkedHashMap(
+					"domains", new String[] {emailDomain1, emailDomain2}));
+
+		Assert.assertEquals(
+			expectedAccountEntries.size(), baseModelSearchResult.getLength());
+
+		Assert.assertTrue(
+			expectedAccountEntries.containsAll(
+				baseModelSearchResult.getBaseModels()));
+	}
+
+	@Test
 	public void testSearchIndexerDocument() throws Exception {
 
 		/**
@@ -455,6 +479,22 @@ public class AccountEntryLocalServiceTest {
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
 			_accountEntryLocalService, name, description);
+
+		_accountEntries.add(accountEntry);
+
+		return accountEntry;
+	}
+
+	private AccountEntry _addAccountEntryWithEmailDomain(String emailDomain)
+		throws Exception {
+
+		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
+			_accountEntryLocalService);
+
+		accountEntry.setDomains(emailDomain);
+
+		accountEntry = _accountEntryLocalService.updateAccountEntry(
+			accountEntry);
 
 		_accountEntries.add(accountEntry);
 
