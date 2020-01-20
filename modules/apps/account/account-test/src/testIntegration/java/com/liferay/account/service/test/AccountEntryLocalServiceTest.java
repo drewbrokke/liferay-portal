@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
@@ -341,6 +342,17 @@ public class AccountEntryLocalServiceTest {
 		Assert.assertNotNull(_accountEntryIndexer);
 	}
 
+	@Test
+	public void testSearchNoKeywords() throws Exception {
+		_addAccountEntries();
+
+		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
+			_keywordSearch(null);
+
+		Assert.assertEquals(
+			_accountEntries.size(), baseModelSearchResult.getLength());
+	}
+
 	private long[] _addAccountEntries() throws Exception {
 		return _addAccountEntries(WorkflowConstants.STATUS_APPROVED);
 	}
@@ -402,6 +414,13 @@ public class AccountEntryLocalServiceTest {
 	private String[] _getDomains(AccountEntry accountEntry) {
 		return ArrayUtil.toStringArray(
 			StringUtil.split(accountEntry.getDomains(), CharPool.COMMA));
+	}
+
+	private BaseModelSearchResult<AccountEntry> _keywordSearch(String keywords)
+		throws Exception {
+
+		return _accountEntryLocalService.search(
+			TestPropsValues.getCompanyId(), keywords, null, 0, 10, null, false);
 	}
 
 	private final List<AccountEntry> _accountEntries = new ArrayList<>();
