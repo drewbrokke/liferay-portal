@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -44,6 +45,7 @@ import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.After;
@@ -343,6 +345,23 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	@Test
+	public void testSearchKeywords() throws Exception {
+		_addAccountEntries();
+
+		String keywords = RandomTestUtil.randomString();
+
+		List<AccountEntry> expectedAccountEntries = Arrays.asList(
+			_addAccountEntry(keywords, RandomTestUtil.randomString()),
+			_addAccountEntry(RandomTestUtil.randomString(), keywords));
+
+		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
+			_keywordSearch(keywords);
+
+		Assert.assertEquals(
+			expectedAccountEntries.size(), baseModelSearchResult.getLength());
+	}
+
+	@Test
 	public void testSearchNoKeywords() throws Exception {
 		_addAccountEntries();
 
@@ -378,6 +397,17 @@ public class AccountEntryLocalServiceTest {
 	private AccountEntry _addAccountEntry(int status) throws Exception {
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
 			_accountEntryLocalService, status);
+
+		_accountEntries.add(accountEntry);
+
+		return accountEntry;
+	}
+
+	private AccountEntry _addAccountEntry(String name, String description)
+		throws Exception {
+
+		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
+			_accountEntryLocalService, name, description);
 
 		_accountEntries.add(accountEntry);
 
