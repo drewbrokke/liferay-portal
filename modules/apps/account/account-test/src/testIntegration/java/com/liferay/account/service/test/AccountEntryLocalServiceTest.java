@@ -344,6 +344,32 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	@Test
+	public void testSearchFilterByParentAccountEntryId() throws Exception {
+		_addAccountEntries();
+
+		AccountEntry parentAccountEntry = _addAccountEntry();
+
+		List<AccountEntry> expectedAccountEntries = Arrays.asList(
+			_addAccountEntryWithParentAccountEntryId(
+				parentAccountEntry.getAccountEntryId()),
+			_addAccountEntryWithParentAccountEntryId(
+				parentAccountEntry.getAccountEntryId()));
+
+		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
+			_searchWithParams(
+				_getLinkedHashMap(
+					"parentAccountEntryId",
+					parentAccountEntry.getAccountEntryId()));
+
+		Assert.assertEquals(
+			expectedAccountEntries.size(), baseModelSearchResult.getLength());
+
+		Assert.assertTrue(
+			expectedAccountEntries.containsAll(
+				baseModelSearchResult.getBaseModels()));
+	}
+
+	@Test
 	public void testSearchIndexerDocument() throws Exception {
 
 		/**
@@ -489,12 +515,21 @@ public class AccountEntryLocalServiceTest {
 		throws Exception {
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
+			_accountEntryLocalService, new String[] {emailDomain});
 
-		accountEntry.setDomains(emailDomain);
+		_accountEntries.add(accountEntry);
 
-		accountEntry = _accountEntryLocalService.updateAccountEntry(
-			accountEntry);
+		return accountEntry;
+	}
+
+	private AccountEntry _addAccountEntryWithParentAccountEntryId(
+			long parentAccountEntryId)
+		throws Exception {
+
+		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
+			TestPropsValues.getUserId(), parentAccountEntryId,
+			RandomTestUtil.randomString(50), RandomTestUtil.randomString(50),
+			null, null, WorkflowConstants.STATUS_APPROVED);
 
 		_accountEntries.add(accountEntry);
 
