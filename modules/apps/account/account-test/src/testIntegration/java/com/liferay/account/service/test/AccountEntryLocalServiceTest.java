@@ -302,21 +302,13 @@ public class AccountEntryLocalServiceTest {
 		User user1 = UserTestUtil.addUser();
 		User user2 = UserTestUtil.addUser();
 
-		List<AccountEntry> expectedAccountEntries = Arrays.asList(
-			_addAccountEntryWithUser(user1), _addAccountEntryWithUser(user2));
-
-		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
-			_searchWithParams(
-				_getLinkedHashMap(
-					"accountUserIds",
-					new long[] {user1.getUserId(), user2.getUserId()}));
-
-		Assert.assertEquals(
-			expectedAccountEntries.size(), baseModelSearchResult.getLength());
-
-		Assert.assertTrue(
-			expectedAccountEntries.containsAll(
-				baseModelSearchResult.getBaseModels()));
+		_assertSearchWithParams(
+			Arrays.asList(
+				_addAccountEntryWithUser(user1),
+				_addAccountEntryWithUser(user2)),
+			_getLinkedHashMap(
+				"accountUserIds",
+				new long[] {user1.getUserId(), user2.getUserId()}));
 	}
 
 	@Test
@@ -326,21 +318,12 @@ public class AccountEntryLocalServiceTest {
 		String emailDomain1 = "foo.com";
 		String emailDomain2 = "bar.com";
 
-		List<AccountEntry> expectedAccountEntries = Arrays.asList(
-			_addAccountEntryWithEmailDomain(emailDomain1),
-			_addAccountEntryWithEmailDomain(emailDomain2));
-
-		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
-			_searchWithParams(
-				_getLinkedHashMap(
-					"domains", new String[] {emailDomain1, emailDomain2}));
-
-		Assert.assertEquals(
-			expectedAccountEntries.size(), baseModelSearchResult.getLength());
-
-		Assert.assertTrue(
-			expectedAccountEntries.containsAll(
-				baseModelSearchResult.getBaseModels()));
+		_assertSearchWithParams(
+			Arrays.asList(
+				_addAccountEntryWithEmailDomain(emailDomain1),
+				_addAccountEntryWithEmailDomain(emailDomain2)),
+			_getLinkedHashMap(
+				"domains", new String[] {emailDomain1, emailDomain2}));
 	}
 
 	@Test
@@ -349,24 +332,15 @@ public class AccountEntryLocalServiceTest {
 
 		AccountEntry parentAccountEntry = _addAccountEntry();
 
-		List<AccountEntry> expectedAccountEntries = Arrays.asList(
-			_addAccountEntryWithParentAccountEntryId(
-				parentAccountEntry.getAccountEntryId()),
-			_addAccountEntryWithParentAccountEntryId(
+		_assertSearchWithParams(
+			Arrays.asList(
+				_addAccountEntryWithParentAccountEntryId(
+					parentAccountEntry.getAccountEntryId()),
+				_addAccountEntryWithParentAccountEntryId(
+					parentAccountEntry.getAccountEntryId())),
+			_getLinkedHashMap(
+				"parentAccountEntryId",
 				parentAccountEntry.getAccountEntryId()));
-
-		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
-			_searchWithParams(
-				_getLinkedHashMap(
-					"parentAccountEntryId",
-					parentAccountEntry.getAccountEntryId()));
-
-		Assert.assertEquals(
-			expectedAccountEntries.size(), baseModelSearchResult.getLength());
-
-		Assert.assertTrue(
-			expectedAccountEntries.containsAll(
-				baseModelSearchResult.getBaseModels()));
 	}
 
 	@Test
@@ -620,7 +594,9 @@ public class AccountEntryLocalServiceTest {
 		throws Exception {
 
 		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
-			_searchWithParams(params);
+			_accountEntryLocalService.search(
+				TestPropsValues.getCompanyId(), null, params, 0, 10, null,
+				false);
 
 		Assert.assertEquals(
 			expectedAccountEntries.size(), baseModelSearchResult.getLength());
@@ -662,14 +638,6 @@ public class AccountEntryLocalServiceTest {
 
 		return _accountEntryLocalService.search(
 			TestPropsValues.getCompanyId(), keywords, null, 0, 10, null, false);
-	}
-
-	private BaseModelSearchResult<AccountEntry> _searchWithParams(
-			LinkedHashMap<String, Object> params)
-		throws Exception {
-
-		return _accountEntryLocalService.search(
-			TestPropsValues.getCompanyId(), null, params, 0, 10, null, false);
 	}
 
 	private static final Comparator<AccountEntry> _accountEntryNameComparator =
