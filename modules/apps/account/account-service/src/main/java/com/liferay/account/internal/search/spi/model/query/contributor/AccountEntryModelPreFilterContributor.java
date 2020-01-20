@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.spi.model.query.contributor.ModelPreFilterContributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchSettings;
 
@@ -72,6 +73,14 @@ public class AccountEntryModelPreFilterContributor
 		if (parentAccountEntryId != AccountConstants.ACCOUNT_ENTRY_ID_ANY) {
 			booleanFilter.addRequiredTerm(
 				"parentAccountEntryId", String.valueOf(parentAccountEntryId));
+		}
+
+		int status = GetterUtil.getInteger(
+			searchContext.getAttribute("status"),
+			WorkflowConstants.STATUS_APPROVED);
+
+		if (status != WorkflowConstants.STATUS_ANY) {
+			booleanFilter.addRequiredTerm("status", String.valueOf(status));
 		}
 	}
 

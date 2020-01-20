@@ -374,6 +374,11 @@ public class AccountEntryLocalServiceImpl
 				searchContext.setAttribute(
 					"parentAccountEntryId", parentAccountEntryId);
 			}
+
+			int status = GetterUtil.getInteger(
+				params.get("status"), WorkflowConstants.STATUS_APPROVED);
+
+			searchContext.setAttribute("status", status);
 		}
 	}
 
