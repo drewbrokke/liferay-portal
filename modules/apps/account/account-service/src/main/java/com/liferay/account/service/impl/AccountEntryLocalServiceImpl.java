@@ -14,6 +14,7 @@
 
 package com.liferay.account.service.impl;
 
+import com.liferay.account.constants.AccountConstants;
 import com.liferay.account.exception.AccountEntryDomainsException;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.service.base.AccountEntryLocalServiceBaseImpl;
@@ -31,6 +32,7 @@ import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Portal;
@@ -362,6 +364,15 @@ public class AccountEntryLocalServiceImpl
 
 			if (ArrayUtil.isNotEmpty(domains)) {
 				searchContext.setAttribute("domains", domains);
+			}
+
+			long parentAccountEntryId = GetterUtil.getLong(
+				params.get("parentAccountEntryId"),
+				AccountConstants.ACCOUNT_ENTRY_ID_ANY);
+
+			if (parentAccountEntryId != AccountConstants.ACCOUNT_ENTRY_ID_ANY) {
+				searchContext.setAttribute(
+					"parentAccountEntryId", parentAccountEntryId);
 			}
 		}
 	}
