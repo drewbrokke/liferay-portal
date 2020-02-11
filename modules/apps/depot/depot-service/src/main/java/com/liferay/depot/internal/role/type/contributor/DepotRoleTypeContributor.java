@@ -12,21 +12,27 @@
  * details.
  */
 
-package com.liferay.roles.admin.web.internal.role.type.contributor;
+package com.liferay.depot.internal.role.type.contributor;
 
+import com.liferay.depot.internal.constants.DepotRolesConstants;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
-import com.liferay.portal.util.PropsValues;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import com.liferay.roles.admin.role.type.contributor.RoleTypeContributor;
 
 import java.util.Locale;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Drew Brokke
  */
 @Component(
-	immediate = true, property = "service.ranking:Integer=200",
+	immediate = true, property = "service.ranking:Integer=400",
 	service = RoleTypeContributor.class
 )
 public class DepotRoleTypeContributor implements RoleTypeContributor {
@@ -43,17 +49,23 @@ public class DepotRoleTypeContributor implements RoleTypeContributor {
 
 	@Override
 	public String[] getSubtypes() {
-		return PropsValues.ROLES_SITE_SUBTYPES;
+		return new String[0];
 	}
 
 	@Override
 	public String getTabTitle(Locale locale) {
-		return "repository-roles";
+		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
+			locale, DepotRoleTypeContributor.class);
+
+		return _language.get(resourceBundle, "repository-roles");
 	}
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "repository-role";
+		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
+			locale, DepotRoleTypeContributor.class);
+
+		return _language.get(resourceBundle, "repository-role");
 	}
 
 	@Override
@@ -68,12 +80,34 @@ public class DepotRoleTypeContributor implements RoleTypeContributor {
 
 	@Override
 	public boolean isAllowDefinePermissions(Role role) {
+		if (Objects.equals(
+				role.getName(), DepotRolesConstants.DEPOT_ADMINISTRATOR) ||
+			Objects.equals(role.getName(), DepotRolesConstants.DEPOT_OWNER)) {
+
+			return false;
+		}
+
 		return true;
 	}
 
 	@Override
 	public boolean isAllowDelete(Role role) {
-		return false;
+		if (role == null) {
+			return false;
+		}
+
+		if (Objects.equals(
+				role.getName(), DepotRolesConstants.DEPOT_ADMINISTRATOR) ||
+			Objects.equals(role.getName(), DepotRolesConstants.DEPOT_MEMBER) ||
+			Objects.equals(role.getName(), DepotRolesConstants.DEPOT_OWNER)) {
+
+			return false;
+		}
+
+		return true;
 	}
+
+	@Reference
+	private Language _language;
 
 }
