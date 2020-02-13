@@ -510,7 +510,4 @@
 		<property name="trash" ref="com.liferay.trash.kernel.util.Trash" />
 	</bean>
 	<bean class="com.liferay.portlet.usersadmin.util.UsersAdminImpl" id="com.liferay.users.admin.kernel.util.UsersAdmin" />
-	<bean class="com.liferay.users.admin.kernel.util.UsersAdminUtil" id="com.liferay.users.admin.kernel.util.UsersAdminUtil">
-		<property name="usersAdmin" ref="com.liferay.users.admin.kernel.util.UsersAdmin" />
-	</bean>
 </beans>
