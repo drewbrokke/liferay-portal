@@ -32,14 +32,22 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.permission.RolePermission;
 import com.liferay.portal.kernel.util.Accessor;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.users.admin.kernel.util.UsersAdmin;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletRequest;
@@ -229,7 +237,15 @@ public class UsersAdminImpl implements UsersAdmin {
 	public long[] getGroupIds(PortletRequest portletRequest)
 		throws PortalException {
 
-		return _usersAdmin.getGroupIds(portletRequest);
+		return ArrayUtil.toLongArray(
+			LongStream.concat(
+				Arrays.stream(_getGroupIds(portletRequest)),
+				Arrays.stream(_usersAdmin.getGroupIds(portletRequest))
+			).mapToObj(
+				Long::valueOf
+			).collect(
+				Collectors.toSet()
+			));
 	}
 
 	@Override
@@ -417,6 +433,29 @@ public class UsersAdminImpl implements UsersAdmin {
 
 		_usersAdmin.updateWebsites(className, classPK, websites);
 	}
+
+	private long[] _getGroupIds(PortletRequest portletRequest) {
+		Set<Long> groupIds = Arrays.stream(
+			StringUtil.split(
+				ParamUtil.getString(portletRequest, "addDepotGroupIds"), 0L)
+		).mapToObj(
+			Long::valueOf
+		).collect(
+			Collectors.toSet()
+		);
+
+		long[] deleteGroupIds = StringUtil.split(
+			ParamUtil.getString(portletRequest, "deleteDepotGroupIds"), 0L);
+
+		for (long deletePrimaryKey : deleteGroupIds) {
+			groupIds.remove(deletePrimaryKey);
+		}
+
+		return ArrayUtil.toLongArray(groupIds);
+	}
+
+	@Reference
+	private Portal _portal;
 
 	@Reference
 	private RolePermission _rolePermission;
