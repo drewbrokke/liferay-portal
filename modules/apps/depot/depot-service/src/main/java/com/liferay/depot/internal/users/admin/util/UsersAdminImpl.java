@@ -14,6 +14,7 @@
 
 package com.liferay.depot.internal.users.admin.util;
 
+import com.liferay.depot.internal.constants.DepotRolesConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.EmailAddress;
@@ -27,13 +28,18 @@ import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.model.UserGroupRole;
 import com.liferay.portal.kernel.model.Website;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.permission.RolePermission;
 import com.liferay.portal.kernel.util.Accessor;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.users.admin.kernel.util.UsersAdmin;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletRequest;
@@ -76,7 +82,46 @@ public class UsersAdminImpl implements UsersAdmin {
 			PermissionChecker permissionChecker, long groupId, List<Role> roles)
 		throws PortalException {
 
-		return _usersAdmin.filterGroupRoles(permissionChecker, groupId, roles);
+		List<Role> filteredGroupRoles = ListUtil.copy(
+			_usersAdmin.filterGroupRoles(permissionChecker, groupId, roles));
+
+		Iterator<Role> itr = filteredGroupRoles.iterator();
+
+		while (itr.hasNext()) {
+			Role role = itr.next();
+
+			if (Objects.equals(
+					role.getName(), DepotRolesConstants.DEPOT_MEMBER)) {
+
+				itr.remove();
+			}
+		}
+
+		if (permissionChecker.isCompanyAdmin() ||
+			permissionChecker.isGroupOwner(groupId)) {
+
+			return filteredGroupRoles;
+		}
+
+		itr = filteredGroupRoles.iterator();
+
+		while (itr.hasNext()) {
+			Role groupRole = itr.next();
+
+			String roleName = groupRole.getName();
+
+			if (Objects.equals(
+					roleName, DepotRolesConstants.DEPOT_ADMINISTRATOR) ||
+				Objects.equals(roleName, DepotRolesConstants.DEPOT_OWNER) ||
+				!_rolePermission.contains(
+					permissionChecker, groupId, groupRole.getRoleId(),
+					ActionKeys.ASSIGN_MEMBERS)) {
+
+				itr.remove();
+			}
+		}
+
+		return filteredGroupRoles;
 	}
 
 	@Override
@@ -357,6 +402,9 @@ public class UsersAdminImpl implements UsersAdmin {
 
 		_usersAdmin.updateWebsites(className, classPK, websites);
 	}
+
+	@Reference
+	private RolePermission _rolePermission;
 
 	@Reference(
 		target = "(&(original.bean=true)(bean.id=com.liferay.users.admin.kernel.util.UsersAdmin))"
