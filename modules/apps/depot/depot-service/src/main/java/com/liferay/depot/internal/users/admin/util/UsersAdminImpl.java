@@ -146,7 +146,22 @@ public class UsersAdminImpl implements UsersAdmin {
 	public List<Role> filterRoles(
 		PermissionChecker permissionChecker, List<Role> roles) {
 
-		return _usersAdmin.filterRoles(permissionChecker, roles);
+		List<Role> filteredRoles = ListUtil.copy(
+			_usersAdmin.filterRoles(permissionChecker, roles));
+
+		Iterator<Role> itr = filteredRoles.iterator();
+
+		while (itr.hasNext()) {
+			Role role = itr.next();
+
+			if (Objects.equals(
+					role.getName(), DepotRolesConstants.DEPOT_MEMBER)) {
+
+				itr.remove();
+			}
+		}
+
+		return filteredRoles;
 	}
 
 	@Override
