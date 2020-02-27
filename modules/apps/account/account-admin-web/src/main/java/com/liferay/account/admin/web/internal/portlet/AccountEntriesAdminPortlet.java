@@ -23,6 +23,7 @@ import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Albert Lee
+ * This is a comment to trigger CI
  */
 @Component(
 	immediate = true,
