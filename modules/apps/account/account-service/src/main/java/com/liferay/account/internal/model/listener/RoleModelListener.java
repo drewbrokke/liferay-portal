@@ -18,10 +18,10 @@ import com.liferay.account.constants.AccountConstants;
 import com.liferay.account.constants.AccountRoleConstants;
 import com.liferay.account.model.AccountRole;
 import com.liferay.account.service.AccountRoleLocalService;
-import com.liferay.account.service.persistence.AccountRolePersistence;
 import com.liferay.counter.kernel.service.CounterLocalService;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.ModelListenerException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.RequiredRoleException;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
@@ -113,15 +113,18 @@ public class RoleModelListener extends BaseModelListener<Role> {
 			_userGroupRoleLocalService.deleteUserGroupRolesByRoleId(
 				role.getRoleId());
 
-			_accountRolePersistence.remove(accountRole);
+			try {
+				_accountRoleLocalService.deleteAccountRole(accountRole);
+			}
+			catch (PortalException portalException) {
+				throw new ModelListenerException(
+					"Unable to delete the account role: ", portalException);
+			}
 		}
 	}
 
 	@Reference
 	private AccountRoleLocalService _accountRoleLocalService;
-
-	@Reference
-	private AccountRolePersistence _accountRolePersistence;
 
 	@Reference
 	private CounterLocalService _counterLocalService;
