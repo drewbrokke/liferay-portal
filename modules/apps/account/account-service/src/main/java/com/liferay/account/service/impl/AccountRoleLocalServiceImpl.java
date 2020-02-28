@@ -103,7 +103,11 @@ public class AccountRoleLocalServiceImpl
 		userGroupRoleLocalService.deleteUserGroupRolesByRoleId(
 			accountRole.getRoleId());
 
-		roleLocalService.deleteRole(accountRole.getRoleId());
+		Role role = roleLocalService.fetchRole(accountRole.getRoleId());
+
+		if (role != null) {
+			roleLocalService.deleteRole(role);
+		}
 
 		return accountRole;
 	}
@@ -117,7 +121,11 @@ public class AccountRoleLocalServiceImpl
 		userGroupRoleLocalService.deleteUserGroupRolesByRoleId(
 			accountRole.getRoleId());
 
-		roleLocalService.deleteRole(accountRole.getRoleId());
+		Role role = roleLocalService.fetchRole(accountRole.getRoleId());
+
+		if (role != null) {
+			roleLocalService.deleteRole(role);
+		}
 
 		return accountRole;
 	}
