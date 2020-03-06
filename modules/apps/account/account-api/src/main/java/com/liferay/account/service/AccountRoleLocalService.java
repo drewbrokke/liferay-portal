@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
@@ -275,6 +276,11 @@ public interface AccountRoleLocalService
 	public BaseModelSearchResult<AccountRole> searchAccountRoles(
 		long[] accountEntryIds, String keywords, int start, int end,
 		OrderByComparator obc);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BaseModelSearchResult<User> searchAccountRoleUsers(
+		long accountEntryId, long accountRoleId, String keywords, int start,
+		int end, OrderByComparator obc);
 
 	public void unassociateUser(
 			long accountEntryId, long accountRoleId, long userId)
