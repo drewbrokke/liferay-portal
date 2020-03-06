@@ -31,13 +31,16 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.vulcan.util.TransformUtil;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -199,6 +202,37 @@ public class AccountRoleLocalServiceImpl
 			accountRoles,
 			(int)roleLocalService.dynamicQueryCount(
 				_getRoleDynamicQuery(accountEntryIds, keywords, null)));
+	}
+
+	@Override
+	public BaseModelSearchResult<User> searchAccountRoleUsers(
+		long accountEntryId, long accountRoleId, String keywords, int start,
+		int end, OrderByComparator obc) {
+
+		AccountEntry accountEntry = accountEntryPersistence.fetchByPrimaryKey(
+			accountEntryId);
+
+		AccountRole accountRole = accountRoleLocalService.fetchAccountRole(
+			accountRoleId);
+
+		LinkedHashMap<String, Object> params =
+			LinkedHashMapBuilder.<String, Object>put(
+				"userGroupRole",
+				(Object)new Long[] {
+					accountEntry.getAccountEntryGroupId(),
+					accountRole.getRoleId()
+				}
+			).build();
+
+		List<User> users = userLocalService.search(
+			accountEntry.getCompanyId(), keywords,
+			WorkflowConstants.STATUS_APPROVED, params, start, end, obc);
+
+		int total = userLocalService.searchCount(
+			accountEntry.getCompanyId(), keywords,
+			WorkflowConstants.STATUS_APPROVED, params);
+
+		return new BaseModelSearchResult<>(users, total);
 	}
 
 	@Override
