@@ -448,6 +448,10 @@ public abstract class SegmentsEntryRoleLocalServiceBaseImpl
 		resourceLocalService;
 
 	@Reference
+	protected com.liferay.portal.kernel.service.RoleLocalService
+		roleLocalService;
+
+	@Reference
 	protected com.liferay.portal.kernel.service.UserLocalService
 		userLocalService;
 
