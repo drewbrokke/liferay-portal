@@ -38,6 +38,16 @@ public interface RoleTypeContributor {
 	}
 
 	/**
+	 * Optionally returns a list of role names to be excluded in the
+	 * permission matrix.
+	 *
+	 * @return
+	 */
+	public default String[] getExcludedRoleNames() {
+		return new String[0];
+	}
+
+	/**
 	 * Returns the css class of the icon that represents the role type.
 	 *
 	 * @return
