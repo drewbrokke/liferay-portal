@@ -23,6 +23,9 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedAttributeDefinition;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedObjectClassDefinition;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.resource.manager.ClassLoaderResourceManager;
+import com.liferay.portal.kernel.settings.LocationVariableResolver;
+import com.liferay.portal.kernel.settings.SettingsLocatorHelperUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.language.LanguageImpl;
 
@@ -390,7 +393,11 @@ public class ConfigurationModelToDDMFormValuesConverterTest extends Mockito {
 			configurationModelToDDMFormValuesConverter =
 				new ConfigurationModelToDDMFormValuesConverter(
 					configurationModel, ddmForm, _enLocale,
-					new EmptyResourceBundle());
+					new EmptyResourceBundle(),
+					new LocationVariableResolver(
+						new ClassLoaderResourceManager(
+							configurationModel.getClassLoader()),
+						SettingsLocatorHelperUtil.getSettingsLocatorHelper()));
 
 		return configurationModelToDDMFormValuesConverter.getDDMFormValues();
 	}
