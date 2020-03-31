@@ -3628,7 +3628,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		mailTemplateContextBuilder.put(
 			"[$FROM_NAME$]", HtmlUtil.escape(fromName));
 		mailTemplateContextBuilder.put(
-			"[$PORTAL_URL$]", company.getPortalURL(0));
+			"[$PORTAL_URL$]", serviceContext.getPortalURL());
 		mailTemplateContextBuilder.put(
 			"[$REMOTE_ADDRESS$]", serviceContext.getRemoteAddr());
 		mailTemplateContextBuilder.put(
@@ -5982,13 +5982,12 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		boolean autoPassword = GetterUtil.getBoolean(
 			serviceContext.getAttribute("autoPassword"));
-		Company company = null;
 		String fromAddress = PrefsPropsUtil.getString(
 			user.getCompanyId(), PropsKeys.ADMIN_EMAIL_FROM_ADDRESS);
 		String fromName = PrefsPropsUtil.getString(
 			user.getCompanyId(), PropsKeys.ADMIN_EMAIL_FROM_NAME);
 		String passwordResetURL = StringPool.BLANK;
-		String portalURL = null;
+		String portalURL = serviceContext.getPortalURL();
 
 		PortletPreferences companyPortletPreferences =
 			PrefsPropsUtil.getPreferences(user.getCompanyId(), true);
@@ -5997,15 +5996,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			LocalizationUtil.getLocalizationMap(
 				companyPortletPreferences, "adminEmailUserAddedSubject",
 				PropsKeys.ADMIN_EMAIL_USER_ADDED_SUBJECT);
-
-		try {
-			company = companyLocalService.getCompany(user.getCompanyId());
-
-			portalURL = company.getPortalURL(0);
-		}
-		catch (PortalException portalException) {
-			ReflectionUtil.throwException(portalException);
-		}
 
 		final Map<Locale, String> localizedBodyMap;
 
