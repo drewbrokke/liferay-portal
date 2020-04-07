@@ -123,7 +123,7 @@ public class PanelAppMyAccountPermissions {
 		return null;
 	}
 
-	private void _initPermissions(
+	private synchronized void _initPermissions(
 			long companyId, String portletId, String rootPortletId,
 			Role userRole, List<String> actionIds)
 		throws Exception {
