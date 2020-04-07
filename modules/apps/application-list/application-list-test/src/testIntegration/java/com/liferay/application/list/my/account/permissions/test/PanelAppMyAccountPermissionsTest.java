@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.util.WebAppPool;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -88,6 +89,25 @@ public class PanelAppMyAccountPermissionsTest {
 			TestPropsValues.getCompanyId(),
 			PortletKeys.PREFS_OWNER_TYPE_COMPANY, LayoutConstants.DEFAULT_PLID,
 			_testPortletId);
+	}
+
+	@Test
+	public void testAddingPanelAppsFromMultipleThreads() throws Exception {
+		_registerTestPortlet(_testPortletId);
+
+		List<Thread> threads = new ArrayList<>();
+
+		Runnable runnable = () -> _registerTestPanelApp(_testPortletId);
+
+		threads.add(new Thread(runnable));
+		threads.add(new Thread(runnable));
+		threads.add(new Thread(runnable));
+
+		threads.forEach(Thread::start);
+
+		while (!threads.isEmpty()) {
+			threads.removeIf(thread -> !thread.isAlive());
+		}
 	}
 
 	@Test
