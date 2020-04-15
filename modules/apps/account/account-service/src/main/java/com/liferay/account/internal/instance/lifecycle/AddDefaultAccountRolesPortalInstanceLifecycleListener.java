@@ -21,9 +21,11 @@ import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountRole;
 import com.liferay.account.service.AccountRoleLocalService;
 import com.liferay.counter.kernel.service.CounterLocalService;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
@@ -35,8 +37,17 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
+import com.liferay.portal.kernel.util.ResourceBundleLoader;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 
+import java.util.AbstractMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -129,7 +140,8 @@ public class AddDefaultAccountRolesPortalInstanceLifecycleListener
 			HashMapBuilder.put(
 				LocaleThreadLocal.getDefaultLocale(), roleName
 			).build(),
-			null, RoleConstants.TYPE_REGULAR, null, null);
+			_getDescriptionMap(roleName), RoleConstants.TYPE_REGULAR, null,
+			null);
 	}
 
 	private boolean _exists(String roleName) {
@@ -137,10 +149,65 @@ public class AddDefaultAccountRolesPortalInstanceLifecycleListener
 			CompanyThreadLocal.getCompanyId(), roleName);
 
 		if (role != null) {
+			Map<Locale, String> descriptionMap = _getDescriptionMap(roleName);
+
+			if (!Objects.equals(role.getDescriptionMap(), descriptionMap)) {
+				role.setDescriptionMap(descriptionMap);
+
+				_roleLocalService.updateRole(role);
+			}
+
 			return true;
 		}
 
 		return false;
+	}
+
+	private String _getDescription(Locale locale, String roleName) {
+		ResourceBundle resourceBundle =
+			_resourceBundleLoader.loadResourceBundle(locale);
+
+		if (Objects.equals(
+				AccountRoleConstants.REQUIRED_ROLE_NAME_ACCOUNT_ADMINISTRATOR,
+				roleName)) {
+
+			return ResourceBundleUtil.getString(
+				resourceBundle,
+				"account-administrators-are-super-users-of-their-account");
+		}
+		else if (Objects.equals(
+					AccountRoleConstants.REQUIRED_ROLE_NAME_ACCOUNT_MANAGER,
+					roleName)) {
+
+			return ResourceBundleUtil.getString(
+				resourceBundle,
+				"account-managers-who-belong-to-an-organization-can-" +
+					"administer-all-accounts-associated-to-that-organization");
+		}
+		else if (Objects.equals(
+					AccountRoleConstants.REQUIRED_ROLE_NAME_ACCOUNT_MEMBER,
+					roleName)) {
+
+			return ResourceBundleUtil.getString(
+				resourceBundle,
+				"all-users-who-belong-to-an-account-have-this-role-within-" +
+					"that-account");
+		}
+
+		return StringPool.BLANK;
+	}
+
+	private Map<Locale, String> _getDescriptionMap(String roleName) {
+		Set<Locale> availableLocales = _language.getAvailableLocales();
+
+		Stream<Locale> stream = availableLocales.stream();
+
+		return stream.map(
+			locale -> new AbstractMap.SimpleEntry<>(
+				locale, _getDescription(locale, roleName))
+		).collect(
+			Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)
+		);
 	}
 
 	private static final Map<String, String[]>
@@ -161,6 +228,12 @@ public class AddDefaultAccountRolesPortalInstanceLifecycleListener
 
 	@Reference
 	private CounterLocalService _counterLocalService;
+
+	@Reference
+	private Language _language;
+
+	@Reference(target = "(bundle.symbolic.name=com.liferay.account.service)")
+	private ResourceBundleLoader _resourceBundleLoader;
 
 	@Reference
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
