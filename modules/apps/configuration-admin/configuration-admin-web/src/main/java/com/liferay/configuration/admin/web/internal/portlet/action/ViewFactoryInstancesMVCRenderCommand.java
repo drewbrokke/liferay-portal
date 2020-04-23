@@ -122,7 +122,7 @@ public class ViewFactoryInstancesMVCRenderCommand implements MVCRenderCommand {
 
 			renderRequest.setAttribute(
 				ConfigurationAdminWebKeys.CONFIGURATION_MODEL_ITERATOR,
-				new ConfigurationModelIterator(factoryInstances));
+					new ConfigurationModelIterator(factoryInstances));
 
 			renderRequest.setAttribute(
 				ConfigurationAdminWebKeys.FACTORY_CONFIGURATION_MODEL,
