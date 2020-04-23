@@ -44,6 +44,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
@@ -106,12 +107,23 @@ public class EditConfigurationMVCRenderCommand implements MVCRenderCommand {
 					pid, configurationScopeDisplayContext.getScope(),
 					configurationScopeDisplayContext.getScopePK());
 
-			configurationModel = new ConfigurationModel(
-				configurationModel.getBundleLocation(),
-				configurationModel.getBundleSymbolicName(),
-				configurationModel.getClassLoader(), configuration,
-				configurationModel.getExtendedObjectClassDefinition(),
-				configurationModel.isFactory());
+			if (configuration != null && Objects.equals(configuration.getPid(), pid)) {
+				configurationModel = new ConfigurationModel(
+					configurationModel.getBundleLocation(),
+					configurationModel.getBundleSymbolicName(),
+					configurationModel.getClassLoader(), configuration,
+					configurationModel.getExtendedObjectClassDefinition(),
+					configurationModel.isFactory());
+			}
+			else {
+				configurationModel = new ConfigurationModel(
+					configurationModel.getBundleLocation(),
+					configurationModel.getBundleSymbolicName(),
+					configurationModel.getClassLoader(), null,
+					configurationModel.getExtendedObjectClassDefinition(),
+					configurationModel.isFactory());
+			}
+
 		}
 
 		if (configurationModel != null) {
