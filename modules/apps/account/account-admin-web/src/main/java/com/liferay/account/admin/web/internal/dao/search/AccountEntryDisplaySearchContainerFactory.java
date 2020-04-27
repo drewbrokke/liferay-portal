@@ -16,16 +16,14 @@ package com.liferay.account.admin.web.internal.dao.search;
 
 import com.liferay.account.admin.web.internal.display.AccountEntryDisplay;
 import com.liferay.account.model.AccountEntry;
-import com.liferay.account.service.AccountEntryLocalServiceUtil;
+import com.liferay.account.service.AccountEntryServiceUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.vulcan.util.TransformUtil;
 
@@ -84,10 +82,6 @@ public class AccountEntryDisplaySearchContainerFactory {
 		accountEntryDisplaySearchContainer.setRowChecker(
 			new EmptyOnClickRowChecker(liferayPortletResponse));
 
-		ThemeDisplay themeDisplay =
-			(ThemeDisplay)liferayPortletRequest.getAttribute(
-				WebKeys.THEME_DISPLAY);
-
 		String keywords = ParamUtil.getString(
 			liferayPortletRequest, "keywords");
 
@@ -96,12 +90,12 @@ public class AccountEntryDisplaySearchContainerFactory {
 
 		params.put("status", _getStatus(navigation));
 
-		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
-			AccountEntryLocalServiceUtil.search(
-				themeDisplay.getCompanyId(), keywords, params,
-				accountEntryDisplaySearchContainer.getStart(),
-				accountEntryDisplaySearchContainer.getDelta(), orderByCol,
-				_isReverseOrder(orderByType));
+		BaseModelSearchResult<AccountEntry> baseModelSearchResult;
+
+		baseModelSearchResult = AccountEntryServiceUtil.search(
+			keywords, params, accountEntryDisplaySearchContainer.getStart(),
+			accountEntryDisplaySearchContainer.getDelta(), orderByCol,
+			_isReverseOrder(orderByType));
 
 		List<AccountEntryDisplay> accountEntryDisplays =
 			TransformUtil.transform(
