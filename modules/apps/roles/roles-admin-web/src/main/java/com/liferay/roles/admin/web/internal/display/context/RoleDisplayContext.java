@@ -177,7 +177,7 @@ public class RoleDisplayContext {
 				_httpServletRequest);
 
 		for (RoleTypeContributor roleTypeContributor : roleTypeContributors) {
-			if (roleTypeContributor.isAssignedAutomatically(role)) {
+			if (roleTypeContributor.isAutomaticallyAssigned(role)) {
 				return true;
 			}
 		}

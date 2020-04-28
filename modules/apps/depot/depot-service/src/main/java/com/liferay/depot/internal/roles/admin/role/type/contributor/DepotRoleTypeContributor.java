@@ -107,7 +107,7 @@ public class DepotRoleTypeContributor implements RoleTypeContributor {
 	}
 
 	@Override
-	public boolean isAssignedAutomatically(Role role) {
+	public boolean isAutomaticallyAssigned(Role role) {
 		if (Objects.equals(
 				role.getName(), DepotRolesConstants.ASSET_LIBRARY_MEMBER)) {
 

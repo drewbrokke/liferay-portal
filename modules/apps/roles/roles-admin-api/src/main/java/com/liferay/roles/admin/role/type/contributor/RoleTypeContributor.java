@@ -136,12 +136,12 @@ public interface RoleTypeContributor {
 	public boolean isAllowDelete(Role role);
 
 	/**
-	 * Returns whether or not the given role is assigned automatically.
+	 * Returns whether or not the given role is automatically assigned.
 	 *
 	 * @param role
 	 * @return
 	 */
-	public default boolean isAssignedAutomatically(Role role) {
+	public default boolean isAutomaticallyAssigned(Role role) {
 		return false;
 	}
 

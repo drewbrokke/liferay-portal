@@ -62,7 +62,7 @@ public class RoleChecker extends EmptyOnClickRowChecker {
 
 			if ((roleTypeContributor != null) &&
 				(!roleTypeContributor.isAllowDelete(role) ||
-				 roleTypeContributor.isAssignedAutomatically(role))) {
+				 roleTypeContributor.isAutomaticallyAssigned(role))) {
 
 				return true;
 			}
