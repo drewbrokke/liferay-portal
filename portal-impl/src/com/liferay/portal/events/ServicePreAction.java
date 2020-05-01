@@ -1526,9 +1526,9 @@ public class ServicePreAction extends Action {
 
 		boolean showControlPanelIcon = false;
 
-		if (signedIn &&
-			PortalPermissionUtil.contains(
-				permissionChecker, ActionKeys.VIEW_CONTROL_PANEL)) {
+		if ((signedIn &&
+			 PortalPermissionUtil.contains(
+				 permissionChecker, ActionKeys.VIEW_CONTROL_PANEL))) {
 
 			showControlPanelIcon = true;
 		}
