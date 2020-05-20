@@ -19,6 +19,7 @@ import com.liferay.account.admin.web.internal.constants.AccountWebKeys;
 import com.liferay.account.admin.web.internal.display.AccountEntryDisplay;
 import com.liferay.frontend.taglib.servlet.taglib.ScreenNavigationEntry;
 import com.liferay.frontend.taglib.servlet.taglib.util.JSPRenderer;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 import java.io.IOException;
@@ -40,6 +41,17 @@ public abstract class BaseAccountEntryScreenNavigationEntry
 	public String getScreenNavigationKey() {
 		return AccountScreenNavigationEntryConstants.
 			SCREEN_NAVIGATION_KEY_ACCOUNT_ENTRY;
+	}
+
+	@Override
+	public boolean isVisible(
+		User user, AccountEntryDisplay accountEntryDisplay) {
+
+		if (accountEntryDisplay.getAccountEntryId() > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
