@@ -21,6 +21,10 @@ AccountEntryDisplay accountEntryDisplay = (AccountEntryDisplay)request.getAttrib
 
 SearchContainer<AccountUserDisplay> accountUserDisplaySearchContainer = AccountUserDisplaySearchContainerFactory.create(accountEntryDisplay.getAccountEntryId(), liferayPortletRequest, liferayPortletResponse);
 
+if (!AccountEntryPermission.contains(permissionChecker, accountEntryDisplay.getAccountEntryId(), ActionKeys.MANAGE_USERS)) {
+	accountUserDisplaySearchContainer.setRowChecker(null);
+}
+
 ViewAccountUsersManagementToolbarDisplayContext viewAccountUsersManagementToolbarDisplayContext = new ViewAccountUsersManagementToolbarDisplayContext(request, liferayPortletRequest, liferayPortletResponse, accountUserDisplaySearchContainer);
 
 portletDisplay.setShowBackIcon(true);
@@ -70,9 +74,11 @@ renderResponse.setTitle((accountEntryDisplay == null) ? "" : accountEntryDisplay
 					value="<%= accountUser.getAccountRoleNames(accountEntryDisplay.getAccountEntryId(), locale) %>"
 				/>
 
-				<liferay-ui:search-container-column-jsp
-					path="/account_entries_admin/account_user_action.jsp"
-				/>
+				<c:if test="<%= AccountEntryPermission.contains(permissionChecker, accountEntryDisplay.getAccountEntryId(), ActionKeys.MANAGE_USERS) %>">
+					<liferay-ui:search-container-column-jsp
+						path="/account_entries_admin/account_user_action.jsp"
+					/>
+				</c:if>
 			</liferay-ui:search-container-row>
 
 			<liferay-ui:search-iterator
