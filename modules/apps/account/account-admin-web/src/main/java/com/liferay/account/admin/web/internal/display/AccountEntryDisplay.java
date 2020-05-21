@@ -15,16 +15,23 @@
 package com.liferay.account.admin.web.internal.display;
 
 import com.liferay.account.model.AccountEntry;
+import com.liferay.account.model.AccountEntryOrganizationRelModel;
 import com.liferay.account.service.AccountEntryLocalServiceUtil;
+import com.liferay.account.service.AccountEntryOrganizationRelLocalServiceUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.petra.string.StringUtil;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.webserver.WebServerServletTokenUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Pei-Jung Lan
@@ -76,6 +83,10 @@ public class AccountEntryDisplay {
 		return _name;
 	}
 
+	public String getOrganizationNames() {
+		return _organizationNames;
+	}
+
 	public String getParentAccountEntryName() {
 		return _parentAccountEntryName;
 	}
@@ -103,6 +114,7 @@ public class AccountEntryDisplay {
 		_domains = Collections.emptyList();
 		_logoId = 0;
 		_name = StringPool.BLANK;
+		_organizationNames = StringPool.BLANK;
 		_parentAccountEntryName = StringPool.BLANK;
 		_statusLabel = StringPool.BLANK;
 		_statusLabelStyle = StringPool.BLANK;
@@ -116,6 +128,7 @@ public class AccountEntryDisplay {
 		_domains = _getDomains(accountEntry);
 		_logoId = accountEntry.getLogoId();
 		_name = accountEntry.getName();
+		_organizationNames = _getOrganizationNames(accountEntry);
 		_parentAccountEntryName = _getParentAccountEntryName(accountEntry);
 		_statusLabel = _getStatusLabel(accountEntry);
 		_statusLabelStyle = _getStatusLabelStyle(accountEntry);
@@ -124,6 +137,26 @@ public class AccountEntryDisplay {
 
 	private List<String> _getDomains(AccountEntry accountEntry) {
 		return StringUtil.split(accountEntry.getDomains());
+	}
+
+	private String _getOrganizationNames(AccountEntry accountEntry) {
+		return Stream.of(
+			AccountEntryOrganizationRelLocalServiceUtil.
+				getAccountEntryOrganizationRels(
+					accountEntry.getAccountEntryId())
+		).flatMap(
+			List::stream
+		).map(
+			AccountEntryOrganizationRelModel::getOrganizationId
+		).map(
+			OrganizationLocalServiceUtil::fetchOrganization
+		).filter(
+			Objects::nonNull
+		).map(
+			Organization::getName
+		).collect(
+			Collectors.joining(", ")
+		);
 	}
 
 	private String _getParentAccountEntryName(AccountEntry accountEntry) {
@@ -191,6 +224,7 @@ public class AccountEntryDisplay {
 	private final List<String> _domains;
 	private final long _logoId;
 	private final String _name;
+	private final String _organizationNames;
 	private final String _parentAccountEntryName;
 	private final String _statusLabel;
 	private final String _statusLabelStyle;
