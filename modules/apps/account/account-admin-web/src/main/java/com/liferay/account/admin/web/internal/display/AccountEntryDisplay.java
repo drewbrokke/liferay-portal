@@ -15,15 +15,25 @@
 package com.liferay.account.admin.web.internal.display;
 
 import com.liferay.account.model.AccountEntry;
+import com.liferay.account.model.AccountEntryOrganizationRel;
+import com.liferay.account.model.AccountEntryOrganizationRelModel;
 import com.liferay.account.service.AccountEntryLocalServiceUtil;
+import com.liferay.account.service.AccountEntryOrganizationRelLocalServiceUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.petra.string.StringUtil;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.webserver.WebServerServletTokenUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Pei-Jung Lan
@@ -77,6 +87,10 @@ public class AccountEntryDisplay {
 		return _name;
 	}
 
+	public String getOrganizationNames() {
+		return _organizationNames;
+	}
+
 	public String getParentAccountEntryName() {
 		return _parentAccountEntryName;
 	}
@@ -100,6 +114,7 @@ public class AccountEntryDisplay {
 		_domains = _getDomains(accountEntry);
 		_logoId = accountEntry.getLogoId();
 		_name = accountEntry.getName();
+		_organizationNames = _getOrganizationNames(accountEntry);
 		_parentAccountEntryName = _getParentAccountEntryName(accountEntry);
 		_statusLabel = _getStatusLabel(accountEntry);
 		_statusLabelStyle = _getStatusLabelStyle(accountEntry);
@@ -107,6 +122,47 @@ public class AccountEntryDisplay {
 
 	private List<String> _getDomains(AccountEntry accountEntry) {
 		return StringUtil.split(accountEntry.getDomains());
+	}
+
+	private String _getOrganizationNames(AccountEntry accountEntry) {
+		StringBundler sb = new StringBundler(4);
+
+		List<AccountEntryOrganizationRel> accountEntryOrganizationRels =
+			AccountEntryOrganizationRelLocalServiceUtil.
+				getAccountEntryOrganizationRels(
+					accountEntry.getAccountEntryId());
+
+		int size = accountEntryOrganizationRels.size();
+
+		sb.append(
+			Stream.of(
+				accountEntryOrganizationRels
+			).flatMap(
+				List::stream
+			).map(
+				AccountEntryOrganizationRelModel::getOrganizationId
+			).map(
+				OrganizationLocalServiceUtil::fetchOrganization
+			).filter(
+				Objects::nonNull
+			).limit(
+				Math.min(_ORGANIZATION_NAMES_LIMIT, size)
+			).map(
+				Organization::getName
+			).collect(
+				Collectors.joining(StringPool.COMMA_AND_SPACE)
+			));
+
+		if (size > _ORGANIZATION_NAMES_LIMIT) {
+			sb.append(StringPool.COMMA_AND_SPACE);
+			sb.append(
+				LanguageUtil.format(
+					LocaleThreadLocal.getThemeDisplayLocale(), "and-x-more",
+					size - _ORGANIZATION_NAMES_LIMIT));
+			sb.append(StringPool.TRIPLE_PERIOD);
+		}
+
+		return sb.toString();
 	}
 
 	private String _getParentAccountEntryName(AccountEntry accountEntry) {
@@ -165,12 +221,15 @@ public class AccountEntryDisplay {
 		return false;
 	}
 
+	private static final int _ORGANIZATION_NAMES_LIMIT = 5;
+
 	private final long _accountEntryId;
 	private final boolean _active;
 	private final String _description;
 	private final List<String> _domains;
 	private final long _logoId;
 	private final String _name;
+	private final String _organizationNames;
 	private final String _parentAccountEntryName;
 	private final String _statusLabel;
 	private final String _statusLabelStyle;
