@@ -116,6 +116,21 @@ public class AccountEntryLocalServiceWrapper
 			taxIdNumber, status, serviceContext);
 	}
 
+	@Override
+	public com.liferay.account.model.AccountEntry addOrUpdateAccountEntry(
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			boolean deleteLogo, String[] domains, byte[] logoBytes,
+			String taxId, int status,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.addOrUpdateAccountEntry(
+			externalReferenceCode, userId, parentAccountEntryId, name,
+			description, deleteLogo, domains, logoBytes, taxId, status,
+			serviceContext);
+	}
+
 	/**
 	 * Creates a new account entry with the primary key. Does not add the account entry to the database.
 	 *

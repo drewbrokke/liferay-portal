@@ -110,6 +110,13 @@ public interface AccountEntryLocalService
 			String taxIdNumber, int status, ServiceContext serviceContext)
 		throws PortalException;
 
+	public AccountEntry addOrUpdateAccountEntry(
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			boolean deleteLogo, String[] domains, byte[] logoBytes,
+			String taxId, int status, ServiceContext serviceContext)
+		throws PortalException;
+
 	/**
 	 * Creates a new account entry with the primary key. Does not add the account entry to the database.
 	 *
