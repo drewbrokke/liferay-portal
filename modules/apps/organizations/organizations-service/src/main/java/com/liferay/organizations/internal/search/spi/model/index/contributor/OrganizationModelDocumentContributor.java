@@ -66,6 +66,7 @@ public class OrganizationModelDocumentContributor
 			document.addKeyword(Field.TYPE, organization.getType());
 			document.addTextSortable(
 				"nameTreePath", _buildNameTreePath(organization));
+			document.addTextSortable(Field.TYPE, organization.getType());
 			document.addKeyword(
 				"parentOrganizationId", organization.getParentOrganizationId());
 
