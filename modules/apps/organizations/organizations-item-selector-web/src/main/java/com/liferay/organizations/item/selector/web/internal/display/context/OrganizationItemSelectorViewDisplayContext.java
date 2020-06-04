@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
+import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.util.JavaConstants;
@@ -143,12 +144,14 @@ public class OrganizationItemSelectorViewDisplayContext {
 		OrganizationSearchTerms organizationSearchTerms =
 			(OrganizationSearchTerms)_searchContainer.getSearchTerms();
 
+		Sort[] sorts = null;
+
 		BaseModelSearchResult<Organization> organizationBaseModelSearchResult =
 			_organizationLocalService.searchOrganizations(
 				CompanyThreadLocal.getCompanyId(),
 				OrganizationConstants.ANY_PARENT_ORGANIZATION_ID,
 				organizationSearchTerms.getKeywords(), null,
-				_searchContainer.getStart(), _searchContainer.getEnd(), null);
+				_searchContainer.getStart(), _searchContainer.getEnd(), sorts);
 
 		_searchContainer.setTotal(
 			organizationBaseModelSearchResult.getLength());
