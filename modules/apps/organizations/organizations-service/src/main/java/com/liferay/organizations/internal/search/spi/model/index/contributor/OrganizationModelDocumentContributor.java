@@ -32,6 +32,9 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.service.CountryService;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.RegionService;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 
@@ -41,6 +44,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -58,6 +62,8 @@ public class OrganizationModelDocumentContributor
 	@Override
 	public void contribute(Document document, Organization organization) {
 		try {
+			document.setSortableTextFields(_sortableTextFields);
+
 			document.addKeyword(Field.COMPANY_ID, organization.getCompanyId());
 			document.addText(Field.NAME, organization.getName());
 			document.addKeyword(
@@ -66,7 +72,6 @@ public class OrganizationModelDocumentContributor
 			document.addKeyword(Field.TYPE, organization.getType());
 			document.addTextSortable(
 				"nameTreePath", _buildNameTreePath(organization));
-			document.addTextSortable(Field.TYPE, organization.getType());
 			document.addKeyword(
 				"parentOrganizationId", organization.getParentOrganizationId());
 
@@ -77,6 +82,11 @@ public class OrganizationModelDocumentContributor
 		catch (PortalException portalException) {
 			throw new SystemException(portalException);
 		}
+	}
+
+	@Activate
+	protected void activate() {
+		_sortableTextFields = _getSortableTextFields();
 	}
 
 	private String _buildNameTreePath(Organization organization)
@@ -123,6 +133,15 @@ public class OrganizationModelDocumentContributor
 		}
 
 		return countryNames;
+	}
+
+	private String[] _getSortableTextFields() {
+		Set<String> defaultSortableTextFields = SetUtil.fromArray(
+			PropsUtil.getArray(PropsKeys.INDEX_SORTABLE_TEXT_FIELDS));
+
+		defaultSortableTextFields.add("type");
+
+		return defaultSortableTextFields.toArray(new String[0]);
 	}
 
 	private void _populateAddresses(
@@ -197,5 +216,7 @@ public class OrganizationModelDocumentContributor
 
 	@Reference
 	private RegionService _regionService;
+
+	private String[] _sortableTextFields;
 
 }
