@@ -22,12 +22,13 @@ import com.liferay.account.service.AccountEntryLocalServiceUtil;
 import com.liferay.account.service.AccountEntryUserRelLocalServiceUtil;
 import com.liferay.account.service.AccountRoleLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
-import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.vulcan.util.TransformUtil;
 
@@ -97,6 +98,26 @@ public class AccountUserDisplay {
 
 		return StringUtil.merge(
 			ListUtil.sort(accountRoleNames), StringPool.COMMA_AND_SPACE);
+	}
+
+	public String getAccountValidDomains() {
+		String[] validDomains = {};
+
+		List<AccountEntryUserRel> accountEntryUserRels =
+			_getAccountEntryUserRels(getUserId());
+
+		for (AccountEntryUserRel accountEntryUserRel : accountEntryUserRels) {
+			AccountEntry accountEntry =
+				AccountEntryLocalServiceUtil.fetchAccountEntry(
+					accountEntryUserRel.getAccountEntryId());
+
+			if (accountEntry != null) {
+				validDomains = ArrayUtil.append(
+					validDomains, StringUtil.split(accountEntry.getDomains()));
+			}
+		}
+
+		return StringUtil.merge(validDomains, StringPool.COMMA);
 	}
 
 	public String getEmailAddress() {
