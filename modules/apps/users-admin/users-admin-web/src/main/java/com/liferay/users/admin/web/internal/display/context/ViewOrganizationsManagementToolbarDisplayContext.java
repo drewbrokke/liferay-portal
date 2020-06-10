@@ -33,8 +33,6 @@ import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
-import com.liferay.portal.kernel.search.Sort;
-import com.liferay.portal.kernel.search.SortFactoryUtil;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
@@ -225,15 +223,12 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 
 			organizationParams.put("expandoAttributes", keywords);
 
-			Sort sort = SortFactoryUtil.getSort(
-				Organization.class, organizationSearch.getOrderByCol(),
-				organizationSearch.getOrderByType());
-
 			BaseModelSearchResult<Organization> baseModelSearchResult =
 				OrganizationLocalServiceUtil.searchOrganizations(
 					themeDisplay.getCompanyId(), parentOrganizationId, keywords,
 					organizationParams, organizationSearch.getStart(),
-					organizationSearch.getEnd(), sort);
+					organizationSearch.getEnd(),
+					organizationSearch.getOrderByComparator());
 
 			results = baseModelSearchResult.getBaseModels();
 			total = baseModelSearchResult.getLength();

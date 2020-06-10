@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserGroupRole;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
+import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
@@ -1650,7 +1651,33 @@ public class OrganizationLocalServiceImpl
 	@Override
 	public BaseModelSearchResult<Organization> searchOrganizations(
 			long companyId, long parentOrganizationId, String keywords,
+			LinkedHashMap<String, Object> params, int start, int end,
+			OrderByComparator<Organization> obc)
+		throws PortalException {
+
+		return searchOrganizations(
+			companyId, parentOrganizationId, keywords, params, start, end,
+			getSorts(obc));
+	}
+
+	@Override
+	public BaseModelSearchResult<Organization> searchOrganizations(
+			long companyId, long parentOrganizationId, String keywords,
 			LinkedHashMap<String, Object> params, int start, int end, Sort sort)
+		throws PortalException {
+
+		Sort[] sorts = {sort};
+
+		return searchOrganizations(
+			companyId, parentOrganizationId, keywords, params, start, end,
+			sorts);
+	}
+
+	@Override
+	public BaseModelSearchResult<Organization> searchOrganizations(
+			long companyId, long parentOrganizationId, String keywords,
+			LinkedHashMap<String, Object> params, int start, int end,
+			Sort[] sorts)
 		throws PortalException {
 
 		String name = null;
@@ -1681,7 +1708,7 @@ public class OrganizationLocalServiceImpl
 
 		return searchOrganizations(
 			companyId, parentOrganizationId, name, type, street, city, zip,
-			region, country, params, andOperator, start, end, sort);
+			region, country, params, andOperator, start, end, sorts);
 	}
 
 	@Override
@@ -1692,12 +1719,27 @@ public class OrganizationLocalServiceImpl
 			boolean andSearch, int start, int end, Sort sort)
 		throws PortalException {
 
+		Sort[] sorts = {sort};
+
+		return searchOrganizations(
+			companyId, parentOrganizationId, name, type, street, city, zip,
+			region, country, params, andSearch, start, end, sorts);
+	}
+
+	@Override
+	public BaseModelSearchResult<Organization> searchOrganizations(
+			long companyId, long parentOrganizationId, String name, String type,
+			String street, String city, String zip, String region,
+			String country, LinkedHashMap<String, Object> params,
+			boolean andSearch, int start, int end, Sort[] sorts)
+		throws PortalException {
+
 		Indexer<Organization> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
 			Organization.class);
 
 		SearchContext searchContext = buildSearchContext(
 			companyId, parentOrganizationId, name, type, street, city, zip,
-			region, country, params, andSearch, start, end, sort);
+			region, country, params, andSearch, start, end, sorts);
 
 		for (int i = 0; i < 10; i++) {
 			Hits hits = indexer.search(searchContext);
@@ -2088,7 +2130,7 @@ public class OrganizationLocalServiceImpl
 
 		SearchContext searchContext = buildSearchContext(
 			companyId, parentOrganizationId, name, type, street, city, zip,
-			region, country, params, andOperator, start, end, null);
+			region, country, params, andOperator, start, end, sorts);
 
 		Map<String, Serializable> attributes = searchContext.getAttributes();
 
@@ -2142,6 +2184,19 @@ public class OrganizationLocalServiceImpl
 		LinkedHashMap<String, Object> params, boolean andSearch, int start,
 		int end, Sort sort) {
 
+		Sort[] sorts = {sort};
+
+		return buildSearchContext(
+			companyId, parentOrganizationId, name, type, street, city, zip,
+			region, country, params, andSearch, start, end, sorts);
+	}
+
+	protected SearchContext buildSearchContext(
+		long companyId, long parentOrganizationId, String name, String type,
+		String street, String city, String zip, String region, String country,
+		LinkedHashMap<String, Object> params, boolean andSearch, int start,
+		int end, Sort[] sorts) {
+
 		SearchContext searchContext = new SearchContext();
 
 		searchContext.setAndSearch(andSearch);
@@ -2172,8 +2227,8 @@ public class OrganizationLocalServiceImpl
 			}
 		}
 
-		if (sort != null) {
-			searchContext.setSorts(sort);
+		if (sorts != null) {
+			searchContext.setSorts(sorts);
 		}
 
 		searchContext.setStart(start);
@@ -2243,6 +2298,30 @@ public class OrganizationLocalServiceImpl
 		}
 
 		return organizationIds;
+	}
+
+	protected Sort[] getSorts(OrderByComparator<Organization> obc) {
+		if (obc == null) {
+			return new Sort[0];
+		}
+
+		String[] orderByClauses = StringUtil.split(obc.getOrderBy());
+
+		String[] orderByFields = obc.getOrderByFields();
+
+		Sort[] sorts = new Sort[orderByFields.length];
+
+		for (int i = 0; i < orderByFields.length; i++) {
+			boolean reverse = orderByClauses[i].contains("DESC");
+
+			if (!Field.isSortableFieldName(orderByFields[i])) {
+				orderByFields[i] = Field.getSortableFieldName(orderByFields[i]);
+			}
+
+			sorts[i] = new Sort(orderByFields[i], reverse);
+		}
+
+		return sorts;
 	}
 
 	protected boolean isOrganizationGroup(long organizationId, long groupId) {

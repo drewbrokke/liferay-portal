@@ -1150,7 +1150,21 @@ public interface OrganizationLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public BaseModelSearchResult<Organization> searchOrganizations(
 			long companyId, long parentOrganizationId, String keywords,
+			LinkedHashMap<String, Object> params, int start, int end,
+			OrderByComparator<Organization> obc)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BaseModelSearchResult<Organization> searchOrganizations(
+			long companyId, long parentOrganizationId, String keywords,
 			LinkedHashMap<String, Object> params, int start, int end, Sort sort)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BaseModelSearchResult<Organization> searchOrganizations(
+			long companyId, long parentOrganizationId, String keywords,
+			LinkedHashMap<String, Object> params, int start, int end,
+			Sort[] sorts)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -1159,6 +1173,14 @@ public interface OrganizationLocalService
 			String street, String city, String zip, String region,
 			String country, LinkedHashMap<String, Object> params,
 			boolean andSearch, int start, int end, Sort sort)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BaseModelSearchResult<Organization> searchOrganizations(
+			long companyId, long parentOrganizationId, String name, String type,
+			String street, String city, String zip, String region,
+			String country, LinkedHashMap<String, Object> params,
+			boolean andSearch, int start, int end, Sort[] sorts)
 		throws PortalException;
 
 	/**

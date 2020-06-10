@@ -1481,12 +1481,39 @@ public class OrganizationLocalServiceWrapper
 			searchOrganizations(
 				long companyId, long parentOrganizationId, String keywords,
 				java.util.LinkedHashMap<String, Object> params, int start,
+				int end,
+				com.liferay.portal.kernel.util.OrderByComparator<Organization>
+					obc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _organizationLocalService.searchOrganizations(
+			companyId, parentOrganizationId, keywords, params, start, end, obc);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.search.BaseModelSearchResult<Organization>
+			searchOrganizations(
+				long companyId, long parentOrganizationId, String keywords,
+				java.util.LinkedHashMap<String, Object> params, int start,
 				int end, com.liferay.portal.kernel.search.Sort sort)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _organizationLocalService.searchOrganizations(
 			companyId, parentOrganizationId, keywords, params, start, end,
 			sort);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.search.BaseModelSearchResult<Organization>
+			searchOrganizations(
+				long companyId, long parentOrganizationId, String keywords,
+				java.util.LinkedHashMap<String, Object> params, int start,
+				int end, com.liferay.portal.kernel.search.Sort[] sorts)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _organizationLocalService.searchOrganizations(
+			companyId, parentOrganizationId, keywords, params, start, end,
+			sorts);
 	}
 
 	@Override
@@ -1503,6 +1530,22 @@ public class OrganizationLocalServiceWrapper
 		return _organizationLocalService.searchOrganizations(
 			companyId, parentOrganizationId, name, type, street, city, zip,
 			region, country, params, andSearch, start, end, sort);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.search.BaseModelSearchResult<Organization>
+			searchOrganizations(
+				long companyId, long parentOrganizationId, String name,
+				String type, String street, String city, String zip,
+				String region, String country,
+				java.util.LinkedHashMap<String, Object> params,
+				boolean andSearch, int start, int end,
+				com.liferay.portal.kernel.search.Sort[] sorts)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _organizationLocalService.searchOrganizations(
+			companyId, parentOrganizationId, name, type, street, city, zip,
+			region, country, params, andSearch, start, end, sorts);
 	}
 
 	/**

@@ -239,6 +239,8 @@ public class OrganizationIndexerIndexedFieldsTest {
 		).put(
 			Field.TYPE, organization.getType()
 		).put(
+			Field.getSortableFieldName(Field.TYPE), organization.getType()
+		).put(
 			Field.USER_ID, String.valueOf(organization.getUserId())
 		).put(
 			Field.USER_NAME, StringUtil.toLowerCase(organization.getUserName())
