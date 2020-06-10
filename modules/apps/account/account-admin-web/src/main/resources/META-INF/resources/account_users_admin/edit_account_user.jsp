@@ -50,8 +50,16 @@ if (Validator.isNull(screenNavigationEntryKey)) {
 	<%
 	AccountUserDisplay accountUserDisplay = AccountUserDisplay.of(selUser);
 
+	PortletURL viewValidEmailDomainsURL = renderResponse.createRenderURL();
+
+	viewValidEmailDomainsURL.setParameter("mvcPath", "/account_users_admin/account_user/view_valid_domains.jsp");
+	viewValidEmailDomainsURL.setParameter("accountUserId", String.valueOf(accountUserDisplay.getUserId()));
+	viewValidEmailDomainsURL.setWindowState(LiferayWindowState.POP_UP);
+
 	Map<String, Object> componentContext = HashMapBuilder.<String, Object>put(
 			"validEmailDomains", accountUserDisplay.getAccountValidDomains()
+	).put(
+			"viewValidEmailDomainsURL", viewValidEmailDomainsURL.toString()
 	).build();
 	%>
 
