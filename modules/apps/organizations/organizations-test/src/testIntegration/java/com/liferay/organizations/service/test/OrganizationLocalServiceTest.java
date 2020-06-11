@@ -19,6 +19,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.test.util.ConfigurationTestUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.OrganizationParentException;
 import com.liferay.portal.kernel.model.Group;
@@ -27,9 +28,12 @@ import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.search.SortFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
@@ -41,11 +45,15 @@ import com.liferay.portal.kernel.test.util.OrganizationTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.test.util.SearchTestRule;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Dictionary;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.After;
@@ -850,6 +858,71 @@ public class OrganizationLocalServiceTest {
 		Assert.assertEquals(hits.toString(), 0, hits.getLength());
 	}
 
+	@Test
+	public void testSearchOrganizationsByType() throws Exception {
+		String defaultType = "organization";
+		String orderByCol = "type";
+		String orderByType = "asc";
+
+		String orgType = "Test Org Type";
+
+		String configPid = _createOrganizationType(orgType);
+
+		List<Organization> organizations = new LinkedList<>();
+
+		try {
+			organizations.add(OrganizationTestUtil.addOrganization(orgType));
+
+			organizations.add(OrganizationTestUtil.addOrganization(orgType));
+
+			organizations.add(
+				OrganizationTestUtil.addOrganization(defaultType));
+
+			organizations.add(
+				OrganizationTestUtil.addOrganization(defaultType));
+
+			Organization org1 = organizations.get(0);
+
+			long companyId = org1.getCompanyId();
+
+			Sort sort = SortFactoryUtil.getSort(
+				Organization.class, orderByCol, orderByType);
+
+			BaseModelSearchResult<Organization> baseModelSearchResult =
+				OrganizationLocalServiceUtil.searchOrganizations(
+					companyId, 0, "", null, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, sort);
+
+			List<String> expectedResults = _getExpectedSortedOrganizationByType(
+				baseModelSearchResult.getBaseModels());
+
+			_assertTypeSortOrder(
+				expectedResults, baseModelSearchResult.getBaseModels());
+
+			orderByType = "desc";
+
+			sort = SortFactoryUtil.getSort(
+				Organization.class, orderByCol, orderByType);
+
+			baseModelSearchResult =
+				OrganizationLocalServiceUtil.searchOrganizations(
+					companyId, 0, "", null, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, sort);
+
+			Collections.reverse(expectedResults);
+
+			_assertTypeSortOrder(
+				expectedResults, baseModelSearchResult.getBaseModels());
+		}
+		finally {
+			for (Organization organization : organizations) {
+				OrganizationLocalServiceUtil.deleteOrganization(organization);
+			}
+
+			ConfigurationTestUtil.deleteConfiguration((String)configPid);
+		}
+	}
+
 	@Rule
 	public SearchTestRule searchTestRule = new SearchTestRule();
 
@@ -875,6 +948,56 @@ public class OrganizationLocalServiceTest {
 			parentOrganization.getOrganizationId(), keywords,
 			WorkflowConstants.STATUS_ANY, null, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
+	}
+
+	private void _assertTypeSortOrder(
+		List<String> expectedResults, List<Organization> actualResults) {
+
+		List<String> actualStringResults = new LinkedList<>();
+
+		for (Organization org : actualResults) {
+			actualStringResults.add(org.getType() + org.getName());
+		}
+
+		Assert.assertEquals(expectedResults, actualStringResults);
+	}
+
+	private String _createOrganizationType(String name) throws Exception {
+		Dictionary<String, Object> properties = new HashMapDictionary<>();
+
+		String[] childTypes = {"organization", name};
+
+		properties.put("childrenTypes", childTypes);
+
+		properties.put("configuration.cleaner.ignore", "true");
+		properties.put("countryEnabled", true);
+		properties.put("countryRequired", false);
+		properties.put("name", name);
+		properties.put("rootable", true);
+		properties.put("service.bundleLocation", "?");
+		properties.put(
+			"service.factoryPid",
+			"com.liferay.organizations.internal.configuration." +
+				"OrganizationTypeConfiguration");
+
+		return ConfigurationTestUtil.createFactoryConfiguration(
+			"com.liferay.organizations.internal.configuration." +
+				"OrganizationTypeConfiguration",
+			properties);
+	}
+
+	private List<String> _getExpectedSortedOrganizationByType(
+		List<Organization> organizations) {
+
+		List<String> sortedTypeName = new LinkedList<>();
+
+		for (Organization org : organizations) {
+			sortedTypeName.add(org.getType() + org.getName());
+		}
+
+		Collections.sort(sortedTypeName, String.CASE_INSENSITIVE_ORDER);
+
+		return sortedTypeName;
 	}
 
 	private String _getTreePath(Organization[] organizations) {
