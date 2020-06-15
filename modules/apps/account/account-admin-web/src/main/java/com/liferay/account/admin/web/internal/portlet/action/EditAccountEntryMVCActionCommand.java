@@ -18,8 +18,12 @@ import com.liferay.account.constants.AccountConstants;
 import com.liferay.account.constants.AccountPortletKeys;
 import com.liferay.account.exception.AccountEntryDomainsException;
 import com.liferay.account.model.AccountEntry;
+import com.liferay.account.model.AccountEntryUserRel;
 import com.liferay.account.service.AccountEntryLocalService;
+import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -35,6 +39,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.portlet.ActionRequest;
@@ -146,12 +152,27 @@ public class EditAccountEntryMVCActionCommand extends BaseMVCActionCommand {
 		String[] domains = ParamUtil.getStringValues(actionRequest, "domains");
 		String taxIdNumber = ParamUtil.getString(actionRequest, "taxIdNumber");
 
-		_accountEntryLocalService.updateAccountEntry(
-			accountEntryId, parentAccountEntryId, name, description, deleteLogo,
-			domains, _getLogoBytes(actionRequest), taxIdNumber,
-			_getStatus(actionRequest),
-			ServiceContextFactory.getInstance(
-				AccountEntry.class.getName(), actionRequest));
+		AccountEntry accountEntry =
+			_accountEntryLocalService.updateAccountEntry(
+				accountEntryId, parentAccountEntryId, name, description,
+				deleteLogo, domains, _getLogoBytes(actionRequest), taxIdNumber,
+				_getStatus(actionRequest),
+				ServiceContextFactory.getInstance(
+					AccountEntry.class.getName(), actionRequest));
+
+		if (Objects.equals(
+				AccountConstants.ACCOUNT_ENTRY_TYPE_PERSONAL,
+				accountEntry.getType())) {
+
+			_updatePersonAccountUsers(actionRequest, accountEntryId);
+		}
+		else {
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Skipping user updates for business account: " +
+						accountEntryId);
+			}
+		}
 	}
 
 	private byte[] _getLogoBytes(ActionRequest actionRequest) throws Exception {
@@ -176,8 +197,56 @@ public class EditAccountEntryMVCActionCommand extends BaseMVCActionCommand {
 		return WorkflowConstants.STATUS_INACTIVE;
 	}
 
+	private void _updatePersonAccountUsers(
+			ActionRequest actionRequest, long accountEntryId)
+		throws Exception {
+
+		if (_log.isDebugEnabled()) {
+			_log.debug("Updating user for person account: " + accountEntryId);
+		}
+
+		long personAccountEntryUserId = ParamUtil.getLong(
+			actionRequest, "personAccountEntryUserId");
+
+		List<AccountEntryUserRel> removeAccountEntryUserRels = new ArrayList<>(
+			_accountEntryUserRelLocalService.
+				getAccountEntryUserRelsByAccountEntryId(accountEntryId));
+
+		boolean currentAccountUser = removeAccountEntryUserRels.removeIf(
+			accountEntryUserRel ->
+				accountEntryUserRel.getAccountUserId() ==
+					personAccountEntryUserId);
+
+		removeAccountEntryUserRels.forEach(
+			accountEntryUserRel -> {
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						"Removing user: " +
+							accountEntryUserRel.getAccountUserId());
+				}
+
+				_accountEntryUserRelLocalService.deleteAccountEntryUserRel(
+					accountEntryUserRel);
+			});
+
+		if ((personAccountEntryUserId > 0) && !currentAccountUser) {
+			if (_log.isDebugEnabled()) {
+				_log.debug("Adding user: " + personAccountEntryUserId);
+			}
+
+			_accountEntryUserRelLocalService.addAccountEntryUserRel(
+				accountEntryId, personAccountEntryUserId);
+		}
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EditAccountEntryMVCActionCommand.class);
+
 	@Reference
 	private AccountEntryLocalService _accountEntryLocalService;
+
+	@Reference
+	private AccountEntryUserRelLocalService _accountEntryUserRelLocalService;
 
 	@Reference
 	private DLAppLocalService _dlAppLocalService;
