@@ -52,6 +52,7 @@ long userId = personAccountEntryUserOptional.map(User::getUserId).orElse(0L);
 		<liferay-ui:search-container-row
 			className="com.liferay.portal.kernel.model.User"
 			modelVar="user"
+			keyProperty="userId"
 		>
 			<liferay-ui:search-container-column-text
 				cssClass="table-cell-content"
@@ -70,6 +71,16 @@ long userId = personAccountEntryUserOptional.map(User::getUserId).orElse(0L);
 				name="job-title"
 				property="jobTitle"
 			/>
+
+			<liferay-ui:search-container-column-text>
+				<liferay-ui:icon
+					data='<%= Collections.singletonMap("userid", userId) %>'
+					icon="times-circle"
+					linkCssClass="modify-link"
+					markupView="lexicon"
+					message="remove"
+				/>
+			</liferay-ui:search-container-column-text>
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator
@@ -77,3 +88,9 @@ long userId = personAccountEntryUserOptional.map(User::getUserId).orElse(0L);
 		/>
 	</liferay-ui:search-container>
 </clay:sheet-section>
+
+<liferay-frontend:component
+	componentId="PersonAccountEntryEventHandler"
+	context="<%= Collections.singletonMap("searchContainerId", "accountEntryUsersSearchContainer") %>"
+	module="account_entries_admin/js/PersonAccountEntryEventHandler.es"
+/>
