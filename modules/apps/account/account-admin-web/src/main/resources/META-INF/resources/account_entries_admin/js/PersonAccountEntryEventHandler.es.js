@@ -13,6 +13,8 @@
  */
 
 import {PortletBase} from 'frontend-js-web';
+import * as dom from 'metal-dom';
+import {Config} from 'metal-state';
 import {EventHandler} from 'metal-events';
 
 class PersonAccountEntryEventHandler extends PortletBase {
@@ -28,7 +30,12 @@ class PersonAccountEntryEventHandler extends PortletBase {
 	 * @inheritDoc
 	 */
 	attached() {
-		alert('DREWWASHERE attached');
+		this.eventHandler_.add(dom.delegate(
+			this.container,
+			'click',
+			this.removeButtonSelector,
+			this._handleRemoveButtonClicked.bind(this)
+		));
 	}
 
 	/**
@@ -38,6 +45,20 @@ class PersonAccountEntryEventHandler extends PortletBase {
 		super.detached();
 		this.eventHandler_.removeAllListeners();
 	}
+
+	_handleRemoveButtonClicked(event) {
+		debugger;
+	}
+
+	_querySelector(selector) {
+		return this.one(selector);
+	}
 }
+
+PersonAccountEntryEventHandler.STATE = {
+	container: Config.string().setter('_querySelector'),
+	removeButtonSelector: Config.string(),
+	userIdInput: Config.string().setter('_querySelector'),
+};
 
 export default PersonAccountEntryEventHandler;

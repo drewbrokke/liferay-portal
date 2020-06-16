@@ -25,7 +25,7 @@ List<User> userList = personAccountEntryUserOptional.map(Collections::singletonL
 long userId = personAccountEntryUserOptional.map(User::getUserId).orElse(0L);
 %>
 
-<clay:sheet-section>
+<clay:sheet-section cssClass="person-account-user-container">
 	<clay:content-row
 		containerElement="h3"
 		cssClass="sheet-subtitle"
@@ -73,10 +73,17 @@ long userId = personAccountEntryUserOptional.map(User::getUserId).orElse(0L);
 			/>
 
 			<liferay-ui:search-container-column-text>
+
+				<%
+				Map<String, Object> data = HashMapBuilder.<String, Object>put(
+					"userId", user.getUserId()
+				).build();
+				%>
+
 				<liferay-ui:icon
-					data='<%= Collections.singletonMap("userid", userId) %>'
+					data="<%= data %>"
 					icon="times-circle"
-					linkCssClass="modify-link"
+					cssClass="remove-user-link"
 					markupView="lexicon"
 					message="remove"
 				/>
@@ -89,8 +96,18 @@ long userId = personAccountEntryUserOptional.map(User::getUserId).orElse(0L);
 	</liferay-ui:search-container>
 </clay:sheet-section>
 
+<%
+Map<String, Object> context = HashMapBuilder.<String, Object>put(
+	"container", ".person-account-user-container"
+).put(
+	"removeButtonSelector", ".remove-user-link"
+).put(
+	"userIdInput", "#personAccountEntryUserId"
+).build();
+%>
+
 <liferay-frontend:component
 	componentId="PersonAccountEntryEventHandler"
-	context="<%= Collections.singletonMap("searchContainerId", "accountEntryUsersSearchContainer") %>"
+	context="<%= context %>"
 	module="account_entries_admin/js/PersonAccountEntryEventHandler.es"
 />
