@@ -125,6 +125,8 @@ long userId = personAccountEntryUserOptional.map(User::getUserId).orElse(0L);
 Map<String, Object> context = HashMapBuilder.<String, Object>put(
 	"container", "#personAccountUserContainer"
 ).put(
+	"modalStateKey", AccountWebKeys.MODAL_STATE_ADD_USER
+).put(
 	"removeUserIconMarkup", removeUserIcon
 ).put(
 	"removeUserLinkSelector", ".remove-user-link"

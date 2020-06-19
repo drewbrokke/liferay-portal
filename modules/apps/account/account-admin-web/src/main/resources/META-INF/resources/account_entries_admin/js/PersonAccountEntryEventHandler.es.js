@@ -46,6 +46,14 @@ class PersonAccountEntryEventHandler extends PortletBase {
 				this._handleRemoveUserButtonClicked.bind(this)
 			)
 		);
+
+		var state = window.sessionStorage.getItem(this.modalStateKey);
+
+		if (state === 'open') {
+			window.sessionStorage.removeItem(this.modalStateKey);
+
+			this._selectAccountUser();
+		}
 	}
 
 	/**
@@ -108,6 +116,7 @@ class PersonAccountEntryEventHandler extends PortletBase {
 
 PersonAccountEntryEventHandler.STATE = {
 	container: Config.string().setter('_setElement'),
+	modalStateKey: Config.string(),
 	removeUserIconMarkup: Config.string(),
 	removeUserLinkSelector: Config.string(),
 	searchContainer: Config.string().setter('_setSearchContainer'),
