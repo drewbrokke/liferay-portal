@@ -31,6 +31,8 @@ public class AccountWebKeys {
 
 	public static final String JSP_PATH = "JSP_PATH";
 
+	public static final String MODAL_STATE_ADD_USER = "MODAL_STATE_ADD_USER";
+
 	public static final String SELECTED_USER = "SELECTED_USER";
 
 	public static final String SHOW_CONTROLS = "SHOW_CONTROLS";
