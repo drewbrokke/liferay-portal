@@ -27,6 +27,7 @@ import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.portal.configuration.test.util.ConfigurationTestUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.NoSuchUserException;
 import com.liferay.portal.kernel.exception.UserEmailAddressException;
@@ -40,6 +41,7 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -179,6 +181,16 @@ public class AccountEntryUserRelLocalServiceTest {
 
 		String originalName = PrincipalThreadLocal.getName();
 
+		String pid = ConfigurationTestUtil.createFactoryConfiguration(
+			"com.liferay.account.configuration." +
+				"AccountEntryEmailDomainsConfiguration.scoped",
+			new HashMapDictionary() {
+				{
+					put("companyId", TestPropsValues.getCompanyId());
+					put("enableEmailDomainValidation", true);
+				}
+			});
+
 		try {
 			AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
 				_accountEntryLocalService,
@@ -212,6 +224,8 @@ public class AccountEntryUserRelLocalServiceTest {
 		}
 		finally {
 			PrincipalThreadLocal.setName(originalName);
+
+			ConfigurationTestUtil.deleteConfiguration(pid);
 		}
 	}
 
