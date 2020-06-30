@@ -14,6 +14,8 @@
 
 package com.liferay.account.service.impl;
 
+import com.liferay.account.configuration.AccountEntryEmailDomainsConfiguration;
+import com.liferay.account.configuration.AccountEntryEmailDomainsConfigurationTracker;
 import com.liferay.account.constants.AccountConstants;
 import com.liferay.account.exception.DuplicateAccountEntryIdException;
 import com.liferay.account.exception.DuplicateAccountEntryUserRelException;
@@ -219,6 +221,18 @@ public class AccountEntryUserRelLocalServiceImpl
 	private void _validateEmailAddress(long accountEntryId, String emailAddress)
 		throws PortalException {
 
+		AccountEntryEmailDomainsConfiguration
+			accountEntryEmailDomainsConfiguration =
+				_accountEntryEmailDomainsConfigurationTracker.
+					getAccountEntryEmailDomainsConfiguration(
+						CompanyThreadLocal.getCompanyId());
+
+		if (!accountEntryEmailDomainsConfiguration.
+				enableEmailDomainValidation()) {
+
+			return;
+		}
+
 		long userId = GuestOrUserUtil.getGuestOrUserId();
 
 		List<AccountEntryUserRel> accountEntryUserRels =
@@ -249,5 +263,9 @@ public class AccountEntryUserRelLocalServiceImpl
 				emailAddress, accountEntry.getDomains());
 		}
 	}
+
+	@Reference
+	private AccountEntryEmailDomainsConfigurationTracker
+		_accountEntryEmailDomainsConfigurationTracker;
 
 }
