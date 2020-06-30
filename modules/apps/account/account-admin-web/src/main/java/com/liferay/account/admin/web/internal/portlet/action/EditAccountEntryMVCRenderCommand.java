@@ -16,15 +16,19 @@ package com.liferay.account.admin.web.internal.portlet.action;
 
 import com.liferay.account.admin.web.internal.constants.AccountWebKeys;
 import com.liferay.account.admin.web.internal.display.AccountEntryDisplay;
+import com.liferay.account.configuration.AccountEntryEmailDomainsConfiguration;
+import com.liferay.account.configuration.AccountEntryEmailDomainsConfigurationTracker;
 import com.liferay.account.constants.AccountPortletKeys;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
 
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Albert Lee
@@ -51,7 +55,20 @@ public class EditAccountEntryMVCRenderCommand implements MVCRenderCommand {
 			AccountWebKeys.ACCOUNT_ENTRY_DISPLAY,
 			AccountEntryDisplay.of(accountEntryId));
 
+		renderRequest.setAttribute(
+			AccountEntryEmailDomainsConfiguration.class.getName(),
+			_accountEntryEmailDomainsConfigurationTracker.
+				getAccountEntryEmailDomainsConfiguration(
+					_portal.getCompanyId(renderRequest)));
+
 		return "/account_entries_admin/edit_account_entry.jsp";
 	}
+
+	@Reference
+	private AccountEntryEmailDomainsConfigurationTracker
+		_accountEntryEmailDomainsConfigurationTracker;
+
+	@Reference
+	private Portal _portal;
 
 }

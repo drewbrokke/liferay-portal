@@ -45,7 +45,14 @@ renderResponse.setTitle((accountEntryDisplay.getAccountEntryId() == 0) ? Languag
 
 			<c:if test="<%= Objects.equals(AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS, accountEntryDisplay.getType()) %>">
 				<div class="business-account-only">
-					<liferay-util:include page="/account_entries_admin/account_entry/domains.jsp" servletContext="<%= application %>" />
+
+					<%
+					AccountEntryEmailDomainsConfiguration accountEntryEmailDomainsConfiguration = (AccountEntryEmailDomainsConfiguration)request.getAttribute(AccountEntryEmailDomainsConfiguration.class.getName());
+					%>
+
+					<c:if test="<%= accountEntryEmailDomainsConfiguration.enableEmailDomainValidation() %>">
+						<liferay-util:include page="/account_entries_admin/account_entry/domains.jsp" servletContext="<%= application %>" />
+					</c:if>
 
 					<liferay-util:include page="/account_entries_admin/account_entry/parent_account_entry.jsp" servletContext="<%= application %>" />
 				</div>
