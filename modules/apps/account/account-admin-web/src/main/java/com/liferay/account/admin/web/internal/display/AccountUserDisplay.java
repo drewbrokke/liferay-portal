@@ -14,6 +14,8 @@
 
 package com.liferay.account.admin.web.internal.display;
 
+import com.liferay.account.configuration.AccountEntryEmailDomainsConfiguration;
+import com.liferay.account.configuration.AccountEntryEmailDomainsConfigurationTracker;
 import com.liferay.account.constants.AccountConstants;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryUserRel;
@@ -41,6 +43,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * @author Pei-Jung Lan
@@ -175,7 +181,20 @@ public class AccountUserDisplay {
 		return StringUtil.merge(commonDomains, StringPool.COMMA);
 	}
 
-	public boolean isValidateEmailAddress() throws PortalException {
+	public boolean isValidateEmailAddress(long companyId)
+		throws PortalException {
+
+		AccountEntryEmailDomainsConfiguration
+			accountEntryEmailDomainsConfiguration =
+				_getAccountEntryEmailDomainsConfigurationTracker().
+					getAccountEntryEmailDomainsConfiguration(companyId);
+
+		if (!accountEntryEmailDomainsConfiguration.
+				enableEmailDomainValidation()) {
+
+			return false;
+		}
+
 		List<AccountEntryUserRel> accountEntryUserRels =
 			_getAccountEntryUserRels(getUserId());
 
@@ -192,6 +211,12 @@ public class AccountUserDisplay {
 		return !Objects.equals(
 			accountEntry.getType(),
 			AccountConstants.ACCOUNT_ENTRY_TYPE_PERSONAL);
+	}
+
+	private static AccountEntryEmailDomainsConfigurationTracker
+		_getAccountEntryEmailDomainsConfigurationTracker() {
+
+		return _serviceTracker.getService();
 	}
 
 	private AccountUserDisplay(User user) {
@@ -254,6 +279,26 @@ public class AccountUserDisplay {
 		}
 
 		return StringPool.BLANK;
+	}
+
+	private static final ServiceTracker
+		<AccountEntryEmailDomainsConfigurationTracker,
+		 AccountEntryEmailDomainsConfigurationTracker> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(
+			AccountEntryEmailDomainsConfigurationTracker.class);
+
+		ServiceTracker
+			<AccountEntryEmailDomainsConfigurationTracker,
+			 AccountEntryEmailDomainsConfigurationTracker> serviceTracker =
+				new ServiceTracker<>(
+					bundle.getBundleContext(),
+					AccountEntryEmailDomainsConfigurationTracker.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
 	}
 
 	private final String _accountEntryNamesStyle;

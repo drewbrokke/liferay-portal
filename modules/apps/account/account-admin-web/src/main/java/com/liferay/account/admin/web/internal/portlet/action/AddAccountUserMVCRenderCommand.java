@@ -16,10 +16,13 @@ package com.liferay.account.admin.web.internal.portlet.action;
 
 import com.liferay.account.admin.web.internal.constants.AccountWebKeys;
 import com.liferay.account.admin.web.internal.display.AccountEntryDisplay;
+import com.liferay.account.configuration.AccountEntryEmailDomainsConfiguration;
+import com.liferay.account.configuration.AccountEntryEmailDomainsConfigurationTracker;
 import com.liferay.account.constants.AccountPortletKeys;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.users.admin.configuration.UserFileUploadsConfiguration;
 
 import java.util.Map;
@@ -32,6 +35,7 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Albert Lee
@@ -61,6 +65,12 @@ public class AddAccountUserMVCRenderCommand implements MVCRenderCommand {
 			AccountEntryDisplay.of(accountEntryId));
 
 		renderRequest.setAttribute(
+			AccountEntryEmailDomainsConfiguration.class.getName(),
+			_accountEntryEmailDomainsConfigurationTracker.
+				getAccountEntryEmailDomainsConfiguration(
+					_portal.getCompanyId(renderRequest)));
+
+		renderRequest.setAttribute(
 			UserFileUploadsConfiguration.class.getName(),
 			_userFileUploadsConfiguration);
 
@@ -73,6 +83,13 @@ public class AddAccountUserMVCRenderCommand implements MVCRenderCommand {
 		_userFileUploadsConfiguration = ConfigurableUtil.createConfigurable(
 			UserFileUploadsConfiguration.class, properties);
 	}
+
+	@Reference
+	private AccountEntryEmailDomainsConfigurationTracker
+		_accountEntryEmailDomainsConfigurationTracker;
+
+	@Reference
+	private Portal _portal;
 
 	private volatile UserFileUploadsConfiguration _userFileUploadsConfiguration;
 
