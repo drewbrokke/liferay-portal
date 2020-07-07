@@ -105,10 +105,6 @@ public class AccountEntryDisplay {
 		return _organizationNames;
 	}
 
-	public String getParentAccountEntryName() {
-		return _parentAccountEntryName;
-	}
-
 	public Optional<User> getPersonAccountEntryUserOptional() {
 		return _personAccountEntryUserOptional;
 	}
@@ -141,7 +137,6 @@ public class AccountEntryDisplay {
 		_logoId = 0;
 		_name = StringPool.BLANK;
 		_organizationNames = StringPool.BLANK;
-		_parentAccountEntryName = StringPool.BLANK;
 		_personAccountEntryUserOptional = Optional.empty();
 		_statusLabel = StringPool.BLANK;
 		_statusLabelStyle = StringPool.BLANK;
@@ -157,7 +152,6 @@ public class AccountEntryDisplay {
 		_logoId = accountEntry.getLogoId();
 		_name = accountEntry.getName();
 		_organizationNames = _getOrganizationNames(accountEntry);
-		_parentAccountEntryName = _getParentAccountEntryName(accountEntry);
 		_personAccountEntryUserOptional = _getPersonAccountEntryUserOptional(
 			accountEntry);
 		_statusLabel = _getStatusLabel(accountEntry);
@@ -229,24 +223,6 @@ public class AccountEntryDisplay {
 		return sb.toString();
 	}
 
-	private String _getParentAccountEntryName(AccountEntry accountEntry) {
-		long parentAccountEntryId = accountEntry.getParentAccountEntryId();
-
-		if (parentAccountEntryId == 0) {
-			return StringPool.BLANK;
-		}
-
-		AccountEntry parentAccountEntry =
-			AccountEntryLocalServiceUtil.fetchAccountEntry(
-				parentAccountEntryId);
-
-		if (parentAccountEntry != null) {
-			return parentAccountEntry.getName();
-		}
-
-		return StringPool.BLANK;
-	}
-
 	private Optional<User> _getPersonAccountEntryUserOptional(
 		AccountEntry accountEntry) {
 
@@ -316,7 +292,6 @@ public class AccountEntryDisplay {
 	private final long _logoId;
 	private final String _name;
 	private final String _organizationNames;
-	private final String _parentAccountEntryName;
 	private final Optional<User> _personAccountEntryUserOptional;
 	private final String _statusLabel;
 	private final String _statusLabelStyle;
