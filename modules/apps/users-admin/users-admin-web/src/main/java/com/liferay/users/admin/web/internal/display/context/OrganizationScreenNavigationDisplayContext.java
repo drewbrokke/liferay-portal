@@ -29,6 +29,10 @@ public class OrganizationScreenNavigationDisplayContext {
 		return _editOrganizationActionURL;
 	}
 
+	public String getEditOrganizationRenderURL() {
+		return _editOrganizationRenderURL;
+	}
+
 	public String getFormLabel() {
 		return _formLabel;
 	}
@@ -65,6 +69,10 @@ public class OrganizationScreenNavigationDisplayContext {
 		_editOrganizationActionURL = editOrganizationActionURL;
 	}
 
+	public void setEditOrganizationRenderURL(String editOrganizationRenderURL) {
+		_editOrganizationRenderURL = editOrganizationRenderURL;
+	}
+
 	public void setFormLabel(String formLabel) {
 		_formLabel = formLabel;
 	}
@@ -91,6 +99,7 @@ public class OrganizationScreenNavigationDisplayContext {
 
 	private String _backURL;
 	private String _editOrganizationActionURL;
+	private String _editOrganizationRenderURL;
 	private String _formLabel;
 	private String _jspPath;
 	private Organization _organization;

@@ -163,6 +163,9 @@ public class OrganizationScreenNavigationEntry
 		editOrganizationRenderURL.setParameter(
 			"screenNavigationEntryKey", _entryKey);
 
+		organizationScreenNavigationDisplayContext.setEditOrganizationRenderURL(
+			editOrganizationRenderURL.toString());
+
 		editOrganizationActionURL.setParameter(
 			"redirect", editOrganizationRenderURL.toString());
 
