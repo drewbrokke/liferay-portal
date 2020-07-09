@@ -124,11 +124,13 @@ public class SelectAccountUsersManagementToolbarDisplayContext
 	}
 
 	public boolean isShowCreateButton() {
-		return ParamUtil.getBoolean(liferayPortletRequest, "showCreateButton");
+		return ParamUtil.getBoolean(
+			liferayPortletRequest, "selectUsersModal_showCreateButton");
 	}
 
 	public boolean isSingleSelect() {
-		return ParamUtil.getBoolean(liferayPortletRequest, "singleSelect");
+		return ParamUtil.getBoolean(
+			liferayPortletRequest, "selectUsersModal_singleSelect");
 	}
 
 	@Override

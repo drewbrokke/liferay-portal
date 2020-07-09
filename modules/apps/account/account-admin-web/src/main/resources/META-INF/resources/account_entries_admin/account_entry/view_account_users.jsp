@@ -92,7 +92,7 @@ renderResponse.setTitle(accountEntryDisplay.getName());
 	<portlet:param name="mvcPath" value="/account_entries_admin/select_account_users.jsp" />
 	<portlet:param name="redirect" value="<%= currentURL %>" />
 	<portlet:param name="accountEntryId" value="<%= String.valueOf(accountEntryDisplay.getAccountEntryId()) %>" />
-	<portlet:param name="showCreateButton" value="<%= Boolean.TRUE.toString() %>" />
+	<portlet:param name="selectUsersModal_showCreateButton" value="<%= Boolean.TRUE.toString() %>" />
 </portlet:renderURL>
 
 <%
