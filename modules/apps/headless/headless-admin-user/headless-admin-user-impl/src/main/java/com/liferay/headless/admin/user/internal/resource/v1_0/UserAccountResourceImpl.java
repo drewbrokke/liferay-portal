@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.model.Website;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
@@ -58,10 +59,12 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.search.filter.TermFilter;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.ContactLocalService;
 import com.liferay.portal.kernel.service.GroupService;
+import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.RoleService;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
@@ -77,13 +80,17 @@ import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
 import com.liferay.portal.vulcan.util.SearchUtil;
+import com.liferay.users.admin.kernel.util.UsersAdminUtil;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -357,6 +364,40 @@ public class UserAccountResourceImpl
 		);
 	}
 
+	private List<Group> _getAllGroups(User user) throws Exception {
+		List<Group> allGroups = new ArrayList<>();
+
+		allGroups.addAll(_getGroups(user));
+		allGroups.addAll(_getInheritedSiteGroups(user));
+		allGroups.addAll(
+			groupLocalService.getOrganizationsGroups(_getOrganizations(user)));
+		allGroups.addAll(
+			groupLocalService.getUserGroupsGroups(_getUserGroups(user)));
+
+		return allGroups;
+	}
+
+	private List<Role> _getAllRoles(User user) throws Exception {
+		List<Role> roles = _roleService.getUserRoles(user.getUserId());
+
+		List<Group> roleGroups = ListUtil.filter(
+			_getAllGroups(user),
+			group -> _roleLocalService.hasGroupRoles(group.getGroupId()));
+
+		for (Group group : roleGroups) {
+			List<Role> groupRoles = _roleLocalService.getGroupRoles(
+				group.getGroupId());
+
+			for (Role role : groupRoles) {
+				if (!roles.contains(role)) {
+					roles.add(role);
+				}
+			}
+		}
+
+		return roles;
+	}
+
 	private int _getBirthdayDay(UserAccount userAccount) {
 		return _getCalendarFieldValue(userAccount, Calendar.DAY_OF_MONTH, 1);
 	}
@@ -386,6 +427,55 @@ public class UserAccountResourceImpl
 		).orElse(
 			defaultValue
 		);
+	}
+
+	private List<Group> _getGroups(User user) throws Exception {
+		PermissionChecker permissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
+
+		if (permissionChecker.isCompanyAdmin()) {
+			return user.getGroups();
+		}
+
+		return UsersAdminUtil.filterGroups(permissionChecker, user.getGroups());
+	}
+
+	private List<Group> _getInheritedSiteGroups(User user) throws Exception {
+		SortedSet<Group> inheritedSiteGroupsSet = new TreeSet<>();
+
+		inheritedSiteGroupsSet.addAll(
+			groupLocalService.getUserGroupsRelatedGroups(_getUserGroups(user)));
+		inheritedSiteGroupsSet.addAll(_getOrganizationRelatedGroups(user));
+
+		return ListUtil.fromCollection(inheritedSiteGroupsSet);
+	}
+
+	private List<Group> _getOrganizationRelatedGroups(User user)
+		throws Exception {
+
+		List<Organization> organizations = _getOrganizations(user);
+
+		if (organizations.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		return groupLocalService.getOrganizationsRelatedGroups(organizations);
+	}
+
+	private List<Organization> _getOrganizations(User user) throws Exception {
+		PermissionChecker permissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
+
+		if (permissionChecker.isCompanyAdmin() ||
+			permissionChecker.hasPermission(
+				null, Organization.class.getName(),
+				Organization.class.getName(), ActionKeys.VIEW)) {
+
+			return user.getOrganizations();
+		}
+
+		return UsersAdminUtil.filterOrganizations(
+			permissionChecker, user.getOrganizations());
 	}
 
 	private long _getPrefixId(UserAccount userAccount) {
@@ -482,6 +572,18 @@ public class UserAccountResourceImpl
 					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))));
 	}
 
+	private List<UserGroup> _getUserGroups(User user) {
+		PermissionChecker permissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
+
+		if (permissionChecker.isCompanyAdmin()) {
+			return user.getUserGroups();
+		}
+
+		return UsersAdminUtil.filterUserGroups(
+			permissionChecker, user.getUserGroups());
+	}
+
 	private List<Website> _getWebsites(UserAccount userAccount) {
 		return Optional.ofNullable(
 			userAccount.getUserAccountContactInformation()
@@ -571,8 +673,8 @@ public class UserAccountResourceImpl
 					organization -> _toOrganizationBrief(organization),
 					OrganizationBrief.class);
 				roleBriefs = transformToArray(
-					_roleService.getUserRoles(user.getUserId()),
-					role -> _toRoleBrief(role), RoleBrief.class);
+					_getAllRoles(user), role -> _toRoleBrief(role),
+					RoleBrief.class);
 				siteBriefs = transformToArray(
 					_groupService.getGroups(
 						contextCompany.getCompanyId(),
@@ -667,6 +769,9 @@ public class UserAccountResourceImpl
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private RoleLocalService _roleLocalService;
 
 	@Reference
 	private RoleService _roleService;
