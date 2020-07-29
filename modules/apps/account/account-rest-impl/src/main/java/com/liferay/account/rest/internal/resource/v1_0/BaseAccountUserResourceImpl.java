@@ -101,7 +101,7 @@ public abstract class BaseAccountUserResourceImpl
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "AccountUser")})
 	public Page<AccountUser> getAccountUsersPage(
-			@NotNull @Parameter(hidden = true) @PathParam("accountId") Long
+			@NotNull @Parameter(hidden = true) @PathParam("accountId") String
 				accountId,
 			@Parameter(hidden = true) @QueryParam("search") String search,
 			@Context Filter filter, @Context Pagination pagination,
@@ -125,7 +125,7 @@ public abstract class BaseAccountUserResourceImpl
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "AccountUser")})
 	public AccountUser postAccountUser(
-			@NotNull @Parameter(hidden = true) @PathParam("accountId") Long
+			@NotNull @Parameter(hidden = true) @PathParam("accountId") String
 				accountId,
 			AccountUser accountUser)
 		throws Exception {

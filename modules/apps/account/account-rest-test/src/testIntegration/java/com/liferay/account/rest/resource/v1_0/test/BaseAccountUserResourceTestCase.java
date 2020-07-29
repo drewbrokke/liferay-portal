@@ -218,8 +218,8 @@ public abstract class BaseAccountUserResourceTestCase {
 
 		Assert.assertEquals(0, page.getTotalCount());
 
-		Long accountId = testGetAccountUsersPage_getAccountId();
-		Long irrelevantAccountId =
+		String accountId = testGetAccountUsersPage_getAccountId();
+		String irrelevantAccountId =
 			testGetAccountUsersPage_getIrrelevantAccountId();
 
 		if ((irrelevantAccountId != null)) {
@@ -266,7 +266,7 @@ public abstract class BaseAccountUserResourceTestCase {
 			return;
 		}
 
-		Long accountId = testGetAccountUsersPage_getAccountId();
+		String accountId = testGetAccountUsersPage_getAccountId();
 
 		AccountUser accountUser1 = randomAccountUser();
 
@@ -296,7 +296,7 @@ public abstract class BaseAccountUserResourceTestCase {
 			return;
 		}
 
-		Long accountId = testGetAccountUsersPage_getAccountId();
+		String accountId = testGetAccountUsersPage_getAccountId();
 
 		AccountUser accountUser1 = testGetAccountUsersPage_addAccountUser(
 			accountId, randomAccountUser());
@@ -319,7 +319,7 @@ public abstract class BaseAccountUserResourceTestCase {
 
 	@Test
 	public void testGetAccountUsersPageWithPagination() throws Exception {
-		Long accountId = testGetAccountUsersPage_getAccountId();
+		String accountId = testGetAccountUsersPage_getAccountId();
 
 		AccountUser accountUser1 = testGetAccountUsersPage_addAccountUser(
 			accountId, randomAccountUser());
@@ -438,7 +438,7 @@ public abstract class BaseAccountUserResourceTestCase {
 			return;
 		}
 
-		Long accountId = testGetAccountUsersPage_getAccountId();
+		String accountId = testGetAccountUsersPage_getAccountId();
 
 		AccountUser accountUser1 = randomAccountUser();
 		AccountUser accountUser2 = randomAccountUser();
@@ -474,19 +474,19 @@ public abstract class BaseAccountUserResourceTestCase {
 	}
 
 	protected AccountUser testGetAccountUsersPage_addAccountUser(
-			Long accountId, AccountUser accountUser)
+			String accountId, AccountUser accountUser)
 		throws Exception {
 
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}
 
-	protected Long testGetAccountUsersPage_getAccountId() throws Exception {
+	protected String testGetAccountUsersPage_getAccountId() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}
 
-	protected Long testGetAccountUsersPage_getIrrelevantAccountId()
+	protected String testGetAccountUsersPage_getIrrelevantAccountId()
 		throws Exception {
 
 		return null;
@@ -494,7 +494,7 @@ public abstract class BaseAccountUserResourceTestCase {
 
 	@Test
 	public void testGraphQLGetAccountUsersPage() throws Exception {
-		Long accountId = testGetAccountUsersPage_getAccountId();
+		String accountId = testGetAccountUsersPage_getAccountId();
 
 		GraphQLField graphQLField = new GraphQLField(
 			"accountUsers",
@@ -503,7 +503,7 @@ public abstract class BaseAccountUserResourceTestCase {
 					put("page", 1);
 					put("pageSize", 2);
 
-					put("accountId", accountId);
+					put("accountId", "\"" + accountId + "\"");
 				}
 			},
 			new GraphQLField("items", getGraphQLFields()),
