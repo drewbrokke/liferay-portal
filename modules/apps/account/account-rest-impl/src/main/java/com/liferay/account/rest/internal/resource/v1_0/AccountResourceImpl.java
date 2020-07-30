@@ -56,13 +56,15 @@ public class AccountResourceImpl
 	extends BaseAccountResourceImpl implements EntityModelResource {
 
 	@Override
-	public void deleteAccount(Long accountId) throws Exception {
-		_accountEntryLocalService.deleteAccountEntry(accountId);
+	public void deleteAccount(String accountId) throws Exception {
+		_accountEntryLocalService.deleteAccountEntry(
+			_accountResourceDTOConverter.getAccountEntryId(accountId));
 	}
 
 	@Override
-	public Account getAccount(Long accountId) throws Exception {
-		return _toAccount(_accountEntryLocalService.getAccountEntry(accountId));
+	public Account getAccount(String accountId) throws Exception {
+		return _accountResourceDTOConverter.toDTO(
+			_getDTOConverterContext(accountId));
 	}
 
 	@Override
@@ -116,16 +118,19 @@ public class AccountResourceImpl
 	}
 
 	@Override
-	public Account putAccount(Long accountId, Account account)
+	public Account putAccount(String accountId, Account account)
 		throws Exception {
+
+		long accountEntryId = _accountResourceDTOConverter.getAccountEntryId(
+			accountId);
 
 		_accountEntryOrganizationRelLocalService.
 			setAccountEntryOrganizationRels(
-				accountId, _getOrganizationIds(account));
+				accountEntryId, _getOrganizationIds(account));
 
 		return _toAccount(
 			_accountEntryLocalService.updateAccountEntry(
-				accountId, _getParentAccountId(account), account.getName(),
+				accountEntryId, _getParentAccountId(account), account.getName(),
 				account.getDescription(), false, _getDomains(account), null,
 				null, _getStatus(account), null));
 	}
@@ -158,11 +163,13 @@ public class AccountResourceImpl
 	}
 
 	private long _getParentAccountId(Account account) {
-		return Optional.ofNullable(
-			account.getParentAccountId()
-		).orElse(
-			AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT
-		);
+		try {
+			return _accountResourceDTOConverter.getAccountEntryId(
+				account.getParentAccountId());
+		}
+		catch (Exception exception) {
+			return AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT;
+		}
 	}
 
 	private int _getStatus(Account account) {
