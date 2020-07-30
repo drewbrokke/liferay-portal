@@ -80,7 +80,10 @@ public class RoleUtil {
 	}
 
 	public static int getRoleType(String roleType) {
-		if (roleType.equals(RoleConstants.TYPE_DEPOT_LABEL)) {
+		if (roleType.equals(RoleConstants.TYPE_ACCOUNT_LABEL)) {
+			return RoleConstants.TYPE_ACCOUNT;
+		}
+		else if (roleType.equals(RoleConstants.TYPE_DEPOT_LABEL)) {
 			return RoleConstants.TYPE_DEPOT;
 		}
 		else if (roleType.equals(RoleConstants.TYPE_ORGANIZATION_LABEL)) {
