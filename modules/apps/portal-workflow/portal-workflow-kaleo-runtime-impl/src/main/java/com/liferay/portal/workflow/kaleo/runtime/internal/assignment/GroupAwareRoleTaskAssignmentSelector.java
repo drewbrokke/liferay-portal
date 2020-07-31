@@ -14,6 +14,7 @@
 
 package com.liferay.portal.workflow.kaleo.runtime.internal.assignment;
 
+import com.liferay.account.model.AccountEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
@@ -23,6 +24,7 @@ import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.workflow.kaleo.KaleoTaskAssignmentFactory;
 import com.liferay.portal.workflow.kaleo.model.KaleoInstanceToken;
@@ -33,6 +35,7 @@ import com.liferay.portal.workflow.kaleo.runtime.assignment.TaskAssignmentSelect
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -154,8 +157,14 @@ public class GroupAwareRoleTaskAssignmentSelector
 	protected boolean isValidAssignment(Group group, Role role)
 		throws PortalException {
 
-		if ((group != null) && (group.getType() == GroupConstants.TYPE_DEPOT) &&
-			(role.getType() == RoleConstants.TYPE_DEPOT)) {
+		if ((group != null) && _isAccountEntryGroup(group) &&
+			(role.getType() == RoleConstants.TYPE_ACCOUNT)) {
+
+			return true;
+		}
+		else if ((group != null) &&
+				 (group.getType() == GroupConstants.TYPE_DEPOT) &&
+				 (role.getType() == RoleConstants.TYPE_DEPOT)) {
 
 			return true;
 		}
@@ -176,6 +185,17 @@ public class GroupAwareRoleTaskAssignmentSelector
 		return false;
 	}
 
+	private boolean _isAccountEntryGroup(Group group) {
+		if (Objects.equals(
+				_portal.getClassNameId(AccountEntry.class),
+				group.getClassNameId())) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 	@Reference
 	private GroupLocalService _groupLocalService;
 
@@ -184,6 +204,9 @@ public class GroupAwareRoleTaskAssignmentSelector
 
 	@Reference
 	private OrganizationLocalService _organizationLocalService;
+
+	@Reference
+	private Portal _portal;
 
 	@Reference
 	private RoleLocalService _roleLocalService;

@@ -14,6 +14,7 @@
 
 package com.liferay.portal.workflow.kaleo.runtime.internal.notification.recipient;
 
+import com.liferay.account.model.AccountEntry;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
@@ -30,6 +31,7 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserGroupGroupRoleLocalService;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.workflow.kaleo.definition.NotificationReceptionType;
 import com.liferay.portal.workflow.kaleo.model.KaleoInstanceToken;
@@ -41,6 +43,7 @@ import com.liferay.portal.workflow.kaleo.runtime.notification.recipient.Notifica
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
@@ -207,8 +210,14 @@ public class RoleNotificationRecipientBuilder
 	protected boolean isValidGroup(Group group, Role role)
 		throws PortalException {
 
-		if ((group != null) && (group.getType() == GroupConstants.TYPE_DEPOT) &&
-			(role.getType() == RoleConstants.TYPE_DEPOT)) {
+		if ((group != null) && _isAccountEntryGroup(group) &&
+			(role.getType() == RoleConstants.TYPE_ACCOUNT)) {
+
+			return true;
+		}
+		else if ((group != null) &&
+				 (group.getType() == GroupConstants.TYPE_DEPOT) &&
+				 (role.getType() == RoleConstants.TYPE_DEPOT)) {
 
 			return true;
 		}
@@ -226,11 +235,25 @@ public class RoleNotificationRecipientBuilder
 		return false;
 	}
 
+	private boolean _isAccountEntryGroup(Group group) {
+		if (Objects.equals(
+				_portal.getClassNameId(AccountEntry.class),
+				group.getClassNameId())) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 	@Reference
 	private GroupLocalService _groupLocalService;
 
 	@Reference
 	private OrganizationLocalService _organizationLocalService;
+
+	@Reference
+	private Portal _portal;
 
 	@Reference
 	private RoleLocalService _roleLocalService;
