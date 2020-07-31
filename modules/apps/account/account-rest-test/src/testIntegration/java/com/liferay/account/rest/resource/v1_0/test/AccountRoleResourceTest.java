@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -112,7 +113,8 @@ public class AccountRoleResourceTest extends BaseAccountRoleResourceTestCase {
 			_account, accountRole, accountUser, false);
 
 		_accountRoleLocalService.associateUser(
-			_account.getId(), accountRole.getId(), accountUser.getId());
+			GetterUtil.getLong(_account.getId()), accountRole.getId(),
+			accountUser.getId());
 
 		_assertAccountRoleUserAssociation(
 			_account, accountRole, accountUser, true);
@@ -174,19 +176,19 @@ public class AccountRoleResourceTest extends BaseAccountRoleResourceTestCase {
 
 	@Override
 	protected AccountRole testGetAccountRolesPage_addAccountRole(
-			Long accountId, AccountRole accountRole)
+			String accountId, AccountRole accountRole)
 		throws Exception {
 
 		return accountRoleResource.postAccountRole(accountId, accountRole);
 	}
 
 	@Override
-	protected Long testGetAccountRolesPage_getAccountId() {
+	protected String testGetAccountRolesPage_getAccountId() {
 		return _account.getId();
 	}
 
 	@Override
-	protected Long testGetAccountRolesPage_getIrrelevantAccountId() {
+	protected String testGetAccountRolesPage_getIrrelevantAccountId() {
 		return _irrelevantAccount.getId();
 	}
 
@@ -227,7 +229,7 @@ public class AccountRoleResourceTest extends BaseAccountRoleResourceTestCase {
 		throws Exception {
 
 		AccountEntry accountEntry = _accountEntryLocalService.getAccountEntry(
-			account.getId());
+			GetterUtil.getLong(account.getId()));
 
 		UserGroupRole userGroupRole =
 			_userGroupRoleLocalService.fetchUserGroupRole(
@@ -244,9 +246,10 @@ public class AccountRoleResourceTest extends BaseAccountRoleResourceTestCase {
 
 	private void _deleteAccounts(Account account, Account irrelevantAccount) {
 		try {
-			_accountEntryLocalService.deleteAccountEntry(account.getId());
 			_accountEntryLocalService.deleteAccountEntry(
-				irrelevantAccount.getId());
+				GetterUtil.getLong(account.getId()));
+			_accountEntryLocalService.deleteAccountEntry(
+				GetterUtil.getLong(irrelevantAccount.getId()));
 		}
 		catch (Exception exception) {
 			if (_log.isDebugEnabled()) {
@@ -274,7 +277,8 @@ public class AccountRoleResourceTest extends BaseAccountRoleResourceTestCase {
 				description = RandomTestUtil.randomString(20);
 				domains = new String[0];
 				name = RandomTestUtil.randomString(20);
-				parentAccountId = AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT;
+				parentAccountId = String.valueOf(
+					AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT);
 				status = WorkflowConstants.STATUS_APPROVED;
 			}
 		};

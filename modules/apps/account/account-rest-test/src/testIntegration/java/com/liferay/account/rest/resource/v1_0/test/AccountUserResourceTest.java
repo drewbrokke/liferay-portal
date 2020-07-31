@@ -86,27 +86,27 @@ public class AccountUserResourceTest extends BaseAccountUserResourceTestCase {
 
 	@Override
 	protected AccountUser testGetAccountUsersPage_addAccountUser(
-			Long accountId, AccountUser accountUser)
+			String accountId, AccountUser accountUser)
 		throws Exception {
 
 		return _addAccountUser(accountId, accountUser);
 	}
 
 	@Override
-	protected Long testGetAccountUsersPage_getAccountId() {
-		return _getAccountEntryId();
+	protected String testGetAccountUsersPage_getAccountId() {
+		return _getAccountId();
 	}
 
 	@Override
-	protected Long testGetAccountUsersPage_getIrrelevantAccountId() {
-		return _getIrrelevantAccountEntryId();
+	protected String testGetAccountUsersPage_getIrrelevantAccountId() {
+		return _getIrrelevantAccountId();
 	}
 
 	@Override
 	protected AccountUser testGraphQLAccountUser_addAccountUser()
 		throws Exception {
 
-		return _addAccountUser(_getAccountEntryId(), randomAccountUser());
+		return _addAccountUser(_getAccountId(), randomAccountUser());
 	}
 
 	@Override
@@ -114,10 +114,11 @@ public class AccountUserResourceTest extends BaseAccountUserResourceTestCase {
 			AccountUser accountUser)
 		throws Exception {
 
-		return _addAccountUser(_getAccountEntryId(), accountUser);
+		return _addAccountUser(_getAccountId(), accountUser);
 	}
 
-	private AccountUser _addAccountUser(Long accountId, AccountUser accountUser)
+	private AccountUser _addAccountUser(
+			String accountId, AccountUser accountUser)
 		throws Exception {
 
 		accountUser = accountUserResource.postAccountUser(
@@ -151,12 +152,12 @@ public class AccountUserResourceTest extends BaseAccountUserResourceTestCase {
 			ServiceContextTestUtil.getServiceContext());
 	}
 
-	private Long _getAccountEntryId() {
-		return _accountEntry.getAccountEntryId();
+	private String _getAccountId() {
+		return String.valueOf(_accountEntry.getAccountEntryId());
 	}
 
-	private Long _getIrrelevantAccountEntryId() {
-		return _irrelevantAccountEntry.getAccountEntryId();
+	private String _getIrrelevantAccountId() {
+		return String.valueOf(_irrelevantAccountEntry.getAccountEntryId());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

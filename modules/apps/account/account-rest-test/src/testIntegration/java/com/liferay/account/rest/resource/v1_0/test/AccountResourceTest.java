@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.Inject;
@@ -102,7 +103,7 @@ public class AccountResourceTest extends BaseAccountResourceTestCase {
 
 	private AccountEntry _addAccountEntry() throws Exception {
 		return _addAccountEntry(
-			AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+			String.valueOf(AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT),
 			RandomTestUtil.randomString(), RandomTestUtil.randomString(), null);
 	}
 
@@ -113,13 +114,13 @@ public class AccountResourceTest extends BaseAccountResourceTestCase {
 	}
 
 	private AccountEntry _addAccountEntry(
-			long parentAccountEntryId, String name, String description,
+			String parentAccountId, String name, String description,
 			String[] domains)
 		throws Exception {
 
 		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
-			TestPropsValues.getUserId(), parentAccountEntryId, name,
-			description, domains, null, null,
+			TestPropsValues.getUserId(), GetterUtil.getLong(parentAccountId),
+			name, description, domains, null, null,
 			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
 			WorkflowConstants.STATUS_APPROVED,
 			ServiceContextTestUtil.getServiceContext());
@@ -147,9 +148,10 @@ public class AccountResourceTest extends BaseAccountResourceTestCase {
 			{
 				description = accountEntry.getDescription();
 				domains = StringUtil.split(accountEntry.getDomains());
-				id = accountEntry.getAccountEntryId();
+				id = String.valueOf(accountEntry.getAccountEntryId());
 				name = accountEntry.getName();
-				parentAccountId = accountEntry.getParentAccountEntryId();
+				parentAccountId = String.valueOf(
+					accountEntry.getParentAccountEntryId());
 				status = accountEntry.getStatus();
 			}
 		};
