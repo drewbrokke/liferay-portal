@@ -3049,6 +3049,17 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<tag-extension id="view-state" namespace="http://liferay.com/tld/ui/search-container">
+			<extension-element id="cur" xsi:type="java-typeType">int</extension-element>
+			<extension-element id="delta" xsi:type="java-typeType">int</extension-element>
+			<extension-element id="displayStyle" xsi:type="java-typeType">java.lang.String</extension-element>
+			<extension-element id="end" xsi:type="java-typeType">int</extension-element>
+			<extension-element id="keywords" xsi:type="java-typeType">java.lang.String</extension-element>
+			<extension-element id="orderByCol" xsi:type="java-typeType">java.lang.String</extension-element>
+			<extension-element id="orderByType" xsi:type="java-typeType">java.lang.String</extension-element>
+			<extension-element id="resetCur" xsi:type="java-typeType">boolean</extension-element>
+			<extension-element id="start" xsi:type="java-typeType">int</extension-element>
+		</tag-extension>
 	</tag>
 	<tag>
 		<description>Creates a date column in a search container.</description>
