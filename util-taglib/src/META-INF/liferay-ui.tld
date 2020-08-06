@@ -3,8 +3,9 @@
 <taglib
 	version="2.1"
 	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:viewstate="http://docs.liferay.com/xml/ns/viewstate"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd http://docs.liferay.com/xml/ns/viewstate http://docs.liferay.com/xml/ns/viewstate/viewstate-jsptaglibrary_1_0.xsd"
 >
 	<description>Provides the Liferay UI component tags, prefixed with <![CDATA[<code>liferay-ui:</code>]]>.</description>
 	<tlib-version>1.0</tlib-version>
@@ -3049,16 +3050,34 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		<tag-extension id="view-state" namespace="http://liferay.com/tld/ui/search-container">
-			<extension-element id="cur" xsi:type="java-typeType">int</extension-element>
-			<extension-element id="delta" xsi:type="java-typeType">int</extension-element>
-			<extension-element id="displayStyle" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="end" xsi:type="java-typeType">int</extension-element>
-			<extension-element id="keywords" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="orderByCol" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="orderByType" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="resetCur" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="start" xsi:type="java-typeType">int</extension-element>
+		<tag-extension id="view-state" namespace="http://docs.liferay.com/xml/ns/viewstate">
+			<extension-element id="cur" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>int</viewstate:javaType>
+			</extension-element>
+			<extension-element id="delta" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>int</viewstate:javaType>
+			</extension-element>
+			<extension-element id="displayStyle" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="end" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>int</viewstate:javaType>
+			</extension-element>
+			<extension-element id="keywords" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="orderByCol" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="orderByType" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="resetCur" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="start" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>int</viewstate:javaType>
+			</extension-element>
 		</tag-extension>
 	</tag>
 	<tag>

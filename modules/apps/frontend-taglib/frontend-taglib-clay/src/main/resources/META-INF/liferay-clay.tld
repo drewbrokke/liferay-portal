@@ -3,8 +3,9 @@
 <taglib
 	version="2.1"
 	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:viewstate="http://docs.liferay.com/xml/ns/viewstate"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd http://docs.liferay.com/xml/ns/viewstate http://docs.liferay.com/xml/ns/viewstate/viewstate-jsptaglibrary_1_0.xsd"
 >
 	<tlib-version>1.0</tlib-version>
 	<short-name>liferay-clay</short-name>
@@ -2163,49 +2164,133 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		<tag-extension namespace="http://liferay.com/tld/clay/management-toolbar">
-			<extension-element id="actionDropdownItems" xsi:type="java-typeType">java.util.List&lt;com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem&gt;</extension-element>
-			<extension-element id="addEntryMessage" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="addEntryURL" xsi:type="java-typeType">javax.portlet.RenderURL</extension-element>
-			<extension-element id="clearResultsURL" xsi:type="java-typeType">javax.portlet.RenderURL</extension-element>
-			<extension-element id="componentId" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="contentRenderer" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="creationMenu" xsi:type="java-typeType">com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu</extension-element>
-			<extension-element id="data" xsi:type="java-typeType">java.util.Map&lt;java.lang.String,java.lang.String&gt;</extension-element>
-			<extension-element id="defaultEventHandler" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="disabled" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="displayStyle" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="displayStyleURL" xsi:type="java-typeType">javax.portlet.RenderURL</extension-element>
-			<extension-element id="elementClasses" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="filterDropdownItems" xsi:type="java-typeType">java.util.List&lt;com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem&gt;</extension-element>
-			<extension-element id="filterLabelItems" xsi:type="java-typeType">java.util.List&lt;com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem&gt;</extension-element>
-			<extension-element id="id" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="infoPanelId" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="itemsTotal" xsi:type="java-typeType">int</extension-element>
-			<extension-element id="namespace" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="searchActionURL" xsi:type="java-typeType">javax.portlet.RenderURL</extension-element>
-			<extension-element id="searchContainerId" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="searchFormMethod" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="searchFormName" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="searchInputName" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="searchURL" xsi:type="java-typeType">javax.portlet.RenderURL</extension-element>
-			<extension-element id="searchValue" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="selectable" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="selectedItems" xsi:type="java-typeType">int</extension-element>
-			<extension-element id="sortingOrder" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="sortingURLCurrent" xsi:type="java-typeType">javax.portlet.RenderURL</extension-element>
-			<extension-element id="sortingURLReverse" xsi:type="java-typeType">javax.portlet.RenderURL</extension-element>
-			<extension-element id="showAdvancedSearch" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="showCreationMenu" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="showDisplayStyleCard" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="showDisplayStyleList" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="showDisplayStyleTable" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="showFiltersDoneButton" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="showInfoButton" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="showSearch" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="supportsBulkActions" xsi:type="java-typeType">boolean</extension-element>
-			<extension-element id="spritemap" xsi:type="java-typeType">java.lang.String</extension-element>
-			<extension-element id="viewTypeItems" xsi:type="java-typeType">java.util.List&lt;com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem&gt;</extension-element>
+		<tag-extension namespace="http://docs.liferay.com/xml/ns/viewstate">
+			<extension-element id="actionDropdownItems" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="addEntryMessage" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="addEntryURL" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>javax.portlet.RenderURL</viewstate:javaType>
+			</extension-element>
+			<extension-element id="clearResultsURL" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>javax.portlet.RenderURL</viewstate:javaType>
+			</extension-element>
+			<extension-element id="componentId" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="contentRenderer" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="creationMenu" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu</viewstate:javaType>
+			</extension-element>
+			<extension-element id="data" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.util.Map&lt;java.lang.String,java.lang.String&gt;</viewstate:javaType>
+			</extension-element>
+			<extension-element id="defaultEventHandler" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="disabled" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="displayStyle" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="displayStyleURL" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>javax.portlet.RenderURL</viewstate:javaType>
+			</extension-element>
+			<extension-element id="elementClasses" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="filterDropdownItems" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.util.List&lt;com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem&gt;</viewstate:javaType>
+			</extension-element>
+			<extension-element id="filterLabelItems" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.util.List&lt;com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem&gt;</viewstate:javaType>
+			</extension-element>
+			<extension-element id="id" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="infoPanelId" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="itemsTotal" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>int</viewstate:javaType>
+			</extension-element>
+			<extension-element id="namespace" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="searchActionURL" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>javax.portlet.RenderURL</viewstate:javaType>
+			</extension-element>
+			<extension-element id="searchContainerId" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="searchFormMethod" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="searchFormName" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="searchInputName" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="searchURL" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>javax.portlet.RenderURL</viewstate:javaType>
+			</extension-element>
+			<extension-element id="searchValue" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="selectable" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="selectedItems" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>int</viewstate:javaType>
+			</extension-element>
+			<extension-element id="sortingOrder" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="sortingURLCurrent" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>javax.portlet.RenderURL</viewstate:javaType>
+			</extension-element>
+			<extension-element id="sortingURLReverse" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>javax.portlet.RenderURL</viewstate:javaType>
+			</extension-element>
+			<extension-element id="showAdvancedSearch" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="showCreationMenu" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="showDisplayStyleCard" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="showDisplayStyleList" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="showDisplayStyleTable" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="showFiltersDoneButton" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="showInfoButton" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="showSearch" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="supportsBulkActions" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>boolean</viewstate:javaType>
+			</extension-element>
+			<extension-element id="spritemap" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.lang.String</viewstate:javaType>
+			</extension-element>
+			<extension-element id="viewTypeItems" xsi:type="viewstate:java-typeType">
+				<viewstate:javaType>java.util.List&lt;com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem&gt;</viewstate:javaType>
+			</extension-element>
 		</tag-extension>
 	</tag>
 	<tag>
