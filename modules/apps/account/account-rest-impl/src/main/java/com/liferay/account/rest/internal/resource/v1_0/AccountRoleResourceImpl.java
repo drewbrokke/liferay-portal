@@ -14,12 +14,16 @@
 
 package com.liferay.account.rest.internal.resource.v1_0;
 
+import com.liferay.account.model.AccountEntry;
 import com.liferay.account.rest.dto.v1_0.AccountRole;
 import com.liferay.account.rest.resource.v1_0.AccountRoleResource;
+import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountRoleLocalService;
 import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.comparator.RoleDescriptionComparator;
 import com.liferay.portal.kernel.util.comparator.RoleNameComparator;
@@ -57,10 +61,35 @@ public class AccountRoleResourceImpl
 	}
 
 	@Override
-	public Page<AccountRole> getAccountRolesPage(
-			Long accountId, String keywords, Pagination pagination,
-			Sort[] sorts)
+	public void deleteAccountRoleUserAssociationByExternalReferenceCode(
+			String accountExternalReferenceCode, Long accountRoleId,
+			String accountUserExternalReferenceCode)
 		throws Exception {
+
+		AccountEntry accountEntry = _getAccountEntry(
+			accountExternalReferenceCode);
+
+		User user = _userLocalService.fetchUserByReferenceCode(
+			contextCompany.getCompanyId(), accountUserExternalReferenceCode);
+
+		deleteAccountRoleUserAssociation(
+			accountEntry.getAccountEntryId(), accountRoleId, user.getUserId());
+	}
+
+	@Override
+	public Page<AccountRole> getAccountRolesByExternalReferenceCodePage(
+		String externalReferenceCode, String keywords, Pagination pagination,
+		Sort[] sorts) {
+
+		AccountEntry accountEntry = _getAccountEntry(externalReferenceCode);
+
+		return getAccountRolesPage(
+			accountEntry.getAccountEntryId(), keywords, pagination, sorts);
+	}
+
+	@Override
+	public Page<AccountRole> getAccountRolesPage(
+		Long accountId, String keywords, Pagination pagination, Sort[] sorts) {
 
 		BaseModelSearchResult<com.liferay.account.model.AccountRole>
 			baseModelSearchResult = _accountRoleLocalService.searchAccountRoles(
@@ -74,9 +103,7 @@ public class AccountRoleResourceImpl
 	}
 
 	@Override
-	public EntityModel getEntityModel(MultivaluedMap multivaluedMap)
-		throws Exception {
-
+	public EntityModel getEntityModel(MultivaluedMap multivaluedMap) {
 		return _entityModel;
 	}
 
@@ -96,12 +123,43 @@ public class AccountRoleResourceImpl
 	}
 
 	@Override
+	public AccountRole postAccountRoleByExternalReferenceCode(
+			String externalReferenceCode, AccountRole accountRole)
+		throws Exception {
+
+		AccountEntry accountEntry = _getAccountEntry(externalReferenceCode);
+
+		return postAccountRole(accountEntry.getAccountEntryId(), accountRole);
+	}
+
+	@Override
 	public void postAccountRoleUserAssociation(
 			Long accountId, Long accountRoleId, Long accountUserId)
 		throws Exception {
 
 		_accountRoleLocalService.associateUser(
 			accountId, accountRoleId, accountUserId);
+	}
+
+	@Override
+	public void postAccountRoleUserAssociationByExternalReferenceCode(
+			String accountExternalReferenceCode, Long accountRoleId,
+			String accountUserExternalReferenceCode)
+		throws Exception {
+
+		AccountEntry accountEntry = _getAccountEntry(
+			accountExternalReferenceCode);
+
+		User user = _userLocalService.fetchUserByReferenceCode(
+			contextCompany.getCompanyId(), accountUserExternalReferenceCode);
+
+		postAccountRoleUserAssociation(
+			accountEntry.getAccountEntryId(), accountRoleId, user.getUserId());
+	}
+
+	private AccountEntry _getAccountEntry(String externalReferenceCode) {
+		return _accountEntryLocalService.fetchAccountEntryByReferenceCode(
+			contextCompany.getCompanyId(), externalReferenceCode);
 	}
 
 	private OrderByComparator<?> _getOrderByComparator(Sort[] sorts) {
@@ -145,8 +203,14 @@ public class AccountRoleResourceImpl
 		new RoleNameComparator();
 
 	@Reference
+	private AccountEntryLocalService _accountEntryLocalService;
+
+	@Reference
 	private AccountRoleLocalService _accountRoleLocalService;
 
 	private final EntityModel _entityModel = Collections::emptyMap;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }
