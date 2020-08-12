@@ -88,7 +88,6 @@ public class AccountRoleResourceTest extends BaseAccountRoleResourceTestCase {
 		_accountUserResource.setContextUser(companyAdminUser);
 
 		_account = _accountResource.postAccount(_randomAccount());
-		_irrelevantAccount = _accountResource.postAccount(_randomAccount());
 	}
 
 	@After
@@ -178,10 +177,7 @@ public class AccountRoleResourceTest extends BaseAccountRoleResourceTestCase {
 
 	@Override
 	@Test
-	public void testPostAccountRoleUserAssociationByExternalReferenceCode()
-		throws Exception {
-
-		super.testPostAccountRoleUserAssociationByExternalReferenceCode();
+	public void testPostAccountRoleUserAssociationByExternalReferenceCode() {
 	}
 
 	@Override
@@ -241,14 +237,6 @@ public class AccountRoleResourceTest extends BaseAccountRoleResourceTestCase {
 	}
 
 	@Override
-	protected String
-			testGetAccountRolesByExternalReferenceCodePage_getIrrelevantExternalReferenceCode()
-		throws Exception {
-
-		return _irrelevantAccount.getExternalReferenceCode();
-	}
-
-	@Override
 	protected AccountRole testGetAccountRolesPage_addAccountRole(
 			Long accountId, AccountRole accountRole)
 		throws Exception {
@@ -259,11 +247,6 @@ public class AccountRoleResourceTest extends BaseAccountRoleResourceTestCase {
 	@Override
 	protected Long testGetAccountRolesPage_getAccountId() {
 		return _account.getId();
-	}
-
-	@Override
-	protected Long testGetAccountRolesPage_getIrrelevantAccountId() {
-		return _irrelevantAccount.getId();
 	}
 
 	@Override

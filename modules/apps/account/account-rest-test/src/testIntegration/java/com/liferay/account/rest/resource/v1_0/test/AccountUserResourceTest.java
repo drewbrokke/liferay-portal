@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.Inject;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,12 +45,6 @@ public class AccountUserResourceTest extends BaseAccountUserResourceTestCase {
 		super.setUp();
 
 		_accountEntry = _getAccountEntry();
-		_irrelevantAccountEntry = _getAccountEntry();
-	}
-
-	@After
-	@Override
-	public void tearDown() throws Exception {
 	}
 
 	@Override
@@ -91,18 +84,9 @@ public class AccountUserResourceTest extends BaseAccountUserResourceTestCase {
 
 	@Override
 	protected String
-			testGetAccountUsersByExternalReferenceCodePage_getExternalReferenceCode()
-		throws Exception {
+		testGetAccountUsersByExternalReferenceCodePage_getExternalReferenceCode() {
 
 		return _accountEntry.getExternalReferenceCode();
-	}
-
-	@Override
-	protected String
-			testGetAccountUsersByExternalReferenceCodePage_getIrrelevantExternalReferenceCode()
-		throws Exception {
-
-		return _irrelevantAccountEntry.getExternalReferenceCode();
 	}
 
 	@Override
@@ -116,11 +100,6 @@ public class AccountUserResourceTest extends BaseAccountUserResourceTestCase {
 	@Override
 	protected Long testGetAccountUsersPage_getAccountId() {
 		return _getAccountEntryId();
-	}
-
-	@Override
-	protected Long testGetAccountUsersPage_getIrrelevantAccountId() {
-		return _getIrrelevantAccountEntryId();
 	}
 
 	@Override
@@ -155,29 +134,28 @@ public class AccountUserResourceTest extends BaseAccountUserResourceTestCase {
 	}
 
 	private AccountEntry _getAccountEntry() throws Exception {
-		return _accountEntryLocalService.addAccountEntry(
+		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
 			TestPropsValues.getUserId(),
 			AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
 			RandomTestUtil.randomString(20), RandomTestUtil.randomString(20),
 			null, null, null, AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
 			WorkflowConstants.STATUS_APPROVED,
 			ServiceContextTestUtil.getServiceContext());
+
+		accountEntry.setExternalReferenceCode(RandomTestUtil.randomString());
+		_accountEntryLocalService.updateAccountEntry(accountEntry);
+
+		return accountEntry;
 	}
 
 	private Long _getAccountEntryId() {
 		return _accountEntry.getAccountEntryId();
 	}
 
-	private Long _getIrrelevantAccountEntryId() {
-		return _irrelevantAccountEntry.getAccountEntryId();
-	}
-
 	private AccountEntry _accountEntry;
 
 	@Inject
 	private AccountEntryLocalService _accountEntryLocalService;
-
-	private AccountEntry _irrelevantAccountEntry;
 
 	@Inject
 	private UserLocalService _userLocalService;
