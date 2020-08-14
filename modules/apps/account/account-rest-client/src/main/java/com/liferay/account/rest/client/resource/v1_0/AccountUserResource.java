@@ -212,7 +212,7 @@ public interface AccountUserResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
-						"/o/account-rest/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-users",
+						"/o/account-rest/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-users",
 				externalReferenceCode);
 
 			httpInvoker.userNameAndPassword(
@@ -280,7 +280,7 @@ public interface AccountUserResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
-						"/o/account-rest/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-users",
+						"/o/account-rest/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-users",
 				externalReferenceCode);
 
 			httpInvoker.userNameAndPassword(
