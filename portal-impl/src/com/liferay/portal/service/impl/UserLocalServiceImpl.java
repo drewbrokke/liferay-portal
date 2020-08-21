@@ -5975,14 +5975,17 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		Map<String, Serializable> attributes = new HashMap<>();
 
 		if (params != null) {
+			for (String key : params.keySet()) {
+				try {
+					attributes.put(key, (Serializable)params.get(key));
+				}
+				catch (Exception exception) {
+					_log.error(exception, exception);
+				}
+			}
+
 			attributes.put(
 				Field.GROUP_ID, (Long)params.getOrDefault(Field.GROUP_ID, 0L));
-
-			if (params.containsKey("accountEntryIds")) {
-				attributes.put(
-					"accountEntryIds",
-					GetterUtil.getLongValues(params.get("accountEntryIds")));
-			}
 		}
 
 		attributes.put("city", city);
