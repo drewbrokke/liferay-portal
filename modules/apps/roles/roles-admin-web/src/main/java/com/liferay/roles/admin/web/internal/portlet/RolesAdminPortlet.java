@@ -14,6 +14,7 @@
 
 package com.liferay.roles.admin.web.internal.portlet;
 
+import com.liferay.account.constants.AccountPanelCategoryKeys;
 import com.liferay.application.list.PanelAppRegistry;
 import com.liferay.application.list.PanelCategoryRegistry;
 import com.liferay.application.list.constants.ApplicationListWebKeys;
@@ -81,9 +82,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -638,6 +641,24 @@ public class RolesAdminPortlet extends MVCPortlet {
 		portletRequest.setAttribute(
 			RolesAdminWebKeys.ROLE_TYPES,
 			_roleTypeContributorProvider.getRoleTypeContributors());
+
+		String mvcPath = ParamUtil.getString(portletRequest, "mvcPath");
+
+		if (mvcPath.equals("/edit_role_permissions.jsp")) {
+			Set<String> controlPanelCategoryKeys = new HashSet<>();
+
+			if ((type == RoleConstants.TYPE_ACCOUNT) ||
+				(type == RoleConstants.TYPE_ORGANIZATION)) {
+
+				controlPanelCategoryKeys.add(
+					AccountPanelCategoryKeys.
+						CONTROL_PANEL_ACCOUNT_ENTRIES_ADMIN);
+			}
+
+			portletRequest.setAttribute(
+				RolesAdminWebKeys.PANEL_CATEGORY_KEYS,
+				controlPanelCategoryKeys.toArray(new String[0]));
+		}
 	}
 
 	@Reference(unbind = "-")
