@@ -73,7 +73,7 @@ import com.liferay.roles.admin.constants.RolesAdminPortletKeys;
 import com.liferay.roles.admin.constants.RolesAdminWebKeys;
 import com.liferay.roles.admin.role.type.contributor.RoleTypeContributor;
 import com.liferay.roles.admin.role.type.contributor.provider.RoleTypeContributorProvider;
-import com.liferay.roles.admin.web.internal.util.PanelCategoryPermissionMapper;
+import com.liferay.roles.admin.role.type.mapper.PanelCategoryRoleTypeMapper;
 import com.liferay.segments.service.SegmentsEntryRoleLocalService;
 
 import java.io.IOException;
@@ -531,7 +531,7 @@ public class RolesAdminPortlet extends MVCPortlet {
 
 		_panelCategoryPermissionMapperServiceTrackerList =
 			ServiceTrackerListFactory.open(
-				bundleContext, PanelCategoryPermissionMapper.class);
+				bundleContext, PanelCategoryRoleTypeMapper.class);
 	}
 
 	@Deactivate
@@ -816,14 +816,14 @@ public class RolesAdminPortlet extends MVCPortlet {
 	private String[] _getPanelCategoryKeys(int type) {
 		Set<String> panelCategoryKeys = new HashSet<>();
 
-		for (PanelCategoryPermissionMapper panelCategoryPermissionMapper :
+		for (PanelCategoryRoleTypeMapper panelCategoryRoleTypeMapper :
 				_panelCategoryPermissionMapperServiceTrackerList) {
 
 			if (ArrayUtil.contains(
-					panelCategoryPermissionMapper.getRoleTypes(), type)) {
+					panelCategoryRoleTypeMapper.getRoleTypes(), type)) {
 
 				panelCategoryKeys.add(
-					panelCategoryPermissionMapper.getPanelCategoryKey());
+					panelCategoryRoleTypeMapper.getPanelCategoryKey());
 			}
 		}
 
@@ -858,7 +858,7 @@ public class RolesAdminPortlet extends MVCPortlet {
 
 	private PanelAppRegistry _panelAppRegistry;
 	private ServiceTrackerList
-		<PanelCategoryPermissionMapper, PanelCategoryPermissionMapper>
+		<PanelCategoryRoleTypeMapper, PanelCategoryRoleTypeMapper>
 			_panelCategoryPermissionMapperServiceTrackerList;
 	private PanelCategoryRegistry _panelCategoryRegistry;
 	private ServiceTrackerList<PersonalMenuEntry, PersonalMenuEntry>
