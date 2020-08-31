@@ -14,30 +14,28 @@
 
 package com.liferay.roles.admin.web.internal.util;
 
+import com.liferay.account.constants.AccountPanelCategoryKeys;
+import com.liferay.portal.kernel.model.role.RoleConstants;
+
+import org.osgi.service.component.annotations.Component;
+
 /**
  * @author Drew Brokke
  */
-public class PanelCategoryPermissionMapperImpl
+@Component(service = PanelCategoryPermissionMapper.class)
+public class AccountPanelCategoryPermissionMapper
 	implements PanelCategoryPermissionMapper {
-
-	public PanelCategoryPermissionMapperImpl(
-		String panelCategoryKey, int[] roleTypes) {
-
-		_panelCategoryKey = panelCategoryKey;
-		_roleTypes = roleTypes;
-	}
 
 	@Override
 	public String getPanelCategoryKey() {
-		return _panelCategoryKey;
+		return AccountPanelCategoryKeys.CONTROL_PANEL_ACCOUNT_ENTRIES_ADMIN;
 	}
 
 	@Override
 	public int[] getRoleTypes() {
-		return _roleTypes;
+		return new int[] {
+			RoleConstants.TYPE_ACCOUNT, RoleConstants.TYPE_ORGANIZATION
+		};
 	}
-
-	private final String _panelCategoryKey;
-	private final int[] _roleTypes;
 
 }

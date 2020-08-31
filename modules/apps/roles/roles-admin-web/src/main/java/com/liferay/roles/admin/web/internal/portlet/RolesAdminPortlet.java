@@ -14,7 +14,6 @@
 
 package com.liferay.roles.admin.web.internal.portlet;
 
-import com.liferay.account.constants.AccountPanelCategoryKeys;
 import com.liferay.application.list.PanelAppRegistry;
 import com.liferay.application.list.PanelCategoryRegistry;
 import com.liferay.application.list.constants.ApplicationListWebKeys;
@@ -75,7 +74,6 @@ import com.liferay.roles.admin.constants.RolesAdminWebKeys;
 import com.liferay.roles.admin.role.type.contributor.RoleTypeContributor;
 import com.liferay.roles.admin.role.type.contributor.provider.RoleTypeContributorProvider;
 import com.liferay.roles.admin.web.internal.util.PanelCategoryPermissionMapper;
-import com.liferay.roles.admin.web.internal.util.PanelCategoryPermissionMapperImpl;
 import com.liferay.segments.service.SegmentsEntryRoleLocalService;
 
 import java.io.IOException;
@@ -356,9 +354,11 @@ public class RolesAdminPortlet extends MVCPortlet {
 
 	public List<PersonalMenuEntry> getPersonalMenuEntries() {
 		List<PersonalMenuEntry> personalMenuEntries = new ArrayList<>(
-			_serviceTrackerList.size());
+			_personalMenuEntryServiceTrackerList.size());
 
-		for (PersonalMenuEntry personalMenuEntry : _serviceTrackerList) {
+		for (PersonalMenuEntry personalMenuEntry :
+				_personalMenuEntryServiceTrackerList) {
+
 			personalMenuEntries.add(personalMenuEntry);
 		}
 
@@ -524,15 +524,20 @@ public class RolesAdminPortlet extends MVCPortlet {
 			new PropertyServiceReferenceComparator<>(
 				"product.navigation.personal.menu.entry.order");
 
-		_serviceTrackerList = ServiceTrackerListFactory.open(
+		_personalMenuEntryServiceTrackerList = ServiceTrackerListFactory.open(
 			bundleContext, PersonalMenuEntry.class,
 			Collections.reverseOrder(
 				groupComparator.thenComparing(entryOrderComparator)));
+
+		_panelCategoryPermissionMapperServiceTrackerList =
+			ServiceTrackerListFactory.open(
+				bundleContext, PanelCategoryPermissionMapper.class);
 	}
 
 	@Deactivate
 	protected void deactivate() {
-		_serviceTrackerList.close();
+		_personalMenuEntryServiceTrackerList.close();
+		_panelCategoryPermissionMapperServiceTrackerList.close();
 	}
 
 	@Override
@@ -647,22 +652,9 @@ public class RolesAdminPortlet extends MVCPortlet {
 		String mvcPath = ParamUtil.getString(portletRequest, "mvcPath");
 
 		if (mvcPath.equals("/edit_role_permissions.jsp")) {
-			Set<String> panelCategoryKeys = new HashSet<>();
-
-			for (PanelCategoryPermissionMapper panelCategoryPermissionMapper :
-					_getPanelCategoryPermissionMappers()) {
-
-				if (ArrayUtil.contains(
-						panelCategoryPermissionMapper.getRoleTypes(), type)) {
-
-					panelCategoryKeys.add(
-						panelCategoryPermissionMapper.getPanelCategoryKey());
-				}
-			}
-
 			portletRequest.setAttribute(
 				RolesAdminWebKeys.PANEL_CATEGORY_KEYS,
-				panelCategoryKeys.toArray(new String[0]));
+				_getPanelCategoryKeys(type));
 		}
 	}
 
@@ -821,16 +813,21 @@ public class RolesAdminPortlet extends MVCPortlet {
 		}
 	}
 
-	private PanelCategoryPermissionMapper[]
-		_getPanelCategoryPermissionMappers() {
+	private String[] _getPanelCategoryKeys(int type) {
+		Set<String> panelCategoryKeys = new HashSet<>();
 
-		return new PanelCategoryPermissionMapper[] {
-			new PanelCategoryPermissionMapperImpl(
-				AccountPanelCategoryKeys.CONTROL_PANEL_ACCOUNT_ENTRIES_ADMIN,
-				new int[] {
-					RoleConstants.TYPE_ACCOUNT, RoleConstants.TYPE_ORGANIZATION
-				})
-		};
+		for (PanelCategoryPermissionMapper panelCategoryPermissionMapper :
+				_panelCategoryPermissionMapperServiceTrackerList) {
+
+			if (ArrayUtil.contains(
+					panelCategoryPermissionMapper.getRoleTypes(), type)) {
+
+				panelCategoryKeys.add(
+					panelCategoryPermissionMapper.getPanelCategoryKey());
+			}
+		}
+
+		return panelCategoryKeys.toArray(new String[0]);
 	}
 
 	private boolean _isDepotGroup(long companyId, String groupKey) {
@@ -860,7 +857,12 @@ public class RolesAdminPortlet extends MVCPortlet {
 	private ItemSelector _itemSelector;
 
 	private PanelAppRegistry _panelAppRegistry;
+	private ServiceTrackerList
+		<PanelCategoryPermissionMapper, PanelCategoryPermissionMapper>
+			_panelCategoryPermissionMapperServiceTrackerList;
 	private PanelCategoryRegistry _panelCategoryRegistry;
+	private ServiceTrackerList<PersonalMenuEntry, PersonalMenuEntry>
+		_personalMenuEntryServiceTrackerList;
 
 	@Reference
 	private Portal _portal;
@@ -878,8 +880,6 @@ public class RolesAdminPortlet extends MVCPortlet {
 	@Reference
 	private SegmentsEntryRoleLocalService _segmentsEntryRoleLocalService;
 
-	private ServiceTrackerList<PersonalMenuEntry, PersonalMenuEntry>
-		_serviceTrackerList;
 	private UserService _userService;
 
 }
