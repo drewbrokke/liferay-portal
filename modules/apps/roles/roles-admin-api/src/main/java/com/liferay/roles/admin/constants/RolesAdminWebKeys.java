@@ -25,6 +25,8 @@ public class RolesAdminWebKeys {
 
 	public static final String MODAL_SEGMENT_STATE = "MODAL_SEGMENT_STATE";
 
+	public static final String PANEL_CATEGORY_KEYS = "PANEL_CATEGORY_KEYS";
+
 	public static final String ROLE_TYPE_CONTRIBUTOR_PROVIDER =
 		"ROLE_TYPE_CONTRIBUTOR_PROVIDER";
 
