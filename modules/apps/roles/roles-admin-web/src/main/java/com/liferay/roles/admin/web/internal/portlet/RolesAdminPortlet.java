@@ -74,6 +74,8 @@ import com.liferay.roles.admin.constants.RolesAdminPortletKeys;
 import com.liferay.roles.admin.constants.RolesAdminWebKeys;
 import com.liferay.roles.admin.role.type.contributor.RoleTypeContributor;
 import com.liferay.roles.admin.role.type.contributor.provider.RoleTypeContributorProvider;
+import com.liferay.roles.admin.web.internal.util.PanelCategoryPermissionMapper;
+import com.liferay.roles.admin.web.internal.util.PanelCategoryPermissionMapperImpl;
 import com.liferay.segments.service.SegmentsEntryRoleLocalService;
 
 import java.io.IOException;
@@ -645,19 +647,22 @@ public class RolesAdminPortlet extends MVCPortlet {
 		String mvcPath = ParamUtil.getString(portletRequest, "mvcPath");
 
 		if (mvcPath.equals("/edit_role_permissions.jsp")) {
-			Set<String> controlPanelCategoryKeys = new HashSet<>();
+			Set<String> panelCategoryKeys = new HashSet<>();
 
-			if ((type == RoleConstants.TYPE_ACCOUNT) ||
-				(type == RoleConstants.TYPE_ORGANIZATION)) {
+			for (PanelCategoryPermissionMapper panelCategoryPermissionMapper :
+					_getPanelCategoryPermissionMappers()) {
 
-				controlPanelCategoryKeys.add(
-					AccountPanelCategoryKeys.
-						CONTROL_PANEL_ACCOUNT_ENTRIES_ADMIN);
+				if (ArrayUtil.contains(
+						panelCategoryPermissionMapper.getRoleTypes(), type)) {
+
+					panelCategoryKeys.add(
+						panelCategoryPermissionMapper.getPanelCategoryKey());
+				}
 			}
 
 			portletRequest.setAttribute(
 				RolesAdminWebKeys.PANEL_CATEGORY_KEYS,
-				controlPanelCategoryKeys.toArray(new String[0]));
+				panelCategoryKeys.toArray(new String[0]));
 		}
 	}
 
@@ -814,6 +819,18 @@ public class RolesAdminPortlet extends MVCPortlet {
 					scope, groupIds);
 			}
 		}
+	}
+
+	private PanelCategoryPermissionMapper[]
+		_getPanelCategoryPermissionMappers() {
+
+		return new PanelCategoryPermissionMapper[] {
+			new PanelCategoryPermissionMapperImpl(
+				AccountPanelCategoryKeys.CONTROL_PANEL_ACCOUNT_ENTRIES_ADMIN,
+				new int[] {
+					RoleConstants.TYPE_ACCOUNT, RoleConstants.TYPE_ORGANIZATION
+				})
+		};
 	}
 
 	private boolean _isDepotGroup(long companyId, String groupKey) {
