@@ -197,12 +197,12 @@ else {
 						for (String question : PropsValues.USERS_REMINDER_QUERIES_QUESTIONS) {
 						%>
 
-							if (
-								reminderQueryCustomQuestionInput.value ===
-								'<%= UnicodeFormatter.toString(question) %>'
-							) {
-								reminderQueryCustomQuestionInput.value = '';
-							}
+								if (
+									reminderQueryCustomQuestionInput.value ===
+									'<%= UnicodeFormatter.toString(question) %>'
+								) {
+									reminderQueryCustomQuestionInput.value = '';
+								}
 
 						<%
 						}
