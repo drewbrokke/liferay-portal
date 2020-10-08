@@ -3540,32 +3540,20 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		Map<Long, Integer> counts = new HashMap<>();
 
 		try {
-			Set<Serializable> groupIdSet = new HashSet<>();
+			groupIds = ArrayUtil.sortedUnique(groupIds);
 
-			for (long groupId : groupIds) {
-				groupIdSet.add(groupId);
-			}
+			int limit = 999;
+			int pos = 0;
 
-			Map<Serializable, Group> groups =
-				groupPersistence.fetchByPrimaryKeys(groupIdSet);
+			while (pos < groupIds.length) {
+				counts.putAll(
+					userFinder.countByGroups(
+						companyId, status,
+						ArrayUtil.subset(
+							groupIds, pos,
+							Math.min(pos + limit, groupIds.length))));
 
-			for (Group group : groups.values()) {
-				int count = 0;
-
-				if (group.isOrganization()) {
-					count = getOrganizationUsersCount(
-						group.getOrganizationId(), status);
-				}
-				else if (group.isUserGroup()) {
-					count = getUserGroupUsersCount(group.getClassPK(), status);
-				}
-				else {
-					count = getGroupUsersCount(group.getGroupId(), status);
-				}
-
-				if (count > 0) {
-					counts.put(group.getGroupId(), count);
-				}
+				pos += limit;
 			}
 		}
 		catch (Exception exception) {
