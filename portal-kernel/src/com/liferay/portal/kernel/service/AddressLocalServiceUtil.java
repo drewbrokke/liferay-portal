@@ -235,16 +235,31 @@ public class AddressLocalServiceUtil {
 	}
 
 	/**
-	 * Returns the address with the matching UUID and company.
+	 * Returns the address with the matching external reference code and company.
 	 *
-	 * @param uuid the address's UUID
 	 * @param companyId the primary key of the company
+	 * @param externalReferenceCode the address's external reference code
 	 * @return the matching address, or <code>null</code> if a matching address could not be found
 	 */
 	public static com.liferay.portal.kernel.model.Address
-		fetchAddressByUuidAndCompanyId(String uuid, long companyId) {
+		fetchAddressByReferenceCode(
+			long companyId, String externalReferenceCode) {
 
-		return getService().fetchAddressByUuidAndCompanyId(uuid, companyId);
+		return getService().fetchAddressByReferenceCode(
+			companyId, externalReferenceCode);
+	}
+
+	/**
+	 * Returns the address matching the UUID and group.
+	 *
+	 * @param uuid the address's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching address, or <code>null</code> if a matching address could not be found
+	 */
+	public static com.liferay.portal.kernel.model.Address
+		fetchAddressByUuidAndGroupId(String uuid, long groupId) {
+
+		return getService().fetchAddressByUuidAndGroupId(uuid, groupId);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
@@ -268,18 +283,18 @@ public class AddressLocalServiceUtil {
 	}
 
 	/**
-	 * Returns the address with the matching UUID and company.
+	 * Returns the address matching the UUID and group.
 	 *
 	 * @param uuid the address's UUID
-	 * @param companyId the primary key of the company
+	 * @param groupId the primary key of the group
 	 * @return the matching address
 	 * @throws PortalException if a matching address could not be found
 	 */
 	public static com.liferay.portal.kernel.model.Address
-			getAddressByUuidAndCompanyId(String uuid, long companyId)
+			getAddressByUuidAndGroupId(String uuid, long groupId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().getAddressByUuidAndCompanyId(uuid, companyId);
+		return getService().getAddressByUuidAndGroupId(uuid, groupId);
 	}
 
 	public static java.util.List<com.liferay.portal.kernel.model.Address>
@@ -309,6 +324,39 @@ public class AddressLocalServiceUtil {
 		getAddresses(long companyId, String className, long classPK) {
 
 		return getService().getAddresses(companyId, className, classPK);
+	}
+
+	/**
+	 * Returns all the addresses matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the addresses
+	 * @param companyId the primary key of the company
+	 * @return the matching addresses, or an empty list if no matches were found
+	 */
+	public static java.util.List<com.liferay.portal.kernel.model.Address>
+		getAddressesByUuidAndCompanyId(String uuid, long companyId) {
+
+		return getService().getAddressesByUuidAndCompanyId(uuid, companyId);
+	}
+
+	/**
+	 * Returns a range of addresses matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the addresses
+	 * @param companyId the primary key of the company
+	 * @param start the lower bound of the range of addresses
+	 * @param end the upper bound of the range of addresses (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the range of matching addresses, or an empty list if no matches were found
+	 */
+	public static java.util.List<com.liferay.portal.kernel.model.Address>
+		getAddressesByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.Address> orderByComparator) {
+
+		return getService().getAddressesByUuidAndCompanyId(
+			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**
