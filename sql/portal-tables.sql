@@ -21,7 +21,9 @@ create table Account_ (
 create table Address (
 	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
+	externalReferenceCode VARCHAR(75) null,
 	addressId LONG not null primary key,
+	groupId LONG,
 	companyId LONG,
 	userId LONG,
 	userName VARCHAR(75) null,
@@ -29,6 +31,8 @@ create table Address (
 	modifiedDate DATE null,
 	classNameId LONG,
 	classPK LONG,
+	name VARCHAR(75) null,
+	description VARCHAR(75) null,
 	street1 VARCHAR(75) null,
 	street2 VARCHAR(75) null,
 	street3 VARCHAR(75) null,
@@ -36,6 +40,8 @@ create table Address (
 	zip VARCHAR(75) null,
 	regionId LONG,
 	countryId LONG,
+	latitude DOUBLE,
+	longitude DOUBLE,
 	typeId LONG,
 	mailing BOOLEAN,
 	primary_ BOOLEAN
