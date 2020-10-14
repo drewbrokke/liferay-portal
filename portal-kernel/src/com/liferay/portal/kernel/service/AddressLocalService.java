@@ -223,6 +223,16 @@ public interface AddressLocalService
 		long companyId, String externalReferenceCode);
 
 	/**
+	 * Returns the address with the matching UUID and company.
+	 *
+	 * @param uuid the address's UUID
+	 * @param companyId the primary key of the company
+	 * @return the matching address, or <code>null</code> if a matching address could not be found
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Address fetchAddressByUuidAndCompanyId(String uuid, long companyId);
+
+	/**
 	 * Returns the address matching the UUID and group.
 	 *
 	 * @param uuid the address's UUID
@@ -244,6 +254,18 @@ public interface AddressLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Address getAddress(long addressId) throws PortalException;
+
+	/**
+	 * Returns the address with the matching UUID and company.
+	 *
+	 * @param uuid the address's UUID
+	 * @param companyId the primary key of the company
+	 * @return the matching address
+	 * @throws PortalException if a matching address could not be found
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Address getAddressByUuidAndCompanyId(String uuid, long companyId)
+		throws PortalException;
 
 	/**
 	 * Returns the address matching the UUID and group.
