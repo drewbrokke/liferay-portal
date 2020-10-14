@@ -253,6 +253,21 @@ public class AddressLocalServiceWrapper
 	}
 
 	/**
+	 * Returns the address with the matching UUID and company.
+	 *
+	 * @param uuid the address's UUID
+	 * @param companyId the primary key of the company
+	 * @return the matching address, or <code>null</code> if a matching address could not be found
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.Address
+		fetchAddressByUuidAndCompanyId(java.lang.String uuid, long companyId) {
+
+		return _addressLocalService.fetchAddressByUuidAndCompanyId(
+			uuid, companyId);
+	}
+
+	/**
 	 * Returns the address matching the UUID and group.
 	 *
 	 * @param uuid the address's UUID
@@ -285,6 +300,23 @@ public class AddressLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _addressLocalService.getAddress(addressId);
+	}
+
+	/**
+	 * Returns the address with the matching UUID and company.
+	 *
+	 * @param uuid the address's UUID
+	 * @param companyId the primary key of the company
+	 * @return the matching address
+	 * @throws PortalException if a matching address could not be found
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.Address getAddressByUuidAndCompanyId(
+			java.lang.String uuid, long companyId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _addressLocalService.getAddressByUuidAndCompanyId(
+			uuid, companyId);
 	}
 
 	/**
