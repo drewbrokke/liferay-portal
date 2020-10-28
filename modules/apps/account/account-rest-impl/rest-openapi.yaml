@@ -502,6 +502,28 @@ paths:
                     description:
                         ""
             tags: ["AccountUser"]
+    "/accounts/by-external-reference-code/{externalReferenceCode}/parent-account-link{parentAccountExternalReferenceCode}":
+        post:
+            operationId: postParentAccountLinkByExternalReferenceCode
+            parameters:
+                - in: path
+                  name: externalReferenceCode
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: parentAccountExternalReferenceCode
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+                    description:
+                        ""
+            tags: [ "Account" ]
     "/accounts/{accountId}":
         delete:
             # @review
