@@ -306,6 +306,36 @@ public abstract class BaseAccountResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/account-rest/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/parent-account-link{parentAccountExternalReferenceCode}'  -u 'test@liferay.com:test'
+	 */
+	@Override
+	@POST
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "externalReferenceCode"),
+			@Parameter(
+				in = ParameterIn.PATH,
+				name = "parentAccountExternalReferenceCode"
+			)
+		}
+	)
+	@Path(
+		"/accounts/by-external-reference-code/{externalReferenceCode}/parent-account-link{parentAccountExternalReferenceCode}"
+	)
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Account")})
+	public void postParentAccountLinkByExternalReferenceCode(
+			@NotNull @Parameter(hidden = true)
+			@PathParam("externalReferenceCode") String externalReferenceCode,
+			@NotNull @Parameter(hidden = true)
+			@PathParam("parentAccountExternalReferenceCode") String
+				parentAccountExternalReferenceCode)
+		throws Exception {
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/account-rest/v1.0/accounts/{accountId}'  -u 'test@liferay.com:test'
 	 */
 	@Override

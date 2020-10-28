@@ -655,6 +655,35 @@ public abstract class BaseAccountResourceTestCase {
 	}
 
 	@Test
+	public void testPostParentAccountLinkByExternalReferenceCode()
+		throws Exception {
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Account account =
+			testPostParentAccountLinkByExternalReferenceCode_addAccount();
+
+		assertHttpResponseStatusCode(
+			204,
+			accountResource.
+				postParentAccountLinkByExternalReferenceCodeHttpResponse(
+					account.getExternalReferenceCode(), null));
+
+		assertHttpResponseStatusCode(
+			404,
+			accountResource.
+				postParentAccountLinkByExternalReferenceCodeHttpResponse(
+					account.getExternalReferenceCode(), null));
+	}
+
+	protected Account
+			testPostParentAccountLinkByExternalReferenceCode_addAccount()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
 	public void testDeleteAccount() throws Exception {
 		@SuppressWarnings("PMD.UnusedLocalVariable")
 		Account account = testDeleteAccount_addAccount();
