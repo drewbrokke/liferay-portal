@@ -120,7 +120,18 @@ public class AccountResourceImpl
 
 	@Override
 	public Account postAccount(Account account) throws Exception {
-		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
+		AccountEntry accountEntry =
+			_accountEntryLocalService.fetchAccountEntryByReferenceCode(
+				contextCompany.getCompanyId(),
+				account.getExternalReferenceCode());
+
+		if (accountEntry != null) {
+			throw new Exception(
+				"An account with reference code " +
+					account.getExternalReferenceCode() + " already exists.");
+		}
+
+		accountEntry = _accountEntryLocalService.addAccountEntry(
 			contextUser.getUserId(), _getParentAccountId(account),
 			account.getName(), account.getDescription(), _getDomains(account),
 			null, null, AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
