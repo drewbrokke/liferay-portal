@@ -76,6 +76,11 @@ public interface AccountResource {
 			String externalReferenceCode, Account account)
 		throws Exception;
 
+	public void postParentAccountLinkByExternalReferenceCode(
+			String externalReferenceCode,
+			String parentAccountExternalReferenceCode)
+		throws Exception;
+
 	public void deleteAccount(Long accountId) throws Exception;
 
 	public Response deleteAccountBatch(String callbackURL, Object object)

@@ -142,6 +142,23 @@ public class Mutation {
 					externalReferenceCode, account));
 	}
 
+	@GraphQLField
+	public boolean createParentAccountLinkByExternalReferenceCode(
+			@GraphQLName("externalReferenceCode") String externalReferenceCode,
+			@GraphQLName("parentAccountExternalReferenceCode") String
+				parentAccountExternalReferenceCode)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_accountResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			accountResource ->
+				accountResource.postParentAccountLinkByExternalReferenceCode(
+					externalReferenceCode, parentAccountExternalReferenceCode));
+
+		return true;
+	}
+
 	@GraphQLField(description = "Deletes an account.")
 	public boolean deleteAccount(@GraphQLName("accountId") Long accountId)
 		throws Exception {
