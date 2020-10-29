@@ -153,6 +153,23 @@ public class AccountResourceImpl
 	}
 
 	@Override
+	public void postParentAccountLinkByExternalReferenceCode(
+			String externalReferenceCode,
+			String parentAccountExternalReferenceCode)
+		throws Exception {
+
+		Account account = getAccount(
+			_accountResourceDTOConverter.getAccountEntryId(
+				externalReferenceCode));
+
+		account.setParentAccountId(
+			_accountResourceDTOConverter.getAccountEntryId(
+				parentAccountExternalReferenceCode));
+
+		patchAccount(account.getId(), account);
+	}
+
+	@Override
 	public Account putAccount(Long accountId, Account account)
 		throws Exception {
 
