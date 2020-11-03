@@ -35,6 +35,8 @@ public class PortalUpgradeProcessRegistryImpl
 		upgradeProcesses.put(new Version(9, 0, 1), new UpgradeModules());
 
 		upgradeProcesses.put(new Version(9, 1, 1), new UpgradeCountry());
+
+		upgradeProcesses.put(new Version(9, 2, 0), new UpgradeRegion());
 	}
 
 }
