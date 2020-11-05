@@ -40,6 +40,7 @@ import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -149,6 +150,19 @@ public class AddressLocalServiceTest {
 				new long[] {
 					businessType.getListTypeId(), personalType.getListTypeId()
 				}));
+		_assertSearchAddress(
+			Collections.emptyList(), null,
+			_getLinkedHashMap(
+				"typeNames", new String[] {RandomTestUtil.randomString()}));
+		_assertSearchAddress(
+			Arrays.asList(businessAddress), null,
+			_getLinkedHashMap(
+				"typeNames", new String[] {businessType.getName()}));
+		_assertSearchAddress(
+			Arrays.asList(businessAddress, personalAddress), null,
+			_getLinkedHashMap(
+				"typeNames",
+				new String[] {businessType.getName(), personalType.getName()}));
 	}
 
 	@Test
