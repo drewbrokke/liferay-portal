@@ -149,6 +149,15 @@ public class AddressLocalServiceTest {
 				new long[] {
 					businessType.getListTypeId(), personalType.getListTypeId()
 				}));
+		_assertSearchAddress(
+			Arrays.asList(businessAddress), null,
+			_getLinkedHashMap(
+				"typeNames", new String[] {businessType.getName()}));
+		_assertSearchAddress(
+			Arrays.asList(businessAddress, personalAddress), null,
+			_getLinkedHashMap(
+				"typeNames",
+				new String[] {businessType.getName(), personalType.getName()}));
 	}
 
 	@Test
