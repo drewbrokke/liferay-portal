@@ -104,94 +104,39 @@ public class FriendlyURLServlet extends HttpServlet {
 			return new Redirect();
 		}
 
-		// Group friendly URL
-
-		String friendlyURL = path;
+		String groupFriendlyURL = path;
 
 		int pos = path.indexOf(CharPool.SLASH, 1);
 
 		if (pos != -1) {
-			friendlyURL = path.substring(0, pos);
+			groupFriendlyURL = path.substring(0, pos);
 		}
 
 		long companyId = PortalInstances.getCompanyId(httpServletRequest);
 
-		Group group = groupLocalService.fetchFriendlyURLGroup(
-			companyId, friendlyURL);
-
-		if (group == null) {
-			String screenName = friendlyURL.substring(1);
-
-			User user = userLocalService.fetchUserByScreenName(
-				companyId, screenName);
-
-			if (user != null) {
-				group = user.getGroup();
-			}
-			else if (_log.isWarnEnabled()) {
-				_log.warn("No user exists with friendly URL " + screenName);
-			}
-		}
-
-		if ((group == null) ||
-			(!group.isActive() &&
-			 !inactiveRequestHandler.isShowInactiveRequestMessage() &&
-			 !path.startsWith(GroupConstants.CONTROL_PANEL_FRIENDLY_URL) &&
-			 !path.startsWith(
-				 friendlyURL +
-					 VirtualLayoutConstants.CANONICAL_URL_SEPARATOR))) {
-
-			StringBundler sb = new StringBundler(5);
-
-			sb.append("{companyId=");
-			sb.append(companyId);
-			sb.append(", friendlyURL=");
-			sb.append(friendlyURL);
-			sb.append("}");
-
-			throw new NoSuchGroupException(sb.toString());
-		}
+		Group group = _getGroup(path, groupFriendlyURL, companyId);
 
 		Locale locale = portal.getLocale(httpServletRequest, null, false);
 
-		SiteFriendlyURL siteFriendlyURL =
-			siteFriendlyURLLocalService.fetchSiteFriendlyURL(
-				companyId, group.getGroupId(), LocaleUtil.toLanguageId(locale));
+		SiteFriendlyURL alternativeSiteFriendlyURL =
+			_getAlternativeSiteFriendlyURL(
+				groupFriendlyURL, companyId, group, locale);
 
-		if (siteFriendlyURL == null) {
-			siteFriendlyURL =
-				siteFriendlyURLLocalService.fetchSiteFriendlyURLByFriendlyURL(
-					companyId, friendlyURL);
-		}
-
-		SiteFriendlyURL alternativeSiteFriendlyURL = null;
-
-		if ((siteFriendlyURL != null) &&
-			!StringUtil.equalsIgnoreCase(
-				siteFriendlyURL.getFriendlyURL(), friendlyURL)) {
-
-			alternativeSiteFriendlyURL =
-				siteFriendlyURLLocalService.fetchSiteFriendlyURLByFriendlyURL(
-					siteFriendlyURL.getCompanyId(), friendlyURL);
-		}
-
-		// Layout friendly URL
-
-		friendlyURL = null;
+		String layoutFriendlyURL = null;
 
 		if ((pos != -1) && ((pos + 1) != path.length())) {
-			friendlyURL = path.substring(pos);
+			layoutFriendlyURL = path.substring(pos);
 
-			if (StringUtil.endsWith(friendlyURL, CharPool.SLASH)) {
-				friendlyURL = friendlyURL.substring(
-					0, friendlyURL.length() - 1);
+			if (StringUtil.endsWith(layoutFriendlyURL, CharPool.SLASH)) {
+				layoutFriendlyURL = layoutFriendlyURL.substring(
+					0, layoutFriendlyURL.length() - 1);
 			}
 
 			if (redirectEntryLocalService != null) {
 				RedirectEntry redirectEntry =
 					redirectEntryLocalService.fetchRedirectEntry(
-						group.getGroupId(), _normalizeFriendlyURL(friendlyURL),
-						true);
+						group.getGroupId(),
+						_normalizeFriendlyURL(layoutFriendlyURL), true);
 
 				if (redirectEntry != null) {
 					return new Redirect(
@@ -225,7 +170,7 @@ public class FriendlyURLServlet extends HttpServlet {
 			LayoutFriendlyURLSeparatorComposite
 				layoutFriendlyURLSeparatorComposite =
 					portal.getLayoutFriendlyURLSeparatorComposite(
-						group.getGroupId(), _private, friendlyURL, params,
+						group.getGroupId(), _private, layoutFriendlyURL, params,
 						requestContext);
 
 			Layout layout = layoutFriendlyURLSeparatorComposite.getLayout();
@@ -284,6 +229,15 @@ public class FriendlyURLServlet extends HttpServlet {
 					String redirect = portal.getLocalizedFriendlyURL(
 						httpServletRequest, layout, locale, originalLocale);
 
+					HttpServletRequest originalHttpServletRequest =
+						portal.getOriginalServletRequest(httpServletRequest);
+
+					if (redirect.equals(
+							originalHttpServletRequest.getRequestURI())) {
+
+						throw new NoSuchLayoutException();
+					}
+
 					boolean forcePermanentRedirect = true;
 
 					if (Validator.isNull(i18nLanguageId)) {
@@ -300,7 +254,7 @@ public class FriendlyURLServlet extends HttpServlet {
 				LayoutConstants.DEFAULT_PARENT_LAYOUT_ID);
 
 			for (Layout layout : layouts) {
-				if (layout.matches(httpServletRequest, friendlyURL)) {
+				if (layout.matches(httpServletRequest, layoutFriendlyURL)) {
 					String redirect = portal.getLayoutActualURL(
 						layout, Portal.PATH_MAIN);
 
@@ -311,7 +265,7 @@ public class FriendlyURLServlet extends HttpServlet {
 			if (redirectNotFoundEntryLocalService != null) {
 				redirectNotFoundEntryLocalService.
 					addOrUpdateRedirectNotFoundEntry(
-						group, _normalizeFriendlyURL(friendlyURL));
+						group, _normalizeFriendlyURL(layoutFriendlyURL));
 			}
 
 			if (Validator.isNotNull(
@@ -326,12 +280,12 @@ public class FriendlyURLServlet extends HttpServlet {
 				httpServletRequest, noSuchLayoutException.getClass(),
 				noSuchLayoutException);
 
-			friendlyURL = null;
+			layoutFriendlyURL = null;
 		}
 
 		String actualURL = portal.getActualURL(
-			group.getGroupId(), _private, Portal.PATH_MAIN, friendlyURL, params,
-			requestContext);
+			group.getGroupId(), _private, Portal.PATH_MAIN, layoutFriendlyURL,
+			params, requestContext);
 		String portalURL = portal.getPortalURL(httpServletRequest);
 
 		if (actualURL.startsWith(portalURL)) {
@@ -633,6 +587,12 @@ public class FriendlyURLServlet extends HttpServlet {
 		Locale locale = LocaleUtil.fromLanguageId(
 			layoutFriendlyURL.getLanguageId());
 
+		if (!LanguageUtil.isAvailableLocale(layout.getGroupId(), locale)) {
+			return LocaleUtil.fromLanguageId(
+				(String)httpServletRequest.getAttribute(
+					WebKeys.I18N_LANGUAGE_ID));
+		}
+
 		Locale groupLocale = locale;
 
 		if (siteFriendlyURL != null) {
@@ -651,11 +611,7 @@ public class FriendlyURLServlet extends HttpServlet {
 			httpServletRequest, PortalMessages.KEY_JSP_PATH,
 			"/html/common/themes/layout_friendly_url_redirect.jsp");
 
-		if (!locale.equals(groupLocale)) {
-			locale = groupLocale;
-		}
-
-		return locale;
+		return groupLocale;
 	}
 
 	@Reference
@@ -710,6 +666,75 @@ public class FriendlyURLServlet extends HttpServlet {
 		}
 
 		return false;
+	}
+
+	private SiteFriendlyURL _getAlternativeSiteFriendlyURL(
+		String friendlyURL, long companyId, Group group, Locale locale) {
+
+		SiteFriendlyURL siteFriendlyURL =
+			siteFriendlyURLLocalService.fetchSiteFriendlyURL(
+				companyId, group.getGroupId(), LocaleUtil.toLanguageId(locale));
+
+		if (siteFriendlyURL == null) {
+			siteFriendlyURL =
+				siteFriendlyURLLocalService.fetchSiteFriendlyURLByFriendlyURL(
+					companyId, friendlyURL);
+		}
+
+		SiteFriendlyURL alternativeSiteFriendlyURL = null;
+
+		if ((siteFriendlyURL != null) &&
+			!StringUtil.equalsIgnoreCase(
+				siteFriendlyURL.getFriendlyURL(), friendlyURL)) {
+
+			alternativeSiteFriendlyURL =
+				siteFriendlyURLLocalService.fetchSiteFriendlyURLByFriendlyURL(
+					siteFriendlyURL.getCompanyId(), friendlyURL);
+		}
+
+		return alternativeSiteFriendlyURL;
+	}
+
+	private Group _getGroup(String path, String friendlyURL, long companyId)
+		throws NoSuchGroupException {
+
+		Group group = groupLocalService.fetchFriendlyURLGroup(
+			companyId, friendlyURL);
+
+		if (group == null) {
+			String screenName = friendlyURL.substring(1);
+
+			User user = userLocalService.fetchUserByScreenName(
+				companyId, screenName);
+
+			if (user != null) {
+				group = user.getGroup();
+			}
+			else if (_log.isWarnEnabled()) {
+				_log.warn("No user exists with friendly URL " + screenName);
+			}
+		}
+
+		if ((group == null) ||
+			(!group.isActive() &&
+			 !inactiveRequestHandler.isShowInactiveRequestMessage() &&
+			 !path.startsWith(GroupConstants.CONTROL_PANEL_FRIENDLY_URL) &&
+			 !path.startsWith(
+				 friendlyURL +
+					 VirtualLayoutConstants.CANONICAL_URL_SEPARATOR))) {
+
+			StringBundler sb = new StringBundler(5);
+
+			sb.append("{companyId=");
+			sb.append(companyId);
+			sb.append(", friendlyURL=");
+			sb.append(friendlyURL);
+			sb.append("}");
+
+			throw new NoSuchGroupException(sb.toString());
+		}
+
+		return group;
 	}
 
 	private boolean _isImpersonated(

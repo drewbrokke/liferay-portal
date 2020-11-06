@@ -1201,7 +1201,7 @@ public class PortletTracker
 		}
 
 		if (windowStates == null) {
-			windowStates = _defaultPortletModes;
+			windowStates = _defaultWindowStates;
 		}
 
 		portletModel.setWindowStates(windowStates);
