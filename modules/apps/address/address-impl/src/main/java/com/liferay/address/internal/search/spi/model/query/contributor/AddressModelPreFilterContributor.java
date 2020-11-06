@@ -31,6 +31,7 @@ import com.liferay.portal.search.spi.model.registrar.ModelSearchSettings;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.osgi.service.component.annotations.Component;
@@ -131,18 +132,13 @@ public class AddressModelPreFilterContributor
 
 		Stream<String> typeNamesStream = Arrays.stream(typeNames);
 
-		return typeNamesStream.mapToLong(
-			typeName -> {
-				ListType listType = _listTypeLocalService.getListType(
-					typeName,
-					className.getClassName() + ListTypeConstants.ADDRESS);
-
-				if (listType != null) {
-					return listType.getListTypeId();
-				}
-
-				return -1;
-			}
+		return typeNamesStream.map(
+			typeName -> _listTypeLocalService.getListType(
+				typeName, className.getClassName() + ListTypeConstants.ADDRESS)
+		).filter(
+			Objects::nonNull
+		).mapToLong(
+			ListType::getListTypeId
 		).toArray();
 	}
 
