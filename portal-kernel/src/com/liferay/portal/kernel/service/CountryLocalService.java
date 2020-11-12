@@ -205,6 +205,9 @@ public interface CountryLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Country fetchCompanyCountry(long companyId, String a2);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Country fetchCountry(long countryId);
 
 	/**
@@ -228,7 +231,23 @@ public interface CountryLocalService
 	public List<Country> getCompanyCountries(long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Country> getCompanyCountries(
+		long companyId, boolean active, int start, int end,
+		OrderByComparator<Country> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Country> getCompanyCountries(
+		long companyId, int start, int end,
+		OrderByComparator<Country> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCompanyCountriesCount(long companyId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCompanyCountriesCount(long companyId, boolean active);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Country getCompanyCountry(long companyId, String a2);
 
 	/**
 	 * Returns a range of all the countries.
@@ -304,6 +323,8 @@ public interface CountryLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	public Country setActive(long countryId, boolean active);
+
 	/**
 	 * Updates the country in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -316,6 +337,15 @@ public interface CountryLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Country updateCountry(Country country);
+
+	public Country updateCountry(
+		long countryId, String a2, String a3, boolean active,
+		boolean billingAllowed, String idd, String name, String number,
+		double position, boolean shippingAllowed, boolean subjectToVAT,
+		Map<String, String> titleMap);
+
+	public Country updateCountryGroupFilter(
+		long countryId, boolean groupFilterEnabled);
 
 	public CountryLocalization updateCountryLocalization(
 			Country country, String languageId, String title)
