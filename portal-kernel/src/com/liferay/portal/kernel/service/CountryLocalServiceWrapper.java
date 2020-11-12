@@ -85,6 +85,11 @@ public class CountryLocalServiceWrapper
 		return _countryLocalService.createPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public void deleteCountries(long companyId) {
+		_countryLocalService.deleteCountries(companyId);
+	}
+
 	/**
 	 * Deletes the country from the database. Also notifies the appropriate model listeners.
 	 *
@@ -232,6 +237,22 @@ public class CountryLocalServiceWrapper
 		return _countryLocalService.fetchCountry(countryId);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.model.Country fetchCountryByCompanyIdAndA2(
+		long companyId, java.lang.String a2) {
+
+		return _countryLocalService.fetchCountryByCompanyIdAndA2(companyId, a2);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.Country
+		fetchCountryByCompanyIdAndNumber(
+			long companyId, java.lang.String number) {
+
+		return _countryLocalService.fetchCountryByCompanyIdAndNumber(
+			companyId, number);
+	}
+
 	/**
 	 * Returns the country with the matching UUID and company.
 	 *
@@ -287,6 +308,28 @@ public class CountryLocalServiceWrapper
 		return _countryLocalService.getCountriesByCompanyId(companyId);
 	}
 
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Country>
+		getCountriesByCompanyId(
+			long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.Country> orderByComparator) {
+
+		return _countryLocalService.getCountriesByCompanyId(
+			companyId, start, end, orderByComparator);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Country>
+		getCountriesByCompanyIdAndActive(
+			long companyId, boolean active, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.Country> orderByComparator) {
+
+		return _countryLocalService.getCountriesByCompanyIdAndActive(
+			companyId, active, start, end, orderByComparator);
+	}
+
 	/**
 	 * Returns the number of countries.
 	 *
@@ -302,6 +345,14 @@ public class CountryLocalServiceWrapper
 		return _countryLocalService.getCountriesCountByCompanyId(companyId);
 	}
 
+	@Override
+	public int getCountriesCountByCompanyIdAndActive(
+		long companyId, boolean active) {
+
+		return _countryLocalService.getCountriesCountByCompanyIdAndActive(
+			companyId, active);
+	}
+
 	/**
 	 * Returns the country with the primary key.
 	 *
@@ -314,6 +365,13 @@ public class CountryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _countryLocalService.getCountry(countryId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.Country getCountryByCompanyIdAndA2(
+		long companyId, java.lang.String a2) {
+
+		return _countryLocalService.getCountryByCompanyIdAndA2(companyId, a2);
 	}
 
 	/**
@@ -387,6 +445,13 @@ public class CountryLocalServiceWrapper
 		return _countryLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.model.Country setActive(
+		long countryId, boolean active) {
+
+		return _countryLocalService.setActive(countryId, active);
+	}
+
 	/**
 	 * Updates the country in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -402,6 +467,27 @@ public class CountryLocalServiceWrapper
 		com.liferay.portal.kernel.model.Country country) {
 
 		return _countryLocalService.updateCountry(country);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.Country updateCountry(
+		long countryId, java.lang.String a2, java.lang.String a3,
+		boolean active, boolean billingAllowed, java.lang.String idd,
+		java.lang.String name, java.lang.String number, double position,
+		boolean shippingAllowed, boolean subjectToVAT,
+		java.util.Map<java.lang.String, java.lang.String> titleMap) {
+
+		return _countryLocalService.updateCountry(
+			countryId, a2, a3, active, billingAllowed, idd, name, number,
+			position, shippingAllowed, subjectToVAT, titleMap);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.Country updateCountryGroupFilter(
+		long countryId, boolean groupFilterEnabled) {
+
+		return _countryLocalService.updateCountryGroupFilter(
+			countryId, groupFilterEnabled);
 	}
 
 	@Override

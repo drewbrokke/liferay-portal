@@ -99,6 +99,8 @@ public interface CountryLocalService
 	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	public void deleteCountries(long companyId);
+
 	/**
 	 * Deletes the country from the database. Also notifies the appropriate model listeners.
 	 *
@@ -205,6 +207,13 @@ public interface CountryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Country fetchCountry(long countryId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Country fetchCountryByCompanyIdAndA2(long companyId, String a2);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Country fetchCountryByCompanyIdAndNumber(
+		long companyId, String number);
+
 	/**
 	 * Returns the country with the matching UUID and company.
 	 *
@@ -239,6 +248,16 @@ public interface CountryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Country> getCountriesByCompanyId(long companyId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Country> getCountriesByCompanyId(
+		long companyId, int start, int end,
+		OrderByComparator<Country> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Country> getCountriesByCompanyIdAndActive(
+		long companyId, boolean active, int start, int end,
+		OrderByComparator<Country> orderByComparator);
+
 	/**
 	 * Returns the number of countries.
 	 *
@@ -250,6 +269,10 @@ public interface CountryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCountriesCountByCompanyId(long companyId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCountriesCountByCompanyIdAndActive(
+		long companyId, boolean active);
+
 	/**
 	 * Returns the country with the primary key.
 	 *
@@ -259,6 +282,9 @@ public interface CountryLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Country getCountry(long countryId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Country getCountryByCompanyIdAndA2(long companyId, String a2);
 
 	/**
 	 * Returns the country with the matching UUID and company.
@@ -302,6 +328,8 @@ public interface CountryLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	public Country setActive(long countryId, boolean active);
+
 	/**
 	 * Updates the country in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -314,6 +342,15 @@ public interface CountryLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Country updateCountry(Country country);
+
+	public Country updateCountry(
+		long countryId, String a2, String a3, boolean active,
+		boolean billingAllowed, String idd, String name, String number,
+		double position, boolean shippingAllowed, boolean subjectToVAT,
+		Map<String, String> titleMap);
+
+	public Country updateCountryGroupFilter(
+		long countryId, boolean groupFilterEnabled);
 
 	public CountryLocalization updateCountryLocalization(
 			Country country, String languageId, String title)
