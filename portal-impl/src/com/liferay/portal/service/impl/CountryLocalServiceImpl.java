@@ -14,6 +14,7 @@
 
 package com.liferay.portal.service.impl;
 
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.CountryA2Exception;
 import com.liferay.portal.kernel.exception.CountryA3Exception;
 import com.liferay.portal.kernel.exception.CountryIddException;
@@ -22,8 +23,12 @@ import com.liferay.portal.kernel.exception.CountryNumberException;
 import com.liferay.portal.kernel.exception.DuplicateCountryException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Country;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.OrganizationConstants;
+import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
@@ -84,28 +89,65 @@ public class CountryLocalServiceImpl extends CountryLocalServiceBaseImpl {
 
 	@Override
 	public void deleteCountries(long companyId) {
+		List<Country> countries = countryPersistence.findByCompanyId(companyId);
+
+		for (Country country : countries) {
+			countryLocalService.deleteCountry(country);
+		}
 	}
 
 	@Override
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Country deleteCountry(Country country) {
-		return null;
+
+		// Country
+
+		countryPersistence.remove(country);
+
+		// Regions
+
+		long countryId = country.getCountryId();
+
+		regionPersistence.removeByCountryId(countryId);
+
+		// Addresses
+
+		addressLocalService.deleteCountryAddresses(countryId);
+
+		// Organizations
+
+		List<Organization> organizationList = organizationLocalService.search(
+			country.getCompanyId(),
+			OrganizationConstants.ANY_PARENT_ORGANIZATION_ID, null, null, null,
+			countryId, null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		for (Organization organization : organizationList) {
+			organization.setCountryId(0);
+			organization.setRegionId(0);
+
+			organizationLocalService.updateOrganization(organization);
+		}
+
+		return country;
 	}
 
 	@Override
-	public Country deleteCountry(long countryId) {
-		return null;
+	public Country deleteCountry(long countryId) throws PortalException {
+		Country country = countryPersistence.findByPrimaryKey(countryId);
+
+		return countryLocalService.deleteCountry(country);
 	}
 
 	@Override
 	public Country fetchCountryByCompanyIdAndA2(long companyId, String a2) {
-		return null;
+		return countryPersistence.fetchByC_A2(companyId, a2);
 	}
 
 	@Override
 	public Country fetchCountryByCompanyIdAndNumber(
 		long companyId, String number) {
 
-		return null;
+		return countryPersistence.fetchByC_Number(companyId, number);
 	}
 
 	@Override
@@ -118,7 +160,8 @@ public class CountryLocalServiceImpl extends CountryLocalServiceBaseImpl {
 		long companyId, int start, int end,
 		OrderByComparator<Country> orderByComparator) {
 
-		return null;
+		return countryPersistence.findByCompanyId(
+			companyId, start, end, orderByComparator);
 	}
 
 	@Override
@@ -126,7 +169,8 @@ public class CountryLocalServiceImpl extends CountryLocalServiceBaseImpl {
 		long companyId, boolean active, int start, int end,
 		OrderByComparator<Country> orderByComparator) {
 
-		return null;
+		return countryPersistence.findByC_Active(
+			companyId, active, start, end, orderByComparator);
 	}
 
 	@Override
@@ -138,34 +182,87 @@ public class CountryLocalServiceImpl extends CountryLocalServiceBaseImpl {
 	public int getCountriesCountByCompanyIdAndActive(
 		long companyId, boolean active) {
 
-		return null;
+		return countryPersistence.countByC_Active(companyId, active);
 	}
 
 	@Override
-	public Country getCountryByCompanyIdAndA2(long companyId, String a2) {
-		return null;
+	public Country getCountryByCompanyIdAndA2(long companyId, String a2)
+		throws PortalException {
+
+		return countryPersistence.findByC_A2(companyId, a2);
 	}
 
 	@Override
-	public Country setActive(long countryId, boolean active) {
-		return null;
+	public Country setActive(long countryId, boolean active)
+		throws PortalException {
+
+		Country country = countryPersistence.findByPrimaryKey(countryId);
+
+		country.setActive(active);
+
+		return countryPersistence.update(country);
 	}
 
 	@Override
 	public Country updateCountry(
-		long countryId, String a2, String a3, boolean active,
-		boolean billingAllowed, String idd, String name, String number,
-		double position, boolean shippingAllowed, boolean subjectToVAT,
-		Map<String, String> titleMap) {
+			long countryId, String a2, String a3, boolean active,
+			boolean billingAllowed, String idd, String name, String number,
+			double position, boolean shippingAllowed, boolean subjectToVAT,
+			Map<String, String> titleMap)
+		throws PortalException {
 
-		return null;
+		Country country = countryPersistence.findByPrimaryKey(countryId);
+
+		validate(a2, a3, number, idd);
+
+		country.setA2(a2);
+		country.setA3(a3);
+		country.setActive(active);
+		country.setBillingAllowed(billingAllowed);
+		country.setIdd(idd);
+		country.setName(name);
+		country.setNumber(number);
+		country.setPosition(position);
+		country.setShippingAllowed(shippingAllowed);
+		country.setSubjectToVAT(subjectToVAT);
+
+		return countryPersistence.update(country);
 	}
 
 	@Override
 	public Country updateCountryGroupFilter(
-			long countryId, boolean groupFilterEnabled) {
+			long countryId, boolean groupFilterEnabled)
+		throws PortalException {
 
-		return null;
+		Country country = countryLocalService.getCountry(countryId);
+
+		country.setGroupFilterEnabled(groupFilterEnabled);
+
+		return countryPersistence.update(country);
+	}
+
+	protected void validate(String a2, String a3, String idd, String number)
+		throws PortalException {
+
+		if (Validator.isNull(a2) ||
+			(Validator.isNotNull(a2) && (a2.length() != 2))) {
+
+			throw new CountryA2Exception();
+		}
+
+		if (Validator.isNull(a3) ||
+			(Validator.isNotNull(a3) && (a3.length() != 3))) {
+
+			throw new CountryA3Exception();
+		}
+
+		if (Validator.isNull(idd)) {
+			throw new CountryIddException();
+		}
+
+		if (Validator.isNull(number)) {
+			throw new CountryNumberException();
+		}
 	}
 
 	protected void validate(
