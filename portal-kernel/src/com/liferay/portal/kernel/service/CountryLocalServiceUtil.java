@@ -35,6 +35,16 @@ public class CountryLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.portal.service.impl.CountryLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.portal.kernel.model.Country addCountry(
+		boolean active, String a2, String a3, boolean billingAllowed,
+		String idd, String name, String number, double position,
+		boolean shippingAllowed, boolean subjectToVAT,
+		java.util.Map<String, String> titleMap, ServiceContext serviceContext) {
+
+		return getService().addCountry(
+			active, a2, a3, billingAllowed, idd, name, number, position,
+			shippingAllowed, subjectToVAT, titleMap, serviceContext);
+	}
 
 	/**
 	 * Adds the country to the database. Also notifies the appropriate model listeners.
@@ -72,6 +82,10 @@ public class CountryLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().createPersistedModel(primaryKeyObj);
+	}
+
+	public static void deleteCountries(long companyId) {
+		getService().deleteCountries(companyId);
 	}
 
 	/**
@@ -216,6 +230,18 @@ public class CountryLocalServiceUtil {
 		return getService().fetchCountry(countryId);
 	}
 
+	public static com.liferay.portal.kernel.model.Country fetchCountryByC_A2(
+		long countryId, String a2) {
+
+		return getService().fetchCountryByC_A2(countryId, a2);
+	}
+
+	public static com.liferay.portal.kernel.model.Country fetchCountryByC_N(
+		long companyId, String number) {
+
+		return getService().fetchCountryByC_N(companyId, number);
+	}
+
 	/**
 	 * Returns the country with the matching UUID and company.
 	 *
@@ -258,6 +284,16 @@ public class CountryLocalServiceUtil {
 		return getService().getCountries(start, end);
 	}
 
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getCountries(
+			long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.Country> orderByComparator) {
+
+		return getService().getCountries(
+			companyId, start, end, orderByComparator);
+	}
+
 	/**
 	 * Returns the number of countries.
 	 *
@@ -279,6 +315,12 @@ public class CountryLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getCountry(countryId);
+	}
+
+	public static com.liferay.portal.kernel.model.Country getCountry(
+		long companyId, String a2) {
+
+		return getService().getCountry(companyId, a2);
 	}
 
 	/**
@@ -358,6 +400,17 @@ public class CountryLocalServiceUtil {
 		com.liferay.portal.kernel.model.Country country) {
 
 		return getService().updateCountry(country);
+	}
+
+	public static com.liferay.portal.kernel.model.Country updateCountry(
+		long countryId, boolean active, String a2, String a3,
+		boolean billingAllowed, String idd, String name, String number,
+		double position, boolean shippingAllowed, boolean subjectToVAT,
+		java.util.Map<String, String> titleMap) {
+
+		return getService().updateCountry(
+			countryId, active, a2, a3, billingAllowed, idd, name, number,
+			position, shippingAllowed, subjectToVAT, titleMap);
 	}
 
 	public static com.liferay.portal.kernel.model.CountryLocalization
