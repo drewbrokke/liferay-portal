@@ -341,26 +341,6 @@ public class CountryLocalServiceWrapper
 		return _countryLocalService.getCompanyCountriesCount(companyId, active);
 	}
 
-	@Override
-	public int getCompanyCountriesCount(
-		long companyId, boolean active, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator
-			<com.liferay.portal.kernel.model.Country> orderByComparator) {
-
-		return _countryLocalService.getCompanyCountriesCount(
-			companyId, active, start, end, orderByComparator);
-	}
-
-	@Override
-	public int getCompanyCountriesCount(
-		long companyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator
-			<com.liferay.portal.kernel.model.Country> orderByComparator) {
-
-		return _countryLocalService.getCompanyCountriesCount(
-			companyId, start, end, orderByComparator);
-	}
-
 	/**
 	 * Returns a range of all the countries.
 	 *
@@ -405,28 +385,32 @@ public class CountryLocalServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.model.Country getCountryByA2(
-		long companyId, java.lang.String a2) {
+			long companyId, java.lang.String a2)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _countryLocalService.getCountryByA2(companyId, a2);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.model.Country getCountryByA3(
-		long companyId, java.lang.String a3) {
+			long companyId, java.lang.String a3)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
 
 		return _countryLocalService.getCountryByA3(companyId, a3);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.model.Country getCountryByName(
-		long companyId, java.lang.String name) {
+			long companyId, java.lang.String name)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
 
 		return _countryLocalService.getCountryByName(companyId, name);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.model.Country getCountryByNumber(
-		long companyId, java.lang.String number) {
+			long companyId, java.lang.String number)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
 
 		return _countryLocalService.getCountryByNumber(companyId, number);
 	}
@@ -504,7 +488,8 @@ public class CountryLocalServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.model.Country setActive(
-		long countryId, boolean active) {
+			long countryId, boolean active)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _countryLocalService.setActive(countryId, active);
 	}
@@ -528,11 +513,12 @@ public class CountryLocalServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.model.Country updateCountry(
-		long countryId, java.lang.String a2, java.lang.String a3,
-		boolean active, boolean billingAllowed, java.lang.String idd,
-		java.lang.String name, java.lang.String number, double position,
-		boolean shippingAllowed, boolean subjectToVAT,
-		java.util.Map<java.lang.String, java.lang.String> titleMap) {
+			long countryId, java.lang.String a2, java.lang.String a3,
+			boolean active, boolean billingAllowed, java.lang.String idd,
+			java.lang.String name, java.lang.String number, double position,
+			boolean shippingAllowed, boolean subjectToVAT,
+			java.util.Map<java.lang.String, java.lang.String> titleMap)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _countryLocalService.updateCountry(
 			countryId, a2, a3, active, billingAllowed, idd, name, number,
@@ -541,8 +527,9 @@ public class CountryLocalServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.model.Country
-		updateCountryGroupFilterEnabled(
-			long countryId, boolean groupFilterEnabled) {
+			updateCountryGroupFilterEnabled(
+				long countryId, boolean groupFilterEnabled)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _countryLocalService.updateCountryGroupFilterEnabled(
 			countryId, groupFilterEnabled);
