@@ -66,10 +66,11 @@ public interface CountryLocalService
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.portal.service.impl.CountryLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the country local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CountryLocalServiceUtil} if injection and service tracking are not available.
 	 */
 	public Country addCountry(
-		boolean active, String a2, String a3, boolean billingAllowed,
-		String idd, String name, String number, double position,
-		boolean shippingAllowed, boolean subjectToVAT,
-		Map<String, String> titleMap, ServiceContext serviceContext);
+			boolean active, String a2, String a3, boolean billingAllowed,
+			String idd, String name, String number, double position,
+			boolean shippingAllowed, boolean subjectToVAT,
+			Map<String, String> titleMap, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * Adds the country to the database. Also notifies the appropriate model listeners.
@@ -209,10 +210,11 @@ public interface CountryLocalService
 	public Country fetchCountry(long countryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Country fetchCountryByC_A2(long countryId, String a2);
+	public Country fetchCountryByCompanyIdAndA2(long companyId, String a2);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Country fetchCountryByC_N(long companyId, String number);
+	public Country fetchCountryByCompanyIdAndNumber(
+		long companyId, String number);
 
 	/**
 	 * Returns the country with the matching UUID and company.
@@ -246,8 +248,16 @@ public interface CountryLocalService
 	public List<Country> getCountries(int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Country> getCountries(
+	public List<Country> getCountriesByCompanyId(long companyId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Country> getCountriesByCompanyId(
 		long companyId, int start, int end,
+		OrderByComparator<Country> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Country> getCountriesByCompanyIdAndActive(
+		long companyId, boolean active, int start, int end,
 		OrderByComparator<Country> orderByComparator);
 
 	/**
@@ -257,6 +267,13 @@ public interface CountryLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCountriesCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCountriesCountByCompanyId(long companyId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCountriesCountByCompanyIdAndActive(
+		long companyId, boolean active);
 
 	/**
 	 * Returns the country with the primary key.
@@ -269,7 +286,8 @@ public interface CountryLocalService
 	public Country getCountry(long countryId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Country getCountry(long companyId, String a2);
+	public Country getCountryByCompanyIdAndA2(long companyId, String a2)
+		throws PortalException;
 
 	/**
 	 * Returns the country with the matching UUID and company.
@@ -313,6 +331,13 @@ public interface CountryLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	public Country setActive(long countryId, boolean active)
+		throws PortalException;
+
+	public Country updateCommerceCountryChannelFilter(
+			long countryId, boolean groupFilterEnabled)
+		throws PortalException;
+
 	/**
 	 * Updates the country in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -327,10 +352,11 @@ public interface CountryLocalService
 	public Country updateCountry(Country country);
 
 	public Country updateCountry(
-		long countryId, boolean active, String a2, String a3,
-		boolean billingAllowed, String idd, String name, String number,
-		double position, boolean shippingAllowed, boolean subjectToVAT,
-		Map<String, String> titleMap);
+			long countryId, boolean active, String a2, String a3,
+			boolean billingAllowed, String idd, String name, String number,
+			double position, boolean shippingAllowed, boolean subjectToVAT,
+			Map<String, String> titleMap)
+		throws PortalException;
 
 	public CountryLocalization updateCountryLocalization(
 			Country country, String languageId, String title)
