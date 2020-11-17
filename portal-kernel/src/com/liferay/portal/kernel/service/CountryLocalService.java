@@ -26,8 +26,10 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.Country;
 import com.liferay.portal.kernel.model.CountryLocalization;
 import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
+import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -112,6 +114,7 @@ public interface CountryLocalService
 	 * @return the country that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Country deleteCountry(Country country);
 
 	/**
@@ -284,7 +287,8 @@ public interface CountryLocalService
 	public Country getCountry(long countryId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Country getCountryByCompanyIdAndA2(long companyId, String a2);
+	public Country getCountryByCompanyIdAndA2(long companyId, String a2)
+		throws PortalException;
 
 	/**
 	 * Returns the country with the matching UUID and company.
@@ -328,7 +332,8 @@ public interface CountryLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
-	public Country setActive(long countryId, boolean active);
+	public Country setActive(long countryId, boolean active)
+		throws PortalException;
 
 	/**
 	 * Updates the country in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -344,13 +349,15 @@ public interface CountryLocalService
 	public Country updateCountry(Country country);
 
 	public Country updateCountry(
-		long countryId, String a2, String a3, boolean active,
-		boolean billingAllowed, String idd, String name, String number,
-		double position, boolean shippingAllowed, boolean subjectToVAT,
-		Map<String, String> titleMap);
+			long countryId, String a2, String a3, boolean active,
+			boolean billingAllowed, String idd, String name, String number,
+			double position, boolean shippingAllowed, boolean subjectToVAT,
+			Map<String, String> titleMap)
+		throws PortalException;
 
 	public Country updateCountryGroupFilter(
-		long countryId, boolean groupFilterEnabled);
+			long countryId, boolean groupFilterEnabled)
+		throws PortalException;
 
 	public CountryLocalization updateCountryLocalization(
 			Country country, String languageId, String title)
