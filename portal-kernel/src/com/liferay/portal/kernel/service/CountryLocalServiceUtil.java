@@ -228,16 +228,22 @@ public class CountryLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static com.liferay.portal.kernel.model.Country fetchCompanyCountry(
-		long companyId, String a2) {
-
-		return getService().fetchCompanyCountry(companyId, a2);
-	}
-
 	public static com.liferay.portal.kernel.model.Country fetchCountry(
 		long countryId) {
 
 		return getService().fetchCountry(countryId);
+	}
+
+	public static com.liferay.portal.kernel.model.Country fetchCountryByA2(
+		long companyId, String a2) {
+
+		return getService().fetchCountryByA2(companyId, a2);
+	}
+
+	public static com.liferay.portal.kernel.model.Country fetchCountryByNumber(
+		long companyId, String number) {
+
+		return getService().fetchCountryByNumber(companyId, number);
 	}
 
 	/**
@@ -300,7 +306,8 @@ public class CountryLocalServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.model.Country getCompanyCountry(
-		long companyId, String a2) {
+			long companyId, String a2)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getCompanyCountry(companyId, a2);
 	}
@@ -409,7 +416,8 @@ public class CountryLocalServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.model.Country setActive(
-		long countryId, boolean active) {
+			long countryId, boolean active)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().setActive(countryId, active);
 	}
@@ -431,10 +439,11 @@ public class CountryLocalServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.model.Country updateCountry(
-		long countryId, String a2, String a3, boolean active,
-		boolean billingAllowed, String idd, String name, String number,
-		double position, boolean shippingAllowed, boolean subjectToVAT,
-		java.util.Map<String, String> titleMap) {
+			long countryId, String a2, String a3, boolean active,
+			boolean billingAllowed, String idd, String name, String number,
+			double position, boolean shippingAllowed, boolean subjectToVAT,
+			java.util.Map<String, String> titleMap)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updateCountry(
 			countryId, a2, a3, active, billingAllowed, idd, name, number,
@@ -442,7 +451,8 @@ public class CountryLocalServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.model.Country
-		updateCountryGroupFilter(long countryId, boolean groupFilterEnabled) {
+			updateCountryGroupFilter(long countryId, boolean groupFilterEnabled)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updateCountryGroupFilter(
 			countryId, groupFilterEnabled);
