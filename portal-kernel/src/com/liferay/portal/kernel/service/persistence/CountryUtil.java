@@ -465,6 +465,174 @@ public class CountryUtil {
 	}
 
 	/**
+	 * Returns all the countries where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the matching countries
+	 */
+	public static List<Country> findByCompanyId(long companyId) {
+		return getPersistence().findByCompanyId(companyId);
+	}
+
+	/**
+	 * Returns a range of all the countries where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @return the range of matching countries
+	 */
+	public static List<Country> findByCompanyId(
+		long companyId, int start, int end) {
+
+		return getPersistence().findByCompanyId(companyId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the countries where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching countries
+	 */
+	public static List<Country> findByCompanyId(
+		long companyId, int start, int end,
+		OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().findByCompanyId(
+			companyId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the countries where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching countries
+	 */
+	public static List<Country> findByCompanyId(
+		long companyId, int start, int end,
+		OrderByComparator<Country> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByCompanyId(
+			companyId, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first country in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByCompanyId_First(
+			long companyId, OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByCompanyId_First(
+			companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first country in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByCompanyId_First(
+		long companyId, OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().fetchByCompanyId_First(
+			companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last country in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByCompanyId_Last(
+			long companyId, OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByCompanyId_Last(
+			companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last country in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByCompanyId_Last(
+		long companyId, OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().fetchByCompanyId_Last(
+			companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the countries before and after the current country in the ordered set where companyId = &#63;.
+	 *
+	 * @param countryId the primary key of the current country
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next country
+	 * @throws NoSuchCountryException if a country with the primary key could not be found
+	 */
+	public static Country[] findByCompanyId_PrevAndNext(
+			long countryId, long companyId,
+			OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByCompanyId_PrevAndNext(
+			countryId, companyId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the countries where companyId = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 */
+	public static void removeByCompanyId(long companyId) {
+		getPersistence().removeByCompanyId(companyId);
+	}
+
+	/**
+	 * Returns the number of countries where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the number of matching countries
+	 */
+	public static int countByCompanyId(long companyId) {
+		return getPersistence().countByCompanyId(companyId);
+	}
+
+	/**
 	 * Returns the country where a2 = &#63; or throws a <code>NoSuchCountryException</code> if it could not be found.
 	 *
 	 * @param a2 the a2
@@ -794,6 +962,853 @@ public class CountryUtil {
 	 */
 	public static int countByName(String name) {
 		return getPersistence().countByName(name);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and a2 = &#63; or throws a <code>NoSuchCountryException</code> if it could not be found.
+	 *
+	 * @param companyId the company ID
+	 * @param a2 the a2
+	 * @return the matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByC_A2(long companyId, String a2)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A2(companyId, a2);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and a2 = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param a2 the a2
+	 * @return the matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_A2(long companyId, String a2) {
+		return getPersistence().fetchByC_A2(companyId, a2);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and a2 = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param a2 the a2
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_A2(
+		long companyId, String a2, boolean useFinderCache) {
+
+		return getPersistence().fetchByC_A2(companyId, a2, useFinderCache);
+	}
+
+	/**
+	 * Removes the country where companyId = &#63; and a2 = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param a2 the a2
+	 * @return the country that was removed
+	 */
+	public static Country removeByC_A2(long companyId, String a2)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().removeByC_A2(companyId, a2);
+	}
+
+	/**
+	 * Returns the number of countries where companyId = &#63; and a2 = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param a2 the a2
+	 * @return the number of matching countries
+	 */
+	public static int countByC_A2(long companyId, String a2) {
+		return getPersistence().countByC_A2(companyId, a2);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and a3 = &#63; or throws a <code>NoSuchCountryException</code> if it could not be found.
+	 *
+	 * @param companyId the company ID
+	 * @param a3 the a3
+	 * @return the matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByC_A3(long companyId, String a3)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A3(companyId, a3);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and a3 = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param a3 the a3
+	 * @return the matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_A3(long companyId, String a3) {
+		return getPersistence().fetchByC_A3(companyId, a3);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and a3 = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param a3 the a3
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_A3(
+		long companyId, String a3, boolean useFinderCache) {
+
+		return getPersistence().fetchByC_A3(companyId, a3, useFinderCache);
+	}
+
+	/**
+	 * Removes the country where companyId = &#63; and a3 = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param a3 the a3
+	 * @return the country that was removed
+	 */
+	public static Country removeByC_A3(long companyId, String a3)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().removeByC_A3(companyId, a3);
+	}
+
+	/**
+	 * Returns the number of countries where companyId = &#63; and a3 = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param a3 the a3
+	 * @return the number of matching countries
+	 */
+	public static int countByC_A3(long companyId, String a3) {
+		return getPersistence().countByC_A3(companyId, a3);
+	}
+
+	/**
+	 * Returns all the countries where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @return the matching countries
+	 */
+	public static List<Country> findByC_A(long companyId, boolean active) {
+		return getPersistence().findByC_A(companyId, active);
+	}
+
+	/**
+	 * Returns a range of all the countries where companyId = &#63; and active = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @return the range of matching countries
+	 */
+	public static List<Country> findByC_A(
+		long companyId, boolean active, int start, int end) {
+
+		return getPersistence().findByC_A(companyId, active, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the countries where companyId = &#63; and active = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching countries
+	 */
+	public static List<Country> findByC_A(
+		long companyId, boolean active, int start, int end,
+		OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().findByC_A(
+			companyId, active, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the countries where companyId = &#63; and active = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching countries
+	 */
+	public static List<Country> findByC_A(
+		long companyId, boolean active, int start, int end,
+		OrderByComparator<Country> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByC_A(
+			companyId, active, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first country in the ordered set where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByC_A_First(
+			long companyId, boolean active,
+			OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A_First(
+			companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Returns the first country in the ordered set where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_A_First(
+		long companyId, boolean active,
+		OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().fetchByC_A_First(
+			companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Returns the last country in the ordered set where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByC_A_Last(
+			long companyId, boolean active,
+			OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A_Last(
+			companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Returns the last country in the ordered set where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_A_Last(
+		long companyId, boolean active,
+		OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().fetchByC_A_Last(
+			companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Returns the countries before and after the current country in the ordered set where companyId = &#63; and active = &#63;.
+	 *
+	 * @param countryId the primary key of the current country
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next country
+	 * @throws NoSuchCountryException if a country with the primary key could not be found
+	 */
+	public static Country[] findByC_A_PrevAndNext(
+			long countryId, long companyId, boolean active,
+			OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A_PrevAndNext(
+			countryId, companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Removes all the countries where companyId = &#63; and active = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 */
+	public static void removeByC_A(long companyId, boolean active) {
+		getPersistence().removeByC_A(companyId, active);
+	}
+
+	/**
+	 * Returns the number of countries where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @return the number of matching countries
+	 */
+	public static int countByC_A(long companyId, boolean active) {
+		return getPersistence().countByC_A(companyId, active);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and name = &#63; or throws a <code>NoSuchCountryException</code> if it could not be found.
+	 *
+	 * @param companyId the company ID
+	 * @param name the name
+	 * @return the matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByC_Name(long companyId, String name)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_Name(companyId, name);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param name the name
+	 * @return the matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_Name(long companyId, String name) {
+		return getPersistence().fetchByC_Name(companyId, name);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param name the name
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_Name(
+		long companyId, String name, boolean useFinderCache) {
+
+		return getPersistence().fetchByC_Name(companyId, name, useFinderCache);
+	}
+
+	/**
+	 * Removes the country where companyId = &#63; and name = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param name the name
+	 * @return the country that was removed
+	 */
+	public static Country removeByC_Name(long companyId, String name)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().removeByC_Name(companyId, name);
+	}
+
+	/**
+	 * Returns the number of countries where companyId = &#63; and name = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param name the name
+	 * @return the number of matching countries
+	 */
+	public static int countByC_Name(long companyId, String name) {
+		return getPersistence().countByC_Name(companyId, name);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and number = &#63; or throws a <code>NoSuchCountryException</code> if it could not be found.
+	 *
+	 * @param companyId the company ID
+	 * @param number the number
+	 * @return the matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByC_Number(long companyId, String number)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_Number(companyId, number);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and number = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param number the number
+	 * @return the matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_Number(long companyId, String number) {
+		return getPersistence().fetchByC_Number(companyId, number);
+	}
+
+	/**
+	 * Returns the country where companyId = &#63; and number = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param number the number
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_Number(
+		long companyId, String number, boolean useFinderCache) {
+
+		return getPersistence().fetchByC_Number(
+			companyId, number, useFinderCache);
+	}
+
+	/**
+	 * Removes the country where companyId = &#63; and number = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param number the number
+	 * @return the country that was removed
+	 */
+	public static Country removeByC_Number(long companyId, String number)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().removeByC_Number(companyId, number);
+	}
+
+	/**
+	 * Returns the number of countries where companyId = &#63; and number = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param number the number
+	 * @return the number of matching countries
+	 */
+	public static int countByC_Number(long companyId, String number) {
+		return getPersistence().countByC_Number(companyId, number);
+	}
+
+	/**
+	 * Returns all the countries where companyId = &#63; and active = &#63; and billingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 * @return the matching countries
+	 */
+	public static List<Country> findByC_A_B(
+		long companyId, boolean active, boolean billingAllowed) {
+
+		return getPersistence().findByC_A_B(companyId, active, billingAllowed);
+	}
+
+	/**
+	 * Returns a range of all the countries where companyId = &#63; and active = &#63; and billingAllowed = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @return the range of matching countries
+	 */
+	public static List<Country> findByC_A_B(
+		long companyId, boolean active, boolean billingAllowed, int start,
+		int end) {
+
+		return getPersistence().findByC_A_B(
+			companyId, active, billingAllowed, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the countries where companyId = &#63; and active = &#63; and billingAllowed = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching countries
+	 */
+	public static List<Country> findByC_A_B(
+		long companyId, boolean active, boolean billingAllowed, int start,
+		int end, OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().findByC_A_B(
+			companyId, active, billingAllowed, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the countries where companyId = &#63; and active = &#63; and billingAllowed = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching countries
+	 */
+	public static List<Country> findByC_A_B(
+		long companyId, boolean active, boolean billingAllowed, int start,
+		int end, OrderByComparator<Country> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByC_A_B(
+			companyId, active, billingAllowed, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
+	 * Returns the first country in the ordered set where companyId = &#63; and active = &#63; and billingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByC_A_B_First(
+			long companyId, boolean active, boolean billingAllowed,
+			OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A_B_First(
+			companyId, active, billingAllowed, orderByComparator);
+	}
+
+	/**
+	 * Returns the first country in the ordered set where companyId = &#63; and active = &#63; and billingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_A_B_First(
+		long companyId, boolean active, boolean billingAllowed,
+		OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().fetchByC_A_B_First(
+			companyId, active, billingAllowed, orderByComparator);
+	}
+
+	/**
+	 * Returns the last country in the ordered set where companyId = &#63; and active = &#63; and billingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByC_A_B_Last(
+			long companyId, boolean active, boolean billingAllowed,
+			OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A_B_Last(
+			companyId, active, billingAllowed, orderByComparator);
+	}
+
+	/**
+	 * Returns the last country in the ordered set where companyId = &#63; and active = &#63; and billingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_A_B_Last(
+		long companyId, boolean active, boolean billingAllowed,
+		OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().fetchByC_A_B_Last(
+			companyId, active, billingAllowed, orderByComparator);
+	}
+
+	/**
+	 * Returns the countries before and after the current country in the ordered set where companyId = &#63; and active = &#63; and billingAllowed = &#63;.
+	 *
+	 * @param countryId the primary key of the current country
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next country
+	 * @throws NoSuchCountryException if a country with the primary key could not be found
+	 */
+	public static Country[] findByC_A_B_PrevAndNext(
+			long countryId, long companyId, boolean active,
+			boolean billingAllowed,
+			OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A_B_PrevAndNext(
+			countryId, companyId, active, billingAllowed, orderByComparator);
+	}
+
+	/**
+	 * Removes all the countries where companyId = &#63; and active = &#63; and billingAllowed = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 */
+	public static void removeByC_A_B(
+		long companyId, boolean active, boolean billingAllowed) {
+
+		getPersistence().removeByC_A_B(companyId, active, billingAllowed);
+	}
+
+	/**
+	 * Returns the number of countries where companyId = &#63; and active = &#63; and billingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param billingAllowed the billing allowed
+	 * @return the number of matching countries
+	 */
+	public static int countByC_A_B(
+		long companyId, boolean active, boolean billingAllowed) {
+
+		return getPersistence().countByC_A_B(companyId, active, billingAllowed);
+	}
+
+	/**
+	 * Returns all the countries where companyId = &#63; and active = &#63; and shippingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 * @return the matching countries
+	 */
+	public static List<Country> findByC_A_S(
+		long companyId, boolean active, boolean shippingAllowed) {
+
+		return getPersistence().findByC_A_S(companyId, active, shippingAllowed);
+	}
+
+	/**
+	 * Returns a range of all the countries where companyId = &#63; and active = &#63; and shippingAllowed = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @return the range of matching countries
+	 */
+	public static List<Country> findByC_A_S(
+		long companyId, boolean active, boolean shippingAllowed, int start,
+		int end) {
+
+		return getPersistence().findByC_A_S(
+			companyId, active, shippingAllowed, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the countries where companyId = &#63; and active = &#63; and shippingAllowed = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching countries
+	 */
+	public static List<Country> findByC_A_S(
+		long companyId, boolean active, boolean shippingAllowed, int start,
+		int end, OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().findByC_A_S(
+			companyId, active, shippingAllowed, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the countries where companyId = &#63; and active = &#63; and shippingAllowed = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CountryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 * @param start the lower bound of the range of countries
+	 * @param end the upper bound of the range of countries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching countries
+	 */
+	public static List<Country> findByC_A_S(
+		long companyId, boolean active, boolean shippingAllowed, int start,
+		int end, OrderByComparator<Country> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByC_A_S(
+			companyId, active, shippingAllowed, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
+	 * Returns the first country in the ordered set where companyId = &#63; and active = &#63; and shippingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByC_A_S_First(
+			long companyId, boolean active, boolean shippingAllowed,
+			OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A_S_First(
+			companyId, active, shippingAllowed, orderByComparator);
+	}
+
+	/**
+	 * Returns the first country in the ordered set where companyId = &#63; and active = &#63; and shippingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_A_S_First(
+		long companyId, boolean active, boolean shippingAllowed,
+		OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().fetchByC_A_S_First(
+			companyId, active, shippingAllowed, orderByComparator);
+	}
+
+	/**
+	 * Returns the last country in the ordered set where companyId = &#63; and active = &#63; and shippingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching country
+	 * @throws NoSuchCountryException if a matching country could not be found
+	 */
+	public static Country findByC_A_S_Last(
+			long companyId, boolean active, boolean shippingAllowed,
+			OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A_S_Last(
+			companyId, active, shippingAllowed, orderByComparator);
+	}
+
+	/**
+	 * Returns the last country in the ordered set where companyId = &#63; and active = &#63; and shippingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching country, or <code>null</code> if a matching country could not be found
+	 */
+	public static Country fetchByC_A_S_Last(
+		long companyId, boolean active, boolean shippingAllowed,
+		OrderByComparator<Country> orderByComparator) {
+
+		return getPersistence().fetchByC_A_S_Last(
+			companyId, active, shippingAllowed, orderByComparator);
+	}
+
+	/**
+	 * Returns the countries before and after the current country in the ordered set where companyId = &#63; and active = &#63; and shippingAllowed = &#63;.
+	 *
+	 * @param countryId the primary key of the current country
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next country
+	 * @throws NoSuchCountryException if a country with the primary key could not be found
+	 */
+	public static Country[] findByC_A_S_PrevAndNext(
+			long countryId, long companyId, boolean active,
+			boolean shippingAllowed,
+			OrderByComparator<Country> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		return getPersistence().findByC_A_S_PrevAndNext(
+			countryId, companyId, active, shippingAllowed, orderByComparator);
+	}
+
+	/**
+	 * Removes all the countries where companyId = &#63; and active = &#63; and shippingAllowed = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 */
+	public static void removeByC_A_S(
+		long companyId, boolean active, boolean shippingAllowed) {
+
+		getPersistence().removeByC_A_S(companyId, active, shippingAllowed);
+	}
+
+	/**
+	 * Returns the number of countries where companyId = &#63; and active = &#63; and shippingAllowed = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param shippingAllowed the shipping allowed
+	 * @return the number of matching countries
+	 */
+	public static int countByC_A_S(
+		long companyId, boolean active, boolean shippingAllowed) {
+
+		return getPersistence().countByC_A_S(
+			companyId, active, shippingAllowed);
 	}
 
 	/**
