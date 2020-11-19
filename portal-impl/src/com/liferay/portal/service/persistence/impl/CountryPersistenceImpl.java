@@ -3325,9 +3325,9 @@ public class CountryPersistenceImpl
 	private static final String _FINDER_COLUMN_C_A3_A3_3 =
 		"(country.a3 IS NULL OR country.a3 = '')";
 
-	private FinderPath _finderPathWithPaginationFindByC_A;
-	private FinderPath _finderPathWithoutPaginationFindByC_A;
-	private FinderPath _finderPathCountByC_A;
+	private FinderPath _finderPathWithPaginationFindByC_Active;
+	private FinderPath _finderPathWithoutPaginationFindByC_Active;
+	private FinderPath _finderPathCountByC_Active;
 
 	/**
 	 * Returns all the countries where companyId = &#63; and active = &#63;.
@@ -3337,8 +3337,8 @@ public class CountryPersistenceImpl
 	 * @return the matching countries
 	 */
 	@Override
-	public List<Country> findByC_A(long companyId, boolean active) {
-		return findByC_A(
+	public List<Country> findByC_Active(long companyId, boolean active) {
+		return findByC_Active(
 			companyId, active, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
@@ -3356,10 +3356,10 @@ public class CountryPersistenceImpl
 	 * @return the range of matching countries
 	 */
 	@Override
-	public List<Country> findByC_A(
+	public List<Country> findByC_Active(
 		long companyId, boolean active, int start, int end) {
 
-		return findByC_A(companyId, active, start, end, null);
+		return findByC_Active(companyId, active, start, end, null);
 	}
 
 	/**
@@ -3377,11 +3377,11 @@ public class CountryPersistenceImpl
 	 * @return the ordered range of matching countries
 	 */
 	@Override
-	public List<Country> findByC_A(
+	public List<Country> findByC_Active(
 		long companyId, boolean active, int start, int end,
 		OrderByComparator<Country> orderByComparator) {
 
-		return findByC_A(
+		return findByC_Active(
 			companyId, active, start, end, orderByComparator, true);
 	}
 
@@ -3401,7 +3401,7 @@ public class CountryPersistenceImpl
 	 * @return the ordered range of matching countries
 	 */
 	@Override
-	public List<Country> findByC_A(
+	public List<Country> findByC_Active(
 		long companyId, boolean active, int start, int end,
 		OrderByComparator<Country> orderByComparator, boolean useFinderCache) {
 
@@ -3412,12 +3412,12 @@ public class CountryPersistenceImpl
 			(orderByComparator == null)) {
 
 			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByC_A;
+				finderPath = _finderPathWithoutPaginationFindByC_Active;
 				finderArgs = new Object[] {companyId, active};
 			}
 		}
 		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByC_A;
+			finderPath = _finderPathWithPaginationFindByC_Active;
 			finderArgs = new Object[] {
 				companyId, active, start, end, orderByComparator
 			};
@@ -3455,9 +3455,9 @@ public class CountryPersistenceImpl
 
 			sb.append(_SQL_SELECT_COUNTRY_WHERE);
 
-			sb.append(_FINDER_COLUMN_C_A_COMPANYID_2);
+			sb.append(_FINDER_COLUMN_C_ACTIVE_COMPANYID_2);
 
-			sb.append(_FINDER_COLUMN_C_A_ACTIVE_2);
+			sb.append(_FINDER_COLUMN_C_ACTIVE_ACTIVE_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
@@ -3512,12 +3512,12 @@ public class CountryPersistenceImpl
 	 * @throws NoSuchCountryException if a matching country could not be found
 	 */
 	@Override
-	public Country findByC_A_First(
+	public Country findByC_Active_First(
 			long companyId, boolean active,
 			OrderByComparator<Country> orderByComparator)
 		throws NoSuchCountryException {
 
-		Country country = fetchByC_A_First(
+		Country country = fetchByC_Active_First(
 			companyId, active, orderByComparator);
 
 		if (country != null) {
@@ -3548,11 +3548,11 @@ public class CountryPersistenceImpl
 	 * @return the first matching country, or <code>null</code> if a matching country could not be found
 	 */
 	@Override
-	public Country fetchByC_A_First(
+	public Country fetchByC_Active_First(
 		long companyId, boolean active,
 		OrderByComparator<Country> orderByComparator) {
 
-		List<Country> list = findByC_A(
+		List<Country> list = findByC_Active(
 			companyId, active, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -3572,12 +3572,13 @@ public class CountryPersistenceImpl
 	 * @throws NoSuchCountryException if a matching country could not be found
 	 */
 	@Override
-	public Country findByC_A_Last(
+	public Country findByC_Active_Last(
 			long companyId, boolean active,
 			OrderByComparator<Country> orderByComparator)
 		throws NoSuchCountryException {
 
-		Country country = fetchByC_A_Last(companyId, active, orderByComparator);
+		Country country = fetchByC_Active_Last(
+			companyId, active, orderByComparator);
 
 		if (country != null) {
 			return country;
@@ -3607,17 +3608,17 @@ public class CountryPersistenceImpl
 	 * @return the last matching country, or <code>null</code> if a matching country could not be found
 	 */
 	@Override
-	public Country fetchByC_A_Last(
+	public Country fetchByC_Active_Last(
 		long companyId, boolean active,
 		OrderByComparator<Country> orderByComparator) {
 
-		int count = countByC_A(companyId, active);
+		int count = countByC_Active(companyId, active);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Country> list = findByC_A(
+		List<Country> list = findByC_Active(
 			companyId, active, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -3638,7 +3639,7 @@ public class CountryPersistenceImpl
 	 * @throws NoSuchCountryException if a country with the primary key could not be found
 	 */
 	@Override
-	public Country[] findByC_A_PrevAndNext(
+	public Country[] findByC_Active_PrevAndNext(
 			long countryId, long companyId, boolean active,
 			OrderByComparator<Country> orderByComparator)
 		throws NoSuchCountryException {
@@ -3652,12 +3653,12 @@ public class CountryPersistenceImpl
 
 			Country[] array = new CountryImpl[3];
 
-			array[0] = getByC_A_PrevAndNext(
+			array[0] = getByC_Active_PrevAndNext(
 				session, country, companyId, active, orderByComparator, true);
 
 			array[1] = country;
 
-			array[2] = getByC_A_PrevAndNext(
+			array[2] = getByC_Active_PrevAndNext(
 				session, country, companyId, active, orderByComparator, false);
 
 			return array;
@@ -3670,7 +3671,7 @@ public class CountryPersistenceImpl
 		}
 	}
 
-	protected Country getByC_A_PrevAndNext(
+	protected Country getByC_Active_PrevAndNext(
 		Session session, Country country, long companyId, boolean active,
 		OrderByComparator<Country> orderByComparator, boolean previous) {
 
@@ -3687,9 +3688,9 @@ public class CountryPersistenceImpl
 
 		sb.append(_SQL_SELECT_COUNTRY_WHERE);
 
-		sb.append(_FINDER_COLUMN_C_A_COMPANYID_2);
+		sb.append(_FINDER_COLUMN_C_ACTIVE_COMPANYID_2);
 
-		sb.append(_FINDER_COLUMN_C_A_ACTIVE_2);
+		sb.append(_FINDER_COLUMN_C_ACTIVE_ACTIVE_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
@@ -3789,9 +3790,9 @@ public class CountryPersistenceImpl
 	 * @param active the active
 	 */
 	@Override
-	public void removeByC_A(long companyId, boolean active) {
+	public void removeByC_Active(long companyId, boolean active) {
 		for (Country country :
-				findByC_A(
+				findByC_Active(
 					companyId, active, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 					null)) {
 
@@ -3807,8 +3808,8 @@ public class CountryPersistenceImpl
 	 * @return the number of matching countries
 	 */
 	@Override
-	public int countByC_A(long companyId, boolean active) {
-		FinderPath finderPath = _finderPathCountByC_A;
+	public int countByC_Active(long companyId, boolean active) {
+		FinderPath finderPath = _finderPathCountByC_Active;
 
 		Object[] finderArgs = new Object[] {companyId, active};
 
@@ -3819,9 +3820,9 @@ public class CountryPersistenceImpl
 
 			sb.append(_SQL_COUNT_COUNTRY_WHERE);
 
-			sb.append(_FINDER_COLUMN_C_A_COMPANYID_2);
+			sb.append(_FINDER_COLUMN_C_ACTIVE_COMPANYID_2);
 
-			sb.append(_FINDER_COLUMN_C_A_ACTIVE_2);
+			sb.append(_FINDER_COLUMN_C_ACTIVE_ACTIVE_2);
 
 			String sql = sb.toString();
 
@@ -3853,10 +3854,10 @@ public class CountryPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_A_COMPANYID_2 =
+	private static final String _FINDER_COLUMN_C_ACTIVE_COMPANYID_2 =
 		"country.companyId = ? AND ";
 
-	private static final String _FINDER_COLUMN_C_A_ACTIVE_2 =
+	private static final String _FINDER_COLUMN_C_ACTIVE_ACTIVE_2 =
 		"country.active = ?";
 
 	private FinderPath _finderPathFetchByC_Name;
@@ -6273,8 +6274,8 @@ public class CountryPersistenceImpl
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "a3"}, false);
 
-		_finderPathWithPaginationFindByC_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_A",
+		_finderPathWithPaginationFindByC_Active = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_Active",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -6282,13 +6283,13 @@ public class CountryPersistenceImpl
 			},
 			new String[] {"companyId", "active_"}, true);
 
-		_finderPathWithoutPaginationFindByC_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_A",
+		_finderPathWithoutPaginationFindByC_Active = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_Active",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"companyId", "active_"}, true);
 
-		_finderPathCountByC_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A",
+		_finderPathCountByC_Active = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_Active",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"companyId", "active_"}, false);
 
