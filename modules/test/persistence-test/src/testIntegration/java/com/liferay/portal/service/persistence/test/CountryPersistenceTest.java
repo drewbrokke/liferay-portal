@@ -295,11 +295,11 @@ public class CountryPersistenceTest {
 	}
 
 	@Test
-	public void testCountByC_A() throws Exception {
-		_persistence.countByC_A(
+	public void testCountByC_Active() throws Exception {
+		_persistence.countByC_Active(
 			RandomTestUtil.nextLong(), RandomTestUtil.randomBoolean());
 
-		_persistence.countByC_A(0L, RandomTestUtil.randomBoolean());
+		_persistence.countByC_Active(0L, RandomTestUtil.randomBoolean());
 	}
 
 	@Test
