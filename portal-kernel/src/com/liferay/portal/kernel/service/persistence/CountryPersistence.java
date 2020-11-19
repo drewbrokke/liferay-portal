@@ -854,7 +854,8 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @param active the active
 	 * @return the matching countries
 	 */
-	public java.util.List<Country> findByC_A(long companyId, boolean active);
+	public java.util.List<Country> findByC_Active(
+		long companyId, boolean active);
 
 	/**
 	 * Returns a range of all the countries where companyId = &#63; and active = &#63;.
@@ -869,7 +870,7 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @param end the upper bound of the range of countries (not inclusive)
 	 * @return the range of matching countries
 	 */
-	public java.util.List<Country> findByC_A(
+	public java.util.List<Country> findByC_Active(
 		long companyId, boolean active, int start, int end);
 
 	/**
@@ -886,7 +887,7 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching countries
 	 */
-	public java.util.List<Country> findByC_A(
+	public java.util.List<Country> findByC_Active(
 		long companyId, boolean active, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Country>
 			orderByComparator);
@@ -906,7 +907,7 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching countries
 	 */
-	public java.util.List<Country> findByC_A(
+	public java.util.List<Country> findByC_Active(
 		long companyId, boolean active, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Country>
 			orderByComparator,
@@ -921,7 +922,7 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @return the first matching country
 	 * @throws NoSuchCountryException if a matching country could not be found
 	 */
-	public Country findByC_A_First(
+	public Country findByC_Active_First(
 			long companyId, boolean active,
 			com.liferay.portal.kernel.util.OrderByComparator<Country>
 				orderByComparator)
@@ -935,7 +936,7 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching country, or <code>null</code> if a matching country could not be found
 	 */
-	public Country fetchByC_A_First(
+	public Country fetchByC_Active_First(
 		long companyId, boolean active,
 		com.liferay.portal.kernel.util.OrderByComparator<Country>
 			orderByComparator);
@@ -949,7 +950,7 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @return the last matching country
 	 * @throws NoSuchCountryException if a matching country could not be found
 	 */
-	public Country findByC_A_Last(
+	public Country findByC_Active_Last(
 			long companyId, boolean active,
 			com.liferay.portal.kernel.util.OrderByComparator<Country>
 				orderByComparator)
@@ -963,7 +964,7 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching country, or <code>null</code> if a matching country could not be found
 	 */
-	public Country fetchByC_A_Last(
+	public Country fetchByC_Active_Last(
 		long companyId, boolean active,
 		com.liferay.portal.kernel.util.OrderByComparator<Country>
 			orderByComparator);
@@ -978,7 +979,7 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @return the previous, current, and next country
 	 * @throws NoSuchCountryException if a country with the primary key could not be found
 	 */
-	public Country[] findByC_A_PrevAndNext(
+	public Country[] findByC_Active_PrevAndNext(
 			long countryId, long companyId, boolean active,
 			com.liferay.portal.kernel.util.OrderByComparator<Country>
 				orderByComparator)
@@ -990,7 +991,7 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @param companyId the company ID
 	 * @param active the active
 	 */
-	public void removeByC_A(long companyId, boolean active);
+	public void removeByC_Active(long companyId, boolean active);
 
 	/**
 	 * Returns the number of countries where companyId = &#63; and active = &#63;.
@@ -999,7 +1000,7 @@ public interface CountryPersistence extends BasePersistence<Country> {
 	 * @param active the active
 	 * @return the number of matching countries
 	 */
-	public int countByC_A(long companyId, boolean active);
+	public int countByC_Active(long companyId, boolean active);
 
 	/**
 	 * Returns the country where companyId = &#63; and name = &#63; or throws a <code>NoSuchCountryException</code> if it could not be found.
