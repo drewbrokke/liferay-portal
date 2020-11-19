@@ -1097,8 +1097,8 @@ public class CountryUtil {
 	 * @param active the active
 	 * @return the matching countries
 	 */
-	public static List<Country> findByC_A(long companyId, boolean active) {
-		return getPersistence().findByC_A(companyId, active);
+	public static List<Country> findByC_Active(long companyId, boolean active) {
+		return getPersistence().findByC_Active(companyId, active);
 	}
 
 	/**
@@ -1114,10 +1114,10 @@ public class CountryUtil {
 	 * @param end the upper bound of the range of countries (not inclusive)
 	 * @return the range of matching countries
 	 */
-	public static List<Country> findByC_A(
+	public static List<Country> findByC_Active(
 		long companyId, boolean active, int start, int end) {
 
-		return getPersistence().findByC_A(companyId, active, start, end);
+		return getPersistence().findByC_Active(companyId, active, start, end);
 	}
 
 	/**
@@ -1134,11 +1134,11 @@ public class CountryUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching countries
 	 */
-	public static List<Country> findByC_A(
+	public static List<Country> findByC_Active(
 		long companyId, boolean active, int start, int end,
 		OrderByComparator<Country> orderByComparator) {
 
-		return getPersistence().findByC_A(
+		return getPersistence().findByC_Active(
 			companyId, active, start, end, orderByComparator);
 	}
 
@@ -1157,11 +1157,11 @@ public class CountryUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching countries
 	 */
-	public static List<Country> findByC_A(
+	public static List<Country> findByC_Active(
 		long companyId, boolean active, int start, int end,
 		OrderByComparator<Country> orderByComparator, boolean useFinderCache) {
 
-		return getPersistence().findByC_A(
+		return getPersistence().findByC_Active(
 			companyId, active, start, end, orderByComparator, useFinderCache);
 	}
 
@@ -1174,12 +1174,12 @@ public class CountryUtil {
 	 * @return the first matching country
 	 * @throws NoSuchCountryException if a matching country could not be found
 	 */
-	public static Country findByC_A_First(
+	public static Country findByC_Active_First(
 			long companyId, boolean active,
 			OrderByComparator<Country> orderByComparator)
 		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
 
-		return getPersistence().findByC_A_First(
+		return getPersistence().findByC_Active_First(
 			companyId, active, orderByComparator);
 	}
 
@@ -1191,11 +1191,11 @@ public class CountryUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching country, or <code>null</code> if a matching country could not be found
 	 */
-	public static Country fetchByC_A_First(
+	public static Country fetchByC_Active_First(
 		long companyId, boolean active,
 		OrderByComparator<Country> orderByComparator) {
 
-		return getPersistence().fetchByC_A_First(
+		return getPersistence().fetchByC_Active_First(
 			companyId, active, orderByComparator);
 	}
 
@@ -1208,12 +1208,12 @@ public class CountryUtil {
 	 * @return the last matching country
 	 * @throws NoSuchCountryException if a matching country could not be found
 	 */
-	public static Country findByC_A_Last(
+	public static Country findByC_Active_Last(
 			long companyId, boolean active,
 			OrderByComparator<Country> orderByComparator)
 		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
 
-		return getPersistence().findByC_A_Last(
+		return getPersistence().findByC_Active_Last(
 			companyId, active, orderByComparator);
 	}
 
@@ -1225,11 +1225,11 @@ public class CountryUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching country, or <code>null</code> if a matching country could not be found
 	 */
-	public static Country fetchByC_A_Last(
+	public static Country fetchByC_Active_Last(
 		long companyId, boolean active,
 		OrderByComparator<Country> orderByComparator) {
 
-		return getPersistence().fetchByC_A_Last(
+		return getPersistence().fetchByC_Active_Last(
 			companyId, active, orderByComparator);
 	}
 
@@ -1243,12 +1243,12 @@ public class CountryUtil {
 	 * @return the previous, current, and next country
 	 * @throws NoSuchCountryException if a country with the primary key could not be found
 	 */
-	public static Country[] findByC_A_PrevAndNext(
+	public static Country[] findByC_Active_PrevAndNext(
 			long countryId, long companyId, boolean active,
 			OrderByComparator<Country> orderByComparator)
 		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
 
-		return getPersistence().findByC_A_PrevAndNext(
+		return getPersistence().findByC_Active_PrevAndNext(
 			countryId, companyId, active, orderByComparator);
 	}
 
@@ -1258,8 +1258,8 @@ public class CountryUtil {
 	 * @param companyId the company ID
 	 * @param active the active
 	 */
-	public static void removeByC_A(long companyId, boolean active) {
-		getPersistence().removeByC_A(companyId, active);
+	public static void removeByC_Active(long companyId, boolean active) {
+		getPersistence().removeByC_Active(companyId, active);
 	}
 
 	/**
@@ -1269,8 +1269,8 @@ public class CountryUtil {
 	 * @param active the active
 	 * @return the number of matching countries
 	 */
-	public static int countByC_A(long companyId, boolean active) {
-		return getPersistence().countByC_A(companyId, active);
+	public static int countByC_Active(long companyId, boolean active) {
+		return getPersistence().countByC_Active(companyId, active);
 	}
 
 	/**
