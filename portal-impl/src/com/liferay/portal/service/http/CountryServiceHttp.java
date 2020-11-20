@@ -138,13 +138,49 @@ public class CountryServiceHttp {
 		}
 	}
 
+	public static void deleteCountry(
+			HttpPrincipal httpPrincipal, long countryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "deleteCountry",
+				_deleteCountryParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, countryId);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static com.liferay.portal.kernel.model.Country fetchCountry(
 		HttpPrincipal httpPrincipal, long countryId) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "fetchCountry",
-				_fetchCountryParameterTypes2);
+				_fetchCountryParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, countryId);
@@ -176,7 +212,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "fetchCountryByA2",
-				_fetchCountryByA2ParameterTypes3);
+				_fetchCountryByA2ParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, a2);
 
@@ -207,7 +243,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "fetchCountryByA3",
-				_fetchCountryByA3ParameterTypes4);
+				_fetchCountryByA3ParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, a3);
 
@@ -232,13 +268,111 @@ public class CountryServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.model.Country
+		fetchCountryByCompanyIdAndA2(
+			HttpPrincipal httpPrincipal, long companyId, String a2) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "fetchCountryByCompanyIdAndA2",
+				_fetchCountryByCompanyIdAndA2ParameterTypes6);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, a2);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.model.Country)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.portal.kernel.model.Country
+		fetchCountryByCompanyIdAndA3(
+			HttpPrincipal httpPrincipal, long companyId, String a3) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "fetchCountryByCompanyIdAndA3",
+				_fetchCountryByCompanyIdAndA3ParameterTypes7);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, a3);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.model.Country)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static int getCountByCompanyIdAndActive(
+		HttpPrincipal httpPrincipal, long companyId, boolean active) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getCountByCompanyIdAndActive",
+				_getCountByCompanyIdAndActiveParameterTypes8);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, active);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return ((Integer)returnObj).intValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static java.util.List<com.liferay.portal.kernel.model.Country>
 		getCountries(HttpPrincipal httpPrincipal) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountries",
-				_getCountriesParameterTypes5);
+				_getCountriesParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -270,7 +404,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountries",
-				_getCountriesParameterTypes6);
+				_getCountriesParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, active);
 
@@ -296,6 +430,178 @@ public class CountryServiceHttp {
 		}
 	}
 
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getCountriesByCompanyId(HttpPrincipal httpPrincipal, long companyId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getCountriesByCompanyId",
+				_getCountriesByCompanyIdParameterTypes11);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.liferay.portal.kernel.model.Country>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getCountriesByCompanyId(
+			HttpPrincipal httpPrincipal, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.Country> orderByComparator) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getCountriesByCompanyId",
+				_getCountriesByCompanyIdParameterTypes12);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, start, end, orderByComparator);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.liferay.portal.kernel.model.Country>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getCountriesByCompanyIdAndActive(
+			HttpPrincipal httpPrincipal, long companyId, boolean active) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getCountriesByCompanyIdAndActive",
+				_getCountriesByCompanyIdAndActiveParameterTypes13);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, active);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.liferay.portal.kernel.model.Country>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getCountriesByCompanyIdAndActive(
+			HttpPrincipal httpPrincipal, long companyId, boolean active,
+			int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.Country> orderByComparator) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getCountriesByCompanyIdAndActive",
+				_getCountriesByCompanyIdAndActiveParameterTypes14);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, active, start, end, orderByComparator);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.liferay.portal.kernel.model.Country>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static int getCountriesCountByCompanyId(
+		HttpPrincipal httpPrincipal, long companyId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getCountriesCountByCompanyId",
+				_getCountriesCountByCompanyIdParameterTypes15);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return ((Integer)returnObj).intValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static com.liferay.portal.kernel.model.Country getCountry(
 			HttpPrincipal httpPrincipal, long countryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -303,7 +609,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountry",
-				_getCountryParameterTypes7);
+				_getCountryParameterTypes16);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, countryId);
@@ -343,7 +649,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountryByA2",
-				_getCountryByA2ParameterTypes8);
+				_getCountryByA2ParameterTypes17);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, a2);
 
@@ -382,7 +688,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountryByA3",
-				_getCountryByA3ParameterTypes9);
+				_getCountryByA3ParameterTypes18);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, a3);
 
@@ -414,6 +720,132 @@ public class CountryServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.model.Country
+			getCountryByCompanyIdAndA2(
+				HttpPrincipal httpPrincipal, long companyId, String a2)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getCountryByCompanyIdAndA2",
+				_getCountryByCompanyIdAndA2ParameterTypes19);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, a2);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.
+							NoSuchCountryException) {
+
+					throw (com.liferay.portal.kernel.exception.
+						NoSuchCountryException)exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.model.Country)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.portal.kernel.model.Country
+			getCountryByCompanyIdAndA3(
+				HttpPrincipal httpPrincipal, long companyId, String a3)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getCountryByCompanyIdAndA3",
+				_getCountryByCompanyIdAndA3ParameterTypes20);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, a3);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.
+							NoSuchCountryException) {
+
+					throw (com.liferay.portal.kernel.exception.
+						NoSuchCountryException)exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.model.Country)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.portal.kernel.model.Country
+			getCountryByCompanyIdAndName(
+				HttpPrincipal httpPrincipal, long companyId, String name)
+		throws com.liferay.portal.kernel.exception.NoSuchCountryException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getCountryByCompanyIdAndName",
+				_getCountryByCompanyIdAndNameParameterTypes21);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, name);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.
+							NoSuchCountryException) {
+
+					throw (com.liferay.portal.kernel.exception.
+						NoSuchCountryException)exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.model.Country)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static com.liferay.portal.kernel.model.Country getCountryByName(
 			HttpPrincipal httpPrincipal, String name)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -421,9 +853,135 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountryByName",
-				_getCountryByNameParameterTypes10);
+				_getCountryByNameParameterTypes22);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, name);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.model.Country)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.portal.kernel.model.Country setActive(
+			HttpPrincipal httpPrincipal, long countryId, boolean active)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "setActive",
+				_setActiveParameterTypes23);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, countryId, active);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.model.Country)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.portal.kernel.model.Country updateCountry(
+			HttpPrincipal httpPrincipal, long countryId, String a2, String a3,
+			boolean active, boolean billingAllowed, String idd, String name,
+			String number, double position, boolean shippingAllowed,
+			boolean subjectToVAT, java.util.Map<String, String> titleMap)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "updateCountry",
+				_updateCountryParameterTypes24);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, countryId, a2, a3, active, billingAllowed, idd, name,
+				number, position, shippingAllowed, subjectToVAT, titleMap);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.model.Country)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.portal.kernel.model.Country
+			updateCountryGroupFilter(
+				HttpPrincipal httpPrincipal, long countryId,
+				boolean groupFilterEnabled)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "updateCountryGroupFilter",
+				_updateCountryGroupFilterParameterTypes25);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, countryId, groupFilterEnabled);
 
 			Object returnObj = null;
 
@@ -465,26 +1023,82 @@ public class CountryServiceHttp {
 		String.class, String.class, String.class, String.class, String.class,
 		boolean.class
 	};
-	private static final Class<?>[] _fetchCountryParameterTypes2 = new Class[] {
+	private static final Class<?>[] _deleteCountryParameterTypes2 =
+		new Class[] {long.class};
+	private static final Class<?>[] _fetchCountryParameterTypes3 = new Class[] {
 		long.class
 	};
-	private static final Class<?>[] _fetchCountryByA2ParameterTypes3 =
+	private static final Class<?>[] _fetchCountryByA2ParameterTypes4 =
 		new Class[] {String.class};
-	private static final Class<?>[] _fetchCountryByA3ParameterTypes4 =
+	private static final Class<?>[] _fetchCountryByA3ParameterTypes5 =
 		new Class[] {String.class};
-	private static final Class<?>[] _getCountriesParameterTypes5 =
+	private static final Class<?>[]
+		_fetchCountryByCompanyIdAndA2ParameterTypes6 = new Class[] {
+			long.class, String.class
+		};
+	private static final Class<?>[]
+		_fetchCountryByCompanyIdAndA3ParameterTypes7 = new Class[] {
+			long.class, String.class
+		};
+	private static final Class<?>[]
+		_getCountByCompanyIdAndActiveParameterTypes8 = new Class[] {
+			long.class, boolean.class
+		};
+	private static final Class<?>[] _getCountriesParameterTypes9 =
 		new Class[] {};
-	private static final Class<?>[] _getCountriesParameterTypes6 = new Class[] {
-		boolean.class
-	};
-	private static final Class<?>[] _getCountryParameterTypes7 = new Class[] {
+	private static final Class<?>[] _getCountriesParameterTypes10 =
+		new Class[] {boolean.class};
+	private static final Class<?>[] _getCountriesByCompanyIdParameterTypes11 =
+		new Class[] {long.class};
+	private static final Class<?>[] _getCountriesByCompanyIdParameterTypes12 =
+		new Class[] {
+			long.class, int.class, int.class,
+			com.liferay.portal.kernel.util.OrderByComparator.class
+		};
+	private static final Class<?>[]
+		_getCountriesByCompanyIdAndActiveParameterTypes13 = new Class[] {
+			long.class, boolean.class
+		};
+	private static final Class<?>[]
+		_getCountriesByCompanyIdAndActiveParameterTypes14 = new Class[] {
+			long.class, boolean.class, int.class, int.class,
+			com.liferay.portal.kernel.util.OrderByComparator.class
+		};
+	private static final Class<?>[]
+		_getCountriesCountByCompanyIdParameterTypes15 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _getCountryParameterTypes16 = new Class[] {
 		long.class
 	};
-	private static final Class<?>[] _getCountryByA2ParameterTypes8 =
+	private static final Class<?>[] _getCountryByA2ParameterTypes17 =
 		new Class[] {String.class};
-	private static final Class<?>[] _getCountryByA3ParameterTypes9 =
+	private static final Class<?>[] _getCountryByA3ParameterTypes18 =
 		new Class[] {String.class};
-	private static final Class<?>[] _getCountryByNameParameterTypes10 =
+	private static final Class<?>[]
+		_getCountryByCompanyIdAndA2ParameterTypes19 = new Class[] {
+			long.class, String.class
+		};
+	private static final Class<?>[]
+		_getCountryByCompanyIdAndA3ParameterTypes20 = new Class[] {
+			long.class, String.class
+		};
+	private static final Class<?>[]
+		_getCountryByCompanyIdAndNameParameterTypes21 = new Class[] {
+			long.class, String.class
+		};
+	private static final Class<?>[] _getCountryByNameParameterTypes22 =
 		new Class[] {String.class};
+	private static final Class<?>[] _setActiveParameterTypes23 = new Class[] {
+		long.class, boolean.class
+	};
+	private static final Class<?>[] _updateCountryParameterTypes24 =
+		new Class[] {
+			long.class, String.class, String.class, boolean.class,
+			boolean.class, String.class, String.class, String.class,
+			double.class, boolean.class, boolean.class, java.util.Map.class
+		};
+	private static final Class<?>[] _updateCountryGroupFilterParameterTypes25 =
+		new Class[] {long.class, boolean.class};
 
 }
