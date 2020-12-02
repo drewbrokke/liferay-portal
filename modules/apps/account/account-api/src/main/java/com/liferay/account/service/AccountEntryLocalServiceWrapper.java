@@ -441,6 +441,48 @@ public class AccountEntryLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.liferay.account.model.AccountEntry>
+			getUserAccountEntries(
+				long userId, Long parentAccountEntryId, String[] types,
+				String keywords, Boolean active, int start, int end)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.getUserAccountEntries(
+			userId, parentAccountEntryId, types, keywords, active, start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.account.model.AccountEntry>
+			getUserAccountEntries(
+				long userId, Long parentAccountEntryId, String[] types,
+				String keywords, int start, int end)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.getUserAccountEntries(
+			userId, parentAccountEntryId, types, keywords, start, end);
+	}
+
+	@Override
+	public int getUserAccountEntriesCount(
+			long userId, Long parentAccountEntryId, String[] types,
+			String keywords)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.getUserAccountEntriesCount(
+			userId, parentAccountEntryId, types, keywords);
+	}
+
+	@Override
+	public int getUserAccountEntriesCount(
+			long userId, Long parentAccountEntryId, String[] types,
+			String keywords, Boolean active)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.getUserAccountEntriesCount(
+			userId, parentAccountEntryId, types, keywords, active);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.search.BaseModelSearchResult
 		<com.liferay.account.model.AccountEntry> search(
 			long companyId, String keywords,
