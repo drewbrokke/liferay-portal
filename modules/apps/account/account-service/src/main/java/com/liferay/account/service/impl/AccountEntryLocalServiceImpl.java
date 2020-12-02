@@ -304,6 +304,42 @@ public class AccountEntryLocalServiceImpl
 	}
 
 	@Override
+	public List<AccountEntry> getUserAccountEntries(
+			long userId, Long parentAccountEntryId, String[] types,
+			String keywords, Boolean active, int start, int end)
+		throws PortalException {
+
+		return null;
+	}
+
+	@Override
+	public List<AccountEntry> getUserAccountEntries(
+			long userId, Long parentAccountEntryId, String[] types,
+			String keywords, int start, int end)
+		throws PortalException {
+
+		return null;
+	}
+
+	@Override
+	public int getUserAccountEntriesCount(
+			long userId, Long parentAccountEntryId, String[] types,
+			String keywords)
+		throws PortalException {
+
+		return 0;
+	}
+
+	@Override
+	public int getUserAccountEntriesCount(
+			long userId, Long parentAccountEntryId, String[] types,
+			String keywords, Boolean active)
+		throws PortalException {
+
+		return 0;
+	}
+
+	@Override
 	public BaseModelSearchResult<AccountEntry> search(
 		long companyId, String keywords, LinkedHashMap<String, Object> params,
 		int cur, int delta, String orderByField, boolean reverse) {
