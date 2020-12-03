@@ -19,7 +19,17 @@ import com.liferay.account.exception.AccountEntryDomainsException;
 import com.liferay.account.exception.AccountEntryNameException;
 import com.liferay.account.exception.AccountEntryTypeException;
 import com.liferay.account.model.AccountEntry;
+import com.liferay.account.model.AccountEntryOrganizationRelTable;
+import com.liferay.account.model.AccountEntryTable;
+import com.liferay.account.model.AccountEntryUserRelTable;
 import com.liferay.account.service.base.AccountEntryLocalServiceBaseImpl;
+import com.liferay.petra.sql.dsl.DSLFunctionFactoryUtil;
+import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
+import com.liferay.petra.sql.dsl.expression.Predicate;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.petra.sql.dsl.query.FromStep;
+import com.liferay.petra.sql.dsl.query.GroupByStep;
+import com.liferay.petra.sql.dsl.query.JoinStep;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
@@ -29,8 +39,10 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.ModelHintsUtil;
+import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserTable;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
@@ -41,6 +53,7 @@ import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Portal;
@@ -63,6 +76,9 @@ import com.liferay.users.admin.kernel.file.uploads.UserFileUploadsSettings;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.validator.routines.DomainValidator;
 
@@ -306,19 +322,24 @@ public class AccountEntryLocalServiceImpl
 	@Override
 	public List<AccountEntry> getUserAccountEntries(
 			long userId, Long parentAccountEntryId, String[] types,
-			String keywords, Boolean active, int start, int end)
+			String keywords, int start, int end)
 		throws PortalException {
 
-		return null;
+		return getUserAccountEntries(
+			userId, parentAccountEntryId, types, keywords,
+			WorkflowConstants.STATUS_ANY, start, end);
 	}
 
 	@Override
 	public List<AccountEntry> getUserAccountEntries(
 			long userId, Long parentAccountEntryId, String[] types,
-			String keywords, int start, int end)
+			String keywords, Integer status, int start, int end)
 		throws PortalException {
 
-		return null;
+		return dslQuery(
+			_getFindByU_P_DSLQuery(
+				keywords, parentAccountEntryId, status, types, userId, start,
+				end));
 	}
 
 	@Override
@@ -327,16 +348,20 @@ public class AccountEntryLocalServiceImpl
 			String keywords)
 		throws PortalException {
 
-		return 0;
+		return getUserAccountEntriesCount(
+			userId, parentAccountEntryId, types, keywords,
+			WorkflowConstants.STATUS_ANY);
 	}
 
 	@Override
 	public int getUserAccountEntriesCount(
 			long userId, Long parentAccountEntryId, String[] types,
-			String keywords, Boolean active)
+			String keywords, Integer status)
 		throws PortalException {
 
-		return 0;
+		return dslQuery(
+			_getCountByU_P_DSLQuery(
+				keywords, parentAccountEntryId, status, types, userId));
 	}
 
 	@Override
@@ -460,6 +485,118 @@ public class AccountEntryLocalServiceImpl
 		return updateAccountEntry(accountEntry);
 	}
 
+	private DSLQuery _getCountByU_P_DSLQuery(
+			String keywords, Long parentAccountId, Integer status,
+			String[] types, long userId)
+		throws PortalException {
+
+		return _getGenericByU_P_DSLQuery(
+			DSLQueryFactoryUtil.countDistinct(
+				AccountEntryTable.INSTANCE.accountEntryId.as("COUNT_VALUE")),
+			keywords, parentAccountId, status, types, userId);
+	}
+
+	private DSLQuery _getFindByU_P_DSLQuery(
+			String keywords, Long parentAccountId, Integer status,
+			String[] types, long userId, int start, int end)
+		throws PortalException {
+
+		return _getGenericByU_P_DSLQuery(
+			DSLQueryFactoryUtil.selectDistinct(AccountEntryTable.INSTANCE),
+			keywords, parentAccountId, status, types, userId
+		).limit(
+			start, end
+		);
+	}
+
+	private GroupByStep _getGenericByU_P_DSLQuery(
+			FromStep fromStep, String keywords, Long parentAccountId,
+			Integer status, String[] types, long userId)
+		throws PortalException {
+
+		JoinStep joinStep = fromStep.from(
+			UserTable.INSTANCE
+		).leftJoinOn(
+			AccountEntryUserRelTable.INSTANCE,
+			AccountEntryUserRelTable.INSTANCE.accountUserId.eq(
+				UserTable.INSTANCE.userId)
+		);
+
+		Long[] organizationIds = _getUserOrganizations(userId);
+
+		if (ArrayUtil.isNotEmpty(organizationIds)) {
+			joinStep = joinStep.leftJoinOn(
+				AccountEntryOrganizationRelTable.INSTANCE,
+				AccountEntryOrganizationRelTable.INSTANCE.organizationId.in(
+					organizationIds));
+		}
+
+		Predicate accountEntryTablePredicate =
+			AccountEntryTable.INSTANCE.accountEntryId.eq(
+				AccountEntryUserRelTable.INSTANCE.accountEntryId);
+
+		if (ArrayUtil.isNotEmpty(organizationIds)) {
+			accountEntryTablePredicate = accountEntryTablePredicate.and(
+				AccountEntryTable.INSTANCE.accountEntryId.eq(
+					AccountEntryOrganizationRelTable.INSTANCE.accountEntryId));
+		}
+
+		joinStep = joinStep.leftJoinOn(
+			AccountEntryTable.INSTANCE, accountEntryTablePredicate);
+
+		return joinStep.where(
+			() -> {
+				Predicate predicate = UserTable.INSTANCE.userId.eq(userId);
+
+				if (parentAccountId != null) {
+					predicate = predicate.and(
+						AccountEntryTable.INSTANCE.parentAccountEntryId.eq(
+							parentAccountId));
+				}
+
+				if (Validator.isNotNull(keywords)) {
+					String[] terms = {keywords};
+
+					Predicate keywordsPredicate = null;
+
+					for (String term : terms) {
+						Predicate termPredicate = DSLFunctionFactoryUtil.lower(
+							AccountEntryTable.INSTANCE.name
+						).like(
+							term
+						);
+
+						if (keywordsPredicate == null) {
+							keywordsPredicate = termPredicate;
+						}
+						else {
+							keywordsPredicate = keywordsPredicate.or(
+								termPredicate);
+						}
+					}
+
+					if (keywordsPredicate != null) {
+						predicate = predicate.and(
+							keywordsPredicate.withParentheses());
+					}
+				}
+
+				if (types != null) {
+					predicate = predicate.and(
+						AccountEntryTable.INSTANCE.type.in(types));
+				}
+
+				if ((status != null) &&
+					(status != WorkflowConstants.STATUS_ANY)) {
+
+					predicate = predicate.and(
+						AccountEntryTable.INSTANCE.status.eq(status));
+				}
+
+				return predicate;
+			});
+	}
+
 	private SearchRequest _getSearchRequest(
 		long companyId, String keywords, LinkedHashMap<String, Object> params,
 		int cur, int delta, String orderByField, boolean reverse) {
@@ -499,6 +636,42 @@ public class AccountEntryLocalServiceImpl
 		}
 
 		return searchRequestBuilder.build();
+	}
+
+	private Long[] _getUserOrganizations(long userId) throws PortalException {
+		List<Organization> organizations =
+			organizationLocalService.getUserOrganizations(userId);
+
+		User user = userLocalService.getUser(userId);
+
+		ListIterator<Organization> organizationListIterator =
+			organizations.listIterator();
+
+		while (organizationListIterator.hasNext()) {
+			Organization organization = organizationListIterator.next();
+
+			for (Organization curOrganization :
+					organizationLocalService.getOrganizations(
+						user.getCompanyId(),
+						organization.getTreePath() + "%")) {
+
+				organizationListIterator.add(curOrganization);
+			}
+		}
+
+		Stream<Organization> organizationStream = organizations.stream();
+
+		List<Long> organizationIds = organizationStream.map(
+			Organization::getOrganizationId
+		).collect(
+			Collectors.toList()
+		);
+
+		if (ListUtil.isNotEmpty(organizationIds)) {
+			return organizationIds.toArray(new Long[0]);
+		}
+
+		return new Long[0];
 	}
 
 	private void _performActions(
