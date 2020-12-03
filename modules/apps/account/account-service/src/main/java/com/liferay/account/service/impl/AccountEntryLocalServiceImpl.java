@@ -32,6 +32,7 @@ import com.liferay.petra.sql.dsl.query.GroupByStep;
 import com.liferay.petra.sql.dsl.query.JoinStep;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -555,7 +556,7 @@ public class AccountEntryLocalServiceImpl
 				}
 
 				if (Validator.isNotNull(keywords)) {
-					String[] terms = {keywords};
+					String[] terms = _customSQL.keywords(keywords, true);
 
 					Predicate keywordsPredicate = null;
 
@@ -798,6 +799,9 @@ public class AccountEntryLocalServiceImpl
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
+
+	@Reference
+	private CustomSQL _customSQL;
 
 	@Reference
 	private Portal _portal;
