@@ -710,20 +710,17 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	private AccountEntry _addUserAccount(
-		AddAccountEntryParameters addAccountEntryParameters)
+			long userId, String name, ServiceContext serviceContext,
+			String type)
 		throws Exception {
 
 		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
-			addAccountEntryParameters.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
-			addAccountEntryParameters.getName(),
-			RandomTestUtil.randomString(), null, null, null,
-			addAccountEntryParameters.getType(),
-			WorkflowConstants.STATUS_APPROVED,
-			addAccountEntryParameters.getServiceContext());
+			userId, AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT, name,
+			RandomTestUtil.randomString(), null, null, null, type,
+			WorkflowConstants.STATUS_APPROVED, serviceContext);
 
 		_accountEntryUserRelLocalService.addAccountEntryUserRel(
-			accountEntry.getAccountEntryId(),
-			addAccountEntryParameters.getUserId());
+			accountEntry.getAccountEntryId(), userId);
 
 		return accountEntry;
 	}
@@ -733,9 +730,8 @@ public class AccountEntryLocalServiceTest {
 		throws Exception {
 
 		return _addUserAccount(
-			new AddAccountEntryParameters(
-				userId, name, serviceContext,
-				AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS));
+			userId, name, serviceContext,
+			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS);
 	}
 
 	private AccountEntry _addUserPersonAccount(
@@ -743,9 +739,8 @@ public class AccountEntryLocalServiceTest {
 		throws Exception {
 
 		return _addUserAccount(
-			new AddAccountEntryParameters(
-				userId, name, serviceContext,
-				AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON));
+			userId, name, serviceContext,
+			AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON);
 	}
 
 	private void _assertDeleted(long accountEntryId) throws Exception {
@@ -892,35 +887,4 @@ public class AccountEntryLocalServiceTest {
 
 	private User _user;
 
-	private static class AddAccountEntryParameters {
-		private final long _userId;
-		private final String _name;
-		private final ServiceContext _serviceContext;
-		private final String _type;
-
-		private AddAccountEntryParameters(
-			long userId, String name, ServiceContext serviceContext,
-			String type) {
-			_userId = userId;
-			_name = name;
-			_serviceContext = serviceContext;
-			_type = type;
-		}
-
-		public long getUserId() {
-			return _userId;
-		}
-
-		public String getName() {
-			return _name;
-		}
-
-		public ServiceContext getServiceContext() {
-			return _serviceContext;
-		}
-
-		public String getType() {
-			return _type;
-		}
-	}
 }
