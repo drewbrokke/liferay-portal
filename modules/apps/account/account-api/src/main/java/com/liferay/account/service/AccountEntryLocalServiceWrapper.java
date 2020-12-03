@@ -444,22 +444,22 @@ public class AccountEntryLocalServiceWrapper
 	public java.util.List<com.liferay.account.model.AccountEntry>
 			getUserAccountEntries(
 				long userId, Long parentAccountEntryId, String[] types,
-				String keywords, Boolean active, int start, int end)
+				String keywords, int start, int end)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _accountEntryLocalService.getUserAccountEntries(
-			userId, parentAccountEntryId, types, keywords, active, start, end);
+			userId, parentAccountEntryId, types, keywords, start, end);
 	}
 
 	@Override
 	public java.util.List<com.liferay.account.model.AccountEntry>
 			getUserAccountEntries(
 				long userId, Long parentAccountEntryId, String[] types,
-				String keywords, int start, int end)
+				String keywords, Integer status, int start, int end)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _accountEntryLocalService.getUserAccountEntries(
-			userId, parentAccountEntryId, types, keywords, start, end);
+			userId, parentAccountEntryId, types, keywords, status, start, end);
 	}
 
 	@Override
@@ -475,11 +475,11 @@ public class AccountEntryLocalServiceWrapper
 	@Override
 	public int getUserAccountEntriesCount(
 			long userId, Long parentAccountEntryId, String[] types,
-			String keywords, Boolean active)
+			String keywords, Integer status)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _accountEntryLocalService.getUserAccountEntriesCount(
-			userId, parentAccountEntryId, types, keywords, active);
+			userId, parentAccountEntryId, types, keywords, status);
 	}
 
 	@Override

@@ -416,21 +416,21 @@ public class AccountEntryLocalServiceUtil {
 	public static java.util.List<com.liferay.account.model.AccountEntry>
 			getUserAccountEntries(
 				long userId, Long parentAccountEntryId, String[] types,
-				String keywords, Boolean active, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return getService().getUserAccountEntries(
-			userId, parentAccountEntryId, types, keywords, active, start, end);
-	}
-
-	public static java.util.List<com.liferay.account.model.AccountEntry>
-			getUserAccountEntries(
-				long userId, Long parentAccountEntryId, String[] types,
 				String keywords, int start, int end)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getUserAccountEntries(
 			userId, parentAccountEntryId, types, keywords, start, end);
+	}
+
+	public static java.util.List<com.liferay.account.model.AccountEntry>
+			getUserAccountEntries(
+				long userId, Long parentAccountEntryId, String[] types,
+				String keywords, Integer status, int start, int end)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getUserAccountEntries(
+			userId, parentAccountEntryId, types, keywords, status, start, end);
 	}
 
 	public static int getUserAccountEntriesCount(
@@ -444,11 +444,11 @@ public class AccountEntryLocalServiceUtil {
 
 	public static int getUserAccountEntriesCount(
 			long userId, Long parentAccountEntryId, String[] types,
-			String keywords, Boolean active)
+			String keywords, Integer status)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getUserAccountEntriesCount(
-			userId, parentAccountEntryId, types, keywords, active);
+			userId, parentAccountEntryId, types, keywords, status);
 	}
 
 	public static com.liferay.portal.kernel.search.BaseModelSearchResult
