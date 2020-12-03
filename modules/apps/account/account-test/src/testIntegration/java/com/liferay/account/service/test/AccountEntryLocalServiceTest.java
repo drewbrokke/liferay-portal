@@ -30,12 +30,14 @@ import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.service.AssetTagLocalService;
 import com.liferay.petra.string.CharPool;
+import com.liferay.petra.string.StringPool;
 import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
@@ -44,8 +46,10 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
+import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.rule.DataGuard;
 import com.liferay.portal.kernel.test.util.CompanyTestUtil;
 import com.liferay.portal.kernel.test.util.OrganizationTestUtil;
@@ -246,8 +250,8 @@ public class AccountEntryLocalServiceTest {
 
 	@Test
 	public void testAddBusinessAccountEntry() throws Exception {
-		AccountEntry businessAccountEntry = _addUserBusinessAccount(
-			_user.getUserId(), "business account", _getServiceContext());
+		AccountEntry businessAccountEntry = _addUserBusinessAccountEntry(
+			_user.getUserId(), "business account", null, _getServiceContext());
 
 		List<AccountEntry> accountEntries =
 			_accountEntryLocalService.getUserAccountEntries(
@@ -271,7 +275,7 @@ public class AccountEntryLocalServiceTest {
 
 	@Test
 	public void testAddPersonAccountEntry() throws Exception {
-		AccountEntry personAccountEntry = _addUserPersonAccount(
+		AccountEntry personAccountEntry = _addUserPersonAccountEntry(
 			_user.getUserId(), "person account", _getServiceContext());
 
 		//		Assert.assertEquals(
@@ -616,6 +620,82 @@ public class AccountEntryLocalServiceTest {
 		_assertPaginationSort(expectedAccountEntries, keywords, true);
 	}
 
+	@Test
+	public void testBusinessOrganizationAccountEntriesVisibility()
+		throws Exception {
+
+		ServiceContext serviceContext = _getServiceContext();
+
+		String organizationName = RandomTestUtil.randomString();
+
+		for (int i = 1; i < 3; i++) {
+			Organization organization =
+				_organizationLocalService.addOrganization(
+					_user.getUserId(),
+					OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
+					organizationName + i, false);
+
+			User user = UserTestUtil.addUser(
+				_user.getCompanyId(), _user.getUserId(), "organizationUser" + i,
+				serviceContext.getLocale(), RandomTestUtil.randomString(),
+				RandomTestUtil.randomString(),
+				new long[] {serviceContext.getScopeGroupId()}, serviceContext);
+
+			_organizationLocalService.addUserOrganization(
+				user.getUserId(), organization);
+
+			_addUserBusinessAccountEntry(
+				_user.getUserId(),
+				"businessOrganizationAccount" + i,
+				new long[] {organization.getOrganizationId()},
+				serviceContext
+			);
+		}
+
+		User organizationUser1 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "organizationUser1");
+		User organizationUser2 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "organizationUser2");
+
+		List<AccountEntry> organizationUser1AccountEntries =
+			_accountEntryLocalService.getUserAccountEntries(
+				organizationUser1.getUserId(),
+				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			organizationUser1AccountEntries.toString(), 1,
+			organizationUser1AccountEntries.size());
+
+		AccountEntry organizationUser1AccountEntry =
+			organizationUser1AccountEntries.get(0);
+
+		Assert.assertEquals(
+			"businessOrganizationAccount1",
+			organizationUser1AccountEntry.getName());
+
+		List<AccountEntry> organizationUser2AccountEntries =
+			_accountEntryLocalService.getUserAccountEntries(
+				organizationUser2.getUserId(),
+				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			organizationUser2AccountEntries.toString(), 1,
+			organizationUser2AccountEntries.size());
+
+		AccountEntry organizationUser2AccountEntry =
+			organizationUser2AccountEntries.get(0);
+
+		Assert.assertEquals(
+			"businessOrganizationAccount2",
+			organizationUser2AccountEntry.getName());
+	}
+
+
+
 	@Rule
 	public SearchTestRule searchTestRule = new SearchTestRule();
 
@@ -725,16 +805,25 @@ public class AccountEntryLocalServiceTest {
 		return accountEntry;
 	}
 
-	private AccountEntry _addUserBusinessAccount(
-			long userId, String name, ServiceContext serviceContext)
+	private AccountEntry _addUserBusinessAccountEntry(
+		long userId, String name, long[] organizationIds,
+		ServiceContext serviceContext)
 		throws Exception {
 
-		return _addUserAccount(
+		AccountEntry accountEntry = _addUserAccount(
 			userId, name, serviceContext,
 			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS);
+
+		if (ArrayUtil.isNotEmpty(organizationIds)) {
+			_accountEntryOrganizationRelLocalService.
+				addAccountEntryOrganizationRels(
+					accountEntry.getAccountEntryId(), organizationIds);
+		}
+
+		return accountEntry;
 	}
 
-	private AccountEntry _addUserPersonAccount(
+	private AccountEntry _addUserPersonAccountEntry(
 			long userId, String name, ServiceContext serviceContext)
 		throws Exception {
 
@@ -879,6 +968,12 @@ public class AccountEntryLocalServiceTest {
 
 	@Inject
 	private ClassNameLocalService _classNameLocalService;
+
+	@Inject
+	private OrganizationLocalService _organizationLocalService;
+
+	@Inject
+	private UserLocalService _userLocalService;
 
 	private Company _company;
 

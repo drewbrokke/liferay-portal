@@ -26,7 +26,6 @@ import com.liferay.account.service.base.AccountEntryLocalServiceBaseImpl;
 import com.liferay.petra.sql.dsl.DSLFunctionFactoryUtil;
 import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
 import com.liferay.petra.sql.dsl.expression.Predicate;
-import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.petra.sql.dsl.query.FromStep;
 import com.liferay.petra.sql.dsl.query.GroupByStep;
 import com.liferay.petra.sql.dsl.query.JoinStep;
@@ -338,9 +337,12 @@ public class AccountEntryLocalServiceImpl
 		throws PortalException {
 
 		return dslQuery(
-			_getFindByU_P_DSLQuery(
-				keywords, parentAccountEntryId, status, types, userId, start,
-				end));
+			_getGenericByU_P_DSLQuery(
+				DSLQueryFactoryUtil.selectDistinct(AccountEntryTable.INSTANCE),
+				keywords, parentAccountEntryId, status, types, userId
+			).limit(
+				start, end
+			));
 	}
 
 	@Override
@@ -361,7 +363,10 @@ public class AccountEntryLocalServiceImpl
 		throws PortalException {
 
 		return dslQuery(
-			_getCountByU_P_DSLQuery(
+			_getGenericByU_P_DSLQuery(
+				DSLQueryFactoryUtil.countDistinct(
+					AccountEntryTable.INSTANCE.accountEntryId.as(
+						"COUNT_VALUE")),
 				keywords, parentAccountEntryId, status, types, userId));
 	}
 
@@ -486,30 +491,6 @@ public class AccountEntryLocalServiceImpl
 		return updateAccountEntry(accountEntry);
 	}
 
-	private DSLQuery _getCountByU_P_DSLQuery(
-			String keywords, Long parentAccountId, Integer status,
-			String[] types, long userId)
-		throws PortalException {
-
-		return _getGenericByU_P_DSLQuery(
-			DSLQueryFactoryUtil.countDistinct(
-				AccountEntryTable.INSTANCE.accountEntryId.as("COUNT_VALUE")),
-			keywords, parentAccountId, status, types, userId);
-	}
-
-	private DSLQuery _getFindByU_P_DSLQuery(
-			String keywords, Long parentAccountId, Integer status,
-			String[] types, long userId, int start, int end)
-		throws PortalException {
-
-		return _getGenericByU_P_DSLQuery(
-			DSLQueryFactoryUtil.selectDistinct(AccountEntryTable.INSTANCE),
-			keywords, parentAccountId, status, types, userId
-		).limit(
-			start, end
-		);
-	}
-
 	private GroupByStep _getGenericByU_P_DSLQuery(
 			FromStep fromStep, String keywords, Long parentAccountId,
 			Integer status, String[] types, long userId)
@@ -537,7 +518,7 @@ public class AccountEntryLocalServiceImpl
 				AccountEntryUserRelTable.INSTANCE.accountEntryId);
 
 		if (ArrayUtil.isNotEmpty(organizationIds)) {
-			accountEntryTablePredicate = accountEntryTablePredicate.and(
+			accountEntryTablePredicate = accountEntryTablePredicate.or(
 				AccountEntryTable.INSTANCE.accountEntryId.eq(
 					AccountEntryOrganizationRelTable.INSTANCE.accountEntryId));
 		}
