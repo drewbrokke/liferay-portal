@@ -30,7 +30,6 @@ import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.service.AssetTagLocalService;
 import com.liferay.petra.string.CharPool;
-import com.liferay.petra.string.StringPool;
 import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.Company;
@@ -61,11 +60,13 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.test.util.SearchTestRule;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -251,13 +252,14 @@ public class AccountEntryLocalServiceTest {
 	@Test
 	public void testAddBusinessAccountEntry() throws Exception {
 		AccountEntry businessAccountEntry = _addUserBusinessAccountEntry(
-			_user.getUserId(), "business account", null, _getServiceContext());
+			_user.getUserId(), "business account", null, null, null,
+			_getServiceContext());
 
 		List<AccountEntry> accountEntries =
 			_accountEntryLocalService.getUserAccountEntries(
 				_user.getUserId(), null,
-				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON},
-				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON}, null,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		Assert.assertEquals(
 			accountEntries.toString(), 1, accountEntries.size());
@@ -301,6 +303,134 @@ public class AccountEntryLocalServiceTest {
 			personAccountEntry.getType(), accountEntry.getType());
 		Assert.assertEquals(
 			WorkflowConstants.STATUS_APPROVED, accountEntry.getStatus());
+	}
+
+	@Test
+	public void testBusinessOrganizationAccountEntriesVisibility()
+		throws Exception {
+
+		ServiceContext serviceContext = _getServiceContext();
+
+		String organizationName = RandomTestUtil.randomString();
+
+		for (int i = 1; i < 3; i++) {
+			Organization organization =
+				_organizationLocalService.addOrganization(
+					_user.getUserId(),
+					OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
+					organizationName + i, false);
+
+			User user = UserTestUtil.addUser(
+				_user.getCompanyId(), _user.getUserId(), "organizationUser" + i,
+				serviceContext.getLocale(), RandomTestUtil.randomString(),
+				RandomTestUtil.randomString(),
+				new long[] {serviceContext.getScopeGroupId()}, serviceContext);
+
+			_organizationLocalService.addUserOrganization(
+				user.getUserId(), organization);
+
+			_addUserBusinessAccountEntry(
+				_user.getUserId(), "businessOrganizationAccount" + i, null,
+				new long[] {organization.getOrganizationId()}, null,
+				serviceContext);
+		}
+
+		User organizationUser1 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "organizationUser1");
+		User organizationUser2 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "organizationUser2");
+
+		List<AccountEntry> organizationUser1AccountEntries =
+			_accountEntryLocalService.getUserAccountEntries(
+				organizationUser1.getUserId(),
+				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			organizationUser1AccountEntries.toString(), 1,
+			organizationUser1AccountEntries.size());
+
+		AccountEntry organizationUser1AccountEntry =
+			organizationUser1AccountEntries.get(0);
+
+		Assert.assertEquals(
+			"businessOrganizationAccount1",
+			organizationUser1AccountEntry.getName());
+
+		List<AccountEntry> organizationUser2AccountEntries =
+			_accountEntryLocalService.getUserAccountEntries(
+				organizationUser2.getUserId(),
+				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			organizationUser2AccountEntries.toString(), 1,
+			organizationUser2AccountEntries.size());
+
+		AccountEntry organizationUser2AccountEntry =
+			organizationUser2AccountEntries.get(0);
+
+		Assert.assertEquals(
+			"businessOrganizationAccount2",
+			organizationUser2AccountEntry.getName());
+	}
+
+	@Test
+	public void testBusinessUserAccountEntriesVisibility() throws Exception {
+		ServiceContext serviceContext = _getServiceContext();
+
+		for (int i = 1; i < 3; i++) {
+			User user = UserTestUtil.addUser(
+				_user.getCompanyId(), _user.getUserId(), "businessUser" + i,
+				serviceContext.getLocale(), RandomTestUtil.randomString(),
+				RandomTestUtil.randomString(),
+				new long[] {serviceContext.getScopeGroupId()}, serviceContext);
+
+			_addUserBusinessAccountEntry(
+				_user.getUserId(), "businessUserAccount" + i, null, null,
+				new long[] {user.getUserId()}, serviceContext);
+		}
+
+		User businessUser1 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "businessUser1");
+		User businessUser2 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "businessUser2");
+
+		List<AccountEntry> businessUser1AccountEntries =
+			_accountEntryLocalService.getUserAccountEntries(
+				businessUser1.getUserId(),
+				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			businessUser1AccountEntries.toString(), 1,
+			businessUser1AccountEntries.size());
+
+		AccountEntry businessUser1AccountEntry =
+			businessUser1AccountEntries.get(0);
+
+		Assert.assertEquals(
+			"businessUserAccount1", businessUser1AccountEntry.getName());
+
+		List<AccountEntry> businessUser2AccountEntries =
+			_accountEntryLocalService.getUserAccountEntries(
+				businessUser2.getUserId(),
+				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			businessUser2AccountEntries.toString(), 1,
+			businessUser2AccountEntries.size());
+
+		AccountEntry businessUser2AccountEntry =
+			businessUser2AccountEntries.get(0);
+
+		Assert.assertEquals(
+			"businessUserAccount2", businessUser2AccountEntry.getName());
 	}
 
 	@Test
@@ -621,80 +751,262 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	@Test
-	public void testBusinessOrganizationAccountEntriesVisibility()
-		throws Exception {
+	public void testUserAccountEntriesVisibility() throws Exception {
+		//		frutillaRule.scenario(
+		//			"Adding new business Commerce Accounts"
+		//		).given(
+		//			"A company"
+		//		).when(
+		//			"The Commerce Accounts are created"
+		//		).and(
+		//			"Users are added to them with different criteria"
+		//		).then(
+		//			"Check the visibility of that accounts for all the users"
+		//		);
+
+		String baseName = "business";
+
+		Organization liferayOrganization1 = _addOrganization(
+			OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
+			baseName + "Liferay");
+
+		_addOrganization(
+			liferayOrganization1.getOrganizationId(), baseName + "Italy");
+
+		Organization usaOrganization = _addOrganization(
+			liferayOrganization1.getOrganizationId(), baseName + "USA");
+
+		_addOrganization(
+			usaOrganization.getOrganizationId(), baseName + "Chicago");
+		_addOrganization(
+			usaOrganization.getOrganizationId(), baseName + "LosAngeles");
+
+		List<String> externalReferenceCodes = new ArrayList<>(5);
+
+		for (int i = 0; i < 5; i++) {
+			externalReferenceCodes.add(RandomTestUtil.randomString());
+		}
 
 		ServiceContext serviceContext = _getServiceContext();
 
-		String organizationName = RandomTestUtil.randomString();
-
-		for (int i = 1; i < 3; i++) {
-			Organization organization =
-				_organizationLocalService.addOrganization(
-					_user.getUserId(),
-					OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
-					organizationName + i, false);
-
+		for (int i = 1; i < 6; i++) {
 			User user = UserTestUtil.addUser(
-				_user.getCompanyId(), _user.getUserId(), "organizationUser" + i,
+				_user.getCompanyId(), _user.getUserId(), "user" + i,
 				serviceContext.getLocale(), RandomTestUtil.randomString(),
-				RandomTestUtil.randomString(),
-				new long[] {serviceContext.getScopeGroupId()}, serviceContext);
+				RandomTestUtil.randomString(), null, serviceContext);
 
-			_organizationLocalService.addUserOrganization(
-				user.getUserId(), organization);
+			if (i == 1) {
+				_addUserBusinessAccountEntry(
+					user.getUserId(), "account" + i,
+					externalReferenceCodes.get(0), null, null, serviceContext);
+
+				continue;
+			}
 
 			_addUserBusinessAccountEntry(
-				_user.getUserId(),
-				"businessOrganizationAccount" + i,
-				new long[] {organization.getOrganizationId()},
-				serviceContext
-			);
+				_user.getUserId(), "account" + i,
+				externalReferenceCodes.get(i - 1), null, null, serviceContext);
 		}
 
-		User organizationUser1 = _userLocalService.getUserByScreenName(
-			_user.getCompanyId(), "organizationUser1");
-		User organizationUser2 = _userLocalService.getUserByScreenName(
-			_user.getCompanyId(), "organizationUser2");
+		Organization liferayOrganization2 =
+			_organizationLocalService.getOrganization(
+				_user.getCompanyId(), "businessLiferay");
+		Organization italyOrganization =
+			_organizationLocalService.getOrganization(
+				_user.getCompanyId(), "businessItaly");
+		Organization chicagoOrganization =
+			_organizationLocalService.getOrganization(
+				_user.getCompanyId(), "businessChicago");
+		Organization losAngelesOrganization =
+			_organizationLocalService.getOrganization(
+				_user.getCompanyId(), "businessLosAngeles");
 
-		List<AccountEntry> organizationUser1AccountEntries =
+		User user1 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "user1");
+
+		User user2 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "user2");
+
+		_organizationLocalService.addUserOrganization(
+			user2.getUserId(), italyOrganization);
+		_organizationLocalService.addUserOrganization(
+			user2.getUserId(), chicagoOrganization);
+
+		User user3 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "user3");
+
+		_organizationLocalService.addUserOrganization(
+			user3.getUserId(), losAngelesOrganization);
+
+		User user4 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "user4");
+
+		_organizationLocalService.addUserOrganization(
+			user4.getUserId(), chicagoOrganization);
+
+		User user5 = _userLocalService.getUserByScreenName(
+			_user.getCompanyId(), "user5");
+
+		_organizationLocalService.addUserOrganization(
+			user5.getUserId(), liferayOrganization2);
+
+		AccountEntry accountEntry1 =
+			_accountEntryLocalService.fetchAccountEntryByReferenceCode(
+				_user.getCompanyId(), externalReferenceCodes.get(0));
+
+		Assert.assertNotNull(accountEntry1);
+
+		AccountEntry accountEntry2 =
+			_accountEntryLocalService.fetchAccountEntryByReferenceCode(
+				_user.getCompanyId(), externalReferenceCodes.get(1));
+
+		Assert.assertNotNull(accountEntry2);
+
+		AccountEntry accountEntry3 =
+			_accountEntryLocalService.fetchAccountEntryByReferenceCode(
+				_user.getCompanyId(), externalReferenceCodes.get(2));
+
+		Assert.assertNotNull(accountEntry3);
+
+		AccountEntry accountEntry4 =
+			_accountEntryLocalService.fetchAccountEntryByReferenceCode(
+				_user.getCompanyId(), externalReferenceCodes.get(3));
+
+		Assert.assertNotNull(accountEntry4);
+
+		AccountEntry accountEntry5 =
+			_accountEntryLocalService.fetchAccountEntryByReferenceCode(
+				_user.getCompanyId(), externalReferenceCodes.get(4));
+
+		Assert.assertNotNull(accountEntry5);
+
+		_accountEntryUserRelLocalService.addAccountEntryUserRels(
+			accountEntry2.getAccountEntryId(), new long[] {user2.getUserId()});
+		_accountEntryUserRelLocalService.addAccountEntryUserRels(
+			accountEntry3.getAccountEntryId(), new long[] {user3.getUserId()});
+
+		_accountEntryOrganizationRelLocalService.
+			addAccountEntryOrganizationRels(
+				accountEntry2.getAccountEntryId(),
+				new long[] {italyOrganization.getOrganizationId()});
+		_accountEntryOrganizationRelLocalService.
+			addAccountEntryOrganizationRels(
+				accountEntry3.getAccountEntryId(),
+				new long[] {chicagoOrganization.getOrganizationId()});
+		_accountEntryOrganizationRelLocalService.
+			addAccountEntryOrganizationRels(
+				accountEntry4.getAccountEntryId(),
+				new long[] {losAngelesOrganization.getOrganizationId()});
+		_accountEntryOrganizationRelLocalService.
+			addAccountEntryOrganizationRels(
+				accountEntry5.getAccountEntryId(),
+				new long[] {losAngelesOrganization.getOrganizationId()});
+
+		List<AccountEntry> userAccountEntries1 =
 			_accountEntryLocalService.getUserAccountEntries(
-				organizationUser1.getUserId(),
-				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				user1.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
 				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
 				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		Assert.assertEquals(
-			organizationUser1AccountEntries.toString(), 1,
-			organizationUser1AccountEntries.size());
+			userAccountEntries1.toString(), 1, userAccountEntries1.size());
 
-		AccountEntry organizationUser1AccountEntry =
-			organizationUser1AccountEntries.get(0);
+		AccountEntry userAccountEntry1 = userAccountEntries1.get(0);
 
 		Assert.assertEquals(
-			"businessOrganizationAccount1",
-			organizationUser1AccountEntry.getName());
+			accountEntry1.getAccountEntryId(),
+			userAccountEntry1.getAccountEntryId());
 
-		List<AccountEntry> organizationUser2AccountEntries =
+		List<AccountEntry> userAccountEntries2 =
 			_accountEntryLocalService.getUserAccountEntries(
-				organizationUser2.getUserId(),
-				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				user2.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
 				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
 				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		Assert.assertEquals(
-			organizationUser2AccountEntries.toString(), 1,
-			organizationUser2AccountEntries.size());
+			userAccountEntries2.toString(), 2, userAccountEntries2.size());
 
-		AccountEntry organizationUser2AccountEntry =
-			organizationUser2AccountEntries.get(0);
+		userAccountEntries2 = ListUtil.sort(userAccountEntries2);
+
+		AccountEntry userAccountEntry2a = userAccountEntries2.get(0);
+		AccountEntry userAccountEntry2b = userAccountEntries2.get(1);
 
 		Assert.assertEquals(
-			"businessOrganizationAccount2",
-			organizationUser2AccountEntry.getName());
+			accountEntry2.getAccountEntryId(),
+			userAccountEntry2a.getAccountEntryId());
+		Assert.assertEquals(
+			accountEntry3.getAccountEntryId(),
+			userAccountEntry2b.getAccountEntryId());
+
+		List<AccountEntry> userAccountEntries3 =
+			_accountEntryLocalService.getUserAccountEntries(
+				user3.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			userAccountEntries3.toString(), 3, userAccountEntries3.size());
+
+		userAccountEntries3 = ListUtil.sort(userAccountEntries3);
+
+		AccountEntry userAccountEntry3a = userAccountEntries3.get(0);
+		AccountEntry userAccountEntry3b = userAccountEntries3.get(1);
+		AccountEntry userAccountEntry3c = userAccountEntries3.get(2);
+
+		Assert.assertEquals(
+			accountEntry3.getAccountEntryId(),
+			userAccountEntry3a.getAccountEntryId());
+		Assert.assertEquals(
+			accountEntry4.getAccountEntryId(),
+			userAccountEntry3b.getAccountEntryId());
+		Assert.assertEquals(
+			accountEntry5.getAccountEntryId(),
+			userAccountEntry3c.getAccountEntryId());
+
+		List<AccountEntry> userAccountEntries4 =
+			_accountEntryLocalService.getUserAccountEntries(
+				user4.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			userAccountEntries4.toString(), 1, userAccountEntries4.size());
+
+		AccountEntry userAccountEntry4 = userAccountEntries4.get(0);
+
+		Assert.assertEquals(
+			accountEntry3.getAccountEntryId(),
+			userAccountEntry4.getAccountEntryId());
+
+		List<AccountEntry> userAccountEntries5 =
+			_accountEntryLocalService.getUserAccountEntries(
+				user5.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			userAccountEntries5.toString(), 4, userAccountEntries5.size());
+
+		userAccountEntries5 = ListUtil.sort(userAccountEntries5);
+
+		AccountEntry userAccountEntry5a = userAccountEntries5.get(0);
+		AccountEntry userAccountEntry5b = userAccountEntries5.get(1);
+		AccountEntry userAccountEntry5c = userAccountEntries5.get(2);
+		AccountEntry userAccountEntry5d = userAccountEntries5.get(3);
+
+		Assert.assertEquals(
+			accountEntry2.getAccountEntryId(),
+			userAccountEntry5a.getAccountEntryId());
+		Assert.assertEquals(
+			accountEntry3.getAccountEntryId(),
+			userAccountEntry5b.getAccountEntryId());
+		Assert.assertEquals(
+			accountEntry4.getAccountEntryId(),
+			userAccountEntry5c.getAccountEntryId());
+		Assert.assertEquals(
+			accountEntry5.getAccountEntryId(),
+			userAccountEntry5d.getAccountEntryId());
 	}
-
-
 
 	@Rule
 	public SearchTestRule searchTestRule = new SearchTestRule();
@@ -784,6 +1096,14 @@ public class AccountEntryLocalServiceTest {
 		return accountEntry;
 	}
 
+	private Organization _addOrganization(
+			long parentOrganizationId, String name)
+		throws Exception {
+
+		return _organizationLocalService.addOrganization(
+			_user.getUserId(), parentOrganizationId, name, false);
+	}
+
 	private AccountEntry _addPersonAccountEntry() throws Exception {
 		return AccountEntryTestUtil.addPersonAccountEntry(
 			_accountEntryLocalService);
@@ -806,18 +1126,31 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	private AccountEntry _addUserBusinessAccountEntry(
-		long userId, String name, long[] organizationIds,
-		ServiceContext serviceContext)
+			long userId, String name, String externalReferenceCode,
+			long[] organizationIds, long[] userIds,
+			ServiceContext serviceContext)
 		throws Exception {
 
 		AccountEntry accountEntry = _addUserAccount(
 			userId, name, serviceContext,
 			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS);
 
+		if (Validator.isNotNull(externalReferenceCode)) {
+			accountEntry.setExternalReferenceCode(externalReferenceCode);
+
+			accountEntry = _accountEntryLocalService.updateAccountEntry(
+				accountEntry);
+		}
+
 		if (ArrayUtil.isNotEmpty(organizationIds)) {
 			_accountEntryOrganizationRelLocalService.
 				addAccountEntryOrganizationRels(
 					accountEntry.getAccountEntryId(), organizationIds);
+		}
+
+		if (ArrayUtil.isNotEmpty(userIds)) {
+			_accountEntryUserRelLocalService.addAccountEntryUserRels(
+				accountEntry.getAccountEntryId(), userIds);
 		}
 
 		return accountEntry;
@@ -969,17 +1302,17 @@ public class AccountEntryLocalServiceTest {
 	@Inject
 	private ClassNameLocalService _classNameLocalService;
 
+	private Company _company;
+
 	@Inject
 	private OrganizationLocalService _organizationLocalService;
-
-	@Inject
-	private UserLocalService _userLocalService;
-
-	private Company _company;
 
 	@Inject
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
 
 	private User _user;
+
+	@Inject
+	private UserLocalService _userLocalService;
 
 }
