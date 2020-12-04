@@ -337,7 +337,7 @@ public class AccountEntryLocalServiceImpl
 		throws PortalException {
 
 		return dslQuery(
-			_getGenericByU_P_DSLQuery(
+			_getGroupByStep(
 				DSLQueryFactoryUtil.selectDistinct(AccountEntryTable.INSTANCE),
 				keywords, parentAccountEntryId, status, types, userId
 			).limit(
@@ -363,7 +363,7 @@ public class AccountEntryLocalServiceImpl
 		throws PortalException {
 
 		return dslQuery(
-			_getGenericByU_P_DSLQuery(
+			_getGroupByStep(
 				DSLQueryFactoryUtil.countDistinct(
 					AccountEntryTable.INSTANCE.accountEntryId.as(
 						"COUNT_VALUE")),
@@ -491,7 +491,7 @@ public class AccountEntryLocalServiceImpl
 		return updateAccountEntry(accountEntry);
 	}
 
-	private GroupByStep _getGenericByU_P_DSLQuery(
+	private GroupByStep _getGroupByStep(
 			FromStep fromStep, String keywords, Long parentAccountId,
 			Integer status, String[] types, long userId)
 		throws PortalException {

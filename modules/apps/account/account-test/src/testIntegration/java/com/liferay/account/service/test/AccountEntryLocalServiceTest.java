@@ -32,7 +32,6 @@ import com.liferay.asset.kernel.service.AssetTagLocalService;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.Organization;
@@ -50,7 +49,6 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.rule.DataGuard;
-import com.liferay.portal.kernel.test.util.CompanyTestUtil;
 import com.liferay.portal.kernel.test.util.OrganizationTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
@@ -94,9 +92,7 @@ public class AccountEntryLocalServiceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		_company = CompanyTestUtil.addCompany();
-
-		_user = UserTestUtil.addUser(_company);
+		_user = UserTestUtil.addUser(TestPropsValues.getCompanyId());
 	}
 
 	@Test
@@ -258,8 +254,8 @@ public class AccountEntryLocalServiceTest {
 		List<AccountEntry> accountEntries =
 			_accountEntryLocalService.getUserAccountEntries(
 				_user.getUserId(), null,
-				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON}, null,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		Assert.assertEquals(
 			accountEntries.toString(), 1, accountEntries.size());
@@ -277,11 +273,9 @@ public class AccountEntryLocalServiceTest {
 
 	@Test
 	public void testAddPersonAccountEntry() throws Exception {
-		AccountEntry personAccountEntry = _addUserPersonAccountEntry(
-			_user.getUserId(), "person account", _getServiceContext());
-
-		//		Assert.assertEquals(
-		//			personAccountEntry.getName(), _user.getFullName());
+		AccountEntry personAccountEntry = _addUserAccount(
+			_user.getUserId(), "person account", _getServiceContext(),
+			AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON);
 
 		List<AccountEntry> accountEntries =
 			_accountEntryLocalService.getUserAccountEntries(
@@ -1156,15 +1150,6 @@ public class AccountEntryLocalServiceTest {
 		return accountEntry;
 	}
 
-	private AccountEntry _addUserPersonAccountEntry(
-			long userId, String name, ServiceContext serviceContext)
-		throws Exception {
-
-		return _addUserAccount(
-			userId, name, serviceContext,
-			AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON);
-	}
-
 	private void _assertDeleted(long accountEntryId) throws Exception {
 		Assert.assertNull(
 			_accountEntryLocalService.fetchAccountEntry(accountEntryId));
@@ -1301,8 +1286,6 @@ public class AccountEntryLocalServiceTest {
 
 	@Inject
 	private ClassNameLocalService _classNameLocalService;
-
-	private Company _company;
 
 	@Inject
 	private OrganizationLocalService _organizationLocalService;
