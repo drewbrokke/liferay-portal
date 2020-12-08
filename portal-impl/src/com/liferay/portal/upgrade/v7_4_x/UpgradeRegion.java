@@ -14,6 +14,7 @@
 
 package com.liferay.portal.upgrade.v7_4_x;
 
+import com.liferay.portal.dao.orm.common.SQLTransformer;
 import com.liferay.portal.kernel.dao.jdbc.AutoBatchPreparedStatementUtil;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.util.LoggingTimer;
@@ -38,12 +39,13 @@ public class UpgradeRegion extends UpgradeProcess {
 
 		String sql = StringBundler.concat(
 			"select User_.companyId, User_.userId from User_ join Company on ",
-			"User_.companyId = Company.companyId where User_.defaultUser = 1 ",
-			"and Company.webId = ",
+			"User_.companyId = Company.companyId where User_.defaultUser = ",
+			"[$TRUE$] and Company.webId = ",
 			StringUtil.quote(PropsValues.COMPANY_DEFAULT_WEB_ID));
 
-		try (PreparedStatement ps = connection.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery()) {
+		try (PreparedStatement ps = connection.prepareStatement(
+				SQLTransformer.transform(sql));
+			 ResultSet rs = ps.executeQuery()) {
 
 			if (rs.next()) {
 				defaultCompanyId = rs.getLong(1);
