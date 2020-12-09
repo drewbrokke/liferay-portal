@@ -331,56 +331,39 @@ public class AccountEntryLocalServiceTest {
 	public void testBusinessUserAccountEntriesVisibility() throws Exception {
 		ServiceContext serviceContext = _getServiceContext();
 
-		for (int i = 1; i < 3; i++) {
-			User user = UserTestUtil.addUser(
-				_user.getCompanyId(), _user.getUserId(), "businessUser" + i,
-				serviceContext.getLocale(), RandomTestUtil.randomString(),
-				RandomTestUtil.randomString(),
-				new long[] {serviceContext.getScopeGroupId()}, serviceContext);
+		List<AccountEntry> accountEntries = new ArrayList<>();
+		List<User> users = new ArrayList<>();
 
-			_addUserBusinessAccountEntry(
-				_user.getUserId(), "businessUserAccount" + i, null, null,
-				new long[] {user.getUserId()}, serviceContext);
+		for (int i = 0; i < 5; i++) {
+			User user = UserTestUtil.addUser();
+
+			users.add(user);
+
+			accountEntries.add(
+				_addUserBusinessAccountEntry(
+					_user.getUserId(), RandomTestUtil.randomString(), null,
+					null, new long[] {user.getUserId()}, serviceContext));
 		}
 
-		User businessUser1 = _userLocalService.getUserByScreenName(
-			_user.getCompanyId(), "businessUser1");
-		User businessUser2 = _userLocalService.getUserByScreenName(
-			_user.getCompanyId(), "businessUser2");
+		for (int i = 0; i < accountEntries.size(); i++) {
+			User user = users.get(i);
 
-		List<AccountEntry> businessUser1AccountEntries =
-			_accountEntryLocalService.getUserAccountEntries(
-				businessUser1.getUserId(),
-				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT, null,
-				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+			List<AccountEntry> userAccountEntries =
+				_accountEntryLocalService.getUserAccountEntries(
+					user.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+					null,
+					new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+					QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
-		Assert.assertEquals(
-			businessUser1AccountEntries.toString(), 1,
-			businessUser1AccountEntries.size());
+			Assert.assertEquals(
+				userAccountEntries.toString(), 1, userAccountEntries.size());
 
-		AccountEntry businessUser1AccountEntry =
-			businessUser1AccountEntries.get(0);
+			AccountEntry accountEntry = userAccountEntries.get(0);
+			AccountEntry expectedAccountEntry = accountEntries.get(i);
 
-		Assert.assertEquals(
-			"businessUserAccount1", businessUser1AccountEntry.getName());
-
-		List<AccountEntry> businessUser2AccountEntries =
-			_accountEntryLocalService.getUserAccountEntries(
-				businessUser2.getUserId(),
-				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT, null,
-				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-
-		Assert.assertEquals(
-			businessUser2AccountEntries.toString(), 1,
-			businessUser2AccountEntries.size());
-
-		AccountEntry businessUser2AccountEntry =
-			businessUser2AccountEntries.get(0);
-
-		Assert.assertEquals(
-			"businessUserAccount2", businessUser2AccountEntry.getName());
+			Assert.assertEquals(
+				expectedAccountEntry.getName(), accountEntry.getName());
+		}
 	}
 
 	@Test
