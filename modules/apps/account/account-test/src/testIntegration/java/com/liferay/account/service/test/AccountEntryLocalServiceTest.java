@@ -247,56 +247,12 @@ public class AccountEntryLocalServiceTest {
 
 	@Test
 	public void testAddBusinessAccountEntry() throws Exception {
-		AccountEntry businessAccountEntry = _addUserBusinessAccountEntry(
-			_user.getUserId(), "business account", null, null, null,
-			_getServiceContext());
-
-		List<AccountEntry> accountEntries =
-			_accountEntryLocalService.getUserAccountEntries(
-				_user.getUserId(), null, null,
-				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-
-		Assert.assertEquals(
-			accountEntries.toString(), 1, accountEntries.size());
-
-		AccountEntry accountEntry = accountEntries.get(0);
-
-		Assert.assertEquals(
-			businessAccountEntry.getAccountEntryId(),
-			accountEntry.getAccountEntryId());
-		Assert.assertEquals(
-			businessAccountEntry.getType(), accountEntry.getType());
-		Assert.assertEquals(
-			WorkflowConstants.STATUS_APPROVED, accountEntry.getStatus());
+		_testAddTypeAccountEntry(AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS);
 	}
 
 	@Test
 	public void testAddPersonAccountEntry() throws Exception {
-		AccountEntry personAccountEntry = _addUserAccount(
-			_user.getUserId(), "person account",
-			AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON, _getServiceContext());
-
-		List<AccountEntry> accountEntries =
-			_accountEntryLocalService.getUserAccountEntries(
-				_user.getUserId(), null, null,
-				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON},
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-
-		Assert.assertEquals(
-			accountEntries.toString(), 1, accountEntries.size());
-
-		AccountEntry accountEntry = accountEntries.get(0);
-
-		Assert.assertEquals(
-			personAccountEntry.getAccountEntryId(),
-			accountEntry.getAccountEntryId());
-		Assert.assertEquals(
-			personAccountEntry.getName(), accountEntry.getName());
-		Assert.assertEquals(
-			personAccountEntry.getType(), accountEntry.getType());
-		Assert.assertEquals(
-			WorkflowConstants.STATUS_APPROVED, accountEntry.getStatus());
+		_testAddTypeAccountEntry(AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON);
 	}
 
 	@Test
@@ -1261,6 +1217,30 @@ public class AccountEntryLocalServiceTest {
 
 		return _accountEntryLocalService.search(
 			TestPropsValues.getCompanyId(), keywords, null, 0, 10, null, false);
+	}
+
+	private void _testAddTypeAccountEntry(String type) throws Exception {
+		AccountEntry expectedAccountEntry = _addUserAccount(
+			_user.getUserId(), RandomTestUtil.randomString(), type,
+			_getServiceContext());
+
+		List<AccountEntry> accountEntries =
+			_accountEntryLocalService.getUserAccountEntries(
+				_user.getUserId(), null, null, new String[] {type},
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			accountEntries.toString(), 1, accountEntries.size());
+
+		AccountEntry accountEntry = accountEntries.get(0);
+
+		Assert.assertEquals(
+			expectedAccountEntry.getAccountEntryId(),
+			accountEntry.getAccountEntryId());
+		Assert.assertEquals(
+			expectedAccountEntry.getType(), accountEntry.getType());
+		Assert.assertEquals(
+			WorkflowConstants.STATUS_APPROVED, accountEntry.getStatus());
 	}
 
 	private static final Comparator<AccountEntry> _accountEntryNameComparator =
