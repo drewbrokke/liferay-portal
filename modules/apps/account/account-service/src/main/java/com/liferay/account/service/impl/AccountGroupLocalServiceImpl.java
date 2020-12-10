@@ -44,9 +44,23 @@ import org.osgi.service.component.annotations.Component;
 public class AccountGroupLocalServiceImpl
 	extends AccountGroupLocalServiceBaseImpl {
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 *             #addAccountGroup(long, String, String, boolean)}
+	 */
+	@Deprecated
 	@Override
 	public AccountGroup addAccountGroup(
 			long userId, String name, String description)
+		throws PortalException {
+
+		return addAccountGroup(userId, name, description, false);
+	}
+
+	@Override
+	public AccountGroup addAccountGroup(
+			long userId, String name, String description,
+			boolean defaultAccountGroup)
 		throws PortalException {
 
 		long accountGroupId = counterLocalService.increment();
@@ -60,8 +74,9 @@ public class AccountGroupLocalServiceImpl
 		accountGroup.setUserId(user.getUserId());
 		accountGroup.setUserName(user.getFullName());
 
-		accountGroup.setName(name);
+		accountGroup.setDefaultAccountGroup(defaultAccountGroup);
 		accountGroup.setDescription(description);
+		accountGroup.setName(name);
 
 		return accountGroupPersistence.update(accountGroup);
 	}
@@ -122,8 +137,8 @@ public class AccountGroupLocalServiceImpl
 		AccountGroup accountGroup = accountGroupPersistence.fetchByPrimaryKey(
 			accountGroupId);
 
-		accountGroup.setName(name);
 		accountGroup.setDescription(description);
+		accountGroup.setName(name);
 
 		return accountGroupPersistence.update(accountGroup);
 	}
