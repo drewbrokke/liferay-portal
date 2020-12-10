@@ -14,6 +14,7 @@
 
 package com.liferay.account.service.impl;
 
+import com.liferay.account.exception.DefaultAccountGroupException;
 import com.liferay.account.model.AccountGroup;
 import com.liferay.account.model.AccountGroupAccountEntryRel;
 import com.liferay.account.service.base.AccountGroupLocalServiceBaseImpl;
@@ -63,12 +64,19 @@ public class AccountGroupLocalServiceImpl
 			boolean defaultAccountGroup)
 		throws PortalException {
 
+		User user = userLocalService.getUser(userId);
+
+		if (defaultAccountGroup &&
+			hasDefaultAccountGroup(user.getCompanyId())) {
+
+			throw new DefaultAccountGroupException.
+				MustNotDuplicateDefaultAccountGroup(user.getCompanyId());
+		}
+
 		long accountGroupId = counterLocalService.increment();
 
 		AccountGroup accountGroup = accountGroupPersistence.create(
 			accountGroupId);
-
-		User user = userLocalService.getUser(userId);
 
 		accountGroup.setCompanyId(user.getCompanyId());
 		accountGroup.setUserId(user.getUserId());
@@ -82,7 +90,15 @@ public class AccountGroupLocalServiceImpl
 	}
 
 	@Override
-	public AccountGroup deleteAccountGroup(AccountGroup accountGroup) {
+	public AccountGroup deleteAccountGroup(AccountGroup accountGroup)
+		throws PortalException {
+
+		if (accountGroup.isDefaultAccountGroup()) {
+			throw new DefaultAccountGroupException.
+				MustNotDeleteDefaultAccountGroup(
+					accountGroup.getAccountGroupId());
+		}
+
 		accountGroupPersistence.remove(accountGroup);
 
 		List<AccountGroupAccountEntryRel> accountGroupAccountEntryRels =
@@ -117,6 +133,17 @@ public class AccountGroupLocalServiceImpl
 	}
 
 	@Override
+	public boolean hasDefaultAccountGroup(long companyId) {
+		int count = accountGroupPersistence.countByC_D(companyId, true);
+
+		if (count > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
 	public BaseModelSearchResult<AccountGroup> searchAccountGroups(
 		long companyId, String keywords, int start, int end,
 		OrderByComparator<AccountGroup> orderByComparator) {
@@ -136,6 +163,11 @@ public class AccountGroupLocalServiceImpl
 
 		AccountGroup accountGroup = accountGroupPersistence.fetchByPrimaryKey(
 			accountGroupId);
+
+		if (accountGroup.isDefaultAccountGroup()) {
+			throw new DefaultAccountGroupException.
+				MustNotUpdateDefaultAccountGroup(accountGroupId);
+		}
 
 		accountGroup.setDescription(description);
 		accountGroup.setName(name);
