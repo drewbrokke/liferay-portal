@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -263,68 +264,47 @@ public class AccountEntryLocalServiceTest {
 
 		String organizationName = RandomTestUtil.randomString();
 
-		for (int i = 1; i < 3; i++) {
+		List<AccountEntry> accountEntries = new ArrayList<>();
+		List<User> users = new ArrayList<>();
+
+		for (int i = 1; i < 5; i++) {
 			Organization organization =
 				_organizationLocalService.addOrganization(
 					_user.getUserId(),
 					OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
 					organizationName + i, false);
 
-			User user = UserTestUtil.addUser(
-				_user.getCompanyId(), _user.getUserId(), "organizationUser" + i,
-				serviceContext.getLocale(), RandomTestUtil.randomString(),
-				RandomTestUtil.randomString(),
-				new long[] {serviceContext.getScopeGroupId()}, serviceContext);
+			users.add(
+				UserTestUtil.addOrganizationUser(
+					organization, RoleConstants.ORGANIZATION_USER));
 
-			_organizationLocalService.addUserOrganization(
-				user.getUserId(), organization);
-
-			_addUserBusinessAccountEntry(
-				_user.getUserId(), "businessOrganizationAccount" + i, null,
+			AccountEntry accountEntry = _addUserBusinessAccountEntry(
+				_user.getUserId(), RandomTestUtil.randomString(), null,
 				new long[] {organization.getOrganizationId()}, null,
 				serviceContext);
+
+			accountEntries.add(accountEntry);
 		}
 
-		User organizationUser1 = _userLocalService.getUserByScreenName(
-			_user.getCompanyId(), "organizationUser1");
-		User organizationUser2 = _userLocalService.getUserByScreenName(
-			_user.getCompanyId(), "organizationUser2");
+		for (int i = 0; i < accountEntries.size(); i++) {
+			User user = users.get(i);
 
-		List<AccountEntry> organizationUser1AccountEntries =
-			_accountEntryLocalService.getUserAccountEntries(
-				organizationUser1.getUserId(),
-				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT, null,
-				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+			List<AccountEntry> userAccountEntries =
+				_accountEntryLocalService.getUserAccountEntries(
+					user.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+					null,
+					new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+					QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
-		Assert.assertEquals(
-			organizationUser1AccountEntries.toString(), 1,
-			organizationUser1AccountEntries.size());
+			Assert.assertEquals(
+				userAccountEntries.toString(), 1, userAccountEntries.size());
 
-		AccountEntry organizationUser1AccountEntry =
-			organizationUser1AccountEntries.get(0);
+			AccountEntry expectedAccountEntry = accountEntries.get(i);
+			AccountEntry accountEntry = userAccountEntries.get(0);
 
-		Assert.assertEquals(
-			"businessOrganizationAccount1",
-			organizationUser1AccountEntry.getName());
-
-		List<AccountEntry> organizationUser2AccountEntries =
-			_accountEntryLocalService.getUserAccountEntries(
-				organizationUser2.getUserId(),
-				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT, null,
-				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-
-		Assert.assertEquals(
-			organizationUser2AccountEntries.toString(), 1,
-			organizationUser2AccountEntries.size());
-
-		AccountEntry organizationUser2AccountEntry =
-			organizationUser2AccountEntries.get(0);
-
-		Assert.assertEquals(
-			"businessOrganizationAccount2",
-			organizationUser2AccountEntry.getName());
+			Assert.assertEquals(
+				expectedAccountEntry.getName(), accountEntry.getName());
+		}
 	}
 
 	@Test
