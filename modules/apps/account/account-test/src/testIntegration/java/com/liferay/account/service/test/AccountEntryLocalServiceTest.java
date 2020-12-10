@@ -262,8 +262,6 @@ public class AccountEntryLocalServiceTest {
 
 		ServiceContext serviceContext = _getServiceContext();
 
-		String organizationName = RandomTestUtil.randomString();
-
 		List<AccountEntry> accountEntries = new ArrayList<>();
 		List<User> users = new ArrayList<>();
 
@@ -272,7 +270,7 @@ public class AccountEntryLocalServiceTest {
 				_organizationLocalService.addOrganization(
 					_user.getUserId(),
 					OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
-					organizationName + i, false);
+					RandomTestUtil.randomString(), false);
 
 			users.add(
 				UserTestUtil.addOrganizationUser(
@@ -287,23 +285,7 @@ public class AccountEntryLocalServiceTest {
 		}
 
 		for (int i = 0; i < accountEntries.size(); i++) {
-			User user = users.get(i);
-
-			List<AccountEntry> userAccountEntries =
-				_accountEntryLocalService.getUserAccountEntries(
-					user.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
-					null,
-					new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
-					QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-
-			Assert.assertEquals(
-				userAccountEntries.toString(), 1, userAccountEntries.size());
-
-			AccountEntry expectedAccountEntry = accountEntries.get(i);
-			AccountEntry accountEntry = userAccountEntries.get(0);
-
-			Assert.assertEquals(
-				expectedAccountEntry.getName(), accountEntry.getName());
+			_assertUserAccountVisibility(accountEntries.get(i), users.get(i));
 		}
 	}
 
@@ -326,23 +308,7 @@ public class AccountEntryLocalServiceTest {
 		}
 
 		for (int i = 0; i < accountEntries.size(); i++) {
-			User user = users.get(i);
-
-			List<AccountEntry> userAccountEntries =
-				_accountEntryLocalService.getUserAccountEntries(
-					user.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
-					null,
-					new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
-					QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-
-			Assert.assertEquals(
-				userAccountEntries.toString(), 1, userAccountEntries.size());
-
-			AccountEntry accountEntry = userAccountEntries.get(0);
-			AccountEntry expectedAccountEntry = accountEntries.get(i);
-
-			Assert.assertEquals(
-				expectedAccountEntry.getName(), accountEntry.getName());
+			_assertUserAccountVisibility(accountEntries.get(i), users.get(i));
 		}
 	}
 
@@ -1148,6 +1114,26 @@ public class AccountEntryLocalServiceTest {
 			accountEntryId);
 
 		Assert.assertEquals(expectedStatus, accountEntry.getStatus());
+	}
+
+	private void _assertUserAccountVisibility(
+			AccountEntry expectedAccountEntry, User user)
+		throws Exception {
+
+		List<AccountEntry> userAccountEntries =
+			_accountEntryLocalService.getUserAccountEntries(
+				user.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				null,
+				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS},
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		Assert.assertEquals(
+			userAccountEntries.toString(), 1, userAccountEntries.size());
+
+		AccountEntry accountEntry = userAccountEntries.get(0);
+
+		Assert.assertEquals(
+			expectedAccountEntry.getName(), accountEntry.getName());
 	}
 
 	private long[] _getAccountUserIds(AccountEntry accountEntry) {
