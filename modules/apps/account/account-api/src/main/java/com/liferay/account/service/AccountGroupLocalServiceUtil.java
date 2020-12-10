@@ -54,11 +54,25 @@ public class AccountGroupLocalServiceUtil {
 		return getService().addAccountGroup(accountGroup);
 	}
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 #addAccountGroup(long, String, String, boolean)}
+	 */
+	@Deprecated
 	public static com.liferay.account.model.AccountGroup addAccountGroup(
 			long userId, String name, String description)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addAccountGroup(userId, name, description);
+	}
+
+	public static com.liferay.account.model.AccountGroup addAccountGroup(
+			long userId, String name, String description,
+			boolean defaultAccountGroup)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().addAccountGroup(
+			userId, name, description, defaultAccountGroup);
 	}
 
 	/**

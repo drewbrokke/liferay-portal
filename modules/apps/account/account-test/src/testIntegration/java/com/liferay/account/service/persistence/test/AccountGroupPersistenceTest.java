@@ -189,6 +189,14 @@ public class AccountGroupPersistenceTest {
 	}
 
 	@Test
+	public void testCountByC_D() throws Exception {
+		_persistence.countByC_D(
+			RandomTestUtil.nextLong(), RandomTestUtil.randomBoolean());
+
+		_persistence.countByC_D(0L, RandomTestUtil.randomBoolean());
+	}
+
+	@Test
 	public void testCountByC_ERC() throws Exception {
 		_persistence.countByC_ERC(RandomTestUtil.nextLong(), "");
 

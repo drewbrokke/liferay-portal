@@ -76,8 +76,18 @@ public interface AccountGroupLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public AccountGroup addAccountGroup(AccountGroup accountGroup);
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 #addAccountGroup(long, String, String, boolean)}
+	 */
+	@Deprecated
 	public AccountGroup addAccountGroup(
 			long userId, String name, String description)
+		throws PortalException;
+
+	public AccountGroup addAccountGroup(
+			long userId, String name, String description,
+			boolean defaultAccountGroup)
 		throws PortalException;
 
 	/**

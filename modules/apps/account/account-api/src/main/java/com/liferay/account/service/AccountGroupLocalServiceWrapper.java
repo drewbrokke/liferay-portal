@@ -50,6 +50,11 @@ public class AccountGroupLocalServiceWrapper
 		return _accountGroupLocalService.addAccountGroup(accountGroup);
 	}
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 #addAccountGroup(long, String, String, boolean)}
+	 */
+	@Deprecated
 	@Override
 	public com.liferay.account.model.AccountGroup addAccountGroup(
 			long userId, String name, String description)
@@ -57,6 +62,16 @@ public class AccountGroupLocalServiceWrapper
 
 		return _accountGroupLocalService.addAccountGroup(
 			userId, name, description);
+	}
+
+	@Override
+	public com.liferay.account.model.AccountGroup addAccountGroup(
+			long userId, String name, String description,
+			boolean defaultAccountGroup)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountGroupLocalService.addAccountGroup(
+			userId, name, description, defaultAccountGroup);
 	}
 
 	/**
