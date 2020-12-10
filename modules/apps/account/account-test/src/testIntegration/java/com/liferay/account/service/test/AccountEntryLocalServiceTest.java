@@ -651,22 +651,18 @@ public class AccountEntryLocalServiceTest {
 
 	@Test
 	public void testUserAccountEntriesVisibility() throws Exception {
-		String baseName = "business";
+		Organization organizationA = _addOrganization(
+			OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID);
 
-		Organization liferayOrganization1 = _addOrganization(
-			OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
-			baseName + "Liferay");
+		Organization organizationAA = _addOrganization(
+			organizationA.getOrganizationId());
+		Organization organizationAB = _addOrganization(
+			organizationA.getOrganizationId());
 
-		_addOrganization(
-			liferayOrganization1.getOrganizationId(), baseName + "Italy");
-
-		Organization usaOrganization = _addOrganization(
-			liferayOrganization1.getOrganizationId(), baseName + "USA");
-
-		_addOrganization(
-			usaOrganization.getOrganizationId(), baseName + "Chicago");
-		_addOrganization(
-			usaOrganization.getOrganizationId(), baseName + "LosAngeles");
+		Organization organizationABA = _addOrganization(
+			organizationAB.getOrganizationId());
+		Organization organizationABB = _addOrganization(
+			organizationAB.getOrganizationId());
 
 		List<String> externalReferenceCodes = new ArrayList<>(5);
 		ServiceContext serviceContext = _getServiceContext();
@@ -692,18 +688,6 @@ public class AccountEntryLocalServiceTest {
 				null, serviceContext);
 		}
 
-		Organization liferayOrganization2 =
-			_organizationLocalService.getOrganization(
-				_user.getCompanyId(), "businessLiferay");
-		Organization italyOrganization =
-			_organizationLocalService.getOrganization(
-				_user.getCompanyId(), "businessItaly");
-		Organization chicagoOrganization =
-			_organizationLocalService.getOrganization(
-				_user.getCompanyId(), "businessChicago");
-		Organization losAngelesOrganization =
-			_organizationLocalService.getOrganization(
-				_user.getCompanyId(), "businessLosAngeles");
 
 		User user1 = _userLocalService.getUserByScreenName(
 			_user.getCompanyId(), "user1");
@@ -712,27 +696,27 @@ public class AccountEntryLocalServiceTest {
 			_user.getCompanyId(), "user2");
 
 		_organizationLocalService.addUserOrganization(
-			user2.getUserId(), italyOrganization);
+			user2.getUserId(), organizationAA);
 		_organizationLocalService.addUserOrganization(
-			user2.getUserId(), chicagoOrganization);
+			user2.getUserId(), organizationABA);
 
 		User user3 = _userLocalService.getUserByScreenName(
 			_user.getCompanyId(), "user3");
 
 		_organizationLocalService.addUserOrganization(
-			user3.getUserId(), losAngelesOrganization);
+			user3.getUserId(), organizationABB);
 
 		User user4 = _userLocalService.getUserByScreenName(
 			_user.getCompanyId(), "user4");
 
 		_organizationLocalService.addUserOrganization(
-			user4.getUserId(), chicagoOrganization);
+			user4.getUserId(), organizationABA);
 
 		User user5 = _userLocalService.getUserByScreenName(
 			_user.getCompanyId(), "user5");
 
 		_organizationLocalService.addUserOrganization(
-			user5.getUserId(), liferayOrganization2);
+			user5.getUserId(), organizationA);
 
 		AccountEntry accountEntry1 =
 			_accountEntryLocalService.fetchAccountEntryByReferenceCode(
@@ -772,19 +756,19 @@ public class AccountEntryLocalServiceTest {
 		_accountEntryOrganizationRelLocalService.
 			addAccountEntryOrganizationRels(
 				accountEntry2.getAccountEntryId(),
-				new long[] {italyOrganization.getOrganizationId()});
+				new long[] {organizationAA.getOrganizationId()});
 		_accountEntryOrganizationRelLocalService.
 			addAccountEntryOrganizationRels(
 				accountEntry3.getAccountEntryId(),
-				new long[] {chicagoOrganization.getOrganizationId()});
+				new long[] {organizationABA.getOrganizationId()});
 		_accountEntryOrganizationRelLocalService.
 			addAccountEntryOrganizationRels(
 				accountEntry4.getAccountEntryId(),
-				new long[] {losAngelesOrganization.getOrganizationId()});
+				new long[] {organizationABB.getOrganizationId()});
 		_accountEntryOrganizationRelLocalService.
 			addAccountEntryOrganizationRels(
 				accountEntry5.getAccountEntryId(),
-				new long[] {losAngelesOrganization.getOrganizationId()});
+				new long[] {organizationABB.getOrganizationId()});
 
 		List<AccountEntry> userAccountEntries1 =
 			_accountEntryLocalService.getUserAccountEntries(
@@ -986,11 +970,11 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	private Organization _addOrganization(
-			long parentOrganizationId, String name)
+		long parentOrganizationId)
 		throws Exception {
 
 		return _organizationLocalService.addOrganization(
-			_user.getUserId(), parentOrganizationId, name, false);
+			_user.getUserId(), parentOrganizationId, RandomTestUtil.randomString(), false);
 	}
 
 	private AccountEntry _addPersonAccountEntry() throws Exception {
