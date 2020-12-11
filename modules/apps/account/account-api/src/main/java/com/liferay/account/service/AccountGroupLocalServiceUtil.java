@@ -106,9 +106,11 @@ public class AccountGroupLocalServiceUtil {
 	 *
 	 * @param accountGroup the account group
 	 * @return the account group that was removed
+	 * @throws PortalException
 	 */
 	public static com.liferay.account.model.AccountGroup deleteAccountGroup(
-		com.liferay.account.model.AccountGroup accountGroup) {
+			com.liferay.account.model.AccountGroup accountGroup)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteAccountGroup(accountGroup);
 	}
@@ -334,6 +336,10 @@ public class AccountGroupLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static boolean hasDefaultAccountGroup(long companyId) {
+		return getService().hasDefaultAccountGroup(companyId);
 	}
 
 	public static com.liferay.portal.kernel.search.BaseModelSearchResult

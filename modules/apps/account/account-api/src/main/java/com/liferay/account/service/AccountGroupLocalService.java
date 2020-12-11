@@ -114,9 +114,11 @@ public interface AccountGroupLocalService
 	 *
 	 * @param accountGroup the account group
 	 * @return the account group that was removed
+	 * @throws PortalException
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public AccountGroup deleteAccountGroup(AccountGroup accountGroup);
+	public AccountGroup deleteAccountGroup(AccountGroup accountGroup)
+		throws PortalException;
 
 	/**
 	 * Deletes the account group with the primary key from the database. Also notifies the appropriate model listeners.
@@ -281,6 +283,9 @@ public interface AccountGroupLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasDefaultAccountGroup(long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public BaseModelSearchResult<AccountGroup> searchAccountGroups(
