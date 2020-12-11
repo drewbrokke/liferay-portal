@@ -312,6 +312,12 @@ public class AccountGroupLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
+	public static com.liferay.account.model.AccountGroup getDefaultAccountGroup(
+		long companyId) {
+
+		return getService().getDefaultAccountGroup(companyId);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {

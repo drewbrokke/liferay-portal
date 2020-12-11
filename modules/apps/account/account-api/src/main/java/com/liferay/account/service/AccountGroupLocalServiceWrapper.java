@@ -327,6 +327,13 @@ public class AccountGroupLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.account.model.AccountGroup getDefaultAccountGroup(
+		long companyId) {
+
+		return _accountGroupLocalService.getDefaultAccountGroup(companyId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 		getIndexableActionableDynamicQuery() {
 
