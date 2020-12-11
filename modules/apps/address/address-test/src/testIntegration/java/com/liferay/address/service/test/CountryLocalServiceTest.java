@@ -15,6 +15,7 @@
 package com.liferay.address.service.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.Country;
 import com.liferay.portal.kernel.model.Organization;
@@ -27,8 +28,14 @@ import com.liferay.portal.kernel.test.util.OrganizationTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.LocaleThreadLocal;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -57,9 +64,11 @@ public class CountryLocalServiceTest {
 		boolean subjectToVAT = RandomTestUtil.randomBoolean();
 		boolean zipRequired = RandomTestUtil.randomBoolean();
 
-		Country country = _addCountry(
-			billingAllowed, number, position, shippingAllowed, subjectToVAT,
-			zipRequired);
+		Country country = _countryLocalService.addCountry(
+			"aa", "aaa", true, billingAllowed, RandomTestUtil.randomString(),
+			RandomTestUtil.randomString(), number, position, shippingAllowed,
+			subjectToVAT, zipRequired, null,
+			ServiceContextTestUtil.getServiceContext());
 
 		Assert.assertEquals(billingAllowed, country.isBillingAllowed());
 		Assert.assertEquals(number, country.getNumber());
@@ -111,9 +120,11 @@ public class CountryLocalServiceTest {
 		boolean shippingAllowed = RandomTestUtil.randomBoolean();
 		boolean subjectToVAT = RandomTestUtil.randomBoolean();
 
-		Country country = _addCountry(
-			billingAllowed, RandomTestUtil.randomString(),
-			RandomTestUtil.randomDouble(), shippingAllowed, subjectToVAT, true);
+		Country country = _countryLocalService.addCountry(
+			"aa", "aaa", true, billingAllowed, RandomTestUtil.randomString(),
+			RandomTestUtil.randomString(), RandomTestUtil.randomString(),
+			RandomTestUtil.randomDouble(), shippingAllowed, subjectToVAT, true,
+			null, ServiceContextTestUtil.getServiceContext());
 
 		String number = String.valueOf(9999 + RandomTestUtil.nextInt());
 		int position = RandomTestUtil.randomInt();
@@ -132,16 +143,83 @@ public class CountryLocalServiceTest {
 		Assert.assertEquals(subjectToVAT, updatedCountry.isSubjectToVAT());
 	}
 
-	private Country _addCountry(
-			boolean billingAllowed, String number, double position,
-			boolean shippingAllowed, boolean subjectToVAT, boolean zipRequired)
+	@Test
+	public void testUpdateCountryWithLocalizations() throws Exception {
+		Locale oldDefaultLocale = LocaleThreadLocal.getDefaultLocale();
+
+		LocaleThreadLocal.setDefaultLocale(LocaleUtil.ENGLISH);
+
+		try {
+			String englishTranslation = RandomTestUtil.randomString();
+			String germanTranslation = RandomTestUtil.randomString();
+
+			Country country = _countryLocalService.addCountry(
+				"aa", "aaa", true, RandomTestUtil.randomBoolean(),
+				RandomTestUtil.randomString(), RandomTestUtil.randomString(),
+				RandomTestUtil.randomString(), RandomTestUtil.randomDouble(),
+				RandomTestUtil.randomBoolean(), RandomTestUtil.randomBoolean(),
+				RandomTestUtil.randomBoolean(),
+				Collections.singletonMap(
+					LocaleUtil.ENGLISH.getLanguage(), englishTranslation),
+				ServiceContextTestUtil.getServiceContext());
+
+			Assert.assertEquals(englishTranslation, country.getTitle());
+			Assert.assertEquals(
+				englishTranslation,
+				country.getTitle(LocaleUtil.ENGLISH.getLanguage()));
+			Assert.assertEquals(
+				englishTranslation,
+				country.getTitle(LocaleUtil.GERMAN.getLanguage()));
+
+			Map<String, String> titleMap = country.getLanguageIdToTitleMap();
+
+			titleMap.put(LocaleUtil.GERMAN.getLanguage(), germanTranslation);
+
+			country = _updateCountryLocalizations(country, titleMap);
+
+			Assert.assertEquals(englishTranslation, country.getTitle());
+			Assert.assertEquals(
+				germanTranslation,
+				country.getTitle(LocaleUtil.GERMAN.getLanguage()));
+
+			country = _updateCountryLocalizations(country, null);
+
+			Assert.assertEquals(englishTranslation, country.getTitle());
+			Assert.assertEquals(
+				germanTranslation,
+				country.getTitle(LocaleUtil.GERMAN.getLanguage()));
+
+			country = _updateCountryLocalizations(
+				country,
+				Collections.singletonMap(
+					LocaleUtil.GERMAN.getLanguage(), germanTranslation));
+
+			Assert.assertEquals(StringPool.BLANK, country.getTitle());
+			Assert.assertEquals(
+				germanTranslation,
+				country.getTitle(LocaleUtil.GERMAN.getLanguage()));
+
+			country = _updateCountryLocalizations(
+				country, Collections.emptyMap());
+
+			titleMap = country.getLanguageIdToTitleMap();
+
+			Assert.assertTrue(titleMap.isEmpty());
+		}
+		finally {
+			LocaleThreadLocal.setDefaultLocale(oldDefaultLocale);
+		}
+	}
+
+	private Country _updateCountryLocalizations(
+			Country country, Map<String, String> titleMap)
 		throws Exception {
 
-		return _countryLocalService.addCountry(
-			"aa", "aaa", true, billingAllowed, RandomTestUtil.randomString(),
-			RandomTestUtil.randomString(), number, position, shippingAllowed,
-			subjectToVAT, zipRequired, null,
-			ServiceContextTestUtil.getServiceContext());
+		return _countryLocalService.updateCountry(
+			country.getCountryId(), country.getA2(), country.getA3(),
+			country.isActive(), country.isShippingAllowed(), country.getIdd(),
+			country.getName(), country.getNumber(), country.getPosition(),
+			country.isShippingAllowed(), country.isShippingAllowed(), titleMap);
 	}
 
 	@Inject
