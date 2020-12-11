@@ -14,6 +14,8 @@
 
 package com.liferay.account.service.test;
 
+import com.liferay.account.constants.AccountConstants;
+import com.liferay.account.exception.DefaultAccountGroupException;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountGroup;
 import com.liferay.account.service.AccountEntryLocalService;
@@ -24,8 +26,11 @@ import com.liferay.account.service.test.util.AccountGroupTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.rule.DataGuard;
+import com.liferay.portal.kernel.test.util.CompanyTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -64,6 +69,22 @@ public class AccountGroupLocalServiceTest {
 				accountGroup.getAccountGroupId()));
 	}
 
+	@Test(
+		expected = DefaultAccountGroupException.MustNotDuplicateDefaultAccountGroup.class
+	)
+	public void testAddDefaultAccountGroup() throws Exception {
+		Company company = CompanyTestUtil.addCompany();
+
+		Assert.assertTrue(
+			_accountGroupLocalService.hasDefaultAccountGroup(
+				company.getCompanyId()));
+
+		_accountGroupLocalService.addAccountGroup(
+			_userLocalService.getDefaultUserId(company.getCompanyId()),
+			AccountConstants.ACCOUNT_GROUP_NAME_GUEST,
+			RandomTestUtil.randomString(), true);
+	}
+
 	@Test
 	public void testDeleteAccountGroup() throws Exception {
 		_testDeleteAccountGroup(
@@ -94,6 +115,15 @@ public class AccountGroupLocalServiceTest {
 			_accountGroupAccountEntryRelLocalService.
 				getAccountGroupAccountEntryRelsCountByAccountGroupId(
 					accountGroup.getAccountGroupId()));
+	}
+
+	@Test(
+		expected = DefaultAccountGroupException.MustNotDeleteDefaultAccountGroup.class
+	)
+	public void testDeleteDefaultAccountGroup() throws Exception {
+		_accountGroupLocalService.deleteAccountGroup(
+			_accountGroupLocalService.getDefaultAccountGroup(
+				TestPropsValues.getCompanyId()));
 	}
 
 	@Test
@@ -157,6 +187,19 @@ public class AccountGroupLocalServiceTest {
 			comparator, expectedAccountGroups, keywords, false);
 		_testSearchAccountGroupsWithPagination(
 			comparator, expectedAccountGroups, keywords, true);
+	}
+
+	@Test(
+		expected = DefaultAccountGroupException.MustNotUpdateDefaultAccountGroup.class
+	)
+	public void testUpdateDefaultAccountGroup() throws Exception {
+		AccountGroup accountGroup =
+			_accountGroupLocalService.getDefaultAccountGroup(
+				TestPropsValues.getCompanyId());
+
+		_accountGroupLocalService.updateAccountGroup(
+			accountGroup.getAccountGroupId(), RandomTestUtil.randomString(),
+			RandomTestUtil.randomString());
 	}
 
 	private AccountGroup _addAccountGroup() throws Exception {
@@ -229,5 +272,8 @@ public class AccountGroupLocalServiceTest {
 
 	@Inject
 	private AccountGroupLocalService _accountGroupLocalService;
+
+	@Inject
+	private UserLocalService _userLocalService;
 
 }
