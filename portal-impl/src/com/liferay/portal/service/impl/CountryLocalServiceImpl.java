@@ -82,7 +82,13 @@ public class CountryLocalServiceImpl extends CountryLocalServiceBaseImpl {
 		country.setSubjectToVAT(subjectToVAT);
 		country.setZipRequired(zipRequired);
 
-		return countryPersistence.update(country);
+		country = countryPersistence.update(country);
+
+		if (titleMap != null) {
+			updateCountryLocalizations(country, titleMap);
+		}
+
+		return countryPersistence.findByPrimaryKey(country.getCountryId());
 	}
 
 	@Override
@@ -254,7 +260,14 @@ public class CountryLocalServiceImpl extends CountryLocalServiceBaseImpl {
 		country.setShippingAllowed(shippingAllowed);
 		country.setSubjectToVAT(subjectToVAT);
 
-		return countryPersistence.update(country);
+		country = countryPersistence.update(country);
+
+		if (titleMap != null) {
+			updateCountryLocalizations(country, titleMap);
+		}
+
+		return countryPersistence.findByPrimaryKey(country.getCountryId());
+
 	}
 
 	@Override
