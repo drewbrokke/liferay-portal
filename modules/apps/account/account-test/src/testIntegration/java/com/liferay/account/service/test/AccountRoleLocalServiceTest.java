@@ -23,7 +23,9 @@ import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.account.service.AccountRoleLocalService;
 import com.liferay.account.service.AccountRoleLocalServiceUtil;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
+import com.liferay.account.util.AccountHelper;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.blogs.test.util.BlogsTestUtil;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -31,6 +33,8 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
@@ -42,7 +46,9 @@ import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUti
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.CompanyTestUtil;
+import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -471,6 +477,78 @@ public class AccountRoleLocalServiceTest {
 			expectedAccountRoles, baseModelSearchResult.getBaseModels());
 	}
 
+	@Test
+	public void testSelectedAccountPermission() throws Exception {
+		AccountRole accountRole = _addAccountRole(
+			_accountEntry1.getAccountEntryId(), RandomTestUtil.randomString());
+
+		Group group = GroupTestUtil.addGroup();
+
+		GroupedModel groupedModel = BlogsTestUtil.addEntryWithWorkflow(
+			TestPropsValues.getUserId(), RandomTestUtil.randomString(), true,
+			ServiceContextTestUtil.getServiceContext(group.getGroupId()));
+
+		User user = UserTestUtil.addUser();
+
+		_accountEntryUserRelLocalService.addAccountEntryUserRel(
+			_accountEntry1.getAccountEntryId(), user.getUserId());
+
+		_accountRoleLocalService.associateUser(
+			_accountEntry1.getAccountEntryId(), accountRole.getAccountRoleId(),
+			user.getUserId());
+
+		_accountEntryUserRelLocalService.addAccountEntryUserRel(
+			_accountEntry2.getAccountEntryId(), user.getUserId());
+
+		// Set account 1 as "current account"
+
+		_accountHelper.setCurrentAccountId(
+			user.getUserId(), _accountEntry1.getAccountEntryId());
+
+		_testSelectedAccountPermission(
+			groupedModel, user, ActionKeys.UPDATE, false);
+
+		_resourcePermissionLocalService.setResourcePermissions(
+			groupedModel.getCompanyId(), groupedModel.getModelClassName(),
+			ResourceConstants.SCOPE_INDIVIDUAL,
+			String.valueOf(groupedModel.getPrimaryKeyObj()),
+			accountRole.getRoleId(), new String[] {ActionKeys.UPDATE});
+
+		_testSelectedAccountPermission(
+			groupedModel, user, ActionKeys.UPDATE, true);
+
+		// Set account 2 as "current account"
+
+		_accountHelper.setCurrentAccountId(
+			user.getUserId(), _accountEntry2.getAccountEntryId());
+
+		_testSelectedAccountPermission(
+			groupedModel, user, ActionKeys.UPDATE, false);
+
+		//		----------------------------------------------------------------
+
+		_accountHelper.setCurrentAccountId(
+			user.getUserId(), _accountEntry1.getAccountEntryId());
+
+		_testSelectedAccountPermission(
+			groupedModel, user, ActionKeys.DELETE, false);
+
+		_resourcePermissionLocalService.addResourcePermission(
+			groupedModel.getCompanyId(), groupedModel.getModelClassName(),
+			ResourceConstants.SCOPE_GROUP,
+			String.valueOf(groupedModel.getGroupId()), accountRole.getRoleId(),
+			ActionKeys.DELETE);
+
+		_testSelectedAccountPermission(
+			groupedModel, user, ActionKeys.DELETE, true);
+
+		_accountHelper.setCurrentAccountId(
+			user.getUserId(), _accountEntry2.getAccountEntryId());
+
+		_testSelectedAccountPermission(
+			groupedModel, user, ActionKeys.DELETE, false);
+	}
+
 	private AccountRole _addAccountRole(long accountEntryId, String name)
 		throws Exception {
 
@@ -538,6 +616,21 @@ public class AccountRoleLocalServiceTest {
 				_getRoleIds(_users.get(0)), accountRole.getRoleId()));
 	}
 
+	private void _testSelectedAccountPermission(
+			GroupedModel groupedModel, User user, String actionKey,
+			boolean hasPermission)
+		throws Exception {
+
+		PermissionChecker permissionChecker =
+			PermissionCheckerFactoryUtil.create(user);
+
+		Assert.assertEquals(
+			hasPermission,
+			permissionChecker.hasPermission(
+				groupedModel.getGroupId(), groupedModel.getModelClassName(),
+				String.valueOf(groupedModel.getPrimaryKeyObj()), actionKey));
+	}
+
 	@DeleteAfterTestRun
 	private AccountEntry _accountEntry1;
 
@@ -556,6 +649,9 @@ public class AccountRoleLocalServiceTest {
 	@DeleteAfterTestRun
 	private final List<AccountEntryUserRel> _accountEntryUserRels =
 		new ArrayList<>();
+
+	@Inject
+	private AccountHelper _accountHelper;
 
 	@Inject
 	private AccountRoleLocalService _accountRoleLocalService;
