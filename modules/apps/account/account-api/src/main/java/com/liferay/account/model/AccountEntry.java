@@ -60,8 +60,23 @@ public interface AccountEntry extends AccountEntryModel, PersistedModel {
 
 	public long getAccountEntryGroupId();
 
+	public java.util.List<AccountEntryOrganizationRel>
+		getAccountEntryOrganizationRels();
+
+	public java.util.List<AccountEntryUserRel> getAccountEntryUserRels();
+
 	public com.liferay.portal.kernel.model.Address getDefaultBillingAddress();
 
 	public com.liferay.portal.kernel.model.Address getDefaultShippingAddress();
+
+	public AccountEntry getParentAccountEntry();
+
+	public boolean isBusinessAccount();
+
+	public boolean isGuestAccount();
+
+	public boolean isPersonAccount();
+
+	public boolean isRoot();
 
 }

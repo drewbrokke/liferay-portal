@@ -200,6 +200,18 @@ public class AccountEntryWrapper
 		return model.getAccountEntryId();
 	}
 
+	@Override
+	public java.util.List<AccountEntryOrganizationRel>
+		getAccountEntryOrganizationRels() {
+
+		return model.getAccountEntryOrganizationRels();
+	}
+
+	@Override
+	public java.util.List<AccountEntryUserRel> getAccountEntryUserRels() {
+		return model.getAccountEntryUserRels();
+	}
+
 	/**
 	 * Returns the company ID of this account entry.
 	 *
@@ -320,6 +332,11 @@ public class AccountEntryWrapper
 		return model.getName();
 	}
 
+	@Override
+	public AccountEntry getParentAccountEntry() {
+		return model.getParentAccountEntry();
+	}
+
 	/**
 	 * Returns the parent account entry ID of this account entry.
 	 *
@@ -398,6 +415,26 @@ public class AccountEntryWrapper
 	@Override
 	public String getUserUuid() {
 		return model.getUserUuid();
+	}
+
+	@Override
+	public boolean isBusinessAccount() {
+		return model.isBusinessAccount();
+	}
+
+	@Override
+	public boolean isGuestAccount() {
+		return model.isGuestAccount();
+	}
+
+	@Override
+	public boolean isPersonAccount() {
+		return model.isPersonAccount();
+	}
+
+	@Override
+	public boolean isRoot() {
+		return model.isRoot();
 	}
 
 	@Override
