@@ -73,6 +73,20 @@ public class AccountEntryUserRelLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.account.model.AccountEntryUserRel
+			addAccountEntryUserRelByEmailAddress(
+				long accountEntryId, String emailAddress, long[] roleIds,
+				String userExternalReferenceCode,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryUserRelLocalService.
+			addAccountEntryUserRelByEmailAddress(
+				accountEntryId, emailAddress, roleIds,
+				userExternalReferenceCode, serviceContext);
+	}
+
+	@Override
 	public void addAccountEntryUserRels(
 			long accountEntryId, long[] accountUserIds)
 		throws com.liferay.portal.kernel.exception.PortalException {
