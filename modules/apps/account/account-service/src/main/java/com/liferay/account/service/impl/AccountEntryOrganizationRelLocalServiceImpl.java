@@ -105,6 +105,22 @@ public class AccountEntryOrganizationRelLocalServiceImpl
 	}
 
 	@Override
+	public void deleteAccountEntryOrganizationRelsByAccountEntryId(
+		long accountEntryId) {
+
+		accountEntryOrganizationRelPersistence.removeByAccountEntryId(
+			accountEntryId);
+	}
+
+	@Override
+	public void deleteAccountEntryOrganizationRelsByOrganizationId(
+		long organizationId) {
+
+		accountEntryOrganizationRelPersistence.removeByOrganizationId(
+			organizationId);
+	}
+
+	@Override
 	public List<AccountEntryOrganizationRel> getAccountEntryOrganizationRels(
 		long accountEntryId) {
 
@@ -113,10 +129,35 @@ public class AccountEntryOrganizationRelLocalServiceImpl
 	}
 
 	@Override
+	public List<AccountEntryOrganizationRel> getAccountEntryOrganizationRels(
+		long accountEntryId, int start, int end) {
+
+		return accountEntryOrganizationRelPersistence.findByAccountEntryId(
+			accountEntryId, start, end);
+	}
+
+	@Override
 	public List<AccountEntryOrganizationRel>
 		getAccountEntryOrganizationRelsByOrganizationId(long organizationId) {
 
 		return accountEntryOrganizationRelPersistence.findByOrganizationId(
+			organizationId);
+	}
+
+	@Override
+	public List<AccountEntryOrganizationRel>
+		getAccountEntryOrganizationRelsByOrganizationId(
+			long organizationId, int start, int end) {
+
+		return accountEntryOrganizationRelPersistence.findByOrganizationId(
+			organizationId, start, end);
+	}
+
+	@Override
+	public int getAccountEntryOrganizationRelsByOrganizationIdCount(
+		long organizationId) {
+
+		return accountEntryOrganizationRelPersistence.countByOrganizationId(
 			organizationId);
 	}
 
