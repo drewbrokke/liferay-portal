@@ -34,6 +34,22 @@ public class CommerceAccountOrganizationRelLocalServiceImpl
 
 	@Override
 	public CommerceAccountOrganizationRel addCommerceAccountOrganizationRel(
+		CommerceAccountOrganizationRel commerceAccountOrganizationRel) {
+
+		try {
+			return _toCommerceAccountOrganizationRel(
+				accountEntryOrganizationRelLocalService.
+					addAccountEntryOrganizationRel(
+						commerceAccountOrganizationRel.getCommerceAccountId(),
+						commerceAccountOrganizationRel.getOrganizationId()));
+		}
+		catch (PortalException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public CommerceAccountOrganizationRel addCommerceAccountOrganizationRel(
 			long commerceAccountId, long organizationId,
 			ServiceContext serviceContext)
 		throws PortalException {
