@@ -138,6 +138,12 @@ public interface AccountEntryOrganizationRelLocalService
 			long accountEntryId, long[] organizationIds)
 		throws PortalException;
 
+	public void deleteAccountEntryOrganizationRelsByAccountEntryId(
+		long accountEntryId);
+
+	public void deleteAccountEntryOrganizationRelsByOrganizationId(
+		long organizationId);
+
 	/**
 	 * @throws PortalException
 	 */
@@ -250,8 +256,21 @@ public interface AccountEntryOrganizationRelLocalService
 		long accountEntryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AccountEntryOrganizationRel> getAccountEntryOrganizationRels(
+		long accountEntryId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AccountEntryOrganizationRel>
 		getAccountEntryOrganizationRelsByOrganizationId(long organizationId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AccountEntryOrganizationRel>
+		getAccountEntryOrganizationRelsByOrganizationId(
+			long organizationId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getAccountEntryOrganizationRelsByOrganizationIdCount(
+		long organizationId);
 
 	/**
 	 * Returns the number of account entry organization rels.
