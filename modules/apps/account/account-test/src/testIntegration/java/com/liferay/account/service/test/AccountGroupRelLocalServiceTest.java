@@ -14,14 +14,14 @@
 
 package com.liferay.account.service.test;
 
-import com.liferay.account.exception.DuplicateAccountGroupAccountEntryRelException;
+import com.liferay.account.exception.DuplicateAccountGroupRelException;
 import com.liferay.account.exception.NoSuchEntryException;
 import com.liferay.account.exception.NoSuchGroupException;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountGroup;
-import com.liferay.account.model.AccountGroupAccountEntryRel;
+import com.liferay.account.model.AccountGroupRel;
 import com.liferay.account.service.AccountEntryLocalService;
-import com.liferay.account.service.AccountGroupAccountEntryRelLocalService;
+import com.liferay.account.service.AccountGroupRelLocalService;
 import com.liferay.account.service.AccountGroupLocalService;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.account.service.test.util.AccountGroupTestUtil;
@@ -48,7 +48,7 @@ import org.junit.runner.RunWith;
  */
 @DataGuard(scope = DataGuard.Scope.METHOD)
 @RunWith(Arquillian.class)
-public class AccountGroupAccountEntryRelLocalServiceTest {
+public class AccountGroupRelLocalServiceTest {
 
 	@ClassRule
 	@Rule
@@ -66,22 +66,22 @@ public class AccountGroupAccountEntryRelLocalServiceTest {
 	}
 
 	@Test
-	public void testAddAccountGroupAccountEntryRel() throws Exception {
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
-			_accountGroupAccountEntryRelLocalService.
-				addAccountGroupAccountEntryRel(
+	public void testAddAccountGroupRel() throws Exception {
+		AccountGroupRel accountGroupRel =
+			_accountGroupRelLocalService.
+				addAccountGroupRel(
 					_accountGroup.getAccountGroupId(),
 					_accountEntry.getAccountEntryId());
 
-		Assert.assertNotNull(accountGroupAccountEntryRel);
+		Assert.assertNotNull(accountGroupRel);
 		Assert.assertNotNull(
-			_accountGroupAccountEntryRelLocalService.
-				fetchAccountGroupAccountEntryRel(
-					accountGroupAccountEntryRel.getPrimaryKey()));
+			_accountGroupRelLocalService.
+				fetchAccountGroupRel(
+					accountGroupRel.getPrimaryKey()));
 	}
 
 	@Test
-	public void testAddAccountGroupAccountEntryRels() throws Exception {
+	public void testAddAccountGroupRels() throws Exception {
 		List<AccountEntry> accountEntries = new ArrayList<>();
 
 		accountEntries.add(
@@ -93,29 +93,29 @@ public class AccountGroupAccountEntryRelLocalServiceTest {
 				_accountEntryLocalService, RandomTestUtil.randomString(),
 				RandomTestUtil.randomString()));
 
-		_accountGroupAccountEntryRelLocalService.
-			addAccountGroupAccountEntryRels(
+		_accountGroupRelLocalService.
+			addAccountGroupRels(
 				_accountGroup.getAccountGroupId(),
 				ListUtil.toLongArray(
 					accountEntries, AccountEntry.ACCOUNT_ENTRY_ID_ACCESSOR));
 
 		Assert.assertEquals(
 			2,
-			_accountGroupAccountEntryRelLocalService.
-				getAccountGroupAccountEntryRelsCountByAccountGroupId(
+			_accountGroupRelLocalService.
+				getAccountGroupRelsCountByAccountGroupId(
 					_accountGroup.getAccountGroupId()));
 
-		List<AccountGroupAccountEntryRel> accountGroupAccountEntryRels =
-			_accountGroupAccountEntryRelLocalService.
-				getAccountGroupAccountEntryRelsByAccountGroupId(
+		List<AccountGroupRel> accountGroupRels =
+			_accountGroupRelLocalService.
+				getAccountGroupRelsByAccountGroupId(
 					_accountGroup.getAccountGroupId());
 
-		for (AccountGroupAccountEntryRel accountGroupAccountEntryRel :
-				accountGroupAccountEntryRels) {
+		for (AccountGroupRel accountGroupRel :
+				accountGroupRels) {
 
 			Assert.assertEquals(
 				_accountGroup.getAccountGroupId(),
-				accountGroupAccountEntryRel.getAccountGroupId());
+				accountGroupRel.getAccountGroupId());
 
 			long[] accountEntryIds = ListUtil.toLongArray(
 				accountEntries, AccountEntry.ACCOUNT_ENTRY_ID_ACCESSOR);
@@ -123,66 +123,66 @@ public class AccountGroupAccountEntryRelLocalServiceTest {
 			Assert.assertTrue(
 				ArrayUtil.contains(
 					accountEntryIds,
-					accountGroupAccountEntryRel.getAccountEntryId()));
+					accountGroupRel.getAccountEntryId()));
 		}
 	}
 
-	@Test(expected = DuplicateAccountGroupAccountEntryRelException.class)
-	public void testAddAccountGroupAccountEntryRelThrowsDuplicateAccountGroupAccountEntryRelException()
+	@Test(expected = DuplicateAccountGroupRelException.class)
+	public void testAddAccountGroupRelThrowsDuplicateAccountGroupRelException()
 		throws Exception {
 
-		_accountGroupAccountEntryRelLocalService.addAccountGroupAccountEntryRel(
+		_accountGroupRelLocalService.addAccountGroupRel(
 			_accountGroup.getAccountGroupId(),
 			_accountEntry.getAccountEntryId());
 
-		_accountGroupAccountEntryRelLocalService.addAccountGroupAccountEntryRel(
+		_accountGroupRelLocalService.addAccountGroupRel(
 			_accountGroup.getAccountGroupId(),
 			_accountEntry.getAccountEntryId());
 	}
 
 	@Test(expected = NoSuchEntryException.class)
-	public void testAddAccountGroupAccountEntryRelThrowsNoSuchEntryException()
+	public void testAddAccountGroupRelThrowsNoSuchEntryException()
 		throws Exception {
 
-		_accountGroupAccountEntryRelLocalService.addAccountGroupAccountEntryRel(
+		_accountGroupRelLocalService.addAccountGroupRel(
 			_accountGroup.getAccountGroupId(),
 			_accountEntry.getAccountEntryId() + RandomTestUtil.nextLong());
 	}
 
 	@Test(expected = NoSuchGroupException.class)
-	public void testAddAccountGroupAccountEntryRelThrowsNoSuchGroupException()
+	public void testAddAccountGroupRelThrowsNoSuchGroupException()
 		throws Exception {
 
-		_accountGroupAccountEntryRelLocalService.addAccountGroupAccountEntryRel(
+		_accountGroupRelLocalService.addAccountGroupRel(
 			_accountGroup.getAccountGroupId() + RandomTestUtil.nextLong(),
 			_accountEntry.getAccountEntryId());
 	}
 
 	@Test
-	public void testDeleteAccountGroupAccountEntryRels() throws Exception {
-		_accountGroupAccountEntryRelLocalService.
-			addAccountGroupAccountEntryRels(
+	public void testDeleteAccountGroupRels() throws Exception {
+		_accountGroupRelLocalService.
+			addAccountGroupRels(
 				_accountGroup.getAccountGroupId(),
 				new long[] {_accountEntry.getAccountEntryId()});
 
-		List<AccountGroupAccountEntryRel> accountGroupAccountEntryRels =
-			_accountGroupAccountEntryRelLocalService.
-				getAccountGroupAccountEntryRelsByAccountGroupId(
+		List<AccountGroupRel> accountGroupRels =
+			_accountGroupRelLocalService.
+				getAccountGroupRelsByAccountGroupId(
 					_accountGroup.getAccountGroupId());
 
 		Assert.assertEquals(
-			accountGroupAccountEntryRels.toString(), 1,
-			accountGroupAccountEntryRels.size());
+			accountGroupRels.toString(), 1,
+			accountGroupRels.size());
 
-		_accountGroupAccountEntryRelLocalService.
-			deleteAccountGroupAccountEntryRels(
+		_accountGroupRelLocalService.
+			deleteAccountGroupRels(
 				_accountGroup.getAccountGroupId(),
 				new long[] {_accountEntry.getAccountEntryId()});
 
 		Assert.assertEquals(
 			0,
-			_accountGroupAccountEntryRelLocalService.
-				getAccountGroupAccountEntryRelsCountByAccountGroupId(
+			_accountGroupRelLocalService.
+				getAccountGroupRelsCountByAccountGroupId(
 					_accountGroup.getAccountGroupId()));
 	}
 
@@ -194,8 +194,8 @@ public class AccountGroupAccountEntryRelLocalServiceTest {
 	private AccountGroup _accountGroup;
 
 	@Inject
-	private AccountGroupAccountEntryRelLocalService
-		_accountGroupAccountEntryRelLocalService;
+	private AccountGroupRelLocalService
+		_accountGroupRelLocalService;
 
 	@Inject
 	private AccountGroupLocalService _accountGroupLocalService;

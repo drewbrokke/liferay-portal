@@ -50,9 +50,9 @@ create table AccountGroup (
 	name VARCHAR(75) null
 );
 
-create table AccountGroupAccountEntryRel (
+create table AccountGroupRel (
 	mvccVersion LONG default 0 not null,
-	AccountGroupAccountEntryRelId LONG not null primary key,
+	AccountGroupRelId LONG not null primary key,
 	companyId LONG,
 	accountGroupId LONG,
 	accountEntryId LONG

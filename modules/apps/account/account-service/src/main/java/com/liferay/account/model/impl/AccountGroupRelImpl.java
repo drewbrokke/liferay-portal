@@ -12,31 +12,15 @@
  * details.
  */
 
-package com.liferay.account.exception;
-
-import com.liferay.portal.kernel.exception.PortalException;
+package com.liferay.account.model.impl;
 
 /**
  * @author Brian Wing Shun Chan
  */
-public class DuplicateAccountGroupAccountEntryRelException
-	extends PortalException {
+public class AccountGroupRelImpl
+	extends AccountGroupRelBaseImpl {
 
-	public DuplicateAccountGroupAccountEntryRelException() {
-	}
-
-	public DuplicateAccountGroupAccountEntryRelException(String msg) {
-		super(msg);
-	}
-
-	public DuplicateAccountGroupAccountEntryRelException(
-		String msg, Throwable throwable) {
-
-		super(msg, throwable);
-	}
-
-	public DuplicateAccountGroupAccountEntryRelException(Throwable throwable) {
-		super(throwable);
+	public AccountGroupRelImpl() {
 	}
 
 }

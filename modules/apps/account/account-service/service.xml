@@ -153,14 +153,14 @@
 
 		<!-- References -->
 
-		<reference entity="AccountGroupAccountEntryRel" package-path="com.liferay.account" />
+		<reference entity="AccountGroupRel" package-path="com.liferay.account" />
 		<reference entity="User" package-path="com.liferay.portal" />
 	</entity>
-	<entity local-service="true" name="AccountGroupAccountEntryRel">
+	<entity local-service="true" name="AccountGroupRel">
 
 		<!-- PK fields -->
 
-		<column name="AccountGroupAccountEntryRelId" primary="true" type="long" />
+		<column name="AccountGroupRelId" primary="true" type="long" />
 
 		<!-- Audit fields -->
 
@@ -179,7 +179,7 @@
 		<finder name="AccountEntryId" return-type="Collection">
 			<finder-column name="accountEntryId" />
 		</finder>
-		<finder name="AGI_AEI" return-type="AccountGroupAccountEntryRel">
+		<finder name="AGI_AEI" return-type="AccountGroupRel">
 			<finder-column name="accountGroupId" />
 			<finder-column name="accountEntryId" />
 		</finder>
@@ -228,6 +228,6 @@
 		<exception>DuplicateAccountEntryId</exception>
 		<exception>DuplicateAccountEntryOrganizationRel</exception>
 		<exception>DuplicateAccountEntryUserRel</exception>
-		<exception>DuplicateAccountGroupAccountEntryRel</exception>
+		<exception>DuplicateAccountGroupRel</exception>
 	</exceptions>
 </service-builder>

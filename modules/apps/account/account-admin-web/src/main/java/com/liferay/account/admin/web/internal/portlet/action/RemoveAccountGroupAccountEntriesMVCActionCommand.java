@@ -16,7 +16,7 @@ package com.liferay.account.admin.web.internal.portlet.action;
 
 import com.liferay.account.constants.AccountPortletKeys;
 import com.liferay.account.exception.NoSuchGroupAccountEntryRelException;
-import com.liferay.account.service.AccountGroupAccountEntryRelLocalService;
+import com.liferay.account.service.AccountGroupRelLocalService;
 import com.liferay.petra.lang.SafeClosable;
 import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocal;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
@@ -58,8 +58,8 @@ public class RemoveAccountGroupAccountEntriesMVCActionCommand
 			long[] accountEntryIds = ParamUtil.getLongValues(
 				actionRequest, "accountEntryIds");
 
-			_accountGroupAccountEntryRelLocalService.
-				deleteAccountGroupAccountEntryRels(
+			_accountGroupRelLocalService.
+				deleteAccountGroupRels(
 					accountGroupId, accountEntryIds);
 
 			String redirect = ParamUtil.getString(actionRequest, "redirect");
@@ -82,7 +82,7 @@ public class RemoveAccountGroupAccountEntriesMVCActionCommand
 	}
 
 	@Reference
-	private AccountGroupAccountEntryRelLocalService
-		_accountGroupAccountEntryRelLocalService;
+	private AccountGroupRelLocalService
+		_accountGroupRelLocalService;
 
 }

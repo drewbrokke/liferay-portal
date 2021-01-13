@@ -14,7 +14,7 @@
 
 package com.liferay.account.service;
 
-import com.liferay.account.model.AccountGroupAccountEntryRel;
+import com.liferay.account.model.AccountGroupRel;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -39,13 +39,13 @@ import java.util.List;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * Provides the local service interface for AccountGroupAccountEntryRel. Methods of this
+ * Provides the local service interface for AccountGroupRel. Methods of this
  * service will not have security checks based on the propagated JAAS
  * credentials because this service can only be accessed from within the same
  * VM.
  *
  * @author Brian Wing Shun Chan
- * @see AccountGroupAccountEntryRelLocalServiceUtil
+ * @see AccountGroupRelLocalServiceUtil
  * @generated
  */
 @ProviderType
@@ -53,46 +53,46 @@ import org.osgi.annotation.versioning.ProviderType;
 	isolation = Isolation.PORTAL,
 	rollbackFor = {PortalException.class, SystemException.class}
 )
-public interface AccountGroupAccountEntryRelLocalService
+public interface AccountGroupRelLocalService
 	extends BaseLocalService, PersistedModelLocalService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.account.service.impl.AccountGroupAccountEntryRelLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the account group account entry rel local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link AccountGroupAccountEntryRelLocalServiceUtil} if injection and service tracking are not available.
+	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.account.service.impl.AccountGroupRelLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the account group account entry rel local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link AccountGroupRelLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
 	 * Adds the account group account entry rel to the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
-	 * <strong>Important:</strong> Inspect AccountGroupAccountEntryRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param accountGroupAccountEntryRel the account group account entry rel
+	 * @param accountGroupRel the account group account entry rel
 	 * @return the account group account entry rel that was added
 	 */
 	@Indexable(type = IndexableType.REINDEX)
-	public AccountGroupAccountEntryRel addAccountGroupAccountEntryRel(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel);
+	public AccountGroupRel addAccountGroupRel(
+		AccountGroupRel accountGroupRel);
 
-	public AccountGroupAccountEntryRel addAccountGroupAccountEntryRel(
+	public AccountGroupRel addAccountGroupRel(
 			long accountGroupId, long accountEntryId)
 		throws PortalException;
 
-	public void addAccountGroupAccountEntryRels(
+	public void addAccountGroupRels(
 			long accountGroupId, long[] accountEntryIds)
 		throws PortalException;
 
 	/**
 	 * Creates a new account group account entry rel with the primary key. Does not add the account group account entry rel to the database.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key for the new account group account entry rel
+	 * @param AccountGroupRelId the primary key for the new account group account entry rel
 	 * @return the new account group account entry rel
 	 */
 	@Transactional(enabled = false)
-	public AccountGroupAccountEntryRel createAccountGroupAccountEntryRel(
-		long AccountGroupAccountEntryRelId);
+	public AccountGroupRel createAccountGroupRel(
+		long AccountGroupRelId);
 
 	/**
 	 * @throws PortalException
@@ -104,33 +104,33 @@ public interface AccountGroupAccountEntryRelLocalService
 	 * Deletes the account group account entry rel from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
-	 * <strong>Important:</strong> Inspect AccountGroupAccountEntryRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param accountGroupAccountEntryRel the account group account entry rel
+	 * @param accountGroupRel the account group account entry rel
 	 * @return the account group account entry rel that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public AccountGroupAccountEntryRel deleteAccountGroupAccountEntryRel(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel);
+	public AccountGroupRel deleteAccountGroupRel(
+		AccountGroupRel accountGroupRel);
 
 	/**
 	 * Deletes the account group account entry rel with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
-	 * <strong>Important:</strong> Inspect AccountGroupAccountEntryRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the account group account entry rel
+	 * @param AccountGroupRelId the primary key of the account group account entry rel
 	 * @return the account group account entry rel that was removed
 	 * @throws PortalException if a account group account entry rel with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public AccountGroupAccountEntryRel deleteAccountGroupAccountEntryRel(
-			long AccountGroupAccountEntryRelId)
+	public AccountGroupRel deleteAccountGroupRel(
+			long AccountGroupRelId)
 		throws PortalException;
 
-	public void deleteAccountGroupAccountEntryRels(
+	public void deleteAccountGroupRels(
 			long accountGroupId, long[] accountEntryIds)
 		throws PortalException;
 
@@ -160,7 +160,7 @@ public interface AccountGroupAccountEntryRelLocalService
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>com.liferay.account.model.impl.AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>com.liferay.account.model.impl.AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -176,7 +176,7 @@ public interface AccountGroupAccountEntryRelLocalService
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>com.liferay.account.model.impl.AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>com.liferay.account.model.impl.AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -211,30 +211,30 @@ public interface AccountGroupAccountEntryRelLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public AccountGroupAccountEntryRel fetchAccountGroupAccountEntryRel(
-		long AccountGroupAccountEntryRelId);
+	public AccountGroupRel fetchAccountGroupRel(
+		long AccountGroupRelId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public AccountGroupAccountEntryRel fetchAccountGroupAccountEntryRel(
+	public AccountGroupRel fetchAccountGroupRel(
 		long accountGroupId, long accountEntryId);
 
 	/**
 	 * Returns the account group account entry rel with the primary key.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the account group account entry rel
+	 * @param AccountGroupRelId the primary key of the account group account entry rel
 	 * @return the account group account entry rel
 	 * @throws PortalException if a account group account entry rel with the primary key could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public AccountGroupAccountEntryRel getAccountGroupAccountEntryRel(
-			long AccountGroupAccountEntryRelId)
+	public AccountGroupRel getAccountGroupRel(
+			long AccountGroupRelId)
 		throws PortalException;
 
 	/**
 	 * Returns a range of all the account group account entry rels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>com.liferay.account.model.impl.AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>com.liferay.account.model.impl.AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of account group account entry rels
@@ -242,16 +242,16 @@ public interface AccountGroupAccountEntryRelLocalService
 	 * @return the range of account group account entry rels
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<AccountGroupAccountEntryRel> getAccountGroupAccountEntryRels(
+	public List<AccountGroupRel> getAccountGroupRels(
 		int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<AccountGroupAccountEntryRel>
-		getAccountGroupAccountEntryRelsByAccountEntryId(long accountEntryId);
+	public List<AccountGroupRel>
+		getAccountGroupRelsByAccountEntryId(long accountEntryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<AccountGroupAccountEntryRel>
-		getAccountGroupAccountEntryRelsByAccountGroupId(long accountGroupId);
+	public List<AccountGroupRel>
+		getAccountGroupRelsByAccountGroupId(long accountGroupId);
 
 	/**
 	 * Returns the number of account group account entry rels.
@@ -259,10 +259,10 @@ public interface AccountGroupAccountEntryRelLocalService
 	 * @return the number of account group account entry rels
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getAccountGroupAccountEntryRelsCount();
+	public int getAccountGroupRelsCount();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public long getAccountGroupAccountEntryRelsCountByAccountGroupId(
+	public long getAccountGroupRelsCountByAccountGroupId(
 		long accountGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -290,14 +290,14 @@ public interface AccountGroupAccountEntryRelLocalService
 	 * Updates the account group account entry rel in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
-	 * <strong>Important:</strong> Inspect AccountGroupAccountEntryRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param accountGroupAccountEntryRel the account group account entry rel
+	 * @param accountGroupRel the account group account entry rel
 	 * @return the account group account entry rel that was updated
 	 */
 	@Indexable(type = IndexableType.REINDEX)
-	public AccountGroupAccountEntryRel updateAccountGroupAccountEntryRel(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel);
+	public AccountGroupRel updateAccountGroupRel(
+		AccountGroupRel accountGroupRel);
 
 }

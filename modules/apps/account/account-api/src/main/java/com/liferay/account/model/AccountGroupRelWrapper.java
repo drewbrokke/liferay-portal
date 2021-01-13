@@ -22,22 +22,22 @@ import java.util.Map;
 
 /**
  * <p>
- * This class is a wrapper for {@link AccountGroupAccountEntryRel}.
+ * This class is a wrapper for {@link AccountGroupRel}.
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see AccountGroupAccountEntryRel
+ * @see AccountGroupRel
  * @generated
  */
-public class AccountGroupAccountEntryRelWrapper
-	extends BaseModelWrapper<AccountGroupAccountEntryRel>
-	implements AccountGroupAccountEntryRel,
-			   ModelWrapper<AccountGroupAccountEntryRel> {
+public class AccountGroupRelWrapper
+	extends BaseModelWrapper<AccountGroupRel>
+	implements AccountGroupRel,
+			   ModelWrapper<AccountGroupRel> {
 
-	public AccountGroupAccountEntryRelWrapper(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+	public AccountGroupRelWrapper(
+		AccountGroupRel accountGroupRel) {
 
-		super(accountGroupAccountEntryRel);
+		super(accountGroupRel);
 	}
 
 	@Override
@@ -46,8 +46,8 @@ public class AccountGroupAccountEntryRelWrapper
 
 		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put(
-			"AccountGroupAccountEntryRelId",
-			getAccountGroupAccountEntryRelId());
+			"AccountGroupRelId",
+			getAccountGroupRelId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("accountGroupId", getAccountGroupId());
 		attributes.put("accountEntryId", getAccountEntryId());
@@ -63,11 +63,11 @@ public class AccountGroupAccountEntryRelWrapper
 			setMvccVersion(mvccVersion);
 		}
 
-		Long AccountGroupAccountEntryRelId = (Long)attributes.get(
-			"AccountGroupAccountEntryRelId");
+		Long AccountGroupRelId = (Long)attributes.get(
+			"AccountGroupRelId");
 
-		if (AccountGroupAccountEntryRelId != null) {
-			setAccountGroupAccountEntryRelId(AccountGroupAccountEntryRelId);
+		if (AccountGroupRelId != null) {
+			setAccountGroupRelId(AccountGroupRelId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -105,8 +105,8 @@ public class AccountGroupAccountEntryRelWrapper
 	 * @return the account group account entry rel ID of this account group account entry rel
 	 */
 	@Override
-	public long getAccountGroupAccountEntryRelId() {
-		return model.getAccountGroupAccountEntryRelId();
+	public long getAccountGroupRelId() {
+		return model.getAccountGroupRelId();
 	}
 
 	/**
@@ -167,13 +167,13 @@ public class AccountGroupAccountEntryRelWrapper
 	/**
 	 * Sets the account group account entry rel ID of this account group account entry rel.
 	 *
-	 * @param AccountGroupAccountEntryRelId the account group account entry rel ID of this account group account entry rel
+	 * @param AccountGroupRelId the account group account entry rel ID of this account group account entry rel
 	 */
 	@Override
-	public void setAccountGroupAccountEntryRelId(
-		long AccountGroupAccountEntryRelId) {
+	public void setAccountGroupRelId(
+		long AccountGroupRelId) {
 
-		model.setAccountGroupAccountEntryRelId(AccountGroupAccountEntryRelId);
+		model.setAccountGroupRelId(AccountGroupRelId);
 	}
 
 	/**
@@ -217,11 +217,11 @@ public class AccountGroupAccountEntryRelWrapper
 	}
 
 	@Override
-	protected AccountGroupAccountEntryRelWrapper wrap(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+	protected AccountGroupRelWrapper wrap(
+		AccountGroupRel accountGroupRel) {
 
-		return new AccountGroupAccountEntryRelWrapper(
-			accountGroupAccountEntryRel);
+		return new AccountGroupRelWrapper(
+			accountGroupRel);
 	}
 
 }

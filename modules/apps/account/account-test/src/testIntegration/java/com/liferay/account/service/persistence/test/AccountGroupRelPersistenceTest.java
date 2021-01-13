@@ -15,10 +15,10 @@
 package com.liferay.account.service.persistence.test;
 
 import com.liferay.account.exception.NoSuchGroupAccountEntryRelException;
-import com.liferay.account.model.AccountGroupAccountEntryRel;
-import com.liferay.account.service.AccountGroupAccountEntryRelLocalServiceUtil;
-import com.liferay.account.service.persistence.AccountGroupAccountEntryRelPersistence;
-import com.liferay.account.service.persistence.AccountGroupAccountEntryRelUtil;
+import com.liferay.account.model.AccountGroupRel;
+import com.liferay.account.service.AccountGroupRelLocalServiceUtil;
+import com.liferay.account.service.persistence.AccountGroupRelPersistence;
+import com.liferay.account.service.persistence.AccountGroupRelUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -59,7 +59,7 @@ import org.junit.runner.RunWith;
  * @generated
  */
 @RunWith(Arquillian.class)
-public class AccountGroupAccountEntryRelPersistenceTest {
+public class AccountGroupRelPersistenceTest {
 
 	@ClassRule
 	@Rule
@@ -71,7 +71,7 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 
 	@Before
 	public void setUp() {
-		_persistence = AccountGroupAccountEntryRelUtil.getPersistence();
+		_persistence = AccountGroupRelUtil.getPersistence();
 
 		Class<?> clazz = _persistence.getClass();
 
@@ -80,8 +80,8 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 
 	@After
 	public void tearDown() throws Exception {
-		Iterator<AccountGroupAccountEntryRel> iterator =
-			_accountGroupAccountEntryRels.iterator();
+		Iterator<AccountGroupRel> iterator =
+			_accountGroupRels.iterator();
 
 		while (iterator.hasNext()) {
 			_persistence.remove(iterator.next());
@@ -94,74 +94,74 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 	public void testCreate() throws Exception {
 		long pk = RandomTestUtil.nextLong();
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
+		AccountGroupRel accountGroupRel =
 			_persistence.create(pk);
 
-		Assert.assertNotNull(accountGroupAccountEntryRel);
+		Assert.assertNotNull(accountGroupRel);
 
-		Assert.assertEquals(accountGroupAccountEntryRel.getPrimaryKey(), pk);
+		Assert.assertEquals(accountGroupRel.getPrimaryKey(), pk);
 	}
 
 	@Test
 	public void testRemove() throws Exception {
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel =
-			addAccountGroupAccountEntryRel();
+		AccountGroupRel newAccountGroupRel =
+			addAccountGroupRel();
 
-		_persistence.remove(newAccountGroupAccountEntryRel);
+		_persistence.remove(newAccountGroupRel);
 
-		AccountGroupAccountEntryRel existingAccountGroupAccountEntryRel =
+		AccountGroupRel existingAccountGroupRel =
 			_persistence.fetchByPrimaryKey(
-				newAccountGroupAccountEntryRel.getPrimaryKey());
+				newAccountGroupRel.getPrimaryKey());
 
-		Assert.assertNull(existingAccountGroupAccountEntryRel);
+		Assert.assertNull(existingAccountGroupRel);
 	}
 
 	@Test
 	public void testUpdateNew() throws Exception {
-		addAccountGroupAccountEntryRel();
+		addAccountGroupRel();
 	}
 
 	@Test
 	public void testUpdateExisting() throws Exception {
 		long pk = RandomTestUtil.nextLong();
 
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel =
+		AccountGroupRel newAccountGroupRel =
 			_persistence.create(pk);
 
-		newAccountGroupAccountEntryRel.setMvccVersion(
+		newAccountGroupRel.setMvccVersion(
 			RandomTestUtil.nextLong());
 
-		newAccountGroupAccountEntryRel.setCompanyId(RandomTestUtil.nextLong());
+		newAccountGroupRel.setCompanyId(RandomTestUtil.nextLong());
 
-		newAccountGroupAccountEntryRel.setAccountGroupId(
+		newAccountGroupRel.setAccountGroupId(
 			RandomTestUtil.nextLong());
 
-		newAccountGroupAccountEntryRel.setAccountEntryId(
+		newAccountGroupRel.setAccountEntryId(
 			RandomTestUtil.nextLong());
 
-		_accountGroupAccountEntryRels.add(
-			_persistence.update(newAccountGroupAccountEntryRel));
+		_accountGroupRels.add(
+			_persistence.update(newAccountGroupRel));
 
-		AccountGroupAccountEntryRel existingAccountGroupAccountEntryRel =
+		AccountGroupRel existingAccountGroupRel =
 			_persistence.findByPrimaryKey(
-				newAccountGroupAccountEntryRel.getPrimaryKey());
+				newAccountGroupRel.getPrimaryKey());
 
 		Assert.assertEquals(
-			existingAccountGroupAccountEntryRel.getMvccVersion(),
-			newAccountGroupAccountEntryRel.getMvccVersion());
+			existingAccountGroupRel.getMvccVersion(),
+			newAccountGroupRel.getMvccVersion());
 		Assert.assertEquals(
-			existingAccountGroupAccountEntryRel.
-				getAccountGroupAccountEntryRelId(),
-			newAccountGroupAccountEntryRel.getAccountGroupAccountEntryRelId());
+			existingAccountGroupRel.
+				getAccountGroupRelId(),
+			newAccountGroupRel.getAccountGroupRelId());
 		Assert.assertEquals(
-			existingAccountGroupAccountEntryRel.getCompanyId(),
-			newAccountGroupAccountEntryRel.getCompanyId());
+			existingAccountGroupRel.getCompanyId(),
+			newAccountGroupRel.getCompanyId());
 		Assert.assertEquals(
-			existingAccountGroupAccountEntryRel.getAccountGroupId(),
-			newAccountGroupAccountEntryRel.getAccountGroupId());
+			existingAccountGroupRel.getAccountGroupId(),
+			newAccountGroupRel.getAccountGroupId());
 		Assert.assertEquals(
-			existingAccountGroupAccountEntryRel.getAccountEntryId(),
-			newAccountGroupAccountEntryRel.getAccountEntryId());
+			existingAccountGroupRel.getAccountEntryId(),
+			newAccountGroupRel.getAccountEntryId());
 	}
 
 	@Test
@@ -188,16 +188,16 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 
 	@Test
 	public void testFindByPrimaryKeyExisting() throws Exception {
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel =
-			addAccountGroupAccountEntryRel();
+		AccountGroupRel newAccountGroupRel =
+			addAccountGroupRel();
 
-		AccountGroupAccountEntryRel existingAccountGroupAccountEntryRel =
+		AccountGroupRel existingAccountGroupRel =
 			_persistence.findByPrimaryKey(
-				newAccountGroupAccountEntryRel.getPrimaryKey());
+				newAccountGroupRel.getPrimaryKey());
 
 		Assert.assertEquals(
-			existingAccountGroupAccountEntryRel,
-			newAccountGroupAccountEntryRel);
+			existingAccountGroupRel,
+			newAccountGroupRel);
 	}
 
 	@Test(expected = NoSuchGroupAccountEntryRelException.class)
@@ -213,66 +213,66 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 			QueryUtil.ALL_POS, QueryUtil.ALL_POS, getOrderByComparator());
 	}
 
-	protected OrderByComparator<AccountGroupAccountEntryRel>
+	protected OrderByComparator<AccountGroupRel>
 		getOrderByComparator() {
 
 		return OrderByComparatorFactoryUtil.create(
-			"AccountGroupAccountEntryRel", "mvccVersion", true,
-			"AccountGroupAccountEntryRelId", true, "companyId", true,
+			"AccountGroupRel", "mvccVersion", true,
+			"AccountGroupRelId", true, "companyId", true,
 			"accountGroupId", true, "accountEntryId", true);
 	}
 
 	@Test
 	public void testFetchByPrimaryKeyExisting() throws Exception {
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel =
-			addAccountGroupAccountEntryRel();
+		AccountGroupRel newAccountGroupRel =
+			addAccountGroupRel();
 
-		AccountGroupAccountEntryRel existingAccountGroupAccountEntryRel =
+		AccountGroupRel existingAccountGroupRel =
 			_persistence.fetchByPrimaryKey(
-				newAccountGroupAccountEntryRel.getPrimaryKey());
+				newAccountGroupRel.getPrimaryKey());
 
 		Assert.assertEquals(
-			existingAccountGroupAccountEntryRel,
-			newAccountGroupAccountEntryRel);
+			existingAccountGroupRel,
+			newAccountGroupRel);
 	}
 
 	@Test
 	public void testFetchByPrimaryKeyMissing() throws Exception {
 		long pk = RandomTestUtil.nextLong();
 
-		AccountGroupAccountEntryRel missingAccountGroupAccountEntryRel =
+		AccountGroupRel missingAccountGroupRel =
 			_persistence.fetchByPrimaryKey(pk);
 
-		Assert.assertNull(missingAccountGroupAccountEntryRel);
+		Assert.assertNull(missingAccountGroupRel);
 	}
 
 	@Test
 	public void testFetchByPrimaryKeysWithMultiplePrimaryKeysWhereAllPrimaryKeysExist()
 		throws Exception {
 
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel1 =
-			addAccountGroupAccountEntryRel();
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel2 =
-			addAccountGroupAccountEntryRel();
+		AccountGroupRel newAccountGroupRel1 =
+			addAccountGroupRel();
+		AccountGroupRel newAccountGroupRel2 =
+			addAccountGroupRel();
 
 		Set<Serializable> primaryKeys = new HashSet<Serializable>();
 
-		primaryKeys.add(newAccountGroupAccountEntryRel1.getPrimaryKey());
-		primaryKeys.add(newAccountGroupAccountEntryRel2.getPrimaryKey());
+		primaryKeys.add(newAccountGroupRel1.getPrimaryKey());
+		primaryKeys.add(newAccountGroupRel2.getPrimaryKey());
 
-		Map<Serializable, AccountGroupAccountEntryRel>
-			accountGroupAccountEntryRels = _persistence.fetchByPrimaryKeys(
+		Map<Serializable, AccountGroupRel>
+			accountGroupRels = _persistence.fetchByPrimaryKeys(
 				primaryKeys);
 
-		Assert.assertEquals(2, accountGroupAccountEntryRels.size());
+		Assert.assertEquals(2, accountGroupRels.size());
 		Assert.assertEquals(
-			newAccountGroupAccountEntryRel1,
-			accountGroupAccountEntryRels.get(
-				newAccountGroupAccountEntryRel1.getPrimaryKey()));
+			newAccountGroupRel1,
+			accountGroupRels.get(
+				newAccountGroupRel1.getPrimaryKey()));
 		Assert.assertEquals(
-			newAccountGroupAccountEntryRel2,
-			accountGroupAccountEntryRels.get(
-				newAccountGroupAccountEntryRel2.getPrimaryKey()));
+			newAccountGroupRel2,
+			accountGroupRels.get(
+				newAccountGroupRel2.getPrimaryKey()));
 	}
 
 	@Test
@@ -288,67 +288,67 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 		primaryKeys.add(pk1);
 		primaryKeys.add(pk2);
 
-		Map<Serializable, AccountGroupAccountEntryRel>
-			accountGroupAccountEntryRels = _persistence.fetchByPrimaryKeys(
+		Map<Serializable, AccountGroupRel>
+			accountGroupRels = _persistence.fetchByPrimaryKeys(
 				primaryKeys);
 
-		Assert.assertTrue(accountGroupAccountEntryRels.isEmpty());
+		Assert.assertTrue(accountGroupRels.isEmpty());
 	}
 
 	@Test
 	public void testFetchByPrimaryKeysWithMultiplePrimaryKeysWhereSomePrimaryKeysExist()
 		throws Exception {
 
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel =
-			addAccountGroupAccountEntryRel();
+		AccountGroupRel newAccountGroupRel =
+			addAccountGroupRel();
 
 		long pk = RandomTestUtil.nextLong();
 
 		Set<Serializable> primaryKeys = new HashSet<Serializable>();
 
-		primaryKeys.add(newAccountGroupAccountEntryRel.getPrimaryKey());
+		primaryKeys.add(newAccountGroupRel.getPrimaryKey());
 		primaryKeys.add(pk);
 
-		Map<Serializable, AccountGroupAccountEntryRel>
-			accountGroupAccountEntryRels = _persistence.fetchByPrimaryKeys(
+		Map<Serializable, AccountGroupRel>
+			accountGroupRels = _persistence.fetchByPrimaryKeys(
 				primaryKeys);
 
-		Assert.assertEquals(1, accountGroupAccountEntryRels.size());
+		Assert.assertEquals(1, accountGroupRels.size());
 		Assert.assertEquals(
-			newAccountGroupAccountEntryRel,
-			accountGroupAccountEntryRels.get(
-				newAccountGroupAccountEntryRel.getPrimaryKey()));
+			newAccountGroupRel,
+			accountGroupRels.get(
+				newAccountGroupRel.getPrimaryKey()));
 	}
 
 	@Test
 	public void testFetchByPrimaryKeysWithNoPrimaryKeys() throws Exception {
 		Set<Serializable> primaryKeys = new HashSet<Serializable>();
 
-		Map<Serializable, AccountGroupAccountEntryRel>
-			accountGroupAccountEntryRels = _persistence.fetchByPrimaryKeys(
+		Map<Serializable, AccountGroupRel>
+			accountGroupRels = _persistence.fetchByPrimaryKeys(
 				primaryKeys);
 
-		Assert.assertTrue(accountGroupAccountEntryRels.isEmpty());
+		Assert.assertTrue(accountGroupRels.isEmpty());
 	}
 
 	@Test
 	public void testFetchByPrimaryKeysWithOnePrimaryKey() throws Exception {
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel =
-			addAccountGroupAccountEntryRel();
+		AccountGroupRel newAccountGroupRel =
+			addAccountGroupRel();
 
 		Set<Serializable> primaryKeys = new HashSet<Serializable>();
 
-		primaryKeys.add(newAccountGroupAccountEntryRel.getPrimaryKey());
+		primaryKeys.add(newAccountGroupRel.getPrimaryKey());
 
-		Map<Serializable, AccountGroupAccountEntryRel>
-			accountGroupAccountEntryRels = _persistence.fetchByPrimaryKeys(
+		Map<Serializable, AccountGroupRel>
+			accountGroupRels = _persistence.fetchByPrimaryKeys(
 				primaryKeys);
 
-		Assert.assertEquals(1, accountGroupAccountEntryRels.size());
+		Assert.assertEquals(1, accountGroupRels.size());
 		Assert.assertEquals(
-			newAccountGroupAccountEntryRel,
-			accountGroupAccountEntryRels.get(
-				newAccountGroupAccountEntryRel.getPrimaryKey()));
+			newAccountGroupRel,
+			accountGroupRels.get(
+				newAccountGroupRel.getPrimaryKey()));
 	}
 
 	@Test
@@ -356,18 +356,18 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 		final IntegerWrapper count = new IntegerWrapper();
 
 		ActionableDynamicQuery actionableDynamicQuery =
-			AccountGroupAccountEntryRelLocalServiceUtil.
+			AccountGroupRelLocalServiceUtil.
 				getActionableDynamicQuery();
 
 		actionableDynamicQuery.setPerformActionMethod(
 			new ActionableDynamicQuery.PerformActionMethod
-				<AccountGroupAccountEntryRel>() {
+				<AccountGroupRel>() {
 
 				@Override
 				public void performAction(
-					AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+					AccountGroupRel accountGroupRel) {
 
-					Assert.assertNotNull(accountGroupAccountEntryRel);
+					Assert.assertNotNull(accountGroupRel);
 
 					count.increment();
 				}
@@ -381,41 +381,41 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 
 	@Test
 	public void testDynamicQueryByPrimaryKeyExisting() throws Exception {
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel =
-			addAccountGroupAccountEntryRel();
+		AccountGroupRel newAccountGroupRel =
+			addAccountGroupRel();
 
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
-			AccountGroupAccountEntryRel.class, _dynamicQueryClassLoader);
+			AccountGroupRel.class, _dynamicQueryClassLoader);
 
 		dynamicQuery.add(
 			RestrictionsFactoryUtil.eq(
-				"AccountGroupAccountEntryRelId",
-				newAccountGroupAccountEntryRel.
-					getAccountGroupAccountEntryRelId()));
+				"AccountGroupRelId",
+				newAccountGroupRel.
+					getAccountGroupRelId()));
 
-		List<AccountGroupAccountEntryRel> result =
+		List<AccountGroupRel> result =
 			_persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(1, result.size());
 
-		AccountGroupAccountEntryRel existingAccountGroupAccountEntryRel =
+		AccountGroupRel existingAccountGroupRel =
 			result.get(0);
 
 		Assert.assertEquals(
-			existingAccountGroupAccountEntryRel,
-			newAccountGroupAccountEntryRel);
+			existingAccountGroupRel,
+			newAccountGroupRel);
 	}
 
 	@Test
 	public void testDynamicQueryByPrimaryKeyMissing() throws Exception {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
-			AccountGroupAccountEntryRel.class, _dynamicQueryClassLoader);
+			AccountGroupRel.class, _dynamicQueryClassLoader);
 
 		dynamicQuery.add(
 			RestrictionsFactoryUtil.eq(
-				"AccountGroupAccountEntryRelId", RandomTestUtil.nextLong()));
+				"AccountGroupRelId", RandomTestUtil.nextLong()));
 
-		List<AccountGroupAccountEntryRel> result =
+		List<AccountGroupRel> result =
 			_persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(0, result.size());
@@ -423,45 +423,45 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 
 	@Test
 	public void testDynamicQueryByProjectionExisting() throws Exception {
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel =
-			addAccountGroupAccountEntryRel();
+		AccountGroupRel newAccountGroupRel =
+			addAccountGroupRel();
 
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
-			AccountGroupAccountEntryRel.class, _dynamicQueryClassLoader);
+			AccountGroupRel.class, _dynamicQueryClassLoader);
 
 		dynamicQuery.setProjection(
-			ProjectionFactoryUtil.property("AccountGroupAccountEntryRelId"));
+			ProjectionFactoryUtil.property("AccountGroupRelId"));
 
-		Object newAccountGroupAccountEntryRelId =
-			newAccountGroupAccountEntryRel.getAccountGroupAccountEntryRelId();
+		Object newAccountGroupRelId =
+			newAccountGroupRel.getAccountGroupRelId();
 
 		dynamicQuery.add(
 			RestrictionsFactoryUtil.in(
-				"AccountGroupAccountEntryRelId",
-				new Object[] {newAccountGroupAccountEntryRelId}));
+				"AccountGroupRelId",
+				new Object[] {newAccountGroupRelId}));
 
 		List<Object> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(1, result.size());
 
-		Object existingAccountGroupAccountEntryRelId = result.get(0);
+		Object existingAccountGroupRelId = result.get(0);
 
 		Assert.assertEquals(
-			existingAccountGroupAccountEntryRelId,
-			newAccountGroupAccountEntryRelId);
+			existingAccountGroupRelId,
+			newAccountGroupRelId);
 	}
 
 	@Test
 	public void testDynamicQueryByProjectionMissing() throws Exception {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
-			AccountGroupAccountEntryRel.class, _dynamicQueryClassLoader);
+			AccountGroupRel.class, _dynamicQueryClassLoader);
 
 		dynamicQuery.setProjection(
-			ProjectionFactoryUtil.property("AccountGroupAccountEntryRelId"));
+			ProjectionFactoryUtil.property("AccountGroupRelId"));
 
 		dynamicQuery.add(
 			RestrictionsFactoryUtil.in(
-				"AccountGroupAccountEntryRelId",
+				"AccountGroupRelId",
 				new Object[] {RandomTestUtil.nextLong()}));
 
 		List<Object> result = _persistence.findWithDynamicQuery(dynamicQuery);
@@ -471,14 +471,14 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 
 	@Test
 	public void testResetOriginalValues() throws Exception {
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel =
-			addAccountGroupAccountEntryRel();
+		AccountGroupRel newAccountGroupRel =
+			addAccountGroupRel();
 
 		_persistence.clearCache();
 
 		_assertOriginalValues(
 			_persistence.findByPrimaryKey(
-				newAccountGroupAccountEntryRel.getPrimaryKey()));
+				newAccountGroupRel.getPrimaryKey()));
 	}
 
 	@Test
@@ -498,8 +498,8 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 	private void _testResetOriginalValuesWithDynamicQuery(boolean clearSession)
 		throws Exception {
 
-		AccountGroupAccountEntryRel newAccountGroupAccountEntryRel =
-			addAccountGroupAccountEntryRel();
+		AccountGroupRel newAccountGroupRel =
+			addAccountGroupRel();
 
 		if (clearSession) {
 			Session session = _persistence.openSession();
@@ -510,62 +510,62 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 		}
 
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
-			AccountGroupAccountEntryRel.class, _dynamicQueryClassLoader);
+			AccountGroupRel.class, _dynamicQueryClassLoader);
 
 		dynamicQuery.add(
 			RestrictionsFactoryUtil.eq(
-				"AccountGroupAccountEntryRelId",
-				newAccountGroupAccountEntryRel.
-					getAccountGroupAccountEntryRelId()));
+				"AccountGroupRelId",
+				newAccountGroupRel.
+					getAccountGroupRelId()));
 
-		List<AccountGroupAccountEntryRel> result =
+		List<AccountGroupRel> result =
 			_persistence.findWithDynamicQuery(dynamicQuery);
 
 		_assertOriginalValues(result.get(0));
 	}
 
 	private void _assertOriginalValues(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+		AccountGroupRel accountGroupRel) {
 
 		Assert.assertEquals(
-			Long.valueOf(accountGroupAccountEntryRel.getAccountGroupId()),
+			Long.valueOf(accountGroupRel.getAccountGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				accountGroupAccountEntryRel, "getColumnOriginalValue",
+				accountGroupRel, "getColumnOriginalValue",
 				new Class<?>[] {String.class}, "accountGroupId"));
 		Assert.assertEquals(
-			Long.valueOf(accountGroupAccountEntryRel.getAccountEntryId()),
+			Long.valueOf(accountGroupRel.getAccountEntryId()),
 			ReflectionTestUtil.<Long>invoke(
-				accountGroupAccountEntryRel, "getColumnOriginalValue",
+				accountGroupRel, "getColumnOriginalValue",
 				new Class<?>[] {String.class}, "accountEntryId"));
 	}
 
-	protected AccountGroupAccountEntryRel addAccountGroupAccountEntryRel()
+	protected AccountGroupRel addAccountGroupRel()
 		throws Exception {
 
 		long pk = RandomTestUtil.nextLong();
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
+		AccountGroupRel accountGroupRel =
 			_persistence.create(pk);
 
-		accountGroupAccountEntryRel.setMvccVersion(RandomTestUtil.nextLong());
+		accountGroupRel.setMvccVersion(RandomTestUtil.nextLong());
 
-		accountGroupAccountEntryRel.setCompanyId(RandomTestUtil.nextLong());
+		accountGroupRel.setCompanyId(RandomTestUtil.nextLong());
 
-		accountGroupAccountEntryRel.setAccountGroupId(
+		accountGroupRel.setAccountGroupId(
 			RandomTestUtil.nextLong());
 
-		accountGroupAccountEntryRel.setAccountEntryId(
+		accountGroupRel.setAccountEntryId(
 			RandomTestUtil.nextLong());
 
-		_accountGroupAccountEntryRels.add(
-			_persistence.update(accountGroupAccountEntryRel));
+		_accountGroupRels.add(
+			_persistence.update(accountGroupRel));
 
-		return accountGroupAccountEntryRel;
+		return accountGroupRel;
 	}
 
-	private List<AccountGroupAccountEntryRel> _accountGroupAccountEntryRels =
-		new ArrayList<AccountGroupAccountEntryRel>();
-	private AccountGroupAccountEntryRelPersistence _persistence;
+	private List<AccountGroupRel> _accountGroupRels =
+		new ArrayList<AccountGroupRel>();
+	private AccountGroupRelPersistence _persistence;
 	private ClassLoader _dynamicQueryClassLoader;
 
 }

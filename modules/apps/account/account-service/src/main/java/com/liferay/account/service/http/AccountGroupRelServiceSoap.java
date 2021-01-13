@@ -16,7 +16,7 @@ package com.liferay.account.service.http;
 
 /**
  * Provides the SOAP utility for the
- * <code>com.liferay.account.service.AccountGroupAccountEntryRelServiceUtil</code> service
+ * <code>com.liferay.account.service.AccountGroupRelServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -25,10 +25,10 @@ package com.liferay.account.service.http;
  * ServiceBuilder follows certain rules in translating the methods. For example,
  * if the method in the service utility returns a <code>java.util.List</code>,
  * that is translated to an array of
- * <code>com.liferay.account.model.AccountGroupAccountEntryRelSoap</code>. If the method in the
+ * <code>com.liferay.account.model.AccountGroupRelSoap</code>. If the method in the
  * service utility returns a
- * <code>com.liferay.account.model.AccountGroupAccountEntryRel</code>, that is translated to a
- * <code>com.liferay.account.model.AccountGroupAccountEntryRelSoap</code>. Methods that SOAP
+ * <code>com.liferay.account.model.AccountGroupRel</code>, that is translated to a
+ * <code>com.liferay.account.model.AccountGroupRelSoap</code>. Methods that SOAP
  * cannot safely wire are skipped.
  * </p>
  *
@@ -50,10 +50,10 @@ package com.liferay.account.service.http;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see AccountGroupAccountEntryRelServiceHttp
+ * @see AccountGroupRelServiceHttp
  * @deprecated As of Athanasius (7.3.x), with no direct replacement
  * @generated
  */
 @Deprecated
-public class AccountGroupAccountEntryRelServiceSoap {
+public class AccountGroupRelServiceSoap {
 }

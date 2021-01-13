@@ -22,7 +22,7 @@ import com.liferay.account.retriever.AccountUserRetriever;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryOrganizationRelLocalService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
-import com.liferay.account.service.AccountGroupAccountEntryRelLocalService;
+import com.liferay.account.service.AccountGroupRelLocalService;
 import com.liferay.account.service.AccountGroupLocalService;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.account.service.test.util.AccountGroupTestUtil;
@@ -863,7 +863,7 @@ public class AccountEntryLocalServiceTest {
 
 		AccountEntry accountEntry = _addAccountEntry();
 
-		_accountGroupAccountEntryRelLocalService.addAccountGroupAccountEntryRel(
+		_accountGroupRelLocalService.addAccountGroupRel(
 			accountGroupId, accountEntry.getAccountEntryId());
 
 		return accountEntry;
@@ -1074,8 +1074,8 @@ public class AccountEntryLocalServiceTest {
 	private AccountEntryUserRelLocalService _accountEntryUserRelLocalService;
 
 	@Inject
-	private AccountGroupAccountEntryRelLocalService
-		_accountGroupAccountEntryRelLocalService;
+	private AccountGroupRelLocalService
+		_accountGroupRelLocalService;
 
 	@Inject
 	private AccountGroupLocalService _accountGroupLocalService;

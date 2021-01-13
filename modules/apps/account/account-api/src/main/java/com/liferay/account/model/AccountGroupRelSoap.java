@@ -20,24 +20,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link com.liferay.account.service.http.AccountGroupAccountEntryRelServiceSoap}.
+ * This class is used by SOAP remote services, specifically {@link com.liferay.account.service.http.AccountGroupRelServiceSoap}.
  *
  * @author Brian Wing Shun Chan
  * @deprecated As of Athanasius (7.3.x), with no direct replacement
  * @generated
  */
 @Deprecated
-public class AccountGroupAccountEntryRelSoap implements Serializable {
+public class AccountGroupRelSoap implements Serializable {
 
-	public static AccountGroupAccountEntryRelSoap toSoapModel(
-		AccountGroupAccountEntryRel model) {
+	public static AccountGroupRelSoap toSoapModel(
+		AccountGroupRel model) {
 
-		AccountGroupAccountEntryRelSoap soapModel =
-			new AccountGroupAccountEntryRelSoap();
+		AccountGroupRelSoap soapModel =
+			new AccountGroupRelSoap();
 
 		soapModel.setMvccVersion(model.getMvccVersion());
-		soapModel.setAccountGroupAccountEntryRelId(
-			model.getAccountGroupAccountEntryRelId());
+		soapModel.setAccountGroupRelId(
+			model.getAccountGroupRelId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setAccountGroupId(model.getAccountGroupId());
 		soapModel.setAccountEntryId(model.getAccountEntryId());
@@ -45,11 +45,11 @@ public class AccountGroupAccountEntryRelSoap implements Serializable {
 		return soapModel;
 	}
 
-	public static AccountGroupAccountEntryRelSoap[] toSoapModels(
-		AccountGroupAccountEntryRel[] models) {
+	public static AccountGroupRelSoap[] toSoapModels(
+		AccountGroupRel[] models) {
 
-		AccountGroupAccountEntryRelSoap[] soapModels =
-			new AccountGroupAccountEntryRelSoap[models.length];
+		AccountGroupRelSoap[] soapModels =
+			new AccountGroupRelSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -58,17 +58,17 @@ public class AccountGroupAccountEntryRelSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static AccountGroupAccountEntryRelSoap[][] toSoapModels(
-		AccountGroupAccountEntryRel[][] models) {
+	public static AccountGroupRelSoap[][] toSoapModels(
+		AccountGroupRel[][] models) {
 
-		AccountGroupAccountEntryRelSoap[][] soapModels = null;
+		AccountGroupRelSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new AccountGroupAccountEntryRelSoap
+			soapModels = new AccountGroupRelSoap
 				[models.length][models[0].length];
 		}
 		else {
-			soapModels = new AccountGroupAccountEntryRelSoap[0][0];
+			soapModels = new AccountGroupRelSoap[0][0];
 		}
 
 		for (int i = 0; i < models.length; i++) {
@@ -78,29 +78,29 @@ public class AccountGroupAccountEntryRelSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static AccountGroupAccountEntryRelSoap[] toSoapModels(
-		List<AccountGroupAccountEntryRel> models) {
+	public static AccountGroupRelSoap[] toSoapModels(
+		List<AccountGroupRel> models) {
 
-		List<AccountGroupAccountEntryRelSoap> soapModels =
-			new ArrayList<AccountGroupAccountEntryRelSoap>(models.size());
+		List<AccountGroupRelSoap> soapModels =
+			new ArrayList<AccountGroupRelSoap>(models.size());
 
-		for (AccountGroupAccountEntryRel model : models) {
+		for (AccountGroupRel model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
 		return soapModels.toArray(
-			new AccountGroupAccountEntryRelSoap[soapModels.size()]);
+			new AccountGroupRelSoap[soapModels.size()]);
 	}
 
-	public AccountGroupAccountEntryRelSoap() {
+	public AccountGroupRelSoap() {
 	}
 
 	public long getPrimaryKey() {
-		return _AccountGroupAccountEntryRelId;
+		return _AccountGroupRelId;
 	}
 
 	public void setPrimaryKey(long pk) {
-		setAccountGroupAccountEntryRelId(pk);
+		setAccountGroupRelId(pk);
 	}
 
 	public long getMvccVersion() {
@@ -111,14 +111,14 @@ public class AccountGroupAccountEntryRelSoap implements Serializable {
 		_mvccVersion = mvccVersion;
 	}
 
-	public long getAccountGroupAccountEntryRelId() {
-		return _AccountGroupAccountEntryRelId;
+	public long getAccountGroupRelId() {
+		return _AccountGroupRelId;
 	}
 
-	public void setAccountGroupAccountEntryRelId(
-		long AccountGroupAccountEntryRelId) {
+	public void setAccountGroupRelId(
+		long AccountGroupRelId) {
 
-		_AccountGroupAccountEntryRelId = AccountGroupAccountEntryRelId;
+		_AccountGroupRelId = AccountGroupRelId;
 	}
 
 	public long getCompanyId() {
@@ -146,7 +146,7 @@ public class AccountGroupAccountEntryRelSoap implements Serializable {
 	}
 
 	private long _mvccVersion;
-	private long _AccountGroupAccountEntryRelId;
+	private long _AccountGroupRelId;
 	private long _companyId;
 	private long _accountGroupId;
 	private long _accountEntryId;

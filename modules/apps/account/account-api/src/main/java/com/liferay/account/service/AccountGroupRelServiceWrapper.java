@@ -17,21 +17,21 @@ package com.liferay.account.service;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
- * Provides a wrapper for {@link AccountGroupAccountEntryRelService}.
+ * Provides a wrapper for {@link AccountGroupRelService}.
  *
  * @author Brian Wing Shun Chan
- * @see AccountGroupAccountEntryRelService
+ * @see AccountGroupRelService
  * @generated
  */
-public class AccountGroupAccountEntryRelServiceWrapper
-	implements AccountGroupAccountEntryRelService,
-			   ServiceWrapper<AccountGroupAccountEntryRelService> {
+public class AccountGroupRelServiceWrapper
+	implements AccountGroupRelService,
+			   ServiceWrapper<AccountGroupRelService> {
 
-	public AccountGroupAccountEntryRelServiceWrapper(
-		AccountGroupAccountEntryRelService accountGroupAccountEntryRelService) {
+	public AccountGroupRelServiceWrapper(
+		AccountGroupRelService accountGroupRelService) {
 
-		_accountGroupAccountEntryRelService =
-			accountGroupAccountEntryRelService;
+		_accountGroupRelService =
+			accountGroupRelService;
 	}
 
 	/**
@@ -41,23 +41,23 @@ public class AccountGroupAccountEntryRelServiceWrapper
 	 */
 	@Override
 	public String getOSGiServiceIdentifier() {
-		return _accountGroupAccountEntryRelService.getOSGiServiceIdentifier();
+		return _accountGroupRelService.getOSGiServiceIdentifier();
 	}
 
 	@Override
-	public AccountGroupAccountEntryRelService getWrappedService() {
-		return _accountGroupAccountEntryRelService;
+	public AccountGroupRelService getWrappedService() {
+		return _accountGroupRelService;
 	}
 
 	@Override
 	public void setWrappedService(
-		AccountGroupAccountEntryRelService accountGroupAccountEntryRelService) {
+		AccountGroupRelService accountGroupRelService) {
 
-		_accountGroupAccountEntryRelService =
-			accountGroupAccountEntryRelService;
+		_accountGroupRelService =
+			accountGroupRelService;
 	}
 
-	private AccountGroupAccountEntryRelService
-		_accountGroupAccountEntryRelService;
+	private AccountGroupRelService
+		_accountGroupRelService;
 
 }

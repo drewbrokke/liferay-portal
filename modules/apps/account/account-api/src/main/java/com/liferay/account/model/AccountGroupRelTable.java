@@ -20,39 +20,39 @@ import com.liferay.petra.sql.dsl.base.BaseTable;
 import java.sql.Types;
 
 /**
- * The table class for the &quot;AccountGroupAccountEntryRel&quot; database table.
+ * The table class for the &quot;AccountGroupRel&quot; database table.
  *
  * @author Brian Wing Shun Chan
- * @see AccountGroupAccountEntryRel
+ * @see AccountGroupRel
  * @generated
  */
-public class AccountGroupAccountEntryRelTable
-	extends BaseTable<AccountGroupAccountEntryRelTable> {
+public class AccountGroupRelTable
+	extends BaseTable<AccountGroupRelTable> {
 
-	public static final AccountGroupAccountEntryRelTable INSTANCE =
-		new AccountGroupAccountEntryRelTable();
+	public static final AccountGroupRelTable INSTANCE =
+		new AccountGroupRelTable();
 
-	public final Column<AccountGroupAccountEntryRelTable, Long> mvccVersion =
+	public final Column<AccountGroupRelTable, Long> mvccVersion =
 		createColumn(
 			"mvccVersion", Long.class, Types.BIGINT, Column.FLAG_NULLITY);
-	public final Column<AccountGroupAccountEntryRelTable, Long>
-		AccountGroupAccountEntryRelId = createColumn(
-			"AccountGroupAccountEntryRelId", Long.class, Types.BIGINT,
+	public final Column<AccountGroupRelTable, Long>
+		AccountGroupRelId = createColumn(
+			"AccountGroupRelId", Long.class, Types.BIGINT,
 			Column.FLAG_PRIMARY);
-	public final Column<AccountGroupAccountEntryRelTable, Long> companyId =
+	public final Column<AccountGroupRelTable, Long> companyId =
 		createColumn(
 			"companyId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
-	public final Column<AccountGroupAccountEntryRelTable, Long> accountGroupId =
+	public final Column<AccountGroupRelTable, Long> accountGroupId =
 		createColumn(
 			"accountGroupId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
-	public final Column<AccountGroupAccountEntryRelTable, Long> accountEntryId =
+	public final Column<AccountGroupRelTable, Long> accountEntryId =
 		createColumn(
 			"accountEntryId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 
-	private AccountGroupAccountEntryRelTable() {
+	private AccountGroupRelTable() {
 		super(
-			"AccountGroupAccountEntryRel",
-			AccountGroupAccountEntryRelTable::new);
+			"AccountGroupRel",
+			AccountGroupRelTable::new);
 	}
 
 }

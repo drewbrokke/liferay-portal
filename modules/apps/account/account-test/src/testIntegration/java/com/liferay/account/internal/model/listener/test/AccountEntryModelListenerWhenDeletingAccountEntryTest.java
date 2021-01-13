@@ -20,7 +20,7 @@ import com.liferay.account.model.AccountRole;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryOrganizationRelLocalService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
-import com.liferay.account.service.AccountGroupAccountEntryRelLocalService;
+import com.liferay.account.service.AccountGroupRelLocalService;
 import com.liferay.account.service.AccountGroupLocalService;
 import com.liferay.account.service.AccountRoleLocalService;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
@@ -113,12 +113,12 @@ public class AccountEntryModelListenerWhenDeletingAccountEntryTest {
 	}
 
 	@Test
-	public void testAccountGroupAccountEntryRelDeleted() throws Exception {
+	public void testAccountGroupRelDeleted() throws Exception {
 		AccountGroup accountGroup = AccountGroupTestUtil.addAccountGroup(
 			_accountGroupLocalService, RandomTestUtil.randomString(),
 			RandomTestUtil.randomString());
 
-		_accountGroupAccountEntryRelLocalService.addAccountGroupAccountEntryRel(
+		_accountGroupRelLocalService.addAccountGroupRel(
 			accountGroup.getAccountGroupId(),
 			_accountEntry.getAccountEntryId());
 
@@ -127,8 +127,8 @@ public class AccountEntryModelListenerWhenDeletingAccountEntryTest {
 
 		Assert.assertEquals(
 			0,
-			_accountGroupAccountEntryRelLocalService.
-				getAccountGroupAccountEntryRelsCountByAccountGroupId(
+			_accountGroupRelLocalService.
+				getAccountGroupRelsCountByAccountGroupId(
 					accountGroup.getAccountGroupId()));
 	}
 
@@ -161,8 +161,8 @@ public class AccountEntryModelListenerWhenDeletingAccountEntryTest {
 	private AccountEntryUserRelLocalService _accountEntryUserRelLocalService;
 
 	@Inject
-	private AccountGroupAccountEntryRelLocalService
-		_accountGroupAccountEntryRelLocalService;
+	private AccountGroupRelLocalService
+		_accountGroupRelLocalService;
 
 	@Inject
 	private AccountGroupLocalService _accountGroupLocalService;

@@ -15,11 +15,11 @@
 package com.liferay.account.service.persistence.impl;
 
 import com.liferay.account.exception.NoSuchGroupAccountEntryRelException;
-import com.liferay.account.model.AccountGroupAccountEntryRel;
-import com.liferay.account.model.AccountGroupAccountEntryRelTable;
-import com.liferay.account.model.impl.AccountGroupAccountEntryRelImpl;
-import com.liferay.account.model.impl.AccountGroupAccountEntryRelModelImpl;
-import com.liferay.account.service.persistence.AccountGroupAccountEntryRelPersistence;
+import com.liferay.account.model.AccountGroupRel;
+import com.liferay.account.model.AccountGroupRelTable;
+import com.liferay.account.model.impl.AccountGroupRelImpl;
+import com.liferay.account.model.impl.AccountGroupRelModelImpl;
+import com.liferay.account.service.persistence.AccountGroupRelPersistence;
 import com.liferay.account.service.persistence.impl.constants.AccountPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.configuration.Configuration;
@@ -74,20 +74,20 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	service = {
-		AccountGroupAccountEntryRelPersistence.class, BasePersistence.class
+		AccountGroupRelPersistence.class, BasePersistence.class
 	}
 )
-public class AccountGroupAccountEntryRelPersistenceImpl
-	extends BasePersistenceImpl<AccountGroupAccountEntryRel>
-	implements AccountGroupAccountEntryRelPersistence {
+public class AccountGroupRelPersistenceImpl
+	extends BasePersistenceImpl<AccountGroupRel>
+	implements AccountGroupRelPersistence {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use <code>AccountGroupAccountEntryRelUtil</code> to access the account group account entry rel persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>AccountGroupRelUtil</code> to access the account group account entry rel persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static final String FINDER_CLASS_NAME_ENTITY =
-		AccountGroupAccountEntryRelImpl.class.getName();
+		AccountGroupRelImpl.class.getName();
 
 	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
 		FINDER_CLASS_NAME_ENTITY + ".List1";
@@ -109,7 +109,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the matching account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findByAccountGroupId(
+	public List<AccountGroupRel> findByAccountGroupId(
 		long accountGroupId) {
 
 		return findByAccountGroupId(
@@ -120,7 +120,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * Returns a range of all the account group account entry rels where accountGroupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountGroupId the account group ID
@@ -129,7 +129,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the range of matching account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findByAccountGroupId(
+	public List<AccountGroupRel> findByAccountGroupId(
 		long accountGroupId, int start, int end) {
 
 		return findByAccountGroupId(accountGroupId, start, end, null);
@@ -139,7 +139,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * Returns an ordered range of all the account group account entry rels where accountGroupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountGroupId the account group ID
@@ -149,9 +149,9 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the ordered range of matching account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findByAccountGroupId(
+	public List<AccountGroupRel> findByAccountGroupId(
 		long accountGroupId, int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return findByAccountGroupId(
 			accountGroupId, start, end, orderByComparator, true);
@@ -161,7 +161,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * Returns an ordered range of all the account group account entry rels where accountGroupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountGroupId the account group ID
@@ -172,9 +172,9 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the ordered range of matching account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findByAccountGroupId(
+	public List<AccountGroupRel> findByAccountGroupId(
 		long accountGroupId, int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator,
+		OrderByComparator<AccountGroupRel> orderByComparator,
 		boolean useFinderCache) {
 
 		FinderPath finderPath = null;
@@ -195,18 +195,18 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			};
 		}
 
-		List<AccountGroupAccountEntryRel> list = null;
+		List<AccountGroupRel> list = null;
 
 		if (useFinderCache) {
-			list = (List<AccountGroupAccountEntryRel>)finderCache.getResult(
+			list = (List<AccountGroupRel>)finderCache.getResult(
 				finderPath, finderArgs);
 
 			if ((list != null) && !list.isEmpty()) {
-				for (AccountGroupAccountEntryRel accountGroupAccountEntryRel :
+				for (AccountGroupRel accountGroupRel :
 						list) {
 
 					if (accountGroupId !=
-							accountGroupAccountEntryRel.getAccountGroupId()) {
+							accountGroupRel.getAccountGroupId()) {
 
 						list = null;
 
@@ -227,7 +227,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 				sb = new StringBundler(3);
 			}
 
-			sb.append(_SQL_SELECT_ACCOUNTGROUPACCOUNTENTRYREL_WHERE);
+			sb.append(_SQL_SELECT_AccountGroupRel_WHERE);
 
 			sb.append(_FINDER_COLUMN_ACCOUNTGROUPID_ACCOUNTGROUPID_2);
 
@@ -236,7 +236,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
 			else {
-				sb.append(AccountGroupAccountEntryRelModelImpl.ORDER_BY_JPQL);
+				sb.append(AccountGroupRelModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = sb.toString();
@@ -252,7 +252,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 				queryPos.add(accountGroupId);
 
-				list = (List<AccountGroupAccountEntryRel>)QueryUtil.list(
+				list = (List<AccountGroupRel>)QueryUtil.list(
 					query, getDialect(), start, end);
 
 				cacheResult(list);
@@ -281,16 +281,16 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @throws NoSuchGroupAccountEntryRelException if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel findByAccountGroupId_First(
+	public AccountGroupRel findByAccountGroupId_First(
 			long accountGroupId,
-			OrderByComparator<AccountGroupAccountEntryRel> orderByComparator)
+			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws NoSuchGroupAccountEntryRelException {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
+		AccountGroupRel accountGroupRel =
 			fetchByAccountGroupId_First(accountGroupId, orderByComparator);
 
-		if (accountGroupAccountEntryRel != null) {
-			return accountGroupAccountEntryRel;
+		if (accountGroupRel != null) {
+			return accountGroupRel;
 		}
 
 		StringBundler sb = new StringBundler(4);
@@ -313,11 +313,11 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the first matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel fetchByAccountGroupId_First(
+	public AccountGroupRel fetchByAccountGroupId_First(
 		long accountGroupId,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
-		List<AccountGroupAccountEntryRel> list = findByAccountGroupId(
+		List<AccountGroupRel> list = findByAccountGroupId(
 			accountGroupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -336,16 +336,16 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @throws NoSuchGroupAccountEntryRelException if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel findByAccountGroupId_Last(
+	public AccountGroupRel findByAccountGroupId_Last(
 			long accountGroupId,
-			OrderByComparator<AccountGroupAccountEntryRel> orderByComparator)
+			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws NoSuchGroupAccountEntryRelException {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
+		AccountGroupRel accountGroupRel =
 			fetchByAccountGroupId_Last(accountGroupId, orderByComparator);
 
-		if (accountGroupAccountEntryRel != null) {
-			return accountGroupAccountEntryRel;
+		if (accountGroupRel != null) {
+			return accountGroupRel;
 		}
 
 		StringBundler sb = new StringBundler(4);
@@ -368,9 +368,9 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the last matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel fetchByAccountGroupId_Last(
+	public AccountGroupRel fetchByAccountGroupId_Last(
 		long accountGroupId,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		int count = countByAccountGroupId(accountGroupId);
 
@@ -378,7 +378,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			return null;
 		}
 
-		List<AccountGroupAccountEntryRel> list = findByAccountGroupId(
+		List<AccountGroupRel> list = findByAccountGroupId(
 			accountGroupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -391,37 +391,37 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	/**
 	 * Returns the account group account entry rels before and after the current account group account entry rel in the ordered set where accountGroupId = &#63;.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the current account group account entry rel
+	 * @param AccountGroupRelId the primary key of the current account group account entry rel
 	 * @param accountGroupId the account group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a account group account entry rel with the primary key could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel[] findByAccountGroupId_PrevAndNext(
-			long AccountGroupAccountEntryRelId, long accountGroupId,
-			OrderByComparator<AccountGroupAccountEntryRel> orderByComparator)
+	public AccountGroupRel[] findByAccountGroupId_PrevAndNext(
+			long AccountGroupRelId, long accountGroupId,
+			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws NoSuchGroupAccountEntryRelException {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
-			findByPrimaryKey(AccountGroupAccountEntryRelId);
+		AccountGroupRel accountGroupRel =
+			findByPrimaryKey(AccountGroupRelId);
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			AccountGroupAccountEntryRel[] array =
-				new AccountGroupAccountEntryRelImpl[3];
+			AccountGroupRel[] array =
+				new AccountGroupRelImpl[3];
 
 			array[0] = getByAccountGroupId_PrevAndNext(
-				session, accountGroupAccountEntryRel, accountGroupId,
+				session, accountGroupRel, accountGroupId,
 				orderByComparator, true);
 
-			array[1] = accountGroupAccountEntryRel;
+			array[1] = accountGroupRel;
 
 			array[2] = getByAccountGroupId_PrevAndNext(
-				session, accountGroupAccountEntryRel, accountGroupId,
+				session, accountGroupRel, accountGroupId,
 				orderByComparator, false);
 
 			return array;
@@ -434,11 +434,11 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		}
 	}
 
-	protected AccountGroupAccountEntryRel getByAccountGroupId_PrevAndNext(
+	protected AccountGroupRel getByAccountGroupId_PrevAndNext(
 		Session session,
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel,
+		AccountGroupRel accountGroupRel,
 		long accountGroupId,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator,
+		OrderByComparator<AccountGroupRel> orderByComparator,
 		boolean previous) {
 
 		StringBundler sb = null;
@@ -452,7 +452,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			sb = new StringBundler(3);
 		}
 
-		sb.append(_SQL_SELECT_ACCOUNTGROUPACCOUNTENTRYREL_WHERE);
+		sb.append(_SQL_SELECT_AccountGroupRel_WHERE);
 
 		sb.append(_FINDER_COLUMN_ACCOUNTGROUPID_ACCOUNTGROUPID_2);
 
@@ -513,7 +513,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			}
 		}
 		else {
-			sb.append(AccountGroupAccountEntryRelModelImpl.ORDER_BY_JPQL);
+			sb.append(AccountGroupRelModelImpl.ORDER_BY_JPQL);
 		}
 
 		String sql = sb.toString();
@@ -530,13 +530,13 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
 					orderByComparator.getOrderByConditionValues(
-						accountGroupAccountEntryRel)) {
+						accountGroupRel)) {
 
 				queryPos.add(orderByConditionValue);
 			}
 		}
 
-		List<AccountGroupAccountEntryRel> list = query.list();
+		List<AccountGroupRel> list = query.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -553,12 +553,12 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 */
 	@Override
 	public void removeByAccountGroupId(long accountGroupId) {
-		for (AccountGroupAccountEntryRel accountGroupAccountEntryRel :
+		for (AccountGroupRel accountGroupRel :
 				findByAccountGroupId(
 					accountGroupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 					null)) {
 
-			remove(accountGroupAccountEntryRel);
+			remove(accountGroupRel);
 		}
 	}
 
@@ -579,7 +579,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
 
-			sb.append(_SQL_COUNT_ACCOUNTGROUPACCOUNTENTRYREL_WHERE);
+			sb.append(_SQL_COUNT_AccountGroupRel_WHERE);
 
 			sb.append(_FINDER_COLUMN_ACCOUNTGROUPID_ACCOUNTGROUPID_2);
 
@@ -612,7 +612,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	}
 
 	private static final String _FINDER_COLUMN_ACCOUNTGROUPID_ACCOUNTGROUPID_2 =
-		"accountGroupAccountEntryRel.accountGroupId = ?";
+		"accountGroupRel.accountGroupId = ?";
 
 	private FinderPath _finderPathWithPaginationFindByAccountEntryId;
 	private FinderPath _finderPathWithoutPaginationFindByAccountEntryId;
@@ -625,7 +625,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the matching account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findByAccountEntryId(
+	public List<AccountGroupRel> findByAccountEntryId(
 		long accountEntryId) {
 
 		return findByAccountEntryId(
@@ -636,7 +636,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * Returns a range of all the account group account entry rels where accountEntryId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountEntryId the account entry ID
@@ -645,7 +645,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the range of matching account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findByAccountEntryId(
+	public List<AccountGroupRel> findByAccountEntryId(
 		long accountEntryId, int start, int end) {
 
 		return findByAccountEntryId(accountEntryId, start, end, null);
@@ -655,7 +655,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * Returns an ordered range of all the account group account entry rels where accountEntryId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountEntryId the account entry ID
@@ -665,9 +665,9 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the ordered range of matching account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findByAccountEntryId(
+	public List<AccountGroupRel> findByAccountEntryId(
 		long accountEntryId, int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return findByAccountEntryId(
 			accountEntryId, start, end, orderByComparator, true);
@@ -677,7 +677,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * Returns an ordered range of all the account group account entry rels where accountEntryId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountEntryId the account entry ID
@@ -688,9 +688,9 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the ordered range of matching account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findByAccountEntryId(
+	public List<AccountGroupRel> findByAccountEntryId(
 		long accountEntryId, int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator,
+		OrderByComparator<AccountGroupRel> orderByComparator,
 		boolean useFinderCache) {
 
 		FinderPath finderPath = null;
@@ -711,18 +711,18 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			};
 		}
 
-		List<AccountGroupAccountEntryRel> list = null;
+		List<AccountGroupRel> list = null;
 
 		if (useFinderCache) {
-			list = (List<AccountGroupAccountEntryRel>)finderCache.getResult(
+			list = (List<AccountGroupRel>)finderCache.getResult(
 				finderPath, finderArgs);
 
 			if ((list != null) && !list.isEmpty()) {
-				for (AccountGroupAccountEntryRel accountGroupAccountEntryRel :
+				for (AccountGroupRel accountGroupRel :
 						list) {
 
 					if (accountEntryId !=
-							accountGroupAccountEntryRel.getAccountEntryId()) {
+							accountGroupRel.getAccountEntryId()) {
 
 						list = null;
 
@@ -743,7 +743,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 				sb = new StringBundler(3);
 			}
 
-			sb.append(_SQL_SELECT_ACCOUNTGROUPACCOUNTENTRYREL_WHERE);
+			sb.append(_SQL_SELECT_AccountGroupRel_WHERE);
 
 			sb.append(_FINDER_COLUMN_ACCOUNTENTRYID_ACCOUNTENTRYID_2);
 
@@ -752,7 +752,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
 			else {
-				sb.append(AccountGroupAccountEntryRelModelImpl.ORDER_BY_JPQL);
+				sb.append(AccountGroupRelModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = sb.toString();
@@ -768,7 +768,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 				queryPos.add(accountEntryId);
 
-				list = (List<AccountGroupAccountEntryRel>)QueryUtil.list(
+				list = (List<AccountGroupRel>)QueryUtil.list(
 					query, getDialect(), start, end);
 
 				cacheResult(list);
@@ -797,16 +797,16 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @throws NoSuchGroupAccountEntryRelException if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel findByAccountEntryId_First(
+	public AccountGroupRel findByAccountEntryId_First(
 			long accountEntryId,
-			OrderByComparator<AccountGroupAccountEntryRel> orderByComparator)
+			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws NoSuchGroupAccountEntryRelException {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
+		AccountGroupRel accountGroupRel =
 			fetchByAccountEntryId_First(accountEntryId, orderByComparator);
 
-		if (accountGroupAccountEntryRel != null) {
-			return accountGroupAccountEntryRel;
+		if (accountGroupRel != null) {
+			return accountGroupRel;
 		}
 
 		StringBundler sb = new StringBundler(4);
@@ -829,11 +829,11 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the first matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel fetchByAccountEntryId_First(
+	public AccountGroupRel fetchByAccountEntryId_First(
 		long accountEntryId,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
-		List<AccountGroupAccountEntryRel> list = findByAccountEntryId(
+		List<AccountGroupRel> list = findByAccountEntryId(
 			accountEntryId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -852,16 +852,16 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @throws NoSuchGroupAccountEntryRelException if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel findByAccountEntryId_Last(
+	public AccountGroupRel findByAccountEntryId_Last(
 			long accountEntryId,
-			OrderByComparator<AccountGroupAccountEntryRel> orderByComparator)
+			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws NoSuchGroupAccountEntryRelException {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
+		AccountGroupRel accountGroupRel =
 			fetchByAccountEntryId_Last(accountEntryId, orderByComparator);
 
-		if (accountGroupAccountEntryRel != null) {
-			return accountGroupAccountEntryRel;
+		if (accountGroupRel != null) {
+			return accountGroupRel;
 		}
 
 		StringBundler sb = new StringBundler(4);
@@ -884,9 +884,9 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the last matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel fetchByAccountEntryId_Last(
+	public AccountGroupRel fetchByAccountEntryId_Last(
 		long accountEntryId,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		int count = countByAccountEntryId(accountEntryId);
 
@@ -894,7 +894,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			return null;
 		}
 
-		List<AccountGroupAccountEntryRel> list = findByAccountEntryId(
+		List<AccountGroupRel> list = findByAccountEntryId(
 			accountEntryId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -907,37 +907,37 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	/**
 	 * Returns the account group account entry rels before and after the current account group account entry rel in the ordered set where accountEntryId = &#63;.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the current account group account entry rel
+	 * @param AccountGroupRelId the primary key of the current account group account entry rel
 	 * @param accountEntryId the account entry ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a account group account entry rel with the primary key could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel[] findByAccountEntryId_PrevAndNext(
-			long AccountGroupAccountEntryRelId, long accountEntryId,
-			OrderByComparator<AccountGroupAccountEntryRel> orderByComparator)
+	public AccountGroupRel[] findByAccountEntryId_PrevAndNext(
+			long AccountGroupRelId, long accountEntryId,
+			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws NoSuchGroupAccountEntryRelException {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
-			findByPrimaryKey(AccountGroupAccountEntryRelId);
+		AccountGroupRel accountGroupRel =
+			findByPrimaryKey(AccountGroupRelId);
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			AccountGroupAccountEntryRel[] array =
-				new AccountGroupAccountEntryRelImpl[3];
+			AccountGroupRel[] array =
+				new AccountGroupRelImpl[3];
 
 			array[0] = getByAccountEntryId_PrevAndNext(
-				session, accountGroupAccountEntryRel, accountEntryId,
+				session, accountGroupRel, accountEntryId,
 				orderByComparator, true);
 
-			array[1] = accountGroupAccountEntryRel;
+			array[1] = accountGroupRel;
 
 			array[2] = getByAccountEntryId_PrevAndNext(
-				session, accountGroupAccountEntryRel, accountEntryId,
+				session, accountGroupRel, accountEntryId,
 				orderByComparator, false);
 
 			return array;
@@ -950,11 +950,11 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		}
 	}
 
-	protected AccountGroupAccountEntryRel getByAccountEntryId_PrevAndNext(
+	protected AccountGroupRel getByAccountEntryId_PrevAndNext(
 		Session session,
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel,
+		AccountGroupRel accountGroupRel,
 		long accountEntryId,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator,
+		OrderByComparator<AccountGroupRel> orderByComparator,
 		boolean previous) {
 
 		StringBundler sb = null;
@@ -968,7 +968,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			sb = new StringBundler(3);
 		}
 
-		sb.append(_SQL_SELECT_ACCOUNTGROUPACCOUNTENTRYREL_WHERE);
+		sb.append(_SQL_SELECT_AccountGroupRel_WHERE);
 
 		sb.append(_FINDER_COLUMN_ACCOUNTENTRYID_ACCOUNTENTRYID_2);
 
@@ -1029,7 +1029,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			}
 		}
 		else {
-			sb.append(AccountGroupAccountEntryRelModelImpl.ORDER_BY_JPQL);
+			sb.append(AccountGroupRelModelImpl.ORDER_BY_JPQL);
 		}
 
 		String sql = sb.toString();
@@ -1046,13 +1046,13 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
 					orderByComparator.getOrderByConditionValues(
-						accountGroupAccountEntryRel)) {
+						accountGroupRel)) {
 
 				queryPos.add(orderByConditionValue);
 			}
 		}
 
-		List<AccountGroupAccountEntryRel> list = query.list();
+		List<AccountGroupRel> list = query.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -1069,12 +1069,12 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 */
 	@Override
 	public void removeByAccountEntryId(long accountEntryId) {
-		for (AccountGroupAccountEntryRel accountGroupAccountEntryRel :
+		for (AccountGroupRel accountGroupRel :
 				findByAccountEntryId(
 					accountEntryId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 					null)) {
 
-			remove(accountGroupAccountEntryRel);
+			remove(accountGroupRel);
 		}
 	}
 
@@ -1095,7 +1095,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
 
-			sb.append(_SQL_COUNT_ACCOUNTGROUPACCOUNTENTRYREL_WHERE);
+			sb.append(_SQL_COUNT_AccountGroupRel_WHERE);
 
 			sb.append(_FINDER_COLUMN_ACCOUNTENTRYID_ACCOUNTENTRYID_2);
 
@@ -1128,7 +1128,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	}
 
 	private static final String _FINDER_COLUMN_ACCOUNTENTRYID_ACCOUNTENTRYID_2 =
-		"accountGroupAccountEntryRel.accountEntryId = ?";
+		"accountGroupRel.accountEntryId = ?";
 
 	private FinderPath _finderPathFetchByAGI_AEI;
 	private FinderPath _finderPathCountByAGI_AEI;
@@ -1142,14 +1142,14 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @throws NoSuchGroupAccountEntryRelException if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel findByAGI_AEI(
+	public AccountGroupRel findByAGI_AEI(
 			long accountGroupId, long accountEntryId)
 		throws NoSuchGroupAccountEntryRelException {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
+		AccountGroupRel accountGroupRel =
 			fetchByAGI_AEI(accountGroupId, accountEntryId);
 
-		if (accountGroupAccountEntryRel == null) {
+		if (accountGroupRel == null) {
 			StringBundler sb = new StringBundler(6);
 
 			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
@@ -1169,7 +1169,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			throw new NoSuchGroupAccountEntryRelException(sb.toString());
 		}
 
-		return accountGroupAccountEntryRel;
+		return accountGroupRel;
 	}
 
 	/**
@@ -1180,7 +1180,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel fetchByAGI_AEI(
+	public AccountGroupRel fetchByAGI_AEI(
 		long accountGroupId, long accountEntryId) {
 
 		return fetchByAGI_AEI(accountGroupId, accountEntryId, true);
@@ -1195,7 +1195,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel fetchByAGI_AEI(
+	public AccountGroupRel fetchByAGI_AEI(
 		long accountGroupId, long accountEntryId, boolean useFinderCache) {
 
 		Object[] finderArgs = null;
@@ -1211,14 +1211,14 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 				_finderPathFetchByAGI_AEI, finderArgs);
 		}
 
-		if (result instanceof AccountGroupAccountEntryRel) {
-			AccountGroupAccountEntryRel accountGroupAccountEntryRel =
-				(AccountGroupAccountEntryRel)result;
+		if (result instanceof AccountGroupRel) {
+			AccountGroupRel accountGroupRel =
+				(AccountGroupRel)result;
 
 			if ((accountGroupId !=
-					accountGroupAccountEntryRel.getAccountGroupId()) ||
+					accountGroupRel.getAccountGroupId()) ||
 				(accountEntryId !=
-					accountGroupAccountEntryRel.getAccountEntryId())) {
+					accountGroupRel.getAccountEntryId())) {
 
 				result = null;
 			}
@@ -1227,7 +1227,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		if (result == null) {
 			StringBundler sb = new StringBundler(4);
 
-			sb.append(_SQL_SELECT_ACCOUNTGROUPACCOUNTENTRYREL_WHERE);
+			sb.append(_SQL_SELECT_AccountGroupRel_WHERE);
 
 			sb.append(_FINDER_COLUMN_AGI_AEI_ACCOUNTGROUPID_2);
 
@@ -1248,7 +1248,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 				queryPos.add(accountEntryId);
 
-				List<AccountGroupAccountEntryRel> list = query.list();
+				List<AccountGroupRel> list = query.list();
 
 				if (list.isEmpty()) {
 					if (useFinderCache) {
@@ -1268,18 +1268,18 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 							}
 
 							_log.warn(
-								"AccountGroupAccountEntryRelPersistenceImpl.fetchByAGI_AEI(long, long, boolean) with parameters (" +
+								"AccountGroupRelPersistenceImpl.fetchByAGI_AEI(long, long, boolean) with parameters (" +
 									StringUtil.merge(finderArgs) +
 										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
 					}
 
-					AccountGroupAccountEntryRel accountGroupAccountEntryRel =
+					AccountGroupRel accountGroupRel =
 						list.get(0);
 
-					result = accountGroupAccountEntryRel;
+					result = accountGroupRel;
 
-					cacheResult(accountGroupAccountEntryRel);
+					cacheResult(accountGroupRel);
 				}
 			}
 			catch (Exception exception) {
@@ -1294,7 +1294,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			return null;
 		}
 		else {
-			return (AccountGroupAccountEntryRel)result;
+			return (AccountGroupRel)result;
 		}
 	}
 
@@ -1306,14 +1306,14 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the account group account entry rel that was removed
 	 */
 	@Override
-	public AccountGroupAccountEntryRel removeByAGI_AEI(
+	public AccountGroupRel removeByAGI_AEI(
 			long accountGroupId, long accountEntryId)
 		throws NoSuchGroupAccountEntryRelException {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel = findByAGI_AEI(
+		AccountGroupRel accountGroupRel = findByAGI_AEI(
 			accountGroupId, accountEntryId);
 
-		return remove(accountGroupAccountEntryRel);
+		return remove(accountGroupRel);
 	}
 
 	/**
@@ -1334,7 +1334,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		if (count == null) {
 			StringBundler sb = new StringBundler(3);
 
-			sb.append(_SQL_COUNT_ACCOUNTGROUPACCOUNTENTRYREL_WHERE);
+			sb.append(_SQL_COUNT_AccountGroupRel_WHERE);
 
 			sb.append(_FINDER_COLUMN_AGI_AEI_ACCOUNTGROUPID_2);
 
@@ -1371,60 +1371,60 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	}
 
 	private static final String _FINDER_COLUMN_AGI_AEI_ACCOUNTGROUPID_2 =
-		"accountGroupAccountEntryRel.accountGroupId = ? AND ";
+		"accountGroupRel.accountGroupId = ? AND ";
 
 	private static final String _FINDER_COLUMN_AGI_AEI_ACCOUNTENTRYID_2 =
-		"accountGroupAccountEntryRel.accountEntryId = ?";
+		"accountGroupRel.accountEntryId = ?";
 
-	public AccountGroupAccountEntryRelPersistenceImpl() {
-		setModelClass(AccountGroupAccountEntryRel.class);
+	public AccountGroupRelPersistenceImpl() {
+		setModelClass(AccountGroupRel.class);
 
-		setModelImplClass(AccountGroupAccountEntryRelImpl.class);
+		setModelImplClass(AccountGroupRelImpl.class);
 		setModelPKClass(long.class);
 
-		setTable(AccountGroupAccountEntryRelTable.INSTANCE);
+		setTable(AccountGroupRelTable.INSTANCE);
 	}
 
 	/**
 	 * Caches the account group account entry rel in the entity cache if it is enabled.
 	 *
-	 * @param accountGroupAccountEntryRel the account group account entry rel
+	 * @param accountGroupRel the account group account entry rel
 	 */
 	@Override
 	public void cacheResult(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+		AccountGroupRel accountGroupRel) {
 
 		entityCache.putResult(
-			AccountGroupAccountEntryRelImpl.class,
-			accountGroupAccountEntryRel.getPrimaryKey(),
-			accountGroupAccountEntryRel);
+			AccountGroupRelImpl.class,
+			accountGroupRel.getPrimaryKey(),
+			accountGroupRel);
 
 		finderCache.putResult(
 			_finderPathFetchByAGI_AEI,
 			new Object[] {
-				accountGroupAccountEntryRel.getAccountGroupId(),
-				accountGroupAccountEntryRel.getAccountEntryId()
+				accountGroupRel.getAccountGroupId(),
+				accountGroupRel.getAccountEntryId()
 			},
-			accountGroupAccountEntryRel);
+			accountGroupRel);
 	}
 
 	/**
 	 * Caches the account group account entry rels in the entity cache if it is enabled.
 	 *
-	 * @param accountGroupAccountEntryRels the account group account entry rels
+	 * @param accountGroupRels the account group account entry rels
 	 */
 	@Override
 	public void cacheResult(
-		List<AccountGroupAccountEntryRel> accountGroupAccountEntryRels) {
+		List<AccountGroupRel> accountGroupRels) {
 
-		for (AccountGroupAccountEntryRel accountGroupAccountEntryRel :
-				accountGroupAccountEntryRels) {
+		for (AccountGroupRel accountGroupRel :
+				accountGroupRels) {
 
 			if (entityCache.getResult(
-					AccountGroupAccountEntryRelImpl.class,
-					accountGroupAccountEntryRel.getPrimaryKey()) == null) {
+					AccountGroupRelImpl.class,
+					accountGroupRel.getPrimaryKey()) == null) {
 
-				cacheResult(accountGroupAccountEntryRel);
+				cacheResult(accountGroupRel);
 			}
 		}
 	}
@@ -1438,9 +1438,9 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 */
 	@Override
 	public void clearCache() {
-		entityCache.clearCache(AccountGroupAccountEntryRelImpl.class);
+		entityCache.clearCache(AccountGroupRelImpl.class);
 
-		finderCache.clearCache(AccountGroupAccountEntryRelImpl.class);
+		finderCache.clearCache(AccountGroupRelImpl.class);
 	}
 
 	/**
@@ -1452,86 +1452,86 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 */
 	@Override
 	public void clearCache(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+		AccountGroupRel accountGroupRel) {
 
 		entityCache.removeResult(
-			AccountGroupAccountEntryRelImpl.class, accountGroupAccountEntryRel);
+			AccountGroupRelImpl.class, accountGroupRel);
 	}
 
 	@Override
 	public void clearCache(
-		List<AccountGroupAccountEntryRel> accountGroupAccountEntryRels) {
+		List<AccountGroupRel> accountGroupRels) {
 
-		for (AccountGroupAccountEntryRel accountGroupAccountEntryRel :
-				accountGroupAccountEntryRels) {
+		for (AccountGroupRel accountGroupRel :
+				accountGroupRels) {
 
 			entityCache.removeResult(
-				AccountGroupAccountEntryRelImpl.class,
-				accountGroupAccountEntryRel);
+				AccountGroupRelImpl.class,
+				accountGroupRel);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(AccountGroupAccountEntryRelImpl.class);
+		finderCache.clearCache(AccountGroupRelImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
-				AccountGroupAccountEntryRelImpl.class, primaryKey);
+				AccountGroupRelImpl.class, primaryKey);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		AccountGroupAccountEntryRelModelImpl
-			accountGroupAccountEntryRelModelImpl) {
+		AccountGroupRelModelImpl
+			accountGroupRelModelImpl) {
 
 		Object[] args = new Object[] {
-			accountGroupAccountEntryRelModelImpl.getAccountGroupId(),
-			accountGroupAccountEntryRelModelImpl.getAccountEntryId()
+			accountGroupRelModelImpl.getAccountGroupId(),
+			accountGroupRelModelImpl.getAccountEntryId()
 		};
 
 		finderCache.putResult(_finderPathCountByAGI_AEI, args, Long.valueOf(1));
 		finderCache.putResult(
 			_finderPathFetchByAGI_AEI, args,
-			accountGroupAccountEntryRelModelImpl);
+			accountGroupRelModelImpl);
 	}
 
 	/**
 	 * Creates a new account group account entry rel with the primary key. Does not add the account group account entry rel to the database.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key for the new account group account entry rel
+	 * @param AccountGroupRelId the primary key for the new account group account entry rel
 	 * @return the new account group account entry rel
 	 */
 	@Override
-	public AccountGroupAccountEntryRel create(
-		long AccountGroupAccountEntryRelId) {
+	public AccountGroupRel create(
+		long AccountGroupRelId) {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
-			new AccountGroupAccountEntryRelImpl();
+		AccountGroupRel accountGroupRel =
+			new AccountGroupRelImpl();
 
-		accountGroupAccountEntryRel.setNew(true);
-		accountGroupAccountEntryRel.setPrimaryKey(
-			AccountGroupAccountEntryRelId);
+		accountGroupRel.setNew(true);
+		accountGroupRel.setPrimaryKey(
+			AccountGroupRelId);
 
-		accountGroupAccountEntryRel.setCompanyId(
+		accountGroupRel.setCompanyId(
 			CompanyThreadLocal.getCompanyId());
 
-		return accountGroupAccountEntryRel;
+		return accountGroupRel;
 	}
 
 	/**
 	 * Removes the account group account entry rel with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the account group account entry rel
+	 * @param AccountGroupRelId the primary key of the account group account entry rel
 	 * @return the account group account entry rel that was removed
 	 * @throws NoSuchGroupAccountEntryRelException if a account group account entry rel with the primary key could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel remove(
-			long AccountGroupAccountEntryRelId)
+	public AccountGroupRel remove(
+			long AccountGroupRelId)
 		throws NoSuchGroupAccountEntryRelException {
 
-		return remove((Serializable)AccountGroupAccountEntryRelId);
+		return remove((Serializable)AccountGroupRelId);
 	}
 
 	/**
@@ -1542,7 +1542,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @throws NoSuchGroupAccountEntryRelException if a account group account entry rel with the primary key could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel remove(Serializable primaryKey)
+	public AccountGroupRel remove(Serializable primaryKey)
 		throws NoSuchGroupAccountEntryRelException {
 
 		Session session = null;
@@ -1550,11 +1550,11 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		try {
 			session = openSession();
 
-			AccountGroupAccountEntryRel accountGroupAccountEntryRel =
-				(AccountGroupAccountEntryRel)session.get(
-					AccountGroupAccountEntryRelImpl.class, primaryKey);
+			AccountGroupRel accountGroupRel =
+				(AccountGroupRel)session.get(
+					AccountGroupRelImpl.class, primaryKey);
 
-			if (accountGroupAccountEntryRel == null) {
+			if (accountGroupRel == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
@@ -1563,7 +1563,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			return remove(accountGroupAccountEntryRel);
+			return remove(accountGroupRel);
 		}
 		catch (NoSuchGroupAccountEntryRelException noSuchEntityException) {
 			throw noSuchEntityException;
@@ -1577,23 +1577,23 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	}
 
 	@Override
-	protected AccountGroupAccountEntryRel removeImpl(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+	protected AccountGroupRel removeImpl(
+		AccountGroupRel accountGroupRel) {
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			if (!session.contains(accountGroupAccountEntryRel)) {
-				accountGroupAccountEntryRel =
-					(AccountGroupAccountEntryRel)session.get(
-						AccountGroupAccountEntryRelImpl.class,
-						accountGroupAccountEntryRel.getPrimaryKeyObj());
+			if (!session.contains(accountGroupRel)) {
+				accountGroupRel =
+					(AccountGroupRel)session.get(
+						AccountGroupRelImpl.class,
+						accountGroupRel.getPrimaryKeyObj());
 			}
 
-			if (accountGroupAccountEntryRel != null) {
-				session.delete(accountGroupAccountEntryRel);
+			if (accountGroupRel != null) {
+				session.delete(accountGroupRel);
 			}
 		}
 		catch (Exception exception) {
@@ -1603,44 +1603,44 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			closeSession(session);
 		}
 
-		if (accountGroupAccountEntryRel != null) {
-			clearCache(accountGroupAccountEntryRel);
+		if (accountGroupRel != null) {
+			clearCache(accountGroupRel);
 		}
 
-		return accountGroupAccountEntryRel;
+		return accountGroupRel;
 	}
 
 	@Override
-	public AccountGroupAccountEntryRel updateImpl(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+	public AccountGroupRel updateImpl(
+		AccountGroupRel accountGroupRel) {
 
-		boolean isNew = accountGroupAccountEntryRel.isNew();
+		boolean isNew = accountGroupRel.isNew();
 
-		if (!(accountGroupAccountEntryRel instanceof
-				AccountGroupAccountEntryRelModelImpl)) {
+		if (!(accountGroupRel instanceof
+				AccountGroupRelModelImpl)) {
 
 			InvocationHandler invocationHandler = null;
 
 			if (ProxyUtil.isProxyClass(
-					accountGroupAccountEntryRel.getClass())) {
+					accountGroupRel.getClass())) {
 
 				invocationHandler = ProxyUtil.getInvocationHandler(
-					accountGroupAccountEntryRel);
+					accountGroupRel);
 
 				throw new IllegalArgumentException(
-					"Implement ModelWrapper in accountGroupAccountEntryRel proxy " +
+					"Implement ModelWrapper in accountGroupRel proxy " +
 						invocationHandler.getClass());
 			}
 
 			throw new IllegalArgumentException(
-				"Implement ModelWrapper in custom AccountGroupAccountEntryRel implementation " +
-					accountGroupAccountEntryRel.getClass());
+				"Implement ModelWrapper in custom AccountGroupRel implementation " +
+					accountGroupRel.getClass());
 		}
 
-		AccountGroupAccountEntryRelModelImpl
-			accountGroupAccountEntryRelModelImpl =
-				(AccountGroupAccountEntryRelModelImpl)
-					accountGroupAccountEntryRel;
+		AccountGroupRelModelImpl
+			accountGroupRelModelImpl =
+				(AccountGroupRelModelImpl)
+					accountGroupRel;
 
 		Session session = null;
 
@@ -1648,12 +1648,12 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			session = openSession();
 
 			if (isNew) {
-				session.save(accountGroupAccountEntryRel);
+				session.save(accountGroupRel);
 			}
 			else {
-				accountGroupAccountEntryRel =
-					(AccountGroupAccountEntryRel)session.merge(
-						accountGroupAccountEntryRel);
+				accountGroupRel =
+					(AccountGroupRel)session.merge(
+						accountGroupRel);
 			}
 		}
 		catch (Exception exception) {
@@ -1664,18 +1664,18 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		}
 
 		entityCache.putResult(
-			AccountGroupAccountEntryRelImpl.class,
-			accountGroupAccountEntryRelModelImpl, false, true);
+			AccountGroupRelImpl.class,
+			accountGroupRelModelImpl, false, true);
 
-		cacheUniqueFindersCache(accountGroupAccountEntryRelModelImpl);
+		cacheUniqueFindersCache(accountGroupRelModelImpl);
 
 		if (isNew) {
-			accountGroupAccountEntryRel.setNew(false);
+			accountGroupRel.setNew(false);
 		}
 
-		accountGroupAccountEntryRel.resetOriginalValues();
+		accountGroupRel.resetOriginalValues();
 
-		return accountGroupAccountEntryRel;
+		return accountGroupRel;
 	}
 
 	/**
@@ -1686,13 +1686,13 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @throws NoSuchGroupAccountEntryRelException if a account group account entry rel with the primary key could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel findByPrimaryKey(Serializable primaryKey)
+	public AccountGroupRel findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchGroupAccountEntryRelException {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
+		AccountGroupRel accountGroupRel =
 			fetchByPrimaryKey(primaryKey);
 
-		if (accountGroupAccountEntryRel == null) {
+		if (accountGroupRel == null) {
 			if (_log.isDebugEnabled()) {
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
@@ -1701,35 +1701,35 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
-		return accountGroupAccountEntryRel;
+		return accountGroupRel;
 	}
 
 	/**
 	 * Returns the account group account entry rel with the primary key or throws a <code>NoSuchGroupAccountEntryRelException</code> if it could not be found.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the account group account entry rel
+	 * @param AccountGroupRelId the primary key of the account group account entry rel
 	 * @return the account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a account group account entry rel with the primary key could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel findByPrimaryKey(
-			long AccountGroupAccountEntryRelId)
+	public AccountGroupRel findByPrimaryKey(
+			long AccountGroupRelId)
 		throws NoSuchGroupAccountEntryRelException {
 
-		return findByPrimaryKey((Serializable)AccountGroupAccountEntryRelId);
+		return findByPrimaryKey((Serializable)AccountGroupRelId);
 	}
 
 	/**
 	 * Returns the account group account entry rel with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the account group account entry rel
+	 * @param AccountGroupRelId the primary key of the account group account entry rel
 	 * @return the account group account entry rel, or <code>null</code> if a account group account entry rel with the primary key could not be found
 	 */
 	@Override
-	public AccountGroupAccountEntryRel fetchByPrimaryKey(
-		long AccountGroupAccountEntryRelId) {
+	public AccountGroupRel fetchByPrimaryKey(
+		long AccountGroupRelId) {
 
-		return fetchByPrimaryKey((Serializable)AccountGroupAccountEntryRelId);
+		return fetchByPrimaryKey((Serializable)AccountGroupRelId);
 	}
 
 	/**
@@ -1738,7 +1738,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findAll() {
+	public List<AccountGroupRel> findAll() {
 		return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
@@ -1746,7 +1746,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * Returns a range of all the account group account entry rels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of account group account entry rels
@@ -1754,7 +1754,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the range of account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findAll(int start, int end) {
+	public List<AccountGroupRel> findAll(int start, int end) {
 		return findAll(start, end, null);
 	}
 
@@ -1762,7 +1762,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * Returns an ordered range of all the account group account entry rels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of account group account entry rels
@@ -1771,9 +1771,9 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the ordered range of account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findAll(
+	public List<AccountGroupRel> findAll(
 		int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return findAll(start, end, orderByComparator, true);
 	}
@@ -1782,7 +1782,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * Returns an ordered range of all the account group account entry rels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of account group account entry rels
@@ -1792,9 +1792,9 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 * @return the ordered range of account group account entry rels
 	 */
 	@Override
-	public List<AccountGroupAccountEntryRel> findAll(
+	public List<AccountGroupRel> findAll(
 		int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator,
+		OrderByComparator<AccountGroupRel> orderByComparator,
 		boolean useFinderCache) {
 
 		FinderPath finderPath = null;
@@ -1813,10 +1813,10 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
-		List<AccountGroupAccountEntryRel> list = null;
+		List<AccountGroupRel> list = null;
 
 		if (useFinderCache) {
-			list = (List<AccountGroupAccountEntryRel>)finderCache.getResult(
+			list = (List<AccountGroupRel>)finderCache.getResult(
 				finderPath, finderArgs);
 		}
 
@@ -1828,7 +1828,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 				sb = new StringBundler(
 					2 + (orderByComparator.getOrderByFields().length * 2));
 
-				sb.append(_SQL_SELECT_ACCOUNTGROUPACCOUNTENTRYREL);
+				sb.append(_SQL_SELECT_AccountGroupRel);
 
 				appendOrderByComparator(
 					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
@@ -1836,10 +1836,10 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 				sql = sb.toString();
 			}
 			else {
-				sql = _SQL_SELECT_ACCOUNTGROUPACCOUNTENTRYREL;
+				sql = _SQL_SELECT_AccountGroupRel;
 
 				sql = sql.concat(
-					AccountGroupAccountEntryRelModelImpl.ORDER_BY_JPQL);
+					AccountGroupRelModelImpl.ORDER_BY_JPQL);
 			}
 
 			Session session = null;
@@ -1849,7 +1849,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 				Query query = session.createQuery(sql);
 
-				list = (List<AccountGroupAccountEntryRel>)QueryUtil.list(
+				list = (List<AccountGroupRel>)QueryUtil.list(
 					query, getDialect(), start, end);
 
 				cacheResult(list);
@@ -1875,10 +1875,10 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	 */
 	@Override
 	public void removeAll() {
-		for (AccountGroupAccountEntryRel accountGroupAccountEntryRel :
+		for (AccountGroupRel accountGroupRel :
 				findAll()) {
 
-			remove(accountGroupAccountEntryRel);
+			remove(accountGroupRel);
 		}
 	}
 
@@ -1899,7 +1899,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 				session = openSession();
 
 				Query query = session.createQuery(
-					_SQL_COUNT_ACCOUNTGROUPACCOUNTENTRYREL);
+					_SQL_COUNT_AccountGroupRel);
 
 				count = (Long)query.uniqueResult();
 
@@ -1924,17 +1924,17 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 	@Override
 	protected String getPKDBName() {
-		return "AccountGroupAccountEntryRelId";
+		return "AccountGroupRelId";
 	}
 
 	@Override
 	protected String getSelectSQL() {
-		return _SQL_SELECT_ACCOUNTGROUPACCOUNTENTRYREL;
+		return _SQL_SELECT_AccountGroupRel;
 	}
 
 	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
-		return AccountGroupAccountEntryRelModelImpl.TABLE_COLUMNS_MAP;
+		return AccountGroupRelModelImpl.TABLE_COLUMNS_MAP;
 	}
 
 	/**
@@ -1946,7 +1946,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 		_argumentsResolverServiceRegistration = _bundleContext.registerService(
 			ArgumentsResolver.class,
-			new AccountGroupAccountEntryRelModelArgumentsResolver(),
+			new AccountGroupRelModelArgumentsResolver(),
 			new HashMapDictionary<>());
 
 		_finderPathWithPaginationFindAll = new FinderPath(
@@ -2011,7 +2011,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(
-			AccountGroupAccountEntryRelImpl.class.getName());
+			AccountGroupRelImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
 	}
@@ -2050,29 +2050,29 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	@Reference
 	protected FinderCache finderCache;
 
-	private static final String _SQL_SELECT_ACCOUNTGROUPACCOUNTENTRYREL =
-		"SELECT accountGroupAccountEntryRel FROM AccountGroupAccountEntryRel accountGroupAccountEntryRel";
+	private static final String _SQL_SELECT_AccountGroupRel =
+		"SELECT accountGroupRel FROM AccountGroupRel accountGroupRel";
 
-	private static final String _SQL_SELECT_ACCOUNTGROUPACCOUNTENTRYREL_WHERE =
-		"SELECT accountGroupAccountEntryRel FROM AccountGroupAccountEntryRel accountGroupAccountEntryRel WHERE ";
+	private static final String _SQL_SELECT_AccountGroupRel_WHERE =
+		"SELECT accountGroupRel FROM AccountGroupRel accountGroupRel WHERE ";
 
-	private static final String _SQL_COUNT_ACCOUNTGROUPACCOUNTENTRYREL =
-		"SELECT COUNT(accountGroupAccountEntryRel) FROM AccountGroupAccountEntryRel accountGroupAccountEntryRel";
+	private static final String _SQL_COUNT_AccountGroupRel =
+		"SELECT COUNT(accountGroupRel) FROM AccountGroupRel accountGroupRel";
 
-	private static final String _SQL_COUNT_ACCOUNTGROUPACCOUNTENTRYREL_WHERE =
-		"SELECT COUNT(accountGroupAccountEntryRel) FROM AccountGroupAccountEntryRel accountGroupAccountEntryRel WHERE ";
+	private static final String _SQL_COUNT_AccountGroupRel_WHERE =
+		"SELECT COUNT(accountGroupRel) FROM AccountGroupRel accountGroupRel WHERE ";
 
 	private static final String _ORDER_BY_ENTITY_ALIAS =
-		"accountGroupAccountEntryRel.";
+		"accountGroupRel.";
 
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
-		"No AccountGroupAccountEntryRel exists with the primary key ";
+		"No AccountGroupRel exists with the primary key ";
 
 	private static final String _NO_SUCH_ENTITY_WITH_KEY =
-		"No AccountGroupAccountEntryRel exists with the key {";
+		"No AccountGroupRel exists with the key {";
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		AccountGroupAccountEntryRelPersistenceImpl.class);
+		AccountGroupRelPersistenceImpl.class);
 
 	@Override
 	protected FinderCache getFinderCache() {
@@ -2082,7 +2082,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
-	private static class AccountGroupAccountEntryRelModelArgumentsResolver
+	private static class AccountGroupRelModelArgumentsResolver
 		implements ArgumentsResolver {
 
 		@Override
@@ -2100,16 +2100,16 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 				return null;
 			}
 
-			AccountGroupAccountEntryRelModelImpl
-				accountGroupAccountEntryRelModelImpl =
-					(AccountGroupAccountEntryRelModelImpl)baseModel;
+			AccountGroupRelModelImpl
+				accountGroupRelModelImpl =
+					(AccountGroupRelModelImpl)baseModel;
 
 			long columnBitmask =
-				accountGroupAccountEntryRelModelImpl.getColumnBitmask();
+				accountGroupRelModelImpl.getColumnBitmask();
 
 			if (!checkColumn || (columnBitmask == 0)) {
 				return _getValue(
-					accountGroupAccountEntryRelModelImpl, columnNames,
+					accountGroupRelModelImpl, columnNames,
 					original);
 			}
 
@@ -2121,7 +2121,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 				for (String columnName : columnNames) {
 					finderPathColumnBitmask |=
-						accountGroupAccountEntryRelModelImpl.getColumnBitmask(
+						accountGroupRelModelImpl.getColumnBitmask(
 							columnName);
 				}
 
@@ -2131,7 +2131,7 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 			if ((columnBitmask & finderPathColumnBitmask) != 0) {
 				return _getValue(
-					accountGroupAccountEntryRelModelImpl, columnNames,
+					accountGroupRelModelImpl, columnNames,
 					original);
 			}
 
@@ -2140,17 +2140,17 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 		@Override
 		public String getClassName() {
-			return AccountGroupAccountEntryRelImpl.class.getName();
+			return AccountGroupRelImpl.class.getName();
 		}
 
 		@Override
 		public String getTableName() {
-			return AccountGroupAccountEntryRelTable.INSTANCE.getTableName();
+			return AccountGroupRelTable.INSTANCE.getTableName();
 		}
 
 		private Object[] _getValue(
-			AccountGroupAccountEntryRelModelImpl
-				accountGroupAccountEntryRelModelImpl,
+			AccountGroupRelModelImpl
+				accountGroupRelModelImpl,
 			String[] columnNames, boolean original) {
 
 			Object[] arguments = new Object[columnNames.length];
@@ -2160,12 +2160,12 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 				if (original) {
 					arguments[i] =
-						accountGroupAccountEntryRelModelImpl.
+						accountGroupRelModelImpl.
 							getColumnOriginalValue(columnName);
 				}
 				else {
 					arguments[i] =
-						accountGroupAccountEntryRelModelImpl.getColumnValue(
+						accountGroupRelModelImpl.getColumnValue(
 							columnName);
 				}
 			}

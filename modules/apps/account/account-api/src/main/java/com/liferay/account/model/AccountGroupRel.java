@@ -21,34 +21,34 @@ import com.liferay.portal.kernel.util.Accessor;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * The extended model interface for the AccountGroupAccountEntryRel service. Represents a row in the &quot;AccountGroupAccountEntryRel&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the AccountGroupRel service. Represents a row in the &quot;AccountGroupRel&quot; database table, with each column mapped to a property of this class.
  *
  * @author Brian Wing Shun Chan
- * @see AccountGroupAccountEntryRelModel
+ * @see AccountGroupRelModel
  * @generated
  */
 @ImplementationClassName(
-	"com.liferay.account.model.impl.AccountGroupAccountEntryRelImpl"
+	"com.liferay.account.model.impl.AccountGroupRelImpl"
 )
 @ProviderType
-public interface AccountGroupAccountEntryRel
-	extends AccountGroupAccountEntryRelModel, PersistedModel {
+public interface AccountGroupRel
+	extends AccountGroupRelModel, PersistedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to <code>com.liferay.account.model.impl.AccountGroupAccountEntryRelImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>com.liferay.account.model.impl.AccountGroupRelImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<AccountGroupAccountEntryRel, Long>
+	public static final Accessor<AccountGroupRel, Long>
 		ACCOUNT_GROUP_ACCOUNT_ENTRY_REL_ID_ACCESSOR =
-			new Accessor<AccountGroupAccountEntryRel, Long>() {
+			new Accessor<AccountGroupRel, Long>() {
 
 				@Override
 				public Long get(
-					AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+					AccountGroupRel accountGroupRel) {
 
-					return accountGroupAccountEntryRel.
-						getAccountGroupAccountEntryRelId();
+					return accountGroupRel.
+						getAccountGroupRelId();
 				}
 
 				@Override
@@ -57,8 +57,8 @@ public interface AccountGroupAccountEntryRel
 				}
 
 				@Override
-				public Class<AccountGroupAccountEntryRel> getTypeClass() {
-					return AccountGroupAccountEntryRel.class;
+				public Class<AccountGroupRel> getTypeClass() {
+					return AccountGroupRel.class;
 				}
 
 			};

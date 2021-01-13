@@ -15,11 +15,11 @@
 package com.liferay.account.service.impl;
 
 import com.liferay.account.constants.AccountConstants;
-import com.liferay.account.exception.DuplicateAccountGroupAccountEntryRelException;
-import com.liferay.account.model.AccountGroupAccountEntryRel;
+import com.liferay.account.exception.DuplicateAccountGroupRelException;
+import com.liferay.account.model.AccountGroupRel;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountGroupLocalService;
-import com.liferay.account.service.base.AccountGroupAccountEntryRelLocalServiceBaseImpl;
+import com.liferay.account.service.base.AccountGroupRelLocalServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 
@@ -32,23 +32,23 @@ import org.osgi.service.component.annotations.Reference;
  * @author Brian Wing Shun Chan
  */
 @Component(
-	property = "model.class.name=com.liferay.account.model.AccountGroupAccountEntryRel",
+	property = "model.class.name=com.liferay.account.model.AccountGroupRel",
 	service = AopService.class
 )
-public class AccountGroupAccountEntryRelLocalServiceImpl
-	extends AccountGroupAccountEntryRelLocalServiceBaseImpl {
+public class AccountGroupRelLocalServiceImpl
+	extends AccountGroupRelLocalServiceBaseImpl {
 
 	@Override
-	public AccountGroupAccountEntryRel addAccountGroupAccountEntryRel(
+	public AccountGroupRel addAccountGroupRel(
 			long accountGroupId, long accountEntryId)
 		throws PortalException {
 
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel =
-			accountGroupAccountEntryRelPersistence.fetchByAGI_AEI(
+		AccountGroupRel accountGroupRel =
+			accountGroupRelPersistence.fetchByAGI_AEI(
 				accountGroupId, accountEntryId);
 
-		if (accountGroupAccountEntryRel != null) {
-			throw new DuplicateAccountGroupAccountEntryRelException();
+		if (accountGroupRel != null) {
+			throw new DuplicateAccountGroupRelException();
 		}
 
 		_accountGroupLocalService.getAccountGroup(accountGroupId);
@@ -57,65 +57,65 @@ public class AccountGroupAccountEntryRelLocalServiceImpl
 			_accountEntryLocalService.getAccountEntry(accountEntryId);
 		}
 
-		accountGroupAccountEntryRel = createAccountGroupAccountEntryRel(
+		accountGroupRel = createAccountGroupRel(
 			counterLocalService.increment());
 
-		accountGroupAccountEntryRel.setAccountGroupId(accountGroupId);
-		accountGroupAccountEntryRel.setAccountEntryId(accountEntryId);
+		accountGroupRel.setAccountGroupId(accountGroupId);
+		accountGroupRel.setAccountEntryId(accountEntryId);
 
-		return addAccountGroupAccountEntryRel(accountGroupAccountEntryRel);
+		return addAccountGroupRel(accountGroupRel);
 	}
 
 	@Override
-	public void addAccountGroupAccountEntryRels(
+	public void addAccountGroupRels(
 			long accountGroupId, long[] accountEntryIds)
 		throws PortalException {
 
 		for (long accountEntryId : accountEntryIds) {
-			addAccountGroupAccountEntryRel(accountGroupId, accountEntryId);
+			addAccountGroupRel(accountGroupId, accountEntryId);
 		}
 	}
 
 	@Override
-	public void deleteAccountGroupAccountEntryRels(
+	public void deleteAccountGroupRels(
 			long accountGroupId, long[] accountEntryIds)
 		throws PortalException {
 
 		for (long accountEntryId : accountEntryIds) {
-			accountGroupAccountEntryRelPersistence.removeByAGI_AEI(
+			accountGroupRelPersistence.removeByAGI_AEI(
 				accountGroupId, accountEntryId);
 		}
 	}
 
 	@Override
-	public AccountGroupAccountEntryRel fetchAccountGroupAccountEntryRel(
+	public AccountGroupRel fetchAccountGroupRel(
 		long accountGroupId, long accountEntryId) {
 
-		return accountGroupAccountEntryRelPersistence.fetchByAGI_AEI(
+		return accountGroupRelPersistence.fetchByAGI_AEI(
 			accountGroupId, accountEntryId);
 	}
 
 	@Override
-	public List<AccountGroupAccountEntryRel>
-		getAccountGroupAccountEntryRelsByAccountEntryId(long accountEntryId) {
+	public List<AccountGroupRel>
+		getAccountGroupRelsByAccountEntryId(long accountEntryId) {
 
-		return accountGroupAccountEntryRelPersistence.findByAccountEntryId(
+		return accountGroupRelPersistence.findByAccountEntryId(
 			accountEntryId);
 	}
 
 	@Override
-	public List<AccountGroupAccountEntryRel>
-		getAccountGroupAccountEntryRelsByAccountGroupId(long accountGroupId) {
+	public List<AccountGroupRel>
+		getAccountGroupRelsByAccountGroupId(long accountGroupId) {
 
-		return accountGroupAccountEntryRelPersistence.findByAccountGroupId(
+		return accountGroupRelPersistence.findByAccountGroupId(
 			accountGroupId);
 	}
 
 	@Override
-	public long getAccountGroupAccountEntryRelsCountByAccountGroupId(
+	public long getAccountGroupRelsCountByAccountGroupId(
 		long accountGroupId) {
 
-		return accountGroupAccountEntryRelPersistence.countByAccountGroupId(
+		return accountGroupRelPersistence.countByAccountGroupId(
 			accountGroupId);
 	}
 

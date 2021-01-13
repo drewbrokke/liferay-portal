@@ -17,11 +17,11 @@ package com.liferay.account.internal.model.listener;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryOrganizationRel;
 import com.liferay.account.model.AccountEntryUserRel;
-import com.liferay.account.model.AccountGroupAccountEntryRel;
+import com.liferay.account.model.AccountGroupRel;
 import com.liferay.account.model.AccountRole;
 import com.liferay.account.service.AccountEntryOrganizationRelLocalService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
-import com.liferay.account.service.AccountGroupAccountEntryRelLocalService;
+import com.liferay.account.service.AccountGroupRelLocalService;
 import com.liferay.account.service.AccountRoleLocalService;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.model.BaseModelListener;
@@ -47,16 +47,16 @@ public class AccountEntryModelListener extends BaseModelListener<AccountEntry> {
 
 		// Account Groups
 
-		List<AccountGroupAccountEntryRel> accountGroupAccountEntryRels =
-			_accountGroupAccountEntryRelLocalService.
-				getAccountGroupAccountEntryRelsByAccountEntryId(
+		List<AccountGroupRel> accountGroupRels =
+			_accountGroupRelLocalService.
+				getAccountGroupRelsByAccountEntryId(
 					accountEntry.getAccountEntryId());
 
-		for (AccountGroupAccountEntryRel accountGroupAccountEntryRel :
-				accountGroupAccountEntryRels) {
+		for (AccountGroupRel accountGroupRel :
+				accountGroupRels) {
 
-			_accountGroupAccountEntryRelLocalService.
-				deleteAccountGroupAccountEntryRel(accountGroupAccountEntryRel);
+			_accountGroupRelLocalService.
+				deleteAccountGroupRel(accountGroupRel);
 		}
 
 		// Account Organizations
@@ -126,8 +126,8 @@ public class AccountEntryModelListener extends BaseModelListener<AccountEntry> {
 	private AccountEntryUserRelLocalService _accountEntryUserRelLocalService;
 
 	@Reference
-	private AccountGroupAccountEntryRelLocalService
-		_accountGroupAccountEntryRelLocalService;
+	private AccountGroupRelLocalService
+		_accountGroupRelLocalService;
 
 	@Reference
 	private AccountRoleLocalService _accountRoleLocalService;

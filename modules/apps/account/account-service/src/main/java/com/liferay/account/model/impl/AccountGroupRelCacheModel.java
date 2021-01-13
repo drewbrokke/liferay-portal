@@ -14,7 +14,7 @@
 
 package com.liferay.account.model.impl;
 
-import com.liferay.account.model.AccountGroupAccountEntryRel;
+import com.liferay.account.model.AccountGroupRel;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -26,13 +26,13 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 /**
- * The cache model class for representing AccountGroupAccountEntryRel in entity cache.
+ * The cache model class for representing AccountGroupRel in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class AccountGroupAccountEntryRelCacheModel
-	implements CacheModel<AccountGroupAccountEntryRel>, Externalizable,
+public class AccountGroupRelCacheModel
+	implements CacheModel<AccountGroupRel>, Externalizable,
 			   MVCCModel {
 
 	@Override
@@ -41,19 +41,19 @@ public class AccountGroupAccountEntryRelCacheModel
 			return true;
 		}
 
-		if (!(object instanceof AccountGroupAccountEntryRelCacheModel)) {
+		if (!(object instanceof AccountGroupRelCacheModel)) {
 			return false;
 		}
 
-		AccountGroupAccountEntryRelCacheModel
-			accountGroupAccountEntryRelCacheModel =
-				(AccountGroupAccountEntryRelCacheModel)object;
+		AccountGroupRelCacheModel
+			accountGroupRelCacheModel =
+				(AccountGroupRelCacheModel)object;
 
-		if ((AccountGroupAccountEntryRelId ==
-				accountGroupAccountEntryRelCacheModel.
-					AccountGroupAccountEntryRelId) &&
+		if ((AccountGroupRelId ==
+				accountGroupRelCacheModel.
+					AccountGroupRelId) &&
 			(mvccVersion ==
-				accountGroupAccountEntryRelCacheModel.mvccVersion)) {
+				accountGroupRelCacheModel.mvccVersion)) {
 
 			return true;
 		}
@@ -63,7 +63,7 @@ public class AccountGroupAccountEntryRelCacheModel
 
 	@Override
 	public int hashCode() {
-		int hashCode = HashUtil.hash(0, AccountGroupAccountEntryRelId);
+		int hashCode = HashUtil.hash(0, AccountGroupRelId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
 	}
@@ -84,8 +84,8 @@ public class AccountGroupAccountEntryRelCacheModel
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
-		sb.append(", AccountGroupAccountEntryRelId=");
-		sb.append(AccountGroupAccountEntryRelId);
+		sb.append(", AccountGroupRelId=");
+		sb.append(AccountGroupRelId);
 		sb.append(", companyId=");
 		sb.append(companyId);
 		sb.append(", accountGroupId=");
@@ -98,27 +98,27 @@ public class AccountGroupAccountEntryRelCacheModel
 	}
 
 	@Override
-	public AccountGroupAccountEntryRel toEntityModel() {
-		AccountGroupAccountEntryRelImpl accountGroupAccountEntryRelImpl =
-			new AccountGroupAccountEntryRelImpl();
+	public AccountGroupRel toEntityModel() {
+		AccountGroupRelImpl accountGroupRelImpl =
+			new AccountGroupRelImpl();
 
-		accountGroupAccountEntryRelImpl.setMvccVersion(mvccVersion);
-		accountGroupAccountEntryRelImpl.setAccountGroupAccountEntryRelId(
-			AccountGroupAccountEntryRelId);
-		accountGroupAccountEntryRelImpl.setCompanyId(companyId);
-		accountGroupAccountEntryRelImpl.setAccountGroupId(accountGroupId);
-		accountGroupAccountEntryRelImpl.setAccountEntryId(accountEntryId);
+		accountGroupRelImpl.setMvccVersion(mvccVersion);
+		accountGroupRelImpl.setAccountGroupRelId(
+			AccountGroupRelId);
+		accountGroupRelImpl.setCompanyId(companyId);
+		accountGroupRelImpl.setAccountGroupId(accountGroupId);
+		accountGroupRelImpl.setAccountEntryId(accountEntryId);
 
-		accountGroupAccountEntryRelImpl.resetOriginalValues();
+		accountGroupRelImpl.resetOriginalValues();
 
-		return accountGroupAccountEntryRelImpl;
+		return accountGroupRelImpl;
 	}
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		mvccVersion = objectInput.readLong();
 
-		AccountGroupAccountEntryRelId = objectInput.readLong();
+		AccountGroupRelId = objectInput.readLong();
 
 		companyId = objectInput.readLong();
 
@@ -131,7 +131,7 @@ public class AccountGroupAccountEntryRelCacheModel
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(mvccVersion);
 
-		objectOutput.writeLong(AccountGroupAccountEntryRelId);
+		objectOutput.writeLong(AccountGroupRelId);
 
 		objectOutput.writeLong(companyId);
 
@@ -141,7 +141,7 @@ public class AccountGroupAccountEntryRelCacheModel
 	}
 
 	public long mvccVersion;
-	public long AccountGroupAccountEntryRelId;
+	public long AccountGroupRelId;
 	public long companyId;
 	public long accountGroupId;
 	public long accountEntryId;

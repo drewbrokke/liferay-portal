@@ -15,7 +15,7 @@
 package com.liferay.account.admin.web.internal.portlet.action;
 
 import com.liferay.account.constants.AccountPortletKeys;
-import com.liferay.account.service.AccountGroupAccountEntryRelLocalService;
+import com.liferay.account.service.AccountGroupRelLocalService;
 import com.liferay.petra.lang.SafeClosable;
 import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocal;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
@@ -55,14 +55,14 @@ public class AssignAccountGroupAccountEntriesMVCActionCommand
 		try (SafeClosable safeClosable =
 				ProxyModeThreadLocal.setWithSafeClosable(true)) {
 
-			_accountGroupAccountEntryRelLocalService.
-				addAccountGroupAccountEntryRels(
+			_accountGroupRelLocalService.
+				addAccountGroupRels(
 					accountGroupId, accountEntryIds);
 		}
 	}
 
 	@Reference
-	private AccountGroupAccountEntryRelLocalService
-		_accountGroupAccountEntryRelLocalService;
+	private AccountGroupRelLocalService
+		_accountGroupRelLocalService;
 
 }

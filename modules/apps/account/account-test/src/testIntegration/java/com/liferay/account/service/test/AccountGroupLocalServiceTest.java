@@ -18,7 +18,7 @@ import com.liferay.account.exception.DefaultAccountGroupException;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountGroup;
 import com.liferay.account.service.AccountEntryLocalService;
-import com.liferay.account.service.AccountGroupAccountEntryRelLocalService;
+import com.liferay.account.service.AccountGroupRelLocalService;
 import com.liferay.account.service.AccountGroupLocalService;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.account.service.test.util.AccountGroupTestUtil;
@@ -83,22 +83,22 @@ public class AccountGroupLocalServiceTest {
 	}
 
 	@Test
-	public void testDeleteAccountGroupWithAccountGroupAccountEntryRel()
+	public void testDeleteAccountGroupWithAccountGroupRel()
 		throws Exception {
 
 		AccountGroup accountGroup = _addAccountGroup();
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
 			_accountEntryLocalService);
 
-		_accountGroupAccountEntryRelLocalService.addAccountGroupAccountEntryRel(
+		_accountGroupRelLocalService.addAccountGroupRel(
 			accountGroup.getAccountGroupId(), accountEntry.getAccountEntryId());
 
 		_accountGroupLocalService.deleteAccountGroup(accountGroup);
 
 		Assert.assertEquals(
 			0,
-			_accountGroupAccountEntryRelLocalService.
-				getAccountGroupAccountEntryRelsCountByAccountGroupId(
+			_accountGroupRelLocalService.
+				getAccountGroupRelsCountByAccountGroupId(
 					accountGroup.getAccountGroupId()));
 	}
 
@@ -286,8 +286,8 @@ public class AccountGroupLocalServiceTest {
 	private AccountEntryLocalService _accountEntryLocalService;
 
 	@Inject
-	private AccountGroupAccountEntryRelLocalService
-		_accountGroupAccountEntryRelLocalService;
+	private AccountGroupRelLocalService
+		_accountGroupRelLocalService;
 
 	@Inject
 	private AccountGroupLocalService _accountGroupLocalService;

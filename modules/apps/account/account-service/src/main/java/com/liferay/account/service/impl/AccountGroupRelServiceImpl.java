@@ -12,15 +12,23 @@
  * details.
  */
 
-package com.liferay.account.model.impl;
+package com.liferay.account.service.impl;
+
+import com.liferay.account.service.base.AccountGroupRelServiceBaseImpl;
+import com.liferay.portal.aop.AopService;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Brian Wing Shun Chan
  */
-public class AccountGroupAccountEntryRelImpl
-	extends AccountGroupAccountEntryRelBaseImpl {
-
-	public AccountGroupAccountEntryRelImpl() {
-	}
-
+@Component(
+	property = {
+		"json.web.service.context.name=account",
+		"json.web.service.context.path=AccountGroupRel"
+	},
+	service = AopService.class
+)
+public class AccountGroupRelServiceImpl
+	extends AccountGroupRelServiceBaseImpl {
 }

@@ -14,7 +14,7 @@
 
 package com.liferay.account.service.persistence;
 
-import com.liferay.account.model.AccountGroupAccountEntryRel;
+import com.liferay.account.model.AccountGroupRel;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -30,17 +30,17 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
- * The persistence utility for the account group account entry rel service. This utility wraps <code>com.liferay.account.service.persistence.impl.AccountGroupAccountEntryRelPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
+ * The persistence utility for the account group account entry rel service. This utility wraps <code>com.liferay.account.service.persistence.impl.AccountGroupRelPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
  *
  * <p>
  * Caching information and settings can be found in <code>portal.properties</code>
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see AccountGroupAccountEntryRelPersistence
+ * @see AccountGroupRelPersistence
  * @generated
  */
-public class AccountGroupAccountEntryRelUtil {
+public class AccountGroupRelUtil {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -59,9 +59,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#clearCache(com.liferay.portal.kernel.model.BaseModel)
 	 */
 	public static void clearCache(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+		AccountGroupRel accountGroupRel) {
 
-		getPersistence().clearCache(accountGroupAccountEntryRel);
+		getPersistence().clearCache(accountGroupRel);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class AccountGroupAccountEntryRelUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#fetchByPrimaryKeys(Set)
 	 */
-	public static Map<Serializable, AccountGroupAccountEntryRel>
+	public static Map<Serializable, AccountGroupRel>
 		fetchByPrimaryKeys(Set<Serializable> primaryKeys) {
 
 		return getPersistence().fetchByPrimaryKeys(primaryKeys);
@@ -83,7 +83,7 @@ public class AccountGroupAccountEntryRelUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery)
 	 */
-	public static List<AccountGroupAccountEntryRel> findWithDynamicQuery(
+	public static List<AccountGroupRel> findWithDynamicQuery(
 		DynamicQuery dynamicQuery) {
 
 		return getPersistence().findWithDynamicQuery(dynamicQuery);
@@ -92,7 +92,7 @@ public class AccountGroupAccountEntryRelUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int)
 	 */
-	public static List<AccountGroupAccountEntryRel> findWithDynamicQuery(
+	public static List<AccountGroupRel> findWithDynamicQuery(
 		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getPersistence().findWithDynamicQuery(dynamicQuery, start, end);
@@ -101,9 +101,9 @@ public class AccountGroupAccountEntryRelUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int, OrderByComparator)
 	 */
-	public static List<AccountGroupAccountEntryRel> findWithDynamicQuery(
+	public static List<AccountGroupRel> findWithDynamicQuery(
 		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return getPersistence().findWithDynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -112,21 +112,21 @@ public class AccountGroupAccountEntryRelUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel)
 	 */
-	public static AccountGroupAccountEntryRel update(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+	public static AccountGroupRel update(
+		AccountGroupRel accountGroupRel) {
 
-		return getPersistence().update(accountGroupAccountEntryRel);
+		return getPersistence().update(accountGroupRel);
 	}
 
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel, ServiceContext)
 	 */
-	public static AccountGroupAccountEntryRel update(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel,
+	public static AccountGroupRel update(
+		AccountGroupRel accountGroupRel,
 		ServiceContext serviceContext) {
 
 		return getPersistence().update(
-			accountGroupAccountEntryRel, serviceContext);
+			accountGroupRel, serviceContext);
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param accountGroupId the account group ID
 	 * @return the matching account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findByAccountGroupId(
+	public static List<AccountGroupRel> findByAccountGroupId(
 		long accountGroupId) {
 
 		return getPersistence().findByAccountGroupId(accountGroupId);
@@ -145,7 +145,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * Returns a range of all the account group account entry rels where accountGroupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountGroupId the account group ID
@@ -153,7 +153,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param end the upper bound of the range of account group account entry rels (not inclusive)
 	 * @return the range of matching account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findByAccountGroupId(
+	public static List<AccountGroupRel> findByAccountGroupId(
 		long accountGroupId, int start, int end) {
 
 		return getPersistence().findByAccountGroupId(
@@ -164,7 +164,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * Returns an ordered range of all the account group account entry rels where accountGroupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountGroupId the account group ID
@@ -173,9 +173,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findByAccountGroupId(
+	public static List<AccountGroupRel> findByAccountGroupId(
 		long accountGroupId, int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return getPersistence().findByAccountGroupId(
 			accountGroupId, start, end, orderByComparator);
@@ -185,7 +185,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * Returns an ordered range of all the account group account entry rels where accountGroupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountGroupId the account group ID
@@ -195,9 +195,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findByAccountGroupId(
+	public static List<AccountGroupRel> findByAccountGroupId(
 		long accountGroupId, int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator,
+		OrderByComparator<AccountGroupRel> orderByComparator,
 		boolean useFinderCache) {
 
 		return getPersistence().findByAccountGroupId(
@@ -212,9 +212,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @return the first matching account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel findByAccountGroupId_First(
+	public static AccountGroupRel findByAccountGroupId_First(
 			long accountGroupId,
-			OrderByComparator<AccountGroupAccountEntryRel> orderByComparator)
+			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws com.liferay.account.exception.
 			NoSuchGroupAccountEntryRelException {
 
@@ -229,9 +229,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel fetchByAccountGroupId_First(
+	public static AccountGroupRel fetchByAccountGroupId_First(
 		long accountGroupId,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return getPersistence().fetchByAccountGroupId_First(
 			accountGroupId, orderByComparator);
@@ -245,9 +245,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @return the last matching account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel findByAccountGroupId_Last(
+	public static AccountGroupRel findByAccountGroupId_Last(
 			long accountGroupId,
-			OrderByComparator<AccountGroupAccountEntryRel> orderByComparator)
+			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws com.liferay.account.exception.
 			NoSuchGroupAccountEntryRelException {
 
@@ -262,9 +262,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel fetchByAccountGroupId_Last(
+	public static AccountGroupRel fetchByAccountGroupId_Last(
 		long accountGroupId,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return getPersistence().fetchByAccountGroupId_Last(
 			accountGroupId, orderByComparator);
@@ -273,22 +273,22 @@ public class AccountGroupAccountEntryRelUtil {
 	/**
 	 * Returns the account group account entry rels before and after the current account group account entry rel in the ordered set where accountGroupId = &#63;.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the current account group account entry rel
+	 * @param AccountGroupRelId the primary key of the current account group account entry rel
 	 * @param accountGroupId the account group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a account group account entry rel with the primary key could not be found
 	 */
-	public static AccountGroupAccountEntryRel[]
+	public static AccountGroupRel[]
 			findByAccountGroupId_PrevAndNext(
-				long AccountGroupAccountEntryRelId, long accountGroupId,
-				OrderByComparator<AccountGroupAccountEntryRel>
+				long AccountGroupRelId, long accountGroupId,
+				OrderByComparator<AccountGroupRel>
 					orderByComparator)
 		throws com.liferay.account.exception.
 			NoSuchGroupAccountEntryRelException {
 
 		return getPersistence().findByAccountGroupId_PrevAndNext(
-			AccountGroupAccountEntryRelId, accountGroupId, orderByComparator);
+			AccountGroupRelId, accountGroupId, orderByComparator);
 	}
 
 	/**
@@ -316,7 +316,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param accountEntryId the account entry ID
 	 * @return the matching account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findByAccountEntryId(
+	public static List<AccountGroupRel> findByAccountEntryId(
 		long accountEntryId) {
 
 		return getPersistence().findByAccountEntryId(accountEntryId);
@@ -326,7 +326,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * Returns a range of all the account group account entry rels where accountEntryId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountEntryId the account entry ID
@@ -334,7 +334,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param end the upper bound of the range of account group account entry rels (not inclusive)
 	 * @return the range of matching account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findByAccountEntryId(
+	public static List<AccountGroupRel> findByAccountEntryId(
 		long accountEntryId, int start, int end) {
 
 		return getPersistence().findByAccountEntryId(
@@ -345,7 +345,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * Returns an ordered range of all the account group account entry rels where accountEntryId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountEntryId the account entry ID
@@ -354,9 +354,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findByAccountEntryId(
+	public static List<AccountGroupRel> findByAccountEntryId(
 		long accountEntryId, int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return getPersistence().findByAccountEntryId(
 			accountEntryId, start, end, orderByComparator);
@@ -366,7 +366,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * Returns an ordered range of all the account group account entry rels where accountEntryId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param accountEntryId the account entry ID
@@ -376,9 +376,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findByAccountEntryId(
+	public static List<AccountGroupRel> findByAccountEntryId(
 		long accountEntryId, int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator,
+		OrderByComparator<AccountGroupRel> orderByComparator,
 		boolean useFinderCache) {
 
 		return getPersistence().findByAccountEntryId(
@@ -393,9 +393,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @return the first matching account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel findByAccountEntryId_First(
+	public static AccountGroupRel findByAccountEntryId_First(
 			long accountEntryId,
-			OrderByComparator<AccountGroupAccountEntryRel> orderByComparator)
+			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws com.liferay.account.exception.
 			NoSuchGroupAccountEntryRelException {
 
@@ -410,9 +410,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel fetchByAccountEntryId_First(
+	public static AccountGroupRel fetchByAccountEntryId_First(
 		long accountEntryId,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return getPersistence().fetchByAccountEntryId_First(
 			accountEntryId, orderByComparator);
@@ -426,9 +426,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @return the last matching account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel findByAccountEntryId_Last(
+	public static AccountGroupRel findByAccountEntryId_Last(
 			long accountEntryId,
-			OrderByComparator<AccountGroupAccountEntryRel> orderByComparator)
+			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws com.liferay.account.exception.
 			NoSuchGroupAccountEntryRelException {
 
@@ -443,9 +443,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel fetchByAccountEntryId_Last(
+	public static AccountGroupRel fetchByAccountEntryId_Last(
 		long accountEntryId,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return getPersistence().fetchByAccountEntryId_Last(
 			accountEntryId, orderByComparator);
@@ -454,22 +454,22 @@ public class AccountGroupAccountEntryRelUtil {
 	/**
 	 * Returns the account group account entry rels before and after the current account group account entry rel in the ordered set where accountEntryId = &#63;.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the current account group account entry rel
+	 * @param AccountGroupRelId the primary key of the current account group account entry rel
 	 * @param accountEntryId the account entry ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a account group account entry rel with the primary key could not be found
 	 */
-	public static AccountGroupAccountEntryRel[]
+	public static AccountGroupRel[]
 			findByAccountEntryId_PrevAndNext(
-				long AccountGroupAccountEntryRelId, long accountEntryId,
-				OrderByComparator<AccountGroupAccountEntryRel>
+				long AccountGroupRelId, long accountEntryId,
+				OrderByComparator<AccountGroupRel>
 					orderByComparator)
 		throws com.liferay.account.exception.
 			NoSuchGroupAccountEntryRelException {
 
 		return getPersistence().findByAccountEntryId_PrevAndNext(
-			AccountGroupAccountEntryRelId, accountEntryId, orderByComparator);
+			AccountGroupRelId, accountEntryId, orderByComparator);
 	}
 
 	/**
@@ -499,7 +499,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @return the matching account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel findByAGI_AEI(
+	public static AccountGroupRel findByAGI_AEI(
 			long accountGroupId, long accountEntryId)
 		throws com.liferay.account.exception.
 			NoSuchGroupAccountEntryRelException {
@@ -514,7 +514,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param accountEntryId the account entry ID
 	 * @return the matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel fetchByAGI_AEI(
+	public static AccountGroupRel fetchByAGI_AEI(
 		long accountGroupId, long accountEntryId) {
 
 		return getPersistence().fetchByAGI_AEI(accountGroupId, accountEntryId);
@@ -528,7 +528,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching account group account entry rel, or <code>null</code> if a matching account group account entry rel could not be found
 	 */
-	public static AccountGroupAccountEntryRel fetchByAGI_AEI(
+	public static AccountGroupRel fetchByAGI_AEI(
 		long accountGroupId, long accountEntryId, boolean useFinderCache) {
 
 		return getPersistence().fetchByAGI_AEI(
@@ -542,7 +542,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param accountEntryId the account entry ID
 	 * @return the account group account entry rel that was removed
 	 */
-	public static AccountGroupAccountEntryRel removeByAGI_AEI(
+	public static AccountGroupRel removeByAGI_AEI(
 			long accountGroupId, long accountEntryId)
 		throws com.liferay.account.exception.
 			NoSuchGroupAccountEntryRelException {
@@ -564,84 +564,84 @@ public class AccountGroupAccountEntryRelUtil {
 	/**
 	 * Caches the account group account entry rel in the entity cache if it is enabled.
 	 *
-	 * @param accountGroupAccountEntryRel the account group account entry rel
+	 * @param accountGroupRel the account group account entry rel
 	 */
 	public static void cacheResult(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+		AccountGroupRel accountGroupRel) {
 
-		getPersistence().cacheResult(accountGroupAccountEntryRel);
+		getPersistence().cacheResult(accountGroupRel);
 	}
 
 	/**
 	 * Caches the account group account entry rels in the entity cache if it is enabled.
 	 *
-	 * @param accountGroupAccountEntryRels the account group account entry rels
+	 * @param accountGroupRels the account group account entry rels
 	 */
 	public static void cacheResult(
-		List<AccountGroupAccountEntryRel> accountGroupAccountEntryRels) {
+		List<AccountGroupRel> accountGroupRels) {
 
-		getPersistence().cacheResult(accountGroupAccountEntryRels);
+		getPersistence().cacheResult(accountGroupRels);
 	}
 
 	/**
 	 * Creates a new account group account entry rel with the primary key. Does not add the account group account entry rel to the database.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key for the new account group account entry rel
+	 * @param AccountGroupRelId the primary key for the new account group account entry rel
 	 * @return the new account group account entry rel
 	 */
-	public static AccountGroupAccountEntryRel create(
-		long AccountGroupAccountEntryRelId) {
+	public static AccountGroupRel create(
+		long AccountGroupRelId) {
 
-		return getPersistence().create(AccountGroupAccountEntryRelId);
+		return getPersistence().create(AccountGroupRelId);
 	}
 
 	/**
 	 * Removes the account group account entry rel with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the account group account entry rel
+	 * @param AccountGroupRelId the primary key of the account group account entry rel
 	 * @return the account group account entry rel that was removed
 	 * @throws NoSuchGroupAccountEntryRelException if a account group account entry rel with the primary key could not be found
 	 */
-	public static AccountGroupAccountEntryRel remove(
-			long AccountGroupAccountEntryRelId)
+	public static AccountGroupRel remove(
+			long AccountGroupRelId)
 		throws com.liferay.account.exception.
 			NoSuchGroupAccountEntryRelException {
 
-		return getPersistence().remove(AccountGroupAccountEntryRelId);
+		return getPersistence().remove(AccountGroupRelId);
 	}
 
-	public static AccountGroupAccountEntryRel updateImpl(
-		AccountGroupAccountEntryRel accountGroupAccountEntryRel) {
+	public static AccountGroupRel updateImpl(
+		AccountGroupRel accountGroupRel) {
 
-		return getPersistence().updateImpl(accountGroupAccountEntryRel);
+		return getPersistence().updateImpl(accountGroupRel);
 	}
 
 	/**
 	 * Returns the account group account entry rel with the primary key or throws a <code>NoSuchGroupAccountEntryRelException</code> if it could not be found.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the account group account entry rel
+	 * @param AccountGroupRelId the primary key of the account group account entry rel
 	 * @return the account group account entry rel
 	 * @throws NoSuchGroupAccountEntryRelException if a account group account entry rel with the primary key could not be found
 	 */
-	public static AccountGroupAccountEntryRel findByPrimaryKey(
-			long AccountGroupAccountEntryRelId)
+	public static AccountGroupRel findByPrimaryKey(
+			long AccountGroupRelId)
 		throws com.liferay.account.exception.
 			NoSuchGroupAccountEntryRelException {
 
-		return getPersistence().findByPrimaryKey(AccountGroupAccountEntryRelId);
+		return getPersistence().findByPrimaryKey(AccountGroupRelId);
 	}
 
 	/**
 	 * Returns the account group account entry rel with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param AccountGroupAccountEntryRelId the primary key of the account group account entry rel
+	 * @param AccountGroupRelId the primary key of the account group account entry rel
 	 * @return the account group account entry rel, or <code>null</code> if a account group account entry rel with the primary key could not be found
 	 */
-	public static AccountGroupAccountEntryRel fetchByPrimaryKey(
-		long AccountGroupAccountEntryRelId) {
+	public static AccountGroupRel fetchByPrimaryKey(
+		long AccountGroupRelId) {
 
 		return getPersistence().fetchByPrimaryKey(
-			AccountGroupAccountEntryRelId);
+			AccountGroupRelId);
 	}
 
 	/**
@@ -649,7 +649,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 *
 	 * @return the account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findAll() {
+	public static List<AccountGroupRel> findAll() {
 		return getPersistence().findAll();
 	}
 
@@ -657,14 +657,14 @@ public class AccountGroupAccountEntryRelUtil {
 	 * Returns a range of all the account group account entry rels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of account group account entry rels
 	 * @param end the upper bound of the range of account group account entry rels (not inclusive)
 	 * @return the range of account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findAll(
+	public static List<AccountGroupRel> findAll(
 		int start, int end) {
 
 		return getPersistence().findAll(start, end);
@@ -674,7 +674,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * Returns an ordered range of all the account group account entry rels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of account group account entry rels
@@ -682,9 +682,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findAll(
+	public static List<AccountGroupRel> findAll(
 		int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator) {
+		OrderByComparator<AccountGroupRel> orderByComparator) {
 
 		return getPersistence().findAll(start, end, orderByComparator);
 	}
@@ -693,7 +693,7 @@ public class AccountGroupAccountEntryRelUtil {
 	 * Returns an ordered range of all the account group account entry rels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupAccountEntryRelModelImpl</code>.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of account group account entry rels
@@ -702,9 +702,9 @@ public class AccountGroupAccountEntryRelUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of account group account entry rels
 	 */
-	public static List<AccountGroupAccountEntryRel> findAll(
+	public static List<AccountGroupRel> findAll(
 		int start, int end,
-		OrderByComparator<AccountGroupAccountEntryRel> orderByComparator,
+		OrderByComparator<AccountGroupRel> orderByComparator,
 		boolean useFinderCache) {
 
 		return getPersistence().findAll(
@@ -727,26 +727,26 @@ public class AccountGroupAccountEntryRelUtil {
 		return getPersistence().countAll();
 	}
 
-	public static AccountGroupAccountEntryRelPersistence getPersistence() {
+	public static AccountGroupRelPersistence getPersistence() {
 		return _serviceTracker.getService();
 	}
 
 	private static ServiceTracker
-		<AccountGroupAccountEntryRelPersistence,
-		 AccountGroupAccountEntryRelPersistence> _serviceTracker;
+		<AccountGroupRelPersistence,
+		 AccountGroupRelPersistence> _serviceTracker;
 
 	static {
 		Bundle bundle = FrameworkUtil.getBundle(
-			AccountGroupAccountEntryRelPersistence.class);
+			AccountGroupRelPersistence.class);
 
 		ServiceTracker
-			<AccountGroupAccountEntryRelPersistence,
-			 AccountGroupAccountEntryRelPersistence> serviceTracker =
+			<AccountGroupRelPersistence,
+			 AccountGroupRelPersistence> serviceTracker =
 				new ServiceTracker
-					<AccountGroupAccountEntryRelPersistence,
-					 AccountGroupAccountEntryRelPersistence>(
+					<AccountGroupRelPersistence,
+					 AccountGroupRelPersistence>(
 						 bundle.getBundleContext(),
-						 AccountGroupAccountEntryRelPersistence.class, null);
+						 AccountGroupRelPersistence.class, null);
 
 		serviceTracker.open();
 

@@ -15,7 +15,7 @@
 package com.liferay.account.admin.web.internal.display;
 
 import com.liferay.account.model.AccountGroup;
-import com.liferay.account.service.AccountGroupAccountEntryRelLocalServiceUtil;
+import com.liferay.account.service.AccountGroupRelLocalServiceUtil;
 import com.liferay.account.service.AccountGroupLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
 
@@ -68,8 +68,8 @@ public class AccountGroupDisplay {
 	}
 
 	private long _getAccountEntriesCount(AccountGroup accountGroup) {
-		return AccountGroupAccountEntryRelLocalServiceUtil.
-			getAccountGroupAccountEntryRelsCountByAccountGroupId(
+		return AccountGroupRelLocalServiceUtil.
+			getAccountGroupRelsCountByAccountGroupId(
 				accountGroup.getAccountGroupId());
 	}
 

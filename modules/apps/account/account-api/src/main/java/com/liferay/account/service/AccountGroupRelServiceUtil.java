@@ -19,23 +19,23 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
- * Provides the remote service utility for AccountGroupAccountEntryRel. This utility wraps
- * <code>com.liferay.account.service.impl.AccountGroupAccountEntryRelServiceImpl</code> and is an
+ * Provides the remote service utility for AccountGroupRel. This utility wraps
+ * <code>com.liferay.account.service.impl.AccountGroupRelServiceImpl</code> and is an
  * access point for service operations in application layer code running on a
  * remote server. Methods of this service are expected to have security checks
  * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author Brian Wing Shun Chan
- * @see AccountGroupAccountEntryRelService
+ * @see AccountGroupRelService
  * @generated
  */
-public class AccountGroupAccountEntryRelServiceUtil {
+public class AccountGroupRelServiceUtil {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to <code>com.liferay.account.service.impl.AccountGroupAccountEntryRelServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>com.liferay.account.service.impl.AccountGroupRelServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
@@ -47,26 +47,26 @@ public class AccountGroupAccountEntryRelServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static AccountGroupAccountEntryRelService getService() {
+	public static AccountGroupRelService getService() {
 		return _serviceTracker.getService();
 	}
 
 	private static ServiceTracker
-		<AccountGroupAccountEntryRelService, AccountGroupAccountEntryRelService>
+		<AccountGroupRelService, AccountGroupRelService>
 			_serviceTracker;
 
 	static {
 		Bundle bundle = FrameworkUtil.getBundle(
-			AccountGroupAccountEntryRelService.class);
+			AccountGroupRelService.class);
 
 		ServiceTracker
-			<AccountGroupAccountEntryRelService,
-			 AccountGroupAccountEntryRelService> serviceTracker =
+			<AccountGroupRelService,
+			 AccountGroupRelService> serviceTracker =
 				new ServiceTracker
-					<AccountGroupAccountEntryRelService,
-					 AccountGroupAccountEntryRelService>(
+					<AccountGroupRelService,
+					 AccountGroupRelService>(
 						 bundle.getBundleContext(),
-						 AccountGroupAccountEntryRelService.class, null);
+						 AccountGroupRelService.class, null);
 
 		serviceTracker.open();
 

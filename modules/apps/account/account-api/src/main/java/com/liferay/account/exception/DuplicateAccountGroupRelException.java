@@ -12,23 +12,31 @@
  * details.
  */
 
-package com.liferay.account.service.impl;
+package com.liferay.account.exception;
 
-import com.liferay.account.service.base.AccountGroupAccountEntryRelServiceBaseImpl;
-import com.liferay.portal.aop.AopService;
-
-import org.osgi.service.component.annotations.Component;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@Component(
-	property = {
-		"json.web.service.context.name=account",
-		"json.web.service.context.path=AccountGroupAccountEntryRel"
-	},
-	service = AopService.class
-)
-public class AccountGroupAccountEntryRelServiceImpl
-	extends AccountGroupAccountEntryRelServiceBaseImpl {
+public class DuplicateAccountGroupRelException
+	extends PortalException {
+
+	public DuplicateAccountGroupRelException() {
+	}
+
+	public DuplicateAccountGroupRelException(String msg) {
+		super(msg);
+	}
+
+	public DuplicateAccountGroupRelException(
+		String msg, Throwable throwable) {
+
+		super(msg, throwable);
+	}
+
+	public DuplicateAccountGroupRelException(Throwable throwable) {
+		super(throwable);
+	}
+
 }

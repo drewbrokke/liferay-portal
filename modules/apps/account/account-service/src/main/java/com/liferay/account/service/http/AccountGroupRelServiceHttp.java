@@ -16,7 +16,7 @@ package com.liferay.account.service.http;
 
 /**
  * Provides the HTTP utility for the
- * <code>com.liferay.account.service.AccountGroupAccountEntryRelServiceUtil</code> service
+ * <code>com.liferay.account.service.AccountGroupRelServiceUtil</code> service
  * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
@@ -38,8 +38,8 @@ package com.liferay.account.service.http;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see AccountGroupAccountEntryRelServiceSoap
+ * @see AccountGroupRelServiceSoap
  * @generated
  */
-public class AccountGroupAccountEntryRelServiceHttp {
+public class AccountGroupRelServiceHttp {
 }

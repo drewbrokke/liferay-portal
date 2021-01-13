@@ -15,7 +15,7 @@
 package com.liferay.account.internal.model.listener;
 
 import com.liferay.account.model.AccountEntry;
-import com.liferay.account.model.AccountGroupAccountEntryRel;
+import com.liferay.account.model.AccountGroupRel;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
@@ -29,23 +29,23 @@ import org.osgi.service.component.annotations.Component;
  * @author Drew Brokke
  */
 @Component(immediate = true, service = ModelListener.class)
-public class AccountGroupAccountEntryRelModelListener
-	extends BaseModelListener<AccountGroupAccountEntryRel> {
+public class AccountGroupRelModelListener
+	extends BaseModelListener<AccountGroupRel> {
 
 	@Override
 	public void onAfterCreate(
-			AccountGroupAccountEntryRel accountGroupAccountEntryRel)
+			AccountGroupRel accountGroupRel)
 		throws ModelListenerException {
 
-		_reindexAccountEntry(accountGroupAccountEntryRel.getAccountEntryId());
+		_reindexAccountEntry(accountGroupRel.getAccountEntryId());
 	}
 
 	@Override
 	public void onAfterRemove(
-			AccountGroupAccountEntryRel accountGroupAccountEntryRel)
+			AccountGroupRel accountGroupRel)
 		throws ModelListenerException {
 
-		_reindexAccountEntry(accountGroupAccountEntryRel.getAccountEntryId());
+		_reindexAccountEntry(accountGroupRel.getAccountEntryId());
 	}
 
 	private void _reindexAccountEntry(long accountEntryId) {
