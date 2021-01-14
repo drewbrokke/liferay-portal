@@ -328,6 +328,12 @@ public class AccountEntryLocalServiceImpl
 	}
 
 	@Override
+	public AccountEntry fetchPersonAccountEntry(long userId) {
+		return accountEntryPersistence.fetchByU_T_First(
+			userId, AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON, null);
+	}
+
+	@Override
 	public AccountEntry fetchUserAccountEntry(
 		long userId, long accountEntryId) {
 
