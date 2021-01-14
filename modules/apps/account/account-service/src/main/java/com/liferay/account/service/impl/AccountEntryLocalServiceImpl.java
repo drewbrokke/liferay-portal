@@ -328,6 +328,46 @@ public class AccountEntryLocalServiceImpl
 	}
 
 	@Override
+	public AccountEntry fetchUserAccountEntry(
+		long userId, long accountEntryId) {
+
+		return dslQuery(
+			DSLQueryFactoryUtil.selectDistinct(
+				AccountEntryTable.INSTANCE
+			).from(
+				UserTable.INSTANCE
+			).innerJoinON(
+				AccountEntryUserRelTable.INSTANCE,
+				AccountEntryUserRelTable.INSTANCE.accountUserId.eq(
+					UserTable.INSTANCE.userId)
+			).innerJoinON(
+				AccountEntryOrganizationRelTable.INSTANCE,
+				AccountEntryOrganizationRelTable.INSTANCE.organizationId.in(
+					_getOrganizationIds(userId))
+			).innerJoinON(
+				AccountEntryTable.INSTANCE,
+				AccountEntryTable.INSTANCE.accountEntryId.eq(
+					AccountEntryUserRelTable.INSTANCE.accountEntryId
+				).or(
+					AccountEntryTable.INSTANCE.accountEntryId.eq(
+						AccountEntryOrganizationRelTable.INSTANCE.
+							accountEntryId)
+				)
+			).where(
+				UserTable.INSTANCE.userId.eq(
+					userId
+				).and(
+					AccountEntryTable.INSTANCE.type.neq(
+						AccountConstants.ACCOUNT_ENTRY_TYPE_GUEST)
+				).and(
+					AccountEntryTable.INSTANCE.accountEntryId.eq(accountEntryId)
+				)
+			).limit(
+				0, 1
+			));
+	}
+
+	@Override
 	public List<AccountEntry> getAccountEntries(
 		long companyId, int status, int start, int end,
 		OrderByComparator<AccountEntry> orderByComparator) {
@@ -647,7 +687,7 @@ public class AccountEntryLocalServiceImpl
 			});
 	}
 
-	private Long[] _getOrganizationIds(long userId) throws PortalException {
+	private Long[] _getOrganizationIds(long userId) {
 		List<Organization> organizations =
 			organizationLocalService.getUserOrganizations(userId);
 
