@@ -343,6 +343,12 @@ public class AccountEntryLocalServiceUtil {
 			companyId, externalReferenceCode);
 	}
 
+	public static com.liferay.account.model.AccountEntry
+		fetchPersonAccountEntry(long userId) {
+
+		return getService().fetchPersonAccountEntry(userId);
+	}
+
 	public static com.liferay.account.model.AccountEntry fetchUserAccountEntry(
 		long userId, long accountEntryId) {
 

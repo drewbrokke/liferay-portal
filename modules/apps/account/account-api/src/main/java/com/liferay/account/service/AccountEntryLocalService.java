@@ -275,6 +275,9 @@ public interface AccountEntryLocalService
 		long companyId, String externalReferenceCode);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public AccountEntry fetchPersonAccountEntry(long userId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public AccountEntry fetchUserAccountEntry(long userId, long accountEntryId);
 
 	/**
