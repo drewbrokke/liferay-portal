@@ -14,6 +14,7 @@
 
 package com.liferay.commerce.account.service.base;
 
+import com.liferay.account.service.persistence.AccountEntryPersistence;
 import com.liferay.commerce.account.model.CommerceAccount;
 import com.liferay.commerce.account.service.CommerceAccountLocalService;
 import com.liferay.commerce.account.service.persistence.CommerceAccountFinder;
@@ -725,6 +726,49 @@ public abstract class CommerceAccountLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the account entry local service.
+	 *
+	 * @return the account entry local service
+	 */
+	public com.liferay.account.service.AccountEntryLocalService
+		getAccountEntryLocalService() {
+
+		return accountEntryLocalService;
+	}
+
+	/**
+	 * Sets the account entry local service.
+	 *
+	 * @param accountEntryLocalService the account entry local service
+	 */
+	public void setAccountEntryLocalService(
+		com.liferay.account.service.AccountEntryLocalService
+			accountEntryLocalService) {
+
+		this.accountEntryLocalService = accountEntryLocalService;
+	}
+
+	/**
+	 * Returns the account entry persistence.
+	 *
+	 * @return the account entry persistence
+	 */
+	public AccountEntryPersistence getAccountEntryPersistence() {
+		return accountEntryPersistence;
+	}
+
+	/**
+	 * Sets the account entry persistence.
+	 *
+	 * @param accountEntryPersistence the account entry persistence
+	 */
+	public void setAccountEntryPersistence(
+		AccountEntryPersistence accountEntryPersistence) {
+
+		this.accountEntryPersistence = accountEntryPersistence;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -1182,6 +1226,15 @@ public abstract class CommerceAccountLocalServiceBaseImpl
 	@BeanReference(type = CommerceAccountUserRelPersistence.class)
 	protected CommerceAccountUserRelPersistence
 		commerceAccountUserRelPersistence;
+
+	@ServiceReference(
+		type = com.liferay.account.service.AccountEntryLocalService.class
+	)
+	protected com.liferay.account.service.AccountEntryLocalService
+		accountEntryLocalService;
+
+	@ServiceReference(type = AccountEntryPersistence.class)
+	protected AccountEntryPersistence accountEntryPersistence;
 
 	@ServiceReference(
 		type = com.liferay.counter.kernel.service.CounterLocalService.class

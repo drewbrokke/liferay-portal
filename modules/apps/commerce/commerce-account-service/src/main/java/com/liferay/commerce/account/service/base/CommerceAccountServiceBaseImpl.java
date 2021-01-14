@@ -14,6 +14,7 @@
 
 package com.liferay.commerce.account.service.base;
 
+import com.liferay.account.service.persistence.AccountEntryPersistence;
 import com.liferay.commerce.account.model.CommerceAccount;
 import com.liferay.commerce.account.service.CommerceAccountService;
 import com.liferay.commerce.account.service.persistence.CommerceAccountFinder;
@@ -530,6 +531,71 @@ public abstract class CommerceAccountServiceBaseImpl
 
 		this.commerceAccountUserRelPersistence =
 			commerceAccountUserRelPersistence;
+	}
+
+	/**
+	 * Returns the account entry local service.
+	 *
+	 * @return the account entry local service
+	 */
+	public com.liferay.account.service.AccountEntryLocalService
+		getAccountEntryLocalService() {
+
+		return accountEntryLocalService;
+	}
+
+	/**
+	 * Sets the account entry local service.
+	 *
+	 * @param accountEntryLocalService the account entry local service
+	 */
+	public void setAccountEntryLocalService(
+		com.liferay.account.service.AccountEntryLocalService
+			accountEntryLocalService) {
+
+		this.accountEntryLocalService = accountEntryLocalService;
+	}
+
+	/**
+	 * Returns the account entry remote service.
+	 *
+	 * @return the account entry remote service
+	 */
+	public com.liferay.account.service.AccountEntryService
+		getAccountEntryService() {
+
+		return accountEntryService;
+	}
+
+	/**
+	 * Sets the account entry remote service.
+	 *
+	 * @param accountEntryService the account entry remote service
+	 */
+	public void setAccountEntryService(
+		com.liferay.account.service.AccountEntryService accountEntryService) {
+
+		this.accountEntryService = accountEntryService;
+	}
+
+	/**
+	 * Returns the account entry persistence.
+	 *
+	 * @return the account entry persistence
+	 */
+	public AccountEntryPersistence getAccountEntryPersistence() {
+		return accountEntryPersistence;
+	}
+
+	/**
+	 * Sets the account entry persistence.
+	 *
+	 * @param accountEntryPersistence the account entry persistence
+	 */
+	public void setAccountEntryPersistence(
+		AccountEntryPersistence accountEntryPersistence) {
+
+		this.accountEntryPersistence = accountEntryPersistence;
 	}
 
 	/**
@@ -1153,6 +1219,21 @@ public abstract class CommerceAccountServiceBaseImpl
 	@BeanReference(type = CommerceAccountUserRelPersistence.class)
 	protected CommerceAccountUserRelPersistence
 		commerceAccountUserRelPersistence;
+
+	@ServiceReference(
+		type = com.liferay.account.service.AccountEntryLocalService.class
+	)
+	protected com.liferay.account.service.AccountEntryLocalService
+		accountEntryLocalService;
+
+	@ServiceReference(
+		type = com.liferay.account.service.AccountEntryService.class
+	)
+	protected com.liferay.account.service.AccountEntryService
+		accountEntryService;
+
+	@ServiceReference(type = AccountEntryPersistence.class)
+	protected AccountEntryPersistence accountEntryPersistence;
 
 	@ServiceReference(
 		type = com.liferay.counter.kernel.service.CounterLocalService.class
