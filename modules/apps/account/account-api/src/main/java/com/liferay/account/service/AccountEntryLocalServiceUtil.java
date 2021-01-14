@@ -343,6 +343,12 @@ public class AccountEntryLocalServiceUtil {
 			companyId, externalReferenceCode);
 	}
 
+	public static com.liferay.account.model.AccountEntry fetchUserAccountEntry(
+		long userId, long accountEntryId) {
+
+		return getService().fetchUserAccountEntry(userId, accountEntryId);
+	}
+
 	/**
 	 * Returns a range of all the account entries.
 	 *

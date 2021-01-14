@@ -274,6 +274,9 @@ public interface AccountEntryLocalService
 	public AccountEntry fetchAccountEntryByReferenceCode(
 		long companyId, String externalReferenceCode);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public AccountEntry fetchUserAccountEntry(long userId, long accountEntryId);
+
 	/**
 	 * Returns a range of all the account entries.
 	 *

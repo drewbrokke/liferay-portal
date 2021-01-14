@@ -362,6 +362,14 @@ public class AccountEntryLocalServiceWrapper
 			companyId, externalReferenceCode);
 	}
 
+	@Override
+	public com.liferay.account.model.AccountEntry fetchUserAccountEntry(
+		long userId, long accountEntryId) {
+
+		return _accountEntryLocalService.fetchUserAccountEntry(
+			userId, accountEntryId);
+	}
+
 	/**
 	 * Returns a range of all the account entries.
 	 *
