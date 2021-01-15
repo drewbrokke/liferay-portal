@@ -277,6 +277,11 @@ public class AccountEntryWrapper
 		return model.getDomains();
 	}
 
+	@Override
+	public String[] getDomainsStringArray() {
+		return model.getDomainsStringArray();
+	}
+
 	/**
 	 * Returns the email address of this account entry.
 	 *

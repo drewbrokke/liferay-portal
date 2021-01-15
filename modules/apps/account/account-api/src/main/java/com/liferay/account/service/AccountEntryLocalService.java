@@ -430,6 +430,21 @@ public interface AccountEntryLocalService
 			int status, ServiceContext serviceContext)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
+	public AccountEntry updateDefaultBillingAddressId(
+			long accountEntryId, long addressId)
+		throws PortalException;
+
+	@Indexable(type = IndexableType.REINDEX)
+	public AccountEntry updateDefaultShippingAddressId(
+			long accountEntryId, long addressId)
+		throws PortalException;
+
+	@Indexable(type = IndexableType.REINDEX)
 	public AccountEntry updateStatus(AccountEntry accountEntry, int status);
+
+	@Indexable(type = IndexableType.REINDEX)
+	public AccountEntry updateStatus(long accountEntryId, int status)
+		throws PortalException;
 
 }
