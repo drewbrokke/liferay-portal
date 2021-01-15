@@ -60,6 +60,10 @@ public interface CommerceAccountService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.commerce.account.service.impl.CommerceAccountServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the commerce account remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CommerceAccountServiceUtil} if injection and service tracking are not available.
 	 */
+
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount addBusinessCommerceAccount(
 			String name, long parentCommerceAccountId, String email,
 			String taxId, boolean active, String externalReferenceCode,
@@ -67,24 +71,39 @@ public interface CommerceAccountService extends BaseService {
 			ServiceContext serviceContext)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount addCommerceAccount(
 			String name, long parentCommerceAccountId, String email,
 			String taxId, int type, boolean active,
 			String externalReferenceCode, ServiceContext serviceContext)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public void deleteCommerceAccount(long commerceAccountId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommerceAccount fetchByExternalReferenceCode(
 			long companyId, String externalReferenceCode)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommerceAccount fetchCommerceAccount(long commerceAccountId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommerceAccount getCommerceAccount(long commerceAccountId)
 		throws PortalException;
@@ -96,37 +115,58 @@ public interface CommerceAccountService extends BaseService {
 	 */
 	public String getOSGiServiceIdentifier();
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommerceAccount getPersonalCommerceAccount(long userId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccount> getUserCommerceAccounts(
 			long userId, long parentCommerceAccountId, int commerceSiteType,
 			String keywords, Boolean active, int start, int end)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccount> getUserCommerceAccounts(
 			long userId, long parentCommerceAccountId, int commerceSiteType,
 			String keywords, int start, int end)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getUserCommerceAccountsCount(
 			long userId, long parentCommerceAccountId, int commerceSiteType,
 			String keywords)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getUserCommerceAccountsCount(
 			long userId, long parentCommerceAccountId, int commerceSiteType,
 			String keywords, Boolean active)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount setActive(long commerceAccountId, boolean active)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount updateCommerceAccount(
 			long commerceAccountId, String name, boolean logo, byte[] logoBytes,
 			String email, String taxId, boolean active,
@@ -134,6 +174,9 @@ public interface CommerceAccountService extends BaseService {
 			ServiceContext serviceContext)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount updateCommerceAccount(
 			long commerceAccountId, String name, boolean logo, byte[] logoBytes,
 			String email, String taxId, boolean active,
@@ -142,6 +185,7 @@ public interface CommerceAccountService extends BaseService {
 		throws PortalException;
 
 	/**
+	 * @bridged
 	 * @deprecated As of Mueller (7.2.x), pass Default Billing/Shipping Ids
 	 */
 	@Deprecated
@@ -151,14 +195,23 @@ public interface CommerceAccountService extends BaseService {
 			ServiceContext serviceContext)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount updateDefaultBillingAddress(
 			long commerceAccountId, long commerceAddressId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount updateDefaultShippingAddress(
 			long commerceAccountId, long commerceAddressId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount upsertCommerceAccount(
 			String name, long parentCommerceAccountId, boolean logo,
 			byte[] logoBytes, String email, String taxId, int type,

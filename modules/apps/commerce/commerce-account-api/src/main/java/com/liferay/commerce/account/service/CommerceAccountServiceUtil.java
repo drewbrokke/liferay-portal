@@ -37,6 +37,10 @@ public class CommerceAccountServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.commerce.account.service.impl.CommerceAccountServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			addBusinessCommerceAccount(
 				String name, long parentCommerceAccountId, String email,
@@ -50,6 +54,9 @@ public class CommerceAccountServiceUtil {
 			externalReferenceCode, userIds, emailAddresses, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			addCommerceAccount(
 				String name, long parentCommerceAccountId, String email,
@@ -63,12 +70,18 @@ public class CommerceAccountServiceUtil {
 			externalReferenceCode, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static void deleteCommerceAccount(long commerceAccountId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		getService().deleteCommerceAccount(commerceAccountId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			fetchByExternalReferenceCode(
 				long companyId, String externalReferenceCode)
@@ -78,6 +91,9 @@ public class CommerceAccountServiceUtil {
 			companyId, externalReferenceCode);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			fetchCommerceAccount(long commerceAccountId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -85,6 +101,9 @@ public class CommerceAccountServiceUtil {
 		return getService().fetchCommerceAccount(commerceAccountId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			getCommerceAccount(long commerceAccountId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -101,6 +120,9 @@ public class CommerceAccountServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			getPersonalCommerceAccount(long userId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -108,6 +130,9 @@ public class CommerceAccountServiceUtil {
 		return getService().getPersonalCommerceAccount(userId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static java.util.List
 		<com.liferay.commerce.account.model.CommerceAccount>
 				getUserCommerceAccounts(
@@ -121,6 +146,9 @@ public class CommerceAccountServiceUtil {
 			start, end);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static java.util.List
 		<com.liferay.commerce.account.model.CommerceAccount>
 				getUserCommerceAccounts(
@@ -133,6 +161,9 @@ public class CommerceAccountServiceUtil {
 			end);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static int getUserCommerceAccountsCount(
 			long userId, long parentCommerceAccountId, int commerceSiteType,
 			String keywords)
@@ -142,6 +173,9 @@ public class CommerceAccountServiceUtil {
 			userId, parentCommerceAccountId, commerceSiteType, keywords);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static int getUserCommerceAccountsCount(
 			long userId, long parentCommerceAccountId, int commerceSiteType,
 			String keywords, Boolean active)
@@ -152,6 +186,9 @@ public class CommerceAccountServiceUtil {
 			active);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount setActive(
 			long commerceAccountId, boolean active)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -159,6 +196,9 @@ public class CommerceAccountServiceUtil {
 		return getService().setActive(commerceAccountId, active);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			updateCommerceAccount(
 				long commerceAccountId, String name, boolean logo,
@@ -172,6 +212,9 @@ public class CommerceAccountServiceUtil {
 			defaultBillingAddressId, defaultShippingAddressId, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			updateCommerceAccount(
 				long commerceAccountId, String name, boolean logo,
@@ -188,6 +231,7 @@ public class CommerceAccountServiceUtil {
 	}
 
 	/**
+	 * @bridged
 	 * @deprecated As of Mueller (7.2.x), pass Default Billing/Shipping Ids
 	 */
 	@Deprecated
@@ -203,6 +247,9 @@ public class CommerceAccountServiceUtil {
 			serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			updateDefaultBillingAddress(
 				long commerceAccountId, long commerceAddressId)
@@ -212,6 +259,9 @@ public class CommerceAccountServiceUtil {
 			commerceAccountId, commerceAddressId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			updateDefaultShippingAddress(
 				long commerceAccountId, long commerceAddressId)
@@ -221,6 +271,9 @@ public class CommerceAccountServiceUtil {
 			commerceAccountId, commerceAddressId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			upsertCommerceAccount(
 				String name, long parentCommerceAccountId, boolean logo,

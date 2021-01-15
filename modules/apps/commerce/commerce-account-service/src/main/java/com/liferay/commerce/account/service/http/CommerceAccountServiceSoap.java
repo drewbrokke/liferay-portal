@@ -63,6 +63,9 @@ import java.rmi.RemoteException;
 @Deprecated
 public class CommerceAccountServiceSoap {
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			addBusinessCommerceAccount(
 				String name, long parentCommerceAccountId, String email,
@@ -88,6 +91,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			addCommerceAccount(
 				String name, long parentCommerceAccountId, String email,
@@ -112,6 +118,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static void deleteCommerceAccount(long commerceAccountId)
 		throws RemoteException {
 
@@ -125,6 +134,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			fetchByExternalReferenceCode(
 				long companyId, String externalReferenceCode)
@@ -145,6 +157,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			fetchCommerceAccount(long commerceAccountId)
 		throws RemoteException {
@@ -164,6 +179,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			getCommerceAccount(long commerceAccountId)
 		throws RemoteException {
@@ -183,6 +201,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			getPersonalCommerceAccount(long userId)
 		throws RemoteException {
@@ -201,6 +222,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap[]
 			getUserCommerceAccounts(
 				long userId, long parentCommerceAccountId, int commerceSiteType,
@@ -224,6 +248,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap[]
 			getUserCommerceAccounts(
 				long userId, long parentCommerceAccountId, int commerceSiteType,
@@ -247,6 +274,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static int getUserCommerceAccountsCount(
 			long userId, long parentCommerceAccountId, int commerceSiteType,
 			String keywords)
@@ -267,6 +297,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static int getUserCommerceAccountsCount(
 			long userId, long parentCommerceAccountId, int commerceSiteType,
 			String keywords, Boolean active)
@@ -287,6 +320,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			setActive(long commerceAccountId, boolean active)
 		throws RemoteException {
@@ -305,6 +341,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			updateCommerceAccount(
 				long commerceAccountId, String name, boolean logo,
@@ -330,6 +369,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			updateCommerceAccount(
 				long commerceAccountId, String name, boolean logo,
@@ -357,6 +399,7 @@ public class CommerceAccountServiceSoap {
 	}
 
 	/**
+	 * @bridged
 	 * @deprecated As of Mueller (7.2.x), pass Default Billing/Shipping Ids
 	 */
 	@Deprecated
@@ -383,6 +426,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			updateDefaultBillingAddress(
 				long commerceAccountId, long commerceAddressId)
@@ -403,6 +449,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			updateDefaultShippingAddress(
 				long commerceAccountId, long commerceAddressId)
@@ -423,6 +472,9 @@ public class CommerceAccountServiceSoap {
 		}
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountSoap
 			upsertCommerceAccount(
 				String name, long parentCommerceAccountId, boolean logo,
