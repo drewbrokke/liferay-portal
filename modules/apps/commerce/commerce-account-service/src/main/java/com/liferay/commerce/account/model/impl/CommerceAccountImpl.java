@@ -69,7 +69,7 @@ public class CommerceAccountImpl extends CommerceAccountBaseImpl {
 		}
 
 		commerceAccount.setCommerceAccountId(accountEntry.getAccountEntryId());
-		commerceAccount.setEmail(null);
+		commerceAccount.setEmail(accountEntry.getEmailAddress());
 		commerceAccount.setActive(
 			toCommerceAccountActive(accountEntry.getStatus()));
 		commerceAccount.setDisplayDate(null);
@@ -84,7 +84,11 @@ public class CommerceAccountImpl extends CommerceAccountBaseImpl {
 		return commerceAccount;
 	}
 
-	public static int toAccountEntryStatus(boolean commerceAccountActive) {
+	public static Integer toAccountEntryStatus(Boolean commerceAccountActive) {
+		if (commerceAccountActive == null) {
+			return null;
+		}
+
 		if (commerceAccountActive) {
 			return WorkflowConstants.STATUS_APPROVED;
 		}
