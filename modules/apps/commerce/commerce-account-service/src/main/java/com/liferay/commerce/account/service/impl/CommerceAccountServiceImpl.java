@@ -50,7 +50,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-//		@todo check permissions
+		//		@todo check permissions
 		PortletResourcePermission portletResourcePermission =
 			_commerceAccountModelResourcePermission.
 				getPortletResourcePermission();
@@ -74,7 +74,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 			String externalReferenceCode, ServiceContext serviceContext)
 		throws PortalException {
 
-//		@todo check permissions
+		//		@todo check permissions
 		PortletResourcePermission portletResourcePermission =
 			_commerceAccountModelResourcePermission.
 				getPortletResourcePermission();
@@ -95,7 +95,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 	public void deleteCommerceAccount(long commerceAccountId)
 		throws PortalException {
 
-//		@todo check permissions
+		//		@todo check permissions
 		_commerceAccountModelResourcePermission.check(
 			getPermissionChecker(), commerceAccountId, ActionKeys.DELETE);
 
@@ -115,7 +115,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 				companyId, externalReferenceCode);
 
 		if (commerceAccount != null) {
-//			@todo check permissions
+			//			@todo check permissions
 			_commerceAccountModelResourcePermission.check(
 				getPermissionChecker(), commerceAccount.getCommerceAccountId(),
 				ActionKeys.VIEW);
@@ -148,7 +148,8 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 				getUserId(), commerceAccountId);
 
 		if (commerceAccount == null) {
-//			@todo check permissions
+			//			@todo check permissions
+
 			throw new PrincipalException.MustHavePermission(
 				getPermissionChecker(), CommerceAccount.class.getName(),
 				commerceAccountId, ActionKeys.VIEW);
@@ -197,7 +198,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 		CommerceAccount commerceAccount =
 			commerceAccountLocalService.getPersonalCommerceAccount(userId);
 
-//		@todo check permissions
+		//		@todo check permissions
 		_commerceAccountModelResourcePermission.check(
 			getPermissionChecker(), commerceAccount.getCommerceAccountId(),
 			ActionKeys.VIEW);
@@ -333,13 +334,16 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 	public CommerceAccount setActive(long commerceAccountId, boolean active)
 		throws PortalException {
 
-//		@todo check permissions
+		//		@todo check permissions
 		_commerceAccountModelResourcePermission.check(
 			getPermissionChecker(), commerceAccountId, ActionKeys.UPDATE);
 
 		return commerceAccountLocalService.setActive(commerceAccountId, active);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public CommerceAccount updateCommerceAccount(
 			long commerceAccountId, String name, boolean logo, byte[] logoBytes,
@@ -348,7 +352,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-//		@todo check permissions
+		//		@todo check permissions
 		_commerceAccountModelResourcePermission.check(
 			getPermissionChecker(), commerceAccountId, ActionKeys.UPDATE);
 
@@ -357,6 +361,9 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 			defaultBillingAddressId, defaultShippingAddressId, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public CommerceAccount updateCommerceAccount(
 			long commerceAccountId, String name, boolean logo, byte[] logoBytes,
@@ -365,6 +372,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 			String externalReferenceCode, ServiceContext serviceContext)
 		throws PortalException {
 
+		//		@todo check permissions
 		_commerceAccountModelResourcePermission.check(
 			getPermissionChecker(), commerceAccountId, ActionKeys.UPDATE);
 
@@ -375,6 +383,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 	}
 
 	/**
+	 * @bridged
 	 * @deprecated As of Mueller (7.2.x), pass Default Billing/Shipping Ids
 	 */
 	@Deprecated
@@ -390,11 +399,15 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 			-1, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public CommerceAccount updateDefaultBillingAddress(
 			long commerceAccountId, long commerceAddressId)
 		throws PortalException {
 
+		//		@todo check permissions
 		_commerceAccountModelResourcePermission.check(
 			getPermissionChecker(), commerceAccountId, ActionKeys.UPDATE);
 
@@ -402,11 +415,15 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 			commerceAccountId, commerceAddressId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public CommerceAccount updateDefaultShippingAddress(
 			long commerceAccountId, long commerceAddressId)
 		throws PortalException {
 
+		//		@todo check permissions
 		_commerceAccountModelResourcePermission.check(
 			getPermissionChecker(), commerceAccountId, ActionKeys.UPDATE);
 
@@ -414,6 +431,9 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 			commerceAccountId, commerceAddressId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public CommerceAccount upsertCommerceAccount(
 			String name, long parentCommerceAccountId, boolean logo,
@@ -429,6 +449,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 				permissionChecker.getCompanyId(), externalReferenceCode);
 
 		if (commerceAccount == null) {
+			//			@todo check permissions
 			PortletResourcePermission portletResourcePermission =
 				_commerceAccountModelResourcePermission.
 					getPortletResourcePermission();
@@ -438,6 +459,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 				CommerceAccountActionKeys.ADD_ACCOUNT);
 		}
 		else {
+			//			@todo check permissions
 			_commerceAccountModelResourcePermission.check(
 				permissionChecker, commerceAccount, ActionKeys.UPDATE);
 		}
@@ -450,7 +472,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 	protected boolean hasManageCommerceAccountPermissions()
 		throws PortalException {
 
-//		@todo check permissions
+		//		@todo check permissions
 		PortletResourcePermission portletResourcePermission =
 			_commerceAccountModelResourcePermission.
 				getPortletResourcePermission();
@@ -473,7 +495,7 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 			return true;
 		}
 
-//		@todo check permissions
+		//		@todo check permissions
 		PortletResourcePermission portletResourcePermission =
 			_commerceAccountModelResourcePermission.
 				getPortletResourcePermission();
