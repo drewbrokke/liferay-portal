@@ -23,11 +23,17 @@ import com.liferay.commerce.account.model.CommerceAccount;
 import com.liferay.commerce.account.model.impl.CommerceAccountImpl;
 import com.liferay.commerce.account.service.base.CommerceAccountLocalServiceBaseImpl;
 import com.liferay.commerce.account.util.CommerceAccountRoleHelper;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.SystemEventConstants;
@@ -39,6 +45,7 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -95,6 +102,14 @@ public class CommerceAccountLocalServiceImpl
 			new long[] {role.getRoleId()}, serviceContext);
 
 		return commerceAccount;
+	}
+
+	/**
+	 * @bridged
+	 */
+	@Override
+	public CommerceAccount addCommerceAccount(CommerceAccount commerceAccount) {
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -165,6 +180,19 @@ public class CommerceAccountLocalServiceImpl
 			commerceAccount.getCommerceAccountId(), userId, serviceContext);
 
 		return commerceAccount;
+	}
+
+	@Override
+	public CommerceAccount createCommerceAccount(long commerceAccountId) {
+		return CommerceAccountImpl.fromAccountEntry(
+			accountEntryLocalService.createAccountEntry(commerceAccountId));
+	}
+
+	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return super.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -251,6 +279,55 @@ public class CommerceAccountLocalServiceImpl
 		_portal.updateImageId(accountEntry, false, null, "logoId", 0, 0, 0);
 	}
 
+	@Override
+	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
+		throws PortalException {
+
+		return accountEntryLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public DynamicQuery dynamicQuery() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public long dynamicQueryCount(DynamicQuery dynamicQuery) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * @bridged
 	 */
@@ -288,6 +365,19 @@ public class CommerceAccountLocalServiceImpl
 				companyId, externalReferenceCode));
 	}
 
+	@Override
+	public ActionableDynamicQuery getActionableDynamicQuery() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public CommerceAccount getCommerceAccount(long commerceAccountId)
+		throws PortalException {
+
+		return CommerceAccountImpl.fromAccountEntry(
+			accountEntryLocalService.getAccountEntry(commerceAccountId));
+	}
+
 	/**
 	 * @bridged
 	 */
@@ -320,6 +410,18 @@ public class CommerceAccountLocalServiceImpl
 		throw new PortalException();
 	}
 
+	@Override
+	public List<CommerceAccount> getCommerceAccounts(int start, int end) {
+		return TransformUtil.transform(
+			accountEntryLocalService.getAccountEntries(start, end),
+			CommerceAccountImpl::fromAccountEntry);
+	}
+
+	@Override
+	public int getCommerceAccountsCount() {
+		return accountEntryLocalService.getAccountEntriesCount();
+	}
+
 	/**
 	 * @bridged
 	 */
@@ -329,6 +431,21 @@ public class CommerceAccountLocalServiceImpl
 
 		return CommerceAccountImpl.fromAccountEntry(
 			accountEntryLocalService.getGuestAccountEntry(companyId));
+	}
+
+	@Override
+	public IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
+		//		@todo remove usages
+
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return accountEntryLocalService.getPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -497,6 +614,13 @@ public class CommerceAccountLocalServiceImpl
 
 		return CommerceAccountImpl.fromAccountEntry(
 			accountEntryLocalService.updateAccountEntry(accountEntry));
+	}
+
+	@Override
+	public CommerceAccount updateCommerceAccount(
+		CommerceAccount commerceAccount) {
+
+		throw new UnsupportedOperationException();
 	}
 
 	/**
