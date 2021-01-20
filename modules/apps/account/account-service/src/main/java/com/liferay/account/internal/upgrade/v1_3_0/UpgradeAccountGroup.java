@@ -29,6 +29,10 @@ public class UpgradeAccountGroup extends UpgradeProcess {
 				AccountGroupTable.class,
 				new AlterTableAddColumn("defaultAccountGroup", "BOOLEAN"));
 		}
+
+		if (hasTable("AccountGroupAccountEntryRel")) {
+			runSQL("drop table AccountGroupAccountEntryRel");
+		}
 	}
 
 }
