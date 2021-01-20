@@ -3,8 +3,9 @@ create table AccountGroupRel (
 	AccountGroupRelId LONG not null primary key,
 	companyId LONG,
 	accountGroupId LONG,
-	accountEntryId LONG
+	classNameId LONG,
+	classPK LONG
 );
 
-create index IX_8177283C on AccountGroupRel (accountEntryId);
-create index IX_1FACB57D on AccountGroupRel (accountGroupId, accountEntryId);
+create index IX_448835E3 on AccountGroupRel (accountGroupId, classNameId, classPK);
+create index IX_E31F0762 on AccountGroupRel (classNameId, classPK);
