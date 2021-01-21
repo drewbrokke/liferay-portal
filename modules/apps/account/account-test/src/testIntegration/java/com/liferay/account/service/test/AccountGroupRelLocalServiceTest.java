@@ -123,7 +123,7 @@ public class AccountGroupRelLocalServiceTest {
 			Assert.assertTrue(
 				ArrayUtil.contains(
 					accountEntryIds,
-					accountGroupRel.getAccountEntryId()));
+					accountGroupRel.getClassPK()));
 		}
 	}
 
