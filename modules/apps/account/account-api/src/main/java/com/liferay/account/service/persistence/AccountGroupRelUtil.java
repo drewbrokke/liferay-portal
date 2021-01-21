@@ -300,247 +300,270 @@ public class AccountGroupRelUtil {
 	}
 
 	/**
-	 * Returns all the account group rels where accountEntryId = &#63;.
+	 * Returns all the account group rels where classNameId = &#63; and classPK = &#63;.
 	 *
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @return the matching account group rels
 	 */
-	public static List<AccountGroupRel> findByAccountEntryId(
-		long accountEntryId) {
+	public static List<AccountGroupRel> findByCNI_CPK(
+		long classNameId, long classPK) {
 
-		return getPersistence().findByAccountEntryId(accountEntryId);
+		return getPersistence().findByCNI_CPK(classNameId, classPK);
 	}
 
 	/**
-	 * Returns a range of all the account group rels where accountEntryId = &#63;.
+	 * Returns a range of all the account group rels where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @param start the lower bound of the range of account group rels
 	 * @param end the upper bound of the range of account group rels (not inclusive)
 	 * @return the range of matching account group rels
 	 */
-	public static List<AccountGroupRel> findByAccountEntryId(
-		long accountEntryId, int start, int end) {
+	public static List<AccountGroupRel> findByCNI_CPK(
+		long classNameId, long classPK, int start, int end) {
 
-		return getPersistence().findByAccountEntryId(
-			accountEntryId, start, end);
+		return getPersistence().findByCNI_CPK(classNameId, classPK, start, end);
 	}
 
 	/**
-	 * Returns an ordered range of all the account group rels where accountEntryId = &#63;.
+	 * Returns an ordered range of all the account group rels where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @param start the lower bound of the range of account group rels
 	 * @param end the upper bound of the range of account group rels (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching account group rels
 	 */
-	public static List<AccountGroupRel> findByAccountEntryId(
-		long accountEntryId, int start, int end,
+	public static List<AccountGroupRel> findByCNI_CPK(
+		long classNameId, long classPK, int start, int end,
 		OrderByComparator<AccountGroupRel> orderByComparator) {
 
-		return getPersistence().findByAccountEntryId(
-			accountEntryId, start, end, orderByComparator);
+		return getPersistence().findByCNI_CPK(
+			classNameId, classPK, start, end, orderByComparator);
 	}
 
 	/**
-	 * Returns an ordered range of all the account group rels where accountEntryId = &#63;.
+	 * Returns an ordered range of all the account group rels where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @param start the lower bound of the range of account group rels
 	 * @param end the upper bound of the range of account group rels (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching account group rels
 	 */
-	public static List<AccountGroupRel> findByAccountEntryId(
-		long accountEntryId, int start, int end,
+	public static List<AccountGroupRel> findByCNI_CPK(
+		long classNameId, long classPK, int start, int end,
 		OrderByComparator<AccountGroupRel> orderByComparator,
 		boolean useFinderCache) {
 
-		return getPersistence().findByAccountEntryId(
-			accountEntryId, start, end, orderByComparator, useFinderCache);
+		return getPersistence().findByCNI_CPK(
+			classNameId, classPK, start, end, orderByComparator,
+			useFinderCache);
 	}
 
 	/**
-	 * Returns the first account group rel in the ordered set where accountEntryId = &#63;.
+	 * Returns the first account group rel in the ordered set where classNameId = &#63; and classPK = &#63;.
 	 *
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching account group rel
 	 * @throws NoSuchGroupRelException if a matching account group rel could not be found
 	 */
-	public static AccountGroupRel findByAccountEntryId_First(
-			long accountEntryId,
+	public static AccountGroupRel findByCNI_CPK_First(
+			long classNameId, long classPK,
 			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws com.liferay.account.exception.NoSuchGroupRelException {
 
-		return getPersistence().findByAccountEntryId_First(
-			accountEntryId, orderByComparator);
+		return getPersistence().findByCNI_CPK_First(
+			classNameId, classPK, orderByComparator);
 	}
 
 	/**
-	 * Returns the first account group rel in the ordered set where accountEntryId = &#63;.
+	 * Returns the first account group rel in the ordered set where classNameId = &#63; and classPK = &#63;.
 	 *
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching account group rel, or <code>null</code> if a matching account group rel could not be found
 	 */
-	public static AccountGroupRel fetchByAccountEntryId_First(
-		long accountEntryId,
+	public static AccountGroupRel fetchByCNI_CPK_First(
+		long classNameId, long classPK,
 		OrderByComparator<AccountGroupRel> orderByComparator) {
 
-		return getPersistence().fetchByAccountEntryId_First(
-			accountEntryId, orderByComparator);
+		return getPersistence().fetchByCNI_CPK_First(
+			classNameId, classPK, orderByComparator);
 	}
 
 	/**
-	 * Returns the last account group rel in the ordered set where accountEntryId = &#63;.
+	 * Returns the last account group rel in the ordered set where classNameId = &#63; and classPK = &#63;.
 	 *
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching account group rel
 	 * @throws NoSuchGroupRelException if a matching account group rel could not be found
 	 */
-	public static AccountGroupRel findByAccountEntryId_Last(
-			long accountEntryId,
+	public static AccountGroupRel findByCNI_CPK_Last(
+			long classNameId, long classPK,
 			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws com.liferay.account.exception.NoSuchGroupRelException {
 
-		return getPersistence().findByAccountEntryId_Last(
-			accountEntryId, orderByComparator);
+		return getPersistence().findByCNI_CPK_Last(
+			classNameId, classPK, orderByComparator);
 	}
 
 	/**
-	 * Returns the last account group rel in the ordered set where accountEntryId = &#63;.
+	 * Returns the last account group rel in the ordered set where classNameId = &#63; and classPK = &#63;.
 	 *
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching account group rel, or <code>null</code> if a matching account group rel could not be found
 	 */
-	public static AccountGroupRel fetchByAccountEntryId_Last(
-		long accountEntryId,
+	public static AccountGroupRel fetchByCNI_CPK_Last(
+		long classNameId, long classPK,
 		OrderByComparator<AccountGroupRel> orderByComparator) {
 
-		return getPersistence().fetchByAccountEntryId_Last(
-			accountEntryId, orderByComparator);
+		return getPersistence().fetchByCNI_CPK_Last(
+			classNameId, classPK, orderByComparator);
 	}
 
 	/**
-	 * Returns the account group rels before and after the current account group rel in the ordered set where accountEntryId = &#63;.
+	 * Returns the account group rels before and after the current account group rel in the ordered set where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * @param AccountGroupRelId the primary key of the current account group rel
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next account group rel
 	 * @throws NoSuchGroupRelException if a account group rel with the primary key could not be found
 	 */
-	public static AccountGroupRel[] findByAccountEntryId_PrevAndNext(
-			long AccountGroupRelId, long accountEntryId,
+	public static AccountGroupRel[] findByCNI_CPK_PrevAndNext(
+			long AccountGroupRelId, long classNameId, long classPK,
 			OrderByComparator<AccountGroupRel> orderByComparator)
 		throws com.liferay.account.exception.NoSuchGroupRelException {
 
-		return getPersistence().findByAccountEntryId_PrevAndNext(
-			AccountGroupRelId, accountEntryId, orderByComparator);
+		return getPersistence().findByCNI_CPK_PrevAndNext(
+			AccountGroupRelId, classNameId, classPK, orderByComparator);
 	}
 
 	/**
-	 * Removes all the account group rels where accountEntryId = &#63; from the database.
+	 * Removes all the account group rels where classNameId = &#63; and classPK = &#63; from the database.
 	 *
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 */
-	public static void removeByAccountEntryId(long accountEntryId) {
-		getPersistence().removeByAccountEntryId(accountEntryId);
+	public static void removeByCNI_CPK(long classNameId, long classPK) {
+		getPersistence().removeByCNI_CPK(classNameId, classPK);
 	}
 
 	/**
-	 * Returns the number of account group rels where accountEntryId = &#63;.
+	 * Returns the number of account group rels where classNameId = &#63; and classPK = &#63;.
 	 *
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @return the number of matching account group rels
 	 */
-	public static int countByAccountEntryId(long accountEntryId) {
-		return getPersistence().countByAccountEntryId(accountEntryId);
+	public static int countByCNI_CPK(long classNameId, long classPK) {
+		return getPersistence().countByCNI_CPK(classNameId, classPK);
 	}
 
 	/**
-	 * Returns the account group rel where accountGroupId = &#63; and accountEntryId = &#63; or throws a <code>NoSuchGroupRelException</code> if it could not be found.
+	 * Returns the account group rel where accountGroupId = &#63; and classNameId = &#63; and classPK = &#63; or throws a <code>NoSuchGroupRelException</code> if it could not be found.
 	 *
 	 * @param accountGroupId the account group ID
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @return the matching account group rel
 	 * @throws NoSuchGroupRelException if a matching account group rel could not be found
 	 */
-	public static AccountGroupRel findByAGI_AEI(
-			long accountGroupId, long accountEntryId)
+	public static AccountGroupRel findByAGI_CNI_CPK(
+			long accountGroupId, long classNameId, long classPK)
 		throws com.liferay.account.exception.NoSuchGroupRelException {
 
-		return getPersistence().findByAGI_AEI(accountGroupId, accountEntryId);
+		return getPersistence().findByAGI_CNI_CPK(
+			accountGroupId, classNameId, classPK);
 	}
 
 	/**
-	 * Returns the account group rel where accountGroupId = &#63; and accountEntryId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the account group rel where accountGroupId = &#63; and classNameId = &#63; and classPK = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param accountGroupId the account group ID
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @return the matching account group rel, or <code>null</code> if a matching account group rel could not be found
 	 */
-	public static AccountGroupRel fetchByAGI_AEI(
-		long accountGroupId, long accountEntryId) {
+	public static AccountGroupRel fetchByAGI_CNI_CPK(
+		long accountGroupId, long classNameId, long classPK) {
 
-		return getPersistence().fetchByAGI_AEI(accountGroupId, accountEntryId);
+		return getPersistence().fetchByAGI_CNI_CPK(
+			accountGroupId, classNameId, classPK);
 	}
 
 	/**
-	 * Returns the account group rel where accountGroupId = &#63; and accountEntryId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the account group rel where accountGroupId = &#63; and classNameId = &#63; and classPK = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param accountGroupId the account group ID
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching account group rel, or <code>null</code> if a matching account group rel could not be found
 	 */
-	public static AccountGroupRel fetchByAGI_AEI(
-		long accountGroupId, long accountEntryId, boolean useFinderCache) {
+	public static AccountGroupRel fetchByAGI_CNI_CPK(
+		long accountGroupId, long classNameId, long classPK,
+		boolean useFinderCache) {
 
-		return getPersistence().fetchByAGI_AEI(
-			accountGroupId, accountEntryId, useFinderCache);
+		return getPersistence().fetchByAGI_CNI_CPK(
+			accountGroupId, classNameId, classPK, useFinderCache);
 	}
 
 	/**
-	 * Removes the account group rel where accountGroupId = &#63; and accountEntryId = &#63; from the database.
+	 * Removes the account group rel where accountGroupId = &#63; and classNameId = &#63; and classPK = &#63; from the database.
 	 *
 	 * @param accountGroupId the account group ID
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @return the account group rel that was removed
 	 */
-	public static AccountGroupRel removeByAGI_AEI(
-			long accountGroupId, long accountEntryId)
+	public static AccountGroupRel removeByAGI_CNI_CPK(
+			long accountGroupId, long classNameId, long classPK)
 		throws com.liferay.account.exception.NoSuchGroupRelException {
 
-		return getPersistence().removeByAGI_AEI(accountGroupId, accountEntryId);
+		return getPersistence().removeByAGI_CNI_CPK(
+			accountGroupId, classNameId, classPK);
 	}
 
 	/**
-	 * Returns the number of account group rels where accountGroupId = &#63; and accountEntryId = &#63;.
+	 * Returns the number of account group rels where accountGroupId = &#63; and classNameId = &#63; and classPK = &#63;.
 	 *
 	 * @param accountGroupId the account group ID
-	 * @param accountEntryId the account entry ID
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
 	 * @return the number of matching account group rels
 	 */
-	public static int countByAGI_AEI(long accountGroupId, long accountEntryId) {
-		return getPersistence().countByAGI_AEI(accountGroupId, accountEntryId);
+	public static int countByAGI_CNI_CPK(
+		long accountGroupId, long classNameId, long classPK) {
+
+		return getPersistence().countByAGI_CNI_CPK(
+			accountGroupId, classNameId, classPK);
 	}
 
 	/**

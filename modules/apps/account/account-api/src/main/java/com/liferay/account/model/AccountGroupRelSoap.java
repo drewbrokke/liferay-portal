@@ -36,7 +36,8 @@ public class AccountGroupRelSoap implements Serializable {
 		soapModel.setAccountGroupRelId(model.getAccountGroupRelId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setAccountGroupId(model.getAccountGroupId());
-		soapModel.setAccountEntryId(model.getAccountEntryId());
+		soapModel.setClassNameId(model.getClassNameId());
+		soapModel.setClassPK(model.getClassPK());
 
 		return soapModel;
 	}
@@ -128,18 +129,27 @@ public class AccountGroupRelSoap implements Serializable {
 		_accountGroupId = accountGroupId;
 	}
 
-	public long getAccountEntryId() {
-		return _accountEntryId;
+	public long getClassNameId() {
+		return _classNameId;
 	}
 
-	public void setAccountEntryId(long accountEntryId) {
-		_accountEntryId = accountEntryId;
+	public void setClassNameId(long classNameId) {
+		_classNameId = classNameId;
+	}
+
+	public long getClassPK() {
+		return _classPK;
+	}
+
+	public void setClassPK(long classPK) {
+		_classPK = classPK;
 	}
 
 	private long _mvccVersion;
 	private long _AccountGroupRelId;
 	private long _companyId;
 	private long _accountGroupId;
-	private long _accountEntryId;
+	private long _classNameId;
+	private long _classPK;
 
 }

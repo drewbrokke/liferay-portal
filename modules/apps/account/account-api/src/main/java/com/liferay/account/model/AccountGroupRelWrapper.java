@@ -45,7 +45,8 @@ public class AccountGroupRelWrapper
 		attributes.put("AccountGroupRelId", getAccountGroupRelId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("accountGroupId", getAccountGroupId());
-		attributes.put("accountEntryId", getAccountEntryId());
+		attributes.put("classNameId", getClassNameId());
+		attributes.put("classPK", getClassPK());
 
 		return attributes;
 	}
@@ -76,21 +77,17 @@ public class AccountGroupRelWrapper
 			setAccountGroupId(accountGroupId);
 		}
 
-		Long accountEntryId = (Long)attributes.get("accountEntryId");
+		Long classNameId = (Long)attributes.get("classNameId");
 
-		if (accountEntryId != null) {
-			setAccountEntryId(accountEntryId);
+		if (classNameId != null) {
+			setClassNameId(classNameId);
 		}
-	}
 
-	/**
-	 * Returns the account entry ID of this account group rel.
-	 *
-	 * @return the account entry ID of this account group rel
-	 */
-	@Override
-	public long getAccountEntryId() {
-		return model.getAccountEntryId();
+		Long classPK = (Long)attributes.get("classPK");
+
+		if (classPK != null) {
+			setClassPK(classPK);
+		}
 	}
 
 	/**
@@ -111,6 +108,36 @@ public class AccountGroupRelWrapper
 	@Override
 	public long getAccountGroupRelId() {
 		return model.getAccountGroupRelId();
+	}
+
+	/**
+	 * Returns the fully qualified class name of this account group rel.
+	 *
+	 * @return the fully qualified class name of this account group rel
+	 */
+	@Override
+	public String getClassName() {
+		return model.getClassName();
+	}
+
+	/**
+	 * Returns the class name ID of this account group rel.
+	 *
+	 * @return the class name ID of this account group rel
+	 */
+	@Override
+	public long getClassNameId() {
+		return model.getClassNameId();
+	}
+
+	/**
+	 * Returns the class pk of this account group rel.
+	 *
+	 * @return the class pk of this account group rel
+	 */
+	@Override
+	public long getClassPK() {
+		return model.getClassPK();
 	}
 
 	/**
@@ -149,16 +176,6 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Sets the account entry ID of this account group rel.
-	 *
-	 * @param accountEntryId the account entry ID of this account group rel
-	 */
-	@Override
-	public void setAccountEntryId(long accountEntryId) {
-		model.setAccountEntryId(accountEntryId);
-	}
-
-	/**
 	 * Sets the account group ID of this account group rel.
 	 *
 	 * @param accountGroupId the account group ID of this account group rel
@@ -176,6 +193,31 @@ public class AccountGroupRelWrapper
 	@Override
 	public void setAccountGroupRelId(long AccountGroupRelId) {
 		model.setAccountGroupRelId(AccountGroupRelId);
+	}
+
+	@Override
+	public void setClassName(String className) {
+		model.setClassName(className);
+	}
+
+	/**
+	 * Sets the class name ID of this account group rel.
+	 *
+	 * @param classNameId the class name ID of this account group rel
+	 */
+	@Override
+	public void setClassNameId(long classNameId) {
+		model.setClassNameId(classNameId);
+	}
+
+	/**
+	 * Sets the class pk of this account group rel.
+	 *
+	 * @param classPK the class pk of this account group rel
+	 */
+	@Override
+	public void setClassPK(long classPK) {
+		model.setClassPK(classPK);
 	}
 
 	/**

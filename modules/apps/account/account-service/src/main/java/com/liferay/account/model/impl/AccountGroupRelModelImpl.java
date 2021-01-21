@@ -27,7 +27,9 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.io.Serializable;
 
@@ -70,7 +72,7 @@ public class AccountGroupRelModelImpl
 	public static final Object[][] TABLE_COLUMNS = {
 		{"mvccVersion", Types.BIGINT}, {"AccountGroupRelId", Types.BIGINT},
 		{"companyId", Types.BIGINT}, {"accountGroupId", Types.BIGINT},
-		{"accountEntryId", Types.BIGINT}
+		{"classNameId", Types.BIGINT}, {"classPK", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -81,11 +83,12 @@ public class AccountGroupRelModelImpl
 		TABLE_COLUMNS_MAP.put("AccountGroupRelId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("accountGroupId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("accountEntryId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("classNameId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("classPK", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table AccountGroupRel (mvccVersion LONG default 0 not null,AccountGroupRelId LONG not null primary key,companyId LONG,accountGroupId LONG,accountEntryId LONG)";
+		"create table AccountGroupRel (mvccVersion LONG default 0 not null,AccountGroupRelId LONG not null primary key,companyId LONG,accountGroupId LONG,classNameId LONG,classPK LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table AccountGroupRel";
 
@@ -105,20 +108,26 @@ public class AccountGroupRelModelImpl
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)
 	 */
 	@Deprecated
-	public static final long ACCOUNTENTRYID_COLUMN_BITMASK = 1L;
+	public static final long ACCOUNTGROUPID_COLUMN_BITMASK = 1L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)
 	 */
 	@Deprecated
-	public static final long ACCOUNTGROUPID_COLUMN_BITMASK = 2L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 2L;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)
+	 */
+	@Deprecated
+	public static final long CLASSPK_COLUMN_BITMASK = 4L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
 	 *		#getColumnBitmask(String)
 	 */
 	@Deprecated
-	public static final long ACCOUNTGROUPRELID_COLUMN_BITMASK = 4L;
+	public static final long ACCOUNTGROUPRELID_COLUMN_BITMASK = 8L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -153,7 +162,8 @@ public class AccountGroupRelModelImpl
 		model.setAccountGroupRelId(soapModel.getAccountGroupRelId());
 		model.setCompanyId(soapModel.getCompanyId());
 		model.setAccountGroupId(soapModel.getAccountGroupId());
-		model.setAccountEntryId(soapModel.getAccountEntryId());
+		model.setClassNameId(soapModel.getClassNameId());
+		model.setClassPK(soapModel.getClassPK());
 
 		return model;
 	}
@@ -331,11 +341,14 @@ public class AccountGroupRelModelImpl
 			(BiConsumer<AccountGroupRel, Long>)
 				AccountGroupRel::setAccountGroupId);
 		attributeGetterFunctions.put(
-			"accountEntryId", AccountGroupRel::getAccountEntryId);
+			"classNameId", AccountGroupRel::getClassNameId);
 		attributeSetterBiConsumers.put(
-			"accountEntryId",
-			(BiConsumer<AccountGroupRel, Long>)
-				AccountGroupRel::setAccountEntryId);
+			"classNameId",
+			(BiConsumer<AccountGroupRel, Long>)AccountGroupRel::setClassNameId);
+		attributeGetterFunctions.put("classPK", AccountGroupRel::getClassPK);
+		attributeSetterBiConsumers.put(
+			"classPK",
+			(BiConsumer<AccountGroupRel, Long>)AccountGroupRel::setClassPK);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -413,19 +426,39 @@ public class AccountGroupRelModelImpl
 			this.<Long>getColumnOriginalValue("accountGroupId"));
 	}
 
-	@JSON
 	@Override
-	public long getAccountEntryId() {
-		return _accountEntryId;
+	public String getClassName() {
+		if (getClassNameId() <= 0) {
+			return "";
+		}
+
+		return PortalUtil.getClassName(getClassNameId());
 	}
 
 	@Override
-	public void setAccountEntryId(long accountEntryId) {
+	public void setClassName(String className) {
+		long classNameId = 0;
+
+		if (Validator.isNotNull(className)) {
+			classNameId = PortalUtil.getClassNameId(className);
+		}
+
+		setClassNameId(classNameId);
+	}
+
+	@JSON
+	@Override
+	public long getClassNameId() {
+		return _classNameId;
+	}
+
+	@Override
+	public void setClassNameId(long classNameId) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
-		_accountEntryId = accountEntryId;
+		_classNameId = classNameId;
 	}
 
 	/**
@@ -433,9 +466,33 @@ public class AccountGroupRelModelImpl
 	 *             #getColumnOriginalValue(String)}
 	 */
 	@Deprecated
-	public long getOriginalAccountEntryId() {
+	public long getOriginalClassNameId() {
 		return GetterUtil.getLong(
-			this.<Long>getColumnOriginalValue("accountEntryId"));
+			this.<Long>getColumnOriginalValue("classNameId"));
+	}
+
+	@JSON
+	@Override
+	public long getClassPK() {
+		return _classPK;
+	}
+
+	@Override
+	public void setClassPK(long classPK) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_classPK = classPK;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
+	public long getOriginalClassPK() {
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("classPK"));
 	}
 
 	public long getColumnBitmask() {
@@ -496,7 +553,8 @@ public class AccountGroupRelModelImpl
 		accountGroupRelImpl.setAccountGroupRelId(getAccountGroupRelId());
 		accountGroupRelImpl.setCompanyId(getCompanyId());
 		accountGroupRelImpl.setAccountGroupId(getAccountGroupId());
-		accountGroupRelImpl.setAccountEntryId(getAccountEntryId());
+		accountGroupRelImpl.setClassNameId(getClassNameId());
+		accountGroupRelImpl.setClassPK(getClassPK());
 
 		accountGroupRelImpl.resetOriginalValues();
 
@@ -583,7 +641,9 @@ public class AccountGroupRelModelImpl
 
 		accountGroupRelCacheModel.accountGroupId = getAccountGroupId();
 
-		accountGroupRelCacheModel.accountEntryId = getAccountEntryId();
+		accountGroupRelCacheModel.classNameId = getClassNameId();
+
+		accountGroupRelCacheModel.classPK = getClassPK();
 
 		return accountGroupRelCacheModel;
 	}
@@ -662,7 +722,8 @@ public class AccountGroupRelModelImpl
 	private long _AccountGroupRelId;
 	private long _companyId;
 	private long _accountGroupId;
-	private long _accountEntryId;
+	private long _classNameId;
+	private long _classPK;
 
 	public <T> T getColumnValue(String columnName) {
 		Function<AccountGroupRel, Object> function =
@@ -695,7 +756,8 @@ public class AccountGroupRelModelImpl
 		_columnOriginalValues.put("AccountGroupRelId", _AccountGroupRelId);
 		_columnOriginalValues.put("companyId", _companyId);
 		_columnOriginalValues.put("accountGroupId", _accountGroupId);
-		_columnOriginalValues.put("accountEntryId", _accountEntryId);
+		_columnOriginalValues.put("classNameId", _classNameId);
+		_columnOriginalValues.put("classPK", _classPK);
 	}
 
 	private transient Map<String, Object> _columnOriginalValues;
@@ -717,7 +779,9 @@ public class AccountGroupRelModelImpl
 
 		columnBitmasks.put("accountGroupId", 8L);
 
-		columnBitmasks.put("accountEntryId", 16L);
+		columnBitmasks.put("classNameId", 16L);
+
+		columnBitmasks.put("classPK", 32L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

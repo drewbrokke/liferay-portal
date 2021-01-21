@@ -76,7 +76,7 @@ public class AccountGroupRelCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -86,8 +86,10 @@ public class AccountGroupRelCacheModel
 		sb.append(companyId);
 		sb.append(", accountGroupId=");
 		sb.append(accountGroupId);
-		sb.append(", accountEntryId=");
-		sb.append(accountEntryId);
+		sb.append(", classNameId=");
+		sb.append(classNameId);
+		sb.append(", classPK=");
+		sb.append(classPK);
 		sb.append("}");
 
 		return sb.toString();
@@ -101,7 +103,8 @@ public class AccountGroupRelCacheModel
 		accountGroupRelImpl.setAccountGroupRelId(AccountGroupRelId);
 		accountGroupRelImpl.setCompanyId(companyId);
 		accountGroupRelImpl.setAccountGroupId(accountGroupId);
-		accountGroupRelImpl.setAccountEntryId(accountEntryId);
+		accountGroupRelImpl.setClassNameId(classNameId);
+		accountGroupRelImpl.setClassPK(classPK);
 
 		accountGroupRelImpl.resetOriginalValues();
 
@@ -118,7 +121,9 @@ public class AccountGroupRelCacheModel
 
 		accountGroupId = objectInput.readLong();
 
-		accountEntryId = objectInput.readLong();
+		classNameId = objectInput.readLong();
+
+		classPK = objectInput.readLong();
 	}
 
 	@Override
@@ -131,13 +136,16 @@ public class AccountGroupRelCacheModel
 
 		objectOutput.writeLong(accountGroupId);
 
-		objectOutput.writeLong(accountEntryId);
+		objectOutput.writeLong(classNameId);
+
+		objectOutput.writeLong(classPK);
 	}
 
 	public long mvccVersion;
 	public long AccountGroupRelId;
 	public long companyId;
 	public long accountGroupId;
-	public long accountEntryId;
+	public long classNameId;
+	public long classPK;
 
 }

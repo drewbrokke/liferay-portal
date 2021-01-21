@@ -129,7 +129,9 @@ public class AccountGroupRelPersistenceTest {
 
 		newAccountGroupRel.setAccountGroupId(RandomTestUtil.nextLong());
 
-		newAccountGroupRel.setAccountEntryId(RandomTestUtil.nextLong());
+		newAccountGroupRel.setClassNameId(RandomTestUtil.nextLong());
+
+		newAccountGroupRel.setClassPK(RandomTestUtil.nextLong());
 
 		_accountGroupRels.add(_persistence.update(newAccountGroupRel));
 
@@ -149,8 +151,11 @@ public class AccountGroupRelPersistenceTest {
 			existingAccountGroupRel.getAccountGroupId(),
 			newAccountGroupRel.getAccountGroupId());
 		Assert.assertEquals(
-			existingAccountGroupRel.getAccountEntryId(),
-			newAccountGroupRel.getAccountEntryId());
+			existingAccountGroupRel.getClassNameId(),
+			newAccountGroupRel.getClassNameId());
+		Assert.assertEquals(
+			existingAccountGroupRel.getClassPK(),
+			newAccountGroupRel.getClassPK());
 	}
 
 	@Test
@@ -161,18 +166,20 @@ public class AccountGroupRelPersistenceTest {
 	}
 
 	@Test
-	public void testCountByAccountEntryId() throws Exception {
-		_persistence.countByAccountEntryId(RandomTestUtil.nextLong());
+	public void testCountByCNI_CPK() throws Exception {
+		_persistence.countByCNI_CPK(
+			RandomTestUtil.nextLong(), RandomTestUtil.nextLong());
 
-		_persistence.countByAccountEntryId(0L);
+		_persistence.countByCNI_CPK(0L, 0L);
 	}
 
 	@Test
-	public void testCountByAGI_AEI() throws Exception {
-		_persistence.countByAGI_AEI(
-			RandomTestUtil.nextLong(), RandomTestUtil.nextLong());
+	public void testCountByAGI_CNI_CPK() throws Exception {
+		_persistence.countByAGI_CNI_CPK(
+			RandomTestUtil.nextLong(), RandomTestUtil.nextLong(),
+			RandomTestUtil.nextLong());
 
-		_persistence.countByAGI_AEI(0L, 0L);
+		_persistence.countByAGI_CNI_CPK(0L, 0L, 0L);
 	}
 
 	@Test
@@ -201,7 +208,8 @@ public class AccountGroupRelPersistenceTest {
 	protected OrderByComparator<AccountGroupRel> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create(
 			"AccountGroupRel", "mvccVersion", true, "AccountGroupRelId", true,
-			"companyId", true, "accountGroupId", true, "accountEntryId", true);
+			"companyId", true, "accountGroupId", true, "classNameId", true,
+			"classPK", true);
 	}
 
 	@Test
@@ -477,10 +485,15 @@ public class AccountGroupRelPersistenceTest {
 				accountGroupRel, "getColumnOriginalValue",
 				new Class<?>[] {String.class}, "accountGroupId"));
 		Assert.assertEquals(
-			Long.valueOf(accountGroupRel.getAccountEntryId()),
+			Long.valueOf(accountGroupRel.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
 				accountGroupRel, "getColumnOriginalValue",
-				new Class<?>[] {String.class}, "accountEntryId"));
+				new Class<?>[] {String.class}, "classNameId"));
+		Assert.assertEquals(
+			Long.valueOf(accountGroupRel.getClassPK()),
+			ReflectionTestUtil.<Long>invoke(
+				accountGroupRel, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classPK"));
 	}
 
 	protected AccountGroupRel addAccountGroupRel() throws Exception {
@@ -494,7 +507,9 @@ public class AccountGroupRelPersistenceTest {
 
 		accountGroupRel.setAccountGroupId(RandomTestUtil.nextLong());
 
-		accountGroupRel.setAccountEntryId(RandomTestUtil.nextLong());
+		accountGroupRel.setClassNameId(RandomTestUtil.nextLong());
+
+		accountGroupRel.setClassPK(RandomTestUtil.nextLong());
 
 		_accountGroupRels.add(_persistence.update(accountGroupRel));
 

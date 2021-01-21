@@ -14,6 +14,7 @@
 
 package com.liferay.account.model;
 
+import com.liferay.portal.kernel.model.AttachedModel;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.model.ShardedModel;
@@ -33,7 +34,7 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface AccountGroupRelModel
-	extends BaseModel<AccountGroupRel>, MVCCModel, ShardedModel {
+	extends AttachedModel, BaseModel<AccountGroupRel>, MVCCModel, ShardedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -116,17 +117,45 @@ public interface AccountGroupRelModel
 	public void setAccountGroupId(long accountGroupId);
 
 	/**
-	 * Returns the account entry ID of this account group rel.
+	 * Returns the fully qualified class name of this account group rel.
 	 *
-	 * @return the account entry ID of this account group rel
+	 * @return the fully qualified class name of this account group rel
 	 */
-	public long getAccountEntryId();
+	@Override
+	public String getClassName();
+
+	public void setClassName(String className);
 
 	/**
-	 * Sets the account entry ID of this account group rel.
+	 * Returns the class name ID of this account group rel.
 	 *
-	 * @param accountEntryId the account entry ID of this account group rel
+	 * @return the class name ID of this account group rel
 	 */
-	public void setAccountEntryId(long accountEntryId);
+	@Override
+	public long getClassNameId();
+
+	/**
+	 * Sets the class name ID of this account group rel.
+	 *
+	 * @param classNameId the class name ID of this account group rel
+	 */
+	@Override
+	public void setClassNameId(long classNameId);
+
+	/**
+	 * Returns the class pk of this account group rel.
+	 *
+	 * @return the class pk of this account group rel
+	 */
+	@Override
+	public long getClassPK();
+
+	/**
+	 * Sets the class pk of this account group rel.
+	 *
+	 * @param classPK the class pk of this account group rel
+	 */
+	@Override
+	public void setClassPK(long classPK);
 
 }

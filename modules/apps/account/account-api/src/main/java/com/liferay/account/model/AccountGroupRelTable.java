@@ -41,9 +41,10 @@ public class AccountGroupRelTable extends BaseTable<AccountGroupRelTable> {
 	public final Column<AccountGroupRelTable, Long> accountGroupId =
 		createColumn(
 			"accountGroupId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
-	public final Column<AccountGroupRelTable, Long> accountEntryId =
-		createColumn(
-			"accountEntryId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+	public final Column<AccountGroupRelTable, Long> classNameId = createColumn(
+		"classNameId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+	public final Column<AccountGroupRelTable, Long> classPK = createColumn(
+		"classPK", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 
 	private AccountGroupRelTable() {
 		super("AccountGroupRel", AccountGroupRelTable::new);
