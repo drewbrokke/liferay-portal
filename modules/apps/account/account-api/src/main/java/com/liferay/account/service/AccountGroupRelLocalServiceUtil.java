@@ -39,52 +39,45 @@ public class AccountGroupRelLocalServiceUtil {
 	 */
 
 	/**
-	 * Adds the account group account entry rel to the database. Also notifies the appropriate model listeners.
+	 * Adds the account group rel to the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
 	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param accountGroupRel the account group account entry rel
-	 * @return the account group account entry rel that was added
+	 * @param accountGroupRel the account group rel
+	 * @return the account group rel that was added
 	 */
-	public static com.liferay.account.model.AccountGroupRel
-		addAccountGroupRel(
-			com.liferay.account.model.AccountGroupRel
-				accountGroupRel) {
+	public static com.liferay.account.model.AccountGroupRel addAccountGroupRel(
+		com.liferay.account.model.AccountGroupRel accountGroupRel) {
 
-		return getService().addAccountGroupRel(
-			accountGroupRel);
+		return getService().addAccountGroupRel(accountGroupRel);
 	}
 
-	public static com.liferay.account.model.AccountGroupRel
-			addAccountGroupRel(
-				long accountGroupId, long accountEntryId)
+	public static com.liferay.account.model.AccountGroupRel addAccountGroupRel(
+			long accountGroupId, long accountEntryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().addAccountGroupRel(
-			accountGroupId, accountEntryId);
+		return getService().addAccountGroupRel(accountGroupId, accountEntryId);
 	}
 
 	public static void addAccountGroupRels(
 			long accountGroupId, long[] accountEntryIds)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		getService().addAccountGroupRels(
-			accountGroupId, accountEntryIds);
+		getService().addAccountGroupRels(accountGroupId, accountEntryIds);
 	}
 
 	/**
-	 * Creates a new account group account entry rel with the primary key. Does not add the account group account entry rel to the database.
+	 * Creates a new account group rel with the primary key. Does not add the account group rel to the database.
 	 *
-	 * @param AccountGroupRelId the primary key for the new account group account entry rel
-	 * @return the new account group account entry rel
+	 * @param AccountGroupRelId the primary key for the new account group rel
+	 * @return the new account group rel
 	 */
 	public static com.liferay.account.model.AccountGroupRel
 		createAccountGroupRel(long AccountGroupRelId) {
 
-		return getService().createAccountGroupRel(
-			AccountGroupRelId);
+		return getService().createAccountGroupRel(AccountGroupRelId);
 	}
 
 	/**
@@ -98,50 +91,45 @@ public class AccountGroupRelLocalServiceUtil {
 	}
 
 	/**
-	 * Deletes the account group account entry rel from the database. Also notifies the appropriate model listeners.
+	 * Deletes the account group rel from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
 	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param accountGroupRel the account group account entry rel
-	 * @return the account group account entry rel that was removed
+	 * @param accountGroupRel the account group rel
+	 * @return the account group rel that was removed
 	 */
 	public static com.liferay.account.model.AccountGroupRel
 		deleteAccountGroupRel(
-			com.liferay.account.model.AccountGroupRel
-				accountGroupRel) {
+			com.liferay.account.model.AccountGroupRel accountGroupRel) {
 
-		return getService().deleteAccountGroupRel(
-			accountGroupRel);
+		return getService().deleteAccountGroupRel(accountGroupRel);
 	}
 
 	/**
-	 * Deletes the account group account entry rel with the primary key from the database. Also notifies the appropriate model listeners.
+	 * Deletes the account group rel with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
 	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param AccountGroupRelId the primary key of the account group account entry rel
-	 * @return the account group account entry rel that was removed
-	 * @throws PortalException if a account group account entry rel with the primary key could not be found
+	 * @param AccountGroupRelId the primary key of the account group rel
+	 * @return the account group rel that was removed
+	 * @throws PortalException if a account group rel with the primary key could not be found
 	 */
 	public static com.liferay.account.model.AccountGroupRel
-			deleteAccountGroupRel(
-				long AccountGroupRelId)
+			deleteAccountGroupRel(long AccountGroupRelId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().deleteAccountGroupRel(
-			AccountGroupRelId);
+		return getService().deleteAccountGroupRel(AccountGroupRelId);
 	}
 
 	public static void deleteAccountGroupRels(
 			long accountGroupId, long[] accountEntryIds)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		getService().deleteAccountGroupRels(
-			accountGroupId, accountEntryIds);
+		getService().deleteAccountGroupRels(accountGroupId, accountEntryIds);
 	}
 
 	/**
@@ -249,73 +237,63 @@ public class AccountGroupRelLocalServiceUtil {
 	public static com.liferay.account.model.AccountGroupRel
 		fetchAccountGroupRel(long AccountGroupRelId) {
 
-		return getService().fetchAccountGroupRel(
-			AccountGroupRelId);
+		return getService().fetchAccountGroupRel(AccountGroupRelId);
 	}
 
 	public static com.liferay.account.model.AccountGroupRel
-		fetchAccountGroupRel(
-			long accountGroupId, long accountEntryId) {
+		fetchAccountGroupRel(long accountGroupId, long accountEntryId) {
 
 		return getService().fetchAccountGroupRel(
 			accountGroupId, accountEntryId);
 	}
 
 	/**
-	 * Returns the account group account entry rel with the primary key.
+	 * Returns the account group rel with the primary key.
 	 *
-	 * @param AccountGroupRelId the primary key of the account group account entry rel
-	 * @return the account group account entry rel
-	 * @throws PortalException if a account group account entry rel with the primary key could not be found
+	 * @param AccountGroupRelId the primary key of the account group rel
+	 * @return the account group rel
+	 * @throws PortalException if a account group rel with the primary key could not be found
 	 */
-	public static com.liferay.account.model.AccountGroupRel
-			getAccountGroupRel(long AccountGroupRelId)
+	public static com.liferay.account.model.AccountGroupRel getAccountGroupRel(
+			long AccountGroupRelId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().getAccountGroupRel(
-			AccountGroupRelId);
+		return getService().getAccountGroupRel(AccountGroupRelId);
 	}
 
 	/**
-	 * Returns a range of all the account group account entry rels.
+	 * Returns a range of all the account group rels.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>com.liferay.account.model.impl.AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of account group account entry rels
-	 * @param end the upper bound of the range of account group account entry rels (not inclusive)
-	 * @return the range of account group account entry rels
+	 * @param start the lower bound of the range of account group rels
+	 * @param end the upper bound of the range of account group rels (not inclusive)
+	 * @return the range of account group rels
 	 */
-	public static java.util.List
-		<com.liferay.account.model.AccountGroupRel>
-			getAccountGroupRels(int start, int end) {
+	public static java.util.List<com.liferay.account.model.AccountGroupRel>
+		getAccountGroupRels(int start, int end) {
 
 		return getService().getAccountGroupRels(start, end);
 	}
 
-	public static java.util.List
-		<com.liferay.account.model.AccountGroupRel>
-			getAccountGroupRelsByAccountEntryId(
-				long accountEntryId) {
+	public static java.util.List<com.liferay.account.model.AccountGroupRel>
+		getAccountGroupRelsByAccountEntryId(long accountEntryId) {
 
-		return getService().getAccountGroupRelsByAccountEntryId(
-			accountEntryId);
+		return getService().getAccountGroupRelsByAccountEntryId(accountEntryId);
 	}
 
-	public static java.util.List
-		<com.liferay.account.model.AccountGroupRel>
-			getAccountGroupRelsByAccountGroupId(
-				long accountGroupId) {
+	public static java.util.List<com.liferay.account.model.AccountGroupRel>
+		getAccountGroupRelsByAccountGroupId(long accountGroupId) {
 
-		return getService().getAccountGroupRelsByAccountGroupId(
-			accountGroupId);
+		return getService().getAccountGroupRelsByAccountGroupId(accountGroupId);
 	}
 
 	/**
-	 * Returns the number of account group account entry rels.
+	 * Returns the number of account group rels.
 	 *
-	 * @return the number of account group account entry rels
+	 * @return the number of account group rels
 	 */
 	public static int getAccountGroupRelsCount() {
 		return getService().getAccountGroupRelsCount();
@@ -324,9 +302,8 @@ public class AccountGroupRelLocalServiceUtil {
 	public static long getAccountGroupRelsCountByAccountGroupId(
 		long accountGroupId) {
 
-		return getService().
-			getAccountGroupRelsCountByAccountGroupId(
-				accountGroupId);
+		return getService().getAccountGroupRelsCountByAccountGroupId(
+			accountGroupId);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
@@ -362,22 +339,20 @@ public class AccountGroupRelLocalServiceUtil {
 	}
 
 	/**
-	 * Updates the account group account entry rel in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 * Updates the account group rel in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
 	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param accountGroupRel the account group account entry rel
-	 * @return the account group account entry rel that was updated
+	 * @param accountGroupRel the account group rel
+	 * @return the account group rel that was updated
 	 */
 	public static com.liferay.account.model.AccountGroupRel
 		updateAccountGroupRel(
-			com.liferay.account.model.AccountGroupRel
-				accountGroupRel) {
+			com.liferay.account.model.AccountGroupRel accountGroupRel) {
 
-		return getService().updateAccountGroupRel(
-			accountGroupRel);
+		return getService().updateAccountGroupRel(accountGroupRel);
 	}
 
 	public static AccountGroupRelLocalService getService() {
@@ -385,21 +360,19 @@ public class AccountGroupRelLocalServiceUtil {
 	}
 
 	private static ServiceTracker
-		<AccountGroupRelLocalService,
-		 AccountGroupRelLocalService> _serviceTracker;
+		<AccountGroupRelLocalService, AccountGroupRelLocalService>
+			_serviceTracker;
 
 	static {
 		Bundle bundle = FrameworkUtil.getBundle(
 			AccountGroupRelLocalService.class);
 
-		ServiceTracker
-			<AccountGroupRelLocalService,
-			 AccountGroupRelLocalService> serviceTracker =
+		ServiceTracker<AccountGroupRelLocalService, AccountGroupRelLocalService>
+			serviceTracker =
 				new ServiceTracker
-					<AccountGroupRelLocalService,
-					 AccountGroupRelLocalService>(
-						 bundle.getBundleContext(),
-						 AccountGroupRelLocalService.class, null);
+					<AccountGroupRelLocalService, AccountGroupRelLocalService>(
+						bundle.getBundleContext(),
+						AccountGroupRelLocalService.class, null);
 
 		serviceTracker.open();
 

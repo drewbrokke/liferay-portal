@@ -24,14 +24,12 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 public class AccountGroupRelServiceWrapper
-	implements AccountGroupRelService,
-			   ServiceWrapper<AccountGroupRelService> {
+	implements AccountGroupRelService, ServiceWrapper<AccountGroupRelService> {
 
 	public AccountGroupRelServiceWrapper(
 		AccountGroupRelService accountGroupRelService) {
 
-		_accountGroupRelService =
-			accountGroupRelService;
+		_accountGroupRelService = accountGroupRelService;
 	}
 
 	/**
@@ -53,11 +51,9 @@ public class AccountGroupRelServiceWrapper
 	public void setWrappedService(
 		AccountGroupRelService accountGroupRelService) {
 
-		_accountGroupRelService =
-			accountGroupRelService;
+		_accountGroupRelService = accountGroupRelService;
 	}
 
-	private AccountGroupRelService
-		_accountGroupRelService;
+	private AccountGroupRelService _accountGroupRelService;
 
 }

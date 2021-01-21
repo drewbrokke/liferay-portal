@@ -52,21 +52,17 @@ public class AccountGroupRelServiceUtil {
 	}
 
 	private static ServiceTracker
-		<AccountGroupRelService, AccountGroupRelService>
-			_serviceTracker;
+		<AccountGroupRelService, AccountGroupRelService> _serviceTracker;
 
 	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			AccountGroupRelService.class);
+		Bundle bundle = FrameworkUtil.getBundle(AccountGroupRelService.class);
 
-		ServiceTracker
-			<AccountGroupRelService,
-			 AccountGroupRelService> serviceTracker =
+		ServiceTracker<AccountGroupRelService, AccountGroupRelService>
+			serviceTracker =
 				new ServiceTracker
-					<AccountGroupRelService,
-					 AccountGroupRelService>(
-						 bundle.getBundleContext(),
-						 AccountGroupRelService.class, null);
+					<AccountGroupRelService, AccountGroupRelService>(
+						bundle.getBundleContext(), AccountGroupRelService.class,
+						null);
 
 		serviceTracker.open();
 

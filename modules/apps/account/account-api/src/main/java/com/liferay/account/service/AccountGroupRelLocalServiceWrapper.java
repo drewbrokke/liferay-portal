@@ -28,64 +28,57 @@ public class AccountGroupRelLocalServiceWrapper
 			   ServiceWrapper<AccountGroupRelLocalService> {
 
 	public AccountGroupRelLocalServiceWrapper(
-		AccountGroupRelLocalService
-			accountGroupRelLocalService) {
+		AccountGroupRelLocalService accountGroupRelLocalService) {
 
-		_accountGroupRelLocalService =
-			accountGroupRelLocalService;
+		_accountGroupRelLocalService = accountGroupRelLocalService;
 	}
 
 	/**
-	 * Adds the account group account entry rel to the database. Also notifies the appropriate model listeners.
+	 * Adds the account group rel to the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
 	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param accountGroupRel the account group account entry rel
-	 * @return the account group account entry rel that was added
+	 * @param accountGroupRel the account group rel
+	 * @return the account group rel that was added
 	 */
 	@Override
-	public com.liferay.account.model.AccountGroupRel
-		addAccountGroupRel(
-			com.liferay.account.model.AccountGroupRel
-				accountGroupRel) {
+	public com.liferay.account.model.AccountGroupRel addAccountGroupRel(
+		com.liferay.account.model.AccountGroupRel accountGroupRel) {
 
-		return _accountGroupRelLocalService.
-			addAccountGroupRel(accountGroupRel);
+		return _accountGroupRelLocalService.addAccountGroupRel(accountGroupRel);
 	}
 
 	@Override
-	public com.liferay.account.model.AccountGroupRel
-			addAccountGroupRel(
-				long accountGroupId, long accountEntryId)
+	public com.liferay.account.model.AccountGroupRel addAccountGroupRel(
+			long accountGroupId, long accountEntryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _accountGroupRelLocalService.
-			addAccountGroupRel(accountGroupId, accountEntryId);
+		return _accountGroupRelLocalService.addAccountGroupRel(
+			accountGroupId, accountEntryId);
 	}
 
 	@Override
-	public void addAccountGroupRels(
-			long accountGroupId, long[] accountEntryIds)
+	public void addAccountGroupRels(long accountGroupId, long[] accountEntryIds)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_accountGroupRelLocalService.
-			addAccountGroupRels(accountGroupId, accountEntryIds);
+		_accountGroupRelLocalService.addAccountGroupRels(
+			accountGroupId, accountEntryIds);
 	}
 
 	/**
-	 * Creates a new account group account entry rel with the primary key. Does not add the account group account entry rel to the database.
+	 * Creates a new account group rel with the primary key. Does not add the account group rel to the database.
 	 *
-	 * @param AccountGroupRelId the primary key for the new account group account entry rel
-	 * @return the new account group account entry rel
+	 * @param AccountGroupRelId the primary key for the new account group rel
+	 * @return the new account group rel
 	 */
 	@Override
-	public com.liferay.account.model.AccountGroupRel
-		createAccountGroupRel(long AccountGroupRelId) {
+	public com.liferay.account.model.AccountGroupRel createAccountGroupRel(
+		long AccountGroupRelId) {
 
-		return _accountGroupRelLocalService.
-			createAccountGroupRel(AccountGroupRelId);
+		return _accountGroupRelLocalService.createAccountGroupRel(
+			AccountGroupRelId);
 	}
 
 	/**
@@ -96,49 +89,45 @@ public class AccountGroupRelLocalServiceWrapper
 			java.io.Serializable primaryKeyObj)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _accountGroupRelLocalService.createPersistedModel(
-			primaryKeyObj);
+		return _accountGroupRelLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
-	 * Deletes the account group account entry rel from the database. Also notifies the appropriate model listeners.
+	 * Deletes the account group rel from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
 	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param accountGroupRel the account group account entry rel
-	 * @return the account group account entry rel that was removed
+	 * @param accountGroupRel the account group rel
+	 * @return the account group rel that was removed
 	 */
 	@Override
-	public com.liferay.account.model.AccountGroupRel
-		deleteAccountGroupRel(
-			com.liferay.account.model.AccountGroupRel
-				accountGroupRel) {
+	public com.liferay.account.model.AccountGroupRel deleteAccountGroupRel(
+		com.liferay.account.model.AccountGroupRel accountGroupRel) {
 
-		return _accountGroupRelLocalService.
-			deleteAccountGroupRel(accountGroupRel);
+		return _accountGroupRelLocalService.deleteAccountGroupRel(
+			accountGroupRel);
 	}
 
 	/**
-	 * Deletes the account group account entry rel with the primary key from the database. Also notifies the appropriate model listeners.
+	 * Deletes the account group rel with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
 	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param AccountGroupRelId the primary key of the account group account entry rel
-	 * @return the account group account entry rel that was removed
-	 * @throws PortalException if a account group account entry rel with the primary key could not be found
+	 * @param AccountGroupRelId the primary key of the account group rel
+	 * @return the account group rel that was removed
+	 * @throws PortalException if a account group rel with the primary key could not be found
 	 */
 	@Override
-	public com.liferay.account.model.AccountGroupRel
-			deleteAccountGroupRel(
-				long AccountGroupRelId)
+	public com.liferay.account.model.AccountGroupRel deleteAccountGroupRel(
+			long AccountGroupRelId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _accountGroupRelLocalService.
-			deleteAccountGroupRel(AccountGroupRelId);
+		return _accountGroupRelLocalService.deleteAccountGroupRel(
+			AccountGroupRelId);
 	}
 
 	@Override
@@ -146,8 +135,8 @@ public class AccountGroupRelLocalServiceWrapper
 			long accountGroupId, long[] accountEntryIds)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_accountGroupRelLocalService.
-			deleteAccountGroupRels(accountGroupId, accountEntryIds);
+		_accountGroupRelLocalService.deleteAccountGroupRels(
+			accountGroupId, accountEntryIds);
 	}
 
 	/**
@@ -182,8 +171,7 @@ public class AccountGroupRelLocalServiceWrapper
 	public <T> java.util.List<T> dynamicQuery(
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
 
-		return _accountGroupRelLocalService.dynamicQuery(
-			dynamicQuery);
+		return _accountGroupRelLocalService.dynamicQuery(dynamicQuery);
 	}
 
 	/**
@@ -240,8 +228,7 @@ public class AccountGroupRelLocalServiceWrapper
 	public long dynamicQueryCount(
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
 
-		return _accountGroupRelLocalService.dynamicQueryCount(
-			dynamicQuery);
+		return _accountGroupRelLocalService.dynamicQueryCount(dynamicQuery);
 	}
 
 	/**
@@ -261,99 +248,92 @@ public class AccountGroupRelLocalServiceWrapper
 	}
 
 	@Override
-	public com.liferay.account.model.AccountGroupRel
-		fetchAccountGroupRel(long AccountGroupRelId) {
+	public com.liferay.account.model.AccountGroupRel fetchAccountGroupRel(
+		long AccountGroupRelId) {
 
-		return _accountGroupRelLocalService.
-			fetchAccountGroupRel(AccountGroupRelId);
+		return _accountGroupRelLocalService.fetchAccountGroupRel(
+			AccountGroupRelId);
 	}
 
 	@Override
-	public com.liferay.account.model.AccountGroupRel
-		fetchAccountGroupRel(
-			long accountGroupId, long accountEntryId) {
+	public com.liferay.account.model.AccountGroupRel fetchAccountGroupRel(
+		long accountGroupId, long accountEntryId) {
 
-		return _accountGroupRelLocalService.
-			fetchAccountGroupRel(accountGroupId, accountEntryId);
+		return _accountGroupRelLocalService.fetchAccountGroupRel(
+			accountGroupId, accountEntryId);
 	}
 
 	/**
-	 * Returns the account group account entry rel with the primary key.
+	 * Returns the account group rel with the primary key.
 	 *
-	 * @param AccountGroupRelId the primary key of the account group account entry rel
-	 * @return the account group account entry rel
-	 * @throws PortalException if a account group account entry rel with the primary key could not be found
+	 * @param AccountGroupRelId the primary key of the account group rel
+	 * @return the account group rel
+	 * @throws PortalException if a account group rel with the primary key could not be found
 	 */
 	@Override
-	public com.liferay.account.model.AccountGroupRel
-			getAccountGroupRel(long AccountGroupRelId)
+	public com.liferay.account.model.AccountGroupRel getAccountGroupRel(
+			long AccountGroupRelId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _accountGroupRelLocalService.
-			getAccountGroupRel(AccountGroupRelId);
+		return _accountGroupRelLocalService.getAccountGroupRel(
+			AccountGroupRelId);
 	}
 
 	/**
-	 * Returns a range of all the account group account entry rels.
+	 * Returns a range of all the account group rels.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>com.liferay.account.model.impl.AccountGroupRelModelImpl</code>.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of account group account entry rels
-	 * @param end the upper bound of the range of account group account entry rels (not inclusive)
-	 * @return the range of account group account entry rels
+	 * @param start the lower bound of the range of account group rels
+	 * @param end the upper bound of the range of account group rels (not inclusive)
+	 * @return the range of account group rels
 	 */
 	@Override
 	public java.util.List<com.liferay.account.model.AccountGroupRel>
 		getAccountGroupRels(int start, int end) {
 
-		return _accountGroupRelLocalService.
-			getAccountGroupRels(start, end);
+		return _accountGroupRelLocalService.getAccountGroupRels(start, end);
 	}
 
 	@Override
 	public java.util.List<com.liferay.account.model.AccountGroupRel>
 		getAccountGroupRelsByAccountEntryId(long accountEntryId) {
 
-		return _accountGroupRelLocalService.
-			getAccountGroupRelsByAccountEntryId(accountEntryId);
+		return _accountGroupRelLocalService.getAccountGroupRelsByAccountEntryId(
+			accountEntryId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.account.model.AccountGroupRel>
 		getAccountGroupRelsByAccountGroupId(long accountGroupId) {
 
-		return _accountGroupRelLocalService.
-			getAccountGroupRelsByAccountGroupId(accountGroupId);
+		return _accountGroupRelLocalService.getAccountGroupRelsByAccountGroupId(
+			accountGroupId);
 	}
 
 	/**
-	 * Returns the number of account group account entry rels.
+	 * Returns the number of account group rels.
 	 *
-	 * @return the number of account group account entry rels
+	 * @return the number of account group rels
 	 */
 	@Override
 	public int getAccountGroupRelsCount() {
-		return _accountGroupRelLocalService.
-			getAccountGroupRelsCount();
+		return _accountGroupRelLocalService.getAccountGroupRelsCount();
 	}
 
 	@Override
-	public long getAccountGroupRelsCountByAccountGroupId(
-		long accountGroupId) {
-
+	public long getAccountGroupRelsCountByAccountGroupId(long accountGroupId) {
 		return _accountGroupRelLocalService.
-			getAccountGroupRelsCountByAccountGroupId(
-				accountGroupId);
+			getAccountGroupRelsCountByAccountGroupId(accountGroupId);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
-		return _accountGroupRelLocalService.
-			getActionableDynamicQuery();
+		return _accountGroupRelLocalService.getActionableDynamicQuery();
 	}
 
 	@Override
@@ -371,8 +351,7 @@ public class AccountGroupRelLocalServiceWrapper
 	 */
 	@Override
 	public String getOSGiServiceIdentifier() {
-		return _accountGroupRelLocalService.
-			getOSGiServiceIdentifier();
+		return _accountGroupRelLocalService.getOSGiServiceIdentifier();
 	}
 
 	/**
@@ -383,28 +362,25 @@ public class AccountGroupRelLocalServiceWrapper
 			java.io.Serializable primaryKeyObj)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _accountGroupRelLocalService.getPersistedModel(
-			primaryKeyObj);
+		return _accountGroupRelLocalService.getPersistedModel(primaryKeyObj);
 	}
 
 	/**
-	 * Updates the account group account entry rel in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 * Updates the account group rel in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
 	 * <strong>Important:</strong> Inspect AccountGroupRelLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param accountGroupRel the account group account entry rel
-	 * @return the account group account entry rel that was updated
+	 * @param accountGroupRel the account group rel
+	 * @return the account group rel that was updated
 	 */
 	@Override
-	public com.liferay.account.model.AccountGroupRel
-		updateAccountGroupRel(
-			com.liferay.account.model.AccountGroupRel
-				accountGroupRel) {
+	public com.liferay.account.model.AccountGroupRel updateAccountGroupRel(
+		com.liferay.account.model.AccountGroupRel accountGroupRel) {
 
-		return _accountGroupRelLocalService.
-			updateAccountGroupRel(accountGroupRel);
+		return _accountGroupRelLocalService.updateAccountGroupRel(
+			accountGroupRel);
 	}
 
 	@Override
@@ -414,14 +390,11 @@ public class AccountGroupRelLocalServiceWrapper
 
 	@Override
 	public void setWrappedService(
-		AccountGroupRelLocalService
-			accountGroupRelLocalService) {
+		AccountGroupRelLocalService accountGroupRelLocalService) {
 
-		_accountGroupRelLocalService =
-			accountGroupRelLocalService;
+		_accountGroupRelLocalService = accountGroupRelLocalService;
 	}
 
-	private AccountGroupRelLocalService
-		_accountGroupRelLocalService;
+	private AccountGroupRelLocalService _accountGroupRelLocalService;
 
 }

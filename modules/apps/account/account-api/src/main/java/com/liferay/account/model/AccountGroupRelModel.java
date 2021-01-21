@@ -38,95 +38,94 @@ public interface AccountGroupRelModel
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. All methods that expect a account group account entry rel model instance should use the {@link AccountGroupRel} interface instead.
+	 * Never modify or reference this interface directly. All methods that expect a account group rel model instance should use the {@link AccountGroupRel} interface instead.
 	 */
 
 	/**
-	 * Returns the primary key of this account group account entry rel.
+	 * Returns the primary key of this account group rel.
 	 *
-	 * @return the primary key of this account group account entry rel
+	 * @return the primary key of this account group rel
 	 */
 	public long getPrimaryKey();
 
 	/**
-	 * Sets the primary key of this account group account entry rel.
+	 * Sets the primary key of this account group rel.
 	 *
-	 * @param primaryKey the primary key of this account group account entry rel
+	 * @param primaryKey the primary key of this account group rel
 	 */
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Returns the mvcc version of this account group account entry rel.
+	 * Returns the mvcc version of this account group rel.
 	 *
-	 * @return the mvcc version of this account group account entry rel
+	 * @return the mvcc version of this account group rel
 	 */
 	@Override
 	public long getMvccVersion();
 
 	/**
-	 * Sets the mvcc version of this account group account entry rel.
+	 * Sets the mvcc version of this account group rel.
 	 *
-	 * @param mvccVersion the mvcc version of this account group account entry rel
+	 * @param mvccVersion the mvcc version of this account group rel
 	 */
 	@Override
 	public void setMvccVersion(long mvccVersion);
 
 	/**
-	 * Returns the account group account entry rel ID of this account group account entry rel.
+	 * Returns the account group rel ID of this account group rel.
 	 *
-	 * @return the account group account entry rel ID of this account group account entry rel
+	 * @return the account group rel ID of this account group rel
 	 */
 	public long getAccountGroupRelId();
 
 	/**
-	 * Sets the account group account entry rel ID of this account group account entry rel.
+	 * Sets the account group rel ID of this account group rel.
 	 *
-	 * @param AccountGroupRelId the account group account entry rel ID of this account group account entry rel
+	 * @param AccountGroupRelId the account group rel ID of this account group rel
 	 */
-	public void setAccountGroupRelId(
-		long AccountGroupRelId);
+	public void setAccountGroupRelId(long AccountGroupRelId);
 
 	/**
-	 * Returns the company ID of this account group account entry rel.
+	 * Returns the company ID of this account group rel.
 	 *
-	 * @return the company ID of this account group account entry rel
+	 * @return the company ID of this account group rel
 	 */
 	@Override
 	public long getCompanyId();
 
 	/**
-	 * Sets the company ID of this account group account entry rel.
+	 * Sets the company ID of this account group rel.
 	 *
-	 * @param companyId the company ID of this account group account entry rel
+	 * @param companyId the company ID of this account group rel
 	 */
 	@Override
 	public void setCompanyId(long companyId);
 
 	/**
-	 * Returns the account group ID of this account group account entry rel.
+	 * Returns the account group ID of this account group rel.
 	 *
-	 * @return the account group ID of this account group account entry rel
+	 * @return the account group ID of this account group rel
 	 */
 	public long getAccountGroupId();
 
 	/**
-	 * Sets the account group ID of this account group account entry rel.
+	 * Sets the account group ID of this account group rel.
 	 *
-	 * @param accountGroupId the account group ID of this account group account entry rel
+	 * @param accountGroupId the account group ID of this account group rel
 	 */
 	public void setAccountGroupId(long accountGroupId);
 
 	/**
-	 * Returns the account entry ID of this account group account entry rel.
+	 * Returns the account entry ID of this account group rel.
 	 *
-	 * @return the account entry ID of this account group account entry rel
+	 * @return the account entry ID of this account group rel
 	 */
 	public long getAccountEntryId();
 
 	/**
-	 * Sets the account entry ID of this account group account entry rel.
+	 * Sets the account entry ID of this account group rel.
 	 *
-	 * @param accountEntryId the account entry ID of this account group account entry rel
+	 * @param accountEntryId the account entry ID of this account group rel
 	 */
 	public void setAccountEntryId(long accountEntryId);
 

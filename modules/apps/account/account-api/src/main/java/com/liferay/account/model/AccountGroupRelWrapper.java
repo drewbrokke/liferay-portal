@@ -31,12 +31,9 @@ import java.util.Map;
  */
 public class AccountGroupRelWrapper
 	extends BaseModelWrapper<AccountGroupRel>
-	implements AccountGroupRel,
-			   ModelWrapper<AccountGroupRel> {
+	implements AccountGroupRel, ModelWrapper<AccountGroupRel> {
 
-	public AccountGroupRelWrapper(
-		AccountGroupRel accountGroupRel) {
-
+	public AccountGroupRelWrapper(AccountGroupRel accountGroupRel) {
 		super(accountGroupRel);
 	}
 
@@ -45,9 +42,7 @@ public class AccountGroupRelWrapper
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("mvccVersion", getMvccVersion());
-		attributes.put(
-			"AccountGroupRelId",
-			getAccountGroupRelId());
+		attributes.put("AccountGroupRelId", getAccountGroupRelId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("accountGroupId", getAccountGroupId());
 		attributes.put("accountEntryId", getAccountEntryId());
@@ -63,8 +58,7 @@ public class AccountGroupRelWrapper
 			setMvccVersion(mvccVersion);
 		}
 
-		Long AccountGroupRelId = (Long)attributes.get(
-			"AccountGroupRelId");
+		Long AccountGroupRelId = (Long)attributes.get("AccountGroupRelId");
 
 		if (AccountGroupRelId != null) {
 			setAccountGroupRelId(AccountGroupRelId);
@@ -90,9 +84,9 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Returns the account entry ID of this account group account entry rel.
+	 * Returns the account entry ID of this account group rel.
 	 *
-	 * @return the account entry ID of this account group account entry rel
+	 * @return the account entry ID of this account group rel
 	 */
 	@Override
 	public long getAccountEntryId() {
@@ -100,19 +94,9 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Returns the account group account entry rel ID of this account group account entry rel.
+	 * Returns the account group ID of this account group rel.
 	 *
-	 * @return the account group account entry rel ID of this account group account entry rel
-	 */
-	@Override
-	public long getAccountGroupRelId() {
-		return model.getAccountGroupRelId();
-	}
-
-	/**
-	 * Returns the account group ID of this account group account entry rel.
-	 *
-	 * @return the account group ID of this account group account entry rel
+	 * @return the account group ID of this account group rel
 	 */
 	@Override
 	public long getAccountGroupId() {
@@ -120,9 +104,19 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Returns the company ID of this account group account entry rel.
+	 * Returns the account group rel ID of this account group rel.
 	 *
-	 * @return the company ID of this account group account entry rel
+	 * @return the account group rel ID of this account group rel
+	 */
+	@Override
+	public long getAccountGroupRelId() {
+		return model.getAccountGroupRelId();
+	}
+
+	/**
+	 * Returns the company ID of this account group rel.
+	 *
+	 * @return the company ID of this account group rel
 	 */
 	@Override
 	public long getCompanyId() {
@@ -130,9 +124,9 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Returns the mvcc version of this account group account entry rel.
+	 * Returns the mvcc version of this account group rel.
 	 *
-	 * @return the mvcc version of this account group account entry rel
+	 * @return the mvcc version of this account group rel
 	 */
 	@Override
 	public long getMvccVersion() {
@@ -140,9 +134,9 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Returns the primary key of this account group account entry rel.
+	 * Returns the primary key of this account group rel.
 	 *
-	 * @return the primary key of this account group account entry rel
+	 * @return the primary key of this account group rel
 	 */
 	@Override
 	public long getPrimaryKey() {
@@ -155,9 +149,9 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Sets the account entry ID of this account group account entry rel.
+	 * Sets the account entry ID of this account group rel.
 	 *
-	 * @param accountEntryId the account entry ID of this account group account entry rel
+	 * @param accountEntryId the account entry ID of this account group rel
 	 */
 	@Override
 	public void setAccountEntryId(long accountEntryId) {
@@ -165,21 +159,9 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Sets the account group account entry rel ID of this account group account entry rel.
+	 * Sets the account group ID of this account group rel.
 	 *
-	 * @param AccountGroupRelId the account group account entry rel ID of this account group account entry rel
-	 */
-	@Override
-	public void setAccountGroupRelId(
-		long AccountGroupRelId) {
-
-		model.setAccountGroupRelId(AccountGroupRelId);
-	}
-
-	/**
-	 * Sets the account group ID of this account group account entry rel.
-	 *
-	 * @param accountGroupId the account group ID of this account group account entry rel
+	 * @param accountGroupId the account group ID of this account group rel
 	 */
 	@Override
 	public void setAccountGroupId(long accountGroupId) {
@@ -187,9 +169,19 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Sets the company ID of this account group account entry rel.
+	 * Sets the account group rel ID of this account group rel.
 	 *
-	 * @param companyId the company ID of this account group account entry rel
+	 * @param AccountGroupRelId the account group rel ID of this account group rel
+	 */
+	@Override
+	public void setAccountGroupRelId(long AccountGroupRelId) {
+		model.setAccountGroupRelId(AccountGroupRelId);
+	}
+
+	/**
+	 * Sets the company ID of this account group rel.
+	 *
+	 * @param companyId the company ID of this account group rel
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
@@ -197,9 +189,9 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Sets the mvcc version of this account group account entry rel.
+	 * Sets the mvcc version of this account group rel.
 	 *
-	 * @param mvccVersion the mvcc version of this account group account entry rel
+	 * @param mvccVersion the mvcc version of this account group rel
 	 */
 	@Override
 	public void setMvccVersion(long mvccVersion) {
@@ -207,9 +199,9 @@ public class AccountGroupRelWrapper
 	}
 
 	/**
-	 * Sets the primary key of this account group account entry rel.
+	 * Sets the primary key of this account group rel.
 	 *
-	 * @param primaryKey the primary key of this account group account entry rel
+	 * @param primaryKey the primary key of this account group rel
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
@@ -217,11 +209,8 @@ public class AccountGroupRelWrapper
 	}
 
 	@Override
-	protected AccountGroupRelWrapper wrap(
-		AccountGroupRel accountGroupRel) {
-
-		return new AccountGroupRelWrapper(
-			accountGroupRel);
+	protected AccountGroupRelWrapper wrap(AccountGroupRel accountGroupRel) {
+		return new AccountGroupRelWrapper(accountGroupRel);
 	}
 
 }

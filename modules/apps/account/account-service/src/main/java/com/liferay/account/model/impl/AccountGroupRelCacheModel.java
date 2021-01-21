@@ -32,8 +32,7 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class AccountGroupRelCacheModel
-	implements CacheModel<AccountGroupRel>, Externalizable,
-			   MVCCModel {
+	implements CacheModel<AccountGroupRel>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -45,15 +44,12 @@ public class AccountGroupRelCacheModel
 			return false;
 		}
 
-		AccountGroupRelCacheModel
-			accountGroupRelCacheModel =
-				(AccountGroupRelCacheModel)object;
+		AccountGroupRelCacheModel accountGroupRelCacheModel =
+			(AccountGroupRelCacheModel)object;
 
 		if ((AccountGroupRelId ==
-				accountGroupRelCacheModel.
-					AccountGroupRelId) &&
-			(mvccVersion ==
-				accountGroupRelCacheModel.mvccVersion)) {
+				accountGroupRelCacheModel.AccountGroupRelId) &&
+			(mvccVersion == accountGroupRelCacheModel.mvccVersion)) {
 
 			return true;
 		}
@@ -99,12 +95,10 @@ public class AccountGroupRelCacheModel
 
 	@Override
 	public AccountGroupRel toEntityModel() {
-		AccountGroupRelImpl accountGroupRelImpl =
-			new AccountGroupRelImpl();
+		AccountGroupRelImpl accountGroupRelImpl = new AccountGroupRelImpl();
 
 		accountGroupRelImpl.setMvccVersion(mvccVersion);
-		accountGroupRelImpl.setAccountGroupRelId(
-			AccountGroupRelId);
+		accountGroupRelImpl.setAccountGroupRelId(AccountGroupRelId);
 		accountGroupRelImpl.setCompanyId(companyId);
 		accountGroupRelImpl.setAccountGroupId(accountGroupId);
 		accountGroupRelImpl.setAccountEntryId(accountEntryId);

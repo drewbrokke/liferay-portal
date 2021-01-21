@@ -16,8 +16,8 @@ package com.liferay.account.service.base;
 
 import com.liferay.account.model.AccountGroup;
 import com.liferay.account.service.AccountGroupService;
-import com.liferay.account.service.persistence.AccountGroupRelPersistence;
 import com.liferay.account.service.persistence.AccountGroupPersistence;
+import com.liferay.account.service.persistence.AccountGroupRelPersistence;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -127,7 +127,6 @@ public abstract class AccountGroupServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	@Reference
-	protected AccountGroupRelPersistence
-		accountGroupRelPersistence;
+	protected AccountGroupRelPersistence accountGroupRelPersistence;
 
 }

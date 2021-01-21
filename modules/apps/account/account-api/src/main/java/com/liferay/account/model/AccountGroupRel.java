@@ -27,12 +27,9 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see AccountGroupRelModel
  * @generated
  */
-@ImplementationClassName(
-	"com.liferay.account.model.impl.AccountGroupRelImpl"
-)
+@ImplementationClassName("com.liferay.account.model.impl.AccountGroupRelImpl")
 @ProviderType
-public interface AccountGroupRel
-	extends AccountGroupRelModel, PersistedModel {
+public interface AccountGroupRel extends AccountGroupRelModel, PersistedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -40,27 +37,23 @@ public interface AccountGroupRel
 	 * Never modify this interface directly. Add methods to <code>com.liferay.account.model.impl.AccountGroupRelImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	public static final Accessor<AccountGroupRel, Long>
-		ACCOUNT_GROUP_ACCOUNT_ENTRY_REL_ID_ACCESSOR =
-			new Accessor<AccountGroupRel, Long>() {
+		ACCOUNT_GROUP_REL_ID_ACCESSOR = new Accessor<AccountGroupRel, Long>() {
 
-				@Override
-				public Long get(
-					AccountGroupRel accountGroupRel) {
+			@Override
+			public Long get(AccountGroupRel accountGroupRel) {
+				return accountGroupRel.getAccountGroupRelId();
+			}
 
-					return accountGroupRel.
-						getAccountGroupRelId();
-				}
+			@Override
+			public Class<Long> getAttributeClass() {
+				return Long.class;
+			}
 
-				@Override
-				public Class<Long> getAttributeClass() {
-					return Long.class;
-				}
+			@Override
+			public Class<AccountGroupRel> getTypeClass() {
+				return AccountGroupRel.class;
+			}
 
-				@Override
-				public Class<AccountGroupRel> getTypeClass() {
-					return AccountGroupRel.class;
-				}
-
-			};
+		};
 
 }

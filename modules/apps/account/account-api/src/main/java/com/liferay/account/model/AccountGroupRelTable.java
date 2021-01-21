@@ -26,22 +26,18 @@ import java.sql.Types;
  * @see AccountGroupRel
  * @generated
  */
-public class AccountGroupRelTable
-	extends BaseTable<AccountGroupRelTable> {
+public class AccountGroupRelTable extends BaseTable<AccountGroupRelTable> {
 
 	public static final AccountGroupRelTable INSTANCE =
 		new AccountGroupRelTable();
 
-	public final Column<AccountGroupRelTable, Long> mvccVersion =
+	public final Column<AccountGroupRelTable, Long> mvccVersion = createColumn(
+		"mvccVersion", Long.class, Types.BIGINT, Column.FLAG_NULLITY);
+	public final Column<AccountGroupRelTable, Long> AccountGroupRelId =
 		createColumn(
-			"mvccVersion", Long.class, Types.BIGINT, Column.FLAG_NULLITY);
-	public final Column<AccountGroupRelTable, Long>
-		AccountGroupRelId = createColumn(
-			"AccountGroupRelId", Long.class, Types.BIGINT,
-			Column.FLAG_PRIMARY);
-	public final Column<AccountGroupRelTable, Long> companyId =
-		createColumn(
-			"companyId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+			"AccountGroupRelId", Long.class, Types.BIGINT, Column.FLAG_PRIMARY);
+	public final Column<AccountGroupRelTable, Long> companyId = createColumn(
+		"companyId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<AccountGroupRelTable, Long> accountGroupId =
 		createColumn(
 			"accountGroupId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
@@ -50,9 +46,7 @@ public class AccountGroupRelTable
 			"accountEntryId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 
 	private AccountGroupRelTable() {
-		super(
-			"AccountGroupRel",
-			AccountGroupRelTable::new);
+		super("AccountGroupRel", AccountGroupRelTable::new);
 	}
 
 }

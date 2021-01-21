@@ -58,19 +58,17 @@ import java.util.function.Function;
  */
 @JSON(strict = true)
 public class AccountGroupRelModelImpl
-	extends BaseModelImpl<AccountGroupRel>
-	implements AccountGroupRelModel {
+	extends BaseModelImpl<AccountGroupRel> implements AccountGroupRelModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a account group account entry rel model instance should use the <code>AccountGroupRel</code> interface instead.
+	 * Never modify or reference this class directly. All methods that expect a account group rel model instance should use the <code>AccountGroupRel</code> interface instead.
 	 */
 	public static final String TABLE_NAME = "AccountGroupRel";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"mvccVersion", Types.BIGINT},
-		{"AccountGroupRelId", Types.BIGINT},
+		{"mvccVersion", Types.BIGINT}, {"AccountGroupRelId", Types.BIGINT},
 		{"companyId", Types.BIGINT}, {"accountGroupId", Types.BIGINT},
 		{"accountEntryId", Types.BIGINT}
 	};
@@ -89,8 +87,7 @@ public class AccountGroupRelModelImpl
 	public static final String TABLE_SQL_CREATE =
 		"create table AccountGroupRel (mvccVersion LONG default 0 not null,AccountGroupRelId LONG not null primary key,companyId LONG,accountGroupId LONG,accountEntryId LONG)";
 
-	public static final String TABLE_SQL_DROP =
-		"drop table AccountGroupRel";
+	public static final String TABLE_SQL_DROP = "drop table AccountGroupRel";
 
 	public static final String ORDER_BY_JPQL =
 		" ORDER BY accountGroupRel.AccountGroupRelId ASC";
@@ -121,7 +118,7 @@ public class AccountGroupRelModelImpl
 	 *		#getColumnBitmask(String)
 	 */
 	@Deprecated
-	public static final long AccountGroupRelID_COLUMN_BITMASK = 4L;
+	public static final long ACCOUNTGROUPRELID_COLUMN_BITMASK = 4L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -145,19 +142,15 @@ public class AccountGroupRelModelImpl
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
 	@Deprecated
-	public static AccountGroupRel toModel(
-		AccountGroupRelSoap soapModel) {
-
+	public static AccountGroupRel toModel(AccountGroupRelSoap soapModel) {
 		if (soapModel == null) {
 			return null;
 		}
 
-		AccountGroupRel model =
-			new AccountGroupRelImpl();
+		AccountGroupRel model = new AccountGroupRelImpl();
 
 		model.setMvccVersion(soapModel.getMvccVersion());
-		model.setAccountGroupRelId(
-			soapModel.getAccountGroupRelId());
+		model.setAccountGroupRelId(soapModel.getAccountGroupRelId());
 		model.setCompanyId(soapModel.getCompanyId());
 		model.setAccountGroupId(soapModel.getAccountGroupId());
 		model.setAccountEntryId(soapModel.getAccountEntryId());
@@ -180,8 +173,8 @@ public class AccountGroupRelModelImpl
 			return null;
 		}
 
-		List<AccountGroupRel> models =
-			new ArrayList<AccountGroupRel>(soapModels.length);
+		List<AccountGroupRel> models = new ArrayList<AccountGroupRel>(
+			soapModels.length);
 
 		for (AccountGroupRelSoap soapModel : soapModels) {
 			models.add(toModel(soapModel));
@@ -230,17 +223,16 @@ public class AccountGroupRelModelImpl
 		Map<String, Function<AccountGroupRel, Object>>
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
-		for (Map.Entry<String, Function<AccountGroupRel, Object>>
-				entry : attributeGetterFunctions.entrySet()) {
+		for (Map.Entry<String, Function<AccountGroupRel, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
 
 			String attributeName = entry.getKey();
-			Function<AccountGroupRel, Object>
-				attributeGetterFunction = entry.getValue();
+			Function<AccountGroupRel, Object> attributeGetterFunction =
+				entry.getValue();
 
 			attributes.put(
 				attributeName,
-				attributeGetterFunction.apply(
-					(AccountGroupRel)this));
+				attributeGetterFunction.apply((AccountGroupRel)this));
 		}
 
 		return attributes;
@@ -254,9 +246,8 @@ public class AccountGroupRelModelImpl
 		for (Map.Entry<String, Object> entry : attributes.entrySet()) {
 			String attributeName = entry.getKey();
 
-			BiConsumer<AccountGroupRel, Object>
-				attributeSetterBiConsumer = attributeSetterBiConsumers.get(
-					attributeName);
+			BiConsumer<AccountGroupRel, Object> attributeSetterBiConsumer =
+				attributeSetterBiConsumers.get(attributeName);
 
 			if (attributeSetterBiConsumer != null) {
 				attributeSetterBiConsumer.accept(
@@ -281,13 +272,13 @@ public class AccountGroupRelModelImpl
 		_getProxyProviderFunction() {
 
 		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			AccountGroupRel.class.getClassLoader(),
-			AccountGroupRel.class, ModelWrapper.class);
+			AccountGroupRel.class.getClassLoader(), AccountGroupRel.class,
+			ModelWrapper.class);
 
 		try {
 			Constructor<AccountGroupRel> constructor =
-				(Constructor<AccountGroupRel>)
-					proxyClass.getConstructor(InvocationHandler.class);
+				(Constructor<AccountGroupRel>)proxyClass.getConstructor(
+					InvocationHandler.class);
 
 			return invocationHandler -> {
 				try {
@@ -305,32 +296,25 @@ public class AccountGroupRelModelImpl
 		}
 	}
 
-	private static final Map
-		<String, Function<AccountGroupRel, Object>>
-			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<AccountGroupRel, Object>>
-			_attributeSetterBiConsumers;
+	private static final Map<String, Function<AccountGroupRel, Object>>
+		_attributeGetterFunctions;
+	private static final Map<String, BiConsumer<AccountGroupRel, Object>>
+		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AccountGroupRel, Object>>
 			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<AccountGroupRel, Object>>();
-		Map<String, BiConsumer<AccountGroupRel, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<AccountGroupRel, ?>>();
+				new LinkedHashMap<String, Function<AccountGroupRel, Object>>();
+		Map<String, BiConsumer<AccountGroupRel, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<AccountGroupRel, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AccountGroupRel::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
-			(BiConsumer<AccountGroupRel, Long>)
-				AccountGroupRel::setMvccVersion);
+			(BiConsumer<AccountGroupRel, Long>)AccountGroupRel::setMvccVersion);
 		attributeGetterFunctions.put(
-			"AccountGroupRelId",
-			AccountGroupRel::getAccountGroupRelId);
+			"AccountGroupRelId", AccountGroupRel::getAccountGroupRelId);
 		attributeSetterBiConsumers.put(
 			"AccountGroupRelId",
 			(BiConsumer<AccountGroupRel, Long>)
@@ -339,8 +323,7 @@ public class AccountGroupRelModelImpl
 			"companyId", AccountGroupRel::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			(BiConsumer<AccountGroupRel, Long>)
-				AccountGroupRel::setCompanyId);
+			(BiConsumer<AccountGroupRel, Long>)AccountGroupRel::setCompanyId);
 		attributeGetterFunctions.put(
 			"accountGroupId", AccountGroupRel::getAccountGroupId);
 		attributeSetterBiConsumers.put(
@@ -382,9 +365,7 @@ public class AccountGroupRelModelImpl
 	}
 
 	@Override
-	public void setAccountGroupRelId(
-		long AccountGroupRelId) {
-
+	public void setAccountGroupRelId(long AccountGroupRelId) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
@@ -482,8 +463,7 @@ public class AccountGroupRelModelImpl
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(
-			getCompanyId(), AccountGroupRel.class.getName(),
-			getPrimaryKey());
+			getCompanyId(), AccountGroupRel.class.getName(), getPrimaryKey());
 	}
 
 	@Override
@@ -510,12 +490,10 @@ public class AccountGroupRelModelImpl
 
 	@Override
 	public Object clone() {
-		AccountGroupRelImpl accountGroupRelImpl =
-			new AccountGroupRelImpl();
+		AccountGroupRelImpl accountGroupRelImpl = new AccountGroupRelImpl();
 
 		accountGroupRelImpl.setMvccVersion(getMvccVersion());
-		accountGroupRelImpl.setAccountGroupRelId(
-			getAccountGroupRelId());
+		accountGroupRelImpl.setAccountGroupRelId(getAccountGroupRelId());
 		accountGroupRelImpl.setCompanyId(getCompanyId());
 		accountGroupRelImpl.setAccountGroupId(getAccountGroupId());
 		accountGroupRelImpl.setAccountEntryId(getAccountEntryId());
@@ -526,9 +504,7 @@ public class AccountGroupRelModelImpl
 	}
 
 	@Override
-	public int compareTo(
-		AccountGroupRel accountGroupRel) {
-
+	public int compareTo(AccountGroupRel accountGroupRel) {
 		long primaryKey = accountGroupRel.getPrimaryKey();
 
 		if (getPrimaryKey() < primaryKey) {
@@ -552,8 +528,7 @@ public class AccountGroupRelModelImpl
 			return false;
 		}
 
-		AccountGroupRel accountGroupRel =
-			(AccountGroupRel)object;
+		AccountGroupRel accountGroupRel = (AccountGroupRel)object;
 
 		long primaryKey = accountGroupRel.getPrimaryKey();
 
@@ -597,22 +572,18 @@ public class AccountGroupRelModelImpl
 
 	@Override
 	public CacheModel<AccountGroupRel> toCacheModel() {
-		AccountGroupRelCacheModel
-			accountGroupRelCacheModel =
-				new AccountGroupRelCacheModel();
+		AccountGroupRelCacheModel accountGroupRelCacheModel =
+			new AccountGroupRelCacheModel();
 
 		accountGroupRelCacheModel.mvccVersion = getMvccVersion();
 
-		accountGroupRelCacheModel.AccountGroupRelId =
-			getAccountGroupRelId();
+		accountGroupRelCacheModel.AccountGroupRelId = getAccountGroupRelId();
 
 		accountGroupRelCacheModel.companyId = getCompanyId();
 
-		accountGroupRelCacheModel.accountGroupId =
-			getAccountGroupId();
+		accountGroupRelCacheModel.accountGroupId = getAccountGroupId();
 
-		accountGroupRelCacheModel.accountEntryId =
-			getAccountEntryId();
+		accountGroupRelCacheModel.accountEntryId = getAccountEntryId();
 
 		return accountGroupRelCacheModel;
 	}
@@ -627,18 +598,16 @@ public class AccountGroupRelModelImpl
 
 		sb.append("{");
 
-		for (Map.Entry<String, Function<AccountGroupRel, Object>>
-				entry : attributeGetterFunctions.entrySet()) {
+		for (Map.Entry<String, Function<AccountGroupRel, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
 
 			String attributeName = entry.getKey();
-			Function<AccountGroupRel, Object>
-				attributeGetterFunction = entry.getValue();
+			Function<AccountGroupRel, Object> attributeGetterFunction =
+				entry.getValue();
 
 			sb.append(attributeName);
 			sb.append("=");
-			sb.append(
-				attributeGetterFunction.apply(
-					(AccountGroupRel)this));
+			sb.append(attributeGetterFunction.apply((AccountGroupRel)this));
 			sb.append(", ");
 		}
 
@@ -663,19 +632,17 @@ public class AccountGroupRelModelImpl
 		sb.append(getModelClassName());
 		sb.append("</model-name>");
 
-		for (Map.Entry<String, Function<AccountGroupRel, Object>>
-				entry : attributeGetterFunctions.entrySet()) {
+		for (Map.Entry<String, Function<AccountGroupRel, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
 
 			String attributeName = entry.getKey();
-			Function<AccountGroupRel, Object>
-				attributeGetterFunction = entry.getValue();
+			Function<AccountGroupRel, Object> attributeGetterFunction =
+				entry.getValue();
 
 			sb.append("<column><column-name>");
 			sb.append(attributeName);
 			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(
-				attributeGetterFunction.apply(
-					(AccountGroupRel)this));
+			sb.append(attributeGetterFunction.apply((AccountGroupRel)this));
 			sb.append("]]></column-value></column>");
 		}
 
@@ -686,10 +653,8 @@ public class AccountGroupRelModelImpl
 
 	private static class EscapedModelProxyProviderFunctionHolder {
 
-		private static final Function
-			<InvocationHandler, AccountGroupRel>
-				_escapedModelProxyProviderFunction =
-					_getProxyProviderFunction();
+		private static final Function<InvocationHandler, AccountGroupRel>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
 	}
 
@@ -727,8 +692,7 @@ public class AccountGroupRelModelImpl
 		_columnOriginalValues = new HashMap<String, Object>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
-		_columnOriginalValues.put(
-			"AccountGroupRelId", _AccountGroupRelId);
+		_columnOriginalValues.put("AccountGroupRelId", _AccountGroupRelId);
 		_columnOriginalValues.put("companyId", _companyId);
 		_columnOriginalValues.put("accountGroupId", _accountGroupId);
 		_columnOriginalValues.put("accountEntryId", _accountEntryId);

@@ -29,15 +29,11 @@ import java.util.List;
 @Deprecated
 public class AccountGroupRelSoap implements Serializable {
 
-	public static AccountGroupRelSoap toSoapModel(
-		AccountGroupRel model) {
-
-		AccountGroupRelSoap soapModel =
-			new AccountGroupRelSoap();
+	public static AccountGroupRelSoap toSoapModel(AccountGroupRel model) {
+		AccountGroupRelSoap soapModel = new AccountGroupRelSoap();
 
 		soapModel.setMvccVersion(model.getMvccVersion());
-		soapModel.setAccountGroupRelId(
-			model.getAccountGroupRelId());
+		soapModel.setAccountGroupRelId(model.getAccountGroupRelId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setAccountGroupId(model.getAccountGroupId());
 		soapModel.setAccountEntryId(model.getAccountEntryId());
@@ -45,9 +41,7 @@ public class AccountGroupRelSoap implements Serializable {
 		return soapModel;
 	}
 
-	public static AccountGroupRelSoap[] toSoapModels(
-		AccountGroupRel[] models) {
-
+	public static AccountGroupRelSoap[] toSoapModels(AccountGroupRel[] models) {
 		AccountGroupRelSoap[] soapModels =
 			new AccountGroupRelSoap[models.length];
 
@@ -64,8 +58,8 @@ public class AccountGroupRelSoap implements Serializable {
 		AccountGroupRelSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new AccountGroupRelSoap
-				[models.length][models[0].length];
+			soapModels =
+				new AccountGroupRelSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new AccountGroupRelSoap[0][0];
@@ -88,8 +82,7 @@ public class AccountGroupRelSoap implements Serializable {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(
-			new AccountGroupRelSoap[soapModels.size()]);
+		return soapModels.toArray(new AccountGroupRelSoap[soapModels.size()]);
 	}
 
 	public AccountGroupRelSoap() {
@@ -115,9 +108,7 @@ public class AccountGroupRelSoap implements Serializable {
 		return _AccountGroupRelId;
 	}
 
-	public void setAccountGroupRelId(
-		long AccountGroupRelId) {
-
+	public void setAccountGroupRelId(long AccountGroupRelId) {
 		_AccountGroupRelId = AccountGroupRelId;
 	}
 

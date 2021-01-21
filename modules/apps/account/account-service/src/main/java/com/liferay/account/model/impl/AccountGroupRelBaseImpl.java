@@ -30,23 +30,20 @@ import com.liferay.account.service.AccountGroupRelLocalServiceUtil;
  * @generated
  */
 public abstract class AccountGroupRelBaseImpl
-	extends AccountGroupRelModelImpl
-	implements AccountGroupRel {
+	extends AccountGroupRelModelImpl implements AccountGroupRel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a account group account entry rel model instance should use the <code>AccountGroupRel</code> interface instead.
+	 * Never modify or reference this class directly. All methods that expect a account group rel model instance should use the <code>AccountGroupRel</code> interface instead.
 	 */
 	@Override
 	public void persist() {
 		if (this.isNew()) {
-			AccountGroupRelLocalServiceUtil.
-				addAccountGroupRel(this);
+			AccountGroupRelLocalServiceUtil.addAccountGroupRel(this);
 		}
 		else {
-			AccountGroupRelLocalServiceUtil.
-				updateAccountGroupRel(this);
+			AccountGroupRelLocalServiceUtil.updateAccountGroupRel(this);
 		}
 	}
 
