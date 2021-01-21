@@ -16,6 +16,7 @@ package com.liferay.account.service.impl;
 
 import com.liferay.account.constants.AccountConstants;
 import com.liferay.account.exception.DuplicateAccountGroupRelException;
+import com.liferay.account.model.AccountGroup;
 import com.liferay.account.model.AccountGroupRel;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountGroupLocalService;
@@ -25,6 +26,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 
 import java.util.List;
 
+import com.liferay.portal.kernel.service.ClassNameLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -44,8 +46,11 @@ public class AccountGroupRelLocalServiceImpl
 		throws PortalException {
 
 		AccountGroupRel accountGroupRel =
-			accountGroupRelPersistence.fetchByAGI_AEI(
-				accountGroupId, accountEntryId);
+			accountGroupRelPersistence.fetchByAGI_CNI_CPK(
+				accountGroupId,
+				_classNameLocalService.getClassNameId(AccountGroup.class),
+				accountEntryId);
+		;
 
 		if (accountGroupRel != null) {
 			throw new DuplicateAccountGroupRelException();
@@ -61,7 +66,7 @@ public class AccountGroupRelLocalServiceImpl
 			counterLocalService.increment());
 
 		accountGroupRel.setAccountGroupId(accountGroupId);
-		accountGroupRel.setAccountEntryId(accountEntryId);
+		accountGroupRel.setClassPK(accountEntryId);
 
 		return addAccountGroupRel(accountGroupRel);
 	}
@@ -82,8 +87,10 @@ public class AccountGroupRelLocalServiceImpl
 		throws PortalException {
 
 		for (long accountEntryId : accountEntryIds) {
-			accountGroupRelPersistence.removeByAGI_AEI(
-				accountGroupId, accountEntryId);
+			accountGroupRelPersistence.removeByAGI_CNI_CPK(
+				accountGroupId,
+				_classNameLocalService.getClassNameId(AccountGroup.class),
+				accountEntryId);
 		}
 	}
 
@@ -91,15 +98,18 @@ public class AccountGroupRelLocalServiceImpl
 	public AccountGroupRel fetchAccountGroupRel(
 		long accountGroupId, long accountEntryId) {
 
-		return accountGroupRelPersistence.fetchByAGI_AEI(
-			accountGroupId, accountEntryId);
+		return accountGroupRelPersistence.fetchByAGI_CNI_CPK(
+			accountGroupId,
+			_classNameLocalService.getClassNameId(AccountGroup.class),
+			accountEntryId);
 	}
 
 	@Override
 	public List<AccountGroupRel>
 		getAccountGroupRelsByAccountEntryId(long accountEntryId) {
 
-		return accountGroupRelPersistence.findByAccountEntryId(
+		return accountGroupRelPersistence.findByCNI_CPK(
+			_classNameLocalService.getClassNameId(AccountGroup.class),
 			accountEntryId);
 	}
 
@@ -124,5 +134,8 @@ public class AccountGroupRelLocalServiceImpl
 
 	@Reference
 	private AccountGroupLocalService _accountGroupLocalService;
+
+	@Reference
+	private ClassNameLocalService _classNameLocalService;
 
 }

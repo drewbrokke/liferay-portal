@@ -37,7 +37,7 @@ public class AccountGroupRelModelListener
 			AccountGroupRel accountGroupRel)
 		throws ModelListenerException {
 
-		_reindexAccountEntry(accountGroupRel.getAccountEntryId());
+		_reindexAccountEntry(accountGroupRel.getClassPK());
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class AccountGroupRelModelListener
 			AccountGroupRel accountGroupRel)
 		throws ModelListenerException {
 
-		_reindexAccountEntry(accountGroupRel.getAccountEntryId());
+		_reindexAccountEntry(accountGroupRel.getClassPK());
 	}
 
 	private void _reindexAccountEntry(long accountEntryId) {
