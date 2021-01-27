@@ -214,6 +214,22 @@ renderResponse.setTitle(categoryDisplayName);
 					</c:if>
 
 					<%
+					for (ConfigurationScreenAlertProvider.Alert alert : ConfigurationScreenAlertProviderUtil.getConfigurationScreenAlerts(configurationModel.getID(), configurationScopeDisplayContext.getScope(), configurationScopeDisplayContext.getScopePK())) {
+					%>
+
+						<aui:alert closeable="<%= false %>" type="<%= alert.getType() %>">
+
+							<%
+							alert.render(request, PipingServletResponse.createPipingServletResponse(pageContext));
+							%>
+
+						</aui:alert>
+
+					<%
+					}
+					%>
+
+					<%
 					String configurationModelDescription = (componentResourceBundle != null) ? LanguageUtil.format(componentResourceBundle, configurationModel.getDescription(), configurationModel.getDescriptionArguments()) : configurationModel.getDescription();
 					%>
 

@@ -28,6 +28,7 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <%@ page import="com.liferay.configuration.admin.category.ConfigurationCategory" %><%@
 page import="com.liferay.configuration.admin.display.ConfigurationFormRenderer" %><%@
 page import="com.liferay.configuration.admin.display.ConfigurationScreen" %><%@
+page import="com.liferay.configuration.admin.display.ConfigurationScreenAlertProvider" %><%@
 page import="com.liferay.configuration.admin.menu.ConfigurationMenuItem" %><%@
 page import="com.liferay.configuration.admin.web.internal.constants.ConfigurationAdminWebKeys" %><%@
 page import="com.liferay.configuration.admin.web.internal.display.ConfigurationCategoryDisplay" %><%@
@@ -43,6 +44,7 @@ page import="com.liferay.configuration.admin.web.internal.util.ConfigurationCate
 page import="com.liferay.configuration.admin.web.internal.util.ConfigurationEntryIterator" %><%@
 page import="com.liferay.configuration.admin.web.internal.util.ConfigurationEntryRetriever" %><%@
 page import="com.liferay.configuration.admin.web.internal.util.ConfigurationModelIterator" %><%@
+page import="com.liferay.configuration.admin.web.internal.util.ConfigurationScreenAlertProviderUtil" %><%@
 page import="com.liferay.configuration.admin.web.internal.util.ResourceBundleLoaderProvider" %><%@
 page import="com.liferay.petra.string.StringPool" %><%@
 page import="com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition" %><%@
