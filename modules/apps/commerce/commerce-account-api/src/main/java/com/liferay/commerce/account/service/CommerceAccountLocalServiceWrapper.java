@@ -33,6 +33,9 @@ public class CommerceAccountLocalServiceWrapper
 		_commerceAccountLocalService = commerceAccountLocalService;
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			addBusinessCommerceAccount(
@@ -66,6 +69,9 @@ public class CommerceAccountLocalServiceWrapper
 		return _commerceAccountLocalService.addCommerceAccount(commerceAccount);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			addCommerceAccount(
@@ -80,6 +86,9 @@ public class CommerceAccountLocalServiceWrapper
 			externalReferenceCode, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			addPersonalCommerceAccount(
@@ -158,6 +167,9 @@ public class CommerceAccountLocalServiceWrapper
 			commerceAccountId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public void deleteCommerceAccounts(long companyId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -165,6 +177,9 @@ public class CommerceAccountLocalServiceWrapper
 		_commerceAccountLocalService.deleteCommerceAccounts(companyId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public void deleteLogo(long commerceAccountId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -280,6 +295,9 @@ public class CommerceAccountLocalServiceWrapper
 			dynamicQuery, projection);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 		fetchByExternalReferenceCode(
@@ -336,6 +354,9 @@ public class CommerceAccountLocalServiceWrapper
 			commerceAccountId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			getCommerceAccount(long userId, long commerceAccountId)
@@ -345,6 +366,9 @@ public class CommerceAccountLocalServiceWrapper
 			userId, commerceAccountId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.portal.kernel.model.Group getCommerceAccountGroup(
 			long commerceAccountId)
@@ -382,6 +406,9 @@ public class CommerceAccountLocalServiceWrapper
 		return _commerceAccountLocalService.getCommerceAccountsCount();
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			getGuestCommerceAccount(long companyId)
@@ -419,6 +446,9 @@ public class CommerceAccountLocalServiceWrapper
 		return _commerceAccountLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			getPersonalCommerceAccount(long userId)
@@ -427,6 +457,9 @@ public class CommerceAccountLocalServiceWrapper
 		return _commerceAccountLocalService.getPersonalCommerceAccount(userId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public java.util.List<com.liferay.commerce.account.model.CommerceAccount>
 			getUserCommerceAccounts(
@@ -439,6 +472,9 @@ public class CommerceAccountLocalServiceWrapper
 			start, end);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public java.util.List<com.liferay.commerce.account.model.CommerceAccount>
 			getUserCommerceAccounts(
@@ -451,6 +487,9 @@ public class CommerceAccountLocalServiceWrapper
 			end);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public int getUserCommerceAccountsCount(
 			long userId, Long parentCommerceAccountId, int commerceSiteType,
@@ -461,6 +500,9 @@ public class CommerceAccountLocalServiceWrapper
 			userId, parentCommerceAccountId, commerceSiteType, keywords);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public int getUserCommerceAccountsCount(
 			long userId, Long parentCommerceAccountId, int commerceSiteType,
@@ -472,6 +514,9 @@ public class CommerceAccountLocalServiceWrapper
 			active);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public java.util.List<com.liferay.commerce.account.model.CommerceAccount>
 			searchCommerceAccounts(
@@ -485,6 +530,9 @@ public class CommerceAccountLocalServiceWrapper
 			end, sort);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public int searchCommerceAccountsCount(
 			long companyId, long parentCommerceAccountId, String keywords,
@@ -495,6 +543,9 @@ public class CommerceAccountLocalServiceWrapper
 			companyId, parentCommerceAccountId, keywords, type, active);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount setActive(
 			long commerceAccountId, boolean active)
@@ -524,6 +575,9 @@ public class CommerceAccountLocalServiceWrapper
 			commerceAccount);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			updateCommerceAccount(
@@ -538,6 +592,9 @@ public class CommerceAccountLocalServiceWrapper
 			defaultBillingAddressId, defaultShippingAddressId, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			updateCommerceAccount(
@@ -555,6 +612,7 @@ public class CommerceAccountLocalServiceWrapper
 	}
 
 	/**
+	 * @bridged
 	 * @deprecated As of Mueller (7.2.x), pass Default Billing/Shipping Ids
 	 */
 	@Deprecated
@@ -571,6 +629,9 @@ public class CommerceAccountLocalServiceWrapper
 			serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			updateDefaultBillingAddress(
@@ -581,6 +642,9 @@ public class CommerceAccountLocalServiceWrapper
 			commerceAccountId, commerceAddressId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			updateDefaultShippingAddress(
@@ -591,6 +655,11 @@ public class CommerceAccountLocalServiceWrapper
 			commerceAccountId, commerceAddressId);
 	}
 
+	/**
+	 * @bridged
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount updateStatus(
 			long userId, long commerceAccountId, int status,
@@ -602,6 +671,9 @@ public class CommerceAccountLocalServiceWrapper
 			userId, commerceAccountId, status, serviceContext, workflowContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			upsertCommerceAccount(

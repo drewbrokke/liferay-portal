@@ -334,7 +334,8 @@ public class CommerceNotificationTest {
 
 		_commerceAccount = CommerceAccountTestUtil.addBusinessCommerceAccount(
 			_accountAdmin.getUserId(), RandomTestUtil.randomString(),
-			RandomTestUtil.randomString(), RandomTestUtil.randomString(),
+			RandomTestUtil.randomString() + "@liferay.com",
+			RandomTestUtil.randomString(),
 			new long[] {_user.getUserId()}, null, _serviceContext);
 
 		_accountAdminRole = _roleLocalService.fetchRole(

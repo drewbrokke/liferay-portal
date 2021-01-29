@@ -67,6 +67,10 @@ public interface CommerceAccountLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.commerce.account.service.impl.CommerceAccountLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the commerce account local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CommerceAccountLocalServiceUtil} if injection and service tracking are not available.
 	 */
+
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount addBusinessCommerceAccount(
 			String name, long parentCommerceAccountId, String email,
 			String taxId, boolean active, String externalReferenceCode,
@@ -87,6 +91,9 @@ public interface CommerceAccountLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccount addCommerceAccount(CommerceAccount commerceAccount);
 
+	/**
+	 * @bridged
+	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccount addCommerceAccount(
 			String name, long parentCommerceAccountId, String email,
@@ -94,6 +101,9 @@ public interface CommerceAccountLocalService
 			String externalReferenceCode, ServiceContext serviceContext)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount addPersonalCommerceAccount(
 			long userId, String taxId, String externalReferenceCode,
 			ServiceContext serviceContext)
@@ -146,8 +156,14 @@ public interface CommerceAccountLocalService
 	public CommerceAccount deleteCommerceAccount(long commerceAccountId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public void deleteCommerceAccounts(long companyId) throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public void deleteLogo(long commerceAccountId) throws PortalException;
 
 	/**
@@ -226,6 +242,9 @@ public interface CommerceAccountLocalService
 	public long dynamicQueryCount(
 		DynamicQuery dynamicQuery, Projection projection);
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommerceAccount fetchByExternalReferenceCode(
 		long companyId, String externalReferenceCode);
@@ -258,11 +277,17 @@ public interface CommerceAccountLocalService
 	public CommerceAccount getCommerceAccount(long commerceAccountId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommerceAccount getCommerceAccount(
 			long userId, long commerceAccountId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Group getCommerceAccountGroup(long commerceAccountId)
 		throws PortalException;
@@ -289,6 +314,9 @@ public interface CommerceAccountLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCommerceAccountsCount();
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommerceAccount getGuestCommerceAccount(long companyId)
 		throws PortalException;
@@ -311,46 +339,70 @@ public interface CommerceAccountLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommerceAccount getPersonalCommerceAccount(long userId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccount> getUserCommerceAccounts(
 			long userId, Long parentCommerceAccountId, int commerceSiteType,
 			String keywords, Boolean active, int start, int end)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccount> getUserCommerceAccounts(
 			long userId, Long parentCommerceAccountId, int commerceSiteType,
 			String keywords, int start, int end)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getUserCommerceAccountsCount(
 			long userId, Long parentCommerceAccountId, int commerceSiteType,
 			String keywords)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getUserCommerceAccountsCount(
 			long userId, Long parentCommerceAccountId, int commerceSiteType,
 			String keywords, Boolean active)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccount> searchCommerceAccounts(
 			long companyId, long parentCommerceAccountId, String keywords,
 			int type, Boolean active, int start, int end, Sort sort)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchCommerceAccountsCount(
 			long companyId, long parentCommerceAccountId, String keywords,
 			int type, Boolean active)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccount setActive(long commerceAccountId, boolean active)
 		throws PortalException;
@@ -369,6 +421,9 @@ public interface CommerceAccountLocalService
 	public CommerceAccount updateCommerceAccount(
 		CommerceAccount commerceAccount);
 
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount updateCommerceAccount(
 			long commerceAccountId, String name, boolean logo, byte[] logoBytes,
 			String email, String taxId, boolean active,
@@ -376,6 +431,9 @@ public interface CommerceAccountLocalService
 			ServiceContext serviceContext)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccount updateCommerceAccount(
 			long commerceAccountId, String name, boolean logo, byte[] logoBytes,
@@ -385,6 +443,7 @@ public interface CommerceAccountLocalService
 		throws PortalException;
 
 	/**
+	 * @bridged
 	 * @deprecated As of Mueller (7.2.x), pass Default Billing/Shipping Ids
 	 */
 	@Deprecated
@@ -394,16 +453,27 @@ public interface CommerceAccountLocalService
 			ServiceContext serviceContext)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccount updateDefaultBillingAddress(
 			long commerceAccountId, long commerceAddressId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccount updateDefaultShippingAddress(
 			long commerceAccountId, long commerceAddressId)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccount updateStatus(
 			long userId, long commerceAccountId, int status,
@@ -411,6 +481,9 @@ public interface CommerceAccountLocalService
 			Map<String, Serializable> workflowContext)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public CommerceAccount upsertCommerceAccount(
 			String name, long parentCommerceAccountId, boolean logo,
 			byte[] logoBytes, String email, String taxId, int type,

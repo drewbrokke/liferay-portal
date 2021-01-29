@@ -32,6 +32,9 @@ public class CommerceAccountServiceWrapper
 		_commerceAccountService = commerceAccountService;
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			addBusinessCommerceAccount(
@@ -46,6 +49,9 @@ public class CommerceAccountServiceWrapper
 			externalReferenceCode, userIds, emailAddresses, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			addCommerceAccount(
@@ -60,6 +66,9 @@ public class CommerceAccountServiceWrapper
 			externalReferenceCode, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public void deleteCommerceAccount(long commerceAccountId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -67,6 +76,9 @@ public class CommerceAccountServiceWrapper
 		_commerceAccountService.deleteCommerceAccount(commerceAccountId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			fetchByExternalReferenceCode(
@@ -77,6 +89,9 @@ public class CommerceAccountServiceWrapper
 			companyId, externalReferenceCode);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			fetchCommerceAccount(long commerceAccountId)
@@ -85,6 +100,9 @@ public class CommerceAccountServiceWrapper
 		return _commerceAccountService.fetchCommerceAccount(commerceAccountId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			getCommerceAccount(long commerceAccountId)
@@ -103,6 +121,9 @@ public class CommerceAccountServiceWrapper
 		return _commerceAccountService.getOSGiServiceIdentifier();
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			getPersonalCommerceAccount(long userId)
@@ -111,6 +132,9 @@ public class CommerceAccountServiceWrapper
 		return _commerceAccountService.getPersonalCommerceAccount(userId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public java.util.List<com.liferay.commerce.account.model.CommerceAccount>
 			getUserCommerceAccounts(
@@ -123,6 +147,9 @@ public class CommerceAccountServiceWrapper
 			start, end);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public java.util.List<com.liferay.commerce.account.model.CommerceAccount>
 			getUserCommerceAccounts(
@@ -135,6 +162,9 @@ public class CommerceAccountServiceWrapper
 			end);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public int getUserCommerceAccountsCount(
 			long userId, long parentCommerceAccountId, int commerceSiteType,
@@ -145,6 +175,9 @@ public class CommerceAccountServiceWrapper
 			userId, parentCommerceAccountId, commerceSiteType, keywords);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public int getUserCommerceAccountsCount(
 			long userId, long parentCommerceAccountId, int commerceSiteType,
@@ -156,6 +189,9 @@ public class CommerceAccountServiceWrapper
 			active);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount setActive(
 			long commerceAccountId, boolean active)
@@ -164,6 +200,9 @@ public class CommerceAccountServiceWrapper
 		return _commerceAccountService.setActive(commerceAccountId, active);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			updateCommerceAccount(
@@ -178,6 +217,9 @@ public class CommerceAccountServiceWrapper
 			defaultBillingAddressId, defaultShippingAddressId, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			updateCommerceAccount(
@@ -195,6 +237,7 @@ public class CommerceAccountServiceWrapper
 	}
 
 	/**
+	 * @bridged
 	 * @deprecated As of Mueller (7.2.x), pass Default Billing/Shipping Ids
 	 */
 	@Deprecated
@@ -211,6 +254,9 @@ public class CommerceAccountServiceWrapper
 			serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			updateDefaultBillingAddress(
@@ -221,6 +267,9 @@ public class CommerceAccountServiceWrapper
 			commerceAccountId, commerceAddressId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			updateDefaultShippingAddress(
@@ -231,6 +280,9 @@ public class CommerceAccountServiceWrapper
 			commerceAccountId, commerceAddressId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 			upsertCommerceAccount(

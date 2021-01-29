@@ -120,7 +120,8 @@ public class CommerceSubscriptionsNotificationTest {
 
 		_commerceAccount = CommerceAccountTestUtil.addBusinessCommerceAccount(
 			_user.getUserId(), RandomTestUtil.randomString(),
-			RandomTestUtil.randomString(), RandomTestUtil.randomString(),
+			RandomTestUtil.randomString() + "@liferay.com",
+			RandomTestUtil.randomString(),
 			new long[] {_toUser.getUserId()}, null, _serviceContext);
 
 		CommerceAccountTestUtil.addCommerceAccountGroupAndAccountRel(

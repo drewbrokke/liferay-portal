@@ -37,6 +37,10 @@ public class CommerceAccountLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.commerce.account.service.impl.CommerceAccountLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			addBusinessCommerceAccount(
 				String name, long parentCommerceAccountId, String email,
@@ -68,6 +72,9 @@ public class CommerceAccountLocalServiceUtil {
 		return getService().addCommerceAccount(commerceAccount);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			addCommerceAccount(
 				String name, long parentCommerceAccountId, String email,
@@ -81,6 +88,9 @@ public class CommerceAccountLocalServiceUtil {
 			externalReferenceCode, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			addPersonalCommerceAccount(
 				long userId, String taxId, String externalReferenceCode,
@@ -151,12 +161,18 @@ public class CommerceAccountLocalServiceUtil {
 		return getService().deleteCommerceAccount(commerceAccountId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static void deleteCommerceAccounts(long companyId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		getService().deleteCommerceAccounts(companyId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static void deleteLogo(long commerceAccountId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -265,6 +281,9 @@ public class CommerceAccountLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 		fetchByExternalReferenceCode(
 			long companyId, String externalReferenceCode) {
@@ -314,6 +333,9 @@ public class CommerceAccountLocalServiceUtil {
 		return getService().getCommerceAccount(commerceAccountId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			getCommerceAccount(long userId, long commerceAccountId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -321,6 +343,9 @@ public class CommerceAccountLocalServiceUtil {
 		return getService().getCommerceAccount(userId, commerceAccountId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.portal.kernel.model.Group getCommerceAccountGroup(
 			long commerceAccountId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -355,6 +380,9 @@ public class CommerceAccountLocalServiceUtil {
 		return getService().getCommerceAccountsCount();
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			getGuestCommerceAccount(long companyId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -388,6 +416,9 @@ public class CommerceAccountLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			getPersonalCommerceAccount(long userId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -395,6 +426,9 @@ public class CommerceAccountLocalServiceUtil {
 		return getService().getPersonalCommerceAccount(userId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static java.util.List
 		<com.liferay.commerce.account.model.CommerceAccount>
 				getUserCommerceAccounts(
@@ -408,6 +442,9 @@ public class CommerceAccountLocalServiceUtil {
 			start, end);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static java.util.List
 		<com.liferay.commerce.account.model.CommerceAccount>
 				getUserCommerceAccounts(
@@ -420,6 +457,9 @@ public class CommerceAccountLocalServiceUtil {
 			end);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static int getUserCommerceAccountsCount(
 			long userId, Long parentCommerceAccountId, int commerceSiteType,
 			String keywords)
@@ -429,6 +469,9 @@ public class CommerceAccountLocalServiceUtil {
 			userId, parentCommerceAccountId, commerceSiteType, keywords);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static int getUserCommerceAccountsCount(
 			long userId, Long parentCommerceAccountId, int commerceSiteType,
 			String keywords, Boolean active)
@@ -439,6 +482,9 @@ public class CommerceAccountLocalServiceUtil {
 			active);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static java.util.List
 		<com.liferay.commerce.account.model.CommerceAccount>
 				searchCommerceAccounts(
@@ -452,6 +498,9 @@ public class CommerceAccountLocalServiceUtil {
 			end, sort);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static int searchCommerceAccountsCount(
 			long companyId, long parentCommerceAccountId, String keywords,
 			int type, Boolean active)
@@ -461,6 +510,9 @@ public class CommerceAccountLocalServiceUtil {
 			companyId, parentCommerceAccountId, keywords, type, active);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount setActive(
 			long commerceAccountId, boolean active)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -486,6 +538,9 @@ public class CommerceAccountLocalServiceUtil {
 		return getService().updateCommerceAccount(commerceAccount);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			updateCommerceAccount(
 				long commerceAccountId, String name, boolean logo,
@@ -499,6 +554,9 @@ public class CommerceAccountLocalServiceUtil {
 			defaultBillingAddressId, defaultShippingAddressId, serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			updateCommerceAccount(
 				long commerceAccountId, String name, boolean logo,
@@ -515,6 +573,7 @@ public class CommerceAccountLocalServiceUtil {
 	}
 
 	/**
+	 * @bridged
 	 * @deprecated As of Mueller (7.2.x), pass Default Billing/Shipping Ids
 	 */
 	@Deprecated
@@ -530,6 +589,9 @@ public class CommerceAccountLocalServiceUtil {
 			serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			updateDefaultBillingAddress(
 				long commerceAccountId, long commerceAddressId)
@@ -539,6 +601,9 @@ public class CommerceAccountLocalServiceUtil {
 			commerceAccountId, commerceAddressId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			updateDefaultShippingAddress(
 				long commerceAccountId, long commerceAddressId)
@@ -548,6 +613,11 @@ public class CommerceAccountLocalServiceUtil {
 			commerceAccountId, commerceAddressId);
 	}
 
+	/**
+	 * @bridged
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
 	public static com.liferay.commerce.account.model.CommerceAccount
 			updateStatus(
 				long userId, long commerceAccountId, int status,
@@ -559,6 +629,9 @@ public class CommerceAccountLocalServiceUtil {
 			userId, commerceAccountId, status, serviceContext, workflowContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccount
 			upsertCommerceAccount(
 				String name, long parentCommerceAccountId, boolean logo,
