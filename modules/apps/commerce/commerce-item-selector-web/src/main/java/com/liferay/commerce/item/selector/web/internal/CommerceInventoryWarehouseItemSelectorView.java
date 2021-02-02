@@ -17,11 +17,11 @@ package com.liferay.commerce.item.selector.web.internal;
 import com.liferay.commerce.inventory.service.CommerceInventoryWarehouseService;
 import com.liferay.commerce.item.selector.criterion.CommerceInventoryWarehouseItemSelectorCriterion;
 import com.liferay.commerce.item.selector.web.internal.display.context.CommerceInventoryWarehouseItemSelectorViewDisplayContext;
-import com.liferay.commerce.service.CommerceCountryService;
 import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.ItemSelectorView;
 import com.liferay.item.selector.criteria.UUIDItemSelectorReturnType;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.service.CountryService;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -87,7 +87,7 @@ public class CommerceInventoryWarehouseItemSelectorView
 		CommerceInventoryWarehouseItemSelectorViewDisplayContext
 			commerceInventoryWarehouseItemSelectorViewDisplayContext =
 				new CommerceInventoryWarehouseItemSelectorViewDisplayContext(
-					_commerceCountryService, _commerceInventoryWarehouseService,
+					_countryService, _commerceInventoryWarehouseService,
 					httpServletRequest, portletURL, itemSelectedEventName,
 					search);
 
@@ -108,11 +108,11 @@ public class CommerceInventoryWarehouseItemSelectorView
 			ListUtil.fromArray(new UUIDItemSelectorReturnType()));
 
 	@Reference
-	private CommerceCountryService _commerceCountryService;
-
-	@Reference
 	private CommerceInventoryWarehouseService
 		_commerceInventoryWarehouseService;
+
+	@Reference
+	private CountryService _countryService;
 
 	@Reference(
 		target = "(osgi.web.symbolicname=com.liferay.commerce.item.selector.web)"
