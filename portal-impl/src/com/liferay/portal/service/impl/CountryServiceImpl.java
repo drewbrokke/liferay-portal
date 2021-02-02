@@ -113,6 +113,14 @@ public class CountryServiceImpl extends CountryServiceBaseImpl {
 	}
 
 	@Override
+	public List<Country> getBillingCountriesByChannelId(
+		long channelId, int start, int end) {
+
+		return countryLocalService.getBillingCountriesByChannelId(
+			channelId, start, end);
+	}
+
+	@Override
 	public List<Country> getCompanyCountries(long companyId) {
 		return countryLocalService.getCompanyCountries(companyId);
 	}
@@ -229,6 +237,19 @@ public class CountryServiceImpl extends CountryServiceBaseImpl {
 		throws PortalException {
 
 		return countryLocalService.getCountryByNumber(companyId, number);
+	}
+
+	@Override
+	public List<Country> getShippingCountriesByChannelId(
+		long channelId, int start, int end) {
+
+		return countryLocalService.getShippingCountriesByChannelId(
+			channelId, start, end);
+	}
+
+	@Override
+	public List<Country> getWarehouseCountries(long companyId, boolean all) {
+		return countryLocalService.getWarehouseCountries(companyId, all);
 	}
 
 	@Override
