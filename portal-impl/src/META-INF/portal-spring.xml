@@ -106,6 +106,7 @@
 	<bean class="com.liferay.portal.service.impl.CountryLocalServiceImpl" id="com.liferay.portal.kernel.service.CountryLocalService" />
 	<bean class="com.liferay.portal.service.impl.CountryServiceImpl" id="com.liferay.portal.kernel.service.CountryService" />
 	<bean class="com.liferay.portal.service.persistence.impl.CountryPersistenceImpl" id="com.liferay.portal.kernel.service.persistence.CountryPersistence" />
+	<bean class="com.liferay.portal.service.persistence.impl.CountryFinderImpl" id="com.liferay.portal.kernel.service.persistence.CountryFinder" />
 	<bean class="com.liferay.portal.service.persistence.impl.CountryLocalizationPersistenceImpl" id="com.liferay.portal.kernel.service.persistence.CountryLocalizationPersistence" />
 	<bean class="com.liferay.portal.service.impl.EmailAddressLocalServiceImpl" id="com.liferay.portal.kernel.service.EmailAddressLocalService" />
 	<bean class="com.liferay.portal.service.impl.EmailAddressServiceImpl" id="com.liferay.portal.kernel.service.EmailAddressService" />

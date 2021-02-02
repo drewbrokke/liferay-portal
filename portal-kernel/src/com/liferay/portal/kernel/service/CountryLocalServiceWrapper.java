@@ -299,6 +299,14 @@ public class CountryLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.portal.kernel.model.Country>
+		getBillingCountriesByChannelId(long channelId, int start, int end) {
+
+		return _countryLocalService.getBillingCountriesByChannelId(
+			channelId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Country>
 		getCompanyCountries(long companyId) {
 
 		return _countryLocalService.getCompanyCountries(companyId);
@@ -486,6 +494,21 @@ public class CountryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _countryLocalService.getPersistedModel(primaryKeyObj);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Country>
+		getShippingCountriesByChannelId(long channelId, int start, int end) {
+
+		return _countryLocalService.getShippingCountriesByChannelId(
+			channelId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Country>
+		getWarehouseCountries(long companyId, boolean all) {
+
+		return _countryLocalService.getWarehouseCountries(companyId, all);
 	}
 
 	@Override

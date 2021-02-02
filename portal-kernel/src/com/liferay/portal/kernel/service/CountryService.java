@@ -94,6 +94,10 @@ public interface CountryService extends BaseService {
 	public Country fetchCountryByA3(String a3);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Country> getBillingCountriesByChannelId(
+		long channelId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Country> getCompanyCountries(long companyId);
 
 	@AccessControlled(guestAccessEnabled = true)
@@ -177,6 +181,13 @@ public interface CountryService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Country> getShippingCountriesByChannelId(
+		long channelId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Country> getWarehouseCountries(long companyId, boolean all);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public BaseModelSearchResult<Country> searchCountries(

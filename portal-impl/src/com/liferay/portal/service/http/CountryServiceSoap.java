@@ -220,6 +220,25 @@ public class CountryServiceSoap {
 	}
 
 	public static com.liferay.portal.kernel.model.CountrySoap[]
+			getBillingCountriesByChannelId(long channelId, int start, int end)
+		throws RemoteException {
+
+		try {
+			java.util.List<com.liferay.portal.kernel.model.Country>
+				returnValue = CountryServiceUtil.getBillingCountriesByChannelId(
+					channelId, start, end);
+
+			return com.liferay.portal.kernel.model.CountrySoap.toSoapModels(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.portal.kernel.model.CountrySoap[]
 			getCompanyCountries(long companyId)
 		throws RemoteException {
 
@@ -522,6 +541,45 @@ public class CountryServiceSoap {
 				CountryServiceUtil.getCountryByNumber(companyId, number);
 
 			return com.liferay.portal.kernel.model.CountrySoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.portal.kernel.model.CountrySoap[]
+			getShippingCountriesByChannelId(long channelId, int start, int end)
+		throws RemoteException {
+
+		try {
+			java.util.List<com.liferay.portal.kernel.model.Country>
+				returnValue =
+					CountryServiceUtil.getShippingCountriesByChannelId(
+						channelId, start, end);
+
+			return com.liferay.portal.kernel.model.CountrySoap.toSoapModels(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.portal.kernel.model.CountrySoap[]
+			getWarehouseCountries(long companyId, boolean all)
+		throws RemoteException {
+
+		try {
+			java.util.List<com.liferay.portal.kernel.model.Country>
+				returnValue = CountryServiceUtil.getWarehouseCountries(
+					companyId, all);
+
+			return com.liferay.portal.kernel.model.CountrySoap.toSoapModels(
 				returnValue);
 		}
 		catch (Exception exception) {

@@ -333,12 +333,46 @@ public class CountryServiceHttp {
 	}
 
 	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getBillingCountriesByChannelId(
+			HttpPrincipal httpPrincipal, long channelId, int start, int end) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getBillingCountriesByChannelId",
+				_getBillingCountriesByChannelIdParameterTypes8);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, channelId, start, end);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.liferay.portal.kernel.model.Country>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
 		getCompanyCountries(HttpPrincipal httpPrincipal, long companyId) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCompanyCountries",
-				_getCompanyCountriesParameterTypes8);
+				_getCompanyCountriesParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId);
@@ -372,7 +406,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCompanyCountries",
-				_getCompanyCountriesParameterTypes9);
+				_getCompanyCountriesParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId, active);
@@ -409,7 +443,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCompanyCountries",
-				_getCompanyCountriesParameterTypes10);
+				_getCompanyCountriesParameterTypes11);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId, active, start, end, orderByComparator);
@@ -445,7 +479,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCompanyCountries",
-				_getCompanyCountriesParameterTypes11);
+				_getCompanyCountriesParameterTypes12);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId, start, end, orderByComparator);
@@ -478,7 +512,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCompanyCountriesCount",
-				_getCompanyCountriesCountParameterTypes12);
+				_getCompanyCountriesCountParameterTypes13);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId);
@@ -510,7 +544,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCompanyCountriesCount",
-				_getCompanyCountriesCountParameterTypes13);
+				_getCompanyCountriesCountParameterTypes14);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId, active);
@@ -542,7 +576,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountries",
-				_getCountriesParameterTypes14);
+				_getCountriesParameterTypes15);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -574,7 +608,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountries",
-				_getCountriesParameterTypes15);
+				_getCountriesParameterTypes16);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, active);
 
@@ -607,7 +641,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountry",
-				_getCountryParameterTypes16);
+				_getCountryParameterTypes17);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, countryId);
@@ -647,7 +681,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountryByA2",
-				_getCountryByA2ParameterTypes17);
+				_getCountryByA2ParameterTypes18);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId, a2);
@@ -687,7 +721,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountryByA2",
-				_getCountryByA2ParameterTypes18);
+				_getCountryByA2ParameterTypes19);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, a2);
 
@@ -726,7 +760,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountryByA3",
-				_getCountryByA3ParameterTypes19);
+				_getCountryByA3ParameterTypes20);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId, a3);
@@ -766,7 +800,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountryByA3",
-				_getCountryByA3ParameterTypes20);
+				_getCountryByA3ParameterTypes21);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, a3);
 
@@ -805,7 +839,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountryByName",
-				_getCountryByNameParameterTypes21);
+				_getCountryByNameParameterTypes22);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId, name);
@@ -845,7 +879,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountryByName",
-				_getCountryByNameParameterTypes22);
+				_getCountryByNameParameterTypes23);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, name);
 
@@ -884,7 +918,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "getCountryByNumber",
-				_getCountryByNumberParameterTypes23);
+				_getCountryByNumberParameterTypes24);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId, number);
@@ -917,6 +951,74 @@ public class CountryServiceHttp {
 		}
 	}
 
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getShippingCountriesByChannelId(
+			HttpPrincipal httpPrincipal, long channelId, int start, int end) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getShippingCountriesByChannelId",
+				_getShippingCountriesByChannelIdParameterTypes25);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, channelId, start, end);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.liferay.portal.kernel.model.Country>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getWarehouseCountries(
+			HttpPrincipal httpPrincipal, long companyId, boolean all) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CountryServiceUtil.class, "getWarehouseCountries",
+				_getWarehouseCountriesParameterTypes26);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, all);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.liferay.portal.kernel.model.Country>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static com.liferay.portal.kernel.search.BaseModelSearchResult
 		<com.liferay.portal.kernel.model.Country> searchCountries(
 				HttpPrincipal httpPrincipal, long companyId, Boolean active,
@@ -928,7 +1030,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "searchCountries",
-				_searchCountriesParameterTypes24);
+				_searchCountriesParameterTypes27);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, companyId, active, keywords, start, end,
@@ -970,7 +1072,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "updateActive",
-				_updateActiveParameterTypes25);
+				_updateActiveParameterTypes28);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, countryId, active);
@@ -1013,7 +1115,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "updateCountry",
-				_updateCountryParameterTypes26);
+				_updateCountryParameterTypes29);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, countryId, a2, a3, active, billingAllowed, idd, name,
@@ -1056,7 +1158,7 @@ public class CountryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CountryServiceUtil.class, "updateGroupFilterEnabled",
-				_updateGroupFilterEnabledParameterTypes27);
+				_updateGroupFilterEnabledParameterTypes30);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, countryId, groupFilterEnabled);
@@ -1113,59 +1215,69 @@ public class CountryServiceHttp {
 		new Class[] {long.class, String.class};
 	private static final Class<?>[] _fetchCountryByA3ParameterTypes7 =
 		new Class[] {String.class};
-	private static final Class<?>[] _getCompanyCountriesParameterTypes8 =
-		new Class[] {long.class};
+	private static final Class<?>[]
+		_getBillingCountriesByChannelIdParameterTypes8 = new Class[] {
+			long.class, int.class, int.class
+		};
 	private static final Class<?>[] _getCompanyCountriesParameterTypes9 =
-		new Class[] {long.class, boolean.class};
+		new Class[] {long.class};
 	private static final Class<?>[] _getCompanyCountriesParameterTypes10 =
+		new Class[] {long.class, boolean.class};
+	private static final Class<?>[] _getCompanyCountriesParameterTypes11 =
 		new Class[] {
 			long.class, boolean.class, int.class, int.class,
 			com.liferay.portal.kernel.util.OrderByComparator.class
 		};
-	private static final Class<?>[] _getCompanyCountriesParameterTypes11 =
+	private static final Class<?>[] _getCompanyCountriesParameterTypes12 =
 		new Class[] {
 			long.class, int.class, int.class,
 			com.liferay.portal.kernel.util.OrderByComparator.class
 		};
-	private static final Class<?>[] _getCompanyCountriesCountParameterTypes12 =
-		new Class[] {long.class};
 	private static final Class<?>[] _getCompanyCountriesCountParameterTypes13 =
+		new Class[] {long.class};
+	private static final Class<?>[] _getCompanyCountriesCountParameterTypes14 =
 		new Class[] {long.class, boolean.class};
-	private static final Class<?>[] _getCountriesParameterTypes14 =
-		new Class[] {};
 	private static final Class<?>[] _getCountriesParameterTypes15 =
+		new Class[] {};
+	private static final Class<?>[] _getCountriesParameterTypes16 =
 		new Class[] {boolean.class};
-	private static final Class<?>[] _getCountryParameterTypes16 = new Class[] {
+	private static final Class<?>[] _getCountryParameterTypes17 = new Class[] {
 		long.class
 	};
-	private static final Class<?>[] _getCountryByA2ParameterTypes17 =
-		new Class[] {long.class, String.class};
 	private static final Class<?>[] _getCountryByA2ParameterTypes18 =
-		new Class[] {String.class};
-	private static final Class<?>[] _getCountryByA3ParameterTypes19 =
 		new Class[] {long.class, String.class};
+	private static final Class<?>[] _getCountryByA2ParameterTypes19 =
+		new Class[] {String.class};
 	private static final Class<?>[] _getCountryByA3ParameterTypes20 =
-		new Class[] {String.class};
-	private static final Class<?>[] _getCountryByNameParameterTypes21 =
 		new Class[] {long.class, String.class};
+	private static final Class<?>[] _getCountryByA3ParameterTypes21 =
+		new Class[] {String.class};
 	private static final Class<?>[] _getCountryByNameParameterTypes22 =
-		new Class[] {String.class};
-	private static final Class<?>[] _getCountryByNumberParameterTypes23 =
 		new Class[] {long.class, String.class};
-	private static final Class<?>[] _searchCountriesParameterTypes24 =
+	private static final Class<?>[] _getCountryByNameParameterTypes23 =
+		new Class[] {String.class};
+	private static final Class<?>[] _getCountryByNumberParameterTypes24 =
+		new Class[] {long.class, String.class};
+	private static final Class<?>[]
+		_getShippingCountriesByChannelIdParameterTypes25 = new Class[] {
+			long.class, int.class, int.class
+		};
+	private static final Class<?>[] _getWarehouseCountriesParameterTypes26 =
+		new Class[] {long.class, boolean.class};
+	private static final Class<?>[] _searchCountriesParameterTypes27 =
 		new Class[] {
 			long.class, Boolean.class, String.class, int.class, int.class,
 			com.liferay.portal.kernel.util.OrderByComparator.class
 		};
-	private static final Class<?>[] _updateActiveParameterTypes25 =
+	private static final Class<?>[] _updateActiveParameterTypes28 =
 		new Class[] {long.class, boolean.class};
-	private static final Class<?>[] _updateCountryParameterTypes26 =
+	private static final Class<?>[] _updateCountryParameterTypes29 =
 		new Class[] {
 			long.class, String.class, String.class, boolean.class,
 			boolean.class, String.class, String.class, String.class,
 			double.class, boolean.class, boolean.class
 		};
-	private static final Class<?>[] _updateGroupFilterEnabledParameterTypes27 =
+	private static final Class<?>[] _updateGroupFilterEnabledParameterTypes30 =
 		new Class[] {long.class, boolean.class};
 
 }

@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.service.CountryLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.AddressPersistence;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+import com.liferay.portal.kernel.service.persistence.CountryFinder;
 import com.liferay.portal.kernel.service.persistence.CountryLocalizationPersistence;
 import com.liferay.portal.kernel.service.persistence.CountryPersistence;
 import com.liferay.portal.kernel.service.persistence.OrganizationFinder;
@@ -644,6 +645,24 @@ public abstract class CountryLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the country finder.
+	 *
+	 * @return the country finder
+	 */
+	public CountryFinder getCountryFinder() {
+		return countryFinder;
+	}
+
+	/**
+	 * Sets the country finder.
+	 *
+	 * @param countryFinder the country finder
+	 */
+	public void setCountryFinder(CountryFinder countryFinder) {
+		this.countryFinder = countryFinder;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -944,6 +963,9 @@ public abstract class CountryLocalServiceBaseImpl
 
 	@BeanReference(type = CountryPersistence.class)
 	protected CountryPersistence countryPersistence;
+
+	@BeanReference(type = CountryFinder.class)
+	protected CountryFinder countryFinder;
 
 	@BeanReference(
 		type = com.liferay.counter.kernel.service.CounterLocalService.class

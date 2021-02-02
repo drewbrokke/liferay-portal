@@ -286,6 +286,13 @@ public class CountryLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getBillingCountriesByChannelId(long channelId, int start, int end) {
+
+		return getService().getBillingCountriesByChannelId(
+			channelId, start, end);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
 		getCompanyCountries(long companyId) {
 
 		return getService().getCompanyCountries(companyId);
@@ -454,6 +461,19 @@ public class CountryLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getShippingCountriesByChannelId(long channelId, int start, int end) {
+
+		return getService().getShippingCountriesByChannelId(
+			channelId, start, end);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Country>
+		getWarehouseCountries(long companyId, boolean all) {
+
+		return getService().getWarehouseCountries(companyId, all);
 	}
 
 	public static com.liferay.portal.kernel.search.BaseModelSearchResult

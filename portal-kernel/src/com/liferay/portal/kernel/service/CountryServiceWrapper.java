@@ -107,6 +107,14 @@ public class CountryServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.portal.kernel.model.Country>
+		getBillingCountriesByChannelId(long channelId, int start, int end) {
+
+		return _countryService.getBillingCountriesByChannelId(
+			channelId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Country>
 		getCompanyCountries(long companyId) {
 
 		return _countryService.getCompanyCountries(companyId);
@@ -256,6 +264,21 @@ public class CountryServiceWrapper
 	@Override
 	public java.lang.String getOSGiServiceIdentifier() {
 		return _countryService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Country>
+		getShippingCountriesByChannelId(long channelId, int start, int end) {
+
+		return _countryService.getShippingCountriesByChannelId(
+			channelId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Country>
+		getWarehouseCountries(long companyId, boolean all) {
+
+		return _countryService.getWarehouseCountries(companyId, all);
 	}
 
 	@Override

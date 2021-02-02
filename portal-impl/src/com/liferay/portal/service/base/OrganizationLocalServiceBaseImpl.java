@@ -53,6 +53,7 @@ import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.AddressPersistence;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.CompanyPersistence;
+import com.liferay.portal.kernel.service.persistence.CountryFinder;
 import com.liferay.portal.kernel.service.persistence.CountryPersistence;
 import com.liferay.portal.kernel.service.persistence.EmailAddressPersistence;
 import com.liferay.portal.kernel.service.persistence.GroupFinder;
@@ -988,6 +989,24 @@ public abstract class OrganizationLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the country finder.
+	 *
+	 * @return the country finder
+	 */
+	public CountryFinder getCountryFinder() {
+		return countryFinder;
+	}
+
+	/**
+	 * Sets the country finder.
+	 *
+	 * @param countryFinder the country finder
+	 */
+	public void setCountryFinder(CountryFinder countryFinder) {
+		this.countryFinder = countryFinder;
+	}
+
+	/**
 	 * Returns the email address local service.
 	 *
 	 * @return the email address local service
@@ -1835,6 +1854,9 @@ public abstract class OrganizationLocalServiceBaseImpl
 
 	@BeanReference(type = CountryPersistence.class)
 	protected CountryPersistence countryPersistence;
+
+	@BeanReference(type = CountryFinder.class)
+	protected CountryFinder countryFinder;
 
 	@BeanReference(
 		type = com.liferay.portal.kernel.service.EmailAddressLocalService.class
