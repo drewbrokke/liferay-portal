@@ -1,6 +1,47 @@
 <?xml version="1.0"?>
 
 <custom-sql>
+	<sql id="com.liferay.portal.kernel.service.persistence.CountryFinder.findByCommerceInventoryWarehouses">
+		<![CDATA[
+			SELECT
+				{Country.*}
+			FROM
+				Country
+			INNER JOIN
+				CIWarehouse
+			ON
+				CIWarehouse.countryTwoLettersISOCode = Country.a2
+			WHERE
+				(CIWarehouse.companyId = ?) [$ALL$]
+			ORDER BY
+				Country.position
+		]]>
+	</sql>
+	<sql id="com.liferay.portal.kernel.service.persistence.CountryFinder.findByCommerceChannel">
+		<![CDATA[
+			SELECT
+				{Country.*}
+			FROM
+				Country
+			LEFT JOIN
+				CommerceChannelRel
+			ON
+				CommerceChannelRel.classPK = Country.CountryId
+			WHERE
+				(Country.active_ = [$TRUE$]) AND
+				(
+					(Country.groupFilterEnabled = [$FALSE$]) OR
+					(
+						(Country.groupFilterEnabled = [$TRUE$]) AND
+						(CommerceChannelRel.classNameId = ?) AND
+						(CommerceChannelRel.commerceChannelId = ?)
+					)
+				)
+				[$BILLING$] [$SHIPPING$]
+			ORDER BY
+				Country.position
+		]]>
+	</sql>
 	<sql id="com.liferay.portal.kernel.service.persistence.GroupFinder.countByLayouts">
 		<![CDATA[
 			SELECT
