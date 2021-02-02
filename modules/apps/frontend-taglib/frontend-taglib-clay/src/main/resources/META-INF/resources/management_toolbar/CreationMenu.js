@@ -22,6 +22,7 @@ const CreationMenu = ({
 	maxPrimaryItems,
 	maxSecondaryItems,
 	maxTotalItems = 15,
+	onPlusButtonClick,
 	onShowMoreButtonClick,
 	primaryItems,
 	secondaryItems,
@@ -153,12 +154,23 @@ const CreationMenu = ({
 						/>
 					)}
 				</ClayDropDown>
-			) : (
+			) : primaryItems[0].href ? (
 				<ClayLink
 					button={true}
 					className="nav-btn nav-btn-monospaced"
 					displayType="primary"
 					href={primaryItems[0].href}
+				>
+					<ClayIcon symbol="plus" />
+				</ClayLink>
+			) : (
+				<ClayLink
+					button={true}
+					className="nav-btn nav-btn-monospaced"
+					displayType="primary"
+					onClick={(event) => {
+						onPlusButtonClick(event, {item: primaryItems[0]});
+					}}
 				>
 					<ClayIcon symbol="plus" />
 				</ClayLink>
