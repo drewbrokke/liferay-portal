@@ -136,7 +136,7 @@ public class CommerceRegionServiceHttp {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				CommerceRegionServiceUtil.class, "getRegion",
+				CommerceRegionServiceUtil.class, "getCommerceRegion",
 				_getCommerceRegionParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(
