@@ -338,6 +338,15 @@ public class AccountEntryOrganizationRelLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.account.model.AccountEntryOrganizationRel>
+		getAccountEntryOrganizationRels(
+			long accountEntryId, int start, int end) {
+
+		return _accountEntryOrganizationRelLocalService.
+			getAccountEntryOrganizationRels(accountEntryId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.account.model.AccountEntryOrganizationRel>
 		getAccountEntryOrganizationRelsByOrganizationId(long organizationId) {
 
 		return _accountEntryOrganizationRelLocalService.

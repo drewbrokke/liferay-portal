@@ -317,6 +317,15 @@ public class AccountEntryOrganizationRelLocalServiceUtil {
 
 	public static java.util.List
 		<com.liferay.account.model.AccountEntryOrganizationRel>
+			getAccountEntryOrganizationRels(
+				long accountEntryId, int start, int end) {
+
+		return getService().getAccountEntryOrganizationRels(
+			accountEntryId, start, end);
+	}
+
+	public static java.util.List
+		<com.liferay.account.model.AccountEntryOrganizationRel>
 			getAccountEntryOrganizationRelsByOrganizationId(
 				long organizationId) {
 
