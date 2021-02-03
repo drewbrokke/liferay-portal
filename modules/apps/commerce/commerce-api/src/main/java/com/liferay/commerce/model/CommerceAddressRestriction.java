@@ -63,7 +63,7 @@ public interface CommerceAddressRestriction
 
 			};
 
-	public CommerceCountry getCommerceCountry()
+	public com.liferay.portal.kernel.model.Country getCommerceCountry()
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 }
