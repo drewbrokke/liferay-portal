@@ -293,6 +293,15 @@ public class AccountEntryOrganizationRelLocalServiceWrapper
 			fetchAccountEntryOrganizationRel(accountEntryOrganizationRelId);
 	}
 
+	@Override
+	public com.liferay.account.model.AccountEntryOrganizationRel
+		fetchAccountEntryOrganizationRel(
+			long accountEntryId, long organizationId) {
+
+		return _accountEntryOrganizationRelLocalService.
+			fetchAccountEntryOrganizationRel(accountEntryId, organizationId);
+	}
+
 	/**
 	 * Returns the account entry organization rel with the primary key.
 	 *

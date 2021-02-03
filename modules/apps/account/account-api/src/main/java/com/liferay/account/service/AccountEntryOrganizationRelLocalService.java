@@ -224,6 +224,10 @@ public interface AccountEntryOrganizationRelLocalService
 	public AccountEntryOrganizationRel fetchAccountEntryOrganizationRel(
 		long accountEntryOrganizationRelId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public AccountEntryOrganizationRel fetchAccountEntryOrganizationRel(
+		long accountEntryId, long organizationId);
+
 	/**
 	 * Returns the account entry organization rel with the primary key.
 	 *

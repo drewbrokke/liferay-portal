@@ -275,6 +275,14 @@ public class AccountEntryOrganizationRelLocalServiceUtil {
 			accountEntryOrganizationRelId);
 	}
 
+	public static com.liferay.account.model.AccountEntryOrganizationRel
+		fetchAccountEntryOrganizationRel(
+			long accountEntryId, long organizationId) {
+
+		return getService().fetchAccountEntryOrganizationRel(
+			accountEntryId, organizationId);
+	}
+
 	/**
 	 * Returns the account entry organization rel with the primary key.
 	 *
