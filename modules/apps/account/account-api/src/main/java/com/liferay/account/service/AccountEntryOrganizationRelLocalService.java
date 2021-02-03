@@ -138,6 +138,12 @@ public interface AccountEntryOrganizationRelLocalService
 			long accountEntryId, long[] organizationIds)
 		throws PortalException;
 
+	public void deleteAccountEntryOrganizationRelsByAccountEntryId(
+		long accountEntryId);
+
+	public void deleteAccountEntryOrganizationRelsByOrganizationId(
+		long organizationId);
+
 	/**
 	 * @throws PortalException
 	 */

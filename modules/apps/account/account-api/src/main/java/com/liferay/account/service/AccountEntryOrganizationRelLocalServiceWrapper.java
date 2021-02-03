@@ -159,6 +159,22 @@ public class AccountEntryOrganizationRelLocalServiceWrapper
 			deleteAccountEntryOrganizationRels(accountEntryId, organizationIds);
 	}
 
+	@Override
+	public void deleteAccountEntryOrganizationRelsByAccountEntryId(
+		long accountEntryId) {
+
+		_accountEntryOrganizationRelLocalService.
+			deleteAccountEntryOrganizationRelsByAccountEntryId(accountEntryId);
+	}
+
+	@Override
+	public void deleteAccountEntryOrganizationRelsByOrganizationId(
+		long organizationId) {
+
+		_accountEntryOrganizationRelLocalService.
+			deleteAccountEntryOrganizationRelsByOrganizationId(organizationId);
+	}
+
 	/**
 	 * @throws PortalException
 	 */
