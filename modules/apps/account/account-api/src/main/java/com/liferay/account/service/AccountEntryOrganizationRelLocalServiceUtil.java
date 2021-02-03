@@ -152,6 +152,20 @@ public class AccountEntryOrganizationRelLocalServiceUtil {
 			accountEntryId, organizationIds);
 	}
 
+	public static void deleteAccountEntryOrganizationRelsByAccountEntryId(
+		long accountEntryId) {
+
+		getService().deleteAccountEntryOrganizationRelsByAccountEntryId(
+			accountEntryId);
+	}
+
+	public static void deleteAccountEntryOrganizationRelsByOrganizationId(
+		long organizationId) {
+
+		getService().deleteAccountEntryOrganizationRelsByOrganizationId(
+			organizationId);
+	}
+
 	/**
 	 * @throws PortalException
 	 */
