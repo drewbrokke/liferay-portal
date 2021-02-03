@@ -236,6 +236,11 @@ public interface AccountEntryOrganizationRelLocalService
 			long accountEntryOrganizationRelId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public AccountEntryOrganizationRel getAccountEntryOrganizationRel(
+			long accountEntryId, long organizationId)
+		throws PortalException;
+
 	/**
 	 * Returns a range of all the account entry organization rels.
 	 *

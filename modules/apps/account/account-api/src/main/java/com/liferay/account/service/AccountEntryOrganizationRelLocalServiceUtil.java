@@ -290,6 +290,15 @@ public class AccountEntryOrganizationRelLocalServiceUtil {
 			accountEntryOrganizationRelId);
 	}
 
+	public static com.liferay.account.model.AccountEntryOrganizationRel
+			getAccountEntryOrganizationRel(
+				long accountEntryId, long organizationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getAccountEntryOrganizationRel(
+			accountEntryId, organizationId);
+	}
+
 	/**
 	 * Returns a range of all the account entry organization rels.
 	 *
