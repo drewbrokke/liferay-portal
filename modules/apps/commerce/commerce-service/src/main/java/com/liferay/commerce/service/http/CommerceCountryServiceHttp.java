@@ -143,7 +143,7 @@ public class CommerceCountryServiceHttp {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				CommerceCountryServiceUtil.class, "fetchCommerceCountry",
+				CommerceCountryServiceUtil.class, "fetchCountry",
 				_fetchCommerceCountryParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(
@@ -460,7 +460,7 @@ public class CommerceCountryServiceHttp {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				CommerceCountryServiceUtil.class, "getCommerceCountry",
+				CommerceCountryServiceUtil.class, "getCountry",
 				_getCommerceCountryParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(
@@ -501,7 +501,7 @@ public class CommerceCountryServiceHttp {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				CommerceCountryServiceUtil.class, "getCommerceCountry",
+				CommerceCountryServiceUtil.class, "getCountry",
 				_getCommerceCountryParameterTypes11);
 
 			MethodHandler methodHandler = new MethodHandler(
