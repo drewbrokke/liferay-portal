@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.CountryA2Exception;
 import com.liferay.portal.kernel.exception.CountryA3Exception;
-import com.liferay.portal.kernel.exception.CountryIddException;
 import com.liferay.portal.kernel.exception.CountryNameException;
 import com.liferay.portal.kernel.exception.CountryNumberException;
 import com.liferay.portal.kernel.exception.DuplicateCountryException;
@@ -289,7 +288,7 @@ public class CountryLocalServiceImpl extends CountryLocalServiceBaseImpl {
 
 		Country country = countryPersistence.findByPrimaryKey(countryId);
 
-		validate(a2, a3, idd, number, idd);
+		validate(a2, a3, idd, name, number);
 
 		country.setA2(a2);
 		country.setA3(a3);
@@ -327,10 +326,6 @@ public class CountryLocalServiceImpl extends CountryLocalServiceBaseImpl {
 
 		if (Validator.isNull(a3) || (a3.length() != 3)) {
 			throw new CountryA3Exception();
-		}
-
-		if (Validator.isNull(idd)) {
-			throw new CountryIddException();
 		}
 
 		if (Validator.isNull(name)) {
