@@ -77,6 +77,10 @@ public class AccountEntryOrganizationRelLocalServiceImpl
 			long accountEntryId, long[] organizationIds)
 		throws PortalException {
 
+		if (organizationIds == null) {
+			return;
+		}
+
 		for (long organizationId : organizationIds) {
 			addAccountEntryOrganizationRel(accountEntryId, organizationId);
 		}
@@ -105,6 +109,39 @@ public class AccountEntryOrganizationRelLocalServiceImpl
 	}
 
 	@Override
+	public void deleteAccountEntryOrganizationRelsByAccountEntryId(
+		long accountEntryId) {
+
+		accountEntryOrganizationRelPersistence.removeByAccountEntryId(
+			accountEntryId);
+	}
+
+	@Override
+	public void deleteAccountEntryOrganizationRelsByOrganizationId(
+		long organizationId) {
+
+		accountEntryOrganizationRelPersistence.removeByOrganizationId(
+			organizationId);
+	}
+
+	@Override
+	public AccountEntryOrganizationRel fetchAccountEntryOrganizationRel(
+		long accountEntryId, long organizationId) {
+
+		return accountEntryOrganizationRelPersistence.fetchByA_O(
+			accountEntryId, organizationId);
+	}
+
+	@Override
+	public AccountEntryOrganizationRel getAccountEntryOrganizationRel(
+			long accountEntryId, long organizationId)
+		throws PortalException {
+
+		return accountEntryOrganizationRelPersistence.findByA_O(
+			accountEntryId, organizationId);
+	}
+
+	@Override
 	public List<AccountEntryOrganizationRel> getAccountEntryOrganizationRels(
 		long accountEntryId) {
 
@@ -113,10 +150,35 @@ public class AccountEntryOrganizationRelLocalServiceImpl
 	}
 
 	@Override
+	public List<AccountEntryOrganizationRel> getAccountEntryOrganizationRels(
+		long accountEntryId, int start, int end) {
+
+		return accountEntryOrganizationRelPersistence.findByAccountEntryId(
+			accountEntryId, start, end);
+	}
+
+	@Override
 	public List<AccountEntryOrganizationRel>
 		getAccountEntryOrganizationRelsByOrganizationId(long organizationId) {
 
 		return accountEntryOrganizationRelPersistence.findByOrganizationId(
+			organizationId);
+	}
+
+	@Override
+	public List<AccountEntryOrganizationRel>
+		getAccountEntryOrganizationRelsByOrganizationId(
+			long organizationId, int start, int end) {
+
+		return accountEntryOrganizationRelPersistence.findByOrganizationId(
+			organizationId, start, end);
+	}
+
+	@Override
+	public int getAccountEntryOrganizationRelsByOrganizationIdsCount(
+		long organizationId) {
+
+		return accountEntryOrganizationRelPersistence.countByOrganizationId(
 			organizationId);
 	}
 
