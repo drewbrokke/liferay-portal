@@ -174,7 +174,8 @@ public class OrganizationResourceImpl
 
 		return _organizationResourceDTOConverter.toDTO(
 			_getDTOConverterContext(
-				serviceBuilderOrganization.getExternalReferenceCode()));
+				String.valueOf(
+					serviceBuilderOrganization.getOrganizationId())));
 	}
 
 	@Override
