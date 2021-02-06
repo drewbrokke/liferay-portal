@@ -269,11 +269,6 @@ public class AccountUsersAdminManagementToolbarDisplayContext
 	}
 
 	@Override
-	public String getDefaultEventHandler() {
-		return "ACCOUNT_USERS_ADMIN_MANAGEMENT_TOOLBAR_DEFAULT_EVENT_HANDLER";
-	}
-
-	@Override
 	public List<DropdownItem> getFilterDropdownItems() {
 		List<DropdownItem> filterAccountEntriesDropdownItems =
 			_getFilterByAccountEntriesDropdownItems();
