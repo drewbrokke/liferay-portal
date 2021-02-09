@@ -19,28 +19,27 @@ import {
 	postForm,
 } from 'frontend-js-web';
 
+const updateAccountUsers = (portletNamespace, url) => {
+	const form = document.getElementById(`${portletNamespace}fm`);
+
+	if (!form) {
+		return;
+	}
+
+	postForm(form, {
+		data: {
+			accountUserIds: Liferay.Util.listCheckedExcept(
+				form,
+				`${portletNamespace}allRowIds`
+			),
+		},
+		url,
+	});
+};
+
 export default function propsTransformer({portletNamespace, ...otherProps}) {
 	const activateAccountUsers = (itemData) => {
-		_updateAccountUsers(itemData.activateAccountUsersURL);
-	};
-
-	const addAccountUser = (itemData) => {
-		openSelectionModal({
-			id: `${portletNamespace}addAccountUser`,
-			onSelect: (selectedItem) => {
-				var addAccountUserURL = createPortletURL(
-					itemData.addAccountUserURL,
-					{
-						accountEntryId: selectedItem.accountentryid,
-					}
-				);
-
-				navigate(addAccountUserURL);
-			},
-			selectEventName: `${portletNamespace}selectAccountEntry`,
-			title: Liferay.Language.get(itemData.dialogTitle),
-			url: itemData.accountEntrySelectorURL,
-		});
+		updateAccountUsers(portletNamespace, itemData.activateAccountUsersURL);
 	};
 
 	const deactivateAccountUsers = (itemData) => {
@@ -51,7 +50,10 @@ export default function propsTransformer({portletNamespace, ...otherProps}) {
 				)
 			)
 		) {
-			_updateAccountUsers(itemData.deactivateAccountUsersURL);
+			updateAccountUsers(
+				portletNamespace,
+				itemData.deactivateAccountUsersURL
+			);
 		}
 	};
 
@@ -63,65 +65,30 @@ export default function propsTransformer({portletNamespace, ...otherProps}) {
 				)
 			)
 		) {
-			_updateAccountUsers(itemData.deleteAccountUsersURL);
+			updateAccountUsers(
+				portletNamespace,
+				itemData.deleteAccountUsersURL
+			);
 		}
-	};
-
-	const _openAccountEntrySelector = (
-		dialogButtonLabel,
-		dialogEventName,
-		dialogTitle,
-		accountEntrySelectorURL,
-		callback
-	) => {
-		openSelectionModal({
-			buttonAddLabel: dialogButtonLabel,
-			multiple: true,
-			onSelect: (selectedItem) => {
-				if (selectedItem) {
-					callback(selectedItem);
-				}
-			},
-			selectEventName: dialogEventName,
-			title: dialogTitle,
-			url: accountEntrySelectorURL,
-		});
 	};
 
 	const selectAccountEntries = (itemData) => {
-		_openAccountEntrySelector(
-			Liferay.Language.get('select'),
-			`${portletNamespace}selectAccountEntries`,
-			Liferay.Language.get(itemData.dialogTitle),
-			itemData.accountEntriesSelectorURL,
-			(selectedItems) => {
-				var redirectURL = Liferay.Util.PortletURL.createPortletURL(
-					itemData.redirectURL,
-					{
+		openSelectionModal({
+			buttonAddLabel: Liferay.Language.get('select'),
+			multiple: true,
+			onSelect: (selectedItem) => {
+				if (selectedItem) {
+					const redirectURL = createPortletURL(itemData.redirectURL, {
 						accountEntriesNavigation: 'accounts',
-						accountEntryIds: selectedItems.value,
-					}
-				);
+						accountEntryIds: selectedItem.value,
+					});
 
-				window.location.href = redirectURL;
-			}
-		);
-	};
-
-	const _updateAccountUsers = (url) => {
-		const form = document.getElementById(`${portletNamespace}fm`);
-
-		if (!form) {
-			return;
-		}
-		postForm(form, {
-			data: {
-				accountUserIds: Liferay.Util.listCheckedExcept(
-					form,
-					`${portletNamespace}allRowIds`
-				),
+					navigate(redirectURL);
+				}
 			},
-			url,
+			selectEventName: `${portletNamespace}selectAccountEntries`,
+			title: Liferay.Language.get(itemData.dialogTitle),
+			url: itemData.accountEntriesSelectorURL,
 		});
 	};
 
@@ -132,17 +99,17 @@ export default function propsTransformer({portletNamespace, ...otherProps}) {
 
 			const action = data?.action;
 
-			if (action === 'selectAccountEntries') {
-				selectAccountEntries(data);
+			if (action === 'activateAccountUsers') {
+				activateAccountUsers(data);
 			}
 			else if (action === 'deactivateAccountUsers') {
 				deactivateAccountUsers(data);
 			}
-			else if (action === 'activateAccountUsers') {
-				activateAccountUsers(data);
-			}
 			else if (action === 'deleteAccountUsers') {
 				deleteAccountUsers(data);
+			}
+			else if (action === 'selectAccountEntries') {
+				selectAccountEntries(data);
 			}
 		},
 		onCreateButtonClick: (event, {item}) => {
@@ -152,7 +119,22 @@ export default function propsTransformer({portletNamespace, ...otherProps}) {
 				return;
 			}
 
-			addAccountUser(data);
+			openSelectionModal({
+				id: `${portletNamespace}addAccountUser`,
+				onSelect: (selectedItem) => {
+					const addAccountUserURL = createPortletURL(
+						data.addAccountUserURL,
+						{
+							accountEntryId: selectedItem.accountentryid,
+						}
+					);
+
+					navigate(addAccountUserURL);
+				},
+				selectEventName: `${portletNamespace}selectAccountEntry`,
+				title: Liferay.Language.get(data.dialogTitle),
+				url: data.accountEntrySelectorURL,
+			});
 		},
 	};
 }
