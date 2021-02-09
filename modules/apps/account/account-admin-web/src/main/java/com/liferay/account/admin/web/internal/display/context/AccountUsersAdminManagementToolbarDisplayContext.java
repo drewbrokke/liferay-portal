@@ -70,6 +70,9 @@ public class AccountUsersAdminManagementToolbarDisplayContext
 		super(
 			httpServletRequest, liferayPortletRequest, liferayPortletResponse,
 			searchContainer);
+
+		_themeDisplay = (ThemeDisplay)httpServletRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
 	}
 
 	@Override
@@ -190,12 +193,8 @@ public class AccountUsersAdminManagementToolbarDisplayContext
 
 		List<String> availableActions = new ArrayList<>();
 
-		ThemeDisplay themeDisplay =
-			(ThemeDisplay)httpServletRequest.getAttribute(
-				WebKeys.THEME_DISPLAY);
-
 		if (!UserPermissionUtil.contains(
-				themeDisplay.getPermissionChecker(),
+				_themeDisplay.getPermissionChecker(),
 				accountUserDisplay.getUserId(), ActionKeys.DELETE)) {
 
 			return availableActions;
@@ -420,12 +419,8 @@ public class AccountUsersAdminManagementToolbarDisplayContext
 
 	@Override
 	public Boolean isShowCreationMenu() {
-		ThemeDisplay themeDisplay =
-			(ThemeDisplay)httpServletRequest.getAttribute(
-				WebKeys.THEME_DISPLAY);
-
 		return PortalPermissionUtil.contains(
-			themeDisplay.getPermissionChecker(), ActionKeys.ADD_USER);
+			_themeDisplay.getPermissionChecker(), ActionKeys.ADD_USER);
 	}
 
 	@Override
@@ -521,5 +516,7 @@ public class AccountUsersAdminManagementToolbarDisplayContext
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		AccountUsersAdminManagementToolbarDisplayContext.class);
+
+	private final ThemeDisplay _themeDisplay;
 
 }
