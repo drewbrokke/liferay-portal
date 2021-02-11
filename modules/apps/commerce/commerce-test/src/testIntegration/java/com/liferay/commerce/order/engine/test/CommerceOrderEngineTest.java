@@ -130,8 +130,7 @@ public class CommerceOrderEngineTest {
 		_commerceAccount = CommerceAccountTestUtil.addBusinessCommerceAccount(
 			_user.getUserId(), RandomTestUtil.randomString(),
 			RandomTestUtil.randomString() + "@liferay.com",
-			RandomTestUtil.randomString(), new long[] {_user.getUserId()}, null,
-			_serviceContext);
+			RandomTestUtil.randomString(), new long[0], null, _serviceContext);
 
 		_commerceOrder = CommerceTestUtil.addB2BCommerceOrder(
 			_group.getGroupId(), _user.getUserId(),
