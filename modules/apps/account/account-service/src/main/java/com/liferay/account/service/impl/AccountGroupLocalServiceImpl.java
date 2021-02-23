@@ -77,6 +77,27 @@ public class AccountGroupLocalServiceImpl
 		return accountGroupPersistence.update(accountGroup);
 	}
 
+	@Override
+	public AccountGroup checkGuestAccountGroup(long companyId)
+		throws PortalException {
+
+		if (hasDefaultAccountGroup(companyId)) {
+			return accountGroupPersistence.findByC_D_First(
+				companyId, true, null);
+		}
+
+		User user = userLocalService.getDefaultUser(companyId);
+
+		AccountGroup accountGroup = addAccountGroup(
+			user.getUserId(), "This account group is used for guest users.",
+			AccountConstants.ACCOUNT_GROUP_NAME_GUEST);
+
+		accountGroup.setDefaultAccountGroup(true);
+		accountGroup.setType(AccountConstants.ACCOUNT_GROUP_TYPE_GUEST);
+
+		return updateAccountGroup(accountGroup);
+	}
+
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public AccountGroup deleteAccountGroup(AccountGroup accountGroup) {
