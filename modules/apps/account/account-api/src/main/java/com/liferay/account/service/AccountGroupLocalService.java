@@ -76,6 +76,7 @@ public interface AccountGroupLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public AccountGroup addAccountGroup(AccountGroup accountGroup);
 
+	@Indexable(type = IndexableType.REINDEX)
 	public AccountGroup addAccountGroup(
 			long userId, String description, String name)
 		throws PortalException;
@@ -296,6 +297,7 @@ public interface AccountGroupLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public AccountGroup updateAccountGroup(AccountGroup accountGroup);
 
+	@Indexable(type = IndexableType.REINDEX)
 	public AccountGroup updateAccountGroup(
 			long accountGroupId, String description, String name)
 		throws PortalException;
