@@ -14,6 +14,7 @@
 
 package com.liferay.commerce.account.service.base;
 
+import com.liferay.account.service.persistence.AccountGroupPersistence;
 import com.liferay.commerce.account.model.CommerceAccountGroup;
 import com.liferay.commerce.account.service.CommerceAccountGroupService;
 import com.liferay.commerce.account.service.persistence.CommerceAccountGroupCommerceAccountRelPersistence;
@@ -509,6 +510,71 @@ public abstract class CommerceAccountGroupServiceBaseImpl
 	}
 
 	/**
+	 * Returns the account group local service.
+	 *
+	 * @return the account group local service
+	 */
+	public com.liferay.account.service.AccountGroupLocalService
+		getAccountGroupLocalService() {
+
+		return accountGroupLocalService;
+	}
+
+	/**
+	 * Sets the account group local service.
+	 *
+	 * @param accountGroupLocalService the account group local service
+	 */
+	public void setAccountGroupLocalService(
+		com.liferay.account.service.AccountGroupLocalService
+			accountGroupLocalService) {
+
+		this.accountGroupLocalService = accountGroupLocalService;
+	}
+
+	/**
+	 * Returns the account group remote service.
+	 *
+	 * @return the account group remote service
+	 */
+	public com.liferay.account.service.AccountGroupService
+		getAccountGroupService() {
+
+		return accountGroupService;
+	}
+
+	/**
+	 * Sets the account group remote service.
+	 *
+	 * @param accountGroupService the account group remote service
+	 */
+	public void setAccountGroupService(
+		com.liferay.account.service.AccountGroupService accountGroupService) {
+
+		this.accountGroupService = accountGroupService;
+	}
+
+	/**
+	 * Returns the account group persistence.
+	 *
+	 * @return the account group persistence
+	 */
+	public AccountGroupPersistence getAccountGroupPersistence() {
+		return accountGroupPersistence;
+	}
+
+	/**
+	 * Sets the account group persistence.
+	 *
+	 * @param accountGroupPersistence the account group persistence
+	 */
+	public void setAccountGroupPersistence(
+		AccountGroupPersistence accountGroupPersistence) {
+
+		this.accountGroupPersistence = accountGroupPersistence;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -935,6 +1001,21 @@ public abstract class CommerceAccountGroupServiceBaseImpl
 	@BeanReference(type = CommerceAccountUserRelPersistence.class)
 	protected CommerceAccountUserRelPersistence
 		commerceAccountUserRelPersistence;
+
+	@ServiceReference(
+		type = com.liferay.account.service.AccountGroupLocalService.class
+	)
+	protected com.liferay.account.service.AccountGroupLocalService
+		accountGroupLocalService;
+
+	@ServiceReference(
+		type = com.liferay.account.service.AccountGroupService.class
+	)
+	protected com.liferay.account.service.AccountGroupService
+		accountGroupService;
+
+	@ServiceReference(type = AccountGroupPersistence.class)
+	protected AccountGroupPersistence accountGroupPersistence;
 
 	@ServiceReference(
 		type = com.liferay.counter.kernel.service.CounterLocalService.class
