@@ -81,6 +81,9 @@ public interface AccountGroupLocalService
 			long userId, String description, String name)
 		throws PortalException;
 
+	public AccountGroup checkGuestAccountGroup(long companyId)
+		throws PortalException;
+
 	/**
 	 * Creates a new account group with the primary key. Does not add the account group to the database.
 	 *

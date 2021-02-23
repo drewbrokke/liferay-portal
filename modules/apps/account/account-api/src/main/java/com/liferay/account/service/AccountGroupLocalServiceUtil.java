@@ -61,6 +61,13 @@ public class AccountGroupLocalServiceUtil {
 		return getService().addAccountGroup(userId, description, name);
 	}
 
+	public static com.liferay.account.model.AccountGroup checkGuestAccountGroup(
+			long companyId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().checkGuestAccountGroup(companyId);
+	}
+
 	/**
 	 * Creates a new account group with the primary key. Does not add the account group to the database.
 	 *

@@ -59,6 +59,14 @@ public class AccountGroupLocalServiceWrapper
 			userId, description, name);
 	}
 
+	@Override
+	public com.liferay.account.model.AccountGroup checkGuestAccountGroup(
+			long companyId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountGroupLocalService.checkGuestAccountGroup(companyId);
+	}
+
 	/**
 	 * Creates a new account group with the primary key. Does not add the account group to the database.
 	 *
