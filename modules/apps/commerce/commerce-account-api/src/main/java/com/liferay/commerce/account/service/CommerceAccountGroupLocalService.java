@@ -55,41 +55,25 @@ public interface CommerceAccountGroupLocalService extends BaseLocalService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.commerce.account.service.impl.CommerceAccountGroupLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the commerce account group local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CommerceAccountGroupLocalServiceUtil} if injection and service tracking are not available.
 	 */
-
-	/**
-	 * @bridged
-	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccountGroup addCommerceAccountGroup(
 			long companyId, String name, int type, boolean system,
 			String externalReferenceCode, ServiceContext serviceContext)
 		throws PortalException;
 
-	/**
-	 * @bridged
-	 */
 	public void checkGuestCommerceAccountGroup(long companyId)
 		throws PortalException;
 
-	/**
-	 * @bridged
-	 */
 	@Indexable(type = IndexableType.DELETE)
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public CommerceAccountGroup deleteCommerceAccountGroup(
 			CommerceAccountGroup commerceAccountGroup)
 		throws PortalException;
 
-	/**
-	 * @bridged
-	 */
 	public CommerceAccountGroup deleteCommerceAccountGroup(
 			long commerceAccountGroupId)
 		throws PortalException;
 
-	/**
-	 * @bridged
-	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommerceAccountGroup fetchByExternalReferenceCode(
 		long companyId, String externalReferenceCode);
@@ -103,30 +87,18 @@ public interface CommerceAccountGroupLocalService extends BaseLocalService {
 			long commerceAccountGroupId)
 		throws PortalException;
 
-	/**
-	 * @bridged
-	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccountGroup> getCommerceAccountGroups(
 		long companyId, int start, int end,
 		OrderByComparator<CommerceAccountGroup> orderByComparator);
 
-	/**
-	 * @bridged
-	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccountGroup>
 		getCommerceAccountGroupsByCommerceAccountId(long commerceAccountId);
 
-	/**
-	 * @bridged
-	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCommerceAccountGroupsCount(long companyId);
 
-	/**
-	 * @bridged
-	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Long> getCommerceAccountUserIdsFromAccountGroupIds(
 		long[] commerceAccountGroupIds, int start, int end);
@@ -138,24 +110,15 @@ public interface CommerceAccountGroupLocalService extends BaseLocalService {
 	 */
 	public String getOSGiServiceIdentifier();
 
-	/**
-	 * @bridged
-	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccountGroup> searchCommerceAccountGroups(
 			long companyId, String keywords, int start, int end, Sort sort)
 		throws PortalException;
 
-	/**
-	 * @bridged
-	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchCommerceAccountsGroupCount(long companyId, String keywords)
 		throws PortalException;
 
-	/**
-	 * @bridged
-	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccountGroup updateCommerceAccountGroup(
 			long commerceAccountGroupId, String name,

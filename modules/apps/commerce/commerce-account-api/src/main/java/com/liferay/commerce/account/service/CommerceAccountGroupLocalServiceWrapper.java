@@ -33,9 +33,6 @@ public class CommerceAccountGroupLocalServiceWrapper
 		_commerceAccountGroupLocalService = commerceAccountGroupLocalService;
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccountGroup
 			addCommerceAccountGroup(
@@ -49,9 +46,6 @@ public class CommerceAccountGroupLocalServiceWrapper
 			serviceContext);
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public void checkGuestCommerceAccountGroup(long companyId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -60,9 +54,6 @@ public class CommerceAccountGroupLocalServiceWrapper
 			companyId);
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccountGroup
 			deleteCommerceAccountGroup(
@@ -74,9 +65,6 @@ public class CommerceAccountGroupLocalServiceWrapper
 			commerceAccountGroup);
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccountGroup
 			deleteCommerceAccountGroup(long commerceAccountGroupId)
@@ -86,9 +74,6 @@ public class CommerceAccountGroupLocalServiceWrapper
 			commerceAccountGroupId);
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccountGroup
 		fetchByExternalReferenceCode(
@@ -115,9 +100,6 @@ public class CommerceAccountGroupLocalServiceWrapper
 			commerceAccountGroupId);
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public java.util.List
 		<com.liferay.commerce.account.model.CommerceAccountGroup>
@@ -131,9 +113,6 @@ public class CommerceAccountGroupLocalServiceWrapper
 			companyId, start, end, orderByComparator);
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public java.util.List
 		<com.liferay.commerce.account.model.CommerceAccountGroup>
@@ -144,18 +123,12 @@ public class CommerceAccountGroupLocalServiceWrapper
 			getCommerceAccountGroupsByCommerceAccountId(commerceAccountId);
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public int getCommerceAccountGroupsCount(long companyId) {
 		return _commerceAccountGroupLocalService.getCommerceAccountGroupsCount(
 			companyId);
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public java.util.List<Long> getCommerceAccountUserIdsFromAccountGroupIds(
 		long[] commerceAccountGroupIds, int start, int end) {
@@ -175,9 +148,6 @@ public class CommerceAccountGroupLocalServiceWrapper
 		return _commerceAccountGroupLocalService.getOSGiServiceIdentifier();
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public java.util.List
 		<com.liferay.commerce.account.model.CommerceAccountGroup>
@@ -190,9 +160,6 @@ public class CommerceAccountGroupLocalServiceWrapper
 			companyId, keywords, start, end, sort);
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public int searchCommerceAccountsGroupCount(long companyId, String keywords)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -201,9 +168,6 @@ public class CommerceAccountGroupLocalServiceWrapper
 			searchCommerceAccountsGroupCount(companyId, keywords);
 	}
 
-	/**
-	 * @bridged
-	 */
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccountGroup
 			updateCommerceAccountGroup(
