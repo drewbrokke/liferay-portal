@@ -133,6 +133,13 @@ public class AccountGroupLocalServiceImpl
 	}
 
 	@Override
+	public List<AccountGroup> getAccountGroupsByAccountGroupIds(
+		long[] accountGroupIds) {
+
+		return accountGroupPersistence.findByAccountGroupIds(accountGroupIds);
+	}
+
+	@Override
 	public int getAccountGroupsCount(long companyId) {
 		return accountGroupPersistence.countByCompanyId(companyId);
 	}
