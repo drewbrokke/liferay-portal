@@ -247,6 +247,10 @@ public interface AccountGroupLocalService
 		long companyId, int start, int end,
 		OrderByComparator<AccountGroup> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AccountGroup> getAccountGroupsByAccountGroupIds(
+		long[] accountGroupIds);
+
 	/**
 	 * Returns the number of account groups.
 	 *
