@@ -96,6 +96,12 @@ public class CommerceAccountGroupLocalServiceUtil {
 	}
 
 	public static com.liferay.commerce.account.model.CommerceAccountGroup
+		fetchCommerceAccountGroup(long commerceAccountGroupId) {
+
+		return getService().fetchCommerceAccountGroup(commerceAccountGroupId);
+	}
+
+	public static com.liferay.commerce.account.model.CommerceAccountGroup
 			getCommerceAccountGroup(long commerceAccountGroupId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 

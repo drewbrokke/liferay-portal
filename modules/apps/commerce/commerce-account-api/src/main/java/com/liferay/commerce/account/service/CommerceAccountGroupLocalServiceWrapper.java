@@ -100,6 +100,14 @@ public class CommerceAccountGroupLocalServiceWrapper
 
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccountGroup
+		fetchCommerceAccountGroup(long commerceAccountGroupId) {
+
+		return _commerceAccountGroupLocalService.fetchCommerceAccountGroup(
+			commerceAccountGroupId);
+	}
+
+	@Override
+	public com.liferay.commerce.account.model.CommerceAccountGroup
 			getCommerceAccountGroup(long commerceAccountGroupId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
