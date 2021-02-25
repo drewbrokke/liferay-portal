@@ -60,4 +60,6 @@ public interface CommerceAccountGroup
 
 			};
 
+	public com.liferay.expando.kernel.model.ExpandoBridge getExpandoBridge();
+
 }

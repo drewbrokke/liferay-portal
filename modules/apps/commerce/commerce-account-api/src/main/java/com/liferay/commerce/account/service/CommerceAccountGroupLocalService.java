@@ -80,12 +80,18 @@ public interface CommerceAccountGroupLocalService
 	public CommerceAccountGroup addCommerceAccountGroup(
 		CommerceAccountGroup commerceAccountGroup);
 
+	/**
+	 * @bridged
+	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccountGroup addCommerceAccountGroup(
 			long companyId, String name, int type, boolean system,
 			String externalReferenceCode, ServiceContext serviceContext)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	public void checkGuestCommerceAccountGroup(long companyId)
 		throws PortalException;
 
@@ -214,6 +220,9 @@ public interface CommerceAccountGroupLocalService
 	public long dynamicQueryCount(
 		DynamicQuery dynamicQuery, Projection projection);
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommerceAccountGroup fetchByExternalReferenceCode(
 		long companyId, String externalReferenceCode);
@@ -263,11 +272,17 @@ public interface CommerceAccountGroupLocalService
 	public List<CommerceAccountGroup> getCommerceAccountGroups(
 		int start, int end);
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccountGroup> getCommerceAccountGroups(
 		long companyId, int start, int end,
 		OrderByComparator<CommerceAccountGroup> orderByComparator);
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccountGroup>
 		getCommerceAccountGroupsByCommerceAccountId(long commerceAccountId);
@@ -280,9 +295,15 @@ public interface CommerceAccountGroupLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCommerceAccountGroupsCount();
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCommerceAccountGroupsCount(long companyId);
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Long> getCommerceAccountUserIdsFromAccountGroupIds(
 		long[] commerceAccountGroupIds, int start, int end);
@@ -305,11 +326,17 @@ public interface CommerceAccountGroupLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceAccountGroup> searchCommerceAccountGroups(
 			long companyId, String keywords, int start, int end, Sort sort)
 		throws PortalException;
 
+	/**
+	 * @bridged
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchCommerceAccountsGroupCount(long companyId, String keywords)
 		throws PortalException;
@@ -328,6 +355,9 @@ public interface CommerceAccountGroupLocalService
 	public CommerceAccountGroup updateCommerceAccountGroup(
 		CommerceAccountGroup commerceAccountGroup);
 
+	/**
+	 * @bridged
+	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccountGroup updateCommerceAccountGroup(
 			long commerceAccountGroupId, String name,

@@ -56,6 +56,9 @@ public class CommerceAccountGroupLocalServiceUtil {
 		return getService().addCommerceAccountGroup(commerceAccountGroup);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountGroup
 			addCommerceAccountGroup(
 				long companyId, String name, int type, boolean system,
@@ -68,6 +71,9 @@ public class CommerceAccountGroupLocalServiceUtil {
 			serviceContext);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static void checkGuestCommerceAccountGroup(long companyId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -236,6 +242,9 @@ public class CommerceAccountGroupLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountGroup
 		fetchByExternalReferenceCode(
 			long companyId, String externalReferenceCode) {
@@ -303,6 +312,9 @@ public class CommerceAccountGroupLocalServiceUtil {
 		return getService().getCommerceAccountGroups(start, end);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static java.util.List
 		<com.liferay.commerce.account.model.CommerceAccountGroup>
 			getCommerceAccountGroups(
@@ -315,6 +327,9 @@ public class CommerceAccountGroupLocalServiceUtil {
 			companyId, start, end, orderByComparator);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static java.util.List
 		<com.liferay.commerce.account.model.CommerceAccountGroup>
 			getCommerceAccountGroupsByCommerceAccountId(
@@ -333,10 +348,16 @@ public class CommerceAccountGroupLocalServiceUtil {
 		return getService().getCommerceAccountGroupsCount();
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static int getCommerceAccountGroupsCount(long companyId) {
 		return getService().getCommerceAccountGroupsCount(companyId);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static java.util.List<Long>
 		getCommerceAccountUserIdsFromAccountGroupIds(
 			long[] commerceAccountGroupIds, int start, int end) {
@@ -371,6 +392,9 @@ public class CommerceAccountGroupLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static java.util.List
 		<com.liferay.commerce.account.model.CommerceAccountGroup>
 				searchCommerceAccountGroups(
@@ -382,6 +406,9 @@ public class CommerceAccountGroupLocalServiceUtil {
 			companyId, keywords, start, end, sort);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static int searchCommerceAccountsGroupCount(
 			long companyId, String keywords)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -408,6 +435,9 @@ public class CommerceAccountGroupLocalServiceUtil {
 		return getService().updateCommerceAccountGroup(commerceAccountGroup);
 	}
 
+	/**
+	 * @bridged
+	 */
 	public static com.liferay.commerce.account.model.CommerceAccountGroup
 			updateCommerceAccountGroup(
 				long commerceAccountGroupId, String name,
