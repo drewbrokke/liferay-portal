@@ -18,7 +18,6 @@ import com.liferay.commerce.account.model.CommerceAccountGroupCommerceAccountRel
 import com.liferay.commerce.account.service.CommerceAccountGroupCommerceAccountRelService;
 import com.liferay.commerce.account.service.persistence.CommerceAccountGroupCommerceAccountRelPersistence;
 import com.liferay.commerce.account.service.persistence.CommerceAccountGroupFinder;
-import com.liferay.commerce.account.service.persistence.CommerceAccountGroupPersistence;
 import com.liferay.commerce.account.service.persistence.CommerceAccountGroupRelPersistence;
 import com.liferay.commerce.account.service.persistence.CommerceAccountOrganizationRelPersistence;
 import com.liferay.commerce.account.service.persistence.CommerceAccountPersistence;
@@ -171,28 +170,6 @@ public abstract class CommerceAccountGroupCommerceAccountRelServiceBaseImpl
 			commerceAccountGroupService) {
 
 		this.commerceAccountGroupService = commerceAccountGroupService;
-	}
-
-	/**
-	 * Returns the commerce account group persistence.
-	 *
-	 * @return the commerce account group persistence
-	 */
-	public CommerceAccountGroupPersistence
-		getCommerceAccountGroupPersistence() {
-
-		return commerceAccountGroupPersistence;
-	}
-
-	/**
-	 * Sets the commerce account group persistence.
-	 *
-	 * @param commerceAccountGroupPersistence the commerce account group persistence
-	 */
-	public void setCommerceAccountGroupPersistence(
-		CommerceAccountGroupPersistence commerceAccountGroupPersistence) {
-
-		this.commerceAccountGroupPersistence = commerceAccountGroupPersistence;
 	}
 
 	/**
@@ -756,9 +733,6 @@ public abstract class CommerceAccountGroupCommerceAccountRelServiceBaseImpl
 	)
 	protected com.liferay.commerce.account.service.CommerceAccountGroupService
 		commerceAccountGroupService;
-
-	@BeanReference(type = CommerceAccountGroupPersistence.class)
-	protected CommerceAccountGroupPersistence commerceAccountGroupPersistence;
 
 	@BeanReference(type = CommerceAccountGroupFinder.class)
 	protected CommerceAccountGroupFinder commerceAccountGroupFinder;

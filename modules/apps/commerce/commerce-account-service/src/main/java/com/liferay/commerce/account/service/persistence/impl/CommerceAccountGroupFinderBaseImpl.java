@@ -15,8 +15,6 @@
 package com.liferay.commerce.account.service.persistence.impl;
 
 import com.liferay.commerce.account.model.CommerceAccountGroup;
-import com.liferay.commerce.account.service.persistence.CommerceAccountGroupPersistence;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
@@ -47,31 +45,6 @@ public class CommerceAccountGroupFinderBaseImpl
 	public Set<String> getBadColumnNames() {
 		return getCommerceAccountGroupPersistence().getBadColumnNames();
 	}
-
-	/**
-	 * Returns the commerce account group persistence.
-	 *
-	 * @return the commerce account group persistence
-	 */
-	public CommerceAccountGroupPersistence
-		getCommerceAccountGroupPersistence() {
-
-		return commerceAccountGroupPersistence;
-	}
-
-	/**
-	 * Sets the commerce account group persistence.
-	 *
-	 * @param commerceAccountGroupPersistence the commerce account group persistence
-	 */
-	public void setCommerceAccountGroupPersistence(
-		CommerceAccountGroupPersistence commerceAccountGroupPersistence) {
-
-		this.commerceAccountGroupPersistence = commerceAccountGroupPersistence;
-	}
-
-	@BeanReference(type = CommerceAccountGroupPersistence.class)
-	protected CommerceAccountGroupPersistence commerceAccountGroupPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceAccountGroupFinderBaseImpl.class);

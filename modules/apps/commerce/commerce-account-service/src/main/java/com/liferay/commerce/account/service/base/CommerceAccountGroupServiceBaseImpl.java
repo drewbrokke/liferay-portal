@@ -19,26 +19,17 @@ import com.liferay.commerce.account.model.CommerceAccountGroup;
 import com.liferay.commerce.account.service.CommerceAccountGroupService;
 import com.liferay.commerce.account.service.persistence.CommerceAccountGroupCommerceAccountRelPersistence;
 import com.liferay.commerce.account.service.persistence.CommerceAccountGroupFinder;
-import com.liferay.commerce.account.service.persistence.CommerceAccountGroupPersistence;
 import com.liferay.commerce.account.service.persistence.CommerceAccountGroupRelPersistence;
 import com.liferay.commerce.account.service.persistence.CommerceAccountOrganizationRelPersistence;
 import com.liferay.commerce.account.service.persistence.CommerceAccountPersistence;
 import com.liferay.commerce.account.service.persistence.CommerceAccountUserRelPersistence;
 import com.liferay.expando.kernel.service.persistence.ExpandoRowPersistence;
 import com.liferay.portal.kernel.bean.BeanReference;
-import com.liferay.portal.kernel.dao.db.DB;
-import com.liferay.portal.kernel.dao.db.DBManagerUtil;
-import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
-import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
-import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the commerce account group remote service.
@@ -169,28 +160,6 @@ public abstract class CommerceAccountGroupServiceBaseImpl
 		CommerceAccountGroupService commerceAccountGroupService) {
 
 		this.commerceAccountGroupService = commerceAccountGroupService;
-	}
-
-	/**
-	 * Returns the commerce account group persistence.
-	 *
-	 * @return the commerce account group persistence
-	 */
-	public CommerceAccountGroupPersistence
-		getCommerceAccountGroupPersistence() {
-
-		return commerceAccountGroupPersistence;
-	}
-
-	/**
-	 * Sets the commerce account group persistence.
-	 *
-	 * @param commerceAccountGroupPersistence the commerce account group persistence
-	 */
-	public void setCommerceAccountGroupPersistence(
-		CommerceAccountGroupPersistence commerceAccountGroupPersistence) {
-
-		this.commerceAccountGroupPersistence = commerceAccountGroupPersistence;
 	}
 
 	/**
@@ -811,31 +780,6 @@ public abstract class CommerceAccountGroupServiceBaseImpl
 		return CommerceAccountGroup.class.getName();
 	}
 
-	/**
-	 * Performs a SQL query.
-	 *
-	 * @param sql the sql query
-	 */
-	protected void runSQL(String sql) {
-		try {
-			DataSource dataSource =
-				commerceAccountGroupPersistence.getDataSource();
-
-			DB db = DBManagerUtil.getDB();
-
-			sql = db.buildSQL(sql);
-			sql = PortalUtil.transformSQL(sql);
-
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
-				dataSource, sql);
-
-			sqlUpdate.update();
-		}
-		catch (Exception exception) {
-			throw new SystemException(exception);
-		}
-	}
-
 	@BeanReference(
 		type = com.liferay.commerce.account.service.CommerceAccountLocalService.class
 	)
@@ -860,9 +804,6 @@ public abstract class CommerceAccountGroupServiceBaseImpl
 
 	@BeanReference(type = CommerceAccountGroupService.class)
 	protected CommerceAccountGroupService commerceAccountGroupService;
-
-	@BeanReference(type = CommerceAccountGroupPersistence.class)
-	protected CommerceAccountGroupPersistence commerceAccountGroupPersistence;
 
 	@BeanReference(type = CommerceAccountGroupFinder.class)
 	protected CommerceAccountGroupFinder commerceAccountGroupFinder;

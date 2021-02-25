@@ -259,11 +259,6 @@ public class CommerceAccountGroupWrapper
 		return model.isSystem();
 	}
 
-	@Override
-	public void persist() {
-		model.persist();
-	}
-
 	/**
 	 * Sets the commerce account group ID of this commerce account group.
 	 *
