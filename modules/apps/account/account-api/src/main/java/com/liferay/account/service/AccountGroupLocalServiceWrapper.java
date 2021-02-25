@@ -311,6 +311,11 @@ public class AccountGroupLocalServiceWrapper
 	}
 
 	@Override
+	public int getAccountGroupsCount(long companyId) {
+		return _accountGroupLocalService.getAccountGroupsCount(companyId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

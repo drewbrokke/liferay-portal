@@ -297,6 +297,10 @@ public class AccountGroupLocalServiceUtil {
 		return getService().getAccountGroupsCount();
 	}
 
+	public static int getAccountGroupsCount(long companyId) {
+		return getService().getAccountGroupsCount(companyId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
