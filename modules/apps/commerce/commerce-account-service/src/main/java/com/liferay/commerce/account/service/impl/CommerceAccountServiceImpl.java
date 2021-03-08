@@ -124,17 +124,8 @@ public class CommerceAccountServiceImpl extends CommerceAccountServiceBaseImpl {
 				commerceAccountId);
 		}
 
-		CommerceAccount commerceAccount =
-			commerceAccountLocalService.getCommerceAccount(
-				getUserId(), commerceAccountId);
-
-		if (commerceAccount == null) {
-			throw new PrincipalException.MustHavePermission(
-				getPermissionChecker(), CommerceAccount.class.getName(),
-				commerceAccountId, ActionKeys.VIEW);
-		}
-
-		return commerceAccount;
+		return commerceAccountLocalService.getCommerceAccount(
+			getUserId(), commerceAccountId);
 	}
 
 	@Override
