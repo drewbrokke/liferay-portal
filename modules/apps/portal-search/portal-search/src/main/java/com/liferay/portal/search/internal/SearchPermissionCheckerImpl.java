@@ -386,15 +386,15 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 			Iterator<Role> iterator = groupRoles.iterator();
 
-			while (iterator.hasNext()) {
-				Role groupRole = iterator.next();
-
-				if ((groupRole.getType() != RoleConstants.TYPE_ORGANIZATION) &&
-					(groupRole.getType() != RoleConstants.TYPE_SITE)) {
-
-					iterator.remove();
-				}
-			}
+//			while (iterator.hasNext()) {
+//				Role groupRole = iterator.next();
+//
+//				if ((groupRole.getType() != RoleConstants.TYPE_ORGANIZATION) &&
+//					(groupRole.getType() != RoleConstants.TYPE_SITE)) {
+//
+//					iterator.remove();
+//				}
+//			}
 
 			if (group.isOrganization() &&
 				!groupRoles.contains(organizationUserRole)) {
