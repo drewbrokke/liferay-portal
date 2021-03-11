@@ -51,8 +51,18 @@ public class OrganizationTypesSettingsImpl
 
 	@Override
 	public String[] getTypes() {
-		return ArrayUtil.toStringArray(
-			_organizationTypeConfigurationWrappers.keySet());
+		String[] typeNames =
+			new String[_organizationTypeConfigurationWrappers.size()];
+
+		int i = 0;
+
+		for (OrganizationTypeConfigurationWrapper orgTypeWrapper :
+				_organizationTypeConfigurationWrappers.values()) {
+
+			typeNames[i++] = orgTypeWrapper.getName();
+		}
+
+		return typeNames;
 	}
 
 	@Override
@@ -116,7 +126,12 @@ public class OrganizationTypesSettingsImpl
 				_organizationTypeConfigurationWrappers.get(type);
 
 		if (organizationTypeConfigurationWrapper == null) {
-			_log.error("Unable to get organization type: " + type);
+			organizationTypeConfigurationWrapper =
+				_getUpdatedOrganizationTypeConfigurationWrapper(type);
+
+			if (organizationTypeConfigurationWrapper == null) {
+				_log.error("Unable to get organization type: " + type);
+			}
 		}
 
 		return organizationTypeConfigurationWrapper;
@@ -126,8 +141,62 @@ public class OrganizationTypesSettingsImpl
 		OrganizationTypeConfigurationWrapper
 			organizationTypeConfigurationWrapper) {
 
-		_organizationTypeConfigurationWrappers.remove(
-			organizationTypeConfigurationWrapper.getName());
+		String typeName = organizationTypeConfigurationWrapper.getName();
+
+		if (_organizationTypeConfigurationWrappers.get(typeName) != null) {
+			_organizationTypeConfigurationWrappers.remove(typeName);
+
+			return;
+		}
+
+		String oldTypeName = _getOldTypeName(typeName);
+
+		if (oldTypeName != null) {
+			_organizationTypeConfigurationWrappers.remove(oldTypeName);
+		}
+	}
+
+	private String _getOldTypeName(String newTypeName) {
+		String[] oldTypeNames = ArrayUtil.toStringArray(
+			_organizationTypeConfigurationWrappers.keySet());
+
+		int i = 0;
+
+		for (OrganizationTypeConfigurationWrapper orgTypeWrapper :
+				_organizationTypeConfigurationWrappers.values()) {
+
+			if (newTypeName.equals(orgTypeWrapper.getName())) {
+				return oldTypeNames[i];
+			}
+
+			i++;
+		}
+
+		return null;
+	}
+
+	private OrganizationTypeConfigurationWrapper
+		_getUpdatedOrganizationTypeConfigurationWrapper(String type) {
+
+		String[] oldTypeNames = ArrayUtil.toStringArray(
+			_organizationTypeConfigurationWrappers.keySet());
+
+		int i = 0;
+
+		for (OrganizationTypeConfigurationWrapper orgTypeWrapper :
+				_organizationTypeConfigurationWrappers.values()) {
+
+			if (type.equals(orgTypeWrapper.getName())) {
+				addOrganizationTypeConfigurationWrapper(orgTypeWrapper);
+				_organizationTypeConfigurationWrappers.remove(oldTypeNames[i]);
+
+				return orgTypeWrapper;
+			}
+
+			i++;
+		}
+
+		return null;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
