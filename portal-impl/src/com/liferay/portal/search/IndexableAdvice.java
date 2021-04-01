@@ -126,17 +126,23 @@ public class IndexableAdvice extends ChainableMethodAdvice {
 			}
 		}
 
-		try (SafeClosable safeCloseable =
-				ProxyModeThreadLocal.setWithSafeClosable(
-					IndexableThreadLocal.isForceSync())) {
-
-			if (indexableContext._indexableType == IndexableType.DELETE) {
-				indexer.delete(result);
-			}
-			else {
-				indexer.reindex(result);
-			}
+		if (indexableContext._indexableType == IndexableType.DELETE) {
+			indexer.delete(result);
 		}
+		else {
+			indexer.reindex(result);
+		}
+	}
+
+	@Override
+	protected Object before(
+		AopMethodInvocation aopMethodInvocation, Object[] arguments)
+		throws Throwable {
+
+		ProxyModeThreadLocal.setWithSafeClosable(
+			IndexableThreadLocal.isForceSync());
+
+		return super.before(aopMethodInvocation, arguments);
 	}
 
 	private int _getServiceContextParameterIndex(Method method) {
