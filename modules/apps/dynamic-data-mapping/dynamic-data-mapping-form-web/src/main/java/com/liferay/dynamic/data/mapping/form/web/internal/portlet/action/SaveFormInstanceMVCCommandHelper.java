@@ -29,6 +29,7 @@ import com.liferay.dynamic.data.mapping.service.DDMFormInstanceService;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.dynamic.data.mapping.util.DDMFormFactory;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -41,6 +42,7 @@ import com.liferay.portal.kernel.util.InetAddressUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -320,7 +322,10 @@ public class SaveFormInstanceMVCCommandHelper {
 
 				if (securityMode.equals("domain")) {
 					List<String> allowedDomains = Arrays.asList(
-						PropsValues.REDIRECT_URL_DOMAINS_ALLOWED);
+						PrefsPropsUtil.getStringArray(
+							_portal.getCompanyId(httpServletRequest),
+							PropsKeys.REDIRECT_URL_DOMAINS_ALLOWED,
+							StringPool.COMMA));
 
 					if (!allowedDomains.contains(host)) {
 						throw new FormInstanceSettingsRedirectURLException(
