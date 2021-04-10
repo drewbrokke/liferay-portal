@@ -49,6 +49,9 @@ public class ConfigurationAdminWebKeys {
 
 	public static final String CONFIGURATION_SCREEN = "CONFIGURATION_SCREEN";
 
+	public static final String EDIT_PORTAL_PROPERTIES_DISPLAY_CONTEXT =
+		"EDIT_PORTAL_PROPERTIES_DISPLAY_CONTEXT";
+
 	public static final String FACTORY_CONFIGURATION_MODEL =
 		"FACTORY_CONFIGURATION_MODEL";
 

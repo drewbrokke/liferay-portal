@@ -29,6 +29,8 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 page import="com.liferay.configuration.admin.display.ConfigurationFormRenderer" %><%@
 page import="com.liferay.configuration.admin.display.ConfigurationScreen" %><%@
 page import="com.liferay.configuration.admin.menu.ConfigurationMenuItem" %><%@
+page import="com.liferay.configuration.admin.web.internal.configuration.admin.display.ConfigurablePortalProperty" %><%@
+page import="com.liferay.configuration.admin.web.internal.configuration.admin.display.EditPortalPropertiesDisplayContext" %><%@
 page import="com.liferay.configuration.admin.web.internal.constants.ConfigurationAdminWebKeys" %><%@
 page import="com.liferay.configuration.admin.web.internal.display.ConfigurationCategoryDisplay" %><%@
 page import="com.liferay.configuration.admin.web.internal.display.ConfigurationCategoryMenuDisplay" %><%@
@@ -54,6 +56,7 @@ page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
 page import="com.liferay.portal.kernel.util.ListUtil" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
+page import="com.liferay.portal.kernel.util.PrefsPropsUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.taglib.servlet.PipingServletResponse" %>
 
