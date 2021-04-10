@@ -982,7 +982,9 @@ public class PortalImpl implements Portal {
 		String securityMode = PropsValues.REDIRECT_URL_SECURITY_MODE;
 
 		if (securityMode.equals("domain")) {
-			String[] allowedDomains = PropsValues.REDIRECT_URL_DOMAINS_ALLOWED;
+			String[] allowedDomains = PrefsPropsUtil.getStringArray(
+				CompanyThreadLocal.getCompanyId(),
+				PropsKeys.REDIRECT_URL_DOMAINS_ALLOWED, StringPool.COMMA);
 
 			if (allowedDomains.length == 0) {
 				return url;

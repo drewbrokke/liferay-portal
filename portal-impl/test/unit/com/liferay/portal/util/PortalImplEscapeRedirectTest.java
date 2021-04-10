@@ -14,14 +14,19 @@
 
 package com.liferay.portal.util;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.PropsTestUtil;
+import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.Set;
+
+import javax.portlet.PortletPreferences;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -209,14 +214,24 @@ public class PortalImplEscapeRedirectTest {
 
 	@Test
 	public void testEscapeRedirectWithSubdomains() throws Exception {
-		String[] redirectURLDomainsAllowed =
-			PropsValues.REDIRECT_URL_DOMAINS_ALLOWED;
+		String redirectURLDomainsAllowed = PrefsPropsUtil.getString(
+			TestPropsValues.getCompanyId(),
+			PropsKeys.REDIRECT_URL_DOMAINS_ALLOWED);
 		String redirectURLSecurityMode = PropsValues.REDIRECT_URL_SECURITY_MODE;
 
 		setPropsValuesValue("REDIRECT_URL_SECURITY_MODE", "domain");
 		setPropsValuesValue(
 			"REDIRECT_URL_DOMAINS_ALLOWED",
 			new String[] {"*.test.liferay.com", "google.com"});
+
+		PortletPreferences preferences = PrefsPropsUtil.getPreferences(
+			TestPropsValues.getCompanyId());
+
+		preferences.setValue(
+			PropsKeys.REDIRECT_URL_DOMAINS_ALLOWED,
+			ArrayUtil.toString(
+				new String[] {"*.test.liferay.com", "google.com"},
+				StringPool.BLANK));
 
 		try {
 
@@ -270,8 +285,10 @@ public class PortalImplEscapeRedirectTest {
 				_portalImpl.escapeRedirect("http://prefixtest.liferay.com"));
 		}
 		finally {
-			setPropsValuesValue(
-				"REDIRECT_URL_DOMAINS_ALLOWED", redirectURLDomainsAllowed);
+			preferences.setValue(
+				PropsKeys.REDIRECT_URL_DOMAINS_ALLOWED,
+				redirectURLDomainsAllowed);
+
 			setPropsValuesValue(
 				"REDIRECT_URL_SECURITY_MODE", redirectURLSecurityMode);
 		}
