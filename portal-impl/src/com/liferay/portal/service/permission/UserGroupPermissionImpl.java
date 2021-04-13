@@ -17,6 +17,7 @@ package com.liferay.portal.service.permission;
 import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.UserGroupPermission;
 
 /**
@@ -42,9 +43,13 @@ public class UserGroupPermissionImpl implements UserGroupPermission {
 		PermissionChecker permissionChecker, long userGroupId,
 		String actionId) {
 
-		if (permissionChecker.hasOwnerPermission(
+		UserGroup userGroup = UserGroupLocalServiceUtil.fetchUserGroup(
+			userGroupId);
+
+		if ((userGroup != null) &&
+			permissionChecker.hasOwnerPermission(
 				permissionChecker.getCompanyId(), UserGroup.class.getName(),
-				userGroupId, permissionChecker.getUserId(), actionId)) {
+				userGroupId, userGroup.getUserId(), actionId)) {
 
 			return true;
 		}
