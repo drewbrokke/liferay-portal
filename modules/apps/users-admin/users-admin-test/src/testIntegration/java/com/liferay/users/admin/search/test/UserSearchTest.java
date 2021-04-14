@@ -29,13 +29,11 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.RoleLocalService;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
-import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
@@ -121,49 +119,41 @@ public class UserSearchTest {
 			"Indexer<User> must be resolved for UserLocalServiceImpl.search",
 			indexer);
 
-		ServiceContextThreadLocal.pushServiceContext(
-			ServiceContextTestUtil.getServiceContext(_group.getGroupId()));
+		Hits hits = userLocalService.search(
+			TestPropsValues.getCompanyId(), keywords, status, userParams, start,
+			end, new Sort());
 
-		try {
-			Hits hits = userLocalService.search(
-				TestPropsValues.getCompanyId(), keywords, status, userParams,
-				start, end, new Sort());
+		List<Long> testUserIdsList = Arrays.asList(
+			_groupAdminUser.getUserId(), _groupMemberUser.getUserId(),
+			_nongroupMemberUser.getUserId());
 
-			List<Long> testUserIdsList = Arrays.asList(
-				_groupAdminUser.getUserId(), _groupMemberUser.getUserId(),
-				_nongroupMemberUser.getUserId());
+		Stream<Document> documentsStream = SearchStreamUtil.stream(
+			hits.toList());
 
-			Stream<Document> documentsStream = SearchStreamUtil.stream(
-				hits.toList());
+		Set<Long> hitsUserIdsSet = documentsStream.map(
+			document -> Long.valueOf(document.get(Field.USER_ID))
+		).collect(
+			Collectors.toSet()
+		);
 
-			Set<Long> hitsUserIdsSet = documentsStream.map(
-				document -> Long.valueOf(document.get(Field.USER_ID))
+		assertContainsAll(testUserIdsList, hitsUserIdsSet);
+
+		List<User> users = usersAdmin.getUsers(hits);
+
+		Assert.assertNotNull(
+			"null should NOT be returned but one userId was a stale document " +
+				"with no model in persistence: " + hitsUserIdsSet,
+			users);
+
+		Stream<User> usersStream = SearchStreamUtil.stream(users);
+
+		assertContainsAll(
+			testUserIdsList,
+			usersStream.map(
+				User::getUserId
 			).collect(
 				Collectors.toSet()
-			);
-
-			assertContainsAll(testUserIdsList, hitsUserIdsSet);
-
-			List<User> users = usersAdmin.getUsers(hits);
-
-			Assert.assertNotNull(
-				"null should NOT be returned but one userId was a stale " +
-					"document with no model in persistence: " + hitsUserIdsSet,
-				users);
-
-			Stream<User> usersStream = SearchStreamUtil.stream(users);
-
-			assertContainsAll(
-				testUserIdsList,
-				usersStream.map(
-					User::getUserId
-				).collect(
-					Collectors.toSet()
-				));
-		}
-		finally {
-			ServiceContextThreadLocal.popServiceContext();
-		}
+			));
 	}
 
 	@Rule
