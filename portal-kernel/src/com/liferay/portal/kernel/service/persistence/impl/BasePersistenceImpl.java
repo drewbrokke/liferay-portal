@@ -279,9 +279,17 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 				}
 			}
 			else {
-				result = QueryUtil.list(
-					sqlQuery, getDialect(), defaultASTNodeListener.getStart(),
-					defaultASTNodeListener.getEnd());
+				int start = defaultASTNodeListener.getStart();
+				int end = defaultASTNodeListener.getEnd();
+
+				if (start == 0 && end == 1) {
+					result = sqlQuery.uniqueResult();
+				}
+				else {
+					result = QueryUtil.list(
+						sqlQuery, getDialect(), start,
+						end);
+				}
 			}
 
 			if (productionMode) {
