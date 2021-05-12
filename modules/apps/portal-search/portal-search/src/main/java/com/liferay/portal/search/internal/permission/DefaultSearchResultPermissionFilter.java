@@ -47,7 +47,6 @@ import com.liferay.portal.search.configuration.DefaultSearchResultPermissionFilt
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -124,42 +123,24 @@ public class DefaultSearchResultPermissionFilter
 		List<Document> excludeDocs = new ArrayList<>();
 		List<Float> scores = new ArrayList<>();
 
+		boolean companyAdmin = _permissionChecker.isCompanyAdmin(
+			_permissionChecker.getCompanyId());
 		int status = GetterUtil.getInteger(
 			searchContext.getAttribute(Field.STATUS),
 			WorkflowConstants.STATUS_APPROVED);
 
 		Document[] documents = hits.getDocs();
 
-		Map<String, Boolean> companyScopeViewPermissions = new HashMap<>();
-
 		for (int i = 0; i < documents.length; i++) {
-			Document document = documents[i];
+			if (_isIncludeDocument(
+					documents[i], _permissionChecker.getCompanyId(),
+					companyAdmin, status)) {
 
-			boolean companyScopeViewPermission =
-				companyScopeViewPermissions.computeIfAbsent(
-					document.get(Field.ENTRY_CLASS_NAME),
-					className -> {
-						if (_permissionChecker.isCompanyAdmin() ||
-							_permissionChecker.hasPermission(
-								null, className,
-								_permissionChecker.getCompanyId(),
-								ActionKeys.VIEW)) {
-
-							return true;
-						}
-
-						return false;
-					});
-
-			if (companyScopeViewPermission ||
-				_isIncludeDocument(
-					document, _permissionChecker.getCompanyId(), status)) {
-
-				docs.add(document);
+				docs.add(documents[i]);
 				scores.add(hits.score(i));
 			}
 			else {
-				excludeDocs.add(document);
+				excludeDocs.add(documents[i]);
 			}
 		}
 
@@ -237,13 +218,17 @@ public class DefaultSearchResultPermissionFilter
 	}
 
 	private boolean _isIncludeDocument(
-		Document document, long companyId, int status) {
+		Document document, long companyId, boolean companyAdmin, int status) {
 
 		long entryCompanyId = GetterUtil.getLong(
 			document.get(Field.COMPANY_ID));
 
 		if (entryCompanyId != companyId) {
 			return false;
+		}
+
+		if (companyAdmin) {
+			return true;
 		}
 
 		String entryClassName = document.get(Field.ENTRY_CLASS_NAME);
