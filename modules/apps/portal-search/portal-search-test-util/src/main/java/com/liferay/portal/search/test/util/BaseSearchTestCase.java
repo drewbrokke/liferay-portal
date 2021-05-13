@@ -27,9 +27,11 @@ import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.service.IdentityServiceContextFunction;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -48,6 +50,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowThreadLocal;
 import com.liferay.portal.test.randomizerbumpers.BBCodeRandomizerBumper;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -354,6 +357,18 @@ public abstract class BaseSearchTestCase {
 	}
 
 	protected boolean isExpirableAllVersions() {
+		return false;
+	}
+
+	protected boolean isHasGuestViewPermission() {
+		List<String> modelResourceGuestDefaultActions =
+			ResourceActionsUtil.getModelResourceGuestDefaultActions(
+				getBaseModelClassName());
+
+		if (modelResourceGuestDefaultActions.contains(ActionKeys.VIEW)) {
+			return true;
+		}
+
 		return false;
 	}
 
@@ -1063,7 +1078,9 @@ public abstract class BaseSearchTestCase {
 
 			int baseModelsCount = initialBaseModelsSearchCount;
 
-			if (addBaseModelPermission && !isCheckBaseModelPermission()) {
+			if (addBaseModelPermission &&
+				(!isCheckBaseModelPermission() || isHasGuestViewPermission())) {
+
 				baseModelsCount++;
 			}
 
