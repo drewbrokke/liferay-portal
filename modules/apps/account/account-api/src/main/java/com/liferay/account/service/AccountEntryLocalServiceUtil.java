@@ -74,6 +74,15 @@ public class AccountEntryLocalServiceUtil {
 		return getService().addAccountEntry(accountEntry);
 	}
 
+	public static AccountEntry addAccountEntry(
+			long creatorUserId, AccountEntry accountEntry, byte[] logoBytes,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addAccountEntry(
+			creatorUserId, accountEntry, logoBytes, serviceContext);
+	}
+
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
 	 #addAccountEntry(long, long, String, String, String[],
@@ -507,6 +516,15 @@ public class AccountEntryLocalServiceUtil {
 	 */
 	public static AccountEntry updateAccountEntry(AccountEntry accountEntry) {
 		return getService().updateAccountEntry(accountEntry);
+	}
+
+	public static AccountEntry updateAccountEntry(
+			AccountEntry accountEntry, boolean deleteLogo, byte[] logoBytes,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateAccountEntry(
+			accountEntry, deleteLogo, logoBytes, serviceContext);
 	}
 
 	/**

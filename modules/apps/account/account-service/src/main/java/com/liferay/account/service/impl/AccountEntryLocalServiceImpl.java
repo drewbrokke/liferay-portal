@@ -54,6 +54,8 @@ import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -116,6 +118,25 @@ public class AccountEntryLocalServiceImpl
 		throws Exception {
 
 		return activateAccountEntry(getAccountEntry(accountEntryId));
+	}
+
+	@Override
+	public AccountEntry addAccountEntry(
+			long creatorUserId, AccountEntry accountEntry, byte[] logoBytes,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		if (!accountEntry.isNew()) {
+			return updateAccountEntry(
+				accountEntry, logoBytes != null, logoBytes, serviceContext);
+		}
+
+		return addAccountEntry(
+			creatorUserId, accountEntry.getParentAccountEntryId(),
+			accountEntry.getName(), accountEntry.getDescription(),
+			accountEntry.getDomainsArray(), accountEntry.getEmailAddress(),
+			logoBytes, accountEntry.getTaxIdNumber(), accountEntry.getType(),
+			accountEntry.getStatus(), serviceContext);
 	}
 
 	/**
@@ -529,6 +550,26 @@ public class AccountEntryLocalServiceImpl
 			accountEntries, searchResponse.getTotalHits());
 	}
 
+	@Override
+	public AccountEntry updateAccountEntry(
+			AccountEntry accountEntry, boolean deleteLogo, byte[] logoBytes,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		if (accountEntry.isNew()) {
+			return addAccountEntry(
+				_getCreatorUserId(), accountEntry, logoBytes, serviceContext);
+		}
+
+		return updateAccountEntry(
+			accountEntry.getAccountEntryId(),
+			accountEntry.getParentAccountEntryId(), accountEntry.getName(),
+			accountEntry.getDescription(), deleteLogo,
+			accountEntry.getDomainsArray(), accountEntry.getEmailAddress(),
+			logoBytes, accountEntry.getTaxIdNumber(), accountEntry.getStatus(),
+			serviceContext);
+	}
+
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
 	 *             #updateAccountEntry(Long, long, String, String, boolean,
@@ -672,6 +713,18 @@ public class AccountEntryLocalServiceImpl
 		throws PortalException {
 
 		return updateStatus(getAccountEntry(accountEntryId), status);
+	}
+
+	private long _getCreatorUserId() throws PortalException {
+		PermissionChecker permissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
+
+		if (permissionChecker != null) {
+			return permissionChecker.getUserId();
+		}
+
+		return userLocalService.getDefaultUserId(
+			CompanyThreadLocal.getCompanyId());
 	}
 
 	private GroupByStep _getGroupByStep(
@@ -894,20 +947,29 @@ public class AccountEntryLocalServiceImpl
 	}
 
 	private void _updateAsset(
-			AccountEntry accountEntry, ServiceContext serviceContext)
+			AccountEntry accountEntry, long[] assetCategoryIds,
+			String[] assetTagNames)
 		throws PortalException {
 
 		Company company = _companyLocalService.getCompany(
-			serviceContext.getCompanyId());
+			accountEntry.getCompanyId());
 
 		assetEntryLocalService.updateEntry(
-			serviceContext.getUserId(), company.getGroupId(),
+			accountEntry.getUserId(), company.getGroupId(),
 			accountEntry.getCreateDate(), accountEntry.getModifiedDate(),
 			AccountEntry.class.getName(), accountEntry.getAccountEntryId(),
-			null, 0, serviceContext.getAssetCategoryIds(),
-			serviceContext.getAssetTagNames(), true, true, null, null, null,
-			null, null, accountEntry.getName(), accountEntry.getDescription(),
-			null, null, null, 0, 0, null);
+			null, 0, assetCategoryIds, assetTagNames, true, true, null, null,
+			null, null, null, accountEntry.getName(),
+			accountEntry.getDescription(), null, null, null, 0, 0, null);
+	}
+
+	private void _updateAsset(
+			AccountEntry accountEntry, ServiceContext serviceContext)
+		throws PortalException {
+
+		_updateAsset(
+			accountEntry, serviceContext.getAssetCategoryIds(),
+			serviceContext.getAssetTagNames());
 	}
 
 	private String[] _validateDomains(String[] domains) throws PortalException {

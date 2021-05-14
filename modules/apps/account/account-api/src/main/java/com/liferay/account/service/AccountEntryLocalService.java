@@ -85,6 +85,11 @@ public interface AccountEntryLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public AccountEntry addAccountEntry(AccountEntry accountEntry);
 
+	public AccountEntry addAccountEntry(
+			long creatorUserId, AccountEntry accountEntry, byte[] logoBytes,
+			ServiceContext serviceContext)
+		throws PortalException;
+
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
 	 #addAccountEntry(long, long, String, String, String[],
@@ -408,6 +413,11 @@ public interface AccountEntryLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public AccountEntry updateAccountEntry(AccountEntry accountEntry);
+
+	public AccountEntry updateAccountEntry(
+			AccountEntry accountEntry, boolean deleteLogo, byte[] logoBytes,
+			ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link

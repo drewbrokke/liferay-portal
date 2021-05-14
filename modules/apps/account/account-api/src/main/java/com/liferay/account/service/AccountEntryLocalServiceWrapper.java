@@ -72,6 +72,18 @@ public class AccountEntryLocalServiceWrapper
 		return _accountEntryLocalService.addAccountEntry(accountEntry);
 	}
 
+	@Override
+	public com.liferay.account.model.AccountEntry addAccountEntry(
+			long creatorUserId,
+			com.liferay.account.model.AccountEntry accountEntry,
+			byte[] logoBytes,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.addAccountEntry(
+			creatorUserId, accountEntry, logoBytes, serviceContext);
+	}
+
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
 	 #addAccountEntry(long, long, String, String, String[],
@@ -580,6 +592,17 @@ public class AccountEntryLocalServiceWrapper
 		com.liferay.account.model.AccountEntry accountEntry) {
 
 		return _accountEntryLocalService.updateAccountEntry(accountEntry);
+	}
+
+	@Override
+	public com.liferay.account.model.AccountEntry updateAccountEntry(
+			com.liferay.account.model.AccountEntry accountEntry,
+			boolean deleteLogo, byte[] logoBytes,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.updateAccountEntry(
+			accountEntry, deleteLogo, logoBytes, serviceContext);
 	}
 
 	/**
