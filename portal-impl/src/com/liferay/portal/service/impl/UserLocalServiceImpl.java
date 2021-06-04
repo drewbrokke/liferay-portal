@@ -1058,7 +1058,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		// User
 
-		Company company = companyPersistence.findByPrimaryKey(companyId);
 		screenName = getLogin(screenName);
 
 		if (PrefsPropsUtil.getBoolean(
@@ -1217,7 +1216,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		contact.setUserName(creatorUserName);
 		contact.setClassName(User.class.getName());
 		contact.setClassPK(user.getUserId());
-		contact.setAccountId(company.getAccountId());
 		contact.setParentContactId(ContactConstants.DEFAULT_PARENT_CONTACT_ID);
 		contact.setEmailAddress(user.getEmailAddress());
 		contact.setFirstName(firstName);
@@ -5511,7 +5509,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			contact.setUserName(StringPool.BLANK);
 			contact.setClassName(User.class.getName());
 			contact.setClassPK(user.getUserId());
-			contact.setAccountId(company.getAccountId());
 			contact.setParentContactId(
 				ContactConstants.DEFAULT_PARENT_CONTACT_ID);
 		}
