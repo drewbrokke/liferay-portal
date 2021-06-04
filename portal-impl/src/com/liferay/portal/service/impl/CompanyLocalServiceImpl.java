@@ -42,7 +42,6 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.async.Async;
-import com.liferay.portal.kernel.model.Account;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.model.Contact;
@@ -189,6 +188,11 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 
 		Company company = companyPersistence.create(companyId);
 
+		company.setUserId(0);
+		company.setUserName(StringPool.BLANK);
+		company.setCreateDate(new Date());
+		company.setModifiedDate(new Date());
+
 		if (webId.equals(PropsValues.COMPANY_DEFAULT_WEB_ID)) {
 			DBPartitionUtil.setDefaultCompanyId(company.getCompanyId());
 		}
@@ -218,16 +222,13 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 					createBasicDocumentDLFileEntryType();
 			}
 
-			// Account
-
 			String name = webId;
 
 			if (webId.equals(PropsValues.COMPANY_DEFAULT_WEB_ID)) {
 				name = PropsValues.COMPANY_DEFAULT_NAME;
 			}
 
-			updateAccount(
-				company, name, null, null, null, null, null, null, null, null);
+			company.setName(name);
 
 			// Company info
 
@@ -879,13 +880,17 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 		PortalUtil.updateImageId(
 			company, hasLogo, logoBytes, "logoId", 0, 0, 0);
 
-		company = companyPersistence.update(company);
+		company.setName(name);
+		company.setLegalName(legalName);
+		company.setLegalId(legalId);
+		company.setLegalType(legalType);
+		company.setSicCode(sicCode);
+		company.setTickerSymbol(tickerSymbol);
+		company.setIndustry(industry);
+		company.setType(type);
+		company.setSize(size);
 
-		// Account
-
-		updateAccount(
-			company, name, legalName, legalId, legalType, sicCode, tickerSymbol,
-			industry, type, size);
+		companyPersistence.update(company);
 
 		// Virtual host
 
@@ -1264,10 +1269,6 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 
 		companyInfoPersistence.remove(company.getCompanyInfo());
 
-		// Account
-
-		accountLocalService.deleteAccount(company.getAccountId());
-
 		// Expando
 
 		DeleteExpandoColumnActionableDynamicQuery
@@ -1463,41 +1464,6 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 		if (portalInstanceLifecycleManager != null) {
 			portalInstanceLifecycleManager.unregisterCompany(company);
 		}
-	}
-
-	protected void updateAccount(
-		Company company, String name, String legalName, String legalId,
-		String legalType, String sicCode, String tickerSymbol, String industry,
-		String type, String size) {
-
-		Account account = accountPersistence.fetchByPrimaryKey(
-			company.getAccountId());
-
-		if (account == null) {
-			long accountId = counterLocalService.increment();
-
-			account = accountPersistence.create(accountId);
-
-			account.setCompanyId(company.getCompanyId());
-			account.setUserId(0);
-			account.setUserName(StringPool.BLANK);
-
-			company.setAccountId(accountId);
-
-			companyPersistence.update(company);
-		}
-
-		account.setName(name);
-		account.setLegalName(legalName);
-		account.setLegalId(legalId);
-		account.setLegalType(legalType);
-		account.setSicCode(sicCode);
-		account.setTickerSymbol(tickerSymbol);
-		account.setIndustry(industry);
-		account.setType(type);
-		account.setSize(size);
-
-		accountPersistence.update(account);
 	}
 
 	protected Company updateVirtualHostname(
