@@ -207,13 +207,6 @@ public class CompanyWrapper
 		return model.compareTo(company);
 	}
 
-	@Override
-	public Account getAccount()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return model.getAccount();
-	}
-
 	/**
 	 * Returns the active of this company.
 	 *
