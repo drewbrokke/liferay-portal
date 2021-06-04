@@ -262,7 +262,6 @@ create table Contact_ (
 	modifiedDate DATE null,
 	classNameId LONG,
 	classPK LONG,
-	accountId LONG,
 	parentContactId LONG,
 	emailAddress VARCHAR(254) null,
 	firstName VARCHAR(75) null,
