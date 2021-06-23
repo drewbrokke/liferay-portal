@@ -84,6 +84,8 @@ public class CommerceAddressUpgradeProcess extends UpgradeProcess {
 					address, resultSet.getBoolean("defaultShipping"));
 			}
 
+			runSQL("update ? set ");
+
 			runSQL("drop table CommerceAddress");
 		}
 	}
