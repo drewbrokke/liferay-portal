@@ -77,7 +77,6 @@ public class CommerceAddressUpgradeProcess extends UpgradeProcess {
 
 				address = AddressLocalServiceUtil.addAddress(address);
 
-				_setGroup(address, resultSet.getLong("groupId"));
 				_setPhoneNumber(address, resultSet.getString("phoneNumber"));
 				_setDefaultBilling(
 					address, resultSet.getBoolean("defaultBilling"));
