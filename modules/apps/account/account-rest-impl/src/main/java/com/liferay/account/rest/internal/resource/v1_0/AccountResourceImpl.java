@@ -23,6 +23,7 @@ import com.liferay.account.rest.internal.odata.entity.v1_0.AccountEntityModel;
 import com.liferay.account.rest.resource.v1_0.AccountResource;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryOrganizationRelLocalService;
+import com.liferay.external.reference.service.ERAccountEntryLocalService;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
@@ -179,18 +180,23 @@ public class AccountResourceImpl
 
 	@Override
 	public Account postAccount(Account account) throws Exception {
-		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
-			contextUser.getUserId(), _getParentAccountId(account),
-			account.getName(), account.getDescription(), _getDomains(account),
-			null, null, null, AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			_getStatus(account), null);
+		AccountEntry accountEntry = null;
 
 		if (account.getExternalReferenceCode() != null) {
-			accountEntry.setExternalReferenceCode(
-				account.getExternalReferenceCode());
-
-			accountEntry = _accountEntryLocalService.updateAccountEntry(
-				accountEntry);
+			accountEntry = _erAccountEntryLocalService.addOrUpdateAccountEntry(
+				account.getExternalReferenceCode(), contextUser.getUserId(),
+				_getParentAccountId(account), account.getName(),
+				account.getDescription(), _getDomains(account), null, null,
+				null, AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
+				_getStatus(account), null);
+		}
+		else {
+			accountEntry = _accountEntryLocalService.addAccountEntry(
+				contextUser.getUserId(), _getParentAccountId(account),
+				account.getName(), account.getDescription(),
+				_getDomains(account), null, null, null,
+				AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
+				_getStatus(account), null);
 		}
 
 		_accountEntryOrganizationRelLocalService.
@@ -391,5 +397,8 @@ public class AccountResourceImpl
 	private AccountResourceDTOConverter _accountResourceDTOConverter;
 
 	private final EntityModel _entityModel = new AccountEntityModel();
+
+	@Reference
+	private ERAccountEntryLocalService _erAccountEntryLocalService;
 
 }
