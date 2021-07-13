@@ -35,8 +35,32 @@ SearchContainer<AddressDisplay> accountEntryAddressDisplaySearchContainer = Acco
 accountEntryAddressDisplaySearchContainer.setRowChecker(null);
 %>
 
+<portlet:renderURL var="editAccountURL">
+	<portlet:param name="mvcRenderCommandName" value="/account_admin/edit_account_entry" />
+	<portlet:param name="backURL" value="<%= currentURL %>" />
+	<portlet:param name="accountEntryId" value='<%= ParamUtil.getString(request, "accountEntryId") %>' />
+</portlet:renderURL>
+
+<liferay-portlet:renderURL portletName="<%= AccountPortletKeys.ACCOUNT_ENTRIES_ADMIN %>" var="addAccountEntryDefaultAddressURL">
+	<portlet:param name="mvcRenderCommandName" value="/account_admin/edit_account_entry_address" />
+	<portlet:param name="backURL" value="<%= editAccountURL %>" />
+	<portlet:param name="accountEntryId" value='<%= ParamUtil.getString(request, "accountEntryId") %>' />
+	<portlet:param name="defaultAddressType" value="<%= type %>" />
+</liferay-portlet:renderURL>
+
 <clay:management-toolbar
+	additionalProps='<%=
+		HashMapBuilder.<String, Object>put(
+			"accountAddressType", type
+		).put(
+			"addAccountEntryDefaultAddressURL", addAccountEntryDefaultAddressURL.toString()
+		).put(
+			"openModalOnRedirect", true
+		).build()
+	%>'
 	managementToolbarDisplayContext="<%= new SelectAccountEntryAddressManagementToolbarDisplayContext(request, liferayPortletRequest, liferayPortletResponse, accountEntryAddressDisplaySearchContainer) %>"
+	propsTransformer="account_entries_admin/js/SelectAccountDefaultAddressManagementToolbarPropsTransformer"
+	showCreationMenu="<%= true %>"
 />
 
 <clay:container-fluid
