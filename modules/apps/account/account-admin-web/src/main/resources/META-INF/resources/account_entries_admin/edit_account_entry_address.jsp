@@ -23,6 +23,8 @@ Address address = AddressLocalServiceUtil.fetchAddress(accountEntryAddressId);
 
 AccountEntryDisplay accountEntryDisplay = (AccountEntryDisplay)request.getAttribute(AccountWebKeys.ACCOUNT_ENTRY_DISPLAY);
 
+String defaultAddressType = ParamUtil.getString(request, "defaultAddressType");
+
 String backURL = ParamUtil.getString(request, "backURL", String.valueOf(renderResponse.createRenderURL()));
 
 portletDisplay.setShowBackIcon(true);
@@ -40,6 +42,7 @@ renderResponse.setTitle((accountEntryAddressId == 0) ? LanguageUtil.get(request,
 	<aui:input name="redirect" type="hidden" value="<%= backURL %>" />
 	<aui:input name="accountEntryAddressId" type="hidden" value="<%= accountEntryAddressId %>" />
 	<aui:input name="accountEntryId" type="hidden" value="<%= accountEntryDisplay.getAccountEntryId() %>" />
+	<aui:input name="defaultAddressType" type="hidden" value="<%= defaultAddressType %>" />
 
 	<liferay-frontend:edit-form-body>
 		<aui:model-context bean="<%= address %>" model="<%= Address.class %>" />
