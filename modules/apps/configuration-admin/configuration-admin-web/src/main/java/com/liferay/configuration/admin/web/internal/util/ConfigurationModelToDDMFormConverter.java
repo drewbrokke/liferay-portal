@@ -204,6 +204,8 @@ public class ConfigurationModelToDDMFormConverter {
 		setDDMFormFieldLabel(attributeDefinition, ddmFormField);
 		setDDMFormFieldOptions(ddmFormField, ddmFormFieldOptions);
 		setDDMFormFieldPredefinedValue(attributeDefinition, ddmFormField);
+		setDDMFormFieldReadOnly(
+			attributeDefinition, ddmFormField, ddmFormFieldOptions);
 		setDDMFormFieldRequired(attributeDefinition, ddmFormField, required);
 		setDDMFormFieldTip(attributeDefinition, ddmFormField);
 		setDDMFormFieldVisibilityExpression(attributeDefinition, ddmFormField);
@@ -347,6 +349,18 @@ public class ConfigurationModelToDDMFormConverter {
 		predefinedValue.addString(_locale, predefinedValueString);
 
 		ddmFormField.setPredefinedValue(predefinedValue);
+	}
+
+	protected void setDDMFormFieldReadOnly(
+		AttributeDefinition attributeDefinition, DDMFormField ddmFormField,
+		DDMFormFieldOptions ddmFormFieldOptions) {
+
+		if (SetUtil.isEmpty(ddmFormFieldOptions.getOptionsValues()) &&
+			(getConfigurationFieldOptionsProvider(attributeDefinition) !=
+				null)) {
+
+			ddmFormField.setReadOnly(true);
+		}
 	}
 
 	protected void setDDMFormFieldRepeatable(
