@@ -288,12 +288,7 @@ public class ConfigurationModelToDDMFormConverter {
 			return DDMFormFieldType.LOCALIZABLE_TEXT;
 		}
 
-		ConfigurationFieldOptionsProvider configurationFieldOptionsProvider =
-			getConfigurationFieldOptionsProvider(attributeDefinition);
-
-		if (!SetUtil.isEmpty(ddmFormFieldOptions.getOptionsValues()) ||
-			(configurationFieldOptionsProvider != null)) {
-
+		if (SetUtil.isNotEmpty(ddmFormFieldOptions.getOptionsValues())) {
 			return DDMFormFieldType.SELECT;
 		}
 
