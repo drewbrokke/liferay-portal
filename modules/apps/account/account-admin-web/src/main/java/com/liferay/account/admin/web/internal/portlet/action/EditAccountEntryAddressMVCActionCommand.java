@@ -16,6 +16,7 @@ package com.liferay.account.admin.web.internal.portlet.action;
 
 import com.liferay.account.constants.AccountPortletKeys;
 import com.liferay.account.model.AccountEntry;
+import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
@@ -28,6 +29,8 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+
+import java.util.Objects;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -88,11 +91,41 @@ public class EditAccountEntryAddressMVCActionCommand
 
 		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
 
+		Address accountEntryAddress = null;
+
 		if (cmd.equals(Constants.ADD)) {
-			addAccountEntryAddress(actionRequest);
+			accountEntryAddress = addAccountEntryAddress(actionRequest);
 		}
 		else if (cmd.equals(Constants.UPDATE)) {
 			updateAccountEntryAddress(actionRequest);
+		}
+
+		String defaultAddressType = ParamUtil.getString(
+			actionRequest, "defaultAddressType");
+
+		if (Objects.equals("billing", defaultAddressType) ||
+			Objects.equals("shipping", defaultAddressType)) {
+
+			long accountEntryId = ParamUtil.getLong(
+				actionRequest, "accountEntryId");
+
+			long addressId = 0;
+
+			if (accountEntryAddress != null) {
+				addressId = accountEntryAddress.getAddressId();
+			}
+
+			AccountEntry accountEntry =
+				_accountEntryLocalService.getAccountEntry(accountEntryId);
+
+			if (Objects.equals("billing", defaultAddressType)) {
+				accountEntry.setDefaultBillingAddressId(addressId);
+			}
+			else if (Objects.equals("shipping", defaultAddressType)) {
+				accountEntry.setDefaultShippingAddressId(addressId);
+			}
+
+			_accountEntryLocalService.updateAccountEntry(accountEntry);
 		}
 
 		String redirect = ParamUtil.getString(actionRequest, "redirect");
@@ -127,6 +160,9 @@ public class EditAccountEntryAddressMVCActionCommand
 			city, zip, addressRegionId, addressCountryId, addressTypeId, false,
 			false, phoneNumber);
 	}
+
+	@Reference
+	private AccountEntryLocalService _accountEntryLocalService;
 
 	@Reference
 	private AddressLocalService _addressLocalService;
