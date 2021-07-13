@@ -40,6 +40,8 @@ renderResponse.setTitle((accountEntryAddressId == 0) ? LanguageUtil.get(request,
 	<aui:input name="redirect" type="hidden" value="<%= backURL %>" />
 	<aui:input name="accountEntryAddressId" type="hidden" value="<%= accountEntryAddressId %>" />
 	<aui:input name="accountEntryId" type="hidden" value="<%= accountEntryDisplay.getAccountEntryId() %>" />
+	<aui:input name="isDefaultAddress" type="hidden" value='<%= ParamUtil.getBoolean(request, "isDefaultAddress") %>' />
+	<aui:input name="type" type="hidden" value='<%= ParamUtil.getString(request, "type") %>' />
 
 	<liferay-frontend:edit-form-body>
 		<aui:model-context bean="<%= address %>" model="<%= Address.class %>" />
