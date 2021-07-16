@@ -20,6 +20,8 @@ package com.liferay.frontend.taglib.liferay.ui.view.state;
  */
 public interface SearchContainerViewState {
 
+	public long getCategoryId();
+
 	public int getCur();
 
 	public int getDelta();
@@ -30,6 +32,8 @@ public interface SearchContainerViewState {
 
 	public String getKeywords();
 
+	public String getNavigation();
+
 	public String getOrderByCol();
 
 	public String getOrderByType();
@@ -38,4 +42,5 @@ public interface SearchContainerViewState {
 
 	public int getStart();
 
+	public String getTag();
 }
