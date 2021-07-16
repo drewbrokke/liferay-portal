@@ -57,29 +57,33 @@ public class ManagementToolbarViewStateFactoryImpl
 	@Override
 	public ManagementToolbarViewState create(
 		String addEntryMessage, String defaultDisplayStyle,
-		String defaultOrderByCol, String defaultOrderByType,
-		RenderRequest renderRequest, RenderResponse renderResponse,
-		boolean showCreationMenu, boolean showDisplayStyleCard,
-		boolean showDisplayStyleList, boolean showDisplayStyleTable) {
+		String defaultNavigation, String defaultOrderByCol,
+		String defaultOrderByType, RenderRequest renderRequest,
+		RenderResponse renderResponse, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList,
+		boolean showDisplayStyleTable) {
 
 		return create(
-			addEntryMessage, defaultDisplayStyle, defaultOrderByCol,
-			defaultOrderByType, renderRequest, renderResponse, null, null, null,
-			null, showCreationMenu, showDisplayStyleCard, showDisplayStyleList,
-			showDisplayStyleTable);
+			addEntryMessage, defaultDisplayStyle, defaultNavigation,
+			defaultOrderByCol, defaultOrderByType, renderRequest,
+			renderResponse, null, null, null, null, showCreationMenu,
+			showDisplayStyleCard, showDisplayStyleList, showDisplayStyleTable);
 	}
 
 	@Override
 	public ManagementToolbarViewState create(
 		String addEntryMessage, String defaultDisplayStyle,
-		String defaultOrderByCol, String defaultOrderByType,
-		RenderRequest renderRequest, RenderResponse renderResponse,
-		String searchFormMethod, String searchFormName, String searchInputName,
-		String searchValue, boolean showCreationMenu,
-		boolean showDisplayStyleCard, boolean showDisplayStyleList,
-		boolean showDisplayStyleTable) {
+		String defaultNavigation, String defaultOrderByCol,
+		String defaultOrderByType, RenderRequest renderRequest,
+		RenderResponse renderResponse, String searchFormMethod,
+		String searchFormName, String searchInputName, String searchValue,
+		boolean showCreationMenu, boolean showDisplayStyleCard,
+		boolean showDisplayStyleList, boolean showDisplayStyleTable) {
 
 		RenderParameters renderParameters = renderRequest.getRenderParameters();
+
+		long categoryId = GetterUtil.getLong(
+			renderParameters.getValue("categoryId"));
 
 		int cur = GetterUtil.getInteger(
 			renderParameters.getValue(SearchContainer.DEFAULT_CUR_PARAM),
@@ -94,6 +98,9 @@ public class ManagementToolbarViewStateFactoryImpl
 
 		String keywords = renderParameters.getValue("keywords");
 
+		String navigation = GetterUtil.getString(
+			renderParameters.getValue("navigation"), defaultNavigation);
+
 		String orderByCol = GetterUtil.getString(
 			renderParameters.getValue("orderByCol"), defaultOrderByCol);
 
@@ -103,36 +110,38 @@ public class ManagementToolbarViewStateFactoryImpl
 		boolean resetCur = GetterUtil.getBoolean(
 			renderParameters.getValue("resetCur"));
 
+		String tag = GetterUtil.getString(renderParameters.getValue("tag"));
+
 		return create(
 			addEntryMessage,
 			_searchContainerURLFactory.create(
-				cur, delta, displayStyle, keywords, orderByCol, orderByType,
-				renderResponse::createRenderURL, resetCur,
-				SearchContainerURLFactory.Type.ADD_ENTRY),
+				categoryId, cur, delta, displayStyle, keywords, navigation,
+				orderByCol, orderByType, renderResponse::createRenderURL,
+				resetCur, tag, SearchContainerURLFactory.Type.ADD_ENTRY),
 			_searchContainerURLFactory.create(
-				cur, delta, displayStyle, keywords, orderByCol, orderByType,
-				renderResponse::createRenderURL, resetCur,
-				SearchContainerURLFactory.Type.CLEAR_RESULTS),
+				categoryId, cur, delta, displayStyle, keywords, navigation,
+				orderByCol, orderByType, renderResponse::createRenderURL,
+				resetCur, tag, SearchContainerURLFactory.Type.CLEAR_RESULTS),
 			displayStyle,
 			_searchContainerURLFactory.create(
-				cur, delta, displayStyle, keywords, orderByCol, orderByType,
-				renderResponse::createRenderURL, resetCur,
-				SearchContainerURLFactory.Type.DISPLAY_STYLE),
+				categoryId, cur, delta, displayStyle, keywords, navigation,
+				orderByCol, orderByType, renderResponse::createRenderURL,
+				resetCur, tag, SearchContainerURLFactory.Type.DISPLAY_STYLE),
 			searchFormMethod, searchFormName, searchInputName,
 			_searchContainerURLFactory.create(
-				cur, delta, displayStyle, keywords, orderByCol, orderByType,
-				renderResponse::createRenderURL, resetCur,
-				SearchContainerURLFactory.Type.SEARCH),
+				categoryId, cur, delta, displayStyle, keywords, navigation,
+				orderByCol, orderByType, renderResponse::createRenderURL,
+				resetCur, tag, SearchContainerURLFactory.Type.SEARCH),
 			searchValue, showCreationMenu, showDisplayStyleCard,
 			showDisplayStyleList, showDisplayStyleTable, orderByType,
 			_searchContainerURLFactory.create(
-				cur, delta, displayStyle, keywords, orderByCol, orderByType,
-				renderResponse::createRenderURL, resetCur,
-				SearchContainerURLFactory.Type.CURRENT_SORT),
+				categoryId, cur, delta, displayStyle, keywords, navigation,
+				orderByCol, orderByType, renderResponse::createRenderURL,
+				resetCur, tag, SearchContainerURLFactory.Type.CURRENT_SORT),
 			_searchContainerURLFactory.create(
-				cur, delta, displayStyle, keywords, orderByCol, orderByType,
-				renderResponse::createRenderURL, resetCur,
-				SearchContainerURLFactory.Type.REVERSE_SORT));
+				categoryId, cur, delta, displayStyle, keywords, navigation,
+				orderByCol, orderByType, renderResponse::createRenderURL,
+				resetCur, tag, SearchContainerURLFactory.Type.REVERSE_SORT));
 	}
 
 	@Reference

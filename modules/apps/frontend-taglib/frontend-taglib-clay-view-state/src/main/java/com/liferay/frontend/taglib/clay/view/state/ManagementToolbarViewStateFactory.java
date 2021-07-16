@@ -35,18 +35,19 @@ public interface ManagementToolbarViewStateFactory {
 
 	public ManagementToolbarViewState create(
 		String addEntryMessage, String defaultDisplayStyle,
-		String defaultOrderByCol, String defaultOrderByType,
-		RenderRequest renderRequest, RenderResponse renderResponse,
-		boolean showCreationMenu, boolean showDisplayStyleCard,
-		boolean showDisplayStyleList, boolean showDisplayStyleTable);
+		String defaultNavigation, String defaultOrderByCol,
+		String defaultOrderByType, RenderRequest renderRequest,
+		RenderResponse renderResponse, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList,
+		boolean showDisplayStyleTable);
 
 	public ManagementToolbarViewState create(
 		String addEntryMessage, String defaultDisplayStyle,
-		String defaultOrderByCol, String defaultOrderByType,
-		RenderRequest renderRequest, RenderResponse renderResponse,
-		String searchFormMethod, String searchFormName, String searchInputName,
-		String searchValue, boolean showCreationMenu,
-		boolean showDisplayStyleCard, boolean showDisplayStyleList,
-		boolean showDisplayStyleTable);
+		String defaultNavigation, String defaultOrderByCol,
+		String defaultOrderByType, RenderRequest renderRequest,
+		RenderResponse renderResponse, String searchFormMethod,
+		String searchFormName, String searchInputName, String searchValue,
+		boolean showCreationMenu, boolean showDisplayStyleCard,
+		boolean showDisplayStyleList, boolean showDisplayStyleTable);
 
 }

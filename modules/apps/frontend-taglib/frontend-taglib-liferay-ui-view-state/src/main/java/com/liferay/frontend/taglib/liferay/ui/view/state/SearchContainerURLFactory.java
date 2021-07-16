@@ -24,9 +24,10 @@ import javax.portlet.RenderURL;
 public interface SearchContainerURLFactory {
 
 	public RenderURL create(
-		int cur, int delta, String displayStyle, String keywords,
-		String orderByCol, String orderByType,
-		Supplier<RenderURL> renderURLSupplier, boolean resetCur, Type type);
+		long categoryId, int cur, int delta, String displayStyle,
+		String keywords, String navigation, String orderByCol,
+		String orderByType, Supplier<RenderURL> renderURLSupplier,
+		boolean resetCur, String tag, Type type);
 
 	public enum Type {
 

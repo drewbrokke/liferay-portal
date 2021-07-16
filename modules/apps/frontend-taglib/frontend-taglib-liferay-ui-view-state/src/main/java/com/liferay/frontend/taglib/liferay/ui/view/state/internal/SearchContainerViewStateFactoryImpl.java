@@ -34,18 +34,31 @@ public class SearchContainerViewStateFactoryImpl
 	@Override
 	public SearchContainerViewState create(
 		int cur, int delta, String displayStyle, int end, String keywords,
-		String orderByCol, String orderByType, boolean resetCur, int start) {
+		String navigation, String orderByCol, String orderByType,
+		boolean resetCur, int start) {
 
 		return new SearchContainerViewStateImpl(
-			cur, delta, displayStyle, end, keywords, orderByCol, orderByType,
-			resetCur, start);
+			GetterUtil.DEFAULT_LONG, cur, delta, displayStyle, end, keywords,
+			navigation, orderByCol, orderByType, resetCur, start,
+			GetterUtil.DEFAULT_STRING);
 	}
 
 	@Override
 	public SearchContainerViewState create(
-		String defaultDisplayStyle, String defaultOrderByCol,
-		String defaultOrderByType, RenderRequest renderRequest,
-		String[] validOrderByCols) {
+		long categoryId, int cur, int delta, String displayStyle, int end,
+		String keywords, String navigation, String orderByCol,
+		String orderByType, boolean resetCur, int start, String tag) {
+
+		return new SearchContainerViewStateImpl(
+			categoryId, cur, delta, displayStyle, end, keywords, navigation,
+			orderByCol, orderByType, resetCur, start, tag);
+	}
+
+	@Override
+	public SearchContainerViewState create(
+		String defaultDisplayStyle, String defaultNavigation,
+		String defaultOrderByCol, String defaultOrderByType,
+		RenderRequest renderRequest, String[] validOrderByCols) {
 
 		RenderParameters renderParameters = renderRequest.getRenderParameters();
 
@@ -79,6 +92,7 @@ public class SearchContainerViewStateFactoryImpl
 		}
 
 		return create(
+			GetterUtil.getLong(renderParameters.getValue("categoryId")),
 			GetterUtil.getInteger(
 				renderParameters.getValue("cur"), SearchContainer.DEFAULT_CUR),
 			GetterUtil.getInteger(
@@ -87,11 +101,13 @@ public class SearchContainerViewStateFactoryImpl
 			GetterUtil.getString(
 				renderParameters.getValue("displayStyle"), defaultDisplayStyle),
 			end, GetterUtil.getString(renderParameters.getValue("keywords")),
+			GetterUtil.getString(
+				renderParameters.getValue("navigation"), defaultNavigation),
 			orderByCol,
 			GetterUtil.getString(
 				renderParameters.getValue("orderByType"), defaultOrderByType),
-			GetterUtil.getBoolean(renderParameters.getValue("resetCur")),
-			start);
+			GetterUtil.getBoolean(renderParameters.getValue("resetCur")), start,
+			GetterUtil.getString(renderParameters.getValue("tag")));
 	}
 
 }

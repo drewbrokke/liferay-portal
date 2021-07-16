@@ -23,11 +23,17 @@ public interface SearchContainerViewStateFactory {
 
 	public SearchContainerViewState create(
 		int cur, int delta, String displayStyle, int end, String keywords,
-		String orderByCol, String orderByType, boolean resetCur, int start);
+		String navigation, String orderByCol, String orderByType,
+		boolean resetCur, int start);
 
 	public SearchContainerViewState create(
-		String defaultDisplayStyle, String defaultOrderByCol,
-		String defaultOrderByType, RenderRequest renderRequest,
-		String[] validOrderByCols);
+		long categoryId, int cur, int delta, String displayStyle, int end,
+		String keywords, String navigation, String orderByCol,
+		String orderByType, boolean resetCur, int start, String tag);
+
+	public SearchContainerViewState create(
+		String defaultDisplayStyle, String defaultNavigation,
+		String defaultOrderByCol, String defaultOrderByType,
+		RenderRequest renderRequest, String[] validOrderByCols);
 
 }

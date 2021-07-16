@@ -34,15 +34,17 @@ public class SearchContainerURLFactoryImpl
 
 	@Override
 	public RenderURL create(
-		int cur, int delta, String displayStyle, String keywords,
-		String orderByCol, String orderByType,
-		Supplier<RenderURL> renderURLSupplier, boolean resetCur, Type type) {
+		long categoryId, int cur, int delta, String displayStyle,
+		String keywords, String navigation, String orderByCol,
+		String orderByType, Supplier<RenderURL> renderURLSupplier,
+		boolean resetCur, String tag, Type type) {
 
 		RenderURL renderURL = renderURLSupplier.get();
 
 		MutableRenderParameters renderParameters =
 			renderURL.getRenderParameters();
 
+		renderParameters.setValue("categoryId", String.valueOf(categoryId));
 		renderParameters.setValue("cur", String.valueOf(cur));
 		renderParameters.setValue("delta", String.valueOf(delta));
 		renderParameters.setValue("displayStyle", displayStyle);
@@ -51,6 +53,7 @@ public class SearchContainerURLFactoryImpl
 			renderParameters.setValue("keywords", keywords);
 		}
 
+		renderParameters.setValue("navigation", navigation);
 		renderParameters.setValue("orderByCol", orderByCol);
 
 		if (type == Type.REVERSE_SORT) {
@@ -63,6 +66,10 @@ public class SearchContainerURLFactoryImpl
 		}
 
 		renderParameters.setValue("resetCur", String.valueOf(resetCur));
+
+		if (Validator.isNotNull(tag)) {
+			renderParameters.setValue("tag", tag);
+		}
 
 		return renderURL;
 	}
