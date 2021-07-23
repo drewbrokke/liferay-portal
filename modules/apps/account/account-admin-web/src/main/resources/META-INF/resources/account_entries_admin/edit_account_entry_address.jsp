@@ -25,6 +25,15 @@ AccountEntryDisplay accountEntryDisplay = (AccountEntryDisplay)request.getAttrib
 
 String defaultAddressType = ParamUtil.getString(request, "defaultAddressType");
 
+String[] types = null;
+
+if (Objects.equals("billing", defaultAddressType) || Objects.equals("shipping", defaultAddressType)) {
+	types = new String[] {defaultAddressType, AccountListTypeConstants.ACCOUNT_ENTRY_ADDRESS_TYPE_BILLING_AND_SHIPPING};
+}
+else {
+	types = new String[] {AccountListTypeConstants.ACCOUNT_ENTRY_ADDRESS_TYPE_BILLING, AccountListTypeConstants.ACCOUNT_ENTRY_ADDRESS_TYPE_BILLING_AND_SHIPPING, AccountListTypeConstants.ACCOUNT_ENTRY_ADDRESS_TYPE_SHIPPING};
+}
+
 String backURL = ParamUtil.getString(request, "backURL", String.valueOf(renderResponse.createRenderURL()));
 
 portletDisplay.setShowBackIcon(true);
@@ -51,11 +60,20 @@ renderResponse.setTitle((accountEntryAddressId == 0) ? LanguageUtil.get(request,
 
 		<aui:input name="description" type="textarea" />
 
-		<%
-		AddressDisplay addressDisplay = AddressDisplay.of(address);
-		%>
+		<aui:select label="type" name="addressTypeId">
 
-		<aui:select label="type" listType="<%= AccountEntry.class.getName() + ListTypeConstants.ADDRESS %>" name="addressTypeId" value="<%= addressDisplay.getTypeId() %>" />
+			<%
+			for (String type : types) {
+				ListType listType = ListTypeLocalServiceUtil.getListType(type, AccountEntry.class.getName() + ListTypeConstants.ADDRESS);
+			%>
+
+				<aui:option label="<%= LanguageUtil.get(request, type) %>" value="<%= listType.getListTypeId() %>" />
+
+			<%
+			}
+			%>
+
+		</aui:select>
 
 		<aui:input name="street1" required="<%= true %>" />
 
