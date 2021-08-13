@@ -47,6 +47,12 @@ components:
                     type: integer
                 status:
                     type: integer
+                type:
+                    # @review
+                    description:
+                        The account's type. This property will be ignored during PATCH and PUT requests. Valid types are
+                        'business', 'guest' and 'person'.
+                    enum: [business, guest, person]
             type: object
         AccountRole:
             # @review
