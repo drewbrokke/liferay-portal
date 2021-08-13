@@ -179,6 +179,20 @@ public class AccountSerDes {
 			sb.append(account.getStatus());
 		}
 
+		if (account.getType() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"type\": ");
+
+			sb.append("\"");
+
+			sb.append(account.getType());
+
+			sb.append("\"");
+		}
+
 		sb.append("}");
 
 		return sb.toString();
@@ -266,6 +280,13 @@ public class AccountSerDes {
 			map.put("status", String.valueOf(account.getStatus()));
 		}
 
+		if (account.getType() == null) {
+			map.put("type", null);
+		}
+		else {
+			map.put("type", String.valueOf(account.getType()));
+		}
+
 		return map;
 	}
 
@@ -337,6 +358,12 @@ public class AccountSerDes {
 				if (jsonParserFieldValue != null) {
 					account.setStatus(
 						Integer.valueOf((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "type")) {
+				if (jsonParserFieldValue != null) {
+					account.setType(
+						Account.Type.create((String)jsonParserFieldValue));
 				}
 			}
 		}

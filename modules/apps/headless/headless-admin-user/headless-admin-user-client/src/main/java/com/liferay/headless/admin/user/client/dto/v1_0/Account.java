@@ -221,6 +221,33 @@ public class Account implements Cloneable, Serializable {
 
 	protected Integer status;
 
+	public Type getType() {
+		return type;
+	}
+
+	public String getTypeAsString() {
+		if (type == null) {
+			return null;
+		}
+
+		return type.toString();
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}
+
+	public void setType(UnsafeSupplier<Type, Exception> typeUnsafeSupplier) {
+		try {
+			type = typeUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Type type;
+
 	@Override
 	public Account clone() throws CloneNotSupportedException {
 		return (Account)super.clone();
@@ -250,6 +277,37 @@ public class Account implements Cloneable, Serializable {
 
 	public String toString() {
 		return AccountSerDes.toJSON(this);
+	}
+
+	public static enum Type {
+
+		BUSINESS("business"), GUEST("guest"), PERSON("person");
+
+		public static Type create(String value) {
+			for (Type type : values()) {
+				if (Objects.equals(type.getValue(), value)) {
+					return type;
+				}
+			}
+
+			return null;
+		}
+
+		public String getValue() {
+			return _value;
+		}
+
+		@Override
+		public String toString() {
+			return _value;
+		}
+
+		private Type(String value) {
+			_value = value;
+		}
+
+		private final String _value;
+
 	}
 
 }
