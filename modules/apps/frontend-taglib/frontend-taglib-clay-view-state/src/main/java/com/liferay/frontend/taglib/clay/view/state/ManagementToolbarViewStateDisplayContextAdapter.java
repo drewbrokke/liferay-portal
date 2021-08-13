@@ -43,6 +43,11 @@ public class ManagementToolbarViewStateDisplayContextAdapter
 	}
 
 	@Override
+	public Map<String, Object> getAdditionalProps() {
+		return _managementToolbarViewState.getAdditionalProps();
+	}
+
+	@Override
 	public String getClearResultsURL() {
 		RenderURL clearResultsURL =
 			_managementToolbarViewState.getClearResultsURL();

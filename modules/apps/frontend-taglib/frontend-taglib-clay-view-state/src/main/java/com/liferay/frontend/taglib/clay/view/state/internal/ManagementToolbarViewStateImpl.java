@@ -22,7 +22,6 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
 import com.liferay.frontend.taglib.clay.view.state.ManagementToolbarViewState;
 import com.liferay.portal.kernel.dao.search.DisplayTerms;
-import com.liferay.portal.kernel.util.Validator;
 
 import java.util.List;
 import java.util.Map;
@@ -80,6 +79,11 @@ public class ManagementToolbarViewStateImpl
 	}
 
 	@Override
+	public Map<String, Object> getAdditionalProps() {
+		return null;
+	}
+
+	@Override
 	public RenderURL getClearResultsURL() {
 		return _clearResultsURL;
 	}
@@ -91,7 +95,7 @@ public class ManagementToolbarViewStateImpl
 
 	@Override
 	public String getContentRenderer() {
-		return null;
+		return "hiddenInputsForm";
 	}
 
 	@Override
@@ -300,17 +304,17 @@ public class ManagementToolbarViewStateImpl
 
 	@Override
 	public boolean isShowInfoButton() {
-		return Validator.isNotNull(getInfoPanelId());
+		return false;
 	}
 
 	@Override
 	public boolean isShowSearch() {
-		return Validator.isNotNull(getSearchActionURL());
+		return false;
 	}
 
 	@Override
 	public boolean isSupportsBulkActions() {
-		return false;
+		return true;
 	}
 
 	private final String _addEntryMessage;

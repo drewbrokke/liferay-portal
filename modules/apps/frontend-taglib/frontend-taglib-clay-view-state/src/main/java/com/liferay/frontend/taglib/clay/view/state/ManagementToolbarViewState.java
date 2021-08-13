@@ -35,6 +35,8 @@ public interface ManagementToolbarViewState {
 
 	public RenderURL getAddEntryURL();
 
+	public Map<String, Object> getAdditionalProps();
+
 	public RenderURL getClearResultsURL();
 
 	public String getComponentId();

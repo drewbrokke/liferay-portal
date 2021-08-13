@@ -56,6 +56,11 @@ public abstract class ManagementToolbarViewStateWrapper
 	}
 
 	@Override
+	public Map<String, Object> getAdditionalProps() {
+		return _managementToolbarViewState.getAdditionalProps();
+	}
+
+	@Override
 	public RenderURL getClearResultsURL() {
 		return _managementToolbarViewState.getClearResultsURL();
 	}
