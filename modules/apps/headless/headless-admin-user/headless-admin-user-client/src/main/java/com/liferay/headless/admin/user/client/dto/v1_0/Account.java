@@ -19,6 +19,7 @@ import com.liferay.headless.admin.user.client.serdes.v1_0.AccountSerDes;
 
 import java.io.Serializable;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -285,7 +286,7 @@ public class Account implements Cloneable, Serializable {
 
 		public static Type create(String value) {
 			for (Type type : values()) {
-				if (Objects.equals(type.getValue(), value)) {
+				if (Objects.equals(type.getValue().toLowerCase(), value.toLowerCase())) {
 					return type;
 				}
 			}
