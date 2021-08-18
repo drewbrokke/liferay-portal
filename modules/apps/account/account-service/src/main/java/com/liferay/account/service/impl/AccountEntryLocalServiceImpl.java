@@ -81,6 +81,7 @@ import com.liferay.users.admin.kernel.file.uploads.UserFileUploadsSettings;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.apache.commons.validator.routines.DomainValidator;
@@ -692,6 +693,13 @@ public class AccountEntryLocalServiceImpl
 	public AccountEntry updateExternalReferenceCode(
 			AccountEntry accountEntry, String externalReferenceCode)
 		throws PortalException {
+
+		if (Objects.equals(
+				accountEntry.getExternalReferenceCode(),
+				externalReferenceCode)) {
+
+			return accountEntry;
+		}
 
 		_validateExternalReferenceCode(
 			accountEntry.getAccountEntryId(), externalReferenceCode);
