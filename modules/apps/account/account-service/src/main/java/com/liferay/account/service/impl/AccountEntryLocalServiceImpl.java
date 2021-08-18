@@ -689,6 +689,30 @@ public class AccountEntryLocalServiceImpl
 
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
+	public AccountEntry updateExternalReferenceCode(
+			AccountEntry accountEntry, String externalReferenceCode)
+		throws PortalException {
+
+		_validateExternalReferenceCode(
+			accountEntry.getAccountEntryId(), externalReferenceCode);
+
+		accountEntry.setExternalReferenceCode(externalReferenceCode);
+
+		return updateAccountEntry(accountEntry);
+	}
+
+	@Indexable(type = IndexableType.REINDEX)
+	@Override
+	public AccountEntry updateExternalReferenceCode(
+			long accountEntryId, String externalReferenceCode)
+		throws PortalException {
+
+		return updateExternalReferenceCode(
+			getAccountEntry(accountEntryId), externalReferenceCode);
+	}
+
+	@Indexable(type = IndexableType.REINDEX)
+	@Override
 	public AccountEntry updateStatus(AccountEntry accountEntry, int status) {
 		accountEntry.setStatus(status);
 
@@ -964,6 +988,28 @@ public class AccountEntryLocalServiceImpl
 			if (!emailValidator.isValid(emailAddress)) {
 				throw new AccountEntryEmailAddressException();
 			}
+		}
+	}
+
+	private void _validateExternalReferenceCode(
+			long accountEntryId, String externalReferenceCode)
+		throws PortalException {
+
+		if (Validator.isNull(externalReferenceCode)) {
+			return;
+		}
+
+		AccountEntry accountEntry = getAccountEntry(accountEntryId);
+
+		accountEntry = fetchAccountEntryByExternalReferenceCode(
+			accountEntry.getCompanyId(), externalReferenceCode);
+
+		if (accountEntry == null) {
+			return;
+		}
+
+		if (accountEntry.getAccountEntryId() != accountEntryId) {
+			throw new PortalException();
 		}
 	}
 
