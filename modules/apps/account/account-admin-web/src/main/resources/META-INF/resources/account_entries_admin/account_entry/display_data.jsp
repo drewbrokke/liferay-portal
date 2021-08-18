@@ -1,4 +1,5 @@
-<%--
+<%@ page
+	import="com.liferay.account.exception.DuplicateAccountEntryExternalReferenceCodeException" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -53,6 +54,8 @@ AccountEntryDisplay accountEntryDisplay = (AccountEntryDisplay)request.getAttrib
 			<aui:input helpMessage="tax-id-help" label="tax-id" name="taxIdNumber" type="text" value="<%= accountEntryDisplay.getTaxIdNumber() %>">
 				<aui:validator name="maxLength"><%= ModelHintsUtil.getMaxLength(AccountEntry.class.getName(), "taxIdNumber") %></aui:validator>
 			</aui:input>
+
+			<liferay-ui:error key="<%= DuplicateAccountEntryExternalReferenceCodeException.class.getName() %>" message="duplicate-external-refernce-code" />
 
 			<aui:input label="external-reference-code" name="externalReferenceCode" type="text" value="<%= accountEntryDisplay.getExternalReferenceCode() %>" />
 

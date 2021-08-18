@@ -19,6 +19,7 @@ import com.liferay.account.exception.AccountEntryDomainsException;
 import com.liferay.account.exception.AccountEntryEmailAddressException;
 import com.liferay.account.exception.AccountEntryNameException;
 import com.liferay.account.exception.AccountEntryTypeException;
+import com.liferay.account.exception.DuplicateAccountEntryExternalReferenceCodeException;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryOrganizationRelTable;
 import com.liferay.account.model.AccountEntryTable;
@@ -1017,7 +1018,7 @@ public class AccountEntryLocalServiceImpl
 		}
 
 		if (accountEntry.getAccountEntryId() != accountEntryId) {
-			throw new PortalException();
+			throw new DuplicateAccountEntryExternalReferenceCodeException();
 		}
 	}
 
