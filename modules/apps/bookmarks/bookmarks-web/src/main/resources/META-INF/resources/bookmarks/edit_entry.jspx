@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+-->
+<jsp:root
+	version="2.1"
+	xmlns:aui="http://liferay.com/tld/aui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:clay="http://liferay.com/tld/clay"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:liferay-asset="http://liferay.com/tld/asset"
+	xmlns:liferay-expando="http://liferay.com/tld/expando"
+	xmlns:liferay-ui="http://liferay.com/tld/ui"
+	xmlns:portlet="http://xmlns.jcp.org/portlet_3_0"
+>
+	<jsp:directive.page contentType="text/html" pageEncoding="UTF-8" />
+
+	<portlet:defineObjects />
+
+	<c:set value="${param['bookmarkId']}" var="bookmarkId" />
+	<c:set value="${param['parentFolderId']}" var="parentFolderId" />
+
+	<clay:container-fluid
+		cssClass="container-form-lg"
+	>
+		<portlet:actionURL copyCurrentRenderParameters="true" name="~bookmarks~edit_entry" var="editEntryURL">
+			<portlet:param name="mvcRenderCommandName" type="render" value="~bookmarks~view_folder" />
+		</portlet:actionURL>
+
+		<aui:form action="${editEntryURL}" method="post" name="fm" onSubmit="event.preventDefault(); ${namespace}saveEntry();">
+			<aui:input name="cmd" type="hidden" />
+			<aui:input name="bookmarkId" type="hidden" value="${bookmarkId}" />
+			<aui:input name="parentFolderId" type="hidden" value="${parentFolderId}" />
+			<aui:input name="showFolderSelector" type="hidden" value="${showFolderSelector}" />
+
+			<div class="lfr-form-content">
+				<liferay-ui:error exception="${EntryURLExceptionClass}" message="please-enter-a-valid-url" />
+				<liferay-ui:error exception="${NoSuchFolderExceptionClass}" message="please-enter-a-valid-folder" />
+
+				<liferay-asset:asset-categories-error />
+
+				<liferay-asset:asset-tags-error />
+
+				<aui:model-context bean="${BOOKMARKS_ENTRY}" model="${BookmarksEntryClass}" />
+
+				<aui:fieldset-group markupView="lexicon">
+					<aui:fieldset>
+						<c:if test="${showFolderSelector}">
+							<div class="form-group">
+								<aui:input label="folder" name="folderName" type="resource" value="${folderName}" />
+
+								<aui:button name="selectFolderButton" value="select" />
+
+								<aui:script>
+									var ${namespace}selectFolderButton = document.getElementById(
+										'${namespace}selectFolderButton'
+									);
+
+									if (${namespace}selectFolderButton) {
+										${namespace}selectFolderButton.addEventListener(
+											'click',
+											(event) => {
+												Liferay.Util.openSelectionModal({
+													onSelect: function (event) {
+														var folderData = {
+															idString: 'folderId',
+															idValue: event.entityid,
+															nameString: 'folderName',
+															nameValue: event.entityname,
+														};
+
+														Liferay.Util.selectFolder(
+															folderData,
+															'${namespace}'
+														);
+													},
+													selectEventName: '${namespace}selectFolder',
+													title:
+														'<liferay-ui:message arguments="folder" key="select-x" />',
+													url:
+														'<portlet:renderURL windowState="pop_up"><portlet:param name="mvcRenderCommandName" value="~bookmarks~select_folder" /></portlet:renderURL>',
+												});
+											}
+										);
+									}
+								</aui:script>
+
+								<!-- what's up with taglibRemoveFolder? -->
+								<aui:button disabled="${parentFolderId lt 0}" name="removeFolderButton" onClick="${taglibRemoveFolder}" value="remove" />
+							</div>
+						</c:if>
+
+						<aui:input autoFocus="${(windowState == 'maximized') || (windowState == 'pop_up')}" name="name" />
+
+						<aui:input name="url" />
+
+						<aui:input name="description" />
+					</aui:fieldset>
+
+					<liferay-expando:custom-attributes-available
+						className="${BookmarksEntryClass.name}"
+					>
+						<aui:fieldset collapsed="true" collapsible="true" label="custom-fields">
+							<liferay-expando:custom-attribute-list
+								className="${BookmarksEntryClass.name}"
+								classPK="${bookmarkId}"
+								editable="true"
+								label="true"
+							/>
+						</aui:fieldset>
+					</liferay-expando:custom-attributes-available>
+
+					<aui:fieldset collapsed="true" collapsible="true" label="categorization">
+						<liferay-asset:asset-categories-selector
+							className="${BookmarksEntryClass.name}"
+							classPK="${bookmarkId}"
+							visibilityTypes="${visibilityTypes}"
+						/>
+
+						<liferay-asset:asset-tags-selector
+							className="${BookmarksEntryClass.name}"
+							classPK="${bookmarkId}"
+						/>
+					</aui:fieldset>
+
+					<aui:fieldset collapsed="true" collapsible="true" label="related-assets">
+						<liferay-asset:input-asset-links
+							className="${BookmarksEntryClass.name}"
+							classPK="${bookmarkId}"
+						/>
+					</aui:fieldset>
+
+					<c:if test="${BOOKMARKS_ENTRY == null}">
+						<aui:fieldset collapsed="true" collapsible="true" label="permissions">
+							<liferay-ui:input-permissions
+								modelName="${BookmarksEntryClass.name}"
+							/>
+						</aui:fieldset>
+					</c:if>
+
+					<div class="sheet-footer">
+						<aui:button type="submit" />
+
+						<aui:button href="${cancelURL}" type="cancel" />
+					</div>
+				</aui:fieldset-group>
+			</div>
+		</aui:form>
+	</clay:container-fluid>
+
+	<aui:script>
+		function ${namespace}saveEntry() {
+
+			var form = document.getElementById('${namespace}fm');
+
+			if (form) {
+				var cmd = form.querySelector('#${namespace}cmd');
+
+				if (cmd) {
+					cmd.setAttribute(
+						'value',
+						'${(BOOKMARKS_ENTRY == null) ? "add" : "update"}'
+					);
+
+					submitForm(form);
+				}
+			}
+		}
+	</aui:script>
+</jsp:root>

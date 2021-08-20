@@ -148,7 +148,7 @@ public class EditFolderMVCRenderCommand extends BaseMVCRenderCommand {
 			throw new PortletException(exception);
 		}
 
-		return "/bookmarks/edit_folder.jsp";
+		return "/bookmarks/edit_folder.jspx";
 	}
 
 	@Reference(

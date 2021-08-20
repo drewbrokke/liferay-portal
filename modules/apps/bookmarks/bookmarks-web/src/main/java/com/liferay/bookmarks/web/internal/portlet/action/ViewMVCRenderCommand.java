@@ -127,7 +127,7 @@ public class ViewMVCRenderCommand extends BaseMVCRenderCommand {
 			throw new PortletException(exception);
 		}
 
-		return "/bookmarks/view.jsp";
+		return "/bookmarks/view.jspx";
 	}
 
 	@Override

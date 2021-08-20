@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+-->
+<jsp:root
+	version="2.1"
+	xmlns:aui="http://liferay.com/tld/aui"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:portlet="http://xmlns.jcp.org/portlet_3_0"
+>
+	<portlet:renderURL var="cancelURL">
+		<!-- MVC parameters -->
+		<portlet:param name="bookmarkId" value="${param['parentFolderId']}" />
+		<portlet:param name="mvcRenderCommandName" value="~bookmarks~view_folder" />
+		<!-- SearchContainer view state -->
+		<portlet:param name="categoryId" value="${searchContainerViewState.categoryId}" />
+		<portlet:param name="cur" value="${searchContainerViewState.cur}" />
+		<portlet:param name="delta" value="${searchContainerViewState.delta}" />
+		<portlet:param name="displayStyle" value="${searchContainerViewState.displayStyle}" />
+		<portlet:param name="navigation" value="${searchContainerViewState.navigation}" />
+		<portlet:param name="orderByCol" value="${searchContainerViewState.orderByCol}" />
+		<portlet:param name="orderByType" value="${searchContainerViewState.orderByType}" />
+		<portlet:param name="resetCur" value="${searchContainerViewState.resetCur}" />
+		<portlet:param name="tag" value="${searchContainerViewState.tag}" />
+	</portlet:renderURL>
+
+	<aui:button href="${cancelURL}" type="cancel" />
+</jsp:root>

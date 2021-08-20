@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+-->
+<jsp:root
+	version="2.1"
+	xmlns:aui="http://liferay.com/tld/aui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:clay="http://liferay.com/tld/clay"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:liferay-expando="http://liferay.com/tld/expando"
+	xmlns:liferay-ui="http://liferay.com/tld/ui"
+	xmlns:portlet="http://xmlns.jcp.org/portlet_3_0"
+>
+	<jsp:directive.page contentType="text/html" pageEncoding="UTF-8" />
+
+	<portlet:defineObjects />
+
+	<c:set value="${param['bookmarkId']}" var="bookmarkId" />
+	<c:set value="${param['parentFolderId']}" var="parentFolderId" />
+
+	<clay:container-fluid
+		cssClass="container-form-lg"
+	>
+		<portlet:actionURL copyCurrentRenderParameters="true" name="~bookmarks~edit_folder" var="editFolderURL">
+			<portlet:param name="mvcRenderCommandName" type="render" value="~bookmarks~view_folder" />
+		</portlet:actionURL>
+
+		<aui:form action="${editFolderURL}" method="post" name="fm" onSubmit="event.preventDefault(); ${namespace}saveFolder();">
+			<aui:input name="cmd" type="hidden" />
+			<aui:input name="bookmarkId" type="hidden" value="${bookmarkId}" />
+			<aui:input name="parentFolderId" type="hidden" value="${parentFolderId}" />
+
+			<liferay-ui:error exception="${FolderNameExceptionClass}">
+				<p>
+					<liferay-ui:message arguments="${NAME_RESERVED_WORDS}" key="the-folder-name-cannot-be-blank-or-a-reserved-word-such-as-x" />
+				</p>
+
+				<p>
+					<liferay-ui:message arguments="${NAME_INVALID_CHARACTERS}" key="the-folder-name-cannot-contain-the-following-invalid-characters-x" />
+				</p>
+			</liferay-ui:error>
+
+			<aui:model-context bean="${BOOKMARKS_FOLDER}" model="${BookmarksFolderClass}" />
+
+			<aui:fieldset-group markupView="lexicon">
+				<aui:fieldset>
+					<aui:input autoFocus="${renderRequest.windowState == 'maximized'}" name="name" />
+
+					<aui:input name="description" />
+				</aui:fieldset>
+
+				<c:if test="${BOOKMARKS_FOLDER != null}">
+					<aui:fieldset collapsed="true" collapsible="true" label="parent-folder">
+						<div class="form-group">
+							<aui:input label="parent-folder" name="parentFolderName" type="resource" value="${parentFolderName}" />
+
+							<aui:button name="selectFolderButton" value="select" />
+
+							<aui:script>
+								var ${namespace}selectFolderButton = document.getElementById(
+									'${namespace}selectFolderButton'
+								);
+
+								if (${namespace}selectFolderButton) {
+									${namespace}selectFolderButton.addEventListener(
+										'click',
+										(event) => {
+											Liferay.Util.openSelectionModal({
+												onSelect: function (event) {
+													var folderData = {
+														idString: 'parentFolderId',
+														idValue: event.entityid,
+														nameString: 'parentFolderName',
+														nameValue: event.entityname,
+													};
+
+													Liferay.Util.selectFolder(
+														folderData,
+														'${namespace}'
+													);
+												},
+												selectEventName: '${namespace}selectFolder',
+												title:
+													'<liferay-ui:message arguments="folder" key="select-x" />',
+												url:
+													'<portlet:renderURL windowState="pop_up"><portlet:param name="mvcRenderCommandName" value="~bookmarks~select_folder" /></portlet:renderURL>',
+											});
+										}
+									);
+								}
+							</aui:script>
+
+							<aui:button disabled="${parentFolderId le 0}" name="removeFolderButton" onClick="Liferay.Util.removeEntitySelection('parentFolderId', 'parentFolderName', this, '${namespace}');" value="remove" />
+						</div>
+
+						<aui:input inlineLabel="right" label="merge-with-parent-folder" labelCssClass="simple-toggle-switch" name="mergeWithParentFolder" type="toggle-switch" />
+					</aui:fieldset>
+				</c:if>
+
+				<liferay-expando:custom-attributes-available
+					className="${BookmarksFolderClass.name}"
+				>
+					<aui:fieldset collapsed="true" collapsible="true" label="custom-fields">
+						<liferay-expando:custom-attribute-list
+							className="${BookmarksFolderClass.name}"
+							classPK="${bookmarkId}"
+							editable="true"
+							label="true"
+						/>
+					</aui:fieldset>
+				</liferay-expando:custom-attributes-available>
+
+				<c:if test="${BOOKMARKS_FOLDER == null}">
+					<aui:fieldset collapsed="true" collapsible="true" label="permissions">
+						<aui:field-wrapper label="permissions">
+							<liferay-ui:input-permissions
+								modelName="${BookmarksFolderClass.name}"
+							/>
+						</aui:field-wrapper>
+					</aui:fieldset>
+				</c:if>
+
+				<div class="sheet-footer">
+					<aui:button type="submit" />
+
+					<aui:button href="${cancelURL}" type="cancel" />
+				</div>
+			</aui:fieldset-group>
+		</aui:form>
+	</clay:container-fluid>
+
+	<aui:script>
+		function ${namespace}saveFolder() {
+			var form = document.getElementById('${namespace}fm');
+
+			if (form) {
+				var cmd = form.querySelector(
+					'#${namespace}cmd'
+				);
+
+				if (cmd) {
+					cmd.setAttribute(
+						'value',
+						'${(BOOKMARKS_FOLDER == null) ? "add" : "update"}'
+					);
+
+					submitForm(form);
+				}
+			}
+		}
+	</aui:script>
+</jsp:root>

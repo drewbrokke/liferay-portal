@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+-->
+<jsp:root
+	version="2.1"
+	xmlns:aui="http://liferay.com/tld/aui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:liferay-ui="http://liferay.com/tld/ui"
+	xmlns:portlet="http://xmlns.jcp.org/portlet_3_0"
+>
+	<liferay-ui:search-container
+		id="bookmarks"
+		searchContainer="${bookmarksSearchContainer}"
+	>
+		<liferay-ui:search-container-row
+			className="com.liferay.bookmarks.web.internal.portlet.model.Bookmark"
+			keyProperty="bookmarkId"
+			modelVar="bookmark"
+		>
+			<c:if test="${currentUser.mayViewBookmark(bookmark)}">
+				<portlet:renderURL var="viewBookmarkURL">
+					<!-- MVC parameters -->
+					<portlet:param name="bookmarkId" value="${bookmark.bookmarkId}" />
+					<portlet:param name="mvcRenderCommandName" value="~bookmarks~view_${bookmark.entityName}" />
+					<portlet:param name="parentFolderId" value="${bookmark.parentFolderId}" />
+					<!-- SearchContainer view state -->
+					<portlet:param name="categoryId" value="${searchContainerViewState.categoryId}" />
+					<portlet:param name="cur" value="${searchContainerViewState.cur}" />
+					<portlet:param name="delta" value="${searchContainerViewState.delta}" />
+					<portlet:param name="displayStyle" value="${searchContainerViewState.displayStyle}" />
+					<portlet:param name="navigation" value="${searchContainerViewState.navigation}" />
+					<portlet:param name="orderByCol" value="${searchContainerViewState.orderByCol}" />
+					<portlet:param name="orderByType" value="${searchContainerViewState.orderByType}" />
+					<portlet:param name="resetCur" value="${searchContainerViewState.resetCur}" />
+					<portlet:param name="tag" value="${searchContainerViewState.tag}" />
+				</portlet:renderURL>
+			</c:if>
+
+			<c:choose>
+				<c:when test='${searchContainerViewState.displayStyle == "descriptive"}'>
+					<liferay-ui:search-container-column-icon
+						icon="${bookmark.icon}"
+						toggleRowChecker="true"
+					/>
+
+					<liferay-ui:search-container-column-text
+						colspan="2"
+					>
+						<h4>
+							<c:choose>
+								<c:when test="${bookmark.folder}">
+									<aui:a href="${viewBookmarkURL}">${htmlUtil.escape(bookmark.name)}</aui:a>
+								</c:when>
+								<c:otherwise>
+									<aui:a href="${pathMain}/bookmarks/open_entry?entryId=${bookmark.bookmarkId}">${htmlUtil.escape(bookmark.name)}</aui:a>
+								</c:otherwise>
+							</c:choose>
+						</h4>
+
+						<h5 class="text-default">${htmlUtil.escape(bookmark.description)}</h5>
+
+						<c:choose>
+							<c:when test="${bookmark.folder}">
+							<span class="h6">
+								<liferay-ui:message arguments="${bookmark.foldersCount}" key="${(bookmark.foldersCount == 1) ? 'x-folder' : 'x-folders'}" />
+							</span>
+							<span class="h6">
+								<liferay-ui:message arguments="${bookmark.entriesCount}" key="${(bookmark.entriesCount == 1) ? 'x-bookmark' : 'x-bookmarks'}" />
+							</span>
+							</c:when>
+							<c:otherwise>
+							<span class="h6">
+								<liferay-ui:message arguments="${bookmark.visits}" key="${(bookmark.visits == 1) ? 'x-visit' : 'x-visits'}" />
+							</span>
+							</c:otherwise>
+						</c:choose>
+					</liferay-ui:search-container-column-text>
+
+					<liferay-ui:search-container-column-jsp
+						path="/bookmarks/bookmark_actions.jspx"
+					/>
+				</c:when>
+				<c:otherwise>
+					<c:choose>
+						<c:when test="${bookmark.folder}">
+							<c:set value="${viewBookmarkURL}" var="openBookmarkURL" />
+						</c:when>
+						<c:otherwise>
+							<c:set value="${pathMain}/bookmarks/open_entry?entryId=${bookmark.bookmarkId}" var="openBookmarkURL" />
+						</c:otherwise>
+					</c:choose>
+
+					<liferay-ui:search-container-column-text
+						cssClass="table-cell-expand table-cell-minw-200 table-title"
+						href="${openBookmarkURL}"
+						name="name"
+						value="${htmlUtil.escape(bookmark.name)}"
+					/>
+
+					<liferay-ui:search-container-column-text
+						cssClass="table-cell-expand table-cell-minw-200"
+						name="url"
+						value="${htmlUtil.escapeURL(bookmark.url)}"
+					/>
+
+					<liferay-ui:search-container-column-text
+						cssClass="table-cell-expand-smallest"
+						name="visits"
+						value="${bookmark.visits}"
+					/>
+
+					<liferay-ui:search-container-column-date
+						cssClass="table-cell-ws-nowrap"
+						name="modified-date"
+						property="modifiedDate"
+					/>
+
+					<liferay-ui:search-container-column-jsp
+						path="/bookmarks/bookmark_actions.jspx"
+					/>
+				</c:otherwise>
+			</c:choose>
+		</liferay-ui:search-container-row>
+
+		<liferay-ui:search-iterator
+			displayStyle="${searchContainerViewState.displayStyle}"
+			markupView="lexicon"
+			resultRowSplitter="${bookmarksResultRowSplitter}"
+			searchContainer="${bookmarksSearchContainer}"
+		/>
+	</liferay-ui:search-container>
+</jsp:root>
