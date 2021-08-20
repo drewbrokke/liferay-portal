@@ -67,16 +67,32 @@ if (row == null) {
 		<liferay-ui:icon
 			message="edit"
 			url='<%=
-				PortletURLBuilder.create(
-					PortalUtil.getControlPanelPortletURL(request, themeDisplay.getScopeGroup(), BookmarksPortletKeys.BOOKMARKS_ADMIN, 0, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE)
+				RenderURLBuilder.createRenderURL(
+					renderResponse
 				).setMVCRenderCommandName(
-					"/bookmarks/edit_folder"
-				).setRedirect(
-					currentURL
-				).setPortletResource(
-					portletDisplay.getId()
+					"~bookmarks~edit_folder"
+				).setNavigation(
+					searchContainerViewState.getNavigation()
 				).setParameter(
-					"folderId", folder.getFolderId()
+					"bookmarkId", folder.getFolderId(), false
+				).setParameter(
+					"parentFolderId", folder.getParentFolderId(), false
+				).setParameter(
+					"categoryId", searchContainerViewState.getCategoryId(), false
+				).setParameter(
+					"cur", searchContainerViewState.getCur(), false
+				).setParameter(
+					"delta", searchContainerViewState.getDelta(), false
+				).setParameter(
+					"displayStyle", searchContainerViewState.getDisplayStyle(), false
+				).setParameter(
+					"orderByCol", searchContainerViewState.getOrderByCol(), false
+				).setParameter(
+					"orderByType", searchContainerViewState.getOrderByType(), false
+				).setParameter(
+					"resetCur", searchContainerViewState.getResetCur(), false
+				).setParameter(
+					"tag", searchContainerViewState.getTag(), false
 				).setParameter(
 					"mergeWithParentFolderDisabled", row == null
 				).buildString()
@@ -84,9 +100,21 @@ if (row == null) {
 		/>
 
 		<portlet:renderURL var="moveURL">
-			<portlet:param name="mvcRenderCommandName" value="/bookmarks/move_entry" />
-			<portlet:param name="redirect" value="<%= currentURL %>" />
+			<!-- MVC parameters -->
+			<portlet:param name="mvcRenderCommandName" value="~bookmarks~move_folder" />
+			<portlet:param name="bookmarkId" value="<%= String.valueOf(folder.getFolderId()) %>" />
+			<portlet:param name="parentFolderId" value="<%= String.valueOf(folder.getParentFolderId()) %>" />
 			<portlet:param name="rowIdsBookmarksFolder" value="<%= String.valueOf(folder.getFolderId()) %>" />
+			<!-- SearchContainer view state -->
+			<portlet:param name="categoryId" value="${searchContainerViewState.categoryId}" />
+			<portlet:param name="cur" value="${searchContainerViewState.cur}" />
+			<portlet:param name="delta" value="${searchContainerViewState.delta}" />
+			<portlet:param name="displayStyle" value="${searchContainerViewState.displayStyle}" />
+			<portlet:param name="navigation" value="${searchContainerViewState.navigation}" />
+			<portlet:param name="orderByCol" value="${searchContainerViewState.orderByCol}" />
+			<portlet:param name="orderByType" value="${searchContainerViewState.orderByType}" />
+			<portlet:param name="resetCur" value="${searchContainerViewState.resetCur}" />
+			<portlet:param name="tag" value="${searchContainerViewState.tag}" />
 		</portlet:renderURL>
 
 		<liferay-ui:icon
@@ -113,22 +141,20 @@ if (row == null) {
 	</c:if>
 
 	<c:if test="<%= (folder != null) && BookmarksFolderPermission.contains(permissionChecker, folder, ActionKeys.DELETE) %>">
-		<portlet:renderURL var="redirectURL">
-			<c:choose>
-				<c:when test="<%= folder.getParentFolderId() == BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID %>">
-					<portlet:param name="mvcRenderCommandName" value="/bookmarks/view" />
-				</c:when>
-				<c:otherwise>
-					<portlet:param name="mvcRenderCommandName" value="/bookmarks/view_folder" />
-					<portlet:param name="folderId" value="<%= String.valueOf(folder.getParentFolderId()) %>" />
-				</c:otherwise>
-			</c:choose>
-		</portlet:renderURL>
-
-		<portlet:actionURL name="/bookmarks/edit_folder" var="deleteURL">
+		<portlet:actionURL name="~bookmarks~edit_folder" var="deleteURL">
+			<!-- MVC parameters -->
 			<portlet:param name="<%= Constants.CMD %>" value="<%= trashHelper.isTrashEnabled(scopeGroupId) ? Constants.MOVE_TO_TRASH : Constants.DELETE %>" />
-			<portlet:param name="redirect" value="<%= view ? redirectURL : currentURL %>" />
-			<portlet:param name="folderId" value="<%= String.valueOf(folder.getFolderId()) %>" />
+			<portlet:param name="bookmarkId" value="<%= String.valueOf(folder.getFolderId()) %>" />
+			<portlet:param name="parentFolderId" value="<%= String.valueOf(folder.getParentFolderId()) %>" />
+			<!-- SearchContainer view state -->
+			<portlet:param name="categoryId" type="render" value="${searchContainerViewState.categoryId}" />
+			<portlet:param name="cur" type="render" value="${searchContainerViewState.cur}" />
+			<portlet:param name="delta" type="render" value="${searchContainerViewState.delta}" />
+			<portlet:param name="displayStyle" type="render" value="${searchContainerViewState.displayStyle}" />
+			<portlet:param name="navigation" type="render" value="${searchContainerViewState.navigation}" />
+			<portlet:param name="orderByCol" type="render" value="${searchContainerViewState.orderByCol}" />
+			<portlet:param name="orderByType" type="render" value="${searchContainerViewState.orderByType}" />
+			<portlet:param name="resetCur" type="render" value="${searchContainerViewState.resetCur}" />
 		</portlet:actionURL>
 
 		<liferay-ui:icon-delete

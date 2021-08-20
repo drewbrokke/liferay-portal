@@ -19,6 +19,7 @@ import com.liferay.bookmarks.model.BookmarksEntry;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import org.junit.Assert;
@@ -48,7 +49,7 @@ public class BookmarksEntryAssetRendererTest {
 
 		AssetRenderer<BookmarksEntry> assetRenderer =
 			new BookmarksEntryAssetRenderer(
-				_bookmarksEntry, _modelResourcePermission);
+				_bookmarksEntry, _modelResourcePermission, _portal);
 
 		Assert.assertFalse(assetRenderer.hasViewPermission(_permissionChecker));
 	}
@@ -67,7 +68,7 @@ public class BookmarksEntryAssetRendererTest {
 
 		AssetRenderer<BookmarksEntry> assetRenderer =
 			new BookmarksEntryAssetRenderer(
-				_bookmarksEntry, _modelResourcePermission);
+				_bookmarksEntry, _modelResourcePermission, _portal);
 
 		Assert.assertFalse(assetRenderer.hasViewPermission(_permissionChecker));
 	}
@@ -86,7 +87,7 @@ public class BookmarksEntryAssetRendererTest {
 
 		AssetRenderer<BookmarksEntry> assetRenderer =
 			new BookmarksEntryAssetRenderer(
-				_bookmarksEntry, _modelResourcePermission);
+				_bookmarksEntry, _modelResourcePermission, _portal);
 
 		Assert.assertTrue(assetRenderer.hasViewPermission(_permissionChecker));
 	}
@@ -97,5 +98,6 @@ public class BookmarksEntryAssetRendererTest {
 		_modelResourcePermission = Mockito.mock(ModelResourcePermission.class);
 	private final PermissionChecker _permissionChecker = Mockito.mock(
 		PermissionChecker.class);
+	private final Portal _portal = Mockito.mock(Portal.class);
 
 }

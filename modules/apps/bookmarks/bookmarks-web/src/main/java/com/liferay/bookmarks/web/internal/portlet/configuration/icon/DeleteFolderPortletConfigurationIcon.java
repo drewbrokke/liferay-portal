@@ -46,7 +46,7 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS_ADMIN,
-		"path=/bookmarks/view_folder"
+		"path=~bookmarks~view_folder"
 	},
 	service = PortletConfigurationIcon.class
 )
@@ -77,7 +77,7 @@ public class DeleteFolderPortletConfigurationIcon
 				portletRequest, BookmarksPortletKeys.BOOKMARKS_ADMIN,
 				PortletRequest.ACTION_PHASE)
 		).setActionName(
-			"/bookmarks/edit_folder"
+			"~bookmarks~edit_folder"
 		).setCMD(
 			() -> {
 				ThemeDisplay themeDisplay =
@@ -117,11 +117,11 @@ public class DeleteFolderPortletConfigurationIcon
 				BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
 
 			parentFolderURL.setParameter(
-				"mvcRenderCommandName", "/bookmarks/view");
+				"mvcRenderCommandName", "~bookmarks~view_bookmarks");
 		}
 		else {
 			parentFolderURL.setParameter(
-				"mvcRenderCommandName", "/bookmarks/view_folder");
+				"mvcRenderCommandName", "~bookmarks~view_folder");
 			parentFolderURL.setParameter(
 				"folderId", String.valueOf(parentFolderId));
 		}

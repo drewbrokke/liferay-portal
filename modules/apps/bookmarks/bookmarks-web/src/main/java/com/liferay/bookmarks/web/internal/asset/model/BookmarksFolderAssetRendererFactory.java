@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.trash.TrashHelper;
 
 import javax.portlet.PortletRequest;
@@ -75,7 +76,8 @@ public class BookmarksFolderAssetRendererFactory
 
 		BookmarksFolderAssetRenderer bookmarksFolderAssetRenderer =
 			new BookmarksFolderAssetRenderer(
-				folder, _trashHelper, _bookmarksFolderModelResourcePermission);
+				folder, _bookmarksFolderModelResourcePermission, _portal,
+				_trashHelper);
 
 		bookmarksFolderAssetRenderer.setAssetRendererType(type);
 		bookmarksFolderAssetRenderer.setServletContext(_servletContext);
@@ -142,6 +144,9 @@ public class BookmarksFolderAssetRendererFactory
 
 	@Reference
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Portal _portal;
 
 	@Reference(target = "(osgi.web.symbolicname=com.liferay.bookmarks.web)")
 	private ServletContext _servletContext;

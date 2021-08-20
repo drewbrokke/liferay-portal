@@ -24,20 +24,25 @@ BookmarksFolder folder = (BookmarksFolder)row.getObject();
 folder = folder.toEscapedModel();
 %>
 
+<portlet:renderURL var="rowURL">
+	<!-- MVC parameters -->
+	<portlet:param name="bookmarkId" value="<%= String.valueOf(folder.getFolderId()) %>" />
+	<portlet:param name="mvcRenderCommandName" value="~bookmarks~view_folder" />
+	<portlet:param name="parentFolderId" value="<%= String.valueOf(folder.getParentFolderId()) %>" />
+	<!-- SearchContainer view state -->
+	<portlet:param name="categoryId" value="${searchContainerViewState.categoryId}" />
+	<portlet:param name="cur" value="${searchContainerViewState.cur}" />
+	<portlet:param name="delta" value="${searchContainerViewState.delta}" />
+	<portlet:param name="displayStyle" value="${searchContainerViewState.displayStyle}" />
+	<portlet:param name="navigation" value="${searchContainerViewState.navigation}" />
+	<portlet:param name="orderByCol" value="${searchContainerViewState.orderByCol}" />
+	<portlet:param name="orderByType" value="${searchContainerViewState.orderByType}" />
+	<portlet:param name="resetCur" value="${searchContainerViewState.resetCur}" />
+	<portlet:param name="tag" value="${searchContainerViewState.tag}" />
+</portlet:renderURL>
+
 <h4>
-	<aui:a
-		href='<%=
-			PortletURLBuilder.createRenderURL(
-				liferayPortletResponse
-			).setMVCRenderCommandName(
-				"/bookmarks/view_folder"
-			).setRedirect(
-				currentURL
-			).setParameter(
-				"folderId", folder.getFolderId()
-			).buildString()
-		%>'
-	>
+	<aui:a href="${rowURL}">
 		<%= folder.getName() %>
 	</aui:a>
 </h4>

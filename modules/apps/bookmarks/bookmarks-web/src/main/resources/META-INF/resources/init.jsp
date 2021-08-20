@@ -16,8 +16,6 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
-
 <%@ taglib uri="http://liferay.com/tld/asset" prefix="liferay-asset" %><%@
 taglib uri="http://liferay.com/tld/aui" prefix="aui" %><%@
 taglib uri="http://liferay.com/tld/clay" prefix="clay" %><%@
@@ -31,6 +29,8 @@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/trash" prefix="liferay-trash" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %><%@
 taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
+
+<%@ taglib uri="http://xmlns.jcp.org/portlet_3_0" prefix="portlet" %>
 
 <%@ page import="com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil" %><%@
 page import="com.liferay.asset.kernel.model.AssetEntry" %><%@
@@ -56,17 +56,19 @@ page import="com.liferay.bookmarks.service.BookmarksEntryServiceUtil" %><%@
 page import="com.liferay.bookmarks.service.BookmarksFolderLocalServiceUtil" %><%@
 page import="com.liferay.bookmarks.service.BookmarksFolderServiceUtil" %><%@
 page import="com.liferay.bookmarks.web.internal.dao.search.BookmarksResultRowSplitter" %><%@
-page import="com.liferay.bookmarks.web.internal.display.context.BookmarksManagementToolbarDisplayContext" %><%@
 page import="com.liferay.bookmarks.web.internal.portlet.util.BookmarksUtil" %><%@
 page import="com.liferay.bookmarks.web.internal.search.EntriesChecker" %><%@
 page import="com.liferay.bookmarks.web.internal.search.EntriesMover" %><%@
 page import="com.liferay.bookmarks.web.internal.security.permission.resource.BookmarksEntryPermission" %><%@
 page import="com.liferay.bookmarks.web.internal.security.permission.resource.BookmarksFolderPermission" %><%@
 page import="com.liferay.frontend.taglib.clay.servlet.taglib.util.JSPNavigationItemList" %><%@
+page import="com.liferay.frontend.taglib.liferay.ui.view.state.SearchContainerViewState" %><%@
 page import="com.liferay.petra.portlet.url.builder.PortletURLBuilder" %><%@
+page import="com.liferay.petra.portlet.url.builder.RenderURLBuilder" %><%@
 page import="com.liferay.petra.string.CharPool" %><%@
 page import="com.liferay.petra.string.StringPool" %><%@
 page import="com.liferay.portal.kernel.bean.BeanParamUtil" %><%@
+page import="com.liferay.portal.kernel.bean.BeanPropertiesUtil" %><%@
 page import="com.liferay.portal.kernel.dao.search.ResultRow" %><%@
 page import="com.liferay.portal.kernel.dao.search.SearchContainer" %><%@
 page import="com.liferay.portal.kernel.language.LanguageUtil" %><%@
@@ -110,8 +112,7 @@ page import="java.util.Map" %><%@
 page import="java.util.Objects" %><%@
 page import="java.util.Set" %>
 
-<%@ page import="javax.portlet.PortletRequest" %><%@
-page import="javax.portlet.PortletURL" %><%@
+<%@ page import="javax.portlet.PortletURL" %><%@
 page import="javax.portlet.WindowState" %>
 
 <liferay-frontend:defineObjects />
@@ -121,3 +122,7 @@ page import="javax.portlet.WindowState" %>
 <liferay-trash:defineObjects />
 
 <portlet:defineObjects />
+
+<%
+SearchContainerViewState searchContainerViewState = (SearchContainerViewState)request.getAttribute("searchContainerViewState");
+%>

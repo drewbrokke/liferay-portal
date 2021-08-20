@@ -15,7 +15,15 @@
 package com.liferay.bookmarks.web.internal.portlet.action;
 
 import com.liferay.bookmarks.constants.BookmarksPortletKeys;
+import com.liferay.bookmarks.constants.BookmarksWebKeys;
+import com.liferay.bookmarks.exception.NoSuchFolderException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -27,14 +35,34 @@ import org.osgi.service.component.annotations.Component;
 	property = {
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS,
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS_ADMIN,
-		"mvc.command.name=/bookmarks/select_folder"
+		"mvc.command.name=~bookmarks~select_folder"
 	},
 	service = MVCRenderCommand.class
 )
-public class SelectFolderMVCRenderCommand extends BaseFolderMVCRenderCommand {
+public class SelectFolderMVCRenderCommand implements MVCRenderCommand {
 
 	@Override
-	protected String getPath() {
+	public String render(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws PortletException {
+
+		try {
+			renderRequest.setAttribute(
+				BookmarksWebKeys.BOOKMARKS_FOLDER,
+				ActionUtil.getFolder(renderRequest));
+		}
+		catch (Exception exception) {
+			if (exception instanceof NoSuchFolderException ||
+				exception instanceof PrincipalException) {
+
+				SessionErrors.add(renderRequest, exception.getClass());
+
+				return "/bookmarks/error.jsp";
+			}
+
+			throw new PortletException(exception);
+		}
+
 		return "/bookmarks/select_folder.jsp";
 	}
 

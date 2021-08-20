@@ -45,7 +45,7 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS_ADMIN,
-		"path=/bookmarks/view_folder"
+		"path=~bookmarks~view_folder"
 	},
 	service = PortletConfigurationIcon.class
 )

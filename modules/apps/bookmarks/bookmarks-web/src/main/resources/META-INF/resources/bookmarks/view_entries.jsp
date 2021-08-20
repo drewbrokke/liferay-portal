@@ -21,14 +21,14 @@ long folderId = GetterUtil.getLong((String)request.getAttribute("view.jsp-folder
 
 SearchContainer<Object> bookmarksSearchContainer = (SearchContainer)request.getAttribute("view.jsp-bookmarksSearchContainer");
 
-EntriesChecker entriesChecker = new EntriesChecker(liferayPortletRequest, liferayPortletResponse);
+EntriesChecker entriesChecker = new EntriesChecker(renderResponse, themeDisplay.isSignedIn());
 
 bookmarksSearchContainer.setRowChecker(entriesChecker);
 
 entriesChecker.setCssClass("entry-selector");
 
 if (folderId == 0) {
-	entriesChecker.setRememberCheckBoxStateURLRegex("mvcRenderCommandName=/bookmarks/view(&.|$)");
+	entriesChecker.setRememberCheckBoxStateURLRegex("mvcRenderCommandName=~bookmarks~view_bookmarks(&.|$)");
 }
 else {
 	entriesChecker.setRememberCheckBoxStateURLRegex("^(?!.*" + liferayPortletResponse.getNamespace() + "redirect).*(folderId=" + folderId + ")");
@@ -57,7 +57,7 @@ if (portletTitleBasedNavigation && (folderId != BookmarksFolderConstants.DEFAULT
 %>
 
 <liferay-ui:search-container
-	id='<%= ParamUtil.getString(request, "searchContainerId") %>'
+	id="entries"
 	searchContainer="<%= bookmarksSearchContainer %>"
 	totalVar="bookmarksSearchContainerTotal"
 >
@@ -87,11 +87,22 @@ if (portletTitleBasedNavigation && (folderId != BookmarksFolderConstants.DEFAULT
 				row.setPrimaryKey(String.valueOf(curFolder.getFolderId()));
 				%>
 
-				<liferay-portlet:renderURL varImpl="rowURL">
-					<portlet:param name="mvcRenderCommandName" value="/bookmarks/view_folder" />
-					<portlet:param name="redirect" value="<%= currentURL %>" />
-					<portlet:param name="folderId" value="<%= String.valueOf(curFolder.getFolderId()) %>" />
-				</liferay-portlet:renderURL>
+				<portlet:renderURL var="rowURL">
+					<!-- MVC parameters -->
+					<portlet:param name="bookmarkId" value="<%= String.valueOf(curFolder.getFolderId()) %>" />
+					<portlet:param name="mvcRenderCommandName" value="~bookmarks~view_folder" />
+					<portlet:param name="parentFolderId" value="<%= String.valueOf(curFolder.getParentFolderId()) %>" />
+					<!-- SearchContainer view state -->
+					<portlet:param name="categoryId" value="${searchContainerViewState.categoryId}" />
+					<portlet:param name="cur" value="${searchContainerViewState.cur}" />
+					<portlet:param name="delta" value="${searchContainerViewState.delta}" />
+					<portlet:param name="displayStyle" value="${searchContainerViewState.displayStyle}" />
+					<portlet:param name="navigation" value="${searchContainerViewState.navigation}" />
+					<portlet:param name="orderByCol" value="${searchContainerViewState.orderByCol}" />
+					<portlet:param name="orderByType" value="${searchContainerViewState.orderByType}" />
+					<portlet:param name="resetCur" value="${searchContainerViewState.resetCur}" />
+					<portlet:param name="tag" value="${searchContainerViewState.tag}" />
+				</portlet:renderURL>
 
 				<c:choose>
 					<c:when test='<%= displayStyle.equals("descriptive") %>'>

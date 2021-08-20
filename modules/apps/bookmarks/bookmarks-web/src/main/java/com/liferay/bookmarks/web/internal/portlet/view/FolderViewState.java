@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -12,15 +11,16 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
---%>
 
-<%@ include file="/bookmarks/init.jsp" %>
+package com.liferay.bookmarks.web.internal.portlet.view;
 
-<portlet:actionURL name="~bookmarks~edit_entry" var="deleteEntriesURL" />
+import javax.portlet.RenderURL;
 
-<clay:management-toolbar
-	infoPanelId="infoPanelId"
-	managementToolbarDisplayContext="${managementToolbarViewState}"
-	propsTransformer="bookmarks/js/BookmarksManagementToolbarPropsTransformer"
-	searchContainerId="entries"
-/>
+/**
+ * @author Neil Griffin
+ */
+public interface FolderViewState {
+
+	public void applyRenderParameters(RenderURL redirectURL);
+
+}

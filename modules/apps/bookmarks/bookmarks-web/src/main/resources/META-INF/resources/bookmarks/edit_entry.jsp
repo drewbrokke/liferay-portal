@@ -18,25 +18,26 @@
 
 <%
 String redirect = ParamUtil.getString(request, "redirect");
-String backURL = ParamUtil.getString(request, "backURL");
-
-String referringPortletResource = ParamUtil.getString(request, "referringPortletResource");
 
 BookmarksEntry entry = (BookmarksEntry)request.getAttribute(BookmarksWebKeys.BOOKMARKS_ENTRY);
 
-long entryId = BeanParamUtil.getLong(entry, request, "entryId");
+long bookmarkId = ParamUtil.get(request, "bookmarkId", BeanPropertiesUtil.getLong(entry, "entryId", BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID));
 
-long folderId = BeanParamUtil.getLong(entry, request, "folderId");
+long parentFolderId = ParamUtil.get(request, "parentFolderId", BeanPropertiesUtil.getLong(entry, "folderId", BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID));
+
+if (parentFolderId == BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
+	parentFolderId = ParamUtil.getLong(request, "parentFolderId", BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+}
 
 if (entry != null) {
-	BookmarksUtil.addPortletBreadcrumbEntries(entry, request, renderResponse);
+	BookmarksUtil.addPortletBreadcrumbEntries(entry, renderRequest, renderResponse, searchContainerViewState);
 
 	if (!layout.isTypeControlPanel()) {
 		PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, "edit"), currentURL);
 	}
 }
 else {
-	BookmarksUtil.addPortletBreadcrumbEntries(folderId, request, renderResponse);
+	BookmarksUtil.addPortletBreadcrumbEntries(parentFolderId, renderRequest, renderResponse, searchContainerViewState);
 
 	if (!layout.isTypeControlPanel()) {
 		PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, "add-bookmark"), currentURL);
@@ -56,18 +57,14 @@ renderResponse.setTitle(headerTitle);
 <clay:container-fluid
 	cssClass="container-form-lg"
 >
-	<portlet:actionURL name="/bookmarks/edit_entry" var="editEntryURL">
-		<portlet:param name="mvcRenderCommandName" value="/bookmarks/edit_entry" />
+	<portlet:actionURL copyCurrentRenderParameters="<%= true %>" name="~bookmarks~edit_entry" var="editEntryURL">
+		<portlet:param name="mvcRenderCommandName" type="render" value="~bookmarks~view_folder" />
 	</portlet:actionURL>
 
 	<aui:form action="<%= editEntryURL %>" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + liferayPortletResponse.getNamespace() + "saveEntry();" %>'>
 		<aui:input name="<%= Constants.CMD %>" type="hidden" />
-		<aui:input name="redirect" type="hidden" value="<%= redirect %>" />
-		<aui:input name="backURL" type="hidden" value="<%= backURL %>" />
-		<aui:input name="portletResource" type="hidden" value='<%= ParamUtil.getString(request, "portletResource") %>' />
-		<aui:input name="referringPortletResource" type="hidden" value="<%= referringPortletResource %>" />
-		<aui:input name="entryId" type="hidden" value="<%= entryId %>" />
-		<aui:input name="folderId" type="hidden" value="<%= folderId %>" />
+		<aui:input name="bookmarkId" type="hidden" value="<%= bookmarkId %>" />
+		<aui:input name="parentFolderId" type="hidden" value="<%= parentFolderId %>" />
 		<aui:input name="showFolderSelector" type="hidden" value="<%= showFolderSelector %>" />
 
 		<div class="lfr-form-content">
@@ -87,10 +84,10 @@ renderResponse.setTitle(headerTitle);
 						<%
 						String folderName = StringPool.BLANK;
 
-						if (folderId > 0) {
-							BookmarksFolder folder = BookmarksFolderServiceUtil.getFolder(folderId);
+						if (parentFolderId > 0) {
+							BookmarksFolder folder = BookmarksFolderServiceUtil.getFolder(parentFolderId);
 
-							folderId = folder.getFolderId();
+							parentFolderId = folder.getFolderId();
 							folderName = folder.getName();
 						}
 						%>
@@ -127,7 +124,7 @@ renderResponse.setTitle(headerTitle);
 												title:
 													'<liferay-ui:message arguments="folder" key="select-x" />',
 												url:
-													'<liferay-portlet:renderURL windowState="<%= LiferayWindowState.POP_UP.toString() %>"><portlet:param name="mvcRenderCommandName" value="/bookmarks/select_folder" /></liferay-portlet:renderURL>',
+													'<liferay-portlet:renderURL windowState="<%= LiferayWindowState.POP_UP.toString() %>"><portlet:param name="mvcRenderCommandName" value="~bookmarks~select_folder" /></liferay-portlet:renderURL>',
 											});
 										}
 									);
@@ -138,7 +135,7 @@ renderResponse.setTitle(headerTitle);
 							String taglibRemoveFolder = "Liferay.Util.removeEntitySelection('folderId', 'folderName', this, '" + liferayPortletResponse.getNamespace() + "');";
 							%>
 
-							<aui:button disabled="<%= folderId <= 0 %>" name="removeFolderButton" onClick="<%= taglibRemoveFolder %>" value="remove" />
+							<aui:button disabled="<%= parentFolderId <= 0 %>" name="removeFolderButton" onClick="<%= taglibRemoveFolder %>" value="remove" />
 						</div>
 					</c:if>
 
@@ -155,7 +152,7 @@ renderResponse.setTitle(headerTitle);
 					<aui:fieldset collapsed="<%= true %>" collapsible="<%= true %>" label="custom-fields">
 						<liferay-expando:custom-attribute-list
 							className="<%= BookmarksEntry.class.getName() %>"
-							classPK="<%= entryId %>"
+							classPK="<%= bookmarkId %>"
 							editable="<%= true %>"
 							label="<%= true %>"
 						/>
@@ -165,20 +162,20 @@ renderResponse.setTitle(headerTitle);
 				<aui:fieldset collapsed="<%= true %>" collapsible="<%= true %>" label="categorization">
 					<liferay-asset:asset-categories-selector
 						className="<%= BookmarksEntry.class.getName() %>"
-						classPK="<%= entryId %>"
+						classPK="<%= bookmarkId %>"
 						visibilityTypes="<%= AssetVocabularyConstants.VISIBILITY_TYPES %>"
 					/>
 
 					<liferay-asset:asset-tags-selector
 						className="<%= BookmarksEntry.class.getName() %>"
-						classPK="<%= entryId %>"
+						classPK="<%= bookmarkId %>"
 					/>
 				</aui:fieldset>
 
 				<aui:fieldset collapsed="<%= true %>" collapsible="<%= true %>" label="related-assets">
 					<liferay-asset:input-asset-links
 						className="<%= BookmarksEntry.class.getName() %>"
-						classPK="<%= entryId %>"
+						classPK="<%= bookmarkId %>"
 					/>
 				</aui:fieldset>
 
@@ -193,7 +190,7 @@ renderResponse.setTitle(headerTitle);
 				<div class="sheet-footer">
 					<aui:button type="submit" />
 
-					<aui:button href="<%= redirect %>" type="cancel" />
+					<aui:button href="${cancelURL}" type="cancel" />
 				</div>
 			</aui:fieldset-group>
 		</div>

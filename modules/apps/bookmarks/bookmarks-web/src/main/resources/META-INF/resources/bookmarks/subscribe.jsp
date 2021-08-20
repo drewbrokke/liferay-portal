@@ -34,7 +34,7 @@ BookmarksEntry entry = (BookmarksEntry)request.getAttribute("info_panel.jsp-entr
 			<c:if test="<%= BookmarksEntryPermission.contains(permissionChecker, entry, ActionKeys.SUBSCRIBE) %>">
 				<c:choose>
 					<c:when test="<%= SubscriptionLocalServiceUtil.isSubscribed(user.getCompanyId(), user.getUserId(), BookmarksEntry.class.getName(), entry.getEntryId()) %>">
-						<portlet:actionURL name="/bookmarks/edit_entry" var="unsubscribeURL">
+						<portlet:actionURL name="~bookmarks~edit_entry" var="unsubscribeURL">
 							<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.UNSUBSCRIBE %>" />
 							<portlet:param name="redirect" value="<%= currentURL %>" />
 							<portlet:param name="entryId" value="<%= String.valueOf(entry.getEntryId()) %>" />
@@ -49,7 +49,7 @@ BookmarksEntry entry = (BookmarksEntry)request.getAttribute("info_panel.jsp-entr
 						/>
 					</c:when>
 					<c:otherwise>
-						<portlet:actionURL name="/bookmarks/edit_entry" var="subscribeURL">
+						<portlet:actionURL name="~bookmarks~edit_entry" var="subscribeURL">
 							<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.SUBSCRIBE %>" />
 							<portlet:param name="redirect" value="<%= currentURL %>" />
 							<portlet:param name="entryId" value="<%= String.valueOf(entry.getEntryId()) %>" />
@@ -70,7 +70,7 @@ BookmarksEntry entry = (BookmarksEntry)request.getAttribute("info_panel.jsp-entr
 			<c:if test="<%= BookmarksFolderPermission.contains(permissionChecker, scopeGroupId, folderId, ActionKeys.SUBSCRIBE) %>">
 				<c:choose>
 					<c:when test="<%= (folder == null) ? SubscriptionLocalServiceUtil.isSubscribed(user.getCompanyId(), user.getUserId(), BookmarksFolder.class.getName(), scopeGroupId) : SubscriptionLocalServiceUtil.isSubscribed(user.getCompanyId(), user.getUserId(), BookmarksFolder.class.getName(), folder.getFolderId()) %>">
-						<portlet:actionURL name="/bookmarks/edit_folder" var="unsubscribeURL">
+						<portlet:actionURL name="~bookmarks~edit_folder" var="unsubscribeURL">
 							<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.UNSUBSCRIBE %>" />
 							<portlet:param name="redirect" value="<%= currentURL %>" />
 							<portlet:param name="folderId" value="<%= String.valueOf(folderId) %>" />
@@ -85,7 +85,7 @@ BookmarksEntry entry = (BookmarksEntry)request.getAttribute("info_panel.jsp-entr
 						/>
 					</c:when>
 					<c:otherwise>
-						<portlet:actionURL name="/bookmarks/edit_folder" var="subscribeURL">
+						<portlet:actionURL name="~bookmarks~edit_folder" var="subscribeURL">
 							<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.SUBSCRIBE %>" />
 							<portlet:param name="redirect" value="<%= currentURL %>" />
 							<portlet:param name="folderId" value="<%= String.valueOf(folderId) %>" />

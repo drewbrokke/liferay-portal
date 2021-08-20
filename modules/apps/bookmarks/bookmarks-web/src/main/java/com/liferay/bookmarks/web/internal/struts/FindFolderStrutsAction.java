@@ -42,7 +42,7 @@ public class FindFolderStrutsAction extends FindStrutsAction {
 		HttpServletRequest httpServletRequest, String portletId,
 		PortletURL portletURL) {
 
-		portletURL.setParameter("struts_action", "/bookmarks/view_folder");
+		portletURL.setParameter("struts_action", "~bookmarks~view_folder");
 	}
 
 	@Override

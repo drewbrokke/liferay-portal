@@ -15,12 +15,30 @@
 package com.liferay.bookmarks.web.internal.portlet.action;
 
 import com.liferay.bookmarks.constants.BookmarksPortletKeys;
+import com.liferay.bookmarks.constants.BookmarksWebKeys;
+import com.liferay.bookmarks.exception.EntryURLException;
+import com.liferay.bookmarks.exception.NoSuchEntryException;
+import com.liferay.bookmarks.exception.NoSuchFolderException;
 import com.liferay.bookmarks.model.BookmarksEntry;
+import com.liferay.bookmarks.web.internal.portlet.util.BookmarksUtil;
+import com.liferay.frontend.taglib.liferay.ui.view.state.SearchContainerViewState;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Portal;
+
+import java.util.ResourceBundle;
+
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -34,13 +52,13 @@ import org.osgi.service.component.annotations.Reference;
 	property = {
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS,
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS_ADMIN,
-		"mvc.command.name=/bookmarks/edit_entry"
+		"mvc.command.name=~bookmarks~add_entry",
+		"mvc.command.name=~bookmarks~edit_entry"
 	},
 	service = MVCRenderCommand.class
 )
-public class EditEntryMVCRenderCommand extends BaseEntryMVCRenderCommand {
+public class EditEntryMVCRenderCommand extends BaseMVCRenderCommand {
 
-	@Override
 	protected void checkPermissions(
 			PermissionChecker permissionChecker, BookmarksEntry entry)
 		throws PortalException {
@@ -50,7 +68,69 @@ public class EditEntryMVCRenderCommand extends BaseEntryMVCRenderCommand {
 	}
 
 	@Override
-	protected String getPath() {
+	protected String prepareView(
+			long parentFolderId, RenderRequest renderRequest,
+			RenderResponse renderResponse, ResourceBundle resourceBundle,
+			SearchContainerViewState searchContainerViewState,
+			ThemeDisplay themeDisplay)
+		throws PortletException {
+
+		renderRequest.setAttribute("BookmarksEntryClass", BookmarksEntry.class);
+
+		renderRequest.setAttribute(
+			"EntryURLExceptionClass", EntryURLException.class);
+
+		renderRequest.setAttribute(
+			"NoSuchFolderExceptionClass", NoSuchFolderException.class);
+
+		try {
+			BookmarksEntry entry = ActionUtil.getEntry(renderRequest);
+
+			if (entry != null) {
+				checkPermissions(themeDisplay.getPermissionChecker(), entry);
+			}
+
+			renderRequest.setAttribute(BookmarksWebKeys.BOOKMARKS_ENTRY, entry);
+
+			Layout layout = themeDisplay.getLayout();
+
+			if (entry != null) {
+				BookmarksUtil.addPortletBreadcrumbEntries(
+					entry, renderRequest, renderResponse,
+					searchContainerViewState);
+
+				if (!layout.isTypeControlPanel()) {
+					_portal.addPortletBreadcrumbEntry(
+						themeDisplay.getRequest(),
+						LanguageUtil.get(resourceBundle, "edit"),
+						themeDisplay.getURLCurrent());
+				}
+			}
+			else {
+				BookmarksUtil.addPortletBreadcrumbEntries(
+					parentFolderId, renderRequest, renderResponse,
+					searchContainerViewState);
+
+				if (!layout.isTypeControlPanel()) {
+					_portal.addPortletBreadcrumbEntry(
+						themeDisplay.getRequest(),
+						LanguageUtil.get(resourceBundle, "add-bookmark"),
+						themeDisplay.getURLCurrent());
+				}
+			}
+		}
+		catch (Exception exception) {
+			if (exception instanceof NoSuchEntryException ||
+				exception instanceof PrincipalException) {
+
+				SessionErrors.add(renderRequest, exception.getClass());
+
+				return "/bookmarks/error.jsp";
+			}
+
+			throw new PortletException(exception);
+		}
+
 		return "/bookmarks/edit_entry.jsp";
 	}
 
@@ -59,5 +139,8 @@ public class EditEntryMVCRenderCommand extends BaseEntryMVCRenderCommand {
 	)
 	private volatile ModelResourcePermission<BookmarksEntry>
 		_bookmarksEntryModelResourcePermission;
+
+	@Reference
+	private Portal _portal;
 
 }

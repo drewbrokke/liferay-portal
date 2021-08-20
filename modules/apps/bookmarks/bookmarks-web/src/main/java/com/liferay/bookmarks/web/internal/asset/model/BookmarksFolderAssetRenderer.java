@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermi
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.trash.TrashRenderer;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.trash.TrashHelper;
@@ -54,14 +55,16 @@ public class BookmarksFolderAssetRenderer
 	public static final String TYPE = "bookmarks_folder";
 
 	public BookmarksFolderAssetRenderer(
-		BookmarksFolder folder, TrashHelper trashHelper,
+		BookmarksFolder folder,
 		ModelResourcePermission<BookmarksFolder>
-			bookmarksFolderModelResourcePermission) {
+			bookmarksFolderModelResourcePermission,
+		Portal portal, TrashHelper trashHelper) {
 
 		_folder = folder;
-		_trashHelper = trashHelper;
 		_bookmarksFolderModelResourcePermission =
 			bookmarksFolderModelResourcePermission;
+		_portal = portal;
+		_trashHelper = trashHelper;
 	}
 
 	@Override
@@ -144,13 +147,17 @@ public class BookmarksFolderAssetRenderer
 			group = themeDisplay.getScopeGroup();
 		}
 
+		// LPS-101963
+
+		HttpServletRequest httpServletRequest = _portal.getHttpServletRequest(
+			liferayPortletRequest);
+
 		return PortletURLBuilder.create(
 			PortalUtil.getControlPanelPortletURL(
-				liferayPortletRequest, group,
-				BookmarksPortletKeys.BOOKMARKS_ADMIN, 0, 0,
-				PortletRequest.RENDER_PHASE)
+				httpServletRequest, group, BookmarksPortletKeys.BOOKMARKS_ADMIN,
+				0, 0, PortletRequest.RENDER_PHASE)
 		).setMVCRenderCommandName(
-			"/bookmarks/edit_folder"
+			"~bookmarks~edit_folder"
 		).setParameter(
 			"folderId", _folder.getFolderId()
 		).buildPortletURL();
@@ -168,7 +175,7 @@ public class BookmarksFolderAssetRenderer
 		return PortletURLBuilder.create(
 			assetRendererFactory.getURLView(liferayPortletResponse, windowState)
 		).setMVCRenderCommandName(
-			"/bookmarks/view_folder"
+			"~bookmarks~view_folder"
 		).setParameter(
 			"folderId", _folder.getFolderId()
 		).setWindowState(
@@ -233,6 +240,7 @@ public class BookmarksFolderAssetRenderer
 	private final ModelResourcePermission<BookmarksFolder>
 		_bookmarksFolderModelResourcePermission;
 	private final BookmarksFolder _folder;
+	private final Portal _portal;
 	private final TrashHelper _trashHelper;
 
 }

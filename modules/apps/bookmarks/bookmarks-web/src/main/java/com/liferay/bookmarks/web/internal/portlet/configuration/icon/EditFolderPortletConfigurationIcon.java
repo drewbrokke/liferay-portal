@@ -44,7 +44,7 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS_ADMIN,
-		"path=/bookmarks/view_folder"
+		"path=~bookmarks~view_folder"
 	},
 	service = PortletConfigurationIcon.class
 )
@@ -66,7 +66,7 @@ public class EditFolderPortletConfigurationIcon
 				portletRequest, BookmarksPortletKeys.BOOKMARKS_ADMIN,
 				PortletRequest.RENDER_PHASE)
 		).setMVCRenderCommandName(
-			"/bookmarks/edit_folder"
+			"~bookmarks~edit_folder"
 		).setRedirect(
 			_portal.getCurrentURL(portletRequest)
 		).buildPortletURL();

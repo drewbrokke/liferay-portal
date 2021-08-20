@@ -28,7 +28,7 @@ String folderName = LanguageUtil.get(request, "home");
 if (folder != null) {
 	folderName = folder.getName();
 
-	BookmarksUtil.addPortletBreadcrumbEntries(folder, request, renderResponse);
+	BookmarksUtil.addPortletBreadcrumbEntries(folder, renderRequest, renderResponse, searchContainerViewState);
 }
 %>
 
@@ -48,7 +48,7 @@ if (folder != null) {
 				PortletURLBuilder.createRenderURL(
 					renderResponse
 				).setMVCRenderCommandName(
-					"/bookmarks/select_folder"
+					"~bookmarks~select_folder"
 				).setParameter(
 					"eventName", eventName
 				).setParameter(
@@ -66,7 +66,7 @@ if (folder != null) {
 				modelVar="curFolder"
 			>
 				<portlet:renderURL var="viewFolderURL">
-					<portlet:param name="mvcRenderCommandName" value="/bookmarks/select_folder" />
+					<portlet:param name="mvcRenderCommandName" value="~bookmarks~select_folder" />
 					<portlet:param name="folderId" value="<%= String.valueOf(curFolder.getFolderId()) %>" />
 				</portlet:renderURL>
 
@@ -120,7 +120,7 @@ if (folder != null) {
 			<aui:button-row>
 				<c:if test="<%= BookmarksFolderPermission.contains(permissionChecker, scopeGroupId, folderId, ActionKeys.ADD_FOLDER) %>">
 					<portlet:renderURL var="editFolderURL">
-						<portlet:param name="mvcRenderCommandName" value="/bookmarks/edit_folder" />
+						<portlet:param name="mvcRenderCommandName" value="~bookmarks~edit_folder" />
 						<portlet:param name="redirect" value="<%= currentURL %>" />
 						<portlet:param name="parentFolderId" value="<%= String.valueOf(folderId) %>" />
 					</portlet:renderURL>

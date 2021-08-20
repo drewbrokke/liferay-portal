@@ -18,10 +18,12 @@ import com.liferay.bookmarks.constants.BookmarksPortletKeys;
 import com.liferay.bookmarks.constants.BookmarksWebKeys;
 import com.liferay.bookmarks.exception.NoSuchEntryException;
 import com.liferay.bookmarks.model.BookmarksEntry;
-import com.liferay.bookmarks.model.BookmarksFolder;
+import com.liferay.frontend.taglib.liferay.ui.view.state.SearchContainerViewState;
+import com.liferay.frontend.taglib.liferay.ui.view.state.SearchContainerViewStateFactory;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.ParamUtil;
 
 import java.util.List;
 
@@ -30,15 +32,18 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Sergio González
+ * @author Neil Griffin
  */
 @Component(
 	property = {
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS,
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS_ADMIN,
-		"mvc.command.name=/bookmarks/move_entry"
+		"mvc.command.name=~bookmarks~move_entry",
+		"mvc.command.name=~bookmarks~move_folder"
 	},
 	service = MVCRenderCommand.class
 )
@@ -49,21 +54,32 @@ public class MoveEntryMVCRenderCommand implements MVCRenderCommand {
 			RenderRequest renderRequest, RenderResponse renderResponse)
 		throws PortletException {
 
+		SearchContainerViewState searchContainerViewState =
+			_searchContainerViewStateFactory.create(
+				"descriptive", "all", "title", "asc", renderRequest,
+				new String[] {"createDate", "title"});
+
+		renderRequest.setAttribute(
+			"searchContainerViewState", searchContainerViewState);
+
 		try {
 			List<BookmarksEntry> entries = ActionUtil.getEntries(renderRequest);
 
 			renderRequest.setAttribute(
 				BookmarksWebKeys.BOOKMARKS_ENTRIES, entries);
 
-			renderRequest.setAttribute(
-				BookmarksWebKeys.BOOKMARKS_ENTRY,
-				ActionUtil.getEntry(renderRequest));
+			String mvcRenderCommandName = ParamUtil.getString(
+				renderRequest, "mvcRenderCommandName");
 
-			List<BookmarksFolder> folders = ActionUtil.getFolders(
-				renderRequest);
+			if (mvcRenderCommandName.contains("move_entry")) {
+				renderRequest.setAttribute(
+					BookmarksWebKeys.BOOKMARKS_ENTRY,
+					ActionUtil.getEntry(renderRequest));
+			}
 
 			renderRequest.setAttribute(
-				BookmarksWebKeys.BOOKMARKS_FOLDERS, folders);
+				BookmarksWebKeys.BOOKMARKS_FOLDERS,
+				ActionUtil.getFolders(renderRequest));
 		}
 		catch (Exception exception) {
 			if (exception instanceof NoSuchEntryException ||
@@ -79,5 +95,8 @@ public class MoveEntryMVCRenderCommand implements MVCRenderCommand {
 
 		return "/bookmarks/move_entries.jsp";
 	}
+
+	@Reference
+	private SearchContainerViewStateFactory _searchContainerViewStateFactory;
 
 }

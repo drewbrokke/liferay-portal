@@ -23,14 +23,11 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.RowChecker;
-import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
-import com.liferay.portal.kernel.security.permission.PermissionChecker;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.WebKeys;
+
+import javax.portlet.RenderResponse;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,19 +36,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class EntriesChecker extends EmptyOnClickRowChecker {
 
-	public EntriesChecker(
-		LiferayPortletRequest liferayPortletRequest,
-		LiferayPortletResponse liferayPortletResponse) {
+	public EntriesChecker(RenderResponse renderResponse, boolean signedIn) {
+		super(renderResponse);
 
-		super(liferayPortletResponse);
+		_signedIn = signedIn;
 
-		_liferayPortletResponse = liferayPortletResponse;
-
-		ThemeDisplay themeDisplay =
-			(ThemeDisplay)liferayPortletRequest.getAttribute(
-				WebKeys.THEME_DISPLAY);
-
-		_permissionChecker = themeDisplay.getPermissionChecker();
+		_portletNamespace = renderResponse.getNamespace();
 	}
 
 	@Override
@@ -95,21 +85,26 @@ public class EntriesChecker extends EmptyOnClickRowChecker {
 
 		return getRowCheckBox(
 			httpServletRequest, checked, disabled,
-			_liferayPortletResponse.getNamespace() + RowChecker.ROW_IDS + name,
-			primaryKey, checkBoxRowIds, checkBoxAllRowIds, StringPool.BLANK);
+			_portletNamespace + RowChecker.ROW_IDS + name, primaryKey,
+			checkBoxRowIds, checkBoxAllRowIds, StringPool.BLANK);
+	}
+
+	@Override
+	public boolean isDisabled(Object object) {
+		return !_signedIn;
 	}
 
 	protected String getEntryRowIds() {
 		return StringBundler.concat(
-			"['", _liferayPortletResponse.getNamespace(), RowChecker.ROW_IDS,
+			"['", _portletNamespace, RowChecker.ROW_IDS,
 			Folder.class.getSimpleName(), "', '",
-			_liferayPortletResponse.getNamespace(), RowChecker.ROW_IDS,
+			_portletNamespace, RowChecker.ROW_IDS,
 			DLFileShortcut.class.getSimpleName(), "', '",
-			_liferayPortletResponse.getNamespace(), RowChecker.ROW_IDS,
+			_portletNamespace, RowChecker.ROW_IDS,
 			FileEntry.class.getSimpleName(), "']");
 	}
 
-	private final LiferayPortletResponse _liferayPortletResponse;
-	private final PermissionChecker _permissionChecker;
+	private final String _portletNamespace;
+	private final boolean _signedIn;
 
 }

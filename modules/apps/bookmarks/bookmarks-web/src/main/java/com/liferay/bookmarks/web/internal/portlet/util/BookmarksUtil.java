@@ -24,6 +24,9 @@ import com.liferay.bookmarks.util.comparator.EntryModifiedDateComparator;
 import com.liferay.bookmarks.util.comparator.EntryNameComparator;
 import com.liferay.bookmarks.util.comparator.EntryPriorityComparator;
 import com.liferay.bookmarks.util.comparator.EntryURLComparator;
+import com.liferay.frontend.taglib.liferay.ui.view.state.SearchContainerViewState;
+import com.liferay.petra.portlet.url.builder.RenderURLBuilder;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -47,11 +50,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.portlet.MutableRenderParameters;
 import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
+import javax.portlet.RenderURL;
 
 /**
  * @author Brian Wing Shun Chan
@@ -59,9 +62,10 @@ import javax.servlet.http.HttpServletRequest;
 public class BookmarksUtil {
 
 	public static void addPortletBreadcrumbEntries(
-			BookmarksEntry entry, HttpServletRequest httpServletRequest,
-			RenderResponse renderResponse)
-		throws Exception {
+			BookmarksEntry entry, RenderRequest renderRequest,
+			RenderResponse renderResponse,
+			SearchContainerViewState searchContainerViewState)
+		throws PortalException {
 
 		BookmarksFolder folder = entry.getFolder();
 
@@ -69,44 +73,74 @@ public class BookmarksUtil {
 				BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
 
 			addPortletBreadcrumbEntries(
-				folder, httpServletRequest, renderResponse);
+				folder, renderRequest, renderResponse,
+				searchContainerViewState);
 		}
 	}
 
 	public static void addPortletBreadcrumbEntries(
-			BookmarksFolder folder, HttpServletRequest httpServletRequest,
-			RenderResponse renderResponse)
-		throws Exception {
+			BookmarksFolder folder, RenderRequest renderRequest,
+			RenderResponse renderResponse,
+			SearchContainerViewState searchContainerViewState)
+		throws PortalException {
 
-		ThemeDisplay themeDisplay =
-			(ThemeDisplay)httpServletRequest.getAttribute(
-				WebKeys.THEME_DISPLAY);
+		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
 
 		String mvcRenderCommandName = ParamUtil.getString(
-			httpServletRequest, "mvcRenderCommandName");
+			renderRequest, "mvcRenderCommandName");
 
-		PortletURL portletURL = renderResponse.createRenderURL();
+		RenderURL renderURL = null;
 
-		if (mvcRenderCommandName.equals("/bookmarks/select_folder")) {
-			portletURL.setParameter(
-				"mvcRenderCommandName", "/bookmarks/select_folder");
-			portletURL.setWindowState(LiferayWindowState.POP_UP);
+		if (mvcRenderCommandName.equals("~bookmarks~select_folder")) {
+			renderURL = RenderURLBuilder.createRenderURL(
+				renderResponse
+			).setMVCRenderCommandName(
+				"~bookmarks~select_folder"
+			).setWindowState(
+				LiferayWindowState.POP_UP
+			).buildRenderURL();
 		}
 		else {
-			portletURL.setParameter("mvcRenderCommandName", "/bookmarks/view");
+			renderURL = RenderURLBuilder.createRenderURL(
+				renderResponse
+			).setMVCRenderCommandName(
+				"~bookmarks~view_bookmarks"
+			).setNavigation(
+				searchContainerViewState.getNavigation()
+			).setParameter(
+				"categoryId", searchContainerViewState.getCategoryId()
+			).setParameter(
+				"cur", searchContainerViewState.getCur()
+			).setParameter(
+				"delta", searchContainerViewState.getDelta()
+			).setParameter(
+				"displayStyle", searchContainerViewState.getDisplayStyle()
+			).setParameter(
+				"orderByCol", searchContainerViewState.getOrderByCol()
+			).setParameter(
+				"orderByType", searchContainerViewState.getOrderByType()
+			).setParameter(
+				"resetCur", searchContainerViewState.getResetCur()
+			).setParameter(
+				"tag", searchContainerViewState.getTag(), false
+			).buildRenderURL();
 		}
 
 		PortalUtil.addPortletBreadcrumbEntry(
-			httpServletRequest, themeDisplay.translate("home"),
-			portletURL.toString());
+			themeDisplay.getRequest(), themeDisplay.translate("home"),
+			renderURL.toString());
 
 		if (folder == null) {
 			return;
 		}
 
-		if (!mvcRenderCommandName.equals("/bookmarks/select_folder")) {
-			portletURL.setParameter(
-				"mvcRenderCommandName", "/bookmarks/view_folder");
+		MutableRenderParameters mutableRenderParameters =
+			renderURL.getRenderParameters();
+
+		if (!mvcRenderCommandName.equals("~bookmarks~select_folder")) {
+			mutableRenderParameters.setValue(
+				"mvcRenderCommandName", "~bookmarks~view_folder");
 		}
 
 		List<BookmarksFolder> ancestorFolders = folder.getAncestors();
@@ -114,16 +148,16 @@ public class BookmarksUtil {
 		Collections.reverse(ancestorFolders);
 
 		for (BookmarksFolder ancestorFolder : ancestorFolders) {
-			portletURL.setParameter(
-				"folderId", String.valueOf(ancestorFolder.getFolderId()));
+			mutableRenderParameters.setValue(
+				"bookmarkId", String.valueOf(ancestorFolder.getFolderId()));
 
 			PortalUtil.addPortletBreadcrumbEntry(
-				httpServletRequest, ancestorFolder.getName(),
-				portletURL.toString());
+				themeDisplay.getRequest(), ancestorFolder.getName(),
+				renderURL.toString());
 		}
 
-		portletURL.setParameter(
-			"folderId", String.valueOf(folder.getFolderId()));
+		mutableRenderParameters.setValue(
+			"bookmarkId", String.valueOf(folder.getFolderId()));
 
 		if (folder.getFolderId() !=
 				BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
@@ -131,23 +165,24 @@ public class BookmarksUtil {
 			BookmarksFolder unescapedFolder = folder.toUnescapedModel();
 
 			PortalUtil.addPortletBreadcrumbEntry(
-				httpServletRequest, unescapedFolder.getName(),
-				portletURL.toString());
+				themeDisplay.getRequest(), unescapedFolder.getName(),
+				renderURL.toString());
 		}
 	}
 
 	public static void addPortletBreadcrumbEntries(
-			long folderId, HttpServletRequest httpServletRequest,
-			RenderResponse renderResponse)
-		throws Exception {
+			long folderId, RenderRequest renderRequest,
+			RenderResponse renderResponse,
+			SearchContainerViewState searchContainerViewState)
+		throws PortalException {
 
 		if (folderId == BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
 			return;
 		}
 
 		addPortletBreadcrumbEntries(
-			BookmarksFolderLocalServiceUtil.getFolder(folderId),
-			httpServletRequest, renderResponse);
+			BookmarksFolderLocalServiceUtil.getFolder(folderId), renderRequest,
+			renderResponse, searchContainerViewState);
 	}
 
 	public static Map<String, String> getEmailDefinitionTerms(

@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermi
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.trash.TrashRenderer;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -56,11 +57,13 @@ public class BookmarksEntryAssetRenderer
 	public BookmarksEntryAssetRenderer(
 		BookmarksEntry entry,
 		ModelResourcePermission<BookmarksEntry>
-			bookmarksEntryModelResourcePermission) {
+			bookmarksEntryModelResourcePermission,
+		Portal portal) {
 
 		_entry = entry;
 		_bookmarksEntryModelResourcePermission =
 			bookmarksEntryModelResourcePermission;
+		_portal = portal;
 	}
 
 	@Override
@@ -139,13 +142,17 @@ public class BookmarksEntryAssetRenderer
 			group = themeDisplay.getScopeGroup();
 		}
 
+		// LPS-101963
+
+		HttpServletRequest httpServletRequest = _portal.getHttpServletRequest(
+			liferayPortletRequest);
+
 		return PortletURLBuilder.create(
 			PortalUtil.getControlPanelPortletURL(
-				liferayPortletRequest, group,
-				BookmarksPortletKeys.BOOKMARKS_ADMIN, 0, 0,
-				PortletRequest.RENDER_PHASE)
+				httpServletRequest, group, BookmarksPortletKeys.BOOKMARKS_ADMIN,
+				0, 0, PortletRequest.RENDER_PHASE)
 		).setMVCRenderCommandName(
-			"/bookmarks/edit_entry"
+			"~bookmarks~edit_entry"
 		).setParameter(
 			"entryId", _entry.getEntryId()
 		).setParameter(
@@ -243,5 +250,6 @@ public class BookmarksEntryAssetRenderer
 	private final ModelResourcePermission<BookmarksEntry>
 		_bookmarksEntryModelResourcePermission;
 	private final BookmarksEntry _entry;
+	private final Portal _portal;
 
 }

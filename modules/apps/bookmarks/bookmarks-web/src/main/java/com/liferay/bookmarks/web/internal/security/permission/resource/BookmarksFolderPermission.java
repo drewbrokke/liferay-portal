@@ -16,6 +16,8 @@ package com.liferay.bookmarks.web.internal.security.permission.resource;
 
 import com.liferay.bookmarks.model.BookmarksFolder;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionUtil;
@@ -39,13 +41,24 @@ public class BookmarksFolderPermission {
 	}
 
 	public static boolean contains(
-			PermissionChecker permissionChecker, long groupId, long folderId,
-			String actionId)
-		throws PortalException {
+		PermissionChecker permissionChecker, long groupId, long folderId,
+		String actionId) {
 
-		return ModelResourcePermissionUtil.contains(
-			_bookmarksFolderModelResourcePermission, permissionChecker, groupId,
-			folderId, actionId);
+		try {
+			return ModelResourcePermissionUtil.contains(
+				_bookmarksFolderModelResourcePermission, permissionChecker,
+				groupId, folderId, actionId);
+		}
+		catch (PortalException portalException) {
+
+			// LPS-52675
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(portalException, portalException);
+			}
+
+			return false;
+		}
 	}
 
 	@Reference(
@@ -57,6 +70,9 @@ public class BookmarksFolderPermission {
 
 		_bookmarksFolderModelResourcePermission = modelResourcePermission;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		BookmarksFolderPermission.class);
 
 	private static ModelResourcePermission<BookmarksFolder>
 		_bookmarksFolderModelResourcePermission;

@@ -41,6 +41,7 @@ import javax.portlet.WindowState;
 import javax.portlet.WindowStateException;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -76,7 +77,7 @@ public class BookmarksEntryAssetRendererFactory
 		BookmarksEntryAssetRenderer bookmarksEntryAssetRenderer =
 			new BookmarksEntryAssetRenderer(
 				_bookmarksEntryLocalService.getEntry(classPK),
-				_bookmarksEntryModelResourcePermission);
+				_bookmarksEntryModelResourcePermission, _portal);
 
 		bookmarksEntryAssetRenderer.setAssetRendererType(type);
 		bookmarksEntryAssetRenderer.setServletContext(_servletContext);
@@ -104,13 +105,18 @@ public class BookmarksEntryAssetRendererFactory
 		LiferayPortletRequest liferayPortletRequest,
 		LiferayPortletResponse liferayPortletResponse, long classTypeId) {
 
+		// LPS-101963
+
+		HttpServletRequest httpServletRequest = _portal.getHttpServletRequest(
+			liferayPortletRequest);
+
 		return PortletURLBuilder.create(
 			_portal.getControlPanelPortletURL(
-				liferayPortletRequest, getGroup(liferayPortletRequest),
+				httpServletRequest, getGroup(liferayPortletRequest),
 				BookmarksPortletKeys.BOOKMARKS, 0, 0,
 				PortletRequest.RENDER_PHASE)
 		).setMVCRenderCommandName(
-			"/bookmarks/edit_entry"
+			"~bookmarks~edit_entry"
 		).setParameter(
 			"folderId", BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID
 		).setParameter(

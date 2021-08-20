@@ -3,27 +3,27 @@
 
 <routes>
 	<route>
-		<pattern></pattern>
-		<implicit-parameter name="mvcRenderCommandName">/bookmarks/view</implicit-parameter>
-		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
-		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<pattern>/{displayStyle}/{orderByCol}/{orderByType}/{delta}/{resetCur}/{cur}/{navigation}/category-{categoryId}/tag-{tag}/mvc{mvcRenderCommandName}/folder-{parentFolderId}/bookmark-{bookmarkId}</pattern>
 	</route>
 	<route>
-		<pattern>/maximized</pattern>
-		<implicit-parameter name="mvcRenderCommandName">/bookmarks/view</implicit-parameter>
-		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
-		<implicit-parameter name="p_p_state">maximized</implicit-parameter>
+		<pattern>/{displayStyle}/{orderByCol}/{orderByType}/{delta}/{resetCur}/{cur}/{navigation}/category-{categoryId}/mvc{mvcRenderCommandName}/folder-{parentFolderId}/bookmark-{bookmarkId}</pattern>
 	</route>
 	<route>
-		<pattern>/{userIdAndInstanceId}/folder/{folderId:\d+}</pattern>
-		<implicit-parameter name="mvcRenderCommandName">/bookmarks/view_folder</implicit-parameter>
-		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
-		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<pattern>/{displayStyle}/{orderByCol}/{orderByType}/{delta}/{resetCur}/{cur}/{navigation}/category-{categoryId}/tag-{tag}/mvc{mvcRenderCommandName}/bookmark-{bookmarkId}</pattern>
 	</route>
 	<route>
-		<pattern>/{userIdAndInstanceId}/folder/{folderId:\d+}/{p_p_state}</pattern>
-		<implicit-parameter name="mvcRenderCommandName">/bookmarks/view_folder</implicit-parameter>
-		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
-		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<pattern>/{displayStyle}/{orderByCol}/{orderByType}/{delta}/{resetCur}/{cur}/{navigation}/category-{categoryId}/mvc{mvcRenderCommandName}/bookmark-{bookmarkId}</pattern>
+	</route>
+	<route>
+		<pattern>/{displayStyle}/{orderByCol}/{orderByType}/{delta}/{resetCur}/{cur}/{navigation}/category-{categoryId}/tag-{tag}/mvc{mvcRenderCommandName}</pattern>
+	</route>
+	<route>
+		<pattern>/{displayStyle}/{orderByCol}/{orderByType}/{delta}/{resetCur}/{cur}/{navigation}/category-{categoryId}/mvc{mvcRenderCommandName}/folder-{parentFolderId}</pattern>
+	</route>
+	<route>
+		<pattern>/{displayStyle}/{orderByCol}/{orderByType}/{delta}/{resetCur}/{cur}/{navigation}/category-{categoryId}/mvc{mvcRenderCommandName}</pattern>
+	</route>
+	<route>
+		<pattern>/{displayStyle}/{orderByCol}/{orderByType}/{delta}/{resetCur}/{cur}/{navigation}/category-{categoryId}</pattern>
 	</route>
 </routes>

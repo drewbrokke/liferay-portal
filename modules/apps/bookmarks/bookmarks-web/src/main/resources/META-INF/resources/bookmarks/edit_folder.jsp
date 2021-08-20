@@ -21,14 +21,14 @@ String redirect = ParamUtil.getString(request, "redirect");
 
 BookmarksFolder folder = (BookmarksFolder)request.getAttribute(BookmarksWebKeys.BOOKMARKS_FOLDER);
 
-long folderId = BeanParamUtil.getLong(folder, request, "folderId");
+long bookmarkId = ParamUtil.get(request, "bookmarkId", BeanPropertiesUtil.getLong(folder, "folderId", BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID));
 
-long parentFolderId = BeanParamUtil.getLong(folder, request, "parentFolderId", BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+long parentFolderId = ParamUtil.get(request, "parentFolderId", BeanPropertiesUtil.getLong(folder, "folderId", BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID));
 
 boolean mergeWithParentFolderDisabled = ParamUtil.getBoolean(request, "mergeWithParentFolderDisabled");
 
 if (folder != null) {
-	BookmarksUtil.addPortletBreadcrumbEntries(folderId, request, renderResponse);
+	BookmarksUtil.addPortletBreadcrumbEntries(parentFolderId, renderRequest, renderResponse, searchContainerViewState);
 
 	if (!layout.isTypeControlPanel()) {
 		PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, "edit"), currentURL);
@@ -36,7 +36,7 @@ if (folder != null) {
 }
 else {
 	if (parentFolderId > 0) {
-		BookmarksUtil.addPortletBreadcrumbEntries(parentFolderId, request, renderResponse);
+		BookmarksUtil.addPortletBreadcrumbEntries(parentFolderId, renderRequest, renderResponse, searchContainerViewState);
 
 		if (!layout.isTypeControlPanel()) {
 			PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, "add-subfolder"), currentURL);
@@ -58,15 +58,13 @@ renderResponse.setTitle(headerTitle);
 <clay:container-fluid
 	cssClass="container-form-lg"
 >
-	<portlet:actionURL name="/bookmarks/edit_folder" var="editFolderURL">
-		<portlet:param name="mvcRenderCommandName" value="/bookmarks/edit_folder" />
+	<portlet:actionURL copyCurrentRenderParameters="<%= true %>" name="~bookmarks~edit_folder" var="editFolderURL">
+		<portlet:param name="mvcRenderCommandName" type="render" value="~bookmarks~view_folder" />
 	</portlet:actionURL>
 
 	<aui:form action="<%= editFolderURL %>" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + liferayPortletResponse.getNamespace() + "saveFolder();" %>'>
 		<aui:input name="<%= Constants.CMD %>" type="hidden" />
-		<aui:input name="redirect" type="hidden" value="<%= redirect %>" />
-		<aui:input name="portletResource" type="hidden" value='<%= ParamUtil.getString(request, "portletResource") %>' />
-		<aui:input name="folderId" type="hidden" value="<%= folderId %>" />
+		<aui:input name="bookmarkId" type="hidden" value="<%= bookmarkId %>" />
 		<aui:input name="parentFolderId" type="hidden" value="<%= parentFolderId %>" />
 
 		<liferay-ui:error exception="<%= FolderNameException.class %>">
@@ -135,7 +133,7 @@ renderResponse.setTitle(headerTitle);
 											title:
 												'<liferay-ui:message arguments="folder" key="select-x" />',
 											url:
-												'<liferay-portlet:renderURL windowState="<%= LiferayWindowState.POP_UP.toString() %>"><portlet:param name="mvcRenderCommandName" value="/bookmarks/select_folder" /></liferay-portlet:renderURL>',
+												'<liferay-portlet:renderURL windowState="<%= LiferayWindowState.POP_UP.toString() %>"><portlet:param name="mvcRenderCommandName" value="~bookmarks~select_folder" /></liferay-portlet:renderURL>',
 										});
 									}
 								);
@@ -179,7 +177,7 @@ renderResponse.setTitle(headerTitle);
 			<div class="sheet-footer">
 				<aui:button type="submit" />
 
-				<aui:button href="<%= redirect %>" type="cancel" />
+				<aui:button href="${cancelURL}" type="cancel" />
 			</div>
 		</aui:fieldset-group>
 	</aui:form>

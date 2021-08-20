@@ -51,7 +51,6 @@ import org.osgi.service.component.annotations.Reference;
 		"javax.portlet.display-name=Bookmarks",
 		"javax.portlet.expiration-cache=0",
 		"javax.portlet.init-param.always-display-default-configuration-icons=true",
-		"javax.portlet.init-param.mvc-command-names-default-views=/bookmarks/view",
 		"javax.portlet.init-param.portlet-title-based-navigation=false",
 		"javax.portlet.init-param.template-path=/META-INF/resources/",
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS,
@@ -59,7 +58,8 @@ import org.osgi.service.component.annotations.Reference;
 		"javax.portlet.security-role-ref=power-user,user",
 		"javax.portlet.supported-public-render-parameter=categoryId",
 		"javax.portlet.supported-public-render-parameter=resetCur",
-		"javax.portlet.supported-public-render-parameter=tag"
+		"javax.portlet.supported-public-render-parameter=tag",
+		"javax.portlet.version=3.0"
 	},
 	service = Portlet.class
 )

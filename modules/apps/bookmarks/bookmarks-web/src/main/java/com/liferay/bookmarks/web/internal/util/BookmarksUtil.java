@@ -76,16 +76,19 @@ public class BookmarksUtil {
 			PortletRequest portletRequest, long folderId)
 		throws PortalException {
 
+		// LPS-101963
+
 		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
-			portletRequest, BookmarksPortletKeys.BOOKMARKS_ADMIN,
-			PortletRequest.RENDER_PHASE);
+			PortalUtil.getHttpServletRequest(portletRequest),
+			BookmarksPortletKeys.BOOKMARKS_ADMIN, PortletRequest.RENDER_PHASE);
 
 		if (folderId == BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
-			portletURL.setParameter("mvcRenderCommandName", "/bookmarks/view");
+			portletURL.setParameter(
+				"mvcRenderCommandName", "~bookmarks~view_bookmarks");
 		}
 		else {
 			portletURL.setParameter(
-				"mvcRenderCommandName", "/bookmarks/view_folder");
+				"mvcRenderCommandName", "~bookmarks~view_folder");
 			portletURL.setParameter("folderId", String.valueOf(folderId));
 		}
 

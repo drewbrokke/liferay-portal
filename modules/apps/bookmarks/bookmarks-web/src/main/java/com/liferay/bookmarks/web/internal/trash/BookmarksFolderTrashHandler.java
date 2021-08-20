@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermi
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.trash.TrashHandler;
 import com.liferay.portal.kernel.trash.TrashRenderer;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.trash.TrashHelper;
 import com.liferay.trash.constants.TrashActionKeys;
 
@@ -120,7 +121,8 @@ public class BookmarksFolderTrashHandler extends BaseBookmarksTrashHandler {
 		BookmarksFolder folder = getBookmarksFolder(classPK);
 
 		return new BookmarksFolderAssetRenderer(
-			folder, _trashHelper, _bookmarksFolderModelResourcePermission);
+			folder, _bookmarksFolderModelResourcePermission, _portal,
+			_trashHelper);
 	}
 
 	@Override
@@ -243,6 +245,9 @@ public class BookmarksFolderTrashHandler extends BaseBookmarksTrashHandler {
 	)
 	private ModelResourcePermission<BookmarksFolder>
 		_bookmarksFolderModelResourcePermission;
+
+	@Reference
+	private Portal _portal;
 
 	@Reference
 	private TrashHelper _trashHelper;

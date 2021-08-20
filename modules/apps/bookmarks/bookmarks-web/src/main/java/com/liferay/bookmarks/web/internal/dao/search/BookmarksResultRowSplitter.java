@@ -15,6 +15,7 @@
 package com.liferay.bookmarks.web.internal.dao.search;
 
 import com.liferay.bookmarks.model.BookmarksFolder;
+import com.liferay.bookmarks.web.internal.portlet.model.Bookmark;
 import com.liferay.portal.kernel.dao.search.ResultRow;
 import com.liferay.portal.kernel.dao.search.ResultRowSplitter;
 import com.liferay.portal.kernel.dao.search.ResultRowSplitterEntry;
@@ -42,7 +43,19 @@ public class BookmarksResultRowSplitter implements ResultRowSplitter {
 				folderResultRows.add(resultRow);
 			}
 			else {
-				entryResultRows.add(resultRow);
+				if (object instanceof Bookmark) {
+					Bookmark bookmark = (Bookmark)object;
+
+					if (bookmark.getWrapped() instanceof BookmarksFolder) {
+						folderResultRows.add(resultRow);
+					}
+					else {
+						entryResultRows.add(resultRow);
+					}
+				}
+				else {
+					entryResultRows.add(resultRow);
+				}
 			}
 		}
 

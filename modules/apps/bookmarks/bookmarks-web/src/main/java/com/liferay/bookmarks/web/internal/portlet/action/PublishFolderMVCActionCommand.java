@@ -35,7 +35,7 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS_ADMIN,
-		"mvc.command.name=/bookmarks/publish_folder"
+		"mvc.command.name=~bookmarks~publish_folder"
 	},
 	service = MVCActionCommand.class
 )

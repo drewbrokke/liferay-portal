@@ -81,10 +81,10 @@ if (!ArrayUtil.contains(displayViews, displayStyle)) {
 PortletURL portletURL = renderResponse.createRenderURL();
 
 if (folderId == BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
-	portletURL.setParameter("mvcRenderCommandName", "/bookmarks/view");
+	portletURL.setParameter("mvcRenderCommandName", "~bookmarks~view_bookmarks");
 }
 else {
-	portletURL.setParameter("mvcRenderCommandName", "/bookmarks/view_folder");
+	portletURL.setParameter("mvcRenderCommandName", "~bookmarks~view_folder");
 	portletURL.setParameter("folderId", String.valueOf(folderId));
 }
 
@@ -163,12 +163,12 @@ request.setAttribute("view.jsp-displayStyle", displayStyle);
 
 request.setAttribute("view.jsp-bookmarksSearchContainer", bookmarksSearchContainer);
 
-BookmarksUtil.addPortletBreadcrumbEntries(folder, request, renderResponse);
+BookmarksUtil.addPortletBreadcrumbEntries(folder, renderRequest, renderResponse, searchContainerViewState);
 %>
 
 <liferay-ui:success key='<%= portletDisplay.getId() + "requestProcessed" %>' message="your-request-completed-successfully" />
 
-<portlet:actionURL name="/bookmarks/edit_entry" var="restoreTrashEntriesURL">
+<portlet:actionURL name="~bookmarks~edit_entry" var="restoreTrashEntriesURL">
 	<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.RESTORE %>" />
 </portlet:actionURL>
 
@@ -176,12 +176,10 @@ BookmarksUtil.addPortletBreadcrumbEntries(folder, request, renderResponse);
 	portletURL="<%= restoreTrashEntriesURL %>"
 />
 
-<liferay-util:include page="/bookmarks/toolbar.jsp" servletContext="<%= application %>">
-	<liferay-util:param name="searchContainerId" value="entries" />
-</liferay-util:include>
+<liferay-util:include page="/bookmarks/toolbar.jsp" servletContext="<%= application %>" />
 
 <div class="closed sidenav-container sidenav-right" id="<%= liferayPortletResponse.getNamespace() + "infoPanelId" %>">
-	<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="/bookmarks/info_panel" var="sidebarPanelURL">
+	<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="~bookmarks~info_panel" var="sidebarPanelURL">
 		<portlet:param name="folderId" value="<%= String.valueOf(folderId) %>" />
 	</liferay-portlet:resourceURL>
 
@@ -208,7 +206,7 @@ BookmarksUtil.addPortletBreadcrumbEntries(folder, request, renderResponse);
 			</div>
 
 			<liferay-portlet:actionURL varImpl="editEntryURL">
-				<portlet:param name="mvcRenderCommandName" value="/bookmarks/edit_entry" />
+				<portlet:param name="mvcRenderCommandName" value="~bookmarks~edit_entry" />
 			</liferay-portlet:actionURL>
 
 			<aui:form action="<%= editEntryURL.toString() %>" method="get" name="fm">
@@ -216,9 +214,7 @@ BookmarksUtil.addPortletBreadcrumbEntries(folder, request, renderResponse);
 				<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
 				<aui:input name="newFolderId" type="hidden" />
 
-				<liferay-util:include page="/bookmarks/view_entries.jsp" servletContext="<%= application %>">
-					<liferay-util:param name="searchContainerId" value="entries" />
-				</liferay-util:include>
+				<liferay-util:include page="/bookmarks/view_entries.jsp" servletContext="<%= application %>" />
 			</aui:form>
 		</clay:container-fluid>
 	</div>
@@ -240,13 +236,13 @@ else {
 
 <aui:script use="liferay-bookmarks">
 	var bookmarks = new Liferay.Portlet.Bookmarks({
-		editEntryUrl: '<portlet:actionURL name="/bookmarks/edit_entry" />',
+		editEntryUrl: '<portlet:actionURL name="~bookmarks~edit_entry" />',
 		form: {
 			method: 'POST',
 			node: A.one(document.<portlet:namespace />fm),
 		},
 		moveEntryUrl:
-			'<portlet:renderURL><portlet:param name="mvcRenderCommandName" value="/bookmarks/move_entry" /><portlet:param name="redirect" value="<%= currentURL %>" /></portlet:renderURL>',
+			'<portlet:renderURL><portlet:param name="mvcRenderCommandName" value="~bookmarks~move_entry" /><portlet:param name="redirect" value="<%= currentURL %>" /></portlet:renderURL>',
 		namespace: '<portlet:namespace />',
 		searchContainerId: 'entries',
 	});

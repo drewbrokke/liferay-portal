@@ -75,8 +75,8 @@ if (portletTitleBasedNavigation) {
 %>
 
 <div <%= portletTitleBasedNavigation ? "class=\"container-fluid container-fluid-max-xl\"" : StringPool.BLANK %>>
-	<portlet:actionURL name="/bookmarks/move_entry" var="moveEntryURL">
-		<portlet:param name="mvcRenderCommandName" value="/bookmarks/move_entry" />
+	<portlet:actionURL copyCurrentRenderParameters="<%= true %>" name="~bookmarks~move_entry" var="moveEntryURL">
+		<portlet:param name="mvcRenderCommandName" type="render" value="~bookmarks~view_bookmarks" />
 	</portlet:actionURL>
 
 	<aui:form action="<%= moveEntryURL %>" enctype="multipart/form-data" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + liferayPortletResponse.getNamespace() + "saveEntry(false);" %>'>
@@ -265,7 +265,9 @@ if (portletTitleBasedNavigation) {
 		<aui:button-row>
 			<aui:button type="submit" value="move" />
 
-			<aui:button href="<%= redirect %>" type="cancel" />
+			<jsp:include
+				page="/bookmarks/bookmark_cancel.jspx"
+			/>
 		</aui:button-row>
 	</aui:form>
 </div>
@@ -312,7 +314,7 @@ if (portletTitleBasedNavigation) {
 							'<liferay-ui:message arguments="folder" key="select-x" />',
 
 						<portlet:renderURL var="selectFolderURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-							<portlet:param name="mvcRenderCommandName" value="/bookmarks/select_folder" />
+							<portlet:param name="mvcRenderCommandName" value="~bookmarks~select_folder" />
 							<portlet:param name="folderId" value="<%= String.valueOf(newFolderId) %>" />
 						</portlet:renderURL>
 

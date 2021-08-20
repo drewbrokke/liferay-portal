@@ -65,7 +65,7 @@ public class ActionUtil {
 	public static BookmarksEntry getEntry(HttpServletRequest httpServletRequest)
 		throws Exception {
 
-		long entryId = ParamUtil.getLong(httpServletRequest, "entryId");
+		long entryId = ParamUtil.getLong(httpServletRequest, "bookmarkId");
 
 		BookmarksEntry entry = null;
 
@@ -90,7 +90,7 @@ public class ActionUtil {
 			HttpServletRequest httpServletRequest)
 		throws Exception {
 
-		long folderId = ParamUtil.getLong(httpServletRequest, "folderId");
+		long folderId = ParamUtil.getLong(httpServletRequest, "bookmarkId");
 
 		BookmarksFolder folder = null;
 

@@ -19,6 +19,8 @@ import com.liferay.bookmarks.exception.FolderNameException;
 import com.liferay.bookmarks.exception.NoSuchFolderException;
 import com.liferay.bookmarks.model.BookmarksFolder;
 import com.liferay.bookmarks.service.BookmarksFolderService;
+import com.liferay.bookmarks.web.internal.portlet.view.FolderViewState;
+import com.liferay.bookmarks.web.internal.portlet.view.FolderViewStateFactory;
 import com.liferay.portal.kernel.model.TrashedModel;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -41,6 +43,8 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.MimeResponse;
+import javax.portlet.RenderURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -53,22 +57,25 @@ import org.osgi.service.component.annotations.Reference;
 	property = {
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS,
 		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS_ADMIN,
-		"mvc.command.name=/bookmarks/edit_folder"
+		"mvc.command.name=~bookmarks~add_folder",
+		"mvc.command.name=~bookmarks~edit_folder"
 	},
 	service = MVCActionCommand.class
 )
 public class EditFolderMVCActionCommand extends BaseMVCActionCommand {
 
-	protected void deleteFolders(
+	protected BookmarksFolder deleteFolders(
 			ActionRequest actionRequest, boolean moveToTrash)
 		throws Exception {
 
+		BookmarksFolder parentFolder = null;
+
 		long[] deleteFolderIds = null;
 
-		long folderId = ParamUtil.getLong(actionRequest, "folderId");
+		long bookmarkId = ParamUtil.getLong(actionRequest, "bookmarkId");
 
-		if (folderId > 0) {
-			deleteFolderIds = new long[] {folderId};
+		if (bookmarkId > 0) {
+			deleteFolderIds = new long[] {bookmarkId};
 		}
 		else {
 			deleteFolderIds = StringUtil.split(
@@ -82,9 +89,16 @@ public class EditFolderMVCActionCommand extends BaseMVCActionCommand {
 				BookmarksFolder folder =
 					_bookmarksFolderService.moveFolderToTrash(deleteFolderId);
 
+				parentFolder = folder.getParentFolder();
+
 				trashedModels.add(folder);
 			}
 			else {
+				BookmarksFolder deleteFolder =
+					_bookmarksFolderService.getFolder(deleteFolderId);
+
+				parentFolder = deleteFolder.getParentFolder();
+
 				_bookmarksFolderService.deleteFolder(deleteFolderId);
 			}
 		}
@@ -96,6 +110,8 @@ public class EditFolderMVCActionCommand extends BaseMVCActionCommand {
 					"trashedModels", trashedModels
 				).build());
 		}
+
+		return parentFolder;
 	}
 
 	@Override
@@ -105,15 +121,20 @@ public class EditFolderMVCActionCommand extends BaseMVCActionCommand {
 
 		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
 
+		FolderViewState folderViewState = null;
+
 		try {
 			if (cmd.equals(Constants.ADD) || cmd.equals(Constants.UPDATE)) {
-				updateFolder(actionRequest);
+				folderViewState = _folderViewStateFactory.getFolderViewState(
+					updateFolder(actionRequest));
 			}
 			else if (cmd.equals(Constants.DELETE)) {
-				deleteFolders(actionRequest, false);
+				folderViewState = _folderViewStateFactory.getFolderViewState(
+					deleteFolders(actionRequest, false));
 			}
 			else if (cmd.equals(Constants.MOVE_TO_TRASH)) {
-				deleteFolders(actionRequest, true);
+				folderViewState = _folderViewStateFactory.getFolderViewState(
+					deleteFolders(actionRequest, true));
 			}
 			else if (cmd.equals(Constants.RESTORE)) {
 				restoreTrashEntries(actionRequest);
@@ -134,6 +155,16 @@ public class EditFolderMVCActionCommand extends BaseMVCActionCommand {
 				MultiSessionMessages.add(
 					actionRequest, portletResource + "requestProcessed");
 			}
+
+			RenderURL redirectURL = actionResponse.createRedirectURL(
+				MimeResponse.Copy.ALL);
+
+			if (folderViewState != null) {
+				folderViewState.applyRenderParameters(redirectURL);
+			}
+
+			actionRequest.setAttribute(
+				WebKeys.REDIRECT, redirectURL.toString());
 		}
 		catch (Exception exception) {
 			if (exception instanceof NoSuchFolderException ||
@@ -170,10 +201,10 @@ public class EditFolderMVCActionCommand extends BaseMVCActionCommand {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		long folderId = ParamUtil.getLong(actionRequest, "folderId");
+		long bookmarkId = ParamUtil.getLong(actionRequest, "bookmarkId");
 
 		_bookmarksFolderService.subscribeFolder(
-			themeDisplay.getScopeGroupId(), folderId);
+			themeDisplay.getScopeGroupId(), bookmarkId);
 	}
 
 	protected void unsubscribeFolder(ActionRequest actionRequest)
@@ -182,41 +213,54 @@ public class EditFolderMVCActionCommand extends BaseMVCActionCommand {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		long folderId = ParamUtil.getLong(actionRequest, "folderId");
+		long bookmarkId = ParamUtil.getLong(actionRequest, "bookmarkId");
 
 		_bookmarksFolderService.unsubscribeFolder(
-			themeDisplay.getScopeGroupId(), folderId);
+			themeDisplay.getScopeGroupId(), bookmarkId);
 	}
 
-	protected void updateFolder(ActionRequest actionRequest) throws Exception {
-		long folderId = ParamUtil.getLong(actionRequest, "folderId");
+	protected BookmarksFolder updateFolder(ActionRequest actionRequest)
+		throws Exception {
+
+		long bookmarkId = ParamUtil.getLong(actionRequest, "bookmarkId");
+
+		boolean mergeWithParentFolder = ParamUtil.getBoolean(
+			actionRequest, "mergeWithParentFolder");
 
 		long parentFolderId = ParamUtil.getLong(
 			actionRequest, "parentFolderId");
 		String name = ParamUtil.getString(actionRequest, "name");
 		String description = ParamUtil.getString(actionRequest, "description");
 
-		boolean mergeWithParentFolder = ParamUtil.getBoolean(
-			actionRequest, "mergeWithParentFolder");
-
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 			BookmarksFolder.class.getName(), actionRequest);
 
-		if (folderId <= 0) {
-			_bookmarksFolderService.addFolder(
+		BookmarksFolder bookmarksFolder = null;
+
+		if (bookmarkId <= 0) {
+			bookmarksFolder = _bookmarksFolderService.addFolder(
 				parentFolderId, name, description, serviceContext);
 		}
 		else if (mergeWithParentFolder) {
-			_bookmarksFolderService.mergeFolders(folderId, parentFolderId);
+			bookmarksFolder = _bookmarksFolderService.getFolder(parentFolderId);
+
+			_bookmarksFolderService.mergeFolders(bookmarkId, parentFolderId);
 		}
 		else {
-			_bookmarksFolderService.updateFolder(
-				folderId, parentFolderId, name, description, serviceContext);
+			bookmarksFolder = _bookmarksFolderService.updateFolder(
+				bookmarkId, parentFolderId, name, description, serviceContext);
+
+			bookmarksFolder = bookmarksFolder.getParentFolder();
 		}
+
+		return bookmarksFolder;
 	}
 
 	@Reference
 	private BookmarksFolderService _bookmarksFolderService;
+
+	@Reference
+	private FolderViewStateFactory _folderViewStateFactory;
 
 	@Reference
 	private TrashEntryService _trashEntryService;

@@ -206,7 +206,7 @@ catch (NoSuchFolderException nsfe) {
 									title:
 										'<liferay-ui:message arguments="folder" key="select-x" />',
 									url:
-										'<liferay-portlet:renderURL portletName="<%= portletResource %>" windowState="<%= LiferayWindowState.POP_UP.toString() %>"><portlet:param name="mvcRenderCommandName" value="/bookmarks/select_folder" /></liferay-portlet:renderURL>',
+										'<liferay-portlet:renderURL portletName="<%= portletResource %>" windowState="<%= LiferayWindowState.POP_UP.toString() %>"><portlet:param name="mvcRenderCommandName" value="~bookmarks~select_folder" /></liferay-portlet:renderURL>',
 								});
 							}
 						);
