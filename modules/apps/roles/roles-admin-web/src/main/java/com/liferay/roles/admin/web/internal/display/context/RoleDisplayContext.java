@@ -20,6 +20,7 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemListBu
 import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -28,6 +29,7 @@ import com.liferay.portal.kernel.service.RoleServiceUtil;
 import com.liferay.portal.kernel.service.permission.RolePermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -57,6 +59,16 @@ public class RoleDisplayContext {
 		_currentRoleTypeContributor =
 			RoleTypeContributorRetrieverUtil.getCurrentRoleTypeContributor(
 				httpServletRequest);
+	}
+
+	public boolean isDefineAccountRoleGroupScopePermissions() {
+		if ((_currentRoleTypeContributor.getType() == RoleConstants.TYPE_ACCOUNT) &&
+			ParamUtil.getBoolean(_httpServletRequest, "accountRoleGroupScope")) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	public List<NavigationItem> getEditRoleNavigationItems() throws Exception {
@@ -200,6 +212,10 @@ public class RoleDisplayContext {
 				ActionKeys.DEFINE_PERMISSIONS)) {
 
 			tabsNames.add("define-permissions");
+
+			if (role.getType() == RoleConstants.TYPE_ACCOUNT) {
+				tabsNames.add("define-group-scope-permissions");
+			}
 		}
 
 		if (_currentRoleTypeContributor.isAllowAssignMembers(role) &&
@@ -252,6 +268,25 @@ public class RoleDisplayContext {
 				backURL
 			).setTabs1(
 				"define-permissions"
+			).setParameter(
+				"roleId", role.getRoleId()
+			).buildString()
+		).put(
+			"define-group-scope-permissions",
+			() -> PortletURLBuilder.createRenderURL(
+				_renderResponse
+			).setMVCPath(
+				"/edit_role_permissions.jsp"
+			).setCMD(
+				Constants.VIEW
+			).setRedirect(
+				redirect
+			).setBackURL(
+				backURL
+			).setTabs1(
+				"define-group-scope-permissions"
+			).setParameter(
+				"accountRoleGroupScope", true
 			).setParameter(
 				"roleId", role.getRoleId()
 			).buildString()

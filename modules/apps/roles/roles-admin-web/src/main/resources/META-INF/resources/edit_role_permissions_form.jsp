@@ -60,6 +60,7 @@ if (Validator.isNotNull(portletResource)) {
 	<aui:input name="modelResources" type="hidden" value='<%= (modelResources == null) ? "" : StringUtil.merge(modelResources) %>' />
 	<aui:input name="selectedTargets" type="hidden" />
 	<aui:input name="unselectedTargets" type="hidden" />
+	<aui:input name="accountRoleGroupScope" type="hidden" value="<%= roleDisplayContext.isDefineAccountRoleGroupScopePermissions() %>" />
 
 	<clay:sheet>
 		<clay:sheet-header>
@@ -165,7 +166,8 @@ if (Validator.isNotNull(portletResource)) {
 							continue;
 						}
 
-						if (role.getType() == RoleConstants.TYPE_REGULAR) {
+						if (role.getType() == RoleConstants.TYPE_REGULAR ||
+							roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
 							RolePermissions rolePermissions = new RolePermissions(resource, ResourceConstants.SCOPE_GROUP, actionId, role.getRoleId());
 
 							groups = GroupLocalServiceUtil.search(
