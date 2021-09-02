@@ -31,6 +31,7 @@
 
 	<c:set value="${param['bookmarkId']}" var="bookmarkId" />
 	<c:set value="${param['parentFolderId']}" var="parentFolderId" />
+	<c:set value="${param['showFolderSelector']}" var="showFolderSelector" />
 
 	<clay:container-fluid
 		cssClass="container-form-lg"
