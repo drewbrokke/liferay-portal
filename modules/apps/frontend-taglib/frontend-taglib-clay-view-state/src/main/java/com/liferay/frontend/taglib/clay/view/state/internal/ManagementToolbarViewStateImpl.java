@@ -39,10 +39,12 @@ public class ManagementToolbarViewStateImpl
 		RenderURL clearResultsURL, String displayStyle,
 		RenderURL displayStyleURL, String searchFormMethod,
 		String searchFormName, String searchInputName, RenderURL searchURL,
-		String searchValue, boolean showCreationMenu,
-		boolean showDisplayStyleCard, boolean showDisplayStyleList,
-		boolean showDisplayStyleTable, String sortingOrder,
-		RenderURL sortingURLCurrent, RenderURL sortingURLReverse) {
+		String searchValue, boolean showAdvancedSearch,
+		boolean showCreationMenu, boolean showDisplayStyleCard,
+		boolean showDisplayStyleList, boolean showDisplayStyleTable,
+		boolean showInfoButton, boolean showSearch, boolean showSort,
+		String sortingOrder, RenderURL sortingURLCurrent,
+		RenderURL sortingURLReverse) {
 
 		_addEntryMessage = addEntryMessage;
 		_addEntryURL = addEntryURL;
@@ -54,10 +56,14 @@ public class ManagementToolbarViewStateImpl
 		_searchInputName = searchInputName;
 		_searchURL = searchURL;
 		_searchValue = searchValue;
+		_showAdvancedSearch = showAdvancedSearch;
 		_showCreationMenu = showCreationMenu;
 		_showDisplayStyleCard = showDisplayStyleCard;
 		_showDisplayStyleList = showDisplayStyleList;
 		_showDisplayStyleTable = showDisplayStyleTable;
+		_showInfoButton = showInfoButton;
+		_showSearch = showSearch;
+		_showSort = showSort;
 		_sortingOrder = sortingOrder;
 		_sortingURLCurrent = sortingURLCurrent;
 		_sortingURLReverse = sortingURLReverse;
@@ -274,7 +280,7 @@ public class ManagementToolbarViewStateImpl
 
 	@Override
 	public boolean isShowAdvancedSearch() {
-		return false;
+		return _showAdvancedSearch;
 	}
 
 	@Override
@@ -304,12 +310,17 @@ public class ManagementToolbarViewStateImpl
 
 	@Override
 	public boolean isShowInfoButton() {
-		return false;
+		return _showInfoButton;
 	}
 
 	@Override
 	public boolean isShowSearch() {
-		return false;
+		return _showSearch;
+	}
+
+	@Override
+	public boolean isShowSort() {
+		return _showSort;
 	}
 
 	@Override
@@ -328,10 +339,14 @@ public class ManagementToolbarViewStateImpl
 	private String _searchInputName;
 	private final RenderURL _searchURL;
 	private final String _searchValue;
+	private final boolean _showAdvancedSearch;
 	private final boolean _showCreationMenu;
 	private final boolean _showDisplayStyleCard;
 	private final boolean _showDisplayStyleList;
 	private final boolean _showDisplayStyleTable;
+	private final boolean _showInfoButton;
+	private final boolean _showSearch;
+	private final boolean _showSort;
 	private final String _sortingOrder;
 	private final RenderURL _sortingURLCurrent;
 	private final RenderURL _sortingURLReverse;

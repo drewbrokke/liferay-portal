@@ -370,7 +370,7 @@ public class ViewMVCRenderCommand extends BaseMVCRenderCommand {
 		BookmarksSearchContainer bookmarksSearchContainer =
 			_bookmarksSearchContainerFactory.getBookmarksSearchContainer(
 				folderId, renderRequest, renderResponse, scopeGroupId,
-				themeDisplay.isSignedIn());
+				searchContainerViewState, themeDisplay.isSignedIn());
 
 		renderRequest.setAttribute(
 			"bookmarksSearchContainer", bookmarksSearchContainer);
@@ -432,7 +432,7 @@ public class ViewMVCRenderCommand extends BaseMVCRenderCommand {
 					BookmarksPortletKeys.BOOKMARKS, "display-style",
 					"descriptive"),
 				"all", "title", "asc", renderRequest, renderResponse, false,
-				false, true, true);
+				false, false, true, true, true, showFoldersSearch, true);
 
 		boolean trashEnabled = false;
 
@@ -449,8 +449,8 @@ public class ViewMVCRenderCommand extends BaseMVCRenderCommand {
 					folderId, httpServletRequest,
 					bookmarksSearchContainer.getTotal(),
 					managementToolbarViewState, renderResponse.getNamespace(),
-					renderRequest, renderResponse, showFoldersSearch,
-					themeDisplay, trashEnabled)));
+					renderRequest, renderResponse, themeDisplay,
+					trashEnabled)));
 
 		try {
 			BookmarksUtil.addPortletBreadcrumbEntries(

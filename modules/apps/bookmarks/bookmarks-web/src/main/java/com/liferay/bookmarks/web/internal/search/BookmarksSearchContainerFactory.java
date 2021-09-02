@@ -14,6 +14,7 @@
 
 package com.liferay.bookmarks.web.internal.search;
 
+import com.liferay.frontend.taglib.liferay.ui.view.state.SearchContainerViewState;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.trash.TrashHelper;
@@ -32,12 +33,23 @@ public class BookmarksSearchContainerFactory {
 
 	public BookmarksSearchContainer getBookmarksSearchContainer(
 			long folderId, RenderRequest renderRequest,
-			RenderResponse renderResponse, long scopeGroupId, boolean signedIn)
+			RenderResponse renderResponse, long scopeGroupId,
+			SearchContainerViewState searchContainerViewState, boolean signedIn)
 		throws PortalException {
 
 		BookmarksSearchContainer bookmarksSearchContainer =
 			new BookmarksSearchContainer(
 				folderId, renderRequest, renderResponse);
+
+		/*
+		bookmarksSearchContainer.setDelta(searchContainerViewState.getDelta());
+
+		bookmarksSearchContainer.setOrderByCol(
+			searchContainerViewState.getOrderByCol());
+
+		bookmarksSearchContainer.setOrderByType(
+			searchContainerViewState.getOrderByType());
+		 */
 
 		EntriesChecker entriesChecker = new EntriesChecker(
 			renderResponse, signedIn);

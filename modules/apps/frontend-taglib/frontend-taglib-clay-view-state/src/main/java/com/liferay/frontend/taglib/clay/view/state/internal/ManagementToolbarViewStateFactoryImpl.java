@@ -41,16 +41,19 @@ public class ManagementToolbarViewStateFactoryImpl
 		RenderURL clearResultsURL, String displayStyle,
 		RenderURL displayStyleURL, String searchFormMethod,
 		String searchFormName, String searchInputName, RenderURL searchURL,
-		String searchValue, boolean showCreationMenu,
-		boolean showDisplayStyleCard, boolean showDisplayStyleList,
-		boolean showDisplayStyleTable, String sortingOrder,
-		RenderURL sortingURLCurrent, RenderURL sortingURLReverse) {
+		String searchValue, boolean showAdvancedSearch,
+		boolean showCreationMenu, boolean showDisplayStyleCard,
+		boolean showDisplayStyleList, boolean showDisplayStyleTable,
+		boolean showInfoButton, boolean showSearch, boolean showSort,
+		String sortingOrder, RenderURL sortingURLCurrent,
+		RenderURL sortingURLReverse) {
 
 		return new ManagementToolbarViewStateImpl(
 			addEntryMessage, addEntryURL, clearResultsURL, displayStyle,
 			displayStyleURL, searchFormMethod, searchFormName, searchInputName,
-			searchURL, searchValue, showCreationMenu, showDisplayStyleCard,
-			showDisplayStyleList, showDisplayStyleTable, sortingOrder,
+			searchURL, searchValue, showAdvancedSearch, showCreationMenu,
+			showDisplayStyleCard, showDisplayStyleList, showDisplayStyleTable,
+			showInfoButton, showSearch, showSort, sortingOrder,
 			sortingURLCurrent, sortingURLReverse);
 	}
 
@@ -59,15 +62,17 @@ public class ManagementToolbarViewStateFactoryImpl
 		String addEntryMessage, String defaultDisplayStyle,
 		String defaultNavigation, String defaultOrderByCol,
 		String defaultOrderByType, RenderRequest renderRequest,
-		RenderResponse renderResponse, boolean showCreationMenu,
-		boolean showDisplayStyleCard, boolean showDisplayStyleList,
-		boolean showDisplayStyleTable) {
+		RenderResponse renderResponse, boolean showAdvancedSearch,
+		boolean showCreationMenu, boolean showDisplayStyleCard,
+		boolean showDisplayStyleList, boolean showDisplayStyleTable,
+		boolean showInfoButton, boolean showSearch, boolean showSort) {
 
 		return create(
 			addEntryMessage, defaultDisplayStyle, defaultNavigation,
 			defaultOrderByCol, defaultOrderByType, renderRequest,
-			renderResponse, null, null, null, null, showCreationMenu,
-			showDisplayStyleCard, showDisplayStyleList, showDisplayStyleTable);
+			renderResponse, null, null, null, null, showAdvancedSearch,
+			showCreationMenu, showDisplayStyleCard, showDisplayStyleList,
+			showDisplayStyleTable, showInfoButton, showSearch, showSort);
 	}
 
 	@Override
@@ -77,8 +82,10 @@ public class ManagementToolbarViewStateFactoryImpl
 		String defaultOrderByType, RenderRequest renderRequest,
 		RenderResponse renderResponse, String searchFormMethod,
 		String searchFormName, String searchInputName, String searchValue,
-		boolean showCreationMenu, boolean showDisplayStyleCard,
-		boolean showDisplayStyleList, boolean showDisplayStyleTable) {
+		boolean showAdvancedSearch, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList,
+		boolean showDisplayStyleTable, boolean showInfoButton,
+		boolean showSearch, boolean showSort) {
 
 		RenderParameters renderParameters = renderRequest.getRenderParameters();
 
@@ -132,8 +139,9 @@ public class ManagementToolbarViewStateFactoryImpl
 				categoryId, cur, delta, displayStyle, keywords, navigation,
 				orderByCol, orderByType, renderResponse::createRenderURL,
 				resetCur, tag, SearchContainerURLFactory.Type.SEARCH),
-			searchValue, showCreationMenu, showDisplayStyleCard,
-			showDisplayStyleList, showDisplayStyleTable, orderByType,
+			searchValue, showAdvancedSearch, showCreationMenu,
+			showDisplayStyleCard, showDisplayStyleList, showDisplayStyleTable,
+			showInfoButton, showSearch, showSort, orderByType,
 			_searchContainerURLFactory.create(
 				categoryId, cur, delta, displayStyle, keywords, navigation,
 				orderByCol, orderByType, renderResponse::createRenderURL,

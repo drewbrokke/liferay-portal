@@ -260,6 +260,11 @@ public abstract class ManagementToolbarViewStateWrapper
 	}
 
 	@Override
+	public boolean isShowSort() {
+		return _managementToolbarViewState.isShowSort();
+	}
+
+	@Override
 	public boolean isSupportsBulkActions() {
 		return _managementToolbarViewState.isSupportsBulkActions();
 	}

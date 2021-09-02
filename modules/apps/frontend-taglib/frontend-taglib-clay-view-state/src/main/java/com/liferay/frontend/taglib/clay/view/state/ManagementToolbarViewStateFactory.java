@@ -28,18 +28,21 @@ public interface ManagementToolbarViewStateFactory {
 		RenderURL clearResultsURL, String displayStyle,
 		RenderURL displayStyleURL, String searchFormMethod,
 		String searchFormName, String searchInputName, RenderURL searchURL,
-		String searchValue, boolean showCreationMenu,
-		boolean showDisplayStyleCard, boolean showDisplayStyleList,
-		boolean showDisplayStyleTable, String sortingOrder,
-		RenderURL sortingURLCurrent, RenderURL sortingURLReverse);
+		String searchValue, boolean showAdvancedSearch,
+		boolean showCreationMenu, boolean showDisplayStyleCard,
+		boolean showDisplayStyleList, boolean showDisplayStyleTable,
+		boolean showInfoButton, boolean showSearch, boolean showSort,
+		String sortingOrder, RenderURL sortingURLCurrent,
+		RenderURL sortingURLReverse);
 
 	public ManagementToolbarViewState create(
 		String addEntryMessage, String defaultDisplayStyle,
 		String defaultNavigation, String defaultOrderByCol,
 		String defaultOrderByType, RenderRequest renderRequest,
-		RenderResponse renderResponse, boolean showCreationMenu,
-		boolean showDisplayStyleCard, boolean showDisplayStyleList,
-		boolean showDisplayStyleTable);
+		RenderResponse renderResponse, boolean showAdvancedSearch,
+		boolean showCreationMenu, boolean showDisplayStyleCard,
+		boolean showDisplayStyleList, boolean showDisplayStyleTable,
+		boolean showInfoButton, boolean showSearch, boolean showSort);
 
 	public ManagementToolbarViewState create(
 		String addEntryMessage, String defaultDisplayStyle,
@@ -47,7 +50,9 @@ public interface ManagementToolbarViewStateFactory {
 		String defaultOrderByType, RenderRequest renderRequest,
 		RenderResponse renderResponse, String searchFormMethod,
 		String searchFormName, String searchInputName, String searchValue,
-		boolean showCreationMenu, boolean showDisplayStyleCard,
-		boolean showDisplayStyleList, boolean showDisplayStyleTable);
+		boolean showAdvancedSearch, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList,
+		boolean showDisplayStyleTable, boolean showInfoButton,
+		boolean showSearch, boolean showSort);
 
 }

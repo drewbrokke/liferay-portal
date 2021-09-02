@@ -115,6 +115,8 @@ public interface ManagementToolbarViewState {
 
 	public boolean isShowSearch();
 
+	public boolean isShowSort();
+
 	public boolean isSupportsBulkActions();
 
 }

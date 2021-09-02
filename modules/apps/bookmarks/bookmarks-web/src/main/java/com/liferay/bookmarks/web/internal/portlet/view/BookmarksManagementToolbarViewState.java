@@ -62,8 +62,7 @@ public class BookmarksManagementToolbarViewState
 		long folderId, HttpServletRequest httpServletRequest, int itemsTotal,
 		ManagementToolbarViewState managementToolbarViewState, String namespace,
 		RenderRequest renderRequest, RenderResponse renderResponse,
-		boolean showFoldersSearch, ThemeDisplay themeDisplay,
-		boolean trashEnabled) {
+		ThemeDisplay themeDisplay, boolean trashEnabled) {
 
 		super(managementToolbarViewState);
 
@@ -73,7 +72,6 @@ public class BookmarksManagementToolbarViewState
 		_namespace = namespace;
 		_renderRequest = renderRequest;
 		_renderResponse = renderResponse;
-		_showFoldersSearch = showFoldersSearch;
 		_themeDisplay = themeDisplay;
 		_trashEnabled = trashEnabled;
 
@@ -348,16 +346,6 @@ public class BookmarksManagementToolbarViewState
 		return _showCreationMenu;
 	}
 
-	@Override
-	public boolean isShowInfoButton() {
-		return true;
-	}
-
-	@Override
-	public boolean isShowSearch() {
-		return _showFoldersSearch;
-	}
-
 	private List<DropdownItem> _getFilterNavigationDropdownItems() {
 		return new DropdownItemList() {
 			{
@@ -425,7 +413,6 @@ public class BookmarksManagementToolbarViewState
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
 	private Boolean _showCreationMenu;
-	private final boolean _showFoldersSearch;
 	private RenderURL _sortingURL;
 	private RenderURL _sortingURLCurrent;
 	private RenderURL _sortingURLReverse;
