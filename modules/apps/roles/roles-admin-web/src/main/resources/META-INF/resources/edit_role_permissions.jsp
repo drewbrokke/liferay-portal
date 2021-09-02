@@ -49,6 +49,8 @@ if (Validator.isNull(redirect)) {
 		"roleId", role.getRoleId()
 	).setParameter(
 		"tabs3", tabs3
+	).setParameter(
+		"accountRoleGroupScope", roleDisplayContext.isDefineAccountRoleGroupScopePermissions()
 	).buildString();
 }
 

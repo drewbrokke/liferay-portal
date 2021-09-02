@@ -60,7 +60,6 @@ if (Validator.isNotNull(portletResource)) {
 	<aui:input name="modelResources" type="hidden" value='<%= (modelResources == null) ? "" : StringUtil.merge(modelResources) %>' />
 	<aui:input name="selectedTargets" type="hidden" />
 	<aui:input name="unselectedTargets" type="hidden" />
-	<aui:input name="accountRoleGroupScope" type="hidden" value="<%= roleDisplayContext.isDefineAccountRoleGroupScopePermissions() %>" />
 
 	<clay:sheet>
 		<clay:sheet-header>

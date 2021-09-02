@@ -240,7 +240,7 @@ private boolean _isShowScope(HttpServletRequest request, Role role, String curMo
 	if (curPortletResource.equals(PortletKeys.PORTAL)) {
 		showScope = false;
 	}
-	else if (role.getType() != RoleConstants.TYPE_REGULAR || roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
+	else if (role.getType() != RoleConstants.TYPE_REGULAR && !roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
 		showScope = false;
 	}
 	else if (Validator.isNotNull(curPortletResource)) {

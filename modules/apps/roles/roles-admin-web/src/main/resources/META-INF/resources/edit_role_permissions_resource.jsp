@@ -44,7 +44,7 @@ List<String> headerNames = new ArrayList<String>();
 headerNames.add("action");
 
 boolean showScope = _isShowScope(request, role, curModelResource, curPortletId, roleDisplayContext);
-
+System.out.println("showScope: " + showScope);
 if (showScope) {
 	headerNames.add("scope");
 }
