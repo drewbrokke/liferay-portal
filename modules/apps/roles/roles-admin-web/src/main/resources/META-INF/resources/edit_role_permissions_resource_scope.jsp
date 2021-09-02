@@ -63,7 +63,7 @@ String portletId = (String)objArray[9];
 					%>'
 				/>
 			</c:when>
-			<c:when test="<%= role.getType() == RoleConstants.TYPE_REGULAR || roleDisplayContext.isDefineAccountRoleGroupScopePermissions() %>">
+			<c:when test="<%= (role.getType() == RoleConstants.TYPE_REGULAR) || roleDisplayContext.isDefineAccountRoleGroupScopePermissions() %>">
 				<liferay-ui:message key="all-sites-and-asset-libraries" />
 			</c:when>
 		</c:choose>

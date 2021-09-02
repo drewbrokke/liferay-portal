@@ -44,7 +44,7 @@ List<String> headerNames = new ArrayList<String>();
 headerNames.add("action");
 
 boolean showScope = _isShowScope(request, role, curModelResource, curPortletId, roleDisplayContext);
-System.out.println("showScope: " + showScope);
+
 if (showScope) {
 	headerNames.add("scope");
 }
@@ -101,7 +101,7 @@ for (int i = 0; i < results.size(); i++) {
 
 	List<String> groupNames = new ArrayList<String>();
 
-	if (role.getType() == RoleConstants.TYPE_REGULAR || roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
+	if ((role.getType() == RoleConstants.TYPE_REGULAR) || roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
 		if (Validator.isNotNull(portletResource)) {
 			Portlet portlet = PortletLocalServiceUtil.getPortletById(company.getCompanyId(), portletResource);
 

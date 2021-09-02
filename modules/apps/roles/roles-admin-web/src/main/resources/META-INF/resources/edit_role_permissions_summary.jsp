@@ -36,21 +36,22 @@ PortletURL permissionsAllURL = PortletURLBuilder.createRenderURL(
 		if (roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
 			return "define-group-scope-permissions";
 		}
+
 		return "define-permissions";
 	}
 ).setTabs2(
 	"roles"
 ).setParameter(
-	"roleId", role.getRoleId()
-).setParameter(
 	"accountRoleGroupScope", roleDisplayContext.isDefineAccountRoleGroupScopePermissions()
+).setParameter(
+	"roleId", role.getRoleId()
 ).buildPortletURL();
 
 List<String> headerNames = new ArrayList<String>();
 
 headerNames.add("permissions");
 
-if (role.getType() == RoleConstants.TYPE_REGULAR || roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
+if ((role.getType() == RoleConstants.TYPE_REGULAR) || roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
 	headerNames.add("sites-and-asset-libraries");
 }
 
@@ -65,11 +66,17 @@ List<PermissionDisplay> permissionDisplays = new ArrayList<PermissionDisplay>(pe
 for (int i = 0; i < permissions.size(); i++) {
 	Permission permission = permissions.get(i);
 
+	int scope = permission.getScope();
+
+	if (!roleDisplayContext.isValidPermission(role, permission)) {
+		continue;
+	}
+
 	Resource resource = new ResourceImpl();
 
 	resource.setCompanyId(themeDisplay.getCompanyId());
 	resource.setName(permission.getName());
-	resource.setScope(permission.getScope());
+	resource.setScope(scope);
 	resource.setPrimKey(permission.getPrimKey());
 
 	String curPortletName = null;
@@ -144,7 +151,7 @@ for (int i = 0; i < results.size(); i++) {
 
 	int scope;
 
-	if (role.getType() == RoleConstants.TYPE_REGULAR || roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
+	if ((role.getType() == RoleConstants.TYPE_REGULAR) || roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
 		RolePermissions rolePermissions = new RolePermissions(curResource, ResourceConstants.SCOPE_GROUP, actionId, role.getRoleId());
 
 		groups = GroupLocalServiceUtil.search(
@@ -192,13 +199,19 @@ for (int i = 0; i < results.size(); i++) {
 	).setPortletResource(
 		curPortletName
 	).setTabs1(
-		"define-permissions"
+		() -> {
+			if (roleDisplayContext.isDefineAccountRoleGroupScopePermissions()) {
+				return "define-group-scope-permissions";
+			}
+
+			return "define-permissions";
+		}
 	).setTabs2(
 		"roles"
 	).setParameter(
-		"roleId", role.getRoleId()
-	).setParameter(
 		"accountRoleGroupScope", roleDisplayContext.isDefineAccountRoleGroupScopePermissions()
+	).setParameter(
+		"roleId", role.getRoleId()
 	).buildPortletURL();
 
 	StringBundler sb = new StringBundler(17);

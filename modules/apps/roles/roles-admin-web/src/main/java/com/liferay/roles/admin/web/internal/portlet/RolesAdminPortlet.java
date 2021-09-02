@@ -468,7 +468,8 @@ public class RolesAdminPortlet extends MVCPortlet {
 
 				if ((role.getType() == RoleConstants.TYPE_REGULAR) ||
 					((role.getType() == RoleConstants.TYPE_ACCOUNT) &&
-					 ParamUtil.getBoolean(actionRequest, "accountRoleGroupScope"))) {
+					 ParamUtil.getBoolean(
+						 actionRequest, "accountRoleGroupScope"))) {
 
 					if (groupIds.length > 0) {
 						scope = ResourceConstants.SCOPE_GROUP;

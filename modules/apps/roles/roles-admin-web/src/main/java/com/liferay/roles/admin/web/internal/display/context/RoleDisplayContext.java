@@ -19,6 +19,8 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemList;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemListBuilder;
 import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Permission;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
@@ -29,7 +31,6 @@ import com.liferay.portal.kernel.service.RoleServiceUtil;
 import com.liferay.portal.kernel.service.permission.RolePermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -59,16 +60,6 @@ public class RoleDisplayContext {
 		_currentRoleTypeContributor =
 			RoleTypeContributorRetrieverUtil.getCurrentRoleTypeContributor(
 				httpServletRequest);
-	}
-
-	public boolean isDefineAccountRoleGroupScopePermissions() {
-		if ((_currentRoleTypeContributor.getType() == RoleConstants.TYPE_ACCOUNT) &&
-			ParamUtil.getBoolean(_httpServletRequest, "accountRoleGroupScope")) {
-
-			return true;
-		}
-
-		return false;
 	}
 
 	public List<NavigationItem> getEditRoleNavigationItems() throws Exception {
@@ -186,6 +177,40 @@ public class RoleDisplayContext {
 		return false;
 	}
 
+	public boolean isDefineAccountRoleGroupScopePermissions() {
+		if (_defineAccountRoleGroupScopePermission == null) {
+			_defineAccountRoleGroupScopePermission =
+				(_currentRoleTypeContributor.getType() ==
+					RoleConstants.TYPE_ACCOUNT) &&
+				ParamUtil.getBoolean(
+					_httpServletRequest, "accountRoleGroupScope");
+		}
+
+		return _defineAccountRoleGroupScopePermission;
+	}
+
+	public boolean isValidPermission(Role role, Permission permission) {
+		if (role.getType() != RoleConstants.TYPE_ACCOUNT) {
+			return true;
+		}
+
+		if (
+			isDefineAccountRoleGroupScopePermissions() &&
+			(
+				(permission.getScope() == ResourceConstants.SCOPE_COMPANY) ||
+				(permission.getScope() == ResourceConstants.SCOPE_GROUP)
+
+			)
+		) {
+			return true;
+		}
+		else if (permission.getScope() == ResourceConstants.SCOPE_GROUP_TEMPLATE) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private List<String> _getTabsNames() throws Exception {
 		List<String> tabsNames = new ArrayList<>();
 
@@ -255,23 +280,6 @@ public class RoleDisplayContext {
 				"roleId", role.getRoleId()
 			).buildString()
 		).put(
-			"define-permissions",
-			() -> PortletURLBuilder.createRenderURL(
-				_renderResponse
-			).setMVCPath(
-				"/edit_role_permissions.jsp"
-			).setCMD(
-				Constants.VIEW
-			).setRedirect(
-				redirect
-			).setBackURL(
-				backURL
-			).setTabs1(
-				"define-permissions"
-			).setParameter(
-				"roleId", role.getRoleId()
-			).buildString()
-		).put(
 			"define-group-scope-permissions",
 			() -> PortletURLBuilder.createRenderURL(
 				_renderResponse
@@ -287,6 +295,23 @@ public class RoleDisplayContext {
 				"define-group-scope-permissions"
 			).setParameter(
 				"accountRoleGroupScope", true
+			).setParameter(
+				"roleId", role.getRoleId()
+			).buildString()
+		).put(
+			"define-permissions",
+			() -> PortletURLBuilder.createRenderURL(
+				_renderResponse
+			).setMVCPath(
+				"/edit_role_permissions.jsp"
+			).setCMD(
+				Constants.VIEW
+			).setRedirect(
+				redirect
+			).setBackURL(
+				backURL
+			).setTabs1(
+				"define-permissions"
 			).setParameter(
 				"roleId", role.getRoleId()
 			).buildString()
@@ -313,6 +338,7 @@ public class RoleDisplayContext {
 	};
 
 	private final RoleTypeContributor _currentRoleTypeContributor;
+	private Boolean _defineAccountRoleGroupScopePermission;
 	private final HttpServletRequest _httpServletRequest;
 	private final RenderResponse _renderResponse;
 
