@@ -97,9 +97,8 @@ public class EntriesChecker extends EmptyOnClickRowChecker {
 	protected String getEntryRowIds() {
 		return StringBundler.concat(
 			"['", _portletNamespace, RowChecker.ROW_IDS,
-			Folder.class.getSimpleName(), "', '",
-			_portletNamespace, RowChecker.ROW_IDS,
-			DLFileShortcut.class.getSimpleName(), "', '",
+			Folder.class.getSimpleName(), "', '", _portletNamespace,
+			RowChecker.ROW_IDS, DLFileShortcut.class.getSimpleName(), "', '",
 			_portletNamespace, RowChecker.ROW_IDS,
 			FileEntry.class.getSimpleName(), "']");
 	}
