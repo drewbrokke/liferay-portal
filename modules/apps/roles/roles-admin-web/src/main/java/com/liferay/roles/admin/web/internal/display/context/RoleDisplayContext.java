@@ -194,17 +194,15 @@ public class RoleDisplayContext {
 			return true;
 		}
 
-		if (
-			isDefineAccountRoleGroupScopePermissions() &&
-			(
-				(permission.getScope() == ResourceConstants.SCOPE_COMPANY) ||
-				(permission.getScope() == ResourceConstants.SCOPE_GROUP)
+		if (isDefineAccountRoleGroupScopePermissions() &&
+			((permission.getScope() == ResourceConstants.SCOPE_COMPANY) ||
+			 (permission.getScope() == ResourceConstants.SCOPE_GROUP))) {
 
-			)
-		) {
 			return true;
 		}
-		else if (permission.getScope() == ResourceConstants.SCOPE_GROUP_TEMPLATE) {
+		else if (permission.getScope() ==
+					ResourceConstants.SCOPE_GROUP_TEMPLATE) {
+
 			return true;
 		}
 
