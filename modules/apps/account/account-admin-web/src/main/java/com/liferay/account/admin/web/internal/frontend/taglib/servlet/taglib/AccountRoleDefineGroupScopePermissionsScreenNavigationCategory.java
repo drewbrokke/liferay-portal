@@ -21,43 +21,43 @@ import com.liferay.frontend.taglib.servlet.taglib.ScreenNavigationEntry;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author Pei-Jung Lan
+ * @author Drew Brokke
  */
 @Component(
 	property = {
-		"screen.navigation.category.order:Integer=20",
+		"screen.navigation.category.order:Integer=30",
 		"screen.navigation.entry.order:Integer=10"
 	},
 	service = {ScreenNavigationCategory.class, ScreenNavigationEntry.class}
 )
-public class AccountRoleDefinePermissionsScreenNavigationCategory
+public class AccountRoleDefineGroupScopePermissionsScreenNavigationCategory
 	extends BaseAccountRoleDefinePermissionsScreenNavigationCategory {
 
 	@Override
 	protected String doGetCategoryKey() {
 		return AccountScreenNavigationEntryConstants.
-			CATEGORY_KEY_DEFINE_PERMISSIONS;
+			CATEGORY_KEY_DEFINE_GROUP_SCOPE_PERMISSIONS;
 	}
 
 	@Override
 	protected String doGetEntryKey() {
 		return AccountScreenNavigationEntryConstants.
-			ENTRY_KEY_DEFINE_PERMISSIONS;
+			ENTRY_KEY_DEFINE_GROUP_SCOPE_PERMISSIONS;
 	}
 
 	@Override
 	protected String doGetLabelLanguageKey() {
-		return "define-permissions";
+		return "define-group-scope-permissions";
 	}
 
 	@Override
 	protected String doGetTabs1() {
-		return "define-permissions";
+		return "define-group-true-permissions";
 	}
 
 	@Override
 	protected boolean doIsAccountRoleGroupScope() {
-		return false;
+		return true;
 	}
 
 }
