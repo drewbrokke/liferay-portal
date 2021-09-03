@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 /**
- * @author Brian Wing Shun Chan
+ * @author Drew Brokke
  */
 public class AllowEditAccountRoleThreadLocal {
 
