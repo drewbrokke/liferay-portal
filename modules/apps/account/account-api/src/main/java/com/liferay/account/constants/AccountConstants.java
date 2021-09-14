@@ -19,6 +19,10 @@ package com.liferay.account.constants;
  */
 public class AccountConstants {
 
+	public static final String[] ACCOUNT_ENTRY_DEFAULT_TYPES = {
+		ACCOUNT_ENTRY_TYPE_BUSINESS, ACCOUNT_ENTRY_TYPE_PERSON
+	};
+
 	public static final long ACCOUNT_ENTRY_ID_ANY = -1;
 
 	public static final long ACCOUNT_ENTRY_ID_DEFAULT = 0;
