@@ -124,6 +124,8 @@ page import="com.liferay.portal.util.PropsValues" %><%@
 page import="com.liferay.taglib.search.ResultRow" %><%@
 page import="com.liferay.users.admin.configuration.UserFileUploadsConfiguration" %>
 
+<%@ page import="com.liferay.portal.kernel.util.GetterUtil" %>
+
 <%@ page import="java.util.Collections" %><%@
 page import="java.util.List" %><%@
 page import="java.util.Map" %><%@
