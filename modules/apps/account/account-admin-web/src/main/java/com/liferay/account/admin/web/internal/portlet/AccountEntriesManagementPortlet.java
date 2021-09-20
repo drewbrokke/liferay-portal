@@ -59,7 +59,7 @@ public class AccountEntriesManagementPortlet extends MVCPortlet {
 
 		try {
 			renderRequest.setAttribute(
-				AccountWebKeys.ACCOUNT_ENTRY_ALLOWED_TYPES,
+				AccountWebKeys.ACCOUNT_ENTRY_DEFAULT_ALLOWED_TYPES,
 				_accountEntryGroupSettings.getAllowedTypes(
 					_portal.getScopeGroupId(renderRequest)));
 

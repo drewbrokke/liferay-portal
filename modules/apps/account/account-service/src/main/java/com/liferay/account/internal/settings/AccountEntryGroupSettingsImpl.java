@@ -48,7 +48,7 @@ public class AccountEntryGroupSettingsImpl
 			_log.error(configurationException, configurationException);
 		}
 
-		return AccountConstants.ACCOUNT_ENTRY_DEFAULT_TYPES;
+		return AccountConstants.ACCOUNT_ENTRY_TYPES_DEFAULT_ALLOWED_TYPES;
 	}
 
 	@Override

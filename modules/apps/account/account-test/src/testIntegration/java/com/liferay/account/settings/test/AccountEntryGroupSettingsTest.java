@@ -58,7 +58,7 @@ public class AccountEntryGroupSettingsTest {
 		Assert.assertArrayEquals(
 			Arrays.toString(allowedTypes),
 			ArrayUtil.sortedUnique(
-				AccountConstants.DEFAULT_ACCOUNT_ENTRY_TYPES),
+				AccountConstants.ACCOUNT_ENTRY_TYPES_DEFAULT_ALLOWED_TYPES),
 			ArrayUtil.sortedUnique(allowedTypes));
 	}
 
@@ -107,7 +107,7 @@ public class AccountEntryGroupSettingsTest {
 		Assert.assertArrayEquals(
 			Arrays.toString(allowedTypes),
 			ArrayUtil.sortedUnique(
-				AccountConstants.DEFAULT_ACCOUNT_ENTRY_TYPES),
+				AccountConstants.ACCOUNT_ENTRY_TYPES_DEFAULT_ALLOWED_TYPES),
 			ArrayUtil.sortedUnique(allowedTypes));
 	}
 
