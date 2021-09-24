@@ -14,17 +14,30 @@
 
 package com.liferay.account.internal.search.spi.model.permission;
 
+import com.liferay.account.constants.AccountActionKeys;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryUserRel;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.OrganizationConstants;
+import com.liferay.portal.kernel.model.OrganizationModel;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.OrganizationLocalService;
+import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.service.permission.OrganizationPermission;
+import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionFilterContributor;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
@@ -46,26 +59,77 @@ public class AccountEntrySearchPermissionFilterContributor
 			return;
 		}
 
-		List<AccountEntryUserRel> accountEntryUserRels =
-			_accountEntryUserRelLocalService.
-				getAccountEntryUserRelsByAccountUserId(userId);
+		TermsFilter accountUserIdsTermsFilter = new TermsFilter(
+			"accountUserIds");
 
-		if (ListUtil.isEmpty(accountEntryUserRels)) {
-			return;
+		accountUserIdsTermsFilter.addValue(String.valueOf(userId));
+
+		booleanFilter.add(accountUserIdsTermsFilter, BooleanClauseOccur.SHOULD);
+
+		TermsFilter organizationIdsTermsFilter = new TermsFilter(
+			"organizationIds");
+
+		try {
+			User user = _userLocalService.getUser(
+				userId);
+
+			BaseModelSearchResult<Organization> baseModelSearchResult =
+				_organizationLocalService.searchOrganizations(
+					companyId,
+					OrganizationConstants.ANY_PARENT_ORGANIZATION_ID, null,
+					LinkedHashMapBuilder.<String, Object>put(
+						"accountsOrgsTree",
+						ListUtil.filter(
+							user.getOrganizations(true),
+							organization -> _hasManageAccountsPermission(
+								permissionChecker, organization))
+					).build(),
+					QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+
+			for (Organization organization : baseModelSearchResult.getBaseModels()) {
+				organizationIdsTermsFilter.addValue(String.valueOf(organization.getOrganizationId()));
+			}
+		}
+		catch (PortalException portalException) {
+//			if (_log.isDebugEnabled()) {
+//				_log.debug(portalException, portalException);
+//			}
+//
+//			return new BaseModelSearchResult<>(
+//				Collections.<AccountEntry>emptyList(), 0);
 		}
 
-		TermsFilter primaryKeysTermsFilter = new TermsFilter(
-			Field.ENTRY_CLASS_PK);
+		booleanFilter.add(organizationIdsTermsFilter, BooleanClauseOccur.SHOULD);
 
-		for (AccountEntryUserRel accountEntryUserRel : accountEntryUserRels) {
-			primaryKeysTermsFilter.addValue(
-				String.valueOf(accountEntryUserRel.getAccountEntryId()));
+	}
+
+	private boolean _hasManageAccountsPermission(
+		PermissionChecker permissionChecker, Organization organization) {
+
+		try {
+			_organizationPermission.check(
+				permissionChecker, organization,
+				AccountActionKeys.MANAGE_ACCOUNTS);
+		}
+		catch (PortalException portalException) {
+//			if (_log.isDebugEnabled()) {
+//				_log.debug(portalException, portalException);
+//			}
+
+			return false;
 		}
 
-		booleanFilter.add(primaryKeysTermsFilter, BooleanClauseOccur.MUST);
+		return true;
 	}
 
 	@Reference
-	private AccountEntryUserRelLocalService _accountEntryUserRelLocalService;
+	private OrganizationPermission _organizationPermission;
+
+	@Reference
+	private OrganizationLocalService _organizationLocalService;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }

@@ -143,46 +143,11 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 		PermissionChecker permissionChecker = _getPermissionChecker();
 
 		if (!permissionChecker.isCompanyAdmin()) {
-			try {
-				User user = userLocalService.getUser(
-					permissionChecker.getUserId());
-
-				BaseModelSearchResult<Organization> baseModelSearchResult =
-					_organizationLocalService.searchOrganizations(
-						user.getCompanyId(),
-						OrganizationConstants.ANY_PARENT_ORGANIZATION_ID, null,
-						LinkedHashMapBuilder.<String, Object>put(
-							"accountsOrgsTree",
-							ListUtil.filter(
-								user.getOrganizations(true),
-								organization -> _hasManageAccountsPermission(
-									permissionChecker, organization))
-						).build(),
-						QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-
-				if (baseModelSearchResult.getLength() == 0) {
-					return new BaseModelSearchResult<>(
-						Collections.<AccountEntry>emptyList(), 0);
-				}
-
-				if (params == null) {
-					params = new LinkedHashMap<>();
-				}
-
-				params.put(
-					"organizationIds",
-					ListUtil.toLongArray(
-						baseModelSearchResult.getBaseModels(),
-						OrganizationModel::getOrganizationId));
+			if (params == null) {
+				params = new LinkedHashMap<>();
 			}
-			catch (PortalException portalException) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(portalException, portalException);
-				}
 
-				return new BaseModelSearchResult<>(
-					Collections.<AccountEntry>emptyList(), 0);
-			}
+			params.put("permissionUserId", permissionChecker.getUserId());
 		}
 
 		return accountEntryLocalService.searchAccountEntries(
@@ -203,30 +168,8 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 		}
 	}
 
-	private boolean _hasManageAccountsPermission(
-		PermissionChecker permissionChecker, Organization organization) {
-
-		try {
-			_organizationPermission.check(
-				permissionChecker, organization,
-				AccountActionKeys.MANAGE_ACCOUNTS);
-		}
-		catch (PortalException portalException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(portalException, portalException);
-			}
-
-			return false;
-		}
-
-		return true;
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		AccountEntryServiceImpl.class);
-
-	@Reference
-	private OrganizationLocalService _organizationLocalService;
 
 	@Reference
 	private OrganizationPermission _organizationPermission;

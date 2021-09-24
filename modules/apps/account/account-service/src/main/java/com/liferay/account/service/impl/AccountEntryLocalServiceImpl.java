@@ -975,6 +975,13 @@ public class AccountEntryLocalServiceImpl
 				"parentAccountEntryId", parentAccountEntryId);
 		}
 
+		long permissionUserId = GetterUtil.getLong(
+			params.get("permissionUserId"));
+
+		if (permissionUserId != GetterUtil.DEFAULT_LONG) {
+			searchContext.setUserId(permissionUserId);
+		}
+
 		int status = GetterUtil.getInteger(
 			params.get("status"), WorkflowConstants.STATUS_APPROVED);
 
