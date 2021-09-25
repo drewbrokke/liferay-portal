@@ -452,7 +452,7 @@ public class CommerceAccountLocalServiceImpl
 			).put(
 				"status", () -> CommerceAccountImpl.toAccountEntryStatus(active)
 			).put(
-				"type", CommerceAccountImpl.toAccountEntryType(type)
+				"type", new String[] {CommerceAccountImpl.toAccountEntryType(type)}
 			).build();
 
 		String fieldName = null;
@@ -483,7 +483,7 @@ public class CommerceAccountLocalServiceImpl
 			accountEntryLocalService.searchAccountEntries(
 				companyId, keywords,
 				LinkedHashMapBuilder.<String, Object>put(
-					"type", CommerceAccountImpl.toAccountEntryType(type)
+					"type", new String[] {CommerceAccountImpl.toAccountEntryType(type)}
 				).put(
 					"status",
 					() -> CommerceAccountImpl.toAccountEntryStatus(active)

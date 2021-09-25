@@ -987,10 +987,10 @@ public class AccountEntryLocalServiceImpl
 
 		searchContext.setAttribute(Field.STATUS, status);
 
-		String type = (String)params.get("type");
+		String[] types = (String[])params.get("types");
 
-		if (Validator.isNotNull(type)) {
-			searchContext.setAttribute(Field.TYPE, type);
+		if (ArrayUtil.isNotEmpty(types)) {
+			searchContext.setAttribute("types", types);
 		}
 	}
 
