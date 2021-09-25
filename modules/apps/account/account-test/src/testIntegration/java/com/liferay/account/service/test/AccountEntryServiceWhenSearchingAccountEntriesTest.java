@@ -21,9 +21,8 @@ import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryOrganizationRelLocalService;
 import com.liferay.account.service.AccountEntryService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
-import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
-import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.model.ResourceConstants;
@@ -40,7 +39,6 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.rule.DataGuard;
-import com.liferay.portal.kernel.test.util.CompanyTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.RoleTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
@@ -62,7 +60,6 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -80,7 +77,6 @@ public class AccountEntryServiceWhenSearchingAccountEntriesTest {
 	public static final LiferayIntegrationTestRule liferayIntegrationTestRule =
 		new LiferayIntegrationTestRule();
 
-
 	@Before
 	public void setUp() throws Exception {
 		_rootOrganization = _organizationLocalService.addOrganization(
@@ -93,8 +89,7 @@ public class AccountEntryServiceWhenSearchingAccountEntriesTest {
 			_addAccountEntryWithOrganization(_rootOrganization));
 
 		_organization = _organizationLocalService.addOrganization(
-			TestPropsValues.getUserId(),
-			_rootOrganization.getOrganizationId(),
+			TestPropsValues.getUserId(), _rootOrganization.getOrganizationId(),
 			RandomTestUtil.randomString(), false);
 
 		_organizationAccountEntries.put(
@@ -131,8 +126,24 @@ public class AccountEntryServiceWhenSearchingAccountEntriesTest {
 
 		_userLocalService.addRoleUser(role.getRoleId(), _user);
 
-		_assertSearch(
-			ListUtil.fromCollection(_organizationAccountEntries.values()));
+		_assertSearch(_getAllAccountEntries());
+	}
+
+	@Test
+	public void testShouldReturnAllAccountEntriesWithCompanyViewPermission()
+		throws Exception {
+
+		_assertSearch(Collections.emptyList());
+
+		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
+
+		RoleTestUtil.addResourcePermission(
+			role, AccountEntry.class.getName(), ResourceConstants.SCOPE_COMPANY,
+			String.valueOf(TestPropsValues.getCompanyId()), ActionKeys.VIEW);
+
+		_userLocalService.addRoleUser(role.getRoleId(), _user.getUserId());
+
+		_assertSearch(_getAllAccountEntries());
 	}
 
 	@Test
@@ -259,9 +270,8 @@ public class AccountEntryServiceWhenSearchingAccountEntriesTest {
 
 	private Role _addOrganizationRole() throws Exception {
 		return _roleLocalService.addRole(
-			TestPropsValues.getUserId(), null, 0,
-			RandomTestUtil.randomString(), null, null,
-			RoleConstants.TYPE_ORGANIZATION, null, null);
+			TestPropsValues.getUserId(), null, 0, RandomTestUtil.randomString(),
+			null, null, RoleConstants.TYPE_ORGANIZATION, null, null);
 	}
 
 	private void _assertSearch(List<AccountEntry> expectedAccountEntries)
@@ -279,6 +289,12 @@ public class AccountEntryServiceWhenSearchingAccountEntriesTest {
 				Comparator.comparing(
 					AccountEntry::getName, String::compareToIgnoreCase)),
 			baseModelSearchResult.getBaseModels());
+	}
+
+	private List<AccountEntry> _getAllAccountEntries() throws Exception {
+		return _accountEntryLocalService.getAccountEntries(
+			TestPropsValues.getCompanyId(), WorkflowConstants.STATUS_APPROVED,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	private boolean _hasPermission(

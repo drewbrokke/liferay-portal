@@ -142,13 +142,11 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 
 		PermissionChecker permissionChecker = _getPermissionChecker();
 
-		if (!permissionChecker.isCompanyAdmin()) {
-			if (params == null) {
-				params = new LinkedHashMap<>();
-			}
-
-			params.put("permissionUserId", permissionChecker.getUserId());
+		if (params == null) {
+			params = new LinkedHashMap<>();
 		}
+
+		params.put("permissionUserId", permissionChecker.getUserId());
 
 		return accountEntryLocalService.searchAccountEntries(
 			permissionChecker.getCompanyId(), keywords, params, cur, delta,
