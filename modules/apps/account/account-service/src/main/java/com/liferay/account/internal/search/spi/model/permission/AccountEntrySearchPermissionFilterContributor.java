@@ -54,12 +54,12 @@ public class AccountEntrySearchPermissionFilterContributor
 			return;
 		}
 
-		_addAccountUserIdFilters(booleanFilter, userId);
+		_addAccountUserIdsFilters(booleanFilter, userId);
 		_addOrganizationIdsFilter(
 			booleanFilter, companyId, userId, permissionChecker);
 	}
 
-	private void _addAccountUserIdFilters(
+	private void _addAccountUserIdsFilters(
 		BooleanFilter booleanFilter, long userId) {
 
 		TermsFilter accountUserIdsTermsFilter = new TermsFilter(
