@@ -41,6 +41,10 @@ import org.osgi.service.component.annotations.Reference;
 public class AdminCommerceTOCManager {
 
 	public boolean isConfirmed(long userId) {
+		if (userId == 0L) {
+			return true;
+		}
+
 		if (!_isAdminUser(userId)) {
 			return true;
 		}

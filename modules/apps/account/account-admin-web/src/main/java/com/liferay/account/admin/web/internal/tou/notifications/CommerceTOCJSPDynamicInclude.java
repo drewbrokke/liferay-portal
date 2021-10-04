@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author Drew B
+ * @author Drew Brokke
  */
 @Component(immediate = true, service = DynamicInclude.class)
 public class CommerceTOCJSPDynamicInclude extends BaseJSPDynamicInclude {
@@ -37,9 +37,6 @@ public class CommerceTOCJSPDynamicInclude extends BaseJSPDynamicInclude {
 	public void register(DynamicIncludeRegistry dynamicIncludeRegistry) {
 		dynamicIncludeRegistry.register(
 			"/html/common/themes/bottom.jsp#post");
-		dynamicIncludeRegistry.register(
-			"/html/common/themes/top_head.jsp#post"
-		);
 	}
 
 	@Override
@@ -58,11 +55,8 @@ public class CommerceTOCJSPDynamicInclude extends BaseJSPDynamicInclude {
 		HttpServletResponse httpServletResponse, String key)
 		throws IOException {
 
-		if (!_adminCommerceTOCManager.isConfirmed(
-				_portal.getUserId(httpServletRequest))) {
-
-			httpServletRequest.setAttribute(
-				"SHOW_TERMS_OF_USE", false);
+		if (_adminCommerceTOCManager.isConfirmed(_portal.getUserId(httpServletRequest))) {
+			return;
 		}
 
 		super.include(httpServletRequest, httpServletResponse, key);
