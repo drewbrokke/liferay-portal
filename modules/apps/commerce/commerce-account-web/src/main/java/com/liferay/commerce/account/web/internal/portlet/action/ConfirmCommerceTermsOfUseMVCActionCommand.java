@@ -12,9 +12,10 @@
  * details.
  */
 
-package com.liferay.commerce.account.web.internal.terms.of.use;
+package com.liferay.commerce.account.web.internal.portlet.action;
 
 import com.liferay.commerce.account.web.internal.constants.CommerceAccountPortletKeys;
+import com.liferay.commerce.account.web.internal.terms.of.use.confirmation.manager.CommerceTermsOfUseConfirmationManager;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.Portal;
@@ -32,11 +33,11 @@ import org.osgi.service.component.annotations.Reference;
 	enabled = false, immediate = true,
 	property = {
 		"javax.portlet.name=" + CommerceAccountPortletKeys.COMMERCE_ACCOUNT,
-		"mvc.command.name=/commerce_account/acknowledge_terms_of_use"
+		"mvc.command.name=/commerce_account/confirm_commerce_terms_of_use"
 	},
 	service = MVCActionCommand.class
 )
-public class AcknowledgeTermsOfUseMVCActionCommand
+public class ConfirmCommerceTermsOfUseMVCActionCommand
 	extends BaseMVCActionCommand {
 
 	@Override
@@ -48,7 +49,7 @@ public class AcknowledgeTermsOfUseMVCActionCommand
 	}
 
 	@Reference
-	private AdminCommerceTOCManager _adminCommerceTOCManager;
+	private CommerceTermsOfUseConfirmationManager _adminCommerceTOCManager;
 
 	@Reference
 	private Portal _portal;

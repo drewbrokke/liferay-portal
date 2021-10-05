@@ -12,8 +12,9 @@
  * details.
  */
 
-package com.liferay.commerce.account.web.internal.terms.of.use;
+package com.liferay.commerce.account.web.internal.servlet.taglib;
 
+import com.liferay.commerce.account.web.internal.terms.of.use.confirmation.manager.CommerceTermsOfUseConfirmationManager;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.taglib.BaseJSPDynamicInclude;
@@ -33,7 +34,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Drew Brokke
  */
 @Component(enabled = false, immediate = true, service = DynamicInclude.class)
-public class CommerceTOCJSPDynamicInclude extends BaseJSPDynamicInclude {
+public class CommerceTermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
 
 	@Override
 	public void include(
@@ -75,10 +76,10 @@ public class CommerceTOCJSPDynamicInclude extends BaseJSPDynamicInclude {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		CommerceTOCJSPDynamicInclude.class);
+		CommerceTermsOfUseJSPDynamicInclude.class);
 
 	@Reference
-	private AdminCommerceTOCManager _adminCommerceTOCManager;
+	private CommerceTermsOfUseConfirmationManager _adminCommerceTOCManager;
 
 	@Reference
 	private Portal _portal;

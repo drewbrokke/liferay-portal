@@ -28,7 +28,7 @@ page import="javax.portlet.PortletURL" %>
 PortletURL acknowledgeActionURL = PortletURLBuilder.create(
 	PortletURLFactoryUtil.create(request, CommerceAccountPortletKeys.COMMERCE_ACCOUNT, PortletRequest.ACTION_PHASE)
 ).setActionName(
-	"/commerce_terms_of_use/acknowledge"
+	"/commerce_account/confirm_commerce_terms_of_use"
 ).buildPortletURL();
 %>
 

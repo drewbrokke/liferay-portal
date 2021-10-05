@@ -12,9 +12,9 @@
  * details.
  */
 
-package com.liferay.commerce.account.web.internal.terms.of.use;
+package com.liferay.commerce.account.web.internal.terms.of.use.confirmation.manager;
 
-import com.liferay.account.model.AccountEntry;
+import com.liferay.commerce.account.web.internal.constants.CommerceAccountPortletKeys;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -37,16 +37,19 @@ import org.osgi.service.component.annotations.Reference;
  * @author Drew Brokke
  */
 @Component(
-	enabled = false, immediate = true, service = AdminCommerceTOCManager.class
+	enabled = false, immediate = true,
+	service = CommerceTermsOfUseConfirmationManager.class
 )
-public class AdminCommerceTOCManager {
+public class CommerceTermsOfUseConfirmationManager {
 
 	public void confirm(long userId) {
-		_write(userId);
+		_saveInPortalPreferences(userId);
 	}
 
 	public boolean isConfirmed(long userId) {
-		if ((userId == 0L) || !_isAdminUser(userId) || _read(userId)) {
+		if ((userId == 0L) || !_isAdminUser(userId) ||
+			_isConfirmedInPortalPreferences(userId)) {
+
 			return true;
 		}
 
@@ -77,32 +80,33 @@ public class AdminCommerceTOCManager {
 		return false;
 	}
 
-	private boolean _read(long userId) {
+	private boolean _isConfirmedInPortalPreferences(long userId) {
 		PortalPreferences portalPreferences = _getPortalPreferences(userId);
 
 		return GetterUtil.getBoolean(
 			portalPreferences.getValue(
-				_NAMESPACE, _ADMIN_COMMERCE_TOC_ACKNOWLEDGED));
+				_NAMESPACE, _COMMERCE_TERMS_OF_USE_CONFIRMED));
 	}
 
-	private void _write(long userId) {
+	private void _saveInPortalPreferences(long userId) {
 		PortalPreferences portalPreferences = _getPortalPreferences(userId);
 
 		portalPreferences.setValue(
-			_NAMESPACE, _ADMIN_COMMERCE_TOC_ACKNOWLEDGED,
+			_NAMESPACE, _COMMERCE_TERMS_OF_USE_CONFIRMED,
 			Boolean.TRUE.toString());
 
 		_portalPreferencesLocalService.updatePreferences(
 			userId, PortletKeys.PREFS_OWNER_TYPE_USER, portalPreferences);
 	}
 
-	private static final String _ADMIN_COMMERCE_TOC_ACKNOWLEDGED =
-		"_ADMIN_COMMERCE_TOC_ACKNOWLEDGED";
+	private static final String _COMMERCE_TERMS_OF_USE_CONFIRMED =
+		"_COMMERCE_TERMS_OF_USE_CONFIRMED";
 
-	private static final String _NAMESPACE = AccountEntry.class.getName();
+	private static final String _NAMESPACE =
+		CommerceAccountPortletKeys.COMMERCE_ACCOUNT;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		AdminCommerceTOCManager.class);
+		CommerceTermsOfUseConfirmationManager.class);
 
 	@Reference
 	private PortalPreferencesLocalService _portalPreferencesLocalService;

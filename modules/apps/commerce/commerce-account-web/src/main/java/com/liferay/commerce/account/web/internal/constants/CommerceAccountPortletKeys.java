@@ -19,6 +19,8 @@ package com.liferay.commerce.account.web.internal.constants;
  */
 public class CommerceAccountPortletKeys {
 
-	public static final String COMMERCE_ACCOUNT = "COMMERCE_ACCOUNT";
+	public static final String COMMERCE_ACCOUNT =
+		"com_liferay_commerce_account_web_internal_portlet_" +
+			"CommerceAccountPortlet";
 
 }
