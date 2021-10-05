@@ -1,0 +1,119 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package com.liferay.commerce.account.web.internal.terms.of.use;
+
+import com.liferay.account.model.AccountEntry;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.role.RoleConstants;
+import com.liferay.portal.kernel.portlet.PortalPreferences;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactory;
+import com.liferay.portal.kernel.service.PortalPreferencesLocalService;
+import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortletKeys;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+/**
+ * @author Drew Brokke
+ */
+@Component(
+	enabled = false, immediate = true, service = AdminCommerceTOCManager.class
+)
+public class AdminCommerceTOCManager {
+
+	public void confirm(long userId) {
+		_write(userId);
+	}
+
+	public boolean isConfirmed(long userId) {
+		if ((userId == 0L) || !_isAdminUser(userId) || _read(userId)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private PortalPreferences _getPortalPreferences(long userId) {
+		return _portletPreferencesFactory.getPortalPreferences(userId, true);
+	}
+
+	private boolean _isAdminUser(long userId) {
+		try {
+			User user = _userLocalService.getUser(userId);
+
+			Role role = _roleLocalService.getRole(
+				user.getCompanyId(), RoleConstants.ADMINISTRATOR);
+
+			long[] roleIds = _userLocalService.getRolePrimaryKeys(userId);
+
+			if (ArrayUtil.contains(roleIds, role.getRoleId())) {
+				return true;
+			}
+		}
+		catch (PortalException portalException) {
+			_log.error(portalException, portalException);
+		}
+
+		return false;
+	}
+
+	private boolean _read(long userId) {
+		PortalPreferences portalPreferences = _getPortalPreferences(userId);
+
+		return GetterUtil.getBoolean(
+			portalPreferences.getValue(
+				_NAMESPACE, _ADMIN_COMMERCE_TOC_ACKNOWLEDGED));
+	}
+
+	private void _write(long userId) {
+		PortalPreferences portalPreferences = _getPortalPreferences(userId);
+
+		portalPreferences.setValue(
+			_NAMESPACE, _ADMIN_COMMERCE_TOC_ACKNOWLEDGED,
+			Boolean.TRUE.toString());
+
+		_portalPreferencesLocalService.updatePreferences(
+			userId, PortletKeys.PREFS_OWNER_TYPE_USER, portalPreferences);
+	}
+
+	private static final String _ADMIN_COMMERCE_TOC_ACKNOWLEDGED =
+		"_ADMIN_COMMERCE_TOC_ACKNOWLEDGED";
+
+	private static final String _NAMESPACE = AccountEntry.class.getName();
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		AdminCommerceTOCManager.class);
+
+	@Reference
+	private PortalPreferencesLocalService _portalPreferencesLocalService;
+
+	@Reference
+	private PortletPreferencesFactory _portletPreferencesFactory;
+
+	@Reference
+	private RoleLocalService _roleLocalService;
+
+	@Reference
+	private UserLocalService _userLocalService;
+
+}
