@@ -43,6 +43,10 @@ public class AcknowledgeCommerceTOCMVCActionCommand extends BaseMVCActionCommand
 		throws Exception {
 		
 		_adminCommerceTOCManager.confirm(_portal.getUserId(actionRequest));
+
+		hideDefaultSuccessMessage(actionRequest);
+
+		sendRedirect(actionRequest, actionResponse);
 	}
 	
 	@Reference

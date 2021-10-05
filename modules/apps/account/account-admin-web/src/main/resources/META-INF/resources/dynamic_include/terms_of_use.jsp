@@ -1,6 +1,4 @@
-<%@ page import="javax.portlet.ActionRequest" %>
-<%@ page import="com.liferay.portal.kernel.portlet.PortletURLFactoryUtil" %>
-<%@ page import="javax.portlet.PortletRequest" %><%--
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -18,15 +16,13 @@
 
 <%@ include file="/init.jsp" %>
 
-<h1>Hello terms of use!</h1>
-
 <%
 PortletURL acknowledgeActionURL = PortletURLBuilder.create(
 	PortletURLFactoryUtil.create(request, AccountPortletKeys.ACCOUNT_ENTRIES_ADMIN, PortletRequest.ACTION_PHASE)
 ).setActionName(
 	"/account_admin/acknowledge_toc"
 ).setRedirect(
-	currentURL
+	PortalUtil.getCurrentURL(request)
 ).buildPortletURL();
 %>
 
@@ -36,35 +32,20 @@ PortletURL acknowledgeActionURL = PortletURLBuilder.create(
 
 <form action="<%= acknowledgeActionURL.toString() %>" id="acknowledgeTOCForm"></form>
 
-<liferay-util:buffer
-	var="termsOfUseBody"
->
-		<div>
-			Use of Liferay Commerce apps is not covered by Liferay Support and other subscription benefits without an active Liferay Commerce Subscription. If you do not want to use or have access to Liferay Commerce, access can be disabled completely by following these steps <a href="">here</a>. If you are interested in purchasing a Liferay Commerce Subscription, please speak to your Liferay sales representative or contact Liferay Sales at <a href="mailto:">{sales email address}</a>.
-		</div>
-</liferay-util:buffer>
-
-
 <script>
+	const bodyHTML = 'Use of Liferay Commerce apps is not covered by Liferay Support and other subscription benefits without an active Liferay Commerce Subscription. If you do not want to use or have access to Liferay Commerce, access can be disabled completely by following these steps <a href="{0}">here</a>. If you are interested in purchasing a Liferay Commerce Subscription, please speak to your Liferay sales representative or contact Liferay Sales at <a href="mailto:{1}">{1}</a>.'
 
 	Liferay.Util.openModal({
-		bodyHTML: '<%= HtmlUtil.escapeJS(termsOfUseBody) %>',
+		bodyHTML,
 		buttons: [
 			{
 				displayType: 'primary',
-				label: 'done',
+				label: '<liferay-ui:message key="done" />',
 				onClick: function() {
 					const form = document.getElementById('acknowledgeTOCForm');
 
-					if (!form) {
-						console.warn('no form found');
-
-						return;
-					}
-
 					Liferay.Util.postForm(form);
 				},
-				type: 'cancel',
 			},
 		],
 		height: '457px',
