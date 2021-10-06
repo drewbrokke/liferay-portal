@@ -1954,6 +1954,10 @@ definition {
 
 		// TODO Remove below macro after password reminder gets completely cleaned out with JSON
 
+		if (IsElementPresent(locator1 = "Button#DONE")) {
+			SignIn.agreeToCommerceTermsOfUse();
+		}
+
 		User.resetPassword(
 			resetPassword = "${resetPassword}",
 			setupWizardEnabled = "${setupWizardEnabled}",
@@ -2019,6 +2023,10 @@ definition {
 		}
 
 		User._clickSignInButton(localization = "${localization}");
+
+		if (IsElementPresent(locator1 = "Button#DONE")) {
+			SignIn.agreeToCommerceTermsOfUse();
+		}
 
 		if (isSet(localizedAgree)) {
 			User.acceptEndUserLicenseAgreementLocalized(localizedAgree = "${localizedAgree}");
