@@ -18,30 +18,24 @@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.terms.of.use.web.internal.constants.TermsOfUseConstants" %><%@
+page import="com.liferay.terms.of.use.web.internal.constants.TermsOfUseWebKeys" %><%@
 page import="com.liferay.portal.kernel.portlet.PortletURLFactoryUtil" %>
 
 <%@ page import="javax.portlet.PortletRequest" %><%@
 page import="javax.portlet.ResourceURL" %>
 
 <%
-String documentationLinkOpenTag = String.format("<a href=\"%s\" target=\"_blank\">", TermsOfUseConstants.COMMERCE_ACTIVATION_DOCUMENTATION_URL);
-String documentationLinkCloseTag = "</a>";
-String emailLink = String.format("<a href=\"mailto:%s\"}>%s</a>", TermsOfUseConstants.LIFERAY_SALES_EMAIL_ADDRESS, TermsOfUseConstants.LIFERAY_SALES_EMAIL_ADDRESS);
+String modalBodyHTML = (String)request.getAttribute(TermsOfUseWebKeys.MODAL_BODY_HTML);
 %>
 
 <aui:script position="inline">
 	Liferay.Util.openModal({
-		bodyHTML:
-			'<liferay-ui:message arguments="<%= new String[] { documentationLinkOpenTag, documentationLinkCloseTag, emailLink } %>" key="commerce-terms-of-use" />',
+		bodyHTML: modalBodyHTML
 		buttons: [
 			{
 				displayType: 'primary',
 				label: '<liferay-ui:message key="done" />',
 				onClick: function ({processClose}) {
-					<!-- Liferay.Util.fetch('<%= resourceURL.toString() %>', {
-						method: 'POST',
-					}); -->
-
 					alert('sending confirmation')
 
 					processClose();

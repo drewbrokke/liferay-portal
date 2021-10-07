@@ -14,6 +14,7 @@
 
 package com.liferay.terms.of.use.web.internal.servlet.taglib;
 
+import com.liferay.terms.of.use.web.internal.constants.TermsOfUseWebKeys;
 import com.liferay.terms.of.use.web.internal.confirmation.manager.TermsOfUseConfirmationManager;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -44,6 +45,16 @@ public class TermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
 
 		if (_TermsOfUseConfirmationManager.isShowTermsOfUse(
 				_portal.getUserId(httpServletRequest))) {
+
+			// String documentationLinkOpenTag = String.format("<a href=\"%s\" target=\"_blank\">", TermsOfUseConstants.COMMERCE_ACTIVATION_DOCUMENTATION_URL);
+			// String documentationLinkCloseTag = "</a>";
+			// String emailLink = String.format("<a href=\"mailto:%s\"}>%s</a>", TermsOfUseConstants.LIFERAY_SALES_EMAIL_ADDRESS, TermsOfUseConstants.LIFERAY_SALES_EMAIL_ADDRESS);
+
+			/*
+'<liferay-ui:message arguments="<%= new String[] { documentationLinkOpenTag, documentationLinkCloseTag, emailLink } %>" key="commerce-terms-of-use" />'
+			*/
+
+			httpServletRequest.setAttribute(TermsOfUseWebKeys.MODAL_BODY_HTML, "fooBar");
 
 			super.include(httpServletRequest, httpServletResponse, key);
 		}
