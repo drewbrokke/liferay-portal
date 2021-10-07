@@ -17,21 +17,16 @@
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
-<%@ page import="com.liferay.portal.terms.of.use.internal.constants.CommerceAccountPortletKeys" %><%@
-page import="com.liferay.portal.terms.of.use.internal.constants.CommerceTermsOfUseConstants" %><%@
+<%@ page import="com.liferay.terms.of.use.web.internal.constants.TermsOfUseConstants" %><%@
 page import="com.liferay.portal.kernel.portlet.PortletURLFactoryUtil" %>
 
 <%@ page import="javax.portlet.PortletRequest" %><%@
 page import="javax.portlet.ResourceURL" %>
 
 <%
-ResourceURL resourceURL = PortletURLFactoryUtil.create(request, CommerceAccountPortletKeys.COMMERCE_ACCOUNT, PortletRequest.RESOURCE_PHASE);
-
-resourceURL.setResourceID("/commerce_account/confirm_commerce_terms_of_use");
-
-String documentationLinkOpenTag = String.format("<a href=\"%s\" target=\"_blank\">", CommerceTermsOfUseConstants.COMMERCE_ACTIVATION_DOCUMENTATION_URL);
+String documentationLinkOpenTag = String.format("<a href=\"%s\" target=\"_blank\">", TermsOfUseConstants.COMMERCE_ACTIVATION_DOCUMENTATION_URL);
 String documentationLinkCloseTag = "</a>";
-String emailLink = String.format("<a href=\"mailto:%s\"}>%s</a>", CommerceTermsOfUseConstants.LIFERAY_SALES_EMAIL_ADDRESS, CommerceTermsOfUseConstants.LIFERAY_SALES_EMAIL_ADDRESS);
+String emailLink = String.format("<a href=\"mailto:%s\"}>%s</a>", TermsOfUseConstants.LIFERAY_SALES_EMAIL_ADDRESS, TermsOfUseConstants.LIFERAY_SALES_EMAIL_ADDRESS);
 %>
 
 <aui:script position="inline">
@@ -43,9 +38,11 @@ String emailLink = String.format("<a href=\"mailto:%s\"}>%s</a>", CommerceTermsO
 				displayType: 'primary',
 				label: '<liferay-ui:message key="done" />',
 				onClick: function ({processClose}) {
-					Liferay.Util.fetch('<%= resourceURL.toString() %>', {
+					<!-- Liferay.Util.fetch('<%= resourceURL.toString() %>', {
 						method: 'POST',
-					});
+					}); -->
+
+					alert('sending confirmation')
 
 					processClose();
 				},

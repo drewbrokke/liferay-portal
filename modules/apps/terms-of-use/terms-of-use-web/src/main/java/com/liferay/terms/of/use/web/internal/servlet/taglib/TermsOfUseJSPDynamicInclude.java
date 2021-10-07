@@ -12,9 +12,9 @@
  * details.
  */
 
-package com.liferay.portal.terms.of.use.internal.servlet.taglib;
+package com.liferay.terms.of.use.web.internal.servlet.taglib;
 
-import com.liferay.portal.terms.of.use.internal.terms.of.use.confirmation.manager.CommerceTermsOfUseConfirmationManager;
+import com.liferay.terms.of.use.web.internal.confirmation.manager.TermsOfUseConfirmationManager;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.taglib.BaseJSPDynamicInclude;
@@ -33,8 +33,8 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Drew Brokke
  */
-@Component(enabled = false, immediate = true, service = DynamicInclude.class)
-public class CommerceTermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
+@Component(immediate = true, service = DynamicInclude.class)
+public class TermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
 
 	@Override
 	public void include(
@@ -42,7 +42,7 @@ public class CommerceTermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
 			HttpServletResponse httpServletResponse, String key)
 		throws IOException {
 
-		if (_commerceTermsOfUseConfirmationManager.isShowTermsOfUse(
+		if (_TermsOfUseConfirmationManager.isShowTermsOfUse(
 				_portal.getUserId(httpServletRequest))) {
 
 			super.include(httpServletRequest, httpServletResponse, key);
@@ -66,7 +66,7 @@ public class CommerceTermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
 
 	@Override
 	@Reference(
-		target = "(osgi.web.symbolicname=com.liferay.commerce.account.web)",
+		target = "(osgi.web.symbolicname=com.liferay.terms.of.use.web)",
 		unbind = "-"
 	)
 	protected void setServletContext(ServletContext servletContext) {
@@ -74,11 +74,11 @@ public class CommerceTermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		CommerceTermsOfUseJSPDynamicInclude.class);
+		TermsOfUseJSPDynamicInclude.class);
 
 	@Reference
-	private CommerceTermsOfUseConfirmationManager
-		_commerceTermsOfUseConfirmationManager;
+	private TermsOfUseConfirmationManager
+		_TermsOfUseConfirmationManager;
 
 	@Reference
 	private Portal _portal;

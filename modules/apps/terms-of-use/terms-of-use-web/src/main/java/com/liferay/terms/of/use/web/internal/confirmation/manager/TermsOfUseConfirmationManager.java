@@ -12,9 +12,9 @@
  * details.
  */
 
-package com.liferay.portal.terms.of.use.internal.terms.of.use.confirmation.manager;
+package com.liferay.terms.of.use.web.internal.confirmation.manager;
 
-import com.liferay.portal.terms.of.use.internal.constants.CommerceAccountPortletKeys;
+import com.liferay.terms.of.use.web.internal.constants.TermsOfUseConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -37,10 +37,10 @@ import org.osgi.service.component.annotations.Reference;
  * @author Drew Brokke
  */
 @Component(
-	enabled = false, immediate = true,
-	service = CommerceTermsOfUseConfirmationManager.class
+	immediate = true,
+	service = TermsOfUseConfirmationManager.class
 )
-public class CommerceTermsOfUseConfirmationManager {
+public class TermsOfUseConfirmationManager {
 
 	public void confirm(long userId) {
 		_saveInPortalPreferences(userId);
@@ -90,28 +90,28 @@ public class CommerceTermsOfUseConfirmationManager {
 
 		return GetterUtil.getBoolean(
 			portalPreferences.getValue(
-				_NAMESPACE, _COMMERCE_TERMS_OF_USE_CONFIRMED));
+				_NAMESPACE, _KEY));
 	}
 
 	private void _saveInPortalPreferences(long userId) {
 		PortalPreferences portalPreferences = _getPortalPreferences(userId);
 
 		portalPreferences.setValue(
-			_NAMESPACE, _COMMERCE_TERMS_OF_USE_CONFIRMED,
+			_NAMESPACE, _KEY,
 			Boolean.TRUE.toString());
 
 		_portalPreferencesLocalService.updatePreferences(
 			userId, PortletKeys.PREFS_OWNER_TYPE_USER, portalPreferences);
 	}
 
-	private static final String _COMMERCE_TERMS_OF_USE_CONFIRMED =
-		"_COMMERCE_TERMS_OF_USE_CONFIRMED";
+	private static final String _KEY =
+		"_TERMS_OF_USE_CONFIRMED";
 
 	private static final String _NAMESPACE =
-		CommerceAccountPortletKeys.COMMERCE_ACCOUNT;
+		TermsOfUseConstants.PORTAL_PROPERTIES_NAMESPACE;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		CommerceTermsOfUseConfirmationManager.class);
+		TermsOfUseConfirmationManager.class);
 
 	@Reference
 	private PortalPreferencesLocalService _portalPreferencesLocalService;

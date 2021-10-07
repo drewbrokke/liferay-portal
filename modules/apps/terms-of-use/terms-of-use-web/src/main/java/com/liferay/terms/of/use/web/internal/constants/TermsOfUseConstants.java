@@ -12,12 +12,14 @@
  * details.
  */
 
-package com.liferay.portal.terms.of.use.internal.constants;
+package com.liferay.terms.of.use.web.internal.constants;
 
 /**
  * @author Drew Brokke
  */
-public class CommerceTermsOfUseConstants {
+public class TermsOfUseConstants {
+
+	public static final String PORTAL_PROPERTIES_NAMESPACE = "TERMS_OF_USE";
 
 	public static final String COMMERCE_ACTIVATION_DOCUMENTATION_URL =
 		"https://learn.liferay.com/commerce/latest/en/installation-and-" +
