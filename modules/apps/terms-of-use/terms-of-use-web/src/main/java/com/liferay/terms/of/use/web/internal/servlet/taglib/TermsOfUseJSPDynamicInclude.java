@@ -14,15 +14,18 @@
 
 package com.liferay.terms.of.use.web.internal.servlet.taglib;
 
-import com.liferay.terms.of.use.web.internal.constants.TermsOfUseWebKeys;
-import com.liferay.terms.of.use.web.internal.confirmation.manager.TermsOfUseConfirmationManager;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.taglib.BaseJSPDynamicInclude;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.terms.of.use.web.internal.confirmation.manager.TermsOfUseConfirmationManager;
+import com.liferay.terms.of.use.web.internal.constants.TermsOfUseWebKeys;
 
 import java.io.IOException;
+
+import java.util.Locale;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -43,18 +46,32 @@ public class TermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
 			HttpServletResponse httpServletResponse, String key)
 		throws IOException {
 
-		if (_TermsOfUseConfirmationManager.isShowTermsOfUse(
+		if (_termsOfUseConfirmationManager.isShowTermsOfUse(
 				_portal.getUserId(httpServletRequest))) {
 
-			// String documentationLinkOpenTag = String.format("<a href=\"%s\" target=\"_blank\">", TermsOfUseConstants.COMMERCE_ACTIVATION_DOCUMENTATION_URL);
-			// String documentationLinkCloseTag = "</a>";
-			// String emailLink = String.format("<a href=\"mailto:%s\"}>%s</a>", TermsOfUseConstants.LIFERAY_SALES_EMAIL_ADDRESS, TermsOfUseConstants.LIFERAY_SALES_EMAIL_ADDRESS);
+			StringBundler sb = new StringBundler();
 
-			/*
-'<liferay-ui:message arguments="<%= new String[] { documentationLinkOpenTag, documentationLinkCloseTag, emailLink } %>" key="commerce-terms-of-use" />'
-			*/
+			Locale locale = _portal.getLocale(httpServletRequest);
 
-			httpServletRequest.setAttribute(TermsOfUseWebKeys.MODAL_BODY_HTML, "fooBar");
+			for (TermsOfUseEntry termsOfUseEntry :
+					new TermsOfUseEntry[] {
+						new CommerceTermsOfUseEntry(),
+						new LiferayEnterpriseSearchTermsOfUseEntry()
+					}) {
+
+				sb.append("<div>");
+				sb.append("<h4>");
+				sb.append(termsOfUseEntry.getDisplayName(locale));
+				sb.append("</h3>");
+				sb.append("<div>");
+				sb.append(termsOfUseEntry.getBodyHTML(locale));
+				sb.append("</div>");
+				sb.append("</div>");
+				sb.append("</br>");
+			}
+
+			httpServletRequest.setAttribute(
+				TermsOfUseWebKeys.MODAL_BODY_HTML, sb.toString());
 
 			super.include(httpServletRequest, httpServletResponse, key);
 		}
@@ -88,10 +105,9 @@ public class TermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
 		TermsOfUseJSPDynamicInclude.class);
 
 	@Reference
-	private TermsOfUseConfirmationManager
-		_TermsOfUseConfirmationManager;
+	private Portal _portal;
 
 	@Reference
-	private Portal _portal;
+	private TermsOfUseConfirmationManager _termsOfUseConfirmationManager;
 
 }

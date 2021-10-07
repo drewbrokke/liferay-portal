@@ -17,20 +17,11 @@
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
-<%@ page import="com.liferay.terms.of.use.web.internal.constants.TermsOfUseConstants" %><%@
-page import="com.liferay.terms.of.use.web.internal.constants.TermsOfUseWebKeys" %><%@
-page import="com.liferay.portal.kernel.portlet.PortletURLFactoryUtil" %>
-
-<%@ page import="javax.portlet.PortletRequest" %><%@
-page import="javax.portlet.ResourceURL" %>
-
-<%
-String modalBodyHTML = (String)request.getAttribute(TermsOfUseWebKeys.MODAL_BODY_HTML);
-%>
+<%@ page import="com.liferay.terms.of.use.web.internal.constants.TermsOfUseWebKeys" %>
 
 <aui:script position="inline">
 	Liferay.Util.openModal({
-		bodyHTML: modalBodyHTML
+		bodyHTML: '<%= (String)request.getAttribute(TermsOfUseWebKeys.MODAL_BODY_HTML) %>',
 		buttons: [
 			{
 				displayType: 'primary',
@@ -42,7 +33,7 @@ String modalBodyHTML = (String)request.getAttribute(TermsOfUseWebKeys.MODAL_BODY
 				},
 			},
 		],
-		height: '457px',
+		size: 'lg',
 		title: '<liferay-ui:message key="terms-of-use" />',
 	});
 </aui:script>

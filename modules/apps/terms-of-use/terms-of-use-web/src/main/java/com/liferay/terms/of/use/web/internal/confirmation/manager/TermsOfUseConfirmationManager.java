@@ -14,7 +14,6 @@
 
 package com.liferay.terms.of.use.web.internal.confirmation.manager;
 
-import com.liferay.terms.of.use.web.internal.constants.TermsOfUseConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -36,10 +35,7 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Drew Brokke
  */
-@Component(
-	immediate = true,
-	service = TermsOfUseConfirmationManager.class
-)
+@Component(immediate = true, service = TermsOfUseConfirmationManager.class)
 public class TermsOfUseConfirmationManager {
 
 	public void confirm(long userId) {
@@ -89,26 +85,21 @@ public class TermsOfUseConfirmationManager {
 		PortalPreferences portalPreferences = _getPortalPreferences(userId);
 
 		return GetterUtil.getBoolean(
-			portalPreferences.getValue(
-				_NAMESPACE, _KEY));
+			portalPreferences.getValue(_NAMESPACE, _KEY));
 	}
 
 	private void _saveInPortalPreferences(long userId) {
 		PortalPreferences portalPreferences = _getPortalPreferences(userId);
 
-		portalPreferences.setValue(
-			_NAMESPACE, _KEY,
-			Boolean.TRUE.toString());
+		portalPreferences.setValue(_NAMESPACE, _KEY, Boolean.TRUE.toString());
 
 		_portalPreferencesLocalService.updatePreferences(
 			userId, PortletKeys.PREFS_OWNER_TYPE_USER, portalPreferences);
 	}
 
-	private static final String _KEY =
-		"_TERMS_OF_USE_CONFIRMED";
+	private static final String _KEY = "_TERMS_OF_USE_CONFIRMED";
 
-	private static final String _NAMESPACE =
-		TermsOfUseConstants.PORTAL_PROPERTIES_NAMESPACE;
+	private static final String _NAMESPACE = "TERMS_OF_USE";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		TermsOfUseConfirmationManager.class);

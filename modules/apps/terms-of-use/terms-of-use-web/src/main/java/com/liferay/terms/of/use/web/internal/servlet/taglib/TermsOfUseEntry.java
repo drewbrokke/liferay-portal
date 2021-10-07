@@ -12,20 +12,17 @@
  * details.
  */
 
-package com.liferay.terms.of.use.web.internal.constants;
+package com.liferay.terms.of.use.web.internal.servlet.taglib;
+
+import java.util.Locale;
 
 /**
  * @author Drew Brokke
  */
-public class TermsOfUseConstants {
+public interface TermsOfUseEntry {
 
-	public static final String PORTAL_PROPERTIES_NAMESPACE = "TERMS_OF_USE";
+	public String getBodyHTML(Locale locale);
 
-	public static final String COMMERCE_ACTIVATION_DOCUMENTATION_URL =
-		"https://learn.liferay.com/commerce/latest/en/installation-and-" +
-			"upgrades/activating-liferay-commerce-enterprise.html";
-
-	public static final String LIFERAY_SALES_EMAIL_ADDRESS =
-		"sales@liferay.com";
+	public String getDisplayName(Locale locale);
 
 }

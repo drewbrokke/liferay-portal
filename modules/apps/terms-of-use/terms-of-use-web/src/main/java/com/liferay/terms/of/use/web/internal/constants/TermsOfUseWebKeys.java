@@ -14,11 +14,11 @@
 
 package com.liferay.terms.of.use.web.internal.constants;
 
- /**
+/**
  * @author Drew Brokke
  */
 public class TermsOfUseWebKeys {
-	
+
 	public static final String MODAL_BODY_HTML = "MODAL_BODY_HTML";
 
 }
