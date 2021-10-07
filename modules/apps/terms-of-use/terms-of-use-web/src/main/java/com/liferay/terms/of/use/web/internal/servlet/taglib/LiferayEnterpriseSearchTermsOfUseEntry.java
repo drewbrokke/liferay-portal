@@ -43,11 +43,12 @@ public class LiferayEnterpriseSearchTermsOfUseEntry implements TermsOfUseEntry {
 		return LanguageUtil.get(locale, "liferay-enterprise-search");
 	}
 
-	private static final String _LIFERAY_SALES_EMAIL_ADDRESS =
-		"sales@liferay.com";
-
 	private static final String
 		_LIFERAY_ENTERPRISE_SEARCH_ACTIVATION_DOCUMENTATION_URL =
-			"https://learn.liferay.com/dxp/latest/en/using-search/liferay-enterprise-search/activating-liferay-enterprise-search.html";
+			"https://learn.liferay.com/dxp/latest/en/using-search/liferay-" +
+				"enterprise-search/activating-liferay-enterprise-search.html";
+
+	private static final String _LIFERAY_SALES_EMAIL_ADDRESS =
+		"sales@liferay.com";
 
 }
