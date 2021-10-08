@@ -32,7 +32,7 @@ public interface TermsOfUseEntry {
 
 	public default boolean isShow() {
 		return GetterUtil.getBoolean(
-			PropsUtil.get(getKey())
+			PropsUtil.get("enterprise.product." + getKey() + ".enabled")
 		);
 	}
 

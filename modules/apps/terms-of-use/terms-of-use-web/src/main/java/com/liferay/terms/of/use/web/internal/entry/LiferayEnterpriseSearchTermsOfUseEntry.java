@@ -46,7 +46,7 @@ public class LiferayEnterpriseSearchTermsOfUseEntry implements TermsOfUseEntry {
 
 	@Override
 	public String getKey() {
-		return "liferay.enterprise.search";
+		return "enterprise.search";
 	}
 
 
