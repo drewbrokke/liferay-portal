@@ -14,26 +14,24 @@
 
 package com.liferay.terms.of.use.web.internal.application;
 
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.terms.of.use.web.internal.manager.TermsOfUseManager;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
+
+import java.util.Collections;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
+
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Collections;
-import java.util.Set;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
 /**
  * @author Drew Brokke
@@ -49,10 +47,6 @@ import java.util.Set;
 )
 public class TermsOfUseApplication extends Application {
 
-	public Set<Object> getSingletons() {
-		return Collections.singleton(this);
-	}
-
 	@Path("/confirm")
 	@POST
 	public Response confirm(
@@ -62,12 +56,18 @@ public class TermsOfUseApplication extends Application {
 		long userId = _portal.getUserId(httpServletRequest);
 
 		if (userId <= 0) {
-			return Response.serverError().build();
+			return Response.serverError(
+			).build();
 		}
 
 		_termsOfUseManager.confirm(userId);
 
-		return Response.ok().build();
+		return Response.ok(
+		).build();
+	}
+
+	public Set<Object> getSingletons() {
+		return Collections.singleton(this);
 	}
 
 	@Reference

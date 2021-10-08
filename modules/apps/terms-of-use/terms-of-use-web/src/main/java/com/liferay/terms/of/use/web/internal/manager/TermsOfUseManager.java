@@ -71,17 +71,11 @@ public class TermsOfUseManager {
 	}
 
 	public boolean isShowTermsOfUse(long userId) {
-		if (PortalRunMode.isTestMode()) {
-			return false;
-		}
+		if (PortalRunMode.isTestMode() ||
+			!GetterUtil.getBoolean(
+				PropsUtil.get("enterprise.terms.of.use.enabled")) ||
+			(userId == 0L)) {
 
-		if (!GetterUtil.getBoolean(
-				PropsUtil.get("enterprise.terms.of.use.enabled"))) {
-
-			return false;
-		}
-
-		if (userId == 0L) {
 			return false;
 		}
 

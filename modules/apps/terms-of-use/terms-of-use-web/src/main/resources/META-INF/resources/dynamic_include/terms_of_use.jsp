@@ -17,8 +17,8 @@
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
-<%@ page import="com.liferay.terms.of.use.web.internal.constants.TermsOfUseWebKeys" %>
-<%@ page import="com.liferay.portal.kernel.util.PortalUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
+page import="com.liferay.terms.of.use.web.internal.constants.TermsOfUseWebKeys" %>
 
 <aui:script position="inline">
 	Liferay.Util.openModal({
@@ -29,7 +29,7 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 				label: '<liferay-ui:message key="done" />',
 				onClick: function ({processClose}) {
 					Liferay.Util.fetch(
-						'<%=  PortalUtil.getPortalURL(request) + "/o/terms-of-use/confirm/" %>',
+						'<%= PortalUtil.getPortalURL(request) + "/o/terms-of-use/confirm/" %>',
 						{method: 'post'}
 					);
 
