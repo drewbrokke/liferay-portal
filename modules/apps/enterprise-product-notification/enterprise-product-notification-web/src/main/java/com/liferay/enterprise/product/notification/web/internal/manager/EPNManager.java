@@ -100,7 +100,8 @@ public class EPNManager {
 
 	private boolean _isShowEPN(long userId) {
 		if (PortalRunMode.isTestMode() ||
-			!PropsValues.ENTERPRISE_TERMS_OF_USE_ENABLED || (userId == 0L)) {
+			!PropsValues.ENTERPRISE_PRODUCT_NOTIFICATION_ENABLED ||
+			(userId == 0L)) {
 
 			return false;
 		}
