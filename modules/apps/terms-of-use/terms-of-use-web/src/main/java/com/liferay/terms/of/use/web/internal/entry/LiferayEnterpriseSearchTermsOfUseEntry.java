@@ -12,9 +12,10 @@
  * details.
  */
 
-package com.liferay.terms.of.use.web.internal.servlet.taglib;
+package com.liferay.terms.of.use.web.internal.entry;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 
 import java.util.Locale;
 
@@ -42,6 +43,12 @@ public class LiferayEnterpriseSearchTermsOfUseEntry implements TermsOfUseEntry {
 	public String getDisplayName(Locale locale) {
 		return LanguageUtil.get(locale, "liferay-enterprise-search");
 	}
+
+	@Override
+	public String getKey() {
+		return "liferay.enterprise.search";
+	}
+
 
 	private static final String
 		_LIFERAY_ENTERPRISE_SEARCH_ACTIVATION_DOCUMENTATION_URL =

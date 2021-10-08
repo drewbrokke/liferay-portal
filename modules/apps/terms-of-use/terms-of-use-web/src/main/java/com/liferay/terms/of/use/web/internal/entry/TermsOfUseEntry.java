@@ -12,7 +12,10 @@
  * details.
  */
 
-package com.liferay.terms.of.use.web.internal.servlet.taglib;
+package com.liferay.terms.of.use.web.internal.entry;
+
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 
 import java.util.Locale;
 
@@ -24,5 +27,13 @@ public interface TermsOfUseEntry {
 	public String getBodyHTML(Locale locale);
 
 	public String getDisplayName(Locale locale);
+
+	public String getKey();
+
+	public default boolean isShow() {
+		return GetterUtil.getBoolean(
+			PropsUtil.get(getKey())
+		);
+	}
 
 }

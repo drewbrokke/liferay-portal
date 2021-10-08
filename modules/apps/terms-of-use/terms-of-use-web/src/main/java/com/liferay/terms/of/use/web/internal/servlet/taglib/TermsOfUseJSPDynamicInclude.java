@@ -19,13 +19,11 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.taglib.BaseJSPDynamicInclude;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.terms.of.use.web.internal.confirmation.manager.TermsOfUseConfirmationManager;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.terms.of.use.web.internal.manager.TermsOfUseManager;
 import com.liferay.terms.of.use.web.internal.constants.TermsOfUseWebKeys;
 
 import java.io.IOException;
-
-import java.util.Locale;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -46,32 +44,13 @@ public class TermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
 			HttpServletResponse httpServletResponse, String key)
 		throws IOException {
 
-		if (_termsOfUseConfirmationManager.isShowTermsOfUse(
+		if (_termsOfUseManager.isShowTermsOfUse(
 				_portal.getUserId(httpServletRequest))) {
 
-			StringBundler sb = new StringBundler();
-
-			Locale locale = _portal.getLocale(httpServletRequest);
-
-			for (TermsOfUseEntry termsOfUseEntry :
-					new TermsOfUseEntry[] {
-						new CommerceTermsOfUseEntry(),
-						new LiferayEnterpriseSearchTermsOfUseEntry()
-					}) {
-
-				sb.append("<div>");
-				sb.append("<h4>");
-				sb.append(termsOfUseEntry.getDisplayName(locale));
-				sb.append("</h3>");
-				sb.append("<div>");
-				sb.append(termsOfUseEntry.getBodyHTML(locale));
-				sb.append("</div>");
-				sb.append("</div>");
-				sb.append("</br>");
-			}
-
 			httpServletRequest.setAttribute(
-				TermsOfUseWebKeys.MODAL_BODY_HTML, sb.toString());
+				TermsOfUseWebKeys.MODAL_BODY_HTML,
+				_termsOfUseManager.getBodyHTML(
+					_portal.getLocale(httpServletRequest)));
 
 			super.include(httpServletRequest, httpServletResponse, key);
 		}
@@ -108,6 +87,6 @@ public class TermsOfUseJSPDynamicInclude extends BaseJSPDynamicInclude {
 	private Portal _portal;
 
 	@Reference
-	private TermsOfUseConfirmationManager _termsOfUseConfirmationManager;
+	private TermsOfUseManager _termsOfUseManager;
 
 }

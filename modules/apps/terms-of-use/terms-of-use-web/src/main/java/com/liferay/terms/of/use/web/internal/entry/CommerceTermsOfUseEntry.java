@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.terms.of.use.web.internal.servlet.taglib;
+package com.liferay.terms.of.use.web.internal.entry;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
 
@@ -41,6 +41,11 @@ public class CommerceTermsOfUseEntry implements TermsOfUseEntry {
 	@Override
 	public String getDisplayName(Locale locale) {
 		return LanguageUtil.get(locale, "commerce");
+	}
+
+	@Override
+	public String getKey() {
+		return "commerce";
 	}
 
 	private static final String _COMMERCE_ACTIVATION_DOCUMENTATION_URL =

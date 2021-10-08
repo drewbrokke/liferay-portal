@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.terms.of.use.web.internal.confirmation.manager;
+package com.liferay.terms.of.use.web.internal.manager;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -29,14 +29,40 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
 
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.terms.of.use.web.internal.entry.CommerceTermsOfUseEntry;
+import com.liferay.terms.of.use.web.internal.entry.LiferayEnterpriseSearchTermsOfUseEntry;
+import com.liferay.terms.of.use.web.internal.entry.TermsOfUseEntry;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.util.Locale;
 
 /**
  * @author Drew Brokke
  */
-@Component(immediate = true, service = TermsOfUseConfirmationManager.class)
-public class TermsOfUseConfirmationManager {
+@Component(immediate = true, service = TermsOfUseManager.class)
+public class TermsOfUseManager {
+
+	public String getBodyHTML(Locale locale) {
+		StringBundler sb = new StringBundler();
+
+		for (TermsOfUseEntry termsOfUseEntry :
+			_getFilteredTermsOfUseEntries()) {
+
+			sb.append("<div>");
+			sb.append("<h4>");
+			sb.append(termsOfUseEntry.getDisplayName(locale));
+			sb.append("</h3>");
+			sb.append("<div>");
+			sb.append(termsOfUseEntry.getBodyHTML(locale));
+			sb.append("</div>");
+			sb.append("</div>");
+			sb.append("</br>");
+		}
+
+		return sb.toString();
+	}
 
 	public void confirm(long userId) {
 		_saveInPortalPreferences(userId);
@@ -49,14 +75,31 @@ public class TermsOfUseConfirmationManager {
 
 		User user = _userLocalService.fetchUser(userId);
 
-		if ((user == null) || !user.isSetupComplete() || !_isAdminUser(user) ||
-			_isConfirmedInPortalPreferences(userId)) {
+		if ((user == null) || !user.isSetupComplete() || !_isAdminUser(user)) {
+			return false;
+		}
 
+		TermsOfUseEntry[] termsOfUseEntries = _getFilteredTermsOfUseEntries();
+
+		if (termsOfUseEntries.length == 0) {
+			return false;
+		}
+
+		if (_isConfirmedInPortalPreferences(userId)) {
 			return false;
 		}
 
 		return true;
 	}
+
+	private TermsOfUseEntry[] _getFilteredTermsOfUseEntries() {
+		return ArrayUtil.filter(_termsOfUseEntries, TermsOfUseEntry::isShow);
+	}
+
+	private final TermsOfUseEntry[] _termsOfUseEntries = new TermsOfUseEntry[] {
+		new CommerceTermsOfUseEntry(),
+		new LiferayEnterpriseSearchTermsOfUseEntry()
+	};
 
 	private PortalPreferences _getPortalPreferences(long userId) {
 		return _portletPreferencesFactory.getPortalPreferences(userId, true);
@@ -102,7 +145,7 @@ public class TermsOfUseConfirmationManager {
 	private static final String _NAMESPACE = "TERMS_OF_USE";
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		TermsOfUseConfirmationManager.class);
+		TermsOfUseManager.class);
 
 	@Reference
 	private PortalPreferencesLocalService _portalPreferencesLocalService;
