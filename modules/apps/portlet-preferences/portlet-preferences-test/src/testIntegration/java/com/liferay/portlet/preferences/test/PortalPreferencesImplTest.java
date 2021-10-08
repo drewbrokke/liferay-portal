@@ -306,6 +306,16 @@ public class PortalPreferencesImplTest {
 	}
 
 	@Test
+	public void testSetSameValues() {
+		PortalPreferences portalPreferences =
+			_portletPreferencesFactory.getPortalPreferences(
+				_testOwnerId, true);
+
+		portalPreferences.setValues(_NAMESPACE, _KEY_1, new String[] {"commerce", "enterprise.search"});
+		portalPreferences.setValues(_NAMESPACE, _KEY_1, new String[] {"commerce"});
+	}
+
+	@Test
 	public void testSetValuesSameKey() {
 		FutureTask<Void> futureTask1 = new FutureTask<>(
 			() -> {
