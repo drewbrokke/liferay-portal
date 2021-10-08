@@ -19,9 +19,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.taglib.BaseJSPDynamicInclude;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.terms.of.use.web.internal.manager.TermsOfUseManager;
 import com.liferay.terms.of.use.web.internal.constants.TermsOfUseWebKeys;
+import com.liferay.terms.of.use.web.internal.manager.TermsOfUseManager;
 
 import java.io.IOException;
 

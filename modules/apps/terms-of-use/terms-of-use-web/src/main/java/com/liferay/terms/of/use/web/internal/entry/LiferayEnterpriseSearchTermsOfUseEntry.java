@@ -15,7 +15,6 @@
 package com.liferay.terms.of.use.web.internal.entry;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.PropsUtil;
 
 import java.util.Locale;
 
@@ -48,7 +47,6 @@ public class LiferayEnterpriseSearchTermsOfUseEntry implements TermsOfUseEntry {
 	public String getKey() {
 		return "enterprise.search";
 	}
-
 
 	private static final String
 		_LIFERAY_ENTERPRISE_SEARCH_ACTIVATION_DOCUMENTATION_URL =

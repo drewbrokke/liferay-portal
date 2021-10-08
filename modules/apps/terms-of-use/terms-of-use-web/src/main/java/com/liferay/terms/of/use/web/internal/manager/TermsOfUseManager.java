@@ -27,16 +27,18 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalRunMode;
 import com.liferay.portal.kernel.util.PortletKeys;
-
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.terms.of.use.web.internal.entry.CommerceTermsOfUseEntry;
 import com.liferay.terms.of.use.web.internal.entry.LiferayEnterpriseSearchTermsOfUseEntry;
 import com.liferay.terms.of.use.web.internal.entry.TermsOfUseEntry;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.Locale;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Drew Brokke
@@ -44,11 +46,15 @@ import java.util.Locale;
 @Component(immediate = true, service = TermsOfUseManager.class)
 public class TermsOfUseManager {
 
+	public void confirm(long userId) {
+		_saveInPortalPreferences(userId);
+	}
+
 	public String getBodyHTML(Locale locale) {
 		StringBundler sb = new StringBundler();
 
 		for (TermsOfUseEntry termsOfUseEntry :
-			_getFilteredTermsOfUseEntries()) {
+				_getFilteredTermsOfUseEntries()) {
 
 			sb.append("<div>");
 			sb.append("<h4>");
@@ -64,11 +70,17 @@ public class TermsOfUseManager {
 		return sb.toString();
 	}
 
-	public void confirm(long userId) {
-		_saveInPortalPreferences(userId);
-	}
-
 	public boolean isShowTermsOfUse(long userId) {
+		if (PortalRunMode.isTestMode()) {
+			return false;
+		}
+
+		if (!GetterUtil.getBoolean(
+				PropsUtil.get("enterprise.terms.of.use.enabled"))) {
+
+			return false;
+		}
+
 		if (userId == 0L) {
 			return false;
 		}
@@ -81,11 +93,9 @@ public class TermsOfUseManager {
 
 		TermsOfUseEntry[] termsOfUseEntries = _getFilteredTermsOfUseEntries();
 
-		if (termsOfUseEntries.length == 0) {
-			return false;
-		}
+		if ((termsOfUseEntries.length == 0) ||
+			_isConfirmedInPortalPreferences(userId)) {
 
-		if (_isConfirmedInPortalPreferences(userId)) {
 			return false;
 		}
 
@@ -95,11 +105,6 @@ public class TermsOfUseManager {
 	private TermsOfUseEntry[] _getFilteredTermsOfUseEntries() {
 		return ArrayUtil.filter(_termsOfUseEntries, TermsOfUseEntry::isShow);
 	}
-
-	private final TermsOfUseEntry[] _termsOfUseEntries = new TermsOfUseEntry[] {
-		new CommerceTermsOfUseEntry(),
-		new LiferayEnterpriseSearchTermsOfUseEntry()
-	};
 
 	private PortalPreferences _getPortalPreferences(long userId) {
 		return _portletPreferencesFactory.getPortalPreferences(userId, true);
@@ -155,6 +160,11 @@ public class TermsOfUseManager {
 
 	@Reference
 	private RoleLocalService _roleLocalService;
+
+	private final TermsOfUseEntry[] _termsOfUseEntries = {
+		new CommerceTermsOfUseEntry(),
+		new LiferayEnterpriseSearchTermsOfUseEntry()
+	};
 
 	@Reference
 	private UserLocalService _userLocalService;
