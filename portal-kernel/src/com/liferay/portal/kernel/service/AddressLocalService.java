@@ -335,15 +335,6 @@ public interface AddressLocalService
 		long companyId, String className, long classPK, int start, int end,
 		OrderByComparator<Address> orderByComparator);
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Address> getAddressesByTypeIds(
-		long companyId, String className, long classPK, long[] typeIds);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Address> getAddressesByTypeIds(
-		long companyId, String className, long classPK, long[] typeIds,
-		int start, int end, OrderByComparator<Address> orderByComparator);
-
 	/**
 	 * Returns the number of addresses.
 	 *
@@ -377,6 +368,15 @@ public interface AddressLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Address> getTypeAddresses(
+		long companyId, String className, long classPK, long[] typeIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Address> getTypeAddresses(
+		long companyId, String className, long classPK, long[] typeIds,
+		int start, int end, OrderByComparator<Address> orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public BaseModelSearchResult<Address> searchAddresses(
