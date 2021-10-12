@@ -261,7 +261,7 @@ public class CommerceAddressLocalServiceImpl
 		long companyId, String className, long classPK) {
 
 		return TransformUtil.transform(
-			_addressLocalService.getAddressesByTypeIds(
+			_addressLocalService.getTypeAddresses(
 				companyId, className, classPK,
 				new long[] {
 					CommerceAddressImpl.toAddressTypeId(
