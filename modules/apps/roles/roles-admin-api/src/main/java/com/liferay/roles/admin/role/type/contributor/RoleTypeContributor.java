@@ -176,7 +176,8 @@ public interface RoleTypeContributor {
 
 		if (Validator.isNotNull(getClassName())) {
 			params.put(
-				"classNameId", PortalUtil.getClassNameId(getClassName()));
+				"classNameIds",
+				new long[] {PortalUtil.getClassNameId(getClassName())});
 		}
 
 		return new BaseModelSearchResult<>(

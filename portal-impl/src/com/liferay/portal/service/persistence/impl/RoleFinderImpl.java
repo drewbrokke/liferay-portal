@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.Team;
 import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.persistence.RoleFinder;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -414,12 +413,16 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 
 			String sql = CustomSQLUtil.get(COUNT_BY_C_N_D_T);
 
-			long classNameId = GetterUtil.getLong(
-				params.get("classNameId"),
-				ClassNameLocalServiceUtil.getClassNameId(Role.class));
+			long[] classNameIds = (long[])params.get("classNameIds");
+
+			if (classNameIds == null) {
+				classNameIds = new long[] {
+					ClassNameLocalServiceUtil.getClassNameId(Role.class)
+				};
+			}
 
 			sql = StringUtil.replace(
-				sql, "[$CLASS_NAME_ID$]", String.valueOf(classNameId));
+				sql, "[$CLASS_NAME_IDS$]", StringUtil.merge(classNameIds));
 
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "LOWER(Role_.name)", StringPool.LIKE, false, names);
@@ -574,12 +577,16 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 
 			String sql = CustomSQLUtil.get(FIND_BY_C_N_D_T);
 
-			long classNameId = GetterUtil.getLong(
-				params.get("classNameId"),
-				ClassNameLocalServiceUtil.getClassNameId(Role.class));
+			long[] classNameIds = (long[])params.get("classNameIds");
+
+			if (classNameIds == null) {
+				classNameIds = new long[] {
+					ClassNameLocalServiceUtil.getClassNameId(Role.class)
+				};
+			}
 
 			sql = StringUtil.replace(
-				sql, "[$CLASS_NAME_ID$]", String.valueOf(classNameId));
+				sql, "[$CLASS_NAME_IDS$]", StringUtil.merge(classNameIds));
 
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "LOWER(Role_.name)", StringPool.LIKE, false, names);

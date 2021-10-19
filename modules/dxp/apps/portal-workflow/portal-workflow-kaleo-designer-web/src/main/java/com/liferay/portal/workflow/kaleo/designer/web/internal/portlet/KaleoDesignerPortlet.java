@@ -342,8 +342,10 @@ public class KaleoDesignerPortlet extends MVCPortlet {
 
 			if (type == RoleConstants.TYPE_ACCOUNT) {
 				params.put(
-					"classNameId",
-					_classNameLocalService.getClassNameId(AccountRole.class));
+					"classNameIds",
+					new long[] {
+						_classNameLocalService.getClassNameId(AccountRole.class)
+					});
 			}
 
 			roles = _roleLocalService.search(

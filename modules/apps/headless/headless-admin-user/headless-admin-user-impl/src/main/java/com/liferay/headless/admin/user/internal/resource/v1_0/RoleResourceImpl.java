@@ -14,6 +14,7 @@
 
 package com.liferay.headless.admin.user.internal.resource.v1_0;
 
+import com.liferay.account.model.AccountRole;
 import com.liferay.headless.admin.user.dto.v1_0.Role;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.CreatorUtil;
 import com.liferay.headless.admin.user.resource.v1_0.RoleResource;
@@ -24,18 +25,21 @@ import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.OrganizationService;
 import com.liferay.portal.kernel.service.RoleService;
 import com.liferay.portal.kernel.service.UserGroupRoleService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.UserService;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
@@ -108,6 +112,16 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 			};
 		}
 
+		LinkedHashMap<String, Object> params =
+			LinkedHashMapBuilder.<String, Object>put(
+				"classNameIds",
+				new long[] {
+					_classNameLocalService.getClassNameId(AccountRole.class),
+					_classNameLocalService.getClassNameId(
+						com.liferay.portal.kernel.model.Role.class)
+				}
+			).build();
+
 		return Page.of(
 			HashMapBuilder.<String, Map<String, String>>put(
 				"get",
@@ -116,13 +130,13 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 			).build(),
 			transform(
 				_roleService.search(
-					contextCompany.getCompanyId(), null, types, null,
+					contextCompany.getCompanyId(), null, types, params,
 					pagination.getStartPosition(), pagination.getEndPosition(),
 					null),
 				this::_toRole),
 			pagination,
 			_roleService.searchCount(
-				contextCompany.getCompanyId(), null, types, null));
+				contextCompany.getCompanyId(), null, types, params));
 	}
 
 	@Override
@@ -243,6 +257,9 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 			}
 		};
 	}
+
+	@Reference
+	private ClassNameLocalService _classNameLocalService;
 
 	@Reference
 	private OrganizationService _organizationService;
