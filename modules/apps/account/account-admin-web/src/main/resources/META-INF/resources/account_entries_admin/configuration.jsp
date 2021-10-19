@@ -38,7 +38,7 @@
 					<liferay-ui:message key="account-users-need-site-membership-in-order-to-access-the-site-and-use-this-widget" />
 				</div>
 
-				<aui:input name="preferences--enableAutomaticSiteMembership--" type="checkbox" value='<%= PrefsParamUtil.getBoolean(portletPreferences, request, "enableAutomaticSiteMembership", false) %>' />
+				<aui:input name="preferences--enableAutomaticSiteMembership--" type="checkbox" value='<%= PrefsParamUtil.getBoolean(portletPreferences, request, "enableAutomaticSiteMembership", true) %>' />
 			</liferay-frontend:fieldset>
 		</liferay-frontend:fieldset-group>
 	</liferay-frontend:edit-form-body>
