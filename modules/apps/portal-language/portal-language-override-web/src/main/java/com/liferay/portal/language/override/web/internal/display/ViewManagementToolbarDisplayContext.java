@@ -17,6 +17,8 @@
 package com.liferay.portal.language.override.web.internal.display;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
+import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
@@ -28,6 +30,17 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ViewManagementToolbarDisplayContext
 	extends SearchContainerManagementToolbarDisplayContext {
+
+	@Override
+	public String getClearResultsURL() {
+		return PortletURLBuilder.create(
+			getPortletURL()
+		).setKeywords(
+			StringPool.BLANK
+		).setNavigation(
+			(String)null
+		).buildString();
+	}
 
 	public ViewManagementToolbarDisplayContext(
 		HttpServletRequest httpServletRequest,

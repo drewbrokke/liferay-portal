@@ -21,24 +21,14 @@
 
 <%
 ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
-
-SearchContainer<PLOItemDTO> searchContainer1 = viewDisplayContext.getSearchContainer();
 %>
 
 <clay:management-toolbar
 	managementToolbarDisplayContext="<%= viewDisplayContext.getManagementToolbarDisplayContext() %>"
 />
 
-drewwashere
-
 <clay:container-fluid>
 	<aui:form method="post" name="fm">
-
-		<%for (PLOItemDTO ploItem : searchContainer1.getResults()) {%>
-
-		<div><span><%= ploItem.getKey() %></span><span style="float: right"><%= StringUtil.shorten(ploItem.getValue(), 100) %></span></div>
-
-		<%}%>
 		<liferay-ui:search-container
 			searchContainer="<%= viewDisplayContext.getSearchContainer() %>"
 			orderByCol="key"
@@ -52,15 +42,19 @@ drewwashere
 				<liferay-ui:search-container-column-text
 					cssClass="table-cell-expand-small table-cell-minw-150"
 					name="key"
-					value="foo"
+					value="<%= ploItemDTO.getKey() %>"
 				/>
 
 				<liferay-ui:search-container-column-text
 					cssClass="table-cell-expand-small table-cell-minw-150"
-					name="type"
-					value="bar"
+					name="value"
+					value="<%= ploItemDTO.getValue() %>"
 				/>
 			</liferay-ui:search-container-row>
+
+			<liferay-ui:search-iterator
+				markupView="lexicon"
+			/>
 		</liferay-ui:search-container>
 	</aui:form>
 </clay:container-fluid>
