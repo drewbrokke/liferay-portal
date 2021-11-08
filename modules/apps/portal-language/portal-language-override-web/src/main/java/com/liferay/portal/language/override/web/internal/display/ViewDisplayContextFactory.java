@@ -105,8 +105,8 @@ public class ViewDisplayContextFactory {
 
 		searchContainer.setOrderByType(orderByType);
 
-		searchContainer.setRowChecker(
-			new EmptyOnClickRowChecker(liferayPortletResponse));
+//		searchContainer.setRowChecker(
+//			new EmptyOnClickRowChecker(liferayPortletResponse));
 
 		String keywords = ParamUtil.getString(
 			liferayPortletRequest, "keywords");
@@ -116,18 +116,20 @@ public class ViewDisplayContextFactory {
 
 		String type = ParamUtil.getString(liferayPortletRequest, "type");
 
-		PLOItems ploItems = _getPLOItems(renderRequest, renderResponse);
+		PLOItems ploItems = _getPLOItems(
+			renderRequest, renderResponse, keywords,
+			searchContainer.getStart(), searchContainer.getEnd());
+
+		searchContainer.setResults(ploItems.getPLOItemList());
+		searchContainer.setTotal(ploItems.getTotal());
 
 		return searchContainer;
 	}
 
-	private PLOItems _getPLOItems(RenderRequest renderRequest, RenderResponse renderResponse) {
+	private PLOItems _getPLOItems(RenderRequest renderRequest, RenderResponse renderResponse, String keywords, int start, int end) {
 		List<PLOItemDTO> ploItemDTOs = new ArrayList<>();
 
 		Locale locale = _portal.getLocale(renderRequest);
-
-		String keywords = ParamUtil.getString(
-			renderRequest, "keywords");
 
 		String orderByCol = ParamUtil.getString(
 			renderRequest, "orderByCol", "key");
@@ -136,11 +138,11 @@ public class ViewDisplayContextFactory {
 			renderRequest, "orderByType", "asc");
 
 		long companyId = _portal.getCompanyId(renderRequest);
-		List<PLOEntry> ploEntries =
-			_ploEntryLocalService.getPLOEntries(
-				companyId);
-
-		Stream<PLOEntry> ploEntryStream = ploEntries.stream();
+//		List<PLOEntry> ploEntries =
+//			_ploEntryLocalService.getPLOEntries(
+//				companyId);
+//
+//		Stream<PLOEntry> ploEntryStream = ploEntries.stream();
 
 		java.util.function.Predicate<String> stringMatchPredicate = s -> true;
 
@@ -152,8 +154,8 @@ public class ViewDisplayContextFactory {
 			stringMatchPredicate = pattern.asPredicate();
 		}
 
-		Map<String, List<PLOEntry>> ploEntryMap = ploEntryStream.collect(
-			Collectors.groupingBy(PLOEntry::getKey));
+//		Map<String, List<PLOEntry>> ploEntryMap = ploEntryStream.collect(
+//			Collectors.groupingBy(PLOEntry::getKey));
 
 		ResourceBundle resourceBundle =
 			LanguageResources.getResourceBundle(locale);
@@ -161,27 +163,23 @@ public class ViewDisplayContextFactory {
 		for (String key : resourceBundle.keySet()) {
 			String type = "system";
 
-			if (ploEntryMap.containsKey(key)) {
-				type = "override";
+//			if (ploEntryMap.containsKey(key)) {
+//				type = "override";
+//
+//				ploEntryMap.remove(key);
+//			}
 
-				ploEntryMap.remove(key);
-			}
+			if (stringMatchPredicate.test(key) ||
+				stringMatchPredicate.test(resourceBundle.getString(key))) {
 
-			if (stringMatchPredicate.test(key)) {
-				ploItemDTOs.add(new PLOItemDTO(key, type));
-
-				continue;
-			}
-
-			for (Locale locale1 : LanguageUtil.getCompanyAvailableLocales(companyId)) {
-				if (stringMatchPredicate.test(LanguageUtil.get(locale1, key))) {
-					ploItemDTOs.add(new PLOItemDTO(key, type));
-				}
+				ploItemDTOs.add(new PLOItemDTO(key, type, resourceBundle.getString(key)));
 			}
 		}
 
 
-		return new PLOItems(ploItemDTOs, ploItemDTOs.size());
+		return new PLOItems(
+			ploItemDTOs.subList(start, Math.min(end, ploItemDTOs.size() - 1)),
+			ploItemDTOs.size());
 	}
 
 	@Reference

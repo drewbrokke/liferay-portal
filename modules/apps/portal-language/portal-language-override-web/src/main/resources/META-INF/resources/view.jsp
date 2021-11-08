@@ -1,6 +1,7 @@
-<%@ page
-	import="com.liferay.portal.language.override.web.internal.display.ViewDisplayContext" %>
-<%@ page import="com.liferay.portal.kernel.util.TextFormatter" %><%--
+<%@ page import="com.liferay.portal.language.override.web.internal.display.ViewDisplayContext" %>
+<%@ page import="com.liferay.portal.language.override.web.internal.dto.PLOItemDTO" %>
+
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -20,43 +21,46 @@
 
 <%
 ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
-%>
 
-<%--// management toolbar--%>
+SearchContainer<PLOItemDTO> searchContainer1 = viewDisplayContext.getSearchContainer();
+%>
 
 <clay:management-toolbar
 	managementToolbarDisplayContext="<%= viewDisplayContext.getManagementToolbarDisplayContext() %>"
 />
 
+drewwashere
+
 <clay:container-fluid>
-	<liferay-ui:search-container
-		searchContainer="<%= viewDisplayContext.getSearchContainer() %>"
-	>
-		<liferay-ui:search-container-row
-			className="com.liferay.portal.language.override.web.internal.dto.PLOItemDTO"
-			keyProperty="key"
-			modelVar="ploItemDTO"
+	<aui:form method="post" name="fm">
+
+		<%for (PLOItemDTO ploItem : searchContainer1.getResults()) {%>
+
+		<div><span><%= ploItem.getKey() %></span><span style="float: right"><%= StringUtil.shorten(ploItem.getValue(), 100) %></span></div>
+
+		<%}%>
+		<liferay-ui:search-container
+			searchContainer="<%= viewDisplayContext.getSearchContainer() %>"
+			orderByCol="key"
 		>
-			<portlet:renderURL var="rowURL">
-				<portlet:param name="mvcPath" value="/edit.jsp" />
-				<portlet:param name="key" value="<%= ploItemDTO.getKey() %>" />
-			</portlet:renderURL>
+			<liferay-ui:search-container-row
+				className="com.liferay.portal.language.override.web.internal.dto.PLOItemDTO"
+				keyProperty="key"
+				modelVar="ploItemDTO"
+			>
 
-			<liferay-ui:search-container-column-text name="key" property="key" href="<%= rowURL %>" />
-			<liferay-ui:search-container-column-text name="type" property="type" href="<%= rowURL %>" />
-<%--			<liferay-ui:search-container-column-text name="flags" href="<%= rowURL %>">--%>
+				<liferay-ui:search-container-column-text
+					cssClass="table-cell-expand-small table-cell-minw-150"
+					name="key"
+					value="foo"
+				/>
 
-<%--				<%--%>
-<%--				for (String languageId : ploItemDTO.getValueLanguageIds()) {--%>
-<%--				%>--%>
-
-<%--					<clay:icon symbol="<%= TextFormatter.format(languageId, TextFormatter.O) %>" />--%>
-
-<%--				<%--%>
-<%--				}--%>
-<%--				%>--%>
-
-<%--			</liferay-ui:search-container-column-text>--%>
-		</liferay-ui:search-container-row>
-	</liferay-ui:search-container>
+				<liferay-ui:search-container-column-text
+					cssClass="table-cell-expand-small table-cell-minw-150"
+					name="type"
+					value="bar"
+				/>
+			</liferay-ui:search-container-row>
+		</liferay-ui:search-container>
+	</aui:form>
 </clay:container-fluid>

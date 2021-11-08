@@ -48,4 +48,9 @@ public class ViewManagementToolbarDisplayContext
 			"unique"
 		};
 	}
+
+	@Override
+	public String getSearchActionURL() {
+		return searchContainer.getIteratorURL().toString();
+	}
 }

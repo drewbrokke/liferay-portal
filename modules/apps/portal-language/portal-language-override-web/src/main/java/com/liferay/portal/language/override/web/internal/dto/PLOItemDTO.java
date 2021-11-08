@@ -21,10 +21,11 @@ package com.liferay.portal.language.override.web.internal.dto;
  */
 public class PLOItemDTO {
 
-	public PLOItemDTO(String key, String type) {
+	public PLOItemDTO(String key, String type, String value) {
 		_key = key;
 		_type = type;
 		_valueLanguageIds = null;
+		_value = value;
 	}
 
 	public String getKey() {
@@ -41,6 +42,12 @@ public class PLOItemDTO {
 
 	private final String _key;
 	private final String _type;
+
+	public String getValue() {
+		return _value;
+	}
+
+	private final String _value;
 
 
 	private final String[] _valueLanguageIds;

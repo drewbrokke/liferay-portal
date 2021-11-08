@@ -15,6 +15,7 @@
 package com.liferay.portal.language.override.web.internal.display;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.ManagementToolbarDisplayContext;
+import com.liferay.portal.language.override.web.internal.dto.PLOItemDTO;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 
 /**
@@ -34,15 +35,15 @@ public class ViewDisplayContext {
 		_managementToolbarDisplayContext = managementToolbarDisplayContext;
 	}
 
-	public SearchContainer getSearchContainer() {
+	public SearchContainer<PLOItemDTO> getSearchContainer() {
 		return _searchContainer;
 	}
 
 	public void setSearchContainer(
-		SearchContainer searchContainer) {
+		SearchContainer<PLOItemDTO> searchContainer) {
 		_searchContainer = searchContainer;
 	}
 
-	private SearchContainer _searchContainer;
+	private SearchContainer<PLOItemDTO> _searchContainer;
 
 }
