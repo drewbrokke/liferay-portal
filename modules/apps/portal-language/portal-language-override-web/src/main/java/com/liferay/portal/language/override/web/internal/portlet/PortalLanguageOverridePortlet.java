@@ -14,18 +14,32 @@
 
 package com.liferay.portal.language.override.web.internal.portlet;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.language.LanguageResources;
+import com.liferay.portal.language.override.service.PLOEntryLocalService;
 import com.liferay.portal.language.override.web.internal.constants.PortalLanguageOverridePortletKeys;
+import com.liferay.portal.language.override.web.internal.display.EditDisplayContextFactory;
 import com.liferay.portal.language.override.web.internal.display.ViewDisplayContextFactory;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Drew Brokke
@@ -61,6 +75,35 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		super.doDispatch(renderRequest, renderResponse);
 	}
 
+	public void editPortalLanguageOverride(ActionRequest actionRequest)
+		throws PortalException {
+
+		String key = ParamUtil.getString(actionRequest, "key");
+
+		Map<Locale, String> localizationMap =
+			LocalizationUtil.getLocalizationMap(actionRequest, "value");
+
+		long companyId = _portal.getCompanyId(actionRequest);
+
+		for (Map.Entry<Locale, String> entry : localizationMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = StringUtil.trim(entry.getValue());
+
+			if (Objects.equals(LanguageUtil.get(locale, key), value)) {
+				continue;
+			}
+
+			_ploEntryLocalService.addOrUpdatePLOEntry(
+				companyId, key, LanguageUtil.getLanguageId(locale), value);
+		}
+	}
+
+	@Reference
+	private Portal _portal;
+
+	@Reference
+	private PLOEntryLocalService _ploEntryLocalService;
+
 	private void _setAttributes(RenderRequest renderRequest, RenderResponse renderResponse) {
 		Object portletDisplayContext = _getPortletDisplayContext(renderRequest, renderResponse);
 
@@ -75,9 +118,15 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		if (path == null || path.equals("/view.jsp")) {
 			return _viewDisplayContextFactory.create(renderRequest, renderResponse);
 		}
+		else if (path.equals("/edit.jsp")) {
+			return _editDisplayContextFactory.create(renderRequest, renderResponse);
+		}
 
 		return null;
 	}
+
+	@Reference
+	private EditDisplayContextFactory _editDisplayContextFactory;
 
 	@Reference
 	private ViewDisplayContextFactory _viewDisplayContextFactory;

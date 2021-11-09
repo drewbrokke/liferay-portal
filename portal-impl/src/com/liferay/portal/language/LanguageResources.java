@@ -14,6 +14,8 @@
 
 package com.liferay.portal.language;
 
+import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
+import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -84,6 +86,7 @@ public class LanguageResources {
 				}
 
 			};
+	private static ServiceTrackerList<LanguageMapWrapper> _languageMapWrappers;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
@@ -162,12 +165,17 @@ public class LanguageResources {
 
 		_serviceTracker.open();
 
+		_languageMapWrappers = ServiceTrackerListFactory.open(_bundleContext,
+			LanguageMapWrapper.class);
+
 		ResourceBundleLoaderUtil.setPortalResourceBundleLoader(
 			PORTAL_RESOURCE_BUNDLE_LOADER);
 	}
 
 	public void destroy() {
 		_serviceTracker.close();
+
+		_languageMapWrappers.close();
 	}
 
 	public void setConfig(String config) {
@@ -407,6 +415,10 @@ public class LanguageResources {
 
 			if (languageMap == null) {
 				languageMap = _loadLocale(_locale);
+			}
+
+			for (LanguageMapWrapper languageMapWrapper : _languageMapWrappers) {
+				languageMap = languageMapWrapper.wrap(LocaleUtil.toLanguageId(_locale), languageMap);
 			}
 
 			return languageMap;

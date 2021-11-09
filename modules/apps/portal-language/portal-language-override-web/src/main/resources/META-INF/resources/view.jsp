@@ -28,33 +28,38 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 />
 
 <clay:container-fluid>
-	<aui:form method="post" name="fm">
-		<liferay-ui:search-container
-			searchContainer="<%= viewDisplayContext.getSearchContainer() %>"
-			orderByCol="key"
+	<liferay-ui:search-container
+		searchContainer="<%= viewDisplayContext.getSearchContainer() %>"
+		orderByCol="key"
+	>
+		<liferay-ui:search-container-row
+			className="com.liferay.portal.language.override.web.internal.dto.PLOItemDTO"
+			keyProperty="key"
+			modelVar="ploItemDTO"
 		>
-			<liferay-ui:search-container-row
-				className="com.liferay.portal.language.override.web.internal.dto.PLOItemDTO"
-				keyProperty="key"
-				modelVar="ploItemDTO"
-			>
 
-				<liferay-ui:search-container-column-text
-					cssClass="table-cell-expand-small table-cell-minw-150"
-					name="key"
-					value="<%= ploItemDTO.getKey() %>"
-				/>
+			<portlet:renderURL var="editURL">
+				<portlet:param name="key" value="<%= ploItemDTO.getKey() %>"/>
+				<portlet:param name="mvcPath" value="/edit.jsp"/>
+			</portlet:renderURL>
 
-				<liferay-ui:search-container-column-text
-					cssClass="table-cell-expand-small table-cell-minw-150"
-					name="value"
-					value="<%= ploItemDTO.getValue() %>"
-				/>
-			</liferay-ui:search-container-row>
-
-			<liferay-ui:search-iterator
-				markupView="lexicon"
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand-small table-cell-minw-150"
+				name="key"
+				href="<%= editURL %>"
+				value="<%= ploItemDTO.getKey() %>"
 			/>
-		</liferay-ui:search-container>
-	</aui:form>
+
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand-small table-cell-minw-150"
+				name="value"
+				href="<%= editURL %>"
+				value="<%= ploItemDTO.getValue() %>"
+			/>
+		</liferay-ui:search-container-row>
+
+		<liferay-ui:search-iterator
+			markupView="lexicon"
+		/>
+	</liferay-ui:search-container>
 </clay:container-fluid>

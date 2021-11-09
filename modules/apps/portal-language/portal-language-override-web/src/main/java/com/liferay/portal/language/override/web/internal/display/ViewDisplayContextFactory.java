@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.util.OrderByComparatorAdapter;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.StringParser;
 import com.liferay.portal.language.LanguageResources;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
 import com.liferay.portal.language.override.web.internal.dto.PLOItemDTO;
@@ -125,7 +126,7 @@ public class ViewDisplayContextFactory {
 			String keywords = ParamUtil.getString(renderRequest, "keywords");
 
 			Pattern pattern = Pattern.compile(
-				".*\\b" + keywords + ".*",
+				".*\\b" + StringParser.escapeRegex(keywords) + ".*",
 				Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE);
 
 			stringMatchPredicate = pattern.asPredicate();

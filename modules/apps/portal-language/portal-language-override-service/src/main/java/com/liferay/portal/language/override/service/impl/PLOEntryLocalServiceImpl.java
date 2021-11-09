@@ -97,6 +97,7 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 		return ploEntryPersistence.findByC_K(companyId, key);
 	}
 
+	@Override
 	public List<PLOEntry> getPLOEntriesByLanguageId(
 		long companyId, String languageId) {
 
