@@ -16,13 +16,17 @@
 
 package com.liferay.portal.language;
 
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Drew Brokke
  */
 public interface LanguageMapWrapper {
 	
-	public Map<String, String> wrap(String languageId, Map<String, String> languageMap);
+	public String get(String key, Locale locale);
+
+	public Set<String> keySet(Locale locale);
 	
 }

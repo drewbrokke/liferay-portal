@@ -14,13 +14,16 @@
 
 package com.liferay.portal.language.override.web.internal.portlet;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.StringParser;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.language.LanguageResources;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
@@ -75,7 +78,8 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		super.doDispatch(renderRequest, renderResponse);
 	}
 
-	public void editPortalLanguageOverride(ActionRequest actionRequest)
+	public void editPortalLanguageOverride(
+			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws PortalException {
 
 		String key = ParamUtil.getString(actionRequest, "key");
@@ -93,8 +97,17 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 				continue;
 			}
 
+			String languageId = LanguageUtil.getLanguageId(locale);
+
+			if ((value == null) || value.equals(StringPool.BLANK)) {
+				_ploEntryLocalService.deletePLOEntry(
+					companyId, key, languageId);
+
+				continue;
+			}
+
 			_ploEntryLocalService.addOrUpdatePLOEntry(
-				companyId, key, LanguageUtil.getLanguageId(locale), value);
+				companyId, key, languageId, value);
 		}
 	}
 

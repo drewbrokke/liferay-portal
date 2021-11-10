@@ -120,6 +120,9 @@ public interface PLOEntryLocalService
 	@Indexable(type = IndexableType.DELETE)
 	public PLOEntry deletePLOEntry(long ploEntryId) throws PortalException;
 
+	public PLOEntry deletePLOEntry(
+		long companyId, String key, String languageId);
+
 	/**
 	 * Deletes the plo entry from the database. Also notifies the appropriate model listeners.
 	 *
@@ -209,8 +212,8 @@ public interface PLOEntryLocalService
 	public PLOEntry fetchPLOEntry(long ploEntryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public PLOEntry fetchPLOEntry(long companyId, String key, String languageId)
-		throws PortalException;
+	public PLOEntry fetchPLOEntry(
+		long companyId, String key, String languageId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

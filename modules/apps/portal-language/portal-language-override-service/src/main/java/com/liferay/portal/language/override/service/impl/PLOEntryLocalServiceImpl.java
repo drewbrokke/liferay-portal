@@ -82,8 +82,22 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 		return addPLOEntry(ploEntry);
 	}
 
-	public PLOEntry fetchPLOEntry(long companyId, String key, String languageId)
-		throws PortalException {
+	@Override
+	public PLOEntry deletePLOEntry(
+		long companyId, String key, String languageId) {
+
+		PLOEntry ploEntry = fetchPLOEntry(companyId, key, languageId);
+
+		if (ploEntry == null) {
+			return null;
+		}
+
+		return deletePLOEntry(ploEntry);
+	}
+
+	@Override
+	public PLOEntry fetchPLOEntry(
+		long companyId, String key, String languageId) {
 
 		return ploEntryPersistence.fetchByC_K_L(companyId, key, languageId);
 	}

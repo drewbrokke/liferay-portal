@@ -121,6 +121,12 @@ public class PLOEntryLocalServiceUtil {
 		return getService().deletePLOEntry(ploEntryId);
 	}
 
+	public static PLOEntry deletePLOEntry(
+		long companyId, String key, String languageId) {
+
+		return getService().deletePLOEntry(companyId, key, languageId);
+	}
+
 	/**
 	 * Deletes the plo entry from the database. Also notifies the appropriate model listeners.
 	 *
@@ -225,8 +231,7 @@ public class PLOEntryLocalServiceUtil {
 	}
 
 	public static PLOEntry fetchPLOEntry(
-			long companyId, String key, String languageId)
-		throws PortalException {
+		long companyId, String key, String languageId) {
 
 		return getService().fetchPLOEntry(companyId, key, languageId);
 	}

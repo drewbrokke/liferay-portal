@@ -16,16 +16,24 @@
 
 package com.liferay.portal.language.override.web.internal.portlet;
 
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.util.InheritableMap;
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.language.LanguageMapWrapper;
 import com.liferay.portal.language.override.model.PLOEntry;
+import com.liferay.portal.language.override.model.PLOEntryModel;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,29 +43,39 @@ import java.util.stream.Stream;
 @Component(service = LanguageMapWrapper.class)
 public class PLOLanguageMapWrapper implements LanguageMapWrapper {
 
-	@Override
-	public Map<String, String> wrap(
-		String languageId, Map<String, String> languageMap) {
-
-		long companyId = CompanyThreadLocal.getCompanyId();
-
-		List<PLOEntry> ploEntries =
-			_ploEntryLocalService.getPLOEntriesByLanguageId(companyId,
-				languageId);
-
-		Stream<PLOEntry> ploEntryStream = ploEntries.stream();
-
-		Map<String, String> overrideMap = ploEntryStream.collect(
-			Collectors.toMap(PLOEntry::getKey, PLOEntry::getValue));
-
-		InheritableMap<String, String> resultMap =
-			new InheritableMap<>(overrideMap);
-
-		resultMap.setParentMap(languageMap);
-
-		return resultMap;
-	}
-
 	@Reference
 	private PLOEntryLocalService _ploEntryLocalService;
+
+	@Override
+	public String get(String key, Locale locale) {
+		PLOEntry ploEntry = _ploEntryLocalService.fetchPLOEntry(
+			_getCompanyId(), key, LanguageUtil.getLanguageId(locale));
+
+		if (ploEntry == null) {
+			return null;
+		}
+
+		return ploEntry.getValue();
+	}
+
+	@Override
+	public Set<String> keySet(Locale locale) {
+		List<PLOEntry> ploEntries =
+			_ploEntryLocalService.getPLOEntriesByLanguageId(
+				_getCompanyId(), LanguageUtil.getLanguageId(locale));
+
+		if (ListUtil.isEmpty(ploEntries)) {
+			return Collections.emptySet();
+		}
+
+		Stream<PLOEntry> ploEntriesStream = ploEntries.stream();
+
+		return ploEntriesStream.map(
+			PLOEntryModel::getKey
+		).collect(Collectors.toSet());
+	}
+
+	private long _getCompanyId() {
+		return CompanyThreadLocal.getCompanyId();
+	}
 }

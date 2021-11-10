@@ -122,6 +122,13 @@ public class PLOEntryLocalServiceWrapper
 		return _ploEntryLocalService.deletePLOEntry(ploEntryId);
 	}
 
+	@Override
+	public com.liferay.portal.language.override.model.PLOEntry deletePLOEntry(
+		long companyId, String key, String languageId) {
+
+		return _ploEntryLocalService.deletePLOEntry(companyId, key, languageId);
+	}
+
 	/**
 	 * Deletes the plo entry from the database. Also notifies the appropriate model listeners.
 	 *
@@ -250,8 +257,7 @@ public class PLOEntryLocalServiceWrapper
 
 	@Override
 	public com.liferay.portal.language.override.model.PLOEntry fetchPLOEntry(
-			long companyId, String key, String languageId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		long companyId, String key, String languageId) {
 
 		return _ploEntryLocalService.fetchPLOEntry(companyId, key, languageId);
 	}

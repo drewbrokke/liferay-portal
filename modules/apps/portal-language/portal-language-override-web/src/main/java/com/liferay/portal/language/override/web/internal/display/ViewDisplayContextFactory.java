@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringParser;
 import com.liferay.portal.language.LanguageResources;
+import com.liferay.portal.language.override.model.PLOEntry;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
 import com.liferay.portal.language.override.web.internal.dto.PLOItemDTO;
 import org.osgi.service.component.annotations.Component;
@@ -37,11 +38,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Drew Brokke
@@ -111,14 +116,14 @@ public class ViewDisplayContextFactory {
 
 		List<PLOItemDTO> ploItemDTOs = new ArrayList<>();
 
-//		List<PLOEntry> ploEntries =
-//			_ploEntryLocalService.getPLOEntries(
-//				_portal.getCompanyId(renderRequest));
-//
-//		Stream<PLOEntry> ploEntryStream = ploEntries.stream();
+		List<PLOEntry> ploEntries =
+			_ploEntryLocalService.getPLOEntries(
+				_portal.getCompanyId(renderRequest));
 
-//		Map<String, List<PLOEntry>> ploEntryMap = ploEntryStream.collect(
-//			Collectors.groupingBy(PLOEntry::getKey));
+		Stream<PLOEntry> ploEntryStream = ploEntries.stream();
+
+		Map<String, List<PLOEntry>> ploEntryMap = ploEntryStream.collect(
+			Collectors.groupingBy(PLOEntry::getKey));
 
 		java.util.function.Predicate<String> stringMatchPredicate = s -> true;
 
@@ -136,14 +141,18 @@ public class ViewDisplayContextFactory {
 			LanguageResources.getResourceBundle(
 				_portal.getLocale(renderRequest));
 
-		for (String key : resourceBundle.keySet()) {
+		Enumeration<String> keys = resourceBundle.getKeys();
+
+		while (keys.hasMoreElements()) {
+			String key = keys.nextElement();
+
 			String type = "system";
 
-//			if (ploEntryMap.containsKey(key)) {
-//				type = "override";
-//
-//				ploEntryMap.remove(key);
-//			}
+			if (ploEntryMap.containsKey(key)) {
+				type = "override";
+
+				ploEntryMap.remove(key);
+			}
 
 			if (stringMatchPredicate.test(key) ||
 				stringMatchPredicate.test(resourceBundle.getString(key))) {

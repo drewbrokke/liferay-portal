@@ -52,6 +52,13 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 
 			<liferay-ui:search-container-column-text
 				cssClass="table-cell-expand-small table-cell-minw-150"
+				name="type"
+				href="<%= editURL %>"
+				value="<%= ploItemDTO.getType() %>"
+			/>
+
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand-small table-cell-minw-150"
 				name="value"
 				href="<%= editURL %>"
 				value="<%= ploItemDTO.getValue() %>"
