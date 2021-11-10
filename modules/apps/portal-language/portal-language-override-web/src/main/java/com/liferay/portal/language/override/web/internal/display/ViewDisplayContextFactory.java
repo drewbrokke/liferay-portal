@@ -141,25 +141,41 @@ public class ViewDisplayContextFactory {
 			LanguageResources.getResourceBundle(
 				_portal.getLocale(renderRequest));
 
-		Enumeration<String> keys = resourceBundle.getKeys();
+		String filter = ParamUtil.getString(
+			renderRequest, "navigation", "all");
 
-		while (keys.hasMoreElements()) {
-			String key = keys.nextElement();
+		if (filter.equals("override")) {
+			for (String key : ploEntryMap.keySet()) {
+				if (stringMatchPredicate.test(key) ||
+					stringMatchPredicate.test(resourceBundle.getString(key))) {
 
-			String type = "system";
-
-			if (ploEntryMap.containsKey(key)) {
-				type = "override";
-
-				ploEntryMap.remove(key);
-			}
-
-			if (stringMatchPredicate.test(key) ||
-				stringMatchPredicate.test(resourceBundle.getString(key))) {
-
-				ploItemDTOs.add(new PLOItemDTO(key, type, resourceBundle.getString(key)));
+					ploItemDTOs.add(new PLOItemDTO(key, "override", resourceBundle.getString(key)));
+				}
 			}
 		}
+		else {
+			Enumeration<String> keys = resourceBundle.getKeys();
+
+			while (keys.hasMoreElements()) {
+				String key = keys.nextElement();
+
+				String type = "system";
+
+				if (ploEntryMap.containsKey(key)) {
+					type = "override";
+
+					ploEntryMap.remove(key);
+				}
+
+				if (stringMatchPredicate.test(key) ||
+					stringMatchPredicate.test(resourceBundle.getString(key))) {
+
+					ploItemDTOs.add(new PLOItemDTO(key, type, resourceBundle.getString(key)));
+				}
+			}
+		}
+
+
 
 		searchContainer.setTotal(ploItemDTOs.size());
 

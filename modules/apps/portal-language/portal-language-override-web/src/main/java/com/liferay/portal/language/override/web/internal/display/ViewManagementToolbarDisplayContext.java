@@ -32,6 +32,11 @@ public class ViewManagementToolbarDisplayContext
 	extends SearchContainerManagementToolbarDisplayContext {
 
 	@Override
+	public Boolean isDisabled() {
+		return false;
+	}
+
+	@Override
 	public String getClearResultsURL() {
 		return PortletURLBuilder.create(
 			getPortletURL()
@@ -55,11 +60,7 @@ public class ViewManagementToolbarDisplayContext
 
 	@Override
 	protected String[] getNavigationKeys() {
-		return new String[] {
-			"mine",
-			"override",
-			"unique"
-		};
+		return new String[] {"override"};
 	}
 
 	@Override
