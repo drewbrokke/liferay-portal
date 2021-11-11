@@ -21,10 +21,9 @@ package com.liferay.portal.language.override.web.internal.dto;
  */
 public class PLOItemDTO {
 
-	public PLOItemDTO(String key, String type, String value) {
+	public PLOItemDTO(String key, boolean override, String value) {
 		_key = key;
-		_type = type;
-		_valueLanguageIds = null;
+		_override = override;
 		_value = value;
 	}
 
@@ -32,24 +31,22 @@ public class PLOItemDTO {
 		return _key;
 	}
 
-	public String getType() {
-		return _type;
-	}
-
-	public String[] getValueLanguageIds() {
-		return _valueLanguageIds;
-	}
-
 	private final String _key;
-	private final String _type;
+
+	public void setOverride(boolean override) {
+		_override = override;
+	}
+
+	public boolean isOverride() {
+		return _override;
+	}
+
+	private boolean _override;
 
 	public String getValue() {
 		return _value;
 	}
 
 	private final String _value;
-
-
-	private final String[] _valueLanguageIds;
 
 }

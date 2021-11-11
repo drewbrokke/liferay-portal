@@ -125,16 +125,23 @@ public class ViewDisplayContextFactory {
 		Map<String, List<PLOEntry>> ploEntryMap = ploEntryStream.collect(
 			Collectors.groupingBy(PLOEntry::getKey));
 
-		java.util.function.Predicate<String> stringMatchPredicate = s -> true;
+		java.util.function.Predicate<String> keyMatchPredicate = s -> true;
+		java.util.function.Predicate<String> valueMatchPredicate = s -> true;
 
 		if (searchContainer.isSearch()) {
 			String keywords = ParamUtil.getString(renderRequest, "keywords");
 
-			Pattern pattern = Pattern.compile(
+			Pattern keyPattern = Pattern.compile(
+				".*" + StringParser.escapeRegex(keywords) + ".*",
+				Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE);
+
+			keyMatchPredicate = keyPattern.asPredicate();
+
+			Pattern valuePattern = Pattern.compile(
 				".*\\b" + StringParser.escapeRegex(keywords) + ".*",
 				Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE);
 
-			stringMatchPredicate = pattern.asPredicate();
+			valueMatchPredicate = valuePattern.asPredicate();
 		}
 
 		ResourceBundle resourceBundle =
@@ -146,10 +153,10 @@ public class ViewDisplayContextFactory {
 
 		if (filter.equals("override")) {
 			for (String key : ploEntryMap.keySet()) {
-				if (stringMatchPredicate.test(key) ||
-					stringMatchPredicate.test(resourceBundle.getString(key))) {
+				if (keyMatchPredicate.test(key) ||
+					valueMatchPredicate.test(resourceBundle.getString(key))) {
 
-					ploItemDTOs.add(new PLOItemDTO(key, "override", resourceBundle.getString(key)));
+					ploItemDTOs.add(new PLOItemDTO(key, true, resourceBundle.getString(key)));
 				}
 			}
 		}
@@ -159,23 +166,21 @@ public class ViewDisplayContextFactory {
 			while (keys.hasMoreElements()) {
 				String key = keys.nextElement();
 
-				String type = "system";
+				boolean override = false;
 
 				if (ploEntryMap.containsKey(key)) {
-					type = "override";
+					override = true;
 
 					ploEntryMap.remove(key);
 				}
 
-				if (stringMatchPredicate.test(key) ||
-					stringMatchPredicate.test(resourceBundle.getString(key))) {
+				if (keyMatchPredicate.test(key) ||
+					valueMatchPredicate.test(resourceBundle.getString(key))) {
 
-					ploItemDTOs.add(new PLOItemDTO(key, type, resourceBundle.getString(key)));
+					ploItemDTOs.add(new PLOItemDTO(key, override, resourceBundle.getString(key)));
 				}
 			}
 		}
-
-
 
 		searchContainer.setTotal(ploItemDTOs.size());
 

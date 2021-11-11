@@ -106,6 +106,8 @@ public interface PLOEntryLocalService
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
 
+	public void deletePLOEntries(long companyId, String key);
+
 	/**
 	 * Deletes the plo entry with the primary key from the database. Also notifies the appropriate model listeners.
 	 *

@@ -25,6 +25,7 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 
 <clay:management-toolbar
 	managementToolbarDisplayContext="<%= viewDisplayContext.getManagementToolbarDisplayContext() %>"
+	supportsBulkActions="<%= false %>"
 />
 
 <clay:container-fluid>
@@ -39,29 +40,37 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 		>
 
 			<portlet:renderURL var="editURL">
+				<portlet:param name="backURL" value="<%= currentURL %>"/>
 				<portlet:param name="key" value="<%= ploItemDTO.getKey() %>"/>
 				<portlet:param name="mvcPath" value="/edit.jsp"/>
 			</portlet:renderURL>
 
 			<liferay-ui:search-container-column-text
-				cssClass="table-cell-expand-small table-cell-minw-150"
+				cssClass="table-cell-expand-small table-cell-minw-300"
 				name="key"
 				href="<%= editURL %>"
 				value="<%= ploItemDTO.getKey() %>"
 			/>
 
 			<liferay-ui:search-container-column-text
-				cssClass="table-cell-expand-small table-cell-minw-150"
-				name="type"
+				cssClass="col-1"
+				name="override"
 				href="<%= editURL %>"
-				value="<%= ploItemDTO.getType() %>"
-			/>
+			>
+				<c:if test='<%= ploItemDTO.isOverride() %>'>
+					<clay:icon symbol="check-small" cssClass="text-info" />
+				</c:if>
+			</liferay-ui:search-container-column-text>
 
 			<liferay-ui:search-container-column-text
 				cssClass="table-cell-expand-small table-cell-minw-150"
 				name="value"
 				href="<%= editURL %>"
 				value="<%= ploItemDTO.getValue() %>"
+			/>
+
+			<liferay-ui:search-container-column-jsp
+				path="/actions.jsp"
 			/>
 		</liferay-ui:search-container-row>
 

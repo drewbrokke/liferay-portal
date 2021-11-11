@@ -17,10 +17,13 @@
 package com.liferay.portal.language.override.web.internal.display;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem;
 import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 
@@ -44,8 +47,6 @@ public class ViewManagementToolbarDisplayContext
 			getPortletURL()
 		).setKeywords(
 			StringPool.BLANK
-		).setNavigation(
-			(String)null
 		).buildString();
 	}
 
@@ -61,6 +62,20 @@ public class ViewManagementToolbarDisplayContext
 	}
 
 	@Override
+	public CreationMenu getCreationMenu() {
+		return CreationMenuBuilder.addPrimaryDropdownItem(dropdownItem -> {
+			dropdownItem.setHref(
+				getPortletURL(),
+				"mvcPath", "/edit.jsp",
+				"backURL", String.valueOf(getPortletURL())
+			);
+
+			dropdownItem.setLabel(
+				LanguageUtil.get(httpServletRequest, "add-language-key"));
+		}).build();
+	}
+
+	@Override
 	protected String[] getNavigationKeys() {
 		return new String[] {"all", "override"};
 	}
@@ -69,4 +84,5 @@ public class ViewManagementToolbarDisplayContext
 	public String getSearchActionURL() {
 		return searchContainer.getIteratorURL().toString();
 	}
+
 }

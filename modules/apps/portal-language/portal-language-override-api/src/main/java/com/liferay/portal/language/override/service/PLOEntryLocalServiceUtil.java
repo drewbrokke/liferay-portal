@@ -104,6 +104,10 @@ public class PLOEntryLocalServiceUtil {
 		return getService().deletePersistedModel(persistedModel);
 	}
 
+	public static void deletePLOEntries(long companyId, String key) {
+		getService().deletePLOEntries(companyId, key);
+	}
+
 	/**
 	 * Deletes the plo entry with the primary key from the database. Also notifies the appropriate model listeners.
 	 *

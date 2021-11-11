@@ -20,18 +20,24 @@
 
 <%
 EditDisplayContext editDisplayContext = (EditDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
+
+portletDisplay.setShowBackIcon(Validator.isNotNull(editDisplayContext.getBackURL()));
+portletDisplay.setURLBack(editDisplayContext.getBackURL());
 %>
 
 <portlet:actionURL var="editURL" name="editPortalLanguageOverride" />
 
 <clay:container-fluid>
 	<liferay-frontend:edit-form action="<%= editURL %>" method="POST">
+		<aui:input name="redirect" type="hidden" value='<%= currentURL %>' />
+
 		<liferay-frontend:edit-form-body>
-			<aui:input name="key" value="<%= editDisplayContext.getKey() %>" />
+			<aui:input name="key" pattern="[^ ]+" value="<%= editDisplayContext.getKey() %>" required="true" />
 			<aui:input name="value" localized="<%= Boolean.TRUE %>" type="textarea" value='<%= LocalizationUtil.getXml(editDisplayContext.getLocalizedValuesMap(), "value") %>' />
 		</liferay-frontend:edit-form-body>
 		<liferay-frontend:edit-form-footer>
 			<aui:button name="save" type="submit" />
+			<aui:button type="cancel" href="<%= editDisplayContext.getBackURL() %>" />
 		</liferay-frontend:edit-form-footer>
 	</liferay-frontend:edit-form>
 </clay:container-fluid>
