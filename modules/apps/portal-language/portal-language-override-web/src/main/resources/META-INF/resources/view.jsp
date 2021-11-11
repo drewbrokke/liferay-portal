@@ -46,7 +46,7 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 			</portlet:renderURL>
 
 			<liferay-ui:search-container-column-text
-				cssClass="table-cell-expand-small table-cell-minw-300"
+				cssClass="table-cell-expand-small table-cell-minw-150"
 				name="key"
 				href="<%= editURL %>"
 				value="<%= ploItemDTO.getKey() %>"
