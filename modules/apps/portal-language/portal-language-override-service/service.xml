@@ -38,13 +38,13 @@
 			<finder-column name="companyId" />
 			<finder-column name="key" />
 		</finder>
+		<finder name="C_L" return-type="Collection">
+			<finder-column name="companyId" />
+			<finder-column name="languageId" />
+		</finder>
 		<finder name="C_K_L" return-type="PLOEntry" unique="true">
 			<finder-column name="companyId" />
 			<finder-column name="key" />
-			<finder-column name="languageId" />
-		</finder>
-		<finder name="C_L" return-type="Collection">
-			<finder-column name="companyId" />
 			<finder-column name="languageId" />
 		</finder>
 	</entity>

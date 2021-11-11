@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.osgi.service.metatype.AttributeDefinition;
+import org.osgi.service.metatype.MetaTypeInformation;
 
 /**
  * @author Iván Zaera
