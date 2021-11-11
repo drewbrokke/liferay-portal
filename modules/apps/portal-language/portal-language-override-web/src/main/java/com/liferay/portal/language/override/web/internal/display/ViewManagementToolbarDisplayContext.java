@@ -20,6 +20,7 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchCon
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItemListBuilder;
 import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -29,6 +30,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Drew Brokke
@@ -47,6 +49,8 @@ public class ViewManagementToolbarDisplayContext
 			getPortletURL()
 		).setKeywords(
 			StringPool.BLANK
+		).setNavigation(
+			(String)null
 		).buildString();
 	}
 
@@ -62,14 +66,32 @@ public class ViewManagementToolbarDisplayContext
 	}
 
 	@Override
+	public List<LabelItem> getFilterLabelItems() {
+		return LabelItemListBuilder.add(
+			() -> Objects.equals(getNavigation(), "override"),
+			labelItem -> {
+				labelItem.putData(
+					"removeLabelURL",
+					PortletURLBuilder.create(
+						getPortletURL()
+					).setNavigation(
+						(String)null
+					).buildString());
+				labelItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "override"));
+				labelItem.setDismissible(true);
+			}
+		).build();
+	}
+
+	@Override
 	public CreationMenu getCreationMenu() {
 		return CreationMenuBuilder.addPrimaryDropdownItem(dropdownItem -> {
 			dropdownItem.setHref(
 				getPortletURL(),
 				"mvcPath", "/edit.jsp",
-				"backURL", String.valueOf(getPortletURL())
-			);
-
+				"backURL", String.valueOf(getPortletURL()),
+				"key", StringPool.BLANK);
 			dropdownItem.setLabel(
 				LanguageUtil.get(httpServletRequest, "add-language-key"));
 		}).build();

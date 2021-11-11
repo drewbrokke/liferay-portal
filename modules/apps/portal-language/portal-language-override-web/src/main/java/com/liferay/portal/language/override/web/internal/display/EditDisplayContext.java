@@ -25,17 +25,17 @@ public class EditDisplayContext {
 		return _key;
 	}
 
-	private String _key;
+	private final String _key;
 
 	public LocalizedValuesMap getLocalizedValuesMap() {
 		return _localizedValuesMap;
 	}
 
-	private LocalizedValuesMap _localizedValuesMap;
+	private final LocalizedValuesMap _localizedValuesMap;
 
 	public EditDisplayContext(
-		String key,
-		LocalizedValuesMap localizedValuesMap, String backURL) {
+		String key, LocalizedValuesMap localizedValuesMap, String backURL) {
+
 		_key = key;
 		_localizedValuesMap = localizedValuesMap;
 		_backURL = backURL;
@@ -45,6 +45,6 @@ public class EditDisplayContext {
 		return _backURL;
 	}
 
-	private String _backURL;
+	private final String _backURL;
 
 }

@@ -1,6 +1,7 @@
 <%@ page
 	import="com.liferay.portal.language.override.web.internal.display.EditDisplayContext" %>
-<%@ page import="com.liferay.portal.kernel.util.LocalizationUtil" %><%--
+<%@ page import="com.liferay.portal.kernel.util.LocalizationUtil" %>
+<%@ page import="java.util.Arrays" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -29,12 +30,22 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 
 <clay:container-fluid>
 	<liferay-frontend:edit-form action="<%= editURL %>" method="POST">
-		<aui:input name="redirect" type="hidden" value='<%= currentURL %>' />
+		<aui:input name="redirect" type="hidden" value='<%= editDisplayContext.getBackURL() %>' />
 
 		<liferay-frontend:edit-form-body>
-			<aui:input name="key" pattern="[^ ]+" value="<%= editDisplayContext.getKey() %>" required="true" />
-			<aui:input name="value" localized="<%= Boolean.TRUE %>" type="textarea" value='<%= LocalizationUtil.getXml(editDisplayContext.getLocalizedValuesMap(), "value") %>' />
+			<aui:input
+				name="key"
+				pattern="[^ ]+"
+				value="<%= editDisplayContext.getKey() %>"
+				required="true"
+			/>
+
+			<liferay-ui:input-localized
+				name="value"
+				xml='<%= LocalizationUtil.getXml(editDisplayContext.getLocalizedValuesMap(), "value") %>'
+			/>
 		</liferay-frontend:edit-form-body>
+
 		<liferay-frontend:edit-form-footer>
 			<aui:button name="save" type="submit" />
 			<aui:button type="cancel" href="<%= editDisplayContext.getBackURL() %>" />
