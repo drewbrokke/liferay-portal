@@ -96,6 +96,11 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 	}
 
 	@Override
+	public void deletePLOEntries(long companyId, String key) {
+		ploEntryPersistence.removeByC_K(companyId, key);
+	}
+
+	@Override
 	public PLOEntry fetchPLOEntry(
 		long companyId, String key, String languageId) {
 

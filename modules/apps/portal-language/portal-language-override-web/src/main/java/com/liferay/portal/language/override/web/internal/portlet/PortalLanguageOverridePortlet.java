@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -76,6 +77,15 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		_setAttributes(renderRequest, renderResponse);
 
 		super.doDispatch(renderRequest, renderResponse);
+	}
+
+	public void deletePortalLanguageOverrides(
+			ActionRequest actionRequest, ActionResponse actionResponse)
+		throws PortalException {
+
+		_ploEntryLocalService.deletePLOEntries(
+			_portal.getCompanyId(actionRequest),
+			ParamUtil.getString(actionRequest, "key"));
 	}
 
 	public void editPortalLanguageOverride(

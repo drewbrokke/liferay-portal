@@ -103,6 +103,11 @@ public class PLOEntryLocalServiceWrapper
 		return _ploEntryLocalService.deletePersistedModel(persistedModel);
 	}
 
+	@Override
+	public void deletePLOEntries(long companyId, String key) {
+		_ploEntryLocalService.deletePLOEntries(companyId, key);
+	}
+
 	/**
 	 * Deletes the plo entry with the primary key from the database. Also notifies the appropriate model listeners.
 	 *

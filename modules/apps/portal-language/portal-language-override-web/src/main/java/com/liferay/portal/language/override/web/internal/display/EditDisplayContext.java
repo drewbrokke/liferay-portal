@@ -16,8 +16,6 @@ package com.liferay.portal.language.override.web.internal.display;
 
 import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 
-import java.util.Map;
-
 /**
  * @author Drew Brokke
  */
@@ -27,14 +25,6 @@ public class EditDisplayContext {
 		return _key;
 	}
 
-	public EditDisplayContext(
-		String key,
-		LocalizedValuesMap localizedValuesMap) {
-
-		_key = key;
-		_localizedValuesMap = localizedValuesMap;
-	}
-
 	private String _key;
 
 	public LocalizedValuesMap getLocalizedValuesMap() {
@@ -42,5 +32,19 @@ public class EditDisplayContext {
 	}
 
 	private LocalizedValuesMap _localizedValuesMap;
+
+	public EditDisplayContext(
+		String key,
+		LocalizedValuesMap localizedValuesMap, String backURL) {
+		_key = key;
+		_localizedValuesMap = localizedValuesMap;
+		_backURL = backURL;
+	}
+
+	public String getBackURL() {
+		return _backURL;
+	}
+
+	private String _backURL;
 
 }
