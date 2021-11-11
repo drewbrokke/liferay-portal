@@ -20,8 +20,6 @@ import com.liferay.petra.lang.HashUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.language.override.model.PLOEntry;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +28,9 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Drew Brokke
@@ -43,6 +44,7 @@ public class PLOLanguageOverrideCache {
 	}
 
 	public Map<String, String> getOverrideMap(long companyId, Locale locale) {
+
 		// get map
 
 		return _cache.computeIfAbsent(
@@ -56,9 +58,11 @@ public class PLOLanguageOverrideCache {
 
 				return ploEntryStream.collect(
 					Collectors.toMap(PLOEntry::getKey, PLOEntry::getValue));
-			}
-		);
+			});
 	}
+
+	private final ConcurrentHashMap<PLOCacheKey, Map<String, String>> _cache =
+		new ConcurrentHashMap<>();
 
 	@Reference
 	private PLOEntryLocalService _ploEntryLocalService;
@@ -71,20 +75,12 @@ public class PLOLanguageOverrideCache {
 		}
 
 		@Override
-		public int hashCode() {
-			int localeHashCode = HashUtil.hash(
-				0, languageId);
-
-			return HashUtil.hash(localeHashCode, companyId);
-		}
-
-		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof PLOCacheKey) {
-				PLOCacheKey ploCacheKey = (PLOCacheKey) obj;
+				PLOCacheKey ploCacheKey = (PLOCacheKey)obj;
 
 				if ((companyId == ploCacheKey.companyId) &&
-					(Objects.equals(languageId, ploCacheKey.languageId))) {
+					Objects.equals(languageId, ploCacheKey.languageId)) {
 
 					return true;
 				}
@@ -93,10 +89,16 @@ public class PLOLanguageOverrideCache {
 			return false;
 		}
 
+		@Override
+		public int hashCode() {
+			int localeHashCode = HashUtil.hash(0, languageId);
+
+			return HashUtil.hash(localeHashCode, companyId);
+		}
+
 		public final long companyId;
 		public final String languageId;
-	}
 
-	private final ConcurrentHashMap<PLOCacheKey, Map<String, String>> _cache = new ConcurrentHashMap<>();
+	}
 
 }

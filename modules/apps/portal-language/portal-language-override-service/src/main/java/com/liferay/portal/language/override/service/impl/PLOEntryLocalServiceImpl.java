@@ -21,7 +21,6 @@ import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.petra.sql.dsl.query.FromStep;
 import com.liferay.petra.sql.dsl.query.GroupByStep;
 import com.liferay.petra.sql.dsl.query.LimitStep;
-import com.liferay.petra.sql.dsl.query.OrderByStep;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -83,6 +82,11 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 	}
 
 	@Override
+	public void deletePLOEntries(long companyId, String key) {
+		ploEntryPersistence.removeByC_K(companyId, key);
+	}
+
+	@Override
 	public PLOEntry deletePLOEntry(
 		long companyId, String key, String languageId) {
 
@@ -93,11 +97,6 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 		}
 
 		return deletePLOEntry(ploEntry);
-	}
-
-	@Override
-	public void deletePLOEntries(long companyId, String key) {
-		ploEntryPersistence.removeByC_K(companyId, key);
 	}
 
 	@Override
@@ -146,13 +145,12 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 				"PLOEntry", orderByField, !reverse)
 		);
 
-		if (!(cur == QueryUtil.ALL_POS || delta == QueryUtil.ALL_POS)) {
+		if (!((cur == QueryUtil.ALL_POS) || (delta == QueryUtil.ALL_POS))) {
 			int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
 				cur, delta);
 
 			orderByStep = ((LimitStep)orderByStep).limit(
-				startAndEnd[0], startAndEnd[1]
-			);
+				startAndEnd[0], startAndEnd[1]);
 		}
 
 		return new BaseModelSearchResult<>(

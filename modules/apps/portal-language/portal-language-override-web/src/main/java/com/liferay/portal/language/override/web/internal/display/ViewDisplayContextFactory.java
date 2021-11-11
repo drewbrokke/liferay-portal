@@ -20,8 +20,6 @@ import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
-import com.liferay.portal.kernel.util.OrderByComparatorAdapter;
-import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringParser;
@@ -29,24 +27,24 @@ import com.liferay.portal.language.LanguageResources;
 import com.liferay.portal.language.override.model.PLOEntry;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
 import com.liferay.portal.language.override.web.internal.dto.PLOItemDTO;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Drew Brokke
@@ -59,8 +57,8 @@ public class ViewDisplayContextFactory {
 
 		ViewDisplayContext viewDisplayContext = new ViewDisplayContext();
 
-		SearchContainer<PLOItemDTO> searchContainer =
-			_createSearchContainer(renderRequest, renderResponse);
+		SearchContainer<PLOItemDTO> searchContainer = _createSearchContainer(
+			renderRequest, renderResponse);
 
 		viewDisplayContext.setManagementToolbarDisplayContext(
 			_createManagementToolbarDisplayContext(
@@ -70,7 +68,11 @@ public class ViewDisplayContextFactory {
 		return viewDisplayContext;
 	}
 
-	private ManagementToolbarDisplayContext _createManagementToolbarDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, SearchContainer searchContainer) {
+	private ManagementToolbarDisplayContext
+		_createManagementToolbarDisplayContext(
+			RenderRequest renderRequest, RenderResponse renderResponse,
+			SearchContainer searchContainer) {
+
 		return new ViewManagementToolbarDisplayContext(
 			_portal.getHttpServletRequest(renderRequest),
 			_portal.getLiferayPortletRequest(renderRequest),
@@ -85,13 +87,11 @@ public class ViewDisplayContextFactory {
 		LiferayPortletResponse liferayPortletResponse =
 			_portal.getLiferayPortletResponse(renderResponse);
 
-		SearchContainer<PLOItemDTO> searchContainer =
-			new SearchContainer<>(
-				liferayPortletRequest,
-				PortletURLUtil.getCurrent(
-					liferayPortletRequest,
-					liferayPortletResponse),
-				Arrays.asList("key", "value"), "no-language-entries-were-found");
+		SearchContainer<PLOItemDTO> searchContainer = new SearchContainer<>(
+			liferayPortletRequest,
+			PortletURLUtil.getCurrent(
+				liferayPortletRequest, liferayPortletResponse),
+			Arrays.asList("key", "value"), "no-language-entries-were-found");
 
 		searchContainer.setId("portalLanguageOverrideEntries");
 
@@ -116,9 +116,8 @@ public class ViewDisplayContextFactory {
 
 		List<PLOItemDTO> ploItemDTOs = new ArrayList<>();
 
-		List<PLOEntry> ploEntries =
-			_ploEntryLocalService.getPLOEntries(
-				_portal.getCompanyId(renderRequest));
+		List<PLOEntry> ploEntries = _ploEntryLocalService.getPLOEntries(
+			_portal.getCompanyId(renderRequest));
 
 		Stream<PLOEntry> ploEntryStream = ploEntries.stream();
 
@@ -144,19 +143,19 @@ public class ViewDisplayContextFactory {
 			valueMatchPredicate = valuePattern.asPredicate();
 		}
 
-		ResourceBundle resourceBundle =
-			LanguageResources.getResourceBundle(
-				_portal.getLocale(renderRequest));
+		ResourceBundle resourceBundle = LanguageResources.getResourceBundle(
+			_portal.getLocale(renderRequest));
 
-		String filter = ParamUtil.getString(
-			renderRequest, "navigation", "all");
+		String filter = ParamUtil.getString(renderRequest, "navigation", "all");
 
 		if (filter.equals("override")) {
 			for (String key : ploEntryMap.keySet()) {
 				if (keyMatchPredicate.test(key) ||
 					valueMatchPredicate.test(resourceBundle.getString(key))) {
 
-					ploItemDTOs.add(new PLOItemDTO(key, true, resourceBundle.getString(key)));
+					ploItemDTOs.add(
+						new PLOItemDTO(
+							key, true, resourceBundle.getString(key)));
 				}
 			}
 		}
@@ -177,7 +176,9 @@ public class ViewDisplayContextFactory {
 				if (keyMatchPredicate.test(key) ||
 					valueMatchPredicate.test(resourceBundle.getString(key))) {
 
-					ploItemDTOs.add(new PLOItemDTO(key, override, resourceBundle.getString(key)));
+					ploItemDTOs.add(
+						new PLOItemDTO(
+							key, override, resourceBundle.getString(key)));
 				}
 			}
 		}
@@ -185,8 +186,9 @@ public class ViewDisplayContextFactory {
 		searchContainer.setTotal(ploItemDTOs.size());
 
 		// Sorting
-		Comparator<PLOItemDTO> comparator =
-			Comparator.comparing(PLOItemDTO::getKey);
+
+		Comparator<PLOItemDTO> comparator = Comparator.comparing(
+			PLOItemDTO::getKey);
 
 		if (Objects.equals(searchContainer.getOrderByType(), "desc")) {
 			comparator = comparator.reversed();
@@ -195,10 +197,13 @@ public class ViewDisplayContextFactory {
 		ploItemDTOs.sort(comparator);
 
 		// Pagination
-		int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
-			searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getTotal());
 
-		searchContainer.setResults(ploItemDTOs.subList(startAndEnd[0], startAndEnd[1]));
+		int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
+			searchContainer.getStart(), searchContainer.getEnd(),
+			searchContainer.getTotal());
+
+		searchContainer.setResults(
+			ploItemDTOs.subList(startAndEnd[0], startAndEnd[1]));
 	}
 
 	@Reference

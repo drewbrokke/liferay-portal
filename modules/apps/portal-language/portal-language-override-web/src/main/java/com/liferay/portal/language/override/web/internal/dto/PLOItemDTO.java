@@ -31,22 +31,20 @@ public class PLOItemDTO {
 		return _key;
 	}
 
-	private final String _key;
-
-	public void setOverride(boolean override) {
-		_override = override;
+	public String getValue() {
+		return _value;
 	}
 
 	public boolean isOverride() {
 		return _override;
 	}
 
-	private boolean _override;
-
-	public String getValue() {
-		return _value;
+	public void setOverride(boolean override) {
+		_override = override;
 	}
 
+	private final String _key;
+	private boolean _override;
 	private final String _value;
 
 }

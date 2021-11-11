@@ -18,12 +18,13 @@ package com.liferay.portal.language.override.service.internal;
 
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.language.LanguageMapWrapper;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Drew Brokke
@@ -47,10 +48,11 @@ public class PLOLanguageMapWrapper implements LanguageMapWrapper {
 		return overrideMap.keySet();
 	}
 
-	@Reference
-	private PLOLanguageOverrideCache _ploLanguageOverrideCache;
-
 	private long _getCompanyId() {
 		return CompanyThreadLocal.getCompanyId();
 	}
+
+	@Reference
+	private PLOLanguageOverrideCache _ploLanguageOverrideCache;
+
 }
