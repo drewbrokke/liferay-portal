@@ -18,21 +18,21 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.StringParser;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.language.LanguageResources;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
 import com.liferay.portal.language.override.web.internal.constants.PortalLanguageOverridePortletKeys;
 import com.liferay.portal.language.override.web.internal.display.EditDisplayContextFactory;
 import com.liferay.portal.language.override.web.internal.display.ViewDisplayContextFactory;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+
+import java.io.IOException;
+
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -40,10 +40,9 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.io.IOException;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Drew Brokke
@@ -69,23 +68,14 @@ import java.util.Objects;
 )
 public class PortalLanguageOverridePortlet extends MVCPortlet {
 
-	@Override
-	protected void doDispatch(
-			RenderRequest renderRequest, RenderResponse renderResponse)
-		throws IOException, PortletException {
-
-		_setAttributes(renderRequest, renderResponse);
-
-		super.doDispatch(renderRequest, renderResponse);
-	}
-
 	public void deletePortalLanguageOverrides(
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws PortalException {
 
-		_ploEntryLocalService.deletePLOEntries(
-			_portal.getCompanyId(actionRequest),
-			ParamUtil.getString(actionRequest, "key"));
+		for (String key : ParamUtil.getStringValues(actionRequest, "key")) {
+			_ploEntryLocalService.deletePLOEntries(
+				_portal.getCompanyId(actionRequest), key);
+		}
 	}
 
 	public void editPortalLanguageOverride(
@@ -121,35 +111,53 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		}
 	}
 
-	@Reference
-	private Portal _portal;
+	@Override
+	protected void doDispatch(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws IOException, PortletException {
 
-	@Reference
-	private PLOEntryLocalService _ploEntryLocalService;
+		_setAttributes(renderRequest, renderResponse);
 
-	private void _setAttributes(RenderRequest renderRequest, RenderResponse renderResponse) {
-		Object portletDisplayContext = _getPortletDisplayContext(renderRequest, renderResponse);
-
-		if (portletDisplayContext != null) {
-			renderRequest.setAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT, portletDisplayContext);
-		}
+		super.doDispatch(renderRequest, renderResponse);
 	}
 
-	private Object _getPortletDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse) {
+	private Object _getPortletDisplayContext(
+		RenderRequest renderRequest, RenderResponse renderResponse) {
+
 		String path = getPath(renderRequest, renderResponse);
 
-		if (path == null || path.equals("/view.jsp")) {
-			return _viewDisplayContextFactory.create(renderRequest, renderResponse);
+		if ((path == null) || path.equals("/view.jsp")) {
+			return _viewDisplayContextFactory.create(
+				renderRequest, renderResponse);
 		}
 		else if (path.equals("/edit.jsp")) {
-			return _editDisplayContextFactory.create(renderRequest, renderResponse);
+			return _editDisplayContextFactory.create(
+				renderRequest, renderResponse);
 		}
 
 		return null;
 	}
 
+	private void _setAttributes(
+		RenderRequest renderRequest, RenderResponse renderResponse) {
+
+		Object portletDisplayContext = _getPortletDisplayContext(
+			renderRequest, renderResponse);
+
+		if (portletDisplayContext != null) {
+			renderRequest.setAttribute(
+				WebKeys.PORTLET_DISPLAY_CONTEXT, portletDisplayContext);
+		}
+	}
+
 	@Reference
 	private EditDisplayContextFactory _editDisplayContextFactory;
+
+	@Reference
+	private PLOEntryLocalService _ploEntryLocalService;
+
+	@Reference
+	private Portal _portal;
 
 	@Reference
 	private ViewDisplayContextFactory _viewDisplayContextFactory;

@@ -17,16 +17,16 @@ package com.liferay.portal.language.override.web.internal.display;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.settings.LocalizedValuesMap;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.Validator;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+
+import java.util.Locale;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.Locale;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Drew Brokke
@@ -34,24 +34,29 @@ import java.util.Locale;
 @Component(service = EditDisplayContextFactory.class)
 public class EditDisplayContextFactory {
 
-	public EditDisplayContext create(RenderRequest renderRequest, RenderResponse renderResponse) {
+	public EditDisplayContext create(
+		RenderRequest renderRequest, RenderResponse renderResponse) {
+
 		String key = ParamUtil.getString(renderRequest, "key");
 
 		return new EditDisplayContext(
 			key,
 			_getLocalizedValuesMap(_portal.getCompanyId(renderRequest), key),
-			ParamUtil.getString(renderRequest, "backURL")
-		);
+			ParamUtil.getString(renderRequest, "backURL"));
 	}
 
-	private LocalizedValuesMap _getLocalizedValuesMap(long companyId, String key) {
+	private LocalizedValuesMap _getLocalizedValuesMap(
+		long companyId, String key) {
+
 		LocalizedValuesMap localizedValuesMap = new LocalizedValuesMap();
 
-		if (key == null || key.equals(StringPool.BLANK)) {
+		if ((key == null) || key.equals(StringPool.BLANK)) {
 			return localizedValuesMap;
 		}
 
-		for (Locale locale : LanguageUtil.getCompanyAvailableLocales(companyId)) {
+		for (Locale locale :
+				LanguageUtil.getCompanyAvailableLocales(companyId)) {
+
 			localizedValuesMap.put(locale, LanguageUtil.get(locale, key));
 		}
 
@@ -60,4 +65,5 @@ public class EditDisplayContextFactory {
 
 	@Reference
 	private Portal _portal;
+
 }

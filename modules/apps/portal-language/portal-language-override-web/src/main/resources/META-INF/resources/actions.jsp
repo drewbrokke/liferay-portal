@@ -1,20 +1,21 @@
-<%@ page import="com.liferay.portal.language.override.model.PLOEntry" %>
-<%@ page
-	import="com.liferay.portal.language.override.web.internal.dto.PLOItemDTO" %><%--
-  ~ /**
-  ~  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
-  ~  *
-  ~  * This library is free software; you can redistribute it and/or modify it under
-  ~  * the terms of the GNU Lesser General Public License as published by the Free
-  ~  * Software Foundation; either version 2.1 of the License, or (at your option)
-  ~  * any later version.
-  ~  *
-  ~  * This library is distributed in the hope that it will be useful, but WITHOUT
-  ~  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-  ~  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-  ~  * details.
-  ~  */
-  --%>
+
+<%@ page import="com.liferay.portal.language.override.web.internal.dto.PLOItemDTO" %>
+
+<%--
+~ /**
+~ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+~ *
+~ * This library is free software; you can redistribute it and/or modify it under
+~ * the terms of the GNU Lesser General Public License as published by the Free
+~ * Software Foundation; either version 2.1 of the License, or (at your option)
+~ * any later version.
+~ *
+~ * This library is distributed in the hope that it will be useful, but WITHOUT
+~ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+~ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+~ * details.
+~ */
+--%>
 
 <%@ include file="/init.jsp" %>
 
@@ -29,18 +30,17 @@ PLOItemDTO rowObjectPLOItemDTO = (PLOItemDTO)row.getObject();
 	icon="<%= StringPool.BLANK %>"
 	markupView="lexicon"
 	message="<%= StringPool.BLANK %>"
-
 	showWhenSingleIcon="<%= true %>"
 >
-	<c:if test='<%= rowObjectPLOItemDTO.isOverride() %>'>
+	<c:if test="<%= rowObjectPLOItemDTO.isOverride() %>">
 		<portlet:actionURL name="deletePortalLanguageOverrides" var="deletePortalLanguageOverridesURL">
 			<portlet:param name="redirect" value="<%= currentURL %>" />
 			<portlet:param name="key" value="<%= rowObjectPLOItemDTO.getKey() %>" />
 		</portlet:actionURL>
 
 		<liferay-ui:icon-delete
-			icon="times-circle"
 			confirmation="do-you-want-to-reset-all-override-values"
+			icon="times-circle"
 			message="remove-overrides"
 			url="<%= deletePortalLanguageOverridesURL %>"
 		/>

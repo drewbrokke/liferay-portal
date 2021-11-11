@@ -1,5 +1,5 @@
-<%@ page import="com.liferay.portal.language.override.web.internal.display.ViewDisplayContext" %>
-<%@ page import="com.liferay.portal.language.override.web.internal.dto.PLOItemDTO" %>
+<%@ page import="com.liferay.portal.language.override.web.internal.display.ViewDisplayContext" %><%@
+page import="com.liferay.portal.language.override.web.internal.dto.PLOItemDTO" %>
 
 <%--
 /**
@@ -30,42 +30,44 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 
 <clay:container-fluid>
 	<liferay-ui:search-container
-		searchContainer="<%= viewDisplayContext.getSearchContainer() %>"
 		orderByCol="key"
+		searchContainer="<%= viewDisplayContext.getSearchContainer() %>"
 	>
 		<liferay-ui:search-container-row
 			className="com.liferay.portal.language.override.web.internal.dto.PLOItemDTO"
 			keyProperty="key"
 			modelVar="ploItemDTO"
 		>
-
 			<portlet:renderURL var="editURL">
-				<portlet:param name="backURL" value="<%= currentURL %>"/>
-				<portlet:param name="key" value="<%= ploItemDTO.getKey() %>"/>
-				<portlet:param name="mvcPath" value="/edit.jsp"/>
+				<portlet:param name="backURL" value="<%= currentURL %>" />
+				<portlet:param name="key" value="<%= ploItemDTO.getKey() %>" />
+				<portlet:param name="mvcPath" value="/edit.jsp" />
 			</portlet:renderURL>
 
 			<liferay-ui:search-container-column-text
 				cssClass="table-cell-expand-small table-cell-minw-150"
-				name="key"
 				href="<%= editURL %>"
+				name="key"
 				value="<%= ploItemDTO.getKey() %>"
 			/>
 
 			<liferay-ui:search-container-column-text
 				cssClass="col-1"
-				name="override"
 				href="<%= editURL %>"
+				name="override"
 			>
-				<c:if test='<%= ploItemDTO.isOverride() %>'>
-					<clay:icon symbol="check-small" cssClass="text-info" />
+				<c:if test="<%= ploItemDTO.isOverride() %>">
+					<clay:icon
+						cssClass="text-info"
+						symbol="check-small"
+					/>
 				</c:if>
 			</liferay-ui:search-container-column-text>
 
 			<liferay-ui:search-container-column-text
 				cssClass="table-cell-expand-small table-cell-minw-150"
-				name="value"
 				href="<%= editURL %>"
+				name="value"
 				value="<%= ploItemDTO.getValue() %>"
 			/>
 

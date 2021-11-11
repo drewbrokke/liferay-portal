@@ -28,9 +28,10 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Drew Brokke
@@ -38,9 +39,15 @@ import java.util.Objects;
 public class ViewManagementToolbarDisplayContext
 	extends SearchContainerManagementToolbarDisplayContext {
 
-	@Override
-	public Boolean isDisabled() {
-		return false;
+	public ViewManagementToolbarDisplayContext(
+		HttpServletRequest httpServletRequest,
+		LiferayPortletRequest liferayPortletRequest,
+		LiferayPortletResponse liferayPortletResponse,
+		SearchContainer<?> searchContainer) {
+
+		super(
+			httpServletRequest, liferayPortletRequest, liferayPortletResponse,
+			searchContainer);
 	}
 
 	@Override
@@ -54,15 +61,17 @@ public class ViewManagementToolbarDisplayContext
 		).buildString();
 	}
 
-	public ViewManagementToolbarDisplayContext(
-		HttpServletRequest httpServletRequest,
-		LiferayPortletRequest liferayPortletRequest,
-		LiferayPortletResponse liferayPortletResponse,
-		SearchContainer<?> searchContainer) {
-
-		super(
-			httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-			searchContainer);
+	@Override
+	public CreationMenu getCreationMenu() {
+		return CreationMenuBuilder.addPrimaryDropdownItem(
+			dropdownItem -> {
+				dropdownItem.setHref(
+					getPortletURL(), "mvcPath", "/edit.jsp", "backURL",
+					String.valueOf(getPortletURL()), "key", StringPool.BLANK);
+				dropdownItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "add-language-key"));
+			}
+		).build();
 	}
 
 	@Override
@@ -77,34 +86,27 @@ public class ViewManagementToolbarDisplayContext
 					).setNavigation(
 						(String)null
 					).buildString());
+				labelItem.setDismissible(true);
 				labelItem.setLabel(
 					LanguageUtil.get(httpServletRequest, "override"));
-				labelItem.setDismissible(true);
 			}
 		).build();
 	}
 
 	@Override
-	public CreationMenu getCreationMenu() {
-		return CreationMenuBuilder.addPrimaryDropdownItem(dropdownItem -> {
-			dropdownItem.setHref(
-				getPortletURL(),
-				"mvcPath", "/edit.jsp",
-				"backURL", String.valueOf(getPortletURL()),
-				"key", StringPool.BLANK);
-			dropdownItem.setLabel(
-				LanguageUtil.get(httpServletRequest, "add-language-key"));
-		}).build();
+	public String getSearchActionURL() {
+		return searchContainer.getIteratorURL(
+		).toString();
+	}
+
+	@Override
+	public Boolean isDisabled() {
+		return false;
 	}
 
 	@Override
 	protected String[] getNavigationKeys() {
 		return new String[] {"all", "override"};
-	}
-
-	@Override
-	public String getSearchActionURL() {
-		return searchContainer.getIteratorURL().toString();
 	}
 
 }
