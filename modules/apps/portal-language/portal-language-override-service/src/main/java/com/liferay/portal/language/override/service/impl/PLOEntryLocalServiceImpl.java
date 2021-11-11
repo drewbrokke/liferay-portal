@@ -74,7 +74,9 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 
 		ploEntry.setUserId(user.getUserId());
 		ploEntry.setUserName(user.getUserUuid());
+
 		ploEntry.setKey(key);
+
 		ploEntry.setLanguageId(languageId);
 		ploEntry.setValue(value);
 
@@ -136,7 +138,7 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 			orderByField = "key";
 		}
 
-		DSLQuery orderByStep = getGroupByStep(
+		DSLQuery orderByStep = _getGroupByStep(
 			companyId, keywords,
 			DSLQueryFactoryUtil.select(PLOEntryTable.INSTANCE)
 		).orderBy(
@@ -149,14 +151,15 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 			int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
 				cur, delta);
 
-			orderByStep = ((LimitStep)orderByStep).limit(
-				startAndEnd[0], startAndEnd[1]);
+			LimitStep limitStep = (LimitStep)orderByStep;
+
+			orderByStep = limitStep.limit(startAndEnd[0], startAndEnd[1]);
 		}
 
 		return new BaseModelSearchResult<>(
 			dslQuery(orderByStep),
 			dslQueryCount(
-				getGroupByStep(
+				_getGroupByStep(
 					companyId, keywords,
 					DSLQueryFactoryUtil.countDistinct(
 						PLOEntryTable.INSTANCE.ploEntryId))));
@@ -166,9 +169,9 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 			long companyId, String key, Map<String, String> valueMap)
 		throws PortalException {
 
-		for (String languageId : valueMap.keySet()) {
+		for (Map.Entry<String, String> entry : valueMap.entrySet()) {
 			addOrUpdatePLOEntry(
-				companyId, key, languageId, valueMap.get(languageId));
+				companyId, key, entry.getKey(), entry.getValue());
 		}
 
 		for (PLOEntry ploEntry : getPLOEntriesByKey(companyId, key)) {
@@ -188,7 +191,7 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 		return ploEntryPersistence.update(ploEntry);
 	}
 
-	private GroupByStep getGroupByStep(
+	private GroupByStep _getGroupByStep(
 		long companyId, String keywords, FromStep fromStep) {
 
 		return fromStep.from(
