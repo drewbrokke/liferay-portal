@@ -16,22 +16,14 @@
 
 package com.liferay.portal.language.override.service.internal;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.language.LanguageMapWrapper;
-import com.liferay.portal.language.override.model.PLOEntry;
-import com.liferay.portal.language.override.model.PLOEntryModel;
-import com.liferay.portal.language.override.service.PLOEntryLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Drew Brokke
@@ -39,37 +31,24 @@ import java.util.stream.Stream;
 @Component(service = LanguageMapWrapper.class)
 public class PLOLanguageMapWrapper implements LanguageMapWrapper {
 
-	@Reference
-	private PLOEntryLocalService _ploEntryLocalService;
-
 	@Override
 	public String get(String key, Locale locale) {
-		PLOEntry ploEntry = _ploEntryLocalService.fetchPLOEntry(
-			_getCompanyId(), key, LanguageUtil.getLanguageId(locale));
+		Map<String, String> overrideMap =
+			_ploLanguageOverrideCache.getOverrideMap(_getCompanyId(), locale);
 
-		if (ploEntry == null) {
-			return null;
-		}
-
-		return ploEntry.getValue();
+		return overrideMap.getOrDefault(key, null);
 	}
 
 	@Override
 	public Set<String> keySet(Locale locale) {
-		List<PLOEntry> ploEntries =
-			_ploEntryLocalService.getPLOEntriesByLanguageId(
-				_getCompanyId(), LanguageUtil.getLanguageId(locale));
+		Map<String, String> overrideMap =
+			_ploLanguageOverrideCache.getOverrideMap(_getCompanyId(), locale);
 
-		if (ListUtil.isEmpty(ploEntries)) {
-			return Collections.emptySet();
-		}
-
-		Stream<PLOEntry> ploEntriesStream = ploEntries.stream();
-
-		return ploEntriesStream.map(
-			PLOEntryModel::getKey
-		).collect(Collectors.toSet());
+		return overrideMap.keySet();
 	}
+
+	@Reference
+	private PLOLanguageOverrideCache _ploLanguageOverrideCache;
 
 	private long _getCompanyId() {
 		return CompanyThreadLocal.getCompanyId();
