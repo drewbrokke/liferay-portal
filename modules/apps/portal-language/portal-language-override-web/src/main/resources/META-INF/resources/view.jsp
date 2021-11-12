@@ -49,7 +49,7 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 			/>
 
 			<liferay-ui:search-container-column-text
-				cssClass="col-1"
+				cssClass="col-1 table-column-text-center"
 				href="<%= editURL %>"
 				name="override"
 			>
