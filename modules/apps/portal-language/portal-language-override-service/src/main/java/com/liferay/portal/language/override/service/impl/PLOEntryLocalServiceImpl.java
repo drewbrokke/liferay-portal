@@ -26,9 +26,11 @@ import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.security.auth.GuestOrUserUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.language.override.model.PLOEntry;
@@ -78,6 +80,14 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 		ploEntry.setKey(key);
 
 		ploEntry.setLanguageId(languageId);
+
+		String originalValue =
+			LanguageUtil.get(LocaleUtil.fromLanguageId(languageId), key);
+
+		if (Validator.isNotNull(originalValue)) {
+			ploEntry.setOriginalValue(originalValue);
+		}
+
 		ploEntry.setValue(value);
 
 		return addPLOEntry(ploEntry);

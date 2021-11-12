@@ -1167,302 +1167,6 @@ public class PLOEntryPersistenceImpl
 	private static final String _FINDER_COLUMN_C_K_KEY_3 =
 		"(ploEntry.key IS NULL OR ploEntry.key = '')";
 
-	private FinderPath _finderPathFetchByC_K_L;
-	private FinderPath _finderPathCountByC_K_L;
-
-	/**
-	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or throws a <code>NoSuchPLOEntryException</code> if it could not be found.
-	 *
-	 * @param companyId the company ID
-	 * @param key the key
-	 * @param languageId the language ID
-	 * @return the matching plo entry
-	 * @throws NoSuchPLOEntryException if a matching plo entry could not be found
-	 */
-	@Override
-	public PLOEntry findByC_K_L(long companyId, String key, String languageId)
-		throws NoSuchPLOEntryException {
-
-		PLOEntry ploEntry = fetchByC_K_L(companyId, key, languageId);
-
-		if (ploEntry == null) {
-			StringBundler sb = new StringBundler(8);
-
-			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			sb.append("companyId=");
-			sb.append(companyId);
-
-			sb.append(", key=");
-			sb.append(key);
-
-			sb.append(", languageId=");
-			sb.append(languageId);
-
-			sb.append("}");
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(sb.toString());
-			}
-
-			throw new NoSuchPLOEntryException(sb.toString());
-		}
-
-		return ploEntry;
-	}
-
-	/**
-	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param companyId the company ID
-	 * @param key the key
-	 * @param languageId the language ID
-	 * @return the matching plo entry, or <code>null</code> if a matching plo entry could not be found
-	 */
-	@Override
-	public PLOEntry fetchByC_K_L(
-		long companyId, String key, String languageId) {
-
-		return fetchByC_K_L(companyId, key, languageId, true);
-	}
-
-	/**
-	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param companyId the company ID
-	 * @param key the key
-	 * @param languageId the language ID
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the matching plo entry, or <code>null</code> if a matching plo entry could not be found
-	 */
-	@Override
-	public PLOEntry fetchByC_K_L(
-		long companyId, String key, String languageId, boolean useFinderCache) {
-
-		key = Objects.toString(key, "");
-		languageId = Objects.toString(languageId, "");
-
-		Object[] finderArgs = null;
-
-		if (useFinderCache) {
-			finderArgs = new Object[] {companyId, key, languageId};
-		}
-
-		Object result = null;
-
-		if (useFinderCache) {
-			result = finderCache.getResult(_finderPathFetchByC_K_L, finderArgs);
-		}
-
-		if (result instanceof PLOEntry) {
-			PLOEntry ploEntry = (PLOEntry)result;
-
-			if ((companyId != ploEntry.getCompanyId()) ||
-				!Objects.equals(key, ploEntry.getKey()) ||
-				!Objects.equals(languageId, ploEntry.getLanguageId())) {
-
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler sb = new StringBundler(5);
-
-			sb.append(_SQL_SELECT_PLOENTRY_WHERE);
-
-			sb.append(_FINDER_COLUMN_C_K_L_COMPANYID_2);
-
-			boolean bindKey = false;
-
-			if (key.isEmpty()) {
-				sb.append(_FINDER_COLUMN_C_K_L_KEY_3);
-			}
-			else {
-				bindKey = true;
-
-				sb.append(_FINDER_COLUMN_C_K_L_KEY_2);
-			}
-
-			boolean bindLanguageId = false;
-
-			if (languageId.isEmpty()) {
-				sb.append(_FINDER_COLUMN_C_K_L_LANGUAGEID_3);
-			}
-			else {
-				bindLanguageId = true;
-
-				sb.append(_FINDER_COLUMN_C_K_L_LANGUAGEID_2);
-			}
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(companyId);
-
-				if (bindKey) {
-					queryPos.add(key);
-				}
-
-				if (bindLanguageId) {
-					queryPos.add(languageId);
-				}
-
-				List<PLOEntry> list = query.list();
-
-				if (list.isEmpty()) {
-					if (useFinderCache) {
-						finderCache.putResult(
-							_finderPathFetchByC_K_L, finderArgs, list);
-					}
-				}
-				else {
-					PLOEntry ploEntry = list.get(0);
-
-					result = ploEntry;
-
-					cacheResult(ploEntry);
-				}
-			}
-			catch (Exception exception) {
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (PLOEntry)result;
-		}
-	}
-
-	/**
-	 * Removes the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; from the database.
-	 *
-	 * @param companyId the company ID
-	 * @param key the key
-	 * @param languageId the language ID
-	 * @return the plo entry that was removed
-	 */
-	@Override
-	public PLOEntry removeByC_K_L(long companyId, String key, String languageId)
-		throws NoSuchPLOEntryException {
-
-		PLOEntry ploEntry = findByC_K_L(companyId, key, languageId);
-
-		return remove(ploEntry);
-	}
-
-	/**
-	 * Returns the number of plo entries where companyId = &#63; and key = &#63; and languageId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param key the key
-	 * @param languageId the language ID
-	 * @return the number of matching plo entries
-	 */
-	@Override
-	public int countByC_K_L(long companyId, String key, String languageId) {
-		key = Objects.toString(key, "");
-		languageId = Objects.toString(languageId, "");
-
-		FinderPath finderPath = _finderPathCountByC_K_L;
-
-		Object[] finderArgs = new Object[] {companyId, key, languageId};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs);
-
-		if (count == null) {
-			StringBundler sb = new StringBundler(4);
-
-			sb.append(_SQL_COUNT_PLOENTRY_WHERE);
-
-			sb.append(_FINDER_COLUMN_C_K_L_COMPANYID_2);
-
-			boolean bindKey = false;
-
-			if (key.isEmpty()) {
-				sb.append(_FINDER_COLUMN_C_K_L_KEY_3);
-			}
-			else {
-				bindKey = true;
-
-				sb.append(_FINDER_COLUMN_C_K_L_KEY_2);
-			}
-
-			boolean bindLanguageId = false;
-
-			if (languageId.isEmpty()) {
-				sb.append(_FINDER_COLUMN_C_K_L_LANGUAGEID_3);
-			}
-			else {
-				bindLanguageId = true;
-
-				sb.append(_FINDER_COLUMN_C_K_L_LANGUAGEID_2);
-			}
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(companyId);
-
-				if (bindKey) {
-					queryPos.add(key);
-				}
-
-				if (bindLanguageId) {
-					queryPos.add(languageId);
-				}
-
-				count = (Long)query.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception exception) {
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_C_K_L_COMPANYID_2 =
-		"ploEntry.companyId = ? AND ";
-
-	private static final String _FINDER_COLUMN_C_K_L_KEY_2 =
-		"ploEntry.key = ? AND ";
-
-	private static final String _FINDER_COLUMN_C_K_L_KEY_3 =
-		"(ploEntry.key IS NULL OR ploEntry.key = '') AND ";
-
-	private static final String _FINDER_COLUMN_C_K_L_LANGUAGEID_2 =
-		"ploEntry.languageId = ?";
-
-	private static final String _FINDER_COLUMN_C_K_L_LANGUAGEID_3 =
-		"(ploEntry.languageId IS NULL OR ploEntry.languageId = '')";
-
 	private FinderPath _finderPathWithPaginationFindByC_L;
 	private FinderPath _finderPathWithoutPaginationFindByC_L;
 	private FinderPath _finderPathCountByC_L;
@@ -2040,6 +1744,302 @@ public class PLOEntryPersistenceImpl
 		"ploEntry.languageId = ?";
 
 	private static final String _FINDER_COLUMN_C_L_LANGUAGEID_3 =
+		"(ploEntry.languageId IS NULL OR ploEntry.languageId = '')";
+
+	private FinderPath _finderPathFetchByC_K_L;
+	private FinderPath _finderPathCountByC_K_L;
+
+	/**
+	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or throws a <code>NoSuchPLOEntryException</code> if it could not be found.
+	 *
+	 * @param companyId the company ID
+	 * @param key the key
+	 * @param languageId the language ID
+	 * @return the matching plo entry
+	 * @throws NoSuchPLOEntryException if a matching plo entry could not be found
+	 */
+	@Override
+	public PLOEntry findByC_K_L(long companyId, String key, String languageId)
+		throws NoSuchPLOEntryException {
+
+		PLOEntry ploEntry = fetchByC_K_L(companyId, key, languageId);
+
+		if (ploEntry == null) {
+			StringBundler sb = new StringBundler(8);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("companyId=");
+			sb.append(companyId);
+
+			sb.append(", key=");
+			sb.append(key);
+
+			sb.append(", languageId=");
+			sb.append(languageId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchPLOEntryException(sb.toString());
+		}
+
+		return ploEntry;
+	}
+
+	/**
+	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param key the key
+	 * @param languageId the language ID
+	 * @return the matching plo entry, or <code>null</code> if a matching plo entry could not be found
+	 */
+	@Override
+	public PLOEntry fetchByC_K_L(
+		long companyId, String key, String languageId) {
+
+		return fetchByC_K_L(companyId, key, languageId, true);
+	}
+
+	/**
+	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param key the key
+	 * @param languageId the language ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching plo entry, or <code>null</code> if a matching plo entry could not be found
+	 */
+	@Override
+	public PLOEntry fetchByC_K_L(
+		long companyId, String key, String languageId, boolean useFinderCache) {
+
+		key = Objects.toString(key, "");
+		languageId = Objects.toString(languageId, "");
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {companyId, key, languageId};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(_finderPathFetchByC_K_L, finderArgs);
+		}
+
+		if (result instanceof PLOEntry) {
+			PLOEntry ploEntry = (PLOEntry)result;
+
+			if ((companyId != ploEntry.getCompanyId()) ||
+				!Objects.equals(key, ploEntry.getKey()) ||
+				!Objects.equals(languageId, ploEntry.getLanguageId())) {
+
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(5);
+
+			sb.append(_SQL_SELECT_PLOENTRY_WHERE);
+
+			sb.append(_FINDER_COLUMN_C_K_L_COMPANYID_2);
+
+			boolean bindKey = false;
+
+			if (key.isEmpty()) {
+				sb.append(_FINDER_COLUMN_C_K_L_KEY_3);
+			}
+			else {
+				bindKey = true;
+
+				sb.append(_FINDER_COLUMN_C_K_L_KEY_2);
+			}
+
+			boolean bindLanguageId = false;
+
+			if (languageId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_C_K_L_LANGUAGEID_3);
+			}
+			else {
+				bindLanguageId = true;
+
+				sb.append(_FINDER_COLUMN_C_K_L_LANGUAGEID_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(companyId);
+
+				if (bindKey) {
+					queryPos.add(key);
+				}
+
+				if (bindLanguageId) {
+					queryPos.add(languageId);
+				}
+
+				List<PLOEntry> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByC_K_L, finderArgs, list);
+					}
+				}
+				else {
+					PLOEntry ploEntry = list.get(0);
+
+					result = ploEntry;
+
+					cacheResult(ploEntry);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (PLOEntry)result;
+		}
+	}
+
+	/**
+	 * Removes the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param key the key
+	 * @param languageId the language ID
+	 * @return the plo entry that was removed
+	 */
+	@Override
+	public PLOEntry removeByC_K_L(long companyId, String key, String languageId)
+		throws NoSuchPLOEntryException {
+
+		PLOEntry ploEntry = findByC_K_L(companyId, key, languageId);
+
+		return remove(ploEntry);
+	}
+
+	/**
+	 * Returns the number of plo entries where companyId = &#63; and key = &#63; and languageId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param key the key
+	 * @param languageId the language ID
+	 * @return the number of matching plo entries
+	 */
+	@Override
+	public int countByC_K_L(long companyId, String key, String languageId) {
+		key = Objects.toString(key, "");
+		languageId = Objects.toString(languageId, "");
+
+		FinderPath finderPath = _finderPathCountByC_K_L;
+
+		Object[] finderArgs = new Object[] {companyId, key, languageId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_SQL_COUNT_PLOENTRY_WHERE);
+
+			sb.append(_FINDER_COLUMN_C_K_L_COMPANYID_2);
+
+			boolean bindKey = false;
+
+			if (key.isEmpty()) {
+				sb.append(_FINDER_COLUMN_C_K_L_KEY_3);
+			}
+			else {
+				bindKey = true;
+
+				sb.append(_FINDER_COLUMN_C_K_L_KEY_2);
+			}
+
+			boolean bindLanguageId = false;
+
+			if (languageId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_C_K_L_LANGUAGEID_3);
+			}
+			else {
+				bindLanguageId = true;
+
+				sb.append(_FINDER_COLUMN_C_K_L_LANGUAGEID_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(companyId);
+
+				if (bindKey) {
+					queryPos.add(key);
+				}
+
+				if (bindLanguageId) {
+					queryPos.add(languageId);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_C_K_L_COMPANYID_2 =
+		"ploEntry.companyId = ? AND ";
+
+	private static final String _FINDER_COLUMN_C_K_L_KEY_2 =
+		"ploEntry.key = ? AND ";
+
+	private static final String _FINDER_COLUMN_C_K_L_KEY_3 =
+		"(ploEntry.key IS NULL OR ploEntry.key = '') AND ";
+
+	private static final String _FINDER_COLUMN_C_K_L_LANGUAGEID_2 =
+		"ploEntry.languageId = ?";
+
+	private static final String _FINDER_COLUMN_C_K_L_LANGUAGEID_3 =
 		"(ploEntry.languageId IS NULL OR ploEntry.languageId = '')";
 
 	public PLOEntryPersistenceImpl() {
@@ -2670,22 +2670,6 @@ public class PLOEntryPersistenceImpl
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "key_"}, false);
 
-		_finderPathFetchByC_K_L = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_K_L",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				String.class.getName()
-			},
-			new String[] {"companyId", "key_", "languageId"}, true);
-
-		_finderPathCountByC_K_L = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_K_L",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				String.class.getName()
-			},
-			new String[] {"companyId", "key_", "languageId"}, false);
-
 		_finderPathWithPaginationFindByC_L = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_L",
 			new String[] {
@@ -2704,6 +2688,22 @@ public class PLOEntryPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "languageId"}, false);
+
+		_finderPathFetchByC_K_L = new FinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_K_L",
+			new String[] {
+				Long.class.getName(), String.class.getName(),
+				String.class.getName()
+			},
+			new String[] {"companyId", "key_", "languageId"}, true);
+
+		_finderPathCountByC_K_L = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_K_L",
+			new String[] {
+				Long.class.getName(), String.class.getName(),
+				String.class.getName()
+			},
+			new String[] {"companyId", "key_", "languageId"}, false);
 
 		_setPLOEntryUtilPersistence(this);
 	}

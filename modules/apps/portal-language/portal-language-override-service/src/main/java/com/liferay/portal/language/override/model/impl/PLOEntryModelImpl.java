@@ -79,7 +79,8 @@ public class PLOEntryModelImpl
 		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
 		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"modifiedDate", Types.TIMESTAMP}, {"key_", Types.VARCHAR},
-		{"languageId", Types.VARCHAR}, {"value", Types.CLOB}
+		{"languageId", Types.VARCHAR}, {"value", Types.CLOB},
+		{"originalValue", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -96,10 +97,11 @@ public class PLOEntryModelImpl
 		TABLE_COLUMNS_MAP.put("key_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("languageId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("value", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("originalValue", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table PLOEntry (mvccVersion LONG default 0 not null,ploEntryId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,key_ VARCHAR(255) null,languageId VARCHAR(75) null,value TEXT null)";
+		"create table PLOEntry (mvccVersion LONG default 0 not null,ploEntryId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,key_ VARCHAR(255) null,languageId VARCHAR(75) null,value TEXT null,originalValue VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table PLOEntry";
 
@@ -170,6 +172,7 @@ public class PLOEntryModelImpl
 		model.setKey(soapModel.getKey());
 		model.setLanguageId(soapModel.getLanguageId());
 		model.setValue(soapModel.getValue());
+		model.setOriginalValue(soapModel.getOriginalValue());
 
 		return model;
 	}
@@ -352,6 +355,11 @@ public class PLOEntryModelImpl
 		attributeGetterFunctions.put("value", PLOEntry::getValue);
 		attributeSetterBiConsumers.put(
 			"value", (BiConsumer<PLOEntry, String>)PLOEntry::setValue);
+		attributeGetterFunctions.put(
+			"originalValue", PLOEntry::getOriginalValue);
+		attributeSetterBiConsumers.put(
+			"originalValue",
+			(BiConsumer<PLOEntry, String>)PLOEntry::setOriginalValue);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -579,6 +587,26 @@ public class PLOEntryModelImpl
 		_value = value;
 	}
 
+	@JSON
+	@Override
+	public String getOriginalValue() {
+		if (_originalValue == null) {
+			return "";
+		}
+		else {
+			return _originalValue;
+		}
+	}
+
+	@Override
+	public void setOriginalValue(String originalValue) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_originalValue = originalValue;
+	}
+
 	public long getColumnBitmask() {
 		if (_columnBitmask > 0) {
 			return _columnBitmask;
@@ -645,6 +673,7 @@ public class PLOEntryModelImpl
 		ploEntryImpl.setKey(getKey());
 		ploEntryImpl.setLanguageId(getLanguageId());
 		ploEntryImpl.setValue(getValue());
+		ploEntryImpl.setOriginalValue(getOriginalValue());
 
 		ploEntryImpl.resetOriginalValues();
 
@@ -672,6 +701,8 @@ public class PLOEntryModelImpl
 		ploEntryImpl.setLanguageId(
 			this.<String>getColumnOriginalValue("languageId"));
 		ploEntryImpl.setValue(this.<String>getColumnOriginalValue("value"));
+		ploEntryImpl.setOriginalValue(
+			this.<String>getColumnOriginalValue("originalValue"));
 
 		return ploEntryImpl;
 	}
@@ -805,6 +836,14 @@ public class PLOEntryModelImpl
 			ploEntryCacheModel.value = null;
 		}
 
+		ploEntryCacheModel.originalValue = getOriginalValue();
+
+		String originalValue = ploEntryCacheModel.originalValue;
+
+		if ((originalValue != null) && (originalValue.length() == 0)) {
+			ploEntryCacheModel.originalValue = null;
+		}
+
 		return ploEntryCacheModel;
 	}
 
@@ -906,6 +945,7 @@ public class PLOEntryModelImpl
 	private String _key;
 	private String _languageId;
 	private String _value;
+	private String _originalValue;
 
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
@@ -946,6 +986,7 @@ public class PLOEntryModelImpl
 		_columnOriginalValues.put("key_", _key);
 		_columnOriginalValues.put("languageId", _languageId);
 		_columnOriginalValues.put("value", _value);
+		_columnOriginalValues.put("originalValue", _originalValue);
 	}
 
 	private static final Map<String, String> _attributeNames;
@@ -988,6 +1029,8 @@ public class PLOEntryModelImpl
 		columnBitmasks.put("languageId", 256L);
 
 		columnBitmasks.put("value", 512L);
+
+		columnBitmasks.put("originalValue", 1024L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

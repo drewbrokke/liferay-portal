@@ -22,6 +22,7 @@
 		<column name="key" type="String" />
 		<column name="languageId" type="String" />
 		<column name="value" type="String" />
+		<column name="originalValue" type="String" />
 
 		<!-- Order -->
 

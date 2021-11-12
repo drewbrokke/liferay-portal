@@ -17,6 +17,7 @@ package com.liferay.portal.language.override.web.internal.display;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.settings.LocalizedValuesMap;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 
@@ -25,6 +26,9 @@ import java.util.Locale;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.language.override.model.PLOEntry;
+import com.liferay.portal.language.override.service.PLOEntryLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -39,10 +43,40 @@ public class EditDisplayContextFactory {
 
 		String key = ParamUtil.getString(renderRequest, "key");
 
+		long companyId = _portal.getCompanyId(renderRequest);
+
 		return new EditDisplayContext(
+			ParamUtil.getString(renderRequest, "backURL"),
 			key,
-			_getLocalizedValuesMap(_portal.getCompanyId(renderRequest), key),
-			ParamUtil.getString(renderRequest, "backURL"));
+			_getLocalizedValuesMap(companyId, key),
+			_getOriginalValuesLocalizedValuesMap(companyId, key));
+	}
+
+	private LocalizedValuesMap _getOriginalValuesLocalizedValuesMap(long companyId, String key) {
+		LocalizedValuesMap localizedValuesMap = new LocalizedValuesMap();
+
+		if ((key == null) || key.equals(StringPool.BLANK)) {
+			return localizedValuesMap;
+		}
+
+		for (Locale locale :
+			LanguageUtil.getCompanyAvailableLocales(companyId)) {
+
+			PLOEntry ploEntry = _ploEntryLocalService.fetchPLOEntry(
+				companyId, key, LocaleUtil.toLanguageId(locale));
+
+			if (ploEntry == null) {
+				continue;
+			}
+
+			String originalValue = ploEntry.getOriginalValue();
+
+			if (Validator.isNotNull(originalValue)) {
+				localizedValuesMap.put(locale, originalValue);
+			}
+		}
+
+		return localizedValuesMap;
 	}
 
 	private LocalizedValuesMap _getLocalizedValuesMap(
@@ -65,5 +99,8 @@ public class EditDisplayContextFactory {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PLOEntryLocalService _ploEntryLocalService;
 
 }

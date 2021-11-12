@@ -143,6 +143,8 @@ public class PLOEntryPersistenceTest {
 
 		newPLOEntry.setValue(RandomTestUtil.randomString());
 
+		newPLOEntry.setOriginalValue(RandomTestUtil.randomString());
+
 		_ploEntries.add(_persistence.update(newPLOEntry));
 
 		PLOEntry existingPLOEntry = _persistence.findByPrimaryKey(
@@ -169,6 +171,9 @@ public class PLOEntryPersistenceTest {
 			existingPLOEntry.getLanguageId(), newPLOEntry.getLanguageId());
 		Assert.assertEquals(
 			existingPLOEntry.getValue(), newPLOEntry.getValue());
+		Assert.assertEquals(
+			existingPLOEntry.getOriginalValue(),
+			newPLOEntry.getOriginalValue());
 	}
 
 	@Test
@@ -188,21 +193,21 @@ public class PLOEntryPersistenceTest {
 	}
 
 	@Test
-	public void testCountByC_K_L() throws Exception {
-		_persistence.countByC_K_L(RandomTestUtil.nextLong(), "", "");
-
-		_persistence.countByC_K_L(0L, "null", "null");
-
-		_persistence.countByC_K_L(0L, (String)null, (String)null);
-	}
-
-	@Test
 	public void testCountByC_L() throws Exception {
 		_persistence.countByC_L(RandomTestUtil.nextLong(), "");
 
 		_persistence.countByC_L(0L, "null");
 
 		_persistence.countByC_L(0L, (String)null);
+	}
+
+	@Test
+	public void testCountByC_K_L() throws Exception {
+		_persistence.countByC_K_L(RandomTestUtil.nextLong(), "", "");
+
+		_persistence.countByC_K_L(0L, "null", "null");
+
+		_persistence.countByC_K_L(0L, (String)null, (String)null);
 	}
 
 	@Test
@@ -232,7 +237,8 @@ public class PLOEntryPersistenceTest {
 		return OrderByComparatorFactoryUtil.create(
 			"PLOEntry", "mvccVersion", true, "ploEntryId", true, "companyId",
 			true, "userId", true, "userName", true, "createDate", true,
-			"modifiedDate", true, "key", true, "languageId", true);
+			"modifiedDate", true, "key", true, "languageId", true,
+			"originalValue", true);
 	}
 
 	@Test
@@ -531,6 +537,8 @@ public class PLOEntryPersistenceTest {
 		ploEntry.setLanguageId(RandomTestUtil.randomString());
 
 		ploEntry.setValue(RandomTestUtil.randomString());
+
+		ploEntry.setOriginalValue(RandomTestUtil.randomString());
 
 		_ploEntries.add(_persistence.update(ploEntry));
 
