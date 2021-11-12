@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringParser;
 import com.liferay.portal.language.LanguageResources;
 import com.liferay.portal.language.override.model.PLOEntry;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -71,7 +73,7 @@ public class ViewDisplayContextFactory {
 	private ManagementToolbarDisplayContext
 		_createManagementToolbarDisplayContext(
 			RenderRequest renderRequest, RenderResponse renderResponse,
-			SearchContainer searchContainer) {
+			SearchContainer<PLOItemDTO> searchContainer) {
 
 		return new ViewManagementToolbarDisplayContext(
 			_portal.getHttpServletRequest(renderRequest),
@@ -124,8 +126,8 @@ public class ViewDisplayContextFactory {
 		Map<String, List<PLOEntry>> ploEntryMap = ploEntryStream.collect(
 			Collectors.groupingBy(PLOEntry::getKey));
 
-		java.util.function.Predicate<String> keyMatchPredicate = s -> true;
-		java.util.function.Predicate<String> valueMatchPredicate = s -> true;
+		Predicate<String> keyMatchPredicate = s -> true;
+		Predicate<String> valueMatchPredicate = s -> true;
 
 		if (searchContainer.isSearch()) {
 			String keywords = ParamUtil.getString(renderRequest, "keywords");
@@ -151,19 +153,21 @@ public class ViewDisplayContextFactory {
 		if (filter.equals("override")) {
 			for (String key : ploEntryMap.keySet()) {
 				if (keyMatchPredicate.test(key) ||
-					valueMatchPredicate.test(resourceBundle.getString(key))) {
+					valueMatchPredicate.test(
+						ResourceBundleUtil.getString(resourceBundle, key))) {
 
 					ploItemDTOs.add(
 						new PLOItemDTO(
-							key, true, resourceBundle.getString(key)));
+							key, true,
+							ResourceBundleUtil.getString(resourceBundle, key)));
 				}
 			}
 		}
 		else {
-			Enumeration<String> keys = resourceBundle.getKeys();
+			Enumeration<String> keysEnumeration = resourceBundle.getKeys();
 
-			while (keys.hasMoreElements()) {
-				String key = keys.nextElement();
+			while (keysEnumeration.hasMoreElements()) {
+				String key = keysEnumeration.nextElement();
 
 				boolean override = false;
 
@@ -174,11 +178,13 @@ public class ViewDisplayContextFactory {
 				}
 
 				if (keyMatchPredicate.test(key) ||
-					valueMatchPredicate.test(resourceBundle.getString(key))) {
+					valueMatchPredicate.test(
+						ResourceBundleUtil.getString(resourceBundle, key))) {
 
 					ploItemDTOs.add(
 						new PLOItemDTO(
-							key, override, resourceBundle.getString(key)));
+							key, override,
+							ResourceBundleUtil.getString(resourceBundle, key)));
 				}
 			}
 		}

@@ -20,6 +20,7 @@ package com.liferay.portal.language.override.web.internal.constants;
 public class PortalLanguageOverridePortletKeys {
 
 	public static final String PORTAL_LANGUAGE_OVERRIDE =
-		"com_liferay_portal_language_override_web_internal_portlet_PortalLanguageOverridePortlet";
+		"com_liferay_portal_language_override_web_internal_portlet_" +
+			"PortalLanguageOverridePortlet";
 
 }

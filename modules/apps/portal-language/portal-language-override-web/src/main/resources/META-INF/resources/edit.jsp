@@ -1,6 +1,3 @@
-<%@ page import="com.liferay.portal.kernel.util.LocalizationUtil" %><%@
-page import="com.liferay.portal.language.override.web.internal.display.EditDisplayContext" %>
-
 <%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
