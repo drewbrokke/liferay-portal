@@ -17,5 +17,6 @@
 			<hint-collection name="CLOB" />
 			<sanitize content-type="text/html" modes="ALL" />
 		</field>
+		<field name="originalValue" type="String" />
 	</model>
 </model-hints>

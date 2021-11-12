@@ -60,10 +60,32 @@
 				</aui:script>
 			</c:when>
 			<c:when test='<%= type.equals("input") %>'>
-				<input aria-describedby="<%= namespace + HtmlUtil.escapeAttribute(id + fieldSuffix) %>_desc" class="form-control language-value <%= cssClass %>" dir="<%= mainLanguageDir %>" <%= disabled ? "disabled=\"disabled\"" : "" %> id="<%= namespace + id + HtmlUtil.getAUICompatibleId(fieldSuffix) %>" name="<%= namespace + HtmlUtil.escapeAttribute(name + fieldSuffix) %>" <%= Validator.isNotNull(placeholder) ? "placeholder=\"" + LanguageUtil.get(resourceBundle, placeholder) + "\"" : StringPool.BLANK %> type="text" value="<%= HtmlUtil.escapeAttribute(mainLanguageValue) %>" <%= InlineUtil.buildDynamicAttributes(dynamicAttributes) %> />
+				<input
+					aria-describedby="<%= namespace + HtmlUtil.escapeAttribute(id + fieldSuffix) %>_desc"
+					class="form-control language-value <%= cssClass %>"
+					dir="<%= mainLanguageDir %>"
+					<%= disabled ? "disabled=\"disabled\"" : "" %>
+					id="<%= namespace + id + HtmlUtil.getAUICompatibleId(fieldSuffix) %>"
+					name="<%= namespace + HtmlUtil.escapeAttribute(name + fieldSuffix) %>"
+					<%= Validator.isNotNull(placeholder) ? "placeholder=\"" + LanguageUtil.get(resourceBundle, placeholder) + "\"" : StringPool.BLANK %>
+					type="text"
+					value="<%= HtmlUtil.escapeAttribute(mainLanguageValue) %>"
+					<%= InlineUtil.buildDynamicAttributes(dynamicAttributes) %>
+				/>
 			</c:when>
 			<c:when test='<%= type.equals("textarea") %>'>
-				<textarea aria-describedby="<%= namespace + HtmlUtil.escapeAttribute(id + fieldSuffix) %>_desc" class="form-control language-value <%= cssClass %>" dir="<%= mainLanguageDir %>" <%= disabled ? "disabled=\"disabled\"" : "" %> id="<%= namespace + id + HtmlUtil.getAUICompatibleId(fieldSuffix) %>" name="<%= namespace + HtmlUtil.escapeAttribute(name + fieldSuffix) %>" <%= Validator.isNotNull(placeholder) ? "placeholder=\"" + LanguageUtil.get(resourceBundle, placeholder) + "\"" : StringPool.BLANK %> <%= InlineUtil.buildDynamicAttributes(dynamicAttributes) %>><%= HtmlUtil.escape(mainLanguageValue) %></textarea>
+				<textarea
+					aria-describedby="<%= namespace + HtmlUtil.escapeAttribute(id + fieldSuffix) %>_desc"
+					class="form-control language-value <%= cssClass %>"
+					dir="<%= mainLanguageDir %>"
+					<%= disabled ? "disabled=\"disabled\"" : "" %>
+					id="<%= namespace + id + HtmlUtil.getAUICompatibleId(fieldSuffix) %>"
+					name="<%= namespace + HtmlUtil.escapeAttribute(name + fieldSuffix) %>"
+					<%= Validator.isNotNull(placeholder) ? "placeholder=\"" + LanguageUtil.get(resourceBundle, placeholder) + "\"" : StringPool.BLANK %>
+					<%= InlineUtil.buildDynamicAttributes(dynamicAttributes) %>
+				>
+					<%= HtmlUtil.escape(mainLanguageValue) %>
+				</textarea>
 
 				<c:if test="<%= autoSize %>">
 					<aui:script use="aui-autosize-deprecated">

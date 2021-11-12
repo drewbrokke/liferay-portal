@@ -68,6 +68,13 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 				value="<%= ploItemDTO.getValue() %>"
 			/>
 
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand-small table-cell-minw-150"
+				href="<%= editURL %>"
+				name="value"
+				value="<%= ploItemDTO.getValue() %>"
+			/>
+
 			<liferay-ui:search-container-column-jsp
 				path="/actions.jsp"
 			/>

@@ -43,6 +43,7 @@ public class PLOEntrySoap implements Serializable {
 		soapModel.setKey(model.getKey());
 		soapModel.setLanguageId(model.getLanguageId());
 		soapModel.setValue(model.getValue());
+		soapModel.setOriginalValue(model.getOriginalValue());
 
 		return soapModel;
 	}
@@ -176,6 +177,14 @@ public class PLOEntrySoap implements Serializable {
 		_value = value;
 	}
 
+	public String getOriginalValue() {
+		return _originalValue;
+	}
+
+	public void setOriginalValue(String originalValue) {
+		_originalValue = originalValue;
+	}
+
 	private long _mvccVersion;
 	private long _ploEntryId;
 	private long _companyId;
@@ -186,5 +195,6 @@ public class PLOEntrySoap implements Serializable {
 	private String _key;
 	private String _languageId;
 	private String _value;
+	private String _originalValue;
 
 }

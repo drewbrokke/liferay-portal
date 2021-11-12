@@ -231,6 +231,21 @@ public interface PLOEntryModel
 	 */
 	public void setValue(String value);
 
+	/**
+	 * Returns the original value of this plo entry.
+	 *
+	 * @return the original value of this plo entry
+	 */
+	@AutoEscape
+	public String getOriginalValue();
+
+	/**
+	 * Sets the original value of this plo entry.
+	 *
+	 * @param originalValue the original value of this plo entry
+	 */
+	public void setOriginalValue(String originalValue);
+
 	@Override
 	public PLOEntry cloneWithOriginalValues();
 

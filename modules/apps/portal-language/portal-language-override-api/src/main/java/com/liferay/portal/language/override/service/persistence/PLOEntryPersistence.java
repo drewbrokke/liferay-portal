@@ -338,61 +338,6 @@ public interface PLOEntryPersistence extends BasePersistence<PLOEntry> {
 	public int countByC_K(long companyId, String key);
 
 	/**
-	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or throws a <code>NoSuchPLOEntryException</code> if it could not be found.
-	 *
-	 * @param companyId the company ID
-	 * @param key the key
-	 * @param languageId the language ID
-	 * @return the matching plo entry
-	 * @throws NoSuchPLOEntryException if a matching plo entry could not be found
-	 */
-	public PLOEntry findByC_K_L(long companyId, String key, String languageId)
-		throws NoSuchPLOEntryException;
-
-	/**
-	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param companyId the company ID
-	 * @param key the key
-	 * @param languageId the language ID
-	 * @return the matching plo entry, or <code>null</code> if a matching plo entry could not be found
-	 */
-	public PLOEntry fetchByC_K_L(long companyId, String key, String languageId);
-
-	/**
-	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param companyId the company ID
-	 * @param key the key
-	 * @param languageId the language ID
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the matching plo entry, or <code>null</code> if a matching plo entry could not be found
-	 */
-	public PLOEntry fetchByC_K_L(
-		long companyId, String key, String languageId, boolean useFinderCache);
-
-	/**
-	 * Removes the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; from the database.
-	 *
-	 * @param companyId the company ID
-	 * @param key the key
-	 * @param languageId the language ID
-	 * @return the plo entry that was removed
-	 */
-	public PLOEntry removeByC_K_L(long companyId, String key, String languageId)
-		throws NoSuchPLOEntryException;
-
-	/**
-	 * Returns the number of plo entries where companyId = &#63; and key = &#63; and languageId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param key the key
-	 * @param languageId the language ID
-	 * @return the number of matching plo entries
-	 */
-	public int countByC_K_L(long companyId, String key, String languageId);
-
-	/**
 	 * Returns all the plo entries where companyId = &#63; and languageId = &#63;.
 	 *
 	 * @param companyId the company ID
@@ -546,6 +491,61 @@ public interface PLOEntryPersistence extends BasePersistence<PLOEntry> {
 	 * @return the number of matching plo entries
 	 */
 	public int countByC_L(long companyId, String languageId);
+
+	/**
+	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or throws a <code>NoSuchPLOEntryException</code> if it could not be found.
+	 *
+	 * @param companyId the company ID
+	 * @param key the key
+	 * @param languageId the language ID
+	 * @return the matching plo entry
+	 * @throws NoSuchPLOEntryException if a matching plo entry could not be found
+	 */
+	public PLOEntry findByC_K_L(long companyId, String key, String languageId)
+		throws NoSuchPLOEntryException;
+
+	/**
+	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param key the key
+	 * @param languageId the language ID
+	 * @return the matching plo entry, or <code>null</code> if a matching plo entry could not be found
+	 */
+	public PLOEntry fetchByC_K_L(long companyId, String key, String languageId);
+
+	/**
+	 * Returns the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param companyId the company ID
+	 * @param key the key
+	 * @param languageId the language ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching plo entry, or <code>null</code> if a matching plo entry could not be found
+	 */
+	public PLOEntry fetchByC_K_L(
+		long companyId, String key, String languageId, boolean useFinderCache);
+
+	/**
+	 * Removes the plo entry where companyId = &#63; and key = &#63; and languageId = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param key the key
+	 * @param languageId the language ID
+	 * @return the plo entry that was removed
+	 */
+	public PLOEntry removeByC_K_L(long companyId, String key, String languageId)
+		throws NoSuchPLOEntryException;
+
+	/**
+	 * Returns the number of plo entries where companyId = &#63; and key = &#63; and languageId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param key the key
+	 * @param languageId the language ID
+	 * @return the number of matching plo entries
+	 */
+	public int countByC_K_L(long companyId, String key, String languageId);
 
 	/**
 	 * Caches the plo entry in the entity cache if it is enabled.

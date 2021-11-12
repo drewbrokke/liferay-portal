@@ -21,14 +21,6 @@ import com.liferay.portal.kernel.settings.LocalizedValuesMap;
  */
 public class EditDisplayContext {
 
-	public EditDisplayContext(
-		String key, LocalizedValuesMap localizedValuesMap, String backURL) {
-
-		_key = key;
-		_localizedValuesMap = localizedValuesMap;
-		_backURL = backURL;
-	}
-
 	public String getBackURL() {
 		return _backURL;
 	}
@@ -37,12 +29,28 @@ public class EditDisplayContext {
 		return _key;
 	}
 
-	public LocalizedValuesMap getLocalizedValuesMap() {
-		return _localizedValuesMap;
+	public LocalizedValuesMap getValuesLocalizedValuesMap() {
+		return _valuesLocalizedValuesMap;
 	}
 
 	private final String _backURL;
 	private final String _key;
-	private final LocalizedValuesMap _localizedValuesMap;
+	private final LocalizedValuesMap _valuesLocalizedValuesMap;
+
+	public EditDisplayContext(
+		String backURL, String key,
+		LocalizedValuesMap valuesLocalizedValuesMap,
+		LocalizedValuesMap originalValuesLocalizedValuesMap) {
+		_backURL = backURL;
+		_key = key;
+		_valuesLocalizedValuesMap = valuesLocalizedValuesMap;
+		_originalValuesLocalizedValuesMap = originalValuesLocalizedValuesMap;
+	}
+
+	public LocalizedValuesMap getOriginalValuesLocalizedValuesMap() {
+		return _originalValuesLocalizedValuesMap;
+	}
+
+	private final LocalizedValuesMap _originalValuesLocalizedValuesMap;
 
 }

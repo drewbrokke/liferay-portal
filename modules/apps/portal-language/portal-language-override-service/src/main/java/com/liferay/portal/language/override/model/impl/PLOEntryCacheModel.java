@@ -76,7 +76,7 @@ public class PLOEntryCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -98,6 +98,8 @@ public class PLOEntryCacheModel
 		sb.append(languageId);
 		sb.append(", value=");
 		sb.append(value);
+		sb.append(", originalValue=");
+		sb.append(originalValue);
 		sb.append("}");
 
 		return sb.toString();
@@ -154,6 +156,13 @@ public class PLOEntryCacheModel
 			ploEntryImpl.setValue(value);
 		}
 
+		if (originalValue == null) {
+			ploEntryImpl.setOriginalValue("");
+		}
+		else {
+			ploEntryImpl.setOriginalValue(originalValue);
+		}
+
 		ploEntryImpl.resetOriginalValues();
 
 		return ploEntryImpl;
@@ -176,6 +185,7 @@ public class PLOEntryCacheModel
 		key = objectInput.readUTF();
 		languageId = objectInput.readUTF();
 		value = (String)objectInput.readObject();
+		originalValue = objectInput.readUTF();
 	}
 
 	@Override
@@ -218,6 +228,13 @@ public class PLOEntryCacheModel
 		else {
 			objectOutput.writeObject(value);
 		}
+
+		if (originalValue == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(originalValue);
+		}
 	}
 
 	public long mvccVersion;
@@ -230,5 +247,6 @@ public class PLOEntryCacheModel
 	public String key;
 	public String languageId;
 	public String value;
+	public String originalValue;
 
 }

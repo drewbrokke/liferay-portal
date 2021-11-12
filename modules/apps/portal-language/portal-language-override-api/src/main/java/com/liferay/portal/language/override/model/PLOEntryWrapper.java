@@ -52,6 +52,7 @@ public class PLOEntryWrapper
 		attributes.put("key", getKey());
 		attributes.put("languageId", getLanguageId());
 		attributes.put("value", getValue());
+		attributes.put("originalValue", getOriginalValue());
 
 		return attributes;
 	}
@@ -116,6 +117,12 @@ public class PLOEntryWrapper
 
 		if (value != null) {
 			setValue(value);
+		}
+
+		String originalValue = (String)attributes.get("originalValue");
+
+		if (originalValue != null) {
+			setOriginalValue(originalValue);
 		}
 	}
 
@@ -182,6 +189,16 @@ public class PLOEntryWrapper
 	@Override
 	public long getMvccVersion() {
 		return model.getMvccVersion();
+	}
+
+	/**
+	 * Returns the original value of this plo entry.
+	 *
+	 * @return the original value of this plo entry
+	 */
+	@Override
+	public String getOriginalValue() {
+		return model.getOriginalValue();
 	}
 
 	/**
@@ -307,6 +324,16 @@ public class PLOEntryWrapper
 	@Override
 	public void setMvccVersion(long mvccVersion) {
 		model.setMvccVersion(mvccVersion);
+	}
+
+	/**
+	 * Sets the original value of this plo entry.
+	 *
+	 * @param originalValue the original value of this plo entry
+	 */
+	@Override
+	public void setOriginalValue(String originalValue) {
+		model.setOriginalValue(originalValue);
 	}
 
 	/**

@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.liferay.dynamic.data.mapping.kernel.Value" %>
+<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -33,11 +34,26 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 		<aui:input name="redirect" type="hidden" value="<%= editDisplayContext.getBackURL() %>" />
 
 		<liferay-frontend:edit-form-body>
-			<aui:input name="key" pattern="[^ ]+" required="<%= true %>" value="<%= editDisplayContext.getKey() %>" />
+			<c:choose>
+				<c:when test="<%= Validator.isNotNull(editDisplayContext.getKey()) %>">
+					<aui:input name="key" type="hidden" value="<%= editDisplayContext.getKey() %>" />
+				</c:when>
+				<c:otherwise>
+					<aui:input name="key" pattern="[^ ]+" required="<%= true %>" value="<%= editDisplayContext.getKey() %>" />
+				</c:otherwise>
+			</c:choose>
 
 			<liferay-ui:input-localized
+				disabled="<%= true %>"
+				helpMessage="original-values"
+				name="originalValues"
+				xml='<%= LocalizationUtil.getXml(editDisplayContext.getOriginalValuesLocalizedValuesMap(), "value") %>'
+			/>
+
+			<liferay-ui:input-localized
+				helpMessage='<%= LanguageUtil.format(request, "language-key-x", editDisplayContext.getKey(), false) %>'
 				name="value"
-				xml='<%= LocalizationUtil.getXml(editDisplayContext.getLocalizedValuesMap(), "value") %>'
+				xml='<%= LocalizationUtil.getXml(editDisplayContext.getValuesLocalizedValuesMap(), "value") %>'
 			/>
 		</liferay-frontend:edit-form-body>
 
