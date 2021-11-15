@@ -37,6 +37,13 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 			<c:choose>
 				<c:when test="<%= Validator.isNotNull(editDisplayContext.getKey()) %>">
 					<aui:input name="key" type="hidden" value="<%= editDisplayContext.getKey() %>" />
+
+					<liferay-ui:input-localized
+						disabled="<%= true %>"
+						helpMessage="original-translations"
+						name="originalValues"
+						xml='<%= LocalizationUtil.getXml(editDisplayContext.getOriginalValuesLocalizedValuesMap(), "value") %>'
+					/>
 				</c:when>
 				<c:otherwise>
 					<aui:input name="key" pattern="[^ ]+" required="<%= true %>" value="<%= editDisplayContext.getKey() %>" />
@@ -44,14 +51,6 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 			</c:choose>
 
 			<liferay-ui:input-localized
-				disabled="<%= true %>"
-				helpMessage="original-values"
-				name="originalValues"
-				xml='<%= LocalizationUtil.getXml(editDisplayContext.getOriginalValuesLocalizedValuesMap(), "value") %>'
-			/>
-
-			<liferay-ui:input-localized
-				helpMessage='<%= LanguageUtil.format(request, "language-key-x", editDisplayContext.getKey(), false) %>'
 				name="value"
 				xml='<%= LocalizationUtil.getXml(editDisplayContext.getValuesLocalizedValuesMap(), "value") %>'
 			/>
