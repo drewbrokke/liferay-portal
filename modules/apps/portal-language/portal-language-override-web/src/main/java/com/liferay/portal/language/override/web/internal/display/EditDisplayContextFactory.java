@@ -43,58 +43,48 @@ public class EditDisplayContextFactory {
 
 		String key = ParamUtil.getString(renderRequest, "key");
 
-		long companyId = _portal.getCompanyId(renderRequest);
+		LocalizedValuesMap localizedValuesMap = new LocalizedValuesMap();
+		LocalizedValuesMap originalValuesLocalizedValuesMap =
+			new LocalizedValuesMap();
+
+		_populateLocalizedValuesMap(
+			_portal.getCompanyId(renderRequest), key, localizedValuesMap,
+			originalValuesLocalizedValuesMap);
 
 		return new EditDisplayContext(
 			ParamUtil.getString(renderRequest, "backURL"),
-			key,
-			_getLocalizedValuesMap(companyId, key),
-			_getOriginalValuesLocalizedValuesMap(companyId, key));
+			key, localizedValuesMap, originalValuesLocalizedValuesMap);
 	}
 
-	private LocalizedValuesMap _getOriginalValuesLocalizedValuesMap(long companyId, String key) {
-		LocalizedValuesMap localizedValuesMap = new LocalizedValuesMap();
+	private void _populateLocalizedValuesMap(
+		long companyId, String key,
+		LocalizedValuesMap localizedValuesMap,
+		LocalizedValuesMap originalValuesLocalizedValuesMap) {
 
 		if ((key == null) || key.equals(StringPool.BLANK)) {
-			return localizedValuesMap;
+			return;
 		}
 
 		for (Locale locale :
 			LanguageUtil.getCompanyAvailableLocales(companyId)) {
 
-			PLOEntry ploEntry = _ploEntryLocalService.fetchPLOEntry(
-				companyId, key, LocaleUtil.toLanguageId(locale));
+			String languageId = LocaleUtil.toLanguageId(locale);
 
-			if (ploEntry == null) {
+			PLOEntry ploEntry = _ploEntryLocalService.fetchPLOEntry(
+				companyId, key, languageId);
+
+			if (ploEntry != null) {
+				originalValuesLocalizedValuesMap.put(locale,
+					ploEntry.getOriginalValue());
+
+				localizedValuesMap.put(locale, ploEntry.getValue());
+
 				continue;
 			}
 
-			String originalValue = ploEntry.getOriginalValue();
+			originalValuesLocalizedValuesMap.put(locale, LanguageUtil.get(locale, key));
 
-			if (Validator.isNotNull(originalValue)) {
-				localizedValuesMap.put(locale, originalValue);
-			}
 		}
-
-		return localizedValuesMap;
-	}
-
-	private LocalizedValuesMap _getLocalizedValuesMap(
-		long companyId, String key) {
-
-		LocalizedValuesMap localizedValuesMap = new LocalizedValuesMap();
-
-		if ((key == null) || key.equals(StringPool.BLANK)) {
-			return localizedValuesMap;
-		}
-
-		for (Locale locale :
-				LanguageUtil.getCompanyAvailableLocales(companyId)) {
-
-			localizedValuesMap.put(locale, LanguageUtil.get(locale, key));
-		}
-
-		return localizedValuesMap;
 	}
 
 	@Reference
