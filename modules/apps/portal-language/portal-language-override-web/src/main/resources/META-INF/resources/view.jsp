@@ -1,4 +1,7 @@
-<%--
+<%@ page import="com.liferay.portal.kernel.util.TextFormatter" %>
+<%@ page import="com.liferay.portal.kernel.util.StringUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.HttpUtil" %>
+<%@ page import="java.util.Locale" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -26,6 +29,22 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 />
 
 <clay:container-fluid>
+
+		<liferay-ui:icon-list showWhenSingleIcon="<%= true %>">
+
+		<% for (String language : viewDisplayContext.getAvailableLanguages()) { %>
+
+			<liferay-ui:icon
+				message="<%= language %>"
+				icon="<%= StringUtil.toLowerCase(TextFormatter.format(language, TextFormatter.O)) %>"
+				markupView="lexicon"
+				url="<%= HttpUtil.setParameter(currentURL, liferayPortletResponse.getNamespace() + "selectedLanguage", language) %>"
+			/>
+
+		<% } %>
+
+		</liferay-ui:icon-list>
+
 	<liferay-ui:search-container
 		orderByCol="key"
 		searchContainer="<%= viewDisplayContext.getSearchContainer() %>"
@@ -39,34 +58,38 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 				<portlet:param name="backURL" value="<%= currentURL %>" />
 				<portlet:param name="key" value="<%= ploItemDTO.getKey() %>" />
 				<portlet:param name="mvcPath" value="/edit.jsp" />
+				<portlet:param name="selectedLanguage" value="<%= viewDisplayContext.getSelectedLanguage() %>" />
 			</portlet:renderURL>
 
 			<liferay-ui:search-container-column-text
-				cssClass="table-cell-expand-small table-cell-minw-150"
+				cssClass="table-cell-expand-small"
 				href="<%= editURL %>"
 				name="key"
 				value="<%= ploItemDTO.getKey() %>"
 			/>
 
 			<liferay-ui:search-container-column-text
-				cssClass="col-1 table-column-text-center"
-				href="<%= editURL %>"
-				name="override"
-			>
-				<c:if test="<%= ploItemDTO.isOverride() %>">
-					<clay:icon
-						cssClass="text-info"
-						symbol="check-small"
-					/>
-				</c:if>
-			</liferay-ui:search-container-column-text>
-
-			<liferay-ui:search-container-column-text
-				cssClass="table-cell-expand-small table-cell-minw-150"
+				cssClass="table-cell-expand-small"
 				href="<%= editURL %>"
 				name="value"
 				value="<%= ploItemDTO.getValue() %>"
 			/>
+
+			<liferay-ui:search-container-column-text
+				href="<%= editURL %>"
+				name="overrideLanguages"
+			>
+
+				<% for (String language : ploItemDTO.getOverrideLanguages()) { %>
+					<liferay-ui:icon
+						message="<%= language %>"
+						icon="<%= StringUtil.toLowerCase(TextFormatter.format(language, TextFormatter.O)) %>"
+						markupView="lexicon"
+						url="<%= HttpUtil.setParameter(editURL, liferayPortletResponse.getNamespace() + "selectedLanguage", language) %>"
+					/>
+				<% } %>
+
+			</liferay-ui:search-container-column-text>
 
 			<liferay-ui:search-container-column-jsp
 				path="/actions.jsp"

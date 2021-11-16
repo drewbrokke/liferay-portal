@@ -53,7 +53,10 @@ public class EditDisplayContextFactory {
 
 		return new EditDisplayContext(
 			ParamUtil.getString(renderRequest, "backURL"),
-			key, localizedValuesMap, originalValuesLocalizedValuesMap);
+			key, localizedValuesMap, originalValuesLocalizedValuesMap,
+			ParamUtil.getString(
+				renderRequest, "selectedLanguage",
+				LocaleUtil.toLanguageId(_portal.getLocale(renderRequest))));
 	}
 
 	private void _populateLocalizedValuesMap(
@@ -82,7 +85,8 @@ public class EditDisplayContextFactory {
 				continue;
 			}
 
-			originalValuesLocalizedValuesMap.put(locale, LanguageUtil.get(locale, key));
+			originalValuesLocalizedValuesMap.put(
+				locale, LanguageUtil.get(locale, key));
 
 		}
 	}

@@ -42,6 +42,7 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 						disabled="<%= true %>"
 						helpMessage="original-translations"
 						name="originalValues"
+						selectedLanguageId="<%= editDisplayContext.getSelectedLanguage() %>"
 						xml='<%= LocalizationUtil.getXml(editDisplayContext.getOriginalValuesLocalizedValuesMap(), "value") %>'
 					/>
 				</c:when>
@@ -52,6 +53,7 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 
 			<liferay-ui:input-localized
 				name="value"
+				selectedLanguageId="<%= editDisplayContext.getSelectedLanguage() %>"
 				xml='<%= LocalizationUtil.getXml(editDisplayContext.getValuesLocalizedValuesMap(), "value") %>'
 			/>
 		</liferay-frontend:edit-form-body>
