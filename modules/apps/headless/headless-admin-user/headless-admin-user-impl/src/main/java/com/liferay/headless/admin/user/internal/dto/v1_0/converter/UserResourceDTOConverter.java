@@ -40,6 +40,7 @@ import com.liferay.headless.admin.user.internal.dto.v1_0.util.EmailAddressUtil;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.PhoneUtil;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.PostalAddressUtil;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.ServiceBuilderListTypeUtil;
+import com.liferay.headless.admin.user.internal.dto.v1_0.util.ServiceBuilderRoleUtil;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.WebUrlUtil;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringPool;
@@ -158,7 +159,7 @@ public class UserResourceDTOConverter
 						dtoConverterContext, organization, user),
 					OrganizationBrief.class);
 				roleBriefs = TransformUtil.transformToArray(
-					_roleLocalService.getUserRoles(user.getUserId()),
+					ServiceBuilderRoleUtil.getAllRoles(user),
 					role -> _toRoleBrief(dtoConverterContext, role),
 					RoleBrief.class);
 				siteBriefs = TransformUtil.transformToArray(
