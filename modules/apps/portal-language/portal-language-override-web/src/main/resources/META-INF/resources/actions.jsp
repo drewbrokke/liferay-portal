@@ -1,6 +1,4 @@
-<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
-<%@ page import="com.liferay.portal.kernel.util.ListUtil" %>
-<%@ page import="java.util.Objects" %><%--
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -39,15 +37,14 @@ PLOItemDTO rowObjectPLOItemDTO = (PLOItemDTO)row.getObject();
 				<portlet:param name="redirect" value="<%= currentURL %>" />
 				<portlet:param name="key" value="<%= rowObjectPLOItemDTO.getKey() %>" />
 				<portlet:param name="selectedLanguage" value="<%= viewDisplayContext.getSelectedLanguage() %>" />
-
 			</portlet:actionURL>
 
 			<liferay-ui:icon-delete
 				confirmation='<%= LanguageUtil.format(request, "do-you-want-to-reset-the override-value-for-x", viewDisplayContext.getSelectedLanguage()) %>'
 				icon="reset"
-				showIcon="<%= true %>"
-				message='<%= LanguageUtil.format(request, "remove-override-for-x", viewDisplayContext.getSelectedLanguage()) %>'
 				label="<%= true %>"
+				message='<%= LanguageUtil.format(request, "remove-override-for-x", viewDisplayContext.getSelectedLanguage()) %>'
+				showIcon="<%= true %>"
 				url="<%= deletePortalLanguageOverrideURL %>"
 			/>
 		</c:if>
@@ -60,8 +57,8 @@ PLOItemDTO rowObjectPLOItemDTO = (PLOItemDTO)row.getObject();
 		<liferay-ui:icon-delete
 			confirmation="do-you-want-to-reset-all-override-values"
 			icon="trash"
-			showIcon="<%= true %>"
 			message="remove-overrides"
+			showIcon="<%= true %>"
 			url="<%= deletePortalLanguageOverridesURL %>"
 		/>
 	</c:if>

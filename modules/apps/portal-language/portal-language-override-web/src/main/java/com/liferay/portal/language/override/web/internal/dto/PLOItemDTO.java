@@ -27,8 +27,16 @@ public class PLOItemDTO {
 		_value = value;
 	}
 
+	public void addOverrideLanguage(String language) {
+		_overrideLanguages.add(language);
+	}
+
 	public String getKey() {
 		return _key;
+	}
+
+	public List<String> getOverrideLanguages() {
+		return _overrideLanguages;
 	}
 
 	public String getValue() {
@@ -39,22 +47,12 @@ public class PLOItemDTO {
 		return _override;
 	}
 
-	public void setOverride(boolean override) {
-		_override = override;
-	}
-
-	public List<String> getOverrideLanguages() {
-		return _overrideLanguages;
-	}
-
-	public void addOverrideLanguage(String language) {
-		_overrideLanguages.add(language);
-	}
-
-	private boolean _overrideSelectedLanguage;
-
 	public boolean isOverrideSelectedLanguage() {
 		return _overrideSelectedLanguage;
+	}
+
+	public void setOverride(boolean override) {
+		_override = override;
 	}
 
 	public void setOverrideSelectedLanguage(boolean overrideSelectedLanguage) {
@@ -63,7 +61,8 @@ public class PLOItemDTO {
 
 	private final String _key;
 	private boolean _override;
-	private final String _value;
 	private final List<String> _overrideLanguages = new ArrayList<>();
+	private boolean _overrideSelectedLanguage;
+	private final String _value;
 
 }

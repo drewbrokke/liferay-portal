@@ -1,7 +1,4 @@
-<%@ page import="com.liferay.portal.kernel.util.TextFormatter" %>
-<%@ page import="com.liferay.portal.kernel.util.StringUtil" %>
-<%@ page import="com.liferay.portal.kernel.util.HttpUtil" %>
-<%@ page import="java.util.Locale" %><%--
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -29,21 +26,26 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 />
 
 <clay:container-fluid>
+	<liferay-ui:icon-list
+		showWhenSingleIcon="<%= true %>"
+	>
 
-		<liferay-ui:icon-list showWhenSingleIcon="<%= true %>">
-
-		<% for (String language : viewDisplayContext.getAvailableLanguages()) { %>
+		<%
+		for (String language : viewDisplayContext.getAvailableLanguages()) {
+		%>
 
 			<liferay-ui:icon
-				message="<%= language %>"
 				icon="<%= StringUtil.toLowerCase(TextFormatter.format(language, TextFormatter.O)) %>"
 				markupView="lexicon"
-				url="<%= HttpUtil.setParameter(currentURL, liferayPortletResponse.getNamespace() + "selectedLanguage", language) %>"
+				message="<%= language %>"
+				url='<%= HttpUtil.setParameter(currentURL, liferayPortletResponse.getNamespace() + "selectedLanguage", language) %>'
 			/>
 
-		<% } %>
+		<%
+		}
+		%>
 
-		</liferay-ui:icon-list>
+	</liferay-ui:icon-list>
 
 	<liferay-ui:search-container
 		orderByCol="key"
@@ -80,14 +82,20 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 				name="overrideLanguages"
 			>
 
-				<% for (String language : ploItemDTO.getOverrideLanguages()) { %>
+				<%
+				for (String language : ploItemDTO.getOverrideLanguages()) {
+				%>
+
 					<liferay-ui:icon
-						message="<%= language %>"
 						icon="<%= StringUtil.toLowerCase(TextFormatter.format(language, TextFormatter.O)) %>"
 						markupView="lexicon"
-						url="<%= HttpUtil.setParameter(editURL, liferayPortletResponse.getNamespace() + "selectedLanguage", language) %>"
+						message="<%= language %>"
+						url='<%= HttpUtil.setParameter(editURL, liferayPortletResponse.getNamespace() + "selectedLanguage", language) %>'
 					/>
-				<% } %>
+
+				<%
+				}
+				%>
 
 			</liferay-ui:search-container-column-text>
 
