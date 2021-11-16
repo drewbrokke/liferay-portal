@@ -18,17 +18,19 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.language.override.model.PLOEntry;
+import com.liferay.portal.language.override.service.PLOEntryLocalService;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.language.override.model.PLOEntry;
-import com.liferay.portal.language.override.service.PLOEntryLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -51,17 +53,22 @@ public class EditDisplayContextFactory {
 			_portal.getCompanyId(renderRequest), key, localizedValuesMap,
 			originalValuesLocalizedValuesMap);
 
-		return new EditDisplayContext(
-			ParamUtil.getString(renderRequest, "backURL"),
-			key, localizedValuesMap, originalValuesLocalizedValuesMap,
+		EditDisplayContext editDisplayContext = new EditDisplayContext(
+			ParamUtil.getString(renderRequest, "backURL"), key,
+			localizedValuesMap, originalValuesLocalizedValuesMap,
 			ParamUtil.getString(
 				renderRequest, "selectedLanguage",
 				LocaleUtil.toLanguageId(_portal.getLocale(renderRequest))));
+
+		if (MapUtil.isNotEmpty(originalValuesLocalizedValuesMap.getValues())) {
+			editDisplayContext.setShowOriginalValues(true);
+		}
+
+		return editDisplayContext;
 	}
 
 	private void _populateLocalizedValuesMap(
-		long companyId, String key,
-		LocalizedValuesMap localizedValuesMap,
+		long companyId, String key, LocalizedValuesMap localizedValuesMap,
 		LocalizedValuesMap originalValuesLocalizedValuesMap) {
 
 		if ((key == null) || key.equals(StringPool.BLANK)) {
@@ -69,7 +76,7 @@ public class EditDisplayContextFactory {
 		}
 
 		for (Locale locale :
-			LanguageUtil.getCompanyAvailableLocales(companyId)) {
+				LanguageUtil.getCompanyAvailableLocales(companyId)) {
 
 			String languageId = LocaleUtil.toLanguageId(locale);
 
@@ -77,24 +84,29 @@ public class EditDisplayContextFactory {
 				companyId, key, languageId);
 
 			if (ploEntry != null) {
-				originalValuesLocalizedValuesMap.put(locale,
-					ploEntry.getOriginalValue());
+				String originalValue = ploEntry.getOriginalValue();
+
+				if (Validator.isNotNull(originalValue)) {
+					originalValuesLocalizedValuesMap.put(locale, originalValue);
+				}
 
 				localizedValuesMap.put(locale, ploEntry.getValue());
 
 				continue;
 			}
 
-			originalValuesLocalizedValuesMap.put(
-				locale, LanguageUtil.get(locale, key));
+			String value = LanguageUtil.get(locale, key);
 
+			if (!Objects.equals(key, value)) {
+				originalValuesLocalizedValuesMap.put(locale, value);
+			}
 		}
 	}
 
 	@Reference
-	private Portal _portal;
+	private PLOEntryLocalService _ploEntryLocalService;
 
 	@Reference
-	private PLOEntryLocalService _ploEntryLocalService;
+	private Portal _portal;
 
 }

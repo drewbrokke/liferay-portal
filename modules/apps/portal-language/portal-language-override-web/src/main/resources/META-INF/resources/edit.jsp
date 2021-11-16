@@ -1,5 +1,4 @@
-<%@ page import="com.liferay.dynamic.data.mapping.kernel.Value" %>
-<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %><%--
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -38,13 +37,18 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 				<c:when test="<%= Validator.isNotNull(editDisplayContext.getKey()) %>">
 					<aui:input name="key" type="hidden" value="<%= editDisplayContext.getKey() %>" />
 
-					<liferay-ui:input-localized
-						disabled="<%= true %>"
-						helpMessage="original-translations"
-						name="originalValues"
-						selectedLanguageId="<%= editDisplayContext.getSelectedLanguage() %>"
-						xml='<%= LocalizationUtil.getXml(editDisplayContext.getOriginalValuesLocalizedValuesMap(), "value") %>'
-					/>
+					<aui:input disabled="<%= true %>" name="keyDisplay" type="text" value="<%= editDisplayContext.getKey() %>" />
+
+					<c:if test="<%= editDisplayContext.isShowOriginalValues() %>">
+						<liferay-ui:input-localized
+							disabled="<%= true %>"
+							helpMessage="originalValues"
+							ignoreRequestValue="<%= true %>"
+							name="originalValuesDisplay"
+							selectedLanguageId="<%= editDisplayContext.getSelectedLanguage() %>"
+							xml='<%= LocalizationUtil.getXml(editDisplayContext.getOriginalValuesLocalizedValuesMap(), "value") %>'
+						/>
+					</c:if>
 				</c:when>
 				<c:otherwise>
 					<aui:input name="key" pattern="[^ ]+" required="<%= true %>" value="<%= editDisplayContext.getKey() %>" />
@@ -52,6 +56,8 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 			</c:choose>
 
 			<liferay-ui:input-localized
+				helpMessage="overrideTranslations"
+				ignoreRequestValue="<%= true %>"
 				name="value"
 				selectedLanguageId="<%= editDisplayContext.getSelectedLanguage() %>"
 				xml='<%= LocalizationUtil.getXml(editDisplayContext.getValuesLocalizedValuesMap(), "value") %>'

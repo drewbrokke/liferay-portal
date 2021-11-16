@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -65,8 +64,12 @@ public class ViewDisplayContextFactory {
 
 		ViewDisplayContext viewDisplayContext = new ViewDisplayContext();
 
-		for (Locale locale : LanguageUtil.getCompanyAvailableLocales(_portal.getCompanyId(renderRequest))) {
-			viewDisplayContext.addAvailableLanguage(LanguageUtil.getLanguageId(locale));
+		for (Locale locale :
+				LanguageUtil.getCompanyAvailableLocales(
+					_portal.getCompanyId(renderRequest))) {
+
+			viewDisplayContext.addAvailableLanguage(
+				LanguageUtil.getLanguageId(locale));
 		}
 
 		SearchContainer<PLOItemDTO> searchContainer = _createSearchContainer(
@@ -170,7 +173,11 @@ public class ViewDisplayContextFactory {
 		String filter = ParamUtil.getString(renderRequest, "navigation", "all");
 
 		if (filter.equals("override")) {
-			for (String key : ploEntryMap.keySet()) {
+			for (Map.Entry<String, List<PLOEntry>> entry :
+					ploEntryMap.entrySet()) {
+
+				String key = entry.getKey();
+
 				if (keyMatchPredicate.test(key) ||
 					valueMatchPredicate.test(
 						ResourceBundleUtil.getString(resourceBundle, key))) {
@@ -180,15 +187,19 @@ public class ViewDisplayContextFactory {
 						Optional.ofNullable(
 							ResourceBundleUtil.getString(resourceBundle, key)
 						).orElse(
-							StringPool.BLANK)
-					);
+							StringPool.BLANK
+						));
 
 					ploItemDTO.setOverride(true);
 
-					for (PLOEntry ploEntry : ploEntryMap.get(key)) {
-						ploItemDTO.addOverrideLanguage(ploEntry.getLanguageId());
+					for (PLOEntry ploEntry : entry.getValue()) {
+						ploItemDTO.addOverrideLanguage(
+							ploEntry.getLanguageId());
 
-						if (Objects.equals(LanguageUtil.getLanguageId(locale), ploEntry.getLanguageId())) {
+						if (Objects.equals(
+								LanguageUtil.getLanguageId(locale),
+								ploEntry.getLanguageId())) {
+
 							ploItemDTO.setOverrideSelectedLanguage(true);
 						}
 					}
@@ -208,16 +219,19 @@ public class ViewDisplayContextFactory {
 						ResourceBundleUtil.getString(resourceBundle, key))) {
 
 					PLOItemDTO ploItemDTO = new PLOItemDTO(
-						key,
-						ResourceBundleUtil.getString(resourceBundle, key));
+						key, ResourceBundleUtil.getString(resourceBundle, key));
 
 					if (ploEntryMap.containsKey(key)) {
 						ploItemDTO.setOverride(true);
 
 						for (PLOEntry ploEntry : ploEntryMap.get(key)) {
-							ploItemDTO.addOverrideLanguage(ploEntry.getLanguageId());
+							ploItemDTO.addOverrideLanguage(
+								ploEntry.getLanguageId());
 
-							if (Objects.equals(LanguageUtil.getLanguageId(locale), ploEntry.getLanguageId())) {
+							if (Objects.equals(
+									LanguageUtil.getLanguageId(locale),
+									ploEntry.getLanguageId())) {
+
 								ploItemDTO.setOverrideSelectedLanguage(true);
 							}
 						}

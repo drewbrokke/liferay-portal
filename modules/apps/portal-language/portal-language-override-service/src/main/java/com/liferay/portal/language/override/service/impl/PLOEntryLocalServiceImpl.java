@@ -81,8 +81,8 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 
 		ploEntry.setLanguageId(languageId);
 
-		String originalValue =
-			LanguageUtil.get(LocaleUtil.fromLanguageId(languageId), key);
+		String originalValue = LanguageUtil.get(
+			LocaleUtil.fromLanguageId(languageId), key, null);
 
 		if (Validator.isNotNull(originalValue)) {
 			ploEntry.setOriginalValue(originalValue);

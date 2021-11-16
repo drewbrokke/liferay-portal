@@ -26,6 +26,14 @@ import java.util.List;
  */
 public class ViewDisplayContext {
 
+	public void addAvailableLanguage(String language) {
+		_availableLanguages.add(language);
+	}
+
+	public List<String> getAvailableLanguages() {
+		return _availableLanguages;
+	}
+
 	public ManagementToolbarDisplayContext
 		getManagementToolbarDisplayContext() {
 
@@ -34,6 +42,10 @@ public class ViewDisplayContext {
 
 	public SearchContainer<PLOItemDTO> getSearchContainer() {
 		return _searchContainer;
+	}
+
+	public String getSelectedLanguage() {
+		return _selectedLanguage;
 	}
 
 	public void setManagementToolbarDisplayContext(
@@ -48,26 +60,13 @@ public class ViewDisplayContext {
 		_searchContainer = searchContainer;
 	}
 
-	private ManagementToolbarDisplayContext _managementToolbarDisplayContext;
-	private SearchContainer<PLOItemDTO> _searchContainer;
-
 	public void setSelectedLanguage(String selectedLanguage) {
 		_selectedLanguage = selectedLanguage;
 	}
 
-	public String getSelectedLanguage() {
-		return _selectedLanguage;
-	}
-
+	private final List<String> _availableLanguages = new ArrayList<>();
+	private ManagementToolbarDisplayContext _managementToolbarDisplayContext;
+	private SearchContainer<PLOItemDTO> _searchContainer;
 	private String _selectedLanguage;
 
-	private List<String> _availableLanguages = new ArrayList<>();
-
-	public List<String> getAvailableLanguages() {
-		return _availableLanguages;
-	}
-
-	public void addAvailableLanguage(String language) {
-		_availableLanguages.add(language);
-	}
 }
