@@ -1,4 +1,6 @@
-<%--
+<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.ListUtil" %>
+<%@ page import="java.util.Objects" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -17,6 +19,8 @@
 <%@ include file="/init.jsp" %>
 
 <%
+ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
+
 ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
 
 PLOItemDTO rowObjectPLOItemDTO = (PLOItemDTO)row.getObject();
@@ -30,6 +34,24 @@ PLOItemDTO rowObjectPLOItemDTO = (PLOItemDTO)row.getObject();
 	showWhenSingleIcon="<%= true %>"
 >
 	<c:if test="<%= rowObjectPLOItemDTO.isOverride() %>">
+		<c:if test="<%= rowObjectPLOItemDTO.isOverrideSelectedLanguage() %>">
+			<portlet:actionURL name="deletePortalLanguageOverride" var="deletePortalLanguageOverrideURL">
+				<portlet:param name="redirect" value="<%= currentURL %>" />
+				<portlet:param name="key" value="<%= rowObjectPLOItemDTO.getKey() %>" />
+				<portlet:param name="selectedLanguage" value="<%= viewDisplayContext.getSelectedLanguage() %>" />
+
+			</portlet:actionURL>
+
+			<liferay-ui:icon-delete
+				confirmation='<%= LanguageUtil.format(request, "do-you-want-to-reset-the override-value-for-x", viewDisplayContext.getSelectedLanguage()) %>'
+				icon="reset"
+				showIcon="<%= true %>"
+				message='<%= LanguageUtil.format(request, "remove-override-for-x", viewDisplayContext.getSelectedLanguage()) %>'
+				label="<%= true %>"
+				url="<%= deletePortalLanguageOverrideURL %>"
+			/>
+		</c:if>
+
 		<portlet:actionURL name="deletePortalLanguageOverrides" var="deletePortalLanguageOverridesURL">
 			<portlet:param name="redirect" value="<%= currentURL %>" />
 			<portlet:param name="key" value="<%= rowObjectPLOItemDTO.getKey() %>" />
@@ -37,7 +59,8 @@ PLOItemDTO rowObjectPLOItemDTO = (PLOItemDTO)row.getObject();
 
 		<liferay-ui:icon-delete
 			confirmation="do-you-want-to-reset-all-override-values"
-			icon="times-circle"
+			icon="trash"
+			showIcon="<%= true %>"
 			message="remove-overrides"
 			url="<%= deletePortalLanguageOverridesURL %>"
 		/>

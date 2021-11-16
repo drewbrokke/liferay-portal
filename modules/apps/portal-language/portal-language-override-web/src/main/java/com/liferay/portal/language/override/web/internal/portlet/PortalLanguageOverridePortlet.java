@@ -78,6 +78,17 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		}
 	}
 
+	public void deletePortalLanguageOverride(
+			ActionRequest actionRequest, ActionResponse actionResponse)
+		throws PortalException {
+
+		String key = ParamUtil.getString(actionRequest, "key");
+		String selectedLanguage = ParamUtil.getString(actionRequest, "selectedLanguage");
+
+		_ploEntryLocalService.deletePLOEntry(
+			_portal.getCompanyId(actionRequest), key, selectedLanguage);
+	}
+
 	public void editPortalLanguageOverride(
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws PortalException {

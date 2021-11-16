@@ -14,14 +14,16 @@
 
 package com.liferay.portal.language.override.web.internal.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Drew Brokke
  */
 public class PLOItemDTO {
 
-	public PLOItemDTO(String key, boolean override, String value) {
+	public PLOItemDTO(String key, String value) {
 		_key = key;
-		_override = override;
 		_value = value;
 	}
 
@@ -41,8 +43,27 @@ public class PLOItemDTO {
 		_override = override;
 	}
 
+	public List<String> getOverrideLanguages() {
+		return _overrideLanguages;
+	}
+
+	public void addOverrideLanguage(String language) {
+		_overrideLanguages.add(language);
+	}
+
+	private boolean _overrideSelectedLanguage;
+
+	public boolean isOverrideSelectedLanguage() {
+		return _overrideSelectedLanguage;
+	}
+
+	public void setOverrideSelectedLanguage(boolean overrideSelectedLanguage) {
+		_overrideSelectedLanguage = overrideSelectedLanguage;
+	}
+
 	private final String _key;
 	private boolean _override;
 	private final String _value;
+	private final List<String> _overrideLanguages = new ArrayList<>();
 
 }

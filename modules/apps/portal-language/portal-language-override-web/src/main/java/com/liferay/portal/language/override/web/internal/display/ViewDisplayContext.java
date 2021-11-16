@@ -18,6 +18,9 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.Managemen
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.language.override.web.internal.dto.PLOItemDTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Drew Brokke
  */
@@ -48,4 +51,23 @@ public class ViewDisplayContext {
 	private ManagementToolbarDisplayContext _managementToolbarDisplayContext;
 	private SearchContainer<PLOItemDTO> _searchContainer;
 
+	public void setSelectedLanguage(String selectedLanguage) {
+		_selectedLanguage = selectedLanguage;
+	}
+
+	public String getSelectedLanguage() {
+		return _selectedLanguage;
+	}
+
+	private String _selectedLanguage;
+
+	private List<String> _availableLanguages = new ArrayList<>();
+
+	public List<String> getAvailableLanguages() {
+		return _availableLanguages;
+	}
+
+	public void addAvailableLanguage(String language) {
+		_availableLanguages.add(language);
+	}
 }

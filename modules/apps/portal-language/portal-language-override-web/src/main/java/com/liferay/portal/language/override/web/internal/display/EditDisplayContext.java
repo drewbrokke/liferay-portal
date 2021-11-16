@@ -35,16 +35,23 @@ public class EditDisplayContext {
 
 	private final String _backURL;
 	private final String _key;
+	private final String _selectedLanguage;
 	private final LocalizedValuesMap _valuesLocalizedValuesMap;
 
 	public EditDisplayContext(
 		String backURL, String key,
 		LocalizedValuesMap valuesLocalizedValuesMap,
-		LocalizedValuesMap originalValuesLocalizedValuesMap) {
+		LocalizedValuesMap originalValuesLocalizedValuesMap,
+		String selectedLanguage) {
 		_backURL = backURL;
 		_key = key;
 		_valuesLocalizedValuesMap = valuesLocalizedValuesMap;
 		_originalValuesLocalizedValuesMap = originalValuesLocalizedValuesMap;
+		_selectedLanguage = selectedLanguage;
+	}
+
+	public String getSelectedLanguage() {
+		return _selectedLanguage;
 	}
 
 	public LocalizedValuesMap getOriginalValuesLocalizedValuesMap() {

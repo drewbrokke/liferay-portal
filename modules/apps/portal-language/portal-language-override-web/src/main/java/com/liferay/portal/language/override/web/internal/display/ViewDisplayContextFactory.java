@@ -15,11 +15,15 @@
 package com.liferay.portal.language.override.web.internal.display;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.ManagementToolbarDisplayContext;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -34,8 +38,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -59,13 +65,23 @@ public class ViewDisplayContextFactory {
 
 		ViewDisplayContext viewDisplayContext = new ViewDisplayContext();
 
+		for (Locale locale : LanguageUtil.getCompanyAvailableLocales(_portal.getCompanyId(renderRequest))) {
+			viewDisplayContext.addAvailableLanguage(LanguageUtil.getLanguageId(locale));
+		}
+
 		SearchContainer<PLOItemDTO> searchContainer = _createSearchContainer(
 			renderRequest, renderResponse);
 
 		viewDisplayContext.setManagementToolbarDisplayContext(
 			_createManagementToolbarDisplayContext(
 				renderRequest, renderResponse, searchContainer));
+
 		viewDisplayContext.setSearchContainer(searchContainer);
+
+		viewDisplayContext.setSelectedLanguage(
+			ParamUtil.getString(
+				renderRequest, "selectedLanguage",
+				LanguageUtil.getLanguageId(_portal.getLocale(renderRequest))));
 
 		return viewDisplayContext;
 	}
@@ -145,8 +161,11 @@ public class ViewDisplayContextFactory {
 			valueMatchPredicate = valuePattern.asPredicate();
 		}
 
+		Locale locale = LocaleUtil.fromLanguageId(
+			ParamUtil.getString(renderRequest, "selectedLanguage"), true, true);
+
 		ResourceBundle resourceBundle = LanguageResources.getResourceBundle(
-			_portal.getLocale(renderRequest));
+			locale);
 
 		String filter = ParamUtil.getString(renderRequest, "navigation", "all");
 
@@ -156,10 +175,25 @@ public class ViewDisplayContextFactory {
 					valueMatchPredicate.test(
 						ResourceBundleUtil.getString(resourceBundle, key))) {
 
-					ploItemDTOs.add(
-						new PLOItemDTO(
-							key, true,
-							ResourceBundleUtil.getString(resourceBundle, key)));
+					PLOItemDTO ploItemDTO = new PLOItemDTO(
+						key,
+						Optional.ofNullable(
+							ResourceBundleUtil.getString(resourceBundle, key)
+						).orElse(
+							StringPool.BLANK)
+					);
+
+					ploItemDTO.setOverride(true);
+
+					for (PLOEntry ploEntry : ploEntryMap.get(key)) {
+						ploItemDTO.addOverrideLanguage(ploEntry.getLanguageId());
+
+						if (Objects.equals(LanguageUtil.getLanguageId(locale), ploEntry.getLanguageId())) {
+							ploItemDTO.setOverrideSelectedLanguage(true);
+						}
+					}
+
+					ploItemDTOs.add(ploItemDTO);
 				}
 			}
 		}
@@ -169,22 +203,27 @@ public class ViewDisplayContextFactory {
 			while (keysEnumeration.hasMoreElements()) {
 				String key = keysEnumeration.nextElement();
 
-				boolean override = false;
-
-				if (ploEntryMap.containsKey(key)) {
-					override = true;
-
-					ploEntryMap.remove(key);
-				}
-
 				if (keyMatchPredicate.test(key) ||
 					valueMatchPredicate.test(
 						ResourceBundleUtil.getString(resourceBundle, key))) {
 
-					ploItemDTOs.add(
-						new PLOItemDTO(
-							key, override,
-							ResourceBundleUtil.getString(resourceBundle, key)));
+					PLOItemDTO ploItemDTO = new PLOItemDTO(
+						key,
+						ResourceBundleUtil.getString(resourceBundle, key));
+
+					if (ploEntryMap.containsKey(key)) {
+						ploItemDTO.setOverride(true);
+
+						for (PLOEntry ploEntry : ploEntryMap.get(key)) {
+							ploItemDTO.addOverrideLanguage(ploEntry.getLanguageId());
+
+							if (Objects.equals(LanguageUtil.getLanguageId(locale), ploEntry.getLanguageId())) {
+								ploItemDTO.setOverrideSelectedLanguage(true);
+							}
+						}
+					}
+
+					ploItemDTOs.add(ploItemDTO);
 				}
 			}
 		}
