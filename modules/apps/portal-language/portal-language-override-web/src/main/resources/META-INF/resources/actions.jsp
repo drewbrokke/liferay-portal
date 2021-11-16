@@ -40,10 +40,10 @@ PLOItemDTO rowObjectPLOItemDTO = (PLOItemDTO)row.getObject();
 			</portlet:actionURL>
 
 			<liferay-ui:icon-delete
-				confirmation='<%= LanguageUtil.format(request, "do-you-want-to-reset-the override-value-for-x", viewDisplayContext.getSelectedLanguage()) %>'
+				confirmation='<%= LanguageUtil.format(request, "do-you-want-to-reset-the-translation-override-value-for-x", viewDisplayContext.getSelectedLanguage()) %>'
 				icon="reset"
 				label="<%= true %>"
-				message='<%= LanguageUtil.format(request, "remove-override-for-x", viewDisplayContext.getSelectedLanguage()) %>'
+				message='<%= LanguageUtil.format(request, "remove-translation-override-for-x", viewDisplayContext.getSelectedLanguage()) %>'
 				showIcon="<%= true %>"
 				url="<%= deletePortalLanguageOverrideURL %>"
 			/>
@@ -55,9 +55,9 @@ PLOItemDTO rowObjectPLOItemDTO = (PLOItemDTO)row.getObject();
 		</portlet:actionURL>
 
 		<liferay-ui:icon-delete
-			confirmation="do-you-want-to-reset-all-override-values"
+			confirmation="do-you-want-to-reset-all-translation-override-values"
 			icon="trash"
-			message="remove-overrides"
+			message="remove-all-translation-overrides"
 			showIcon="<%= true %>"
 			url="<%= deletePortalLanguageOverridesURL %>"
 		/>

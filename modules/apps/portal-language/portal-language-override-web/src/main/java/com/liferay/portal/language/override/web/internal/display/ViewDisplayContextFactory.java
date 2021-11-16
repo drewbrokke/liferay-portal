@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -180,7 +181,9 @@ public class ViewDisplayContextFactory {
 
 				if (keyMatchPredicate.test(key) ||
 					valueMatchPredicate.test(
-						ResourceBundleUtil.getString(resourceBundle, key))) {
+						GetterUtil.getString(
+							ResourceBundleUtil.getString(
+								resourceBundle, key)))) {
 
 					PLOItemDTO ploItemDTO = new PLOItemDTO(
 						key,
