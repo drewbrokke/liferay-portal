@@ -19,15 +19,26 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItemListBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemBuilder;
 import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.TextFormatter;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -97,13 +108,47 @@ public class ViewManagementToolbarDisplayContext
 	}
 
 	@Override
+	public List<ViewTypeItem> getViewTypeItems() {
+		String selectedLanguage = ParamUtil.getString(
+			liferayPortletRequest, "selectedLanguage",
+			LanguageUtil.getLanguageId(
+				PortalUtil.getLocale(liferayPortletRequest)));
+
+		Set<Locale> companyAvailableLocales =
+			LanguageUtil.getCompanyAvailableLocales(
+				PortalUtil.getCompanyId(liferayPortletRequest));
+
+		Stream<Locale> stream = companyAvailableLocales.stream();
+
+		return stream.map(
+			LanguageUtil::getLanguageId
+		).map(
+			languageId -> ViewTypeItemBuilder.setActive(
+				Objects.equals(selectedLanguage, languageId)
+			).setHref(
+				HttpUtil.setParameter(
+					String.valueOf(getPortletURL()),
+					liferayPortletResponse.getNamespace() + "selectedLanguage",
+					languageId)
+			).setIcon(
+				StringUtil.toLowerCase(
+					TextFormatter.format(languageId, TextFormatter.O))
+			).setLabel(
+				languageId
+			).build()
+		).collect(
+			Collectors.toList()
+		);
+	}
+
+	@Override
 	public Boolean isDisabled() {
 		return false;
 	}
 
 	@Override
 	protected String[] getNavigationKeys() {
-		return new String[] {"all", "override"};
+		return new String[] {"override"};
 	}
 
 }

@@ -14,7 +14,6 @@
 
 package com.liferay.portal.language.override.web.internal.display;
 
-import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.ManagementToolbarDisplayContext;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
@@ -77,8 +76,11 @@ public class ViewDisplayContextFactory {
 			renderRequest, renderResponse);
 
 		viewDisplayContext.setManagementToolbarDisplayContext(
-			_createManagementToolbarDisplayContext(
-				renderRequest, renderResponse, searchContainer));
+			new ViewManagementToolbarDisplayContext(
+				_portal.getHttpServletRequest(renderRequest),
+				_portal.getLiferayPortletRequest(renderRequest),
+				_portal.getLiferayPortletResponse(renderResponse),
+				searchContainer));
 
 		viewDisplayContext.setSearchContainer(searchContainer);
 
@@ -88,17 +90,6 @@ public class ViewDisplayContextFactory {
 				LanguageUtil.getLanguageId(_portal.getLocale(renderRequest))));
 
 		return viewDisplayContext;
-	}
-
-	private ManagementToolbarDisplayContext
-		_createManagementToolbarDisplayContext(
-			RenderRequest renderRequest, RenderResponse renderResponse,
-			SearchContainer<PLOItemDTO> searchContainer) {
-
-		return new ViewManagementToolbarDisplayContext(
-			_portal.getHttpServletRequest(renderRequest),
-			_portal.getLiferayPortletRequest(renderRequest),
-			_portal.getLiferayPortletResponse(renderResponse), searchContainer);
 	}
 
 	private SearchContainer<PLOItemDTO> _createSearchContainer(

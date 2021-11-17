@@ -22,31 +22,9 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 
 <clay:management-toolbar
 	managementToolbarDisplayContext="<%= viewDisplayContext.getManagementToolbarDisplayContext() %>"
-	supportsBulkActions="<%= false %>"
 />
 
 <clay:container-fluid>
-	<liferay-ui:icon-list
-		showWhenSingleIcon="<%= true %>"
-	>
-
-		<%
-		for (String language : viewDisplayContext.getAvailableLanguages()) {
-		%>
-
-			<liferay-ui:icon
-				icon="<%= StringUtil.toLowerCase(TextFormatter.format(language, TextFormatter.O)) %>"
-				markupView="lexicon"
-				message="<%= language %>"
-				url='<%= HttpUtil.setParameter(currentURL, liferayPortletResponse.getNamespace() + "selectedLanguage", language) %>'
-			/>
-
-		<%
-		}
-		%>
-
-	</liferay-ui:icon-list>
-
 	<liferay-ui:search-container
 		orderByCol="key"
 		searchContainer="<%= viewDisplayContext.getSearchContainer() %>"
@@ -73,13 +51,12 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 			<liferay-ui:search-container-column-text
 				cssClass="table-cell-expand-small"
 				href="<%= editURL %>"
-				name="value"
+				name="current-value"
 				value="<%= ploItemDTO.getValue() %>"
 			/>
 
 			<liferay-ui:search-container-column-text
-				href="<%= editURL %>"
-				name="overrideLanguages"
+				name="languages-with-override"
 			>
 
 				<%
