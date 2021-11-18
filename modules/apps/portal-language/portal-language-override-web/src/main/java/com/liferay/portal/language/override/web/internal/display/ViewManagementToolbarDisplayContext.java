@@ -20,7 +20,7 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItemListBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
 import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -37,8 +37,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -109,6 +107,8 @@ public class ViewManagementToolbarDisplayContext
 
 	@Override
 	public List<ViewTypeItem> getViewTypeItems() {
+		ViewTypeItemList viewTypeItemList = new ViewTypeItemList();
+
 		String selectedLanguage = ParamUtil.getString(
 			liferayPortletRequest, "selectedLanguage",
 			LanguageUtil.getLanguageId(
@@ -118,31 +118,38 @@ public class ViewManagementToolbarDisplayContext
 			LanguageUtil.getCompanyAvailableLocales(
 				PortalUtil.getCompanyId(liferayPortletRequest));
 
-		Stream<Locale> stream = companyAvailableLocales.stream();
+		for (Locale locale : companyAvailableLocales) {
+			String languageId = LanguageUtil.getLanguageId(locale);
 
-		return stream.map(
-			LanguageUtil::getLanguageId
-		).map(
-			languageId -> ViewTypeItemBuilder.setActive(
-				Objects.equals(selectedLanguage, languageId)
-			).setHref(
-				HttpUtil.setParameter(
-					String.valueOf(getPortletURL()),
-					liferayPortletResponse.getNamespace() + "selectedLanguage",
-					languageId)
-			).setIcon(
-				StringUtil.toLowerCase(
-					TextFormatter.format(languageId, TextFormatter.O))
-			).setLabel(
-				languageId
-			).build()
-		).collect(
-			Collectors.toList()
-		);
+			String icon = StringUtil.toLowerCase(
+				TextFormatter.format(languageId, TextFormatter.O));
+
+			viewTypeItemList.add(
+				viewTypeItem -> {
+					viewTypeItem.setActive(
+						Objects.equals(selectedLanguage, languageId));
+					viewTypeItem.setHref(
+						HttpUtil.setParameter(
+							String.valueOf(getPortletURL()),
+							liferayPortletResponse.getNamespace() +
+								"selectedLanguage",
+							languageId));
+					viewTypeItem.setIcon(icon);
+					viewTypeItem.setLabel(languageId);
+					viewTypeItem.put("symbolLeft", icon);
+				});
+		}
+
+		return viewTypeItemList;
 	}
 
 	@Override
 	public Boolean isDisabled() {
+		return false;
+	}
+
+	@Override
+	public Boolean isSelectable() {
 		return false;
 	}
 

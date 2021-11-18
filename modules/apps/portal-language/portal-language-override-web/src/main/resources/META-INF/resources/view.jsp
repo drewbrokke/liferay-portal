@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -34,6 +34,7 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 			keyProperty="key"
 			modelVar="ploItemDTO"
 		>
+
 			<portlet:renderURL var="editURL">
 				<portlet:param name="backURL" value="<%= currentURL %>" />
 				<portlet:param name="key" value="<%= ploItemDTO.getKey() %>" />
@@ -52,7 +53,7 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 				cssClass="table-cell-expand-small"
 				href="<%= editURL %>"
 				name="current-value"
-				value="<%= ploItemDTO.getValue() %>"
+				value="<%= HtmlUtil.escape(ploItemDTO.getValue()) %>"
 			/>
 
 			<liferay-ui:search-container-column-text
