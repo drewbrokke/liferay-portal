@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.security.auth.GuestOrUserUtil;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -54,25 +55,32 @@ import org.osgi.service.component.annotations.Reference;
 public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 
 	public PLOEntry addOrUpdatePLOEntry(
-			long companyId, String key, String languageId, String value)
+			long companyId, long userId, String key, String languageId,
+			String value)
 		throws PortalException {
 
 		PLOEntry ploEntry = fetchPLOEntry(companyId, key, languageId);
 
 		if (ploEntry == null) {
-			return addPLOEntry(companyId, key, languageId, value);
+			return addPLOEntry(companyId, userId, key, languageId, value);
 		}
 
 		return updatePLOEntry(ploEntry.getPloEntryId(), value);
 	}
 
+	@Reference
+	private UserLocalService _userLocalService;
+
 	public PLOEntry addPLOEntry(
-			long companyId, String key, String languageId, String value)
+			long companyId, long userId, String key, String languageId,
+			String value)
 		throws PortalException {
 
 		PLOEntry ploEntry = createPLOEntry(counterLocalService.increment());
 
-		User user = GuestOrUserUtil.getGuestOrUser();
+		ploEntry.setCompanyId(companyId);
+
+		User user = _userLocalService.getUser(userId);
 
 		ploEntry.setUserId(user.getUserId());
 		ploEntry.setUserName(user.getUserUuid());

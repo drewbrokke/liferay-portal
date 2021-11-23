@@ -46,18 +46,21 @@ public class PLOEntryLocalServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.portal.language.override.service.impl.PLOEntryLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static PLOEntry addOrUpdatePLOEntry(
-			long companyId, String key, String languageId, String value)
+			long companyId, long userId, String key, String languageId,
+			String value)
 		throws PortalException {
 
 		return getService().addOrUpdatePLOEntry(
-			companyId, key, languageId, value);
+			companyId, userId, key, languageId, value);
 	}
 
 	public static PLOEntry addPLOEntry(
-			long companyId, String key, String languageId, String value)
+			long companyId, long userId, String key, String languageId,
+			String value)
 		throws PortalException {
 
-		return getService().addPLOEntry(companyId, key, languageId, value);
+		return getService().addPLOEntry(
+			companyId, userId, key, languageId, value);
 	}
 
 	/**

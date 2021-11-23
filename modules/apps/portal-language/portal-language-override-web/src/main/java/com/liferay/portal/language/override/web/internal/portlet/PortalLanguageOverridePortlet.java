@@ -100,6 +100,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 			LocalizationUtil.getLocalizationMap(actionRequest, "value");
 
 		long companyId = _portal.getCompanyId(actionRequest);
+		long userId = _portal.getUserId(actionRequest);
 
 		for (Map.Entry<Locale, String> entry : localizationMap.entrySet()) {
 			Locale locale = entry.getKey();
@@ -119,7 +120,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 			}
 
 			_ploEntryLocalService.addOrUpdatePLOEntry(
-				companyId, key, languageId, value);
+				companyId, userId, key, languageId, value);
 		}
 	}
 

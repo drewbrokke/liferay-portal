@@ -64,11 +64,13 @@ public interface PLOEntryLocalService
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.portal.language.override.service.impl.PLOEntryLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the plo entry local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PLOEntryLocalServiceUtil} if injection and service tracking are not available.
 	 */
 	public PLOEntry addOrUpdatePLOEntry(
-			long companyId, String key, String languageId, String value)
+			long companyId, long userId, String key, String languageId,
+			String value)
 		throws PortalException;
 
 	public PLOEntry addPLOEntry(
-			long companyId, String key, String languageId, String value)
+			long companyId, long userId, String key, String languageId,
+			String value)
 		throws PortalException;
 
 	/**
