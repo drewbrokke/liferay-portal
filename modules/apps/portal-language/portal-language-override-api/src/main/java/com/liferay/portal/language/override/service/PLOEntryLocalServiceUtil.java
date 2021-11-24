@@ -342,10 +342,11 @@ public class PLOEntryLocalServiceUtil {
 	}
 
 	public static void setPLOEntries(
-			long companyId, String key, Map<String, String> valueMap)
+			long companyId, long userId, String key,
+			Map<String, String> valueMap)
 		throws PortalException {
 
-		getService().setPLOEntries(companyId, key, valueMap);
+		getService().setPLOEntries(companyId, userId, key, valueMap);
 	}
 
 	public static PLOEntry updatePLOEntry(long ploEntryId, String value)

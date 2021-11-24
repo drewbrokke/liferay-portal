@@ -292,7 +292,8 @@ public interface PLOEntryLocalService
 		String orderByField, boolean reverse);
 
 	public void setPLOEntries(
-			long companyId, String key, Map<String, String> valueMap)
+			long companyId, long userId, String key,
+			Map<String, String> valueMap)
 		throws PortalException;
 
 	public PLOEntry updatePLOEntry(long ploEntryId, String value)

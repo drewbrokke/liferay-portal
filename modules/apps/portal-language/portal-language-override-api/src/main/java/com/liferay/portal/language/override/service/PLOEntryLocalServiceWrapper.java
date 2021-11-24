@@ -389,10 +389,11 @@ public class PLOEntryLocalServiceWrapper
 
 	@Override
 	public void setPLOEntries(
-			long companyId, String key, java.util.Map<String, String> valueMap)
+			long companyId, long userId, String key,
+			java.util.Map<String, String> valueMap)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_ploEntryLocalService.setPLOEntries(companyId, key, valueMap);
+		_ploEntryLocalService.setPLOEntries(companyId, userId, key, valueMap);
 	}
 
 	@Override

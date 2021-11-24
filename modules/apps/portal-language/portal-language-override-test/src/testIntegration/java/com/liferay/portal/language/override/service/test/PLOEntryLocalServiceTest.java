@@ -90,8 +90,6 @@ public class PLOEntryLocalServiceTest {
 		Locale locale = LocaleUtil.getDefault();
 		String value = RandomTestUtil.randomString();
 
-		// Assert key not present
-
 		Assert.assertEquals(LanguageResources.getMessage(locale, key), null);
 
 		ResourceBundle resourceBundle = LanguageResources.getResourceBundle(locale);
@@ -101,7 +99,7 @@ public class PLOEntryLocalServiceTest {
 		Assert.assertFalse(keySet.contains(key));
 
 		_ploEntryLocalService.addPLOEntry(
-			TestPropsValues.getCompanyId(), key,
+			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(), key,
 			LanguageUtil.getLanguageId(locale), value);
 
 		Assert.assertEquals(LanguageResources.getMessage(locale, key), value);
@@ -114,14 +112,24 @@ public class PLOEntryLocalServiceTest {
 	}
 
 	@Test
-	public void testOverrideExistingLanguageKey() throws Exception {
-		// Assert key not present
+	public void testPersistOriginalValue() throws Exception {
+		String key = "available-languages";
+		Locale locale = LocaleUtil.getDefault();
+
+		String originalValue = LanguageResources.getMessage(locale, key);
+
+		Assert.assertNotNull(originalValue);
+
+		PLOEntry ploEntry = _ploEntryLocalService.addPLOEntry(
+			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(), key,
+			LanguageUtil.getLanguageId(locale), RandomTestUtil.randomString());
+
+		Assert.assertEquals(originalValue, ploEntry.getOriginalValue());
 	}
 
-	private void _assertLanguageValue(Locale locale, String key, String expected) {
-		Assert.assertEquals(
-			expected,
-			LanguageUtil.get(locale, key));
+	@Test
+	public void testOverrideExistingLanguageKey() throws Exception {
+		// Assert key not present
 	}
 
 	@Inject

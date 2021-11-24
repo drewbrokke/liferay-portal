@@ -184,12 +184,12 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 	}
 
 	public void setPLOEntries(
-			long companyId, String key, Map<String, String> valueMap)
+			long companyId, long userId, String key, Map<String, String> valueMap)
 		throws PortalException {
 
 		for (Map.Entry<String, String> entry : valueMap.entrySet()) {
 			addOrUpdatePLOEntry(
-				companyId, key, entry.getKey(), entry.getValue());
+				companyId, userId, key, entry.getKey(), entry.getValue());
 		}
 
 		for (PLOEntry ploEntry : getPLOEntriesByKey(companyId, key)) {
