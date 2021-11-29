@@ -15,7 +15,7 @@
 package com.liferay.portal.language.override.internal;
 
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
-import com.liferay.portal.language.LanguageMapWrapper;
+import com.liferay.portal.language.LanguageOverrideProvider;
 
 import java.util.Locale;
 import java.util.Map;
@@ -27,8 +27,8 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Drew Brokke
  */
-@Component(service = LanguageMapWrapper.class)
-public class PLOLanguageMapWrapper implements LanguageMapWrapper {
+@Component(service = LanguageOverrideProvider.class)
+public class PLOLanguageOverrideProvider implements LanguageOverrideProvider {
 
 	@Override
 	public String get(String key, Locale locale) {

@@ -23,7 +23,7 @@ import java.util.Set;
 /**
  * @author Drew Brokke
  */
-public interface LanguageMapWrapper {
+public interface LanguageOverrideProvider {
 	
 	public String get(String key, Locale locale);
 

@@ -26,8 +26,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.util.SystemBundleUtil;
 import com.liferay.portal.kernel.resource.bundle.ResourceBundleLoader;
 import com.liferay.portal.kernel.resource.bundle.ResourceBundleLoaderUtil;
-import com.liferay.portal.kernel.security.auth.AuthToken;
-import com.liferay.portal.kernel.security.auth.AuthTokenUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PropertiesUtil;
@@ -91,7 +89,7 @@ public class LanguageResources {
 				}
 
 			};
-	private static ServiceTrackerList<LanguageMapWrapper> _languageMapWrappers;
+	private static ServiceTrackerList<LanguageOverrideProvider> _languageOverrideProviders;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
@@ -176,8 +174,8 @@ public class LanguageResources {
 
 		_serviceTracker.open();
 
-		_languageMapWrappers = ServiceTrackerListFactory.open(_bundleContext,
-			LanguageMapWrapper.class);
+		_languageOverrideProviders = ServiceTrackerListFactory.open(_bundleContext,
+			LanguageOverrideProvider.class);
 
 		ResourceBundleLoaderUtil.setPortalResourceBundleLoader(
 			PORTAL_RESOURCE_BUNDLE_LOADER);
@@ -186,7 +184,7 @@ public class LanguageResources {
 	public void destroy() {
 		_serviceTracker.close();
 
-		_languageMapWrappers.close();
+		_languageOverrideProviders.close();
 	}
 
 	public void setConfig(String config) {
@@ -362,9 +360,9 @@ public class LanguageResources {
 		return diffLanguageMap;
 	}
 
-	private static volatile LanguageMapWrapper _languageMapWrapper =
+	private static volatile LanguageOverrideProvider _languageOverrideProvider =
 		ServiceProxyFactory.newServiceTrackedInstance(
-			LanguageMapWrapper.class, LanguageResources.class, "_languageMapWrapper", false);
+			LanguageOverrideProvider.class, LanguageResources.class, "_languageOverrideProvider", false);
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		LanguageResources.class);
@@ -382,11 +380,11 @@ public class LanguageResources {
 	private ServiceTracker<?, ?> _serviceTracker;
 
 	private static Set<String> _getSetWithOverrideKeys(Set<String> keySet, Locale locale) {
-		if (_languageMapWrapper == null) {
+		if (_languageOverrideProvider == null) {
 			return keySet;
 		}
 
-		Set<String> overrideKeySet = _languageMapWrapper.keySet(locale);
+		Set<String> overrideKeySet = _languageOverrideProvider.keySet(locale);
 
 		if (SetUtil.isEmpty(overrideKeySet)) {
 			return keySet;
@@ -400,11 +398,11 @@ public class LanguageResources {
 	}
 
 	private static String _getOverrideValue(String key, Locale locale) {
-		if (_languageMapWrapper == null) {
+		if (_languageOverrideProvider == null) {
 			return null;
 		}
 
-		String value = _languageMapWrapper.get(key, locale);
+		String value = _languageOverrideProvider.get(key, locale);
 
 		if (Validator.isNull(value)) {
 			return null;
