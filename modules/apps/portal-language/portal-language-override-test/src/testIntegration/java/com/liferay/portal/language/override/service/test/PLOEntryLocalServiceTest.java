@@ -15,59 +15,31 @@
 package com.liferay.portal.language.override.service.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.test.ReflectionTestUtil;
-import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DataGuard;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
-import com.liferay.portal.kernel.transaction.Propagation;
-import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
-import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.Time;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.language.LanguageResources;
-import com.liferay.portal.language.override.exception.NoSuchPLOEntryException;
 import com.liferay.portal.language.override.model.PLOEntry;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
-import com.liferay.portal.language.override.service.PLOEntryLocalServiceUtil;
-import com.liferay.portal.language.override.service.persistence.PLOEntryPersistence;
-import com.liferay.portal.language.override.service.persistence.PLOEntryUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.PersistenceTestRule;
-import com.liferay.portal.test.rule.TransactionalTestRule;
-import org.junit.After;
+
+import java.util.Locale;
+
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-
 /**
  * @author Drew Brokke
  */
-@DataGuard(scope = DataGuard.Scope.CLASS)
+@DataGuard(scope = DataGuard.Scope.METHOD)
 @RunWith(Arquillian.class)
 public class PLOEntryLocalServiceTest {
 
@@ -76,43 +48,24 @@ public class PLOEntryLocalServiceTest {
 	public static final LiferayIntegrationTestRule liferayIntegrationTestRule =
 		new LiferayIntegrationTestRule();
 
-	@Before
-	public void setUp() {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
-	public void testAddPLOEntry() throws Exception {
+	public void testAddPLOEntryNewKey() throws Exception {
 		String key = RandomTestUtil.randomString();
 		Locale locale = LocaleUtil.getDefault();
-		String value = RandomTestUtil.randomString();
 
-		Assert.assertEquals(LanguageResources.getMessage(locale, key), null);
+		_assertTranslationValue(locale, key, null);
 
-		ResourceBundle resourceBundle = LanguageResources.getResourceBundle(locale);
-
-		Set<String> keySet = resourceBundle.keySet();
-
-		Assert.assertFalse(keySet.contains(key));
-
-		_ploEntryLocalService.addPLOEntry(
+		PLOEntry ploEntry = _ploEntryLocalService.addPLOEntry(
 			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(), key,
-			LanguageUtil.getLanguageId(locale), value);
+			LanguageUtil.getLanguageId(locale), RandomTestUtil.randomString());
 
-		Assert.assertEquals(LanguageResources.getMessage(locale, key), value);
+		Assert.assertEquals(StringPool.BLANK, ploEntry.getOriginalValue());
 
-		resourceBundle = LanguageResources.getResourceBundle(locale);
-
-		keySet = resourceBundle.keySet();
-
-		Assert.assertTrue(keySet.contains(key));
+		_assertTranslationValue(locale, key, ploEntry.getValue());
 	}
 
 	@Test
-	public void testPersistOriginalValue() throws Exception {
+	public void testAddPLOEntryOverrideExistingKey() throws Exception {
 		String key = "available-languages";
 		Locale locale = LocaleUtil.getDefault();
 
@@ -125,13 +78,23 @@ public class PLOEntryLocalServiceTest {
 			LanguageUtil.getLanguageId(locale), RandomTestUtil.randomString());
 
 		Assert.assertEquals(originalValue, ploEntry.getOriginalValue());
+
+		_assertTranslationValue(locale, key, ploEntry.getValue());
 	}
 
-	@Test
-	public void testOverrideExistingLanguageKey() throws Exception {
-		// Assert key not present
+	private void _assertTranslationValue(
+		Locale locale, String key, String expectedValue) {
+
+		Assert.assertEquals(
+			expectedValue, LanguageResources.getMessage(locale, key));
+
+		Assert.assertEquals(
+			expectedValue,
+			ResourceBundleUtil.getString(
+				LanguageResources.getResourceBundle(locale), key));
 	}
 
 	@Inject
 	private PLOEntryLocalService _ploEntryLocalService;
+
 }
