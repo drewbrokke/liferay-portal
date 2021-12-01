@@ -14,13 +14,21 @@
 
 package com.liferay.portal.language.override.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
+import com.liferay.portal.language.override.service.PLOEntryServiceUtil;
+
 /**
  * Provides the HTTP utility for the
- * <code>com.liferay.portal.language.override.service.PLOEntryServiceUtil</code> service
+ * <code>PLOEntryServiceUtil</code> service
  * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * <code>com.liferay.portal.kernel.security.auth.HttpPrincipal</code> parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -42,4 +50,114 @@ package com.liferay.portal.language.override.service.http;
  * @generated
  */
 public class PLOEntryServiceHttp {
+
+	public static com.liferay.portal.language.override.model.PLOEntry
+		deletePLOEntry(
+			HttpPrincipal httpPrincipal, long companyId, String key,
+			String languageId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PLOEntryServiceUtil.class, "deletePLOEntry",
+				_deletePLOEntryParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, key, languageId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.language.override.model.PLOEntry)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static void deletePLOEntries(
+		HttpPrincipal httpPrincipal, long companyId, String key) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PLOEntryServiceUtil.class, "deletePLOEntries",
+				_deletePLOEntriesParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, key);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static void setPLOEntries(
+			HttpPrincipal httpPrincipal, long companyId, long userId,
+			String key, java.util.Map<java.util.Locale, String> localizationMap)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PLOEntryServiceUtil.class, "setPLOEntries",
+				_setPLOEntriesParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, companyId, userId, key, localizationMap);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(PLOEntryServiceHttp.class);
+
+	private static final Class<?>[] _deletePLOEntryParameterTypes0 =
+		new Class[] {long.class, String.class, String.class};
+	private static final Class<?>[] _deletePLOEntriesParameterTypes1 =
+		new Class[] {long.class, String.class};
+	private static final Class<?>[] _setPLOEntriesParameterTypes2 =
+		new Class[] {long.class, long.class, String.class, java.util.Map.class};
+
 }

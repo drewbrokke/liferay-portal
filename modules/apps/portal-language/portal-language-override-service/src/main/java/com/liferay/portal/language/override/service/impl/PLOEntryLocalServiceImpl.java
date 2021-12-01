@@ -21,6 +21,7 @@ import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.petra.sql.dsl.query.FromStep;
 import com.liferay.petra.sql.dsl.query.GroupByStep;
 import com.liferay.petra.sql.dsl.query.LimitStep;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -33,6 +34,7 @@ import com.liferay.portal.kernel.security.auth.GuestOrUserUtil;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.language.override.model.PLOEntry;
 import com.liferay.portal.language.override.model.PLOEntryTable;
@@ -41,6 +43,7 @@ import com.liferay.portal.language.override.service.base.PLOEntryLocalServiceBas
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -65,6 +68,10 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 
 		if (ploEntry == null) {
 			return addPLOEntry(companyId, userId, key, languageId, value);
+		}
+
+		if (Objects.equals(ploEntry.getValue(), value)) {
+			return ploEntry;
 		}
 
 		ploEntry.setValue(value);
@@ -154,19 +161,22 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 
 	@Override
 	public void setPLOEntries(
-			long companyId, long userId, String key, Map<Locale, String> localizationMap)
+			long companyId, long userId, String key,
+			Map<Locale, String> localizationMap)
 		throws PortalException {
 
 		for (Map.Entry<Locale, String> entry : localizationMap.entrySet()) {
-			addOrUpdatePLOEntry(
-				companyId, userId, key,
-				LanguageUtil.getLanguageId(entry.getKey()), entry.getValue());
-		}
+			String languageId = LanguageUtil.getLanguageId(entry.getKey());
+			String value = StringUtil.trim(entry.getValue());
 
-		for (PLOEntry ploEntry : getPLOEntriesByKey(companyId, key)) {
-			if (Validator.isNull(localizationMap.get(LanguageUtil.getLocale(ploEntry.getLanguageId())))) {
-				deletePLOEntry(ploEntry);
+			if ((value == null) || value.equals(StringPool.BLANK)) {
+				deletePLOEntry(companyId, key, languageId);
+
+				continue;
 			}
+
+			addOrUpdatePLOEntry(
+				companyId, userId, key, languageId, value);
 		}
 	}
 

@@ -14,16 +14,13 @@
 
 package com.liferay.portal.language.override.web.internal.portlet;
 
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.language.override.service.PLOEntryLocalService;
+import com.liferay.portal.language.override.service.PLOEntryService;
 import com.liferay.portal.language.override.web.internal.constants.PortalLanguageOverridePortletKeys;
 import com.liferay.portal.language.override.web.internal.display.EditDisplayContextFactory;
 import com.liferay.portal.language.override.web.internal.display.ViewDisplayContextFactory;
@@ -32,7 +29,6 @@ import java.io.IOException;
 
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -76,7 +72,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		String selectedLanguage = ParamUtil.getString(
 			actionRequest, "selectedLanguage");
 
-		_ploEntryLocalService.deletePLOEntry(
+		_ploEntryService.deletePLOEntry(
 			_portal.getCompanyId(actionRequest), key, selectedLanguage);
 	}
 
@@ -85,7 +81,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		throws PortalException {
 
 		for (String key : ParamUtil.getStringValues(actionRequest, "key")) {
-			_ploEntryLocalService.deletePLOEntries(
+			_ploEntryService.deletePLOEntries(
 				_portal.getCompanyId(actionRequest), key);
 		}
 	}
@@ -102,26 +98,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		long companyId = _portal.getCompanyId(actionRequest);
 		long userId = _portal.getUserId(actionRequest);
 
-		for (Map.Entry<Locale, String> entry : localizationMap.entrySet()) {
-			Locale locale = entry.getKey();
-			String value = StringUtil.trim(entry.getValue());
-
-			if (Objects.equals(LanguageUtil.get(locale, key), value)) {
-				continue;
-			}
-
-			String languageId = LanguageUtil.getLanguageId(locale);
-
-			if ((value == null) || value.equals(StringPool.BLANK)) {
-				_ploEntryLocalService.deletePLOEntry(
-					companyId, key, languageId);
-
-				continue;
-			}
-
-			_ploEntryLocalService.addOrUpdatePLOEntry(
-				companyId, userId, key, languageId, value);
-		}
+		_ploEntryService.setPLOEntries(companyId, userId, key, localizationMap);
 	}
 
 	@Override
@@ -167,7 +144,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 	private EditDisplayContextFactory _editDisplayContextFactory;
 
 	@Reference
-	private PLOEntryLocalService _ploEntryLocalService;
+	private PLOEntryService _ploEntryService;
 
 	@Reference
 	private Portal _portal;

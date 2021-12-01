@@ -14,6 +14,11 @@
 
 package com.liferay.portal.language.override.service;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.language.override.model.PLOEntry;
+
+import java.util.Map;
+
 /**
  * Provides the remote service utility for PLOEntry. This utility wraps
  * <code>com.liferay.portal.language.override.service.impl.PLOEntryServiceImpl</code> and is an
@@ -33,14 +38,31 @@ public class PLOEntryServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.portal.language.override.service.impl.PLOEntryServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static void deletePLOEntries(long companyId, String key) {
+		getService().deletePLOEntries(companyId, key);
+	}
+
+	public static PLOEntry deletePLOEntry(
+		long companyId, String key, String languageId) {
+
+		return getService().deletePLOEntry(companyId, key, languageId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static void setPLOEntries(
+			long companyId, long userId, String key,
+			Map<java.util.Locale, String> localizationMap)
+		throws PortalException {
+
+		getService().setPLOEntries(companyId, userId, key, localizationMap);
 	}
 
 	public static PLOEntryService getService() {

@@ -30,6 +30,18 @@ public class PLOEntryServiceWrapper
 		_ploEntryService = ploEntryService;
 	}
 
+	@Override
+	public void deletePLOEntries(long companyId, String key) {
+		_ploEntryService.deletePLOEntries(companyId, key);
+	}
+
+	@Override
+	public com.liferay.portal.language.override.model.PLOEntry deletePLOEntry(
+		long companyId, String key, String languageId) {
+
+		return _ploEntryService.deletePLOEntry(companyId, key, languageId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -38,6 +50,15 @@ public class PLOEntryServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _ploEntryService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public void setPLOEntries(
+			long companyId, long userId, String key,
+			java.util.Map<java.util.Locale, String> localizationMap)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_ploEntryService.setPLOEntries(companyId, userId, key, localizationMap);
 	}
 
 	@Override
