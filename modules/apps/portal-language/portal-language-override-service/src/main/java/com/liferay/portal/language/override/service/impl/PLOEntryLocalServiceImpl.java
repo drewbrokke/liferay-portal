@@ -39,6 +39,7 @@ import com.liferay.portal.language.override.model.PLOEntryTable;
 import com.liferay.portal.language.override.service.base.PLOEntryLocalServiceBaseImpl;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
@@ -54,6 +55,7 @@ import org.osgi.service.component.annotations.Reference;
 )
 public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 
+	@Override
 	public PLOEntry addOrUpdatePLOEntry(
 			long companyId, long userId, String key, String languageId,
 			String value)
@@ -65,13 +67,15 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 			return addPLOEntry(companyId, userId, key, languageId, value);
 		}
 
-		return updatePLOEntry(ploEntry.getPloEntryId(), value);
+		ploEntry.setValue(value);
+
+		return updatePLOEntry(ploEntry);
 	}
 
 	@Reference
 	private UserLocalService _userLocalService;
 
-	public PLOEntry addPLOEntry(
+	protected PLOEntry addPLOEntry(
 			long companyId, long userId, String key, String languageId,
 			String value)
 		throws PortalException {
@@ -131,7 +135,7 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 		return ploEntryPersistence.findByCompanyId(companyId);
 	}
 
-	public List<PLOEntry> getPLOEntriesByKey(long companyId, String key) {
+	protected List<PLOEntry> getPLOEntriesByKey(long companyId, String key) {
 		return ploEntryPersistence.findByC_K(companyId, key);
 	}
 
@@ -148,100 +152,22 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 		return ploEntryPersistence.findByC_K_L(companyId, key, languageId);
 	}
 
-	public BaseModelSearchResult<PLOEntry> searchPLOEntries(
-		long companyId, String keywords, int cur, int delta,
-		String orderByField, boolean reverse) {
-
-		if (orderByField == null) {
-			orderByField = "key";
-		}
-
-		DSLQuery orderByStep = _getGroupByStep(
-			companyId, keywords,
-			DSLQueryFactoryUtil.select(PLOEntryTable.INSTANCE)
-		).orderBy(
-			PLOEntryTable.INSTANCE,
-			OrderByComparatorFactoryUtil.<PLOEntry>create(
-				"PLOEntry", orderByField, !reverse)
-		);
-
-		if (!((cur == QueryUtil.ALL_POS) || (delta == QueryUtil.ALL_POS))) {
-			int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
-				cur, delta);
-
-			LimitStep limitStep = (LimitStep)orderByStep;
-
-			orderByStep = limitStep.limit(startAndEnd[0], startAndEnd[1]);
-		}
-
-		return new BaseModelSearchResult<>(
-			dslQuery(orderByStep),
-			dslQueryCount(
-				_getGroupByStep(
-					companyId, keywords,
-					DSLQueryFactoryUtil.countDistinct(
-						PLOEntryTable.INSTANCE.ploEntryId))));
-	}
-
+	@Override
 	public void setPLOEntries(
-			long companyId, long userId, String key, Map<String, String> valueMap)
+			long companyId, long userId, String key, Map<Locale, String> localizationMap)
 		throws PortalException {
 
-		for (Map.Entry<String, String> entry : valueMap.entrySet()) {
+		for (Map.Entry<Locale, String> entry : localizationMap.entrySet()) {
 			addOrUpdatePLOEntry(
-				companyId, userId, key, entry.getKey(), entry.getValue());
+				companyId, userId, key,
+				LanguageUtil.getLanguageId(entry.getKey()), entry.getValue());
 		}
 
 		for (PLOEntry ploEntry : getPLOEntriesByKey(companyId, key)) {
-			if (Validator.isNull(valueMap.get(ploEntry.getLanguageId()))) {
+			if (Validator.isNull(localizationMap.get(LanguageUtil.getLocale(ploEntry.getLanguageId())))) {
 				deletePLOEntry(ploEntry);
 			}
 		}
 	}
-
-	public PLOEntry updatePLOEntry(long ploEntryId, String value)
-		throws PortalException {
-
-		PLOEntry ploEntry = getPLOEntry(ploEntryId);
-
-		ploEntry.setValue(value);
-
-		return ploEntryPersistence.update(ploEntry);
-	}
-
-	private GroupByStep _getGroupByStep(
-		long companyId, String keywords, FromStep fromStep) {
-
-		return fromStep.from(
-			PLOEntryTable.INSTANCE
-		).where(
-			PLOEntryTable.INSTANCE.companyId.eq(
-				companyId
-			).and(
-				() -> {
-					if (Validator.isNull(keywords)) {
-						return null;
-					}
-
-					String[] keywordsArray = _customSQL.keywords(keywords);
-
-					return Predicate.withParentheses(
-						Predicate.or(
-							_customSQL.getKeywordsPredicate(
-								DSLFunctionFactoryUtil.lower(
-									PLOEntryTable.INSTANCE.key),
-								keywordsArray),
-							_customSQL.getKeywordsPredicate(
-								DSLFunctionFactoryUtil.lower(
-									DSLFunctionFactoryUtil.castClobText(
-										PLOEntryTable.INSTANCE.value)),
-								keywordsArray)));
-				}
-			)
-		);
-	}
-
-	@Reference
-	private CustomSQL _customSQL;
 
 }

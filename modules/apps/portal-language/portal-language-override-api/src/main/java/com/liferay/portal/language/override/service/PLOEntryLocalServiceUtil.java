@@ -54,15 +54,6 @@ public class PLOEntryLocalServiceUtil {
 			companyId, userId, key, languageId, value);
 	}
 
-	public static PLOEntry addPLOEntry(
-			long companyId, long userId, String key, String languageId,
-			String value)
-		throws PortalException {
-
-		return getService().addPLOEntry(
-			companyId, userId, key, languageId, value);
-	}
-
 	/**
 	 * Adds the plo entry to the database. Also notifies the appropriate model listeners.
 	 *
@@ -293,12 +284,6 @@ public class PLOEntryLocalServiceUtil {
 		return getService().getPLOEntries(companyId);
 	}
 
-	public static List<PLOEntry> getPLOEntriesByKey(
-		long companyId, String key) {
-
-		return getService().getPLOEntriesByKey(companyId, key);
-	}
-
 	public static List<PLOEntry> getPLOEntriesByLanguageId(
 		long companyId, String languageId) {
 
@@ -332,27 +317,12 @@ public class PLOEntryLocalServiceUtil {
 		return getService().getPLOEntry(companyId, key, languageId);
 	}
 
-	public static com.liferay.portal.kernel.search.BaseModelSearchResult
-		<PLOEntry> searchPLOEntries(
-			long companyId, String keywords, int cur, int delta,
-			String orderByField, boolean reverse) {
-
-		return getService().searchPLOEntries(
-			companyId, keywords, cur, delta, orderByField, reverse);
-	}
-
 	public static void setPLOEntries(
 			long companyId, long userId, String key,
-			Map<String, String> valueMap)
+			Map<java.util.Locale, String> localizationMap)
 		throws PortalException {
 
-		getService().setPLOEntries(companyId, userId, key, valueMap);
-	}
-
-	public static PLOEntry updatePLOEntry(long ploEntryId, String value)
-		throws PortalException {
-
-		return getService().updatePLOEntry(ploEntryId, value);
+		getService().setPLOEntries(companyId, userId, key, localizationMap);
 	}
 
 	/**

@@ -43,16 +43,6 @@ public class PLOEntryLocalServiceWrapper
 			companyId, userId, key, languageId, value);
 	}
 
-	@Override
-	public com.liferay.portal.language.override.model.PLOEntry addPLOEntry(
-			long companyId, long userId, String key, String languageId,
-			String value)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _ploEntryLocalService.addPLOEntry(
-			companyId, userId, key, languageId, value);
-	}
-
 	/**
 	 * Adds the plo entry to the database. Also notifies the appropriate model listeners.
 	 *
@@ -331,13 +321,6 @@ public class PLOEntryLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.portal.language.override.model.PLOEntry>
-		getPLOEntriesByKey(long companyId, String key) {
-
-		return _ploEntryLocalService.getPLOEntriesByKey(companyId, key);
-	}
-
-	@Override
-	public java.util.List<com.liferay.portal.language.override.model.PLOEntry>
 		getPLOEntriesByLanguageId(long companyId, String languageId) {
 
 		return _ploEntryLocalService.getPLOEntriesByLanguageId(
@@ -378,30 +361,13 @@ public class PLOEntryLocalServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.search.BaseModelSearchResult
-		<com.liferay.portal.language.override.model.PLOEntry> searchPLOEntries(
-			long companyId, String keywords, int cur, int delta,
-			String orderByField, boolean reverse) {
-
-		return _ploEntryLocalService.searchPLOEntries(
-			companyId, keywords, cur, delta, orderByField, reverse);
-	}
-
-	@Override
 	public void setPLOEntries(
 			long companyId, long userId, String key,
-			java.util.Map<String, String> valueMap)
+			java.util.Map<java.util.Locale, String> localizationMap)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_ploEntryLocalService.setPLOEntries(companyId, userId, key, valueMap);
-	}
-
-	@Override
-	public com.liferay.portal.language.override.model.PLOEntry updatePLOEntry(
-			long ploEntryId, String value)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _ploEntryLocalService.updatePLOEntry(ploEntryId, value);
+		_ploEntryLocalService.setPLOEntries(
+			companyId, userId, key, localizationMap);
 	}
 
 	/**

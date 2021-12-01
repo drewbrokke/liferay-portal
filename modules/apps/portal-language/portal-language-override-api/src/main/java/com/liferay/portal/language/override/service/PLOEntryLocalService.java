@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
-import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
@@ -36,6 +35,7 @@ import com.liferay.portal.language.override.model.PLOEntry;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -64,11 +64,6 @@ public interface PLOEntryLocalService
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.portal.language.override.service.impl.PLOEntryLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the plo entry local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PLOEntryLocalServiceUtil} if injection and service tracking are not available.
 	 */
 	public PLOEntry addOrUpdatePLOEntry(
-			long companyId, long userId, String key, String languageId,
-			String value)
-		throws PortalException;
-
-	public PLOEntry addPLOEntry(
 			long companyId, long userId, String key, String languageId,
 			String value)
 		throws PortalException;
@@ -258,9 +253,6 @@ public interface PLOEntryLocalService
 	public List<PLOEntry> getPLOEntries(long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<PLOEntry> getPLOEntriesByKey(long companyId, String key);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<PLOEntry> getPLOEntriesByLanguageId(
 		long companyId, String languageId);
 
@@ -286,17 +278,9 @@ public interface PLOEntryLocalService
 	public PLOEntry getPLOEntry(long companyId, String key, String languageId)
 		throws PortalException;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public BaseModelSearchResult<PLOEntry> searchPLOEntries(
-		long companyId, String keywords, int cur, int delta,
-		String orderByField, boolean reverse);
-
 	public void setPLOEntries(
 			long companyId, long userId, String key,
-			Map<String, String> valueMap)
-		throws PortalException;
-
-	public PLOEntry updatePLOEntry(long ploEntryId, String value)
+			Map<Locale, String> localizationMap)
 		throws PortalException;
 
 	/**
