@@ -7,7 +7,6 @@
 		<permissions>
 			<supports>
 				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>
-				<action-key>MANAGE_KEYS</action-key>
 			</supports>
 		</permissions>
 	</portlet-resource>
