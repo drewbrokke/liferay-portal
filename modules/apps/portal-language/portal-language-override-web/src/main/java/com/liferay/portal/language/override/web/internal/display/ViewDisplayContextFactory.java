@@ -21,11 +21,13 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringParser;
 import com.liferay.portal.language.LanguageResources;
 import com.liferay.portal.language.override.model.PLOEntry;
@@ -34,14 +36,17 @@ import com.liferay.portal.language.override.web.internal.dto.PLOItemDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -64,16 +69,15 @@ public class ViewDisplayContextFactory {
 
 		ViewDisplayContext viewDisplayContext = new ViewDisplayContext();
 
+		Set<Locale> companyAvailableLocales =
+			LanguageUtil.getCompanyAvailableLocales(
+				_portal.getCompanyId(renderRequest));
+
+		viewDisplayContext.setAvailableLocales(
+			companyAvailableLocales.toArray(new Locale[0]));
+
 		viewDisplayContext.setDisplayStyle(
 			ParamUtil.getString(renderRequest, "displayStyle", "descriptive"));
-
-		for (Locale locale :
-				LanguageUtil.getCompanyAvailableLocales(
-					_portal.getCompanyId(renderRequest))) {
-
-			viewDisplayContext.addAvailableLanguage(
-				LanguageUtil.getLanguageId(locale));
-		}
 
 		SearchContainer<PLOItemDTO> searchContainer = _createSearchContainer(
 			renderRequest, renderResponse);

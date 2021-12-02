@@ -1,4 +1,5 @@
-
+<%@ page
+	import="com.liferay.frontend.taglib.clay.servlet.taglib.display.context.ManagementToolbarDisplayContext" %>
 
 <%--
 /**
@@ -20,13 +21,23 @@
 
 <%
 ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
+
+ViewManagementToolbarDisplayContext managementToolbarDisplayContext = new ViewManagementToolbarDisplayContext(request, liferayPortletRequest, liferayPortletResponse, viewDisplayContext);
 %>
 
 <clay:management-toolbar
-	managementToolbarDisplayContext="<%= new ViewManagementToolbarDisplayContext(request, liferayPortletRequest, liferayPortletResponse, viewDisplayContext) %>"
+	managementToolbarDisplayContext="<%= managementToolbarDisplayContext %>"
 />
 
-<clay:container-fluid>
+<clay:container-fluid cssClass="container-view">
+	<clay:dropdown-menu
+		displayType="secondary"
+		dropdownItems="<%= managementToolbarDisplayContext.getDropdownItems() %>"
+		icon="<%= StringUtil.toLowerCase(TextFormatter.format(viewDisplayContext.getSelectedLanguage(), TextFormatter.O)) %>"
+		label="<%= TextFormatter.format(viewDisplayContext.getSelectedLanguage(), TextFormatter.O) %>"
+		small="true"
+	/>
+
 	<liferay-ui:search-container
 		orderByCol="key"
 		searchContainer="<%= viewDisplayContext.getSearchContainer() %>"
@@ -86,6 +97,7 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 					/>
 
 					<liferay-ui:search-container-column-text
+						href="<%= editURL %>"
 						name="languages-with-override"
 					>
 
@@ -95,9 +107,10 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 
 							<liferay-ui:icon
 								icon="<%= StringUtil.toLowerCase(TextFormatter.format(language, TextFormatter.O)) %>"
+								label="true"
+								cssClass="inline-item-middle"
 								markupView="lexicon"
-								message="<%= language %>"
-								url='<%= HttpUtil.setParameter(editURL, liferayPortletResponse.getNamespace() + "selectedLanguage", language) %>'
+								message="<%= TextFormatter.format(language, TextFormatter.O) %>"
 							/>
 
 						<%

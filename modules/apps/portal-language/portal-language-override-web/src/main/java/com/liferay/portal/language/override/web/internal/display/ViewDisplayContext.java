@@ -20,28 +20,15 @@ import com.liferay.portal.language.override.web.internal.dto.PLOItemDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Drew Brokke
  */
 public class ViewDisplayContext {
 
-	public void addAvailableLanguage(String language) {
-		_availableLanguages.add(language);
-	}
-
-	public List<String> getAvailableLanguages() {
-		return _availableLanguages;
-	}
-
 	public String getDisplayStyle() {
 		return _displayStyle;
-	}
-
-	public ManagementToolbarDisplayContext
-		getManagementToolbarDisplayContext() {
-
-		return _managementToolbarDisplayContext;
 	}
 
 	public SearchContainer<PLOItemDTO> getSearchContainer() {
@@ -56,12 +43,6 @@ public class ViewDisplayContext {
 		_displayStyle = displayStyle;
 	}
 
-	public void setManagementToolbarDisplayContext(
-		ManagementToolbarDisplayContext managementToolbarDisplayContext) {
-
-		_managementToolbarDisplayContext = managementToolbarDisplayContext;
-	}
-
 	public void setSearchContainer(
 		SearchContainer<PLOItemDTO> searchContainer) {
 
@@ -72,10 +53,18 @@ public class ViewDisplayContext {
 		_selectedLanguage = selectedLanguage;
 	}
 
-	private final List<String> _availableLanguages = new ArrayList<>();
 	private String _displayStyle;
-	private ManagementToolbarDisplayContext _managementToolbarDisplayContext;
 	private SearchContainer<PLOItemDTO> _searchContainer;
 	private String _selectedLanguage;
+
+	public Locale[] getAvailableLocales() {
+		return _availableLocales;
+	}
+
+	public void setAvailableLocales(Locale[] availableLocales) {
+		_availableLocales = availableLocales;
+	}
+
+	private Locale[] _availableLocales;
 
 }

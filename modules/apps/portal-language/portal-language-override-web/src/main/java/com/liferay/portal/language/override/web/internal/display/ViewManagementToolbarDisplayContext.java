@@ -17,6 +17,8 @@ package com.liferay.portal.language.override.web.internal.display;
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItemListBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
@@ -109,43 +111,36 @@ public class ViewManagementToolbarDisplayContext
 		return String.valueOf(searchContainer.getIteratorURL());
 	}
 
-//	@Override
-//	public List<ViewTypeItem> getViewTypeItems() {
-//		ViewTypeItemList viewTypeItemList = new ViewTypeItemList();
-//
-//		String selectedLanguage = ParamUtil.getString(
-//			liferayPortletRequest, "selectedLanguage",
-//			LanguageUtil.getLanguageId(
-//				PortalUtil.getLocale(liferayPortletRequest)));
-//
-//		Set<Locale> companyAvailableLocales =
-//			LanguageUtil.getCompanyAvailableLocales(
-//				PortalUtil.getCompanyId(liferayPortletRequest));
-//
-//		for (Locale locale : companyAvailableLocales) {
-//			String languageId = LanguageUtil.getLanguageId(locale);
-//
-//			String icon = StringUtil.toLowerCase(
-//				TextFormatter.format(languageId, TextFormatter.O));
-//
-//			viewTypeItemList.add(
-//				viewTypeItem -> {
-//					viewTypeItem.setActive(
-//						Objects.equals(selectedLanguage, languageId));
-//					viewTypeItem.setHref(
-//						HttpUtil.setParameter(
-//							String.valueOf(getPortletURL()),
-//							liferayPortletResponse.getNamespace() +
-//								"selectedLanguage",
-//							languageId));
-//					viewTypeItem.setIcon(icon);
-//					viewTypeItem.setLabel(languageId);
-//					viewTypeItem.put("symbolLeft", icon);
-//				});
-//		}
-//
-//		return viewTypeItemList;
-//	}
+	public List<DropdownItem> getDropdownItems() {
+		DropdownItemList dropdownItemList = new DropdownItemList();
+
+		String selectedLanguage = _viewDisplayContext.getSelectedLanguage();
+
+		for (Locale locale : _viewDisplayContext.getAvailableLocales()) {
+			String languageId = LanguageUtil.getLanguageId(locale);
+
+			String icon = StringUtil.toLowerCase(
+				TextFormatter.format(languageId, TextFormatter.O));
+
+			dropdownItemList.add(
+				dropdownItem -> {
+					dropdownItem.setActive(
+						Objects.equals(selectedLanguage, languageId));
+					dropdownItem.setHref(
+						HttpUtil.setParameter(
+							String.valueOf(getPortletURL()),
+							liferayPortletResponse.getNamespace() +
+							"selectedLanguage",
+							languageId));
+					dropdownItem.setIcon(icon);
+					dropdownItem.setLabel(TextFormatter.format(languageId, TextFormatter.O));
+					dropdownItem.put("symbolLeft", icon);
+				}
+			);
+		}
+
+		return dropdownItemList;
+	}
 
 	@Override
 	protected String getDefaultDisplayStyle() {
