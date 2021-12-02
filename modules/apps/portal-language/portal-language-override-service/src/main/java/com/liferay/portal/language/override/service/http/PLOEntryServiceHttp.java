@@ -52,9 +52,9 @@ import com.liferay.portal.language.override.service.PLOEntryServiceUtil;
 public class PLOEntryServiceHttp {
 
 	public static com.liferay.portal.language.override.model.PLOEntry
-		deletePLOEntry(
-			HttpPrincipal httpPrincipal, long companyId, String key,
-			String languageId) {
+			deletePLOEntry(
+				HttpPrincipal httpPrincipal, String key, String languageId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -62,7 +62,7 @@ public class PLOEntryServiceHttp {
 				_deletePLOEntryParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, companyId, key, languageId);
+				methodKey, key, languageId);
 
 			Object returnObj = null;
 
@@ -70,6 +70,13 @@ public class PLOEntryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
@@ -86,21 +93,27 @@ public class PLOEntryServiceHttp {
 		}
 	}
 
-	public static void deletePLOEntries(
-		HttpPrincipal httpPrincipal, long companyId, String key) {
+	public static void deletePLOEntries(HttpPrincipal httpPrincipal, String key)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				PLOEntryServiceUtil.class, "deletePLOEntries",
 				_deletePLOEntriesParameterTypes1);
 
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, companyId, key);
+			MethodHandler methodHandler = new MethodHandler(methodKey, key);
 
 			try {
 				TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
@@ -115,8 +128,8 @@ public class PLOEntryServiceHttp {
 	}
 
 	public static void setPLOEntries(
-			HttpPrincipal httpPrincipal, long companyId, long userId,
-			String key, java.util.Map<java.util.Locale, String> localizationMap)
+			HttpPrincipal httpPrincipal, String key,
+			java.util.Map<java.util.Locale, String> localizationMap)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
@@ -125,7 +138,7 @@ public class PLOEntryServiceHttp {
 				_setPLOEntriesParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, companyId, userId, key, localizationMap);
+				methodKey, key, localizationMap);
 
 			try {
 				TunnelUtil.invoke(httpPrincipal, methodHandler);
@@ -154,10 +167,10 @@ public class PLOEntryServiceHttp {
 	private static Log _log = LogFactoryUtil.getLog(PLOEntryServiceHttp.class);
 
 	private static final Class<?>[] _deletePLOEntryParameterTypes0 =
-		new Class[] {long.class, String.class, String.class};
+		new Class[] {String.class, String.class};
 	private static final Class<?>[] _deletePLOEntriesParameterTypes1 =
-		new Class[] {long.class, String.class};
+		new Class[] {String.class};
 	private static final Class<?>[] _setPLOEntriesParameterTypes2 =
-		new Class[] {long.class, long.class, String.class, java.util.Map.class};
+		new Class[] {String.class, java.util.Map.class};
 
 }

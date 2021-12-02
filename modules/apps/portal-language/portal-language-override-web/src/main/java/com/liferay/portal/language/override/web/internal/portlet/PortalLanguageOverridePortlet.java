@@ -73,7 +73,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 			actionRequest, "selectedLanguage");
 
 		_ploEntryService.deletePLOEntry(
-			_portal.getCompanyId(actionRequest), key, selectedLanguage);
+			key, selectedLanguage);
 	}
 
 	public void deletePortalLanguageOverrides(
@@ -82,7 +82,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 
 		for (String key : ParamUtil.getStringValues(actionRequest, "key")) {
 			_ploEntryService.deletePLOEntries(
-				_portal.getCompanyId(actionRequest), key);
+				key);
 		}
 	}
 
@@ -98,7 +98,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		long companyId = _portal.getCompanyId(actionRequest);
 		long userId = _portal.getUserId(actionRequest);
 
-		_ploEntryService.setPLOEntries(companyId, userId, key, localizationMap);
+		_ploEntryService.setPLOEntries(key, localizationMap);
 	}
 
 	@Override

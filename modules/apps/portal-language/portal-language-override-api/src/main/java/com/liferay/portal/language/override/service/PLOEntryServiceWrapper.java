@@ -31,15 +31,18 @@ public class PLOEntryServiceWrapper
 	}
 
 	@Override
-	public void deletePLOEntries(long companyId, String key) {
-		_ploEntryService.deletePLOEntries(companyId, key);
+	public void deletePLOEntries(String key)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_ploEntryService.deletePLOEntries(key);
 	}
 
 	@Override
 	public com.liferay.portal.language.override.model.PLOEntry deletePLOEntry(
-		long companyId, String key, String languageId) {
+			String key, String languageId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _ploEntryService.deletePLOEntry(companyId, key, languageId);
+		return _ploEntryService.deletePLOEntry(key, languageId);
 	}
 
 	/**
@@ -54,11 +57,10 @@ public class PLOEntryServiceWrapper
 
 	@Override
 	public void setPLOEntries(
-			long companyId, long userId, String key,
-			java.util.Map<java.util.Locale, String> localizationMap)
+			String key, java.util.Map<java.util.Locale, String> localizationMap)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_ploEntryService.setPLOEntries(companyId, userId, key, localizationMap);
+		_ploEntryService.setPLOEntries(key, localizationMap);
 	}
 
 	@Override

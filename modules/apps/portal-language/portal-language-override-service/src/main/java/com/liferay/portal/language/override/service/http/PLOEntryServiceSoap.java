@@ -68,12 +68,12 @@ import java.util.Map;
 public class PLOEntryServiceSoap {
 
 	public static com.liferay.portal.language.override.model.PLOEntrySoap
-			deletePLOEntry(long companyId, String key, String languageId)
+			deletePLOEntry(String key, String languageId)
 		throws RemoteException {
 
 		try {
 			com.liferay.portal.language.override.model.PLOEntry returnValue =
-				PLOEntryServiceUtil.deletePLOEntry(companyId, key, languageId);
+				PLOEntryServiceUtil.deletePLOEntry(key, languageId);
 
 			return com.liferay.portal.language.override.model.PLOEntrySoap.
 				toSoapModel(returnValue);
@@ -85,11 +85,9 @@ public class PLOEntryServiceSoap {
 		}
 	}
 
-	public static void deletePLOEntries(long companyId, String key)
-		throws RemoteException {
-
+	public static void deletePLOEntries(String key) throws RemoteException {
 		try {
-			PLOEntryServiceUtil.deletePLOEntries(companyId, key);
+			PLOEntryServiceUtil.deletePLOEntries(key);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);
@@ -99,8 +97,8 @@ public class PLOEntryServiceSoap {
 	}
 
 	public static void setPLOEntries(
-			long companyId, long userId, String key,
-			String[] localizationMapLanguageIds, String[] localizationMapValues)
+			String key, String[] localizationMapLanguageIds,
+			String[] localizationMapValues)
 		throws RemoteException {
 
 		try {
@@ -108,8 +106,7 @@ public class PLOEntryServiceSoap {
 				LocalizationUtil.getLocalizationMap(
 					localizationMapLanguageIds, localizationMapValues);
 
-			PLOEntryServiceUtil.setPLOEntries(
-				companyId, userId, key, localizationMap);
+			PLOEntryServiceUtil.setPLOEntries(key, localizationMap);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);

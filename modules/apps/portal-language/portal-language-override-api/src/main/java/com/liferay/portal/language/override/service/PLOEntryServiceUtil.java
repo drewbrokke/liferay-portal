@@ -38,14 +38,14 @@ public class PLOEntryServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.portal.language.override.service.impl.PLOEntryServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static void deletePLOEntries(long companyId, String key) {
-		getService().deletePLOEntries(companyId, key);
+	public static void deletePLOEntries(String key) throws PortalException {
+		getService().deletePLOEntries(key);
 	}
 
-	public static PLOEntry deletePLOEntry(
-		long companyId, String key, String languageId) {
+	public static PLOEntry deletePLOEntry(String key, String languageId)
+		throws PortalException {
 
-		return getService().deletePLOEntry(companyId, key, languageId);
+		return getService().deletePLOEntry(key, languageId);
 	}
 
 	/**
@@ -58,11 +58,10 @@ public class PLOEntryServiceUtil {
 	}
 
 	public static void setPLOEntries(
-			long companyId, long userId, String key,
-			Map<java.util.Locale, String> localizationMap)
+			String key, Map<java.util.Locale, String> localizationMap)
 		throws PortalException {
 
-		getService().setPLOEntries(companyId, userId, key, localizationMap);
+		getService().setPLOEntries(key, localizationMap);
 	}
 
 	public static PLOEntryService getService() {

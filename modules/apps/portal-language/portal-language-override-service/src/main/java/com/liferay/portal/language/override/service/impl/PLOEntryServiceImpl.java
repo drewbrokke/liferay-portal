@@ -17,6 +17,8 @@ package com.liferay.portal.language.override.service.impl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.language.override.model.PLOEntry;
 import com.liferay.portal.language.override.service.base.PLOEntryServiceBaseImpl;
@@ -39,22 +41,27 @@ import java.util.Map;
 public class PLOEntryServiceImpl extends PLOEntryServiceBaseImpl {
 
 	@Override
-	public PLOEntry deletePLOEntry(
-		long companyId, String key, String languageId) {
-
-		return ploEntryLocalService.deletePLOEntry(companyId, key, languageId);
-	}
-
-	@Override
-	public void deletePLOEntries(long companyId, String key) {
-		ploEntryLocalService.deletePLOEntries(companyId, key);
-	}
-
-	@Override
-	public void setPLOEntries(
-		long companyId, long userId, String key, Map<Locale, String> localizationMap)
+	public PLOEntry deletePLOEntry(String key, String languageId)
 		throws PortalException {
 
-		ploEntryLocalService.setPLOEntries(companyId, userId, key, localizationMap);
+		User user = getUser();
+
+		return ploEntryLocalService.deletePLOEntry(user.getCompanyId(), key, languageId);
+	}
+
+	@Override
+	public void deletePLOEntries(String key) throws PortalException {
+		User user = getUser();
+
+		ploEntryLocalService.deletePLOEntries(user.getCompanyId(), key);
+	}
+
+	@Override
+	public void setPLOEntries(String key, Map<Locale, String> localizationMap)
+		throws PortalException {
+
+		User user = getUser();
+
+		ploEntryLocalService.setPLOEntries(user.getCompanyId(), user.getUserId(), key, localizationMap);
 	}
 }
