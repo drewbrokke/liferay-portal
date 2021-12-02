@@ -50,12 +50,16 @@ public class ViewManagementToolbarDisplayContext
 		HttpServletRequest httpServletRequest,
 		LiferayPortletRequest liferayPortletRequest,
 		LiferayPortletResponse liferayPortletResponse,
-		SearchContainer<?> searchContainer) {
+		ViewDisplayContext viewDisplayContext) {
 
 		super(
 			httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-			searchContainer);
+			viewDisplayContext.getSearchContainer());
+
+		_viewDisplayContext = viewDisplayContext;
 	}
+
+	private final ViewDisplayContext _viewDisplayContext;
 
 	@Override
 	public String getClearResultsURL() {
@@ -105,42 +109,57 @@ public class ViewManagementToolbarDisplayContext
 		return String.valueOf(searchContainer.getIteratorURL());
 	}
 
+//	@Override
+//	public List<ViewTypeItem> getViewTypeItems() {
+//		ViewTypeItemList viewTypeItemList = new ViewTypeItemList();
+//
+//		String selectedLanguage = ParamUtil.getString(
+//			liferayPortletRequest, "selectedLanguage",
+//			LanguageUtil.getLanguageId(
+//				PortalUtil.getLocale(liferayPortletRequest)));
+//
+//		Set<Locale> companyAvailableLocales =
+//			LanguageUtil.getCompanyAvailableLocales(
+//				PortalUtil.getCompanyId(liferayPortletRequest));
+//
+//		for (Locale locale : companyAvailableLocales) {
+//			String languageId = LanguageUtil.getLanguageId(locale);
+//
+//			String icon = StringUtil.toLowerCase(
+//				TextFormatter.format(languageId, TextFormatter.O));
+//
+//			viewTypeItemList.add(
+//				viewTypeItem -> {
+//					viewTypeItem.setActive(
+//						Objects.equals(selectedLanguage, languageId));
+//					viewTypeItem.setHref(
+//						HttpUtil.setParameter(
+//							String.valueOf(getPortletURL()),
+//							liferayPortletResponse.getNamespace() +
+//								"selectedLanguage",
+//							languageId));
+//					viewTypeItem.setIcon(icon);
+//					viewTypeItem.setLabel(languageId);
+//					viewTypeItem.put("symbolLeft", icon);
+//				});
+//		}
+//
+//		return viewTypeItemList;
+//	}
+
 	@Override
-	public List<ViewTypeItem> getViewTypeItems() {
-		ViewTypeItemList viewTypeItemList = new ViewTypeItemList();
+	protected String getDefaultDisplayStyle() {
+		return "descriptive";
+	}
 
-		String selectedLanguage = ParamUtil.getString(
-			liferayPortletRequest, "selectedLanguage",
-			LanguageUtil.getLanguageId(
-				PortalUtil.getLocale(liferayPortletRequest)));
+	@Override
+	protected String getDisplayStyle() {
+		return _viewDisplayContext.getDisplayStyle();
+	}
 
-		Set<Locale> companyAvailableLocales =
-			LanguageUtil.getCompanyAvailableLocales(
-				PortalUtil.getCompanyId(liferayPortletRequest));
-
-		for (Locale locale : companyAvailableLocales) {
-			String languageId = LanguageUtil.getLanguageId(locale);
-
-			String icon = StringUtil.toLowerCase(
-				TextFormatter.format(languageId, TextFormatter.O));
-
-			viewTypeItemList.add(
-				viewTypeItem -> {
-					viewTypeItem.setActive(
-						Objects.equals(selectedLanguage, languageId));
-					viewTypeItem.setHref(
-						HttpUtil.setParameter(
-							String.valueOf(getPortletURL()),
-							liferayPortletResponse.getNamespace() +
-								"selectedLanguage",
-							languageId));
-					viewTypeItem.setIcon(icon);
-					viewTypeItem.setLabel(languageId);
-					viewTypeItem.put("symbolLeft", icon);
-				});
-		}
-
-		return viewTypeItemList;
+	@Override
+	protected String[] getDisplayViews() {
+		return new String[] {"list", "descriptive"};
 	}
 
 	@Override

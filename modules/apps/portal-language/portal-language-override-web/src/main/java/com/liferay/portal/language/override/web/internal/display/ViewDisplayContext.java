@@ -34,6 +34,10 @@ public class ViewDisplayContext {
 		return _availableLanguages;
 	}
 
+	public String getDisplayStyle() {
+		return _displayStyle;
+	}
+
 	public ManagementToolbarDisplayContext
 		getManagementToolbarDisplayContext() {
 
@@ -46,6 +50,10 @@ public class ViewDisplayContext {
 
 	public String getSelectedLanguage() {
 		return _selectedLanguage;
+	}
+
+	public void setDisplayStyle(String displayStyle) {
+		_displayStyle = displayStyle;
 	}
 
 	public void setManagementToolbarDisplayContext(
@@ -65,6 +73,7 @@ public class ViewDisplayContext {
 	}
 
 	private final List<String> _availableLanguages = new ArrayList<>();
+	private String _displayStyle;
 	private ManagementToolbarDisplayContext _managementToolbarDisplayContext;
 	private SearchContainer<PLOItemDTO> _searchContainer;
 	private String _selectedLanguage;

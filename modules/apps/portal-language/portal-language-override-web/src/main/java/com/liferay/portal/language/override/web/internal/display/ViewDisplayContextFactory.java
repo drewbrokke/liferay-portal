@@ -64,6 +64,9 @@ public class ViewDisplayContextFactory {
 
 		ViewDisplayContext viewDisplayContext = new ViewDisplayContext();
 
+		viewDisplayContext.setDisplayStyle(
+			ParamUtil.getString(renderRequest, "displayStyle", "descriptive"));
+
 		for (Locale locale :
 				LanguageUtil.getCompanyAvailableLocales(
 					_portal.getCompanyId(renderRequest))) {
@@ -74,13 +77,6 @@ public class ViewDisplayContextFactory {
 
 		SearchContainer<PLOItemDTO> searchContainer = _createSearchContainer(
 			renderRequest, renderResponse);
-
-		viewDisplayContext.setManagementToolbarDisplayContext(
-			new ViewManagementToolbarDisplayContext(
-				_portal.getHttpServletRequest(renderRequest),
-				_portal.getLiferayPortletRequest(renderRequest),
-				_portal.getLiferayPortletResponse(renderResponse),
-				searchContainer));
 
 		viewDisplayContext.setSearchContainer(searchContainer);
 

@@ -1,4 +1,6 @@
-<%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %><%--
+
+
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -21,7 +23,7 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 %>
 
 <clay:management-toolbar
-	managementToolbarDisplayContext="<%= viewDisplayContext.getManagementToolbarDisplayContext() %>"
+	managementToolbarDisplayContext="<%= new ViewManagementToolbarDisplayContext(request, liferayPortletRequest, liferayPortletResponse, viewDisplayContext) %>"
 />
 
 <clay:container-fluid>
@@ -34,7 +36,6 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 			keyProperty="key"
 			modelVar="ploItemDTO"
 		>
-
 			<portlet:renderURL var="editURL">
 				<portlet:param name="backURL" value="<%= currentURL %>" />
 				<portlet:param name="key" value="<%= ploItemDTO.getKey() %>" />
@@ -42,47 +43,82 @@ ViewDisplayContext viewDisplayContext = (ViewDisplayContext)request.getAttribute
 				<portlet:param name="selectedLanguage" value="<%= viewDisplayContext.getSelectedLanguage() %>" />
 			</portlet:renderURL>
 
-			<liferay-ui:search-container-column-text
-				cssClass="table-cell-expand-small"
-				href="<%= editURL %>"
-				name="key"
-				value="<%= ploItemDTO.getKey() %>"
-			/>
+			<c:choose>
+				<c:when test='<%= Objects.equals("descriptive", viewDisplayContext.getDisplayStyle()) %>'>
+					<liferay-ui:search-container-column-text
+						colspan="<%= 3 %>"
+					>
+						<h5>
+							<strong><%= ploItemDTO.getKey() %></strong>
+						</h5>
 
-			<liferay-ui:search-container-column-text
-				cssClass="table-cell-expand-small"
-				href="<%= editURL %>"
-				name="current-value"
-				value="<%= HtmlUtil.escape(ploItemDTO.getValue()) %>"
-			/>
+						<h6 class="text-default">
+							<%= HtmlUtil.escape(ploItemDTO.getValue()) %>
+						</h6>
 
-			<liferay-ui:search-container-column-text
-				name="languages-with-override"
-			>
+						<c:if test="<%= ploItemDTO.isOverride() %>">
+							<h6>
+								<clay:label
+									displayType="info"
+									label="overridden"
+								/>
+							</h6>
+						</c:if>
+					</liferay-ui:search-container-column-text>
 
-				<%
-				for (String language : ploItemDTO.getOverrideLanguages()) {
-				%>
-
-					<liferay-ui:icon
-						icon="<%= StringUtil.toLowerCase(TextFormatter.format(language, TextFormatter.O)) %>"
-						markupView="lexicon"
-						message="<%= language %>"
-						url='<%= HttpUtil.setParameter(editURL, liferayPortletResponse.getNamespace() + "selectedLanguage", language) %>'
+					<liferay-ui:search-container-column-jsp
+						path="/actions.jsp"
+					/>
+				</c:when>
+				<c:when test='<%= Objects.equals("list", viewDisplayContext.getDisplayStyle()) %>'>
+					<liferay-ui:search-container-column-text
+						cssClass="table-cell-expand-small"
+						href="<%= editURL %>"
+						name="key"
+						value="<%= ploItemDTO.getKey() %>"
 					/>
 
-				<%
-				}
-				%>
+					<liferay-ui:search-container-column-text
+						cssClass="table-cell-expand-small"
+						href="<%= editURL %>"
+						name="current-value"
+						value="<%= HtmlUtil.escape(ploItemDTO.getValue()) %>"
+					/>
 
-			</liferay-ui:search-container-column-text>
+					<liferay-ui:search-container-column-text
+						name="languages-with-override"
+					>
 
-			<liferay-ui:search-container-column-jsp
-				path="/actions.jsp"
-			/>
+						<%
+						for (String language : ploItemDTO.getOverrideLanguages()) {
+						%>
+
+							<liferay-ui:icon
+								icon="<%= StringUtil.toLowerCase(TextFormatter.format(language, TextFormatter.O)) %>"
+								markupView="lexicon"
+								message="<%= language %>"
+								url='<%= HttpUtil.setParameter(editURL, liferayPortletResponse.getNamespace() + "selectedLanguage", language) %>'
+							/>
+
+						<%
+						}
+						%>
+
+					</liferay-ui:search-container-column-text>
+
+					<%
+					request.setAttribute("view.jsp-editURL", editURL);
+					%>
+
+					<liferay-ui:search-container-column-jsp
+						path="/actions.jsp"
+					/>
+				</c:when>
+			</c:choose>
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator
+			displayStyle="<%= viewDisplayContext.getDisplayStyle() %>"
 			markupView="lexicon"
 		/>
 	</liferay-ui:search-container>
