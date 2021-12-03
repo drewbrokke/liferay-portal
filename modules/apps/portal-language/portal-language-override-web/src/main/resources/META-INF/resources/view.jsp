@@ -58,6 +58,7 @@ ViewManagementToolbarDisplayContext managementToolbarDisplayContext = new ViewMa
 				<c:when test='<%= Objects.equals("descriptive", viewDisplayContext.getDisplayStyle()) %>'>
 					<liferay-ui:search-container-column-text
 						colspan="<%= 3 %>"
+						href="<%= editURL %>"
 					>
 						<h5>
 							<strong><%= ploItemDTO.getKey() %></strong>

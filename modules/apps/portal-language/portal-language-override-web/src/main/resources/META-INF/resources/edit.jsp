@@ -23,6 +23,8 @@ EditDisplayContext editDisplayContext = (EditDisplayContext)request.getAttribute
 
 portletDisplay.setShowBackIcon(Validator.isNotNull(editDisplayContext.getBackURL()));
 portletDisplay.setURLBack(editDisplayContext.getBackURL());
+
+	portletDisplay
 %>
 
 <portlet:actionURL name="editPortalLanguageOverride" var="editURL" />
@@ -30,6 +32,7 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 <clay:container-fluid>
 	<liferay-frontend:edit-form
 		action="<%= editURL %>"
+		name="editPortalLanguageOverrideFm"
 		method="POST"
 	>
 		<aui:input name="redirect" type="hidden" value="<%= editDisplayContext.getBackURL() %>" />
@@ -68,7 +71,9 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 						</c:choose>
 					</clay:content-col>
 				</clay:content-row>
+			</clay:sheet-section>
 
+			<clay:sheet-section>
 				<clay:content-row
 					containerElement="h3"
 					cssClass="sheet-subtitle"
@@ -77,6 +82,19 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 						expand="<%= true %>"
 					>
 						<span class="heading-text"><liferay-ui:message key="translation-override" /></span>
+					</clay:content-col>
+
+					<clay:content-col>
+						<span class="heading-end">
+							<liferay-ui:icon
+								cssClass="modify-link"
+								id="clearOverridesButton"
+								label="<%= true %>"
+								linkCssClass="btn btn-secondary btn-sm"
+								message="clear-all-overrides"
+								url="javascript:;"
+							/>
+						</span>
 					</clay:content-col>
 				</clay:content-row>
 
@@ -94,41 +112,42 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 						for (Locale availableLocale : editDisplayContext.getAvailableLocales()) {
 							String languageId = LanguageUtil.getLanguageId(availableLocale);
 
-							String name = liferayPortletResponse.getNamespace() + "_value_" + availableLocale;
+							String name = "value_" + availableLocale;
 
 							String value = valuesLocalizedValuesMap.get(availableLocale);
 							String originalValue = originalValuesLocalizedValuesMap.get(availableLocale);
 						%>
 
 							<div class="form-group">
-								<div class="form-group-item">
-									<aui:input
-										helpMessage="foo-bar"
-										name="<%= name %>"
-										label="<%= TextFormatter.format(languageId, TextFormatter.O) %>"
-										value="<%= value %>"
-									/>
+								<aui:input
+									wrapperCssClass="mb-0"
+									name="<%= name %>"
+									label="<%= TextFormatter.format(languageId, TextFormatter.O) %>"
+									value="<%= value %>"
+								/>
 
 								<c:if test="<%= editDisplayContext.isShowOriginalValues() %>">
-									<div class="form-group-item-label">
-										<span class="text-secondary"><strong>Original value:</strong> <%= originalValue %></span>
+									<div class="form-feedback-group">
+										<div class="form-text">
+
+											<%
+											String openTag = "<span class=\"font-weight-bold\">";
+											%>
+
+											<liferay-ui:message
+												arguments='<%= new String[] {openTag, "</span>", HtmlUtil.escape(originalValue)} %>'
+												key="x-original-value-x-x"
+											/>
+										</div>
 									</div>
 								</c:if>
-								</div>
-
 							</div>
+
 
 						<%
 						}
 						%>
 
-						<liferay-ui:input-localized
-							helpMessage="overrideTranslations"
-							ignoreRequestValue="<%= true %>"
-							name="value"
-							selectedLanguageId="<%= editDisplayContext.getSelectedLanguage() %>"
-							xml='<%= LocalizationUtil.getXml(editDisplayContext.getValuesLocalizedValuesMap(), "value") %>'
-						/>
 					</clay:content-col>
 				</clay:content-row>
 			</clay:sheet-section>
@@ -140,3 +159,23 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 		</liferay-frontend:edit-form-footer>
 	</liferay-frontend:edit-form>
 </clay:container-fluid>
+
+<portlet:actionURL name="deletePortalLanguageOverrides" var="deletePortalLanguageOverridesURL">
+	<portlet:param name="redirect" value="<%= editDisplayContext.getBackURL() %>" />
+	<portlet:param name="key" value="<%= editDisplayContext.getKey() %>" />
+</portlet:actionURL>
+
+<aui:script sandbox="true">
+	const clearAllOverridesButton = document.getElementById('<portlet:namespace />clearOverridesButton');
+
+	clearAllOverridesButton.addEventListener(
+		'click',
+		function(event) {
+			if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-reset-all-translation-overrides" />')) {
+				submitForm(
+					document.getElementById('<portlet:namespace />editPortalLanguageOverrideFm'),
+					'<%= HtmlUtil.escapeJS(deletePortalLanguageOverridesURL) %>');
+			}
+		}
+	);
+</aui:script>
