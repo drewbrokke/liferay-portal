@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.language.override.service.PLOEntryService;
 import com.liferay.portal.language.override.web.internal.constants.PortalLanguageOverridePortletKeys;
@@ -26,9 +25,6 @@ import com.liferay.portal.language.override.web.internal.display.EditDisplayCont
 import com.liferay.portal.language.override.web.internal.display.ViewDisplayContextFactory;
 
 import java.io.IOException;
-
-import java.util.Locale;
-import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -72,8 +68,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		String selectedLanguage = ParamUtil.getString(
 			actionRequest, "selectedLanguage");
 
-		_ploEntryService.deletePLOEntry(
-			key, selectedLanguage);
+		_ploEntryService.deletePLOEntry(key, selectedLanguage);
 	}
 
 	public void deletePortalLanguageOverrides(
@@ -81,8 +76,7 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 		throws PortalException {
 
 		for (String key : ParamUtil.getStringValues(actionRequest, "key")) {
-			_ploEntryService.deletePLOEntries(
-				key);
+			_ploEntryService.deletePLOEntries(key);
 		}
 	}
 
@@ -90,15 +84,9 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws PortalException {
 
-		String key = ParamUtil.getString(actionRequest, "key");
-
-		Map<Locale, String> localizationMap =
-			LocalizationUtil.getLocalizationMap(actionRequest, "value");
-
-		long companyId = _portal.getCompanyId(actionRequest);
-		long userId = _portal.getUserId(actionRequest);
-
-		_ploEntryService.setPLOEntries(key, localizationMap);
+		_ploEntryService.setPLOEntries(
+			ParamUtil.getString(actionRequest, "key"),
+			LocalizationUtil.getLocalizationMap(actionRequest, "value"));
 	}
 
 	@Override
@@ -145,9 +133,6 @@ public class PortalLanguageOverridePortlet extends MVCPortlet {
 
 	@Reference
 	private PLOEntryService _ploEntryService;
-
-	@Reference
-	private Portal _portal;
 
 	@Reference
 	private ViewDisplayContextFactory _viewDisplayContextFactory;

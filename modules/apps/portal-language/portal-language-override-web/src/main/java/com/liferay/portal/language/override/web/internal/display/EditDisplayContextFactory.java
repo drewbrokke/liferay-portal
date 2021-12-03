@@ -76,8 +76,8 @@ public class EditDisplayContextFactory {
 		}
 		else {
 			editDisplayContext.setPageTitle(
-				LanguageUtil.get(_portal.getLocale(renderRequest),
-					"add-language-key"));
+				LanguageUtil.get(
+					_portal.getLocale(renderRequest), "add-language-key"));
 		}
 
 		editDisplayContext.setSelectedLanguage(

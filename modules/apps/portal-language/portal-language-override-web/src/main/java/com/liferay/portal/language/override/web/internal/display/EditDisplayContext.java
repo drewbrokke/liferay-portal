@@ -24,24 +24,8 @@ import java.util.Set;
  */
 public class EditDisplayContext {
 
-	public String getPageTitle() {
-		return pageTitle;
-	}
-
-	public void setPageTitle(String pageTitle) {
-		this.pageTitle = pageTitle;
-	}
-
-	private String pageTitle;
-
-	private Set<Locale> _availableLocales;
-
 	public Set<Locale> getAvailableLocales() {
 		return _availableLocales;
-	}
-
-	public void setAvailableLocales(Set<Locale> availableLocales) {
-		_availableLocales = availableLocales;
 	}
 
 	public String getBackURL() {
@@ -56,6 +40,10 @@ public class EditDisplayContext {
 		return _originalValuesLocalizedValuesMap;
 	}
 
+	public String getPageTitle() {
+		return _pageTitle;
+	}
+
 	public String getSelectedLanguage() {
 		return _selectedLanguage;
 	}
@@ -66,6 +54,10 @@ public class EditDisplayContext {
 
 	public boolean isShowOriginalValues() {
 		return _showOriginalValues;
+	}
+
+	public void setAvailableLocales(Set<Locale> availableLocales) {
+		_availableLocales = availableLocales;
 	}
 
 	public void setBackURL(String backURL) {
@@ -82,6 +74,10 @@ public class EditDisplayContext {
 		_originalValuesLocalizedValuesMap = originalValuesLocalizedValuesMap;
 	}
 
+	public void setPageTitle(String pageTitle) {
+		_pageTitle = pageTitle;
+	}
+
 	public void setSelectedLanguage(String selectedLanguage) {
 		_selectedLanguage = selectedLanguage;
 	}
@@ -96,9 +92,11 @@ public class EditDisplayContext {
 		_valuesLocalizedValuesMap = valuesLocalizedValuesMap;
 	}
 
+	private Set<Locale> _availableLocales;
 	private String _backURL;
 	private String _key;
 	private LocalizedValuesMap _originalValuesLocalizedValuesMap;
+	private String _pageTitle;
 	private String _selectedLanguage;
 	private boolean _showOriginalValues;
 	private LocalizedValuesMap _valuesLocalizedValuesMap;

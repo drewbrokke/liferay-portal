@@ -21,13 +21,10 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringParser;
 import com.liferay.portal.language.LanguageResources;
 import com.liferay.portal.language.override.model.PLOEntry;
@@ -36,15 +33,11 @@ import com.liferay.portal.language.override.web.internal.dto.PLOItemDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -156,11 +149,10 @@ public class ViewDisplayContextFactory {
 			valueMatchPredicate = valuePattern.asPredicate();
 		}
 
-		Locale locale = LocaleUtil.fromLanguageId(
-			ParamUtil.getString(renderRequest, "selectedLanguage"), true, true);
+		String selectedLanguage = ParamUtil.getString(
+			renderRequest, "selectedLanguage");
 
-		ResourceBundle resourceBundle = LanguageResources.getResourceBundle(
-			locale);
+		Locale locale = LocaleUtil.fromLanguageId(selectedLanguage, true, true);
 
 		String filter = ParamUtil.getString(renderRequest, "navigation", "all");
 
@@ -170,19 +162,12 @@ public class ViewDisplayContextFactory {
 
 				String key = entry.getKey();
 
-				if (keyMatchPredicate.test(key) ||
-					valueMatchPredicate.test(
-						GetterUtil.getString(
-							ResourceBundleUtil.getString(
-								resourceBundle, key)))) {
+				String value = LanguageUtil.get(locale, key, StringPool.BLANK);
 
-					PLOItemDTO ploItemDTO = new PLOItemDTO(
-						key,
-						Optional.ofNullable(
-							ResourceBundleUtil.getString(resourceBundle, key)
-						).orElse(
-							StringPool.BLANK
-						));
+				if (keyMatchPredicate.test(key) ||
+					valueMatchPredicate.test(value)) {
+
+					PLOItemDTO ploItemDTO = new PLOItemDTO(key, value);
 
 					ploItemDTO.setOverride(true);
 
@@ -191,8 +176,7 @@ public class ViewDisplayContextFactory {
 							ploEntry.getLanguageId());
 
 						if (Objects.equals(
-								LanguageUtil.getLanguageId(locale),
-								ploEntry.getLanguageId())) {
+								selectedLanguage, ploEntry.getLanguageId())) {
 
 							ploItemDTO.setOverrideSelectedLanguage(true);
 						}
@@ -203,17 +187,17 @@ public class ViewDisplayContextFactory {
 			}
 		}
 		else {
-			Enumeration<String> keysEnumeration = resourceBundle.getKeys();
+			ResourceBundle resourceBundle = LanguageResources.getResourceBundle(
+				locale);
 
-			while (keysEnumeration.hasMoreElements()) {
-				String key = keysEnumeration.nextElement();
+			for (String key : resourceBundle.keySet()) {
+				String value = ResourceBundleUtil.getString(
+					resourceBundle, key);
 
 				if (keyMatchPredicate.test(key) ||
-					valueMatchPredicate.test(
-						ResourceBundleUtil.getString(resourceBundle, key))) {
+					valueMatchPredicate.test(value)) {
 
-					PLOItemDTO ploItemDTO = new PLOItemDTO(
-						key, ResourceBundleUtil.getString(resourceBundle, key));
+					PLOItemDTO ploItemDTO = new PLOItemDTO(key, value);
 
 					if (ploEntryMap.containsKey(key)) {
 						ploItemDTO.setOverride(true);
@@ -223,7 +207,7 @@ public class ViewDisplayContextFactory {
 								ploEntry.getLanguageId());
 
 							if (Objects.equals(
-									LanguageUtil.getLanguageId(locale),
+									selectedLanguage,
 									ploEntry.getLanguageId())) {
 
 								ploItemDTO.setOverrideSelectedLanguage(true);

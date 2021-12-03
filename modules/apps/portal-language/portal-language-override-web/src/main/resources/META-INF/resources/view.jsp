@@ -1,6 +1,3 @@
-<%@ page
-	import="com.liferay.frontend.taglib.clay.servlet.taglib.display.context.ManagementToolbarDisplayContext" %>
-
 <%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
@@ -29,13 +26,15 @@ ViewManagementToolbarDisplayContext managementToolbarDisplayContext = new ViewMa
 	managementToolbarDisplayContext="<%= managementToolbarDisplayContext %>"
 />
 
-<clay:container-fluid cssClass="container-view">
+<clay:container-fluid
+	cssClass="container-view"
+>
 	<clay:dropdown-menu
 		displayType="secondary"
 		dropdownItems="<%= managementToolbarDisplayContext.getDropdownItems() %>"
 		icon="<%= StringUtil.toLowerCase(TextFormatter.format(viewDisplayContext.getSelectedLanguage(), TextFormatter.O)) %>"
 		label="<%= TextFormatter.format(viewDisplayContext.getSelectedLanguage(), TextFormatter.O) %>"
-		small="true"
+		small="<%= true %>"
 	/>
 
 	<liferay-ui:search-container

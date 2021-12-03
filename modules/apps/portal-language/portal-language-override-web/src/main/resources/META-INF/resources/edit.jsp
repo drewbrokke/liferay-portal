@@ -1,7 +1,4 @@
-<%@ page import="java.util.Map" %>
-<%@ page import="com.liferay.portal.kernel.settings.LocalizedValuesMap" %>
-<%@ page import="java.util.Locale" %>
-<%@ page import="com.liferay.portal.kernel.util.LocaleUtil" %><%--
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -33,8 +30,8 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 <clay:container-fluid>
 	<liferay-frontend:edit-form
 		action="<%= editURL %>"
-		name="editPortalLanguageOverrideFm"
 		method="POST"
+		name="editPortalLanguageOverrideFm"
 	>
 		<aui:input name="redirect" type="hidden" value="<%= editDisplayContext.getBackURL() %>" />
 
@@ -59,7 +56,9 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 					containerElement="div"
 					cssClass=""
 				>
-					<clay:content-col expand="true">
+					<clay:content-col
+						expand="<%= true %>"
+					>
 						<c:choose>
 							<c:when test="<%= Validator.isNotNull(editDisplayContext.getKey()) %>">
 								<aui:input name="key" type="hidden" value="<%= editDisplayContext.getKey() %>" />
@@ -72,7 +71,7 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 
 									<div class="form-feedback-group">
 										<div class="form-text">
-											<liferay-ui:message key="a-language-key-may-not-contain-whitespace"/>
+											<liferay-ui:message key="a-language-key-may-not-contain-whitespace" />
 										</div>
 									</div>
 								</div>
@@ -83,8 +82,13 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 			</clay:sheet-section>
 
 			<clay:sheet-section>
-				<clay:content-row containerElement="h3" cssClass="sheet-subtitle">
-					<clay:content-col expand="<%= true %>">
+				<clay:content-row
+					containerElement="h3"
+					cssClass="sheet-subtitle"
+				>
+					<clay:content-col
+						expand="<%= true %>"
+					>
 						<span class="heading-text"><liferay-ui:message key="translation-override" /></span>
 					</clay:content-col>
 
@@ -107,60 +111,47 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 				<clay:content-row>
 					<div class="sheet-text">
 						<liferay-ui:icon
+							cssClass="font-weight-normal text-info"
 							icon="info-circle"
-							localizeMessage="true"
-							cssClass="text-info font-weight-normal"
+							localizeMessage="<%= true %>"
 						/>
 
-						<span class="text-info font-weight-bold">
-							<clay:icon symbol="info-circle" cssClass="mr-2" /><liferay-ui:message key="please-add-at-least-one-value-below" />
+						<span class="font-weight-bold text-info">
+							<clay:icon cssClass="mr-2" symbol="info-circle" /><liferay-ui:message key="please-add-at-least-one-value-below" />
 						</span>
 					</div>
 				</clay:content-row>
 
 				<clay:content-row>
-					<clay:content-col expand="<%= true %>">
+					<clay:content-col
+						expand="<%= true %>"
+					>
 
 						<%
 						LocalizedValuesMap valuesLocalizedValuesMap = editDisplayContext.getValuesLocalizedValuesMap();
+
 						LocalizedValuesMap originalValuesLocalizedValuesMap = editDisplayContext.getOriginalValuesLocalizedValuesMap();
 
 						for (Locale availableLocale : editDisplayContext.getAvailableLocales()) {
-							String dir = LanguageUtil.get(availableLocale, "lang.dir");
 							String languageId = LanguageUtil.getLanguageId(availableLocale);
-							String name = "value_" + availableLocale;
-							String value = valuesLocalizedValuesMap.get(availableLocale);
 						%>
 
-							<div class="form-group" dir='<%= dir %>' lang="<%= LocaleUtil.toW3cLanguageId(availableLocale) %>">
-								<aui:input
-									label="<%= TextFormatter.format(languageId, TextFormatter.O) %>"
-									name="<%= name %>"
-									value="<%= value %>"
-									wrapperCssClass="mb-0"
-								/>
+							<div class="form-group" dir="<%= LanguageUtil.get(availableLocale, "lang.dir") %>" lang="<%= LocaleUtil.toW3cLanguageId(availableLocale) %>">
+								<aui:input label="<%= TextFormatter.format(languageId, TextFormatter.O) %>" name='<%= "value_" + availableLocale %>' value="<%= valuesLocalizedValuesMap.get(availableLocale) %>" wrapperCssClass="mb-0" />
 
 								<c:if test="<%= editDisplayContext.isShowOriginalValues() %>">
 									<div class="form-feedback-group">
 										<div class="form-text">
 
 											<%
-											String[] messageArguments = new String[] {
-												"<span class=\"font-weight-bold\">",
-												"</span>",
-												HtmlUtil.escape(originalValuesLocalizedValuesMap.get(availableLocale))
-											};
+											String[] taglibMessageArguments = {"<span class=\"font-weight-bold\">", "</span>", HtmlUtil.escape(originalValuesLocalizedValuesMap.get(availableLocale))};
 											%>
 
-											<liferay-ui:message
-												arguments='<%= messageArguments %>'
-												key="x-original-value-x-x"
-											/>
+											<liferay-ui:message arguments="<%= taglibMessageArguments %>" key="x-original-value-x-x" />
 										</div>
 									</div>
 								</c:if>
 							</div>
-
 
 						<%
 						}
@@ -183,7 +174,7 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 	<portlet:param name="key" value="<%= editDisplayContext.getKey() %>" />
 </portlet:actionURL>
 
-<aui:script sandbox="true">
+<aui:script sandbox="<%= true %>">
 	const clearAllOverridesButton = document.getElementById('<portlet:namespace />clearOverridesButton');
 
 	clearAllOverridesButton.addEventListener(

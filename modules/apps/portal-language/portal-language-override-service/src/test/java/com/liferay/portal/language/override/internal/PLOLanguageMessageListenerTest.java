@@ -19,16 +19,18 @@ import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
+
+import java.util.Locale;
+
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.Locale;
 
 /**
  * @author Drew Brokke
@@ -64,12 +66,13 @@ public class PLOLanguageMessageListenerTest {
 
 		Mockito.verify(
 			_ploLanguageOverrideCache, Mockito.times(1)
-		).clear(companyId, locale);
+		).clear(
+			companyId, locale
+		);
 	}
 
-	private final PLOLanguageMessageListener
-		_ploLanguageMessageListener =
-			new PLOLanguageMessageListener();
+	private final PLOLanguageMessageListener _ploLanguageMessageListener =
+		new PLOLanguageMessageListener();
 
 	@Mock
 	private PLOLanguageOverrideCache _ploLanguageOverrideCache;

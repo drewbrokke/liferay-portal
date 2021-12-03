@@ -14,18 +14,19 @@
 
 package com.liferay.portal.language.override.web.internal.display;
 
-import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.ManagementToolbarDisplayContext;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.language.override.web.internal.dto.PLOItemDTO;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 /**
  * @author Drew Brokke
  */
 public class ViewDisplayContext {
+
+	public Locale[] getAvailableLocales() {
+		return _availableLocales;
+	}
 
 	public String getDisplayStyle() {
 		return _displayStyle;
@@ -37,6 +38,10 @@ public class ViewDisplayContext {
 
 	public String getSelectedLanguage() {
 		return _selectedLanguage;
+	}
+
+	public void setAvailableLocales(Locale[] availableLocales) {
+		_availableLocales = availableLocales;
 	}
 
 	public void setDisplayStyle(String displayStyle) {
@@ -53,18 +58,9 @@ public class ViewDisplayContext {
 		_selectedLanguage = selectedLanguage;
 	}
 
+	private Locale[] _availableLocales;
 	private String _displayStyle;
 	private SearchContainer<PLOItemDTO> _searchContainer;
 	private String _selectedLanguage;
-
-	public Locale[] getAvailableLocales() {
-		return _availableLocales;
-	}
-
-	public void setAvailableLocales(Locale[] availableLocales) {
-		_availableLocales = availableLocales;
-	}
-
-	private Locale[] _availableLocales;
 
 }

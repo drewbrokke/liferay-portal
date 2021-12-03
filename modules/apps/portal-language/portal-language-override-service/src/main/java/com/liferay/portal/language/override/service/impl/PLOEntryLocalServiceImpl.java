@@ -14,30 +14,16 @@
 
 package com.liferay.portal.language.override.service.impl;
 
-import com.liferay.petra.sql.dsl.DSLFunctionFactoryUtil;
-import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
-import com.liferay.petra.sql.dsl.expression.Predicate;
-import com.liferay.petra.sql.dsl.query.DSLQuery;
-import com.liferay.petra.sql.dsl.query.FromStep;
-import com.liferay.petra.sql.dsl.query.GroupByStep;
-import com.liferay.petra.sql.dsl.query.LimitStep;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.search.BaseModelSearchResult;
-import com.liferay.portal.kernel.security.auth.GuestOrUserUtil;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.language.override.model.PLOEntry;
-import com.liferay.portal.language.override.model.PLOEntryTable;
 import com.liferay.portal.language.override.service.base.PLOEntryLocalServiceBaseImpl;
 
 import java.util.List;
@@ -79,39 +65,6 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 		return updatePLOEntry(ploEntry);
 	}
 
-	@Reference
-	private UserLocalService _userLocalService;
-
-	protected PLOEntry addPLOEntry(
-			long companyId, long userId, String key, String languageId,
-			String value)
-		throws PortalException {
-
-		PLOEntry ploEntry = createPLOEntry(counterLocalService.increment());
-
-		ploEntry.setCompanyId(companyId);
-
-		User user = _userLocalService.getUser(userId);
-
-		ploEntry.setUserId(user.getUserId());
-		ploEntry.setUserName(user.getUserUuid());
-
-		ploEntry.setKey(key);
-
-		ploEntry.setLanguageId(languageId);
-
-		String originalValue = LanguageUtil.get(
-			LocaleUtil.fromLanguageId(languageId), key, null);
-
-		if (Validator.isNotNull(originalValue)) {
-			ploEntry.setOriginalValue(originalValue);
-		}
-
-		ploEntry.setValue(value);
-
-		return addPLOEntry(ploEntry);
-	}
-
 	@Override
 	public void deletePLOEntries(long companyId, String key) {
 		ploEntryPersistence.removeByC_K(companyId, key);
@@ -140,10 +93,6 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 	@Override
 	public List<PLOEntry> getPLOEntries(long companyId) {
 		return ploEntryPersistence.findByCompanyId(companyId);
-	}
-
-	protected List<PLOEntry> getPLOEntriesByKey(long companyId, String key) {
-		return ploEntryPersistence.findByC_K(companyId, key);
 	}
 
 	@Override
@@ -175,9 +124,45 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 				continue;
 			}
 
-			addOrUpdatePLOEntry(
-				companyId, userId, key, languageId, value);
+			addOrUpdatePLOEntry(companyId, userId, key, languageId, value);
 		}
 	}
+
+	protected PLOEntry addPLOEntry(
+			long companyId, long userId, String key, String languageId,
+			String value)
+		throws PortalException {
+
+		PLOEntry ploEntry = createPLOEntry(counterLocalService.increment());
+
+		ploEntry.setCompanyId(companyId);
+
+		User user = _userLocalService.getUser(userId);
+
+		ploEntry.setUserId(user.getUserId());
+		ploEntry.setUserName(user.getUserUuid());
+
+		ploEntry.setKey(key);
+
+		ploEntry.setLanguageId(languageId);
+
+		String originalValue = LanguageUtil.get(
+			LocaleUtil.fromLanguageId(languageId), key, null);
+
+		if (Validator.isNotNull(originalValue)) {
+			ploEntry.setOriginalValue(originalValue);
+		}
+
+		ploEntry.setValue(value);
+
+		return addPLOEntry(ploEntry);
+	}
+
+	protected List<PLOEntry> getPLOEntriesByKey(long companyId, String key) {
+		return ploEntryPersistence.findByC_K(companyId, key);
+	}
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }
