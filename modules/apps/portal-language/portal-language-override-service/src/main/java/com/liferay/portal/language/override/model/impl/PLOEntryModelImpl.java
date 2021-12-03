@@ -80,7 +80,7 @@ public class PLOEntryModelImpl
 		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"modifiedDate", Types.TIMESTAMP}, {"key_", Types.VARCHAR},
 		{"languageId", Types.VARCHAR}, {"value", Types.CLOB},
-		{"originalValue", Types.VARCHAR}
+		{"originalValue", Types.CLOB}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -97,11 +97,11 @@ public class PLOEntryModelImpl
 		TABLE_COLUMNS_MAP.put("key_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("languageId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("value", Types.CLOB);
-		TABLE_COLUMNS_MAP.put("originalValue", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("originalValue", Types.CLOB);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table PLOEntry (mvccVersion LONG default 0 not null,ploEntryId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,key_ VARCHAR(255) null,languageId VARCHAR(75) null,value TEXT null,originalValue VARCHAR(75) null)";
+		"create table PLOEntry (mvccVersion LONG default 0 not null,ploEntryId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,key_ VARCHAR(255) null,languageId VARCHAR(75) null,value TEXT null,originalValue TEXT null)";
 
 	public static final String TABLE_SQL_DROP = "drop table PLOEntry";
 

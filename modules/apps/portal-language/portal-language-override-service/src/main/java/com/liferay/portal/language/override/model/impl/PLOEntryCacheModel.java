@@ -185,7 +185,7 @@ public class PLOEntryCacheModel
 		key = objectInput.readUTF();
 		languageId = objectInput.readUTF();
 		value = (String)objectInput.readObject();
-		originalValue = objectInput.readUTF();
+		originalValue = (String)objectInput.readObject();
 	}
 
 	@Override
@@ -230,10 +230,10 @@ public class PLOEntryCacheModel
 		}
 
 		if (originalValue == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(originalValue);
+			objectOutput.writeObject(originalValue);
 		}
 	}
 

@@ -1,6 +1,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="com.liferay.portal.kernel.settings.LocalizedValuesMap" %>
-<%@ page import="java.util.Locale" %><%--
+<%@ page import="java.util.Locale" %>
+<%@ page import="com.liferay.portal.kernel.util.LocaleUtil" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -82,13 +83,8 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 			</clay:sheet-section>
 
 			<clay:sheet-section>
-				<clay:content-row
-					containerElement="h3"
-					cssClass="sheet-subtitle"
-				>
-					<clay:content-col
-						expand="<%= true %>"
-					>
+				<clay:content-row containerElement="h3" cssClass="sheet-subtitle">
+					<clay:content-col expand="<%= true %>">
 						<span class="heading-text"><liferay-ui:message key="translation-override" /></span>
 					</clay:content-col>
 
@@ -112,7 +108,6 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 					<div class="sheet-text">
 						<liferay-ui:icon
 							icon="info-circle"
-							message="hello-world"
 							localizeMessage="true"
 							cssClass="text-info font-weight-normal"
 						/>
@@ -123,29 +118,26 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 					</div>
 				</clay:content-row>
 
-				<clay:content-row
-					containerElement="div"
-				>
-					<clay:content-col
-						expand="<%= true %>"
-					>
+				<clay:content-row>
+					<clay:content-col expand="<%= true %>">
 
 						<%
 						LocalizedValuesMap valuesLocalizedValuesMap = editDisplayContext.getValuesLocalizedValuesMap();
 						LocalizedValuesMap originalValuesLocalizedValuesMap = editDisplayContext.getOriginalValuesLocalizedValuesMap();
 
 						for (Locale availableLocale : editDisplayContext.getAvailableLocales()) {
+							String dir = LanguageUtil.get(availableLocale, "lang.dir");
 							String languageId = LanguageUtil.getLanguageId(availableLocale);
 							String name = "value_" + availableLocale;
 							String value = valuesLocalizedValuesMap.get(availableLocale);
 						%>
 
-							<div class="form-group">
+							<div class="form-group" dir='<%= dir %>' lang="<%= LocaleUtil.toW3cLanguageId(availableLocale) %>">
 								<aui:input
-									wrapperCssClass="mb-0"
-									name="<%= name %>"
 									label="<%= TextFormatter.format(languageId, TextFormatter.O) %>"
+									name="<%= name %>"
 									value="<%= value %>"
+									wrapperCssClass="mb-0"
 								/>
 
 								<c:if test="<%= editDisplayContext.isShowOriginalValues() %>">
@@ -153,12 +145,15 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 										<div class="form-text">
 
 											<%
-											String openTag = "<span class=\"font-weight-bold\">";
-											String originalValue = originalValuesLocalizedValuesMap.get(availableLocale);
+											String[] messageArguments = new String[] {
+												"<span class=\"font-weight-bold\">",
+												"</span>",
+												HtmlUtil.escape(originalValuesLocalizedValuesMap.get(availableLocale))
+											};
 											%>
 
 											<liferay-ui:message
-												arguments='<%= new String[] {openTag, "</span>", HtmlUtil.escape(originalValue)} %>'
+												arguments='<%= messageArguments %>'
 												key="x-original-value-x-x"
 											/>
 										</div>

@@ -9,5 +9,5 @@ create table PLOEntry (
 	key_ VARCHAR(255) null,
 	languageId VARCHAR(75) null,
 	value TEXT null,
-	originalValue VARCHAR(75) null
+	originalValue TEXT null
 );

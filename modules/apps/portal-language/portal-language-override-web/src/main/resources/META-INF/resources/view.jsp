@@ -100,25 +100,8 @@ ViewManagementToolbarDisplayContext managementToolbarDisplayContext = new ViewMa
 					<liferay-ui:search-container-column-text
 						href="<%= editURL %>"
 						name="languages-with-override"
-					>
-
-						<%
-						for (String language : ploItemDTO.getOverrideLanguages()) {
-						%>
-
-							<liferay-ui:icon
-								icon="<%= StringUtil.toLowerCase(TextFormatter.format(language, TextFormatter.O)) %>"
-								label="true"
-								cssClass="inline-item-middle"
-								markupView="lexicon"
-								message="<%= TextFormatter.format(language, TextFormatter.O) %>"
-							/>
-
-						<%
-						}
-						%>
-
-					</liferay-ui:search-container-column-text>
+						value="<%= StringUtil.merge(ploItemDTO.getOverrideLanguages(), StringPool.COMMA_AND_SPACE) %>"
+					/>
 
 					<%
 					request.setAttribute("view.jsp-editURL", editURL);
