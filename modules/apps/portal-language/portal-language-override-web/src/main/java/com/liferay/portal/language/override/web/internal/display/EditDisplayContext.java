@@ -16,6 +16,9 @@ package com.liferay.portal.language.override.web.internal.display;
 
 import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 
+import java.util.Locale;
+import java.util.Set;
+
 /**
  * @author Drew Brokke
  */
@@ -31,6 +34,16 @@ public class EditDisplayContext {
 		_valuesLocalizedValuesMap = valuesLocalizedValuesMap;
 		_originalValuesLocalizedValuesMap = originalValuesLocalizedValuesMap;
 		_selectedLanguage = selectedLanguage;
+	}
+
+	private Set<Locale> _availableLocales;
+
+	public Set<Locale> getAvailableLocales() {
+		return _availableLocales;
+	}
+
+	public void setAvailableLocales(Set<Locale> availableLocales) {
+		_availableLocales = availableLocales;
 	}
 
 	public String getBackURL() {

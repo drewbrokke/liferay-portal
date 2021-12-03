@@ -49,8 +49,10 @@ public class EditDisplayContextFactory {
 		LocalizedValuesMap originalValuesLocalizedValuesMap =
 			new LocalizedValuesMap();
 
+		long companyId = _portal.getCompanyId(renderRequest);
+
 		_populateLocalizedValuesMap(
-			_portal.getCompanyId(renderRequest), key, localizedValuesMap,
+			companyId, key, localizedValuesMap,
 			originalValuesLocalizedValuesMap);
 
 		EditDisplayContext editDisplayContext = new EditDisplayContext(
@@ -63,6 +65,9 @@ public class EditDisplayContextFactory {
 		if (MapUtil.isNotEmpty(originalValuesLocalizedValuesMap.getValues())) {
 			editDisplayContext.setShowOriginalValues(true);
 		}
+
+		editDisplayContext.setAvailableLocales(
+			LanguageUtil.getCompanyAvailableLocales(companyId));
 
 		return editDisplayContext;
 	}

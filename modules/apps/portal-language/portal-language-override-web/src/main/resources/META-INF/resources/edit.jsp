@@ -1,4 +1,6 @@
-<%--
+<%@ page import="java.util.Map" %>
+<%@ page import="com.liferay.portal.kernel.settings.LocalizedValuesMap" %>
+<%@ page import="java.util.Locale" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -33,35 +35,103 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 		<aui:input name="redirect" type="hidden" value="<%= editDisplayContext.getBackURL() %>" />
 
 		<liferay-frontend:edit-form-body>
-			<c:choose>
-				<c:when test="<%= Validator.isNotNull(editDisplayContext.getKey()) %>">
-					<aui:input name="key" type="hidden" value="<%= editDisplayContext.getKey() %>" />
+			<clay:sheet-header>
+				<h2 class="sheet-title"><liferay-ui:message key="language-key-information" /></h2>
+			</clay:sheet-header>
 
-					<aui:input disabled="<%= true %>" name="keyDisplay" type="text" value="<%= editDisplayContext.getKey() %>" />
+			<clay:sheet-section>
+				<clay:content-row
+					containerElement="h3"
+					cssClass="sheet-subtitle"
+				>
+					<clay:content-col
+						expand="<%= true %>"
+					>
+						<span class="heading-text"><liferay-ui:message key="key" /></span>
+					</clay:content-col>
+				</clay:content-row>
 
-					<c:if test="<%= editDisplayContext.isShowOriginalValues() %>">
+				<clay:content-row
+					containerElement="div"
+					cssClass=""
+				>
+					<clay:content-col expand="true">
+						<c:choose>
+							<c:when test="<%= Validator.isNotNull(editDisplayContext.getKey()) %>">
+								<aui:input name="key" type="hidden" value="<%= editDisplayContext.getKey() %>" />
+
+								<span><%= editDisplayContext.getKey() %></span>
+							</c:when>
+							<c:otherwise>
+								<aui:input name="key" pattern="[^ ]+" required="<%= true %>" value="<%= editDisplayContext.getKey() %>" />
+							</c:otherwise>
+						</c:choose>
+					</clay:content-col>
+				</clay:content-row>
+
+				<clay:content-row
+					containerElement="h3"
+					cssClass="sheet-subtitle"
+				>
+					<clay:content-col
+						expand="<%= true %>"
+					>
+						<span class="heading-text"><liferay-ui:message key="translation-override" /></span>
+					</clay:content-col>
+				</clay:content-row>
+
+				<clay:content-row
+					containerElement="div"
+				>
+					<clay:content-col
+						expand="<%= true %>"
+					>
+
+						<%
+						LocalizedValuesMap valuesLocalizedValuesMap = editDisplayContext.getValuesLocalizedValuesMap();
+						LocalizedValuesMap originalValuesLocalizedValuesMap = editDisplayContext.getOriginalValuesLocalizedValuesMap();
+
+						for (Locale availableLocale : editDisplayContext.getAvailableLocales()) {
+							String languageId = LanguageUtil.getLanguageId(availableLocale);
+
+							String name = liferayPortletResponse.getNamespace() + "_value_" + availableLocale;
+
+							String value = valuesLocalizedValuesMap.get(availableLocale);
+							String originalValue = originalValuesLocalizedValuesMap.get(availableLocale);
+						%>
+
+							<div class="form-group">
+								<div class="form-group-item">
+									<aui:input
+										helpMessage="foo-bar"
+										name="<%= name %>"
+										label="<%= TextFormatter.format(languageId, TextFormatter.O) %>"
+										value="<%= value %>"
+									/>
+
+								<c:if test="<%= editDisplayContext.isShowOriginalValues() %>">
+									<div class="form-group-item-label">
+										<span class="text-secondary"><strong>Original value:</strong> <%= originalValue %></span>
+									</div>
+								</c:if>
+								</div>
+
+							</div>
+
+						<%
+						}
+						%>
+
 						<liferay-ui:input-localized
-							disabled="<%= true %>"
-							helpMessage="originalValues"
+							helpMessage="overrideTranslations"
 							ignoreRequestValue="<%= true %>"
-							name="originalValuesDisplay"
+							name="value"
 							selectedLanguageId="<%= editDisplayContext.getSelectedLanguage() %>"
-							xml='<%= LocalizationUtil.getXml(editDisplayContext.getOriginalValuesLocalizedValuesMap(), "value") %>'
+							xml='<%= LocalizationUtil.getXml(editDisplayContext.getValuesLocalizedValuesMap(), "value") %>'
 						/>
-					</c:if>
-				</c:when>
-				<c:otherwise>
-					<aui:input name="key" pattern="[^ ]+" required="<%= true %>" value="<%= editDisplayContext.getKey() %>" />
-				</c:otherwise>
-			</c:choose>
-
-			<liferay-ui:input-localized
-				helpMessage="overrideTranslations"
-				ignoreRequestValue="<%= true %>"
-				name="value"
-				selectedLanguageId="<%= editDisplayContext.getSelectedLanguage() %>"
-				xml='<%= LocalizationUtil.getXml(editDisplayContext.getValuesLocalizedValuesMap(), "value") %>'
-			/>
+					</clay:content-col>
+				</clay:content-row>
+			</clay:sheet-section>
 		</liferay-frontend:edit-form-body>
 
 		<liferay-frontend:edit-form-footer>
