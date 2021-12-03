@@ -43,21 +43,44 @@ public class EditDisplayContextFactory {
 	public EditDisplayContext create(
 		RenderRequest renderRequest, RenderResponse renderResponse) {
 
+		EditDisplayContext editDisplayContext = new EditDisplayContext();
+
+		long companyId = _portal.getCompanyId(renderRequest);
+
+		editDisplayContext.setAvailableLocales(
+			LanguageUtil.getCompanyAvailableLocales(companyId));
+
+		editDisplayContext.setBackURL(
+			ParamUtil.getString(renderRequest, "backURL"));
+
 		String key = ParamUtil.getString(renderRequest, "key");
+
+		editDisplayContext.setKey(key);
 
 		LocalizedValuesMap localizedValuesMap = new LocalizedValuesMap();
 		LocalizedValuesMap originalValuesLocalizedValuesMap =
 			new LocalizedValuesMap();
 
-		long companyId = _portal.getCompanyId(renderRequest);
-
 		_populateLocalizedValuesMap(
 			companyId, key, localizedValuesMap,
 			originalValuesLocalizedValuesMap);
 
-		EditDisplayContext editDisplayContext = new EditDisplayContext(
-			ParamUtil.getString(renderRequest, "backURL"), key,
-			localizedValuesMap, originalValuesLocalizedValuesMap,
+		editDisplayContext.setOriginalValuesLocalizedValuesMap(
+			originalValuesLocalizedValuesMap);
+
+		if (Validator.isNotNull(key)) {
+			editDisplayContext.setPageTitle(
+				LanguageUtil.format(
+					_portal.getLocale(renderRequest), "edit-language-key-x",
+					key, false));
+		}
+		else {
+			editDisplayContext.setPageTitle(
+				LanguageUtil.get(_portal.getLocale(renderRequest),
+					"add-language-key"));
+		}
+
+		editDisplayContext.setSelectedLanguage(
 			ParamUtil.getString(
 				renderRequest, "selectedLanguage",
 				LocaleUtil.toLanguageId(_portal.getLocale(renderRequest))));
@@ -66,8 +89,7 @@ public class EditDisplayContextFactory {
 			editDisplayContext.setShowOriginalValues(true);
 		}
 
-		editDisplayContext.setAvailableLocales(
-			LanguageUtil.getCompanyAvailableLocales(companyId));
+		editDisplayContext.setValuesLocalizedValuesMap(localizedValuesMap);
 
 		return editDisplayContext;
 	}

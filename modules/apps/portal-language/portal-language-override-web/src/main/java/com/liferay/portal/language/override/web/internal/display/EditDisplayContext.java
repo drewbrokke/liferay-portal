@@ -24,17 +24,15 @@ import java.util.Set;
  */
 public class EditDisplayContext {
 
-	public EditDisplayContext(
-		String backURL, String key, LocalizedValuesMap valuesLocalizedValuesMap,
-		LocalizedValuesMap originalValuesLocalizedValuesMap,
-		String selectedLanguage) {
-
-		_backURL = backURL;
-		_key = key;
-		_valuesLocalizedValuesMap = valuesLocalizedValuesMap;
-		_originalValuesLocalizedValuesMap = originalValuesLocalizedValuesMap;
-		_selectedLanguage = selectedLanguage;
+	public String getPageTitle() {
+		return pageTitle;
 	}
+
+	public void setPageTitle(String pageTitle) {
+		this.pageTitle = pageTitle;
+	}
+
+	private String pageTitle;
 
 	private Set<Locale> _availableLocales;
 

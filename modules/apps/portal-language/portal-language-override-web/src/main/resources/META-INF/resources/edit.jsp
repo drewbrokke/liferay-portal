@@ -24,7 +24,7 @@ EditDisplayContext editDisplayContext = (EditDisplayContext)request.getAttribute
 portletDisplay.setShowBackIcon(Validator.isNotNull(editDisplayContext.getBackURL()));
 portletDisplay.setURLBack(editDisplayContext.getBackURL());
 
-	portletDisplay
+renderResponse.setTitle(editDisplayContext.getPageTitle());
 %>
 
 <portlet:actionURL name="editPortalLanguageOverride" var="editURL" />
@@ -98,6 +98,21 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 					</clay:content-col>
 				</clay:content-row>
 
+				<clay:content-row>
+					<div class="sheet-text">
+						<liferay-ui:icon
+							icon="info-circle"
+							message="hello-world"
+							localizeMessage="true"
+							cssClass="text-info font-weight-normal"
+						/>
+
+						<span class="text-info font-weight-bold">
+							<clay:icon symbol="info-circle" cssClass="mr-2" /><liferay-ui:message key="please-add-at-least-one-value-below" />
+						</span>
+					</div>
+				</clay:content-row>
+
 				<clay:content-row
 					containerElement="div"
 				>
@@ -111,11 +126,8 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 
 						for (Locale availableLocale : editDisplayContext.getAvailableLocales()) {
 							String languageId = LanguageUtil.getLanguageId(availableLocale);
-
 							String name = "value_" + availableLocale;
-
 							String value = valuesLocalizedValuesMap.get(availableLocale);
-							String originalValue = originalValuesLocalizedValuesMap.get(availableLocale);
 						%>
 
 							<div class="form-group">
@@ -132,6 +144,7 @@ portletDisplay.setURLBack(editDisplayContext.getBackURL());
 
 											<%
 											String openTag = "<span class=\"font-weight-bold\">";
+											String originalValue = originalValuesLocalizedValuesMap.get(availableLocale);
 											%>
 
 											<liferay-ui:message
