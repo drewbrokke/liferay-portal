@@ -66,7 +66,15 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 								<span><%= editDisplayContext.getKey() %></span>
 							</c:when>
 							<c:otherwise>
-								<aui:input name="key" pattern="[^ ]+" required="<%= true %>" value="<%= editDisplayContext.getKey() %>" />
+								<div class="form-group">
+									<aui:input name="key" pattern="[^ ]+" required="<%= true %>" value="<%= editDisplayContext.getKey() %>" wrapperCssClass="mb-0" />
+
+									<div class="form-feedback-group">
+										<div class="form-text">
+											<liferay-ui:message key="a-language-key-may-not-contain-whitespace"/>
+										</div>
+									</div>
+								</div>
 							</c:otherwise>
 						</c:choose>
 					</clay:content-col>
@@ -84,18 +92,20 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 						<span class="heading-text"><liferay-ui:message key="translation-override" /></span>
 					</clay:content-col>
 
-					<clay:content-col>
-						<span class="heading-end">
-							<liferay-ui:icon
-								cssClass="modify-link"
-								id="clearOverridesButton"
-								label="<%= true %>"
-								linkCssClass="btn btn-secondary btn-sm"
-								message="clear-all-overrides"
-								url="javascript:;"
-							/>
-						</span>
-					</clay:content-col>
+					<c:if test="<%= Validator.isNotNull(editDisplayContext.getKey()) %>">
+						<clay:content-col>
+							<span class="heading-end">
+								<liferay-ui:icon
+									cssClass="modify-link"
+									id="clearOverridesButton"
+									label="<%= true %>"
+									linkCssClass="btn btn-secondary btn-sm"
+									message="clear-all-overrides"
+									url="javascript:;"
+								/>
+							</span>
+						</clay:content-col>
+					</c:if>
 				</clay:content-row>
 
 				<clay:content-row>
