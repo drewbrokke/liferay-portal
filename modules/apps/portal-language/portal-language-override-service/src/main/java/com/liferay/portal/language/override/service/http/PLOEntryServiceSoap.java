@@ -14,9 +14,19 @@
 
 package com.liferay.portal.language.override.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.language.override.service.PLOEntryServiceUtil;
+
+import java.rmi.RemoteException;
+
+import java.util.Locale;
+import java.util.Map;
+
 /**
  * Provides the SOAP utility for the
- * <code>com.liferay.portal.language.override.service.PLOEntryServiceUtil</code> service
+ * <code>PLOEntryServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -56,4 +66,55 @@ package com.liferay.portal.language.override.service.http;
  */
 @Deprecated
 public class PLOEntryServiceSoap {
+
+	public static void deletePLOEntries(String key) throws RemoteException {
+		try {
+			PLOEntryServiceUtil.deletePLOEntries(key);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.portal.language.override.model.PLOEntrySoap
+			deletePLOEntry(String key, String languageId)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.language.override.model.PLOEntry returnValue =
+				PLOEntryServiceUtil.deletePLOEntry(key, languageId);
+
+			return com.liferay.portal.language.override.model.PLOEntrySoap.
+				toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static void setPLOEntries(
+			String key, String[] localizationMapLanguageIds,
+			String[] localizationMapValues)
+		throws RemoteException {
+
+		try {
+			Map<Locale, String> localizationMap =
+				LocalizationUtil.getLocalizationMap(
+					localizationMapLanguageIds, localizationMapValues);
+
+			PLOEntryServiceUtil.setPLOEntries(key, localizationMap);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(PLOEntryServiceSoap.class);
+
 }

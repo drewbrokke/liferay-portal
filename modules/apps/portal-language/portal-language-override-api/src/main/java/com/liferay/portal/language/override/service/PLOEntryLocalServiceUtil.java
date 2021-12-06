@@ -24,6 +24,7 @@ import com.liferay.portal.language.override.model.PLOEntry;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for PLOEntry. This utility wraps
@@ -44,6 +45,14 @@ public class PLOEntryLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.portal.language.override.service.impl.PLOEntryLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static PLOEntry addOrUpdatePLOEntry(
+			long companyId, long userId, String key, String languageId,
+			String value)
+		throws PortalException {
+
+		return getService().addOrUpdatePLOEntry(
+			companyId, userId, key, languageId, value);
+	}
 
 	/**
 	 * Adds the plo entry to the database. Also notifies the appropriate model listeners.
@@ -89,6 +98,10 @@ public class PLOEntryLocalServiceUtil {
 		return getService().deletePersistedModel(persistedModel);
 	}
 
+	public static void deletePLOEntries(long companyId, String key) {
+		getService().deletePLOEntries(companyId, key);
+	}
+
 	/**
 	 * Deletes the plo entry with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
@@ -104,6 +117,12 @@ public class PLOEntryLocalServiceUtil {
 		throws PortalException {
 
 		return getService().deletePLOEntry(ploEntryId);
+	}
+
+	public static PLOEntry deletePLOEntry(
+		long companyId, String key, String languageId) {
+
+		return getService().deletePLOEntry(companyId, key, languageId);
 	}
 
 	/**
@@ -209,6 +228,12 @@ public class PLOEntryLocalServiceUtil {
 		return getService().fetchPLOEntry(ploEntryId);
 	}
 
+	public static PLOEntry fetchPLOEntry(
+		long companyId, String key, String languageId) {
+
+		return getService().fetchPLOEntry(companyId, key, languageId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -255,6 +280,16 @@ public class PLOEntryLocalServiceUtil {
 		return getService().getPLOEntries(start, end);
 	}
 
+	public static List<PLOEntry> getPLOEntries(long companyId) {
+		return getService().getPLOEntries(companyId);
+	}
+
+	public static List<PLOEntry> getPLOEntriesByLanguageId(
+		long companyId, String languageId) {
+
+		return getService().getPLOEntriesByLanguageId(companyId, languageId);
+	}
+
 	/**
 	 * Returns the number of plo entries.
 	 *
@@ -273,6 +308,21 @@ public class PLOEntryLocalServiceUtil {
 	 */
 	public static PLOEntry getPLOEntry(long ploEntryId) throws PortalException {
 		return getService().getPLOEntry(ploEntryId);
+	}
+
+	public static PLOEntry getPLOEntry(
+			long companyId, String key, String languageId)
+		throws PortalException {
+
+		return getService().getPLOEntry(companyId, key, languageId);
+	}
+
+	public static void setPLOEntries(
+			long companyId, long userId, String key,
+			Map<java.util.Locale, String> localizationMap)
+		throws PortalException {
+
+		getService().setPLOEntries(companyId, userId, key, localizationMap);
 	}
 
 	/**

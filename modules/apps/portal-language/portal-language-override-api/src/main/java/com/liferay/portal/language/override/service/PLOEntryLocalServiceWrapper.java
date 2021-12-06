@@ -32,6 +32,17 @@ public class PLOEntryLocalServiceWrapper
 		_ploEntryLocalService = ploEntryLocalService;
 	}
 
+	@Override
+	public com.liferay.portal.language.override.model.PLOEntry
+			addOrUpdatePLOEntry(
+				long companyId, long userId, String key, String languageId,
+				String value)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _ploEntryLocalService.addOrUpdatePLOEntry(
+			companyId, userId, key, languageId, value);
+	}
+
 	/**
 	 * Adds the plo entry to the database. Also notifies the appropriate model listeners.
 	 *
@@ -84,6 +95,11 @@ public class PLOEntryLocalServiceWrapper
 		return _ploEntryLocalService.deletePersistedModel(persistedModel);
 	}
 
+	@Override
+	public void deletePLOEntries(long companyId, String key) {
+		_ploEntryLocalService.deletePLOEntries(companyId, key);
+	}
+
 	/**
 	 * Deletes the plo entry with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
@@ -101,6 +117,13 @@ public class PLOEntryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _ploEntryLocalService.deletePLOEntry(ploEntryId);
+	}
+
+	@Override
+	public com.liferay.portal.language.override.model.PLOEntry deletePLOEntry(
+		long companyId, String key, String languageId) {
+
+		return _ploEntryLocalService.deletePLOEntry(companyId, key, languageId);
 	}
 
 	/**
@@ -230,6 +253,13 @@ public class PLOEntryLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.language.override.model.PLOEntry fetchPLOEntry(
+		long companyId, String key, String languageId) {
+
+		return _ploEntryLocalService.fetchPLOEntry(companyId, key, languageId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -282,6 +312,21 @@ public class PLOEntryLocalServiceWrapper
 		return _ploEntryLocalService.getPLOEntries(start, end);
 	}
 
+	@Override
+	public java.util.List<com.liferay.portal.language.override.model.PLOEntry>
+		getPLOEntries(long companyId) {
+
+		return _ploEntryLocalService.getPLOEntries(companyId);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.language.override.model.PLOEntry>
+		getPLOEntriesByLanguageId(long companyId, String languageId) {
+
+		return _ploEntryLocalService.getPLOEntriesByLanguageId(
+			companyId, languageId);
+	}
+
 	/**
 	 * Returns the number of plo entries.
 	 *
@@ -305,6 +350,24 @@ public class PLOEntryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _ploEntryLocalService.getPLOEntry(ploEntryId);
+	}
+
+	@Override
+	public com.liferay.portal.language.override.model.PLOEntry getPLOEntry(
+			long companyId, String key, String languageId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _ploEntryLocalService.getPLOEntry(companyId, key, languageId);
+	}
+
+	@Override
+	public void setPLOEntries(
+			long companyId, long userId, String key,
+			java.util.Map<java.util.Locale, String> localizationMap)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_ploEntryLocalService.setPLOEntries(
+			companyId, userId, key, localizationMap);
 	}
 
 	/**

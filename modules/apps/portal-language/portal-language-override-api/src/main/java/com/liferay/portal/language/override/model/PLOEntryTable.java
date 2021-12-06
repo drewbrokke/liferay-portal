@@ -17,6 +17,7 @@ package com.liferay.portal.language.override.model;
 import com.liferay.petra.sql.dsl.Column;
 import com.liferay.petra.sql.dsl.base.BaseTable;
 
+import java.sql.Clob;
 import java.sql.Types;
 
 import java.util.Date;
@@ -50,10 +51,10 @@ public class PLOEntryTable extends BaseTable<PLOEntryTable> {
 		"key_", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<PLOEntryTable, String> languageId = createColumn(
 		"languageId", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
-	public final Column<PLOEntryTable, String> value = createColumn(
-		"value", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
-	public final Column<PLOEntryTable, String> originalValue = createColumn(
-		"originalValue", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<PLOEntryTable, Clob> value = createColumn(
+		"value", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
+	public final Column<PLOEntryTable, Clob> originalValue = createColumn(
+		"originalValue", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
 
 	private PLOEntryTable() {
 		super("PLOEntry", PLOEntryTable::new);

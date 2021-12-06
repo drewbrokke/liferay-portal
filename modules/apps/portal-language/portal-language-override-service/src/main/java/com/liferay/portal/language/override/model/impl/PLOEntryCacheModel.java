@@ -169,7 +169,9 @@ public class PLOEntryCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		mvccVersion = objectInput.readLong();
 
 		ploEntryId = objectInput.readLong();
@@ -182,8 +184,8 @@ public class PLOEntryCacheModel
 		modifiedDate = objectInput.readLong();
 		key = objectInput.readUTF();
 		languageId = objectInput.readUTF();
-		value = objectInput.readUTF();
-		originalValue = objectInput.readUTF();
+		value = (String)objectInput.readObject();
+		originalValue = (String)objectInput.readObject();
 	}
 
 	@Override
@@ -221,17 +223,17 @@ public class PLOEntryCacheModel
 		}
 
 		if (value == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(value);
+			objectOutput.writeObject(value);
 		}
 
 		if (originalValue == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(originalValue);
+			objectOutput.writeObject(originalValue);
 		}
 	}
 

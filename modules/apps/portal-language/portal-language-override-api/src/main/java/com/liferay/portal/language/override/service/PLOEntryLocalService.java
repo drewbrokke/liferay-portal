@@ -35,6 +35,8 @@ import com.liferay.portal.language.override.model.PLOEntry;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -61,6 +63,10 @@ public interface PLOEntryLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.portal.language.override.service.impl.PLOEntryLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the plo entry local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PLOEntryLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	public PLOEntry addOrUpdatePLOEntry(
+			long companyId, long userId, String key, String languageId,
+			String value)
+		throws PortalException;
 
 	/**
 	 * Adds the plo entry to the database. Also notifies the appropriate model listeners.
@@ -97,6 +103,8 @@ public interface PLOEntryLocalService
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
 
+	public void deletePLOEntries(long companyId, String key);
+
 	/**
 	 * Deletes the plo entry with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
@@ -110,6 +118,9 @@ public interface PLOEntryLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public PLOEntry deletePLOEntry(long ploEntryId) throws PortalException;
+
+	public PLOEntry deletePLOEntry(
+		long companyId, String key, String languageId);
 
 	/**
 	 * Deletes the plo entry from the database. Also notifies the appropriate model listeners.
@@ -200,6 +211,10 @@ public interface PLOEntryLocalService
 	public PLOEntry fetchPLOEntry(long ploEntryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public PLOEntry fetchPLOEntry(
+		long companyId, String key, String languageId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -234,6 +249,13 @@ public interface PLOEntryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<PLOEntry> getPLOEntries(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PLOEntry> getPLOEntries(long companyId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PLOEntry> getPLOEntriesByLanguageId(
+		long companyId, String languageId);
+
 	/**
 	 * Returns the number of plo entries.
 	 *
@@ -251,6 +273,15 @@ public interface PLOEntryLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PLOEntry getPLOEntry(long ploEntryId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public PLOEntry getPLOEntry(long companyId, String key, String languageId)
+		throws PortalException;
+
+	public void setPLOEntries(
+			long companyId, long userId, String key,
+			Map<Locale, String> localizationMap)
+		throws PortalException;
 
 	/**
 	 * Updates the plo entry in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

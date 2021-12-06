@@ -6,8 +6,8 @@ create table PLOEntry (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	key_ VARCHAR(75) null,
+	key_ VARCHAR(255) null,
 	languageId VARCHAR(75) null,
-	value VARCHAR(75) null,
-	originalValue VARCHAR(75) null
+	value TEXT null,
+	originalValue TEXT null
 );

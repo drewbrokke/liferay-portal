@@ -237,8 +237,7 @@ public class PLOEntryPersistenceTest {
 		return OrderByComparatorFactoryUtil.create(
 			"PLOEntry", "mvccVersion", true, "ploEntryId", true, "companyId",
 			true, "userId", true, "userName", true, "createDate", true,
-			"modifiedDate", true, "key", true, "languageId", true, "value",
-			true, "originalValue", true);
+			"modifiedDate", true, "key", true, "languageId", true);
 	}
 
 	@Test

@@ -21,6 +21,10 @@ import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.portal.language.override.model.PLOEntry;
+
+import java.util.Locale;
+import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -47,6 +51,10 @@ public interface PLOEntryService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.portal.language.override.service.impl.PLOEntryServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the plo entry remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PLOEntryServiceUtil} if injection and service tracking are not available.
 	 */
+	public void deletePLOEntries(String key) throws PortalException;
+
+	public PLOEntry deletePLOEntry(String key, String languageId)
+		throws PortalException;
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -54,5 +62,8 @@ public interface PLOEntryService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	public void setPLOEntries(String key, Map<Locale, String> localizationMap)
+		throws PortalException;
 
 }
