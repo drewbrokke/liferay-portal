@@ -14,8 +14,6 @@
 
 package com.liferay.portal.language;
 
-import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
-import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -89,7 +87,6 @@ public class LanguageResources {
 				}
 
 			};
-	private static ServiceTrackerList<LanguageOverrideProvider> _languageOverrideProviders;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
@@ -115,16 +112,16 @@ public class LanguageResources {
 			return null;
 		}
 
-		Map<String, String> languageMap = _languageMaps.get(locale);
-
-		if (languageMap == null) {
-			languageMap = _loadLocale(locale);
-		}
-
 		String overrideValue = _getOverrideValue(key, locale);
 
 		if (Validator.isNotNull(overrideValue)) {
 			return overrideValue;
+		}
+
+		Map<String, String> languageMap = _languageMaps.get(locale);
+
+		if (languageMap == null) {
+			languageMap = _loadLocale(locale);
 		}
 
 		String value = languageMap.get(key);
@@ -174,17 +171,12 @@ public class LanguageResources {
 
 		_serviceTracker.open();
 
-		_languageOverrideProviders = ServiceTrackerListFactory.open(_bundleContext,
-			LanguageOverrideProvider.class);
-
 		ResourceBundleLoaderUtil.setPortalResourceBundleLoader(
 			PORTAL_RESOURCE_BUNDLE_LOADER);
 	}
 
 	public void destroy() {
 		_serviceTracker.close();
-
-		_languageOverrideProviders.close();
 	}
 
 	public void setConfig(String config) {
