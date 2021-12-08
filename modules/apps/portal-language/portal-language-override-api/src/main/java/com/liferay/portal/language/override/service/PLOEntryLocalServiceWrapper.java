@@ -353,14 +353,6 @@ public class PLOEntryLocalServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.language.override.model.PLOEntry getPLOEntry(
-			long companyId, String key, String languageId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _ploEntryLocalService.getPLOEntry(companyId, key, languageId);
-	}
-
-	@Override
 	public void setPLOEntries(
 			long companyId, long userId, String key,
 			java.util.Map<java.util.Locale, String> localizationMap)

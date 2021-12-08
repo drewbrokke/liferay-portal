@@ -2320,12 +2320,6 @@ public class PLOEntryPersistenceImpl
 						companyId, groupId, userId, PLOEntry.class.getName(),
 						ploEntryId, ContentTypes.TEXT_HTML, Sanitizer.MODE_ALL,
 						ploEntry.getValue(), null));
-
-				ploEntry.setOriginalValue(
-					SanitizerUtil.sanitize(
-						companyId, groupId, userId, PLOEntry.class.getName(),
-						ploEntryId, ContentTypes.TEXT_HTML, Sanitizer.MODE_ALL,
-						ploEntry.getOriginalValue(), null));
 			}
 			catch (SanitizerException sanitizerException) {
 				throw new SystemException(sanitizerException);

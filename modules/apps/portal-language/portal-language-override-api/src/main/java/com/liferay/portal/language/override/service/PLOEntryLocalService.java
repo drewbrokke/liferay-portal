@@ -274,10 +274,6 @@ public interface PLOEntryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PLOEntry getPLOEntry(long ploEntryId) throws PortalException;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public PLOEntry getPLOEntry(long companyId, String key, String languageId)
-		throws PortalException;
-
 	public void setPLOEntries(
 			long companyId, long userId, String key,
 			Map<Locale, String> localizationMap)
