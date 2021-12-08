@@ -20,9 +20,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.language.override.model.PLOEntry;
 import com.liferay.portal.language.override.service.base.PLOEntryLocalServiceBaseImpl;
 
@@ -102,12 +100,6 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 		return ploEntryPersistence.findByC_L(companyId, languageId);
 	}
 
-	public PLOEntry getPLOEntry(long companyId, String key, String languageId)
-		throws PortalException {
-
-		return ploEntryPersistence.findByC_K_L(companyId, key, languageId);
-	}
-
 	@Override
 	public void setPLOEntries(
 			long companyId, long userId, String key,
@@ -140,26 +132,12 @@ public class PLOEntryLocalServiceImpl extends PLOEntryLocalServiceBaseImpl {
 		User user = _userLocalService.getUser(userId);
 
 		ploEntry.setUserId(user.getUserId());
-		ploEntry.setUserName(user.getUserUuid());
 
 		ploEntry.setKey(key);
-
 		ploEntry.setLanguageId(languageId);
-
-		String originalValue = LanguageUtil.get(
-			LocaleUtil.fromLanguageId(languageId), key, null);
-
-		if (Validator.isNotNull(originalValue)) {
-			ploEntry.setOriginalValue(originalValue);
-		}
-
 		ploEntry.setValue(value);
 
 		return addPLOEntry(ploEntry);
-	}
-
-	protected List<PLOEntry> getPLOEntriesByKey(long companyId, String key) {
-		return ploEntryPersistence.findByC_K(companyId, key);
 	}
 
 	@Reference
