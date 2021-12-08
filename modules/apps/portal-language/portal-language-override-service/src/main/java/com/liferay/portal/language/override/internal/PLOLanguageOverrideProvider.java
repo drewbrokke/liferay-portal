@@ -20,11 +20,13 @@ import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.language.LanguageOverrideProvider;
+import com.liferay.portal.language.override.internal.provider.PLOOriginalTranslationThreadLocal;
 import com.liferay.portal.language.override.model.PLOEntry;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
 
 import java.io.Serializable;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -51,6 +53,10 @@ public class PLOLanguageOverrideProvider implements LanguageOverrideProvider {
 
 	@Override
 	public String get(String key, Locale locale) {
+		if (PLOOriginalTranslationThreadLocal.isUseOriginalTranslation()) {
+			return null;
+		}
+
 		Map<String, String> overrideMap = _getOverrideMap(
 			_getCompanyId(), locale);
 
@@ -59,6 +65,10 @@ public class PLOLanguageOverrideProvider implements LanguageOverrideProvider {
 
 	@Override
 	public Set<String> keySet(Locale locale) {
+		if (PLOOriginalTranslationThreadLocal.isUseOriginalTranslation()) {
+			return Collections.emptySet();
+		}
+
 		Map<String, String> overrideMap = _getOverrideMap(
 			_getCompanyId(), locale);
 
