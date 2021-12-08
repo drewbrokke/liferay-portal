@@ -55,7 +55,7 @@ public class PLOEntryLocalServiceTest {
 
 		_assertTranslationValue(locale, key, null);
 
-		PLOEntry ploEntry = _ploEntryLocalService.addPLOEntry(
+		PLOEntry ploEntry = _ploEntryLocalService.addOrUpdatePLOEntry(
 			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(), key,
 			LanguageUtil.getLanguageId(locale), RandomTestUtil.randomString());
 
@@ -73,7 +73,7 @@ public class PLOEntryLocalServiceTest {
 
 		Assert.assertNotNull(originalValue);
 
-		PLOEntry ploEntry = _ploEntryLocalService.addPLOEntry(
+		PLOEntry ploEntry = _ploEntryLocalService.addOrUpdatePLOEntry(
 			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(), key,
 			LanguageUtil.getLanguageId(locale), RandomTestUtil.randomString());
 
