@@ -13,7 +13,6 @@
 
 		<column name="companyId" type="long" />
 		<column name="userId" type="long" />
-		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 
@@ -22,7 +21,6 @@
 		<column name="key" type="String" />
 		<column name="languageId" type="String" />
 		<column name="value" type="String" />
-		<column name="originalValue" type="String" />
 
 		<!-- Order -->
 
