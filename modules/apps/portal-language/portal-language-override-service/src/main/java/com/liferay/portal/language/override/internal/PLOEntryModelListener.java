@@ -31,14 +31,14 @@ public class PLOEntryModelListener extends BaseModelListener<PLOEntry> {
 
 	@Override
 	public void onAfterCreate(PLOEntry model) throws ModelListenerException {
-		_ploLanguageMessageListener.send(
+		_ploLanguageOverrideCache.clear(
 			model.getCompanyId(),
 			LocaleUtil.fromLanguageId(model.getLanguageId()));
 	}
 
 	@Override
 	public void onAfterRemove(PLOEntry model) throws ModelListenerException {
-		_ploLanguageMessageListener.send(
+		_ploLanguageOverrideCache.clear(
 			model.getCompanyId(),
 			LocaleUtil.fromLanguageId(model.getLanguageId()));
 	}
@@ -47,12 +47,12 @@ public class PLOEntryModelListener extends BaseModelListener<PLOEntry> {
 	public void onAfterUpdate(PLOEntry originalModel, PLOEntry model)
 		throws ModelListenerException {
 
-		_ploLanguageMessageListener.send(
+		_ploLanguageOverrideCache.clear(
 			model.getCompanyId(),
 			LocaleUtil.fromLanguageId(model.getLanguageId()));
 	}
 
 	@Reference
-	private PLOLanguageMessageListener _ploLanguageMessageListener;
+	private PLOLanguageOverrideCache _ploLanguageOverrideCache;
 
 }
