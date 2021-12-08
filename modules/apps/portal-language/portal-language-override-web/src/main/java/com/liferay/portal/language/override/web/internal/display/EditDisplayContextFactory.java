@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.language.override.model.PLOEntry;
+import com.liferay.portal.language.override.provider.PLOOriginalTranslationProvider;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
 
 import java.util.Locale;
@@ -111,27 +112,25 @@ public class EditDisplayContextFactory {
 				companyId, key, languageId);
 
 			if (ploEntry != null) {
-				String originalValue = ploEntry.getOriginalValue();
-
-				if (Validator.isNotNull(originalValue)) {
-					originalValuesLocalizedValuesMap.put(locale, originalValue);
-				}
-
 				localizedValuesMap.put(locale, ploEntry.getValue());
 
 				continue;
 			}
 
-			String value = LanguageUtil.get(locale, key);
+			String originalValue = _ploOriginalTranslationProvider.get(
+				locale, key);
 
-			if (!Objects.equals(key, value)) {
-				originalValuesLocalizedValuesMap.put(locale, value);
+			if (Validator.isNotNull(originalValue)) {
+				originalValuesLocalizedValuesMap.put(locale, originalValue);
 			}
 		}
 	}
 
 	@Reference
 	private PLOEntryLocalService _ploEntryLocalService;
+
+	@Reference
+	private PLOOriginalTranslationProvider _ploOriginalTranslationProvider;
 
 	@Reference
 	private Portal _portal;

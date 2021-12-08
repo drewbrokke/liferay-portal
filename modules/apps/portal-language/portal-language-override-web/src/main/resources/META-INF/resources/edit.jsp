@@ -174,17 +174,19 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 	<portlet:param name="key" value="<%= editDisplayContext.getKey() %>" />
 </portlet:actionURL>
 
-<aui:script sandbox="<%= true %>">
-	const clearAllOverridesButton = document.getElementById('<portlet:namespace />clearOverridesButton');
+<c:if test="<%= Validator.isNotNull(editDisplayContext.getKey()) %>">
+	<aui:script sandbox="<%= true %>">
+		const clearAllOverridesButton = document.getElementById('<portlet:namespace />clearOverridesButton');
 
-	clearAllOverridesButton.addEventListener(
-		'click',
-		function(event) {
-			if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-reset-all-translation-overrides" />')) {
-				submitForm(
-					document.getElementById('<portlet:namespace />editPortalLanguageOverrideFm'),
-					'<%= HtmlUtil.escapeJS(deletePortalLanguageOverridesURL) %>');
+		clearAllOverridesButton.addEventListener(
+			'click',
+			function(event) {
+				if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-reset-all-translation-overrides" />')) {
+					submitForm(
+						document.getElementById('<portlet:namespace />editPortalLanguageOverrideFm'),
+						'<%= HtmlUtil.escapeJS(deletePortalLanguageOverridesURL) %>');
+				}
 			}
-		}
-	);
-</aui:script>
+		);
+	</aui:script>
+</c:if>

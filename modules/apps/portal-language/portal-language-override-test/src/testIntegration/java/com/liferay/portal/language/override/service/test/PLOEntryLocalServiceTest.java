@@ -15,7 +15,6 @@
 package com.liferay.portal.language.override.service.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.test.rule.DataGuard;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -59,8 +58,6 @@ public class PLOEntryLocalServiceTest {
 			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(), key,
 			LanguageUtil.getLanguageId(locale), RandomTestUtil.randomString());
 
-		Assert.assertEquals(StringPool.BLANK, ploEntry.getOriginalValue());
-
 		_assertTranslationValue(locale, key, ploEntry.getValue());
 	}
 
@@ -76,8 +73,6 @@ public class PLOEntryLocalServiceTest {
 		PLOEntry ploEntry = _ploEntryLocalService.addOrUpdatePLOEntry(
 			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(), key,
 			LanguageUtil.getLanguageId(locale), RandomTestUtil.randomString());
-
-		Assert.assertEquals(originalValue, ploEntry.getOriginalValue());
 
 		_assertTranslationValue(locale, key, ploEntry.getValue());
 	}
