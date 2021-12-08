@@ -15,26 +15,23 @@
 package com.liferay.portal.language.override.service.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.test.rule.DataGuard;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.language.LanguageResources;
 import com.liferay.portal.language.override.model.PLOEntry;
 import com.liferay.portal.language.override.provider.PLOOriginalTranslationProvider;
 import com.liferay.portal.language.override.service.PLOEntryLocalService;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+
+import java.util.Locale;
+
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.Locale;
 
 /**
  * @author Drew Brokke
@@ -60,17 +57,24 @@ public class PLOOriginalTranslationProviderTest {
 			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(), key,
 			LanguageUtil.getLanguageId(locale), RandomTestUtil.randomString());
 
-		Assert.assertEquals(
-			ploEntry.getValue(), LanguageUtil.get(locale, key));
+		Assert.assertEquals(ploEntry.getValue(), LanguageUtil.get(locale, key));
 
 		Assert.assertEquals(
 			originalValue, _ploOriginalTranslationProvider.get(locale, key));
 	}
 
-	@Inject
-	private PLOOriginalTranslationProvider _ploOriginalTranslationProvider;
+	@Test
+	public void testGetNonexistentKey() throws Exception {
+		Assert.assertNull(
+			_ploOriginalTranslationProvider.get(
+				LocaleUtil.getDefault(),
+				"DOES_NOT_EXIST_" + RandomTestUtil.randomString()));
+	}
 
 	@Inject
 	private PLOEntryLocalService _ploEntryLocalService;
+
+	@Inject
+	private PLOOriginalTranslationProvider _ploOriginalTranslationProvider;
 
 }
