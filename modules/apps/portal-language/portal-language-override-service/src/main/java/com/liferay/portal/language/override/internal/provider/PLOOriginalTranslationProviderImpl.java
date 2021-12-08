@@ -34,7 +34,7 @@ public class PLOOriginalTranslationProviderImpl
 		try (SafeCloseable safeCloseable =
 				PLOOriginalTranslationThreadLocal.setWithSafeCloseable(true)) {
 
-			return LanguageUtil.get(locale, key);
+			return LanguageUtil.get(locale, key, null);
 		}
 	}
 
