@@ -41,8 +41,6 @@ public class PLOEntryTable extends BaseTable<PLOEntryTable> {
 		"companyId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<PLOEntryTable, Long> userId = createColumn(
 		"userId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
-	public final Column<PLOEntryTable, String> userName = createColumn(
-		"userName", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<PLOEntryTable, Date> createDate = createColumn(
 		"createDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<PLOEntryTable, Date> modifiedDate = createColumn(
@@ -53,8 +51,6 @@ public class PLOEntryTable extends BaseTable<PLOEntryTable> {
 		"languageId", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<PLOEntryTable, Clob> value = createColumn(
 		"value", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
-	public final Column<PLOEntryTable, Clob> originalValue = createColumn(
-		"originalValue", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
 
 	private PLOEntryTable() {
 		super("PLOEntry", PLOEntryTable::new);

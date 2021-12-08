@@ -131,8 +131,6 @@ public class PLOEntryPersistenceTest {
 
 		newPLOEntry.setUserId(RandomTestUtil.nextLong());
 
-		newPLOEntry.setUserName(RandomTestUtil.randomString());
-
 		newPLOEntry.setCreateDate(RandomTestUtil.nextDate());
 
 		newPLOEntry.setModifiedDate(RandomTestUtil.nextDate());
@@ -142,8 +140,6 @@ public class PLOEntryPersistenceTest {
 		newPLOEntry.setLanguageId(RandomTestUtil.randomString());
 
 		newPLOEntry.setValue(RandomTestUtil.randomString());
-
-		newPLOEntry.setOriginalValue(RandomTestUtil.randomString());
 
 		_ploEntries.add(_persistence.update(newPLOEntry));
 
@@ -159,8 +155,6 @@ public class PLOEntryPersistenceTest {
 		Assert.assertEquals(
 			existingPLOEntry.getUserId(), newPLOEntry.getUserId());
 		Assert.assertEquals(
-			existingPLOEntry.getUserName(), newPLOEntry.getUserName());
-		Assert.assertEquals(
 			Time.getShortTimestamp(existingPLOEntry.getCreateDate()),
 			Time.getShortTimestamp(newPLOEntry.getCreateDate()));
 		Assert.assertEquals(
@@ -171,9 +165,6 @@ public class PLOEntryPersistenceTest {
 			existingPLOEntry.getLanguageId(), newPLOEntry.getLanguageId());
 		Assert.assertEquals(
 			existingPLOEntry.getValue(), newPLOEntry.getValue());
-		Assert.assertEquals(
-			existingPLOEntry.getOriginalValue(),
-			newPLOEntry.getOriginalValue());
 	}
 
 	@Test
@@ -236,8 +227,8 @@ public class PLOEntryPersistenceTest {
 	protected OrderByComparator<PLOEntry> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create(
 			"PLOEntry", "mvccVersion", true, "ploEntryId", true, "companyId",
-			true, "userId", true, "userName", true, "createDate", true,
-			"modifiedDate", true, "key", true, "languageId", true);
+			true, "userId", true, "createDate", true, "modifiedDate", true,
+			"key", true, "languageId", true);
 	}
 
 	@Test
@@ -525,8 +516,6 @@ public class PLOEntryPersistenceTest {
 
 		ploEntry.setUserId(RandomTestUtil.nextLong());
 
-		ploEntry.setUserName(RandomTestUtil.randomString());
-
 		ploEntry.setCreateDate(RandomTestUtil.nextDate());
 
 		ploEntry.setModifiedDate(RandomTestUtil.nextDate());
@@ -536,8 +525,6 @@ public class PLOEntryPersistenceTest {
 		ploEntry.setLanguageId(RandomTestUtil.randomString());
 
 		ploEntry.setValue(RandomTestUtil.randomString());
-
-		ploEntry.setOriginalValue(RandomTestUtil.randomString());
 
 		_ploEntries.add(_persistence.update(ploEntry));
 

@@ -77,10 +77,9 @@ public class PLOEntryModelImpl
 	public static final Object[][] TABLE_COLUMNS = {
 		{"mvccVersion", Types.BIGINT}, {"ploEntryId", Types.BIGINT},
 		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
-		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
-		{"modifiedDate", Types.TIMESTAMP}, {"key_", Types.VARCHAR},
-		{"languageId", Types.VARCHAR}, {"value", Types.CLOB},
-		{"originalValue", Types.CLOB}
+		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
+		{"key_", Types.VARCHAR}, {"languageId", Types.VARCHAR},
+		{"value", Types.CLOB}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -91,17 +90,15 @@ public class PLOEntryModelImpl
 		TABLE_COLUMNS_MAP.put("ploEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("key_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("languageId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("value", Types.CLOB);
-		TABLE_COLUMNS_MAP.put("originalValue", Types.CLOB);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table PLOEntry (mvccVersion LONG default 0 not null,ploEntryId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,key_ VARCHAR(255) null,languageId VARCHAR(75) null,value TEXT null,originalValue TEXT null)";
+		"create table PLOEntry (mvccVersion LONG default 0 not null,ploEntryId LONG not null primary key,companyId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,key_ VARCHAR(255) null,languageId VARCHAR(75) null,value TEXT null)";
 
 	public static final String TABLE_SQL_DROP = "drop table PLOEntry";
 
@@ -166,13 +163,11 @@ public class PLOEntryModelImpl
 		model.setPloEntryId(soapModel.getPloEntryId());
 		model.setCompanyId(soapModel.getCompanyId());
 		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setKey(soapModel.getKey());
 		model.setLanguageId(soapModel.getLanguageId());
 		model.setValue(soapModel.getValue());
-		model.setOriginalValue(soapModel.getOriginalValue());
 
 		return model;
 	}
@@ -335,9 +330,6 @@ public class PLOEntryModelImpl
 		attributeGetterFunctions.put("userId", PLOEntry::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<PLOEntry, Long>)PLOEntry::setUserId);
-		attributeGetterFunctions.put("userName", PLOEntry::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<PLOEntry, String>)PLOEntry::setUserName);
 		attributeGetterFunctions.put("createDate", PLOEntry::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<PLOEntry, Date>)PLOEntry::setCreateDate);
@@ -355,11 +347,6 @@ public class PLOEntryModelImpl
 		attributeGetterFunctions.put("value", PLOEntry::getValue);
 		attributeSetterBiConsumers.put(
 			"value", (BiConsumer<PLOEntry, String>)PLOEntry::setValue);
-		attributeGetterFunctions.put(
-			"originalValue", PLOEntry::getOriginalValue);
-		attributeSetterBiConsumers.put(
-			"originalValue",
-			(BiConsumer<PLOEntry, String>)PLOEntry::setOriginalValue);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -451,26 +438,6 @@ public class PLOEntryModelImpl
 
 	@Override
 	public void setUserUuid(String userUuid) {
-	}
-
-	@JSON
-	@Override
-	public String getUserName() {
-		if (_userName == null) {
-			return "";
-		}
-		else {
-			return _userName;
-		}
-	}
-
-	@Override
-	public void setUserName(String userName) {
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
-		_userName = userName;
 	}
 
 	@JSON
@@ -587,26 +554,6 @@ public class PLOEntryModelImpl
 		_value = value;
 	}
 
-	@JSON
-	@Override
-	public String getOriginalValue() {
-		if (_originalValue == null) {
-			return "";
-		}
-		else {
-			return _originalValue;
-		}
-	}
-
-	@Override
-	public void setOriginalValue(String originalValue) {
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
-		_originalValue = originalValue;
-	}
-
 	public long getColumnBitmask() {
 		if (_columnBitmask > 0) {
 			return _columnBitmask;
@@ -667,13 +614,11 @@ public class PLOEntryModelImpl
 		ploEntryImpl.setPloEntryId(getPloEntryId());
 		ploEntryImpl.setCompanyId(getCompanyId());
 		ploEntryImpl.setUserId(getUserId());
-		ploEntryImpl.setUserName(getUserName());
 		ploEntryImpl.setCreateDate(getCreateDate());
 		ploEntryImpl.setModifiedDate(getModifiedDate());
 		ploEntryImpl.setKey(getKey());
 		ploEntryImpl.setLanguageId(getLanguageId());
 		ploEntryImpl.setValue(getValue());
-		ploEntryImpl.setOriginalValue(getOriginalValue());
 
 		ploEntryImpl.resetOriginalValues();
 
@@ -691,8 +636,6 @@ public class PLOEntryModelImpl
 		ploEntryImpl.setCompanyId(
 			this.<Long>getColumnOriginalValue("companyId"));
 		ploEntryImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
-		ploEntryImpl.setUserName(
-			this.<String>getColumnOriginalValue("userName"));
 		ploEntryImpl.setCreateDate(
 			this.<Date>getColumnOriginalValue("createDate"));
 		ploEntryImpl.setModifiedDate(
@@ -701,8 +644,6 @@ public class PLOEntryModelImpl
 		ploEntryImpl.setLanguageId(
 			this.<String>getColumnOriginalValue("languageId"));
 		ploEntryImpl.setValue(this.<String>getColumnOriginalValue("value"));
-		ploEntryImpl.setOriginalValue(
-			this.<String>getColumnOriginalValue("originalValue"));
 
 		return ploEntryImpl;
 	}
@@ -786,14 +727,6 @@ public class PLOEntryModelImpl
 
 		ploEntryCacheModel.userId = getUserId();
 
-		ploEntryCacheModel.userName = getUserName();
-
-		String userName = ploEntryCacheModel.userName;
-
-		if ((userName != null) && (userName.length() == 0)) {
-			ploEntryCacheModel.userName = null;
-		}
-
 		Date createDate = getCreateDate();
 
 		if (createDate != null) {
@@ -834,14 +767,6 @@ public class PLOEntryModelImpl
 
 		if ((value != null) && (value.length() == 0)) {
 			ploEntryCacheModel.value = null;
-		}
-
-		ploEntryCacheModel.originalValue = getOriginalValue();
-
-		String originalValue = ploEntryCacheModel.originalValue;
-
-		if ((originalValue != null) && (originalValue.length() == 0)) {
-			ploEntryCacheModel.originalValue = null;
 		}
 
 		return ploEntryCacheModel;
@@ -938,14 +863,12 @@ public class PLOEntryModelImpl
 	private long _ploEntryId;
 	private long _companyId;
 	private long _userId;
-	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _key;
 	private String _languageId;
 	private String _value;
-	private String _originalValue;
 
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
@@ -980,13 +903,11 @@ public class PLOEntryModelImpl
 		_columnOriginalValues.put("ploEntryId", _ploEntryId);
 		_columnOriginalValues.put("companyId", _companyId);
 		_columnOriginalValues.put("userId", _userId);
-		_columnOriginalValues.put("userName", _userName);
 		_columnOriginalValues.put("createDate", _createDate);
 		_columnOriginalValues.put("modifiedDate", _modifiedDate);
 		_columnOriginalValues.put("key_", _key);
 		_columnOriginalValues.put("languageId", _languageId);
 		_columnOriginalValues.put("value", _value);
-		_columnOriginalValues.put("originalValue", _originalValue);
 	}
 
 	private static final Map<String, String> _attributeNames;
@@ -1018,19 +939,15 @@ public class PLOEntryModelImpl
 
 		columnBitmasks.put("userId", 8L);
 
-		columnBitmasks.put("userName", 16L);
+		columnBitmasks.put("createDate", 16L);
 
-		columnBitmasks.put("createDate", 32L);
+		columnBitmasks.put("modifiedDate", 32L);
 
-		columnBitmasks.put("modifiedDate", 64L);
+		columnBitmasks.put("key_", 64L);
 
-		columnBitmasks.put("key_", 128L);
+		columnBitmasks.put("languageId", 128L);
 
-		columnBitmasks.put("languageId", 256L);
-
-		columnBitmasks.put("value", 512L);
-
-		columnBitmasks.put("originalValue", 1024L);
+		columnBitmasks.put("value", 256L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

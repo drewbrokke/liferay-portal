@@ -76,7 +76,7 @@ public class PLOEntryCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -86,8 +86,6 @@ public class PLOEntryCacheModel
 		sb.append(companyId);
 		sb.append(", userId=");
 		sb.append(userId);
-		sb.append(", userName=");
-		sb.append(userName);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
@@ -98,8 +96,6 @@ public class PLOEntryCacheModel
 		sb.append(languageId);
 		sb.append(", value=");
 		sb.append(value);
-		sb.append(", originalValue=");
-		sb.append(originalValue);
 		sb.append("}");
 
 		return sb.toString();
@@ -113,13 +109,6 @@ public class PLOEntryCacheModel
 		ploEntryImpl.setPloEntryId(ploEntryId);
 		ploEntryImpl.setCompanyId(companyId);
 		ploEntryImpl.setUserId(userId);
-
-		if (userName == null) {
-			ploEntryImpl.setUserName("");
-		}
-		else {
-			ploEntryImpl.setUserName(userName);
-		}
 
 		if (createDate == Long.MIN_VALUE) {
 			ploEntryImpl.setCreateDate(null);
@@ -156,13 +145,6 @@ public class PLOEntryCacheModel
 			ploEntryImpl.setValue(value);
 		}
 
-		if (originalValue == null) {
-			ploEntryImpl.setOriginalValue("");
-		}
-		else {
-			ploEntryImpl.setOriginalValue(originalValue);
-		}
-
 		ploEntryImpl.resetOriginalValues();
 
 		return ploEntryImpl;
@@ -179,13 +161,11 @@ public class PLOEntryCacheModel
 		companyId = objectInput.readLong();
 
 		userId = objectInput.readLong();
-		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 		key = objectInput.readUTF();
 		languageId = objectInput.readUTF();
 		value = (String)objectInput.readObject();
-		originalValue = (String)objectInput.readObject();
 	}
 
 	@Override
@@ -197,14 +177,6 @@ public class PLOEntryCacheModel
 		objectOutput.writeLong(companyId);
 
 		objectOutput.writeLong(userId);
-
-		if (userName == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(userName);
-		}
-
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 
@@ -228,25 +200,16 @@ public class PLOEntryCacheModel
 		else {
 			objectOutput.writeObject(value);
 		}
-
-		if (originalValue == null) {
-			objectOutput.writeObject("");
-		}
-		else {
-			objectOutput.writeObject(originalValue);
-		}
 	}
 
 	public long mvccVersion;
 	public long ploEntryId;
 	public long companyId;
 	public long userId;
-	public String userName;
 	public long createDate;
 	public long modifiedDate;
 	public String key;
 	public String languageId;
 	public String value;
-	public String originalValue;
 
 }

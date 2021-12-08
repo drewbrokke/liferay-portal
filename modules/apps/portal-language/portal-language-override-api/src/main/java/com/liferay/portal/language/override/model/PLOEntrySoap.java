@@ -37,13 +37,11 @@ public class PLOEntrySoap implements Serializable {
 		soapModel.setPloEntryId(model.getPloEntryId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
-		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setKey(model.getKey());
 		soapModel.setLanguageId(model.getLanguageId());
 		soapModel.setValue(model.getValue());
-		soapModel.setOriginalValue(model.getOriginalValue());
 
 		return soapModel;
 	}
@@ -129,14 +127,6 @@ public class PLOEntrySoap implements Serializable {
 		_userId = userId;
 	}
 
-	public String getUserName() {
-		return _userName;
-	}
-
-	public void setUserName(String userName) {
-		_userName = userName;
-	}
-
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -177,24 +167,14 @@ public class PLOEntrySoap implements Serializable {
 		_value = value;
 	}
 
-	public String getOriginalValue() {
-		return _originalValue;
-	}
-
-	public void setOriginalValue(String originalValue) {
-		_originalValue = originalValue;
-	}
-
 	private long _mvccVersion;
 	private long _ploEntryId;
 	private long _companyId;
 	private long _userId;
-	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private String _key;
 	private String _languageId;
 	private String _value;
-	private String _originalValue;
 
 }

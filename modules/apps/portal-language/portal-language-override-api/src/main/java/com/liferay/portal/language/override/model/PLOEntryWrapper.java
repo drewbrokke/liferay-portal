@@ -46,13 +46,11 @@ public class PLOEntryWrapper
 		attributes.put("ploEntryId", getPloEntryId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
-		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("key", getKey());
 		attributes.put("languageId", getLanguageId());
 		attributes.put("value", getValue());
-		attributes.put("originalValue", getOriginalValue());
 
 		return attributes;
 	}
@@ -83,12 +81,6 @@ public class PLOEntryWrapper
 			setUserId(userId);
 		}
 
-		String userName = (String)attributes.get("userName");
-
-		if (userName != null) {
-			setUserName(userName);
-		}
-
 		Date createDate = (Date)attributes.get("createDate");
 
 		if (createDate != null) {
@@ -117,12 +109,6 @@ public class PLOEntryWrapper
 
 		if (value != null) {
 			setValue(value);
-		}
-
-		String originalValue = (String)attributes.get("originalValue");
-
-		if (originalValue != null) {
-			setOriginalValue(originalValue);
 		}
 	}
 
@@ -192,16 +178,6 @@ public class PLOEntryWrapper
 	}
 
 	/**
-	 * Returns the original value of this plo entry.
-	 *
-	 * @return the original value of this plo entry
-	 */
-	@Override
-	public String getOriginalValue() {
-		return model.getOriginalValue();
-	}
-
-	/**
 	 * Returns the plo entry ID of this plo entry.
 	 *
 	 * @return the plo entry ID of this plo entry
@@ -229,16 +205,6 @@ public class PLOEntryWrapper
 	@Override
 	public long getUserId() {
 		return model.getUserId();
-	}
-
-	/**
-	 * Returns the user name of this plo entry.
-	 *
-	 * @return the user name of this plo entry
-	 */
-	@Override
-	public String getUserName() {
-		return model.getUserName();
 	}
 
 	/**
@@ -327,16 +293,6 @@ public class PLOEntryWrapper
 	}
 
 	/**
-	 * Sets the original value of this plo entry.
-	 *
-	 * @param originalValue the original value of this plo entry
-	 */
-	@Override
-	public void setOriginalValue(String originalValue) {
-		model.setOriginalValue(originalValue);
-	}
-
-	/**
 	 * Sets the plo entry ID of this plo entry.
 	 *
 	 * @param ploEntryId the plo entry ID of this plo entry
@@ -364,16 +320,6 @@ public class PLOEntryWrapper
 	@Override
 	public void setUserId(long userId) {
 		model.setUserId(userId);
-	}
-
-	/**
-	 * Sets the user name of this plo entry.
-	 *
-	 * @param userName the user name of this plo entry
-	 */
-	@Override
-	public void setUserName(String userName) {
-		model.setUserName(userName);
 	}
 
 	/**
