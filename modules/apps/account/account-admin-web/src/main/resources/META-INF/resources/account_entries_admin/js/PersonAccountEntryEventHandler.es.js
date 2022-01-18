@@ -12,74 +12,19 @@
  * details.
  */
 
-import {PortletBase, delegate, openSelectionModal} from 'frontend-js-web';
 import {Config} from 'metal-state';
 
-class PersonAccountEntryEventHandler extends PortletBase {
+import {default as BaseSelectEntityEventHandler} from '../../common/js/BaseSelectEntityEventHandler.es';
 
-	/**
-	 * @inheritDoc
-	 */
-	attached() {
-		this.selectUserButton.addEventListener(
-			'click',
-			this._handleSelectUserButtonClicked
-		);
-
-		this._removeUserButtonHandle = delegate(
-			this.container,
-			'click',
-			this.removeUserLinkSelector,
-			this._handleRemoveUserButtonClicked.bind(this)
-		);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	created() {
-		this._handleSelectUserButtonClicked = this._handleSelectUserButtonClicked.bind(
-			this
-		);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	detached() {
-		super.detached();
-
-		this.selectUserButton.removeEventListener(
-			'click',
-			this._handleSelectUserButtonClicked
-		);
-
-		this._removeUserButtonHandle.dispose();
-	}
-
-	_handleOnSelect(selectedItemData) {
+class PersonAccountEntryEventHandler extends BaseSelectEntityEventHandler {
+	handleOnSelect(selectedItemData) {
 		this._setSearchContainerUser(selectedItemData);
 	}
 
-	_handleRemoveUserButtonClicked() {
+	handleRemoveButtonClicked() {
 		this.searchContainer.deleteRow(1, this.searchContainer.getData());
 
-		this.userIdInput.value = null;
-	}
-
-	_handleSelectUserButtonClicked() {
-		this._selectAccountUser();
-	}
-
-	_selectAccountUser() {
-		openSelectionModal({
-			id: this.ns(this.selectUserEventName),
-			onSelect: this._handleOnSelect.bind(this),
-			selectEventName: this.ns(this.selectUserEventName),
-			selectedData: [this.userIdInput.value],
-			title: Liferay.Language.get('assign-user'),
-			url: this.selectUserURL,
-		});
+		this._setUserIdInputValue(null);
 	}
 
 	_setSearchContainerUser({
@@ -88,7 +33,7 @@ class PersonAccountEntryEventHandler extends PortletBase {
 		entityname: userName,
 		jobtitle: jobTitle,
 	}) {
-		this.userIdInput.value = userId;
+		this._setUserIdInputValue(userId);
 
 		this.searchContainer.deleteRow(1, this.searchContainer.getData());
 		this.searchContainer.addRow(
@@ -98,23 +43,20 @@ class PersonAccountEntryEventHandler extends PortletBase {
 		this.searchContainer.updateDataStore([userId]);
 	}
 
-	_setSearchContainer(searchContainerId) {
-		return Liferay.SearchContainer.get(this.ns(searchContainerId));
-	}
+	_setUserIdInputValue(userId) {
+		this.userIdInput.value = userId;
 
-	_setElement(selector) {
-		return this.one(selector);
+		if (userId) {
+			this.selectedData = [userId];
+		}
+		else {
+			this.selectedData = [];
+		}
 	}
 }
 
 PersonAccountEntryEventHandler.STATE = {
-	container: Config.string().setter('_setElement'),
 	removeUserIconMarkup: Config.string(),
-	removeUserLinkSelector: Config.string(),
-	searchContainer: Config.string().setter('_setSearchContainer'),
-	selectUserButton: Config.string().setter('_setElement'),
-	selectUserEventName: Config.string(),
-	selectUserURL: Config.string(),
 	userIdInput: Config.string().setter('_setElement'),
 };
 

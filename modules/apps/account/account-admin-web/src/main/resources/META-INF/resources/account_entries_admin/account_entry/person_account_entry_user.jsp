@@ -18,6 +18,8 @@
 
 <%
 AccountEntryDisplay accountEntryDisplay = (AccountEntryDisplay)request.getAttribute(AccountWebKeys.ACCOUNT_ENTRY_DISPLAY);
+
+Optional<User> personAccountEntryUserOptional = accountEntryDisplay.getPersonAccountEntryUserOptional();
 %>
 
 <liferay-util:buffer
@@ -60,10 +62,6 @@ AccountEntryDisplay accountEntryDisplay = (AccountEntryDisplay)request.getAttrib
 			</span>
 		</clay:content-col>
 	</clay:content-row>
-
-	<%
-	Optional<User> personAccountEntryUserOptional = accountEntryDisplay.getPersonAccountEntryUserOptional();
-	%>
 
 	<aui:input
 		name="personAccountEntryUserId"
@@ -146,17 +144,30 @@ AccountEntryDisplay accountEntryDisplay = (AccountEntryDisplay)request.getAttrib
 		HashMapBuilder.<String, Object>put(
 			"container", "#personAccountUserContainer"
 		).put(
-			"removeUserIconMarkup", removeUserIcon
+			"modalTitle", LanguageUtil.get(locale, "assign-user")
 		).put(
-			"removeUserLinkSelector", ".remove-user-link"
+			"removeButtonSelector", ".remove-user-link"
+		).put(
+			"removeUserIconMarkup", removeUserIcon
 		).put(
 			"searchContainer", "personAccountEntryUserSearchContainer"
 		).put(
-			"selectUserButton", "#selectUserButton"
+			"selectButton", "#selectUserButton"
 		).put(
-			"selectUserEventName", "selectPersonAccountEntryUser"
+			"selectedData",
+			new String[] {
+				personAccountEntryUserOptional.map(
+					User::getUserId
+				).map(
+					String::valueOf
+				).orElse(
+					StringPool.BLANK
+				)
+			}
 		).put(
-			"selectUserURL", selectUserURL.toString()
+			"selectEventName", "selectPersonAccountEntryUser"
+		).put(
+			"selectURL", selectUserURL.toString()
 		).put(
 			"userIdInput", "#personAccountEntryUserId"
 		).build()
