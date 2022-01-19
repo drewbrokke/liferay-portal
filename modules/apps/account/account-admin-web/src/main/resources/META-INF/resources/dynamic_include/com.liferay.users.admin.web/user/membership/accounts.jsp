@@ -38,6 +38,7 @@ accountEntryDisplaySearchContainer.setRowChecker(null);
 <aui:input name="addAccountEntryIds" type="hidden" />
 <aui:input name="deleteAccountEntryIds" type="hidden" />
 
+<div id='<%= liferayPortletResponse.getNamespace() + "usersAdminAccountEntriesContainer" %>'>
 <clay:content-row
 	containerElement="h3"
 	cssClass="sheet-subtitle"
@@ -76,6 +77,7 @@ accountEntryDisplaySearchContainer.setRowChecker(null);
 	compactEmptyResultsMessage="<%= true %>"
 	emptyResultsMessage="this-user-does-not-belong-to-any-accounts"
 	headerNames="name,type,null"
+	id="userAdminAccountEntrySearchContainer"
 	searchContainer="<%= accountEntryDisplaySearchContainer %>"
 >
 	<liferay-ui:search-container-row
@@ -98,7 +100,7 @@ accountEntryDisplaySearchContainer.setRowChecker(null);
 
 		<liferay-ui:search-container-column-text>
 			<c:if test="<%= AccountEntryPermission.contains(permissionChecker, accountEntryDisplay.getAccountEntryId(), ActionKeys.MANAGE_USERS) %>">
-				<a class="modify-link" data-rowId="<%= accountEntryDisplay.getAccountEntryId() %>" href="javascript:;"><%= removeAccountEntryIcon %></a>
+				<a class="remove-link" data-rowId="<%= accountEntryDisplay.getAccountEntryId() %>" href="javascript:;"><%= removeAccountEntryIcon %></a>
 			</c:if>
 		</liferay-ui:search-container-column-text>
 	</liferay-ui:search-container-row>
@@ -107,109 +109,50 @@ accountEntryDisplaySearchContainer.setRowChecker(null);
 		markupView="lexicon"
 	/>
 </liferay-ui:search-container>
+</div>
 
-<aui:script use="liferay-search-container">
-	var addAccountEntryIds = [];
-	var deleteAccountEntryIds = [];
+<liferay-portlet:renderURL portletName="<%= AccountPortletKeys.ACCOUNT_USERS_ADMIN %>" var="selectAccountEntriesRenderURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+	<portlet:param name="mvcPath" value="/account_users_admin/select_account_entry.jsp" />
+	<portlet:param name="singleSelect" value="<%= Boolean.FALSE.toString() %>" />
+	<portlet:param name="accountUserId" value="<%= String.valueOf(selUser.getUserId()) %>" />
+</liferay-portlet:renderURL>
 
-	var searchContainer = Liferay.SearchContainer.get(
-		'<portlet:namespace />accountEntries'
-	);
+<liferay-frontend:component
+	componentId="UsersAdminSelectAccountEventHandler"
+	context='<%=
+		HashMapBuilder.<String, Object>put(
+			"addAccountEntryIdsInput", "#addAccountEntryIds"
+		).put(
+			"deleteAccountEntryIdsInput", "#deleteAccountEntryIds"
+		).put(
+			"container", "#usersAdminAccountEntriesContainer"
+		).put(
+			"modalButtonAddLabel", LanguageUtil.get(locale, "assign")
+		).put(
+			"modalTitle", LanguageUtil.format(locale, "select-x", "accounts")
+		).put(
+			"portletNamespace", liferayPortletResponse.getNamespace()
+		).put(
+			"removeButtonSelector", ".remove-link"
+		).put(
+			"removeUserIconMarkup", removeAccountEntryIcon
+		).put(
+			"searchContainer", "userAdminAccountEntrySearchContainer"
+		).put(
+			"selectButton", "#selectAccountLink"
+		).put(
+			"selectedData",
+			accountEntryDisplaySearchContainer.getResults().stream().map(AccountEntryDisplay::getAccountEntryId).map(String::valueOf).toArray(String[]::new)
+		).put(
+			"selectEventName", "selectAccountEntry"
+		).put(
+			"selectMultiple", true
+		).put(
+			"selectURL", selectAccountEntriesRenderURL.toString()
+		).put(
+			"userIdInput", "#personAccountEntryUserId"
+		).build()
+	%>'
+	module="dynamic_include/com.liferay.users.admin.web/user/membership/js/UsersAdminSelectAccountEventHandler.es"
+/>
 
-	var searchContainerContentBox = searchContainer.get('contentBox');
-
-	searchContainerContentBox.delegate(
-		'click',
-		(event) => {
-			var link = event.currentTarget;
-
-			var rowId = link.attr('data-rowId');
-
-			var tr = link.ancestor('tr');
-
-			var selectAccountEntry = Liferay.Util.getWindow(
-				'<portlet:namespace />selectAccountEntry'
-			);
-
-			if (selectAccountEntry) {
-				var selectButton = selectAccountEntry.iframe.node
-					.get('contentWindow.document')
-					.one('.selector-button[data-entityid="' + rowId + '"]');
-
-				Liferay.Util.toggleDisabled(selectButton, false);
-			}
-
-			searchContainer.deleteRow(tr, rowId);
-
-			addAccountEntryIds = addAccountEntryIds.filter((id) => id === rowId);
-
-			deleteAccountEntryIds.push(rowId);
-
-			document.<portlet:namespace />fm.<portlet:namespace />addAccountEntryIds.value = addAccountEntryIds.join(
-				','
-			);
-			document.<portlet:namespace />fm.<portlet:namespace />deleteAccountEntryIds.value = deleteAccountEntryIds.join(
-				','
-			);
-		},
-		'.modify-link'
-	);
-
-	var selectAccountLink = A.one('#<portlet:namespace />selectAccountLink');
-
-	if (selectAccountLink) {
-		selectAccountLink.on('click', (event) => {
-			var searchContainerData = searchContainer.getData();
-
-			if (!searchContainerData.length) {
-				searchContainerData = [];
-			}
-			else {
-				searchContainerData = searchContainerData.split(',');
-			}
-
-			Liferay.Util.openSelectionModal({
-				buttonAddLabel: '<liferay-ui:message key="assign" />',
-				id: '<portlet:namespace />selectAccountEntry',
-				multiple: true,
-				onSelect: function (selectedItems) {
-					for (const selectedItem of selectedItems) {
-						var entityId = selectedItem.entityid;
-
-						var rowColumns = [];
-
-						rowColumns.push(selectedItem.entityname);
-						rowColumns.push(selectedItem.type);
-						rowColumns.push(
-							'<a class="modify-link" data-rowId="' +
-								entityId +
-								'" href="javascript:;"><%= UnicodeFormatter.toString(removeAccountEntryIcon) %></a>'
-						);
-
-						searchContainer.addRow(rowColumns, entityId);
-
-						addAccountEntryIds.push(entityId);
-					}
-
-					searchContainer.updateDataStore();
-
-					deleteAccountEntryIds = deleteAccountEntryIds.filter(
-						(id) => id === rowId
-					);
-
-					document.<portlet:namespace />fm.<portlet:namespace />addAccountEntryIds.value = addAccountEntryIds.join(
-						','
-					);
-					document.<portlet:namespace />fm.<portlet:namespace />deleteAccountEntryIds.value = deleteAccountEntryIds.join(
-						','
-					);
-				},
-				selectEventName: '<portlet:namespace />selectAccountEntry',
-				selectedData: searchContainerData,
-				title: '<liferay-ui:message arguments="account" key="select-x" />',
-				url:
-					'<liferay-portlet:renderURL portletName="<%= AccountPortletKeys.ACCOUNT_USERS_ADMIN %>" windowState="<%= LiferayWindowState.POP_UP.toString() %>"><portlet:param name="mvcPath" value="/account_users_admin/select_account_entry.jsp" /><portlet:param name="singleSelect" value="<%= Boolean.FALSE.toString() %>" /><portlet:param name="accountUserId" value="<%= String.valueOf(selUser.getUserId()) %>" /></liferay-portlet:renderURL>',
-			});
-		});
-	}
-</aui:script>

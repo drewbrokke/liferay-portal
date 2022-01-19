@@ -16,9 +16,6 @@ import {PortletBase, delegate, openSelectionModal} from 'frontend-js-web';
 import {Config} from 'metal-state';
 
 class BaseSelectEntityEventHandler extends PortletBase {
-	constructor(...args) {
-		super(...args);
-	}
 
 	/**
 	 * @inheritDoc
@@ -76,7 +73,9 @@ class BaseSelectEntityEventHandler extends PortletBase {
 
 	_openSelectionModal() {
 		openSelectionModal({
+			buttonAddLabel: this.modalButtonAddLabel,
 			id: this.ns(this.selectEventName),
+			multiple: this.selectMultiple,
 			onSelect: this.handleOnSelect.bind(this),
 			selectEventName: this.ns(this.selectEventName),
 			selectedData: this.selectedData,
@@ -96,10 +95,12 @@ class BaseSelectEntityEventHandler extends PortletBase {
 
 BaseSelectEntityEventHandler.STATE = {
 	container: Config.string().setter('_setElement'),
+	modalButtonAddLabel: Config.string().value(''),
 	modalTitle: Config.string(),
 	removeButtonSelector: Config.string(),
 	searchContainer: Config.string().setter('_setSearchContainer'),
 	selectButton: Config.string().setter('_setElement'),
+	selectMultiple: Config.bool().value(false),
 	selectEventName: Config.string(),
 	selectURL: Config.string(),
 	selectedData: Config.array(Config.string()).value([]),
