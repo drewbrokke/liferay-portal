@@ -172,3 +172,29 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 		</liferay-frontend:edit-form-footer>
 	</liferay-frontend:edit-form>
 </clay:container-fluid>
+
+<c:if test="<%= true %>">
+	<aui:script position="inline">
+		const form = document.getElementById('<portlet:namespace/>editPLOEntryFm');
+
+		form.addEventListener('submit', function (event) {
+			console.log(event.target);
+			console.log(event.currentTarget);
+
+			const formData = new FormData(form);
+
+			for (const [key, value] of formData.entries()) {
+				if (key.startsWith('<portlet:namespace/>value') && !!value) {
+					alert('form validated');
+
+					return;
+				}
+			}
+
+			alert('form validation failed');
+
+			event.preventDefault();
+			event.stopPropagation();
+		});
+	</aui:script>
+</c:if>
