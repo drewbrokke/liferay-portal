@@ -172,3 +172,49 @@ renderResponse.setTitle(editDisplayContext.getPageTitle());
 		</liferay-frontend:edit-form-footer>
 	</liferay-frontend:edit-form>
 </clay:container-fluid>
+
+<c:if test="<%= Validator.isNull(editDisplayContext.getKey()) %>">
+	<aui:script use="liferay-form">
+		const getForm = () => Liferay.Form.get('<portlet:namespace />editPLOEntryFm');
+
+		const registerOnSubmit = (auiForm) => {
+			auiForm.set('onSubmit', (event) => {
+				const inputs = Array.from(auiForm.form.elements);
+
+				for (const input of inputs) {
+					if (
+						input.name.startsWith('<portlet:namespace />value') &&
+						!!input.value
+					) {
+						return;
+					}
+				}
+
+				event.halt();
+
+				const keyField = inputs.find(
+					(input) => input.name === '<portlet:namespace />key'
+				);
+
+				keyField.focus();
+
+				Liferay.Util.openToast({
+					message:
+						'<%= LanguageUtil.get(request, "at-least-one-translation-is-required-with-a-new-language-key") %>',
+					type: 'danger',
+				});
+			});
+		};
+
+		var auiForm = getForm();
+
+		if (auiForm) {
+			registerOnSubmit(auiForm);
+		}
+		else {
+			Liferay.once('<portlet:namespace />formReady', () => {
+				registerOnSubmit(getForm());
+			});
+		}
+	</aui:script>
+</c:if>
