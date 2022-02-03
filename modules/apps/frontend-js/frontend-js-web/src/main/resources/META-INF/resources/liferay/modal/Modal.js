@@ -465,7 +465,10 @@ const openSelectionModal = ({
 						itemElement.dataset.entityid ||
 						itemElement.dataset.entityname;
 
-					if (selectedDataSet.has(itemId)) {
+					const forceDisabled =
+						itemElement.dataset.forcedisabled === 'true';
+
+					if (selectedDataSet.has(itemId) || forceDisabled) {
 						itemElement.disabled = true;
 						itemElement.classList.add('disabled');
 					}
@@ -482,7 +485,10 @@ const openSelectionModal = ({
 						const itemId =
 							row.dataset.entityid || row.dataset.entityname;
 
-						if (selectedDataSet.has(itemId)) {
+						const forceDisabled =
+							row.dataset.forcedisabled === 'true';
+
+						if (selectedDataSet.has(itemId) || forceDisabled) {
 							const checkbox = row.querySelector(
 								'input[type="checkbox"]'
 							);
@@ -493,7 +499,10 @@ const openSelectionModal = ({
 
 							checkbox.checked = true;
 
-							if (selectedDataCheckboxesDisabled) {
+							if (
+								selectedDataCheckboxesDisabled ||
+								forceDisabled
+							) {
 								checkbox.disabled = true;
 							}
 						}
