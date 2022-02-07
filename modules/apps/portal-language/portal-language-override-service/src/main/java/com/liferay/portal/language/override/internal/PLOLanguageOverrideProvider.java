@@ -48,26 +48,12 @@ public class PLOLanguageOverrideProvider implements LanguageOverrideProvider {
 
 	@Override
 	public String get(String key, Locale locale) {
-		if (PLOOriginalTranslationThreadLocal.isUseOriginalTranslation()) {
-			return null;
-		}
-
-		Map<String, String> overrideMap = _getOverrideMap(
-			CompanyThreadLocal.getCompanyId(), locale);
-
-		return overrideMap.get(key);
+		return null;
 	}
 
 	@Override
 	public Set<String> keySet(Locale locale) {
-		if (PLOOriginalTranslationThreadLocal.isUseOriginalTranslation()) {
-			return Collections.emptySet();
-		}
-
-		Map<String, String> overrideMap = _getOverrideMap(
-			CompanyThreadLocal.getCompanyId(), locale);
-
-		return overrideMap.keySet();
+		return Collections.emptySet();
 	}
 
 	@Activate
