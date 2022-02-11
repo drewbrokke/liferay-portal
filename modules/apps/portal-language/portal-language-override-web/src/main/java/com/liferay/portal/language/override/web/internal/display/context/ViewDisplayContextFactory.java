@@ -264,9 +264,10 @@ public class ViewDisplayContextFactory {
 
 					languageItemDisplay.setOverride(true);
 
+					List<String> overrideLanguageIds = new ArrayList<>();
+
 					for (PLOEntry ploEntry : entry.getValue()) {
-						languageItemDisplay.addOverrideLanguageId(
-							ploEntry.getLanguageId());
+						overrideLanguageIds.add(ploEntry.getLanguageId());
 
 						if (Objects.equals(
 								selectedLanguageId, ploEntry.getLanguageId())) {
@@ -275,6 +276,10 @@ public class ViewDisplayContextFactory {
 								true);
 						}
 					}
+
+					languageItemDisplay.setOverrideLanguageIdsString(
+						_getLanguageIdsString(
+							overrideLanguageIds, selectedLanguageId));
 
 					languageItemDisplays.add(languageItemDisplay);
 				}
@@ -297,9 +302,10 @@ public class ViewDisplayContextFactory {
 					if (ploEntryMap.containsKey(key)) {
 						languageItemDisplay.setOverride(true);
 
+						List<String> overrideLanguageIds = new ArrayList<>();
+
 						for (PLOEntry ploEntry : ploEntryMap.get(key)) {
-							languageItemDisplay.addOverrideLanguageId(
-								ploEntry.getLanguageId());
+							overrideLanguageIds.add(ploEntry.getLanguageId());
 
 							if (Objects.equals(
 									selectedLanguageId,
@@ -309,6 +315,10 @@ public class ViewDisplayContextFactory {
 									setOverrideSelectedLanguageId(true);
 							}
 						}
+
+						languageItemDisplay.setOverrideLanguageIdsString(
+							_getLanguageIdsString(
+								overrideLanguageIds, selectedLanguageId));
 					}
 
 					languageItemDisplays.add(languageItemDisplay);
