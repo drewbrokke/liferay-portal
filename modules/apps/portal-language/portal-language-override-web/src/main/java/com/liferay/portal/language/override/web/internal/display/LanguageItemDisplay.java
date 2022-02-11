@@ -14,6 +14,9 @@
 
 package com.liferay.portal.language.override.web.internal.display;
 
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +40,11 @@ public class LanguageItemDisplay {
 
 	public List<String> getOverrideLanguageIds() {
 		return _overrideLanguageIds;
+	}
+
+	public String getOverrideLanguageIdsString() {
+		return StringUtil.merge(
+			_overrideLanguageIds, StringPool.COMMA_AND_SPACE);
 	}
 
 	public String getValue() {
