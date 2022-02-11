@@ -38,10 +38,6 @@ public class LanguageItemDisplay {
 		return _key;
 	}
 
-	public List<String> getOverrideLanguageIds() {
-		return _overrideLanguageIds;
-	}
-
 	public String getOverrideLanguageIdsString() {
 		return StringUtil.merge(
 			_overrideLanguageIds, StringPool.COMMA_AND_SPACE);
