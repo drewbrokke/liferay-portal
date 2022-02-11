@@ -212,7 +212,8 @@ public class ViewDisplayContextFactory {
 		}
 
 		String selectedLanguageId = ParamUtil.getString(
-			renderRequest, "selectedLanguageId");
+			renderRequest, "selectedLanguageId",
+			LanguageUtil.getLanguageId(LocaleUtil.getDefault()));
 
 		Locale locale = LocaleUtil.fromLanguageId(
 			selectedLanguageId, true, true);
