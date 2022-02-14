@@ -228,18 +228,6 @@ public class ViewDisplayContextFactory {
 		return sb.toString();
 	}
 
-	private List<LanguageItemDisplay> _getOverrideSelectedLanguageLanguageItemDisplays(
-		Predicate<String> keyMatchPredicate, Locale locale,
-		Map<String, List<PLOEntry>> ploEntryMap, String selectedLanguageId,
-		Predicate<String> valueMatchPredicate
-	) {
-		List<LanguageItemDisplay> languageItemDisplays = new ArrayList<>();
-
-
-
-		return languageItemDisplays;
-	}
-
 	private List<LanguageItemDisplay> _getOverrideLanguageItemDisplays(
 		Predicate<String> keyMatchPredicate, Locale locale,
 		Map<String, List<PLOEntry>> ploEntryMap, String selectedLanguageId,
@@ -355,13 +343,23 @@ public class ViewDisplayContextFactory {
 
 		String filter = ParamUtil.getString(renderRequest, "navigation", "all");
 
-		if (filter.equals("override")) {
+		if (filter.equals("override-any-language")) {
 			languageItemDisplays = _getOverrideLanguageItemDisplays(
 				keyMatchPredicate, locale, ploEntryMap, selectedLanguageId,
 				valueMatchPredicate);
 		}
-		else if (filter.equals("overrideSelectedLanguage")) {
+		else if (filter.equals("override-selected-langauge")) {
+			List<PLOEntry> ploEntries1 = _ploEntryLocalService.getPLOEntries(
+				_portal.getCompanyId(renderRequest), selectedLanguageId);
 
+			Stream<PLOEntry> ploEntryStream1 = ploEntries1.stream();
+
+			Map<String, List<PLOEntry>> ploEntryMap1 = ploEntryStream1.collect(
+				Collectors.groupingBy(PLOEntry::getKey));
+
+			languageItemDisplays = _getOverrideLanguageItemDisplays(
+				keyMatchPredicate, locale, ploEntryMap1, selectedLanguageId,
+				valueMatchPredicate);
 		}
 		else {
 			languageItemDisplays = _getAllLanguageItemDisplays(
