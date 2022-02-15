@@ -105,15 +105,14 @@ public class ViewDisplayContextFactory {
 			_log.error(portalException);
 		}
 
-		viewDisplayContext.setSearchContainer(
-			_createSearchContainer(renderRequest, renderResponse));
-
 		String selectedLanguageId = ParamUtil.getString(
 			renderRequest, "selectedLanguageId",
 			LanguageUtil.getLanguageId(_portal.getLocale(renderRequest)));
 
+		viewDisplayContext.setSearchContainer(
+			_createSearchContainer(
+				renderRequest, renderResponse, selectedLanguageId));
 		viewDisplayContext.setSelectedLanguageId(selectedLanguageId);
-
 		viewDisplayContext.setTranslationLanguageDropdownItems(
 			_getTranslationLanguageDropdownItems(
 				_portal.getCurrentURL(renderRequest),
@@ -124,7 +123,8 @@ public class ViewDisplayContextFactory {
 	}
 
 	private SearchContainer<LanguageItemDisplay> _createSearchContainer(
-		RenderRequest renderRequest, RenderResponse renderResponse) {
+		RenderRequest renderRequest, RenderResponse renderResponse,
+		String selectedLanguageId) {
 
 		LiferayPortletRequest liferayPortletRequest =
 			_portal.getLiferayPortletRequest(renderRequest);
@@ -153,9 +153,7 @@ public class ViewDisplayContextFactory {
 				_portal.getCompanyId(renderRequest),
 				ParamUtil.getString(renderRequest, "navigation", "all"),
 				ParamUtil.getString(renderRequest, "keywords"),
-				ParamUtil.getString(
-					renderRequest, "selectedLanguageId",
-					LanguageUtil.getLanguageId(LocaleUtil.getDefault())));
+				selectedLanguageId);
 
 		_sortLanguageItemDisplays(
 			languageItemDisplays, searchContainer.getOrderByType());
