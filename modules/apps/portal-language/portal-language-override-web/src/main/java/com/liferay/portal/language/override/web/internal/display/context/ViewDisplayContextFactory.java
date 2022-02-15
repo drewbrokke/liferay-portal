@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringParser;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.TextFormatter;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.language.LanguageResources;
 import com.liferay.portal.language.override.constants.PLOActionKeys;
 import com.liferay.portal.language.override.model.PLOEntry;
@@ -55,6 +56,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -152,14 +154,14 @@ public class ViewDisplayContextFactory {
 	}
 
 	private List<LanguageItemDisplay> _getAllLanguageItemDisplays(
-		Predicate<String> keyMatchPredicate, Locale locale,
-		Map<String, List<PLOEntry>> ploEntryMap, String selectedLanguageId,
+		Predicate<String> keyMatchPredicate,
+		Map<String, List<PLOEntry>> keyPLOEntriesMap, String selectedLanguageId,
 		Predicate<String> valueMatchPredicate) {
 
 		List<LanguageItemDisplay> languageItemDisplays = new ArrayList<>();
 
 		ResourceBundle resourceBundle = LanguageResources.getResourceBundle(
-			locale);
+			_toLocale(selectedLanguageId));
 
 		for (String key : resourceBundle.keySet()) {
 			String value = ResourceBundleUtil.getString(resourceBundle, key);
@@ -170,12 +172,12 @@ public class ViewDisplayContextFactory {
 				LanguageItemDisplay languageItemDisplay =
 					new LanguageItemDisplay(key, value);
 
-				if (ploEntryMap.containsKey(key)) {
+				if (keyPLOEntriesMap.containsKey(key)) {
 					languageItemDisplay.setOverride(true);
 
 					List<String> overrideLanguageIds = new ArrayList<>();
 
-					for (PLOEntry ploEntry : ploEntryMap.get(key)) {
+					for (PLOEntry ploEntry : keyPLOEntriesMap.get(key)) {
 						overrideLanguageIds.add(ploEntry.getLanguageId());
 
 						if (Objects.equals(
@@ -196,6 +198,14 @@ public class ViewDisplayContextFactory {
 		}
 
 		return languageItemDisplays;
+	}
+
+	private Map<String, List<PLOEntry>> _getKeyPLOEntriesMap(
+		List<PLOEntry> ploEntries) {
+
+		Stream<PLOEntry> ploEntryStream = ploEntries.stream();
+
+		return ploEntryStream.collect(Collectors.groupingBy(PLOEntry::getKey));
 	}
 
 	private String _getLanguageIdsString(
@@ -228,17 +238,55 @@ public class ViewDisplayContextFactory {
 		return sb.toString();
 	}
 
+	private List<LanguageItemDisplay> _getLanguageItemDisplays(
+		long companyId, String filter, String keywords,
+		String selectedLanguageId) {
+
+		Predicate<String> keyMatchPredicate = _getPredicate(
+			keywords, _keyMatchPatternFunction);
+		Predicate<String> valueMatchPredicate = _getPredicate(
+			keywords, _valueMatchPatternFunction);
+
+		if (filter.equals("override-any-language")) {
+			return _getOverrideLanguageItemDisplays(
+				keyMatchPredicate,
+				_getKeyPLOEntriesMap(
+					_ploEntryLocalService.getPLOEntries(companyId)),
+				selectedLanguageId, valueMatchPredicate);
+		}
+		else if (filter.equals("override-selected-language")) {
+			return _getOverrideLanguageItemDisplays(
+				keyMatchPredicate,
+				_getKeyPLOEntriesMap(
+					_ploEntryLocalService.getPLOEntries(
+						companyId, selectedLanguageId)),
+				selectedLanguageId, valueMatchPredicate);
+		}
+		else {
+			return _getAllLanguageItemDisplays(
+				keyMatchPredicate,
+				_getKeyPLOEntriesMap(
+					_ploEntryLocalService.getPLOEntries(companyId)),
+				selectedLanguageId, valueMatchPredicate);
+		}
+	}
+
 	private List<LanguageItemDisplay> _getOverrideLanguageItemDisplays(
-		Predicate<String> keyMatchPredicate, Locale locale,
-		Map<String, List<PLOEntry>> ploEntryMap, String selectedLanguageId,
+		Predicate<String> keyMatchPredicate,
+		Map<String, List<PLOEntry>> keyPLOEntriesMap, String selectedLanguageId,
 		Predicate<String> valueMatchPredicate) {
 
 		List<LanguageItemDisplay> languageItemDisplays = new ArrayList<>();
 
-		for (Map.Entry<String, List<PLOEntry>> entry : ploEntryMap.entrySet()) {
+		Locale selectedLocale = _toLocale(selectedLanguageId);
+
+		for (Map.Entry<String, List<PLOEntry>> entry :
+				keyPLOEntriesMap.entrySet()) {
+
 			String key = entry.getKey();
 
-			String value = LanguageUtil.get(locale, key, StringPool.BLANK);
+			String value = LanguageUtil.get(
+				selectedLocale, key, StringPool.BLANK);
 
 			if (keyMatchPredicate.test(key) ||
 				valueMatchPredicate.test(value)) {
@@ -269,6 +317,18 @@ public class ViewDisplayContextFactory {
 		}
 
 		return languageItemDisplays;
+	}
+
+	private Predicate<String> _getPredicate(
+		String keywords, Function<String, Pattern> patternFunction) {
+
+		if (Validator.isBlank(keywords)) {
+			return s -> true;
+		}
+
+		Pattern pattern = patternFunction.apply(keywords);
+
+		return pattern.asPredicate();
 	}
 
 	private List<DropdownItem> _getTranslationLanguageDropdownItems(
@@ -305,67 +365,14 @@ public class ViewDisplayContextFactory {
 		RenderRequest renderRequest,
 		SearchContainer<LanguageItemDisplay> searchContainer) {
 
-		List<LanguageItemDisplay> languageItemDisplays;
-
-		List<PLOEntry> ploEntries = _ploEntryLocalService.getPLOEntries(
-			_portal.getCompanyId(renderRequest));
-
-		Stream<PLOEntry> ploEntryStream = ploEntries.stream();
-
-		Map<String, List<PLOEntry>> ploEntryMap = ploEntryStream.collect(
-			Collectors.groupingBy(PLOEntry::getKey));
-
-		Predicate<String> keyMatchPredicate = s -> true;
-		Predicate<String> valueMatchPredicate = s -> true;
-
-		if (searchContainer.isSearch()) {
-			String keywords = ParamUtil.getString(renderRequest, "keywords");
-
-			Pattern keyPattern = Pattern.compile(
-				".*" + StringParser.escapeRegex(keywords) + ".*",
-				Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE);
-
-			keyMatchPredicate = keyPattern.asPredicate();
-
-			Pattern valuePattern = Pattern.compile(
-				".*\\b" + StringParser.escapeRegex(keywords) + ".*",
-				Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE);
-
-			valueMatchPredicate = valuePattern.asPredicate();
-		}
-
-		String selectedLanguageId = ParamUtil.getString(
-			renderRequest, "selectedLanguageId",
-			LanguageUtil.getLanguageId(LocaleUtil.getDefault()));
-
-		Locale locale = LocaleUtil.fromLanguageId(
-			selectedLanguageId, true, true);
-
-		String filter = ParamUtil.getString(renderRequest, "navigation", "all");
-
-		if (filter.equals("override-any-language")) {
-			languageItemDisplays = _getOverrideLanguageItemDisplays(
-				keyMatchPredicate, locale, ploEntryMap, selectedLanguageId,
-				valueMatchPredicate);
-		}
-		else if (filter.equals("override-selected-langauge")) {
-			List<PLOEntry> ploEntries1 = _ploEntryLocalService.getPLOEntries(
-				_portal.getCompanyId(renderRequest), selectedLanguageId);
-
-			Stream<PLOEntry> ploEntryStream1 = ploEntries1.stream();
-
-			Map<String, List<PLOEntry>> ploEntryMap1 = ploEntryStream1.collect(
-				Collectors.groupingBy(PLOEntry::getKey));
-
-			languageItemDisplays = _getOverrideLanguageItemDisplays(
-				keyMatchPredicate, locale, ploEntryMap1, selectedLanguageId,
-				valueMatchPredicate);
-		}
-		else {
-			languageItemDisplays = _getAllLanguageItemDisplays(
-				keyMatchPredicate, locale, ploEntryMap, selectedLanguageId,
-				valueMatchPredicate);
-		}
+		List<LanguageItemDisplay> languageItemDisplays =
+			_getLanguageItemDisplays(
+				_portal.getCompanyId(renderRequest),
+				ParamUtil.getString(renderRequest, "navigation", "all"),
+				ParamUtil.getString(renderRequest, "keywords"),
+				ParamUtil.getString(
+					renderRequest, "selectedLanguageId",
+					LanguageUtil.getLanguageId(LocaleUtil.getDefault())));
 
 		// Sorting
 
@@ -386,11 +393,23 @@ public class ViewDisplayContextFactory {
 			languageItemDisplays.size());
 	}
 
+	private Locale _toLocale(String languageId) {
+		return LocaleUtil.fromLanguageId(languageId, true, true);
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		ViewDisplayContextFactory.class);
 
+	private final Function<String, Pattern> _keyMatchPatternFunction =
+		s -> Pattern.compile(
+			".*" + StringParser.escapeRegex(s) + ".*",
+			Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE);
 	private final PermissionCheckerFactory _permissionCheckerFactory;
 	private final PLOEntryLocalService _ploEntryLocalService;
 	private final Portal _portal;
+	private final Function<String, Pattern> _valueMatchPatternFunction =
+		s -> Pattern.compile(
+			".*\\b" + StringParser.escapeRegex(s) + ".*",
+			Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE);
 
 }
