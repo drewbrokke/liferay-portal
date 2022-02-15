@@ -148,7 +148,22 @@ public class ViewDisplayContextFactory {
 				liferayPortletRequest, PLOPortletKeys.PORTAL_LANGUAGE_OVERRIDE,
 				"asc"));
 
-		_setResults(renderRequest, searchContainer);
+		List<LanguageItemDisplay> languageItemDisplays =
+			_getLanguageItemDisplays(
+				_portal.getCompanyId(renderRequest),
+				ParamUtil.getString(renderRequest, "navigation", "all"),
+				ParamUtil.getString(renderRequest, "keywords"),
+				ParamUtil.getString(
+					renderRequest, "selectedLanguageId",
+					LanguageUtil.getLanguageId(LocaleUtil.getDefault())));
+
+		_sortLanguageItemDisplays(
+			languageItemDisplays, searchContainer.getOrderByType());
+
+		searchContainer.setResultsAndTotal(
+			() -> languageItemDisplays.subList(
+				searchContainer.getStart(), searchContainer.getResultEnd()),
+			languageItemDisplays.size());
 
 		return searchContainer;
 	}
@@ -361,36 +376,17 @@ public class ViewDisplayContextFactory {
 		return dropdownItemList;
 	}
 
-	private void _setResults(
-		RenderRequest renderRequest,
-		SearchContainer<LanguageItemDisplay> searchContainer) {
-
-		List<LanguageItemDisplay> languageItemDisplays =
-			_getLanguageItemDisplays(
-				_portal.getCompanyId(renderRequest),
-				ParamUtil.getString(renderRequest, "navigation", "all"),
-				ParamUtil.getString(renderRequest, "keywords"),
-				ParamUtil.getString(
-					renderRequest, "selectedLanguageId",
-					LanguageUtil.getLanguageId(LocaleUtil.getDefault())));
-
-		// Sorting
+	private void _sortLanguageItemDisplays(
+		List<LanguageItemDisplay> languageItemDisplays, String orderByType) {
 
 		Comparator<LanguageItemDisplay> comparator = Comparator.comparing(
 			LanguageItemDisplay::getKey);
 
-		if (Objects.equals(searchContainer.getOrderByType(), "desc")) {
+		if (Objects.equals(orderByType, "desc")) {
 			comparator = comparator.reversed();
 		}
 
 		languageItemDisplays.sort(comparator);
-
-		// Pagination
-
-		searchContainer.setResultsAndTotal(
-			() -> languageItemDisplays.subList(
-				searchContainer.getStart(), searchContainer.getResultEnd()),
-			languageItemDisplays.size());
 	}
 
 	private Locale _toLocale(String languageId) {
