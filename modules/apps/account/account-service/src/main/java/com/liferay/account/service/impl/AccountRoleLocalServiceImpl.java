@@ -22,7 +22,6 @@ import com.liferay.account.model.AccountRoleTable;
 import com.liferay.account.service.base.AccountRoleLocalServiceBaseImpl;
 import com.liferay.account.service.persistence.AccountEntryPersistence;
 import com.liferay.petra.sql.dsl.DSLFunctionFactoryUtil;
-import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
 import com.liferay.petra.sql.dsl.expression.Predicate;
 import com.liferay.petra.sql.dsl.query.FromStep;
 import com.liferay.petra.sql.dsl.query.GroupByStep;
@@ -39,6 +38,17 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserGroupRole;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
+import com.liferay.portal.kernel.search.BooleanClause;
+import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.Query;
+import com.liferay.portal.kernel.search.SortFactory;
+import com.liferay.portal.kernel.search.filter.BooleanFilter;
+import com.liferay.portal.kernel.search.filter.TermsFilter;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.ResourceLocalService;
@@ -51,6 +61,13 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.search.document.Document;
+import com.liferay.portal.search.hits.SearchHits;
+import com.liferay.portal.search.searcher.SearchRequest;
+import com.liferay.portal.search.searcher.SearchRequestBuilder;
+import com.liferay.portal.search.searcher.SearchRequestBuilderFactory;
+import com.liferay.portal.search.searcher.SearchResponse;
+import com.liferay.portal.search.searcher.Searcher;
 import com.liferay.portal.vulcan.util.TransformUtil;
 
 import java.util.ArrayList;
@@ -106,7 +123,7 @@ public class AccountRoleLocalServiceImpl
 			role.getCompanyId(), 0, userId, AccountRole.class.getName(),
 			accountRole.getAccountRoleId(), false, false, false);
 
-		return addAccountRole(accountRole);
+		return accountRoleLocalService.addAccountRole(accountRole);
 	}
 
 	@Override
@@ -203,7 +220,7 @@ public class AccountRoleLocalServiceImpl
 		for (AccountRole accountRole :
 				accountRolePersistence.findByCompanyId(companyId)) {
 
-			deleteAccountRole(accountRole);
+			accountRoleLocalService.deleteAccountRole(accountRole);
 		}
 	}
 
@@ -276,24 +293,54 @@ public class AccountRoleLocalServiceImpl
 		LinkedHashMap<String, Object> params, int start, int end,
 		OrderByComparator<?> orderByComparator) {
 
-		return BaseModelSearchResult.createWithStartAndEnd(
-			startAndEnd -> accountRoleLocalService.dslQuery(
-				_getGroupByStep(
-					accountEntryIds, companyId,
-					DSLQueryFactoryUtil.select(AccountRoleTable.INSTANCE),
-					keywords, params
-				).orderBy(
-					RoleTable.INSTANCE, orderByComparator
-				).limit(
-					startAndEnd.getStart(), startAndEnd.getEnd()
-				)),
-			accountRoleLocalService.dslQueryCount(
-				_getGroupByStep(
-					accountEntryIds, companyId,
-					DSLQueryFactoryUtil.countDistinct(
-						AccountRoleTable.INSTANCE.roleId),
-					keywords, params)),
-			start, end);
+		SearchResponse searchResponse = _searcher.search(
+			_getSearchRequest(
+				companyId, accountEntryIds, keywords, params, start, end,
+				orderByComparator));
+
+		SearchHits searchHits = searchResponse.getSearchHits();
+
+		return new BaseModelSearchResult<AccountRole>(
+			TransformUtil.transform(
+				searchHits.getSearchHits(),
+				searchHit -> {
+					Document document = searchHit.getDocument();
+
+					long accountRoleId = document.getLong(Field.ENTRY_CLASS_PK);
+
+					AccountRole accountRole = fetchAccountRole(accountRoleId);
+
+					if (accountRole == null) {
+						Indexer<AccountRole> indexer =
+							IndexerRegistryUtil.getIndexer(AccountRole.class);
+
+						indexer.delete(
+							document.getLong(Field.COMPANY_ID),
+							document.getString(Field.UID));
+					}
+
+					return accountRole;
+				}),
+			searchResponse.getTotalHits());
+
+		//		return BaseModelSearchResult.createWithStartAndEnd(
+		//			startAndEnd -> accountRoleLocalService.dslQuery(
+		//				_getGroupByStep(
+		//					accountEntryIds, companyId,
+		//					DSLQueryFactoryUtil.select(AccountRoleTable.INSTANCE),
+		//					keywords, params
+		//				).orderBy(
+		//					RoleTable.INSTANCE, orderByComparator
+		//				).limit(
+		//					startAndEnd.getStart(), startAndEnd.getEnd()
+		//				)),
+		//			accountRoleLocalService.dslQueryCount(
+		//				_getGroupByStep(
+		//					accountEntryIds, companyId,
+		//					DSLQueryFactoryUtil.countDistinct(
+		//						AccountRoleTable.INSTANCE.roleId),
+		//					keywords, params)),
+		//			start, end);
 	}
 
 	@Override
@@ -439,6 +486,84 @@ public class AccountRoleLocalServiceImpl
 		);
 	}
 
+	private SearchRequest _getSearchRequest(
+		long companyId, long[] accountEntryIds, String keywords,
+		LinkedHashMap<String, Object> params, int start, int end,
+		OrderByComparator<?> orderByComparator) {
+
+		SearchRequestBuilder searchRequestBuilder =
+			_searchRequestBuilderFactory.builder();
+
+		searchRequestBuilder.entryClassNames(
+			AccountRole.class.getName()
+		).emptySearchEnabled(
+			true
+		).highlightEnabled(
+			false
+		).withSearchContext(
+			searchContext -> {
+				searchContext.setCompanyId(companyId);
+
+				if (!Validator.isBlank(keywords)) {
+					searchContext.setKeywords(keywords);
+				}
+
+				searchContext.setEnd(end);
+				searchContext.setStart(start);
+
+				if (orderByComparator != null) {
+					searchContext.setSorts(
+						_sortFactory.getSort(
+							AccountRole.class,
+							orderByComparator.getOrderByFields()[0],
+							orderByComparator.isAscending() ? "asc" : "desc"));
+				}
+
+				if (ArrayUtil.isNotEmpty(accountEntryIds)) {
+					searchContext.setAttribute("accountEntryIds", accountEntryIds);
+				}
+
+				if (MapUtil.isEmpty(params)) {
+					return;
+				}
+
+				String[] excludedRoleNames = (String[])params.get(
+					"excludedRoleNames");
+
+				if (ArrayUtil.isNotEmpty(excludedRoleNames)) {
+					searchContext.setAttribute("excludedRoleNames", excludedRoleNames);
+				}
+
+				Long[] excludedRoleIds = (Long[])params.get("excludedRoleIds");
+
+				if (ArrayUtil.isNotEmpty(excludedRoleIds)) {
+					searchContext.setAttribute("excludedRoleNames", excludedRoleNames);
+				}
+			}
+		);
+
+		return searchRequestBuilder.build();
+	}
+
+	private BooleanClause<Query> getBooleanClause(
+		String name, String[] values, BooleanClauseOccur booleanClauseOccur) {
+
+		BooleanQueryImpl booleanQuery = new BooleanQueryImpl();
+
+		BooleanFilter booleanFilter = new BooleanFilter();
+
+		TermsFilter termsFilter = new TermsFilter(name);
+
+		termsFilter.addValues(values);
+
+		booleanFilter.add(termsFilter, BooleanClauseOccur.MUST);
+
+		booleanQuery.setPreBooleanFilter(booleanFilter);
+
+		return BooleanClauseFactoryUtil.create(
+			booleanQuery, booleanClauseOccur.getName());
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		AccountRoleLocalServiceImpl.class);
 
@@ -476,6 +601,15 @@ public class AccountRoleLocalServiceImpl
 
 	@Reference
 	private RoleLocalService _roleLocalService;
+
+	@Reference
+	private Searcher _searcher;
+
+	@Reference
+	private SearchRequestBuilderFactory _searchRequestBuilderFactory;
+
+	@Reference
+	private SortFactory _sortFactory;
 
 	@Reference
 	private UserGroupRoleLocalService _userGroupRoleLocalService;
