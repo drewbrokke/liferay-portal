@@ -55,7 +55,7 @@ public class AccountRoleModelPreFilterContributor
 
 			termsFilter.addValues(ArrayUtil.toStringArray(accountEntryIds));
 
-			booleanFilter.add(termsFilter, BooleanClauseOccur.SHOULD);
+			booleanFilter.add(termsFilter, BooleanClauseOccur.MUST);
 		}
 	}
 	private void _filterByExcludedRoleNames(BooleanFilter booleanFilter, SearchContext searchContext) {
@@ -63,7 +63,7 @@ public class AccountRoleModelPreFilterContributor
 			"excludedRoleNames");
 
 		if (ArrayUtil.isNotEmpty(excludedRoleNames)) {
-			TermsFilter termsFilter = new TermsFilter(Field.NAME);
+			TermsFilter termsFilter = new TermsFilter(Field.NAME + "keyword");
 
 			termsFilter.addValues(excludedRoleNames);
 
