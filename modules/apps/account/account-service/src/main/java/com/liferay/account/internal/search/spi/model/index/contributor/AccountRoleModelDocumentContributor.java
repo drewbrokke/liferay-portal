@@ -49,12 +49,12 @@ public class AccountRoleModelDocumentContributor
 			return;
 		}
 
-		document.addText(Field.NAME, role.getName());
-		document.addKeyword(Field.NAME + "keyword", role.getName());
+		document.addKeyword(Field.COMPANY_ID, accountRole.getCompanyId());
 		document.addLocalizedText(Field.DESCRIPTION, role.getDescriptionMap());
 		document.addKeyword(Field.ROLE_ID, role.getRoleId());
 		document.addLocalizedText(Field.TITLE, role.getTitleMap());
 		document.addKeyword("accountEntryId", accountRole.getAccountEntryId());
+		document.addKeyword("roleName", role.getName());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

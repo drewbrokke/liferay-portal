@@ -18,8 +18,11 @@ import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
+import com.liferay.portal.kernel.search.filter.QueryFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
+import com.liferay.portal.kernel.search.generic.MatchQuery;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.spi.model.query.contributor.ModelPreFilterContributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchSettings;
 
@@ -63,21 +66,23 @@ public class AccountRoleModelPreFilterContributor
 			"excludedRoleNames");
 
 		if (ArrayUtil.isNotEmpty(excludedRoleNames)) {
-			TermsFilter termsFilter = new TermsFilter(Field.NAME + "keyword");
+			TermsFilter termsFilter = new TermsFilter("roleName");
 
-			termsFilter.addValues(excludedRoleNames);
+			for (String excludedRoleName : excludedRoleNames) {
+				termsFilter.addValue(StringUtil.lowerCase(excludedRoleName));
+			}
 
 			booleanFilter.add(termsFilter, BooleanClauseOccur.MUST_NOT);
 		}
 	}
 	private void _filterByExcludedRoleIds(BooleanFilter booleanFilter, SearchContext searchContext) {
-		String[] excludedRoleIds = (String[])searchContext.getAttribute(
+		Long[] excludedRoleIds = (Long[])searchContext.getAttribute(
 			"excludedRoleIds");
 
 		if (ArrayUtil.isNotEmpty(excludedRoleIds)) {
 			TermsFilter termsFilter = new TermsFilter(Field.ROLE_ID);
 
-			termsFilter.addValues(excludedRoleIds);
+			termsFilter.addValues(ArrayUtil.toStringArray(excludedRoleIds));
 
 			booleanFilter.add(termsFilter, BooleanClauseOccur.MUST_NOT);
 		}

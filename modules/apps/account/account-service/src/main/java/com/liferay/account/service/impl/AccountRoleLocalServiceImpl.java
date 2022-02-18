@@ -323,24 +323,24 @@ public class AccountRoleLocalServiceImpl
 				}),
 			searchResponse.getTotalHits());
 
-		//		return BaseModelSearchResult.createWithStartAndEnd(
-		//			startAndEnd -> accountRoleLocalService.dslQuery(
-		//				_getGroupByStep(
-		//					accountEntryIds, companyId,
-		//					DSLQueryFactoryUtil.select(AccountRoleTable.INSTANCE),
-		//					keywords, params
-		//				).orderBy(
-		//					RoleTable.INSTANCE, orderByComparator
-		//				).limit(
-		//					startAndEnd.getStart(), startAndEnd.getEnd()
-		//				)),
-		//			accountRoleLocalService.dslQueryCount(
-		//				_getGroupByStep(
-		//					accountEntryIds, companyId,
-		//					DSLQueryFactoryUtil.countDistinct(
-		//						AccountRoleTable.INSTANCE.roleId),
-		//					keywords, params)),
-		//			start, end);
+//				return BaseModelSearchResult.createWithStartAndEnd(
+//					startAndEnd -> accountRoleLocalService.dslQuery(
+//						_getGroupByStep(
+//							accountEntryIds, companyId,
+//							DSLQueryFactoryUtil.select(AccountRoleTable.INSTANCE),
+//							keywords, params
+//						).orderBy(
+//							RoleTable.INSTANCE, orderByComparator
+//						).limit(
+//							startAndEnd.getStart(), startAndEnd.getEnd()
+//						)),
+//					accountRoleLocalService.dslQueryCount(
+//						_getGroupByStep(
+//							accountEntryIds, companyId,
+//							DSLQueryFactoryUtil.countDistinct(
+//								AccountRoleTable.INSTANCE.roleId),
+//							keywords, params)),
+//					start, end);
 	}
 
 	@Override
@@ -537,31 +537,12 @@ public class AccountRoleLocalServiceImpl
 				Long[] excludedRoleIds = (Long[])params.get("excludedRoleIds");
 
 				if (ArrayUtil.isNotEmpty(excludedRoleIds)) {
-					searchContext.setAttribute("excludedRoleIds", excludedRoleNames);
+					searchContext.setAttribute("excludedRoleIds", excludedRoleIds);
 				}
 			}
 		);
 
 		return searchRequestBuilder.build();
-	}
-
-	private BooleanClause<Query> getBooleanClause(
-		String name, String[] values, BooleanClauseOccur booleanClauseOccur) {
-
-		BooleanQueryImpl booleanQuery = new BooleanQueryImpl();
-
-		BooleanFilter booleanFilter = new BooleanFilter();
-
-		TermsFilter termsFilter = new TermsFilter(name);
-
-		termsFilter.addValues(values);
-
-		booleanFilter.add(termsFilter, BooleanClauseOccur.MUST);
-
-		booleanQuery.setPreBooleanFilter(booleanFilter);
-
-		return BooleanClauseFactoryUtil.create(
-			booleanQuery, booleanClauseOccur.getName());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
