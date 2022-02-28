@@ -232,6 +232,10 @@ public abstract class BaseAccountRoleResourceImpl
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "filter"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "page"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -261,6 +265,7 @@ public abstract class BaseAccountRoleResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("keywords")
 			String keywords,
+			@javax.ws.rs.core.Context Filter filter,
 			@javax.ws.rs.core.Context Pagination pagination,
 			@javax.ws.rs.core.Context Sort[] sorts)
 		throws Exception {
@@ -469,6 +474,10 @@ public abstract class BaseAccountRoleResourceImpl
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "filter"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "page"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -496,6 +505,7 @@ public abstract class BaseAccountRoleResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("keywords")
 			String keywords,
+			@javax.ws.rs.core.Context Filter filter,
 			@javax.ws.rs.core.Context Pagination pagination,
 			@javax.ws.rs.core.Context Sort[] sorts)
 		throws Exception {
@@ -735,7 +745,7 @@ public abstract class BaseAccountRoleResourceImpl
 
 		return getAccountAccountRolesPage(
 			Long.parseLong((String)parameters.get("accountId")),
-			(String)parameters.get("keywords"), pagination, sorts);
+			(String)parameters.get("keywords"), filter, pagination, sorts);
 	}
 
 	@Override
