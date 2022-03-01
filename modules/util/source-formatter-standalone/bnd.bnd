@@ -2,3 +2,4 @@ Bundle-Name: Liferay Source Formatter Standalone
 Bundle-SymbolicName: com.liferay.source.formatter.standalone
 Bundle-Version: 1.0.1
 Main-Class: com.liferay.source.formatter.SourceFormatter
+-fixupmessages: Classes found in the wrong directory: ...;is:=ignore
