@@ -454,6 +454,43 @@ public abstract class BaseAccountRoleResourceTestCase {
 	}
 
 	@Test
+	public void testGetAccountAccountRolesByExternalReferenceCodePageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		String externalReferenceCode =
+			testGetAccountAccountRolesByExternalReferenceCodePage_getExternalReferenceCode();
+
+		AccountRole accountRole1 =
+			testGetAccountAccountRolesByExternalReferenceCodePage_addAccountRole(
+				externalReferenceCode, randomAccountRole());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		AccountRole accountRole2 =
+			testGetAccountAccountRolesByExternalReferenceCodePage_addAccountRole(
+				externalReferenceCode, randomAccountRole());
+
+		for (EntityField entityField : entityFields) {
+			Page<AccountRole> page =
+				accountRoleResource.
+					getAccountAccountRolesByExternalReferenceCodePage(
+						externalReferenceCode, null,
+						getFilterString(entityField, "eq", accountRole1),
+						Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(accountRole1),
+				(List<AccountRole>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetAccountAccountRolesByExternalReferenceCodePageWithFilterStringEquals()
 		throws Exception {
 
@@ -959,6 +996,41 @@ public abstract class BaseAccountRoleResourceTestCase {
 				accountRoleResource.getAccountAccountRolesPage(
 					accountId, null,
 					getFilterString(entityField, "between", accountRole1),
+					Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(accountRole1),
+				(List<AccountRole>)page.getItems());
+		}
+	}
+
+	@Test
+	public void testGetAccountAccountRolesPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long accountId = testGetAccountAccountRolesPage_getAccountId();
+
+		AccountRole accountRole1 =
+			testGetAccountAccountRolesPage_addAccountRole(
+				accountId, randomAccountRole());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		AccountRole accountRole2 =
+			testGetAccountAccountRolesPage_addAccountRole(
+				accountId, randomAccountRole());
+
+		for (EntityField entityField : entityFields) {
+			Page<AccountRole> page =
+				accountRoleResource.getAccountAccountRolesPage(
+					accountId, null,
+					getFilterString(entityField, "eq", accountRole1),
 					Pagination.of(1, 2), null);
 
 			assertEquals(
