@@ -18,6 +18,7 @@ import com.liferay.headless.admin.user.internal.graphql.mutation.v1_0.Mutation;
 import com.liferay.headless.admin.user.internal.graphql.query.v1_0.Query;
 import com.liferay.headless.admin.user.resource.v1_0.AccountResource;
 import com.liferay.headless.admin.user.resource.v1_0.AccountRoleResource;
+import com.liferay.headless.admin.user.resource.v1_0.CountryResource;
 import com.liferay.headless.admin.user.resource.v1_0.EmailAddressResource;
 import com.liferay.headless.admin.user.resource.v1_0.OrganizationResource;
 import com.liferay.headless.admin.user.resource.v1_0.PhoneResource;
@@ -70,6 +71,8 @@ public class ServletDataImpl implements ServletData {
 			_accountResourceComponentServiceObjects);
 		Query.setAccountRoleResourceComponentServiceObjects(
 			_accountRoleResourceComponentServiceObjects);
+		Query.setCountryResourceComponentServiceObjects(
+			_countryResourceComponentServiceObjects);
 		Query.setEmailAddressResourceComponentServiceObjects(
 			_emailAddressResourceComponentServiceObjects);
 		Query.setOrganizationResourceComponentServiceObjects(
@@ -138,6 +141,10 @@ public class ServletDataImpl implements ServletData {
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<UserGroupResource>
 		_userGroupResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<CountryResource>
+		_countryResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<EmailAddressResource>
