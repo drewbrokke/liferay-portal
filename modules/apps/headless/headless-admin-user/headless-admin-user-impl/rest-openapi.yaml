@@ -2390,6 +2390,43 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/UserAccount"
             tags: ["UserAccount"]
+    "/countries":
+        get:
+            parameters:
+                - in: query
+                  name: active
+                  schema:
+                      type: boolean
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  schema:
+                      type: integer
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Country"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Country"
+                                type: array
+            tags: ["Country"]
     "/email-addresses/{emailAddressId}":
         get:
             description:
