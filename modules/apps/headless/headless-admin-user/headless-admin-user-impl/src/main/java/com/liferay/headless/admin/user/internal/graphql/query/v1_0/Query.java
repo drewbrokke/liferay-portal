@@ -16,6 +16,7 @@ package com.liferay.headless.admin.user.internal.graphql.query.v1_0;
 
 import com.liferay.headless.admin.user.dto.v1_0.Account;
 import com.liferay.headless.admin.user.dto.v1_0.AccountRole;
+import com.liferay.headless.admin.user.dto.v1_0.Country;
 import com.liferay.headless.admin.user.dto.v1_0.EmailAddress;
 import com.liferay.headless.admin.user.dto.v1_0.Organization;
 import com.liferay.headless.admin.user.dto.v1_0.Phone;
@@ -30,6 +31,7 @@ import com.liferay.headless.admin.user.dto.v1_0.UserGroup;
 import com.liferay.headless.admin.user.dto.v1_0.WebUrl;
 import com.liferay.headless.admin.user.resource.v1_0.AccountResource;
 import com.liferay.headless.admin.user.resource.v1_0.AccountRoleResource;
+import com.liferay.headless.admin.user.resource.v1_0.CountryResource;
 import com.liferay.headless.admin.user.resource.v1_0.EmailAddressResource;
 import com.liferay.headless.admin.user.resource.v1_0.OrganizationResource;
 import com.liferay.headless.admin.user.resource.v1_0.PhoneResource;
@@ -90,6 +92,14 @@ public class Query {
 
 		_accountRoleResourceComponentServiceObjects =
 			accountRoleResourceComponentServiceObjects;
+	}
+
+	public static void setCountryResourceComponentServiceObjects(
+		ComponentServiceObjects<CountryResource>
+			countryResourceComponentServiceObjects) {
+
+		_countryResourceComponentServiceObjects =
+			countryResourceComponentServiceObjects;
 	}
 
 	public static void setEmailAddressResourceComponentServiceObjects(
@@ -379,6 +389,29 @@ public class Query {
 					_filterBiFunction.apply(accountRoleResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(accountRoleResource, sortsString))));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {countries(active: ___, page: ___, pageSize: ___, search: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField
+	public CountryPage countries(
+			@GraphQLName("active") Boolean active,
+			@GraphQLName("search") String search,
+			@GraphQLName("pageSize") int pageSize,
+			@GraphQLName("page") int page,
+			@GraphQLName("sort") String sortsString)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_countryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			countryResource -> new CountryPage(
+				countryResource.getCountriesPage(
+					active, search, Pagination.of(page, pageSize),
+					_sortsBiFunction.apply(countryResource, sortsString))));
 	}
 
 	/**
@@ -2012,6 +2045,39 @@ public class Query {
 
 	}
 
+	@GraphQLName("CountryPage")
+	public class CountryPage {
+
+		public CountryPage(Page countryPage) {
+			actions = countryPage.getActions();
+
+			items = countryPage.getItems();
+			lastPage = countryPage.getLastPage();
+			page = countryPage.getPage();
+			pageSize = countryPage.getPageSize();
+			totalCount = countryPage.getTotalCount();
+		}
+
+		@GraphQLField
+		protected Map<String, Map> actions;
+
+		@GraphQLField
+		protected java.util.Collection<Country> items;
+
+		@GraphQLField
+		protected long lastPage;
+
+		@GraphQLField
+		protected long page;
+
+		@GraphQLField
+		protected long pageSize;
+
+		@GraphQLField
+		protected long totalCount;
+
+	}
+
 	@GraphQLName("EmailAddressPage")
 	public class EmailAddressPage {
 
@@ -2501,6 +2567,19 @@ public class Query {
 		accountRoleResource.setRoleLocalService(_roleLocalService);
 	}
 
+	private void _populateResourceContext(CountryResource countryResource)
+		throws Exception {
+
+		countryResource.setContextAcceptLanguage(_acceptLanguage);
+		countryResource.setContextCompany(_company);
+		countryResource.setContextHttpServletRequest(_httpServletRequest);
+		countryResource.setContextHttpServletResponse(_httpServletResponse);
+		countryResource.setContextUriInfo(_uriInfo);
+		countryResource.setContextUser(_user);
+		countryResource.setGroupLocalService(_groupLocalService);
+		countryResource.setRoleLocalService(_roleLocalService);
+	}
+
 	private void _populateResourceContext(
 			EmailAddressResource emailAddressResource)
 		throws Exception {
@@ -2671,6 +2750,8 @@ public class Query {
 		_accountResourceComponentServiceObjects;
 	private static ComponentServiceObjects<AccountRoleResource>
 		_accountRoleResourceComponentServiceObjects;
+	private static ComponentServiceObjects<CountryResource>
+		_countryResourceComponentServiceObjects;
 	private static ComponentServiceObjects<EmailAddressResource>
 		_emailAddressResourceComponentServiceObjects;
 	private static ComponentServiceObjects<OrganizationResource>
