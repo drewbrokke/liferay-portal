@@ -139,6 +139,7 @@ components:
                     type: boolean
                 id:
                     format: int64
+                    readOnly: true
                     type: integer
                 idd:
                     type: integer
