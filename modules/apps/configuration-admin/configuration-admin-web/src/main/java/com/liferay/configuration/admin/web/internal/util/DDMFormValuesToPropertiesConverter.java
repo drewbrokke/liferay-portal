@@ -114,6 +114,27 @@ public class DDMFormValuesToPropertiesConverter {
 				value = defaultValues[0];
 			}
 
+			if (value != null) {
+				String result =
+					attributeDefinition.validate(value.toString());
+
+				if (result == null) {
+					System.out.printf(
+						"No validation present for field %s%n",
+						attributeDefinition.getID());
+				}
+				else if (result.equals("")) {
+					System.out.printf(
+						"No validation problems found for field %s%n",
+						attributeDefinition.getID());
+				}
+				else {
+					System.out.printf(
+						"Validation problems found for field %s: %s%n",
+						attributeDefinition.getID(), result);
+				}
+			}
+
 			properties.put(attributeDefinition.getID(), value);
 		}
 
