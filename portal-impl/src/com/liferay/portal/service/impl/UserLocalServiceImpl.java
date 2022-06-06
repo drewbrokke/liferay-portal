@@ -27,9 +27,7 @@ import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.bean.BeanReference;
-import com.liferay.portal.kernel.cache.PortalCacheMapSynchronizeUtil;
 import com.liferay.portal.kernel.change.tracking.CTAware;
-import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.WildcardMode;
 import com.liferay.portal.kernel.encryptor.EncryptorException;
@@ -82,8 +80,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.model.UserGroupRole;
 import com.liferay.portal.kernel.model.role.RoleConstants;
-import com.liferay.portal.kernel.module.util.ServiceLatch;
-import com.liferay.portal.kernel.module.util.SystemBundleUtil;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -174,8 +170,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import com.liferay.portal.kernel.workflow.WorkflowThreadLocal;
 import com.liferay.portal.model.impl.LayoutImpl;
-import com.liferay.portal.model.impl.UserCacheModel;
-import com.liferay.portal.model.impl.UserImpl;
 import com.liferay.portal.security.auth.AuthPipeline;
 import com.liferay.portal.security.auth.EmailAddressGeneratorFactory;
 import com.liferay.portal.security.auth.EmailAddressValidatorFactory;
@@ -211,7 +205,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.mail.internet.InternetAddress;
 
@@ -1327,23 +1320,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		return user;
 	}
 
-	@Override
-	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
-
-		ServiceLatch serviceLatch = SystemBundleUtil.newServiceLatch();
-
-		serviceLatch.waitFor(
-			EntityCache.class,
-			entityCache -> PortalCacheMapSynchronizeUtil.synchronize(
-				entityCache.getPortalCache(UserImpl.class), _defaultUsers,
-				_synchronizer));
-
-		serviceLatch.openOn(
-			() -> {
-			});
-	}
-
 	/**
 	 * Attempts to authenticate the user by their email address and password,
 	 * while using the AuthPipeline.
@@ -2081,17 +2057,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 	 */
 	@Override
 	public User fetchDefaultUser(long companyId) {
-		User user = _defaultUsers.get(companyId);
-
-		if (user == null) {
-			user = userPersistence.fetchByC_DU(companyId, true);
-
-			if (user != null) {
-				_defaultUsers.put(companyId, user);
-			}
-		}
-
-		return user;
+		return userPersistence.fetchByC_DU(companyId, true);
 	}
 
 	/**
@@ -2245,15 +2211,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 	@Override
 	@Transactional(enabled = false)
 	public User getDefaultUser(long companyId) throws PortalException {
-		User userModel = _defaultUsers.get(companyId);
-
-		if (userModel == null) {
-			userModel = userLocalService.loadGetDefaultUser(companyId);
-
-			_defaultUsers.put(companyId, userModel);
-		}
-
-		return userModel;
+		return userLocalService.loadGetDefaultUser(companyId);
 	}
 
 	/**
@@ -7114,8 +7072,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 	@BeanReference(type = ContactPersistence.class)
 	private ContactPersistence _contactPersistence;
 
-	private final Map<Long, User> _defaultUsers = new ConcurrentHashMap<>();
-
 	@BeanReference(type = ExpandoRowLocalService.class)
 	private ExpandoRowLocalService _expandoRowLocalService;
 
@@ -7185,29 +7141,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 	@BeanReference(type = SocialRequestLocalService.class)
 	private SocialRequestLocalService _socialRequestLocalService;
-
-	private final PortalCacheMapSynchronizeUtil.Synchronizer
-		<Serializable, Serializable> _synchronizer =
-			new PortalCacheMapSynchronizeUtil.Synchronizer
-				<Serializable, Serializable>() {
-
-				@Override
-				public void onSynchronize(
-					Map<? extends Serializable, ? extends Serializable> map,
-					Serializable key, Serializable value, int timeToLive) {
-
-					if (!(value instanceof UserCacheModel)) {
-						return;
-					}
-
-					UserCacheModel userCacheModel = (UserCacheModel)value;
-
-					if (userCacheModel.defaultUser) {
-						_defaultUsers.remove(userCacheModel.companyId);
-					}
-				}
-
-			};
 
 	@BeanReference(type = TeamPersistence.class)
 	private TeamPersistence _teamPersistence;
