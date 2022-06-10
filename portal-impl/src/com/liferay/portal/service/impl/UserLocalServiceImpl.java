@@ -5081,6 +5081,16 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		return user;
 	}
 
+	@Indexable(type = IndexableType.REINDEX)
+	@Override
+	public User updateUser(User user) {
+		if (user.isDefaultUser()) {
+			_defaultUsers.remove(user.getCompanyId());
+		}
+
+		return super.updateUser(user);
+	}
+
 	/**
 	 * Updates the user.
 	 *
