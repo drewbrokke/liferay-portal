@@ -932,12 +932,12 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 			long companyId, String languageId, String timeZoneId)
 		throws PortalException {
 
-		User user = _userLocalService.getDefaultUser(companyId);
+		User user = _userLocalService.loadGetDefaultUser(companyId);
 
 		user.setLanguageId(languageId);
 		user.setTimeZoneId(timeZoneId);
 
-		_userPersistence.update(user);
+		_userLocalService.updateUser(user);
 
 		updateDisplayGroupNames(companyId);
 	}
