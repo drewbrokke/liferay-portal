@@ -518,6 +518,20 @@ public class UserLocalServiceTest {
 	}
 
 	@Test
+	public void testUpdateDefaultUsersCache() throws Exception {
+		User defaultUser = _userLocalService.getDefaultUser(
+			TestPropsValues.getCompanyId());
+
+		User updateDefaultUser = _userLocalService.updateUser(defaultUser);
+
+		defaultUser = _userLocalService.getDefaultUser(
+			TestPropsValues.getCompanyId());
+
+		Assert.assertEquals(
+			updateDefaultUser.getMvccVersion(), defaultUser.getMvccVersion());
+	}
+
+	@Test
 	public void testUpdatePassword() throws Exception {
 		User user = UserTestUtil.addUser();
 		String password = RandomTestUtil.randomString(
