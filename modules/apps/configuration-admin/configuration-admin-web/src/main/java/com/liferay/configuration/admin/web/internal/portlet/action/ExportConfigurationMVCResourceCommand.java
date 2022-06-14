@@ -24,17 +24,11 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition.Scope;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedAttributeDefinition;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedObjectClassDefinition;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.Company;
-import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.PortletResponseUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
-import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -49,7 +43,6 @@ import java.io.Serializable;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
@@ -105,12 +98,12 @@ public class ExportConfigurationMVCResourceCommand
 		return false;
 	}
 
-	protected Properties getProperties(
+	protected Dictionary<String, Object> getProperties(
 			String languageId, String factoryPid, String pid, Scope scope,
 			Serializable scopePK)
 		throws Exception {
 
-		Properties properties = new Properties();
+		Dictionary<String, Object> properties = new HashMapDictionary<>();
 
 		Map<String, ConfigurationModel> configurationModels =
 			_configurationModelRetriever.getConfigurationModels(
@@ -162,41 +155,12 @@ public class ExportConfigurationMVCResourceCommand
 		}
 
 		if (!Scope.SYSTEM.equals(scope)) {
-			Serializable portableIdentifier = _getPortableIdentifier(
-				scope, scopePK);
+			properties.put(scope.getPropertyKey(), scopePK);
 
-			if (portableIdentifier != null) {
-				properties.put(
-					scope.getPortablePropertyKey(), portableIdentifier);
-			}
-			else {
-				properties.put(scope.getPropertyKey(), scopePK);
-			}
+			_configurationScopeKeyTransformer.prepareForExport(pid, properties);
 		}
 
 		return properties;
-	}
-
-	private Serializable _getPortableIdentifier(
-			Scope scope, Serializable scopePk)
-		throws PortalException {
-
-		if (scope.equals(Scope.COMPANY)) {
-			Company company = CompanyLocalServiceUtil.getCompany((long)scopePk);
-
-			return company.getWebId();
-		}
-
-		if (scope.equals(Scope.GROUP)) {
-			Group group = GroupLocalServiceUtil.getGroup((long)scopePk);
-
-			return String.format(
-				"%s--%s",
-				_getPortableIdentifier(Scope.COMPANY, group.getCompanyId()),
-				group.getGroupKey());
-		}
-
-		return null;
 	}
 
 	private void _exportAll(
@@ -378,6 +342,9 @@ public class ExportConfigurationMVCResourceCommand
 
 	@Reference(target = "(filter.visibility=*)")
 	private ConfigurationModelRetriever _configurationModelRetriever;
+
+	@Reference
+	private ConfigurationScopeKeyTransformer _configurationScopeKeyTransformer;
 
 	@Reference
 	private ZipWriterFactory _zipWriterFactory;
