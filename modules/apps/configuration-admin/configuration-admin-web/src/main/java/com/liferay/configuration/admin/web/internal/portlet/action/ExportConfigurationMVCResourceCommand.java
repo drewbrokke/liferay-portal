@@ -24,8 +24,15 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition.Scope;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedAttributeDefinition;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedObjectClassDefinition;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.PortletResponseUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -155,10 +162,41 @@ public class ExportConfigurationMVCResourceCommand
 		}
 
 		if (!Scope.SYSTEM.equals(scope)) {
-			properties.put(scope.getPropertyKey(), scopePK);
+			Serializable portableIdentifier = _getPortableIdentifier(
+				scope, scopePK);
+
+			if (portableIdentifier != null) {
+				properties.put(
+					scope.getPortablePropertyKey(), portableIdentifier);
+			}
+			else {
+				properties.put(scope.getPropertyKey(), scopePK);
+			}
 		}
 
 		return properties;
+	}
+
+	private Serializable _getPortableIdentifier(
+			Scope scope, Serializable scopePk)
+		throws PortalException {
+
+		if (scope.equals(Scope.COMPANY)) {
+			Company company = CompanyLocalServiceUtil.getCompany((long)scopePk);
+
+			return company.getWebId();
+		}
+
+		if (scope.equals(Scope.GROUP)) {
+			Group group = GroupLocalServiceUtil.getGroup((long)scopePk);
+
+			return String.format(
+				"%s--%s",
+				_getPortableIdentifier(Scope.COMPANY, group.getCompanyId()),
+				group.getGroupKey());
+		}
+
+		return null;
 	}
 
 	private void _exportAll(

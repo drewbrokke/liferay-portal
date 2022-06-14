@@ -109,6 +109,10 @@ public class ConfigurationPersistenceManager
 			pidKey,
 			configurationModelListener ->
 				configurationModelListener.onBeforeDelete(pid));
+		_visitConfigurationModelListeners(
+			"*",
+			configurationModelListener ->
+				configurationModelListener.onBeforeDelete(pid));
 
 		Lock lock = _readWriteLock.writeLock();
 
@@ -127,6 +131,10 @@ public class ConfigurationPersistenceManager
 
 		_visitConfigurationModelListeners(
 			pidKey,
+			configurationModelListener ->
+				configurationModelListener.onAfterDelete(pid));
+		_visitConfigurationModelListeners(
+			"*",
 			configurationModelListener ->
 				configurationModelListener.onAfterDelete(pid));
 	}
@@ -256,6 +264,10 @@ public class ConfigurationPersistenceManager
 			pidKey,
 			configurationModelListener ->
 				configurationModelListener.onBeforeSave(pid, dictionary));
+		_visitConfigurationModelListeners(
+			"*",
+			configurationModelListener ->
+				configurationModelListener.onBeforeSave(pid, dictionary));
 
 		Dictionary<Object, Object> newDictionary = _copyDictionary(dictionary);
 
@@ -290,6 +302,10 @@ public class ConfigurationPersistenceManager
 
 		_visitConfigurationModelListeners(
 			pidKey,
+			configurationModelListener ->
+				configurationModelListener.onAfterSave(pid, dictionary));
+		_visitConfigurationModelListeners(
+			"*",
 			configurationModelListener ->
 				configurationModelListener.onAfterSave(pid, dictionary));
 	}
