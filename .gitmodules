@@ -1,3 +1,6 @@
 [submodule "modules/apps/content-targeting"]
 	path = modules/apps/content-targeting
 	url = git@github.com:liferay/liferay-plugins-content-targeting.git
+[submodule "modules/test/poshi/poshi-vscode"]
+	path = modules/test/poshi/poshi-vscode
+	url = git@github.com:drewbrokke/vscode-poshi-language-support.git
