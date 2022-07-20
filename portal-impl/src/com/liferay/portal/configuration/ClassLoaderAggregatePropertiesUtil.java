@@ -14,11 +14,15 @@
 
 package com.liferay.portal.configuration;
 
+import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.EnvPropertiesUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
+
+import java.util.List;
 
 /**
  * @author Shuyang Zhou
@@ -43,6 +47,18 @@ public class ClassLoaderAggregatePropertiesUtil {
 
 		EnvPropertiesUtil.loadEnvOverrides(
 			_ENV_OVERRIDE_PREFIX, classLoaderAggregateProperties::setProperty);
+		EnvPropertiesUtil.loadEnvOverrides(
+			_ENV_OVERRIDE_PREFIX + "PORTAL_PROPERTY_",
+			(String key, String value) -> {
+				List<String> parts = StringUtil.split(value, CharPool.EQUAL);
+
+				if (parts.size() < 2) {
+					return;
+				}
+
+				classLoaderAggregateProperties.setProperty(
+					parts.get(0), parts.get(1));
+			});
 
 		return classLoaderAggregateProperties;
 	}
