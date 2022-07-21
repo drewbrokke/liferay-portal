@@ -144,7 +144,7 @@ if (Validator.isNotNull(portletConfigurationPermissionsDisplayContext.getModelRe
 
 							dataMessage = HtmlUtil.escapeAttribute(LanguageUtil.format(request, preselectedMsg, new Object[] {role.getTitle(locale), _getActionLabel(request, resourceName, action), type, HtmlUtil.escape(portletConfigurationPermissionsDisplayContext.getGroupDescriptiveName())}, false));
 
-							if (GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-87806"))) {
+							if (resources.size() > 1) {
 								disabled = true;
 							}
 						}
@@ -161,7 +161,7 @@ if (Validator.isNotNull(portletConfigurationPermissionsDisplayContext.getModelRe
 							</c:if>
 
 							<c:choose>
-								<c:when test='<%= GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-87806")) %>'>
+								<c:when test="<%= resources.size() > 1 %>">
 
 									<%
 									List<String> resourcePrimKeys = actionIdResourcePrimKeysMap.getOrDefault(action, Collections.emptyList());
