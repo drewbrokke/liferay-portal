@@ -54,6 +54,11 @@ public class SelectAccountEntryManagementToolbarDisplayContext
 	}
 
 	@Override
+	public int getItemsTotal() {
+		return searchContainer.getResultEnd() - searchContainer.getStart();
+	}
+
+	@Override
 	public Boolean isSelectable() {
 		return !isSingleSelect();
 	}

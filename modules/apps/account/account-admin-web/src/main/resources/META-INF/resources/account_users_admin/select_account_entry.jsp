@@ -44,6 +44,7 @@ if (selectAccountEntryManagementToolbarDisplayContext.isSingleSelect()) {
 %>
 
 <clay:management-toolbar
+	itemsTotal="<%= selectAccountEntryManagementToolbarDisplayContext.getItemsTotal() %>"
 	managementToolbarDisplayContext="<%= selectAccountEntryManagementToolbarDisplayContext %>"
 />
 
