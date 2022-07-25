@@ -23,11 +23,14 @@ import com.liferay.account.service.AccountEntryOrganizationRelLocalService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.permission.OrganizationPermission;
+import com.liferay.portal.kernel.service.permission.PortalPermission;
+import com.liferay.portal.kernel.util.ArrayUtil;
 
 import java.util.List;
 
@@ -102,6 +105,25 @@ public class AccountEntryModelResourcePermission
 			_accountEntryOrganizationRelLocalService.
 				getAccountEntryOrganizationRels(accountEntryId);
 
+		if (_portalPermission.contains(
+				permissionChecker, ActionKeys.MANAGE_AVAILABLE_ACCOUNTS)) {
+
+			long[] userOrganizationIds =
+				_organizationLocalService.getUserOrganizationIds(
+					permissionChecker.getUserId(), true);
+
+			for (AccountEntryOrganizationRel accountEntryOrganizationRel :
+					accountEntryOrganizationRels) {
+
+				if (ArrayUtil.contains(
+						userOrganizationIds,
+						accountEntryOrganizationRel.getOrganizationId())) {
+
+					return true;
+				}
+			}
+		}
+
 		for (AccountEntryOrganizationRel accountEntryOrganizationRel :
 				accountEntryOrganizationRels) {
 
@@ -172,6 +194,9 @@ public class AccountEntryModelResourcePermission
 
 	@Reference
 	private OrganizationPermission _organizationPermission;
+
+	@Reference
+	private PortalPermission _portalPermission;
 
 	@Reference(
 		target = "(resource.name=" + AccountConstants.RESOURCE_NAME + ")"
