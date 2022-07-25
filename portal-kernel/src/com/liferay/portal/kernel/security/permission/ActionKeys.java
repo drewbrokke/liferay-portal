@@ -183,6 +183,9 @@ public class ActionKeys {
 	public static final String MANAGE_ARCHIVED_SETUPS =
 		"MANAGE_ARCHIVED_SETUPS";
 
+	public static final String MANAGE_AVAILABLE_ACCOUNTS =
+		"MANAGE_AVAILABLE_ACCOUNTS";
+
 	public static final String MANAGE_COUNTRIES = "MANAGE_COUNTRIES";
 
 	public static final String MANAGE_COUPONS = "MANAGE_COUPONS";
