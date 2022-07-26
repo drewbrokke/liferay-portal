@@ -30,9 +30,11 @@ import com.liferay.portal.kernel.security.permission.resource.PortletResourcePer
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.permission.OrganizationPermission;
 import com.liferay.portal.kernel.service.permission.PortalPermission;
-import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.vulcan.util.TransformUtil;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -108,15 +110,24 @@ public class AccountEntryModelResourcePermission
 		if (_portalPermission.contains(
 				permissionChecker, ActionKeys.MANAGE_AVAILABLE_ACCOUNTS)) {
 
-			long[] userOrganizationIds =
-				_organizationLocalService.getUserOrganizationIds(
-					permissionChecker.getUserId(), true);
+			Set<Organization> organizationsSet = new HashSet<>();
+
+			List<Organization> userOrganizations =
+				_organizationLocalService.getUserOrganizations(
+					permissionChecker.getUserId());
+
+			organizationsSet.addAll(userOrganizations);
+			organizationsSet.addAll(
+				_organizationLocalService.getSuborganizations(
+					userOrganizations));
+
+			List<Long> organizationIds = TransformUtil.transform(
+				organizationsSet, Organization::getOrganizationId);
 
 			for (AccountEntryOrganizationRel accountEntryOrganizationRel :
 					accountEntryOrganizationRels) {
 
-				if (ArrayUtil.contains(
-						userOrganizationIds,
+				if (organizationIds.contains(
 						accountEntryOrganizationRel.getOrganizationId())) {
 
 					return true;
