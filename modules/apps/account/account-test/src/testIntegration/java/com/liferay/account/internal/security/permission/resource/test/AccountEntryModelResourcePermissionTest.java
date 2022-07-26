@@ -105,6 +105,27 @@ public class AccountEntryModelResourcePermissionTest {
 			organization3.getOrganizationId());
 
 		_assertContains(user, accountEntry, _ACTION_IDS);
+
+		_accountEntryOrganizationRelLocalService.
+			deleteAccountEntryOrganizationRel(
+				accountEntry.getAccountEntryId(),
+				organization3.getOrganizationId());
+
+		Organization parentOrganization =
+			OrganizationTestUtil.addOrganization();
+
+		_userLocalService.addOrganizationUser(
+			parentOrganization.getOrganizationId(), user.getUserId());
+
+		Organization childOrganization = OrganizationTestUtil.addOrganization(
+			parentOrganization.getOrganizationId(),
+			RandomTestUtil.randomString(), false);
+
+		_accountEntryOrganizationRelLocalService.addAccountEntryOrganizationRel(
+			accountEntry.getAccountEntryId(),
+			childOrganization.getOrganizationId());
+
+		_assertContains(user, accountEntry, _ACTION_IDS);
 	}
 
 	@Test
