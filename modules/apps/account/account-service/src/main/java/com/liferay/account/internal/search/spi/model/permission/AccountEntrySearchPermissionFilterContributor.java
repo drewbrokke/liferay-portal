@@ -22,18 +22,23 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.OrganizationConstants;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.permission.OrganizationPermission;
+import com.liferay.portal.kernel.service.permission.PortalPermission;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionFilterContributor;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -77,6 +82,21 @@ public class AccountEntrySearchPermissionFilterContributor
 		TermsFilter organizationIdsTermsFilter = new TermsFilter(
 			"organizationIds");
 
+		boolean hasManageAvailableAccountsPermission =
+			_portalPermission.contains(
+				permissionChecker, ActionKeys.MANAGE_AVAILABLE_ACCOUNTS);
+
+		List<Organization> userOrganizations =
+			_organizationLocalService.getUserOrganizations(userId);
+
+		Set<Organization> organizationsSet = new HashSet<>(userOrganizations);
+
+		if (hasManageAvailableAccountsPermission) {
+			organizationsSet.addAll(
+				_organizationLocalService.getSuborganizations(
+					userOrganizations));
+		}
+
 		try {
 			BaseModelSearchResult<Organization> baseModelSearchResult =
 				_organizationLocalService.searchOrganizations(
@@ -84,14 +104,12 @@ public class AccountEntrySearchPermissionFilterContributor
 					null,
 					LinkedHashMapBuilder.<String, Object>put(
 						"accountsOrgsTree",
-						() -> {
-							User user = _userLocalService.getUser(userId);
-
-							return ListUtil.filter(
-								user.getOrganizations(true),
-								organization -> _hasManageAccountsPermission(
-									permissionChecker, organization));
-						}
+						ListUtil.filter(
+							ListUtil.fromCollection(organizationsSet),
+							organization ->
+								hasManageAvailableAccountsPermission ||
+								_hasManageAccountsPermission(
+									permissionChecker, organization))
 					).build(),
 					QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 
@@ -139,6 +157,9 @@ public class AccountEntrySearchPermissionFilterContributor
 
 	@Reference
 	private OrganizationPermission _organizationPermission;
+
+	@Reference
+	private PortalPermission _portalPermission;
 
 	@Reference
 	private UserLocalService _userLocalService;
