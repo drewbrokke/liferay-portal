@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.PortletCategoryKeys;
 
 import java.util.List;
@@ -107,16 +108,12 @@ public abstract class BaseControlPanelEntry implements ControlPanelEntry {
 			return true;
 		}
 
-		long groupId = group.getGroupId();
+		long groupId = 0L;
 
-		if (category.equals(PortletCategoryKeys.CONTROL_PANEL_APPS) ||
-			category.equals(PortletCategoryKeys.CONTROL_PANEL_CONFIGURATION) ||
-			category.equals(PortletCategoryKeys.CONTROL_PANEL_SITES) ||
-			category.equals(PortletCategoryKeys.CONTROL_PANEL_SYSTEM) ||
-			category.equals(PortletCategoryKeys.CONTROL_PANEL_USERS) ||
-			category.equals(PortletCategoryKeys.CONTROL_PANEL_WORKFLOW)) {
+		if (ArrayUtil.contains(
+			PortletCategoryKeys.SITE_ADMINISTRATION_ALL, category)) {
 
-			groupId = 0;
+			groupId = group.getGroupId();
 		}
 
 		List<String> resourceActions = ResourceActionsUtil.getResourceActions(
