@@ -105,6 +105,8 @@ public class AccountEntryModelResourcePermissionTest {
 			organization3.getOrganizationId());
 
 		_assertContains(user, accountEntry, _ACTION_IDS);
+		_assertDoesNotContain(
+			user, accountEntry, AccountActionKeys.MANAGE_ORGANIZATIONS);
 
 		_accountEntryOrganizationRelLocalService.
 			deleteAccountEntryOrganizationRel(
@@ -126,6 +128,8 @@ public class AccountEntryModelResourcePermissionTest {
 			childOrganization.getOrganizationId());
 
 		_assertContains(user, accountEntry, _ACTION_IDS);
+		_assertDoesNotContain(
+			user, accountEntry, AccountActionKeys.MANAGE_ORGANIZATIONS);
 	}
 
 	@Test
