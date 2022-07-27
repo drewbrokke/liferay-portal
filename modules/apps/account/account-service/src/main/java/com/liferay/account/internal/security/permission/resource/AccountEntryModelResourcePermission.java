@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.util.TransformUtil;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
@@ -107,7 +108,8 @@ public class AccountEntryModelResourcePermission
 			_accountEntryOrganizationRelLocalService.
 				getAccountEntryOrganizationRels(accountEntryId);
 
-		if (_portalPermission.contains(
+		if (!Objects.equals(actionId, AccountActionKeys.MANAGE_ORGANIZATIONS) &&
+			_portalPermission.contains(
 				permissionChecker, ActionKeys.MANAGE_AVAILABLE_ACCOUNTS)) {
 
 			Set<Organization> organizationsSet = new HashSet<>();
