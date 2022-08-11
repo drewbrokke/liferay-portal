@@ -78,7 +78,7 @@ public class UserModelDocumentContributor
 			document.addKeyword(Field.SCOPE_GROUP_ID, activeTransitiveGroupIds);
 			document.addKeyword(Field.STATUS, user.getStatus());
 			document.addKeyword(Field.USER_ID, user.getUserId());
-			document.addKeyword(Field.USER_NAME, user.getFullName(), true);
+			document.addKeyword(Field.USER_NAME, user.getFullName());
 			document.addKeyword(
 				"ancestorOrganizationIds",
 				_getAncestorOrganizationIds(user.getOrganizationIds()));
