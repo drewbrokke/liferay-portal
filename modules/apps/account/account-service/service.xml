@@ -19,6 +19,7 @@
 
 		<!-- Other fields -->
 
+		<column name="active" type="boolean" />
 		<column name="defaultBillingAddressId" type="long" />
 		<column name="defaultCPaymentMethodKey" type="String" />
 		<column name="defaultShippingAddressId" type="long" />
