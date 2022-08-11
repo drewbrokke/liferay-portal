@@ -52,6 +52,7 @@ public class AccountEntryWrapper
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("active", isActive());
 		attributes.put("defaultBillingAddressId", getDefaultBillingAddressId());
 		attributes.put(
 			"defaultCPaymentMethodKey", getDefaultCPaymentMethodKey());
@@ -126,6 +127,12 @@ public class AccountEntryWrapper
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Boolean active = (Boolean)attributes.get("active");
+
+		if (active != null) {
+			setActive(active);
 		}
 
 		Long defaultBillingAddressId = (Long)attributes.get(
@@ -234,6 +241,16 @@ public class AccountEntryWrapper
 	@Override
 	public long getAccountEntryId() {
 		return model.getAccountEntryId();
+	}
+
+	/**
+	 * Returns the active of this account entry.
+	 *
+	 * @return the active of this account entry
+	 */
+	@Override
+	public boolean getActive() {
+		return model.getActive();
 	}
 
 	/**
@@ -481,6 +498,16 @@ public class AccountEntryWrapper
 		return model.getUuid();
 	}
 
+	/**
+	 * Returns <code>true</code> if this account entry is active.
+	 *
+	 * @return <code>true</code> if this account entry is active; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isActive() {
+		return model.isActive();
+	}
+
 	@Override
 	public void persist() {
 		model.persist();
@@ -494,6 +521,16 @@ public class AccountEntryWrapper
 	@Override
 	public void setAccountEntryId(long accountEntryId) {
 		model.setAccountEntryId(accountEntryId);
+	}
+
+	/**
+	 * Sets whether this account entry is active.
+	 *
+	 * @param active the active of this account entry
+	 */
+	@Override
+	public void setActive(boolean active) {
+		model.setActive(active);
 	}
 
 	/**

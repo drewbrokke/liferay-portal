@@ -220,6 +220,27 @@ public interface AccountEntryModel
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
+	 * Returns the active of this account entry.
+	 *
+	 * @return the active of this account entry
+	 */
+	public boolean getActive();
+
+	/**
+	 * Returns <code>true</code> if this account entry is active.
+	 *
+	 * @return <code>true</code> if this account entry is active; <code>false</code> otherwise
+	 */
+	public boolean isActive();
+
+	/**
+	 * Sets whether this account entry is active.
+	 *
+	 * @param active the active of this account entry
+	 */
+	public void setActive(boolean active);
+
+	/**
 	 * Returns the default billing address ID of this account entry.
 	 *
 	 * @return the default billing address ID of this account entry

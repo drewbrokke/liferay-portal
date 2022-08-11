@@ -52,6 +52,8 @@ public class AccountEntryTable extends BaseTable<AccountEntryTable> {
 		"createDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<AccountEntryTable, Date> modifiedDate = createColumn(
 		"modifiedDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<AccountEntryTable, Boolean> active = createColumn(
+		"active_", Boolean.class, Types.BOOLEAN, Column.FLAG_DEFAULT);
 	public final Column<AccountEntryTable, Long> defaultBillingAddressId =
 		createColumn(
 			"defaultBillingAddressId", Long.class, Types.BIGINT,

@@ -5159,6 +5159,7 @@ public class AccountEntryPersistenceImpl
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("active", "active_");
 		dbColumnNames.put("type", "type_");
 
 		setDBColumnNames(dbColumnNames);
@@ -5951,7 +5952,7 @@ public class AccountEntryPersistenceImpl
 		AccountEntryPersistenceImpl.class);
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"uuid", "type"});
+		new String[] {"uuid", "active", "type"});
 
 	@Override
 	protected FinderCache getFinderCache() {

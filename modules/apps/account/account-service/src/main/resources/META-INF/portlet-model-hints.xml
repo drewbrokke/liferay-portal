@@ -11,6 +11,7 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
+		<field name="active" type="boolean" />
 		<field name="defaultBillingAddressId" type="long" />
 		<field name="defaultCPaymentMethodKey" type="String" />
 		<field name="defaultShippingAddressId" type="long" />

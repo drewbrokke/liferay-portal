@@ -140,6 +140,8 @@ public class AccountEntryPersistenceTest {
 
 		newAccountEntry.setModifiedDate(RandomTestUtil.nextDate());
 
+		newAccountEntry.setActive(RandomTestUtil.randomBoolean());
+
 		newAccountEntry.setDefaultBillingAddressId(RandomTestUtil.nextLong());
 
 		newAccountEntry.setDefaultCPaymentMethodKey(
@@ -196,6 +198,8 @@ public class AccountEntryPersistenceTest {
 		Assert.assertEquals(
 			Time.getShortTimestamp(existingAccountEntry.getModifiedDate()),
 			Time.getShortTimestamp(newAccountEntry.getModifiedDate()));
+		Assert.assertEquals(
+			existingAccountEntry.isActive(), newAccountEntry.isActive());
 		Assert.assertEquals(
 			existingAccountEntry.getDefaultBillingAddressId(),
 			newAccountEntry.getDefaultBillingAddressId());
@@ -311,10 +315,10 @@ public class AccountEntryPersistenceTest {
 			"AccountEntry", "mvccVersion", true, "uuid", true,
 			"externalReferenceCode", true, "accountEntryId", true, "companyId",
 			true, "userId", true, "userName", true, "createDate", true,
-			"modifiedDate", true, "defaultBillingAddressId", true,
-			"defaultCPaymentMethodKey", true, "defaultShippingAddressId", true,
-			"parentAccountEntryId", true, "description", true, "domains", true,
-			"emailAddress", true, "logoId", true, "name", true,
+			"modifiedDate", true, "active", true, "defaultBillingAddressId",
+			true, "defaultCPaymentMethodKey", true, "defaultShippingAddressId",
+			true, "parentAccountEntryId", true, "description", true, "domains",
+			true, "emailAddress", true, "logoId", true, "name", true,
 			"taxExemptionCode", true, "taxIdNumber", true, "type", true,
 			"status", true);
 	}
@@ -615,6 +619,8 @@ public class AccountEntryPersistenceTest {
 		accountEntry.setCreateDate(RandomTestUtil.nextDate());
 
 		accountEntry.setModifiedDate(RandomTestUtil.nextDate());
+
+		accountEntry.setActive(RandomTestUtil.randomBoolean());
 
 		accountEntry.setDefaultBillingAddressId(RandomTestUtil.nextLong());
 

@@ -8,6 +8,7 @@ create table AccountEntry (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
+	active_ BOOLEAN,
 	defaultBillingAddressId LONG,
 	defaultCPaymentMethodKey VARCHAR(75) null,
 	defaultShippingAddressId LONG,
