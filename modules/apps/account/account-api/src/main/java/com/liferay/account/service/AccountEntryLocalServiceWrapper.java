@@ -80,6 +80,23 @@ public class AccountEntryLocalServiceWrapper
 	public com.liferay.account.model.AccountEntry addAccountEntry(
 			long userId, long parentAccountEntryId, String name,
 			String description, String[] domains, String emailAddress,
+			byte[] logoBytes, String taxIdNumber, String type, boolean active,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.addAccountEntry(
+			userId, parentAccountEntryId, name, description, domains,
+			emailAddress, logoBytes, taxIdNumber, type, active, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addAccountEntry(long, long, String, String, String[], String, byte[], String, String, boolean, ServiceContext)}
+	 */
+	@Deprecated
+	@Override
+	public com.liferay.account.model.AccountEntry addAccountEntry(
+			long userId, long parentAccountEntryId, String name,
+			String description, String[] domains, String emailAddress,
 			byte[] logoBytes, String taxIdNumber, String type, int status,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -89,6 +106,25 @@ public class AccountEntryLocalServiceWrapper
 			emailAddress, logoBytes, taxIdNumber, type, status, serviceContext);
 	}
 
+	@Override
+	public com.liferay.account.model.AccountEntry addOrUpdateAccountEntry(
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			String[] domains, String emailAddress, byte[] logoBytes,
+			String taxIdNumber, String type, boolean active,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.addOrUpdateAccountEntry(
+			externalReferenceCode, userId, parentAccountEntryId, name,
+			description, domains, emailAddress, logoBytes, taxIdNumber, type,
+			active, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addOrUpdateAccountEntry(String, long, long, String, String, String[], String, byte[], String, String, boolean, ServiceContext)}
+	 */
+	@Deprecated
 	@Override
 	public com.liferay.account.model.AccountEntry addOrUpdateAccountEntry(
 			String externalReferenceCode, long userId,
@@ -401,6 +437,21 @@ public class AccountEntryLocalServiceWrapper
 	@Override
 	public java.util.List<com.liferay.account.model.AccountEntry>
 		getAccountEntries(
+			long companyId, boolean active, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.account.model.AccountEntry> orderByComparator) {
+
+		return _accountEntryLocalService.getAccountEntries(
+			companyId, active, start, end, orderByComparator);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getAccountEntries(long, boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
+	@Override
+	public java.util.List<com.liferay.account.model.AccountEntry>
+		getAccountEntries(
 			long companyId, int status, int start, int end,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<com.liferay.account.model.AccountEntry> orderByComparator) {
@@ -419,6 +470,16 @@ public class AccountEntryLocalServiceWrapper
 		return _accountEntryLocalService.getAccountEntriesCount();
 	}
 
+	@Override
+	public int getAccountEntriesCount(long companyId, boolean active) {
+		return _accountEntryLocalService.getAccountEntriesCount(
+			companyId, active);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getAccountEntriesCount(long, boolean)}
+	 */
+	@Deprecated
 	@Override
 	public int getAccountEntriesCount(long companyId, int status) {
 		return _accountEntryLocalService.getAccountEntriesCount(
@@ -612,6 +673,25 @@ public class AccountEntryLocalServiceWrapper
 		return _accountEntryLocalService.updateAccountEntry(accountEntry);
 	}
 
+	@Override
+	public com.liferay.account.model.AccountEntry updateAccountEntry(
+			long accountEntryId, long parentAccountEntryId, String name,
+			String description, boolean deleteLogo, String[] domains,
+			String emailAddress, byte[] logoBytes, String taxIdNumber,
+			boolean active,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.updateAccountEntry(
+			accountEntryId, parentAccountEntryId, name, description, deleteLogo,
+			domains, emailAddress, logoBytes, taxIdNumber, active,
+			serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #updateAccountEntry(long, long, String, String, boolean, String[], String, byte[], String, boolean, ServiceContext)}
+	 */
+	@Deprecated
 	@Override
 	public com.liferay.account.model.AccountEntry updateAccountEntry(
 			long accountEntryId, long parentAccountEntryId, String name,

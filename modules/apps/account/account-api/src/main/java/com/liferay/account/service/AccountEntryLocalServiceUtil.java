@@ -77,6 +77,22 @@ public class AccountEntryLocalServiceUtil {
 	public static AccountEntry addAccountEntry(
 			long userId, long parentAccountEntryId, String name,
 			String description, String[] domains, String emailAddress,
+			byte[] logoBytes, String taxIdNumber, String type, boolean active,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addAccountEntry(
+			userId, parentAccountEntryId, name, description, domains,
+			emailAddress, logoBytes, taxIdNumber, type, active, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addAccountEntry(long, long, String, String, String[], String, byte[], String, String, boolean, ServiceContext)}
+	 */
+	@Deprecated
+	public static AccountEntry addAccountEntry(
+			long userId, long parentAccountEntryId, String name,
+			String description, String[] domains, String emailAddress,
 			byte[] logoBytes, String taxIdNumber, String type, int status,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
@@ -86,6 +102,24 @@ public class AccountEntryLocalServiceUtil {
 			emailAddress, logoBytes, taxIdNumber, type, status, serviceContext);
 	}
 
+	public static AccountEntry addOrUpdateAccountEntry(
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			String[] domains, String emailAddress, byte[] logoBytes,
+			String taxIdNumber, String type, boolean active,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addOrUpdateAccountEntry(
+			externalReferenceCode, userId, parentAccountEntryId, name,
+			description, domains, emailAddress, logoBytes, taxIdNumber, type,
+			active, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addOrUpdateAccountEntry(String, long, long, String, String, String[], String, byte[], String, String, boolean, ServiceContext)}
+	 */
+	@Deprecated
 	public static AccountEntry addOrUpdateAccountEntry(
 			String externalReferenceCode, long userId,
 			long parentAccountEntryId, String name, String description,
@@ -346,6 +380,18 @@ public class AccountEntryLocalServiceUtil {
 	}
 
 	public static List<AccountEntry> getAccountEntries(
+		long companyId, boolean active, int start, int end,
+		OrderByComparator<AccountEntry> orderByComparator) {
+
+		return getService().getAccountEntries(
+			companyId, active, start, end, orderByComparator);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getAccountEntries(long, boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
+	public static List<AccountEntry> getAccountEntries(
 		long companyId, int status, int start, int end,
 		OrderByComparator<AccountEntry> orderByComparator) {
 
@@ -362,6 +408,14 @@ public class AccountEntryLocalServiceUtil {
 		return getService().getAccountEntriesCount();
 	}
 
+	public static int getAccountEntriesCount(long companyId, boolean active) {
+		return getService().getAccountEntriesCount(companyId, active);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getAccountEntriesCount(long, boolean)}
+	 */
+	@Deprecated
 	public static int getAccountEntriesCount(long companyId, int status) {
 		return getService().getAccountEntriesCount(companyId, status);
 	}
@@ -526,6 +580,24 @@ public class AccountEntryLocalServiceUtil {
 		return getService().updateAccountEntry(accountEntry);
 	}
 
+	public static AccountEntry updateAccountEntry(
+			long accountEntryId, long parentAccountEntryId, String name,
+			String description, boolean deleteLogo, String[] domains,
+			String emailAddress, byte[] logoBytes, String taxIdNumber,
+			boolean active,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateAccountEntry(
+			accountEntryId, parentAccountEntryId, name, description, deleteLogo,
+			domains, emailAddress, logoBytes, taxIdNumber, active,
+			serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #updateAccountEntry(long, long, String, String, boolean, String[], String, byte[], String, boolean, ServiceContext)}
+	 */
+	@Deprecated
 	public static AccountEntry updateAccountEntry(
 			long accountEntryId, long parentAccountEntryId, String name,
 			String description, boolean deleteLogo, String[] domains,
