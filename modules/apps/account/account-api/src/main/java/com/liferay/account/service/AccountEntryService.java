@@ -64,10 +64,33 @@ public interface AccountEntryService extends BaseService {
 	public AccountEntry addAccountEntry(
 			long userId, long parentAccountEntryId, String name,
 			String description, String[] domains, String email,
+			byte[] logoBytes, String taxIdNumber, String type, boolean active,
+			ServiceContext serviceContext)
+		throws PortalException;
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
+	public AccountEntry addAccountEntry(
+			long userId, long parentAccountEntryId, String name,
+			String description, String[] domains, String email,
 			byte[] logoBytes, String taxIdNumber, String type, int status,
 			ServiceContext serviceContext)
 		throws PortalException;
 
+	public AccountEntry addOrUpdateAccountEntry(
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			String[] domains, String emailAddress, byte[] logoBytes,
+			String taxIdNumber, String type, boolean active,
+			ServiceContext serviceContext)
+		throws PortalException;
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
 	public AccountEntry addOrUpdateAccountEntry(
 			String externalReferenceCode, long userId,
 			long parentAccountEntryId, String name, String description,
@@ -91,6 +114,16 @@ public interface AccountEntryService extends BaseService {
 	public AccountEntry fetchAccountEntry(long accountEntryId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AccountEntry> getAccountEntries(
+			long companyId, boolean active, int start, int end,
+			OrderByComparator<AccountEntry> orderByComparator)
+		throws PortalException;
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AccountEntry> getAccountEntries(
 			long companyId, int status, int start, int end,
@@ -117,6 +150,17 @@ public interface AccountEntryService extends BaseService {
 	public AccountEntry updateAccountEntry(AccountEntry accountEntry)
 		throws PortalException;
 
+	public AccountEntry updateAccountEntry(
+			long accountEntryId, long parentAccountEntryId, String name,
+			String description, boolean deleteLogo, String[] domains,
+			String emailAddress, byte[] logoBytes, String taxIdNumber,
+			boolean active, ServiceContext serviceContext)
+		throws PortalException;
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
 	public AccountEntry updateAccountEntry(
 			long accountEntryId, long parentAccountEntryId, String name,
 			String description, boolean deleteLogo, String[] domains,

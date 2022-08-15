@@ -54,6 +54,22 @@ public class AccountEntryServiceUtil {
 	public static AccountEntry addAccountEntry(
 			long userId, long parentAccountEntryId, String name,
 			String description, String[] domains, String email,
+			byte[] logoBytes, String taxIdNumber, String type, boolean active,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addAccountEntry(
+			userId, parentAccountEntryId, name, description, domains, email,
+			logoBytes, taxIdNumber, type, active, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
+	public static AccountEntry addAccountEntry(
+			long userId, long parentAccountEntryId, String name,
+			String description, String[] domains, String email,
 			byte[] logoBytes, String taxIdNumber, String type, int status,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
@@ -63,6 +79,24 @@ public class AccountEntryServiceUtil {
 			logoBytes, taxIdNumber, type, status, serviceContext);
 	}
 
+	public static AccountEntry addOrUpdateAccountEntry(
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			String[] domains, String emailAddress, byte[] logoBytes,
+			String taxIdNumber, String type, boolean active,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addOrUpdateAccountEntry(
+			externalReferenceCode, userId, parentAccountEntryId, name,
+			description, domains, emailAddress, logoBytes, taxIdNumber, type,
+			active, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
 	public static AccountEntry addOrUpdateAccountEntry(
 			String externalReferenceCode, long userId,
 			long parentAccountEntryId, String name, String description,
@@ -108,6 +142,19 @@ public class AccountEntryServiceUtil {
 	}
 
 	public static List<AccountEntry> getAccountEntries(
+			long companyId, boolean active, int start, int end,
+			OrderByComparator<AccountEntry> orderByComparator)
+		throws PortalException {
+
+		return getService().getAccountEntries(
+			companyId, active, start, end, orderByComparator);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
+	public static List<AccountEntry> getAccountEntries(
 			long companyId, int status, int start, int end,
 			OrderByComparator<AccountEntry> orderByComparator)
 		throws PortalException {
@@ -147,6 +194,24 @@ public class AccountEntryServiceUtil {
 		return getService().updateAccountEntry(accountEntry);
 	}
 
+	public static AccountEntry updateAccountEntry(
+			long accountEntryId, long parentAccountEntryId, String name,
+			String description, boolean deleteLogo, String[] domains,
+			String emailAddress, byte[] logoBytes, String taxIdNumber,
+			boolean active,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateAccountEntry(
+			accountEntryId, parentAccountEntryId, name, description, deleteLogo,
+			domains, emailAddress, logoBytes, taxIdNumber, active,
+			serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
 	public static AccountEntry updateAccountEntry(
 			long accountEntryId, long parentAccountEntryId, String name,
 			String description, boolean deleteLogo, String[] domains,
