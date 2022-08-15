@@ -27,9 +27,11 @@ import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermi
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.permission.PortalPermission;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -69,7 +71,7 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 	public AccountEntry addAccountEntry(
 			long userId, long parentAccountEntryId, String name,
 			String description, String[] domains, String email,
-			byte[] logoBytes, String taxIdNumber, String type, int status,
+			byte[] logoBytes, String taxIdNumber, String type, boolean active,
 			ServiceContext serviceContext)
 		throws PortalException {
 
@@ -79,7 +81,24 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 		return accountEntryLocalService.addAccountEntry(
 			userId, parentAccountEntryId, name, description,
 			_getManageableDomains(0L, domains), email, logoBytes, taxIdNumber,
-			type, status, serviceContext);
+			type, active, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
+	@Override
+	public AccountEntry addAccountEntry(
+			long userId, long parentAccountEntryId, String name,
+			String description, String[] domains, String email,
+			byte[] logoBytes, String taxIdNumber, String type, int status,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		return addAccountEntry(
+			userId, parentAccountEntryId, name, description, domains, email,
+			logoBytes, taxIdNumber, type, _isActive(status), serviceContext);
 	}
 
 	@Override
@@ -87,7 +106,7 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 			String externalReferenceCode, long userId,
 			long parentAccountEntryId, String name, String description,
 			String[] domains, String emailAddress, byte[] logoBytes,
-			String taxIdNumber, String type, int status,
+			String taxIdNumber, String type, boolean active,
 			ServiceContext serviceContext)
 		throws PortalException {
 
@@ -114,7 +133,26 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 		return accountEntryLocalService.addOrUpdateAccountEntry(
 			externalReferenceCode, userId, parentAccountEntryId, name,
 			description, _getManageableDomains(accountEntryId, domains),
-			emailAddress, logoBytes, taxIdNumber, type, status, serviceContext);
+			emailAddress, logoBytes, taxIdNumber, type, active, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
+	@Override
+	public AccountEntry addOrUpdateAccountEntry(
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			String[] domains, String emailAddress, byte[] logoBytes,
+			String taxIdNumber, String type, int status,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		return addOrUpdateAccountEntry(
+			externalReferenceCode, userId, parentAccountEntryId, name,
+			description, domains, emailAddress, logoBytes, taxIdNumber, type,
+			_isActive(status), serviceContext);
 	}
 
 	@Override
@@ -165,7 +203,7 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 
 	@Override
 	public List<AccountEntry> getAccountEntries(
-			long companyId, int status, int start, int end,
+			long companyId, boolean active, int start, int end,
 			OrderByComparator<AccountEntry> orderByComparator)
 		throws PortalException {
 
@@ -181,7 +219,21 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 		}
 
 		return accountEntryLocalService.getAccountEntries(
-			companyId, status, start, end, orderByComparator);
+			companyId, active, start, end, orderByComparator);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
+	@Override
+	public List<AccountEntry> getAccountEntries(
+			long companyId, int status, int start, int end,
+			OrderByComparator<AccountEntry> orderByComparator)
+		throws PortalException {
+
+		return getAccountEntries(
+			companyId, _isActive(status), start, end, orderByComparator);
 	}
 
 	@Override
@@ -242,7 +294,7 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 			long accountEntryId, long parentAccountEntryId, String name,
 			String description, boolean deleteLogo, String[] domains,
 			String emailAddress, byte[] logoBytes, String taxIdNumber,
-			int status, ServiceContext serviceContext)
+			boolean active, ServiceContext serviceContext)
 		throws PortalException {
 
 		_accountEntryModelResourcePermission.check(
@@ -251,7 +303,25 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 		return accountEntryLocalService.updateAccountEntry(
 			accountEntryId, parentAccountEntryId, name, description, deleteLogo,
 			_getManageableDomains(accountEntryId, domains), emailAddress,
-			logoBytes, taxIdNumber, status, serviceContext);
+			logoBytes, taxIdNumber, active, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
+	@Override
+	public AccountEntry updateAccountEntry(
+			long accountEntryId, long parentAccountEntryId, String name,
+			String description, boolean deleteLogo, String[] domains,
+			String emailAddress, byte[] logoBytes, String taxIdNumber,
+			int status, ServiceContext serviceContext)
+		throws PortalException {
+
+		return updateAccountEntry(
+			accountEntryId, parentAccountEntryId, name, description, deleteLogo,
+			domains, emailAddress, logoBytes, taxIdNumber, _isActive(status),
+			serviceContext);
 	}
 
 	@Override
@@ -289,6 +359,10 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 		}
 
 		return null;
+	}
+
+	private boolean _isActive(int status) {
+		return Objects.equals(WorkflowConstants.STATUS_APPROVED, status);
 	}
 
 	@Reference(
