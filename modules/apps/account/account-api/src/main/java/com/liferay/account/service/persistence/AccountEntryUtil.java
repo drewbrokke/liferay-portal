@@ -875,6 +875,274 @@ public class AccountEntryUtil {
 	}
 
 	/**
+	 * Returns all the account entries where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @return the matching account entries
+	 */
+	public static List<AccountEntry> findByC_A(long companyId, boolean active) {
+		return getPersistence().findByC_A(companyId, active);
+	}
+
+	/**
+	 * Returns a range of all the account entries where companyId = &#63; and active = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param start the lower bound of the range of account entries
+	 * @param end the upper bound of the range of account entries (not inclusive)
+	 * @return the range of matching account entries
+	 */
+	public static List<AccountEntry> findByC_A(
+		long companyId, boolean active, int start, int end) {
+
+		return getPersistence().findByC_A(companyId, active, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the account entries where companyId = &#63; and active = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param start the lower bound of the range of account entries
+	 * @param end the upper bound of the range of account entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching account entries
+	 */
+	public static List<AccountEntry> findByC_A(
+		long companyId, boolean active, int start, int end,
+		OrderByComparator<AccountEntry> orderByComparator) {
+
+		return getPersistence().findByC_A(
+			companyId, active, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the account entries where companyId = &#63; and active = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param start the lower bound of the range of account entries
+	 * @param end the upper bound of the range of account entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching account entries
+	 */
+	public static List<AccountEntry> findByC_A(
+		long companyId, boolean active, int start, int end,
+		OrderByComparator<AccountEntry> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByC_A(
+			companyId, active, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first account entry in the ordered set where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching account entry
+	 * @throws NoSuchEntryException if a matching account entry could not be found
+	 */
+	public static AccountEntry findByC_A_First(
+			long companyId, boolean active,
+			OrderByComparator<AccountEntry> orderByComparator)
+		throws com.liferay.account.exception.NoSuchEntryException {
+
+		return getPersistence().findByC_A_First(
+			companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Returns the first account entry in the ordered set where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching account entry, or <code>null</code> if a matching account entry could not be found
+	 */
+	public static AccountEntry fetchByC_A_First(
+		long companyId, boolean active,
+		OrderByComparator<AccountEntry> orderByComparator) {
+
+		return getPersistence().fetchByC_A_First(
+			companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Returns the last account entry in the ordered set where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching account entry
+	 * @throws NoSuchEntryException if a matching account entry could not be found
+	 */
+	public static AccountEntry findByC_A_Last(
+			long companyId, boolean active,
+			OrderByComparator<AccountEntry> orderByComparator)
+		throws com.liferay.account.exception.NoSuchEntryException {
+
+		return getPersistence().findByC_A_Last(
+			companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Returns the last account entry in the ordered set where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching account entry, or <code>null</code> if a matching account entry could not be found
+	 */
+	public static AccountEntry fetchByC_A_Last(
+		long companyId, boolean active,
+		OrderByComparator<AccountEntry> orderByComparator) {
+
+		return getPersistence().fetchByC_A_Last(
+			companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Returns the account entries before and after the current account entry in the ordered set where companyId = &#63; and active = &#63;.
+	 *
+	 * @param accountEntryId the primary key of the current account entry
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next account entry
+	 * @throws NoSuchEntryException if a account entry with the primary key could not be found
+	 */
+	public static AccountEntry[] findByC_A_PrevAndNext(
+			long accountEntryId, long companyId, boolean active,
+			OrderByComparator<AccountEntry> orderByComparator)
+		throws com.liferay.account.exception.NoSuchEntryException {
+
+		return getPersistence().findByC_A_PrevAndNext(
+			accountEntryId, companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Returns all the account entries that the user has permission to view where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @return the matching account entries that the user has permission to view
+	 */
+	public static List<AccountEntry> filterFindByC_A(
+		long companyId, boolean active) {
+
+		return getPersistence().filterFindByC_A(companyId, active);
+	}
+
+	/**
+	 * Returns a range of all the account entries that the user has permission to view where companyId = &#63; and active = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param start the lower bound of the range of account entries
+	 * @param end the upper bound of the range of account entries (not inclusive)
+	 * @return the range of matching account entries that the user has permission to view
+	 */
+	public static List<AccountEntry> filterFindByC_A(
+		long companyId, boolean active, int start, int end) {
+
+		return getPersistence().filterFindByC_A(companyId, active, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the account entries that the user has permissions to view where companyId = &#63; and active = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AccountEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param start the lower bound of the range of account entries
+	 * @param end the upper bound of the range of account entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching account entries that the user has permission to view
+	 */
+	public static List<AccountEntry> filterFindByC_A(
+		long companyId, boolean active, int start, int end,
+		OrderByComparator<AccountEntry> orderByComparator) {
+
+		return getPersistence().filterFindByC_A(
+			companyId, active, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the account entries before and after the current account entry in the ordered set of account entries that the user has permission to view where companyId = &#63; and active = &#63;.
+	 *
+	 * @param accountEntryId the primary key of the current account entry
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next account entry
+	 * @throws NoSuchEntryException if a account entry with the primary key could not be found
+	 */
+	public static AccountEntry[] filterFindByC_A_PrevAndNext(
+			long accountEntryId, long companyId, boolean active,
+			OrderByComparator<AccountEntry> orderByComparator)
+		throws com.liferay.account.exception.NoSuchEntryException {
+
+		return getPersistence().filterFindByC_A_PrevAndNext(
+			accountEntryId, companyId, active, orderByComparator);
+	}
+
+	/**
+	 * Removes all the account entries where companyId = &#63; and active = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 */
+	public static void removeByC_A(long companyId, boolean active) {
+		getPersistence().removeByC_A(companyId, active);
+	}
+
+	/**
+	 * Returns the number of account entries where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @return the number of matching account entries
+	 */
+	public static int countByC_A(long companyId, boolean active) {
+		return getPersistence().countByC_A(companyId, active);
+	}
+
+	/**
+	 * Returns the number of account entries that the user has permission to view where companyId = &#63; and active = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param active the active
+	 * @return the number of matching account entries that the user has permission to view
+	 */
+	public static int filterCountByC_A(long companyId, boolean active) {
+		return getPersistence().filterCountByC_A(companyId, active);
+	}
+
+	/**
 	 * Returns all the account entries where companyId = &#63; and status = &#63;.
 	 *
 	 * @param companyId the company ID

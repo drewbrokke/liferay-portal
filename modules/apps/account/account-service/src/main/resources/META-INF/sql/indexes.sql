@@ -1,3 +1,4 @@
+create index IX_149F294C on AccountEntry (companyId, active_);
 create unique index IX_FBFAF640 on AccountEntry (companyId, externalReferenceCode[$COLUMN_LENGTH:75$]);
 create index IX_48CB043 on AccountEntry (companyId, status);
 create index IX_908C3410 on AccountEntry (userId, type_[$COLUMN_LENGTH:75$]);
