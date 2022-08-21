@@ -278,6 +278,14 @@ public abstract class BaseSourceProcessor implements SourceProcessor {
 			new ArrayList<>(_sourceChecks), modifiedContents, modifiedMessages,
 			0);
 
+		if (_sourceFormatterArgs.isPrintContentModificationsJSON() &&
+			!content.equals(newContent)) {
+
+			DebugUtil.printContentModificationsJSON(
+				fileName, content, newContent,
+				_sourceFormatterMessagesMap.get(fileName));
+		}
+
 		return processFormattedFile(
 			file, fileName, content, newContent, modifiedMessages);
 	}

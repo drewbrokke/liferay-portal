@@ -244,6 +244,10 @@ public class SourceFormatter {
 				ArgumentsUtil.getBoolean(
 					arguments, "source.print.errors",
 					SourceFormatterArgs.PRINT_ERRORS));
+			sourceFormatterArgs.setPrintContentModificationsJSON(
+				ArgumentsUtil.getBoolean(
+					arguments, "source.print.content.modifications.json",
+					SourceFormatterArgs.PRINT_CONTENT_MODIFICATIONS_JSON));
 			sourceFormatterArgs.setProcessorThreadCount(
 				ArgumentsUtil.getInteger(
 					arguments, "processor.thread.count",

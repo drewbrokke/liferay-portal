@@ -16,8 +16,14 @@ package com.liferay.source.formatter.util;
 
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.json.JSONArrayImpl;
+import com.liferay.portal.json.JSONObjectImpl;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.source.formatter.SourceFormatterMessage;
 
 import difflib.Chunk;
 import difflib.Delta;
@@ -32,6 +38,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -107,6 +114,36 @@ public class DebugUtil {
 		}
 	}
 
+	public static void printContentModificationsJSON(
+		String fileName, String content, String newContent,
+		Set<SourceFormatterMessage> sourceFormatterMessages) {
+
+		JSONObject contentModificationsJSONObject =
+			_getContentModificationsJSONObject(fileName, content, newContent);
+
+		JSONArray jsonArray = new JSONArrayImpl();
+
+		for (SourceFormatterMessage sourceFormatterMessage :
+				sourceFormatterMessages) {
+
+			JSONObject jsonObject = new JSONObjectImpl();
+
+			jsonObject.put(
+				"additional-info", sourceFormatterMessage.getMessage()
+			).put(
+				"line-number", sourceFormatterMessage.getLineNumber()
+			).put(
+				"type", sourceFormatterMessage.getCheckName()
+			);
+
+			jsonArray.put(jsonObject);
+		}
+
+		contentModificationsJSONObject.put("problems", jsonArray);
+
+		System.out.println(JSONUtil.toString(contentModificationsJSONObject));
+	}
+
 	public static void printSourceFormatterInformation() {
 		_printProcessorInformation();
 
@@ -116,6 +153,102 @@ public class DebugUtil {
 
 	public static void startTask() {
 		_concurrentTasksCount.incrementAndGet();
+	}
+
+	private static JSONObject _getContentModificationsJSONObject(
+		String fileName, Delta<String> delta) {
+
+		JSONObject jsonObject = new JSONObjectImpl();
+
+		jsonObject.put("file", fileName);
+
+		if (delta.getType() == Delta.TYPE.CHANGE) {
+			Chunk<String> originalChunk = delta.getOriginal();
+			Chunk<String> revisedChunk = delta.getRevised();
+
+			int startLine = originalChunk.getPosition() + 1;
+
+			List<String> revisedLines = revisedChunk.getLines();
+
+			jsonObject.put(
+				"line-end", startLine + revisedLines.size()
+			).put(
+				"line-start", startLine
+			).put(
+				"type", "modify"
+			);
+
+			JSONArray beforeLinesJSONArray = new JSONArrayImpl();
+
+			for (String line : originalChunk.getLines()) {
+				beforeLinesJSONArray.put(line);
+			}
+
+			jsonObject.put("before-lines", beforeLinesJSONArray);
+
+			JSONArray afterLinesJSONArray = new JSONArrayImpl();
+
+			for (String line : revisedChunk.getLines()) {
+				afterLinesJSONArray.put(line);
+			}
+
+			jsonObject.put("after-lines", afterLinesJSONArray);
+		}
+		else if (delta.getType() == Delta.TYPE.DELETE) {
+			Chunk<String> originalChunk = delta.getOriginal();
+
+			int startLine = originalChunk.getPosition() + 1;
+
+			List<String> originalLines = originalChunk.getLines();
+
+			jsonObject.put(
+				"line-end", startLine + originalLines.size() - 1
+			).put(
+				"line-start", startLine
+			).put(
+				"type", "delete"
+			);
+		}
+		else if (delta.getType() == Delta.TYPE.INSERT) {
+			Chunk<String> originalChunk = delta.getOriginal();
+
+			int startLine = originalChunk.getPosition() + 1;
+
+			List<String> originalLines = originalChunk.getLines();
+
+			jsonObject.put(
+				"line-end", startLine + originalLines.size()
+			).put(
+				"line-start", startLine
+			).put(
+				"type", "insert"
+			);
+		}
+
+		return jsonObject;
+	}
+
+	private static JSONObject _getContentModificationsJSONObject(
+		String fileName, String originalContent, String modifiedContent) {
+
+		List<String> originalLines = ListUtil.fromArray(
+			StringUtil.splitLines(originalContent));
+		List<String> modifiedLines = ListUtil.fromArray(
+			StringUtil.splitLines(modifiedContent));
+
+		Patch<String> patch = DiffUtils.diff(originalLines, modifiedLines);
+
+		JSONArray jsonArray = new JSONArrayImpl();
+
+		for (Delta<String> delta : patch.getDeltas()) {
+			jsonArray.put(_getContentModificationsJSONObject(fileName, delta));
+		}
+
+		JSONObject jsonObject = new JSONObjectImpl();
+
+		jsonObject.put("changes", jsonArray);
+
+		return jsonObject;
 	}
 
 	private static void _printDelta(Delta<String> delta, String fileName) {

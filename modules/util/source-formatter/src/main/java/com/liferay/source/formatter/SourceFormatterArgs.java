@@ -58,6 +58,8 @@ public class SourceFormatterArgs {
 	public static final String OUTPUT_KEY_MODIFIED_FILES =
 		"source.formatter.modified.files";
 
+	public static final boolean PRINT_CONTENT_MODIFICATIONS_JSON = false;
+
 	public static final boolean PRINT_ERRORS = true;
 
 	public static final int PROCESSOR_THREAD_COUNT = 5;
@@ -167,6 +169,10 @@ public class SourceFormatterArgs {
 		return _includeSubrepositories;
 	}
 
+	public boolean isPrintContentModificationsJSON() {
+		return _printContentModificationsJSON;
+	}
+
 	public boolean isPrintErrors() {
 		return _printErrors;
 	}
@@ -268,6 +274,12 @@ public class SourceFormatterArgs {
 		_outputFileName = outputFileName;
 	}
 
+	public void setPrintContentModificationsJSON(
+		boolean printContentModificationsJSON) {
+
+		_printContentModificationsJSON = printContentModificationsJSON;
+	}
+
 	public void setPrintErrors(boolean printErrors) {
 		_printErrors = printErrors;
 	}
@@ -312,6 +324,8 @@ public class SourceFormatterArgs {
 	private int _maxDirLevel = MAX_DIR_LEVEL;
 	private int _maxLineLength = MAX_LINE_LENGTH;
 	private String _outputFileName = OUTPUT_FILE_NAME;
+	private boolean _printContentModificationsJSON =
+		PRINT_CONTENT_MODIFICATIONS_JSON;
 	private boolean _printErrors = PRINT_ERRORS;
 	private int _processorThreadCount = PROCESSOR_THREAD_COUNT;
 	private final Set<String> _recentChangesFileNames = new HashSet<>();
