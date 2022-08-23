@@ -66,7 +66,7 @@ account-api/src/main/java/com/liferay/account/service/AccountGroupRelLocalServic
 account-api/src/main/java/com/liferay/account/service/AccountRoleServiceUtil.java binary linguist-generated=true
 account-api/src/main/java/com/liferay/account/service/AccountEntryLocalServiceWrapper.java binary linguist-generated=true
 account-api/src/main/java/com/liferay/account/service/AccountEntryOrganizationRelService.java binary linguist-generated=true
-account-api/src/main/java/com/liferay/account/service/AccountEntryLocalServiceUtil.java binary linguist-generated=true
+AccountEntryLocalServiceUtil.java binary linguist-generated=true
 account-api/src/main/java/com/liferay/account/service/AccountEntryOrganizationRelLocalServiceUtil.java binary linguist-generated=true
 account-api/src/main/java/com/liferay/account/service/AccountGroupRelLocalServiceUtil.java binary linguist-generated=true
 account-api/src/main/java/com/liferay/account/service/AccountGroupRelLocalService.java binary linguist-generated=true
