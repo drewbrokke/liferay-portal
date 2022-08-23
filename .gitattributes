@@ -1,2 +1,8 @@
 *.pom	text eol=lf
 ivy.xml	text eol=lf
+
+*Service.java linguist-generated=true
+*ServiceUtil.java linguist-generated=true
+*ServiceWrapper.java linguist-generated=true
+*ServiceBaseImpl.java linguist-generated=true
+*Persistence.java linguist-generated=true
