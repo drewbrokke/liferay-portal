@@ -70,6 +70,7 @@ page import="com.liferay.account.admin.web.internal.security.permission.resource
 page import="com.liferay.account.admin.web.internal.security.permission.resource.AccountPermission" %><%@
 page import="com.liferay.account.admin.web.internal.security.permission.resource.AccountRolePermission" %><%@
 page import="com.liferay.account.admin.web.internal.servlet.taglib.util.AccountUserActionDropdownItemsProvider" %><%@
+page import="com.liferay.account.admin.web.internal.util.AccountUserPermissionUtil" %><%@
 page import="com.liferay.account.constants.AccountActionKeys" %><%@
 page import="com.liferay.account.constants.AccountConstants" %><%@
 page import="com.liferay.account.constants.AccountListTypeConstants" %><%@
