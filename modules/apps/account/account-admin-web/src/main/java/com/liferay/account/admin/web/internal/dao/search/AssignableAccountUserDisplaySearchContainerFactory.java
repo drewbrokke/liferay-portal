@@ -114,6 +114,8 @@ public class AssignableAccountUserDisplaySearchContainerFactory {
 				LinkedHashMapBuilder.<String, Serializable>put(
 					"emailAddressDomains",
 					_getEmailAddressDomains(accountEntryId, navigation)
+				).put(
+					"permissionSearch", false
 				).build(),
 				WorkflowConstants.STATUS_APPROVED, searchContainer.getStart(),
 				searchContainer.getDelta(), searchContainer.getOrderByCol(),
