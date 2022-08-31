@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.searcher.SearchRequest;
@@ -168,11 +169,13 @@ public class UserSearchRequestBuilder {
 			).build());
 		searchContext.setCompanyId(CompanyThreadLocal.getCompanyId());
 
-		PermissionChecker permissionChecker =
-			PermissionThreadLocal.getPermissionChecker();
+		if (GetterUtil.getBoolean(_attributes.get("permissionSearch"), true)) {
+			PermissionChecker permissionChecker =
+				PermissionThreadLocal.getPermissionChecker();
 
-		if (permissionChecker != null) {
-			searchContext.setUserId(permissionChecker.getUserId());
+			if (permissionChecker != null) {
+				searchContext.setUserId(permissionChecker.getUserId());
+			}
 		}
 	}
 
