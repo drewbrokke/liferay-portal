@@ -151,8 +151,6 @@ public class AccountEntryEmailValidatorTest {
 			validatorArgs -> validatorArgs.customTLDs = _EMPTY_STRING_ARRAY,
 			validator -> {
 				Assert.assertTrue(validator.isValidDomainFormat("valid.com"));
-				Assert.assertTrue(
-					validator.isValidDomainFormat(_toEmail("valid.com")));
 				Assert.assertFalse(validator.isValidDomainFormat("invalid"));
 				Assert.assertFalse(
 					validator.isValidDomainFormat("invalid.unknowntld"));
