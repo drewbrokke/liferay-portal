@@ -15,7 +15,7 @@
 package com.liferay.account.admin.web.internal.portlet.action;
 
 import com.liferay.account.admin.web.internal.display.context.EditAccountEntryAccountUserDisplayContext;
-import com.liferay.account.admin.web.internal.util.AccountUserPermissionUtil;
+import com.liferay.account.admin.web.internal.security.permission.resource.AccountUserPermission;
 import com.liferay.account.constants.AccountPortletKeys;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.service.AccountEntryLocalService;
@@ -67,7 +67,7 @@ public class EditAccountUserMVCRenderCommand implements MVCRenderCommand {
 				_accountEntryLocalService.fetchAccountEntry(
 					ParamUtil.getLong(renderRequest, "accountEntryId"));
 
-			AccountUserPermissionUtil.checkEditUserPermission(
+			AccountUserPermission.checkEditUserPermission(
 				_permissionCheckerFactory.create(
 					_portal.getUser(renderRequest)),
 				AccountPortletKeys.ACCOUNT_ENTRIES_MANAGEMENT, accountEntry,

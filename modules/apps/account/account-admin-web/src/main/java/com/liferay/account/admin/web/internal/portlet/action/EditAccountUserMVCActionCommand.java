@@ -14,7 +14,7 @@
 
 package com.liferay.account.admin.web.internal.portlet.action;
 
-import com.liferay.account.admin.web.internal.util.AccountUserPermissionUtil;
+import com.liferay.account.admin.web.internal.security.permission.resource.AccountUserPermission;
 import com.liferay.account.constants.AccountPortletKeys;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.service.AccountEntryLocalService;
@@ -74,7 +74,7 @@ public class EditAccountUserMVCActionCommand
 		AccountEntry accountEntry = _accountEntryLocalService.fetchAccountEntry(
 			ParamUtil.getLong(actionRequest, "accountEntryId"));
 
-		AccountUserPermissionUtil.checkEditUserPermission(
+		AccountUserPermission.checkEditUserPermission(
 			_permissionCheckerFactory.create(_portal.getUser(actionRequest)),
 			AccountPortletKeys.ACCOUNT_ENTRIES_MANAGEMENT, accountEntry,
 			accountUser);
