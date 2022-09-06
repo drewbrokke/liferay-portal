@@ -17,7 +17,7 @@ package com.liferay.account.admin.web.internal.servlet.taglib.util;
 import com.liferay.account.admin.web.internal.display.AccountEntryDisplay;
 import com.liferay.account.admin.web.internal.display.AccountUserDisplay;
 import com.liferay.account.admin.web.internal.security.permission.resource.AccountEntryPermission;
-import com.liferay.account.admin.web.internal.util.AccountUserPermissionUtil;
+import com.liferay.account.admin.web.internal.security.permission.resource.AccountUserPermission;
 import com.liferay.account.constants.AccountActionKeys;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
@@ -62,7 +62,7 @@ public class AccountUserActionDropdownItemsProvider {
 	public List<DropdownItem> getActionDropdownItems() throws Exception {
 		return DropdownItemListBuilder.add(
 			() -> {
-				if (AccountUserPermissionUtil.hasEditUserPermission(
+				if (AccountUserPermission.hasEditUserPermission(
 						_permissionChecker,
 						PortalUtil.getPortletId(_httpServletRequest),
 						_accountEntryDisplay.getAccountEntry(),
