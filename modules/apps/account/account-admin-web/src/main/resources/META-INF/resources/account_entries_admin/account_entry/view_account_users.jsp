@@ -74,7 +74,7 @@ renderResponse.setTitle(accountEntryDisplay.getName());
 
 				AccountUserActionDropdownItemsProvider accountUserActionDropdownItemsProvider = new AccountUserActionDropdownItemsProvider(accountEntryDisplay, accountUser, permissionChecker, renderRequest, renderResponse);
 
-				if (AccountUserPermissionUtil.hasEditUserPermission(permissionChecker, portletName, accountEntryDisplay.getAccountEntry(), accountUser.getUser())) {
+				if (AccountUserPermission.hasEditUserPermission(permissionChecker, portletName, accountEntryDisplay.getAccountEntry(), accountUser.getUser())) {
 					rowURL = accountUserActionDropdownItemsProvider.getEditAccountUserURL();
 				}
 				%>
