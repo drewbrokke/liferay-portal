@@ -12,9 +12,9 @@
  * details.
  */
 
-package com.liferay.account.admin.web.internal.util;
+package com.liferay.account.admin.web.internal.security.permission.resource;
 
-import com.liferay.account.admin.web.internal.security.permission.resource.AccountEntryPermission;
+import com.liferay.account.admin.web.internal.util.AccountEntryEmailValidatorFactoryUtil;
 import com.liferay.account.constants.AccountPortletKeys;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.validator.AccountEntryEmailValidator;
@@ -29,7 +29,7 @@ import java.util.Objects;
 /**
  * @author Drew Brokke
  */
-public class AccountUserPermissionUtil {
+public class AccountUserPermission {
 
 	public static void checkEditUserPermission(
 			PermissionChecker permissionChecker, String portletId,
