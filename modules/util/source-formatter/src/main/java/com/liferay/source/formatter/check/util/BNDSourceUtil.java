@@ -254,6 +254,7 @@ public class BNDSourceUtil {
 		"-metatype-inherit", "-sass", "Bundle-ActivationPolicy",
 		"Can-Redefine-Classes", "Can-Retransform-Classes",
 		"Eclipse-PlatformFilter", "Implementation-Version", "JPM-Command",
+		"Liferay-Auto-Register-Configuration-Beans",
 		"Liferay-Configuration-Path", "Liferay-Enterprise-App",
 		"Liferay-Icons-Pack-Name", "Liferay-Icons-Path", "Liferay-JS-Config",
 		"Liferay-JS-Resources-Top-Head-Authenticated",
