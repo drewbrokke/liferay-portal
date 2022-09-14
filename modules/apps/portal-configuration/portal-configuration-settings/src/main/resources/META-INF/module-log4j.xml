@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<Configuration strict="true">
+	<Loggers>
+		<Logger level="ERROR" name="com.liferay.portal.configuration.settings.internal" />
+		<Logger level="ERROR" name="com.liferay.portal.configuration.settings.internal.settings.definition" />
+	</Loggers>
+</Configuration>
