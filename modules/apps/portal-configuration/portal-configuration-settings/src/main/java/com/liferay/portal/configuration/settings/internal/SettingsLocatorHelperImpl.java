@@ -455,6 +455,21 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 			Class<?> configurationBeanClass =
 				configurationBeanDeclaration.getConfigurationBeanClass();
 
+			String configurationPid = ConfigurationPidUtil.getConfigurationPid(
+				configurationBeanClass);
+
+			if (_scopedConfigurationManagedServiceFactories.containsKey(
+					configurationPid)) {
+
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						"Skipping adding ManagedServiceFactory (already " +
+							"registered): " + configurationPid);
+				}
+
+				return null;
+			}
+
 			LocationVariableResolver locationVariableResolver =
 				new LocationVariableResolver(
 					new ClassLoaderResourceManager(
@@ -466,6 +481,12 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 					new ScopedConfigurationManagedServiceFactory(
 						context, configurationBeanClass,
 						locationVariableResolver);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Adding ManagedServiceFactory for: " +
+						scopedConfigurationManagedServiceFactory.getName());
+			}
 
 			scopedConfigurationManagedServiceFactory.register();
 
