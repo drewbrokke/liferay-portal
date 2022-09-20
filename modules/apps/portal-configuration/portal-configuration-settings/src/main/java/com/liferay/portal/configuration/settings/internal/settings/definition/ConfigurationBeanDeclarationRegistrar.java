@@ -21,8 +21,6 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedMetaTypeInformation;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedMetaTypeService;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.settings.definition.ConfigurationBeanDeclaration;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -65,12 +63,6 @@ public class ConfigurationBeanDeclarationRegistrar
 				headers.get("Liferay-Auto-Register-Configuration-Beans"),
 				true)) {
 
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Skipping bundle (Liferay-Auto-Register-Configuration-" +
-						"Beans is false): " + bundle.getSymbolicName());
-			}
-
 			return null;
 		}
 
@@ -95,12 +87,6 @@ public class ConfigurationBeanDeclarationRegistrar
 
 			if (configurationClass == null) {
 				continue;
-			}
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Registering ConfigurationBeanDeclaration for class: " +
-						configurationClass.getName());
 			}
 
 			serviceRegistrations.add(
@@ -137,29 +123,8 @@ public class ConfigurationBeanDeclarationRegistrar
 			return;
 		}
 
-		if (_log.isDebugEnabled()) {
-			_log.debug(
-				"Un-registering ConfigurationBeanDeclarations for bundle: " +
-					bundle.getSymbolicName());
-		}
-
-		BundleContext bundleContext = bundle.getBundleContext();
-
 		for (ServiceRegistration<ConfigurationBeanDeclaration>
 				serviceRegistration : serviceRegistrations) {
-
-			if (_log.isDebugEnabled()) {
-				ConfigurationBeanDeclaration configurationBeanDeclaration =
-					bundleContext.getService(
-						serviceRegistration.getReference());
-
-				Class<?> configurationBeanClass =
-					configurationBeanDeclaration.getConfigurationBeanClass();
-
-				_log.debug(
-					"Un-registering ConfigurationBeanDeclaration for class: " +
-						configurationBeanClass.getName());
-			}
 
 			serviceRegistration.unregister();
 		}
@@ -200,22 +165,8 @@ public class ConfigurationBeanDeclarationRegistrar
 		try {
 			Class<?> clazz = bundle.loadClass(pid);
 
-			if (_beanDeclarationServiceTrackerMap.containsKey(clazz)) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						"Skipping registration for class (already " +
-							"registered): " + clazz.getName());
-				}
-
-				return null;
-			}
-
-			if (clazz.getAnnotation(Meta.OCD.class) == null) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						"Skipping registration for class (no Meta.OCD " +
-							"annotation): " + clazz.getName());
-				}
+			if (_beanDeclarationServiceTrackerMap.containsKey(clazz) ||
+				(clazz.getAnnotation(Meta.OCD.class) == null)) {
 
 				return null;
 			}
@@ -228,12 +179,6 @@ public class ConfigurationBeanDeclarationRegistrar
 				}
 
 				if (annotation.required()) {
-					if (_log.isDebugEnabled()) {
-						_log.debug(
-							"Skipping registration for class (Meta.AD has " +
-								"required = true): " + clazz.getName());
-					}
-
 					return null;
 				}
 			}
@@ -241,17 +186,9 @@ public class ConfigurationBeanDeclarationRegistrar
 			return clazz;
 		}
 		catch (ClassNotFoundException classNotFoundException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Class not found: " + classNotFoundException.getMessage());
-			}
+			return null;
 		}
-
-		return null;
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		ConfigurationBeanDeclarationRegistrar.class);
 
 	private ServiceTrackerMap<Object, ConfigurationBeanDeclaration>
 		_beanDeclarationServiceTrackerMap;

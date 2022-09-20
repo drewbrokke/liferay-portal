@@ -19,8 +19,6 @@ import com.liferay.portal.configuration.settings.internal.scoped.configuration.a
 import com.liferay.portal.configuration.settings.internal.util.ConfigurationPidUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
@@ -331,9 +329,6 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 			configurationBean, parentSettings);
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(
-		SettingsLocatorHelperImpl.class);
-
 	private final ConcurrentMap<String, Class<?>> _configurationBeanClasses =
 		new ConcurrentHashMap<>();
 	private ServiceTracker
@@ -366,15 +361,9 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 			Class<?> configurationBeanClass =
 				configurationBeanDeclaration.getConfigurationBeanClass();
 
-			String configurationPid = ConfigurationPidUtil.getConfigurationPid(
-				configurationBeanClass);
-
-			if (_configurationBeanClasses.containsKey(configurationPid)) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						"Skipping adding ManagedService (already " +
-							"registered): " + configurationPid);
-				}
+			if (_configurationBeanClasses.containsKey(
+					ConfigurationPidUtil.getConfigurationPid(
+						configurationBeanClass))) {
 
 				return null;
 			}
@@ -396,12 +385,6 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 								_portalPropertiesSettings));
 					});
 
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Adding ManagedService for: " +
-						configurationBeanManagedService.getConfigurationPid());
-			}
-
 			_configurationBeanClasses.put(
 				configurationBeanManagedService.getConfigurationPid(),
 				configurationBeanClass);
@@ -419,12 +402,6 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 			context.ungetService(serviceReference);
 
 			configurationBeanManagedService.unregister();
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Removing ManagedService for: " +
-						configurationBeanManagedService.getConfigurationPid());
-			}
 
 			Class<?> configurationBeanClass = _configurationBeanClasses.remove(
 				configurationBeanManagedService.getConfigurationPid());
