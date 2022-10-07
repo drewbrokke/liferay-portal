@@ -853,6 +853,26 @@ public class AccountEntryLocalServiceTest {
 	}
 
 	@Test
+	public void testSearchByStatus() throws Exception {
+		AccountEntry statusApprovedAccountEntry = _addAccountEntry();
+
+		AccountEntry statusInactiveAccountEntry =
+			_accountEntryLocalService.updateStatus(
+				_addAccountEntry(), WorkflowConstants.STATUS_INACTIVE);
+
+		_assertSearchWithParams(
+			_getLinkedHashMap("status", WorkflowConstants.STATUS_APPROVED),
+			statusApprovedAccountEntry);
+		_assertSearchWithParams(null, statusApprovedAccountEntry);
+		_assertSearchWithParams(
+			_getLinkedHashMap("status", WorkflowConstants.STATUS_INACTIVE),
+			statusInactiveAccountEntry);
+		_assertSearchWithParams(
+			_getLinkedHashMap("status", WorkflowConstants.STATUS_ANY),
+			statusApprovedAccountEntry, statusInactiveAccountEntry);
+	}
+
+	@Test
 	public void testSearchByType() throws Exception {
 		AccountEntry businessAccountEntry = _addAccountEntry();
 		AccountEntry personAccountEntry = _addPersonAccountEntry();
