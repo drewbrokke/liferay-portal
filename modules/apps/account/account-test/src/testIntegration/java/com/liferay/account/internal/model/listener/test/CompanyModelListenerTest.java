@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.CompanyTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
@@ -59,8 +58,7 @@ public class CompanyModelListenerTest {
 		_accountEntry = _accountEntryLocalService.addAccountEntry(
 			_defaultUser.getUserId(), 0L, RandomTestUtil.randomString(50),
 			RandomTestUtil.randomString(50), null, null, null, null,
-			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
+			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS, true,
 			ServiceContextTestUtil.getServiceContext());
 	}
 

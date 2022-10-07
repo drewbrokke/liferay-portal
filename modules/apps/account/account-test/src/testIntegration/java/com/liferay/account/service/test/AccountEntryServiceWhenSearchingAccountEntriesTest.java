@@ -46,7 +46,6 @@ import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.test.util.SearchTestRule;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
@@ -303,8 +302,7 @@ public class AccountEntryServiceWhenSearchingAccountEntriesTest {
 			AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
 			RandomTestUtil.randomString(), RandomTestUtil.randomString(), null,
 			null, null, null, AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
-			ServiceContextTestUtil.getServiceContext());
+			true, ServiceContextTestUtil.getServiceContext());
 
 		_accountEntryOrganizationRelLocalService.addAccountEntryOrganizationRel(
 			accountEntry.getAccountEntryId(), organization.getOrganizationId());
@@ -343,8 +341,8 @@ public class AccountEntryServiceWhenSearchingAccountEntriesTest {
 
 	private List<AccountEntry> _getAllAccountEntries() throws Exception {
 		return _accountEntryLocalService.getAccountEntries(
-			TestPropsValues.getCompanyId(), WorkflowConstants.STATUS_APPROVED,
-			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+			TestPropsValues.getCompanyId(), true, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	private boolean _hasPermission(

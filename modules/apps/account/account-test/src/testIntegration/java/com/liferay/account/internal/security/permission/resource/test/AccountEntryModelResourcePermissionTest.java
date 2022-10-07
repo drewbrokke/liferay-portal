@@ -41,7 +41,6 @@ import com.liferay.portal.kernel.test.util.RoleTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
@@ -198,8 +197,7 @@ public class AccountEntryModelResourcePermissionTest {
 			user.getUserId(), AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 			RandomTestUtil.randomString(), RandomTestUtil.randomString(), null,
 			null, null, null, AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
-			ServiceContextTestUtil.getServiceContext());
+			true, ServiceContextTestUtil.getServiceContext());
 
 		_assertContains(user, accountEntry, _ACTION_IDS);
 	}
