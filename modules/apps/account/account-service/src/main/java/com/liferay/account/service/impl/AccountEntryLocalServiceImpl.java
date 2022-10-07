@@ -501,39 +501,19 @@ public class AccountEntryLocalServiceImpl
 	@Override
 	public List<AccountEntry> getUserAccountEntries(
 			long userId, Long parentAccountEntryId, String keywords,
-			String[] types, int start, int end)
-		throws PortalException {
-
-		return getUserAccountEntries(
-			userId, parentAccountEntryId, keywords, types,
-			WorkflowConstants.STATUS_ANY, start, end);
-	}
-
-	@Override
-	public List<AccountEntry> getUserAccountEntries(
-			long userId, Long parentAccountEntryId, String keywords,
-			String[] types, Integer status, int start, int end)
-		throws PortalException {
-
-		return getUserAccountEntries(
-			userId, parentAccountEntryId, keywords, types, status, start, end,
-			null);
-	}
-
-	@Override
-	public List<AccountEntry> getUserAccountEntries(
-			long userId, Long parentAccountEntryId, String keywords,
-			String[] types, Integer status, int start, int end,
+			String[] types, Boolean active, int start, int end,
 			OrderByComparator<AccountEntry> orderByComparator)
 		throws PortalException {
+
+		Predicate wherePredicate = _getAccountEntryWherePredicate(
+			parentAccountEntryId, keywords, types, active);
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 			(orderByComparator == null)) {
 
 			Map<Serializable, AccountEntry> accountEntriesMap =
 				accountEntryPersistence.fetchByPrimaryKeys(
-					_getUserAccountEntryIds(
-						userId, parentAccountEntryId, keywords, types, status));
+					_getUserAccountEntryIds(userId, wherePredicate));
 
 			if (accountEntriesMap.isEmpty()) {
 				return Collections.emptyList();
@@ -545,17 +525,17 @@ public class AccountEntryLocalServiceImpl
 		Table<AccountEntryTable> tempAccountEntryTable =
 			_getOrganizationsAccountEntriesGroupByStep(
 				DSLQueryFactoryUtil.selectDistinct(AccountEntryTable.INSTANCE),
-				userId, parentAccountEntryId, keywords, types, status
+				userId, wherePredicate
 			).union(
 				_getOwnerAccountEntriesGroupByStep(
 					DSLQueryFactoryUtil.selectDistinct(
 						AccountEntryTable.INSTANCE),
-					userId, parentAccountEntryId, keywords, types, status)
+					userId, wherePredicate)
 			).union(
 				_getUerAccountEntriesGroupByStep(
 					DSLQueryFactoryUtil.selectDistinct(
 						AccountEntryTable.INSTANCE),
-					userId, parentAccountEntryId, keywords, types, status)
+					userId, wherePredicate)
 			).as(
 				"tempAccountEntry", AccountEntryTable.INSTANCE
 			);
@@ -572,6 +552,52 @@ public class AccountEntryLocalServiceImpl
 			));
 	}
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
+	@Override
+	public List<AccountEntry> getUserAccountEntries(
+			long userId, Long parentAccountEntryId, String keywords,
+			String[] types, int start, int end)
+		throws PortalException {
+
+		return getUserAccountEntries(
+			userId, parentAccountEntryId, keywords, types,
+			_getActive(WorkflowConstants.STATUS_ANY), start, end, null);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
+	@Override
+	public List<AccountEntry> getUserAccountEntries(
+			long userId, Long parentAccountEntryId, String keywords,
+			String[] types, Integer status, int start, int end)
+		throws PortalException {
+
+		return getUserAccountEntries(
+			userId, parentAccountEntryId, keywords, types, _getActive(status),
+			start, end, null);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
+	@Override
+	public List<AccountEntry> getUserAccountEntries(
+			long userId, Long parentAccountEntryId, String keywords,
+			String[] types, Integer status, int start, int end,
+			OrderByComparator<AccountEntry> orderByComparator)
+		throws PortalException {
+
+		return getUserAccountEntries(
+			userId, parentAccountEntryId, keywords, types, _getActive(status),
+			start, end, orderByComparator);
+	}
+
 	@Override
 	public int getUserAccountEntriesCount(
 			long userId, Long parentAccountEntryId, String keywords,
@@ -579,20 +605,35 @@ public class AccountEntryLocalServiceImpl
 		throws PortalException {
 
 		return getUserAccountEntriesCount(
-			userId, parentAccountEntryId, keywords, types,
-			WorkflowConstants.STATUS_ANY);
+			userId, parentAccountEntryId, keywords, types, true);
 	}
 
+	@Override
+	public int getUserAccountEntriesCount(
+			long userId, Long parentAccountEntryId, String keywords,
+			String[] types, Boolean active)
+		throws PortalException {
+
+		Set<Serializable> accountEntryIds = _getUserAccountEntryIds(
+			userId,
+			_getAccountEntryWherePredicate(
+				parentAccountEntryId, keywords, types, active));
+
+		return accountEntryIds.size();
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntriesCount(long, Long, String, String[], Boolean)}
+	 */
+	@Deprecated
 	@Override
 	public int getUserAccountEntriesCount(
 			long userId, Long parentAccountEntryId, String keywords,
 			String[] types, Integer status)
 		throws PortalException {
 
-		Set<Serializable> accountEntryIds = _getUserAccountEntryIds(
-			userId, parentAccountEntryId, keywords, types, status);
-
-		return accountEntryIds.size();
+		return getUserAccountEntriesCount(
+			userId, parentAccountEntryId, keywords, types, _getActive(status));
 	}
 
 	@Override
@@ -797,7 +838,7 @@ public class AccountEntryLocalServiceImpl
 	}
 
 	private Predicate _getAccountEntryWherePredicate(
-		Long parentAccountId, String keywords, String[] types, Integer status) {
+		Long parentAccountId, String keywords, String[] types, Boolean active) {
 
 		Predicate predicate = null;
 
@@ -833,12 +874,24 @@ public class AccountEntryLocalServiceImpl
 				predicate, AccountEntryTable.INSTANCE.type.in(types));
 		}
 
-		if ((status != null) && (status != WorkflowConstants.STATUS_ANY)) {
+		if (active != null) {
 			predicate = Predicate.and(
-				predicate, AccountEntryTable.INSTANCE.status.eq(status));
+				predicate, AccountEntryTable.INSTANCE.active.eq(active));
 		}
 
 		return predicate;
+	}
+
+	private Boolean _getActive(Integer status) {
+		if ((status == null) || (status == WorkflowConstants.STATUS_ANY)) {
+			return null;
+		}
+		else if (status == WorkflowConstants.STATUS_INACTIVE) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	private Long[] _getOrganizationIds(long userId) {
@@ -870,8 +923,7 @@ public class AccountEntryLocalServiceImpl
 	}
 
 	private GroupByStep _getOrganizationsAccountEntriesGroupByStep(
-		FromStep fromStep, long userId, Long parentAccountId, String keywords,
-		String[] types, Integer status) {
+		FromStep fromStep, long userId, Predicate wherePredicate) {
 
 		JoinStep joinStep = fromStep.from(AccountEntryTable.INSTANCE);
 
@@ -890,15 +942,13 @@ public class AccountEntryLocalServiceImpl
 			AccountEntryOrganizationRelTable.INSTANCE.organizationId.in(
 				organizationIds
 			).and(
-				_getAccountEntryWherePredicate(
-					parentAccountId, keywords, types, status)
+				wherePredicate
 			)
 		);
 	}
 
 	private GroupByStep _getOwnerAccountEntriesGroupByStep(
-		FromStep fromStep, long userId, Long parentAccountId, String keywords,
-		String[] types, Integer status) {
+		FromStep fromStep, long userId, Predicate wherePredicate) {
 
 		return fromStep.from(
 			AccountEntryTable.INSTANCE
@@ -906,8 +956,7 @@ public class AccountEntryLocalServiceImpl
 			AccountEntryTable.INSTANCE.userId.eq(
 				userId
 			).and(
-				_getAccountEntryWherePredicate(
-					parentAccountId, keywords, types, status)
+				wherePredicate
 			)
 		);
 	}
@@ -954,8 +1003,7 @@ public class AccountEntryLocalServiceImpl
 	}
 
 	private GroupByStep _getUerAccountEntriesGroupByStep(
-		FromStep fromStep, long userId, Long parentAccountId, String keywords,
-		String[] types, Integer status) {
+		FromStep fromStep, long userId, Predicate wherePredicate) {
 
 		return fromStep.from(
 			AccountEntryTable.INSTANCE
@@ -967,15 +1015,13 @@ public class AccountEntryLocalServiceImpl
 			AccountEntryUserRelTable.INSTANCE.accountUserId.eq(
 				userId
 			).and(
-				_getAccountEntryWherePredicate(
-					parentAccountId, keywords, types, status)
+				wherePredicate
 			)
 		);
 	}
 
 	private Set<Serializable> _getUserAccountEntryIds(
-		long userId, Long parentAccountEntryId, String keywords, String[] types,
-		Integer status) {
+		long userId, Predicate wherePredicate) {
 
 		Set<Serializable> accountEntryIds = new HashSet<>();
 
@@ -984,19 +1030,19 @@ public class AccountEntryLocalServiceImpl
 				_getOrganizationsAccountEntriesGroupByStep(
 					DSLQueryFactoryUtil.selectDistinct(
 						AccountEntryTable.INSTANCE.accountEntryId),
-					userId, parentAccountEntryId, keywords, types, status)));
+					userId, wherePredicate)));
 		accountEntryIds.addAll(
 			dslQuery(
 				_getOwnerAccountEntriesGroupByStep(
 					DSLQueryFactoryUtil.selectDistinct(
 						AccountEntryTable.INSTANCE.accountEntryId),
-					userId, parentAccountEntryId, keywords, types, status)));
+					userId, wherePredicate)));
 		accountEntryIds.addAll(
 			dslQuery(
 				_getUerAccountEntriesGroupByStep(
 					DSLQueryFactoryUtil.selectDistinct(
 						AccountEntryTable.INSTANCE.accountEntryId),
-					userId, parentAccountEntryId, keywords, types, status)));
+					userId, wherePredicate)));
 
 		return accountEntryIds;
 	}
