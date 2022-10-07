@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.util.Objects;
+
 /**
  * @author Drew Brokke
  */
@@ -36,15 +38,28 @@ public class AccountEntryTestUtil {
 	}
 
 	public static AccountEntry addAccountEntry(
-			AccountEntryLocalService accountEntryLocalService, int status)
+			AccountEntryLocalService accountEntryLocalService, boolean active)
 		throws Exception {
 
 		return accountEntryLocalService.addAccountEntry(
 			TestPropsValues.getUserId(), 0L, RandomTestUtil.randomString(50),
 			RandomTestUtil.randomString(50), null, null, null,
 			RandomTestUtil.randomString(50),
-			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS, status,
+			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS, active,
 			ServiceContextTestUtil.getServiceContext());
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
+	public static AccountEntry addAccountEntry(
+			AccountEntryLocalService accountEntryLocalService, int status)
+		throws Exception {
+
+		return addAccountEntry(
+			accountEntryLocalService,
+			Objects.equals(WorkflowConstants.STATUS_APPROVED, status));
 	}
 
 	public static AccountEntry addAccountEntry(
@@ -55,8 +70,7 @@ public class AccountEntryTestUtil {
 		return accountEntryLocalService.addAccountEntry(
 			TestPropsValues.getUserId(), 0L, name, description, null, null,
 			null, RandomTestUtil.randomString(50),
-			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
+			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS, true,
 			ServiceContextTestUtil.getServiceContext());
 	}
 
@@ -68,8 +82,7 @@ public class AccountEntryTestUtil {
 			TestPropsValues.getUserId(), 0L, RandomTestUtil.randomString(50),
 			RandomTestUtil.randomString(50), domains, null, null,
 			RandomTestUtil.randomString(50),
-			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
+			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS, true,
 			ServiceContextTestUtil.getServiceContext());
 	}
 
@@ -81,8 +94,7 @@ public class AccountEntryTestUtil {
 			TestPropsValues.getUserId(), 0L, RandomTestUtil.randomString(50),
 			RandomTestUtil.randomString(50), null, null, null,
 			RandomTestUtil.randomString(50),
-			AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON,
-			WorkflowConstants.STATUS_APPROVED,
+			AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON, true,
 			ServiceContextTestUtil.getServiceContext());
 	}
 
