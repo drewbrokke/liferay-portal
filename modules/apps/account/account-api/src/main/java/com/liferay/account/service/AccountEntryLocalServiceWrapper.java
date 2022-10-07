@@ -593,6 +593,24 @@ public class AccountEntryLocalServiceWrapper
 	public java.util.List<com.liferay.account.model.AccountEntry>
 			getUserAccountEntries(
 				long userId, Long parentAccountEntryId, String keywords,
+				String[] types, Boolean active, int start, int end,
+				com.liferay.portal.kernel.util.OrderByComparator
+					<com.liferay.account.model.AccountEntry> orderByComparator)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.getUserAccountEntries(
+			userId, parentAccountEntryId, keywords, types, active, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
+	@Override
+	public java.util.List<com.liferay.account.model.AccountEntry>
+			getUserAccountEntries(
+				long userId, Long parentAccountEntryId, String keywords,
 				String[] types, int start, int end)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -600,6 +618,10 @@ public class AccountEntryLocalServiceWrapper
 			userId, parentAccountEntryId, keywords, types, start, end);
 	}
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
 	@Override
 	public java.util.List<com.liferay.account.model.AccountEntry>
 			getUserAccountEntries(
@@ -611,6 +633,10 @@ public class AccountEntryLocalServiceWrapper
 			userId, parentAccountEntryId, keywords, types, status, start, end);
 	}
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
 	@Override
 	public java.util.List<com.liferay.account.model.AccountEntry>
 			getUserAccountEntries(
@@ -635,6 +661,20 @@ public class AccountEntryLocalServiceWrapper
 			userId, parentAccountEntryId, keywords, types);
 	}
 
+	@Override
+	public int getUserAccountEntriesCount(
+			long userId, Long parentAccountEntryId, String keywords,
+			String[] types, Boolean active)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _accountEntryLocalService.getUserAccountEntriesCount(
+			userId, parentAccountEntryId, keywords, types, active);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntriesCount(long, Long, String, String[], Boolean)}
+	 */
+	@Deprecated
 	@Override
 	public int getUserAccountEntriesCount(
 			long userId, Long parentAccountEntryId, String keywords,

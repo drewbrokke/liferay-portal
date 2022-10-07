@@ -511,6 +511,21 @@ public class AccountEntryLocalServiceUtil {
 
 	public static List<AccountEntry> getUserAccountEntries(
 			long userId, Long parentAccountEntryId, String keywords,
+			String[] types, Boolean active, int start, int end,
+			OrderByComparator<AccountEntry> orderByComparator)
+		throws PortalException {
+
+		return getService().getUserAccountEntries(
+			userId, parentAccountEntryId, keywords, types, active, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
+	public static List<AccountEntry> getUserAccountEntries(
+			long userId, Long parentAccountEntryId, String keywords,
 			String[] types, int start, int end)
 		throws PortalException {
 
@@ -518,6 +533,10 @@ public class AccountEntryLocalServiceUtil {
 			userId, parentAccountEntryId, keywords, types, start, end);
 	}
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
 	public static List<AccountEntry> getUserAccountEntries(
 			long userId, Long parentAccountEntryId, String keywords,
 			String[] types, Integer status, int start, int end)
@@ -527,6 +546,10 @@ public class AccountEntryLocalServiceUtil {
 			userId, parentAccountEntryId, keywords, types, status, start, end);
 	}
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
 	public static List<AccountEntry> getUserAccountEntries(
 			long userId, Long parentAccountEntryId, String keywords,
 			String[] types, Integer status, int start, int end,
@@ -547,6 +570,19 @@ public class AccountEntryLocalServiceUtil {
 			userId, parentAccountEntryId, keywords, types);
 	}
 
+	public static int getUserAccountEntriesCount(
+			long userId, Long parentAccountEntryId, String keywords,
+			String[] types, Boolean active)
+		throws PortalException {
+
+		return getService().getUserAccountEntriesCount(
+			userId, parentAccountEntryId, keywords, types, active);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntriesCount(long, Long, String, String[], Boolean)}
+	 */
+	@Deprecated
 	public static int getUserAccountEntriesCount(
 			long userId, Long parentAccountEntryId, String keywords,
 			String[] types, Integer status)

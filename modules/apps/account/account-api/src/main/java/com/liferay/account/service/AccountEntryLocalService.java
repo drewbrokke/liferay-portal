@@ -419,15 +419,34 @@ public interface AccountEntryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AccountEntry> getUserAccountEntries(
 			long userId, Long parentAccountEntryId, String keywords,
+			String[] types, Boolean active, int start, int end,
+			OrderByComparator<AccountEntry> orderByComparator)
+		throws PortalException;
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AccountEntry> getUserAccountEntries(
+			long userId, Long parentAccountEntryId, String keywords,
 			String[] types, int start, int end)
 		throws PortalException;
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AccountEntry> getUserAccountEntries(
 			long userId, Long parentAccountEntryId, String keywords,
 			String[] types, Integer status, int start, int end)
 		throws PortalException;
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntries(long, Long, String, String[], Boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AccountEntry> getUserAccountEntries(
 			long userId, Long parentAccountEntryId, String keywords,
@@ -441,6 +460,16 @@ public interface AccountEntryLocalService
 			String[] types)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getUserAccountEntriesCount(
+			long userId, Long parentAccountEntryId, String keywords,
+			String[] types, Boolean active)
+		throws PortalException;
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getUserAccountEntriesCount(long, Long, String, String[], Boolean)}
+	 */
+	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getUserAccountEntriesCount(
 			long userId, Long parentAccountEntryId, String keywords,
