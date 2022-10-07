@@ -76,8 +76,6 @@ public class CommerceAccountImpl extends CommerceAccountBaseImpl {
 			accountEntry.getParentAccountEntryId());
 		commerceAccount.setEmail(accountEntry.getEmailAddress());
 		commerceAccount.setTaxId(accountEntry.getTaxIdNumber());
-		commerceAccount.setActive(
-			toCommerceAccountActive(accountEntry.getStatus()));
 		commerceAccount.setDisplayDate(null);
 		commerceAccount.setExpirationDate(null);
 		commerceAccount.setUserUuid(accountEntry.getUserUuid());

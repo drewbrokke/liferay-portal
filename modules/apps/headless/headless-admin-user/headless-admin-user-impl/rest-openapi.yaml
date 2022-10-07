@@ -21,6 +21,9 @@ components:
                         Block of actions allowed by the user making the request.
                     readOnly: true
                     type: object
+                active:
+                    default: true
+                    type: boolean
                 description:
                     type: string
                 domains:

@@ -1259,7 +1259,7 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 			RandomTestUtil.randomString(20), RandomTestUtil.randomString(20),
 			null, null, null, null,
 			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
+			true,
 			ServiceContextTestUtil.getServiceContext());
 
 		accountEntry.setExternalReferenceCode(RandomTestUtil.randomString());

@@ -484,7 +484,7 @@ public class AccountResourceTest extends BaseAccountResourceTestCase {
 			AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
 			RandomTestUtil.randomString(), RandomTestUtil.randomString(), null,
 			null, null, null, AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
+			true,
 			ServiceContextTestUtil.getServiceContext());
 
 		accountEntry.setExternalReferenceCode(RandomTestUtil.randomString());

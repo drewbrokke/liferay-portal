@@ -232,7 +232,7 @@ public class AccountResourceImpl
 		AccountEntry accountEntry = _accountEntryService.addAccountEntry(
 			contextUser.getUserId(), _getParentAccountId(account),
 			account.getName(), account.getDescription(), _getDomains(account),
-			null, null, null, _getType(account), _getStatus(account), null);
+			null, null, null, _getType(account), _getActive(account), null);
 
 		accountEntry = _accountEntryService.updateExternalReferenceCode(
 			accountEntry.getAccountEntryId(),
@@ -284,7 +284,7 @@ public class AccountResourceImpl
 			_accountEntryService.updateAccountEntry(
 				accountId, _getParentAccountId(account), account.getName(),
 				account.getDescription(), false, _getDomains(account), null,
-				null, null, _getStatus(account), null));
+				null, null, _getActive(account), null));
 	}
 
 	@Override
@@ -297,7 +297,7 @@ public class AccountResourceImpl
 				externalReferenceCode, contextUser.getUserId(),
 				_getParentAccountId(account), account.getName(),
 				account.getDescription(), _getDomains(account), null, null,
-				null, _getType(account), _getStatus(account), null));
+				null, _getType(account), _getActive(account), null));
 	}
 
 	private String[] _getDomains(Account account) {
@@ -440,6 +440,16 @@ public class AccountResourceImpl
 		).orElse(
 			WorkflowConstants.STATUS_APPROVED
 		);
+	}
+
+	private boolean _getActive(Account account) {
+		int status = _getStatus(account);
+
+		if (WorkflowConstants.STATUS_APPROVED == status) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private String _getType(Account account) {

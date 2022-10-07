@@ -70,8 +70,7 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 			RandomTestUtil.randomString(20), RandomTestUtil.randomString(20),
 			null, null, null, null,
 			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
-			ServiceContextTestUtil.getServiceContext());
+			true, ServiceContextTestUtil.getServiceContext());
 		_user = UserTestUtil.addGroupAdminUser(testGroup);
 	}
 

@@ -143,7 +143,7 @@ public class CommerceAccountLocalServiceImpl
 		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
 			user.getUserId(), parentCommerceAccountId, name, null, null, email,
 			null, taxId, CommerceAccountImpl.toAccountEntryType(type),
-			CommerceAccountImpl.toAccountEntryStatus(active), serviceContext);
+			active, serviceContext);
 
 		if (externalReferenceCode != null) {
 			accountEntry.setExternalReferenceCode(externalReferenceCode);
@@ -470,7 +470,7 @@ public class CommerceAccountLocalServiceImpl
 			LinkedHashMapBuilder.<String, Object>put(
 				"parentAccountEntryId", parentCommerceAccountId
 			).put(
-				"status", () -> CommerceAccountImpl.toAccountEntryStatus(active)
+				"active", active
 			).put(
 				"types",
 				new String[] {CommerceAccountImpl.toAccountEntryType(type)}
@@ -504,8 +504,8 @@ public class CommerceAccountLocalServiceImpl
 			_accountEntryLocalService.searchAccountEntries(
 				companyId, keywords,
 				LinkedHashMapBuilder.<String, Object>put(
-					"status",
-					() -> CommerceAccountImpl.toAccountEntryStatus(active)
+					"active",
+					active
 				).put(
 					"types",
 					new String[] {CommerceAccountImpl.toAccountEntryType(type)}
@@ -587,8 +587,8 @@ public class CommerceAccountLocalServiceImpl
 			accountEntry.getAccountEntryId(),
 			accountEntry.getParentAccountEntryId(), name,
 			accountEntry.getDescription(), !logo,
-			accountEntry.getDomainsArray(), email, logoBytes, taxId,
-			CommerceAccountImpl.toAccountEntryStatus(active), serviceContext);
+			accountEntry.getDomainsArray(), email, logoBytes, taxId, active,
+			serviceContext);
 
 		accountEntry.setDefaultBillingAddressId(defaultBillingAddressId);
 		accountEntry.setDefaultShippingAddressId(defaultShippingAddressId);
