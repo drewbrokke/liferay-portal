@@ -1083,6 +1083,10 @@ public class AccountEntryLocalServiceImpl
 
 		searchContext.setAttribute(Field.STATUS, status);
 
+		if (params.containsKey("active")) {
+			searchContext.setAttribute("active", (Boolean)params.get("active"));
+		}
+
 		String[] types = (String[])params.get("types");
 
 		if (ArrayUtil.isNotEmpty(types)) {

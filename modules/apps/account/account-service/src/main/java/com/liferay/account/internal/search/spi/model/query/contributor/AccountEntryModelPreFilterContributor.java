@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.spi.model.query.contributor.ModelPreFilterContributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchSettings;
 
+import java.io.Serializable;
+
+import java.util.Map;
+
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -46,6 +50,7 @@ public class AccountEntryModelPreFilterContributor
 
 		_filterByAccountGroupIds(booleanFilter, searchContext);
 		_filterByAccountUserIds(booleanFilter, searchContext);
+		_filterByActive(booleanFilter, searchContext);
 		_filterByAllowNewUserMembership(booleanFilter, searchContext);
 		_filterByDomains(booleanFilter, searchContext);
 		_filterByOrganizationIds(booleanFilter, searchContext);
@@ -81,6 +86,23 @@ public class AccountEntryModelPreFilterContributor
 			termsFilter.addValues(ArrayUtil.toStringArray(accountUserIds));
 
 			booleanFilter.add(termsFilter, BooleanClauseOccur.MUST);
+		}
+	}
+
+	private void _filterByActive(
+		BooleanFilter booleanFilter, SearchContext searchContext) {
+
+		Map<String, Serializable> attributes = searchContext.getAttributes();
+
+		if (attributes.containsKey("active")) {
+			Boolean active = (Boolean)attributes.get("active");
+
+			if (active != null) {
+				booleanFilter.addRequiredTerm("active", active);
+			}
+		}
+		else {
+			booleanFilter.addRequiredTerm("active", true);
 		}
 	}
 
