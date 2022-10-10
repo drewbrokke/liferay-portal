@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.util.ClassUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PropsValues;
 
+import java.util.Objects;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -51,6 +53,12 @@ public class CompositePasswordEncryptor
 
 		String legacyAlgorithm =
 			PropsValues.PASSWORDS_ENCRYPTION_ALGORITHM_LEGACY;
+
+		String givenAlgorithm = algorithm;
+
+		if (Validator.isNull(givenAlgorithm)) {
+			givenAlgorithm = getDefaultPasswordAlgorithmType();
+		}
 
 		if (_log.isDebugEnabled() && Validator.isNotNull(legacyAlgorithm)) {
 			if (Validator.isNull(encryptedPassword)) {
@@ -97,13 +105,20 @@ public class CompositePasswordEncryptor
 		}
 
 		if (Validator.isNull(algorithm)) {
-			algorithm = getDefaultPasswordAlgorithmType();
+			algorithm = givenAlgorithm;
 		}
 
 		PasswordEncryptor passwordEncryptor = _select(algorithm);
 
 		String newEncryptedPassword = passwordEncryptor.encrypt(
 			algorithm, plainTextPassword, encryptedPassword);
+
+		if (!Objects.equals(givenAlgorithm, algorithm)) {
+			passwordEncryptor = _select(givenAlgorithm);
+
+			newEncryptedPassword = passwordEncryptor.encrypt(
+				givenAlgorithm, plainTextPassword, null);
+		}
 
 		if (!prependAlgorithm) {
 			if (_log.isDebugEnabled()) {
