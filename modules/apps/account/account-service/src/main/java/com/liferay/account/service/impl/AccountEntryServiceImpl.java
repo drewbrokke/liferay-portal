@@ -17,6 +17,7 @@ package com.liferay.account.service.impl;
 import com.liferay.account.constants.AccountActionKeys;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.service.base.AccountEntryServiceBaseImpl;
+import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
@@ -25,6 +26,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.permission.PortalPermission;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
@@ -64,7 +66,9 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 		_accountEntryModelResourcePermission.check(
 			getPermissionChecker(), accountEntryId, ActionKeys.UPDATE);
 
-		return accountEntryLocalService.activateAccountEntry(accountEntryId);
+		return _withServiceContext(
+			() -> accountEntryLocalService.activateAccountEntry(
+				accountEntryId));
 	}
 
 	@Override
@@ -135,7 +139,9 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 		_accountEntryModelResourcePermission.check(
 			getPermissionChecker(), accountEntryId, ActionKeys.DELETE);
 
-		return accountEntryLocalService.deactivateAccountEntry(accountEntryId);
+		return _withServiceContext(
+			() -> accountEntryLocalService.deactivateAccountEntry(
+				accountEntryId));
 	}
 
 	@Override
@@ -306,6 +312,24 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 		}
 
 		return null;
+	}
+
+	private AccountEntry _withServiceContext(
+			UnsafeSupplier<AccountEntry, PortalException> unsafeRunnable)
+		throws PortalException {
+
+		ServiceContext serviceContext = new ServiceContext();
+
+		serviceContext.setUserId(getPermissionChecker().getUserId());
+
+		ServiceContextThreadLocal.pushServiceContext(serviceContext);
+
+		try {
+			return unsafeRunnable.get();
+		}
+		finally {
+			ServiceContextThreadLocal.popServiceContext();
+		}
 	}
 
 	@Reference(
