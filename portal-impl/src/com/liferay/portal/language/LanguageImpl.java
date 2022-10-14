@@ -281,24 +281,44 @@ public class LanguageImpl implements Language, Serializable {
 			pattern = get(httpServletRequest, pattern);
 
 			if (ArrayUtil.isNotEmpty(arguments)) {
+				GenderedTranslationHelper genderedTranslationHelper = null;
+
 				Object[] formattedArguments = new Object[arguments.length];
 
 				for (int i = 0; i < arguments.length; i++) {
+					String argumentText = arguments[i].getText();
+
+					GenderedArgument genderedArgument = GenderedArgument.create(
+						argumentText);
+
+					if (genderedArgument.isGendered()) {
+						genderedTranslationHelper =
+							new GenderedTranslationHelper(
+								genderedArgument.getMasculine());
+
+						argumentText = genderedArgument.getText();
+					}
+
 					if (translateArguments) {
 						formattedArguments[i] = StringBundler.concat(
 							arguments[i].getBefore(),
-							get(httpServletRequest, arguments[i].getText()),
+							get(httpServletRequest, argumentText),
 							arguments[i].getAfter());
 					}
 					else {
 						formattedArguments[i] = StringBundler.concat(
-							arguments[i].getBefore(), arguments[i].getText(),
+							arguments[i].getBefore(), argumentText,
 							arguments[i].getAfter());
 					}
 				}
 
 				value = _decorateMessageFormat(
 					httpServletRequest, pattern, formattedArguments);
+
+				if (genderedTranslationHelper != null) {
+					value = genderedTranslationHelper.decorateTranslation(
+						value);
+				}
 			}
 			else {
 				value = pattern;
