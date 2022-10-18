@@ -134,7 +134,7 @@ public class AccountEntryDisplaySearchContainerFactory {
 		String navigation = ParamUtil.getString(
 			liferayPortletRequest, "navigation", "active");
 
-		params.put("status", _getStatus(navigation));
+		_putStatus(navigation, params);
 
 		String[] types = GetterUtil.getStringValues(
 			liferayPortletRequest.getAttribute(
@@ -178,20 +178,28 @@ public class AccountEntryDisplaySearchContainerFactory {
 		return accountEntryDisplaySearchContainer;
 	}
 
-	private static int _getStatus(String navigation) {
-		if (Objects.equals(navigation, "inactive")) {
-			return WorkflowConstants.STATUS_INACTIVE;
-		}
-
-		return WorkflowConstants.STATUS_APPROVED;
-	}
-
 	private static boolean _isReverseOrder(String orderByType) {
 		if (Objects.equals(orderByType, "desc")) {
 			return true;
 		}
 
 		return false;
+	}
+
+	private static void _putStatus(
+		String navigation, LinkedHashMap<String, Object> params) {
+
+		if (Objects.equals("active", navigation)) {
+			params.put("status", WorkflowConstants.STATUS_APPROVED);
+		}
+		else if (Objects.equals("all", navigation)) {
+		}
+		else if (Objects.equals("inactive", navigation)) {
+			params.put("status", WorkflowConstants.STATUS_INACTIVE);
+		}
+		else if (Objects.equals("pending", navigation)) {
+			params.put("status", WorkflowConstants.STATUS_PENDING);
+		}
 	}
 
 }
