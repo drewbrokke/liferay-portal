@@ -16,7 +16,6 @@ package com.liferay.account.service.test;
 
 import com.liferay.account.exception.AccountGroupNameException;
 import com.liferay.account.exception.DefaultAccountGroupException;
-import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountGroup;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountGroupLocalService;
@@ -122,12 +121,15 @@ public class AccountGroupLocalServiceTest {
 	@Test
 	public void testDeleteAccountGroupWithAccountGroupRel() throws Exception {
 		AccountGroup accountGroup = _addAccountGroup();
-		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
 
-		_accountGroupRelLocalService.addAccountGroupRel(
-			accountGroup.getAccountGroupId(), AccountEntry.class.getName(),
-			accountEntry.getAccountEntryId());
+		AccountEntryTestUtil.addAccountEntry(
+			AccountEntryTestUtil.withAccountGroups(accountGroup));
+
+		Assert.assertEquals(
+			1,
+			_accountGroupRelLocalService.
+				getAccountGroupRelsCountByAccountGroupId(
+					accountGroup.getAccountGroupId()));
 
 		_accountGroupLocalService.deleteAccountGroup(accountGroup);
 

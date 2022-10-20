@@ -60,8 +60,7 @@ public class AccountEntryEmailDomainsConfigurationModelListenerTest {
 		String validDomain = "valid.com";
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService,
-			new String[] {blockedDomain, validDomain});
+			AccountEntryTestUtil.withDomains(blockedDomain, validDomain));
 
 		Assert.assertTrue(
 			ArrayUtil.contains(accountEntry.getDomainsArray(), blockedDomain));

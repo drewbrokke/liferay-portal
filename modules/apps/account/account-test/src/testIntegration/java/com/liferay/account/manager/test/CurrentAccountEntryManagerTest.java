@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserConstants;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
-import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.OrganizationTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -168,8 +167,7 @@ public class CurrentAccountEntryManagerTest {
 	public void testGetCurrentAccountEntryWithNoViewPermission()
 		throws Exception {
 
-		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
+		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry();
 
 		_currentAccountEntryManager.setCurrentAccountEntry(
 			accountEntry.getAccountEntryId(), _group.getGroupId(),
@@ -185,10 +183,7 @@ public class CurrentAccountEntryManagerTest {
 		throws Exception {
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
-
-		_accountEntryUserRelLocalService.addAccountEntryUserRel(
-			accountEntry.getAccountEntryId(), _user.getUserId());
+			AccountEntryTestUtil.withUsers(_user));
 
 		_currentAccountEntryManager.setCurrentAccountEntry(
 			accountEntry.getAccountEntryId(), _group.getGroupId(),
@@ -231,8 +226,8 @@ public class CurrentAccountEntryManagerTest {
 				new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS});
 
 			AccountEntry personAccountEntry =
-				AccountEntryTestUtil.addPersonAccountEntry(
-					_accountEntryLocalService);
+				AccountEntryTestUtil.addAccountEntry(
+					AccountEntryTestUtil.withTypePerson());
 
 			_currentAccountEntryManager.setCurrentAccountEntry(
 				personAccountEntry.getAccountEntryId(), group.getGroupId(),
@@ -266,19 +261,12 @@ public class CurrentAccountEntryManagerTest {
 	private AccountEntry _addAccountEntry(String name, String type)
 		throws Exception {
 
-		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
-
-		accountEntry.setName(name);
-		accountEntry.setType(type);
-
-		accountEntry = _accountEntryLocalService.updateAccountEntry(
-			accountEntry);
-
-		_accountEntryUserRelLocalService.addAccountEntryUserRel(
-			accountEntry.getAccountEntryId(), _user.getUserId());
-
-		return accountEntry;
+		return AccountEntryTestUtil.addAccountEntry(
+			accountEntryInfo -> {
+				accountEntryInfo.name = name;
+				accountEntryInfo.type = type;
+			},
+			AccountEntryTestUtil.withUsers(_user));
 	}
 
 	private void _setAllowedTypes(long groupId, String[] allowedTypes)
@@ -312,9 +300,6 @@ public class CurrentAccountEntryManagerTest {
 
 	@Inject
 	private OrganizationLocalService _organizationLocalService;
-
-	@Inject
-	private ResourcePermissionLocalService _resourcePermissionLocalService;
 
 	private User _user;
 

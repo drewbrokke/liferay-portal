@@ -16,7 +16,6 @@ package com.liferay.account.internal.model.listener.test;
 
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryUserRel;
-import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
@@ -58,32 +57,17 @@ public class AccountEntryUserRelModelListenerTest {
 	public void testAddAccountEntryUserRelForAccountEntryTypeBusiness()
 		throws Exception {
 
-		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
-
-		_accountEntryUserRelLocalService.addAccountEntryUserRel(
-			accountEntry.getAccountEntryId(), _user.getUserId());
-
-		User user = UserTestUtil.addUser();
-
-		_accountEntryUserRelLocalService.addAccountEntryUserRel(
-			accountEntry.getAccountEntryId(), user.getUserId());
+		AccountEntryTestUtil.addAccountEntry(
+			AccountEntryTestUtil.withUsers(_user, UserTestUtil.addUser()));
 	}
 
 	@Test(expected = ModelListenerException.class)
 	public void testAddAccountEntryUserRelForAccountEntryTypePerson()
 		throws Exception {
 
-		AccountEntry accountEntry = AccountEntryTestUtil.addPersonAccountEntry(
-			_accountEntryLocalService);
-
-		_accountEntryUserRelLocalService.addAccountEntryUserRel(
-			accountEntry.getAccountEntryId(), _user.getUserId());
-
-		User user = UserTestUtil.addUser();
-
-		_accountEntryUserRelLocalService.addAccountEntryUserRel(
-			accountEntry.getAccountEntryId(), user.getUserId());
+		AccountEntryTestUtil.addAccountEntry(
+			AccountEntryTestUtil.withTypePerson(),
+			AccountEntryTestUtil.withUsers(_user, UserTestUtil.addUser()));
 	}
 
 	@Test
@@ -91,15 +75,9 @@ public class AccountEntryUserRelModelListenerTest {
 		throws Exception {
 
 		AccountEntry accountEntry1 = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
-
+			AccountEntryTestUtil.withUsers(_user));
 		AccountEntry accountEntry2 = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
-
-		_accountEntryUserRelLocalService.addAccountEntryUserRel(
-			accountEntry1.getAccountEntryId(), _user.getUserId());
-		_accountEntryUserRelLocalService.addAccountEntryUserRel(
-			accountEntry2.getAccountEntryId(), _user.getUserId());
+			AccountEntryTestUtil.withUsers(_user));
 
 		List<AccountEntryUserRel> userAccountEntryUserRels =
 			_accountEntryUserRelLocalService.
@@ -121,10 +99,7 @@ public class AccountEntryUserRelModelListenerTest {
 		throws Exception {
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
-
-		_accountEntryUserRelLocalService.addAccountEntryUserRel(
-			accountEntry.getAccountEntryId(), _user.getUserId());
+			AccountEntryTestUtil.withUsers(_user));
 
 		List<AccountEntryUserRel> userAccountEntryUserRels =
 			_accountEntryUserRelLocalService.
@@ -161,9 +136,6 @@ public class AccountEntryUserRelModelListenerTest {
 		Assert.assertEquals(
 			expectedAccountEntryId, accountEntryUserRel.getAccountEntryId());
 	}
-
-	@Inject
-	private AccountEntryLocalService _accountEntryLocalService;
 
 	@Inject
 	private AccountEntryUserRelLocalService _accountEntryUserRelLocalService;

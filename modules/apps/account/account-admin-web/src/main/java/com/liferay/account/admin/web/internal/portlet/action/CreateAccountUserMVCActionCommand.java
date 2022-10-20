@@ -75,6 +75,11 @@ public class CreateAccountUserMVCActionCommand
 		return super.processAction(actionRequest, actionResponse);
 	}
 
+	/**
+	 * @param actionRequest
+	 * @param actionResponse
+	 * @throws Exception
+	 */
 	@Override
 	protected void doProcessAction(
 			ActionRequest actionRequest, ActionResponse actionResponse)

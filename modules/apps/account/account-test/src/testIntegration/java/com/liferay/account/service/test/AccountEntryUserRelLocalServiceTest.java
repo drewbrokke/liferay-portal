@@ -82,8 +82,7 @@ public class AccountEntryUserRelLocalServiceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		_accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
+		_accountEntry = AccountEntryTestUtil.addAccountEntry();
 
 		_user = UserTestUtil.addUser();
 	}
@@ -399,8 +398,8 @@ public class AccountEntryUserRelLocalServiceTest {
 	@Test
 	public void testAddPersonTypeAccountEntryUserRel() throws Exception {
 		AccountEntry personTypeAccountEntry =
-			AccountEntryTestUtil.addPersonAccountEntry(
-				_accountEntryLocalService);
+			AccountEntryTestUtil.addAccountEntry(
+				AccountEntryTestUtil.withTypePerson());
 
 		AccountEntryUserRel accountEntryUserRel1 =
 			_addPersonTypeAccountEntryUserRel(
@@ -551,8 +550,8 @@ public class AccountEntryUserRelLocalServiceTest {
 	@Test
 	public void testSetPersonTypeAccountEntryUser() throws Exception {
 		AccountEntry personTypeAccountEntry =
-			AccountEntryTestUtil.addPersonAccountEntry(
-				_accountEntryLocalService);
+			AccountEntryTestUtil.addAccountEntry(
+				AccountEntryTestUtil.withTypePerson());
 		User user1 = UserTestUtil.addUser();
 
 		_testSetPersonTypeAccountEntryUser(
@@ -648,16 +647,9 @@ public class AccountEntryUserRelLocalServiceTest {
 	}
 
 	private long[] _addAccountEntries(int count) throws Exception {
-		long[] accountEntryIds = new long[count];
-
-		for (int i = 0; i < count; i++) {
-			AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-				_accountEntryLocalService);
-
-			accountEntryIds[i] = accountEntry.getAccountEntryId();
-		}
-
-		return accountEntryIds;
+		return ListUtil.toLongArray(
+			AccountEntryTestUtil.addAccountEntries(count),
+			AccountEntry.ACCOUNT_ENTRY_ID_ACCESSOR);
 	}
 
 	private AccountEntryUserRel _addAccountEntryUserRel(long accountEntryId)

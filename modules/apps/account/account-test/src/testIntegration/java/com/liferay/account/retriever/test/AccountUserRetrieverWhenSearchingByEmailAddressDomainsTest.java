@@ -18,7 +18,6 @@ import com.liferay.account.constants.AccountConstants;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryUserRel;
 import com.liferay.account.retriever.AccountUserRetriever;
-import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
@@ -26,7 +25,6 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
-import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
@@ -74,7 +72,7 @@ public class AccountUserRetrieverWhenSearchingByEmailAddressDomainsTest {
 		_users.add(_addAccountUser("test.com"));
 
 		_accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService, new String[] {"test.com"});
+			AccountEntryTestUtil.withDomains("test.com"));
 
 		BaseModelSearchResult<User> expectedBaseModelSearchResult =
 			_accountUserRetriever.searchAccountUsers(
@@ -115,7 +113,7 @@ public class AccountUserRetrieverWhenSearchingByEmailAddressDomainsTest {
 		_users.addAll(users);
 
 		_accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService, emailAddressDomains);
+			AccountEntryTestUtil.withDomains(emailAddressDomains));
 
 		BaseModelSearchResult<User> baseModelSearchResult =
 			_accountUserRetriever.searchAccountUsers(
@@ -139,8 +137,7 @@ public class AccountUserRetrieverWhenSearchingByEmailAddressDomainsTest {
 		_users.add(UserTestUtil.addUser());
 		_users.add(_addAccountUser("test.com"));
 
-		_accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService);
+		_accountEntry = AccountEntryTestUtil.addAccountEntry();
 
 		String[] emailAddressDomains = StringUtil.split(
 			_accountEntry.getDomains());
@@ -186,9 +183,6 @@ public class AccountUserRetrieverWhenSearchingByEmailAddressDomainsTest {
 	private AccountEntry _accountEntry;
 
 	@Inject
-	private AccountEntryLocalService _accountEntryLocalService;
-
-	@Inject
 	private AccountEntryUserRelLocalService _accountEntryUserRelLocalService;
 
 	@DeleteAfterTestRun
@@ -197,9 +191,6 @@ public class AccountUserRetrieverWhenSearchingByEmailAddressDomainsTest {
 
 	@Inject
 	private AccountUserRetriever _accountUserRetriever;
-
-	@Inject
-	private UserLocalService _userLocalService;
 
 	@DeleteAfterTestRun
 	private final List<User> _users = new ArrayList<>();
