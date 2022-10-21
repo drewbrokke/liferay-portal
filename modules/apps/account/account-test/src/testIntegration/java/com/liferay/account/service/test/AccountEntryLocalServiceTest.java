@@ -25,6 +25,7 @@ import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryOrganizationRelLocalService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.account.service.AccountGroupLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.account.service.test.util.AccountGroupTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
@@ -56,7 +57,6 @@ import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.settings.SettingsFactoryUtil;
 import com.liferay.portal.kernel.test.rule.DataGuard;
 import com.liferay.portal.kernel.test.util.OrganizationTestUtil;
@@ -82,7 +82,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -105,21 +104,16 @@ public class AccountEntryLocalServiceTest {
 
 	@Test
 	public void testAccountEntryAssetTags() throws Exception {
-		ServiceContext serviceContext =
-			ServiceContextTestUtil.getServiceContext();
-
-		serviceContext.setAssetTagNames(new String[] {"tag1", "tag2"});
+		String[] assetTagNames = {"tag1", "tag2"};
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			accountEntryInfo ->
-				accountEntryInfo.serviceContext = serviceContext);
+			AccountEntryMod.withAssetTagNames(assetTagNames));
 
 		List<AssetTag> assetTags = _assetTagLocalService.getTags(
 			AccountEntry.class.getName(), accountEntry.getAccountEntryId());
 
 		Assert.assertArrayEquals(
-			serviceContext.getAssetTagNames(),
-			ListUtil.toArray(assetTags, AssetTag.NAME_ACCESSOR));
+			assetTagNames, ListUtil.toArray(assetTags, AssetTag.NAME_ACCESSOR));
 	}
 
 	@Test
@@ -150,8 +144,7 @@ public class AccountEntryLocalServiceTest {
 	@Test
 	public void testAccountEntryName() throws Exception {
 		try {
-			AccountEntryTestUtil.addAccountEntry(
-				accountEntryInfo -> accountEntryInfo.name = "");
+			AccountEntryTestUtil.addAccountEntry(AccountEntryMod.withName(""));
 
 			Assert.fail();
 		}
@@ -201,7 +194,7 @@ public class AccountEntryLocalServiceTest {
 
 		try {
 			AccountEntryTestUtil.addAccountEntry(
-				accountEntryInfo -> accountEntryInfo.name = "Invalid Name");
+				AccountEntryMod.withName("Invalid Name"));
 
 			Assert.fail();
 		}
@@ -239,7 +232,7 @@ public class AccountEntryLocalServiceTest {
 	public void testActivateAccountEntries() throws Exception {
 		long[] accountEntryIds = ListUtil.toLongArray(
 			AccountEntryTestUtil.addAccountEntries(
-				5, AccountEntryTestUtil.withStatusInactive()),
+				5, AccountEntryMod.withStatusInactive()),
 			AccountEntry.ACCOUNT_ENTRY_ID_ACCESSOR);
 
 		for (long accountEntryId : accountEntryIds) {
@@ -256,7 +249,7 @@ public class AccountEntryLocalServiceTest {
 	@Test
 	public void testActivateAccountEntryByModel() throws Exception {
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withStatusInactive());
+			AccountEntryMod.withStatusInactive());
 
 		_assertStatus(
 			accountEntry.getAccountEntryId(),
@@ -272,7 +265,7 @@ public class AccountEntryLocalServiceTest {
 	@Test
 	public void testActivateAccountEntryByPrimaryKey() throws Exception {
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withStatusInactive());
+			AccountEntryMod.withStatusInactive());
 
 		_assertStatus(
 			accountEntry.getAccountEntryId(),
@@ -312,7 +305,7 @@ public class AccountEntryLocalServiceTest {
 		};
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withDomains(domains));
+			AccountEntryMod.withDomains(domains));
 
 		Assert.assertArrayEquals(
 			ArrayUtil.sortedUnique(expectedDomains),
@@ -348,7 +341,7 @@ public class AccountEntryLocalServiceTest {
 			for (String domain : invalidDomains) {
 				try {
 					AccountEntryTestUtil.addAccountEntry(
-						AccountEntryTestUtil.withDomains(domain));
+						AccountEntryMod.withDomains(domain));
 
 					Assert.fail(
 						"Created an account entry with invalid domain " +
@@ -467,7 +460,7 @@ public class AccountEntryLocalServiceTest {
 
 		List<AccountEntry> accountEntries =
 			AccountEntryTestUtil.addAccountEntries(
-				5, AccountEntryTestUtil.withOwner(accountEntryOwner),
+				5, AccountEntryMod.withOwner(accountEntryOwner),
 				accountEntryInfo -> {
 					User user = UserTestUtil.addUser();
 
@@ -510,9 +503,9 @@ public class AccountEntryLocalServiceTest {
 			user1.getUserId(), organizationABA);
 
 		AccountEntry accountEntryAA = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOrganizations(organizationAA),
-			AccountEntryTestUtil.withOwner(accountEntryOwner),
-			AccountEntryTestUtil.withUsers(user1));
+			AccountEntryMod.withOrganizations(organizationAA),
+			AccountEntryMod.withOwner(accountEntryOwner),
+			AccountEntryMod.withUsers(user1));
 
 		User user2 = UserTestUtil.addUser();
 
@@ -523,19 +516,19 @@ public class AccountEntryLocalServiceTest {
 			user2.getUserId(), organizationABB);
 
 		AccountEntry accountEntryABA = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOrganizations(organizationABA),
-			AccountEntryTestUtil.withOwner(accountEntryOwner),
-			AccountEntryTestUtil.withUsers(user2));
+			AccountEntryMod.withOrganizations(organizationABA),
+			AccountEntryMod.withOwner(accountEntryOwner),
+			AccountEntryMod.withUsers(user2));
 
 		_testGetUserAccountEntries(
 			user1, Arrays.asList(accountEntryAA, accountEntryABA));
 
 		AccountEntry accountEntryABB1 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOwner(accountEntryOwner),
-			AccountEntryTestUtil.withOrganizations(organizationABB));
+			AccountEntryMod.withOwner(accountEntryOwner),
+			AccountEntryMod.withOrganizations(organizationABB));
 		AccountEntry accountEntryABB2 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOwner(accountEntryOwner),
-			AccountEntryTestUtil.withOrganizations(organizationABB));
+			AccountEntryMod.withOwner(accountEntryOwner),
+			AccountEntryMod.withOrganizations(organizationABB));
 
 		_testGetUserAccountEntries(
 			user2,
@@ -571,7 +564,7 @@ public class AccountEntryLocalServiceTest {
 			accountEntryOwner,
 			Collections.singletonList(
 				AccountEntryTestUtil.addAccountEntry(
-					AccountEntryTestUtil.withOwner(accountEntryOwner))));
+					AccountEntryMod.withOwner(accountEntryOwner))));
 	}
 
 	@Test
@@ -596,8 +589,8 @@ public class AccountEntryLocalServiceTest {
 
 			accountEntries.add(
 				AccountEntryTestUtil.addAccountEntry(
-					AccountEntryTestUtil.withOrganizations(organization),
-					AccountEntryTestUtil.withOwner(accountEntryOwner)));
+					AccountEntryMod.withOrganizations(organization),
+					AccountEntryMod.withOwner(accountEntryOwner)));
 		}
 
 		for (int i = 0; i < accountEntries.size(); i++) {
@@ -621,9 +614,9 @@ public class AccountEntryLocalServiceTest {
 				accountEntryMember,
 				Collections.singletonList(
 					AccountEntryTestUtil.addAccountEntry(
-						AccountEntryTestUtil.withOwner(accountEntryOwner),
-						AccountEntryTestUtil.withUsers(accountEntryMember),
-						accountEntryInfo -> accountEntryInfo.type = type)),
+						AccountEntryMod.withOwner(accountEntryOwner),
+						AccountEntryMod.withUsers(accountEntryMember),
+						AccountEntryMod.withType(type))),
 				type);
 		}
 	}
@@ -634,7 +627,7 @@ public class AccountEntryLocalServiceTest {
 
 		List<AccountEntry> accountEntries =
 			AccountEntryTestUtil.addAccountEntries(
-				3, AccountEntryTestUtil.withUsers(user));
+				3, AccountEntryMod.withUsers(user));
 
 		accountEntries.sort(
 			Comparator.comparing(
@@ -656,7 +649,7 @@ public class AccountEntryLocalServiceTest {
 		User user = UserTestUtil.addUser();
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(user));
+			AccountEntryMod.withUsers(user));
 
 		_assertGetUserAccountEntriesWithKeywords(
 			accountEntry, user.getUserId(),
@@ -693,7 +686,7 @@ public class AccountEntryLocalServiceTest {
 
 		_assertSearchWithParams(
 			AccountEntryTestUtil.addAccountEntries(
-				2, AccountEntryTestUtil.withAccountGroups(accountGroup)),
+				2, AccountEntryMod.withAccountGroups(accountGroup)),
 			params);
 
 		_accountGroupLocalService.deleteAccountGroup(accountGroup);
@@ -711,9 +704,9 @@ public class AccountEntryLocalServiceTest {
 		_assertSearchWithParams(
 			Arrays.asList(
 				AccountEntryTestUtil.addAccountEntry(
-					AccountEntryTestUtil.withUsers(user1)),
+					AccountEntryMod.withUsers(user1)),
 				AccountEntryTestUtil.addAccountEntry(
-					AccountEntryTestUtil.withUsers(user2))),
+					AccountEntryMod.withUsers(user2))),
 			_getLinkedHashMap(
 				"accountUserIds",
 				new long[] {user1.getUserId(), user2.getUserId()}));
@@ -726,9 +719,9 @@ public class AccountEntryLocalServiceTest {
 		AccountEntry businessAccountEntry2 =
 			AccountEntryTestUtil.addAccountEntry();
 		AccountEntry personAccountEntry1 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withTypePerson());
+			AccountEntryMod.withTypePerson());
 		AccountEntry personAccountEntry2 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withTypePerson());
+			AccountEntryMod.withTypePerson());
 
 		User user = UserTestUtil.addUser();
 
@@ -762,9 +755,9 @@ public class AccountEntryLocalServiceTest {
 		_assertSearchWithParams(
 			Arrays.asList(
 				AccountEntryTestUtil.addAccountEntry(
-					AccountEntryTestUtil.withDomains(emailDomain1)),
+					AccountEntryMod.withDomains(emailDomain1)),
 				AccountEntryTestUtil.addAccountEntry(
-					AccountEntryTestUtil.withDomains(emailDomain2))),
+					AccountEntryMod.withDomains(emailDomain2))),
 			_getLinkedHashMap(
 				"domains", new String[] {emailDomain1, emailDomain2}));
 	}
@@ -785,14 +778,14 @@ public class AccountEntryLocalServiceTest {
 			OrganizationTestUtil.addOrganization();
 
 		AccountEntry accountEntry1 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOrganizations(parentOrganization));
+			AccountEntryMod.withOrganizations(parentOrganization));
 
 		Organization organization = OrganizationTestUtil.addOrganization(
 			parentOrganization.getOrganizationId(),
 			RandomTestUtil.randomString(), false);
 
 		AccountEntry accountEntry2 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOrganizations(organization));
+			AccountEntryMod.withOrganizations(organization));
 
 		_assertSearchWithParams(
 			Arrays.asList(accountEntry1),
@@ -822,15 +815,8 @@ public class AccountEntryLocalServiceTest {
 			AccountEntryTestUtil.addAccountEntry();
 
 		_assertSearchWithParams(
-			Arrays.asList(
-				AccountEntryTestUtil.addAccountEntry(
-					accountEntryInfo ->
-						accountEntryInfo.parentAccountEntryId =
-							parentAccountEntry.getAccountEntryId()),
-				AccountEntryTestUtil.addAccountEntry(
-					accountEntryInfo ->
-						accountEntryInfo.parentAccountEntryId =
-							parentAccountEntry.getAccountEntryId())),
+			AccountEntryTestUtil.addAccountEntries(
+				2, AccountEntryMod.withParentAccount(parentAccountEntry)),
 			_getLinkedHashMap(
 				"parentAccountEntryId",
 				parentAccountEntry.getAccountEntryId()));
@@ -842,7 +828,7 @@ public class AccountEntryLocalServiceTest {
 			AccountEntryTestUtil.addAccountEntries(3);
 		List<AccountEntry> inactiveAccountEntries =
 			AccountEntryTestUtil.addAccountEntries(
-				3, AccountEntryTestUtil.withStatusInactive());
+				3, AccountEntryMod.withStatusInactive());
 
 		_assertSearchWithParams(
 			activeAccountEntries,
@@ -861,7 +847,7 @@ public class AccountEntryLocalServiceTest {
 		AccountEntry businessAccountEntry =
 			AccountEntryTestUtil.addAccountEntry();
 		AccountEntry personAccountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withTypePerson());
+			AccountEntryMod.withTypePerson());
 
 		_assertSearchWithParams(
 			Arrays.asList(businessAccountEntry, personAccountEntry), null);
@@ -893,8 +879,7 @@ public class AccountEntryLocalServiceTest {
 	public void testSearchByUserName() throws Exception {
 		User user = UserTestUtil.addUser();
 
-		AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOwner(user));
+		AccountEntryTestUtil.addAccountEntry(AccountEntryMod.withOwner(user));
 
 		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
 			_keywordSearch(user.getFullName());
@@ -908,8 +893,8 @@ public class AccountEntryLocalServiceTest {
 		User user2 = UserTestUtil.addUser();
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withDomains("one.com", "two.com", "three.com"),
-			AccountEntryTestUtil.withUsers(user1, user2));
+			AccountEntryMod.withDomains("one.com", "two.com", "three.com"),
+			AccountEntryMod.withUsers(user1, user2));
 
 		Indexer<AccountEntry> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
 			AccountEntry.class);
@@ -946,9 +931,9 @@ public class AccountEntryLocalServiceTest {
 
 		List<AccountEntry> expectedAccountEntries = Arrays.asList(
 			AccountEntryTestUtil.addAccountEntry(
-				accountEntryInfo -> accountEntryInfo.name = keywords),
+				AccountEntryMod.withName(keywords)),
 			AccountEntryTestUtil.addAccountEntry(
-				accountEntryInfo -> accountEntryInfo.description = keywords));
+				AccountEntryMod.withDescription(keywords)));
 
 		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
 			_keywordSearch(keywords);
@@ -980,7 +965,7 @@ public class AccountEntryLocalServiceTest {
 
 		List<AccountEntry> expectedAccountEntries =
 			AccountEntryTestUtil.addAccountEntries(
-				5, accountEntryInfo -> accountEntryInfo.description = keywords);
+				5, AccountEntryMod.withDescription(keywords));
 
 		_assertPaginationSort(expectedAccountEntries, keywords, false);
 		_assertPaginationSort(expectedAccountEntries, keywords, true);

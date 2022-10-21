@@ -16,6 +16,7 @@ package com.liferay.account.model.impl.test;
 
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.service.AccountEntryLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.model.Address;
@@ -65,6 +66,8 @@ public class AccountEntryImplTest {
 
 	@Test
 	public void testFetchOrganizations() throws Exception {
+		OrganizationTestUtil.addOrganization();
+
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry();
 
 		_testFetchOrganizations(accountEntry);
@@ -72,18 +75,15 @@ public class AccountEntryImplTest {
 		Organization organization = OrganizationTestUtil.addOrganization();
 
 		accountEntry = AccountEntryTestUtil.addAccountEntry(
-			accountEntryInfo ->
-				accountEntryInfo.organizationIds = new long[] {
-					organization.getOrganizationId()
-				});
-
-		OrganizationTestUtil.addOrganization();
+			AccountEntryMod.withOrganizations(organization));
 
 		_testFetchOrganizations(accountEntry, organization);
 	}
 
 	@Test
 	public void testFetchUsers() throws Exception {
+		UserTestUtil.addUser();
+
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry();
 
 		_testFetchUsers(accountEntry);
@@ -91,10 +91,7 @@ public class AccountEntryImplTest {
 		User user = UserTestUtil.addUser();
 
 		accountEntry = AccountEntryTestUtil.addAccountEntry(
-			accountEntryInfo ->
-				accountEntryInfo.userIds = new long[] {user.getUserId()});
-
-		UserTestUtil.addUser();
+			AccountEntryMod.withUsers(user));
 
 		_testFetchUsers(accountEntry, user);
 	}

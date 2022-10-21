@@ -27,6 +27,7 @@ import com.liferay.account.retriever.AccountUserRetriever;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.account.service.AccountRoleLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.configuration.test.util.ConfigurationTestUtil;
@@ -399,7 +400,7 @@ public class AccountEntryUserRelLocalServiceTest {
 	public void testAddPersonTypeAccountEntryUserRel() throws Exception {
 		AccountEntry personTypeAccountEntry =
 			AccountEntryTestUtil.addAccountEntry(
-				AccountEntryTestUtil.withTypePerson());
+				AccountEntryMod.withTypePerson());
 
 		AccountEntryUserRel accountEntryUserRel1 =
 			_addPersonTypeAccountEntryUserRel(
@@ -551,7 +552,7 @@ public class AccountEntryUserRelLocalServiceTest {
 	public void testSetPersonTypeAccountEntryUser() throws Exception {
 		AccountEntry personTypeAccountEntry =
 			AccountEntryTestUtil.addAccountEntry(
-				AccountEntryTestUtil.withTypePerson());
+				AccountEntryMod.withTypePerson());
 		User user1 = UserTestUtil.addUser();
 
 		_testSetPersonTypeAccountEntryUser(

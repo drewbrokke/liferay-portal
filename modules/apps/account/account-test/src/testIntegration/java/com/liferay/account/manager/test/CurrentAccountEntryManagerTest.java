@@ -21,6 +21,7 @@ import com.liferay.account.model.AccountEntry;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryOrganizationRelLocalService;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.account.settings.AccountEntryGroupSettings;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
@@ -70,9 +71,10 @@ public class CurrentAccountEntryManagerTest {
 
 	@Test
 	public void testGetCurrentAccountEntry() throws Exception {
-		AccountEntry accountEntry = _addAccountEntry("aaa");
+		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
+			AccountEntryMod.withName("aaa"));
 
-		_addAccountEntry("bbb");
+		AccountEntryTestUtil.addAccountEntry(AccountEntryMod.withName("bbb"));
 
 		Assert.assertEquals(
 			accountEntry,
@@ -82,19 +84,20 @@ public class CurrentAccountEntryManagerTest {
 
 	@Test
 	public void testGetCurrentAccountEntryDefault() throws Exception {
-		AccountEntry inactiveAccountEntry = _addAccountEntry("aInactive");
-
-		_accountEntryLocalService.deactivateAccountEntry(inactiveAccountEntry);
-
-		_addAccountEntry(
-			"bInvalidType", AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON);
+		AccountEntryTestUtil.addAccountEntry(
+			AccountEntryMod.withName("aInactive"),
+			AccountEntryMod.withStatusInactive());
+		AccountEntryTestUtil.addAccountEntry(
+			AccountEntryMod.withName("bInvalidType"),
+			AccountEntryMod.withTypePerson());
 
 		_setAllowedTypes(
 			_group.getGroupId(),
 			new String[] {AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS});
 
-		AccountEntry noPermissionAccountEntry = _addAccountEntry(
-			"cNoPermission");
+		AccountEntry noPermissionAccountEntry =
+			AccountEntryTestUtil.addAccountEntry(
+				AccountEntryMod.withName("cNoPermission"));
 
 		_accountEntryUserRelLocalService.deleteAccountEntryUserRels(
 			noPermissionAccountEntry.getAccountEntryId(),
@@ -108,7 +111,9 @@ public class CurrentAccountEntryManagerTest {
 			noPermissionAccountEntry.getAccountEntryId(),
 			organization.getOrganizationId());
 
-		AccountEntry expectedAccountEntry = _addAccountEntry("dHasPermission");
+		AccountEntry expectedAccountEntry =
+			AccountEntryTestUtil.addAccountEntry(
+				AccountEntryMod.withName("dHasPermission"));
 
 		AccountEntry currentAccountEntry =
 			_currentAccountEntryManager.getCurrentAccountEntry(
@@ -123,9 +128,8 @@ public class CurrentAccountEntryManagerTest {
 		throws Exception {
 
 		Group group = GroupTestUtil.addGroup();
-		AccountEntry personAccountEntry = _addAccountEntry(
-			RandomTestUtil.randomString(),
-			AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON);
+		AccountEntry personAccountEntry = AccountEntryTestUtil.addAccountEntry(
+			AccountEntryMod.withTypePerson());
 
 		_currentAccountEntryManager.setCurrentAccountEntry(
 			personAccountEntry.getAccountEntryId(), group.getGroupId(),
@@ -183,7 +187,7 @@ public class CurrentAccountEntryManagerTest {
 		throws Exception {
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(_user));
+			AccountEntryMod.withUsers(_user));
 
 		_currentAccountEntryManager.setCurrentAccountEntry(
 			accountEntry.getAccountEntryId(), _group.getGroupId(),
@@ -197,8 +201,7 @@ public class CurrentAccountEntryManagerTest {
 
 	@Test
 	public void testSetCurrentAccountEntry() throws Exception {
-		AccountEntry accountEntry = _addAccountEntry(
-			RandomTestUtil.randomString());
+		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry();
 
 		_currentAccountEntryManager.setCurrentAccountEntry(
 			accountEntry.getAccountEntryId(), _group.getGroupId(),
@@ -227,7 +230,7 @@ public class CurrentAccountEntryManagerTest {
 
 			AccountEntry personAccountEntry =
 				AccountEntryTestUtil.addAccountEntry(
-					AccountEntryTestUtil.withTypePerson());
+					AccountEntryMod.withTypePerson());
 
 			_currentAccountEntryManager.setCurrentAccountEntry(
 				personAccountEntry.getAccountEntryId(), group.getGroupId(),
@@ -251,22 +254,6 @@ public class CurrentAccountEntryManagerTest {
 					"person",
 				throwable.getMessage());
 		}
-	}
-
-	private AccountEntry _addAccountEntry(String name) throws Exception {
-		return _addAccountEntry(
-			name, AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS);
-	}
-
-	private AccountEntry _addAccountEntry(String name, String type)
-		throws Exception {
-
-		return AccountEntryTestUtil.addAccountEntry(
-			accountEntryInfo -> {
-				accountEntryInfo.name = name;
-				accountEntryInfo.type = type;
-			},
-			AccountEntryTestUtil.withUsers(_user));
 	}
 
 	private void _setAllowedTypes(long groupId, String[] allowedTypes)

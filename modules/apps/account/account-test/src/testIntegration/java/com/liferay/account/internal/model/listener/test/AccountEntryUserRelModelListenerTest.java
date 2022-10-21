@@ -17,6 +17,7 @@ package com.liferay.account.internal.model.listener.test;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryUserRel;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.exception.ModelListenerException;
@@ -58,7 +59,7 @@ public class AccountEntryUserRelModelListenerTest {
 		throws Exception {
 
 		AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(_user, UserTestUtil.addUser()));
+			AccountEntryMod.withUsers(_user, UserTestUtil.addUser()));
 	}
 
 	@Test(expected = ModelListenerException.class)
@@ -66,8 +67,8 @@ public class AccountEntryUserRelModelListenerTest {
 		throws Exception {
 
 		AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withTypePerson(),
-			AccountEntryTestUtil.withUsers(_user, UserTestUtil.addUser()));
+			AccountEntryMod.withTypePerson(),
+			AccountEntryMod.withUsers(_user, UserTestUtil.addUser()));
 	}
 
 	@Test
@@ -75,9 +76,9 @@ public class AccountEntryUserRelModelListenerTest {
 		throws Exception {
 
 		AccountEntry accountEntry1 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(_user));
+			AccountEntryMod.withUsers(_user));
 		AccountEntry accountEntry2 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(_user));
+			AccountEntryMod.withUsers(_user));
 
 		List<AccountEntryUserRel> userAccountEntryUserRels =
 			_accountEntryUserRelLocalService.
@@ -99,7 +100,7 @@ public class AccountEntryUserRelModelListenerTest {
 		throws Exception {
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(_user));
+			AccountEntryMod.withUsers(_user));
 
 		List<AccountEntryUserRel> userAccountEntryUserRels =
 			_accountEntryUserRelLocalService.

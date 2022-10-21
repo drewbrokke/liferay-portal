@@ -135,12 +135,12 @@ public class AccountUserRetrieverTest {
 		User user1 = UserTestUtil.addUser();
 
 		AccountEntry accountEntry1 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(user1));
+			AccountEntryMod.withUsers(user1));
 
 		User user2 = UserTestUtil.addUser();
 
 		AccountEntry accountEntry2 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(user2));
+			AccountEntryMod.withUsers(user2));
 
 		BaseModelSearchResult<User> baseModelSearchResult = _searchAccountUsers(
 			new long[] {

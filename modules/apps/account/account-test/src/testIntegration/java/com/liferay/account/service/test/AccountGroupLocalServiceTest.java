@@ -20,6 +20,7 @@ import com.liferay.account.model.AccountGroup;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountGroupLocalService;
 import com.liferay.account.service.AccountGroupRelLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.account.service.test.util.AccountGroupTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
@@ -123,7 +124,7 @@ public class AccountGroupLocalServiceTest {
 		AccountGroup accountGroup = _addAccountGroup();
 
 		AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withAccountGroups(accountGroup));
+			AccountEntryMod.withAccountGroups(accountGroup));
 
 		Assert.assertEquals(
 			1,

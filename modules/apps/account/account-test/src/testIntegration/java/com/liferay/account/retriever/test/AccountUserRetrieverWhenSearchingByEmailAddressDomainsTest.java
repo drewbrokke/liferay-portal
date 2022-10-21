@@ -19,6 +19,7 @@ import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryUserRel;
 import com.liferay.account.retriever.AccountUserRetriever;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.petra.string.StringPool;
@@ -72,7 +73,7 @@ public class AccountUserRetrieverWhenSearchingByEmailAddressDomainsTest {
 		_users.add(_addAccountUser("test.com"));
 
 		_accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withDomains("test.com"));
+			AccountEntryMod.withDomains("test.com"));
 
 		BaseModelSearchResult<User> expectedBaseModelSearchResult =
 			_accountUserRetriever.searchAccountUsers(
@@ -113,7 +114,7 @@ public class AccountUserRetrieverWhenSearchingByEmailAddressDomainsTest {
 		_users.addAll(users);
 
 		_accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withDomains(emailAddressDomains));
+			AccountEntryMod.withDomains(emailAddressDomains));
 
 		BaseModelSearchResult<User> baseModelSearchResult =
 			_accountUserRetriever.searchAccountUsers(

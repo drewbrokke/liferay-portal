@@ -17,6 +17,7 @@ package com.liferay.account.internal.search.spi.model.permission.test;
 import com.liferay.account.constants.AccountActionKeys;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.retriever.AccountUserRetriever;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -75,8 +76,8 @@ public class UserSearchPermissionFilterContributorTest {
 		User userA = _addOrganizationUser(organization);
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOrganizations(organization),
-			AccountEntryTestUtil.withUsers(UserTestUtil.addUser()));
+			AccountEntryMod.withOrganizations(organization),
+			AccountEntryMod.withUsers(UserTestUtil.addUser()));
 
 		Assert.assertEquals(
 			0,

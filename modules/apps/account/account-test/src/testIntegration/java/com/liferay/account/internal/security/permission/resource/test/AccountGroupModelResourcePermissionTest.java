@@ -23,6 +23,7 @@ import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.account.service.AccountGroupLocalService;
 import com.liferay.account.service.AccountGroupRelLocalService;
 import com.liferay.account.service.AccountRoleLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.account.service.test.util.AccountGroupTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
@@ -68,8 +69,8 @@ public class AccountGroupModelResourcePermissionTest {
 			RandomTestUtil.randomString());
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withAccountGroups(accountGroup1),
-			AccountEntryTestUtil.withUsers(user));
+			AccountEntryMod.withAccountGroups(accountGroup1),
+			AccountEntryMod.withUsers(user));
 
 		AccountGroup accountGroup2 = AccountGroupTestUtil.addAccountGroup(
 			_accountGroupLocalService, RandomTestUtil.randomString(),

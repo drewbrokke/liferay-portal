@@ -65,7 +65,7 @@ public class AccountRoleContributorTest {
 		User user = UserTestUtil.addUser();
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(user));
+			AccountEntryMod.withUsers(user));
 
 		PermissionChecker permissionChecker = _permissionCheckerFactory.create(
 			user);
@@ -98,7 +98,7 @@ public class AccountRoleContributorTest {
 		User user = UserTestUtil.addUser();
 
 		AccountEntry accountEntry1 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(user));
+			AccountEntryMod.withUsers(user));
 
 		AccountRole accountRole = _accountRoleLocalService.addAccountRole(
 			TestPropsValues.getUserId(), accountEntry1.getAccountEntryId(),
@@ -115,7 +115,7 @@ public class AccountRoleContributorTest {
 			user.getUserId());
 
 		AccountEntry accountEntry2 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(user));
+			AccountEntryMod.withUsers(user));
 
 		_currentAccountEntryManager.setCurrentAccountEntry(
 			accountEntry1.getAccountEntryId(), group.getGroupId(),

@@ -17,6 +17,7 @@ package com.liferay.account.internal.security.permission.resource.test;
 import com.liferay.account.constants.AccountActionKeys;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.service.AccountEntryOrganizationRelLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.model.GroupConstants;
@@ -144,7 +145,7 @@ public class AccountEntryModelResourcePermissionTest {
 			OrganizationTestUtil.addOrganization();
 
 		AccountEntry accountEntry1 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOrganizations(parentOrganization));
+			AccountEntryMod.withOrganizations(parentOrganization));
 
 		_assertDoesNotContain(user, accountEntry1, _ACTION_IDS);
 
@@ -162,7 +163,7 @@ public class AccountEntryModelResourcePermissionTest {
 			RandomTestUtil.randomString(), false);
 
 		AccountEntry accountEntry2 = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOrganizations(childOrganization));
+			AccountEntryMod.withOrganizations(childOrganization));
 
 		_assertDoesNotContain(user, accountEntry2, _ACTION_IDS);
 
@@ -185,7 +186,7 @@ public class AccountEntryModelResourcePermissionTest {
 		User user = UserTestUtil.addUser();
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withOwner(user));
+			AccountEntryMod.withOwner(user));
 
 		_assertContains(user, accountEntry, _ACTION_IDS);
 	}

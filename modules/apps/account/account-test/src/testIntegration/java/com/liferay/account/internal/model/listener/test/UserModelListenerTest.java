@@ -17,6 +17,7 @@ package com.liferay.account.internal.model.listener.test;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryUserRel;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.model.User;
@@ -52,7 +53,7 @@ public class UserModelListenerTest {
 
 		List<AccountEntry> accountEntries =
 			AccountEntryTestUtil.addAccountEntries(
-				2, AccountEntryTestUtil.withUsers(user));
+				2, AccountEntryMod.withUsers(user));
 
 		List<AccountEntryUserRel> accountEntryUserRels =
 			_accountEntryUserRelLocalService.
@@ -76,7 +77,7 @@ public class UserModelListenerTest {
 		User user = UserTestUtil.addUser();
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withUsers(user));
+			AccountEntryMod.withUsers(user));
 
 		Assert.assertTrue(
 			_accountEntryUserRelLocalService.hasAccountEntryUserRel(

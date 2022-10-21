@@ -21,6 +21,7 @@ import com.liferay.account.model.AccountRole;
 import com.liferay.account.service.AccountGroupLocalService;
 import com.liferay.account.service.AccountGroupService;
 import com.liferay.account.service.AccountRoleLocalService;
+import com.liferay.account.service.test.util.AccountEntryMod;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.account.service.test.util.AccountGroupTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
@@ -74,8 +75,8 @@ public class AccountGroupSearchPermissionFilterContributorTest {
 		User user = UserTestUtil.addUser();
 
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			AccountEntryTestUtil.withAccountGroups(accountGroup),
-			AccountEntryTestUtil.withUsers(user));
+			AccountEntryMod.withAccountGroups(accountGroup),
+			AccountEntryMod.withUsers(user));
 
 		AccountGroupTestUtil.addAccountGroup(
 			_accountGroupLocalService, RandomTestUtil.randomString(),
