@@ -49,8 +49,17 @@ import javax.servlet.http.HttpServletResponse;
 public class OrganizationScreenNavigationEntry
 	implements ScreenNavigationEntry<Organization> {
 
-	public static Builder builder() {
-		return new Builder();
+	public static OrganizationScreenNavigationEntry of(Mod... mods) {
+		Args args = new Args();
+
+		for (Mod mod : mods) {
+			mod.modify(args);
+		}
+
+		return new OrganizationScreenNavigationEntry(
+			args.jspRenderer, args.organizationService, args.entryKey,
+			args.categoryKey, args.jspPath, args.mvcActionCommandName,
+			args.showControls, args.showTitle, args.visibleBiFunction);
 	}
 
 	@Override
@@ -172,86 +181,51 @@ public class OrganizationScreenNavigationEntry
 			"/edit_organization_navigation.jsp");
 	}
 
-	public static class Builder {
+	public static class Args {
 
-		public OrganizationScreenNavigationEntry build() {
-			return new OrganizationScreenNavigationEntry(
-				_jspRenderer, _organizationService, _entryKey, _categoryKey,
-				_jspPath, _mvcActionCommandName, _showControls, _showTitle,
-				_visibleBiFunction);
+		public static final Mod HIDE_CONTROLS =
+			args -> args.showControls = false;
+
+		public static final Mod HIDE_TITLE = args -> args.showTitle = false;
+
+		public static void hideControls(Args args) {
+			args.showControls = false;
 		}
 
-		public Builder categoryKey(String categoryKey) {
-			_categoryKey = categoryKey;
-
-			return this;
+		public static Mod withCategoryKey(String categoryKey) {
+			return args -> args.categoryKey = categoryKey;
 		}
 
-		public Builder entryKey(String entryKey) {
-			_entryKey = entryKey;
-
-			return this;
+		public static Mod withEntryKey(String entryKey) {
+			return args -> args.entryKey = entryKey;
 		}
 
-		public Builder jspPath(String jspPath) {
-			_jspPath = jspPath;
-
-			return this;
+		public static Mod withJspPath(String jspPath) {
+			return args -> args.jspPath = jspPath;
 		}
 
-		public Builder jspRenderer(JSPRenderer jspRenderer) {
-			_jspRenderer = jspRenderer;
+		public static Mod withMVCActionCommandName(
+			String mvcActionCommandName) {
 
-			return this;
+			return args -> args.mvcActionCommandName = mvcActionCommandName;
 		}
 
-		public Builder mvcActionCommandName(String mvcActionCommandName) {
-			_mvcActionCommandName = mvcActionCommandName;
-
-			return this;
-		}
-
-		public Builder organizationService(
-			OrganizationService organizationService) {
-
-			_organizationService = organizationService;
-
-			return this;
-		}
-
-		public Builder showControls(boolean showControls) {
-			_showControls = showControls;
-
-			return this;
-		}
-
-		public Builder showTitle(boolean showTitle) {
-			_showTitle = showTitle;
-
-			return this;
-		}
-
-		public Builder visibleBiFunction(
+		public static Mod withVisibleBiFunction(
 			BiFunction<User, Organization, Boolean> visibleBiFunction) {
 
-			_visibleBiFunction = visibleBiFunction;
-
-			return this;
+			return args -> args.visibleBiFunction = visibleBiFunction;
 		}
 
-		private Builder() {
-		}
+		public String categoryKey;
+		public String entryKey;
+		public String jspPath;
+		public JSPRenderer jspRenderer;
+		public String mvcActionCommandName;
+		public OrganizationService organizationService;
+		public boolean showControls = true;
+		public boolean showTitle = true;
 
-		private String _categoryKey;
-		private String _entryKey;
-		private String _jspPath;
-		private JSPRenderer _jspRenderer;
-		private String _mvcActionCommandName;
-		private OrganizationService _organizationService;
-		private boolean _showControls = true;
-		private boolean _showTitle = true;
-
-		private BiFunction<User, Organization, Boolean> _visibleBiFunction =
+		public BiFunction<User, Organization, Boolean> visibleBiFunction =
 			(user, organization) -> {
 				if (organization == null) {
 					return false;
@@ -259,6 +233,31 @@ public class OrganizationScreenNavigationEntry
 
 				return true;
 			};
+
+	}
+
+	@FunctionalInterface
+	public interface Mod {
+
+		public static Mod combine(Mod... mods) {
+			return args -> {
+				for (Mod mod : mods) {
+					mod.modify(args);
+				}
+			};
+		}
+
+		public default Mod and(Mod... mods) {
+			return args -> {
+				modify(args);
+
+				for (Mod mod : mods) {
+					mod.modify(args);
+				}
+			};
+		}
+
+		public void modify(Args args);
 
 	}
 
