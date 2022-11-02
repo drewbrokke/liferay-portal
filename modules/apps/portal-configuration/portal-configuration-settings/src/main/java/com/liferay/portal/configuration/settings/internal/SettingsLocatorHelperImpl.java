@@ -37,7 +37,6 @@ import com.liferay.portal.kernel.settings.PortletPreferencesSettings;
 import com.liferay.portal.kernel.settings.PropertiesSettings;
 import com.liferay.portal.kernel.settings.Settings;
 import com.liferay.portal.kernel.settings.SettingsLocatorHelper;
-import com.liferay.portal.kernel.settings.definition.ConfigurationBeanDeclaration;
 import com.liferay.portal.kernel.settings.definition.ConfigurationPidMapping;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
@@ -54,21 +53,21 @@ import java.util.concurrent.ConcurrentMap;
 import javax.portlet.PortletPreferences;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * @author Iván Zaera
  * @author Jorge Ferrer
  * @author Shuyang Zhou
  */
-@Component(immediate = true, service = SettingsLocatorHelper.class)
+@Component(
+	immediate = true,
+	service = {SettingsLocatorHelper.class, SettingsLocatorHelperImpl.class}
+)
 public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 
 	@Override
@@ -220,24 +219,68 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 		return getConfigurationBeanSettings(settingsId);
 	}
 
-	@Activate
-	protected void activate(BundleContext bundleContext) {
-		_configurationBeanDeclarationServiceTracker =
-			new ConfigurationBeanDeclarationServiceTracker(bundleContext);
+	public AutoCloseable registerClass(Class<?> configurationBeanClass) {
+		String configurationPid = ConfigurationPidUtil.getConfigurationPid(
+			configurationBeanClass);
 
-		_configurationBeanDeclarationServiceTracker.open();
+		if (_configurationBeanClasses.containsKey(configurationPid)) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Skipping adding ManagedServices (already registered): " +
+						configurationPid);
+			}
 
-		_configurationBeanDeclarationServiceTrackerFactory =
-			new ConfigurationBeanDeclarationServiceTrackerFactory(
-				bundleContext);
+			return null;
+		}
 
-		_configurationBeanDeclarationServiceTrackerFactory.open();
+		LocationVariableResolver locationVariableResolver =
+			new LocationVariableResolver(
+				new ClassLoaderResourceManager(
+					configurationBeanClass.getClassLoader()),
+				SettingsLocatorHelperImpl.this);
+
+		ConfigurationBeanManagedService configurationBeanManagedService =
+			new ConfigurationBeanManagedService(
+				_bundleContext, configurationBeanClass,
+				configurationBean -> _configurationBeanSettings.put(
+					configurationBeanClass,
+					new ConfigurationBeanSettings(
+						locationVariableResolver, configurationBean,
+						_portalPropertiesSettings)));
+
+		configurationBeanManagedService.register();
+
+		ScopedConfigurationManagedServiceFactory
+			scopedConfigurationManagedServiceFactory =
+				new ScopedConfigurationManagedServiceFactory(
+					_bundleContext, configurationBeanClass,
+					locationVariableResolver);
+
+		scopedConfigurationManagedServiceFactory.register();
+
+		_scopedConfigurationManagedServiceFactories.put(
+			scopedConfigurationManagedServiceFactory.getName(),
+			scopedConfigurationManagedServiceFactory);
+
+		_configurationBeanClasses.put(
+			configurationBeanManagedService.getConfigurationPid(),
+			configurationBeanClass);
+
+		return () -> {
+			_configurationBeanClasses.remove(configurationPid);
+
+			_scopedConfigurationManagedServiceFactories.remove(
+				configurationPid);
+			scopedConfigurationManagedServiceFactory.unregister();
+
+			_configurationBeanSettings.remove(configurationBeanClass);
+			configurationBeanManagedService.unregister();
+		};
 	}
 
-	@Deactivate
-	protected void deactivate() {
-		_configurationBeanDeclarationServiceTracker.close();
-		_configurationBeanDeclarationServiceTrackerFactory.close();
+	@Activate
+	protected void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
 	}
 
 	@Reference(
@@ -334,14 +377,9 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 	private static final Log _log = LogFactoryUtil.getLog(
 		SettingsLocatorHelperImpl.class);
 
+	private BundleContext _bundleContext;
 	private final ConcurrentMap<String, Class<?>> _configurationBeanClasses =
 		new ConcurrentHashMap<>();
-	private ServiceTracker
-		<ConfigurationBeanDeclaration, ConfigurationBeanManagedService>
-			_configurationBeanDeclarationServiceTracker;
-	private ServiceTracker
-		<ConfigurationBeanDeclaration, ScopedConfigurationManagedServiceFactory>
-			_configurationBeanDeclarationServiceTrackerFactory;
 	private final Map<Class<?>, Settings> _configurationBeanSettings =
 		new ConcurrentHashMap<>();
 	private GroupLocalService _groupLocalService;
@@ -351,172 +389,5 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 	private PortletPreferencesLocalService _portletPreferencesLocalService;
 	private final Map<String, ScopedConfigurationManagedServiceFactory>
 		_scopedConfigurationManagedServiceFactories = new ConcurrentHashMap<>();
-
-	private class ConfigurationBeanDeclarationServiceTracker
-		extends ServiceTracker
-			<ConfigurationBeanDeclaration, ConfigurationBeanManagedService> {
-
-		@Override
-		public ConfigurationBeanManagedService addingService(
-			ServiceReference<ConfigurationBeanDeclaration> serviceReference) {
-
-			ConfigurationBeanDeclaration configurationBeanDeclaration =
-				context.getService(serviceReference);
-
-			Class<?> configurationBeanClass =
-				configurationBeanDeclaration.getConfigurationBeanClass();
-
-			String configurationPid = ConfigurationPidUtil.getConfigurationPid(
-				configurationBeanClass);
-
-			if (_configurationBeanClasses.containsKey(configurationPid)) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						"Skipping adding ManagedService (already " +
-							"registered): " + configurationPid);
-				}
-
-				return null;
-			}
-
-			ConfigurationBeanManagedService configurationBeanManagedService =
-				new ConfigurationBeanManagedService(
-					context, configurationBeanClass,
-					configurationBean -> {
-						LocationVariableResolver locationVariableResolver =
-							new LocationVariableResolver(
-								new ClassLoaderResourceManager(
-									configurationBeanClass.getClassLoader()),
-								SettingsLocatorHelperImpl.this);
-
-						_configurationBeanSettings.put(
-							configurationBeanClass,
-							new ConfigurationBeanSettings(
-								locationVariableResolver, configurationBean,
-								_portalPropertiesSettings));
-					});
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Adding ManagedService for: " +
-						configurationBeanManagedService.getConfigurationPid());
-			}
-
-			_configurationBeanClasses.put(
-				configurationBeanManagedService.getConfigurationPid(),
-				configurationBeanClass);
-
-			configurationBeanManagedService.register();
-
-			return configurationBeanManagedService;
-		}
-
-		@Override
-		public void removedService(
-			ServiceReference<ConfigurationBeanDeclaration> serviceReference,
-			ConfigurationBeanManagedService configurationBeanManagedService) {
-
-			context.ungetService(serviceReference);
-
-			configurationBeanManagedService.unregister();
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Removing ManagedService for: " +
-						configurationBeanManagedService.getConfigurationPid());
-			}
-
-			Class<?> configurationBeanClass = _configurationBeanClasses.remove(
-				configurationBeanManagedService.getConfigurationPid());
-
-			_configurationBeanSettings.remove(configurationBeanClass);
-		}
-
-		private ConfigurationBeanDeclarationServiceTracker(
-			BundleContext bundleContext) {
-
-			super(bundleContext, ConfigurationBeanDeclaration.class, null);
-		}
-
-	}
-
-	private class ConfigurationBeanDeclarationServiceTrackerFactory
-		extends ServiceTracker
-			<ConfigurationBeanDeclaration,
-			 ScopedConfigurationManagedServiceFactory> {
-
-		@Override
-		public ScopedConfigurationManagedServiceFactory addingService(
-			ServiceReference<ConfigurationBeanDeclaration> serviceReference) {
-
-			ConfigurationBeanDeclaration configurationBeanDeclaration =
-				context.getService(serviceReference);
-
-			Class<?> configurationBeanClass =
-				configurationBeanDeclaration.getConfigurationBeanClass();
-
-			String configurationPid = ConfigurationPidUtil.getConfigurationPid(
-				configurationBeanClass);
-
-			if (_scopedConfigurationManagedServiceFactories.containsKey(
-					configurationPid)) {
-
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						"Skipping adding ManagedServiceFactory (already " +
-							"registered): " + configurationPid);
-				}
-
-				return null;
-			}
-
-			LocationVariableResolver locationVariableResolver =
-				new LocationVariableResolver(
-					new ClassLoaderResourceManager(
-						configurationBeanClass.getClassLoader()),
-					SettingsLocatorHelperImpl.this);
-
-			ScopedConfigurationManagedServiceFactory
-				scopedConfigurationManagedServiceFactory =
-					new ScopedConfigurationManagedServiceFactory(
-						context, configurationBeanClass,
-						locationVariableResolver);
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Adding ManagedServiceFactory for: " +
-						scopedConfigurationManagedServiceFactory.getName());
-			}
-
-			scopedConfigurationManagedServiceFactory.register();
-
-			_scopedConfigurationManagedServiceFactories.put(
-				scopedConfigurationManagedServiceFactory.getName(),
-				scopedConfigurationManagedServiceFactory);
-
-			return scopedConfigurationManagedServiceFactory;
-		}
-
-		@Override
-		public void removedService(
-			ServiceReference<ConfigurationBeanDeclaration> serviceReference,
-			ScopedConfigurationManagedServiceFactory
-				scopedConfigurationManagedServiceFactory) {
-
-			context.ungetService(serviceReference);
-
-			_scopedConfigurationManagedServiceFactories.remove(
-				scopedConfigurationManagedServiceFactory.getName());
-
-			scopedConfigurationManagedServiceFactory.unregister();
-		}
-
-		private ConfigurationBeanDeclarationServiceTrackerFactory(
-			BundleContext bundleContext) {
-
-			super(bundleContext, ConfigurationBeanDeclaration.class, null);
-		}
-
-	}
 
 }
