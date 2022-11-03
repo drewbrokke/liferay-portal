@@ -7,6 +7,12 @@
 		"Testing"
 	],
 	"contributes": {
+		"commands": [
+			{
+			  "command": "poshi.sayHello",
+			  "title": "Say Hello"
+			}
+		],
 		"configuration": {
 			"properties": {
 				"poshi.completion.enabled": {
