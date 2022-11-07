@@ -22,6 +22,12 @@ Navigate to definitions using `F12` or using the **Go to Definition** command.
 
 ![Go to locator definition](images/gifs/POHSI_VSCODE_GOTODEFINITION_04_LOCATOR_NAME.gif)
 
+### Commands
+
+#### Run test under cursor
+
+Run the current testcase under the cursor.
+
 ### Completion
 
 Disabled by default. Can be enabled with the **Poshi > Completion: Enabled** setting.
