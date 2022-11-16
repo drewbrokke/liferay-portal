@@ -78,10 +78,6 @@ public class MailSettingsConfigurationScreen implements ConfigurationScreen {
 		}
 	}
 
-	protected String getJspPath() {
-		return "/company_mail.jsp";
-	}
-
 	@Reference
 	private Language _language;
 
