@@ -38,18 +38,15 @@ public class FeatureFlags {
 		return _featureFlagMap.get(key);
 	}
 
-	public List<FeatureFlag> getFeatureFlags(Predicate<FeatureFlag>... predicates) {
+	public List<FeatureFlag> getFeatureFlags() {
+		return getFeatureFlags(featureFlag -> true);
+	}
+
+	public List<FeatureFlag> getFeatureFlags(Predicate<FeatureFlag> predicate) {
 		Collection<FeatureFlag> values = _featureFlagMap.values();
 
-		if (ArrayUtil.isEmpty(predicates)) {
+		if (predicate == null) {
 			return new ArrayList<>(values);
-		}
-
-		Predicate<FeatureFlag> predicate =
-			featureFlag -> true;
-
-		for (Predicate<FeatureFlag> featureFlagPredicate : predicates) {
-			predicate = predicate.and(featureFlagPredicate);
 		}
 
 		Stream<FeatureFlag> stream = values.stream();

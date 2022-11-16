@@ -1,6 +1,7 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.configuration.admin.display.ConfigurationScreen;
+import com.liferay.portal.kernel.util.WebKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -42,6 +43,11 @@ public class FeatureFlagsConfigurationScreen implements ConfigurationScreen {
 		HttpServletRequest httpServletRequest,
 		HttpServletResponse httpServletResponse) throws IOException {
 
+		httpServletRequest.setAttribute(
+			WebKeys.PORTLET_DISPLAY_CONTEXT,
+			_featureFlagsDisplayContextFactory.create(
+				httpServletRequest, httpServletResponse));
+
 		try {
 			RequestDispatcher requestDispatcher =
 				_servletContext.getRequestDispatcher("/feature_flags.jsp");
@@ -53,6 +59,9 @@ public class FeatureFlagsConfigurationScreen implements ConfigurationScreen {
 				"Unable to render feature_flags.jsp", exception);
 		}
 	}
+
+	@Reference
+	private FeatureFlagsDisplayContextFactory _featureFlagsDisplayContextFactory;
 
 	@Reference(target = "(osgi.web.symbolicname=com.liferay.feature.flag.web)")
 	private ServletContext _servletContext;
