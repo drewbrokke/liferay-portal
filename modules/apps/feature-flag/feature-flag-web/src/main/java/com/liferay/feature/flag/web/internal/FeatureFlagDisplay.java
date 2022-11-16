@@ -13,14 +13,16 @@ public class FeatureFlagDisplay {
 		return _key;
 	}
 
-	public String getId() {
-		return _id;
-	}
-
-	private final String _id;
 
 	private final String _key;
 	private final boolean _enabled;
+
+	public FeatureFlagDisplay(FeatureFlag featureFlag) {
+		this(
+			featureFlag.getTitle(), featureFlag.getDescription(),
+			featureFlag.getStatus().toString().toLowerCase(),
+			featureFlag.getKey(), featureFlag.isEnabled());
+	}
 
 	public FeatureFlagDisplay(
 		String title, String description, String status, String key, boolean enabled) {
@@ -29,8 +31,6 @@ public class FeatureFlagDisplay {
 		_status = status;
 		_key = key;
 		_enabled = enabled;
-
-		_id = key;
 	}
 
 	public String getTitle() {
