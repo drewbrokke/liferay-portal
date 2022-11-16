@@ -1,4 +1,8 @@
-<%--
+<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
+<%@ page
+	import="com.liferay.feature.flag.web.internal.FeatureFlagsDisplayContext" %>
+<%@ page import="com.liferay.feature.flag.web.internal.FeatureFlagDisplay" %>
+<%@ page import="com.liferay.portal.kernel.util.HashMapBuilder" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -16,4 +20,48 @@
 
 <%@ include file="/init.jsp" %>
 
-Foo
+foo
+
+<%
+FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
+%>
+
+<clay:management-toolbar managementToolbarDisplayContext="<%= featureFlagsDisplayContext.getManagementToolbarDisplayContext() %>" />
+
+<clay:container-fluid>
+	<aui:form method="post" name="fm">
+		<liferay-ui:search-container searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>">
+			<liferay-ui:search-container-row
+				className="com.liferay.feature.flag.web.internal.FeatureFlagDisplay"
+				keyProperty="key"
+				modelVar="featureFlagDisplayVar"
+			>
+				<%
+				FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)featureFlagDisplayVar;
+				%>
+
+				<liferay-ui:search-container-column-text
+					colspan="<%= 2 %>"
+				>
+					<react:component
+						module="js/FeatureFlagRow"
+						props='<%=
+							HashMapBuilder.<String, Object>put(
+								"title", featureFlagDisplay.getTitle()
+							).put(
+								"description", featureFlagDisplay.getDescription()
+							).build()
+						 %>'
+					/>
+				</liferay-ui:search-container-column-text>
+
+<%--				<liferay-ui:search-container-column-text name="key" property="key" />--%>
+<%--				<liferay-ui:search-container-column-text name="title" property="title" />--%>
+<%--				<liferay-ui:search-container-column-text name="description" property="description" />--%>
+<%--				<liferay-ui:search-container-column-text name="enabled" value="<%= String.valueOf(featureFlagDisplay.isEnabled())%>" />--%>
+			</liferay-ui:search-container-row>
+
+			<liferay-ui:search-iterator displayStyle="descriptive" markupView="lexicon"/>
+		</liferay-ui:search-container>
+	</aui:form>
+</clay:container-fluid>
