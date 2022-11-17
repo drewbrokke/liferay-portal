@@ -2,7 +2,8 @@
 <%@ page
 	import="com.liferay.feature.flag.web.internal.FeatureFlagsDisplayContext" %>
 <%@ page import="com.liferay.feature.flag.web.internal.FeatureFlagDisplay" %>
-<%@ page import="com.liferay.portal.kernel.util.HashMapBuilder" %><%--
+<%@ page import="com.liferay.portal.kernel.util.HashMapBuilder" %>
+<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -39,31 +40,52 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 				%>
 
 				<liferay-ui:search-container-column-text colspan="11">
-					<div>
-						<h4>
-							<%= featureFlagDisplay.getTitle()%>
-							<span>
+					<h5>
+						<strong><%= featureFlagDisplay.getTitle() %></strong>
+						<clay:badge
+							displayType="<%= featureFlagDisplay.getBadgeDisplayStyle() %>"
+							label="<%= featureFlagDisplay.getStatusString() %>"
+						/>
+					</h5>
 
-							<clay:badge
-								displayType="<%= featureFlagDisplay.getBadgeDisplayStyle() %>"
-								label="<%= featureFlagDisplay.getStatusString() %>"
-							/>
-							</span>
-						</h4>
-					</div>
-					<div>
-						<span class="text-default"><%= featureFlagDisplay.getDescription()%></span>
-					</div>
+					<h6 class="text-default">
+						<%= featureFlagDisplay.getDescription() %>
+					</h6>
 				</liferay-ui:search-container-column-text>
 
 				<liferay-ui:search-container-column-text colspan="1">
-					<aui:input
-						checked="<%= featureFlagDisplay.isEnabled() %>"
-						inlineLabel="right"
-						label='<%= featureFlagDisplay.isEnabled() ? "Enabled" : "Disabled" %>'
-						name='<%= featureFlagDisplay.getKey() + "-toggle" %>'
-						type="toggle-switch"
-					/>
+
+					<%
+					String labelOff = LanguageUtil.get(request, "disabled");
+					String labelOn = LanguageUtil.get(request, "enabled");
+
+					String symbolOff = "flag-empty";
+					String symbolOn = "flag-full";
+
+					String inputName = featureFlagDisplay.getKey() + "-toggle";
+					%>
+
+
+					<label class="toggle-switch simple-toggle-switch">
+						<span class="toggle-switch-check-bar">
+							<input class="toggle-switch-check" id="<%= inputName %>" type="checkbox" value="" <%= featureFlagDisplay.isEnabled() ? "checked" : "" %>/>
+
+							<span aria-hidden="true" class="toggle-switch-bar">
+								<span class="toggle-switch-handle">
+									<span class="button-icon button-icon-on toggle-switch-icon">
+										<clay:icon symbol="<%= symbolOn %>" />
+									</span>
+									<span class="button-icon button-icon-off toggle-switch-icon">
+										<clay:icon symbol="<%= symbolOff %>" />
+									</span>
+								</span>
+							</span>
+						</span>
+
+						<span class="toggle-switch-label">
+							<%= featureFlagDisplay.isEnabled() ? labelOn : labelOff %>
+						</span>
+					</label>
 
 					<react:component
 						module="js/FeatureFlagToggle"
@@ -72,6 +94,16 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 								"enabled", featureFlagDisplay.isEnabled()
 							).put(
 								"featureFlagKey", featureFlagDisplay.getKey()
+							).put(
+								"inputName", inputName
+							).put(
+								"labelOff", labelOff
+							).put(
+								"labelOn", labelOn
+							).put(
+								"symbolOff", symbolOff
+							).put(
+								"symbolOn", symbolOn
 							).build()
 						 %>'
 					/>
