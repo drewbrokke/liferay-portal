@@ -17,6 +17,10 @@ public interface FeatureFlag {
 
 	public Status getStatus();
 
+	public default String getStatusString() {
+		return StringUtil.toLowerCase(String.valueOf(getStatus()));
+	}
+
 	public String getTitle();
 
 	public boolean isEnabled();

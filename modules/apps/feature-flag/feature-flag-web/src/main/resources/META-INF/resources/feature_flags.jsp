@@ -20,8 +20,6 @@
 
 <%@ include file="/init.jsp" %>
 
-foo
-
 <%
 FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
 %>
@@ -34,15 +32,25 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 			<liferay-ui:search-container-row
 				className="com.liferay.feature.flag.web.internal.FeatureFlagDisplay"
 				keyProperty="key"
-				modelVar="featureFlagDisplayVar"
+				modelVar="var"
 			>
 				<%
-				FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)featureFlagDisplayVar;
+				FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)var;
 				%>
 
 				<liferay-ui:search-container-column-text
 					colspan="<%= 2 %>"
 				>
+					<%
+					String elementId = featureFlagDisplay.getKey() + "_wrapper";
+					%>
+
+					<div id="<%= elementId %>">
+						<h2 class="h3"><%= featureFlagDisplay.getTitle()%></h2>
+						<span class="text-default"><%= featureFlagDisplay.getDescription()%></span>
+						<span class="text-default"><%= featureFlagDisplay.getStatusString()%></span>
+					</div>
+
 					<react:component
 						module="js/FeatureFlagRow"
 						props='<%=
@@ -50,6 +58,12 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 								"title", featureFlagDisplay.getTitle()
 							).put(
 								"description", featureFlagDisplay.getDescription()
+							).put(
+								"status", featureFlagDisplay.getStatusString()
+							).put(
+								"enabled", featureFlagDisplay.isEnabled()
+							).put(
+								"elementId", elementId
 							).build()
 						 %>'
 					/>
