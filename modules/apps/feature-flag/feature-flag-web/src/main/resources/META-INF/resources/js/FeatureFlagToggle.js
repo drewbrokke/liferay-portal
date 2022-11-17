@@ -14,31 +14,44 @@
 
 import React, {useState} from 'react';
 import {ClayToggle} from '@clayui/form';
+import {fetch, objectToFormData, openToast} from 'frontend-js-web';
 
-const FeatureFlagToggle = ({enabled: initialEnabled, featureFlagKey}) => {
+const FeatureFlagToggle = ({enabled: initialEnabled, featureFlagKey, inputName, labelOff, labelOn, symbolOff, symbolOn}) => {
 	const [enabled, setEnabled] = useState(initialEnabled);
 
 	async function updateEnabled(newEnabled) {
-		alert(`updating enabled for ${featureFlagKey}: ${newEnabled}`);
-
+		console.log(`updating enabled for ${featureFlagKey}: ${newEnabled}`);
 
 		try {
-			// const result = await Promise.resolve(newEnabled);
-			await Promise.reject(new Error("there was a problem updating the status"));
+			const searchParams = new URLSearchParams();
 
-			setEnabled(result);
+			searchParams.set("enabled", newEnabled);
+			searchParams.set("key", featureFlagKey);
+
+			const response = await fetch(
+				'/o/feature-flags/set-enabled',
+				{
+					body: objectToFormData({enabled: newEnabled, key: featureFlagKey}),
+					method: 'POST'
+				});
+
+			if (!response.ok) {
+				throw new Error('Could not update feature flag.')
+			}
+
+			setEnabled(newEnabled);
 		}
 		catch (error) {
-			alert(error.message);
+			openToast({message: error.message, type: 'danger'});
 		}
 	}
 
 	return (
 		<>
 			<ClayToggle
-				id={`${featureFlagKey}-toggle`}
-				symbol={{off: 'flag-empty', on: 'flag-full'}}
-				label={enabled ? "Enabled" : "Disabled"}
+				id={inputName}
+				symbol={{off: symbolOff, on: symbolOn}}
+				label={enabled ? labelOn : labelOff}
 				toggled={enabled}
 				type="checkbox"
 				onToggle={updateEnabled}
