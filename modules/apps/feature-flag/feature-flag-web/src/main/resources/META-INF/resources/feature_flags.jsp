@@ -68,7 +68,7 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 
 					<label class="toggle-switch simple-toggle-switch">
 						<span class="toggle-switch-check-bar">
-							<input class="toggle-switch-check" id="<%= inputName %>" type="checkbox" value="" <%= featureFlagDisplay.isEnabled() ? "checked" : "" %>/>
+							<input disabled class="toggle-switch-check" id="<%= inputName %>" type="checkbox" value="" <%= featureFlagDisplay.isEnabled() ? "checked" : "" %>/>
 
 							<span aria-hidden="true" class="toggle-switch-bar">
 								<span class="toggle-switch-handle">
