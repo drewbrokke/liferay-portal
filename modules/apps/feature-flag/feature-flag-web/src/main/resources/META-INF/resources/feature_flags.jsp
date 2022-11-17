@@ -32,47 +32,50 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 			<liferay-ui:search-container-row
 				className="com.liferay.feature.flag.web.internal.FeatureFlagDisplay"
 				keyProperty="key"
-				modelVar="var"
 			>
+
 				<%
-				FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)var;
+				FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)model;
 				%>
 
-				<liferay-ui:search-container-column-text
-					colspan="<%= 2 %>"
-				>
-					<%
-					String elementId = featureFlagDisplay.getKey() + "_wrapper";
-					%>
+				<liferay-ui:search-container-column-text colspan="11">
+					<div>
+						<h4>
+							<%= featureFlagDisplay.getTitle()%>
+							<span>
 
-					<div id="<%= elementId %>">
-						<h2 class="h3"><%= featureFlagDisplay.getTitle()%></h2>
-						<span class="text-default"><%= featureFlagDisplay.getDescription()%></span>
-						<span class="text-default"><%= featureFlagDisplay.getStatusString()%></span>
+							<clay:badge
+								displayType="<%= featureFlagDisplay.getBadgeDisplayStyle() %>"
+								label="<%= featureFlagDisplay.getStatusString() %>"
+							/>
+							</span>
+						</h4>
 					</div>
+					<div>
+						<span class="text-default"><%= featureFlagDisplay.getDescription()%></span>
+					</div>
+				</liferay-ui:search-container-column-text>
+
+				<liferay-ui:search-container-column-text colspan="1">
+					<aui:input
+						checked="<%= featureFlagDisplay.isEnabled() %>"
+						inlineLabel="right"
+						label='<%= featureFlagDisplay.isEnabled() ? "Enabled" : "Disabled" %>'
+						name='<%= featureFlagDisplay.getKey() + "-toggle" %>'
+						type="toggle-switch"
+					/>
 
 					<react:component
-						module="js/FeatureFlagRow"
+						module="js/FeatureFlagToggle"
 						props='<%=
 							HashMapBuilder.<String, Object>put(
-								"title", featureFlagDisplay.getTitle()
-							).put(
-								"description", featureFlagDisplay.getDescription()
-							).put(
-								"status", featureFlagDisplay.getStatusString()
-							).put(
 								"enabled", featureFlagDisplay.isEnabled()
 							).put(
-								"elementId", elementId
+								"featureFlagKey", featureFlagDisplay.getKey()
 							).build()
 						 %>'
 					/>
 				</liferay-ui:search-container-column-text>
-
-<%--				<liferay-ui:search-container-column-text name="key" property="key" />--%>
-<%--				<liferay-ui:search-container-column-text name="title" property="title" />--%>
-<%--				<liferay-ui:search-container-column-text name="description" property="description" />--%>
-<%--				<liferay-ui:search-container-column-text name="enabled" value="<%= String.valueOf(featureFlagDisplay.isEnabled())%>" />--%>
 			</liferay-ui:search-container-row>
 
 			<liferay-ui:search-iterator displayStyle="descriptive" markupView="lexicon"/>
