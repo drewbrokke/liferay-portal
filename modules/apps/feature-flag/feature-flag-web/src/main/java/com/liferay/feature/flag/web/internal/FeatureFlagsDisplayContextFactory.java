@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -70,10 +71,16 @@ public class FeatureFlagsDisplayContextFactory {
 			locale,
 			_portal.getCompanyId(httpServletRequest));
 
+		Predicate<FeatureFlag> predicate = _getKeywordsPredicate(
+			locale, ParamUtil.getString(portletRequest, "keywords"));
+
+		for (FeatureFlagsManagementToolbarDisplayContext.Filter filter : FeatureFlagsManagementToolbarDisplayContext.FILTERS) {
+			predicate = predicate.and(filter.getPredicate(httpServletRequest));
+		}
+
 		List<FeatureFlagDisplay> featureFlagDisplays = TransformUtil.transform(
 			featureFlags.getFeatureFlags(
-				_getKeywordsPredicate(
-					locale, ParamUtil.getString(portletRequest, "keywords"))),
+				predicate),
 			FeatureFlagDisplay::new);
 
 		int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
