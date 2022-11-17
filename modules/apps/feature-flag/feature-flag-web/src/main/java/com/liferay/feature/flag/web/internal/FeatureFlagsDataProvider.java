@@ -63,8 +63,7 @@ public class FeatureFlagsDataProvider
 				comparator = Comparator.comparing(FeatureFlag::getTitle);
 			}
 			else if (Objects.equals("status", sort.getFieldName())) {
-				comparator = Comparator.comparing(
-					featureFlag -> String.valueOf(featureFlag.getStatus()));
+				comparator = Comparator.comparing(FeatureFlag::getStatusString);
 			}
 			else if (Objects.equals("enabled", sort.getFieldName())) {
 				comparator = Comparator.comparing(FeatureFlag::isEnabled);
@@ -83,9 +82,7 @@ public class FeatureFlagsDataProvider
 
 		return TransformUtil.transform(
 			featureFlagsList.subList(startAndEnd[0], startAndEnd[1]),
-			featureFlag -> new FeatureFlagDisplay(
-				featureFlag.getTitle(), featureFlag.getDescription(),
-				featureFlag.getStatus().toString(), featureFlag.getKey(), featureFlag.isEnabled()));
+			FeatureFlagDisplay::new);
 	}
 
 	private List<FeatureFlag> _getFeatureFlags(

@@ -1,6 +1,8 @@
 package com.liferay.feature.flag.web.internal;
 
 
+import com.liferay.portal.kernel.util.StringUtil;
+
 /**
  * @author Drew Brokke
  */
