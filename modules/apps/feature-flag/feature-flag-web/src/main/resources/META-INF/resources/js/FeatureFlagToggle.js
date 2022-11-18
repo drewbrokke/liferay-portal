@@ -23,11 +23,6 @@ const FeatureFlagToggle = ({enabled: initialEnabled, featureFlagKey, inputName, 
 		console.log(`updating enabled for ${featureFlagKey}: ${newEnabled}`);
 
 		try {
-			const searchParams = new URLSearchParams();
-
-			searchParams.set("enabled", newEnabled);
-			searchParams.set("key", featureFlagKey);
-
 			const response = await fetch(
 				'/o/feature-flags/set-enabled',
 				{
