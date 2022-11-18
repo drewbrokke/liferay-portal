@@ -12,21 +12,22 @@
  * details.
  */
 
-/// <reference types="react" />
-
-import {MultiSelectItem} from './types';
-interface IProps {
+import {InputGroup, MultiSelectItem} from './types';
+interface IProps extends InputGroup {
+	index: number;
 	accountEntryId: number;
 	availableAccountRoles: MultiSelectItem[];
-	inviteAccountUsersURL: string;
+	onAccountRoleItemsChange: (items: MultiSelectItem[]) => void;
+	onEmailAddressItemsChange: (items: MultiSelectItem[]) => void;
 	portletNamespace: string;
-	redirectURL: string;
 }
-declare function InviteUsersForm({
-	accountEntryId,
+declare const InviteUserFormGroup: ({
 	availableAccountRoles,
-	inviteAccountUsersURL,
+	index,
+	onAccountRoleItemsChange,
+	onEmailAddressItemsChange,
+	accountRoles,
+	emailAddresses,
 	portletNamespace,
-	redirectURL,
-}: IProps): JSX.Element;
-export default InviteUsersForm;
+}: IProps) => JSX.Element;
+export default InviteUserFormGroup;

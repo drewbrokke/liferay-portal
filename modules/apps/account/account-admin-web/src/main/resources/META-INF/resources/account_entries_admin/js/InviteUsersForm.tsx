@@ -13,22 +13,17 @@
  */
 
 import ClayButton from '@clayui/button';
-import ClayForm, {ClayInput} from '@clayui/form';
+import ClayForm from '@clayui/form';
 import ClayIcon from '@clayui/icon';
 import ClayLayout from '@clayui/layout';
-import ClayMultiSelect from '@clayui/multi-select';
 import {
 	fetch,
 	getOpener,
 	openToast,
-	sub,
 } from 'frontend-js-web';
-import React, {useEffect, useState} from 'react';
-
-interface MultiSelectItem {
-	label: string;
-	value: string;
-}
+import React, {useState, MouseEventHandler} from 'react';
+import {InputGroup, MultiSelectItem, ValidatableMultiSelectItem} from "./types";
+import InviteUserFormGroup from "./InviteUsersFormGroup";
 
 interface IProps {
 	accountEntryId: number;
@@ -36,6 +31,20 @@ interface IProps {
 	inviteAccountUsersURL: string;
 	portletNamespace: string;
 	redirectURL: string
+}
+
+interface IState {
+	inputGroups: InputGroup[];
+}
+
+const initialState: IState = {
+	inputGroups: [
+		{
+			accountRoles: [],
+			emailAddresses: [],
+			id: 'inputGroup-1'
+		}
+	]
 }
 
 function InviteUsersForm({
@@ -49,234 +58,27 @@ function InviteUsersForm({
 		{selectedAccountRoles: [], selectedEmailAddresses: []},
 	]);
 
+	const [state, setState] = useState<IState>(initialState);
+
 	const closeModal = () => {
 		const openerWindow = getOpener();
 
 		openerWindow.Liferay.fire('closeModal');
 	};
 
-	const InviteUserFormGroup = ({
-		index,
-		selectedAccountRoles,
-		selectedEmailAddresses,
-	}: {
-		index: number,
-		selectedAccountRoles: MultiSelectItem[],
-		selectedEmailAddresses: string[]
-	}) => {
-		const [accountRoles, setAccountRoles] = useState(selectedAccountRoles);
-		const [emailAddresses, setEmailAddresses] = useState(
-			selectedEmailAddresses
-		);
-		const [invalidAccountRoles, setInvalidAccountRoles] = useState([]);
-		const [invalidEmailAddresses, setInvalidEmailAddresses] = useState([]);
-		const [showRequiredMessage, setShowRequiredMessage] = useState(false);
-
-		const checkInputValue = () => {
-			if (!emailAddresses.length) {
-				setShowRequiredMessage(true);
-			}
-			else {
-				setShowRequiredMessage(false);
-			}
-		};
-
-		const handleInputGroupValueChange = (name: string, value: string) => {
-			const inputGroupsArray = [...inputGroups];
-
-			inputGroupsArray[index][name] = value;
-
-			setInputGroups(inputGroupsArray);
-		};
-
-		const validateAccountRoles = (items) => {
-			handleInputGroupValueChange('selectedAccountRoles', items);
-			setAccountRoles(items);
-
-			const invalidItems = [];
-
-			items.map(({label}) => {
-				if (
-					!availableAccountRoles.some(
-						(accountRole) => accountRole.label === label
-					)
-				) {
-					invalidItems.push(label);
-				}
-			});
-
-			setInvalidAccountRoles(invalidItems);
-		};
-
-		const validateEmailAddresses = (items) => {
-			handleInputGroupValueChange('selectedEmailAddresses', items);
-			setEmailAddresses(items);
-
-			if (items.length) {
-				setShowRequiredMessage(false);
-			}
-		};
-
-		useEffect(() => {
-			Promise.allSettled(
-				emailAddresses.map(
-					({label}: {label: string}) =>
-						new Promise<void>((resolve, reject) => {
-							fetch(`/o/account-admin/validate-email-address/`, {
-								body: Liferay.Util.objectToFormData({
-									accountEntryId,
-									emailAddress: label,
-								}),
-								method: 'POST',
-							})
-								.then((response) => response.json())
-								.then(({errorMessage, isValid}) => {
-									if (isValid) {
-										resolve();
-									}
-									else {
-										reject({
-											emailAddress: label,
-											error: errorMessage,
-										});
-									}
-								});
-						})
-				)
-			).then((results) => {
-				setInvalidEmailAddresses(
-					results
-						.filter((result) => result.status === 'rejected')
-						.map((result) => result.reason)
-				);
-			});
-		}, [emailAddresses]);
-
-		return (
-			<ClayLayout.Sheet size="lg">
-				<ClayForm.Group
-					className={
-						!!invalidEmailAddresses.length || showRequiredMessage
-							? 'has-error'
-							: ''
-					}
-				>
-					<label
-						htmlFor={`${portletNamespace}emailAddressesMultiSelect${index}`}
-					>
-						{Liferay.Language.get('emails')}
-
-						<ClayIcon
-							className="ml-1 reference-mark"
-							symbol="asterisk"
-						/>
-					</label>
-
-					<ClayInput.Group>
-						<ClayInput.GroupItem>
-							<ClayMultiSelect
-								autoFocus={true}
-								id={`${portletNamespace}emailAddressesMultiSelect${index}`}
-								inputName={`${portletNamespace}emailAddresses${index}`}
-								items={emailAddresses}
-								onBlur={checkInputValue}
-								onItemsChange={validateEmailAddresses}
-							/>
-
-							{showRequiredMessage && (
-								<ClayForm.FeedbackGroup>
-									<ClayForm.FeedbackItem>
-										{Liferay.Language.get(
-											'this-field-is-required'
-										)}
-									</ClayForm.FeedbackItem>
-								</ClayForm.FeedbackGroup>
-							)}
-
-							{!!invalidEmailAddresses.length && (
-								<ClayForm.FeedbackGroup>
-									{invalidEmailAddresses.map(
-										(invalidEmailAddress) => (
-											<ClayForm.FeedbackItem
-												key={
-													invalidEmailAddress.emailAddress
-												}
-											>
-												{invalidEmailAddress.error}
-											</ClayForm.FeedbackItem>
-										)
-									)}
-								</ClayForm.FeedbackGroup>
-							)}
-						</ClayInput.GroupItem>
-					</ClayInput.Group>
-				</ClayForm.Group>
-
-				<ClayForm.Group
-					className={invalidAccountRoles.length ? 'has-error' : ''}
-				>
-					<label
-						htmlFor={`${portletNamespace}accountRolesMultiSelect${index}`}
-					>
-						{Liferay.Language.get('roles')}
-					</label>
-
-					<ClayInput.Group>
-						<ClayInput.GroupItem>
-							<ClayMultiSelect
-								id={`${portletNamespace}accountRolesMultiSelect${index}`}
-								inputName={`${portletNamespace}accountRoleIds${index}`}
-								items={accountRoles}
-								onItemsChange={validateAccountRoles}
-								sourceItems={availableAccountRoles}
-							/>
-
-							<ClayForm.FeedbackGroup>
-								<ClayForm.Text>
-									{Liferay.Language.get(
-										'roles-will-be-applied-to-all-users-above'
-									)}
-								</ClayForm.Text>
-							</ClayForm.FeedbackGroup>
-
-							{!!invalidAccountRoles.length && (
-								<ClayForm.FeedbackGroup>
-									{invalidAccountRoles.map(
-										(invalidAccountRole) => (
-											<ClayForm.FeedbackItem
-												key={invalidAccountRole}
-											>
-												{sub(
-													Liferay.Language.get(
-														'x-is-not-a-valid-role'
-													),
-													invalidAccountRole
-												)}
-											</ClayForm.FeedbackItem>
-										)
-									)}
-								</ClayForm.FeedbackGroup>
-							)}
-						</ClayInput.GroupItem>
-					</ClayInput.Group>
-				</ClayForm.Group>
-			</ClayLayout.Sheet>
-		);
-	};
-
-	const submitForm = (event) => {
+	const submitForm: MouseEventHandler<HTMLButtonElement> = (event) => {
 		event.preventDefault();
 
 		const form = document.querySelector(
 			`#${portletNamespace}inviteUserForm`
-		);
+		) as HTMLFormElement;
 
 		const error = form?.querySelector('.has-error');
 
-		if (!error) {
+		if (!error && form) {
 			const formData = new FormData(form);
 
-			formData.append(`${portletNamespace}count`, inputGroups.length);
+			formData.append(`${portletNamespace}count`, String(state.inputGroups.length));
 
 			fetch(inviteAccountUsersURL, {
 				body: formData,
@@ -306,17 +108,77 @@ function InviteUsersForm({
 		}
 	};
 
+	const setEmailAddresses = async (inputGroupId: string, emailAddresses: MultiSelectItem[]) => {
+		const inputGroup = state.inputGroups.find(
+			inputGroup => inputGroup.id === inputGroupId);
+
+		if (inputGroup) {
+			const promises = emailAddresses.map(
+				emailAddress => new Promise<ValidatableMultiSelectItem>( async (resolve, reject) => {
+					const response = await fetch(`/o/account-admin/validate-email-address/`, {
+						body: Liferay.Util.objectToFormData({
+							accountEntryId,
+							emailAddress: emailAddress.label,
+						}),
+						method: 'POST',
+					});
+
+					const {errorMessage, _isValid} = await response.json();
+
+					const validatedEmailAddress: ValidatableMultiSelectItem = {
+						...emailAddress
+					};
+
+					if (errorMessage) {
+						validatedEmailAddress.errorMessage = errorMessage
+					}
+
+					resolve(validatedEmailAddress);
+				})
+			);
+
+			inputGroup.emailAddresses = await Promise.all(promises);
+
+			setState(state);
+		}
+	};
+
+	const setAccountRoles = (inputGroupId: string, accountRoles: MultiSelectItem[]) => {
+		const inputGroup = state.inputGroups.find(
+			inputGroup => inputGroup.id === inputGroupId);
+
+		if (inputGroup) {
+			inputGroup.accountRoles = accountRoles.map(
+				accountRole => ({
+					label: accountRole.label,
+					value: accountRole.value,
+					isValid: availableAccountRoles.some(
+						availableAccountRole =>
+							availableAccountRole.label === accountRole.label
+					),
+				}));
+
+			setState(state);
+		}
+	}
+
 	return (
 		<ClayForm
 			className="lfr-form-content"
 			id={`${portletNamespace}inviteUserForm`}
 		>
-			{inputGroups.map((inputGroup, index) => (
+			{state.inputGroups.map((inputGroup, index) => (
 				<InviteUserFormGroup
 					index={index}
-					key={index}
-					selectedAccountRoles={inputGroup.selectedAccountRoles}
-					selectedEmailAddresses={inputGroup.selectedEmailAddresses}
+					key={inputGroup.id}
+					id={inputGroup.id}
+					portletNamespace={portletNamespace}
+					accountEntryId={accountEntryId}
+					availableAccountRoles={availableAccountRoles}
+					accountRoles={inputGroup.accountRoles}
+					onEmailAddressItemsChange={items => setEmailAddresses(inputGroup.id, items)}
+					onAccountRoleItemsChange={items => setAccountRoles(inputGroup.id, items)}
+					emailAddresses={inputGroup.emailAddresses}
 				/>
 			))}
 
@@ -324,13 +186,15 @@ function InviteUsersForm({
 				<ClayButton
 					displayType="secondary"
 					onClick={() => {
-						setInputGroups([
-							...inputGroups,
+						state.inputGroups.push(
 							{
-								selectedAccountRoles: [],
-								selectedEmailAddresses: [],
-							},
-						]);
+								accountRoles: [], 
+								emailAddresses: [], 
+								id: `input-${state.inputGroups.length}`
+							}
+						);
+						
+						setState(state);
 					}}
 				>
 					<span className="inline-item inline-item-before">
@@ -353,5 +217,7 @@ function InviteUsersForm({
 		</ClayForm>
 	);
 }
+
+
 
 export default InviteUsersForm;
