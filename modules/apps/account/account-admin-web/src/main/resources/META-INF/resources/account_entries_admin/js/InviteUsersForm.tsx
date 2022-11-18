@@ -20,11 +20,23 @@ import ClayMultiSelect from '@clayui/multi-select';
 import {
 	fetch,
 	getOpener,
-	objectToFormData,
 	openToast,
 	sub,
 } from 'frontend-js-web';
 import React, {useEffect, useState} from 'react';
+
+interface MultiSelectItem {
+	label: string;
+	value: string;
+}
+
+interface IProps {
+	accountEntryId: number;
+	availableAccountRoles: MultiSelectItem[];
+	inviteAccountUsersURL: string;
+	portletNamespace: string;
+	redirectURL: string
+}
 
 function InviteUsersForm({
 	accountEntryId,
@@ -32,7 +44,7 @@ function InviteUsersForm({
 	inviteAccountUsersURL,
 	portletNamespace,
 	redirectURL,
-}) {
+}: IProps) {
 	const [inputGroups, setInputGroups] = useState([
 		{selectedAccountRoles: [], selectedEmailAddresses: []},
 	]);
@@ -47,6 +59,10 @@ function InviteUsersForm({
 		index,
 		selectedAccountRoles,
 		selectedEmailAddresses,
+	}: {
+		index: number,
+		selectedAccountRoles: MultiSelectItem[],
+		selectedEmailAddresses: string[]
 	}) => {
 		const [accountRoles, setAccountRoles] = useState(selectedAccountRoles);
 		const [emailAddresses, setEmailAddresses] = useState(
@@ -65,7 +81,7 @@ function InviteUsersForm({
 			}
 		};
 
-		const handleInputGroupValueChange = (name, value) => {
+		const handleInputGroupValueChange = (name: string, value: string) => {
 			const inputGroupsArray = [...inputGroups];
 
 			inputGroupsArray[index][name] = value;
@@ -104,10 +120,10 @@ function InviteUsersForm({
 		useEffect(() => {
 			Promise.allSettled(
 				emailAddresses.map(
-					({label}) =>
-						new Promise((resolve, reject) => {
+					({label}: {label: string}) =>
+						new Promise<void>((resolve, reject) => {
 							fetch(`/o/account-admin/validate-email-address/`, {
-								body: objectToFormData({
+								body: Liferay.Util.objectToFormData({
 									accountEntryId,
 									emailAddress: label,
 								}),

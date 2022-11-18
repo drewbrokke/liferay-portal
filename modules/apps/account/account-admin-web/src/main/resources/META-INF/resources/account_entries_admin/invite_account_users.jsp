@@ -24,6 +24,8 @@ InviteUsersDisplayContext inviteUsersDisplayContext = new InviteUsersDisplayCont
 	<portlet:param name="accountEntryId" value='<%= ParamUtil.getString(request, "accountEntryId") %>' />
 </portlet:actionURL>
 
+<clay:dropdown-actions dropdownItems=""
+
 <react:component
 	module="account_entries_admin/js/InviteUsersForm"
 	props='<%=
