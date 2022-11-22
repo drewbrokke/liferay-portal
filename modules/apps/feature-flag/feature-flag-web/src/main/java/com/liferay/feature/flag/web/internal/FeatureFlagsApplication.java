@@ -14,9 +14,12 @@
 
 package com.liferay.feature.flag.web.internal;
 
+import com.liferay.portal.kernel.util.Portal;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
+import javax.portlet.ReadOnlyException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -36,7 +39,7 @@ import java.util.Set;
 @Component(
 	property = {
 		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=/com-liferay-feature-flags-web",
-		JaxrsWhiteboardConstants.JAX_RS_NAME + "=com.liferay.feature.flags.web..Application",
+		JaxrsWhiteboardConstants.JAX_RS_NAME + "=com.liferay.feature.flag.web.Application",
 		"auth.verifier.auth.verifier.PortalSessionAuthVerifier.urls.includes=/*",
 		"auth.verifier.guest.allowed=false", "liferay.oauth2=false"
 	},
@@ -52,11 +55,14 @@ public class FeatureFlagsApplication extends Application {
 		@FormParam("enabled") boolean enabled,
 		@FormParam("key") String key) {
 
-		System.out.printf("Setting feature flag %s enabled status to %s%n", key, enabled);
+		FeatureFlagsPreferencesUtil.setEnabled(_portal.getCompanyId(httpServletRequest), key, enabled);
 
 		return Response.ok(
 		).build();
 	}
+
+	@Reference
+	private Portal _portal;
 
 	public Set<Object> getSingletons() {
 		return Collections.singleton(this);

@@ -1,5 +1,7 @@
 package com.liferay.feature.flag.web.internal;
 
+import java.util.Locale;
+
 /**
  * @author Drew Brokke
  */
@@ -10,8 +12,8 @@ public class FeatureFlagWrapper implements FeatureFlag {
 	}
 
 	@Override
-	public String getDescription() {
-		return _featureFlag.getDescription();
+	public String getDescription(Locale locale) {
+		return _featureFlag.getDescription(locale);
 	}
 
 	@Override
@@ -25,8 +27,8 @@ public class FeatureFlagWrapper implements FeatureFlag {
 	}
 
 	@Override
-	public String getTitle() {
-		return _featureFlag.getTitle();
+	public String getTitle(Locale locale) {
+		return _featureFlag.getTitle(locale);
 	}
 
 	@Override

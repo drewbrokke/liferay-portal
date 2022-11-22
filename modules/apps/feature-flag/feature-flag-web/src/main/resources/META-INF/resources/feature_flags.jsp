@@ -39,8 +39,8 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 				FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)model;
 				%>
 
-				<liferay-ui:search-container-column-text cssClass="table-cell-expand table-cell-expand-smallest" name="name" property="title" />
-				<liferay-ui:search-container-column-text cssClass="table-cell-expand" name="description" property="description" />
+				<liferay-ui:search-container-column-text cssClass="table-cell-expand table-cell-expand-smallest" name="name" value="<%= featureFlagDisplay.getTitle(locale) %>" />
+				<liferay-ui:search-container-column-text cssClass="table-cell-expand" name="description" value="<%= featureFlagDisplay.getDescription(locale) %>" />
 
 				<liferay-ui:search-container-column-text name="action">
 

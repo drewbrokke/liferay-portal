@@ -1,7 +1,7 @@
 package com.liferay.feature.flag.web.internal;
 
 
-import com.liferay.portal.kernel.util.StringUtil;
+import java.util.Locale;
 
 /**
  * @author Drew Brokke
@@ -20,7 +20,7 @@ public class PropertyFeatureFlag implements FeatureFlag {
 	}
 
 	@Override
-	public String getDescription() {
+	public String getDescription(Locale locale) {
 		return _description;
 	}
 
@@ -35,7 +35,7 @@ public class PropertyFeatureFlag implements FeatureFlag {
 	}
 
 	@Override
-	public String getTitle() {
+	public String getTitle(Locale locale) {
 		return _title;
 	}
 

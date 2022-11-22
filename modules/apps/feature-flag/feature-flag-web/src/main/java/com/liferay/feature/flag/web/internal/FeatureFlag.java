@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -12,7 +13,7 @@ import java.util.function.Predicate;
  */
 public interface FeatureFlag {
 
-	public String getDescription();
+	public String getDescription(Locale locale);
 
 	public String getKey();
 
@@ -22,7 +23,7 @@ public interface FeatureFlag {
 		return String.valueOf(getStatus());
 	}
 
-	public String getTitle();
+	public String getTitle(Locale locale);
 
 	public boolean isEnabled();
 
@@ -57,6 +58,13 @@ public interface FeatureFlag {
 			}
 
 			return DEV;
+		}
+
+		public static Predicate<FeatureFlag> getPredicate(String statusString) {
+			return getPredicate(fromString(statusString));
+		}
+		public static Predicate<FeatureFlag> getPredicate(Status status) {
+			return featureFlag -> status.equals(featureFlag.getStatus());
 		}
 
 		public boolean equals(Status status) {

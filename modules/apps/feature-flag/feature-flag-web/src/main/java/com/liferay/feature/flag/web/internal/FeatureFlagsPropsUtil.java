@@ -36,10 +36,6 @@ public class FeatureFlagsPropsUtil {
 		return _get(key, "description", StringPool.BLANK);
 	}
 
-	public static Set<String> getFeatureFlagsKeySet() {
-		return _featureFlagKeysSet;
-	}
-
 	public static FeatureFlag.Status getStatus(String key) {
 		return FeatureFlag.Status.fromString(_get(key, "status", StringPool.BLANK));
 	}
@@ -49,11 +45,6 @@ public class FeatureFlagsPropsUtil {
 	}
 
 	private static String _get(String key, String suffix, String defaultValue) {
-		if (!_featureFlagKeysSet.contains(key)) {
-			throw new IllegalArgumentException(
-				String.format("%s is not a known feature flag key.", key));
-		}
-
 		if (Validator.isNotNull(suffix)) {
 			key = key + "." + suffix;
 		}
@@ -67,7 +58,17 @@ public class FeatureFlagsPropsUtil {
 		return stringValues[stringValues.length - 1];
 	}
 
-	private static final Set<String> _featureFlagKeysSet;
+	public static Set<FeatureFlag> getFeatureFlagSet() {
+		return _featureFlagSet;
+	}
+
+	public static FeatureFlag create(String key) {
+		return new PropertyFeatureFlag(
+			key, enabled(key), getStatus(key), getTitle(key),
+			getDescription(key));
+	}
+
+	private static final Set<FeatureFlag> _featureFlagSet;
 	private static final Pattern _pattern = Pattern.compile("^([A-Z\\-0-9]+)$");
 
 	private static final String _prefix = "feature.flag.";
@@ -75,17 +76,17 @@ public class FeatureFlagsPropsUtil {
 		_prefix, true);
 
 	static {
-		Set<String> set = new HashSet<>();
+		Set<FeatureFlag> featureFlagSet = new HashSet<>();
 
 		for (String stringPropertyName : _properties.stringPropertyNames()) {
 			Matcher matcher = _pattern.matcher(stringPropertyName);
 
 			if (matcher.find()) {
-				set.add(stringPropertyName);
+				featureFlagSet.add(create(stringPropertyName));
 			}
 		}
 
-		_featureFlagKeysSet = Collections.unmodifiableSet(set);
+		_featureFlagSet = Collections.unmodifiableSet(featureFlagSet);
 	}
 
 }
