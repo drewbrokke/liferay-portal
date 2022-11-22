@@ -24,7 +24,7 @@ const FeatureFlagToggle = ({enabled: initialEnabled, featureFlagKey, inputName, 
 
 		try {
 			const response = await fetch(
-				'/o/feature-flags/set-enabled',
+				'/o/com-liferay-feature-flags-web/set-enabled',
 				{
 					body: objectToFormData({enabled: newEnabled, key: featureFlagKey}),
 					method: 'POST'
