@@ -35,8 +35,8 @@ import java.util.Set;
  */
 @Component(
 	property = {
-		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=/feature-flags",
-		JaxrsWhiteboardConstants.JAX_RS_NAME + "=FeatureFlags.Application",
+		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=/com-liferay-feature-flags-web",
+		JaxrsWhiteboardConstants.JAX_RS_NAME + "=com.liferay.feature.flags.web..Application",
 		"auth.verifier.auth.verifier.PortalSessionAuthVerifier.urls.includes=/*",
 		"auth.verifier.guest.allowed=false", "liferay.oauth2=false"
 	},

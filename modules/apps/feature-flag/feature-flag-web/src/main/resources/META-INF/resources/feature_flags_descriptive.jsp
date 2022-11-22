@@ -29,7 +29,7 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 
 <clay:container-fluid>
 	<aui:form method="post" name="fm">
-		<liferay-ui:search-container cssClass="table-valign-top" searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>">
+		<liferay-ui:search-container searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>">
 			<liferay-ui:search-container-row
 				className="com.liferay.feature.flag.web.internal.FeatureFlagDisplay"
 				keyProperty="key"
@@ -39,10 +39,21 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 				FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)model;
 				%>
 
-				<liferay-ui:search-container-column-text cssClass="table-cell-expand table-cell-expand-smallest" name="name" property="title" />
-				<liferay-ui:search-container-column-text cssClass="table-cell-expand" name="description" property="description" />
+				<liferay-ui:search-container-column-text colspan="11">
+					<h5>
+						<strong><%= featureFlagDisplay.getTitle() %></strong>
+<%--						<clay:badge--%>
+<%--							displayType="<%= featureFlagDisplay.getBadgeDisplayStyle() %>"--%>
+<%--							label="<%= featureFlagDisplay.getStatusString() %>"--%>
+<%--						/>--%>
+					</h5>
 
-				<liferay-ui:search-container-column-text name="action">
+					<h6 class="text-default">
+						<%= featureFlagDisplay.getDescription() %>
+					</h6>
+				</liferay-ui:search-container-column-text>
+
+				<liferay-ui:search-container-column-text colspan="1">
 
 					<%
 					String labelOff = LanguageUtil.get(request, "disabled");
@@ -99,7 +110,7 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 
-			<liferay-ui:search-iterator markupView="lexicon"/>
+			<liferay-ui:search-iterator displayStyle="descriptive" markupView="lexicon"/>
 		</liferay-ui:search-container>
 	</aui:form>
 </clay:container-fluid>
