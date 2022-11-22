@@ -12,11 +12,19 @@
  * details.
  */
 
-import React, {useState} from 'react';
 import {ClayToggle} from '@clayui/form';
 import {fetch, objectToFormData, openToast} from 'frontend-js-web';
+import React, {useState} from 'react';
 
-const FeatureFlagToggle = ({enabled: initialEnabled, featureFlagKey, inputName, labelOff, labelOn, symbolOff, symbolOn}) => {
+const FeatureFlagToggle = ({
+	enabled: initialEnabled,
+	featureFlagKey,
+	inputName,
+	labelOff,
+	labelOn,
+	symbolOff,
+	symbolOn,
+}) => {
 	const [enabled, setEnabled] = useState(initialEnabled);
 
 	async function updateEnabled(newEnabled) {
@@ -26,12 +34,16 @@ const FeatureFlagToggle = ({enabled: initialEnabled, featureFlagKey, inputName, 
 			const response = await fetch(
 				'/o/com-liferay-feature-flags-web/set-enabled',
 				{
-					body: objectToFormData({enabled: newEnabled, key: featureFlagKey}),
-					method: 'POST'
-				});
+					body: objectToFormData({
+						enabled: newEnabled,
+						key: featureFlagKey,
+					}),
+					method: 'POST',
+				}
+			);
 
 			if (!response.ok) {
-				throw new Error('Could not update feature flag.')
+				throw new Error('Could not update feature flag.');
 			}
 
 			setEnabled(newEnabled);
@@ -45,14 +57,14 @@ const FeatureFlagToggle = ({enabled: initialEnabled, featureFlagKey, inputName, 
 		<>
 			<ClayToggle
 				id={inputName}
-				symbol={{off: symbolOff, on: symbolOn}}
 				label={enabled ? labelOn : labelOff}
+				onToggle={updateEnabled}
+				symbol={{off: symbolOff, on: symbolOn}}
 				toggled={enabled}
 				type="checkbox"
-				onToggle={updateEnabled}
 			/>
 		</>
 	);
-}
+};
 
 export default FeatureFlagToggle;
