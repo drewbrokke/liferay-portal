@@ -1,6 +1,7 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -18,6 +19,13 @@ import java.util.regex.Pattern;
  * @author Drew Brokke
  */
 public class FeatureFlagsPropsUtil {
+
+	public static boolean isUIEnabled(FeatureFlag.Status status) {
+		return GetterUtil.getBoolean(
+			PropsUtil.get(
+				_prefix + "ui.visible", new Filter(status.toString())),
+			status.isUIEnabledDefaultValue());
+	}
 
 	public static boolean enabled(String key) {
 		return GetterUtil.getBoolean(
@@ -61,8 +69,10 @@ public class FeatureFlagsPropsUtil {
 
 	private static final Set<String> _featureFlagKeysSet;
 	private static final Pattern _pattern = Pattern.compile("^([A-Z\\-0-9]+)$");
+
+	private static final String _prefix = "feature.flag.";
 	private static final Properties _properties = PropsUtil.getProperties(
-		"feature.flag.", true);
+		_prefix, true);
 
 	static {
 		Set<String> set = new HashSet<>();

@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * @author Drew Brokke
@@ -18,7 +19,7 @@ public interface FeatureFlag {
 	public Status getStatus();
 
 	public default String getStatusString() {
-		return StringUtil.toLowerCase(String.valueOf(getStatus()));
+		return String.valueOf(getStatus());
 	}
 
 	public String getTitle();
@@ -27,7 +28,17 @@ public interface FeatureFlag {
 
 	public static enum Status {
 
-		DEV, BETA, RELEASE;
+		DEV(false), BETA(true), RELEASE(true);
+
+		Status(boolean isUIEnabledDefaultValue) {
+			_isUIEnabledDefaultValue = isUIEnabledDefaultValue;
+		}
+
+		public boolean isUIEnabledDefaultValue() {
+			return _isUIEnabledDefaultValue;
+		}
+
+		private final boolean _isUIEnabledDefaultValue;
 
 		public static Status fromString(String propertyValue) {
 			for (Status status : values()) {
@@ -48,8 +59,24 @@ public interface FeatureFlag {
 			return DEV;
 		}
 
+		public boolean equals(Status status) {
+			if (Objects.equals(this, status)) {
+				return true;
+			}
+
+			return false;
+		}
+
+		public Predicate<FeatureFlag> getPredicate() {
+			return featureFlag -> equals(featureFlag.getStatus());
+		}
+
 		private static final Log _log = LogFactoryUtil.getLog(Status.class);
 
+		@Override
+		public String toString() {
+			return StringUtil.toLowerCase(super.toString());
+		}
 	}
 
 }
