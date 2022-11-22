@@ -34,7 +34,7 @@ public class FeatureFlagsDisplayContextFactory {
 
 	public FeatureFlagsDisplayContext create(
 		HttpServletRequest httpServletRequest,
-		HttpServletResponse httpServletResponse
+		HttpServletResponse httpServletResponse, FeatureFlag.Status status
 	) {
 		FeatureFlagsDisplayContext featureFlagsDisplayContext =
 			new FeatureFlagsDisplayContext();
@@ -73,6 +73,8 @@ public class FeatureFlagsDisplayContextFactory {
 
 		Predicate<FeatureFlag> predicate = _getKeywordsPredicate(
 			locale, ParamUtil.getString(portletRequest, "keywords"));
+
+		predicate = predicate.and(status.getPredicate());
 
 		for (FeatureFlagsManagementToolbarDisplayContext.Filter filter : FeatureFlagsManagementToolbarDisplayContext.FILTERS) {
 			predicate = predicate.and(filter.getPredicate(httpServletRequest));

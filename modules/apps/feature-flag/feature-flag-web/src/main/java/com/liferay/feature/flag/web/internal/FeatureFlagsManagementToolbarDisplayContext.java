@@ -115,10 +115,6 @@ public class FeatureFlagsManagementToolbarDisplayContext extends
 
 	public static final Filter[] FILTERS  = {
 		new Filter(
-			"status", new String[] {"dev", "beta", "release"},
-			(featureFlag, currentValue) -> Objects.equals(
-				currentValue, featureFlag.getStatusString())),
-		new Filter(
 			"enabled", new String[] {"enabled", "disabled"},
 			(featureFlag, currentValue) -> {
 				if ((currentValue == null) || Objects.equals(currentValue, "all")) {
