@@ -2,6 +2,7 @@ package com.liferay.feature.flag.web.internal;
 
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.Map;
@@ -12,6 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component(service = {FeatureFlagsProvider.class, PortalInstanceLifecycleListener.class})
 public class FeatureFlagsProvider implements PortalInstanceLifecycleListener {
+
+	public boolean isEnabled(String key) {
+		return isEnabled(CompanyThreadLocal.getCompanyId(), key);
+	}
 
 	public boolean isEnabled(long companyId, String key) {
 		FeatureFlags featureFlags = getFeatureFlags(companyId);
