@@ -3,7 +3,8 @@
 	import="com.liferay.feature.flag.web.internal.FeatureFlagsDisplayContext" %>
 <%@ page import="com.liferay.feature.flag.web.internal.FeatureFlagDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.HashMapBuilder" %>
-<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %><%--
+<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
+<%@ page import="java.util.Locale" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -41,7 +42,7 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 
 				<liferay-ui:search-container-column-text colspan="11">
 					<h5>
-						<strong><%= featureFlagDisplay.getTitle() %></strong>
+						<strong><%= featureFlagDisplay.getTitle(locale) %></strong>
 <%--						<clay:badge--%>
 <%--							displayType="<%= featureFlagDisplay.getBadgeDisplayStyle() %>"--%>
 <%--							label="<%= featureFlagDisplay.getStatusString() %>"--%>
@@ -49,7 +50,7 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 					</h5>
 
 					<h6 class="text-default">
-						<%= featureFlagDisplay.getDescription() %>
+						<%= featureFlagDisplay.getDescription(locale) %>
 					</h6>
 				</liferay-ui:search-container-column-text>
 

@@ -65,18 +65,27 @@ public class FeatureFlagsDisplayContextFactory {
 				portletRequest, ConfigurationAdminPortletKeys.INSTANCE_SETTINGS,
 				"order-by-type", "asc"));
 
-		Locale locale = _portal.getLocale(httpServletRequest);
-
-		FeatureFlags featureFlags = new FeatureFlags(
-			locale,
+		FeatureFlags featureFlags = _featureFlagsProvider.getFeatureFlags(
 			_portal.getCompanyId(httpServletRequest));
 
-		Predicate<FeatureFlag> predicate = _getKeywordsPredicate(
-			locale, ParamUtil.getString(portletRequest, "keywords"));
+		Predicate<FeatureFlag> predicate = FeatureFlag.Status.getPredicate(
+			status);
 
-		predicate = predicate.and(status.getPredicate());
+		String keywords = ParamUtil.getString(portletRequest, "keywords");
 
-		for (FeatureFlagsManagementToolbarDisplayContext.Filter filter : FeatureFlagsManagementToolbarDisplayContext.FILTERS) {
+		if (Validator.isNotNull(keywords)) {
+			Locale locale = _portal.getLocale(httpServletRequest);
+
+			predicate = predicate.and(
+				featureFlag ->
+					_contains(locale, featureFlag.getDescription(locale), keywords) ||
+					_contains(locale, featureFlag.getKey(), keywords) ||
+					_contains(locale, featureFlag.getTitle(locale), keywords));
+		}
+
+		for (FeatureFlagsManagementToolbarDisplayContext.Filter filter :
+				FeatureFlagsManagementToolbarDisplayContext.FILTERS) {
+
 			predicate = predicate.and(filter.getPredicate(httpServletRequest));
 		}
 
@@ -103,17 +112,6 @@ public class FeatureFlagsDisplayContextFactory {
 		return featureFlagsDisplayContext;
 	}
 
-	private Predicate<FeatureFlag> _getKeywordsPredicate(Locale locale, String keywords) {
-		if (Validator.isNotNull(keywords)) {
-			return featureFlag ->
-				_contains(locale, featureFlag.getDescription(), keywords) ||
-				_contains(locale, featureFlag.getKey(), keywords) ||
-				_contains(locale, featureFlag.getTitle(), keywords);
-		}
-
-		return featureFlag -> true;
-	}
-
 	private boolean _contains(Locale locale, String s1, String s2) {
 		String normalized = _normalize(locale, s1);
 
@@ -123,6 +121,9 @@ public class FeatureFlagsDisplayContextFactory {
 	private String _normalize(Locale locale, String string) {
 		return StringUtil.toLowerCase(string, locale);
 	}
+
+	@Reference
+	private FeatureFlagsProvider _featureFlagsProvider;
 
 	@Reference
 	private Portal _portal;

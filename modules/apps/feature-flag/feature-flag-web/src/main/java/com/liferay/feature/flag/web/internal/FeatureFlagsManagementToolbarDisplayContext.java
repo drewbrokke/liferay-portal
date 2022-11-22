@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
+import javax.portlet.MutableRenderParameters;
 import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -184,10 +185,17 @@ public class FeatureFlagsManagementToolbarDisplayContext extends
 
 	@Override
 	public String getClearResultsURL() {
-		return PortletURLBuilder.create(
-			getPortletURL()
-		).setKeywords(
-			StringPool.BLANK
-		).buildString();
+		PortletURL portletURL = getPortletURL();
+
+		MutableRenderParameters renderParameters =
+			portletURL.getRenderParameters();
+
+		renderParameters.removeParameter("keywords");
+
+		for (Filter filter : FILTERS) {
+			renderParameters.removeParameter(filter.getParameterName());
+		}
+
+		return portletURL.toString();
 	}
 }
