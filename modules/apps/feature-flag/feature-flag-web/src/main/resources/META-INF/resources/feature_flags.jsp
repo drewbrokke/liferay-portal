@@ -1,9 +1,4 @@
-<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
-<%@ page
-	import="com.liferay.feature.flag.web.internal.FeatureFlagsDisplayContext" %>
-<%@ page import="com.liferay.feature.flag.web.internal.FeatureFlagDisplay" %>
-<%@ page import="com.liferay.portal.kernel.util.HashMapBuilder" %>
-<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %><%--
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -25,11 +20,16 @@
 FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
 %>
 
-<clay:management-toolbar managementToolbarDisplayContext="<%= featureFlagsDisplayContext.getManagementToolbarDisplayContext() %>" />
+<clay:management-toolbar
+	managementToolbarDisplayContext="<%= featureFlagsDisplayContext.getManagementToolbarDisplayContext() %>"
+/>
 
 <clay:container-fluid>
 	<aui:form method="post" name="fm">
-		<liferay-ui:search-container cssClass="table-valign-top" searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>">
+		<liferay-ui:search-container
+			cssClass="table-valign-top"
+			searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>"
+		>
 			<liferay-ui:search-container-row
 				className="com.liferay.feature.flag.web.internal.FeatureFlagDisplay"
 				keyProperty="key"
@@ -39,10 +39,21 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 				FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)model;
 				%>
 
-				<liferay-ui:search-container-column-text cssClass="table-cell-expand table-cell-expand-smallest" name="name" value="<%= featureFlagDisplay.getTitle(locale) %>" />
-				<liferay-ui:search-container-column-text cssClass="table-cell-expand" name="description" value="<%= featureFlagDisplay.getDescription(locale) %>" />
+				<liferay-ui:search-container-column-text
+					cssClass="table-cell-expand table-cell-expand-smallest"
+					name="name"
+					value="<%= featureFlagDisplay.getTitle(locale) %>"
+				/>
 
-				<liferay-ui:search-container-column-text name="action">
+				<liferay-ui:search-container-column-text
+					cssClass="table-cell-expand"
+					name="description"
+					value="<%= featureFlagDisplay.getDescription(locale) %>"
+				/>
+
+				<liferay-ui:search-container-column-text
+					name="action"
+				>
 
 					<%
 					String labelOff = LanguageUtil.get(request, "disabled");
@@ -54,23 +65,25 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 					String inputName = featureFlagDisplay.getKey() + "-toggle";
 					%>
 
-
-					<label class="toggle-switch simple-toggle-switch">
+					<label class="simple-toggle-switch toggle-switch">
 						<span class="toggle-switch-check-bar">
-							<input disabled class="toggle-switch-check" id="<%= inputName %>" type="checkbox" value="" <%= featureFlagDisplay.isEnabled() ? "checked" : "" %>/>
+							<input disabled class="toggle-switch-check" id="<%= inputName %>" type="checkbox" value="" <%= featureFlagDisplay.isEnabled() ? "checked" : "" %> />
 
 							<span aria-hidden="true" class="toggle-switch-bar">
 								<span class="toggle-switch-handle">
 									<span class="button-icon button-icon-on toggle-switch-icon">
-										<clay:icon symbol="<%= symbolOn %>" />
+										<clay:icon
+											symbol="<%= symbolOn %>"
+										/>
 									</span>
 									<span class="button-icon button-icon-off toggle-switch-icon">
-										<clay:icon symbol="<%= symbolOff %>" />
+										<clay:icon
+											symbol="<%= symbolOff %>"
+										/>
 									</span>
 								</span>
 							</span>
 						</span>
-
 						<span class="toggle-switch-label">
 							<%= featureFlagDisplay.isEnabled() ? labelOn : labelOff %>
 						</span>
@@ -94,12 +107,14 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 							).put(
 								"symbolOn", symbolOn
 							).build()
-						 %>'
+						%>'
 					/>
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 
-			<liferay-ui:search-iterator markupView="lexicon"/>
+			<liferay-ui:search-iterator
+				markupView="lexicon"
+			/>
 		</liferay-ui:search-container>
 	</aui:form>
 </clay:container-fluid>

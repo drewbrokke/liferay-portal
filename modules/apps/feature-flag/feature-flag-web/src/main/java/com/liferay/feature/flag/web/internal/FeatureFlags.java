@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.feature.flag.web.internal;
 
 import java.util.ArrayList;
@@ -19,7 +33,9 @@ public class FeatureFlags {
 	public FeatureFlags(long companyId) {
 		Map<String, FeatureFlag> map = new HashMap<>();
 
-		for (FeatureFlag featureFlag : FeatureFlagsPropsUtil.getFeatureFlagSet()) {
+		for (FeatureFlag featureFlag :
+				FeatureFlagsPropsUtil.getFeatureFlagSet()) {
+
 			featureFlag = new LanguageAwareFeatureFlag(featureFlag);
 			featureFlag = new PreferenceAwareFeatureFlag(
 				featureFlag, companyId);
@@ -28,16 +44,6 @@ public class FeatureFlags {
 		}
 
 		_featureFlagMap = Collections.unmodifiableMap(map);
-	}
-
-	public boolean isEnabled(String key) {
-		FeatureFlag featureFlag = _featureFlagMap.get(key);
-
-		if (featureFlag == null) {
-			return FeatureFlagsPropsUtil.enabled(key);
-		}
-
-		return featureFlag.isEnabled();
 	}
 
 	public FeatureFlag get(String key) {
@@ -60,6 +66,16 @@ public class FeatureFlags {
 		).collect(
 			Collectors.toList()
 		);
+	}
+
+	public boolean isEnabled(String key) {
+		FeatureFlag featureFlag = _featureFlagMap.get(key);
+
+		if (featureFlag == null) {
+			return FeatureFlagsPropsUtil.enabled(key);
+		}
+
+		return featureFlag.isEnabled();
 	}
 
 	private final Map<String, FeatureFlag> _featureFlagMap;

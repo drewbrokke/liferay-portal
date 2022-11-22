@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
@@ -5,7 +19,6 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItemList;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -13,112 +26,30 @@ import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 
-import javax.portlet.MutableRenderParameters;
-import javax.portlet.PortletURL;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+import javax.portlet.MutableRenderParameters;
+import javax.portlet.PortletURL;
+
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Drew Brokke
  */
-public class FeatureFlagsManagementToolbarDisplayContext extends
-	SearchContainerManagementToolbarDisplayContext {
+public class FeatureFlagsManagementToolbarDisplayContext
+	extends SearchContainerManagementToolbarDisplayContext {
 
-
-	public FeatureFlagsManagementToolbarDisplayContext(
-		HttpServletRequest httpServletRequest,
-		LiferayPortletRequest liferayPortletRequest,
-		LiferayPortletResponse liferayPortletResponse,
-		SearchContainer<?> searchContainer) {
-
-		super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-			searchContainer);
-	}
-
-	@Override
-	public List<LabelItem> getFilterLabelItems() {
-		LabelItemList labelItemList = new LabelItemList();
-
-		for (Filter filter : FILTERS) {
-			String currentValue = filter.getCurrentValue(httpServletRequest);
-
-			if (Objects.equals("all", currentValue)) {
-				continue;
-			}
-
-			labelItemList.add(labelItem -> {
-				labelItem.putData(
-					"removeLabelURL",
-					PortletURLBuilder.create(
-						getPortletURL()
-					).setParameter(
-						filter.getParameterName(), (String)null
-					).buildString());
-				labelItem.setDismissible(true);
-				labelItem.setLabel(
-					String.format(
-						"%s: %s", langGet(filter.getName()),
-						langGet(currentValue)));
-			});
-		}
-		return labelItemList;
-	}
-
-	public static class Filter {
-		public Filter(String name, String[] values, BiPredicate<FeatureFlag, String> biPredicate) {
-			_name = name;
-			_values = values;
-			_biPredicate = biPredicate;
-		}
-
-		public String getCurrentValue(HttpServletRequest request) {
-			return ParamUtil.get(
-				request, getParameterName(), "all");
-		}
-
-		public String getParameterName() {
-			return "filter-" + _name;
-		}
-
-
-		public String getName() {
-			return _name;
-		}
-
-		public String[] getValues() {
-			return _values;
-		}
-
-
-		public Predicate<FeatureFlag> getPredicate(HttpServletRequest request) {
-			String currentValue = getCurrentValue(request);
-
-			return featureFlag -> {
-				if (Objects.equals("all", currentValue) ||
-					_biPredicate.test(featureFlag, currentValue)) {
-
-					return true;
-				}
-
-				return false;
-			};
-		}
-
-		private final BiPredicate<FeatureFlag, String> _biPredicate;
-		private final String _name;
-		private final String[] _values;
-	}
-
-	public static final Filter[] FILTERS  = {
+	public static final Filter[] FILTERS = {
 		new Filter(
 			"enabled", new String[] {"enabled", "disabled"},
 			(featureFlag, currentValue) -> {
-				if ((currentValue == null) || Objects.equals(currentValue, "all")) {
+				if ((currentValue == null) ||
+					Objects.equals(currentValue, "all")) {
+
 					return true;
 				}
 
@@ -138,22 +69,62 @@ public class FeatureFlagsManagementToolbarDisplayContext extends
 			})
 	};
 
-	@Override
-	protected String[] getOrderByKeys() {
-		return new String[] {"status", "key", "enabled"};
+	public FeatureFlagsManagementToolbarDisplayContext(
+		HttpServletRequest httpServletRequest,
+		LiferayPortletRequest liferayPortletRequest,
+		LiferayPortletResponse liferayPortletResponse,
+		SearchContainer<?> searchContainer) {
+
+		super(
+			httpServletRequest, liferayPortletRequest, liferayPortletResponse,
+			searchContainer);
 	}
 
 	@Override
-	protected String getFilterNavigationDropdownItemsLabel() {
-		return null;
-	}
+	public String getClearResultsURL() {
+		PortletURL portletURL = getPortletURL();
 
-	protected String langGet(String key, String... args) {
-		if (ArrayUtil.isEmpty(args)) {
-			return LanguageUtil.get(httpServletRequest, key);
+		MutableRenderParameters renderParameters =
+			portletURL.getRenderParameters();
+
+		renderParameters.removeParameter("keywords");
+
+		for (Filter filter : FILTERS) {
+			renderParameters.removeParameter(filter.getParameterName());
 		}
 
-		return LanguageUtil.format(httpServletRequest, key, args);
+		return portletURL.toString();
+	}
+
+	@Override
+	public List<LabelItem> getFilterLabelItems() {
+		LabelItemList labelItemList = new LabelItemList();
+
+		for (Filter filter : FILTERS) {
+			String currentValue = filter.getCurrentValue(httpServletRequest);
+
+			if (Objects.equals("all", currentValue)) {
+				continue;
+			}
+
+			labelItemList.add(
+				labelItem -> {
+					labelItem.putData(
+						"removeLabelURL",
+						PortletURLBuilder.create(
+							getPortletURL()
+						).setParameter(
+							filter.getParameterName(), (String)null
+						).buildString());
+					labelItem.setDismissible(true);
+					labelItem.setLabel(
+						String.format(
+							"%s: %s", langGet(filter.getName()),
+							langGet(currentValue)));
+				});
+		}
+
+		return labelItemList;
 	}
 
 	@Override
@@ -172,30 +143,83 @@ public class FeatureFlagsManagementToolbarDisplayContext extends
 			for (String value : filter.getValues()) {
 				dropdownItemList.add(
 					dropdownItem -> {
-						dropdownItem.setActive(Objects.equals(currentValue, value));
+						dropdownItem.setActive(
+							Objects.equals(currentValue, value));
+						dropdownItem.setHref(
+							portletURL, filter.getParameterName(), value);
 						dropdownItem.setLabel(langGet(value));
-						dropdownItem.setHref(portletURL, filter.getParameterName(), value);
-					}
-				);
+					});
 			}
 		}
 
 		return dropdownItemList;
 	}
 
-	@Override
-	public String getClearResultsURL() {
-		PortletURL portletURL = getPortletURL();
+	public static class Filter {
 
-		MutableRenderParameters renderParameters =
-			portletURL.getRenderParameters();
+		public Filter(
+			String name, String[] values,
+			BiPredicate<FeatureFlag, String> biPredicate) {
 
-		renderParameters.removeParameter("keywords");
-
-		for (Filter filter : FILTERS) {
-			renderParameters.removeParameter(filter.getParameterName());
+			_name = name;
+			_values = values;
+			_biPredicate = biPredicate;
 		}
 
-		return portletURL.toString();
+		public String getCurrentValue(HttpServletRequest httpServletRequest) {
+			return ParamUtil.get(httpServletRequest, getParameterName(), "all");
+		}
+
+		public String getName() {
+			return _name;
+		}
+
+		public String getParameterName() {
+			return "filter-" + _name;
+		}
+
+		public Predicate<FeatureFlag> getPredicate(
+			HttpServletRequest httpServletRequest) {
+
+			String currentValue = getCurrentValue(httpServletRequest);
+
+			return featureFlag -> {
+				if (Objects.equals("all", currentValue) ||
+					_biPredicate.test(featureFlag, currentValue)) {
+
+					return true;
+				}
+
+				return false;
+			};
+		}
+
+		public String[] getValues() {
+			return _values;
+		}
+
+		private final BiPredicate<FeatureFlag, String> _biPredicate;
+		private final String _name;
+		private final String[] _values;
+
 	}
+
+	@Override
+	protected String getFilterNavigationDropdownItemsLabel() {
+		return null;
+	}
+
+	@Override
+	protected String[] getOrderByKeys() {
+		return new String[] {"status", "key", "enabled"};
+	}
+
+	protected String langGet(String key, String... args) {
+		if (ArrayUtil.isEmpty(args)) {
+			return LanguageUtil.get(httpServletRequest, key);
+		}
+
+		return LanguageUtil.format(httpServletRequest, key, args);
+	}
+
 }

@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.petra.string.StringPool;
@@ -20,28 +34,38 @@ import java.util.regex.Pattern;
  */
 public class FeatureFlagsPropsUtil {
 
-	public static boolean isUIEnabled(FeatureFlag.Status status) {
-		return GetterUtil.getBoolean(
-			PropsUtil.get(
-				_prefix + "ui.visible", new Filter(status.toString())),
-			status.isUIEnabledDefaultValue());
+	public static FeatureFlag create(String key) {
+		return new PropertyFeatureFlag(
+			key, enabled(key), getStatus(key), getTitle(key),
+			getDescription(key));
 	}
 
 	public static boolean enabled(String key) {
-		return GetterUtil.getBoolean(
-			_get(key, StringPool.BLANK, null));
+		return GetterUtil.getBoolean(_get(key, StringPool.BLANK, null));
 	}
 
 	public static String getDescription(String key) {
 		return _get(key, "description", StringPool.BLANK);
 	}
 
+	public static Set<FeatureFlag> getFeatureFlagSet() {
+		return _featureFlagSet;
+	}
+
 	public static FeatureFlag.Status getStatus(String key) {
-		return FeatureFlag.Status.fromString(_get(key, "status", StringPool.BLANK));
+		return FeatureFlag.Status.fromString(
+			_get(key, "status", StringPool.BLANK));
 	}
 
 	public static String getTitle(String key) {
 		return _get(key, "title", key);
+	}
+
+	public static boolean isUIEnabled(FeatureFlag.Status status) {
+		return GetterUtil.getBoolean(
+			PropsUtil.get(
+				_PREFIX + "ui.visible", new Filter(status.toString())),
+			status.isUIEnabledDefaultValue());
 	}
 
 	private static String _get(String key, String suffix, String defaultValue) {
@@ -58,22 +82,12 @@ public class FeatureFlagsPropsUtil {
 		return stringValues[stringValues.length - 1];
 	}
 
-	public static Set<FeatureFlag> getFeatureFlagSet() {
-		return _featureFlagSet;
-	}
-
-	public static FeatureFlag create(String key) {
-		return new PropertyFeatureFlag(
-			key, enabled(key), getStatus(key), getTitle(key),
-			getDescription(key));
-	}
+	private static final String _PREFIX = "feature.flag.";
 
 	private static final Set<FeatureFlag> _featureFlagSet;
 	private static final Pattern _pattern = Pattern.compile("^([A-Z\\-0-9]+)$");
-
-	private static final String _prefix = "feature.flag.";
 	private static final Properties _properties = PropsUtil.getProperties(
-		_prefix, true);
+		_PREFIX, true);
 
 	static {
 		Set<FeatureFlag> featureFlagSet = new HashSet<>();
