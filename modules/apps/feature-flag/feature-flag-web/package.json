@@ -1,5 +1,5 @@
 {
-	"name": "@liferay/feature-flags-web",
+	"name": "feature-flags-web",
 	"private": true,
 	"scripts": {
 		"build": "liferay-npm-scripts build",
