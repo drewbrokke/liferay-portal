@@ -1,3 +1,7 @@
+<%@ page import="java.util.Objects" %>
+<%@ page
+	import="com.liferay.frontend.taglib.clay.servlet.taglib.display.context.ManagementToolbarDisplayContext" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
@@ -18,6 +22,8 @@
 
 <%
 FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
+
+String displayStyle = featureFlagsDisplayContext.getDisplayStyle();
 %>
 
 <clay:management-toolbar
@@ -25,96 +31,64 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 />
 
 <clay:container-fluid>
-	<aui:form method="post" name="fm">
-		<liferay-ui:search-container
-			cssClass="table-valign-top"
-			searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>"
+	<liferay-ui:search-container
+		cssClass="table-valign-top"
+		searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>"
+	>
+		<liferay-ui:search-container-row
+			className="com.liferay.feature.flag.web.internal.FeatureFlagDisplay"
+			keyProperty="key"
 		>
-			<liferay-ui:search-container-row
-				className="com.liferay.feature.flag.web.internal.FeatureFlagDisplay"
-				keyProperty="key"
-			>
 
-				<%
-				FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)model;
-				%>
+			<%
+			FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)model;
+			%>
 
-				<liferay-ui:search-container-column-text
-					cssClass="table-cell-expand table-cell-expand-smallest"
-					name="name"
-					value="<%= featureFlagDisplay.getTitle(locale) %>"
-				/>
-
-				<liferay-ui:search-container-column-text
-					cssClass="table-cell-expand"
-					name="description"
-					value="<%= featureFlagDisplay.getDescription(locale) %>"
-				/>
-
-				<liferay-ui:search-container-column-text
-					name="action"
-				>
-
-					<%
-					String labelOff = LanguageUtil.get(request, "disabled");
-					String labelOn = LanguageUtil.get(request, "enabled");
-
-					String symbolOff = "flag-empty";
-					String symbolOn = "flag-full";
-
-					String inputName = featureFlagDisplay.getKey() + "-toggle";
-					%>
-
-					<label class="simple-toggle-switch toggle-switch">
-						<span class="toggle-switch-check-bar">
-							<input disabled class="toggle-switch-check" id="<%= inputName %>" type="checkbox" value="" <%= featureFlagDisplay.isEnabled() ? "checked" : "" %> />
-
-							<span aria-hidden="true" class="toggle-switch-bar">
-								<span class="toggle-switch-handle">
-									<span class="button-icon button-icon-on toggle-switch-icon">
-										<clay:icon
-											symbol="<%= symbolOn %>"
-										/>
-									</span>
-									<span class="button-icon button-icon-off toggle-switch-icon">
-										<clay:icon
-											symbol="<%= symbolOff %>"
-										/>
-									</span>
-								</span>
-							</span>
-						</span>
-						<span class="toggle-switch-label">
-							<%= featureFlagDisplay.isEnabled() ? labelOn : labelOff %>
-						</span>
-					</label>
-
-					<react:component
-						module="js/FeatureFlagToggle"
-						props='<%=
-							HashMapBuilder.<String, Object>put(
-								"enabled", featureFlagDisplay.isEnabled()
-							).put(
-								"featureFlagKey", featureFlagDisplay.getKey()
-							).put(
-								"inputName", inputName
-							).put(
-								"labelOff", labelOff
-							).put(
-								"labelOn", labelOn
-							).put(
-								"symbolOff", symbolOff
-							).put(
-								"symbolOn", symbolOn
-							).build()
-						%>'
+			<c:choose>
+				<c:when test='<%= Objects.equals("list", displayStyle) %>'>
+					<liferay-ui:search-container-column-text
+						cssClass="table-cell-expand table-cell-expand-smallest"
+						name="name"
+						property="title"
 					/>
-				</liferay-ui:search-container-column-text>
-			</liferay-ui:search-container-row>
 
-			<liferay-ui:search-iterator
-				markupView="lexicon"
-			/>
-		</liferay-ui:search-container>
-	</aui:form>
+					<liferay-ui:search-container-column-text
+						cssClass="table-cell-expand"
+						name="description"
+						property="description"
+					/>
+
+					<liferay-ui:search-container-column-text
+						name="action"
+					>
+						<%@ include file="/toggle_switch.jspf" %>
+					</liferay-ui:search-container-column-text>
+				</c:when>
+				<c:otherwise>
+					<liferay-ui:search-container-column-text
+						colspan="<%= 11 %>"
+					>
+						<h5>
+							<strong><%= featureFlagDisplay.getTitle() %></strong>
+						</h5>
+
+						<h6 class="text-default">
+							<%= featureFlagDisplay.getDescription() %>
+						</h6>
+					</liferay-ui:search-container-column-text>
+
+					<liferay-ui:search-container-column-text
+						colspan="<%= 1 %>"
+					>
+						<%@ include file="/toggle_switch.jspf" %>
+					</liferay-ui:search-container-column-text>
+				</c:otherwise>
+			</c:choose>
+		</liferay-ui:search-container-row>
+
+		<liferay-ui:search-iterator
+			displayStyle="<%= displayStyle %>"
+			markupView="lexicon"
+		/>
+	</liferay-ui:search-container>
 </clay:container-fluid>

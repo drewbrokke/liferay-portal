@@ -47,4 +47,13 @@ public class FeatureFlagsDisplayContext {
 	private ManagementToolbarDisplayContext _managementToolbarDisplayContext;
 	private SearchContainer<FeatureFlagDisplay> _searchContainer;
 
+	private String _displayStyle;
+
+	public String getDisplayStyle() {
+		return _displayStyle;
+	}
+
+	public void setDisplayStyle(String displayStyle) {
+		_displayStyle = displayStyle;
+	}
 }

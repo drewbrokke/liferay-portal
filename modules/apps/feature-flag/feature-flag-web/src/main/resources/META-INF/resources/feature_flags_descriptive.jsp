@@ -43,10 +43,6 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 				>
 					<h5>
 						<strong><%= featureFlagDisplay.getTitle(locale) %></strong>
-						<%-- <clay:badge--%>
-						<%-- displayType="<%= featureFlagDisplay.getBadgeDisplayStyle() %>"--%>
-						<%-- label="<%= featureFlagDisplay.getStatusString() %>"--%>
-						<%-- />--%>
 					</h5>
 
 					<h6 class="text-default">
@@ -57,61 +53,7 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 				<liferay-ui:search-container-column-text
 					colspan="<%= 1 %>"
 				>
-
-					<%
-					String labelOff = LanguageUtil.get(request, "disabled");
-					String labelOn = LanguageUtil.get(request, "enabled");
-
-					String symbolOff = "flag-empty";
-					String symbolOn = "flag-full";
-
-					String inputName = featureFlagDisplay.getKey() + "-toggle";
-					%>
-
-					<label class="simple-toggle-switch toggle-switch">
-						<span class="toggle-switch-check-bar">
-							<input disabled class="toggle-switch-check" id="<%= inputName %>" type="checkbox" value="" <%= featureFlagDisplay.isEnabled() ? "checked" : "" %> />
-
-							<span aria-hidden="true" class="toggle-switch-bar">
-								<span class="toggle-switch-handle">
-									<span class="button-icon button-icon-on toggle-switch-icon">
-										<clay:icon
-											symbol="<%= symbolOn %>"
-										/>
-									</span>
-									<span class="button-icon button-icon-off toggle-switch-icon">
-										<clay:icon
-											symbol="<%= symbolOff %>"
-										/>
-									</span>
-								</span>
-							</span>
-						</span>
-						<span class="toggle-switch-label">
-							<%= featureFlagDisplay.isEnabled() ? labelOn : labelOff %>
-						</span>
-					</label>
-
-					<react:component
-						module="js/FeatureFlagToggle"
-						props='<%=
-							HashMapBuilder.<String, Object>put(
-								"enabled", featureFlagDisplay.isEnabled()
-							).put(
-								"featureFlagKey", featureFlagDisplay.getKey()
-							).put(
-								"inputName", inputName
-							).put(
-								"labelOff", labelOff
-							).put(
-								"labelOn", labelOn
-							).put(
-								"symbolOff", symbolOff
-							).put(
-								"symbolOn", symbolOn
-							).build()
-						%>'
-					/>
+					<%@ include file="/toggle_switch.jspf" %>
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 

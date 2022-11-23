@@ -14,29 +14,26 @@
 
 package com.liferay.feature.flag.web.internal;
 
-import java.util.Objects;
+import java.util.Locale;
 
 /**
  * @author Drew Brokke
  */
 public class FeatureFlagDisplay extends FeatureFlagWrapper {
 
-	public FeatureFlagDisplay(FeatureFlag featureFlag) {
+	public FeatureFlagDisplay(FeatureFlag featureFlag, Locale locale) {
 		super(featureFlag);
+		_locale = locale;
 	}
 
-	public String getBadgeDisplayStyle() {
-		String statusString = getStatusString();
-
-		if (Objects.equals(statusString, "beta")) {
-			return "warning";
-		}
-
-		if (Objects.equals(statusString, "release")) {
-			return "primary";
-		}
-
-		return "danger";
+	public String getDescription() {
+		return super.getDescription(_locale);
 	}
+
+	public String getTitle() {
+		return super.getTitle(_locale);
+	}
+
+	private final Locale _locale;
 
 }
