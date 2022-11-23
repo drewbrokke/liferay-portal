@@ -47,8 +47,7 @@ const FeatureFlagToggle = ({
 			}
 
 			setEnabled(newEnabled);
-		}
-		catch (error) {
+		} catch (error) {
 			openToast({message: error.message, type: 'danger'});
 		}
 	}
