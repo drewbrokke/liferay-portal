@@ -1,6 +1,7 @@
 {
 	"@generated": "ef1cd2c35d9ff2d6f173ecd8973f049606ee42cd",
-	"@overrides": {},
+	"@overrides": {
+	},
 	"@readonly": "** AUTO-GENERATED: DO NOT EDIT OUTSIDE @overrides **",
 	"@see": "https://git.io/JY2EA",
 	"compilerOptions": {
@@ -20,10 +21,19 @@
 		"strict": true,
 		"target": "es6",
 		"tsBuildInfoFile": "tmp/tsconfig.tsbuildinfo",
-		"typeRoots": ["../../../node_modules/@types", "./node_modules/@types"]
+		"typeRoots": [
+			"../../../node_modules/@types",
+			"./node_modules/@types"
+		]
 	},
-	"exclude": ["test/**/*", "**/__tests__/**"],
-	"include": ["src/**/*", "../../../global.d.ts"],
+	"exclude": [
+		"test/**/*",
+		"**/__tests__/**"
+	],
+	"include": [
+		"src/**/*",
+		"../../../global.d.ts"
+	],
 	"references": [
 		{
 			"path": "../../frontend-js/frontend-js-web"

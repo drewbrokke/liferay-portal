@@ -19,6 +19,7 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -68,6 +69,16 @@ public class FeatureFlagsManagementToolbarDisplayContext
 				return false;
 			})
 	};
+
+	@Override
+	protected String getDefaultDisplayStyle() {
+		return "descriptive";
+	}
+
+	@Override
+	protected String[] getDisplayViews() {
+		return new String[] {"descriptive", "list"};
+	}
 
 	public FeatureFlagsManagementToolbarDisplayContext(
 		HttpServletRequest httpServletRequest,
