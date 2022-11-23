@@ -76,8 +76,7 @@ public interface FeatureFlag {
 			_value = value;
 
 			_uIEnabled = GetterUtil.getBoolean(
-				PropsUtil.get(
-					"feature.flags.ui.visible", new Filter(toString())));
+				PropsUtil.get("feature.flag.ui.visible", new Filter(_value)));
 		}
 
 		private static final Log _log = LogFactoryUtil.getLog(Status.class);
