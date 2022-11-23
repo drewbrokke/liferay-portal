@@ -15,6 +15,7 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.configuration.admin.display.ConfigurationScreen;
+import com.liferay.feature.flag.web.internal.constants.FeatureFlagsConfigurationConstants;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -104,7 +105,7 @@ public class FeatureFlagsConfigurationScreenRegistrar {
 
 		@Override
 		public boolean isVisible() {
-			return FeatureFlagsPropsUtil.isUIEnabled(_status);
+			return _status.isUIEnabled();
 		}
 
 		@Override

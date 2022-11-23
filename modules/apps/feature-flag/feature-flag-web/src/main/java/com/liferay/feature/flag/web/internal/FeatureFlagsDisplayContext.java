@@ -22,6 +22,10 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
  */
 public class FeatureFlagsDisplayContext {
 
+	public String getDisplayStyle() {
+		return _displayStyle;
+	}
+
 	public ManagementToolbarDisplayContext
 		getManagementToolbarDisplayContext() {
 
@@ -30,6 +34,10 @@ public class FeatureFlagsDisplayContext {
 
 	public SearchContainer<FeatureFlagDisplay> getSearchContainer() {
 		return _searchContainer;
+	}
+
+	public void setDisplayStyle(String displayStyle) {
+		_displayStyle = displayStyle;
 	}
 
 	public void setManagementToolbarDisplayContext(
@@ -44,16 +52,8 @@ public class FeatureFlagsDisplayContext {
 		_searchContainer = searchContainer;
 	}
 
+	private String _displayStyle;
 	private ManagementToolbarDisplayContext _managementToolbarDisplayContext;
 	private SearchContainer<FeatureFlagDisplay> _searchContainer;
 
-	private String _displayStyle;
-
-	public String getDisplayStyle() {
-		return _displayStyle;
-	}
-
-	public void setDisplayStyle(String displayStyle) {
-		_displayStyle = displayStyle;
-	}
 }
