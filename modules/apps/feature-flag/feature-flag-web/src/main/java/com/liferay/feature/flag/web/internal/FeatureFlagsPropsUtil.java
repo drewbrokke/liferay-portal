@@ -15,7 +15,6 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -59,13 +58,6 @@ public class FeatureFlagsPropsUtil {
 
 	public static String getTitle(String key) {
 		return _get(key, "title", key);
-	}
-
-	public static boolean isUIEnabled(FeatureFlag.Status status) {
-		return GetterUtil.getBoolean(
-			PropsUtil.get(
-				_PREFIX + "ui.visible", new Filter(status.toString())),
-			status.isUIEnabledDefaultValue());
 	}
 
 	private static String _get(String key, String suffix, String defaultValue) {

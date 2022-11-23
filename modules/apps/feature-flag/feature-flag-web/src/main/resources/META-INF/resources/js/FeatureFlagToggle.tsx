@@ -37,31 +37,25 @@ const FeatureFlagToggle = ({
 	const [enabled, setEnabled] = useState(initialEnabled);
 
 	async function updateEnabled(newEnabled: boolean) {
-		try {
-			const response = await Liferay.Util.fetch(
-				'/o/com-liferay-feature-flags-web/set-enabled',
-				{
-					body: Liferay.Util.objectToFormData({
-						enabled: newEnabled,
-						key: featureFlagKey,
-					}),
-					method: 'POST',
-				}
-			);
-
-			if (!response.ok) {
-				throw new Error('Could not update feature flag.');
+		const response = await Liferay.Util.fetch(
+			'/o/com-liferay-feature-flags-web/set-enabled',
+			{
+				body: Liferay.Util.objectToFormData({
+					enabled: newEnabled,
+					key: featureFlagKey,
+				}),
+				method: 'POST',
 			}
+		);
 
+		if (response.ok) {
 			setEnabled(newEnabled);
 		}
-		catch (error) {
-			if (error instanceof Error) {
-				Liferay.Util.openToast({
-					message: error.message,
-					type: 'danger',
-				});
-			}
+		else {
+			Liferay.Util.openToast({
+				message: 'Could not update feature flag.',
+				type: 'danger',
+			});
 		}
 	}
 

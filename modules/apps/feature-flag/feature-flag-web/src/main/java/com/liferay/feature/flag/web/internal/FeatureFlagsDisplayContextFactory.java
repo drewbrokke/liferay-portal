@@ -15,7 +15,6 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
@@ -29,8 +28,10 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import javax.portlet.PortletRequest;
@@ -91,11 +92,9 @@ public class FeatureFlagsDisplayContextFactory {
 		FeatureFlags featureFlags = _featureFlagsProvider.getFeatureFlags(
 			_portal.getCompanyId(httpServletRequest));
 
-		Predicate<FeatureFlag> predicate = FeatureFlag.Status.getPredicate(
-			status);
+		Predicate<FeatureFlag> predicate = status.getPredicate();
 
 		String keywords = ParamUtil.getString(portletRequest, "keywords");
-
 		Locale locale = _portal.getLocale(httpServletRequest);
 
 		if (Validator.isNotNull(keywords)) {
@@ -116,6 +115,15 @@ public class FeatureFlagsDisplayContextFactory {
 		List<FeatureFlagDisplay> featureFlagDisplays = TransformUtil.transform(
 			featureFlags.getFeatureFlags(predicate),
 			featureFlag -> new FeatureFlagDisplay(featureFlag, locale));
+
+		Comparator<FeatureFlagDisplay> comparator = Comparator.comparing(
+			FeatureFlagDisplay::getTitle);
+
+		if (Objects.equals("desc", searchContainer.getOrderByType())) {
+			comparator = comparator.reversed();
+		}
+
+		featureFlagDisplays.sort(comparator);
 
 		int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
 			searchContainer.getStart(), searchContainer.getEnd(),

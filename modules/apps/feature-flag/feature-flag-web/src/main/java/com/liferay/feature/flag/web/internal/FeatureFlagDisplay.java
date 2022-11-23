@@ -23,6 +23,7 @@ public class FeatureFlagDisplay extends FeatureFlagWrapper {
 
 	public FeatureFlagDisplay(FeatureFlag featureFlag, Locale locale) {
 		super(featureFlag);
+
 		_locale = locale;
 	}
 

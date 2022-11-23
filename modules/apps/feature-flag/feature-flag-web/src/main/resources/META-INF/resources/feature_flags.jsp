@@ -1,7 +1,3 @@
-<%@ page import="java.util.Objects" %>
-<%@ page
-	import="com.liferay.frontend.taglib.clay.servlet.taglib.display.context.ManagementToolbarDisplayContext" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
@@ -57,12 +53,6 @@ String displayStyle = featureFlagsDisplayContext.getDisplayStyle();
 						name="description"
 						property="description"
 					/>
-
-					<liferay-ui:search-container-column-text
-						name="action"
-					>
-						<%@ include file="/toggle_switch.jspf" %>
-					</liferay-ui:search-container-column-text>
 				</c:when>
 				<c:otherwise>
 					<liferay-ui:search-container-column-text
@@ -76,14 +66,15 @@ String displayStyle = featureFlagsDisplayContext.getDisplayStyle();
 							<%= featureFlagDisplay.getDescription() %>
 						</h6>
 					</liferay-ui:search-container-column-text>
-
-					<liferay-ui:search-container-column-text
-						colspan="<%= 1 %>"
-					>
-						<%@ include file="/toggle_switch.jspf" %>
-					</liferay-ui:search-container-column-text>
 				</c:otherwise>
 			</c:choose>
+
+			<liferay-ui:search-container-column-text
+				colspan="<%= 1 %>"
+				name="action"
+			>
+				<%@ include file="/toggle_switch.jspf" %>
+			</liferay-ui:search-container-column-text>
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator

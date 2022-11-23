@@ -12,7 +12,9 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.constants;
+
+import com.liferay.feature.flag.web.internal.FeatureFlag;
 
 /**
  * @author Drew Brokke
