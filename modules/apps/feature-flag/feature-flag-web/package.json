@@ -1,5 +1,8 @@
 {
-	"name": "@liferay/feature-flags-web",
+	"dependencies": {
+		"frontend-js-web": "*"
+	},
+	"name": "@liferay/feature-flag-web",
 	"private": true,
 	"scripts": {
 		"build": "liferay-npm-scripts build",

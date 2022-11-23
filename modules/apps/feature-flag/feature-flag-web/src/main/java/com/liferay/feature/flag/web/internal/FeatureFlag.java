@@ -47,10 +47,7 @@ public interface FeatureFlag {
 
 		public static Status fromString(String propertyValue) {
 			for (Status status : values()) {
-				if (Objects.equals(
-						StringUtil.lowerCase(status.toString()),
-						StringUtil.lowerCase(propertyValue))) {
-
+				if (status.equals(propertyValue)) {
 					return status;
 				}
 			}
@@ -68,10 +65,6 @@ public interface FeatureFlag {
 			return featureFlag -> status.equals(featureFlag.getStatus());
 		}
 
-		public static Predicate<FeatureFlag> getPredicate(String statusString) {
-			return getPredicate(fromString(statusString));
-		}
-
 		public boolean equals(Status status) {
 			if (Objects.equals(this, status)) {
 				return true;
@@ -80,8 +73,12 @@ public interface FeatureFlag {
 			return false;
 		}
 
-		public Predicate<FeatureFlag> getPredicate() {
-			return featureFlag -> equals(featureFlag.getStatus());
+		public boolean equals(String status) {
+			if (Objects.equals(toString(), StringUtil.toLowerCase(status))) {
+				return true;
+			}
+
+			return false;
 		}
 
 		public boolean isUIEnabledDefaultValue() {

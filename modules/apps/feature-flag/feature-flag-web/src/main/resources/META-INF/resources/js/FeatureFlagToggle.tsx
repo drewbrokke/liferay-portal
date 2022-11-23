@@ -13,8 +13,17 @@
  */
 
 import {ClayToggle} from '@clayui/form';
-import {fetch, objectToFormData, openToast} from 'frontend-js-web';
 import React, {useState} from 'react';
+
+interface IProps {
+	enabled: boolean;
+	featureFlagKey: string;
+	inputName: string;
+	labelOff: string;
+	labelOn: string;
+	symbolOff: string;
+	symbolOn: string;
+}
 
 const FeatureFlagToggle = ({
 	enabled: initialEnabled,
@@ -24,17 +33,15 @@ const FeatureFlagToggle = ({
 	labelOn,
 	symbolOff,
 	symbolOn,
-}) => {
+}: IProps) => {
 	const [enabled, setEnabled] = useState(initialEnabled);
 
-	async function updateEnabled(newEnabled) {
-		console.log(`updating enabled for ${featureFlagKey}: ${newEnabled}`);
-
+	async function updateEnabled(newEnabled: boolean) {
 		try {
-			const response = await fetch(
+			const response = await Liferay.Util.fetch(
 				'/o/com-liferay-feature-flags-web/set-enabled',
 				{
-					body: objectToFormData({
+					body: Liferay.Util.objectToFormData({
 						enabled: newEnabled,
 						key: featureFlagKey,
 					}),
@@ -47,8 +54,14 @@ const FeatureFlagToggle = ({
 			}
 
 			setEnabled(newEnabled);
-		} catch (error) {
-			openToast({message: error.message, type: 'danger'});
+		}
+		catch (error) {
+			if (error instanceof Error) {
+				Liferay.Util.openToast({
+					message: error.message,
+					type: 'danger',
+				});
+			}
 		}
 	}
 
