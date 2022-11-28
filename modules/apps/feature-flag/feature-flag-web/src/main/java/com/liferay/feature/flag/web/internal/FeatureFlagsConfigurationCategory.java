@@ -15,7 +15,6 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.configuration.admin.category.ConfigurationCategory;
-import com.liferay.feature.flag.web.internal.constants.FeatureFlagsConfigurationConstants;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -33,7 +32,7 @@ public class FeatureFlagsConfigurationCategory
 
 	@Override
 	public String getCategoryKey() {
-		return FeatureFlagsConfigurationConstants.CONFIGURATION_CATEGORY_KEY;
+		return FeatureFlagConstants.FEATURE_FLAG;
 	}
 
 	@Override

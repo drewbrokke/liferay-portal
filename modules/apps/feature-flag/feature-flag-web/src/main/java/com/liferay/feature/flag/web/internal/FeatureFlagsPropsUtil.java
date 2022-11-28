@@ -14,6 +14,7 @@
 
 package com.liferay.feature.flag.web.internal;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -62,7 +63,7 @@ public class FeatureFlagsPropsUtil {
 
 	private static String _get(String key, String suffix, String defaultValue) {
 		if (Validator.isNotNull(suffix)) {
-			key = key + "." + suffix;
+			key = StringBundler.concat(key, StringPool.PERIOD, suffix);
 		}
 
 		String[] stringValues = StringUtil.split(_properties.getProperty(key));
@@ -74,12 +75,10 @@ public class FeatureFlagsPropsUtil {
 		return stringValues[stringValues.length - 1];
 	}
 
-	private static final String _PREFIX = "feature.flag.";
-
 	private static final Set<FeatureFlag> _featureFlagSet;
 	private static final Pattern _pattern = Pattern.compile("^([A-Z\\-0-9]+)$");
 	private static final Properties _properties = PropsUtil.getProperties(
-		_PREFIX, true);
+		FeatureFlagConstants.FEATURE_FLAG + StringPool.PERIOD, true);
 
 	static {
 		Set<FeatureFlag> featureFlagSet = new HashSet<>();

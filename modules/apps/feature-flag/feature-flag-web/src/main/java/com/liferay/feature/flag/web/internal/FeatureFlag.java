@@ -15,6 +15,7 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.portal.kernel.configuration.Filter;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -67,6 +68,18 @@ public interface FeatureFlag {
 			return _uIEnabled;
 		}
 
+		public String getDescription(Locale locale) {
+			return LanguageUtil.get(
+				locale,
+				FeatureFlagConstants.getKey("status.description", _value));
+		}
+
+		public String getTitle(Locale locale) {
+			return LanguageUtil.get(
+				locale,
+				FeatureFlagConstants.getKey("status.title", _value));
+		}
+
 		@Override
 		public String toString() {
 			return _value;
@@ -76,7 +89,9 @@ public interface FeatureFlag {
 			_value = value;
 
 			_uIEnabled = GetterUtil.getBoolean(
-				PropsUtil.get("feature.flag.ui.visible", new Filter(_value)));
+				PropsUtil.get(
+					FeatureFlagConstants.getKey("ui.visible"),
+					new Filter(_value)));
 		}
 
 		private static final Log _log = LogFactoryUtil.getLog(Status.class);

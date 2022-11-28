@@ -53,7 +53,7 @@ const FeatureFlagToggle = ({
 		}
 		else {
 			Liferay.Util.openToast({
-				message: 'Could not update feature flag.',
+				message: Liferay.Language.get('could-not-update-feature-flag'),
 				type: 'danger',
 			});
 		}

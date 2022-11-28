@@ -22,64 +22,76 @@ FeatureFlagsDisplayContext featureFlagsDisplayContext = (FeatureFlagsDisplayCont
 String displayStyle = featureFlagsDisplayContext.getDisplayStyle();
 %>
 
-<clay:management-toolbar
-	managementToolbarDisplayContext="<%= featureFlagsDisplayContext.getManagementToolbarDisplayContext() %>"
-/>
-
 <clay:container-fluid>
-	<liferay-ui:search-container
-		cssClass="table-valign-top"
-		searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>"
-	>
-		<liferay-ui:search-container-row
-			className="com.liferay.feature.flag.web.internal.FeatureFlagDisplay"
-			keyProperty="key"
-		>
+	<clay:sheet>
+		<clay:sheet-header>
 
-			<%
-			FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)model;
-			%>
+			<h2 class="sheet-title"><%= featureFlagsDisplayContext.getTitle() %></h2>
+			<div class="sheet-text"><%= featureFlagsDisplayContext.getDescription() %></div>
+		</clay:sheet-header>
 
-			<c:choose>
-				<c:when test='<%= Objects.equals("list", displayStyle) %>'>
-					<liferay-ui:search-container-column-text
-						cssClass="table-cell-expand table-cell-expand-smallest"
-						name="name"
-						property="title"
-					/>
-
-					<liferay-ui:search-container-column-text
-						cssClass="table-cell-expand"
-						name="description"
-						property="description"
-					/>
-				</c:when>
-				<c:otherwise>
-					<liferay-ui:search-container-column-text
-						colspan="<%= 11 %>"
-					>
-						<h5>
-							<strong><%= featureFlagDisplay.getTitle() %></strong>
-						</h5>
-
-						<h6 class="text-default">
-							<%= featureFlagDisplay.getDescription() %>
-						</h6>
-					</liferay-ui:search-container-column-text>
-				</c:otherwise>
-			</c:choose>
-
-			<liferay-ui:search-container-column-text
-				colspan="<%= 1 %>"
-				name="action"
-			>
-				<%@ include file="/toggle_switch.jspf" %>
-			</liferay-ui:search-container-column-text>
-		</liferay-ui:search-container-row>
-
-		<liferay-ui:search-iterator
-			displayStyle="<%= displayStyle %>"
-			markupView="lexicon"
+		<clay:sheet-section><clay:management-toolbar
+			managementToolbarDisplayContext="<%= featureFlagsDisplayContext.getManagementToolbarDisplayContext() %>"
 		/>
-	</liferay-ui:search-container>
+
+			<liferay-ui:search-container
+				cssClass="table-valign-top"
+				searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>"
+			>
+				<liferay-ui:search-container-row
+					className="com.liferay.feature.flag.web.internal.FeatureFlagDisplay"
+					keyProperty="key"
+				>
+
+					<%
+						FeatureFlagDisplay featureFlagDisplay =
+							(FeatureFlagDisplay) model;
+					%>
+
+					<c:choose>
+						<c:when
+							test='<%= Objects.equals("list", displayStyle) %>'>
+							<liferay-ui:search-container-column-text
+								cssClass="table-cell-expand table-cell-expand-smallest"
+								name="name"
+								property="title"
+							/>
+
+							<liferay-ui:search-container-column-text
+								cssClass="table-cell-expand"
+								name="description"
+								property="description"
+							/>
+						</c:when>
+						<c:otherwise>
+							<liferay-ui:search-container-column-text
+								colspan="<%= 11 %>"
+							>
+								<h5>
+									<strong><%= featureFlagDisplay.getTitle() %>
+									</strong>
+								</h5>
+
+								<h6 class="text-default">
+									<%= featureFlagDisplay.getDescription() %>
+								</h6>
+							</liferay-ui:search-container-column-text>
+						</c:otherwise>
+					</c:choose>
+
+					<liferay-ui:search-container-column-text
+						colspan="<%= 1 %>"
+						name="action"
+					>
+						<%@ include file="/toggle_switch.jspf" %>
+					</liferay-ui:search-container-column-text>
+				</liferay-ui:search-container-row>
+
+				<liferay-ui:search-iterator
+					displayStyle="<%= displayStyle %>"
+					markupView="lexicon"
+					searchResultCssClass="<%= featureFlagsDisplayContext.getSearchResultCssClass() %>"
+				/>
+			</liferay-ui:search-container></clay:sheet-section>
+	</clay:sheet>
 </clay:container-fluid>
