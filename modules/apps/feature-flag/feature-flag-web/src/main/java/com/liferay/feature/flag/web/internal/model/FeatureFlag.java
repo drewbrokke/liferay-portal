@@ -12,8 +12,9 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.model;
 
+import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
 import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -60,24 +61,23 @@ public interface FeatureFlag {
 			return DEV;
 		}
 
-		public Predicate<FeatureFlag> getPredicate() {
-			return featureFlag -> equals(featureFlag.getStatus());
-		}
-
-		public boolean isUIEnabled() {
-			return _uIEnabled;
-		}
-
 		public String getDescription(Locale locale) {
 			return LanguageUtil.get(
 				locale,
 				FeatureFlagConstants.getKey("status.description", _value));
 		}
 
+		public Predicate<FeatureFlag> getPredicate() {
+			return featureFlag -> equals(featureFlag.getStatus());
+		}
+
 		public String getTitle(Locale locale) {
 			return LanguageUtil.get(
-				locale,
-				FeatureFlagConstants.getKey("status.title", _value));
+				locale, FeatureFlagConstants.getKey("status.title", _value));
+		}
+
+		public boolean isUIEnabled() {
+			return _uIEnabled;
 		}
 
 		@Override

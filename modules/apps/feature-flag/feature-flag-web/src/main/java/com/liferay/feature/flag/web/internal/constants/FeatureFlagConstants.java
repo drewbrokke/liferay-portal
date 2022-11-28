@@ -12,32 +12,23 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.constants;
 
-import com.liferay.configuration.admin.category.ConfigurationCategory;
-
-import org.osgi.service.component.annotations.Component;
+import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
+import com.liferay.petra.string.StringUtil;
 
 /**
  * @author Drew Brokke
  */
-@Component(service = ConfigurationCategory.class)
-public class FeatureFlagsConfigurationCategory
-	implements ConfigurationCategory {
+public class FeatureFlagConstants {
 
-	@Override
-	public String getCategoryIcon() {
-		return "flag-full";
-	}
+	public static final String FEATURE_FLAG = "feature.flag";
 
-	@Override
-	public String getCategoryKey() {
-		return FeatureFlagConstants.FEATURE_FLAG;
-	}
-
-	@Override
-	public String getCategorySection() {
-		return "platform";
+	public static String getKey(String... parts) {
+		return StringBundler.concat(
+			FEATURE_FLAG, StringPool.PERIOD,
+			StringUtil.merge(parts, StringPool.PERIOD));
 	}
 
 }

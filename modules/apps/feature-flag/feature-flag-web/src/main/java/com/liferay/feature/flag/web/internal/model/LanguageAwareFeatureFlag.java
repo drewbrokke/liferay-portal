@@ -12,44 +12,34 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.model;
+
+import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
+import com.liferay.portal.kernel.language.LanguageUtil;
 
 import java.util.Locale;
 
 /**
  * @author Drew Brokke
  */
-public class FeatureFlagWrapper implements FeatureFlag {
+public class LanguageAwareFeatureFlag extends FeatureFlagWrapper {
 
-	public FeatureFlagWrapper(FeatureFlag featureFlag) {
-		_featureFlag = featureFlag;
+	public LanguageAwareFeatureFlag(FeatureFlag featureFlag) {
+		super(featureFlag);
 	}
 
 	@Override
 	public String getDescription(Locale locale) {
-		return _featureFlag.getDescription(locale);
-	}
-
-	@Override
-	public String getKey() {
-		return _featureFlag.getKey();
-	}
-
-	@Override
-	public Status getStatus() {
-		return _featureFlag.getStatus();
+		return LanguageUtil.get(
+			locale, FeatureFlagConstants.getKey(getKey(), "description"),
+			super.getDescription(locale));
 	}
 
 	@Override
 	public String getTitle(Locale locale) {
-		return _featureFlag.getTitle(locale);
+		return LanguageUtil.get(
+			locale, FeatureFlagConstants.getKey(getKey(), "title"),
+			super.getTitle(locale));
 	}
-
-	@Override
-	public boolean isEnabled() {
-		return _featureFlag.isEnabled();
-	}
-
-	private final FeatureFlag _featureFlag;
 
 }

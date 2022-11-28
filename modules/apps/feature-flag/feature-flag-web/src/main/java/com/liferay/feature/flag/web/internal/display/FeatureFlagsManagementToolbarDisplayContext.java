@@ -12,8 +12,9 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.display;
 
+import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
@@ -68,11 +69,6 @@ public class FeatureFlagsManagementToolbarDisplayContext
 				return false;
 			})
 	};
-
-	@Override
-	public Boolean isSelectable() {
-		return false;
-	}
 
 	public FeatureFlagsManagementToolbarDisplayContext(
 		HttpServletRequest httpServletRequest,
@@ -158,6 +154,11 @@ public class FeatureFlagsManagementToolbarDisplayContext
 		}
 
 		return dropdownItemList;
+	}
+
+	@Override
+	public Boolean isSelectable() {
+		return false;
 	}
 
 	public static class Filter {

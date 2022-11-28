@@ -12,9 +12,12 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.configuration.admin.display;
 
 import com.liferay.configuration.admin.display.ConfigurationScreen;
+import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
+import com.liferay.feature.flag.web.internal.display.FeatureFlagsDisplayContextFactory;
+import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -40,7 +43,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Drew Brokke
  */
 @Component(service = {})
-public class FeatureFlagsConfigurationScreenRegistrar {
+public class FeatureFlagConfigurationScreenRegistrar {
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
@@ -48,7 +51,7 @@ public class FeatureFlagsConfigurationScreenRegistrar {
 			_serviceRegistrations.add(
 				bundleContext.registerService(
 					ConfigurationScreen.class,
-					new FeatureFlagsConfigurationScreen(status),
+					new FeatureFlagConfigurationScreen(status),
 					new HashMapDictionary<>()));
 		}
 	}
@@ -70,10 +73,10 @@ public class FeatureFlagsConfigurationScreenRegistrar {
 	@Reference(target = "(osgi.web.symbolicname=com.liferay.feature.flag.web)")
 	private ServletContext _servletContext;
 
-	private class FeatureFlagsConfigurationScreen
+	private class FeatureFlagConfigurationScreen
 		implements ConfigurationScreen {
 
-		public FeatureFlagsConfigurationScreen(FeatureFlag.Status status) {
+		public FeatureFlagConfigurationScreen(FeatureFlag.Status status) {
 			_status = status;
 		}
 

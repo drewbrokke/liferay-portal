@@ -14,6 +14,7 @@
 
 package com.liferay.feature.flag.web.internal;
 
+import com.liferay.feature.flag.web.internal.util.FeatureFlagsPreferencesUtil;
 import com.liferay.portal.kernel.util.Portal;
 
 import java.util.Collections;

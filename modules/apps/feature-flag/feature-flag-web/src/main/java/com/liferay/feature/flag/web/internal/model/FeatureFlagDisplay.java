@@ -12,22 +12,29 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal.constants;
+package com.liferay.feature.flag.web.internal.model;
 
-import com.liferay.feature.flag.web.internal.FeatureFlag;
+import java.util.Locale;
 
 /**
  * @author Drew Brokke
  */
-public class FeatureFlagsConfigurationConstants {
+public class FeatureFlagDisplay extends FeatureFlagWrapper {
 
-	public static final String CONFIGURATION_CATEGORY_KEY = "feature-flags";
+	public FeatureFlagDisplay(FeatureFlag featureFlag, Locale locale) {
+		super(featureFlag);
 
-	public static String getEntryKey(FeatureFlag.Status status) {
-		return _CONFIGURATION_ENTRY_KEY_PREFIX + status.toString();
+		_locale = locale;
 	}
 
-	private static final String _CONFIGURATION_ENTRY_KEY_PREFIX =
-		"feature-flags-";
+	public String getDescription() {
+		return super.getDescription(_locale);
+	}
+
+	public String getTitle() {
+		return super.getTitle(_locale);
+	}
+
+	private final Locale _locale;
 
 }

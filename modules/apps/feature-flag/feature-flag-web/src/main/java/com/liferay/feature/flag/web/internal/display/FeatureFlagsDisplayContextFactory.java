@@ -12,9 +12,13 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.display;
 
 import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
+import com.liferay.feature.flag.web.internal.FeatureFlags;
+import com.liferay.feature.flag.web.internal.FeatureFlagsProvider;
+import com.liferay.feature.flag.web.internal.model.FeatureFlag;
+import com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
@@ -59,14 +63,15 @@ public class FeatureFlagsDisplayContextFactory {
 
 		Locale locale = _portal.getLocale(httpServletRequest);
 
-		featureFlagsDisplayContext.setDescription(status.getDescription(locale));
+		featureFlagsDisplayContext.setDescription(
+			status.getDescription(locale));
 
 		PortletRequest portletRequest =
 			(PortletRequest)httpServletRequest.getAttribute(
 				JavaConstants.JAVAX_PORTLET_REQUEST);
 
-		String displayStyle =
-			ParamUtil.getString(portletRequest, "displayStyle", "descriptive");
+		String displayStyle = ParamUtil.getString(
+			portletRequest, "displayStyle", "descriptive");
 
 		featureFlagsDisplayContext.setDisplayStyle(displayStyle);
 
@@ -168,9 +173,9 @@ public class FeatureFlagsDisplayContextFactory {
 	private FeatureFlagsProvider _featureFlagsProvider;
 
 	@Reference
-	private Portal _portal;
+	private Language _language;
 
 	@Reference
-	private Language _language;
+	private Portal _portal;
 
 }
