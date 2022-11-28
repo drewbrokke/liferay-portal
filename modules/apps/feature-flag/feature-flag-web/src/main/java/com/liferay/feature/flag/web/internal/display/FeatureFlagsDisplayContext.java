@@ -12,8 +12,9 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.display;
 
+import com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay;
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.ManagementToolbarDisplayContext;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 
@@ -22,7 +23,9 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
  */
 public class FeatureFlagsDisplayContext {
 
-	private String searchResultCssClass = null;
+	public String getDescription() {
+		return _description;
+	}
 
 	public String getDisplayStyle() {
 		return _displayStyle;
@@ -39,11 +42,15 @@ public class FeatureFlagsDisplayContext {
 	}
 
 	public String getSearchResultCssClass() {
-		return searchResultCssClass;
+		return _searchResultCssClass;
 	}
 
-	public void setSearchResultCssClass(String searchResultCssClass) {
-		this.searchResultCssClass = searchResultCssClass;
+	public String getTitle() {
+		return _title;
+	}
+
+	public void setDescription(String description) {
+		_description = description;
 	}
 
 	public void setDisplayStyle(String displayStyle) {
@@ -62,27 +69,19 @@ public class FeatureFlagsDisplayContext {
 		_searchContainer = searchContainer;
 	}
 
-	private String _title;
-	private String _description;
-
-	public String getTitle() {
-		return _title;
+	public void setSearchResultCssClass(String searchResultCssClass) {
+		_searchResultCssClass = searchResultCssClass;
 	}
 
 	public void setTitle(String title) {
 		_title = title;
 	}
 
-	public String getDescription() {
-		return _description;
-	}
-
-	public void setDescription(String description) {
-		_description = description;
-	}
-
+	private String _description;
 	private String _displayStyle;
 	private ManagementToolbarDisplayContext _managementToolbarDisplayContext;
 	private SearchContainer<FeatureFlagDisplay> _searchContainer;
+	private String _searchResultCssClass;
+	private String _title;
 
 }

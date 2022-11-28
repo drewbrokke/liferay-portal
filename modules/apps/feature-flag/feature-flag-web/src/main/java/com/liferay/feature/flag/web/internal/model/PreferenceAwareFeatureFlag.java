@@ -12,29 +12,29 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.model;
 
-import java.util.Locale;
+import com.liferay.feature.flag.web.internal.util.FeatureFlagsPreferencesUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 
 /**
  * @author Drew Brokke
  */
-public class FeatureFlagDisplay extends FeatureFlagWrapper {
+public class PreferenceAwareFeatureFlag extends FeatureFlagWrapper {
 
-	public FeatureFlagDisplay(FeatureFlag featureFlag, Locale locale) {
+	public PreferenceAwareFeatureFlag(FeatureFlag featureFlag, long companyId) {
 		super(featureFlag);
 
-		_locale = locale;
+		_companyId = companyId;
 	}
 
-	public String getDescription() {
-		return super.getDescription(_locale);
+	@Override
+	public boolean isEnabled() {
+		return GetterUtil.getBoolean(
+			FeatureFlagsPreferencesUtil.isEnabled(_companyId, getKey()),
+			super.isEnabled());
 	}
 
-	public String getTitle() {
-		return super.getTitle(_locale);
-	}
-
-	private final Locale _locale;
+	private final long _companyId;
 
 }

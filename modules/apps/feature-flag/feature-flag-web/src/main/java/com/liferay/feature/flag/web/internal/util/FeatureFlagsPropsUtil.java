@@ -12,8 +12,11 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.util;
 
+import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
+import com.liferay.feature.flag.web.internal.model.FeatureFlag;
+import com.liferay.feature.flag.web.internal.model.PropertyFeatureFlag;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -33,12 +36,6 @@ import java.util.regex.Pattern;
  * @author Drew Brokke
  */
 public class FeatureFlagsPropsUtil {
-
-	public static FeatureFlag create(String key) {
-		return new PropertyFeatureFlag(
-			key, enabled(key), getStatus(key), getTitle(key),
-			getDescription(key));
-	}
 
 	public static boolean enabled(String key) {
 		return GetterUtil.getBoolean(_get(key, StringPool.BLANK, null));
@@ -87,7 +84,12 @@ public class FeatureFlagsPropsUtil {
 			Matcher matcher = _pattern.matcher(stringPropertyName);
 
 			if (matcher.find()) {
-				featureFlagSet.add(create(stringPropertyName));
+				featureFlagSet.add(
+					new PropertyFeatureFlag(
+						stringPropertyName, enabled(stringPropertyName),
+						getStatus(stringPropertyName),
+						getTitle(stringPropertyName),
+						getDescription(stringPropertyName)));
 			}
 		}
 

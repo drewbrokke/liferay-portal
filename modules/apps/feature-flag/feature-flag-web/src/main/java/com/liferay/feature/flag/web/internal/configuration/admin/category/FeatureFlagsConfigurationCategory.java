@@ -12,28 +12,33 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.configuration.admin.category;
 
-import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.configuration.admin.category.ConfigurationCategory;
+import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Drew Brokke
  */
-public class PreferenceAwareFeatureFlag extends FeatureFlagWrapper {
+@Component(service = ConfigurationCategory.class)
+public class FeatureFlagsConfigurationCategory
+	implements ConfigurationCategory {
 
-	public PreferenceAwareFeatureFlag(FeatureFlag featureFlag, long companyId) {
-		super(featureFlag);
-
-		_companyId = companyId;
+	@Override
+	public String getCategoryIcon() {
+		return "flag-full";
 	}
 
 	@Override
-	public boolean isEnabled() {
-		return GetterUtil.getBoolean(
-			FeatureFlagsPreferencesUtil.isEnabled(_companyId, getKey()),
-			super.isEnabled());
+	public String getCategoryKey() {
+		return FeatureFlagConstants.FEATURE_FLAG;
 	}
 
-	private final long _companyId;
+	@Override
+	public String getCategorySection() {
+		return "platform";
+	}
 
 }

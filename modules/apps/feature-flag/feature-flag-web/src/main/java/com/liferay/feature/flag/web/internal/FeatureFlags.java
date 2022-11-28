@@ -14,6 +14,11 @@
 
 package com.liferay.feature.flag.web.internal;
 
+import com.liferay.feature.flag.web.internal.model.FeatureFlag;
+import com.liferay.feature.flag.web.internal.model.LanguageAwareFeatureFlag;
+import com.liferay.feature.flag.web.internal.model.PreferenceAwareFeatureFlag;
+import com.liferay.feature.flag.web.internal.util.FeatureFlagsPropsUtil;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

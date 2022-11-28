@@ -12,55 +12,44 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.model;
 
 import java.util.Locale;
 
 /**
  * @author Drew Brokke
  */
-public class PropertyFeatureFlag implements FeatureFlag {
+public class FeatureFlagWrapper implements FeatureFlag {
 
-	public PropertyFeatureFlag(
-		String key, boolean enabled, Status status, String title,
-		String description) {
-
-		_key = key;
-		_enabled = enabled;
-		_status = status;
-		_title = title;
-		_description = description;
+	public FeatureFlagWrapper(FeatureFlag featureFlag) {
+		_featureFlag = featureFlag;
 	}
 
 	@Override
 	public String getDescription(Locale locale) {
-		return _description;
+		return _featureFlag.getDescription(locale);
 	}
 
 	@Override
 	public String getKey() {
-		return _key;
+		return _featureFlag.getKey();
 	}
 
 	@Override
 	public Status getStatus() {
-		return _status;
+		return _featureFlag.getStatus();
 	}
 
 	@Override
 	public String getTitle(Locale locale) {
-		return _title;
+		return _featureFlag.getTitle(locale);
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return _enabled;
+		return _featureFlag.isEnabled();
 	}
 
-	private final String _description;
-	private final boolean _enabled;
-	private final String _key;
-	private final Status _status;
-	private final String _title;
+	private final FeatureFlag _featureFlag;
 
 }

@@ -25,8 +25,8 @@ String displayStyle = featureFlagsDisplayContext.getDisplayStyle();
 <clay:container-fluid>
 	<clay:sheet>
 		<clay:sheet-header>
-
 			<h2 class="sheet-title"><%= featureFlagsDisplayContext.getTitle() %></h2>
+
 			<div class="sheet-text"><%= featureFlagsDisplayContext.getDescription() %></div>
 		</clay:sheet-header>
 
@@ -39,18 +39,16 @@ String displayStyle = featureFlagsDisplayContext.getDisplayStyle();
 				searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>"
 			>
 				<liferay-ui:search-container-row
-					className="com.liferay.feature.flag.web.internal.FeatureFlagDisplay"
+					className="com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay"
 					keyProperty="key"
 				>
 
 					<%
-						FeatureFlagDisplay featureFlagDisplay =
-							(FeatureFlagDisplay) model;
+					FeatureFlagDisplay featureFlagDisplay = (FeatureFlagDisplay)model;
 					%>
 
 					<c:choose>
-						<c:when
-							test='<%= Objects.equals("list", displayStyle) %>'>
+						<c:when test='<%= Objects.equals("list", displayStyle) %>'>
 							<liferay-ui:search-container-column-text
 								cssClass="table-cell-expand table-cell-expand-smallest"
 								name="name"
