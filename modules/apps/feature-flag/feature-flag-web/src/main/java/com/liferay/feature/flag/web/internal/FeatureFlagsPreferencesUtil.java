@@ -55,6 +55,6 @@ public class FeatureFlagsPreferencesUtil {
 		return preferences.getPortalPreferencesImpl();
 	}
 
-	private static final String _NAMESPACE = "feature.flags";
+	private static final String _NAMESPACE = FeatureFlagConstants.FEATURE_FLAG;
 
 }

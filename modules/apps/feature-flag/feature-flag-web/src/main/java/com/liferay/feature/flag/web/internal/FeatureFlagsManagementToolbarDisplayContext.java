@@ -69,6 +69,11 @@ public class FeatureFlagsManagementToolbarDisplayContext
 			})
 	};
 
+	@Override
+	public Boolean isSelectable() {
+		return false;
+	}
+
 	public FeatureFlagsManagementToolbarDisplayContext(
 		HttpServletRequest httpServletRequest,
 		LiferayPortletRequest liferayPortletRequest,
@@ -207,11 +212,6 @@ public class FeatureFlagsManagementToolbarDisplayContext
 	@Override
 	protected String getDefaultDisplayStyle() {
 		return "descriptive";
-	}
-
-	@Override
-	protected String[] getDisplayViews() {
-		return new String[] {"descriptive", "list"};
 	}
 
 	@Override

@@ -31,17 +31,15 @@ public class LanguageAwareFeatureFlag extends FeatureFlagWrapper {
 	@Override
 	public String getDescription(Locale locale) {
 		return LanguageUtil.get(
-			locale, _getKey("description"), super.getDescription(locale));
+			locale, FeatureFlagConstants.getKey(getKey(), "description"),
+			super.getDescription(locale));
 	}
 
 	@Override
 	public String getTitle(Locale locale) {
 		return LanguageUtil.get(
-			locale, _getKey("title"), super.getTitle(locale));
-	}
-
-	private String _getKey(String suffix) {
-		return StringBundler.concat("feature.flag.", getKey(), ".", suffix);
+			locale, FeatureFlagConstants.getKey(getKey(), "title"),
+			super.getTitle(locale));
 	}
 
 }

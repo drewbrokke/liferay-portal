@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
  */
 public class FeatureFlagsDisplayContext {
 
+	private String searchResultCssClass = null;
+
 	public String getDisplayStyle() {
 		return _displayStyle;
 	}
@@ -34,6 +36,14 @@ public class FeatureFlagsDisplayContext {
 
 	public SearchContainer<FeatureFlagDisplay> getSearchContainer() {
 		return _searchContainer;
+	}
+
+	public String getSearchResultCssClass() {
+		return searchResultCssClass;
+	}
+
+	public void setSearchResultCssClass(String searchResultCssClass) {
+		this.searchResultCssClass = searchResultCssClass;
 	}
 
 	public void setDisplayStyle(String displayStyle) {
@@ -50,6 +60,25 @@ public class FeatureFlagsDisplayContext {
 		SearchContainer<FeatureFlagDisplay> searchContainer) {
 
 		_searchContainer = searchContainer;
+	}
+
+	private String _title;
+	private String _description;
+
+	public String getTitle() {
+		return _title;
+	}
+
+	public void setTitle(String title) {
+		_title = title;
+	}
+
+	public String getDescription() {
+		return _description;
+	}
+
+	public void setDescription(String description) {
+		_description = description;
 	}
 
 	private String _displayStyle;

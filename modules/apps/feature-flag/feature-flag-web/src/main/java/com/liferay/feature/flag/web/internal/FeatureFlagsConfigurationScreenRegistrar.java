@@ -15,8 +15,6 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.configuration.admin.display.ConfigurationScreen;
-import com.liferay.feature.flag.web.internal.constants.FeatureFlagsConfigurationConstants;
-import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -66,9 +64,6 @@ public class FeatureFlagsConfigurationScreenRegistrar {
 	private FeatureFlagsDisplayContextFactory
 		_featureFlagsDisplayContextFactory;
 
-	@Reference
-	private Language _language;
-
 	private final List<ServiceRegistration<ConfigurationScreen>>
 		_serviceRegistrations = new ArrayList<>();
 
@@ -84,18 +79,17 @@ public class FeatureFlagsConfigurationScreenRegistrar {
 
 		@Override
 		public String getCategoryKey() {
-			return FeatureFlagsConfigurationConstants.
-				CONFIGURATION_CATEGORY_KEY;
+			return FeatureFlagConstants.FEATURE_FLAG;
 		}
 
 		@Override
 		public String getKey() {
-			return FeatureFlagsConfigurationConstants.getEntryKey(_status);
+			return FeatureFlagConstants.getKey(_status.toString());
 		}
 
 		@Override
 		public String getName(Locale locale) {
-			return _language.get(locale, _status.toString());
+			return _status.getTitle(locale);
 		}
 
 		@Override

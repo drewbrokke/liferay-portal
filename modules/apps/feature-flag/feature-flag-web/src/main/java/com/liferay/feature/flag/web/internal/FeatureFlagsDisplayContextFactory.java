@@ -18,6 +18,7 @@ import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
@@ -56,12 +57,18 @@ public class FeatureFlagsDisplayContextFactory {
 		FeatureFlagsDisplayContext featureFlagsDisplayContext =
 			new FeatureFlagsDisplayContext();
 
+		Locale locale = _portal.getLocale(httpServletRequest);
+
+		featureFlagsDisplayContext.setDescription(status.getDescription(locale));
+
 		PortletRequest portletRequest =
 			(PortletRequest)httpServletRequest.getAttribute(
 				JavaConstants.JAVAX_PORTLET_REQUEST);
 
-		featureFlagsDisplayContext.setDisplayStyle(
-			ParamUtil.getString(portletRequest, "displayStyle", "descriptive"));
+		String displayStyle =
+			ParamUtil.getString(portletRequest, "displayStyle", "descriptive");
+
+		featureFlagsDisplayContext.setDisplayStyle(displayStyle);
 
 		PortletResponse portletResponse =
 			(PortletResponse)httpServletRequest.getAttribute(
@@ -95,15 +102,14 @@ public class FeatureFlagsDisplayContextFactory {
 		Predicate<FeatureFlag> predicate = status.getPredicate();
 
 		String keywords = ParamUtil.getString(portletRequest, "keywords");
-		Locale locale = _portal.getLocale(httpServletRequest);
 
 		if (Validator.isNotNull(keywords)) {
 			predicate = predicate.and(
 				featureFlag ->
-					_contains(
-						locale, featureFlag.getDescription(locale), keywords) ||
 					_contains(locale, featureFlag.getKey(), keywords) ||
-					_contains(locale, featureFlag.getTitle(locale), keywords));
+					_contains(locale, featureFlag.getTitle(locale), keywords) ||
+					_contains(
+						locale, featureFlag.getDescription(locale), keywords));
 		}
 
 		for (FeatureFlagsManagementToolbarDisplayContext.Filter filter :
@@ -133,12 +139,17 @@ public class FeatureFlagsDisplayContextFactory {
 			() -> featureFlagDisplays.subList(startAndEnd[0], startAndEnd[1]),
 			featureFlagDisplays.size());
 
-		featureFlagsDisplayContext.setSearchContainer(searchContainer);
-
 		featureFlagsDisplayContext.setManagementToolbarDisplayContext(
 			new FeatureFlagsManagementToolbarDisplayContext(
 				httpServletRequest, liferayPortletRequest,
 				liferayPortletResponse, searchContainer));
+		featureFlagsDisplayContext.setSearchContainer(searchContainer);
+
+		if (Objects.equals(displayStyle, "descriptive")) {
+			featureFlagsDisplayContext.setSearchResultCssClass("list-group");
+		}
+
+		featureFlagsDisplayContext.setTitle(status.getTitle(locale));
 
 		return featureFlagsDisplayContext;
 	}
@@ -158,5 +169,8 @@ public class FeatureFlagsDisplayContextFactory {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private Language _language;
 
 }
