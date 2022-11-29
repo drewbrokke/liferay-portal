@@ -36,7 +36,7 @@ public class FeatureFlagWrapper implements FeatureFlag {
 	}
 
 	@Override
-	public Status getStatus() {
+	public FeatureFlagStatus getStatus() {
 		return _featureFlag.getStatus();
 	}
 

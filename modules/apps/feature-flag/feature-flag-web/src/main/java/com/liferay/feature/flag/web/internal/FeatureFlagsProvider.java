@@ -33,6 +33,10 @@ import org.osgi.service.component.annotations.Component;
 )
 public class FeatureFlagsProvider implements PortalInstanceLifecycleListener {
 
+	public FeatureFlags getFeatureFlags(long companyId) {
+		return _featureFlagsMap.get(companyId);
+	}
+
 	public boolean isEnabled(long companyId, String key) {
 		FeatureFlags featureFlags = getFeatureFlags(companyId);
 
@@ -52,10 +56,6 @@ public class FeatureFlagsProvider implements PortalInstanceLifecycleListener {
 	@Override
 	public void portalInstanceUnregistered(Company company) {
 		_featureFlagsMap.remove(company.getCompanyId());
-	}
-
-	protected FeatureFlags getFeatureFlags(long companyId) {
-		return _featureFlagsMap.get(companyId);
 	}
 
 	private final Map<Long, FeatureFlags> _featureFlagsMap =

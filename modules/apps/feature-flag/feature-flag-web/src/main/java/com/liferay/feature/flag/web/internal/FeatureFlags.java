@@ -20,15 +20,12 @@ import com.liferay.feature.flag.web.internal.model.PreferenceAwareFeatureFlag;
 import com.liferay.feature.flag.web.internal.util.FeatureFlagsPropsUtil;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Drew Brokke
@@ -56,28 +53,28 @@ public class FeatureFlags {
 	}
 
 	public List<FeatureFlag> getFeatureFlags(Predicate<FeatureFlag> predicate) {
-		Collection<FeatureFlag> values = _featureFlagMap.values();
+		List<FeatureFlag> featureFlags = new ArrayList<>();
 
 		if (predicate == null) {
-			return new ArrayList<>(values);
+			predicate = featureFlag -> true;
 		}
 
-		Stream<FeatureFlag> stream = values.stream();
+		for (FeatureFlag featureFlag : _featureFlagMap.values()) {
+			if (predicate.test(featureFlag)) {
+				featureFlags.add(featureFlag);
+			}
+		}
 
-		return stream.filter(
-			predicate
-		).sorted(
-			Comparator.comparing(FeatureFlag::getKey)
-		).collect(
-			Collectors.toList()
-		);
+		featureFlags.sort(Comparator.comparing(FeatureFlag::getKey));
+
+		return featureFlags;
 	}
 
 	public boolean isEnabled(String key) {
 		FeatureFlag featureFlag = _featureFlagMap.get(key);
 
 		if (featureFlag == null) {
-			return FeatureFlagsPropsUtil.enabled(key);
+			return FeatureFlagsPropsUtil.isEnabled(key);
 		}
 
 		return featureFlag.isEnabled();

@@ -19,6 +19,7 @@ import com.liferay.feature.flag.web.internal.FeatureFlags;
 import com.liferay.feature.flag.web.internal.FeatureFlagsProvider;
 import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay;
+import com.liferay.feature.flag.web.internal.model.FeatureFlagStatus;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
@@ -56,7 +57,7 @@ public class FeatureFlagsDisplayContextFactory {
 
 	public FeatureFlagsDisplayContext create(
 		HttpServletRequest httpServletRequest,
-		HttpServletResponse httpServletResponse, FeatureFlag.Status status) {
+		HttpServletResponse httpServletResponse, FeatureFlagStatus status) {
 
 		FeatureFlagsDisplayContext featureFlagsDisplayContext =
 			new FeatureFlagsDisplayContext();

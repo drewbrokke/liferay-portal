@@ -38,7 +38,7 @@ const FeatureFlagToggle = ({
 
 	async function updateEnabled(newEnabled: boolean) {
 		const response = await Liferay.Util.fetch(
-			'/o/com-liferay-feature-flags-web/set-enabled',
+			'/o/com-liferay-feature-flag-web/set-enabled',
 			{
 				body: Liferay.Util.objectToFormData({
 					enabled: newEnabled,

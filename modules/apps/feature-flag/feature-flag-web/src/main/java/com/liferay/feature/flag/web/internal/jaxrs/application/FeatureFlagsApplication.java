@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
+package com.liferay.feature.flag.web.internal.jaxrs.application;
 
 import com.liferay.feature.flag.web.internal.util.FeatureFlagsPreferencesUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -39,8 +39,8 @@ import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
  */
 @Component(
 	property = {
-		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=/com-liferay-feature-flags-web",
-		JaxrsWhiteboardConstants.JAX_RS_NAME + "=com.liferay.feature.flag.web.Application",
+		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=/com-liferay-feature-flag-web",
+		JaxrsWhiteboardConstants.JAX_RS_NAME + "=com.liferay.enterprise.product.notification.web.internal.jaxrs.application.FeatureFlagsApplication",
 		"auth.verifier.auth.verifier.PortalSessionAuthVerifier.urls.includes=/*",
 		"auth.verifier.guest.allowed=false", "liferay.oauth2=false"
 	},

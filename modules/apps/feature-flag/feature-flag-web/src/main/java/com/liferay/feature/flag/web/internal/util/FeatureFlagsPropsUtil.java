@@ -16,6 +16,7 @@ package com.liferay.feature.flag.web.internal.util;
 
 import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
 import com.liferay.feature.flag.web.internal.model.FeatureFlag;
+import com.liferay.feature.flag.web.internal.model.FeatureFlagStatus;
 import com.liferay.feature.flag.web.internal.model.PropertyFeatureFlag;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -37,10 +38,6 @@ import java.util.regex.Pattern;
  */
 public class FeatureFlagsPropsUtil {
 
-	public static boolean enabled(String key) {
-		return GetterUtil.getBoolean(_get(key, StringPool.BLANK, null));
-	}
-
 	public static String getDescription(String key) {
 		return _get(key, "description", StringPool.BLANK);
 	}
@@ -49,13 +46,17 @@ public class FeatureFlagsPropsUtil {
 		return _featureFlagSet;
 	}
 
-	public static FeatureFlag.Status getStatus(String key) {
-		return FeatureFlag.Status.fromString(
+	public static FeatureFlagStatus getStatus(String key) {
+		return FeatureFlagStatus.fromString(
 			_get(key, "status", StringPool.BLANK));
 	}
 
 	public static String getTitle(String key) {
 		return _get(key, "title", key);
+	}
+
+	public static boolean isEnabled(String key) {
+		return GetterUtil.getBoolean(_get(key, StringPool.BLANK, null));
 	}
 
 	private static String _get(String key, String suffix, String defaultValue) {
@@ -86,7 +87,7 @@ public class FeatureFlagsPropsUtil {
 			if (matcher.find()) {
 				featureFlagSet.add(
 					new PropertyFeatureFlag(
-						stringPropertyName, enabled(stringPropertyName),
+						stringPropertyName, isEnabled(stringPropertyName),
 						getStatus(stringPropertyName),
 						getTitle(stringPropertyName),
 						getDescription(stringPropertyName)));
