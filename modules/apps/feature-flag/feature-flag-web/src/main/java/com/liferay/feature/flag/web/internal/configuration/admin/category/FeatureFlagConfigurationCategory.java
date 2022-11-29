@@ -12,9 +12,12 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal.configuration.admin.display;
+package com.liferay.feature.flag.web.internal.configuration.admin.category;
 
+import com.liferay.configuration.admin.category.ConfigurationCategory;
 import com.liferay.configuration.admin.display.ConfigurationScreen;
+import com.liferay.feature.flag.web.internal.configuration.admin.display.FeatureFlagConfigurationScreen;
+import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
 import com.liferay.feature.flag.web.internal.display.FeatureFlagsDisplayContextFactory;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagStatus;
 import com.liferay.portal.kernel.util.HashMapDictionary;
@@ -34,8 +37,23 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Drew Brokke
  */
-@Component(service = {})
-public class FeatureFlagConfigurationScreenRegistrar {
+@Component(service = ConfigurationCategory.class)
+public class FeatureFlagConfigurationCategory implements ConfigurationCategory {
+
+	@Override
+	public String getCategoryIcon() {
+		return "flag-full";
+	}
+
+	@Override
+	public String getCategoryKey() {
+		return FeatureFlagConstants.FEATURE_FLAG;
+	}
+
+	@Override
+	public String getCategorySection() {
+		return "platform";
+	}
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
