@@ -50,8 +50,7 @@ public enum FeatureFlagStatus {
 	}
 
 	public String getDescription(Locale locale) {
-		return LanguageUtil.get(
-			locale, FeatureFlagConstants.getKey("status.description", _value));
+		return LanguageUtil.get(locale, _descriptionLanguageKey);
 	}
 
 	public Predicate<FeatureFlag> getPredicate() {
@@ -59,12 +58,13 @@ public enum FeatureFlagStatus {
 	}
 
 	public String getTitle(Locale locale) {
-		return LanguageUtil.get(
-			locale, FeatureFlagConstants.getKey("status.title", _value));
+		return LanguageUtil.get(locale, _titleLanguageKey);
 	}
 
 	public boolean isUIEnabled() {
-		return _uIEnabled;
+		return GetterUtil.getBoolean(
+			PropsUtil.get(
+				FeatureFlagConstants.getKey("ui.visible"), new Filter(_value)));
 	}
 
 	@Override
@@ -75,15 +75,16 @@ public enum FeatureFlagStatus {
 	private FeatureFlagStatus(String value) {
 		_value = value;
 
-		_uIEnabled = GetterUtil.getBoolean(
-			PropsUtil.get(
-				FeatureFlagConstants.getKey("ui.visible"), new Filter(_value)));
+		_descriptionLanguageKey = FeatureFlagConstants.getKey(
+			"status.description", _value);
+		_titleLanguageKey = FeatureFlagConstants.getKey("status.title", _value);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		FeatureFlagStatus.class);
 
-	private final boolean _uIEnabled;
+	private final String _descriptionLanguageKey;
+	private final String _titleLanguageKey;
 	private final String _value;
 
 }
