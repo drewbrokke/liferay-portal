@@ -16,14 +16,13 @@ package com.liferay.feature.flag.web.internal.display;
 
 import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
 import com.liferay.feature.flag.web.internal.FeatureFlags;
-import com.liferay.feature.flag.web.internal.FeatureFlagsProvider;
+import com.liferay.feature.flag.web.internal.FeatureFlagsProviderImpl;
 import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagStatus;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
-import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
@@ -102,7 +101,7 @@ public class FeatureFlagsDisplayContextFactory {
 				portletRequest, ConfigurationAdminPortletKeys.INSTANCE_SETTINGS,
 				"order-by-type", "asc"));
 
-		FeatureFlags featureFlags = _featureFlagsProvider.getFeatureFlags(
+		FeatureFlags featureFlags = _featureFlagsProviderImpl.getFeatureFlags(
 			_portal.getCompanyId(httpServletRequest));
 
 		Predicate<FeatureFlag> predicate = status.getPredicate();
@@ -171,10 +170,7 @@ public class FeatureFlagsDisplayContextFactory {
 	}
 
 	@Reference
-	private FeatureFlagsProvider _featureFlagsProvider;
-
-	@Reference
-	private Language _language;
+	private FeatureFlagsProviderImpl _featureFlagsProviderImpl;
 
 	@Reference
 	private Portal _portal;

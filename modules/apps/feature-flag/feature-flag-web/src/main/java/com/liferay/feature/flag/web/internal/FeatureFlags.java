@@ -17,7 +17,7 @@ package com.liferay.feature.flag.web.internal;
 import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.feature.flag.web.internal.model.LanguageAwareFeatureFlag;
 import com.liferay.feature.flag.web.internal.model.PreferenceAwareFeatureFlag;
-import com.liferay.feature.flag.web.internal.util.FeatureFlagsPropsUtil;
+import com.liferay.feature.flag.web.internal.model.PropertyFeatureFlag;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,8 +35,14 @@ public class FeatureFlags {
 	public FeatureFlags(long companyId) {
 		Map<String, FeatureFlag> map = new HashMap<>();
 
-		for (FeatureFlag featureFlag :
-				FeatureFlagsPropsUtil.getFeatureFlagSet()) {
+		_featureFlagsPropsHelper = new FeatureFlagsPropsHelper();
+
+		for (String key : _featureFlagsPropsHelper.getKeySet()) {
+			FeatureFlag featureFlag = new PropertyFeatureFlag(
+				key, _featureFlagsPropsHelper.isEnabled(key),
+				_featureFlagsPropsHelper.getStatus(key),
+				_featureFlagsPropsHelper.getTitle(key),
+				_featureFlagsPropsHelper.getDescription(key));
 
 			featureFlag = new LanguageAwareFeatureFlag(featureFlag);
 			featureFlag = new PreferenceAwareFeatureFlag(
@@ -47,6 +53,8 @@ public class FeatureFlags {
 
 		_featureFlagMap = Collections.unmodifiableMap(map);
 	}
+
+	private final FeatureFlagsPropsHelper _featureFlagsPropsHelper;
 
 	public FeatureFlag get(String key) {
 		return _featureFlagMap.get(key);
@@ -74,7 +82,7 @@ public class FeatureFlags {
 		FeatureFlag featureFlag = _featureFlagMap.get(key);
 
 		if (featureFlag == null) {
-			return FeatureFlagsPropsUtil.isEnabled(key);
+			return _featureFlagsPropsHelper.isEnabled(key);
 		}
 
 		return featureFlag.isEnabled();

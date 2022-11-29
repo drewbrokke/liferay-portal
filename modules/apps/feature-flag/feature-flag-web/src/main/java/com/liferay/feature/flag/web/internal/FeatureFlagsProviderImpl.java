@@ -14,6 +14,7 @@
 
 package com.liferay.feature.flag.web.internal;
 
+import com.liferay.feature.flag.FeatureFlagsProvider;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
@@ -28,15 +29,18 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(
 	service = {
-		FeatureFlagsProvider.class, PortalInstanceLifecycleListener.class
+		FeatureFlagsProvider.class, FeatureFlagsProviderImpl.class,
+		PortalInstanceLifecycleListener.class
 	}
 )
-public class FeatureFlagsProvider implements PortalInstanceLifecycleListener {
+public class FeatureFlagsProviderImpl
+	implements FeatureFlagsProvider, PortalInstanceLifecycleListener {
 
 	public FeatureFlags getFeatureFlags(long companyId) {
 		return _featureFlagsMap.get(companyId);
 	}
 
+	@Override
 	public boolean isEnabled(long companyId, String key) {
 		FeatureFlags featureFlags = getFeatureFlags(companyId);
 

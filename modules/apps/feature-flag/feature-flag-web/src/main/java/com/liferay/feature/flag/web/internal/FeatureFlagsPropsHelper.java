@@ -12,12 +12,10 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal.util;
+package com.liferay.feature.flag.web.internal;
 
 import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
-import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagStatus;
-import com.liferay.feature.flag.web.internal.model.PropertyFeatureFlag;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -36,30 +34,47 @@ import java.util.regex.Pattern;
 /**
  * @author Drew Brokke
  */
-public class FeatureFlagsPropsUtil {
+public class FeatureFlagsPropsHelper {
 
-	public static String getDescription(String key) {
+	public FeatureFlagsPropsHelper() {
+		_properties = PropsUtil.getProperties(
+			FeatureFlagConstants.FEATURE_FLAG + StringPool.PERIOD, true);
+
+		Set<String> keySet = new HashSet<>();
+
+		for (String stringPropertyName : _properties.stringPropertyNames()) {
+			Matcher matcher = _pattern.matcher(stringPropertyName);
+
+			if (matcher.find()) {
+				keySet.add(stringPropertyName);
+			}
+		}
+
+		_keySet = Collections.unmodifiableSet(keySet);
+	}
+
+	public String getDescription(String key) {
 		return _get(key, "description", StringPool.BLANK);
 	}
 
-	public static Set<FeatureFlag> getFeatureFlagSet() {
-		return _featureFlagSet;
+	public Set<String> getKeySet() {
+		return _keySet;
 	}
 
-	public static FeatureFlagStatus getStatus(String key) {
+	public FeatureFlagStatus getStatus(String key) {
 		return FeatureFlagStatus.fromString(
 			_get(key, "status", StringPool.BLANK));
 	}
 
-	public static String getTitle(String key) {
+	public String getTitle(String key) {
 		return _get(key, "title", key);
 	}
 
-	public static boolean isEnabled(String key) {
+	public boolean isEnabled(String key) {
 		return GetterUtil.getBoolean(_get(key, StringPool.BLANK, null));
 	}
 
-	private static String _get(String key, String suffix, String defaultValue) {
+	private String _get(String key, String suffix, String defaultValue) {
 		if (Validator.isNotNull(suffix)) {
 			key = StringBundler.concat(key, StringPool.PERIOD, suffix);
 		}
@@ -73,28 +88,8 @@ public class FeatureFlagsPropsUtil {
 		return stringValues[stringValues.length - 1];
 	}
 
-	private static final Set<FeatureFlag> _featureFlagSet;
+	private final Set<String> _keySet;
 	private static final Pattern _pattern = Pattern.compile("^([A-Z\\-0-9]+)$");
-	private static final Properties _properties = PropsUtil.getProperties(
-		FeatureFlagConstants.FEATURE_FLAG + StringPool.PERIOD, true);
-
-	static {
-		Set<FeatureFlag> featureFlagSet = new HashSet<>();
-
-		for (String stringPropertyName : _properties.stringPropertyNames()) {
-			Matcher matcher = _pattern.matcher(stringPropertyName);
-
-			if (matcher.find()) {
-				featureFlagSet.add(
-					new PropertyFeatureFlag(
-						stringPropertyName, isEnabled(stringPropertyName),
-						getStatus(stringPropertyName),
-						getTitle(stringPropertyName),
-						getDescription(stringPropertyName)));
-			}
-		}
-
-		_featureFlagSet = Collections.unmodifiableSet(featureFlagSet);
-	}
+	private final Properties _properties;
 
 }
