@@ -22,7 +22,7 @@ import java.util.Locale;
 public class PropertyFeatureFlag implements FeatureFlag {
 
 	public PropertyFeatureFlag(
-		String key, boolean enabled, Status status, String title,
+		String key, boolean enabled, FeatureFlagStatus status, String title,
 		String description) {
 
 		_key = key;
@@ -43,7 +43,7 @@ public class PropertyFeatureFlag implements FeatureFlag {
 	}
 
 	@Override
-	public Status getStatus() {
+	public FeatureFlagStatus getStatus() {
 		return _status;
 	}
 
@@ -60,7 +60,7 @@ public class PropertyFeatureFlag implements FeatureFlag {
 	private final String _description;
 	private final boolean _enabled;
 	private final String _key;
-	private final Status _status;
+	private final FeatureFlagStatus _status;
 	private final String _title;
 
 }
