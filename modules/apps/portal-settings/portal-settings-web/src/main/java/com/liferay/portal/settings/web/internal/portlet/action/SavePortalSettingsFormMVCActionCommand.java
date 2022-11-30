@@ -133,8 +133,7 @@ public class SavePortalSettingsFormMVCActionCommand
 		SettingsDescriptor settingsDescriptor =
 			SettingsFactoryUtil.getSettingsDescriptor(getSettingsId());
 
-		Set<String> multiValuedKeys = new HashSet<>(
-			settingsDescriptor.getMultiValuedKeys());
+		Set<String> multiValuedKeys = settingsDescriptor.getMultiValuedKeys();
 
 		for (String name : settingsDescriptor.getAllKeys()) {
 			if (multiValuedKeys.remove(name)) {

@@ -180,17 +180,15 @@ public interface RoleTypeContributor {
 				"classNameId", PortalUtil.getClassNameId(getClassName()));
 		}
 
-		int total = RoleServiceUtil.searchCount(
-			companyId, keywords, new Integer[] {getType()}, params);
-
-		int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
-			start, end, total);
-
-		return new BaseModelSearchResult<>(
-			RoleServiceUtil.search(
+		return BaseModelSearchResult.createWithStartAndEnd(
+			startAndEnd -> RoleServiceUtil.search(
 				companyId, keywords, new Integer[] {getType()}, params,
-				startAndEnd[0], startAndEnd[1], orderByComparator),
-			total);
+				startAndEnd.getStart(), startAndEnd.getEnd(),
+				orderByComparator),
+			RoleServiceUtil.searchCount(
+				companyId, keywords, new Integer[] {getType()}, params),
+			start, end
+		);
 	}
 
 }

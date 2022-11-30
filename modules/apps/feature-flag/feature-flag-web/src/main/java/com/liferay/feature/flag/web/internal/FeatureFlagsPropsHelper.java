@@ -37,9 +37,6 @@ import java.util.regex.Pattern;
 public class FeatureFlagsPropsHelper {
 
 	public FeatureFlagsPropsHelper() {
-		_properties = PropsUtil.getProperties(
-			FeatureFlagConstants.FEATURE_FLAG + StringPool.PERIOD, true);
-
 		Set<String> keySet = new HashSet<>();
 
 		for (String stringPropertyName : _properties.stringPropertyNames()) {
@@ -88,8 +85,10 @@ public class FeatureFlagsPropsHelper {
 		return stringValues[stringValues.length - 1];
 	}
 
-	private final Set<String> _keySet;
 	private static final Pattern _pattern = Pattern.compile("^([A-Z\\-0-9]+)$");
-	private final Properties _properties;
+
+	private final Set<String> _keySet;
+	private final Properties _properties = PropsUtil.getProperties(
+		FeatureFlagConstants.FEATURE_FLAG + StringPool.PERIOD, true);
 
 }

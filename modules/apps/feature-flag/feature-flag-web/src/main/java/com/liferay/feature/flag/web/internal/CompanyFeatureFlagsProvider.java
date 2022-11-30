@@ -14,14 +14,16 @@
 
 package com.liferay.feature.flag.web.internal;
 
-import com.liferay.feature.flag.FeatureFlagsProvider;
+import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -29,32 +31,21 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(
 	service = {
-		FeatureFlagsProvider.class, FeatureFlagsProviderImpl.class,
-		PortalInstanceLifecycleListener.class
+		CompanyFeatureFlagsProvider.class, PortalInstanceLifecycleListener.class
 	}
 )
-public class FeatureFlagsProviderImpl
-	implements FeatureFlagsProvider, PortalInstanceLifecycleListener {
+public class CompanyFeatureFlagsProvider
+	implements PortalInstanceLifecycleListener {
 
-	public FeatureFlags getFeatureFlags(long companyId) {
+	public CompanyFeatureFlags getCompanyFeatureFlags(long companyId) {
 		return _featureFlagsMap.get(companyId);
-	}
-
-	@Override
-	public boolean isEnabled(long companyId, String key) {
-		FeatureFlags featureFlags = getFeatureFlags(companyId);
-
-		return featureFlags.isEnabled(key);
-	}
-
-	public boolean isEnabled(String key) {
-		return isEnabled(CompanyThreadLocal.getCompanyId(), key);
 	}
 
 	@Override
 	public void portalInstanceRegistered(Company company) {
 		_featureFlagsMap.put(
-			company.getCompanyId(), new FeatureFlags(company.getCompanyId()));
+			company.getCompanyId(),
+			new CompanyFeatureFlags(company.getCompanyId()));
 	}
 
 	@Override
@@ -62,7 +53,19 @@ public class FeatureFlagsProviderImpl
 		_featureFlagsMap.remove(company.getCompanyId());
 	}
 
-	private final Map<Long, FeatureFlags> _featureFlagsMap =
+	@Activate
+	protected void activate() {
+		try (SafeCloseable safeCloseable =
+				CompanyThreadLocal.setWithSafeCloseable(
+					CompanyConstants.SYSTEM)) {
+
+			_featureFlagsMap.put(
+				CompanyConstants.SYSTEM,
+				new CompanyFeatureFlags(CompanyConstants.SYSTEM));
+		}
+	}
+
+	private final Map<Long, CompanyFeatureFlags> _featureFlagsMap =
 		new ConcurrentHashMap<>();
 
 }

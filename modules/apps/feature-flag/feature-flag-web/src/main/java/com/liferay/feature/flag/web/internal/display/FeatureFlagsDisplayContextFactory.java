@@ -15,8 +15,8 @@
 package com.liferay.feature.flag.web.internal.display;
 
 import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
-import com.liferay.feature.flag.web.internal.FeatureFlags;
-import com.liferay.feature.flag.web.internal.FeatureFlagsProviderImpl;
+import com.liferay.feature.flag.web.internal.CompanyFeatureFlags;
+import com.liferay.feature.flag.web.internal.CompanyFeatureFlagsProvider;
 import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagStatus;
@@ -43,7 +43,6 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -55,8 +54,7 @@ import org.osgi.service.component.annotations.Reference;
 public class FeatureFlagsDisplayContextFactory {
 
 	public FeatureFlagsDisplayContext create(
-		HttpServletRequest httpServletRequest,
-		HttpServletResponse httpServletResponse, FeatureFlagStatus status) {
+		HttpServletRequest httpServletRequest, FeatureFlagStatus status) {
 
 		FeatureFlagsDisplayContext featureFlagsDisplayContext =
 			new FeatureFlagsDisplayContext();
@@ -101,8 +99,9 @@ public class FeatureFlagsDisplayContextFactory {
 				portletRequest, ConfigurationAdminPortletKeys.INSTANCE_SETTINGS,
 				"order-by-type", "asc"));
 
-		FeatureFlags featureFlags = _featureFlagsProviderImpl.getFeatureFlags(
-			_portal.getCompanyId(httpServletRequest));
+		CompanyFeatureFlags companyFeatureFlags =
+			_companyFeatureFlagsProvider.getCompanyFeatureFlags(
+				_portal.getCompanyId(httpServletRequest));
 
 		Predicate<FeatureFlag> predicate = status.getPredicate();
 
@@ -124,7 +123,7 @@ public class FeatureFlagsDisplayContextFactory {
 		}
 
 		List<FeatureFlagDisplay> featureFlagDisplays = TransformUtil.transform(
-			featureFlags.getFeatureFlags(predicate),
+			companyFeatureFlags.getFeatureFlags(predicate),
 			featureFlag -> new FeatureFlagDisplay(featureFlag, locale));
 
 		Comparator<FeatureFlagDisplay> comparator = Comparator.comparing(
@@ -170,7 +169,7 @@ public class FeatureFlagsDisplayContextFactory {
 	}
 
 	@Reference
-	private FeatureFlagsProviderImpl _featureFlagsProviderImpl;
+	private CompanyFeatureFlagsProvider _companyFeatureFlagsProvider;
 
 	@Reference
 	private Portal _portal;

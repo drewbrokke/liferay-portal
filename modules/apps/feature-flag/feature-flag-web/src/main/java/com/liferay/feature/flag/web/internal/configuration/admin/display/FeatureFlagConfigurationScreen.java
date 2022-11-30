@@ -77,7 +77,7 @@ public class FeatureFlagConfigurationScreen implements ConfigurationScreen {
 		httpServletRequest.setAttribute(
 			WebKeys.PORTLET_DISPLAY_CONTEXT,
 			_featureFlagsDisplayContextFactory.create(
-				httpServletRequest, httpServletResponse, _status));
+				httpServletRequest, _status));
 
 		try {
 			RequestDispatcher requestDispatcher =

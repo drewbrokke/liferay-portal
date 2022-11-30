@@ -30,12 +30,10 @@ import java.util.function.Predicate;
 /**
  * @author Drew Brokke
  */
-public class FeatureFlags {
+public class CompanyFeatureFlags {
 
-	public FeatureFlags(long companyId) {
+	public CompanyFeatureFlags(long companyId) {
 		Map<String, FeatureFlag> map = new HashMap<>();
-
-		_featureFlagsPropsHelper = new FeatureFlagsPropsHelper();
 
 		for (String key : _featureFlagsPropsHelper.getKeySet()) {
 			FeatureFlag featureFlag = new PropertyFeatureFlag(
@@ -52,12 +50,6 @@ public class FeatureFlags {
 		}
 
 		_featureFlagMap = Collections.unmodifiableMap(map);
-	}
-
-	private final FeatureFlagsPropsHelper _featureFlagsPropsHelper;
-
-	public FeatureFlag get(String key) {
-		return _featureFlagMap.get(key);
 	}
 
 	public List<FeatureFlag> getFeatureFlags(Predicate<FeatureFlag> predicate) {
@@ -89,5 +81,7 @@ public class FeatureFlags {
 	}
 
 	private final Map<String, FeatureFlag> _featureFlagMap;
+	private final FeatureFlagsPropsHelper _featureFlagsPropsHelper =
+		new FeatureFlagsPropsHelper();
 
 }
