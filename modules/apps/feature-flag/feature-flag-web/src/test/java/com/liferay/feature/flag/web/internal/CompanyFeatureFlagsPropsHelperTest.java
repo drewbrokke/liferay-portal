@@ -15,14 +15,17 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
+import com.liferay.feature.flag.web.internal.model.FeatureFlagStatus;
 import com.liferay.petra.lang.CentralizedThreadLocal;
 import com.liferay.petra.lang.SafeCloseable;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.model.CompanyWrapper;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.NewEnv;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import com.liferay.portal.util.PropsImpl;
 import com.liferay.portal.util.PropsUtil;
@@ -39,6 +42,7 @@ import org.junit.Test;
 /**
  * @author Drew Brokke
  */
+@NewEnv(type = NewEnv.Type.JVM)
 public class CompanyFeatureFlagsPropsHelperTest {
 
 	@ClassRule
@@ -54,10 +58,92 @@ public class CompanyFeatureFlagsPropsHelperTest {
 		com.liferay.portal.kernel.util.PropsUtil.setProps(new PropsImpl());
 	}
 
-	@NewEnv(type = NewEnv.Type.JVM)
+	@Test
+	public void testGetDescription() {
+		String key = "ABC-123";
+		String value = RandomTestUtil.randomString();
+
+		PropsUtil.set(FeatureFlagConstants.getKey(key, "description"), value);
+
+		withFeatureFlagPropsHelper(
+			featureFlagsPropsHelper -> {
+				Assert.assertEquals(
+					value, featureFlagsPropsHelper.getDescription(key));
+				Assert.assertEquals(
+					StringPool.BLANK,
+					featureFlagsPropsHelper.getDescription("XYZ-123"));
+			});
+	}
+
+	@Test
+	public void testGetKeySet() {
+		String validKey = "ABC-123";
+		String invalidKey = "invalid";
+		String absentKey = "absent";
+
+		PropsUtil.set(
+			FeatureFlagConstants.getKey(validKey), Boolean.TRUE.toString());
+		PropsUtil.set(
+			FeatureFlagConstants.getKey(invalidKey), Boolean.TRUE.toString());
+
+		withFeatureFlagPropsHelper(
+			featureFlagsPropsHelper -> {
+				Set<String> keySet = featureFlagsPropsHelper.getKeySet();
+
+				Assert.assertTrue(keySet.contains(validKey));
+				Assert.assertFalse(keySet.contains(invalidKey));
+				Assert.assertFalse(keySet.contains(absentKey));
+			});
+	}
+
+	@Test
+	public void testGetStatus() {
+		String betaKey = "BETA-123";
+		String devKey = "DEV-123";
+		String releaseKey = "RELEASE-123";
+
+		_setStatus(betaKey, FeatureFlagStatus.BETA);
+		_setStatus(devKey, FeatureFlagStatus.DEV);
+		_setStatus(releaseKey, FeatureFlagStatus.RELEASE);
+
+		withFeatureFlagPropsHelper(
+			featureFlagsPropsHelper -> {
+				Assert.assertEquals(
+					FeatureFlagStatus.BETA,
+					featureFlagsPropsHelper.getStatus(betaKey));
+				Assert.assertEquals(
+					FeatureFlagStatus.DEV,
+					featureFlagsPropsHelper.getStatus(devKey));
+				Assert.assertEquals(
+					FeatureFlagStatus.RELEASE,
+					featureFlagsPropsHelper.getStatus(releaseKey));
+
+				Assert.assertEquals(
+					FeatureFlagStatus.DEV,
+					featureFlagsPropsHelper.getStatus("ABC-123"));
+			});
+	}
+
+	@Test
+	public void testGetTitle() {
+		String key = "ABC-123";
+		String value = RandomTestUtil.randomString();
+
+		PropsUtil.set(FeatureFlagConstants.getKey(key, "title"), value);
+
+		withFeatureFlagPropsHelper(
+			featureFlagsPropsHelper -> {
+				Assert.assertEquals(
+					value, featureFlagsPropsHelper.getTitle(key));
+				Assert.assertEquals(
+					StringPool.BLANK,
+					featureFlagsPropsHelper.getTitle("XYZ-123"));
+			});
+	}
+
 	@NewEnv.JVMArgsLine("-Dcompany-id-properties=true")
 	@Test
-	public void testIsEnabledByCompany() {
+	public void testIsEnabled() {
 		String systemKey1 = "ABC-123";
 		String systemKey2 = "ABC-456";
 
@@ -153,6 +239,14 @@ public class CompanyFeatureFlagsPropsHelperTest {
 
 			withFeatureFlagPropsHelper(featureFlagsPropsHelperConsumer);
 		}
+	}
+
+	private void _setStatus(
+		String featureFlagKey, FeatureFlagStatus featureFlagStatus) {
+
+		PropsUtil.set(
+			FeatureFlagConstants.getKey(featureFlagKey, "status"),
+			featureFlagStatus.toString());
 	}
 
 	private CentralizedThreadLocal<Long> _companyIdThreadLocal;

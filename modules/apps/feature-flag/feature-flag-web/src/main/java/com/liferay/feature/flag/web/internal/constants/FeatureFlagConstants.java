@@ -17,6 +17,7 @@ package com.liferay.feature.flag.web.internal.constants;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.petra.string.StringUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 
 /**
  * @author Drew Brokke
@@ -26,6 +27,10 @@ public class FeatureFlagConstants {
 	public static final String FEATURE_FLAG = "feature.flag";
 
 	public static String getKey(String... parts) {
+		if (ArrayUtil.isEmpty(parts)) {
+			return FEATURE_FLAG;
+		}
+
 		return StringBundler.concat(
 			FEATURE_FLAG, StringPool.PERIOD,
 			StringUtil.merge(parts, StringPool.PERIOD));
