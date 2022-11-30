@@ -17,7 +17,9 @@ package com.liferay.feature.flag.web.internal;
 import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.feature.flag.web.internal.model.LanguageAwareFeatureFlag;
 import com.liferay.feature.flag.web.internal.model.PreferenceAwareFeatureFlag;
-import com.liferay.feature.flag.web.internal.model.PropertyFeatureFlag;
+import com.liferay.feature.flag.web.internal.model.FeatureFlagImpl;
+import com.liferay.portal.json.JSONObjectImpl;
+import com.liferay.portal.kernel.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +38,7 @@ public class CompanyFeatureFlags {
 		Map<String, FeatureFlag> map = new HashMap<>();
 
 		for (String key : _featureFlagsPropsHelper.getKeySet()) {
-			FeatureFlag featureFlag = new PropertyFeatureFlag(
+			FeatureFlag featureFlag = new FeatureFlagImpl(
 				key, _featureFlagsPropsHelper.isEnabled(key),
 				_featureFlagsPropsHelper.getStatus(key),
 				_featureFlagsPropsHelper.getTitle(key),
@@ -68,6 +70,16 @@ public class CompanyFeatureFlags {
 		featureFlags.sort(Comparator.comparing(FeatureFlag::getKey));
 
 		return featureFlags;
+	}
+
+	public JSONObject getFeatureFlagsJSON() {
+		JSONObject jsonObject = new JSONObjectImpl();
+
+		for (FeatureFlag featureFlag : _featureFlagMap.values()) {
+			jsonObject.put(featureFlag.getKey(), featureFlag.isEnabled());
+		}
+
+		return jsonObject;
 	}
 
 	public boolean isEnabled(String key) {

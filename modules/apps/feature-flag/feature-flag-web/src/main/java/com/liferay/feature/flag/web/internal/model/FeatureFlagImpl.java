@@ -19,9 +19,9 @@ import java.util.Locale;
 /**
  * @author Drew Brokke
  */
-public class PropertyFeatureFlag implements FeatureFlag {
+public class FeatureFlagImpl implements FeatureFlag {
 
-	public PropertyFeatureFlag(
+	public FeatureFlagImpl(
 		String key, boolean enabled, FeatureFlagStatus status, String title,
 		String description) {
 
