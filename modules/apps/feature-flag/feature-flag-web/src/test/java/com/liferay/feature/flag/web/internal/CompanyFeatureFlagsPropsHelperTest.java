@@ -51,7 +51,7 @@ public class CompanyFeatureFlagsPropsHelperTest {
 		LiferayUnitTestRule.INSTANCE;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		_companyIdThreadLocal = ReflectionTestUtil.getFieldValue(
 			CompanyThreadLocal.class, "_companyId");
 
