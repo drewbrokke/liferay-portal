@@ -16,6 +16,7 @@ package com.liferay.feature.flag.web.internal.configuration.admin.category;
 
 import com.liferay.configuration.admin.category.ConfigurationCategory;
 import com.liferay.configuration.admin.display.ConfigurationScreen;
+import com.liferay.feature.flag.FeatureFlagManager;
 import com.liferay.feature.flag.web.internal.configuration.admin.display.FeatureFlagConfigurationScreen;
 import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
 import com.liferay.feature.flag.web.internal.display.FeatureFlagsDisplayContextFactory;
@@ -63,7 +64,7 @@ public class FeatureFlagConfigurationCategory implements ConfigurationCategory {
 					ConfigurationScreen.class,
 					new FeatureFlagConfigurationScreen(
 						_featureFlagsDisplayContextFactory, _servletContext,
-						status),
+						_featureFlagManager, status),
 					new HashMapDictionary<>()));
 		}
 	}
@@ -84,5 +85,8 @@ public class FeatureFlagConfigurationCategory implements ConfigurationCategory {
 
 	@Reference(target = "(osgi.web.symbolicname=com.liferay.feature.flag.web)")
 	private ServletContext _servletContext;
+
+	@Reference
+	private FeatureFlagManager _featureFlagManager;
 
 }
