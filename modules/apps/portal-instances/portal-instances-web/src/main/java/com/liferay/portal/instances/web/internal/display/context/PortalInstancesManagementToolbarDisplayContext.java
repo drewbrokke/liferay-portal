@@ -56,6 +56,8 @@ public class PortalInstancesManagementToolbarDisplayContext
 					).setWindowState(
 						LiferayWindowState.POP_UP
 					).buildString());
+				dropdownItem.putData(
+					"namespace", liferayPortletResponse.getNamespace());
 				dropdownItem.setLabel(
 					LanguageUtil.get(httpServletRequest, "add"));
 			}

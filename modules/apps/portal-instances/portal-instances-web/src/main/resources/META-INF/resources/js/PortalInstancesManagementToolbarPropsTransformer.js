@@ -12,7 +12,68 @@
  * details.
  */
 
-import {openModal} from 'frontend-js-web';
+import {fetch, openModal, getOpener, openToast} from 'frontend-js-web';
+
+function handleOnClick(namespace) {
+	const iframe = document.querySelector('.liferay-modal iframe');
+
+	if (!iframe) {
+		return;
+	}
+
+	const iframeDocument = iframe.contentWindow.document;
+
+	const form = iframeDocument.getElementById(`${namespace}fm`);
+
+	const content = iframeDocument.querySelector('.add-instance-content');
+	const loading = iframeDocument.querySelector('.add-instance-loading');
+
+	const formData = new FormData(form);
+
+	content.classList.add('d-none');
+	content.classList.remove('d-block');
+	loading.classList.add('d-flex');
+
+	const alertContainer = iframeDocument.querySelector(
+		'.add-instance-alert-container'
+	);
+
+	if (alertContainer.hasChildNodes()) {
+		alertContainer.firstChild?.remove();
+	}
+
+	fetch(form.action, {
+		body: formData,
+		method: 'POST',
+	})
+		.then((response) => response.json())
+		.then((response) => {
+			const opener = getOpener();
+
+			if (!response.error) {
+				opener.Liferay.fire('closeModal', {
+					id: `${namespace}addSiteDialog`,
+					redirect: opener.location.href,
+				});
+			}
+			else {
+				content.classList.add('d-block');
+				loading.classList.add('d-none');
+				loading.classList.remove('d-flex');
+
+				openToast({
+					autoClose: false,
+					container: alertContainer,
+					message: response.error,
+					toastProps: {
+						onClose: null,
+					},
+					type: 'danger',
+					variant: 'stripe',
+				});
+			}
+		});
+}
 
 export default function propsTransformer({...otherProps}) {
 	return {
@@ -21,6 +82,19 @@ export default function propsTransformer({...otherProps}) {
 			event.preventDefault();
 
 			openModal({
+				buttons: [
+					{
+						displayType: 'secondary',
+						label: Liferay.Language.get('cancel'),
+						type: 'cancel',
+					},
+					{
+						label: Liferay.Language.get('add'),
+						onClick() {
+							handleOnClick(item?.data.namespace)
+						}
+					},
+				],
 				height: '60vh',
 				iframeBodyCssClass: '',
 				size: 'md',
