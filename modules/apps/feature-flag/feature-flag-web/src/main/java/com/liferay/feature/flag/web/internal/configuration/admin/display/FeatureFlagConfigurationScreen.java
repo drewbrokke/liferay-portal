@@ -15,6 +15,7 @@
 package com.liferay.feature.flag.web.internal.configuration.admin.display;
 
 import com.liferay.configuration.admin.display.ConfigurationScreen;
+import com.liferay.feature.flag.FeatureFlagManager;
 import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
 import com.liferay.feature.flag.web.internal.display.FeatureFlagsDisplayContextFactory;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagStatus;
@@ -36,9 +37,10 @@ public class FeatureFlagConfigurationScreen implements ConfigurationScreen {
 
 	public FeatureFlagConfigurationScreen(
 		FeatureFlagsDisplayContextFactory featureFlagsDisplayContextFactory,
-		ServletContext servletContext, FeatureFlagStatus status) {
+		ServletContext servletContext, FeatureFlagManager featureFlagManager, FeatureFlagStatus status) {
 
 		_featureFlagsDisplayContextFactory = featureFlagsDisplayContextFactory;
+		_featureFlagManager = featureFlagManager;
 		_servletContext = servletContext;
 		_status = status;
 	}
@@ -65,7 +67,13 @@ public class FeatureFlagConfigurationScreen implements ConfigurationScreen {
 
 	@Override
 	public boolean isVisible() {
-		return _status.isUIEnabled();
+		if (_featureFlagManager.isEnabled("LPS-167698") &&
+			_status.isUIEnabled()) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
@@ -95,5 +103,7 @@ public class FeatureFlagConfigurationScreen implements ConfigurationScreen {
 		_featureFlagsDisplayContextFactory;
 	private final ServletContext _servletContext;
 	private final FeatureFlagStatus _status;
+
+	private final FeatureFlagManager _featureFlagManager;
 
 }
