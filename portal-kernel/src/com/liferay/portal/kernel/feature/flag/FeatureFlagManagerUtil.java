@@ -71,9 +71,8 @@ public class FeatureFlagManagerUtil {
 	static {
 		BundleContext bundleContext = SystemBundleUtil.getBundleContext();
 
-		_serviceTracker =
-			new ServiceTracker<>(bundleContext, FeatureFlagManager.class,
-				null);
+		_serviceTracker = new ServiceTracker<>(
+			bundleContext, FeatureFlagManager.class, null);
 	}
 
 }
