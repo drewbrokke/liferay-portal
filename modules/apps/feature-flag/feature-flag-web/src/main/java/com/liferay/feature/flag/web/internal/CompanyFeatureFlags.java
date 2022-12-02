@@ -18,11 +18,11 @@ import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagImpl;
 import com.liferay.feature.flag.web.internal.model.LanguageAwareFeatureFlag;
 import com.liferay.feature.flag.web.internal.model.PreferenceAwareFeatureFlag;
-import com.liferay.portal.json.JSONObjectImpl;
-import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.feature.flag.web.internal.util.FeatureFlagsJSONUtil;
 import com.liferay.portal.kernel.language.Language;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -77,14 +77,15 @@ public class CompanyFeatureFlags {
 		return featureFlags;
 	}
 
-	public JSONObject getFeatureFlagsJSONObject() {
-		JSONObject jsonObject = new JSONObjectImpl();
+	public String getFeatureFlagsJSON() {
+		Collection<FeatureFlag> featureFlags = _featureFlagMap.values();
 
-		for (FeatureFlag featureFlag : _featureFlagMap.values()) {
-			jsonObject.put(featureFlag.getKey(), featureFlag.isEnabled());
-		}
+		return FeatureFlagsJSONUtil.toJSON(
+			featureFlags.toArray(new FeatureFlag[0]));
+	}
 
-		return jsonObject;
+	public FeatureFlagsPropsHelper getFeatureFlagsPropsHelper() {
+		return _featureFlagsPropsHelper;
 	}
 
 	public boolean isEnabled(String key) {
