@@ -23,6 +23,7 @@ page import="com.liferay.portal.kernel.portlet.render.PortletRenderUtil" %><%@
 page import="com.liferay.portal.kernel.servlet.BrowserMetadata" %><%@
 page import="com.liferay.portal.kernel.upload.UploadServletRequestConfigurationHelperUtil" %><%@
 page import="com.liferay.portal.util.LayoutTypeAccessPolicyTracker" %><%@
+page import="com.liferay.portal.feature.flag.FeatureFlagJSONHelperUtil" %><%@
 page import="com.liferay.portlet.PortletTreeSet" %><%@
 page import="com.liferay.portlet.internal.RenderStateUtil" %><%@
 page import="com.liferay.taglib.aui.ScriptTag" %>

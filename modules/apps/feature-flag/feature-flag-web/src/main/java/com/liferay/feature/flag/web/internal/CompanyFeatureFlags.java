@@ -20,6 +20,7 @@ import com.liferay.feature.flag.web.internal.model.LanguageAwareFeatureFlag;
 import com.liferay.feature.flag.web.internal.model.PreferenceAwareFeatureFlag;
 import com.liferay.feature.flag.web.internal.util.FeatureFlagsJSONUtil;
 import com.liferay.portal.kernel.language.Language;
+import com.liferay.portal.util.PropsValues;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +29,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -49,9 +51,11 @@ public class CompanyFeatureFlags {
 				_featureFlagsPropsHelper.getTitle(key),
 				_featureFlagsPropsHelper.getDescription(key));
 
-			featureFlag = new LanguageAwareFeatureFlag(featureFlag, language);
-			featureFlag = new PreferenceAwareFeatureFlag(
-				featureFlag, companyId, featureFlagsPreferencesHelper);
+			if (isFeatureEnabled) {
+				featureFlag = new LanguageAwareFeatureFlag(featureFlag, language);
+				featureFlag = new PreferenceAwareFeatureFlag(
+					featureFlag, companyId, featureFlagsPreferencesHelper);
+			}
 
 			map.put(featureFlag.getKey(), featureFlag);
 		}
@@ -78,28 +82,31 @@ public class CompanyFeatureFlags {
 	}
 
 	public String getFeatureFlagsJSON() {
-		Collection<FeatureFlag> featureFlags = _featureFlagMap.values();
+		if (isFeatureEnabled) {
+			Collection<FeatureFlag> featureFlags = _featureFlagMap.values();
 
-		return FeatureFlagsJSONUtil.toJSON(
-			featureFlags.toArray(new FeatureFlag[0]));
-	}
+			return FeatureFlagsJSONUtil.toJSON(
+				featureFlags.toArray(new FeatureFlag[0]));
+		}
 
-	public FeatureFlagsPropsHelper getFeatureFlagsPropsHelper() {
-		return _featureFlagsPropsHelper;
+		return PropsValues.FEATURE_FLAGS_JSON;
 	}
 
 	public boolean isEnabled(String key) {
 		FeatureFlag featureFlag = _featureFlagMap.get(key);
 
-		if (featureFlag == null) {
-			return _featureFlagsPropsHelper.isEnabled(key);
+		if (featureFlag != null) {
+			return featureFlag.isEnabled();
 		}
 
-		return featureFlag.isEnabled();
+		return _featureFlagsPropsHelper.isEnabled(key);
+
 	}
 
 	private final Map<String, FeatureFlag> _featureFlagMap;
 	private final FeatureFlagsPropsHelper _featureFlagsPropsHelper =
 		new FeatureFlagsPropsHelper();
+
+	private final boolean isFeatureEnabled = _featureFlagsPropsHelper.isEnabled("LPS-167698");
 
 }
