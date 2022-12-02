@@ -14,7 +14,7 @@
 
 package com.liferay.feature.flag.web.internal.model;
 
-import com.liferay.feature.flag.web.internal.util.FeatureFlagsPreferencesUtil;
+import com.liferay.feature.flag.web.internal.FeatureFlagsPreferencesHelper;
 import com.liferay.portal.kernel.util.GetterUtil;
 
 /**
@@ -22,19 +22,24 @@ import com.liferay.portal.kernel.util.GetterUtil;
  */
 public class PreferenceAwareFeatureFlag extends FeatureFlagWrapper {
 
-	public PreferenceAwareFeatureFlag(FeatureFlag featureFlag, long companyId) {
+	public PreferenceAwareFeatureFlag(
+		FeatureFlag featureFlag, long companyId,
+		FeatureFlagsPreferencesHelper featureFlagsPreferencesHelper) {
+
 		super(featureFlag);
 
 		_companyId = companyId;
+		_featureFlagsPreferencesHelper = featureFlagsPreferencesHelper;
 	}
 
 	@Override
 	public boolean isEnabled() {
 		return GetterUtil.getBoolean(
-			FeatureFlagsPreferencesUtil.isEnabled(_companyId, getKey()),
+			_featureFlagsPreferencesHelper.isEnabled(_companyId, getKey()),
 			super.isEnabled());
 	}
 
 	private final long _companyId;
+	private final FeatureFlagsPreferencesHelper _featureFlagsPreferencesHelper;
 
 }

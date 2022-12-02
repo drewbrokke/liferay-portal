@@ -77,6 +77,9 @@ public class FeatureFlagConfigurationCategory implements ConfigurationCategory {
 	}
 
 	@Reference
+	private FeatureFlagManager _featureFlagManager;
+
+	@Reference
 	private FeatureFlagsDisplayContextFactory
 		_featureFlagsDisplayContextFactory;
 
@@ -85,8 +88,5 @@ public class FeatureFlagConfigurationCategory implements ConfigurationCategory {
 
 	@Reference(target = "(osgi.web.symbolicname=com.liferay.feature.flag.web)")
 	private ServletContext _servletContext;
-
-	@Reference
-	private FeatureFlagManager _featureFlagManager;
 
 }

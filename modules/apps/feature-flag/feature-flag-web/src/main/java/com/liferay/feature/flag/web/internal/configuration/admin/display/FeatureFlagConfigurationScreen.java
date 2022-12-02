@@ -37,11 +37,12 @@ public class FeatureFlagConfigurationScreen implements ConfigurationScreen {
 
 	public FeatureFlagConfigurationScreen(
 		FeatureFlagsDisplayContextFactory featureFlagsDisplayContextFactory,
-		ServletContext servletContext, FeatureFlagManager featureFlagManager, FeatureFlagStatus status) {
+		ServletContext servletContext, FeatureFlagManager featureFlagManager,
+		FeatureFlagStatus status) {
 
 		_featureFlagsDisplayContextFactory = featureFlagsDisplayContextFactory;
-		_featureFlagManager = featureFlagManager;
 		_servletContext = servletContext;
+		_featureFlagManager = featureFlagManager;
 		_status = status;
 	}
 
@@ -99,11 +100,10 @@ public class FeatureFlagConfigurationScreen implements ConfigurationScreen {
 		}
 	}
 
+	private final FeatureFlagManager _featureFlagManager;
 	private final FeatureFlagsDisplayContextFactory
 		_featureFlagsDisplayContextFactory;
 	private final ServletContext _servletContext;
 	private final FeatureFlagStatus _status;
-
-	private final FeatureFlagManager _featureFlagManager;
 
 }

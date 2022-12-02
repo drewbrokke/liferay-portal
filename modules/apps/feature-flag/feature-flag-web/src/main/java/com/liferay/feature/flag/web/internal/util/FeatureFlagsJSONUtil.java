@@ -12,30 +12,25 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal.constants;
+package com.liferay.feature.flag.web.internal.util;
 
-import com.liferay.portal.test.rule.LiferayUnitTestRule;
-
-import org.junit.Assert;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
+import com.liferay.feature.flag.web.internal.model.FeatureFlag;
+import com.liferay.portal.json.JSONObjectImpl;
+import com.liferay.portal.kernel.json.JSONObject;
 
 /**
  * @author Drew Brokke
  */
-public class FeatureFlagConstantsTest {
+public class FeatureFlagsJSONUtil {
 
-	@ClassRule
-	@Rule
-	public static final LiferayUnitTestRule liferayUnitTestRule =
-		LiferayUnitTestRule.INSTANCE;
+	public static String toJSON(FeatureFlag... featureFlags) {
+		JSONObject jsonObject = new JSONObjectImpl();
 
-	@Test
-	public void testGetKey() {
-		Assert.assertEquals("feature.flag", FeatureFlagConstants.getKey());
-		Assert.assertEquals(
-			"feature.flag.foo.bar", FeatureFlagConstants.getKey("foo", "bar"));
+		for (FeatureFlag featureFlag : featureFlags) {
+			jsonObject.put(featureFlag.getKey(), featureFlag.isEnabled());
+		}
+
+		return jsonObject.toString();
 	}
 
 }
