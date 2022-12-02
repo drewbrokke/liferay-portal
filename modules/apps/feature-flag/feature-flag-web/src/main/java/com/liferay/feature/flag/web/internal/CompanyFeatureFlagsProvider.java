@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -41,6 +42,10 @@ public class CompanyFeatureFlagsProvider
 
 	public CompanyFeatureFlags getCompanyFeatureFlags(long companyId) {
 		return _featureFlagsMap.get(companyId);
+	}
+
+	public <T> T withCompanyFeatureFlags(long companyId, Function<CompanyFeatureFlags, T> companyFeatureFlagsFunction) {
+		return companyFeatureFlagsFunction.apply(getCompanyFeatureFlags(companyId));
 	}
 
 	@Override
