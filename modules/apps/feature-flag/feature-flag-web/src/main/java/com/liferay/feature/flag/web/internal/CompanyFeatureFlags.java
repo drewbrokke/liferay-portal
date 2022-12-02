@@ -15,11 +15,12 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.feature.flag.web.internal.model.FeatureFlag;
+import com.liferay.feature.flag.web.internal.model.FeatureFlagImpl;
 import com.liferay.feature.flag.web.internal.model.LanguageAwareFeatureFlag;
 import com.liferay.feature.flag.web.internal.model.PreferenceAwareFeatureFlag;
-import com.liferay.feature.flag.web.internal.model.FeatureFlagImpl;
 import com.liferay.portal.json.JSONObjectImpl;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.Language;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +35,11 @@ import java.util.function.Predicate;
  */
 public class CompanyFeatureFlags {
 
-	public CompanyFeatureFlags(long companyId) {
+	public CompanyFeatureFlags(
+		long companyId,
+		FeatureFlagsPreferencesHelper featureFlagsPreferencesHelper,
+		Language language) {
+
 		Map<String, FeatureFlag> map = new HashMap<>();
 
 		for (String key : _featureFlagsPropsHelper.getKeySet()) {
@@ -44,9 +49,9 @@ public class CompanyFeatureFlags {
 				_featureFlagsPropsHelper.getTitle(key),
 				_featureFlagsPropsHelper.getDescription(key));
 
-			featureFlag = new LanguageAwareFeatureFlag(featureFlag);
+			featureFlag = new LanguageAwareFeatureFlag(featureFlag, language);
 			featureFlag = new PreferenceAwareFeatureFlag(
-				featureFlag, companyId);
+				featureFlag, companyId, featureFlagsPreferencesHelper);
 
 			map.put(featureFlag.getKey(), featureFlag);
 		}
@@ -72,7 +77,7 @@ public class CompanyFeatureFlags {
 		return featureFlags;
 	}
 
-	public JSONObject getFeatureFlagsJSON() {
+	public JSONObject getFeatureFlagsJSONObject() {
 		JSONObject jsonObject = new JSONObjectImpl();
 
 		for (FeatureFlag featureFlag : _featureFlagMap.values()) {

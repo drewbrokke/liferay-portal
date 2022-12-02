@@ -15,7 +15,7 @@
 package com.liferay.feature.flag.web.internal.model;
 
 import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 
 import java.util.Locale;
 
@@ -24,22 +24,28 @@ import java.util.Locale;
  */
 public class LanguageAwareFeatureFlag extends FeatureFlagWrapper {
 
-	public LanguageAwareFeatureFlag(FeatureFlag featureFlag) {
+	public LanguageAwareFeatureFlag(
+		FeatureFlag featureFlag, Language language) {
+
 		super(featureFlag);
+
+		_language = language;
 	}
 
 	@Override
 	public String getDescription(Locale locale) {
-		return LanguageUtil.get(
+		return _language.get(
 			locale, FeatureFlagConstants.getKey(getKey(), "description"),
 			super.getDescription(locale));
 	}
 
 	@Override
 	public String getTitle(Locale locale) {
-		return LanguageUtil.get(
+		return _language.get(
 			locale, FeatureFlagConstants.getKey(getKey(), "title"),
 			super.getTitle(locale));
 	}
+
+	private final Language _language;
 
 }

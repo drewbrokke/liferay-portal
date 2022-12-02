@@ -16,6 +16,7 @@ package com.liferay.feature.flag.web.internal;
 
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
@@ -25,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Drew Brokke
@@ -45,7 +47,9 @@ public class CompanyFeatureFlagsProvider
 	public void portalInstanceRegistered(Company company) {
 		_featureFlagsMap.put(
 			company.getCompanyId(),
-			new CompanyFeatureFlags(company.getCompanyId()));
+			new CompanyFeatureFlags(
+				company.getCompanyId(), _featureFlagsPreferencesHelper,
+				_language));
 	}
 
 	@Override
@@ -61,11 +65,19 @@ public class CompanyFeatureFlagsProvider
 
 			_featureFlagsMap.put(
 				CompanyConstants.SYSTEM,
-				new CompanyFeatureFlags(CompanyConstants.SYSTEM));
+				new CompanyFeatureFlags(
+					CompanyConstants.SYSTEM, _featureFlagsPreferencesHelper,
+					_language));
 		}
 	}
 
 	private final Map<Long, CompanyFeatureFlags> _featureFlagsMap =
 		new ConcurrentHashMap<>();
+
+	@Reference
+	private FeatureFlagsPreferencesHelper _featureFlagsPreferencesHelper;
+
+	@Reference
+	private Language _language;
 
 }
