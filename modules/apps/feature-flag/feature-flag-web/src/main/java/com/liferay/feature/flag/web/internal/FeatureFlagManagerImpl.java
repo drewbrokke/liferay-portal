@@ -31,7 +31,14 @@ public class FeatureFlagManagerImpl implements FeatureFlagManager {
 		CompanyFeatureFlags companyFeatureFlags =
 			_companyFeatureFlagsProvider.getCompanyFeatureFlags(companyId);
 
-		return companyFeatureFlags.isEnabled(key);
+		if (companyFeatureFlags.isEnabled("LPS-167698")) {
+			return companyFeatureFlags.isEnabled(key);
+		}
+
+		FeatureFlagsPropsHelper featureFlagsPropsHelper =
+			companyFeatureFlags.getFeatureFlagsPropsHelper();
+
+		return featureFlagsPropsHelper.isEnabled(key);
 	}
 
 	@Override

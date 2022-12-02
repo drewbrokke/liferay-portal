@@ -122,6 +122,12 @@ public class FeatureFlagsDisplayContextFactory {
 			predicate = predicate.and(filter.getPredicate(httpServletRequest));
 		}
 
+		// Don't allow turning this feature off in the UI, since you'll have to
+		// remake the database in order to see it again.
+
+		predicate = predicate.and(
+			featureFlag -> !Objects.equals("LPS-167698", featureFlag.getKey()));
+
 		List<FeatureFlagDisplay> featureFlagDisplays = TransformUtil.transform(
 			companyFeatureFlags.getFeatureFlags(predicate),
 			featureFlag -> new FeatureFlagDisplay(featureFlag, locale));
