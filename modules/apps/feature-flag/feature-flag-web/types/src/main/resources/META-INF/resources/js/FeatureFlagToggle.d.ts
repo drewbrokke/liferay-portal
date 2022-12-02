@@ -12,6 +12,8 @@
  * details.
  */
 
+/// <reference types="react" />
+
 interface IProps {
 	enabled: boolean;
 	featureFlagKey: string;

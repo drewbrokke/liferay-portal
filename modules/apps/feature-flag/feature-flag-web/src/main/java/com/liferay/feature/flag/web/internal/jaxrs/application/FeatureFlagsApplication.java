@@ -14,7 +14,7 @@
 
 package com.liferay.feature.flag.web.internal.jaxrs.application;
 
-import com.liferay.feature.flag.web.internal.FeatureFlagsPreferencesHelper;
+import com.liferay.feature.flag.web.internal.helper.FeatureFlagsPreferencesHelper;
 import com.liferay.portal.kernel.util.Portal;
 
 import java.util.Collections;

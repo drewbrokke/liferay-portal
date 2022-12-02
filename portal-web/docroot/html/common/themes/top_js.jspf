@@ -152,7 +152,7 @@
 			};
 		})();
 
-		var featureFlags = <%= FeatureFlagJSONHelperUtil.getFeatureFlagJSON(themeDisplay.getCompanyId()) %>;
+		var featureFlags = <%= FeatureFlagManagerUtil.getJSON(themeDisplay.getCompanyId()) %>;
 
 		Liferay.FeatureFlags = Object.keys(featureFlags).reduce(
 			(acc, key) => ({
