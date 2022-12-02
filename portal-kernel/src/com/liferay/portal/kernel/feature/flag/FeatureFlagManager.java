@@ -12,26 +12,17 @@
  * details.
  */
 
-package com.liferay.feature.flag.web.internal;
-
-import com.liferay.portal.feature.flag.FeatureFlagJSONHelper;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+package com.liferay.portal.kernel.feature.flag;
 
 /**
  * @author Drew Brokke
  */
-@Component(service = FeatureFlagJSONHelper.class)
-public class FeatureFlagJSONHelperImpl implements FeatureFlagJSONHelper {
+public interface FeatureFlagManager {
 
-	@Override
-	public String getFeatureFlagJSON(long companyId) {
-		return _companyFeatureFlagsProvider.withCompanyFeatureFlags(
-			companyId, CompanyFeatureFlags::getFeatureFlagsJSON);
-	}
+	public String getJSON(long companyId);
 
-	@Reference
-	private CompanyFeatureFlagsProvider _companyFeatureFlagsProvider;
+	public boolean isEnabled(long companyId, String key);
+
+	public boolean isEnabled(String key);
 
 }

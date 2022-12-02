@@ -14,6 +14,8 @@
 
 package com.liferay.feature.flag.web.internal;
 
+import com.liferay.feature.flag.web.internal.helper.FeatureFlagsPreferencesHelper;
+import com.liferay.feature.flag.web.internal.helper.FeatureFlagsPropsHelper;
 import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagImpl;
 import com.liferay.feature.flag.web.internal.model.LanguageAwareFeatureFlag;

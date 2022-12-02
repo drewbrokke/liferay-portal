@@ -15,6 +15,7 @@
 package com.liferay.feature.flag.web.internal;
 
 import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
+import com.liferay.feature.flag.web.internal.helper.FeatureFlagsPropsHelper;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagStatus;
 import com.liferay.petra.lang.CentralizedThreadLocal;
 import com.liferay.petra.lang.SafeCloseable;

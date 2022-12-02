@@ -14,7 +14,7 @@
 
 package com.liferay.feature.flag.web.internal;
 
-import com.liferay.feature.flag.FeatureFlagManager;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManager;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 
 import org.osgi.service.component.annotations.Component;
@@ -25,6 +25,12 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(service = FeatureFlagManager.class)
 public class FeatureFlagManagerImpl implements FeatureFlagManager {
+
+	@Override
+	public String getJSON(long companyId) {
+		return _companyFeatureFlagsProvider.withCompanyFeatureFlags(
+			companyId, CompanyFeatureFlags::getFeatureFlagsJSON);
+	}
 
 	@Override
 	public boolean isEnabled(long companyId, String key) {

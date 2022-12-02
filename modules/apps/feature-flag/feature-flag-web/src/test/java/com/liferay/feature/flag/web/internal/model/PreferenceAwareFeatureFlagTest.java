@@ -14,7 +14,7 @@
 
 package com.liferay.feature.flag.web.internal.model;
 
-import com.liferay.feature.flag.web.internal.FeatureFlagsPreferencesHelper;
+import com.liferay.feature.flag.web.internal.helper.FeatureFlagsPreferencesHelper;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.LocaleUtil;

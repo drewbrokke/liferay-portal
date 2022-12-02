@@ -14,6 +14,7 @@
 
 package com.liferay.feature.flag.web.internal;
 
+import com.liferay.feature.flag.web.internal.helper.FeatureFlagsPreferencesHelper;
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.language.Language;
