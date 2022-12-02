@@ -24,6 +24,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(service = FeatureFlagJSONHelper.class)
 public class FeatureFlagJSONHelperImpl implements FeatureFlagJSONHelper {
+
 	@Override
 	public String getFeatureFlagJSON(long companyId) {
 		return _companyFeatureFlagsProvider.withCompanyFeatureFlags(
@@ -32,4 +33,5 @@ public class FeatureFlagJSONHelperImpl implements FeatureFlagJSONHelper {
 
 	@Reference
 	private CompanyFeatureFlagsProvider _companyFeatureFlagsProvider;
+
 }

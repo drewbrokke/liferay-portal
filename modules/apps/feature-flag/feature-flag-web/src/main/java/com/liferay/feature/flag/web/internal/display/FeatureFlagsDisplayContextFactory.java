@@ -15,7 +15,6 @@
 package com.liferay.feature.flag.web.internal.display;
 
 import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
-import com.liferay.feature.flag.web.internal.CompanyFeatureFlags;
 import com.liferay.feature.flag.web.internal.CompanyFeatureFlagsProvider;
 import com.liferay.feature.flag.web.internal.model.FeatureFlag;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay;
@@ -99,10 +98,6 @@ public class FeatureFlagsDisplayContextFactory {
 				portletRequest, ConfigurationAdminPortletKeys.INSTANCE_SETTINGS,
 				"order-by-type", "asc"));
 
-		CompanyFeatureFlags companyFeatureFlags =
-			_companyFeatureFlagsProvider.getCompanyFeatureFlags(
-				_portal.getCompanyId(httpServletRequest));
-
 		Predicate<FeatureFlag> predicate = status.getPredicate();
 
 		String keywords = ParamUtil.getString(portletRequest, "keywords");
@@ -128,8 +123,13 @@ public class FeatureFlagsDisplayContextFactory {
 		predicate = predicate.and(
 			featureFlag -> !Objects.equals("LPS-167698", featureFlag.getKey()));
 
+		Predicate<FeatureFlag> finalPredicate = predicate;
+
 		List<FeatureFlagDisplay> featureFlagDisplays = TransformUtil.transform(
-			companyFeatureFlags.getFeatureFlags(predicate),
+			_companyFeatureFlagsProvider.withCompanyFeatureFlags(
+				_portal.getCompanyId(httpServletRequest),
+				companyFeatureFlags1 -> companyFeatureFlags1.getFeatureFlags(
+					finalPredicate)),
 			featureFlag -> new FeatureFlagDisplay(featureFlag, locale));
 
 		Comparator<FeatureFlagDisplay> comparator = Comparator.comparing(

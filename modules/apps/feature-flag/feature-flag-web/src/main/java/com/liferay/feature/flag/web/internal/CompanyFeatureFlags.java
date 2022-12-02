@@ -29,7 +29,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -44,6 +43,9 @@ public class CompanyFeatureFlags {
 
 		Map<String, FeatureFlag> map = new HashMap<>();
 
+		_featureFlagUIEnabled = _featureFlagsPropsHelper.isEnabled(
+			"LPS-167698");
+
 		for (String key : _featureFlagsPropsHelper.getKeySet()) {
 			FeatureFlag featureFlag = new FeatureFlagImpl(
 				key, _featureFlagsPropsHelper.isEnabled(key),
@@ -51,8 +53,9 @@ public class CompanyFeatureFlags {
 				_featureFlagsPropsHelper.getTitle(key),
 				_featureFlagsPropsHelper.getDescription(key));
 
-			if (isFeatureEnabled) {
-				featureFlag = new LanguageAwareFeatureFlag(featureFlag, language);
+			if (_featureFlagUIEnabled) {
+				featureFlag = new LanguageAwareFeatureFlag(
+					featureFlag, language);
 				featureFlag = new PreferenceAwareFeatureFlag(
 					featureFlag, companyId, featureFlagsPreferencesHelper);
 			}
@@ -82,7 +85,7 @@ public class CompanyFeatureFlags {
 	}
 
 	public String getFeatureFlagsJSON() {
-		if (isFeatureEnabled) {
+		if (_featureFlagUIEnabled) {
 			Collection<FeatureFlag> featureFlags = _featureFlagMap.values();
 
 			return FeatureFlagsJSONUtil.toJSON(
@@ -100,13 +103,11 @@ public class CompanyFeatureFlags {
 		}
 
 		return _featureFlagsPropsHelper.isEnabled(key);
-
 	}
 
 	private final Map<String, FeatureFlag> _featureFlagMap;
 	private final FeatureFlagsPropsHelper _featureFlagsPropsHelper =
 		new FeatureFlagsPropsHelper();
-
-	private final boolean isFeatureEnabled = _featureFlagsPropsHelper.isEnabled("LPS-167698");
+	private final boolean _featureFlagUIEnabled;
 
 }
