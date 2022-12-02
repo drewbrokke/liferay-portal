@@ -44,10 +44,6 @@ public class CompanyFeatureFlagsProvider
 		return _featureFlagsMap.get(companyId);
 	}
 
-	public <T> T withCompanyFeatureFlags(long companyId, Function<CompanyFeatureFlags, T> companyFeatureFlagsFunction) {
-		return companyFeatureFlagsFunction.apply(getCompanyFeatureFlags(companyId));
-	}
-
 	@Override
 	public void portalInstanceRegistered(Company company) {
 		_featureFlagsMap.put(
@@ -60,6 +56,14 @@ public class CompanyFeatureFlagsProvider
 	@Override
 	public void portalInstanceUnregistered(Company company) {
 		_featureFlagsMap.remove(company.getCompanyId());
+	}
+
+	public <T> T withCompanyFeatureFlags(
+		long companyId,
+		Function<CompanyFeatureFlags, T> companyFeatureFlagsFunction) {
+
+		return companyFeatureFlagsFunction.apply(
+			_featureFlagsMap.get(companyId));
 	}
 
 	@Activate
