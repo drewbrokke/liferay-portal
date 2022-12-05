@@ -14,7 +14,6 @@
 
 package com.liferay.roles.admin.role.type.contributor;
 
-import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
@@ -187,8 +186,7 @@ public interface RoleTypeContributor {
 				orderByComparator),
 			RoleServiceUtil.searchCount(
 				companyId, keywords, new Integer[] {getType()}, params),
-			start, end
-		);
+			start, end);
 	}
 
 }
