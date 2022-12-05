@@ -15,7 +15,6 @@
 package com.liferay.feature.flag.web.internal.model;
 
 import java.util.Locale;
-import java.util.Objects;
 
 /**
  * @author Drew Brokke

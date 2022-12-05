@@ -16,39 +16,34 @@ package com.liferay.portal.kernel.feature.flag;
 
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.module.util.SystemBundleUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
-import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * @author Drew Brokke
  */
 public class FeatureFlagManagerUtil {
 
-	private static final String _FEATURE_FLAGS_JSON = String.valueOf(
-		JSONFactoryUtil.createJSONObject(
-			PropsUtil.getProperties("feature.flag.", true)));
-
 	public static String getJSON(long companyId) {
-		return withFeatureFlagManager(
+		return _withFeatureFlagManager(
 			featureFlagManager -> featureFlagManager.getJSON(companyId),
 			() -> _FEATURE_FLAGS_JSON);
 	}
 
 	public static boolean isEnabled(long companyId, String key) {
-		return withFeatureFlagManager(
+		return _withFeatureFlagManager(
 			featureFlagManager -> featureFlagManager.isEnabled(companyId, key),
 			() -> {
 				try (SafeCloseable safeCloseable =
-						 CompanyThreadLocal.setWithSafeCloseable(companyId)) {
+						CompanyThreadLocal.setWithSafeCloseable(companyId)) {
 
 					return GetterUtil.getBoolean(
 						PropsUtil.get("feature.flag." + key));
@@ -57,12 +52,12 @@ public class FeatureFlagManagerUtil {
 	}
 
 	public static boolean isEnabled(String key) {
-		return withFeatureFlagManager(
+		return _withFeatureFlagManager(
 			featureFlagManager -> featureFlagManager.isEnabled(key),
 			() -> GetterUtil.getBoolean(PropsUtil.get("feature.flag." + key)));
 	}
 
-	private static <T> T withFeatureFlagManager(
+	private static <T> T _withFeatureFlagManager(
 		Function<FeatureFlagManager, T> featureFlagManagerFunction,
 		Supplier<T> defaultValueSupplier) {
 
@@ -75,6 +70,9 @@ public class FeatureFlagManagerUtil {
 		return defaultValueSupplier.get();
 	}
 
+	private static final String _FEATURE_FLAGS_JSON = String.valueOf(
+		JSONFactoryUtil.createJSONObject(
+			PropsUtil.getProperties("feature.flag.", true)));
 
 	private static final ServiceTracker<FeatureFlagManager, FeatureFlagManager>
 		_serviceTracker;
@@ -82,10 +80,12 @@ public class FeatureFlagManagerUtil {
 	static {
 		BundleContext bundleContext = SystemBundleUtil.getBundleContext();
 
-		_serviceTracker = new ServiceTracker<>(
-			bundleContext, FeatureFlagManager.class, null);
+		ServiceTracker<FeatureFlagManager, FeatureFlagManager> serviceTracker =
+			new ServiceTracker<>(bundleContext, FeatureFlagManager.class, null);
 
-		_serviceTracker.open();
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
 	}
 
 }
