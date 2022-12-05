@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -98,6 +99,10 @@ public class CompanyFeatureFlags {
 	}
 
 	public boolean isEnabled(String key) {
+		if (Objects.equals("LPS-167698", key)) {
+			return _featureFlagUIEnabled;
+		}
+
 		FeatureFlag featureFlag = _featureFlagMap.get(key);
 
 		if (featureFlag != null) {

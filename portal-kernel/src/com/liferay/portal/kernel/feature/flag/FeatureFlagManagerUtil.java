@@ -73,6 +73,8 @@ public class FeatureFlagManagerUtil {
 
 		_serviceTracker = new ServiceTracker<>(
 			bundleContext, FeatureFlagManager.class, null);
+
+		_serviceTracker.open();
 	}
 
 }
