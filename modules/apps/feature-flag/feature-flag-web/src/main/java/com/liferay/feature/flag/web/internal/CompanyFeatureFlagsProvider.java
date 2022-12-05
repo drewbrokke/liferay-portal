@@ -41,10 +41,6 @@ import org.osgi.service.component.annotations.Reference;
 public class CompanyFeatureFlagsProvider
 	implements PortalInstanceLifecycleListener {
 
-	public CompanyFeatureFlags getCompanyFeatureFlags(long companyId) {
-		return _featureFlagsMap.get(companyId);
-	}
-
 	@Override
 	public void portalInstanceRegistered(Company company) {
 		_featureFlagsMap.put(
