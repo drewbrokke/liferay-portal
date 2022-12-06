@@ -132,40 +132,37 @@ function InviteUsersForm({
 	const submitForm: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
 
-		const form = document.querySelector(`#${formId}`) as HTMLFormElement;
+		const form = event.currentTarget;
 
-		const error = form?.querySelector('.has-error');
+		if (form.querySelector('.has-error')) {
+			return;
+		}
 
-		if (!error && form) {
-			const formData = new FormData(form);
+		const formData = new FormData(form);
 
-			formData.append(
-				`${portletNamespace}count`,
-				String(inputGroups.length)
-			);
+		formData.set(`${portletNamespace}count`, String(inputGroups.length));
 
-			const response = await Liferay.Util.fetch(inviteAccountUsersURL, {
-				body: formData,
-				method: 'POST',
+		const response = await Liferay.Util.fetch(inviteAccountUsersURL, {
+			body: formData,
+			method: 'POST',
+		});
+
+		const {success} = await response.json();
+
+		if (success) {
+			closeModal({
+				id: `${portletNamespace}inviteUsersDialog`,
+				redirect: redirectURL,
 			});
-
-			const {success} = await response.json();
-
-			if (success) {
-				closeModal({
-					id: `${portletNamespace}inviteUsersDialog`,
-					redirect: redirectURL,
-				});
-			}
-			else {
-				Liferay.Util.openToast({
-					message: Liferay.Language.get(
-						'your-request-failed-to-complete'
-					),
-					title: Liferay.Language.get('error'),
-					type: 'danger',
-				});
-			}
+		}
+		else {
+			Liferay.Util.openToast({
+				message: Liferay.Language.get(
+					'your-request-failed-to-complete'
+				),
+				title: Liferay.Language.get('error'),
+				type: 'danger',
+			});
 		}
 	};
 
