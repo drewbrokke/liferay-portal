@@ -17,7 +17,7 @@ import ClayForm from '@clayui/form';
 import ClayIcon from '@clayui/icon';
 import ClayLayout from '@clayui/layout';
 import {sub} from 'frontend-js-web';
-import React, {MouseEventHandler, useState} from 'react';
+import React, {FormEventHandler, useState} from 'react';
 
 import InviteUserFormGroup from './InviteUsersFormGroup';
 import {InputGroup, MultiSelectItem, ValidatableMultiSelectItem} from './types';
@@ -129,7 +129,7 @@ function InviteUsersForm({
 		}
 	}
 
-	const submitForm: MouseEventHandler<HTMLButtonElement> = async (event) => {
+	const submitForm: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
 
 		const form = document.querySelector(`#${formId}`) as HTMLFormElement;
@@ -170,7 +170,11 @@ function InviteUsersForm({
 	};
 
 	return (
-		<ClayForm className="lfr-form-content" id={formId}>
+		<ClayForm
+			className="lfr-form-content"
+			id={formId}
+			onSubmit={submitForm}
+		>
 			{inputGroups.map((inputGroup, index) => (
 				<InviteUserFormGroup
 					accountRoles={inputGroup.accountRoles}
@@ -208,16 +212,6 @@ function InviteUsersForm({
 					</span>
 
 					{Liferay.Language.get('add-entry')}
-				</ClayButton>
-			</ClayLayout.SheetFooter>
-
-			<ClayLayout.SheetFooter className="dialog-footer">
-				<ClayButton displayType="primary" onClick={submitForm}>
-					{Liferay.Language.get('invite')}
-				</ClayButton>
-
-				<ClayButton displayType="secondary" onClick={closeModal}>
-					{Liferay.Language.get('cancel')}
 				</ClayButton>
 			</ClayLayout.SheetFooter>
 		</ClayForm>
