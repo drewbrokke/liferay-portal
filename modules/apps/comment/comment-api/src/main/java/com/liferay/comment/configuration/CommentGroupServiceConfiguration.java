@@ -25,7 +25,8 @@ import com.liferay.portal.kernel.settings.LocalizedValuesMap;
  * @author István András Dézsi
  */
 @ExtendedObjectClassDefinition(
-	category = "comments", scope = ExtendedObjectClassDefinition.Scope.GROUP
+	category = "comments", scope = ExtendedObjectClassDefinition.Scope.GROUP,
+	strictScope = true
 )
 @Meta.OCD(
 	id = "com.liferay.comment.configuration.CommentGroupServiceConfiguration",
