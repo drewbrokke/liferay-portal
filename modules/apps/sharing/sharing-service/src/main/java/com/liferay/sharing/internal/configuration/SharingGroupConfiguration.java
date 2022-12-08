@@ -23,7 +23,7 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
  */
 @ExtendedObjectClassDefinition(
 	category = "sharing", generateUI = false,
-	scope = ExtendedObjectClassDefinition.Scope.GROUP
+	scope = ExtendedObjectClassDefinition.Scope.GROUP, strictScope = true
 )
 @Meta.OCD(
 	id = "com.liferay.sharing.internal.configuration.SharingGroupConfiguration",
