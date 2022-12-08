@@ -25,7 +25,8 @@ import org.osgi.annotation.versioning.ProviderType;
  * @author Iván Zaera
  */
 @ExtendedObjectClassDefinition(
-	category = "wiki", scope = ExtendedObjectClassDefinition.Scope.GROUP
+	category = "wiki", scope = ExtendedObjectClassDefinition.Scope.GROUP,
+	strictScope = true
 )
 @Meta.OCD(
 	id = "com.liferay.wiki.configuration.WikiGroupServiceConfiguration",
