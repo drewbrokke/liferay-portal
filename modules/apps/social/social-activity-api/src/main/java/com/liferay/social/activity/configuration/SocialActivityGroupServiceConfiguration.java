@@ -23,7 +23,7 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
  */
 @ExtendedObjectClassDefinition(
 	category = "user-activity",
-	scope = ExtendedObjectClassDefinition.Scope.GROUP
+	scope = ExtendedObjectClassDefinition.Scope.GROUP, strictScope = true
 )
 @Meta.OCD(
 	id = "com.liferay.social.activity.configuration.SocialActivityGroupServiceConfiguration",
