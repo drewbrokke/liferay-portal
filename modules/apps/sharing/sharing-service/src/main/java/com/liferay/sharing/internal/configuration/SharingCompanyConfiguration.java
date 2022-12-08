@@ -22,7 +22,8 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
  * @author Adolfo Pérez
  */
 @ExtendedObjectClassDefinition(
-	category = "sharing", scope = ExtendedObjectClassDefinition.Scope.COMPANY
+	category = "sharing", scope = ExtendedObjectClassDefinition.Scope.COMPANY,
+	visibilityControllerKey = "SharingCompanyConfiguration"
 )
 @Meta.OCD(
 	id = "com.liferay.sharing.internal.configuration.SharingCompanyConfiguration",

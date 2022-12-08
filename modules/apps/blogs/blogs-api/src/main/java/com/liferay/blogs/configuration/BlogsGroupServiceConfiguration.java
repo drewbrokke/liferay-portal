@@ -22,7 +22,8 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
  * @author Sergio González
  */
 @ExtendedObjectClassDefinition(
-	category = "blogs", scope = ExtendedObjectClassDefinition.Scope.GROUP
+	category = "blogs", scope = ExtendedObjectClassDefinition.Scope.GROUP,
+	strictScope = true
 )
 @Meta.OCD(
 	id = "com.liferay.blogs.configuration.BlogsGroupServiceConfiguration",

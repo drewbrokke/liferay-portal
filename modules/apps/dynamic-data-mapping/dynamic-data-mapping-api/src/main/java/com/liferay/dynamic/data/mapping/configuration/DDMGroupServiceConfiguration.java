@@ -23,7 +23,7 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
  */
 @ExtendedObjectClassDefinition(
 	category = "dynamic-data-mapping",
-	scope = ExtendedObjectClassDefinition.Scope.GROUP
+	scope = ExtendedObjectClassDefinition.Scope.GROUP, strictScope = true
 )
 @Meta.OCD(
 	id = "com.liferay.dynamic.data.mapping.configuration.DDMGroupServiceConfiguration",

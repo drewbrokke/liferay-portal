@@ -35,6 +35,11 @@ public class SharingCompanyConfigurationVisibilityController
 	implements ConfigurationVisibilityController {
 
 	@Override
+	public String getKey() {
+		return "SharingCompanyConfiguration";
+	}
+
+	@Override
 	public boolean isVisible(
 		ExtendedObjectClassDefinition.Scope scope, Serializable scopePK) {
 
