@@ -47,13 +47,10 @@ public class CompanyFeatureFlagsFactory {
 		try (SafeCloseable safeCloseable =
 				CompanyThreadLocal.setWithSafeCloseable(companyId)) {
 
-			if (!GetterUtil.getBoolean(
-					PropsUtil.get(FeatureFlagConstants.getKey("LPS-167698")))) {
-
-				return new CompanyFeatureFlags(Collections.emptyMap());
-			}
-
 			Map<String, FeatureFlag> featureFlagsMap = new HashMap<>();
+
+			boolean uiEnabled = GetterUtil.getBoolean(
+				PropsUtil.get(FeatureFlagConstants.getKey("LPS-167698")));
 
 			Properties properties = PropsUtil.getProperties(
 				FeatureFlagConstants.FEATURE_FLAG + StringPool.PERIOD, true);
@@ -68,10 +65,12 @@ public class CompanyFeatureFlagsFactory {
 				FeatureFlag featureFlag = new FeatureFlagImpl(
 					stringPropertyName);
 
-				featureFlag = new LanguageAwareFeatureFlag(
-					featureFlag, _language);
-				featureFlag = new PreferenceAwareFeatureFlag(
-					companyId, featureFlag, _featureFlagPreferencesManager);
+				if (uiEnabled) {
+					featureFlag = new LanguageAwareFeatureFlag(
+						featureFlag, _language);
+					featureFlag = new PreferenceAwareFeatureFlag(
+						companyId, featureFlag, _featureFlagPreferencesManager);
+				}
 
 				featureFlagsMap.put(featureFlag.getKey(), featureFlag);
 			}
