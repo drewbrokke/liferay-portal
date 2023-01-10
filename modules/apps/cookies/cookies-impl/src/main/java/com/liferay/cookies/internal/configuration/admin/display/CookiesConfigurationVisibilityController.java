@@ -18,6 +18,7 @@ import com.liferay.configuration.admin.display.ConfigurationVisibilityController
 import com.liferay.cookies.configuration.CookiesPreferenceHandlingConfiguration;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -49,7 +50,7 @@ public class CookiesConfigurationVisibilityController
 	public boolean isVisible(
 		ExtendedObjectClassDefinition.Scope scope, Serializable scopePK) {
 
-		if (!_featureFlagVisibilityController.isVisible(scope, scopePK)) {
+		if (!FeatureFlagManagerUtil.isEnabled("LPS-142518")) {
 			return false;
 		}
 
