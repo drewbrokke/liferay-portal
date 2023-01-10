@@ -24,7 +24,8 @@ import com.liferay.portal.kernel.settings.LocalizedValuesMap;
  * @author Olivér Kecskeméty
  */
 @ExtendedObjectClassDefinition(
-	category = "cookies", scope = ExtendedObjectClassDefinition.Scope.GROUP
+	category = "cookies", scope = ExtendedObjectClassDefinition.Scope.GROUP,
+	visibilityControllerKey = "com.liferay.cookies.configuration"
 )
 @Meta.OCD(
 	id = "com.liferay.cookies.configuration.consent.CookiesConsentConfiguration",
