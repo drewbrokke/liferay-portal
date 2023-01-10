@@ -36,15 +36,14 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Olivér Kecskeméty
  */
-@Component(
-	property = {
-		"configuration.pid=com.liferay.cookies.configuration.banner.CookiesBannerConfiguration",
-		"configuration.pid=com.liferay.cookies.configuration.consent.CookiesConsentConfiguration"
-	},
-	service = ConfigurationVisibilityController.class
-)
+@Component(service = ConfigurationVisibilityController.class)
 public class CookiesConfigurationVisibilityController
 	implements ConfigurationVisibilityController {
+
+	@Override
+	public String getKey() {
+		return "com.liferay.cookies.configuration";
+	}
 
 	@Override
 	public boolean isVisible(
