@@ -56,10 +56,7 @@ public class FeatureFlagConfigurationVisibilityControllerRegistrar {
 						featureFlag.getKey()),
 					HashMapDictionaryBuilder.put(
 						"visibility.controller.key",
-						new String[] {
-							featureFlag.getKey(),
-							FeatureFlagConstants.getKey(featureFlag.getKey())
-						}
+						FeatureFlagConstants.getKey(featureFlag.getKey())
 					).build());
 
 			_serviceRegistrations.add(serviceRegistration);
