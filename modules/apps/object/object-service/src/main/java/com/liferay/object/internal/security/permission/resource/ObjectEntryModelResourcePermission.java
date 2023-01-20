@@ -15,6 +15,7 @@
 package com.liferay.object.internal.security.permission.resource;
 
 import com.liferay.account.constants.AccountConstants;
+import com.liferay.account.manager.CurrentAccountEntryManager;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryOrganizationRel;
 import com.liferay.account.service.AccountEntryLocalService;
@@ -137,12 +138,33 @@ public class ObjectEntryModelResourcePermission
 		if (permissionChecker.hasOwnerPermission(
 				permissionChecker.getCompanyId(), _modelName,
 				objectEntry.getObjectEntryId(), objectEntry.getUserId(),
-				actionId) ||
-			permissionChecker.hasPermission(
-				objectEntry.getGroupId(), _modelName,
-				objectEntry.getObjectEntryId(), actionId)) {
+				actionId)) {
 
 			return true;
+		}
+
+		CurrentAccountEntryManager currentAccountEntryManager = null;
+
+		AccountEntry currentAccountEntry =
+			currentAccountEntryManager.getCurrentAccountEntry(
+				objectEntry.getGroupId(), permissionChecker.getUserId());
+
+		try {
+			currentAccountEntryManager.setCurrentAccountEntry(
+				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
+				objectEntry.getGroupId(), permissionChecker.getUserId());
+
+			if (permissionChecker.hasPermission(
+					objectEntry.getGroupId(), _modelName,
+					objectEntry.getObjectEntryId(), actionId)) {
+
+				return true;
+			}
+		}
+		finally {
+			currentAccountEntryManager.setCurrentAccountEntry(
+				currentAccountEntry.getAccountEntryId(),
+				objectEntry.getGroupId(), permissionChecker.getUserId());
 		}
 
 		ObjectDefinition objectDefinition =
