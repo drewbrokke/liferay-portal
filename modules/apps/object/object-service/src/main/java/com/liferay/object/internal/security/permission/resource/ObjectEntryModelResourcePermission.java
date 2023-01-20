@@ -15,9 +15,9 @@
 package com.liferay.object.internal.security.permission.resource;
 
 import com.liferay.account.constants.AccountConstants;
-import com.liferay.account.manager.CurrentAccountEntryManager;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryOrganizationRel;
+import com.liferay.account.security.permission.contributor.AccountRoleContributorThreadLocal;
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.account.service.AccountEntryOrganizationRelLocalService;
 import com.liferay.object.model.ObjectDefinition;
@@ -27,6 +27,7 @@ import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
@@ -143,16 +144,8 @@ public class ObjectEntryModelResourcePermission
 			return true;
 		}
 
-		CurrentAccountEntryManager currentAccountEntryManager = null;
-
-		AccountEntry currentAccountEntry =
-			currentAccountEntryManager.getCurrentAccountEntry(
-				objectEntry.getGroupId(), permissionChecker.getUserId());
-
-		try {
-			currentAccountEntryManager.setCurrentAccountEntry(
-				AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
-				objectEntry.getGroupId(), permissionChecker.getUserId());
+		try (SafeCloseable safeCloseable =
+				AccountRoleContributorThreadLocal.setWithSafeCloseable(false)) {
 
 			if (permissionChecker.hasPermission(
 					objectEntry.getGroupId(), _modelName,
@@ -160,11 +153,6 @@ public class ObjectEntryModelResourcePermission
 
 				return true;
 			}
-		}
-		finally {
-			currentAccountEntryManager.setCurrentAccountEntry(
-				currentAccountEntry.getAccountEntryId(),
-				objectEntry.getGroupId(), permissionChecker.getUserId());
 		}
 
 		ObjectDefinition objectDefinition =
