@@ -18,6 +18,7 @@ import com.liferay.account.constants.AccountRoleConstants;
 import com.liferay.account.internal.manager.CurrentAccountEntryManagerStore;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountRole;
+import com.liferay.account.security.permission.contributor.AccountRoleContributorThreadLocal;
 import com.liferay.account.service.AccountEntryUserRelLocalService;
 import com.liferay.account.service.AccountRoleLocalService;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -45,6 +46,14 @@ public class AccountRoleContributor implements RoleContributor {
 
 	@Override
 	public void contribute(RoleCollection roleCollection) {
+		if (!AccountRoleContributorThreadLocal.isEnabled()) {
+			if (_log.isDebugEnabled()) {
+				_log.debug("Disabled by ThreadLocal");
+			}
+
+			return;
+		}
+
 		try {
 			if (roleCollection.getGroupId() <= 0) {
 				return;
