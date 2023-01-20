@@ -166,6 +166,13 @@ public class ObjectEntryModelResourcePermission
 		AccountEntry accountEntry = _accountEntryLocalService.getAccountEntry(
 			accountEntryId);
 
+		if (permissionChecker.hasPermission(
+				accountEntry.getAccountEntryGroupId(), _modelName,
+				objectEntry.getObjectEntryId(), actionId)) {
+
+			return true;
+		}
+
 		if (Objects.equals(actionId, ActionKeys.VIEW)) {
 			return ArrayUtil.contains(
 				ListUtil.toLongArray(
