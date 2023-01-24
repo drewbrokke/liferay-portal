@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.change.tracking.CTAware;
 import com.liferay.portal.kernel.cluster.Clusterable;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.mail.MailSettings;
+import com.liferay.portal.kernel.mail.MailSettingsProviderUtil;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import com.liferay.portal.kernel.model.CompanyConstants;
@@ -105,26 +107,20 @@ public class MailServiceImpl implements IdentifiableOSGiService, MailService {
 			return session;
 		}
 
-		String advancedPropertiesString = function.apply(
-			PropsKeys.MAIL_SESSION_MAIL_ADVANCED_PROPERTIES);
-		String pop3Host = function.apply(PropsKeys.MAIL_SESSION_MAIL_POP3_HOST);
-		String pop3Password = function.apply(
-			PropsKeys.MAIL_SESSION_MAIL_POP3_PASSWORD);
-		int pop3Port = GetterUtil.getInteger(
-			function.apply(PropsKeys.MAIL_SESSION_MAIL_POP3_PORT));
-		String pop3User = function.apply(PropsKeys.MAIL_SESSION_MAIL_POP3_USER);
-		String smtpHost = function.apply(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
-		String smtpPassword = function.apply(
-			PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD);
-		int smtpPort = GetterUtil.getInteger(
-			function.apply(PropsKeys.MAIL_SESSION_MAIL_SMTP_PORT));
-		boolean smtpStartTLSEnable = GetterUtil.getBoolean(
-			function.apply(PropsKeys.MAIL_SESSION_MAIL_SMTP_STARTTLS_ENABLE));
-		String smtpUser = function.apply(PropsKeys.MAIL_SESSION_MAIL_SMTP_USER);
-		String storeProtocol = function.apply(
-			PropsKeys.MAIL_SESSION_MAIL_STORE_PROTOCOL);
-		String transportProtocol = function.apply(
-			PropsKeys.MAIL_SESSION_MAIL_TRANSPORT_PROTOCOL);
+		MailSettings mailSettings = MailSettingsProviderUtil.getMailSettings(companyId);
+
+		String advancedPropertiesString = mailSettings.advancedProperties();
+		String pop3Host = mailSettings.pop3Host();
+		String pop3Password = mailSettings.pop3Password();
+		int pop3Port = mailSettings.pop3Port();
+		String pop3User = mailSettings.pop3User();
+		String smtpHost = mailSettings.smtpHost();
+		String smtpPassword = mailSettings.smtpPassword();
+		int smtpPort = mailSettings.smtpPort();
+		boolean smtpStartTLSEnable = mailSettings.smtpStartTLSEnable();
+		String smtpUser = mailSettings.smtpUser();
+		String storeProtocol = mailSettings.storeProtocol();
+		String transportProtocol = mailSettings.transportProtocol();
 
 		Properties properties = session.getProperties();
 

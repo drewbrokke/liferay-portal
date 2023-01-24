@@ -44,6 +44,7 @@ import com.liferay.portal.kernel.log.SanitizerLogWrapper;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBus;
+import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.Layout;
@@ -56,6 +57,7 @@ import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
+import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServiceUtil;
 import com.liferay.portal.kernel.portlet.LiferayActionResponse;
@@ -87,6 +89,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LoggingTimer;
 import com.liferay.portal.kernel.util.MethodHandler;
@@ -114,6 +117,7 @@ import com.liferay.server.admin.web.internal.scripting.ServerScripting;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
+import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -721,6 +725,8 @@ public class EditServerMVCActionCommand
 			ActionRequest actionRequest, PortletPreferences portletPreferences)
 		throws Exception {
 
+		Dictionary<String, Object> properties = new HashMapDictionary<>();
+
 		String advancedProperties = ParamUtil.getString(
 			actionRequest, "advancedProperties");
 		String pop3Host = ParamUtil.getString(actionRequest, "pop3Host");
@@ -738,11 +744,50 @@ public class EditServerMVCActionCommand
 			actionRequest, "smtpStartTLSEnable");
 		String smtpUser = ParamUtil.getString(actionRequest, "smtpUser");
 
+		portletPreferences.setValue(PropsKeys.MAIL_SESSION_MAIL, "true");
+		properties.put("advancedProperties", advancedProperties);
+
+		if (!Validator.isBlank(pop3Host)) {
+			properties.put("pop3Host", pop3Host);
+		}
+
+		if (!pop3Password.equals(Portal.TEMP_OBFUSCATION_VALUE)) {
+			properties.put("pop3Password", pop3Password);
+		}
+
+		if (pop3Port > 0) {
+			properties.put("pop3Port", pop3Port);
+		}
+
+		if (!Validator.isBlank(pop3User)) {
+			properties.put("pop3User", pop3User);
+		}
+
+		if (!Validator.isBlank(smtpHost)) {
+			properties.put("smtpHost", smtpHost);
+		}
+
+		if (!smtpPassword.equals(Portal.TEMP_OBFUSCATION_VALUE)) {
+			properties.put("smtpPassword", smtpPassword);
+		}
+
+		if (smtpPort > 0) {
+			properties.put("smtpPort", smtpPort);
+		}
+
+		properties.put("smtpStartTLSEnable", smtpStartTLSEnable);
+
+		if (!Validator.isBlank(smtpUser)) {
+			properties.put("smtpUser", smtpUser);
+		}
+
 		String storeProtocol = Account.PROTOCOL_POP;
 
 		if (pop3Secure) {
 			storeProtocol = Account.PROTOCOL_POPS;
 		}
+
+		properties.put("storeProtocol", storeProtocol);
 
 		String transportProtocol = Account.PROTOCOL_SMTP;
 
@@ -750,63 +795,17 @@ public class EditServerMVCActionCommand
 			transportProtocol = Account.PROTOCOL_SMTPS;
 		}
 
-		portletPreferences.setValue(PropsKeys.MAIL_SESSION_MAIL, "true");
-		portletPreferences.setValue(
-			PropsKeys.MAIL_SESSION_MAIL_ADVANCED_PROPERTIES,
-			advancedProperties);
+		properties.put("transportProtocol", transportProtocol);
 
-		if (!Validator.isBlank(pop3Host)) {
-			portletPreferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_POP3_HOST, pop3Host);
+		long preferencesCompanyId =
+			ParamUtil.getLong(actionRequest, "preferencesCompanyId");
+
+		if (preferencesCompanyId > CompanyConstants.SYSTEM) {
+			_configurationProvider.saveCompanyConfiguration(null, preferencesCompanyId, properties);
 		}
-
-		if (!pop3Password.equals(Portal.TEMP_OBFUSCATION_VALUE)) {
-			portletPreferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_POP3_PASSWORD, pop3Password);
+		else {
+			_configurationProvider.saveSystemConfiguration(null, properties);
 		}
-
-		if (pop3Port > 0) {
-			portletPreferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_POP3_PORT,
-				String.valueOf(pop3Port));
-		}
-
-		if (!Validator.isBlank(pop3User)) {
-			portletPreferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_POP3_USER, pop3User);
-		}
-
-		if (!Validator.isBlank(smtpHost)) {
-			portletPreferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST, smtpHost);
-		}
-
-		if (!smtpPassword.equals(Portal.TEMP_OBFUSCATION_VALUE)) {
-			portletPreferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD, smtpPassword);
-		}
-
-		if (smtpPort > 0) {
-			portletPreferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_SMTP_PORT,
-				String.valueOf(smtpPort));
-		}
-
-		portletPreferences.setValue(
-			PropsKeys.MAIL_SESSION_MAIL_SMTP_STARTTLS_ENABLE,
-			String.valueOf(smtpStartTLSEnable));
-
-		if (!Validator.isBlank(smtpUser)) {
-			portletPreferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_SMTP_USER, smtpUser);
-		}
-
-		portletPreferences.setValue(
-			PropsKeys.MAIL_SESSION_MAIL_STORE_PROTOCOL, storeProtocol);
-		portletPreferences.setValue(
-			PropsKeys.MAIL_SESSION_MAIL_TRANSPORT_PROTOCOL, transportProtocol);
-
-		portletPreferences.store();
 
 		_mailService.clearSession();
 	}
@@ -941,5 +940,8 @@ public class EditServerMVCActionCommand
 
 	@Reference
 	private UserGroupMembershipPolicyFactory _userGroupMembershipPolicyFactory;
+
+	@Reference
+	private ConfigurationProvider _configurationProvider;
 
 }
