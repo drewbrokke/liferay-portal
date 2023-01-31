@@ -119,7 +119,7 @@ const populateAssignmentsData = (
 					.then((response) => {
 						initialElements[index].data.assignments.sectionsData = {
 							id: response.id,
-							name: response.name,
+							name: response.key,
 							roleType: response.roleType,
 						};
 						setElements([...initialElements]);

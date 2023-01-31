@@ -28,7 +28,7 @@ const populateNotificationsData = (initialElements, setElements) => {
 								index
 							].sectionsData = {
 								id: response.id,
-								name: response.name,
+								name: response.key,
 								roleType: response.roleType,
 							};
 

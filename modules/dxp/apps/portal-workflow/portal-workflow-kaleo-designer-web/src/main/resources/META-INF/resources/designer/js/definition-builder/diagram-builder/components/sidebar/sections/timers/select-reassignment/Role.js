@@ -37,7 +37,7 @@ const Role = ({actionData, actionSectionsIndex, setActionSections}) => {
 					setActionSections((currentSections) => {
 						const updatedSections = [...currentSections];
 						updatedSections[actionSectionsIndex].name =
-							response.name;
+							response.key;
 						updatedSections[actionSectionsIndex].roleType =
 							response.roleType;
 
