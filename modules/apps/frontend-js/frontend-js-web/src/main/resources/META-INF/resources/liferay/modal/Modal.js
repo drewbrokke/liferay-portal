@@ -668,6 +668,13 @@ class Iframe extends React.Component {
 				iframeWindow,
 				processClose: this.props.processClose,
 			});
+
+			iframeWindow.onload = () => {
+				this.props.onOpen({
+					iframeWindow,
+					processClose: this.props.processClose,
+				});
+			};
 		}
 	};
 
