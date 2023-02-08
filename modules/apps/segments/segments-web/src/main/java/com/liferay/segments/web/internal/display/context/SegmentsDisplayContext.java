@@ -24,6 +24,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -42,13 +43,11 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PrefsProps;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.roles.item.selector.RoleItemSelectorCriterion;
@@ -301,7 +300,7 @@ public class SegmentsDisplayContext {
 			return _language.get(_themeDisplay.getLocale(), "global");
 		}
 
-		if (!GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-166954"))) {
+		if (!FeatureFlagManagerUtil.isEnabled("LPS-166954")) {
 			if (segmentsEntry.getGroupId() == _themeDisplay.getScopeGroupId()) {
 				return _language.get(_themeDisplay.getLocale(), "current-site");
 			}
@@ -352,9 +351,7 @@ public class SegmentsDisplayContext {
 		searchContainer.setOrderByType(getOrderByType());
 
 		if (_isSearch()) {
-			if (!GetterUtil.getBoolean(
-					PropsUtil.get("feature.flag.LPS-166954"))) {
-
+			if (!FeatureFlagManagerUtil.isEnabled("LPS-166954")) {
 				searchContainer.setResultsAndTotal(
 					_segmentsEntryService.searchSegmentsEntries(
 						_themeDisplay.getCompanyId(),
@@ -371,9 +368,7 @@ public class SegmentsDisplayContext {
 			}
 		}
 		else {
-			if (!GetterUtil.getBoolean(
-					PropsUtil.get("feature.flag.LPS-166954"))) {
-
+			if (!FeatureFlagManagerUtil.isEnabled("LPS-166954")) {
 				searchContainer.setResultsAndTotal(
 					() -> _segmentsEntryService.getSegmentsEntries(
 						_themeDisplay.getScopeGroupId(), true,
@@ -552,9 +547,7 @@ public class SegmentsDisplayContext {
 
 	public boolean isShowDeleteAction(SegmentsEntry segmentsEntry) {
 		try {
-			if (!GetterUtil.getBoolean(
-					PropsUtil.get("feature.flag.LPS-166954"))) {
-
+			if (!FeatureFlagManagerUtil.isEnabled("LPS-166954")) {
 				if ((segmentsEntry.getGroupId() ==
 						_themeDisplay.getScopeGroupId()) &&
 					SegmentsEntryPermission.contains(
