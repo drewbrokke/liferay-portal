@@ -20,6 +20,7 @@ import com.liferay.portal.dao.db.BaseDB;
 import com.liferay.portal.kernel.dao.db.BaseDBProcess;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.exception.ResourceActionsException;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogContext;
 import com.liferay.portal.kernel.log.LogContextRegistryUtil;
@@ -32,10 +33,8 @@ import com.liferay.portal.kernel.upgrade.UpgradeException;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.upgrade.UpgradeStep;
 import com.liferay.portal.kernel.upgrade.util.UpgradeProcessUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LoggingTimer;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -126,7 +125,7 @@ public class StartupHelperUtil {
 	public static void upgradeProcess(int buildNumber) throws UpgradeException {
 		List<String> upgradeProcessClassNames = new ArrayList<>();
 
-		if (GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-157670"))) {
+		if (FeatureFlagManagerUtil.isEnabled("LPS-157670")) {
 			Collections.addAll(
 				upgradeProcessClassNames,
 				"com.liferay.portal.upgrade.UpgradeProcess_6_1_1",
