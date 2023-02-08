@@ -40,6 +40,7 @@ import com.liferay.item.selector.criteria.InfoItemItemSelectorReturnType;
 import com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -65,7 +66,6 @@ import com.liferay.portal.kernel.util.KeyValuePair;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -139,7 +139,7 @@ public class AssetEntriesWithSameAssetCategoryRelatedInfoItemCollectionProvider
 
 	@Override
 	public InfoForm getConfigurationInfoForm() {
-		if (!GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-166275"))) {
+		if (!FeatureFlagManagerUtil.isEnabled("LPS-166275")) {
 			return InfoForm.builder(
 			).infoFieldSetEntry(
 				_getItemTypesInfoField()
@@ -251,7 +251,7 @@ public class AssetEntriesWithSameAssetCategoryRelatedInfoItemCollectionProvider
 		String assetCategoryRule = StringPool.BLANK;
 		long specificAssetCategoryId = 0;
 
-		if (GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-166275")) &&
+		if (FeatureFlagManagerUtil.isEnabled("LPS-166275") &&
 			(configuration != null) &&
 			!ArrayUtil.isEmpty(configuration.get("assetCategoryRule"))) {
 
