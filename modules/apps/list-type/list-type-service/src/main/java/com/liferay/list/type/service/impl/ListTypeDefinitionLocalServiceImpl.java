@@ -24,6 +24,7 @@ import com.liferay.list.type.service.persistence.ListTypeEntryPersistence;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
@@ -32,10 +33,8 @@ import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ResourceLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.util.PropsUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -154,7 +153,7 @@ public class ListTypeDefinitionLocalServiceImpl
 		listTypeDefinition = listTypeDefinitionPersistence.update(
 			listTypeDefinition);
 
-		if (!GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-167536"))) {
+		if (!FeatureFlagManagerUtil.isEnabled(LPS - 167536)) {
 			return listTypeDefinition;
 		}
 
