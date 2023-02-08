@@ -99,6 +99,7 @@ import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -148,7 +149,6 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.NaturalOrderStringComparator;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ReleaseInfo;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -582,8 +582,7 @@ public class BundleSiteInitializer implements SiteInitializer {
 			"Liferay-Site-Initializer-Feature-Flag");
 
 		if (Validator.isNotNull(featureFlag) &&
-			!GetterUtil.getBoolean(
-				PropsUtil.get("feature.flag." + featureFlag))) {
+			!FeatureFlagManagerUtil.isEnabled(featureFlag)) {
 
 			return false;
 		}
@@ -4541,7 +4540,7 @@ public class BundleSiteInitializer implements SiteInitializer {
 	}
 
 	private void _updateGroupSiteInitializerKey(long groupId) throws Exception {
-		if (!GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-165482"))) {
+		if (!FeatureFlagManagerUtil.isEnabled("LPS-165482")) {
 			return;
 		}
 
