@@ -17,6 +17,7 @@ package com.liferay.search.experiences.internal.model.listener;
 import com.liferay.petra.io.StreamUtil;
 import com.liferay.petra.string.CharPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
@@ -25,10 +26,8 @@ import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MapUtil;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
 import com.liferay.search.experiences.rest.dto.v1_0.SXPElement;
@@ -74,8 +73,7 @@ public class CompanyModelListener extends BaseModelListener<Company> {
 		}
 
 		for (SXPElement sxpElement : _sxpElements) {
-			if ((!GetterUtil.getBoolean(
-					PropsUtil.get("feature.flag.LPS-163688")) &&
+			if ((!FeatureFlagManagerUtil.isEnabled("LPS-163688") &&
 				 Objects.equals(
 					 MapUtil.getString(sxpElement.getTitle_i18n(), "en_US"),
 					 "Rescore by Text Embedding")) ||
