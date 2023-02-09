@@ -29,14 +29,13 @@ page import="com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil"
 page import="com.liferay.portal.kernel.backgroundtask.constants.BackgroundTaskConstants" %><%@
 page import="com.liferay.portal.kernel.backgroundtask.display.BackgroundTaskDisplay" %><%@
 page import="com.liferay.portal.kernel.backgroundtask.display.BackgroundTaskDisplayFactoryUtil" %><%@
+page import="com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil" %><%@
 page import="com.liferay.portal.kernel.model.CompanyConstants" %><%@
 page import="com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder" %><%@
 page import="com.liferay.portal.kernel.search.Indexer" %><%@
 page import="com.liferay.portal.kernel.search.IndexerClassNameComparator" %><%@
 page import="com.liferay.portal.kernel.search.IndexerRegistryUtil" %><%@
-page import="com.liferay.portal.kernel.util.GetterUtil" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
-page import="com.liferay.portal.kernel.util.PropsUtil" %><%@
 page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.search.admin.web.internal.constants.SearchAdminWebKeys" %><%@
 page import="com.liferay.portal.search.admin.web.internal.display.context.IndexActionsDisplayContext" %><%@
@@ -160,7 +159,7 @@ page import="java.util.Map" %>
 							</div>
 						</li>
 
-						<c:if test='<%= GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-163688")) %>'>
+						<c:if test='<%= FeatureFlagManagerUtil.isEnabled("LPS-163688") %>'>
 							<li class="list-group-item list-group-item-flex">
 								<div class="autofit-col autofit-col-expand">
 									<p class="list-group-title">
