@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchPermissionChecker;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.Filter;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.search.internal.indexer.IndexerProvidedClausesUtil;
 import com.liferay.portal.search.internal.indexer.ModelPreFilterContributorsRegistry;
 import com.liferay.portal.search.internal.indexer.ModelSearchSettingsImpl;
@@ -166,8 +167,19 @@ public class PreFilterContributorHelperImpl
 		for (ModelPreFilterContributor modelPreFilterContributor :
 				modelPreFilterContributors) {
 
+			Class<? extends ModelPreFilterContributor> clazz =
+				modelPreFilterContributor.getClass();
+
+			if (GetterUtil.getBoolean(
+					searchContext.getAttribute(clazz.getName()))) {
+
+				continue;
+			}
+
 			modelPreFilterContributor.contribute(
 				booleanFilter, modelSearchSettings, searchContext);
+
+			searchContext.setAttribute(clazz.getName(), Boolean.TRUE);
 		}
 	}
 
