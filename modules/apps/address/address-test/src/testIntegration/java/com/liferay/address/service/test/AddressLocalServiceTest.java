@@ -15,7 +15,6 @@
 package com.liferay.address.service.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Contact;
@@ -155,14 +154,7 @@ public class AddressLocalServiceTest {
 
 			List<LogEntry> logEntries = logCapture.getLogEntries();
 
-			LogEntry logEntry = logEntries.get(0);
-
-			Assert.assertEquals(
-				StringBundler.concat(
-					"No list type found for ",
-					ListTypeConstants.CONTACT_ADDRESS, " with the name: ",
-					typeName),
-				logEntry.getMessage());
+			Assert.assertEquals(logEntries.toString(), 2, logEntries.size());
 		}
 	}
 
