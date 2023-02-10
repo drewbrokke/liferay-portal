@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchPermissionChecker;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.Filter;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.internal.indexer.IndexerProvidedClausesUtil;
 import com.liferay.portal.search.internal.indexer.ModelPreFilterContributorsRegistry;
 import com.liferay.portal.search.internal.indexer.ModelSearchSettingsImpl;
@@ -161,12 +163,36 @@ public class PreFilterContributorHelperImpl
 					searchContext),
 				IndexerProvidedClausesUtil.shouldSuppress(searchContext));
 
+		String processedModelPreFilterContributorsKey =
+			"search.processed.model.pre.filter.contributors";
+
+		String[] processedModelPreFilterContributors =
+			SearchStringUtil.splitAndUnquote(
+				(String)searchContext.getAttribute(
+					processedModelPreFilterContributorsKey));
+
 		for (ModelPreFilterContributor modelPreFilterContributor :
 				modelPreFilterContributors) {
 
+			Class<? extends ModelPreFilterContributor> clazz =
+				modelPreFilterContributor.getClass();
+
+			if (ArrayUtil.contains(
+					processedModelPreFilterContributors, clazz.getName())) {
+
+				continue;
+			}
+
 			modelPreFilterContributor.contribute(
 				booleanFilter, modelSearchSettings, searchContext);
+
+			processedModelPreFilterContributors = ArrayUtil.append(
+				processedModelPreFilterContributors, clazz.getName());
 		}
+
+		searchContext.setAttribute(
+			processedModelPreFilterContributorsKey,
+			StringUtil.merge(processedModelPreFilterContributors));
 	}
 
 	private void _addPermissionFilter(
