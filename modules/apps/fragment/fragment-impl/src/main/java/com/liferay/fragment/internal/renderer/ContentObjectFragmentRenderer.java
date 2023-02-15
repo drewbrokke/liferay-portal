@@ -164,7 +164,7 @@ public class ContentObjectFragmentRenderer implements FragmentRenderer {
 		}
 
 		if (!_hasPermission(httpServletRequest, className, displayObject)) {
-			if (!FeatureFlagManagerUtil.isEnabled(LPS - 169923)) {
+			if (!FeatureFlagManagerUtil.isEnabled("LPS-169923")) {
 				FragmentRendererUtil.printPortletMessageInfo(
 					httpServletRequest, httpServletResponse,
 					"you-do-not-have-permission-to-access-the-requested-" +
