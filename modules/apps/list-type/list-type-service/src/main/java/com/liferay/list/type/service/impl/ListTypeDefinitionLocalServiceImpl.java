@@ -153,7 +153,7 @@ public class ListTypeDefinitionLocalServiceImpl
 		listTypeDefinition = listTypeDefinitionPersistence.update(
 			listTypeDefinition);
 
-		if (!FeatureFlagManagerUtil.isEnabled(LPS - 167536)) {
+		if (!FeatureFlagManagerUtil.isEnabled("LPS-167536")) {
 			return listTypeDefinition;
 		}
 
