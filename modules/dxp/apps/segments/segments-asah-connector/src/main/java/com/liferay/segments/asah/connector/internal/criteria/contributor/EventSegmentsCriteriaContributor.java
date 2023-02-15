@@ -98,7 +98,7 @@ public class EventSegmentsCriteriaContributor
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
-		if (FeatureFlagManagerUtil.isEnabled(LPS - 171722)) {
+		if (FeatureFlagManagerUtil.isEnabled("LPS-171722")) {
 			_serviceRegistration = bundleContext.registerService(
 				SegmentsCriteriaContributor.class, this,
 				HashMapDictionaryBuilder.<String, Object>put(
