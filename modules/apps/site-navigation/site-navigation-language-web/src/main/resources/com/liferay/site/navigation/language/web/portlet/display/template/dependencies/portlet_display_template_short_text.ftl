@@ -1,18 +1,20 @@
-<style>
-	.language-entry-short-text {
-		padding: 0 0.5em;
-	}
-</style>
+<#include "${templatesPath}/macro-ftl">
 
-<#if entries?has_content>
+<@language_form_with_input>
+	<style>
+		.language-entry-short-text {
+			padding: 0 0.5em;
+		}
+	</style>
+
 	<#list entries as entry>
 		<#if !entry.isDisabled()>
 			<@liferay_aui["a"]
 				cssClass="language-entry-short-text"
-				href=entry.getURL()
+				href=get_url(entry)
 				label=entry.getShortDisplayName()
 				lang=entry.getW3cLanguageId()
 			/>
 		</#if>
 	</#list>
-</#if>
+</@>
