@@ -1609,7 +1609,7 @@
 				},
 				"screenName": {
 					"store": true,
-					"type": "keyword"
+					"type": "text"
 				},
 				"size": {
 					"store": true,
