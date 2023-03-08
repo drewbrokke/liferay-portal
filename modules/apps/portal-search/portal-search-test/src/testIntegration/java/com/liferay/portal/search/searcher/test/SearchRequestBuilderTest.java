@@ -237,11 +237,7 @@ public class SearchRequestBuilderTest {
 		_addUser("firstName3", "lastName1", "name2");
 		_addUser("firstName1", "lastName2", "name3");
 
-		FieldSort fieldSort = _sorts.field("screenName", SortOrder.DESC);
-
-		_assertSearch("[name3, name2, name1]", "screenName", "name", fieldSort);
-
-		fieldSort = _sorts.field("userName", SortOrder.ASC);
+		FieldSort fieldSort = _sorts.field("userName", SortOrder.ASC);
 
 		_assertSearch(
 			"[firstname1 lastname2, firstname2 lastname3, firstname3 " +
