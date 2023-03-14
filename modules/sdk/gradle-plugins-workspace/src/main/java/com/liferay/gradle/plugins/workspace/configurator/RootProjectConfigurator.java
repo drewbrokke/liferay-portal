@@ -73,6 +73,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import org.gradle.api.Action;
@@ -1201,6 +1202,16 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		initBundleTask.setGroup(BUNDLE_GROUP);
 		initBundleTask.setProvidedModules(configurationOsgiModules);
 
+		initBundleTask.doLast(
+			new Action<Task>() {
+
+				@Override
+				public void execute(Task task) {
+					_copyTomcatConfiguration(task.getProject());
+				}
+
+			});
+
 		return initBundleTask;
 	}
 
@@ -1851,6 +1862,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 							new File(destinationDir, rootDirName),
 							destinationDir);
 					}
+
+					_copyTomcatConfiguration(task.getProject());
 				}
 
 			});
@@ -1981,6 +1994,25 @@ public class RootProjectConfigurator implements Plugin<Project> {
 				String.format(
 					"%s-liferay:%s",
 					StringUtil.getDockerSafeName(project.getName()), version));
+		}
+	}
+
+	private void _copyTomcatConfiguration(Project project) {
+		WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
+			(ExtensionAware)project.getGradle(), WorkspaceExtension.class);
+
+		File targetAppServerDir = new File(
+			workspaceExtension.getHomeDir(),
+			"tomcat-" + workspaceExtension.getAppServerTomcatVersion());
+
+		File tomcatDir = new File(workspaceExtension.getConfigsDir(), "tomcat");
+
+		try {
+			FileUtils.copyDirectory(tomcatDir, targetAppServerDir);
+		}
+		catch (Exception exception) {
+			throw new GradleException(
+				"Unable to copy tomcat configs ", exception);
 		}
 	}
 
