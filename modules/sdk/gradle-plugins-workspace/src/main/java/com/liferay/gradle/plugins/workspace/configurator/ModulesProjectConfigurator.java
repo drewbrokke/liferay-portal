@@ -53,6 +53,7 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -105,14 +106,16 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 			settings,
 			WorkspacePlugin.PROPERTY_PREFIX + NAME + ".jsp.precompile.enabled",
 			_DEFAULT_JSP_PRECOMPILE_ENABLED);
+
 		_modulesDirs = GradleUtil.getProperty(
-			settings, WorkspacePlugin.PROPERTY_PREFIX + NAME + ".dir",
-			_DEFAULT_MODULES_DIR);
-		_modulesExcludeDirs = GradleUtil.getProperty(
+			settings, WorkspacePlugin.PROPERTY_PREFIX + NAME + ".dir", null);
+
+		String modulesExcludeDirString = GradleUtil.getProperty(
 			settings, WorkspacePlugin.PROPERTY_PREFIX + NAME + ".excludes.dir",
 			null);
 
-		_excludeProjectPathMap = _getExcludeProjectPathMap(settings);
+		_excludeProjectPathMap = _getExcludeProjectPathMap(
+			settings, modulesExcludeDirString);
 	}
 
 	@Override
@@ -577,13 +580,15 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 		}
 	}
 
-	private Map<String, Path> _getExcludeProjectPathMap(Settings settings) {
-		if (Objects.isNull(_modulesExcludeDirs)) {
+	private Map<String, Path> _getExcludeProjectPathMap(
+		Settings settings, String modulesExcludeDirString) {
+
+		if (Objects.isNull(modulesExcludeDirString)) {
 			return Collections.emptyMap();
 		}
 
 		List<String> modulesExcludeDirs = Arrays.asList(
-			_modulesExcludeDirs.split(","));
+			modulesExcludeDirString.split(","));
 
 		if (Objects.isNull(modulesExcludeDirs) ||
 			modulesExcludeDirs.isEmpty()) {
@@ -591,14 +596,28 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 			return Collections.emptyMap();
 		}
 
-		List<String> modulesDirs = Arrays.asList(_modulesDirs.split(","));
+		List<File> modulesDirs = new ArrayList<>();
+
+		if (Objects.nonNull(_modulesDirs) &&
+			!Objects.equals("*", _modulesDirs)) {
+
+			List<String> modulesDirStrings = Arrays.asList(
+				_modulesDirs.split(","));
+
+			for (String modulesDirString : modulesDirStrings) {
+				File modulesDir = new File(
+					settings.getRootDir(), modulesDirString.trim());
+
+				modulesDirs.add(modulesDir);
+			}
+		}
+		else {
+			modulesDirs.add(settings.getRootDir());
+		}
 
 		Map<String, Path> excludeProjectPathMap = new HashMap<>();
 
-		for (String modulesDirString : modulesDirs) {
-			File modulesDir = new File(
-				settings.getRootDir(), modulesDirString.trim());
-
+		for (File modulesDir : modulesDirs) {
 			if (modulesDir.isDirectory()) {
 				try {
 					for (String excludeDirString : modulesExcludeDirs) {
@@ -630,32 +649,19 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 		for (Map.Entry<String, Path> modulesExcludeEntry :
 				excludeProjectEntries) {
 
-			String modulesExcludeName = modulesExcludeEntry.getKey();
-
 			Path modulesExcludePath = modulesExcludeEntry.getValue();
 
-			for (String modulesDirString : modulesDirs) {
-				File modulesDir = new File(
-					settings.getRootDir(), modulesDirString);
+			Path excludeParentPath = modulesExcludePath.getParent();
 
-				Path excludeParentPath = modulesExcludePath.getParent();
+			String excludeLastSegmentName = String.valueOf(
+				modulesExcludePath.getFileName());
 
-				boolean foundParent = false;
+			String parentLastSegmentName = String.valueOf(
+				excludeParentPath.getFileName());
 
-				while (!Objects.equals(
-							excludeParentPath, modulesDir.toPath())) {
-
-					modulesExcludePath = excludeParentPath;
-
-					excludeParentPath = modulesExcludePath.getParent();
-
-					foundParent = true;
-				}
-
-				if (foundParent) {
-					excludeProjectPathMap.put(
-						modulesExcludeName, modulesExcludePath);
-				}
+			if (excludeLastSegmentName.startsWith(parentLastSegmentName)) {
+				excludeProjectPathMap.put(
+					modulesExcludeEntry.getKey(), excludeParentPath);
 			}
 		}
 
@@ -711,15 +717,12 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 
 	private static final boolean _DEFAULT_JSP_PRECOMPILE_ENABLED = false;
 
-	private static final String _DEFAULT_MODULES_DIR = "modules";
-
 	private static final boolean _DEFAULT_REPOSITORY_ENABLED = true;
 
 	private boolean _defaultRepositoryEnabled;
 	private final Map<String, Path> _excludeProjectPathMap;
 	private boolean _jspPrecompileEnabled;
 	private final String _modulesDirs;
-	private final String _modulesExcludeDirs;
 
 	private class ModulesProjectExcludeVisitor extends SimpleFileVisitor<Path> {
 
