@@ -110,12 +110,11 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 		_modulesDirs = GradleUtil.getProperty(
 			settings, WorkspacePlugin.PROPERTY_PREFIX + NAME + ".dir", null);
 
-		String modulesExcludeDirString = GradleUtil.getProperty(
+		_modulesExcludeDirs = GradleUtil.getProperty(
 			settings, WorkspacePlugin.PROPERTY_PREFIX + NAME + ".excludes.dir",
 			null);
 
-		_excludeProjectPathMap = _getExcludeProjectPathMap(
-			settings, modulesExcludeDirString);
+		_excludeProjectPathMap = _getExcludeProjectPathMap(settings);
 	}
 
 	@Override
@@ -580,15 +579,13 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 		}
 	}
 
-	private Map<String, Path> _getExcludeProjectPathMap(
-		Settings settings, String modulesExcludeDirString) {
-
-		if (Objects.isNull(modulesExcludeDirString)) {
+	private Map<String, Path> _getExcludeProjectPathMap(Settings settings) {
+		if (Objects.isNull(_modulesExcludeDirs)) {
 			return Collections.emptyMap();
 		}
 
 		List<String> modulesExcludeDirs = Arrays.asList(
-			modulesExcludeDirString.split(","));
+			_modulesExcludeDirs.split(","));
 
 		if (Objects.isNull(modulesExcludeDirs) ||
 			modulesExcludeDirs.isEmpty()) {
@@ -640,28 +637,6 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 				catch (Exception exception) {
 					return Collections.emptyMap();
 				}
-			}
-		}
-
-		Set<Map.Entry<String, Path>> excludeProjectEntries =
-			excludeProjectPathMap.entrySet();
-
-		for (Map.Entry<String, Path> modulesExcludeEntry :
-				excludeProjectEntries) {
-
-			Path modulesExcludePath = modulesExcludeEntry.getValue();
-
-			Path excludeParentPath = modulesExcludePath.getParent();
-
-			String excludeLastSegmentName = String.valueOf(
-				modulesExcludePath.getFileName());
-
-			String parentLastSegmentName = String.valueOf(
-				excludeParentPath.getFileName());
-
-			if (excludeLastSegmentName.startsWith(parentLastSegmentName)) {
-				excludeProjectPathMap.put(
-					modulesExcludeEntry.getKey(), excludeParentPath);
 			}
 		}
 
@@ -723,6 +698,7 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 	private final Map<String, Path> _excludeProjectPathMap;
 	private boolean _jspPrecompileEnabled;
 	private final String _modulesDirs;
+	private final String _modulesExcludeDirs;
 
 	private class ModulesProjectExcludeVisitor extends SimpleFileVisitor<Path> {
 
