@@ -1,0 +1,10 @@
+Bundle-Name: baz-api
+Bundle-SymbolicName: baz.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	baz.exception,\
+	baz.model,\
+	baz.service,\
+	baz.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../baz-service/service.xml

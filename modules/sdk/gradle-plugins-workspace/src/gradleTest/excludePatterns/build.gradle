@@ -1,0 +1,22 @@
+task runGradleTest
+
+ext {
+	expectedExcludedProjects = [
+		":modules:bar:bar-api",
+		":modules:bar:bar-service",
+	]
+}
+
+properties["liferay.workspace.dir.excludes.globs"] = "**/bar"
+
+runGradleTest {
+	doLast {
+		allprojects {
+			if (expectedExcludedProjects.any { it == path }) {
+				println path
+
+				assert !tasks.any { it.enabled }
+			}
+		}
+	}
+}

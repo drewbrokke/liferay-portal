@@ -187,10 +187,10 @@ eclipse.classpath.file {
 }
 
 gradleTest {
-	dependsOn copyBundle
+//	dependsOn copyBundle
 	dependsOn copyDistBundleZipPluginsSdk
 	dependsOn copyGradleTestDependencies
-	dependsOn copyHotFixZip
+//	dependsOn copyHotFixZip
 	dependsOn copyRepo
 	dependsOn copyWorkspacesSamples
 	dependsOn jar

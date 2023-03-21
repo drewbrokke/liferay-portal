@@ -1,0 +1,11 @@
+dependencies {
+	compile project(":modules:baz:baz-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+buildService {
+	apiDir = "../baz-api/src/main/java"
+}
+
+group = "baz"

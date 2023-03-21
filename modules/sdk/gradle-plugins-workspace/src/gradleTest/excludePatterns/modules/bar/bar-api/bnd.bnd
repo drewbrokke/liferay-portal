@@ -1,0 +1,10 @@
+Bundle-Name: bar-api
+Bundle-SymbolicName: bar.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	bar.exception,\
+	bar.model,\
+	bar.service,\
+	bar.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../bar-service/service.xml
