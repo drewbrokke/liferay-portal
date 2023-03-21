@@ -31,6 +31,22 @@ runGradleTest {
 			assert expectedFile.text.normalize() == generatedFile.text.normalize()
 		}
 
+		String tomcatConfigName = "empty.sh"
+
+		String tomcatVersion = gradle.liferayWorkspace.appServerTomcatVersion;
+
+		String bundleTomcatVersion = "tomcat-" + tomcatVersion;
+
+		File bundleTomcatDir = new File(initBundle.destinationDir, bundleTomcatVersion);
+
+		File bundleTomcatBinDir = new File(bundleTomcatDir, "bin");
+
+		File generatedFile = new File(bundleTomcatBinDir, "empty.sh");
+
+		File expectedFile = file("configs/tomcat/empty.sh")
+
+		assert expectedFile.text.normalize() == generatedFile.text.normalize()
+
 		// Bundle
 
 		String bundleFileName = downloadBundle.src.toString();
