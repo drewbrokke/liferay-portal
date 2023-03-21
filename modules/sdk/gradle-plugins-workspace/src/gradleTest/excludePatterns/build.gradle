@@ -12,11 +12,13 @@ properties["liferay.workspace.dir.excludes.globs"] = "**/bar"
 runGradleTest {
 	doLast {
 		allprojects {
+			def expectedHasEnabledTask = true
 			if (expectedExcludedProjects.any { it == path }) {
-				println path
-
-				assert !tasks.any { it.enabled }
+				expectedHasEnabledTask = false;
 			}
+
+			println path
+			assert expectedHasEnabledTask == tasks.any { it.enabled }
 		}
 	}
 }
