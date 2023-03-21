@@ -14,56 +14,15 @@
 
 package com.liferay.gradle.plugins.workspace.configurator;
 
-import com.bmuschko.gradle.docker.DockerRegistryCredentials;
-import com.bmuschko.gradle.docker.DockerRemoteApiPlugin;
-import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer;
-import com.bmuschko.gradle.docker.tasks.container.DockerLogsContainer;
-import com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer;
-import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer;
-import com.bmuschko.gradle.docker.tasks.container.DockerStopContainer;
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage;
-import com.bmuschko.gradle.docker.tasks.image.DockerPullImage;
-import com.bmuschko.gradle.docker.tasks.image.DockerPushImage;
-import com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage;
-import com.bmuschko.gradle.docker.tasks.image.DockerTagImage;
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile;
-
-import com.liferay.gradle.plugins.LiferayBasePlugin;
-import com.liferay.gradle.plugins.node.NodeExtension;
-import com.liferay.gradle.plugins.node.task.NpmInstallTask;
-import com.liferay.gradle.plugins.source.formatter.FormatSourceTask;
-import com.liferay.gradle.plugins.source.formatter.SourceFormatterPlugin;
-import com.liferay.gradle.plugins.workspace.LiferayWorkspaceYarnPlugin;
-import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
-import com.liferay.gradle.plugins.workspace.WorkspacePlugin;
-import com.liferay.gradle.plugins.workspace.docker.DockerPruneImage;
-import com.liferay.gradle.plugins.workspace.internal.configurator.TargetPlatformRootProjectConfigurator;
-import com.liferay.gradle.plugins.workspace.internal.util.FileUtil;
-import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
-import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
-import com.liferay.gradle.plugins.workspace.task.CreateTokenTask;
-import com.liferay.gradle.plugins.workspace.task.InitBundleTask;
-import com.liferay.gradle.plugins.workspace.task.VerifyBundleTask;
-import com.liferay.gradle.plugins.workspace.task.VerifyProductTask;
-import com.liferay.gradle.util.OSDetector;
-import com.liferay.gradle.util.Validator;
-import com.liferay.gradle.util.copy.StripPathSegmentsAction;
-
-import de.undercouch.gradle.tasks.download.Download;
-
-import groovy.lang.Closure;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-
 import java.nio.file.Files;
-
+import java.nio.file.LinkOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -75,7 +34,6 @@ import java.util.concurrent.Callable;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
@@ -108,6 +66,43 @@ import org.gradle.api.tasks.bundling.Compression;
 import org.gradle.api.tasks.bundling.Tar;
 import org.gradle.api.tasks.bundling.Zip;
 import org.gradle.language.base.plugins.LifecycleBasePlugin;
+
+import com.bmuschko.gradle.docker.DockerRegistryCredentials;
+import com.bmuschko.gradle.docker.DockerRemoteApiPlugin;
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer;
+import com.bmuschko.gradle.docker.tasks.container.DockerLogsContainer;
+import com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer;
+import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer;
+import com.bmuschko.gradle.docker.tasks.container.DockerStopContainer;
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage;
+import com.bmuschko.gradle.docker.tasks.image.DockerPullImage;
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage;
+import com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage;
+import com.bmuschko.gradle.docker.tasks.image.DockerTagImage;
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile;
+import com.liferay.gradle.plugins.LiferayBasePlugin;
+import com.liferay.gradle.plugins.node.NodeExtension;
+import com.liferay.gradle.plugins.node.task.NpmInstallTask;
+import com.liferay.gradle.plugins.source.formatter.FormatSourceTask;
+import com.liferay.gradle.plugins.source.formatter.SourceFormatterPlugin;
+import com.liferay.gradle.plugins.workspace.LiferayWorkspaceYarnPlugin;
+import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
+import com.liferay.gradle.plugins.workspace.WorkspacePlugin;
+import com.liferay.gradle.plugins.workspace.docker.DockerPruneImage;
+import com.liferay.gradle.plugins.workspace.internal.configurator.TargetPlatformRootProjectConfigurator;
+import com.liferay.gradle.plugins.workspace.internal.util.FileUtil;
+import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
+import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
+import com.liferay.gradle.plugins.workspace.task.CreateTokenTask;
+import com.liferay.gradle.plugins.workspace.task.InitBundleTask;
+import com.liferay.gradle.plugins.workspace.task.VerifyBundleTask;
+import com.liferay.gradle.plugins.workspace.task.VerifyProductTask;
+import com.liferay.gradle.util.OSDetector;
+import com.liferay.gradle.util.Validator;
+import com.liferay.gradle.util.copy.StripPathSegmentsAction;
+
+import de.undercouch.gradle.tasks.download.Download;
+import groovy.lang.Closure;
 
 /**
  * @author Andrea Di Giorgi
@@ -2008,7 +2003,9 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		File tomcatDir = new File(workspaceExtension.getConfigsDir(), "tomcat");
 
 		try {
-			FileUtils.copyDirectory(tomcatDir, targetAppServerDir);
+			if (Files.exists(tomcatDir.toPath(), LinkOption.NOFOLLOW_LINKS)){
+				FileUtils.copyDirectory(tomcatDir, targetAppServerDir);	
+			}
 		}
 		catch (Exception exception) {
 			throw new GradleException(
