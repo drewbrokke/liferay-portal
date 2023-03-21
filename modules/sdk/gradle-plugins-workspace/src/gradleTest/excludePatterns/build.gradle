@@ -1,13 +1,16 @@
 task runGradleTest
 
+buildscript {
+	println "FIRST!!!!!"
+}
+
+ext.liferay.workspace.dir.excludes.globs="modules/**/bar-*"
 ext {
 	expectedExcludedProjects = [
 		":modules:bar:bar-api",
 		":modules:bar:bar-service",
 	]
 }
-
-properties["liferay.workspace.dir.excludes.globs"] = "**/bar"
 
 runGradleTest {
 	doLast {

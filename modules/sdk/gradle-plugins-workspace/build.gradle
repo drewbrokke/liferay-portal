@@ -188,7 +188,7 @@ eclipse.classpath.file {
 
 gradleTest {
 //	dependsOn copyBundle
-	dependsOn copyDistBundleZipPluginsSdk
+//	dependsOn copyDistBundleZipPluginsSdk
 	dependsOn copyGradleTestDependencies
 //	dependsOn copyHotFixZip
 	dependsOn copyRepo

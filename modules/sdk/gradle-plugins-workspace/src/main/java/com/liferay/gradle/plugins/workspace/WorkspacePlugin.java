@@ -18,20 +18,30 @@ import com.liferay.gradle.plugins.util.PortalTools;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.util.Validator;
 
+import com.liferay.petra.string.StringUtil;
 import groovy.lang.Closure;
 
 import java.io.File;
 
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.gradle.StartParameter;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
 import org.gradle.api.initialization.Settings;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.plugins.ExtensionAware;
 import org.gradle.api.plugins.ExtensionContainer;
+import org.gradle.api.tasks.TaskContainer;
 
 /**
  * @author David Truong
@@ -100,6 +110,52 @@ public class WorkspacePlugin implements Plugin<Settings> {
 				}
 
 			});
+
+
+
+		gradle.afterProject(project -> {
+			List<String> globs = StringUtil.split(GradleUtil.getProperty(
+				project.getExtensions(), WorkspacePlugin.PROPERTY_PREFIX + "dir.excludes.globs",
+				null));
+
+			FileSystem fileSystem = FileSystems.getDefault();
+			List<PathMatcher> pathMatchers = new ArrayList<>();
+			String rootDirPath = settings.getRootDir().getPath();
+
+			System.out.println("DREWWASHERE");
+
+			for (String glob : globs) {
+				System.out.println(glob);
+				pathMatchers.add(
+					fileSystem.getPathMatcher(
+						String.format("glob:%s/%s", rootDirPath, glob)));
+			}
+
+			StartParameter startParameter = gradle.getStartParameter();
+
+			File projectDir = project.getProjectDir();
+
+			if (Objects.equals(startParameter.getCurrentDir(), projectDir)) {
+				return;
+			}
+
+			TaskContainer taskContainer = project.getTasks();
+
+			Path path = projectDir.toPath();
+
+			for (PathMatcher pathMatcher : pathMatchers) {
+				if (!pathMatcher.matches(path)) {
+					continue;
+				}
+
+				for (Task task : taskContainer) {
+					System.out.printf("Disabling task %s\n", task.getPath());
+					task.setEnabled(false);
+				}
+
+				return;
+			}
+		});
 	}
 
 	private WorkspaceExtension _addWorkspaceExtension(Settings settings) {

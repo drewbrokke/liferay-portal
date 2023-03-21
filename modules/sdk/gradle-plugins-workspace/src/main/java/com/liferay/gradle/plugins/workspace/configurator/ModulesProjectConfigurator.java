@@ -40,6 +40,7 @@ import com.liferay.gradle.plugins.workspace.internal.util.FileUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.wsdd.builder.WSDDBuilderPlugin;
 
+import com.liferay.petra.string.StringUtil;
 import groovy.json.JsonSlurper;
 
 import groovy.lang.Closure;
@@ -47,12 +48,16 @@ import groovy.lang.Closure;
 import java.io.File;
 import java.io.IOException;
 
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -63,6 +68,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 
 import org.gradle.api.Action;
 import org.gradle.api.Project;
@@ -93,8 +99,22 @@ import org.osgi.framework.Constants;
  */
 public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 
+	private final List<String> _taskNames;
+	private final Settings _settings;
+	private final File _currentDir;
+
 	public ModulesProjectConfigurator(Settings settings) {
 		super(settings);
+
+		_settings = settings;
+
+		_taskNames = settings.getGradle().getStartParameter().getTaskNames();
+
+		_currentDir = _settings.getGradle().getStartParameter().getCurrentDir();
+
+		System.out.println("DREW disable tasks with rootDir path");
+
+		String rootDirPath = settings.getRootDir().getPath();
 
 		_defaultRepositoryEnabled = GradleUtil.getProperty(
 			settings,
@@ -105,15 +125,20 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 			settings,
 			WorkspacePlugin.PROPERTY_PREFIX + NAME + ".jsp.precompile.enabled",
 			_DEFAULT_JSP_PRECOMPILE_ENABLED);
-		_modulesDirs = GradleUtil.getProperty(
-			settings, WorkspacePlugin.PROPERTY_PREFIX + NAME + ".dir",
-			_DEFAULT_MODULES_DIR);
-		_modulesExcludeDirs = GradleUtil.getProperty(
-			settings, WorkspacePlugin.PROPERTY_PREFIX + NAME + ".excludes.dir",
-			null);
 
-		_excludeProjectPathMap = _getExcludeProjectPathMap(settings);
+		List<String> globs = StringUtil.split(GradleUtil.getProperty(
+			settings, WorkspacePlugin.PROPERTY_PREFIX + NAME + ".dir.exclude.patterns",
+			null));
+
+		FileSystem fileSystem = FileSystems.getDefault();
+		for (String glob : globs) {
+			PathMatcher pathMatcher = fileSystem.getPathMatcher("glob:" + rootDirPath + "/" + glob);
+			_pathMatchers.add(pathMatcher);
+			_pathMatcherMap.put(glob, pathMatcher);
+		}
 	}
+	private final List<PathMatcher> _pathMatchers = new ArrayList<>();
+	private final Map<String, PathMatcher> _pathMatcherMap = new HashMap<>();
 
 	@Override
 	public void apply(Project project) {
@@ -230,35 +255,65 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 		configureLiferay(project, workspaceExtension);
 
 		project.afterEvaluate(
-			new Action<Project>() {
+			_withTask(
+				LiferayOSGiPlugin.DEPLOY_FAST_TASK_NAME,
+				task -> _configureTaskDeployFast(
+					(Copy)task, bundleExtension,
+					workspaceExtension)));
+		project.afterEvaluate(
+			_withTask(
+				TestIntegrationPlugin.SET_UP_TESTABLE_TOMCAT_TASK_NAME,
+				task -> _configureTaskSetUpTestableTomcat(
+					task, workspaceExtension)));
+		project.afterEvaluate(
+			project1 -> {
+				File projectDir = project1.getProjectDir();
 
-				@Override
-				public void execute(Project project) {
-					TaskContainer taskContainer = project.getTasks();
-
-					Task deployFastTask = taskContainer.findByName(
-						LiferayOSGiPlugin.DEPLOY_FAST_TASK_NAME);
-
-					if (deployFastTask != null) {
-						_configureTaskDeployFast(
-							(Copy)deployFastTask, bundleExtension,
-							workspaceExtension);
-					}
-
-					Task setUpTestableTomcatTask = taskContainer.findByName(
-						TestIntegrationPlugin.SET_UP_TESTABLE_TOMCAT_TASK_NAME);
-
-					if (setUpTestableTomcatTask != null) {
-						_configureTaskSetUpTestableTomcat(
-							setUpTestableTomcatTask, workspaceExtension);
-					}
-
-					_disableTasks(_excludeProjectPathMap, project);
+				if (true || Objects.equals(_currentDir, projectDir)) {
+					return;
 				}
 
+				TaskContainer taskContainer = project1.getTasks();
+
+				Path path = projectDir.toPath();
+
+				for (Map.Entry<String, PathMatcher> entry : _pathMatcherMap.entrySet()) {
+					PathMatcher pathMatcher = entry.getValue();
+
+					if (!pathMatcher.matches(path)) {
+						continue;
+					}
+
+					String glob = entry.getKey();
+
+					System.out.println();
+					System.out.printf(
+						"Disabling tasks for project %s. Project matched exclude glob pattern \"%s\".%n", project1.getPath(), glob);
+
+					for (String taskName : _taskNames) {
+						Task task = taskContainer.findByName(taskName);
+
+						if (task != null) {
+							System.out.println("disabling task: " + taskName);
+
+							task.setEnabled(false);
+						}
+					}
+					System.out.println();
+
+					return;
+				}
 			});
 
 		addTaskDockerDeploy(project, jarSourcePath, workspaceExtension);
+	}
+
+	private Action<? super Project> _withTask(String taskName, Consumer<Task> consumer) {
+		return project -> {
+			for (Task task : project.getTasksByName(taskName, false)) {
+				consumer.accept(task);
+			}
+		};
 	}
 
 	@Override
@@ -397,7 +452,7 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 		Copy deployFastTask, BundleExtension bundleExtension,
 		WorkspaceExtension workspaceExtension) {
 
-		Project project = deployFastTask.getProject();
+		deployFastTask.setDestinationDir(workspaceExtension.getHomeDir());
 
 		String bundleSymbolicName = bundleExtension.getInstruction(
 			Constants.BUNDLE_SYMBOLICNAME);
@@ -416,50 +471,24 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 		File dockerWorkDir = new File(
 			workspaceExtension.getDockerDir(), pathName);
 
-		deployFastTask.setDestinationDir(workspaceExtension.getHomeDir());
+		Project project = deployFastTask.getProject();
 
 		deployFastTask.doLast(
-			new Action<Task>() {
-
-				@Override
-				public void execute(Task task) {
-					project.sync(
-						new Action<CopySpec>() {
-
-							@Override
-							public void execute(CopySpec copySpec) {
-								copySpec.from(
-									new File(
-										deployFastTask.getDestinationDir(),
-										pathName));
-								copySpec.into(dockerWorkDir);
-							}
-
-						});
-				}
-
-			});
+			task -> project.sync(
+				copySpec -> {
+					copySpec.from(
+						new File(
+							deployFastTask.getDestinationDir(),
+							pathName));
+					copySpec.into(dockerWorkDir);
+				}));
 
 		Task cleanTask = GradleUtil.getTask(
 			project, LifecycleBasePlugin.CLEAN_TASK_NAME);
 
 		cleanTask.doLast(
-			new Action<Task>() {
-
-				@Override
-				public void execute(Task task) {
-					project.delete(
-						new Action<DeleteSpec>() {
-
-							@Override
-							public void execute(DeleteSpec deleteSpec) {
-								deleteSpec.delete(dockerWorkDir);
-							}
-
-						});
-				}
-
-			});
+			task -> project.delete(
+				deleteSpec -> deleteSpec.delete(dockerWorkDir)));
 	}
 
 	private void _configureTaskSetUpTestableTomcat(
@@ -552,116 +581,6 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 		};
 	}
 
-	private void _disableTasks(
-		Map<String, Path> excludeProjectPathMap, Project project) {
-
-		File projectDir = project.getProjectDir();
-
-		Path projectDirPath = projectDir.toPath();
-
-		Collection<Path> projectPaths = excludeProjectPathMap.values();
-
-		for (Path excludeProjectPath : projectPaths) {
-			if (projectDirPath.startsWith(excludeProjectPath)) {
-				Map<Project, Set<Task>> projectTasksMap = project.getAllTasks(
-					true);
-
-				Collection<Set<Task>> projectTasks = projectTasksMap.values();
-
-				for (Set<Task> tasks : projectTasks) {
-					for (Task task : tasks) {
-						task.setEnabled(false);
-					}
-				}
-			}
-		}
-	}
-
-	private Map<String, Path> _getExcludeProjectPathMap(Settings settings) {
-		if (Objects.isNull(_modulesExcludeDirs)) {
-			return Collections.emptyMap();
-		}
-
-		List<String> modulesExcludeDirs = Arrays.asList(
-			_modulesExcludeDirs.split(","));
-
-		if (Objects.isNull(modulesExcludeDirs) ||
-			modulesExcludeDirs.isEmpty()) {
-
-			return Collections.emptyMap();
-		}
-
-		List<String> modulesDirs = Arrays.asList(_modulesDirs.split(","));
-
-		Map<String, Path> excludeProjectPathMap = new HashMap<>();
-
-		for (String modulesDirString : modulesDirs) {
-			File modulesDir = new File(
-				settings.getRootDir(), modulesDirString.trim());
-
-			if (modulesDir.isDirectory()) {
-				try {
-					for (String excludeDirString : modulesExcludeDirs) {
-						ModulesProjectExcludeVisitor modulesExcludeVisitor =
-							new ModulesProjectExcludeVisitor(
-								excludeDirString.trim());
-
-						Files.walkFileTree(
-							modulesDir.toPath(), modulesExcludeVisitor);
-
-						Path modulesExcludePath =
-							modulesExcludeVisitor.getModulesExcludePath();
-
-						if (Objects.nonNull(modulesExcludePath)) {
-							excludeProjectPathMap.put(
-								excludeDirString, modulesExcludePath);
-						}
-					}
-				}
-				catch (Exception exception) {
-					return Collections.emptyMap();
-				}
-			}
-		}
-
-		Set<Map.Entry<String, Path>> excludeProjectEntries =
-			excludeProjectPathMap.entrySet();
-
-		for (Map.Entry<String, Path> modulesExcludeEntry :
-				excludeProjectEntries) {
-
-			String modulesExcludeName = modulesExcludeEntry.getKey();
-
-			Path modulesExcludePath = modulesExcludeEntry.getValue();
-
-			for (String modulesDirString : modulesDirs) {
-				File modulesDir = new File(
-					settings.getRootDir(), modulesDirString);
-
-				Path excludeParentPath = modulesExcludePath.getParent();
-
-				boolean foundParent = false;
-
-				while (!Objects.equals(
-							excludeParentPath, modulesDir.toPath())) {
-
-					modulesExcludePath = excludeParentPath;
-
-					excludeParentPath = modulesExcludePath.getParent();
-
-					foundParent = true;
-				}
-
-				if (foundParent) {
-					excludeProjectPathMap.put(
-						modulesExcludeName, modulesExcludePath);
-				}
-			}
-		}
-
-		return excludeProjectPathMap;
-	}
-
 	private File _getJarFile(Project project) {
 		return project.file(
 			"dist/" + GradleUtil.getArchivesBaseName(project) + "-" +
@@ -716,40 +635,6 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 	private static final boolean _DEFAULT_REPOSITORY_ENABLED = true;
 
 	private boolean _defaultRepositoryEnabled;
-	private final Map<String, Path> _excludeProjectPathMap;
 	private boolean _jspPrecompileEnabled;
-	private final String _modulesDirs;
-	private final String _modulesExcludeDirs;
-
-	private class ModulesProjectExcludeVisitor extends SimpleFileVisitor<Path> {
-
-		public ModulesProjectExcludeVisitor(String modulesExcludeDirName) {
-			_modulesExcludeDirName = modulesExcludeDirName;
-		}
-
-		public Path getModulesExcludePath() {
-			return _modulesExcludePath;
-		}
-
-		@Override
-		public FileVisitResult preVisitDirectory(
-				Path dir, BasicFileAttributes basicFileAttributes)
-			throws IOException {
-
-			super.preVisitDirectory(dir, basicFileAttributes);
-
-			if (Files.exists(dir.resolve(_modulesExcludeDirName))) {
-				_modulesExcludePath = dir.resolve(_modulesExcludeDirName);
-
-				return FileVisitResult.SKIP_SUBTREE;
-			}
-
-			return FileVisitResult.CONTINUE;
-		}
-
-		private final String _modulesExcludeDirName;
-		private Path _modulesExcludePath;
-
-	}
 
 }
