@@ -25,7 +25,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import com.liferay.gradle.plugins.LiferayBasePlugin;
+import com.liferay.gradle.plugins.LiferayOSGiPlugin;
 import com.liferay.gradle.plugins.extensions.LiferayExtension;
+import com.liferay.gradle.plugins.test.integration.TestIntegrationPlugin;
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
 import com.liferay.gradle.plugins.workspace.WorkspacePlugin;
 import com.liferay.gradle.plugins.workspace.internal.client.extension.ClientExtension;
@@ -259,6 +261,16 @@ public class ClientExtensionProjectConfigurator
 		}
 
 		_addDockerTasks(project, assembleClientExtensionTaskProvider);
+		
+		project.afterEvaluate(
+				new Action<Project>() {
+
+					@Override
+					public void execute(Project project) {
+						disableTasks(getExcludeProjectMap(), project);
+					}
+
+				});		
 	}
 
 	@Override

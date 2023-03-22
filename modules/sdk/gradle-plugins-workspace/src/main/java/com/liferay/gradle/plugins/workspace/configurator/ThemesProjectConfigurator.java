@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
+import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.file.ConfigurableFileCollection;
@@ -116,6 +117,16 @@ public class ThemesProjectConfigurator extends BaseProjectConfigurator {
 
 			addTaskDockerDeploy(project, warSourcePath, workspaceExtension);
 		}
+		
+		project.afterEvaluate(
+				new Action<Project>() {
+
+					@Override
+					public void execute(Project project) {
+						disableTasks(getExcludeProjectMap(), project);
+					}
+
+				});	
 	}
 
 	@Override

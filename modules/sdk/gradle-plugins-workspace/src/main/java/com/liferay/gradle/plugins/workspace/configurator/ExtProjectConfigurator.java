@@ -41,6 +41,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.file.CopySourceSpec;
@@ -114,6 +115,16 @@ public class ExtProjectConfigurator extends BaseProjectConfigurator {
 
 		_addTaskDockerDeploy(
 			project, dockerDeploySourcePath, workspaceExtension);
+		
+		project.afterEvaluate(
+				new Action<Project>() {
+
+					@Override
+					public void execute(Project project) {
+						disableTasks(getExcludeProjectMap(), project);
+					}
+
+				});			
 	}
 
 	@Override

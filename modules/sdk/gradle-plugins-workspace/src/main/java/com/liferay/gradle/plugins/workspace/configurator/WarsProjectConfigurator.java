@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
+import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.initialization.Settings;
@@ -82,6 +83,16 @@ public class WarsProjectConfigurator extends BaseProjectConfigurator {
 		addTaskDockerDeploy(project, war, workspaceExtension);
 
 		_configureRootTaskDistBundle(war);
+		
+		project.afterEvaluate(
+				new Action<Project>() {
+
+					@Override
+					public void execute(Project project) {
+						disableTasks(getExcludeProjectMap(), project);
+					}
+
+				});	
 	}
 
 	@Override
