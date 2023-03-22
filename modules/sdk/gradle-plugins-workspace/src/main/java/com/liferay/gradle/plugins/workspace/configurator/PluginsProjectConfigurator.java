@@ -107,16 +107,16 @@ public class PluginsProjectConfigurator extends BaseProjectConfigurator {
 		_configureTaskWar(warTask, workspaceExtension, initBundleTask);
 
 		_configureRootTaskDistBundle(warTask);
-		
+
 		project.afterEvaluate(
-				new Action<Project>() {
+			new Action<Project>() {
 
-					@Override
-					public void execute(Project project) {
-						disableTasks(getExcludeProjectMap(), project);
-					}
+				@Override
+				public void execute(Project project) {
+					disableTasks(getExcludeProjectMap(), project);
+				}
 
-				});	
+			});
 	}
 
 	@Override

@@ -117,16 +117,16 @@ public class ThemesProjectConfigurator extends BaseProjectConfigurator {
 
 			addTaskDockerDeploy(project, warSourcePath, workspaceExtension);
 		}
-		
+
 		project.afterEvaluate(
-				new Action<Project>() {
+			new Action<Project>() {
 
-					@Override
-					public void execute(Project project) {
-						disableTasks(getExcludeProjectMap(), project);
-					}
+				@Override
+				public void execute(Project project) {
+					disableTasks(getExcludeProjectMap(), project);
+				}
 
-				});	
+			});
 	}
 
 	@Override
