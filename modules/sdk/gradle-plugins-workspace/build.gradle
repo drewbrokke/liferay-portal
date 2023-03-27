@@ -18,6 +18,60 @@ task downloadHotFixZip(type: Download)
 task downloadPluginsSdk(type: Download)
 task downloadProductInfo(type: Download)
 
+task delegate(type: Exec)
+delegate {
+	project.setProperty("org.gradle.console", "plain")
+	commandLine "/Users/drewbrokke/.nvm/versions/node/v18.14.2/bin/npx", "@liferay/cli", "new", "bar"
+//	commandLine "bash", "-c", "f00"
+//	println project.getProperty("drew.command") as String
+//	commandLine(project.getProperty("drew.command").split(" "))
+//	commandLine "bash", "-c", " npx @liferay/cli new woo"
+//	commandLine "/usr/local/bin/jira_task", "LPS-12345"
+	standardInput System.in
+//	standardInput new FileInputStream("/dev/ttys000")
+//	standardOutput new FileOutputStream(new File("/Users/drewbrokke/Documents/liferay/liferay-portal/modules/sdk/gradle-plugins-workspace/hello"))
+//	standardOutput System.out
+	doFirst {
+//		System.out.flush()
+//		System.setOut(new PrintStream(new FileOutputStream(ext.tempFile)))
+	}
+}
+task delegate2 {
+//	doFirst {
+//		println System.console()
+//		def pb = new ProcessBuilder("/usr/local/bin/git", "log", "-100", "--color=always")
+//		pb.redirectInput(ProcessBuilder.Redirect.from(new File("/dev/ttys000")))
+////		pb.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+//		def p = pb.start()
+//
+//		Writer w = new OutputStreamWriter(p.getOutputStream(), "UTF-8")
+//
+//		def is = p.getInputStream()
+//		for (def nextByte = is.read() ; nextByte != -1 ; nextByte = is.read()) {
+//			System.out.write(nextByte)
+//
+//			def console = System.console()
+//			if (console != null) {
+//				def input = console.readLine("Input please: ")
+//				w.write(input)
+//			}
+//		}
+////		p.waitFor()
+//	}
+
+	doFirst {
+		Scanner scanner = new Scanner(System.in);
+
+		println "Foo? "
+		scanner.nextLine()
+
+		println "Bar number? "
+		scanner.nextInt()
+
+		scanner.close()
+	}
+}
+
 String bundleUrl = "https://releases-cdn.liferay.com/portal/7.1.2-ga3/liferay-ce-portal-tomcat-7.1.2-ga3-20190107144105508.tar.gz"
 File gradleTestDependenciesDir = new File(buildDir, "gradle-test-dependencies")
 String gradleVersion = "6.9.2"

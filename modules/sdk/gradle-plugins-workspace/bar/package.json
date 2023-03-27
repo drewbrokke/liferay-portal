@@ -1,0 +1,14 @@
+{
+  "name": "bar",
+  "version": "1.0.0",
+  "description": "Deborah",
+  "dependencies": {
+    "@liferay/portal-7.4": "*"
+  },
+  "scripts": {
+    "build": "liferay build",
+    "clean": "liferay clean",
+    "deploy": "liferay deploy",
+    "start": "liferay start"
+  }
+}

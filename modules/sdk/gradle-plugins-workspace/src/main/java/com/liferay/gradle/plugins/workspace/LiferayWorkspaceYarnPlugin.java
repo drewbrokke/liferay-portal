@@ -83,21 +83,16 @@ public class LiferayWorkspaceYarnPlugin extends YarnPlugin {
 
 					taskContainer.withType(
 						NpmInstallTask.class,
-						new Action<NpmInstallTask>() {
+						npmInstallTask -> {
+							NodeExtension nodeExtension =
+								GradleUtil.getExtension(
+									npmInstallTask.getProject(),
+									NodeExtension.class);
 
-							@Override
-							public void execute(NpmInstallTask npmInstallTask) {
-								NodeExtension nodeExtension =
-									GradleUtil.getExtension(
-										npmInstallTask.getProject(),
-										NodeExtension.class);
+							nodeExtension.setUseNpm(false);
 
-								nodeExtension.setUseNpm(false);
-
-								npmInstallTask.finalizedBy(
-									yarnInstallTaskProvider);
-							}
-
+							npmInstallTask.finalizedBy(
+								yarnInstallTaskProvider);
 						});
 				}
 

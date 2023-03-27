@@ -61,7 +61,8 @@ public class CompanyFeatureFlags {
 			}
 		}
 
-		featureFlags.sort(Comparator.comparing(FeatureFlag::getKey));
+
+		featureFlags.sort(Comparator.comparing((FeatureFlag featureFlag) -> featureFlag.isEnabled() ? "a" : "b"));
 
 		return featureFlags;
 	}

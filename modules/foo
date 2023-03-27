@@ -1,0 +1,5 @@
+ec155f850d0b1 - (HEAD -> LPS-179337-SPIKE-v0-liferay-cli-workspace-integration, usm/master, upstream/master, origin/master, origin/HEAD, master) ../gradlew -b releng.gradle cleanReleng (20 hours ago) <Brian Chan>
+bb1cc5e4b2e68 - LPS-179305 SF (20 hours ago) <Joel Rocha>
+d49746b1df6ad - LPS-179305 Deleted tests (20 hours ago) <Joel Rocha>
+664e4e0e3caef - LPS-179305 Test Fix (20 hours ago) <Joel Rocha>
+2b04e384c5bd3 - LPS-179384 Remove alloy-mvc (20 hours ago) <shuyangzhou>

@@ -1,0 +1,5 @@
+liferay-sample-custom-element-4:
+    urls:
+        - main.*.js
+        - polyfills.*.js
+        - runtime.*.js

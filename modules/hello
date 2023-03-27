@@ -1,0 +1,96 @@
+
+👋 Welcome to Liferay Project Generator v1.5.0
+
+⚙ Gathering information to create project...
+ℹ️ Using project name: bar
+? What type of project do you want to create? (Use arrow keys)
+❯ Liferay Platform Project  
+  Liferay Remote App Project  
+  Liferay Theme Spritemap Client Extension (Support: experimental) [67D[67C[2K[1A[2K[1A[2K[1A[2K[G? What type of project do you want to create? 
+  Liferay Platform Project  
+  Liferay Remote App Project  
+❯ Liferay Theme Spritemap Client Extension (Support: experimental) [67D[67C[2K[1A[2K[1A[2K[1A[2K[G? What type of project do you want to create? 
+❯ Liferay Platform Project  
+  Liferay Remote App Project  
+  Liferay Theme Spritemap Client Extension (Support: experimental) [67D[67C[2K[1A[2K[1A[2K[1A[2K[G? What type of project do you want to create? Liferay Platform Project [71D[71C
+? What is the human readable description of your project? (Bar) [64D[64C[2K[G? What is the human readable description of your project? Bar[61D[61C
+? Which will be your target platform? (Use arrow keys)
+❯ Liferay Portal CE (not sharing platform's packages) 
+  Liferay Portal CE 7.4 
+  Liferay DXP 7.4 
+  Liferay Portal CE 7.3 
+  Liferay DXP 7.3 
+  Liferay Portal CE 7.2 
+  Liferay DXP 7.2 
+(Move up and down to reveal more choices)[41D[41C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? Which will be your target platform? 
+  Liferay Portal CE (not sharing platform's packages) 
+❯ Liferay Portal CE 7.4 
+  Liferay DXP 7.4 
+  Liferay Portal CE 7.3 
+  Liferay DXP 7.3 
+  Liferay Portal CE 7.2 
+  Liferay DXP 7.2 
+(Move up and down to reveal more choices)[41D[41C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? Which will be your target platform? 
+  Liferay Portal CE (not sharing platform's packages) 
+  Liferay Portal CE 7.4 
+❯ Liferay DXP 7.4 
+  Liferay Portal CE 7.3 
+  Liferay DXP 7.3 
+  Liferay Portal CE 7.2 
+  Liferay DXP 7.2 
+(Move up and down to reveal more choices)[41D[41C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? Which will be your target platform? 
+  Liferay DXP 7.1 
+  Liferay Portal CE (not sharing platform's packages) 
+❯ Liferay Portal CE 7.4 
+  Liferay DXP 7.4 
+  Liferay Portal CE 7.3 
+  Liferay DXP 7.3 
+  Liferay Portal CE 7.2 
+(Move up and down to reveal more choices)[41D[41C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? Which will be your target platform? Liferay Portal CE 7.4[59D[59C
+? Which will be your project type? (Use arrow keys)
+  Angular 
+  Plain JavaScript 
+❯ React 
+  Shared bundle 
+  Vue.js [9D[9C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? Which will be your project type? React[40D[40C
+? Under which category should your widget be listed? (category.sample) [71D[71C[2K[G? Under which category should your widget be listed? category.sample[68D[68C
+
+⚙ Generating project...
+ℹ️ Creating project structure
+ℹ️ Configuring target platform...
+ℹ️   Adding @liferay/portal-7.4 as a dependency
+ℹ️ Adding localization support to project...
+ℹ️   Creating Language.properties file
+ℹ️ Adding configuration support to project...
+ℹ️   Creating configuration.json file
+ℹ️   Adding configuration name for English language
+ℹ️ Generating porlet...
+ℹ️   Creating styles.scss file
+ℹ️   Setting porlet headers
+ℹ️   Set portlet resource bundle
+ℹ️   Add portlet display name for English language
+ℹ️ Configuring build...
+ℹ️   Adding build artifacts to .gitignore
+ℹ️   Configuring npm build scripts
+ℹ️ Configuring deployment...
+ℹ️   Adding dist directory to .gitignore
+ℹ️   Configuring npm build scripts
+ℹ️ Generating sample code...
+ℹ️   Configuring Babel
+ℹ️   Creating React widget
+ℹ️   Adding labels for English language
+ℹ️   Adding sample CSS styles
+ℹ️   Adding configuration schemas
+ℹ️   Adding configuration labels for English language
+
+✔️ Project has been generated successfully!
+
+You can now run the following commands to build your project:
+
+    $ cd bar ↩
+    $ npm install ↩ 
+    $ npm run build ↩ 
+
+This will create a bar.jar file in your bar/dist
+folder that you can deploy to your local Liferay server.
+
