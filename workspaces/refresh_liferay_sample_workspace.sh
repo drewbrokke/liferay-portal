@@ -44,13 +44,13 @@ function refresh_liferay_sample_workspace {
 
 	pushd ${temp_dir}
 
-	${BLADE_PATH} init --liferay-version dxp-7.4-u65
+	${BLADE_PATH} init --liferay-version dxp-7.4-u69
 
 	echo -en "\n**/dist\n**/node_modules_cache\n.DS_Store" >> .gitignore
 
 	echo -en "\n\nfeature.flag.LPS-166479=true" >> configs/local/portal-ext.properties
 
-	#echo -en "\nliferay.workspace.docker.image.liferay=liferay/dxp:7.4.13-u54-d5.0.5-20221208173455" >> gradle.properties
+	echo -en "\nliferay.workspace.docker.image.liferay=liferay/dxp:7.4.13.nightly-d5.0.19-20230322175816" >> gradle.properties
 	echo -en "\nliferay.workspace.node.package.manager=yarn" >> gradle.properties
 
 	#
