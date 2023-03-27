@@ -11,7 +11,9 @@ liferay-sample-custom-element-3:
     portletCategoryName: category.client-extensions
     type: customElement
     urls:
-        - main.*.js
-        - polyfills.*.js
-        - runtime.*.js
+        - http://localhost:4200/main.js
+        - http://localhost:4200/polyfills.js
+        - http://localhost:4200/runtime.js
+        - http://localhost:4200/vendor.js
+        - http://localhost:4200/styles.js
     useESM: true

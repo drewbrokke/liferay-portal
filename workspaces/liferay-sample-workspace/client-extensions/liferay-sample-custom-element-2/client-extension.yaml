@@ -11,5 +11,6 @@ liferay-sample-custom-element-2:
     portletCategoryName: category.client-extensions
     type: customElement
     urls:
-        - js/main.*.js
+        #- js/main.*.js
+        - http://localhost:3000/static/js/bundle.js
     useESM: true
