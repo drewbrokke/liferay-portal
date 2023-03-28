@@ -36,6 +36,11 @@ delegate {
 //		System.setOut(new PrintStream(new FileOutputStream(ext.tempFile)))
 	}
 }
+
+static def prompt(String s) {
+	System.out.print s
+	System.out.flush()
+}
 task delegate2 {
 //	doFirst {
 //		println System.console()
@@ -60,15 +65,55 @@ task delegate2 {
 //	}
 
 	doFirst {
-		Scanner scanner = new Scanner(System.in);
 
-		println "Foo? "
-		scanner.nextLine()
+		def consoleOutput = gradle.startParameter.consoleOutput
+		if (consoleOutput != ConsoleOutput.Plain) {
+			throw new StopExecutionException("This task requires plain console output. Please re-run with the '--console=plain' flag.")
+		}
+//		def reader = System.in.newReader()
+//		println "Type something: "
+//		def response = reader.readLine()
+//		println "you typed: ${response}"
+////		def writer = new PrintStream(true, System.out)
+//
+//		java.io.Console console = null;
+//		while (console == null) {
+//			println "trying to get console..."
+//			console = System.console()
+//		}
+//
+//		console.readPassword("Password: ")
 
-		println "Bar number? "
-		scanner.nextInt()
+		Scanner scanner = new Scanner (System.in) ;
+		prompt "Age?: "
+//
+//		while (!scanner.hasNextInt()) {
+//			prompt "Please enter a number for Age: "
+//			scanner.nextLine(); // What happens if you use nextLine() instead?
+////			scanner.nextLine();
+//		}
+//		int age = scanner.nextInt();
+//		scanner.nextLine(); // What happens if you remove this statement?
+
+		Integer age = null
+		while (age == null) {
+			if (scanner.hasNextInt()) {
+				age = scanner.nextInt()
+				scanner.nextLine()
+				break
+			}
+			prompt "NEED NUBMER AGE PLS: "
+			scanner.nextLine()
+		}
+
+		prompt "Name?: "
+		String name = scanner.nextLine();
+
+		System.out.format("[%s] is %d years old", name, age)
 
 		scanner.close()
+
+
 	}
 }
 
