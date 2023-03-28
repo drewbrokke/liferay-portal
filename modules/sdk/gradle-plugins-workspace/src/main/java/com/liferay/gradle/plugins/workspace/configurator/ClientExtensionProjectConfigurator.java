@@ -22,6 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import com.liferay.gradle.plugins.LiferayBasePlugin;
@@ -136,8 +137,57 @@ public class ClientExtensionProjectConfigurator
 			_DEFAULT_REPOSITORY_ENABLED);
 	}
 
+	public void _override(JsonNode base, JsonNode override) {
+		if (override.isEmpty()) {
+			return;
+		}
+
+		Iterator<String> iterator = override.fieldNames();
+
+		while (iterator.hasNext()) {
+			String fieldName = iterator.next();
+
+			JsonNode baseField = base.path(fieldName);
+			JsonNode overrideField = override.path(fieldName);
+
+			if (baseField.isMissingNode() || overrideField.isMissingNode()) {
+				continue;
+			}
+
+			if (baseField.isObject()) {
+				_override(baseField, overrideField);
+
+				continue;
+			}
+
+			ObjectNode baseObjectNode = (ObjectNode)base;
+
+			baseObjectNode.replace(fieldName, overrideField);
+		}
+	}
+
+	private JsonNode _getJsonNode(File file) {
+		if (!file.exists()) {
+			return _yamlObjectMapper.createObjectNode();
+		}
+
+		try (FileReader fileReader = new FileReader(file)) {
+			return _yamlObjectMapper.readTree(file);
+		}
+		catch (IOException ioException) {
+			throw new GradleException(
+				StringBundler.concat(
+					"Failed parsing ", file.getName(), " file."),
+				ioException);
+		}
+
+	}
+
+	private final ObjectMapper _yamlObjectMapper = new ObjectMapper(new YAMLFactory());
+
 	@Override
 	public void apply(Project project) {
+		System.out.println("DREWWASHERE OVERRIDE");
 		TaskProvider<CreateClientExtensionConfigTask>
 			createClientExtensionConfigTaskProvider =
 				GradleUtil.addTaskProvider(
@@ -157,107 +207,98 @@ public class ClientExtensionProjectConfigurator
 			buildClientExtensionZipTaskProvider,
 			createClientExtensionConfigTaskProvider);
 
-		File clientExtensionFile = project.file(_CLIENT_EXTENSION_YAML);
+		JsonNode rootJsonNode = _getJsonNode(project.file(_CLIENT_EXTENSION_YAML));
+		JsonNode overrideJsonNode = _getJsonNode(project.file("client-extension.dev.yaml"));
 
-		try (FileReader fileReader = new FileReader(clientExtensionFile)) {
-			ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+		_override(rootJsonNode, overrideJsonNode);
 
-			JsonNode rootJsonNode = objectMapper.readTree(clientExtensionFile);
+		Iterator<Map.Entry<String, JsonNode>> iterator =
+			rootJsonNode.fields();
 
-			Iterator<Map.Entry<String, JsonNode>> iterator =
-				rootJsonNode.fields();
+		iterator.forEachRemaining(
+			entry -> {
+				String id = entry.getKey();
 
-			iterator.forEachRemaining(
-				entry -> {
-					String id = entry.getKey();
+				if (Objects.equals(id, "assemble")) {
+					JsonNode assembleJsonNode = entry.getValue();
 
-					if (Objects.equals(id, "assemble")) {
-						JsonNode assembleJsonNode = entry.getValue();
+					_configureAssembleClientExtensionTask(
+						project, assembleClientExtensionTaskProvider,
+						assembleJsonNode);
+				}
+				else if (Objects.equals(id, "runtime")) {
+					JsonNode runtimeJsonNode = entry.getValue();
 
-						_configureAssembleClientExtensionTask(
-							project, assembleClientExtensionTaskProvider,
-							assembleJsonNode);
+					JsonNode runtimeTypeJsonNode = runtimeJsonNode.get(
+						"type");
+
+					if (runtimeTypeJsonNode != null) {
+						createClientExtensionConfigTaskProvider.configure(
+							createClientExtensionConfigTask ->
+								createClientExtensionConfigTask.setType(
+									runtimeTypeJsonNode.asText()));
+
+						List<ClientExtensionConfigurer>
+							clientExtensionTypeConfigurers =
+							_clientExtensionConfigurers.getOrDefault(
+								runtimeTypeJsonNode.asText(),
+								Collections.emptyList());
+
+						clientExtensionTypeConfigurers.forEach(
+							clientExtensionTypeConfigurer ->
+								clientExtensionTypeConfigurer.apply(
+									project, Optional.empty(),
+									assembleClientExtensionTaskProvider));
 					}
-					else if (Objects.equals(id, "runtime")) {
-						JsonNode runtimeJsonNode = entry.getValue();
+				}
+				else {
+					JsonNode clientExtensionJsonNode = entry.getValue();
 
-						JsonNode runtimeTypeJsonNode = runtimeJsonNode.get(
-							"type");
+					try {
+						ClientExtension clientExtension =
+							_yamlObjectMapper.treeToValue(
+								clientExtensionJsonNode,
+								ClientExtension.class);
 
-						if (runtimeTypeJsonNode != null) {
-							createClientExtensionConfigTaskProvider.configure(
-								createClientExtensionConfigTask ->
-									createClientExtensionConfigTask.setType(
-										runtimeTypeJsonNode.asText()));
+						clientExtension.id = id;
 
-							List<ClientExtensionConfigurer>
-								clientExtensionTypeConfigurers =
-									_clientExtensionConfigurers.getOrDefault(
-										runtimeTypeJsonNode.asText(),
-										Collections.emptyList());
-
-							clientExtensionTypeConfigurers.forEach(
-								clientExtensionTypeConfigurer ->
-									clientExtensionTypeConfigurer.apply(
-										project, Optional.empty(),
-										assembleClientExtensionTaskProvider));
+						if (Validator.isNull(clientExtension.type)) {
+							clientExtension.type = id;
 						}
+
+						clientExtension.classification = _getClassification(
+							clientExtension.id, clientExtension.type);
+
+						clientExtension.projectName = project.getName();
+
+						_validateClientExtension(clientExtension);
+
+						createClientExtensionConfigTaskProvider.configure(
+							createClientExtensionConfigTask ->
+								createClientExtensionConfigTask.
+									addClientExtension(clientExtension));
+
+						List<ClientExtensionConfigurer>
+							clientExtensionTypeConfigurers =
+							_clientExtensionConfigurers.getOrDefault(
+								clientExtension.type,
+								Collections.emptyList());
+
+						clientExtensionTypeConfigurers.forEach(
+							clientExtensionTypeConfigurer ->
+								clientExtensionTypeConfigurer.apply(
+									project, Optional.of(clientExtension),
+									assembleClientExtensionTaskProvider));
 					}
-					else {
-						JsonNode clientExtensionJsonNode = entry.getValue();
+					catch (JsonProcessingException
+						jsonProcessingException) {
 
-						try {
-							ClientExtension clientExtension =
-								objectMapper.treeToValue(
-									clientExtensionJsonNode,
-									ClientExtension.class);
-
-							clientExtension.id = id;
-
-							if (Validator.isNull(clientExtension.type)) {
-								clientExtension.type = id;
-							}
-
-							clientExtension.classification = _getClassification(
-								clientExtension.id, clientExtension.type);
-
-							clientExtension.projectName = project.getName();
-
-							_validateClientExtension(clientExtension);
-
-							createClientExtensionConfigTaskProvider.configure(
-								createClientExtensionConfigTask ->
-									createClientExtensionConfigTask.
-										addClientExtension(clientExtension));
-
-							List<ClientExtensionConfigurer>
-								clientExtensionTypeConfigurers =
-									_clientExtensionConfigurers.getOrDefault(
-										clientExtension.type,
-										Collections.emptyList());
-
-							clientExtensionTypeConfigurers.forEach(
-								clientExtensionTypeConfigurer ->
-									clientExtensionTypeConfigurer.apply(
-										project, Optional.of(clientExtension),
-										assembleClientExtensionTaskProvider));
-						}
-						catch (JsonProcessingException
-									jsonProcessingException) {
-
-							throw new GradleException(
-								"Failed to parse client-extension " + id,
-								jsonProcessingException);
-						}
+						throw new GradleException(
+							"Failed to parse client-extension " + id,
+							jsonProcessingException);
 					}
-				});
-		}
-		catch (IOException ioException) {
-			throw new GradleException(
-				StringBundler.concat(
-					"Failed parsing ", _CLIENT_EXTENSION_YAML, " file."),
-				ioException);
-		}
+				}
+			});
 
 		_addDockerTasks(project, assembleClientExtensionTaskProvider);
 	}
