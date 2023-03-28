@@ -63,7 +63,6 @@ import java.net.URI;
 import java.net.URL;
 
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,7 +73,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import org.gradle.api.Action;
@@ -840,6 +838,35 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		_configureTaskDisableUpToDate(copy);
 
+		copy.doLast(
+			new Action<Task>() {
+
+				@Override
+				public void execute(Task task) {
+					project.copy(
+						new Action<CopySpec>() {
+
+							@Override
+							public void execute(CopySpec copySpec) {
+								String tomcatVersion =
+									workspaceExtension.
+										getAppServerTomcatVersion();
+
+								String tomcatDir = "tomcat-" + tomcatVersion;
+
+								File targetAppServerDir = new File(
+									new File(project.getBuildDir(), "dist"),
+									tomcatDir);
+
+								_copyTomcatConfiguration(
+									task.getProject(), targetAppServerDir);
+							}
+
+						});
+				}
+
+			});
+
 		copy.into(
 			new Callable<File>() {
 
@@ -1208,7 +1235,16 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 				@Override
 				public void execute(Task task) {
-					_copyTomcatConfiguration(task.getProject());
+					String tomcatVersion =
+						workspaceExtension.getAppServerTomcatVersion();
+
+					String tomcatDir = "tomcat-" + tomcatVersion;
+
+					File targetAppServerDir = new File(
+						workspaceExtension.getHomeDir(), tomcatDir);
+
+					_copyTomcatConfiguration(
+						task.getProject(), targetAppServerDir);
 				}
 
 			});
@@ -1863,8 +1899,6 @@ public class RootProjectConfigurator implements Plugin<Project> {
 							new File(destinationDir, rootDirName),
 							destinationDir);
 					}
-
-					_copyTomcatConfiguration(task.getProject());
 				}
 
 			});
@@ -1998,25 +2032,28 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		}
 	}
 
-	private void _copyTomcatConfiguration(Project project) {
-		WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
-			(ExtensionAware)project.getGradle(), WorkspaceExtension.class);
+	private void _copyTomcatConfiguration(
+		Project project, File destinationDir) {
 
-		File targetAppServerDir = new File(
-			workspaceExtension.getHomeDir(),
-			"tomcat-" + workspaceExtension.getAppServerTomcatVersion());
+		project.copy(
+			new Action<CopySpec>() {
 
-		File tomcatDir = new File(workspaceExtension.getConfigsDir(), "tomcat");
+				@Override
+				public void execute(CopySpec copySpec) {
+					WorkspaceExtension workspaceExtension =
+						GradleUtil.getExtension(
+							(ExtensionAware)project.getGradle(),
+							WorkspaceExtension.class);
 
-		try {
-			if (Files.exists(tomcatDir.toPath(), LinkOption.NOFOLLOW_LINKS)) {
-				FileUtils.copyDirectory(tomcatDir, targetAppServerDir);
-			}
-		}
-		catch (Exception exception) {
-			throw new GradleException(
-				"Unable to copy tomcat configs ", exception);
-		}
+					File tomcatDir = new File(
+						workspaceExtension.getConfigsDir(), "tomcat");
+
+					copySpec.from(tomcatDir);
+
+					copySpec.into(destinationDir);
+				}
+
+			});
 	}
 
 	private void _createTouchFile(File dir) throws IOException {
