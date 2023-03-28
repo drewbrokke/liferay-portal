@@ -235,8 +235,24 @@ public class ClientExtensionProjectConfigurator
 
 				if (matcher.find()) {
 					String profileName = matcher.group(1);
-					// Create deploy{ProfileName} tasks
-						// Set profile property
+
+					String taskName = "deploy" + profileName.toUpperCase();
+
+					Task deployProfileTask =
+						GradleUtil.addTask(project, taskName, Task.class);
+
+					deployProfileTask.dependsOn("deploy");
+					deployProfileTask.setDescription(
+						"Assembles the project and deploys it to Liferay " +
+						"with the \"" + profileName + "\" client extension " +
+						"profile.");
+					deployProfileTask.setGroup(BasePlugin.BUILD_GROUP);
+					deployProfileTask.doFirst(
+						task -> GradleUtil.setProperty(
+							project, "drew.deploy.profile", profileName));
+					TaskInputs inputs = deployProfileTask.getInputs();
+
+					inputs.files(clientExtensionYamlFile, curFile);
 
 					// Populating override object maps
 					JsonNode jsonNode = rootJsonNode.deepCopy();
@@ -259,8 +275,8 @@ public class ClientExtensionProjectConfigurator
 					String id = entry.getKey();
 
 					if (!Objects.equals(profileName, "default") &&
-						Objects.equals(id, "assemble") ||
-						Objects.equals(id, "runtime")) {
+						(Objects.equals(id, "assemble") ||
+						 Objects.equals(id, "runtime"))) {
 
 						return;
 					}
