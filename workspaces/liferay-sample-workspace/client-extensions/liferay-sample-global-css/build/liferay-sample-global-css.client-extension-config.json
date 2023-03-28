@@ -1,0 +1,12 @@
+{
+  "com.liferay.client.extension.type.configuration.CETConfiguration~liferay-sample-global-css" : {
+    "baseURL" : "${portalURL}/o/liferay-sample-global-css",
+    "description" : "",
+    "dxp.lxc.liferay.com.virtualInstanceId" : "default",
+    "name" : "Liferay Sample Global CSS",
+    "properties" : [ ],
+    "sourceCodeURL" : "",
+    "type" : "globalCSS",
+    "typeSettings" : [ "url=global.css" ]
+  }
+}

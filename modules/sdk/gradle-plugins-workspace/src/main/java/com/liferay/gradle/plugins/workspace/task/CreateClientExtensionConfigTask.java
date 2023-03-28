@@ -75,9 +75,18 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 			_PLUGIN_PACKAGE_PROPERTIES_PATH);
 	}
 
-	public void addClientExtension(ClientExtension clientExtension) {
-		_clientExtensions.add(clientExtension);
+	public void addClientExtensionProfile(String overrideKey, ClientExtension clientExtension) {
+		_clientExtensionsOverrides.compute(overrideKey, (key, value) -> {
+			if (value == null) {
+				value = new LinkedHashSet<>();
+			}
+
+			value.add(clientExtension);
+
+			return value;
+		});
 	}
+
 
 	public void addClientExtensionProperties(
 		Properties clientExtensionProperties) {
@@ -94,33 +103,42 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 		Map<String, Object> jsonMap = new HashMap<>();
 
-		_clientExtensions.forEach(
-			clientExtension -> {
-				String pid = _clientExtensionProperties.getProperty(
-					clientExtension.type + ".pid");
+		String profileKey = GradleUtil.getProperty(
+			getProject(), "drew.deploy.profile", "default");
 
-				if (Objects.equals(
-						clientExtension.type, "instanceConfiguration")) {
+		Set<ClientExtension> clientExtensions =
+			_clientExtensionsOverrides.get(profileKey);
 
-					pid = (String)clientExtension.typeSettings.remove("pid");
-				}
+		if (clientExtensions == null) {
+			clientExtensions = _clientExtensionsOverrides.get("default");
+		}
 
-				if (pid != null) {
-					jsonMap.putAll(clientExtension.toJSONMap(pid));
-				}
+		for (ClientExtension clientExtension : clientExtensions) {
+			String pid = _clientExtensionProperties.getProperty(
+				clientExtension.type + ".pid");
 
-				if (Objects.equals(clientExtension.classification, "batch")) {
-					pluginPackageProperties.put(
-						"Liferay-Client-Extension-Batch", "batch/");
-				}
+			if (Objects.equals(
+				clientExtension.type, "instanceConfiguration")) {
 
-				if (Objects.equals(
-						clientExtension.classification, "frontend")) {
+				pid = (String)clientExtension.typeSettings.remove("pid");
+			}
 
-					pluginPackageProperties.put(
-						"Liferay-Client-Extension-Frontend", "static/");
-				}
-			});
+			if (pid != null) {
+				jsonMap.putAll(clientExtension.toJSONMap(pid));
+			}
+
+			if (Objects.equals(clientExtension.classification, "batch")) {
+				pluginPackageProperties.put(
+					"Liferay-Client-Extension-Batch", "batch/");
+			}
+
+			if (Objects.equals(
+				clientExtension.classification, "frontend")) {
+
+				pluginPackageProperties.put(
+					"Liferay-Client-Extension-Frontend", "static/");
+			}
+		}
 
 		_storePluginPackageProperties(pluginPackageProperties);
 
@@ -452,8 +470,8 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 	private final Object _clientExtensionConfigFile;
 	private Properties _clientExtensionProperties;
-	private final Set<ClientExtension> _clientExtensions =
-		new LinkedHashSet<>();
+	private final Set<ClientExtension> _clientExtensions = new LinkedHashSet<>();
+	private final Map<String, Set<ClientExtension>> _clientExtensionsOverrides = new HashMap<>();
 	private Object _dockerFile;
 	private Object _lcpJsonFile;
 	private final Object _pluginPackagePropertiesFile;
