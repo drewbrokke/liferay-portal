@@ -75,8 +75,8 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 			_PLUGIN_PACKAGE_PROPERTIES_PATH);
 	}
 
-	public void addClientExtensionProfile(String overrideKey, ClientExtension clientExtension) {
-		_clientExtensionsOverrides.compute(overrideKey, (key, value) -> {
+	public void addClientExtensionProfile(String profileName, ClientExtension clientExtension) {
+		_clientExtensionsMap.compute(profileName, (key, value) -> {
 			if (value == null) {
 				value = new LinkedHashSet<>();
 			}
@@ -98,20 +98,16 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 	public void createClientExtensionConfig() {
 		Properties pluginPackageProperties = _getPluginPackageProperties();
 
-		String classificationGrouping = _validateAndGetClassificationGrouping(
-			_clientExtensions);
-
-		Map<String, Object> jsonMap = new HashMap<>();
-
-		String profileKey = GradleUtil.getProperty(
-			getProject(), "drew.deploy.profile", "default");
-
 		Set<ClientExtension> clientExtensions =
-			_clientExtensionsOverrides.get(profileKey);
+			_clientExtensionsMap.get(_profileName);
 
 		if (clientExtensions == null) {
-			clientExtensions = _clientExtensionsOverrides.get("default");
+			clientExtensions = _clientExtensionsMap.get("default");
 		}
+		String classificationGrouping = _validateAndGetClassificationGrouping(
+			clientExtensions);
+
+		Map<String, Object> jsonMap = new HashMap<>();
 
 		for (ClientExtension clientExtension : clientExtensions) {
 			String pid = _clientExtensionProperties.getProperty(
@@ -144,7 +140,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 		Project project = getProject();
 
-		Stream<ClientExtension> stream = _clientExtensions.stream();
+		Stream<ClientExtension> stream = clientExtensions.stream();
 
 		Map<String, String> substitutionMap = stream.flatMap(
 			clientExtension -> {
@@ -178,10 +174,6 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 	public File getClientExtensionConfigFile() {
 		return GradleUtil.toFile(getProject(), _clientExtensionConfigFile);
-	}
-
-	public Set<ClientExtension> getClientExtensions() {
-		return _clientExtensions;
 	}
 
 	public File getDockerFile() {
@@ -470,11 +462,16 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 	private final Object _clientExtensionConfigFile;
 	private Properties _clientExtensionProperties;
-	private final Set<ClientExtension> _clientExtensions = new LinkedHashSet<>();
-	private final Map<String, Set<ClientExtension>> _clientExtensionsOverrides = new HashMap<>();
+	private final Map<String, Set<ClientExtension>> _clientExtensionsMap = new HashMap<>();
 	private Object _dockerFile;
 	private Object _lcpJsonFile;
 	private final Object _pluginPackagePropertiesFile;
 	private String _type = "frontend";
+
+	public void setProfileName(String profileName) {
+		_profileName = profileName;
+	}
+
+	private String _profileName = "default";
 
 }

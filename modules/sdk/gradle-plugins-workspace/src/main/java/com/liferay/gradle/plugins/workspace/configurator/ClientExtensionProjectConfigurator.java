@@ -241,15 +241,21 @@ public class ClientExtensionProjectConfigurator
 					Task deployProfileTask =
 						GradleUtil.addTask(project, taskName, Task.class);
 
-					deployProfileTask.dependsOn("deploy");
+					deployProfileTask.finalizedBy("deploy");
 					deployProfileTask.setDescription(
 						"Assembles the project and deploys it to Liferay " +
 						"with the \"" + profileName + "\" client extension " +
 						"profile.");
 					deployProfileTask.setGroup(BasePlugin.BUILD_GROUP);
 					deployProfileTask.doFirst(
-						task -> GradleUtil.setProperty(
-							project, "drew.deploy.profile", profileName));
+						task -> {
+							TaskContainer tasks = project.getTasks();
+							CreateClientExtensionConfigTask createClientExtensionConfigTask = (CreateClientExtensionConfigTask)tasks.findByName(
+								CREATE_CLIENT_EXTENSION_CONFIG_TASK_NAME);
+
+							createClientExtensionConfigTask.setProfileName(profileName);
+						});
+
 					TaskInputs inputs = deployProfileTask.getInputs();
 
 					inputs.files(clientExtensionYamlFile, curFile);
