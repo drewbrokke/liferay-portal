@@ -14,6 +14,9 @@ jobs:
             - name: Build with Ant
               run: ant
             - name: Run publish-workspaces task
+              env:
+                LIFERAY_NEXUS_USERNAME: ${{ secrets.liferay_nexus_username }}
+                LIFERAY_NEXUS_PASSWORD: ${{ secrets.liferay_nexus_password }}
               run: ant publish-workspaces
 name: CI Publish Workspaces
 on:
