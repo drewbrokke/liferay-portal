@@ -983,6 +983,9 @@ This target has been renamed to "snapshot-bundle". Please call "snapshot-bundle"
 
 				<artifact:writepom file="dist/${artifact.id}.pom" pomRefId="${artifact.id}.pom" />
 
+				<property name="sonatype.release.username" value="seiphon.wang@liferay.com" />
+				<property name="sonatype.release.password" value="sunningyang19950516!" />
+
 				<artifact:deploy file="dist/${artifact.id}.zip">
 					<pom file="dist/${artifact.id}.pom" />
 					<remoteRepository url="https://repository-cdn.liferay.com/nexus/content/repositories/liferay-public-releases">
