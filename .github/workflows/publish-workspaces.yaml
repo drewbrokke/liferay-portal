@@ -14,7 +14,7 @@ jobs:
             - name: Build with Ant
               run: ant
             - name: Run publish-workspaces task
-              run: ant publish-workspaces
+              run: ant publish-workspaces -Dsonatype.release.password=${{secrets.LIFERAY_NEXUS_PASSWORD}} -Dsonatype.release.username=${{secrets.LIFERAY_NEXUS_USERNAME}}
 name: CI Publish Workspaces
 on:
     push:
