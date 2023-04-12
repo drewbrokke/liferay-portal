@@ -391,6 +391,8 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		try (Stream<Path> files = Files.walk(basePath)) {
 			List<String> matchingPaths = files.map(
 				basePath::relativize
+			).peek(
+				System.out::println
 			).filter(
 				pathMatcher::matches
 			).map(
