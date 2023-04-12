@@ -1,0 +1,5 @@
+assemble:
+liferay-sample-custom-element-2:
+	baseURL: http://localhost:4004
+	urls:
+	  - static/js/bundle.js
