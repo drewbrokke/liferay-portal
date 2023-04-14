@@ -40,8 +40,11 @@ runGradleTest {
 
 		Task createClientExtensionConfigTask = sampleThemeFaviconProject.tasks["createClientExtensionConfig"]
 
-		File clientExtensionYamlFile = sampleThemeFaviconProject.file("client-extension.yaml")
+		FileCollection inputFiles = createClientExtensionConfigTask.inputs.files
 
-		assert createClientExtensionConfigTask.inputs.files.asPath == clientExtensionYamlFile.path
+		assert inputFiles.contains(sampleThemeFaviconProject.file("client-extension.yaml"))
+		assert inputFiles.contains(sampleThemeFaviconProject.file("Dockerfile"))
+		assert inputFiles.contains(sampleThemeFaviconProject.file("LCP.json"))
+		assert inputFiles.contains(sampleThemeFaviconProject.file("liferay-plugin-package.properties"))
 	}
 }
