@@ -66,7 +66,6 @@ public class ClientExtension {
 			"dxp.lxc.liferay.com.virtualInstanceId", virtualInstanceId);
 		configMap.put("name", name);
 		configMap.put("projectName", projectName);
-		configMap.put("properties", _encode(properties));
 		configMap.put("sourceCodeURL", sourceCodeURL);
 		configMap.put("type", type);
 		configMap.put(
@@ -83,7 +82,10 @@ public class ClientExtension {
 				}
 			});
 
-		configMap.put("typeSettings", _encode(unmappedProperties));
+		if (Objects.equals("frontend", classification)) {
+			configMap.put("properties", _encode(properties));
+			configMap.put("typeSettings", _encode(unmappedProperties));
+		}
 
 		jsonMap.put(pid + "~" + id, configMap);
 
