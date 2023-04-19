@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -51,6 +52,15 @@ public class ClientExtension {
 			"baseURL",
 			unmappedProperties.getOrDefault(
 				"baseURL", "${portalURL}/o/" + projectName));
+
+		if (Objects.equals("configuration", classification)) {
+			configMap.put(
+				"baseURL",
+				unmappedProperties.getOrDefault(
+					"baseURL",
+					"$[conf:.serviceScheme]://$[conf:.serviceAddress]"));
+		}
+
 		configMap.put("description", description);
 		configMap.put(
 			"dxp.lxc.liferay.com.virtualInstanceId", virtualInstanceId);
@@ -72,16 +82,6 @@ public class ClientExtension {
 					configMap.put(entry.getKey(), entry.getValue());
 				}
 			});
-
-		if (type.equals("oAuthApplicationHeadlessServer") ||
-			type.equals("oAuthApplicationUserAgent")) {
-
-			configMap.put(
-				"homePageURL",
-				unmappedProperties.getOrDefault(
-					"homePageURL",
-					"$[conf:.serviceScheme]://$[conf:.serviceAddress]"));
-		}
 
 		configMap.put("typeSettings", _encode(unmappedProperties));
 
