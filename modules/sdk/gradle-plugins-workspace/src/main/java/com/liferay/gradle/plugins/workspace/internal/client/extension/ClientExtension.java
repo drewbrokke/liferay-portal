@@ -38,11 +38,6 @@ import java.util.stream.Stream;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientExtension {
 
-	@JsonAnySetter
-	public void unmappedProperty(String name, Object value) {
-		unmappedProperties.put(name, value);
-	}
-
 	public Map<String, Object> toJSONMap(String pid) {
 		Map<String, Object> jsonMap = new HashMap<>();
 
@@ -53,7 +48,7 @@ public class ClientExtension {
 			unmappedProperties.getOrDefault(
 				"baseURL", "${portalURL}/o/" + projectName));
 
-		if (Objects.equals("configuration", classification)) {
+		if (Objects.equals(classification, "configuration")) {
 			configMap.put(
 				"baseURL",
 				unmappedProperties.getOrDefault(
@@ -73,11 +68,11 @@ public class ClientExtension {
 			unmappedProperties.getOrDefault(
 				"webContextPath", "/" + projectName));
 
-		if (!Objects.equals("frontend", classification)) {
+		if (!Objects.equals(classification, "frontend")) {
 			configMap.putAll(unmappedProperties);
 		}
 
-		if (Objects.equals("frontend", classification)) {
+		if (Objects.equals(classification, "frontend")) {
 			configMap.put("properties", _encode(properties));
 			configMap.put("typeSettings", _encode(unmappedProperties));
 		}
@@ -85,6 +80,11 @@ public class ClientExtension {
 		jsonMap.put(pid + "~" + id, configMap);
 
 		return jsonMap;
+	}
+
+	@JsonAnySetter
+	public void unmappedProperty(String name, Object value) {
+		unmappedProperties.put(name, value);
 	}
 
 	public String classification = "static";
