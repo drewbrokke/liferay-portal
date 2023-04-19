@@ -73,14 +73,9 @@ public class ClientExtension {
 			unmappedProperties.getOrDefault(
 				"webContextPath", "/" + projectName));
 
-		Set<Map.Entry<String, Object>> set = unmappedProperties.entrySet();
-
-		set.forEach(
-			entry -> {
-				if (!pid.contains("CETConfiguration")) {
-					configMap.put(entry.getKey(), entry.getValue());
-				}
-			});
+		if (!Objects.equals("frontend", classification)) {
+			configMap.putAll(unmappedProperties);
+		}
 
 		if (Objects.equals("frontend", classification)) {
 			configMap.put("properties", _encode(properties));
