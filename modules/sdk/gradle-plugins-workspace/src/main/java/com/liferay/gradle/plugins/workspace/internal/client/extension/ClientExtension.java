@@ -68,9 +68,7 @@ public class ClientExtension {
 			unmappedProperties.getOrDefault(
 				"webContextPath", "/" + projectName));
 
-		if (!Objects.equals(classification, "frontend")) {
-			configMap.putAll(unmappedProperties);
-		}
+		configMap.putAll(unmappedProperties);
 
 		if (Objects.equals(classification, "frontend")) {
 			configMap.put("properties", _encode(properties));
