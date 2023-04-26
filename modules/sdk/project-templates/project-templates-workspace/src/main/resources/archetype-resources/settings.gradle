@@ -5,6 +5,7 @@ buildscript {
 			exclude group: "biz.aQute.bnd", module: "biz.aQute.bnd"
 		}
 		classpath group: "net.saliman", name: "gradle-properties-plugin", version: "1.4.6"
+		classpath group: "org.yaml", name: "snakeyaml", version: "1.32"
 	}
 
 	repositories {
