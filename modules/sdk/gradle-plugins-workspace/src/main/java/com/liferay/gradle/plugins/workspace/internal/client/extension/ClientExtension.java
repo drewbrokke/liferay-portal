@@ -38,8 +38,8 @@ import java.util.stream.Stream;
 public class ClientExtension {
 
 	@JsonAnySetter
-	public void ignored(String name, Object value) {
-		typeSettings.put(name, value);
+	public void unmappedProperty(String name, Object value) {
+		unmappedProperties.put(name, value);
 	}
 
 	public Map<String, Object> toJSONMap(String pid) {
@@ -49,7 +49,7 @@ public class ClientExtension {
 
 		configMap.put(
 			"baseURL",
-			typeSettings.getOrDefault(
+			unmappedProperties.getOrDefault(
 				"baseURL", "${portalURL}/o/" + projectName));
 		configMap.put("description", description);
 		configMap.put(
@@ -61,9 +61,10 @@ public class ClientExtension {
 		configMap.put("type", type);
 		configMap.put(
 			"webContextPath",
-			typeSettings.getOrDefault("webContextPath", "/" + projectName));
+			unmappedProperties.getOrDefault(
+				"webContextPath", "/" + projectName));
 
-		Set<Map.Entry<String, Object>> set = typeSettings.entrySet();
+		Set<Map.Entry<String, Object>> set = unmappedProperties.entrySet();
 
 		set.forEach(
 			entry -> {
@@ -77,12 +78,12 @@ public class ClientExtension {
 
 			configMap.put(
 				"homePageURL",
-				typeSettings.getOrDefault(
+				unmappedProperties.getOrDefault(
 					"homePageURL",
 					"$[conf:.serviceScheme]://$[conf:.serviceAddress]"));
 		}
 
-		configMap.put("typeSettings", _encode(typeSettings));
+		configMap.put("typeSettings", _encode(unmappedProperties));
 
 		jsonMap.put(pid + "~" + id, configMap);
 
@@ -99,7 +100,7 @@ public class ClientExtension {
 	public String type;
 
 	@JsonIgnore
-	public Map<String, Object> typeSettings = new HashMap<>();
+	public Map<String, Object> unmappedProperties = new HashMap<>();
 
 	@JsonProperty("dxp.lxc.liferay.com.virtualInstanceId")
 	public String virtualInstanceId = "default";

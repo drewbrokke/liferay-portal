@@ -770,7 +770,7 @@ public class ClientExtensionProjectConfigurator
 
 	private void _validateClientExtension(ClientExtension clientExtension) {
 		if (Objects.equals(clientExtension.type, "batch")) {
-			if (!clientExtension.typeSettings.containsKey(
+			if (!clientExtension.unmappedProperties.containsKey(
 					"oAuthApplicationHeadlessServer")) {
 
 				throw new GradleException(
@@ -781,7 +781,7 @@ public class ClientExtensionProjectConfigurator
 			}
 		}
 		else if (Objects.equals(clientExtension.type, "instanceSettings")) {
-			if (!clientExtension.typeSettings.containsKey("pid")) {
+			if (!clientExtension.unmappedProperties.containsKey("pid")) {
 				throw new GradleException(
 					StringBundler.concat(
 						"Client extension ", clientExtension.id, " with type ",

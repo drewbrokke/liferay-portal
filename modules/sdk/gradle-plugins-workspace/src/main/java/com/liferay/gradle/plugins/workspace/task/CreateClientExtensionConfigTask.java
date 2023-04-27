@@ -129,7 +129,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 			}
 
 			if (Objects.equals(clientExtension.classification, "frontend")) {
-				_expandWildcards(clientExtension.typeSettings);
+				_expandWildcards(clientExtension.unmappedProperties);
 
 				pluginPackageProperties.put(
 					"Liferay-Client-Extension-Frontend", "static/");
@@ -139,7 +139,9 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 				clientExtension.type + ".pid");
 
 			if (Objects.equals(clientExtension.type, "instanceSettings")) {
-				pid = clientExtension.typeSettings.remove("pid") + ".scoped";
+				pid =
+					clientExtension.unmappedProperties.remove("pid") +
+						".scoped";
 			}
 
 			if (pid != null) {
@@ -154,7 +156,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		Map<String, String> substitutionMap = stream.flatMap(
 			clientExtension -> {
 				Set<Map.Entry<String, Object>> entrySet =
-					clientExtension.typeSettings.entrySet();
+					clientExtension.unmappedProperties.entrySet();
 
 				Stream<Map.Entry<String, Object>> entrySetStream =
 					entrySet.stream();
@@ -273,7 +275,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		}
 	}
 
-	private void _expandWildcards(Map<String, Object> typeSettings) {
+	private void _expandWildcards(Map<String, Object> unmappedProperties) {
 		File clientExtensionBuildDir = new File(
 			_project.getBuildDir(),
 			ClientExtensionProjectConfigurator.CLIENT_EXTENSION_BUILD_DIR);
@@ -286,7 +288,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 		Path staticDirPath = staticDir.toPath();
 
-		for (Map.Entry<String, Object> entry : typeSettings.entrySet()) {
+		for (Map.Entry<String, Object> entry : unmappedProperties.entrySet()) {
 			Object currentValue = entry.getValue();
 
 			if ((currentValue instanceof String) &&
