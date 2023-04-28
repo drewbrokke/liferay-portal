@@ -413,10 +413,6 @@ public class ClientExtensionProjectConfigurator
 						return;
 					}
 
-					copy.into(
-						new File(
-							project.getBuildDir(), CLIENT_EXTENSION_BUILD_DIR));
-
 					assembleJsonNode.forEach(
 						copyJsonNode -> {
 							JsonNode fromJsonNode = copyJsonNode.get("from");
