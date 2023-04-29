@@ -1,10 +1,14 @@
 buildscript {
 	dependencies {
-		classpath group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "@biz.aQute.bnd.version@"
+		classpath(group: "biz.aQute.bnd", name: "aQute.libg", version: "@biz.aQute.bnd.version@") {
+			exclude group: 'org.slf4j', module: "slf4j-api"
+		}
+		classpath group: "biz.aQute.bnd", name: "biz.aQute.bnd.gradle", version: "@biz.aQute.bnd.version@"
 		classpath(group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "@com.liferay.gradle.plugins.workspace.version@") {
 			exclude group: "biz.aQute.bnd", module: "biz.aQute.bnd"
 		}
 		classpath group: "net.saliman", name: "gradle-properties-plugin", version: "1.4.6"
+		classpath group: "org.ow2.asm", name: "asm", version: "5.1"
 	}
 
 	repositories {
