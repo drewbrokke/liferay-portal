@@ -1,4 +1,6 @@
 Bundle-Name: Liferay Object Test
 Bundle-SymbolicName: com.liferay.object.test
 Bundle-Version: 1.0.0
+Import-Package:\
+    net.bytebuddy.*;usage=test
 -includeresource: @jsonassert-[0-9.]*.jar

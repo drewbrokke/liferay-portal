@@ -1,0 +1,7 @@
+dependencies {
+	compileInclude group: "net.bytebuddy", name: "byte-buddy", version: "1.11.20"
+}
+
+liferay {
+	deployDir = file("${liferayHome}/osgi/test")
+}

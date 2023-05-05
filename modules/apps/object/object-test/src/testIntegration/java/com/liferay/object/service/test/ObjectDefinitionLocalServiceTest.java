@@ -80,6 +80,8 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.DynamicType;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -98,6 +100,26 @@ public class ObjectDefinitionLocalServiceTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new LiferayIntegrationTestRule();
+
+	@Test
+	public void testTryCreateClass() throws Exception {
+		ObjectDefinition objectDefinition =
+			_addCustomObjectDefinition("Test", "Test", "Tests");
+
+		DynamicType.Unloaded<ObjectDefinition> make = new ByteBuddy()
+			.subclass(ObjectDefinition.class)
+			.name(objectDefinition.getClassName().replace("#", "_") + objectDefinition.getDBTableName())
+			.make();
+
+		DynamicType.Loaded<ObjectDefinition> load =
+			make.load(ObjectDefinition.class.getClassLoader());
+
+		Class<? extends ObjectDefinition> loaded = load.getLoaded();
+
+		System.out.println(loaded.getName());
+
+		System.out.println("hello trycreateclass");
+	}
 
 	@Test
 	public void testAddCustomObjectDefinition() throws Exception {

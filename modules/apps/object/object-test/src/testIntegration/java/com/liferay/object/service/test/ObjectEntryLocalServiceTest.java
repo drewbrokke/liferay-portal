@@ -45,6 +45,8 @@ import com.liferay.object.field.setting.builder.ObjectFieldSettingBuilder;
 import com.liferay.object.field.util.ObjectFieldUtil;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
+import com.liferay.object.model.ObjectEntryModel;
+import com.liferay.object.model.ObjectEntryWrapper;
 import com.liferay.object.model.ObjectField;
 import com.liferay.object.model.ObjectFieldSetting;
 import com.liferay.object.model.ObjectState;
@@ -110,6 +112,8 @@ import com.liferay.portal.vulcan.util.LocalizedMapUtil;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 
 import java.sql.Connection;
@@ -129,6 +133,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.description.modifier.Visibility;
+import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
+import net.bytebuddy.dynamic.scaffold.subclass.ConstructorStrategy;
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.matcher.ElementMatcher;
+import net.bytebuddy.matcher.ElementMatchers;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -344,6 +356,65 @@ public class ObjectEntryLocalServiceTest {
 		// unreferenced
 
 		_objectDefinitionLocalService.deleteObjectDefinition(_objectDefinition);
+	}
+
+	public interface ObjectEntryProvider {
+		public ObjectEntry getObjectEntry();
+
+		public void setObjectEntry(ObjectEntry objectEntry);
+	}
+
+	public class ObjectEntryProviderImpl implements ObjectEntryProvider {
+		private ObjectEntry _objectEntry;
+
+		public ObjectEntry getObjectEntry() {
+			return _objectEntry;
+		}
+
+		public void setObjectEntry(ObjectEntry objectEntry) {
+			_objectEntry = objectEntry;
+		}
+	}
+
+	@Test
+	public void testTryCreateClass() throws Exception {
+		ObjectEntry objectEntry =
+			_addObjectEntry(HashMapBuilder.<String, Serializable>put(
+				"emailAddress", "james@liferay.com"
+			).put(
+				"emailAddressRequired", "james@liferay.com"
+			).put(
+				"firstName", "James"
+			).put(
+				"listTypeEntryKeyRequired", "listTypeEntryKey1"
+			).build());
+
+		List<ObjectField> objectFields =
+			_objectFieldLocalService.getObjectFields(
+				_objectDefinition.getObjectDefinitionId());
+
+		DynamicType.Builder<ObjectEntryWrapper> builder = new ByteBuddy()
+			.subclass(ObjectEntryWrapper.class, ConstructorStrategy.Default.IMITATE_SUPER_CLASS)
+			.name(_objectDefinition.getClassName().replace("#", "_") + _objectDefinition.getDBTableName())
+			;
+
+		DynamicType.Unloaded<ObjectEntryWrapper> make = builder
+			.make();
+
+		DynamicType.Loaded<ObjectEntryWrapper> load =
+			make.load(ObjectEntryWrapper.class.getClassLoader(), ClassLoadingStrategy.Default.INJECTION);
+
+		Class<? extends ObjectEntryWrapper> loaded = load.getLoaded();
+
+		ObjectEntryWrapper objectEntryWrapper = loaded.getConstructor(ObjectEntry.class).newInstance(objectEntry);
+
+		System.out.println(loaded.getName());
+
+		System.out.println("hello trycreateclass");
+	}
+
+	private static String capitalize(String str) {
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 
 	@Test
