@@ -62,7 +62,11 @@ public class UADApplicationExportHelper {
 		for (UADDisplay<?> uadDisplay :
 				_uadRegistry.getApplicationUADDisplays(applicationKey)) {
 
-			uadExporters.add(_uadRegistry.getUADExporter(uadDisplay.getKey()));
+			Class<?> typeClass = uadDisplay.getTypeClass();
+
+			String entityName = typeClass.getName();
+
+			uadExporters.add(_uadRegistry.getUADExporter(entityName));
 		}
 
 		int applicationDataCount = 0;

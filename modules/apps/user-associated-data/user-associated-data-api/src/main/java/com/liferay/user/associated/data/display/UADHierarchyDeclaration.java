@@ -21,13 +21,9 @@ import java.util.Locale;
  *
  * @author Drew Brokke
  * @see    UADDisplay#getParentContainerId(Object)
- * @see    UADDisplay#getTopLevelContainer(Class, java.io.Serializable, Object)
+ * @see    UADDisplay#getTopLevelContainer(Class, Serializable, Object)
  */
 public interface UADHierarchyDeclaration {
-
-	public default String getApplicationKey() {
-		return null;
-	}
 
 	/**
 	 * Returns an array of UAD displays that correspond to a container type.
@@ -55,10 +51,9 @@ public interface UADHierarchyDeclaration {
 	/**
 	 * Returns an array of field names to be rendered as columns in the UAD
 	 * portlet's hierarchy view. The corresponding data for each field name
-	 * should be retrievable inside the {@link
-	 * UADDisplay#getFieldValues( Object, String[], Locale)} method of each UAD
-	 * display returned from { @link #getContainerUADDisplays()} and {@link
-	 * #getNoncontainerUADDisplays()}.
+	 * should be retrievable inside the {@link UADDisplay#getFieldValues(Object,
+	 * String[])} method of each UAD display returned from {@link
+	 * #getContainerUADDisplays()} and {@link #getNoncontainerUADDisplays()}.
 	 *
 	 * @return an array of field names to be rendered as columns in the UAD
 	 *         portlet's hierarchy view

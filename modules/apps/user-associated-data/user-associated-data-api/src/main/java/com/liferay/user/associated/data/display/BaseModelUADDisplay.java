@@ -244,15 +244,6 @@ public abstract class BaseModelUADDisplay<T extends BaseModel>
 					"groupId", ArrayUtil.toLongArray(groupIds)));
 		}
 
-		Class<?> clazz = null;
-
-		try {
-			getClass().getClassLoader().loadClass(getKey());
-		}
-		catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-
 		String[] searchableFields = getSearchableFields();
 
 		if (Validator.isNotNull(keywords) && (searchableFields.length > 0)) {
@@ -261,7 +252,7 @@ public abstract class BaseModelUADDisplay<T extends BaseModel>
 			String quotedKeywords = StringUtil.quote(
 				keywords, CharPool.PERCENT);
 
-
+			Class<?> clazz = getTypeClass();
 
 			for (String searchableField : searchableFields) {
 				try {

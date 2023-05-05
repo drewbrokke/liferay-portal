@@ -59,8 +59,8 @@ public class DeleteUADEntitiesMVCActionCommand extends BaseUADMVCActionCommand {
 
 		String applicationKey = ParamUtil.getString(
 			actionRequest, "applicationKey");
-		String parentContainerKey = ParamUtil.getString(
-			actionRequest, "parentContainerKey");
+		String parentContainerClass = ParamUtil.getString(
+			actionRequest, "parentContainerClass");
 
 		UADHierarchyDisplay uadHierarchyDisplay =
 			uadRegistry.getUADHierarchyDisplay(applicationKey);
@@ -68,7 +68,7 @@ public class DeleteUADEntitiesMVCActionCommand extends BaseUADMVCActionCommand {
 		String redirect = null;
 
 		if ((uadHierarchyDisplay != null) &&
-			Validator.isNotNull(parentContainerKey)) {
+			Validator.isNotNull(parentContainerClass)) {
 
 			redirect = uadHierarchyDisplay.getParentContainerURL(
 				actionRequest,
@@ -97,7 +97,7 @@ public class DeleteUADEntitiesMVCActionCommand extends BaseUADMVCActionCommand {
 				actionRequest, "parentContainerId");
 
 			UADDisplay<?> uadDisplay = uadRegistry.getUADDisplay(
-				parentContainerKey);
+				parentContainerClass);
 
 			try {
 				uadDisplay.get(parentContainerId);

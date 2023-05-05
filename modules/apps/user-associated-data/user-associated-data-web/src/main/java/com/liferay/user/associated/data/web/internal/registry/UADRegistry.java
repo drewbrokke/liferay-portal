@@ -123,7 +123,8 @@ public class UADRegistry {
 		_bundleUADDisplayServiceTrackerMap = _getMultiValueServiceTrackerMap(
 			bundleContext, (Class<UADDisplay<?>>)(Class<?>)UADDisplay.class);
 		_bundleUADHierarchyDeclarationServiceTrackerMap =
-			_getUADHierachyDeclarationServiceTrackerMap(bundleContext);
+			_getUADHierachyDeclarationServiceTrackerMap(
+				bundleContext, UADHierarchyDeclaration.class);
 		_uadAnonymizerServiceTrackerMap = _getSingleValueServiceTrackerMap(
 			bundleContext,
 			(Class<UADAnonymizer<?>>)(Class<?>)UADAnonymizer.class);
@@ -151,17 +152,11 @@ public class UADRegistry {
 			bundleContext, clazz, null,
 			ServiceReferenceMapperFactory.create(
 				bundleContext,
-				(uadComponent, emitter) -> {
-					String applicationKey = uadComponent.getApplicationKey();
+				(uadDisplay, emitter) -> {
+					Bundle bundle = FrameworkUtil.getBundle(
+						uadDisplay.getClass());
 
-					if (applicationKey == null) {
-						Bundle bundle = FrameworkUtil.getBundle(
-							uadComponent.getClass());
-
-						applicationKey = bundle.getSymbolicName();
-					}
-
-					emitter.emit(applicationKey);
+					emitter.emit(bundle.getSymbolicName());
 				}));
 	}
 
@@ -169,17 +164,17 @@ public class UADRegistry {
 		Collection<UADAnonymizer<?>> uadAnonymizers,
 		Collection<UADDisplay<?>> uadDisplayList) {
 
-		List<String> uadDisplayKeys = new ArrayList<>();
+		List<Class<?>> uadDisplayTypeClasses = new ArrayList<>();
 
 		for (UADDisplay<?> uadDisplay : uadDisplayList) {
-			uadDisplayKeys.add(uadDisplay.getKey());
+			uadDisplayTypeClasses.add(uadDisplay.getTypeClass());
 		}
 
 		List<UADAnonymizer<?>> nonreviewableUADAnonymizers = new ArrayList<>(
 			uadAnonymizers);
 
 		for (UADAnonymizer<?> uadAnonymizer : uadAnonymizers) {
-			if (uadDisplayKeys.contains(uadAnonymizer.getKey())) {
+			if (uadDisplayTypeClasses.contains(uadAnonymizer.getTypeClass())) {
 				nonreviewableUADAnonymizers.remove(uadAnonymizer);
 			}
 		}
@@ -195,29 +190,26 @@ public class UADRegistry {
 			bundleContext, clazz, null,
 			ServiceReferenceMapperFactory.create(
 				bundleContext,
-				(uadComponent, emitter) -> emitter.emit(uadComponent.getKey())));
+				(uadComponent, emitter) -> {
+					Class<?> uadClass = uadComponent.getTypeClass();
+
+					emitter.emit(uadClass.getName());
+				}));
 	}
 
-	private ServiceTrackerMap<String, UADHierarchyDeclaration>
+	private <T> ServiceTrackerMap<String, T>
 		_getUADHierachyDeclarationServiceTrackerMap(
-			BundleContext bundleContext) {
+			BundleContext bundleContext, Class<T> clazz) {
 
 		return ServiceTrackerMapFactory.openSingleValueMap(
-			bundleContext, UADHierarchyDeclaration.class, null,
+			bundleContext, clazz, null,
 			ServiceReferenceMapperFactory.create(
 				bundleContext,
 				(uadHierachyDeclaration, emitter) -> {
-					String applicationKey =
-						uadHierachyDeclaration.getApplicationKey();
+					Bundle bundle = FrameworkUtil.getBundle(
+						uadHierachyDeclaration.getClass());
 
-					if (applicationKey == null) {
-						Bundle bundle = FrameworkUtil.getBundle(
-							uadHierachyDeclaration.getClass());
-
-						applicationKey = bundle.getSymbolicName();
-					}
-
-					emitter.emit(applicationKey);
+					emitter.emit(bundle.getSymbolicName());
 				}));
 	}
 

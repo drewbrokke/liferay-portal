@@ -221,7 +221,7 @@ public class ReviewUADDataMVCRenderCommand implements MVCRenderCommand {
 					liferayPortletResponse, renderRequest, applicationKey,
 					currentURL, scopeDisplay.getGroupIds(),
 					uadHierarchyDisplay.getFirstContainerTypeClass(), 0L, user,
-					uadHierarchyDisplay, uadDisplay.getKey());
+					uadHierarchyDisplay);
 		}
 
 		return _uadSearchContainerBuilder.getUADEntitySearchContainer(
@@ -303,12 +303,12 @@ public class ReviewUADDataMVCRenderCommand implements MVCRenderCommand {
 				new UADHierarchyResultRowSplitter(
 					LocaleThreadLocal.getThemeDisplayLocale(),
 					uadHierarchyDisplay.getUADDisplays()));
-			viewUADEntitiesDisplay.setKeys(
-				uadHierarchyDisplay.getKeys());
+			viewUADEntitiesDisplay.setTypeClasses(
+				uadHierarchyDisplay.getTypeClasses());
 		}
 		else {
-			viewUADEntitiesDisplay.setKeys(
-				new String[] {uadDisplay.getKey()});
+			viewUADEntitiesDisplay.setTypeClasses(
+				new Class<?>[] {uadDisplay.getTypeClass()});
 			viewUADEntitiesDisplay.setTypeName(
 				uadDisplay.getTypeName(
 					LocaleThreadLocal.getThemeDisplayLocale()));

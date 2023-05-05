@@ -113,7 +113,7 @@ public class UADSearchContainerBuilder {
 		RenderRequest renderRequest, String applicationKey,
 		PortletURL currentURL, long[] groupIds, Class<?> parentContainerClass,
 		Serializable parentContainerId, User selectedUser,
-		UADHierarchyDisplay uadHierarchyDisplay, String key) {
+		UADHierarchyDisplay uadHierarchyDisplay) {
 
 		SearchContainer<UADEntity<?>> searchContainer =
 			_constructSearchContainer(
@@ -150,7 +150,7 @@ public class UADSearchContainerBuilder {
 						entity -> _constructHierarchyUADEntity(
 							liferayPortletRequest, liferayPortletResponse,
 							applicationKey, entity, selectedUser.getUserId(),
-							uadHierarchyDisplay, key)),
+							uadHierarchyDisplay)),
 					_getComparator(
 						searchContainer.getOrderByCol(),
 						searchContainer.getOrderByType())));
@@ -256,16 +256,16 @@ public class UADSearchContainerBuilder {
 			LiferayPortletRequest liferayPortletRequest,
 			LiferayPortletResponse liferayPortletResponse,
 			String applicationKey, T entity, long selectedUserId,
-			UADHierarchyDisplay uadHierarchyDisplay, String key)
+			UADHierarchyDisplay uadHierarchyDisplay)
 		throws Exception {
 
 		UADEntity<T> uadEntity = new UADEntity(
 			uadHierarchyDisplay.unwrap(entity),
 			uadHierarchyDisplay.getPrimaryKey(entity),
 			uadHierarchyDisplay.getEditURL(
-				liferayPortletRequest, liferayPortletResponse, key, entity),
+				liferayPortletRequest, liferayPortletResponse, entity),
 			uadHierarchyDisplay.isInTrash(entity),
-			key,
+			uadHierarchyDisplay.getTypeClass(entity),
 			uadHierarchyDisplay.isUserOwned(entity, selectedUserId),
 			uadHierarchyDisplay.getViewURL(
 				liferayPortletRequest, liferayPortletResponse, applicationKey,

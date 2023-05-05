@@ -70,7 +70,7 @@ public class ViewUADHierarchyMVCRenderCommand implements MVCRenderCommand {
 
 			UADDisplay<Object> uadDisplay =
 				(UADDisplay<Object>)_uadRegistry.getUADDisplay(
-					ParamUtil.getString(renderRequest, "parentContainerKey"));
+					ParamUtil.getString(renderRequest, "parentContainerClass"));
 
 			renderRequest.setAttribute(
 				UADWebKeys.UAD_INFO_PANEL_DISPLAY,
@@ -138,9 +138,9 @@ public class ViewUADHierarchyMVCRenderCommand implements MVCRenderCommand {
 				groupIds, uadDisplay.getTypeClass(),
 				ParamUtil.getLong(renderRequest, "parentContainerId"),
 				_selectedUserHelper.getSelectedUser(renderRequest),
-				uadHierarchyDisplay, uadDisplay.getKey()));
-		viewUADEntitiesDisplay.setKeys(
-			uadHierarchyDisplay.getKeys());
+				uadHierarchyDisplay));
+		viewUADEntitiesDisplay.setTypeClasses(
+			uadHierarchyDisplay.getTypeClasses());
 
 		return viewUADEntitiesDisplay;
 	}

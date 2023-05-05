@@ -84,7 +84,7 @@ public class InfoPanelMVCResourceCommand extends BaseMVCResourceCommand {
 
 				UADEntity<Object> uadEntity = new UADEntity(
 					entity, uadDisplay.getPrimaryKey(entity), null, false,
-					uadDisplay.getKey(), true, null);
+					uadDisplay.getTypeClass(), true, null);
 
 				uadEntities.add(uadEntity);
 			}
@@ -101,7 +101,7 @@ public class InfoPanelMVCResourceCommand extends BaseMVCResourceCommand {
 
 			if (Validator.isNull(uadRegistryKey)) {
 				uadRegistryKey = ParamUtil.getString(
-					resourceRequest, "parentContainerKey");
+					resourceRequest, "parentContainerClass");
 			}
 
 			if (Validator.isNull(uadRegistryKey)) {
