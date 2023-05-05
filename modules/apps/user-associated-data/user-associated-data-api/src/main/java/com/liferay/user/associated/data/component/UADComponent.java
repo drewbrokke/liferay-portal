@@ -28,6 +28,16 @@ package com.liferay.user.associated.data.component;
  */
 public interface UADComponent<T> {
 
+	public default String getApplicationKey() {
+		return null;
+	}
+
+	public default String getKey() {
+		Class<T> typeClass = getTypeClass();
+
+		return typeClass.getName();
+	}
+
 	/**
 	 * Returns the class representing the extending components' data types.
 	 *

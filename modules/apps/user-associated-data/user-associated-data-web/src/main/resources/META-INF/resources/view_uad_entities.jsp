@@ -21,7 +21,7 @@ ViewUADEntitiesDisplay viewUADEntitiesDisplay = (ViewUADEntitiesDisplay)request.
 
 boolean topLevelView = true;
 
-String parentContainerClass = ParamUtil.getString(request, "parentContainerClass");
+String parentContainerKey = ParamUtil.getString(request, "parentContainerKey");
 
 long parentContainerId = ParamUtil.getLong(request, "parentContainerId");
 
@@ -44,7 +44,7 @@ long[] groupIds = viewUADEntitiesDisplay.getGroupIds();
 	<aui:input name="p_u_i_d" type="hidden" value="<%= String.valueOf(selectedUser.getUserId()) %>" />
 	<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
 	<aui:input name="groupIds" type="hidden" value='<%= (groupIds != null) ? StringUtil.merge(groupIds) : "" %>' />
-	<aui:input name="parentContainerClass" type="hidden" value="<%= parentContainerClass %>" />
+	<aui:input name="parentContainerKey" type="hidden" value="<%= parentContainerKey %>" />
 	<aui:input name="parentContainerId" type="hidden" value="<%= String.valueOf(parentContainerId) %>" />
 	<aui:input name="scope" type="hidden" value="<%= viewUADEntitiesDisplay.getScope() %>" />
 
@@ -57,11 +57,11 @@ long[] groupIds = viewUADEntitiesDisplay.getGroupIds();
 			<aui:input name="uadRegistryKey" type="hidden" value="<%= viewUADEntitiesDisplay.getUADRegistryKey() %>" />
 
 			<%
-			for (Class<?> typeClass : viewUADEntitiesDisplay.getTypeClasses()) {
+			for (String key : viewUADEntitiesDisplay.getKeys()) {
 			%>
 
-				<aui:input name='<%= "primaryKeys__" + typeClass.getSimpleName() %>' type="hidden" />
-				<aui:input name='<%= "uadRegistryKey__" + typeClass.getSimpleName() %>' type="hidden" value="<%= typeClass.getName() %>" />
+				<aui:input name='<%= "primaryKeys__" + key %>' type="hidden" />
+				<aui:input name='<%= "uadRegistryKey__" + key %>' type="hidden" value="<%= key %>" />
 
 			<%
 			}

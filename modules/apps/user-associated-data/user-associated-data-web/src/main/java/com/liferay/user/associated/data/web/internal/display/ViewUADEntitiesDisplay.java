@@ -139,6 +139,16 @@ public class ViewUADEntitiesDisplay {
 	private String _scope;
 	private SearchContainer<UADEntity<?>> _searchContainer;
 	private Class<?>[] _typeClasses;
+
+	public String[] getKeys() {
+		return _keys;
+	}
+
+	public void setKeys(String[] keys) {
+		_keys = keys;
+	}
+
+	private String[] _keys;
 	private String _typeName;
 	private String _uadRegistryKey = StringPool.BLANK;
 

@@ -36,7 +36,7 @@ import java.util.Map;
 public interface UADDisplay<T> extends UADComponent<T> {
 
 	/**
-	 * Returns the number of type {@code T} entities associated with the the
+	 * Returns the number of type {@code T} entities associated with the
 	 * user.
 	 *
 	 * @param  userId the primary key of the user whose data to count
@@ -104,8 +104,15 @@ public interface UADDisplay<T> extends UADComponent<T> {
 		throw new UnsupportedOperationException();
 	}
 
+	@Deprecated
 	public default Class<?> getParentContainerClass() {
 		throw new UnsupportedOperationException();
+	}
+
+	public default String getParentContainerKey() {
+		Class<?> parentContainerClass = getParentContainerClass();
+
+		return parentContainerClass.getName();
 	}
 
 	/**
@@ -119,7 +126,7 @@ public interface UADDisplay<T> extends UADComponent<T> {
 	 * usage.
 	 * </p>
 	 *
-	 * @param  t the entity whose parent container's primary key to retreive
+	 * @param  t the entity whose parent container's primary key to retrieve
 	 * @return the primary key of the parent container of the given entity
 	 * @see    UADHierarchyDeclaration
 	 */
@@ -188,8 +195,17 @@ public interface UADDisplay<T> extends UADComponent<T> {
 	 *         of the given container type and primary key
 	 * @see    UADHierarchyDeclaration
 	 */
+	@Deprecated
 	public default T getTopLevelContainer(
 		Class<?> parentContainerClass, Serializable parentContainerId,
+		Object childObject) {
+
+		return getTopLevelContainer(
+			parentContainerClass.getName(), parentContainerId, childObject);
+	}
+
+	public default T getTopLevelContainer(
+		String parentContainerKey, Serializable parentContainerId,
 		Object childObject) {
 
 		throw new UnsupportedOperationException();

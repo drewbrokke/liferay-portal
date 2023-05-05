@@ -63,23 +63,23 @@ public class UADHierarchyDisplay {
 		_containerUADDisplays =
 			uadHierarchyDeclaration.getContainerUADDisplays();
 
-		_containerTypeClasses = TransformUtil.transform(
-			_containerUADDisplays, UADDisplay::getTypeClass, Class.class);
+		_containerKeys = TransformUtil.transform(
+			_containerUADDisplays, UADDisplay::getKey, String.class);
 
 		_uadDisplays = ArrayUtil.append(
 			_containerUADDisplays,
 			uadHierarchyDeclaration.getNoncontainerUADDisplays());
 
-		Map<Class<?>, UADDisplay<?>> uadDisplayMap = new LinkedHashMap<>();
+		Map<String, UADDisplay<?>> uadDisplayMap = new LinkedHashMap<>();
 
 		for (UADDisplay<?> uadDisplay : _uadDisplays) {
-			uadDisplayMap.put(uadDisplay.getTypeClass(), uadDisplay);
+			uadDisplayMap.put(uadDisplay.getKey(), uadDisplay);
 		}
 
 		_uadDisplayMap = uadDisplayMap;
 
-		_typeClasses = TransformUtil.transform(
-			_uadDisplays, UADDisplay::getTypeClass, Class.class);
+		_keys = TransformUtil.transform(
+			_uadDisplays, UADDisplay::getKey, String.class);
 	}
 
 	public <T> void addPortletBreadcrumbEntries(
@@ -107,11 +107,11 @@ public class UADHierarchyDisplay {
 			}
 		).buildPortletURL();
 
-		String className = ParamUtil.getString(
-			httpServletRequest, "parentContainerClass");
+		String parentContainerKey = ParamUtil.getString(
+			httpServletRequest, "parentContainerKey");
 
 		UADDisplay<Object> uadDisplay =
-			(UADDisplay<Object>)_getUADDisplayByTypeClassName(className);
+			(UADDisplay<Object>)_uadDisplayMap.get(parentContainerKey);
 
 		PortalUtil.addPortletBreadcrumbEntry(
 			httpServletRequest,
@@ -129,7 +129,6 @@ public class UADHierarchyDisplay {
 
 		Object container = uadDisplay.get(primaryKey);
 
-		Class<?> parentContainerClass = uadDisplay.getParentContainerClass();
 		String parentContainerId = String.valueOf(
 			uadDisplay.getParentContainerId(container));
 
@@ -137,8 +136,7 @@ public class UADHierarchyDisplay {
 			   !parentContainerId.equals("-1")) {
 
 			UADDisplay<Object> parentContainerUADDisplay =
-				(UADDisplay<Object>)_getUADDisplayByTypeClass(
-					parentContainerClass);
+				(UADDisplay<Object>)_uadDisplayMap.get(uadDisplay.getParentContainerKey());
 
 			String parentContainerName = parentContainerUADDisplay.getName(
 				parentContainerUADDisplay.get(parentContainerId), locale);
@@ -151,13 +149,13 @@ public class UADHierarchyDisplay {
 					).setMVCRenderCommandName(
 						"/user_associated_data/view_uad_hierarchy"
 					).setParameter(
-						"parentContainerClass", parentContainerClass.getName()
+						"parentContainerKey", parentContainerKey
 					).setParameter(
 						"parentContainerId", parentContainerId
 					).buildString()));
 
-			parentContainerClass =
-				parentContainerUADDisplay.getParentContainerClass();
+			parentContainerKey =
+				parentContainerUADDisplay.getParentContainerKey();
 			parentContainerId = String.valueOf(
 				parentContainerUADDisplay.getParentContainerId(
 					parentContainerUADDisplay.get(parentContainerId)));
@@ -198,7 +196,7 @@ public class UADHierarchyDisplay {
 		Map<Class<?>, List<Serializable>> containerItemPKsMap =
 			new LinkedHashMap<>();
 
-		if (ArrayUtil.contains(_containerTypeClasses, parentContainerClass)) {
+		if (ArrayUtil.contains(_containerKeys, parentContainerClass)) {
 			for (UADDisplay<?> containerItemUADDisplay : _uadDisplays) {
 				Class<?> containerItemTypeClass =
 					containerItemUADDisplay.getTypeClass();
@@ -217,13 +215,12 @@ public class UADHierarchyDisplay {
 
 	public <T> String getEditURL(
 			LiferayPortletRequest liferayPortletRequest,
-			LiferayPortletResponse liferayPortletResponse, T object)
+			LiferayPortletResponse liferayPortletResponse, String key, T object)
 		throws Exception {
 
 		T unwrappedObject = unwrap(object);
 
-		UADDisplay<T> uadDisplay = (UADDisplay<T>)_getUADDisplayByObject(
-			unwrappedObject);
+		UADDisplay<T> uadDisplay = (UADDisplay<T>)_uadDisplayMap.get(key);
 
 		return uadDisplay.getEditURL(
 			unwrappedObject, liferayPortletRequest, liferayPortletResponse);
@@ -273,7 +270,7 @@ public class UADHierarchyDisplay {
 	}
 
 	public Class<?> getFirstContainerTypeClass() {
-		return _containerTypeClasses[0];
+		return _containerKeys[0];
 	}
 
 	public <T> String getParentContainerURL(
@@ -281,10 +278,10 @@ public class UADHierarchyDisplay {
 			LiferayPortletResponse liferayPortletResponse)
 		throws Exception {
 
-		String className = ParamUtil.getString(
-			actionRequest, "parentContainerClass");
+		String parentContainerKey = ParamUtil.getString(
+			actionRequest, "parentContainerKey");
 
-		if (Validator.isNull(className)) {
+		if (Validator.isNull(parentContainerKey)) {
 			return null;
 		}
 
@@ -309,7 +306,7 @@ public class UADHierarchyDisplay {
 		).buildPortletURL();
 
 		UADDisplay<Object> uadDisplay =
-			(UADDisplay<Object>)_getUADDisplayByTypeClassName(className);
+			(UADDisplay<Object>)_uadDisplayMap.get(parentContainerKey);
 
 		String primaryKey = ParamUtil.getString(
 			actionRequest, "parentContainerId");
@@ -329,11 +326,8 @@ public class UADHierarchyDisplay {
 				"mvcRenderCommandName",
 				"/user_associated_data/view_uad_hierarchy");
 
-			Class<?> parentContainerClass =
-				uadDisplay.getParentContainerClass();
-
 			portletURL.setParameter(
-				"parentContainerClass", parentContainerClass.getName());
+				"parentContainerKey", uadDisplay.getParentContainerKey());
 
 			portletURL.setParameter("parentContainerId", parentContainerId);
 		}
@@ -354,14 +348,14 @@ public class UADHierarchyDisplay {
 		return getColumnFieldNames();
 	}
 
-	public <T> Class<?> getTypeClass(T object) {
+	public <T> String getKey(T object) {
 		UADDisplay<?> uadDisplay = _getUADDisplayByObject(unwrap(object));
 
-		return uadDisplay.getTypeClass();
+		return uadDisplay.getKey();
 	}
 
-	public Class<?>[] getTypeClasses() {
-		return _typeClasses;
+	public String[] getKeys() {
+		return _keys;
 	}
 
 	public UADDisplay<?>[] getUADDisplays() {
@@ -381,7 +375,7 @@ public class UADHierarchyDisplay {
 
 		Class<?> typeClass = uadDisplay.getTypeClass();
 
-		if (!ArrayUtil.contains(_containerTypeClasses, typeClass)) {
+		if (!ArrayUtil.contains(_containerKeys, typeClass)) {
 			return null;
 		}
 
@@ -394,7 +388,7 @@ public class UADHierarchyDisplay {
 		).setParameter(
 			"p_u_i_d", selectedUserId
 		).setParameter(
-			"parentContainerClass", typeClass.getName()
+			"parentContainerKey", uadDisplay.getKey()
 		).setParameter(
 			"parentContainerId", uadDisplay.getPrimaryKey(unwrappedObject)
 		).setParameter(
@@ -506,7 +500,7 @@ public class UADHierarchyDisplay {
 	}
 
 	private <T> Collection<ContainerDisplay<T>> _getContainerDisplays(
-		UADDisplay<T> containerUADDisplay, Class<?> parentContainerClass,
+		UADDisplay<T> containerUADDisplay, String parentContainerKey,
 		Serializable parentContainerId, List<Object> allUserItems) {
 
 		Map<Serializable, ContainerDisplay<T>> topLevelCategories =
@@ -601,7 +595,7 @@ public class UADHierarchyDisplay {
 	}
 
 	private <T> UADDisplay<?> _getUADDisplayByObject(T object) {
-		for (Class<?> typeClass : _uadDisplayMap.keySet()) {
+		for (String key : _uadDisplayMap.keySet()) {
 			if (typeClass.isInstance(object)) {
 				return _uadDisplayMap.get(typeClass);
 			}
@@ -610,30 +604,30 @@ public class UADHierarchyDisplay {
 		return null;
 	}
 
-	private <T> UADDisplay<?> _getUADDisplayByTypeClass(Class<?> typeClass) {
-		if (!_uadDisplayMap.containsKey(typeClass)) {
+	private <T> UADDisplay<?> _getUADDisplayByTypeClass(String key) {
+		if (!_uadDisplayMap.containsKey(key)) {
 			return null;
 		}
 
-		return _uadDisplayMap.get(typeClass);
+		return _uadDisplayMap.get(key);
 	}
 
 	private <T> UADDisplay<?> _getUADDisplayByTypeClassName(
 		String typeClassName) {
 
-		for (Class<?> typeClass : _uadDisplayMap.keySet()) {
-			if (typeClassName.equals(typeClass.getName())) {
-				return _uadDisplayMap.get(typeClass);
+		for (String curKey : _uadDisplayMap.keySet()) {
+			if (typeClassName.equals(curKey)) {
+				return _uadDisplayMap.get(curKey);
 			}
 		}
 
 		return null;
 	}
 
-	private final Class<?>[] _containerTypeClasses;
+	private final String[] _containerKeys;
 	private final UADDisplay<?>[] _containerUADDisplays;
-	private final Class<?>[] _typeClasses;
-	private final Map<Class<?>, UADDisplay<?>> _uadDisplayMap;
+	private final String[] _keys;
+	private final Map<String, UADDisplay<?>> _uadDisplayMap;
 	private final UADDisplay<?>[] _uadDisplays;
 	private final UADHierarchyDeclaration _uadHierarchyDeclaration;
 

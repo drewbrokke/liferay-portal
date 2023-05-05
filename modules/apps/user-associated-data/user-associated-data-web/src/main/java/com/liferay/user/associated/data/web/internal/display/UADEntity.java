@@ -28,13 +28,13 @@ public class UADEntity<T> {
 
 	public UADEntity(
 		T entity, Serializable primaryKey, String editURL, boolean inTrash,
-		Class<?> typeClass, boolean userOwned, String viewURL) {
+		String key, boolean userOwned, String viewURL) {
 
 		_entity = entity;
 		_primaryKey = primaryKey;
 		_editURL = editURL;
 		_inTrash = inTrash;
-		_typeClass = typeClass;
+		_key = key;
 		_userOwned = userOwned;
 		_viewURL = viewURL;
 	}
@@ -96,7 +96,12 @@ public class UADEntity<T> {
 	private final T _entity;
 	private final boolean _inTrash;
 	private final Serializable _primaryKey;
-	private final Class<?> _typeClass;
+
+	public String getKey() {
+		return _key;
+	}
+
+	private final String _key;
 	private final boolean _userOwned;
 	private final String _viewURL;
 
