@@ -4,6 +4,7 @@ buildService {
 }
 
 dependencies {
+	compileInclude group: 'net.java.dev.jna', name: 'jna', version: '5.13.0'
 	compileInclude group: "net.bytebuddy", name: "byte-buddy", version: "1.11.20"
 
 	compileOnly group: "com.liferay", name: "biz.aQute.bnd.annotation", version: "4.2.0.LIFERAY-PATCHED-2"
