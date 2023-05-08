@@ -4,6 +4,9 @@ buildService {
 }
 
 dependencies {
+	compileInclude group: "net.bytebuddy", name: "byte-buddy", version: "1.11.20"
+	compileInclude group: "net.java.dev.jna", name: "jna", version: "5.13.0"
+
 	compileOnly group: "com.liferay", name: "biz.aQute.bnd.annotation", version: "4.2.0.LIFERAY-PATCHED-2"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
@@ -58,4 +61,8 @@ dependencies {
 	compileOnly project(":core:petra:petra-sql-dsl-api")
 	compileOnly project(":core:petra:petra-sql-dsl-spi")
 	compileOnly project(":core:petra:petra-string")
+}
+
+liferayOSGi {
+	expandCompileInclude = true
 }
