@@ -60,11 +60,13 @@ public class ObjectDefinitionTestUtil {
 			List<ObjectField> objectFields)
 		throws Exception {
 
+		String namespace = "DREWWASHERE";
+
 		return objectDefinitionLocalService.addCustomObjectDefinition(
 			TestPropsValues.getUserId(), false, false,
-			LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
-			"A" + RandomTestUtil.randomString(), null, null,
-			LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
+			LocalizedMapUtil.getLocalizedMap(namespace + RandomTestUtil.randomString()),
+			"A" + namespace + RandomTestUtil.randomString(), null, null,
+			LocalizedMapUtil.getLocalizedMap(namespace + RandomTestUtil.randomString()),
 			ObjectDefinitionConstants.SCOPE_COMPANY,
 			ObjectDefinitionConstants.STORAGE_TYPE_DEFAULT, objectFields);
 	}

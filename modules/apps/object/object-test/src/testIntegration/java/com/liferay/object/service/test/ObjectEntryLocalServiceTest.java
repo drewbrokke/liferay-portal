@@ -389,13 +389,9 @@ public class ObjectEntryLocalServiceTest {
 				"listTypeEntryKeyRequired", "listTypeEntryKey1"
 			).build());
 
-		List<ObjectField> objectFields =
-			_objectFieldLocalService.getObjectFields(
-				_objectDefinition.getObjectDefinitionId());
-
 		DynamicType.Builder<ObjectEntryWrapper> builder = new ByteBuddy()
 			.subclass(ObjectEntryWrapper.class, ConstructorStrategy.Default.IMITATE_SUPER_CLASS)
-			.name(_objectDefinition.getClassName().replace("#", "_") + _objectDefinition.getDBTableName())
+			.name(_objectDefinition.getClassName().replace("#", "_") + _objectDefinition.getName())
 			;
 
 		DynamicType.Unloaded<ObjectEntryWrapper> make = builder
@@ -404,13 +400,16 @@ public class ObjectEntryLocalServiceTest {
 		DynamicType.Loaded<ObjectEntryWrapper> load =
 			make.load(ObjectEntryWrapper.class.getClassLoader(), ClassLoadingStrategy.Default.INJECTION);
 
-		Class<? extends ObjectEntryWrapper> loaded = load.getLoaded();
+		Class<? extends ObjectEntry> loaded = load.getLoaded();
 
-		ObjectEntryWrapper objectEntryWrapper = loaded.getConstructor(ObjectEntry.class).newInstance(objectEntry);
+		Constructor<? extends ObjectEntry> constructor =
+			loaded.getConstructor(ObjectEntry.class);
+		ObjectEntry classedObjectEntry = constructor.newInstance(objectEntry);
 
+		System.out.println("original instanceof: " + loaded.isAssignableFrom(objectEntry.getClass()));
+		System.out.println("original instanceof: " + loaded.isAssignableFrom(classedObjectEntry.getClass()));
 		System.out.println(loaded.getName());
-
-		System.out.println("hello trycreateclass");
+		System.out.println(loaded.getSimpleName());
 	}
 
 	private static String capitalize(String str) {
