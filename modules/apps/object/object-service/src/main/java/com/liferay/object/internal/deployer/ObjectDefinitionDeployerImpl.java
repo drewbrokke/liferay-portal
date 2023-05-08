@@ -208,6 +208,9 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 					_accountEntryLocalService, _groupLocalService,
 					_objectDefinitionLocalService, _organizationLocalService));
 
+		ObjectDefinitionClassHelper objectDefinitionClassHelper =
+			new ObjectDefinitionClassHelper(objectDefinition);
+
 		List<ServiceRegistration<?>> serviceRegistrations = ListUtil.fromArray(
 			_bundleContext.registerService(
 				KeywordQueryContributor.class,
@@ -322,7 +325,8 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 				new ObjectEntryUADDisplay(
 					_groupLocalService, objectDefinition,
 					_objectDefinitionLocalService, _objectEntryLocalService,
-					_objectFieldLocalService, _portal),
+					_objectFieldLocalService, _portal,
+					objectDefinitionClassHelper),
 				null),
 			_bundleContext.registerService(
 				WorkflowHandler.class,

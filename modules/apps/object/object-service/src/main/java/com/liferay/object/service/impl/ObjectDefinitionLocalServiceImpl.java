@@ -654,7 +654,7 @@ public class ObjectDefinitionLocalServiceImpl
 				_objectLayoutLocalService, _objectLayoutTabLocalService,
 				_objectRelationshipLocalService, _objectScopeProviderRegistry,
 				_objectViewLocalService, _organizationLocalService,
-				_persistedModelLocalServiceRegistry, _ploEntryLocalService,
+				_persistedModelLocalServiceRegistry, _ploEntryLocalService, _portal,
 				_portletLocalService, _resourceActions, _userLocalService,
 				_resourcePermissionLocalService,
 				_workflowStatusModelPreFilterContributor,
