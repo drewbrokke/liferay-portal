@@ -18,10 +18,10 @@ import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.model.ObjectEntryWrapper;
 import com.liferay.petra.reflect.ReflectionUtil;
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.dynamic.DynamicType;
-import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
-import net.bytebuddy.dynamic.scaffold.subclass.ConstructorStrategy;
+ import net.bytebuddy.ByteBuddy;
+ import net.bytebuddy.dynamic.DynamicType;
+ import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
+ import net.bytebuddy.dynamic.scaffold.subclass.ConstructorStrategy;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -39,17 +39,17 @@ public class ObjectDefinitionClassHelper {
 			objectDefinitionClassName.replace("#", "_") +
 				objectDefinition.getName();
 
-		_objectClass = new ByteBuddy(
-		).subclass(
-			ObjectEntryWrapper.class,
-			ConstructorStrategy.Default.IMITATE_SUPER_CLASS
-		).name(
-			newClassName
-		).make(
-		).load(
-			ObjectEntryWrapper.class.getClassLoader(),
-			ClassLoadingStrategy.Default.INJECTION
-		).getLoaded();
+		 _objectClass = new ByteBuddy(
+		 ).subclass(
+		 	ObjectEntryWrapper.class,
+		 	ConstructorStrategy.Default.IMITATE_SUPER_CLASS
+		 ).name(
+		 	newClassName
+		 ).make(
+		 ).load(
+		 	ObjectEntryWrapper.class.getClassLoader(),
+		 	ClassLoadingStrategy.Default.INJECTION
+		 ).getLoaded();
 
 		try {
 			_constructor = _objectClass.getConstructor(ObjectEntry.class);

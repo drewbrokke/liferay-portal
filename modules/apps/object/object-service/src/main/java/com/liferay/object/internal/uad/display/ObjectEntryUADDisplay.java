@@ -47,7 +47,7 @@ import javax.portlet.PortletRequest;
 /**
  * @author Carolina Barbosa
  */
-public class ObjectEntryUADDisplay<T extends ObjectEntry> extends BaseModelUADDisplay<T> {
+public class ObjectEntryUADDisplay extends BaseModelUADDisplay<ObjectEntry> {
 
 	public ObjectEntryUADDisplay(
 		GroupLocalService groupLocalService, ObjectDefinition objectDefinition,
@@ -68,9 +68,10 @@ public class ObjectEntryUADDisplay<T extends ObjectEntry> extends BaseModelUADDi
 	private final ObjectDefinitionClassHelper _objectDefinitionClassHelper;
 
 	@Override
-	public T get(Serializable primaryKey) throws Exception {
-		return (T)_objectDefinitionClassHelper.wrap(_objectEntryLocalService.getObjectEntry(
-			Long.valueOf(primaryKey.toString())));
+	public ObjectEntry get(Serializable primaryKey) throws Exception {
+		return _objectDefinitionClassHelper.wrap(
+			_objectEntryLocalService.getObjectEntry(
+				Long.valueOf(primaryKey.toString())));
 	}
 
 	@Override
@@ -137,8 +138,8 @@ public class ObjectEntryUADDisplay<T extends ObjectEntry> extends BaseModelUADDi
 	}
 
 	@Override
-	public Class<T> getTypeClass() {
-		return (Class<T>)_objectDefinitionClassHelper.getObjectClass();
+	public Class<?> getTypeClass() {
+		return _objectDefinitionClassHelper.getObjectClass();
 	}
 
 	@Override
@@ -171,10 +172,10 @@ public class ObjectEntryUADDisplay<T extends ObjectEntry> extends BaseModelUADDi
 	}
 
 	@Override
-	protected List<T> doGetRange(
+	protected List<ObjectEntry> doGetRange(
 		DynamicQuery dynamicQuery, int start, int end) {
 
-		return (List<T>)TransformUtil.transform(
+		return TransformUtil.transform(
 			_objectEntryLocalService.dynamicQuery(dynamicQuery, start, end),
 			_objectDefinitionClassHelper::wrap);
 	}
