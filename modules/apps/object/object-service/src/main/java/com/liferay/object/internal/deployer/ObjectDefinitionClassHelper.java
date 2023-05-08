@@ -39,17 +39,7 @@ public class ObjectDefinitionClassHelper {
 			objectDefinitionClassName.replace("#", "_") +
 				objectDefinition.getName();
 
-		 _objectClass = new ByteBuddy(
-		 ).subclass(
-		 	ObjectEntryWrapper.class,
-		 	ConstructorStrategy.Default.IMITATE_SUPER_CLASS
-		 ).name(
-		 	newClassName
-		 ).make(
-		 ).load(
-		 	ObjectEntryWrapper.class.getClassLoader(),
-		 	ClassLoadingStrategy.Default.INJECTION
-		 ).getLoaded();
+		_objectClass = _getClass(newClassName);
 
 		try {
 			_constructor = _objectClass.getConstructor(ObjectEntry.class);
@@ -57,6 +47,29 @@ public class ObjectDefinitionClassHelper {
 		catch (NoSuchMethodException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private Class<? extends ObjectEntry> _getClass(String className) {
+		ClassLoader classLoader = ObjectEntryWrapper.class.getClassLoader();
+
+		try {
+			return (Class<? extends ObjectEntry>)classLoader.loadClass(className);
+		}
+		catch (ClassNotFoundException e) {
+			System.out.println("No class found, creating a new one");
+		}
+
+		return new ByteBuddy(
+		).subclass(
+			ObjectEntryWrapper.class,
+			ConstructorStrategy.Default.IMITATE_SUPER_CLASS
+		).name(
+			className
+		).make(
+		).load(
+			classLoader,
+			ClassLoadingStrategy.Default.INJECTION
+		).getLoaded();
 	}
 
 

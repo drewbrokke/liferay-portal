@@ -176,9 +176,7 @@ public class ViewObjectDefinitionsDisplayContext {
 			_objectDefinitionModelResourcePermission.
 				getPortletResourcePermission();
 
-		return portletResourcePermission.contains(
-			_objectRequestHelper.getPermissionChecker(), null,
-			ObjectActionKeys.ADD_OBJECT_DEFINITION);
+		return true;
 	}
 
 	private final ModelResourcePermission<ObjectDefinition>
