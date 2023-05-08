@@ -33,6 +33,6 @@ public interface UADComponent<T> {
 	 *
 	 * @return the identifying class of type {@code T}
 	 */
-	public Class<T> getTypeClass();
+	public Class<?> getTypeClass();
 
 }

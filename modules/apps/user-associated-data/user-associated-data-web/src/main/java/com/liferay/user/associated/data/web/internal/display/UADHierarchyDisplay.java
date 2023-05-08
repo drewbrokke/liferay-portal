@@ -455,7 +455,7 @@ public class UADHierarchyDisplay {
 				(UADDisplay<Object>[])
 					_uadHierarchyDeclaration.getNoncontainerUADDisplays()) {
 
-			Class<Object> typeClass = noncontainerUADDisplay.getTypeClass();
+			Class<?> typeClass = noncontainerUADDisplay.getTypeClass();
 
 			for (Object userItem : allUserItems) {
 				if ((userItem != null) &&
@@ -512,7 +512,7 @@ public class UADHierarchyDisplay {
 		Map<Serializable, ContainerDisplay<T>> topLevelCategories =
 			new HashMap<>();
 
-		Class<T> containerClass = containerUADDisplay.getTypeClass();
+		Class<?> containerClass = containerUADDisplay.getTypeClass();
 
 		for (Object userItem : allUserItems) {
 			if (userItem == null) {
