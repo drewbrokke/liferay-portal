@@ -14,12 +14,14 @@
 
 package com.liferay.object.internal.uad.display;
 
+import com.liferay.object.internal.deployer.ObjectDefinitionClassHelper;
 import com.liferay.object.internal.uad.constants.ObjectUADConstants;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectFieldLocalService;
+import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -51,7 +53,8 @@ public class ObjectEntryUADDisplay extends BaseModelUADDisplay<ObjectEntry> {
 		GroupLocalService groupLocalService, ObjectDefinition objectDefinition,
 		ObjectDefinitionLocalService objectDefinitionLocalService,
 		ObjectEntryLocalService objectEntryLocalService,
-		ObjectFieldLocalService objectFieldLocalService, Portal portal) {
+		ObjectFieldLocalService objectFieldLocalService, Portal portal,
+		ObjectDefinitionClassHelper objectDefinitionClassHelper) {
 
 		_groupLocalService = groupLocalService;
 		_objectDefinition = objectDefinition;
@@ -59,12 +62,14 @@ public class ObjectEntryUADDisplay extends BaseModelUADDisplay<ObjectEntry> {
 		_objectEntryLocalService = objectEntryLocalService;
 		_objectFieldLocalService = objectFieldLocalService;
 		_portal = portal;
+		_objectDefinitionClassHelper = objectDefinitionClassHelper;
 	}
 
 	@Override
 	public ObjectEntry get(Serializable primaryKey) throws Exception {
-		return _objectEntryLocalService.getObjectEntry(
-			Long.valueOf(primaryKey.toString()));
+		return _objectDefinitionClassHelper.wrap(
+			_objectEntryLocalService.getObjectEntry(
+				Long.valueOf(primaryKey.toString())));
 	}
 
 	@Override
@@ -131,13 +136,8 @@ public class ObjectEntryUADDisplay extends BaseModelUADDisplay<ObjectEntry> {
 	}
 
 	@Override
-	public Class<ObjectEntry> getTypeClass() {
-		return ObjectEntry.class;
-	}
-
-	@Override
-	public String getTypeClassName() {
-		return _objectDefinition.getClassName();
+	public Class<?> getTypeClass() {
+		return _objectDefinitionClassHelper.getObjectClass();
 	}
 
 	@Override
@@ -173,7 +173,9 @@ public class ObjectEntryUADDisplay extends BaseModelUADDisplay<ObjectEntry> {
 	protected List<ObjectEntry> doGetRange(
 		DynamicQuery dynamicQuery, int start, int end) {
 
-		return _objectEntryLocalService.dynamicQuery(dynamicQuery, start, end);
+		return TransformUtil.transform(
+			_objectEntryLocalService.dynamicQuery(dynamicQuery, start, end),
+			_objectDefinitionClassHelper::wrap);
 	}
 
 	@Override
@@ -202,6 +204,7 @@ public class ObjectEntryUADDisplay extends BaseModelUADDisplay<ObjectEntry> {
 
 	private final GroupLocalService _groupLocalService;
 	private final ObjectDefinition _objectDefinition;
+	private final ObjectDefinitionClassHelper _objectDefinitionClassHelper;
 	private final ObjectDefinitionLocalService _objectDefinitionLocalService;
 	private final ObjectEntryLocalService _objectEntryLocalService;
 	private final ObjectFieldLocalService _objectFieldLocalService;
