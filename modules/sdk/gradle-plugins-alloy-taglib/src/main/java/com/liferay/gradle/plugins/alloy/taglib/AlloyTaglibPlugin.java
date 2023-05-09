@@ -28,7 +28,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.file.SourceDirectorySet;
 import org.gradle.api.plugins.BasePlugin;
-import org.gradle.api.plugins.JavaPlugin;
+import org.gradle.api.plugins.JavaLibraryPlugin;
 import org.gradle.api.tasks.SourceSet;
 
 /**
@@ -40,7 +40,7 @@ public class AlloyTaglibPlugin implements Plugin<Project> {
 
 	@Override
 	public void apply(Project project) {
-		GradleUtil.applyPlugin(project, JavaPlugin.class);
+		GradleUtil.applyPlugin(project, JavaLibraryPlugin.class);
 
 		_addTaskBuildTaglibs(project);
 	}

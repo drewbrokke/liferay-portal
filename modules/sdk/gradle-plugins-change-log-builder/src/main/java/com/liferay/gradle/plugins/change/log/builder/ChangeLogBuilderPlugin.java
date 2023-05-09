@@ -26,7 +26,7 @@ import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.file.SourceDirectorySet;
-import org.gradle.api.plugins.JavaPlugin;
+import org.gradle.api.plugins.JavaLibraryPlugin;
 import org.gradle.api.plugins.PluginContainer;
 import org.gradle.api.tasks.SourceSet;
 
@@ -66,12 +66,12 @@ public class ChangeLogBuilderPlugin implements Plugin<Project> {
 		PluginContainer pluginContainer = project.getPlugins();
 
 		pluginContainer.withType(
-			JavaPlugin.class,
-			new Action<JavaPlugin>() {
+			JavaLibraryPlugin.class,
+			new Action<JavaLibraryPlugin>() {
 
 				@Override
-				public void execute(JavaPlugin javaPlugin) {
-					_configureTaskBuildChangeLogForJavaPlugin(
+				public void execute(JavaLibraryPlugin javaLibraryPlugin) {
+					_configureTaskBuildChangeLogForJavaLibraryPlugin(
 						buildChangeLogTask);
 				}
 
@@ -80,7 +80,7 @@ public class ChangeLogBuilderPlugin implements Plugin<Project> {
 		return buildChangeLogTask;
 	}
 
-	private void _configureTaskBuildChangeLogForJavaPlugin(
+	private void _configureTaskBuildChangeLogForJavaLibraryPlugin(
 		final BuildChangeLogTask buildChangeLogTask) {
 
 		buildChangeLogTask.setChangeLogFile(
