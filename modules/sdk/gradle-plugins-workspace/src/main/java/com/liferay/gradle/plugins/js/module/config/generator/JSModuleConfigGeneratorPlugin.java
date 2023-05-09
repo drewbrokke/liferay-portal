@@ -28,6 +28,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.plugins.BasePlugin;
+import org.gradle.api.plugins.JavaLibraryPlugin;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.plugins.PluginContainer;
 import org.gradle.api.tasks.SourceSet;
@@ -105,12 +106,12 @@ public class JSModuleConfigGeneratorPlugin implements Plugin<Project> {
 		PluginContainer pluginContainer = project.getPlugins();
 
 		pluginContainer.withType(
-			JavaPlugin.class,
-			new Action<JavaPlugin>() {
+			JavaLibraryPlugin.class,
+			new Action<JavaLibraryPlugin>() {
 
 				@Override
-				public void execute(JavaPlugin javaPlugin) {
-					_configureTaskConfigJSModulesForJavaPlugin(
+				public void execute(JavaLibraryPlugin javaLibraryPlugin) {
+					_configureTaskConfigJSModulesForJavaLibraryPlugin(
 						configJSModulesTask);
 				}
 
@@ -177,7 +178,7 @@ public class JSModuleConfigGeneratorPlugin implements Plugin<Project> {
 			});
 	}
 
-	private void _configureTaskConfigJSModulesForJavaPlugin(
+	private void _configureTaskConfigJSModulesForJavaLibraryPlugin(
 		ConfigJSModulesTask configJSModulesTask) {
 
 		configJSModulesTask.mustRunAfter(
