@@ -14,6 +14,7 @@
 
 package com.liferay.gradle.plugins.workspace.configurator;
 
+import com.bmuschko.gradle.docker.DockerRegistryCredentials;
 import com.bmuschko.gradle.docker.DockerRemoteApiPlugin;
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage;
 import com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage;
@@ -247,9 +248,12 @@ public class ClientExtensionProjectConfigurator
 		_nodeBuildConfigurer.apply(
 			project, assembleClientExtensionTaskProvider);
 
+		WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
+			(ExtensionAware)project.getGradle(), WorkspaceExtension.class);
+
 		_addDockerTasks(
 			project, assembleClientExtensionTaskProvider,
-			createClientExtensionConfigTaskProvider);
+			createClientExtensionConfigTaskProvider, workspaceExtension);
 	}
 
 	@Override
@@ -304,7 +308,8 @@ public class ClientExtensionProjectConfigurator
 	private void _addDockerTasks(
 		Project project, TaskProvider<Copy> assembleClientExtensionTaskProvider,
 		TaskProvider<CreateClientExtensionConfigTask>
-			createClientExtensionConfigTaskProvider) {
+			createClientExtensionConfigTaskProvider,
+		WorkspaceExtension workspaceExtension) {
 
 		DockerBuildImage dockerBuildImage = GradleUtil.addTask(
 			project, RootProjectConfigurator.BUILD_DOCKER_IMAGE_TASK_NAME,
@@ -322,6 +327,36 @@ public class ClientExtensionProjectConfigurator
 
 		assembleClientExtensionTaskProvider.configure(
 			copy -> inputDirectoryProperty.set(copy.getDestinationDir()));
+
+		Property<Boolean> pullProperty = dockerBuildImage.getPull();
+
+		pullProperty.set(workspaceExtension.getDockerPullPolicy());
+
+		if (Objects.nonNull(
+				workspaceExtension.getDockerLocalRegistryAddress())) {
+
+			DockerRegistryCredentials dockerRegistryCredentials =
+				dockerBuildImage.getRegistryCredentials();
+
+			String dockerUserName = workspaceExtension.getDockerUserName();
+
+			if (Objects.nonNull(dockerUserName)) {
+				Property<String> userNameProperty =
+					dockerRegistryCredentials.getUsername();
+
+				userNameProperty.set(dockerUserName);
+			}
+
+			String dockerUserAccessToken =
+				workspaceExtension.getDockerUserAccessToken();
+
+			if (Objects.nonNull(dockerUserAccessToken)) {
+				Property<String> passwordProperty =
+					dockerRegistryCredentials.getPassword();
+
+				passwordProperty.set(dockerUserAccessToken);
+			}
+		}
 
 		DockerRemoveImage dockerRemoveImage = GradleUtil.addTask(
 			project, RootProjectConfigurator.CLEAN_DOCKER_IMAGE_TASK_NAME,
