@@ -2373,7 +2373,7 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 
 		if (projectPath.startsWith(":dxp:apps:osb:")) {
 			_configureDependenciesReleaseAPI(
-				project, JavaPlugin.COMPILE_CONFIGURATION_NAME);
+				project, JavaPlugin.API_CONFIGURATION_NAME);
 			_configureDependenciesReleaseAPI(
 				project, JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME);
 			_configureDependenciesReleaseAPI(
@@ -2388,13 +2388,13 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 			projectPath.startsWith(":private:core:")) {
 
 			_configureConfigurationTransitive(
-				project, JavaPlugin.COMPILE_CONFIGURATION_NAME, false);
+				project, JavaPlugin.API_CONFIGURATION_NAME, false);
 			_configureConfigurationTransitive(
 				project, JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME,
 				false);
 
 			_configureDependenciesGroupPortal(
-				project, appBndFile, JavaPlugin.COMPILE_CONFIGURATION_NAME,
+				project, appBndFile, JavaPlugin.API_CONFIGURATION_NAME,
 				publishing);
 			_configureDependenciesGroupPortal(
 				project, appBndFile,
