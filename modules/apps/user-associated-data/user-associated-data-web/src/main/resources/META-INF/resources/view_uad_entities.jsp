@@ -1,3 +1,6 @@
+
+<%@ page import="com.liferay.taglib.aui.AUIUtil" %>
+
 <%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
@@ -58,10 +61,11 @@ long[] groupIds = viewUADEntitiesDisplay.getGroupIds();
 
 			<%
 			for (String typeKey : viewUADEntitiesDisplay.getTypeKeys()) {
+				String normalizedTypeKey = AUIUtil.normalizeId(typeKey);
 			%>
 
-				<aui:input name='<%= "primaryKeys__" + typeKey %>' type="hidden" />
-				<aui:input name='<%= "uadRegistryKey__" + typeKey %>' type="hidden" value="<%= typeKey %>" />
+				<aui:input name='<%= "primaryKeys__" + normalizedTypeKey %>' type="hidden" />
+				<aui:input name='<%= "uadRegistryKey__" + normalizedTypeKey %>' type="hidden" value="<%= typeKey %>" />
 
 			<%
 			}
@@ -104,10 +108,11 @@ long[] groupIds = viewUADEntitiesDisplay.getGroupIds();
 						className="com.liferay.user.associated.data.web.internal.display.UADEntity"
 						escapedModel="<%= true %>"
 						keyProperty="primaryKey"
-						modelVar="uadEntity"
 					>
 
 						<%
+						UADEntity uadEntity = (UADEntity)model;
+
 						List<KeyValuePair> columnEntries = uadEntity.getColumnEntries();
 
 						String uadEntityHref = uadEntity.getViewURL();
@@ -227,11 +232,11 @@ long[] groupIds = viewUADEntitiesDisplay.getGroupIds();
 
 					<%
 					for (String typeKey : viewUADEntitiesDisplay.getTypeKeys()) {
+						typeKey = AUIUtil.normalizeId(typeKey);
 					%>
 
-						primaryKeysInput = form.querySelector(
-							'#<portlet:namespace />primaryKeys__<%= typeKey %>'
-						);
+						primaryKeysInput =
+							form['<portlet:namespace />primaryKeys__<%= typeKey %>'];
 
 						if (primaryKeysInput) {
 							var primaryKeys = Liferay.Util.getCheckedCheckboxes(

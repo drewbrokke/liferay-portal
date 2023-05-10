@@ -68,8 +68,4 @@ public class BlogsEntryUADDisplay extends BaseBlogsEntryUADDisplay {
 	@Reference
 	protected Portal portal;
 
-	@Override
-	public String getTypeKey() {
-		return "<script>alert('gotcha!!!!!')</script>";
-	}
 }
