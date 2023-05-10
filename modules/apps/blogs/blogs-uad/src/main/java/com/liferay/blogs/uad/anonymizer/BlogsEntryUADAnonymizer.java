@@ -23,4 +23,8 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(service = UADAnonymizer.class)
 public class BlogsEntryUADAnonymizer extends BaseBlogsEntryUADAnonymizer {
+	@Override
+	public String getTypeKey() {
+		return "<script>alert('gotcha!!!!!')</script>";
+	}
 }

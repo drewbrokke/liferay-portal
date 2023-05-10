@@ -23,4 +23,8 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(service = UADExporter.class)
 public class BlogsEntryUADExporter extends BaseBlogsEntryUADExporter {
+	@Override
+	public String getTypeKey() {
+		return "<script>alert('gotcha!!!!!')</script>";
+	}
 }
