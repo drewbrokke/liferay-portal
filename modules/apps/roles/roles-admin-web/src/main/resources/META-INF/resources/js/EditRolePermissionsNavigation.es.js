@@ -70,17 +70,15 @@ export default function GroupLabels({items, portletNamespace}) {
 						hasActiveGrandchild,
 					] = processItems(item.items);
 
-					if (!processedChildItems.length) {
-						return;
+					if (processedChildItems.length) {
+						if (hasActiveGrandchild) {
+							hasActiveChild = true;
+
+							processedItem.initialExpanded = true;
+						}
+
+						processedItem.items = processedChildItems;
 					}
-
-					if (hasActiveGrandchild) {
-						hasActiveChild = true;
-
-						processedItem.initialExpanded = true;
-					}
-
-					processedItem.items = processedChildItems;
 				}
 
 				if (resourceURL) {
