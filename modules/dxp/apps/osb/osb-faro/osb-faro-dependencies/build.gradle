@@ -29,6 +29,6 @@ deployDependencies {
 	include "*.?ar"
 }
 
-uploadArchives {
+publish {
 	enabled = false
 }
