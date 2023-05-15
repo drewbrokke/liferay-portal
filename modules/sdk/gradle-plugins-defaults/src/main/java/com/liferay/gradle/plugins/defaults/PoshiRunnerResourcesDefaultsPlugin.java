@@ -34,8 +34,8 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.artifacts.maven.MavenDeployer;
 import org.gradle.api.artifacts.maven.MavenPom;
 import org.gradle.api.internal.artifacts.publish.ArchivePublishArtifact;
-import org.gradle.api.plugins.MavenPlugin;
 import org.gradle.api.plugins.MavenRepositoryHandlerConvention;
+import org.gradle.api.publish.maven.plugins.MavenPublishPlugin;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Upload;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
@@ -55,7 +55,7 @@ public class PoshiRunnerResourcesDefaultsPlugin implements Plugin<Project> {
 	public void apply(Project project) {
 		GradlePluginsDefaultsUtil.configureRepositories(project, null);
 
-		GradleUtil.applyPlugin(project, MavenPlugin.class);
+		GradleUtil.applyPlugin(project, MavenPublishPlugin.class);
 		GradleUtil.applyPlugin(project, PoshiRunnerResourcesPlugin.class);
 
 		_applyConfigScripts(project);
@@ -67,7 +67,7 @@ public class PoshiRunnerResourcesDefaultsPlugin implements Plugin<Project> {
 		GradleUtil.applyScript(
 			project,
 			"com/liferay/gradle/plugins/defaults/dependencies" +
-				"/config-maven.gradle",
+				"/config-maven-publish.gradle",
 			project);
 	}
 
