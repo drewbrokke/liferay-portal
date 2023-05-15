@@ -40,9 +40,9 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.BasePlugin;
 import org.gradle.api.plugins.JavaLibraryPlugin;
 import org.gradle.api.plugins.JavaPlugin;
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskContainer;
-import org.gradle.api.tasks.Upload;
 import org.gradle.api.tasks.javadoc.Javadoc;
 import org.gradle.external.javadoc.CoreJavadocOptions;
 
@@ -80,7 +80,8 @@ public class MavenPluginBuilderPlugin implements Plugin<Project> {
 		}
 
 		_configureTasksBuildPluginDescriptor(project);
-		_configureTasksUpload(project, buildPluginDescriptorTask);
+		_configureTasksAbstractPublishToMaven(
+			project, buildPluginDescriptorTask);
 	}
 
 	private Configuration _addConfigurationMavenEmbedder(
@@ -373,28 +374,32 @@ public class MavenPluginBuilderPlugin implements Plugin<Project> {
 			});
 	}
 
-	private void _configureTasksUpload(
+	private void _configureTasksAbstractPublishToMaven(
 		Project project,
 		final BuildPluginDescriptorTask buildPluginDescriptorTask) {
 
 		TaskContainer taskContainer = project.getTasks();
 
 		taskContainer.withType(
-			Upload.class,
-			new Action<Upload>() {
+			AbstractPublishToMaven.class,
+			new Action<AbstractPublishToMaven>() {
 
 				@Override
-				public void execute(Upload upload) {
-					_configureTaskUpload(upload, buildPluginDescriptorTask);
+				public void execute(
+					AbstractPublishToMaven abstractPublishToMaven) {
+
+					_configureTaskAbstractPublishToMaven(
+						abstractPublishToMaven, buildPluginDescriptorTask);
 				}
 
 			});
 	}
 
-	private void _configureTaskUpload(
-		Upload upload, BuildPluginDescriptorTask buildPluginDescriptorTask) {
+	private void _configureTaskAbstractPublishToMaven(
+		AbstractPublishToMaven abstractPublishToMaven,
+		BuildPluginDescriptorTask buildPluginDescriptorTask) {
 
-		upload.dependsOn(buildPluginDescriptorTask);
+		abstractPublishToMaven.dependsOn(buildPluginDescriptorTask);
 	}
 
 	private File _getSrcDir(SourceDirectorySet sourceDirectorySet) {
