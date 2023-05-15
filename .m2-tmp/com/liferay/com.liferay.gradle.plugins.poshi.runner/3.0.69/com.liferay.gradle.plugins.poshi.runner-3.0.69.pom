@@ -7,9 +7,9 @@
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.liferay</groupId>
-  <artifactId>com.liferay.gradle.plugins.css.builder</artifactId>
-  <version>5.0.8</version>
-  <description>The CSS Builder Gradle plugin lets you run the Liferay CSS Builder tool to compile Sass files in your project.</description>
+  <artifactId>com.liferay.gradle.plugins.poshi.runner</artifactId>
+  <version>3.0.69</version>
+  <description>Liferay Gradle Plugins Poshi Runner</description>
   <licenses>
     <license>
       <name>LGPL 2.1</name>

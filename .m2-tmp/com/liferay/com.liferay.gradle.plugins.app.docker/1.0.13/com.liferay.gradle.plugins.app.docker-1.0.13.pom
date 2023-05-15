@@ -7,9 +7,9 @@
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.liferay</groupId>
-  <artifactId>com.liferay.gradle.plugins.css.builder</artifactId>
-  <version>5.0.8</version>
-  <description>The CSS Builder Gradle plugin lets you run the Liferay CSS Builder tool to compile Sass files in your project.</description>
+  <artifactId>com.liferay.gradle.plugins.app.docker</artifactId>
+  <version>1.0.13</version>
+  <description>The App Docker Gradle plugin lets you build a single Docker image for an application that spans different subprojects, each one representing a different component of the same application. The Docker image can then be pushed to a registry.</description>
   <licenses>
     <license>
       <name>LGPL 2.1</name>
@@ -29,6 +29,12 @@
     <url>http://github.com/liferay/liferay-portal</url>
   </scm>
   <dependencies>
+    <dependency>
+      <groupId>com.bmuschko</groupId>
+      <artifactId>gradle-docker-plugin</artifactId>
+      <version>3.6.2</version>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>com.liferay</groupId>
       <artifactId>com.liferay.gradle.util</artifactId>
