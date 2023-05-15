@@ -1,13 +1,13 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.petra.string"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.test"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.test.integration"
-	testIntegrationCompile group: "junit", name: "junit"
-	testIntegrationCompile group: "log4j", name: "log4j"
-	testIntegrationCompile group: "org.apache.felix", name: "org.apache.felix.http.servlet-api", version: "1.1.2"
-	testIntegrationCompile group: "org.slf4j", name: "slf4j-api"
-	testIntegrationCompile group: "org.springframework", name: "spring-core"
-	testIntegrationCompile project(":modules:foo:foo-api")
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.petra.string"
+	testIntegrationImplementation group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	testIntegrationImplementation group: "com.liferay.portal", name: "com.liferay.portal.test"
+	testIntegrationImplementation group: "com.liferay.portal", name: "com.liferay.portal.test.integration"
+	testIntegrationImplementation group: "junit", name: "junit"
+	testIntegrationImplementation group: "log4j", name: "log4j"
+	testIntegrationImplementation group: "org.apache.felix", name: "org.apache.felix.http.servlet-api", version: "1.1.2"
+	testIntegrationImplementation group: "org.slf4j", name: "slf4j-api"
+	testIntegrationImplementation group: "org.springframework", name: "spring-core"
+	testIntegrationImplementation project(":modules:foo:foo-api")
 }
