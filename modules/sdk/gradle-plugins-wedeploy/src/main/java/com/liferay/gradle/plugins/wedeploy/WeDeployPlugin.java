@@ -28,6 +28,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.BasePlugin;
 import org.gradle.api.tasks.Exec;
+import org.gradle.api.publish.plugins.PublishingPlugin;
 
 /**
  * @author Andrea Di Giorgi
@@ -79,7 +80,7 @@ public class WeDeployPlugin implements Plugin<Project> {
 		exec.setExecutable("we");
 
 		exec.setDescription("Deletes the project from WeDeploy.");
-		exec.setGroup(BasePlugin.UPLOAD_GROUP);
+		exec.setGroup(PublishingPlugin.PUBLISH_TASK_GROUP);
 
 		return exec;
 	}
@@ -103,7 +104,7 @@ public class WeDeployPlugin implements Plugin<Project> {
 		exec.setExecutable("we");
 
 		exec.setDescription("Deploys the project to WeDeploy.");
-		exec.setGroup(BasePlugin.UPLOAD_GROUP);
+		exec.setGroup(PublishingPlugin.PUBLISH_TASK_GROUP);
 
 		return exec;
 	}
