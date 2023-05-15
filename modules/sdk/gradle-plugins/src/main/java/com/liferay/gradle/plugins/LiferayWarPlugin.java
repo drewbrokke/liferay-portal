@@ -24,6 +24,7 @@ import java.util.concurrent.Callable;
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.file.DuplicatesStrategy;
 import org.gradle.api.file.FileTree;
 import org.gradle.api.plugins.BasePlugin;
 import org.gradle.api.plugins.WarPlugin;
@@ -61,6 +62,7 @@ public class LiferayWarPlugin implements Plugin<Project> {
 			project, buildWarDirTaskProvider, warTaskProvider);
 		_configureTaskWatchProvider(
 			buildWarDirTaskProvider, warTaskProvider, watchTaskProvider);
+		_configureTaskWarProvider(warTaskProvider);
 	}
 
 	private void _configureTaskBuildWarDirProvider(
@@ -146,6 +148,18 @@ public class LiferayWarPlugin implements Plugin<Project> {
 					watchTask.setDescription(
 						"Continuously redeploys the project's WAR dir.");
 					watchTask.setGroup(BasePlugin.BUILD_GROUP);
+				}
+
+			});
+	}
+
+	private void _configureTaskWarProvider(TaskProvider<War> warTaskProvider) {
+		warTaskProvider.configure(
+			new Action<War>() {
+
+				@Override
+				public void execute(War war) {
+					war.setDuplicatesStrategy(DuplicatesStrategy.INCLUDE);
 				}
 
 			});
