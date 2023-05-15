@@ -38,7 +38,7 @@ class WebComponent extends HTMLElement {
 
 		try {
 			this.oAuth2Client = Liferay.OAuth2Client.FromUserAgentApplication(
-				'liferay-sample-oauth-application-user-agent'
+				'liferay-sample-etc-spring-boot-oauth-application-user-agent'
 			);
 		}
 		catch (error) {
