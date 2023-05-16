@@ -8,9 +8,9 @@
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.liferay</groupId>
-  <artifactId>com.liferay.gradle.plugins.xsd.builder</artifactId>
-  <version>1.0.12</version>
-  <description>The XSD Builder Gradle plugin lets you generate Apache XMLBeans bindings from XML Schema (XSD) files.</description>
+  <artifactId>com.liferay.gradle.plugins.node</artifactId>
+  <version>9.0.0</version>
+  <description>The Node Gradle plugin lets you run Node.js and NPM as part of your build.</description>
   <licenses>
     <license>
       <name>LGPL 2.1</name>
