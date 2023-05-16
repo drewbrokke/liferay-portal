@@ -19,14 +19,15 @@ import com.liferay.gradle.plugins.defaults.internal.LiferayCIPatcherPlugin;
 import com.liferay.gradle.plugins.defaults.internal.LiferayCIPlugin;
 import com.liferay.gradle.plugins.defaults.internal.util.CIUtil;
 import com.liferay.gradle.plugins.defaults.internal.util.GradleUtil;
+import com.liferay.gradle.plugins.node.NodePlugin;
 import com.liferay.gradle.plugins.node.YarnPlugin;
-import com.liferay.gradle.plugins.node.task.YarnInstallTask;
 import com.liferay.gradle.util.Validator;
 
 import org.gradle.StartParameter;
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.tasks.TaskProvider;
 
@@ -52,23 +53,26 @@ public class LiferayYarnDefaultsPlugin implements Plugin<Project> {
 			LiferayCIPatcherPlugin.INSTANCE.apply(project);
 		}
 
-		TaskProvider<YarnInstallTask> yarnInstallTaskProvider =
+		TaskProvider<Task> downloadNodeTaskProvider =
 			GradleUtil.getTaskProvider(
-				project, YarnPlugin.YARN_INSTALL_TASK_NAME,
-				YarnInstallTask.class);
+				project, NodePlugin.DOWNLOAD_NODE_TASK_NAME);
 
-		_configureTaskYarnInstallProvider(project, yarnInstallTaskProvider);
+		_configureTaskProvider(project, downloadNodeTaskProvider);
+
+		TaskProvider<Task> yarnInstallTaskProvider = GradleUtil.getTaskProvider(
+			project, YarnPlugin.YARN_INSTALL_TASK_NAME);
+
+		_configureTaskProvider(project, yarnInstallTaskProvider);
 	}
 
-	private void _configureTaskYarnInstallProvider(
-		final Project project,
-		TaskProvider<YarnInstallTask> yarnInstallTaskProvider) {
+	private void _configureTaskProvider(
+		final Project project, TaskProvider<Task> taskProvider) {
 
-		yarnInstallTaskProvider.configure(
-			new Action<YarnInstallTask>() {
+		taskProvider.configure(
+			new Action<Task>() {
 
 				@Override
-				public void execute(YarnInstallTask yarnInstallTask) {
+				public void execute(Task task) {
 					Gradle gradle = project.getGradle();
 
 					StartParameter startParameter = gradle.getStartParameter();
@@ -78,7 +82,7 @@ public class LiferayYarnDefaultsPlugin implements Plugin<Project> {
 					if (startParameter.isParallelProjectExecutionEnabled() ||
 						Validator.isNotNull(buildProfile)) {
 
-						yarnInstallTask.setEnabled(false);
+						task.setEnabled(false);
 					}
 				}
 
