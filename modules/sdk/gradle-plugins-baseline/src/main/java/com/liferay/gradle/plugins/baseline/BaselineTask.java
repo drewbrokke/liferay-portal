@@ -35,7 +35,10 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.reporting.ReportingExtension;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.InputFiles;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.PathSensitive;
@@ -141,12 +144,13 @@ public class BaselineTask extends DefaultTask implements VerificationTask {
 			});
 	}
 
-	@Input
+	@InputFiles
+	@PathSensitive(PathSensitivity.RELATIVE)
 	public Configuration getBaselineConfiguration() {
 		return _baselineConfiguration;
 	}
 
-	@Input
+	@InputFile
 	@Optional
 	@PathSensitive(PathSensitivity.RELATIVE)
 	public File getBndFile() {
@@ -185,7 +189,7 @@ public class BaselineTask extends DefaultTask implements VerificationTask {
 		return GradleUtil.toFile(getProject(), _newJarFile);
 	}
 
-	@Input
+	@InputDirectory
 	@Optional
 	@PathSensitive(PathSensitivity.RELATIVE)
 	public File getSourceDir() {
@@ -255,6 +259,7 @@ public class BaselineTask extends DefaultTask implements VerificationTask {
 		_sourceDir = sourceDir;
 	}
 
+	@Internal
 	protected File getOldJarFile() {
 		if (_oldJarFile != null) {
 			return _oldJarFile;

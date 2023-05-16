@@ -35,6 +35,7 @@ import org.gradle.api.Task;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Internal;
 
 /**
  * @author Andrea Di Giorgi
@@ -123,6 +124,7 @@ public class NpmShrinkwrapTask extends ExecutePackageManagerTask {
 		_includeDevDependencies = includeDevDepenencies;
 	}
 
+	@Internal
 	@Override
 	protected List<String> getCompleteArgs() {
 		List<String> completeArgs = super.getCompleteArgs();

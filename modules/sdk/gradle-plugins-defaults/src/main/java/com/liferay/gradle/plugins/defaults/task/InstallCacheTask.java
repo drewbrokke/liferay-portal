@@ -107,7 +107,7 @@ public class InstallCacheTask extends DefaultTask {
 		return _cacheFormat;
 	}
 
-	@Input
+	@InputDirectory
 	@PathSensitive(PathSensitivity.RELATIVE)
 	public File getCacheRootDir() {
 		return GradleUtil.toFile(getProject(), _cacheRootDir);
@@ -124,7 +124,7 @@ public class InstallCacheTask extends DefaultTask {
 				getArtifactVersion());
 	}
 
-	@Input
+	@InputDirectory
 	@PathSensitive(PathSensitivity.RELATIVE)
 	public File getMavenRootDir() {
 		return GradleUtil.toFile(getProject(), _mavenRootDir);
