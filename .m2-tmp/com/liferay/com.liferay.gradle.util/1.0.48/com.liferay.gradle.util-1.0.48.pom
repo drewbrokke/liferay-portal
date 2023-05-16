@@ -7,9 +7,9 @@
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.liferay</groupId>
-  <artifactId>com.liferay.gradle.plugins.dependency.local.copy</artifactId>
-  <version>1.0.6</version>
-  <description>Liferay Gradle Plugins Dependency Local Copy</description>
+  <artifactId>com.liferay.gradle.util</artifactId>
+  <version>1.0.48</version>
+  <description>Liferay Gradle Utilities</description>
   <licenses>
     <license>
       <name>LGPL 2.1</name>
@@ -28,12 +28,4 @@
     <developerConnection>scm:git:git@github.com:liferay/liferay-portal.git</developerConnection>
     <url>http://github.com/liferay/liferay-portal</url>
   </scm>
-  <dependencies>
-    <dependency>
-      <groupId>com.liferay</groupId>
-      <artifactId>com.liferay.gradle.util</artifactId>
-      <version>1.0.48</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
 </project>
