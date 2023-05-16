@@ -160,6 +160,7 @@ public class BuildPluginDescriptorTask extends DefaultTask {
 		return GradleUtil.toFile(getProject(), _classesDir);
 	}
 
+	@Input
 	public Map<String, String> getConfigurationScopeMappings() {
 		return _configurationScopeMappings;
 	}
@@ -228,6 +229,7 @@ public class BuildPluginDescriptorTask extends DefaultTask {
 		return GradleUtil.toFile(getProject(), _sourceDir);
 	}
 
+	@Input
 	public boolean isMavenDebug() {
 		return _mavenDebug;
 	}

@@ -27,6 +27,7 @@ import java.util.List;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.JavaExec;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.PathSensitive;
@@ -93,6 +94,7 @@ public abstract class BaseDBSupportTask extends JavaExec {
 		_userName = userName;
 	}
 
+	@Internal
 	protected List<String> getCompleteArgs() {
 		List<String> completeArgs = new ArrayList<>();
 

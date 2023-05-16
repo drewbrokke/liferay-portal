@@ -60,8 +60,11 @@ import org.gradle.api.file.FileTree;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.InputFiles;
+import org.gradle.api.tasks.Internal;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFiles;
 import org.gradle.api.tasks.PathSensitive;
 import org.gradle.api.tasks.PathSensitivity;
@@ -141,6 +144,8 @@ public class PatchTask extends DefaultTask {
 		return fileNames(Arrays.asList(fileNames));
 	}
 
+	@Input
+	@Optional
 	public List<String> getArgs() {
 		return GradleUtil.toStringList(_args);
 	}
@@ -150,6 +155,7 @@ public class PatchTask extends DefaultTask {
 		return GradleUtil.toStringList(_fileNames);
 	}
 
+	@Input
 	public String getOriginalLibConfigurationName() {
 		return GradleUtil.toString(_originalLibConfigurationName);
 	}
@@ -160,22 +166,27 @@ public class PatchTask extends DefaultTask {
 		return GradleUtil.toFile(getProject(), _originalLibFile);
 	}
 
+	@Input
 	public String getOriginalLibModuleGroup() {
 		Dependency dependency = getOriginalLibDependency();
 
 		return dependency.getGroup();
 	}
 
+	@Input
 	public String getOriginalLibModuleName() {
 		return GradleUtil.toString(_originalLibModuleName);
 	}
 
+	@Input
 	public String getOriginalLibModuleVersion() {
 		Dependency dependency = getOriginalLibDependency();
 
 		return dependency.getVersion();
 	}
 
+	@Input
+	@Optional
 	public String getOriginalLibSrcBaseUrl() {
 		return GradleUtil.toString(_originalLibSrcBaseUrl);
 	}
@@ -191,6 +202,8 @@ public class PatchTask extends DefaultTask {
 		return GradleUtil.toFile(getProject(), _originalLibSrcFile);
 	}
 
+	@Input
+	@Optional
 	public Map<String, File> getPatchedSrcDirMappings() {
 		Map<String, File> patchedSrcDirMappings = new HashMap<>();
 
@@ -233,6 +246,8 @@ public class PatchTask extends DefaultTask {
 		return project.files(patchedSrcFileTrees.toArray());
 	}
 
+	@InputDirectory
+	@PathSensitive(PathSensitivity.RELATIVE)
 	public File getPatchesDir() {
 		return GradleUtil.toFile(getProject(), _patchesDir);
 	}
@@ -250,6 +265,7 @@ public class PatchTask extends DefaultTask {
 		return project.fileTree(_patchesDir);
 	}
 
+	@Input
 	public boolean isCopyOriginalLibClasses() {
 		return _copyOriginalLibClasses;
 	}
@@ -474,6 +490,7 @@ public class PatchTask extends DefaultTask {
 		return temporaryDir;
 	}
 
+	@Internal
 	protected Dependency getOriginalLibDependency() {
 		Configuration configuration = GradleUtil.getConfiguration(
 			getProject(), getOriginalLibConfigurationName());
@@ -492,6 +509,9 @@ public class PatchTask extends DefaultTask {
 		throw new GradleException("Unable to find original lib " + moduleName);
 	}
 
+	@InputFile
+	@Optional
+	@PathSensitive(PathSensitivity.RELATIVE)
 	protected File getOriginalLibModuleFile() {
 		String configurationName = getOriginalLibConfigurationName();
 		String moduleGroup = getOriginalLibModuleGroup();
@@ -531,6 +551,7 @@ public class PatchTask extends DefaultTask {
 		return null;
 	}
 
+	@Input
 	protected String getOriginalLibSrcUrl() {
 		StringBuilder sb = new StringBuilder();
 

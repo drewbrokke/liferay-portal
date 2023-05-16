@@ -36,11 +36,14 @@ import java.util.Set;
 import org.gradle.api.Project;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.JavaExec;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectories;
 import org.gradle.api.tasks.OutputFiles;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.SkipWhenEmpty;
 import org.gradle.util.CollectionUtils;
 
@@ -84,11 +87,14 @@ public class BuildCSSTask extends JavaExec {
 		super.exec();
 	}
 
+	@InputDirectory
+	@PathSensitive(PathSensitivity.RELATIVE)
 	public File getBaseDir() {
 		return GradleUtil.toFile(getProject(), _baseDir);
 	}
 
 	@InputFiles
+	@PathSensitive(PathSensitivity.RELATIVE)
 	@SkipWhenEmpty
 	public FileCollection getCSSFiles() {
 		Project project = getProject();
@@ -129,6 +135,7 @@ public class BuildCSSTask extends JavaExec {
 		return project.fileTree(args);
 	}
 
+	@Input
 	public List<String> getDirNames() {
 		return GradleUtil.toStringList(_dirNames);
 	}
@@ -140,6 +147,7 @@ public class BuildCSSTask extends JavaExec {
 
 	@InputFiles
 	@Optional
+	@PathSensitive(PathSensitivity.RELATIVE)
 	public FileCollection getImports() {
 		Project project = getProject();
 
