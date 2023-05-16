@@ -20,6 +20,7 @@ dependencies {
 	api group: "commons-logging", name: "commons-logging", version: "1.2"
 	api(group: "jaxen", name: "jaxen", version: "1.1.1") {
 		exclude group: "com.ibm.icu", module: "icu4j"
+		force = true
 	}
 	api group: "junit", name: "junit", version: "4.13.1"
 	api group: "org.antlr", name: "antlr4-runtime", version: "4.8-1"
