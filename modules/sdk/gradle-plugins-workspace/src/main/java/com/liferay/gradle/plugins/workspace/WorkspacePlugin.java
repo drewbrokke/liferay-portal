@@ -61,11 +61,11 @@ public class WorkspacePlugin implements Plugin<Settings> {
 		Gradle gradle = settings.getGradle();
 		File rootDir = settings.getRootDir();
 
-		_applyPlugins(settings);
-
 		final WorkspaceExtension workspaceExtension = _addWorkspaceExtension(
 			settings);
 
+		_applyPlugins(settings);
+		
 		Path rootDirPath = rootDir.toPath();
 
 		FileSystem fileSystem = rootDirPath.getFileSystem();
