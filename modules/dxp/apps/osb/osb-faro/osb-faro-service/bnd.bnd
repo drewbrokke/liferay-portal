@@ -1,6 +1,0 @@
-Bundle-Name: Liferay OSB Faro Service
-Bundle-SymbolicName: com.liferay.osb.faro.service
-Bundle-Version: 1.0.0
-Liferay-Require-SchemaVersion: 17.0.0
-Liferay-Service: true
--dsannotations-options: inherit
