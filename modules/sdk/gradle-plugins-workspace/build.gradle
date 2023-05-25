@@ -81,10 +81,11 @@ copyHotFixZip {
 }
 
 copyGradleTestDependencies {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
 	from configurations.compileClasspath
 	from jar
 	into gradleTestDependenciesDir
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
 	doLast {
 		configurations.compileClasspath.forEach {

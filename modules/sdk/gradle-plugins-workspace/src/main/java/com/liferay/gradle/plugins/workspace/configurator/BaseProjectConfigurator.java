@@ -112,6 +112,11 @@ public abstract class BaseProjectConfigurator implements ProjectConfigurator {
 			project, RootProjectConfigurator.DOCKER_DEPLOY_TASK_NAME,
 			Copy.class);
 
+		copy.setDescription(
+			"Assembles the project and deploys it to the Liferay Docker " +
+				"container.");
+		copy.setGroup(RootProjectConfigurator.DOCKER_GROUP);
+
 		copy.setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE);
 
 		copy.from(sourcePath);
@@ -125,12 +130,6 @@ public abstract class BaseProjectConfigurator implements ProjectConfigurator {
 				}
 
 			});
-
-		copy.setDescription(
-			"Assembles the project and deploys it to the Liferay Docker " +
-				"container.");
-
-		copy.setGroup(RootProjectConfigurator.DOCKER_GROUP);
 
 		Task deployTask = GradleUtil.getTask(
 			project, LiferayBasePlugin.DEPLOY_TASK_NAME);
