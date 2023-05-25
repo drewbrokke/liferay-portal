@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
@@ -38,7 +39,9 @@ import org.gradle.api.tasks.PathSensitivity;
 public class BuildRESTTask extends JavaExec {
 
 	public BuildRESTTask() {
-		setMain("com.liferay.portal.tools.rest.builder.RESTBuilder");
+		Property<String> mainClass = getMainClass();
+
+		mainClass.set("com.liferay.portal.tools.rest.builder.RESTBuilder");
 
 		_forceClientVersionDescription = GradleUtil.getTaskPrefixedProperty(
 			this, "forceClientVersionDescription");

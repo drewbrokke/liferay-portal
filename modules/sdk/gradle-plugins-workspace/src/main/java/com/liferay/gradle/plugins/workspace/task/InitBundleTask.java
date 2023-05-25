@@ -33,6 +33,7 @@ import java.util.List;
 import org.gradle.api.GradleException;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.logging.Logger;
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.JavaExec;
@@ -45,7 +46,9 @@ import org.gradle.api.tasks.OutputDirectory;
 public class InitBundleTask extends JavaExec {
 
 	public InitBundleTask() {
-		setMain("com.liferay.portal.tools.bundle.support.BundleSupport");
+		Property<String> mainClass = getMainClass();
+
+		mainClass.set("com.liferay.portal.tools.bundle.support.BundleSupport");
 	}
 
 	@Override
