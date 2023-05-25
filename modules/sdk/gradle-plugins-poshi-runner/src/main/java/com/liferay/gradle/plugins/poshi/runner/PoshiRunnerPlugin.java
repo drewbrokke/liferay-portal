@@ -62,6 +62,7 @@ import org.gradle.api.plugins.BasePlugin;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.plugins.ExtraPropertiesExtension;
 import org.gradle.api.plugins.PluginContainer;
+import org.gradle.api.provider.Property;
 import org.gradle.api.reporting.DirectoryReport;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Copy;
@@ -317,11 +318,15 @@ public class PoshiRunnerPlugin implements Plugin<Project> {
 		JavaExec javaExec = GradleUtil.addTask(
 			project, EVALUATE_POSHI_CONSOLE_TASK_NAME, JavaExec.class);
 
-		javaExec.setClasspath(_getPoshiRunnerClasspath(project));
 		javaExec.setDescription("Evaluate the console output errors.");
 		javaExec.setGroup("verification");
-		javaExec.setMain(
+
+		Property<String> mainClass = javaExec.getMainClass();
+
+		mainClass.set(
 			"com.liferay.poshi.runner.PoshiRunnerConsoleEvaluator");
+
+		javaExec.setClasspath(_getPoshiRunnerClasspath(project));
 
 		return javaExec;
 	}
@@ -330,12 +335,16 @@ public class PoshiRunnerPlugin implements Plugin<Project> {
 		JavaExec javaExec = GradleUtil.addTask(
 			project, EXECUTE_PQL_QUERY_TASK_NAME, JavaExec.class);
 
+		javaExec.setDescription("Execute the PQL query.");
+		javaExec.setGroup("verification");
+
+		Property<String> mainClass = javaExec.getMainClass();
+
+		mainClass.set("com.liferay.poshi.runner.PoshiRunnerCommandExecutor");
+
 		javaExec.args(Collections.singleton("executePQLQuery"));
 
 		javaExec.setClasspath(_getPoshiRunnerClasspath(project));
-		javaExec.setDescription("Execute the PQL query.");
-		javaExec.setGroup("verification");
-		javaExec.setMain("com.liferay.poshi.runner.PoshiRunnerCommandExecutor");
 
 		return javaExec;
 	}
@@ -495,10 +504,14 @@ public class PoshiRunnerPlugin implements Plugin<Project> {
 		JavaExec javaExec = GradleUtil.addTask(
 			project, VALIDATE_POSHI_TASK_NAME, JavaExec.class);
 
-		javaExec.setClasspath(_getPoshiRunnerClasspath(project));
 		javaExec.setDescription("Validates the Poshi files syntax.");
 		javaExec.setGroup("verification");
-		javaExec.setMain("com.liferay.poshi.core.PoshiValidation");
+
+		Property<String> mainClass = javaExec.getMainClass();
+
+		mainClass.set("com.liferay.poshi.core.PoshiValidation");
+
+		javaExec.setClasspath(_getPoshiRunnerClasspath(project));
 
 		return javaExec;
 	}
@@ -507,10 +520,14 @@ public class PoshiRunnerPlugin implements Plugin<Project> {
 		JavaExec javaExec = GradleUtil.addTask(
 			project, WRITE_POSHI_PROPERTIES_TASK_NAME, JavaExec.class);
 
-		javaExec.setClasspath(_getPoshiRunnerClasspath(project));
 		javaExec.setDescription("Write the Poshi properties files.");
 		javaExec.setGroup("verification");
-		javaExec.setMain("com.liferay.poshi.core.PoshiContext");
+
+		Property<String> mainClass = javaExec.getMainClass();
+
+		mainClass.set("com.liferay.poshi.core.PoshiContext");
+
+		javaExec.setClasspath(_getPoshiRunnerClasspath(project));
 
 		return javaExec;
 	}

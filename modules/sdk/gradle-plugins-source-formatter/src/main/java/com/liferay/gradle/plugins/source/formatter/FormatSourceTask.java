@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.gradle.api.Project;
 import org.gradle.api.file.FileCollection;
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
@@ -44,7 +45,9 @@ import org.gradle.util.CollectionUtils;
 public class FormatSourceTask extends JavaExec {
 
 	public FormatSourceTask() {
-		setMain("com.liferay.source.formatter.SourceFormatter");
+		Property<String> mainClass = getMainClass();
+
+		mainClass.set("com.liferay.source.formatter.SourceFormatter");
 	}
 
 	@Override

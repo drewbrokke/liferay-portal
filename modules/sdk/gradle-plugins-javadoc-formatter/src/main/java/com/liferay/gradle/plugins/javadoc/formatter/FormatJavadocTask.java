@@ -24,6 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
@@ -37,7 +38,9 @@ import org.gradle.util.CollectionUtils;
 public class FormatJavadocTask extends JavaExec {
 
 	public FormatJavadocTask() {
-		setMain("com.liferay.javadoc.formatter.JavadocFormatter");
+		Property<String> mainClass = getMainClass();
+
+		mainClass.set("com.liferay.javadoc.formatter.JavadocFormatter");
 	}
 
 	@Override

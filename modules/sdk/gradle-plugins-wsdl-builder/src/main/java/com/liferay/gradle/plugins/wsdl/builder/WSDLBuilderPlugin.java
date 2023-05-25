@@ -42,6 +42,7 @@ import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.plugins.PluginContainer;
 import org.gradle.api.plugins.WarPlugin;
 import org.gradle.api.plugins.WarPluginConvention;
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Copy;
 import org.gradle.api.tasks.JavaExec;
 import org.gradle.api.tasks.SourceSet;
@@ -224,19 +225,23 @@ public class WSDLBuilderPlugin implements Plugin<Project> {
 		javaExec.args(generateOptions.getArgs());
 
 		if (buildWSDLTask.getAxisVersion() == 2) {
+			Property<String> mainClass = javaExec.getMainClass();
+
+			mainClass.set("org.apache.axis2.wsdl.WSDL2Code");
+
 			javaExec.args("--output", FileUtil.getAbsolutePath(destinationDir));
 			javaExec.args("-uri", FileUtil.getAbsolutePath(inputFile));
-
-			javaExec.setMain("org.apache.axis2.wsdl.WSDL2Code");
 		}
 		else {
+			Property<String> mainClass = javaExec.getMainClass();
+
+			mainClass.set("org.apache.axis.wsdl.WSDL2Java");
+
 			String outputPath = FileUtil.getAbsolutePath(destinationDir);
 
 			javaExec.args("--output=" + outputPath);
 
 			javaExec.args(FileUtil.getAbsolutePath(inputFile));
-
-			javaExec.setMain("org.apache.axis.wsdl.WSDL2Java");
 		}
 
 		if (deleteDestinationDir) {

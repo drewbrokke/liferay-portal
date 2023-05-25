@@ -42,6 +42,7 @@ import org.gradle.api.plugins.Convention;
 import org.gradle.api.plugins.JavaBasePlugin;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.plugins.JavaPluginConvention;
+import org.gradle.api.provider.Property;
 import org.gradle.api.reporting.ReportingExtension;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.JavaExec;
@@ -342,6 +343,12 @@ public class FindSecurityBugsPlugin implements Plugin<Project> {
 
 						});
 
+					Property<String> mainClass =
+						findSecurityBugsJavaExec.getMainClass();
+
+					mainClass.set(
+						"edu.umd.cs.findbugs.FindBugs2");
+
 					findSecurityBugsJavaExec.setClasspath(
 						findSecurityBugsConfiguration);
 					findSecurityBugsJavaExec.setDebug(
@@ -351,8 +358,6 @@ public class FindSecurityBugsPlugin implements Plugin<Project> {
 					findSecurityBugsJavaExec.setGroup(
 						JavaBasePlugin.VERIFICATION_GROUP);
 					findSecurityBugsJavaExec.setIgnoreExitValue(true);
-					findSecurityBugsJavaExec.setMain(
-						"edu.umd.cs.findbugs.FindBugs2");
 
 					findSecurityBugsJavaExec.systemProperty(
 						"findsecbugs.injection.customconfigfile." +

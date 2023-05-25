@@ -35,6 +35,7 @@ import java.util.Set;
 
 import org.gradle.api.Project;
 import org.gradle.api.file.FileCollection;
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFiles;
@@ -54,9 +55,13 @@ import org.gradle.util.CollectionUtils;
 public class BuildCSSTask extends JavaExec {
 
 	public BuildCSSTask() {
+		Property<String> mainClass = getMainClass();
+
+		mainClass.set("com.liferay.css.builder.CSSBuilder");
+
 		setDefaultCharacterEncoding(StandardCharsets.UTF_8.toString());
 		setDirNames("/");
-		setMain("com.liferay.css.builder.CSSBuilder");
+
 		systemProperty("sass.compiler.jni.clean.temp.dir", true);
 	}
 
