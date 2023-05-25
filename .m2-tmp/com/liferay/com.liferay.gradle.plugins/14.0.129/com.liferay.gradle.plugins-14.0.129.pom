@@ -135,7 +135,7 @@
     <dependency>
       <groupId>com.liferay</groupId>
       <artifactId>com.liferay.gradle.plugins.upgrade.table.builder</artifactId>
-      <version>3.0.3</version>
+      <version>3.0.4</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
