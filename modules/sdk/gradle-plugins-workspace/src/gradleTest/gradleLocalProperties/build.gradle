@@ -6,11 +6,7 @@ runGradleTest {
 	doLast {
 		String key1Value = null
 
-		try {
-			key1Value = project.property("key1")
-		}
-		catch (Exception exception) {
-		}
+		key1Value = project.property("key1")
 
 		assert key1Value == "test1"
 	}
