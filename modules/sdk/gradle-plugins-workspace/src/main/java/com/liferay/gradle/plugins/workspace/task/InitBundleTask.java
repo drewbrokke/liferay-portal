@@ -36,6 +36,7 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.JavaExec;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectory;
@@ -71,7 +72,7 @@ public class InitBundleTask extends JavaExec {
 		return GradleUtil.toString(_configEnvironment);
 	}
 
-	@Optional
+	@InputFiles
 	public File getConfigsDir() {
 		return GradleUtil.toFile(getProject(), _configsDir);
 	}
@@ -86,14 +87,13 @@ public class InitBundleTask extends JavaExec {
 		return GradleUtil.toFile(getProject(), _file);
 	}
 
-	@Input
+	@InputFiles
 	@Optional
 	public FileCollection getProvidedModules() {
 		return _providedModules;
 	}
 
 	@Input
-	@Optional
 	public int getStripComponents() {
 		return GradleUtil.toInteger(_stripComponents);
 	}
