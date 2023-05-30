@@ -199,7 +199,7 @@ public class ExtProjectConfigurator extends BaseProjectConfigurator {
 				});
 
 			if ((configDirs != null) && (configDirs.length > 0)) {
-				dockerDeploy.setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE);
+				dockerDeploy.setDuplicatesStrategy(DuplicatesStrategy.INCLUDE);
 
 				dockerDeploy.into(workspaceExtension.getDockerDir());
 
