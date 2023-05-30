@@ -918,7 +918,7 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		copy.setGroup(DOCKER_GROUP);
 
 		copy.setDestinationDir(workspaceExtension.getDockerDir());
-		copy.setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE);
+		copy.setDuplicatesStrategy(DuplicatesStrategy.INCLUDE);
 
 		copy.from(
 			providedModulesConfiguration,

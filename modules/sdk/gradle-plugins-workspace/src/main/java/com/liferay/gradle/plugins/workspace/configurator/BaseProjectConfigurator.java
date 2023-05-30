@@ -117,7 +117,7 @@ public abstract class BaseProjectConfigurator implements ProjectConfigurator {
 				"container.");
 		copy.setGroup(RootProjectConfigurator.DOCKER_GROUP);
 
-		copy.setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE);
+		copy.setDuplicatesStrategy(DuplicatesStrategy.INCLUDE);
 
 		copy.from(sourcePath);
 
