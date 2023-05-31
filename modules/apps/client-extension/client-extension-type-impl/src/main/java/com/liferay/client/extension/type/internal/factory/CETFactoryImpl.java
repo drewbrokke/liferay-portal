@@ -51,7 +51,7 @@ public class CETFactoryImpl implements CETFactory {
 			String externalReferenceCode)
 		throws PortalException {
 
-		CETImplFactory cetImplFactory = _getCETImplFactory(
+		CETImplFactory<?> cetImplFactory = _getCETImplFactory(
 			cetConfiguration.type());
 
 		String baseURL = cetConfiguration.baseURL();
@@ -82,7 +82,7 @@ public class CETFactoryImpl implements CETFactory {
 	public CET create(ClientExtensionEntry clientExtensionEntry)
 		throws PortalException {
 
-		CETImplFactory cetImplFactory = _getCETImplFactory(
+		CETImplFactory<?> cetImplFactory = _getCETImplFactory(
 			clientExtensionEntry.getType());
 
 		return cetImplFactory.create(clientExtensionEntry);
@@ -108,13 +108,13 @@ public class CETFactoryImpl implements CETFactory {
 			UnicodeProperties oldTypeSettingsUnicodeProperties, String type)
 		throws PortalException {
 
-		CETImplFactory cetImplFactory = _getCETImplFactory(type);
+		CETImplFactory<?> cetImplFactory = _getCETImplFactory(type);
 
 		cetImplFactory.validate(
 			newTypeSettingsUnicodeProperties, oldTypeSettingsUnicodeProperties);
 	}
 
-	private CETImplFactory _getCETImplFactory(String type)
+	private CETImplFactory<?> _getCETImplFactory(String type)
 		throws ClientExtensionEntryTypeException {
 
 		CETImplFactory<?> cetImplFactory = _cetImplFactories.getCETImplFactory(
