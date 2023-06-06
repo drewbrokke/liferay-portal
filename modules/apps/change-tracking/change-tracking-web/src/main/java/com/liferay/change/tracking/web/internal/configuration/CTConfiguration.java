@@ -16,6 +16,7 @@ package com.liferay.change.tracking.web.internal.configuration;
 
 import aQute.bnd.annotation.metatype.Meta;
 
+import com.liferay.portal.configuration.metatype.annotations.ExtendedAttributeDefinition;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 
 /**
@@ -32,6 +33,9 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 )
 public interface CTConfiguration {
 
+	@ExtendedAttributeDefinition(
+		visibilityControllerKey = "feature.flag.LPS-114786"
+	)
 	@Meta.AD(
 		deflt = "1000", description = "context-view-limit-count-help",
 		name = "context-view-limit-count", required = false
