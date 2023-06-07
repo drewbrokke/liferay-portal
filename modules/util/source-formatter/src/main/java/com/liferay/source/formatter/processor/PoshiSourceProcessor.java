@@ -22,8 +22,10 @@ import com.liferay.poshi.core.elements.PoshiNodeFactory;
 import com.liferay.poshi.core.script.PoshiScriptParserException;
 import com.liferay.poshi.core.util.FileUtil;
 import com.liferay.source.formatter.SourceFormatterArgs;
+import com.liferay.source.formatter.SourceFormatterExcludes;
 import com.liferay.source.formatter.check.util.SourceUtil;
 import com.liferay.source.formatter.util.DebugUtil;
+import com.liferay.source.formatter.util.SourceFormatterUtil;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -34,6 +36,7 @@ import java.io.PrintStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
@@ -98,7 +101,9 @@ public class PoshiSourceProcessor extends BaseSourceProcessor {
 			return content;
 		}
 
-		_populateFunctionAndMacroFiles();
+		PrintStream out = System.out;
+
+		_populateFunctionAndMacroFiles(out);
 
 		System.out.flush();
 
@@ -140,7 +145,7 @@ public class PoshiSourceProcessor extends BaseSourceProcessor {
 		return newContent;
 	}
 
-	private synchronized void _populateFunctionAndMacroFiles()
+	private synchronized void _populateFunctionAndMacroFiles(PrintStream out)
 		throws Exception {
 
 		if (_populated) {
@@ -156,50 +161,64 @@ public class PoshiSourceProcessor extends BaseSourceProcessor {
 			poshiDirs.addAll(PoshiContext.getPoshiDirs());
 		}
 
+
+
 		for (File poshiDir : poshiDirs) {
-			Files.walkFileTree(
-				poshiDir.toPath(),
-				new SimpleFileVisitor<Path>() {
+			List<String> filePaths = SourceFormatterUtil.scanForFiles(
+				poshiDir.getCanonicalPath(),
+				new String[0], new String[] {"**/*.function", "**/*.macro"}, new SourceFormatterExcludes(), false
+			);
 
-					@Override
-					public FileVisitResult preVisitDirectory(
-							Path dirPath,
-							BasicFileAttributes basicFileAttributes)
-						throws IOException {
+			for (String filePath : filePaths) {
+				PoshiContext.setFunctionFileNames(
+					filePath.replaceFirst(".+/(.+)\\.(function|macro)", "$1")
+				);
 
-						if (ArrayUtil.contains(
-								_SKIP_DIR_NAMES,
-								String.valueOf(dirPath.getFileName()))) {
+			}
 
-							return FileVisitResult.SKIP_SUBTREE;
-						}
-
-						return FileVisitResult.CONTINUE;
-					}
-
-					@Override
-					public FileVisitResult visitFile(
-						Path filePath,
-						BasicFileAttributes basicFileAttributes) {
-
-						String absolutePath = SourceUtil.getAbsolutePath(
-							filePath);
-
-						if (absolutePath.endsWith(".function")) {
-							PoshiContext.setFunctionFileNames(
-								absolutePath.replaceFirst(
-									".+/(.+)\\.function", "$1"));
-						}
-						else if (absolutePath.endsWith(".macro")) {
-							PoshiContext.setMacroFileNames(
-								absolutePath.replaceFirst(
-									".+/(.+)\\.macro", "$1"));
-						}
-
-						return FileVisitResult.CONTINUE;
-					}
-
-				});
+//			Files.walkFileTree(
+//				poshiDir.toPath(),
+//				new SimpleFileVisitor<Path>() {
+//
+//					@Override
+//					public FileVisitResult preVisitDirectory(
+//							Path dirPath,
+//							BasicFileAttributes basicFileAttributes)
+//						throws IOException {
+//
+//						if (ArrayUtil.contains(
+//								_SKIP_DIR_NAMES,
+//								String.valueOf(dirPath.getFileName()))) {
+//
+//							return FileVisitResult.SKIP_SUBTREE;
+//						}
+//
+//						return FileVisitResult.CONTINUE;
+//					}
+//
+//					@Override
+//					public FileVisitResult visitFile(
+//						Path filePath,
+//						BasicFileAttributes basicFileAttributes) {
+//
+//						String absolutePath = SourceUtil.getAbsolutePath(
+//							filePath);
+//
+//						if (absolutePath.endsWith(".function")) {
+//							PoshiContext.setFunctionFileNames(
+//								absolutePath.replaceFirst(
+//									".+/(.+)\\.function", "$1"));
+//						}
+//						else if (absolutePath.endsWith(".macro")) {
+//							PoshiContext.setMacroFileNames(
+//								absolutePath.replaceFirst(
+//									".+/(.+)\\.macro", "$1"));
+//						}
+//
+//						return FileVisitResult.CONTINUE;
+//					}
+//
+//				});
 		}
 
 		_populated = true;

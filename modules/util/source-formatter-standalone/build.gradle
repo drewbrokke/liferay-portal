@@ -5,11 +5,18 @@ dependencies {
 	compileInclude group: "commons-io", name: "commons-io", version: "2.11.0"
 	compileInclude group: "commons-lang", name: "commons-lang", version: "2.6"
 	compileInclude group: "commons-logging", name: "commons-logging", version: "1.2"
+	compileInclude group: "commons-beanutils", name: "commons-beanutils", version: "1.9.4"
+	compileInclude group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
+	compileInclude group: "com.google.collections", name: "google-collections", version: "1.0"
+	compileInclude group: "org.slf4j", name: "slf4j-api", version: "1.7.26"
+	compileInclude group: "org.javassist", name: "javassist", version: "3.28.0-GA"
+	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.0"
 	compileInclude(group: "jaxen", name: "jaxen", version: "1.1.1") {
 		exclude group: "com.ibm.icu", module: "icu4j"
 	}
 	compileInclude group: "junit", name: "junit", version: "4.13.1"
 	compileInclude group: "org.antlr", name: "antlr4-runtime", version: "4.8-1"
+	compileInclude group: 'antlr', name: 'antlr', version: '2.7.7'
 	compileInclude group: "org.apache.ant", name: "ant", version: "1.10.11"
 	compileInclude group: "org.apache.maven", name: "maven-artifact", version: "3.3.9"
 	compileInclude group: "org.dom4j", name: "dom4j", version: "2.1.3"
