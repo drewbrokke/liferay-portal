@@ -1130,7 +1130,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 				@Override
 				public void execute(Project project) {
-					_configureDownloadTask(project, download, workspaceExtension);
+					_configureDownloadTask(
+						project, download, workspaceExtension);
 				}
 
 			});
@@ -1796,8 +1797,9 @@ public class RootProjectConfigurator implements Plugin<Project> {
 				}));
 	}
 
-	private void _configureDownloadTask(Project project, 
-		Download download, WorkspaceExtension workspaceExtension) {
+	private void _configureDownloadTask(
+		Project project, Download download,
+		WorkspaceExtension workspaceExtension) {
 
 		File destinationDir = workspaceExtension.getBundleCacheDir();
 
@@ -1819,16 +1821,16 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 				File file = null;
 
-				if (bundleFilePath.isAbsolute()){
+				if (bundleFilePath.isAbsolute()) {
 					file = new File(url.getFile());
 
 					file = file.getAbsoluteFile();
 				}
-				else{
+				else {
 					file = project.file(url.getFile());
 				}
 
-				if (Objects.isNull(file)){
+				if (Objects.isNull(file)) {
 					return;
 				}
 
