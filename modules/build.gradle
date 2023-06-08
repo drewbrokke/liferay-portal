@@ -413,37 +413,39 @@ gradle.beforeProject {
 		}
 
 		pluginManager.withPlugin("com.liferay.jasper.jspc") {
-			compileJSP {
-				configurations.compileOnly.allDependencies.withType(ProjectDependency) {
-					mustRunAfter "${it.dependencyProject.path}:deploy"
-					mustRunAfter "${it.dependencyProject.path}:deployDependencies"
-				}
+			if (!project.name.endsWith("-demo")) {
+				compileJSP {
+					configurations.compileOnly.allDependencies.withType(ProjectDependency) {
+						mustRunAfter "${it.dependencyProject.path}:deploy"
+						mustRunAfter "${it.dependencyProject.path}:deployDependencies"
+					}
 
-				if (!implicitDependencyProjects.contains(project)) {
-					implicitDependencyProjects.forEach {
-						mustRunAfter "${it.path}:deploy"
-						mustRunAfter "${it.path}:deployDependencies"
+					if (!implicitDependencyProjects.contains(project)) {
+						implicitDependencyProjects.forEach {
+							mustRunAfter "${it.path}:deploy"
+							mustRunAfter "${it.path}:deployDependencies"
 
-						if (it.name.equals("portal-osgi-web-jasper-plugins-taglib")) {
-							mustRunAfter "${it.path}:deployAppServerPortalFile"
+							if (it.name.equals("portal-osgi-web-jasper-plugins-taglib")) {
+								mustRunAfter "${it.path}:deployAppServerPortalFile"
+							}
 						}
 					}
 				}
-			}
 
-			generateJSPJava {
-				configurations.compileOnly.allDependencies.withType(ProjectDependency) {
-					mustRunAfter "${it.dependencyProject.path}:deploy"
-					mustRunAfter "${it.dependencyProject.path}:deployDependencies"
-				}
+				generateJSPJava {
+					configurations.compileOnly.allDependencies.withType(ProjectDependency) {
+						mustRunAfter "${it.dependencyProject.path}:deploy"
+						mustRunAfter "${it.dependencyProject.path}:deployDependencies"
+					}
 
-				if (!implicitDependencyProjects.contains(project)) {
-					implicitDependencyProjects.forEach {
-						mustRunAfter "${it.path}:deploy"
-						mustRunAfter "${it.path}:deployDependencies"
+					if (!implicitDependencyProjects.contains(project)) {
+						implicitDependencyProjects.forEach {
+							mustRunAfter "${it.path}:deploy"
+							mustRunAfter "${it.path}:deployDependencies"
 
-						if (it.name.equals("portal-osgi-web-jasper-plugins-taglib")) {
-							mustRunAfter "${it.path}:deployAppServerPortalFile"
+							if (it.name.equals("portal-osgi-web-jasper-plugins-taglib")) {
+								mustRunAfter "${it.path}:deployAppServerPortalFile"
+							}
 						}
 					}
 				}
