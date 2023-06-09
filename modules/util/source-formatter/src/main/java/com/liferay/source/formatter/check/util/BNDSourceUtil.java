@@ -23,7 +23,9 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.source.formatter.SourceFormatterExcludes;
 import com.liferay.source.formatter.util.FileUtil;
+import com.liferay.source.formatter.util.SourceFormatterUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +50,7 @@ import java.util.regex.Pattern;
  * @author Hugo Huijser
  */
 public class BNDSourceUtil {
+	private static final Map<String, Map<String, String>> _rootDirBundleSymbollicNamesMap = new HashMap<>();
 
 	public static Map<String, String> getBundleSymbolicNamesMap(
 		String rootDirName) {
@@ -58,41 +61,54 @@ public class BNDSourceUtil {
 			return bundleSymbolicNamesMap;
 		}
 
+		if (_rootDirBundleSymbollicNamesMap.containsKey(rootDirName)) {
+			return _rootDirBundleSymbollicNamesMap.get(rootDirName);
+		}
+
 		try {
-			File modulesDir = new File(rootDirName + "/modules");
+//			File modulesDir = new File(rootDirName + "/modules");
 
 			final List<File> files = new ArrayList<>();
 
-			Files.walkFileTree(
-				modulesDir.toPath(),
-				new SimpleFileVisitor<Path>() {
+			List<String> strings = SourceFormatterUtil.scanForFiles(
+				rootDirName + "/modules", _EXCLUDE_PATTERNS,
+				_INCLUDE_PATTERNS,
+				new SourceFormatterExcludes(), false
+			);
+			for (String string : strings) {
+				files.add(new File(string));
+			}
 
-					@Override
-					public FileVisitResult preVisitDirectory(
-						Path dirPath, BasicFileAttributes basicFileAttributes) {
-
-						for (PathMatcher pathMatcher : _PATH_MATCHERS) {
-							if (pathMatcher.matches(dirPath)) {
-								return FileVisitResult.SKIP_SUBTREE;
-							}
-						}
-
-						return FileVisitResult.CONTINUE;
-					}
-
-					@Override
-					public FileVisitResult visitFile(
-						Path filePath,
-						BasicFileAttributes basicFileAttributes) {
-
-						if (_PATH_MATCHER.matches(filePath)) {
-							files.add(filePath.toFile());
-						}
-
-						return FileVisitResult.CONTINUE;
-					}
-
-				});
+//			Files.walkFileTree(
+//				modulesDir.toPath(),
+//				new SimpleFileVisitor<Path>() {
+//
+//					@Override
+//					public FileVisitResult preVisitDirectory(
+//						Path dirPath, BasicFileAttributes basicFileAttributes) {
+//
+//						for (PathMatcher pathMatcher : _PATH_MATCHERS) {
+//							if (pathMatcher.matches(dirPath)) {
+//								return FileVisitResult.SKIP_SUBTREE;
+//							}
+//						}
+//
+//						return FileVisitResult.CONTINUE;
+//					}
+//
+//					@Override
+//					public FileVisitResult visitFile(
+//						Path filePath,
+//						BasicFileAttributes basicFileAttributes) {
+//
+//						if (_PATH_MATCHER.matches(filePath)) {
+//							files.add(filePath.toFile());
+//						}
+//
+//						return FileVisitResult.CONTINUE;
+//					}
+//
+//				});
 
 			for (File file : files) {
 				String content = FileUtil.read(file);
@@ -114,6 +130,8 @@ public class BNDSourceUtil {
 				_log.debug(ioException);
 			}
 		}
+
+		_rootDirBundleSymbollicNamesMap.put(rootDirName, bundleSymbolicNamesMap);
 
 		return bundleSymbolicNamesMap;
 	}
@@ -313,6 +331,25 @@ public class BNDSourceUtil {
 		_FILE_SYSTEM.getPathMatcher("glob:**/test-coverage/**"),
 		_FILE_SYSTEM.getPathMatcher("glob:**/test-results/**"),
 		_FILE_SYSTEM.getPathMatcher("glob:**/tmp/**")
+	};
+	private static final String[] _EXCLUDE_PATTERNS = {
+		"**/.git/**",
+		"**/.gradle/**",
+		"**/.idea/**",
+		"**/.m2/**",
+		"**/.settings/**",
+		"**/bin/**",
+		"**/build/**",
+		"**/classes/**",
+		"**/sql/**",
+		"**/src/**",
+		"**/test-classes/**",
+		"**/test-coverage/**",
+		"**/test-results/**",
+		"**/tmp/**"
+	};
+	private static final String[] _INCLUDE_PATTERNS = {
+		"**/bnd.bnd"
 	};
 
 	private static final String[] _SUBSYSTEM_BND_DEFINITION_KEYS = {
