@@ -44,6 +44,7 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.plugins.ExtensionAware;
 import org.gradle.api.plugins.ExtensionContainer;
+import org.gradle.api.plugins.PluginAware;
 
 /**
  * @author David Truong
@@ -102,6 +103,16 @@ public class WorkspacePlugin implements Plugin<Settings> {
 					if (plugin != null) {
 						plugin.apply(project);
 					}
+				}
+
+			});
+
+		gradle.afterProject(
+			new Action<Project>() {
+
+				@Override
+				public void execute(Project project) {
+					_applyPlugins(project);
 				}
 
 			});
@@ -185,7 +196,7 @@ public class WorkspacePlugin implements Plugin<Settings> {
 			EXTENSION_NAME, WorkspaceExtension.class, settings);
 	}
 
-	private void _applyPlugins(Settings settings) {
+	private void _applyPlugins(PluginAware settings) {
 		if (GradleUtil.getProperty(
 				settings,
 				WorkspacePlugin.PROPERTY_PREFIX +
