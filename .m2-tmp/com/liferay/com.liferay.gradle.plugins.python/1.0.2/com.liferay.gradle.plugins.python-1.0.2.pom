@@ -8,9 +8,9 @@
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.liferay</groupId>
-  <artifactId>com.liferay.gradle.plugins.baseline</artifactId>
-  <version>7.0.1</version>
-  <description>The Baseline Gradle plugin lets you verify that the OSGi semantic versioning rules are obeyed by your OSGi bundle.</description>
+  <artifactId>com.liferay.gradle.plugins.python</artifactId>
+  <version>1.0.2</version>
+  <description>Liferay Gradle Plugins Python</description>
   <licenses>
     <license>
       <name>LGPL 2.1</name>
@@ -32,14 +32,14 @@
   <dependencies>
     <dependency>
       <groupId>com.liferay</groupId>
-      <artifactId>com.liferay.ant.bnd</artifactId>
-      <version>3.2.10</version>
+      <artifactId>com.liferay.gradle.util</artifactId>
+      <version>1.0.48</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.liferay</groupId>
-      <artifactId>com.liferay.gradle.util</artifactId>
-      <version>1.0.48</version>
+      <groupId>com.pswidersk</groupId>
+      <artifactId>python-gradle-plugin</artifactId>
+      <version>1.2.2</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

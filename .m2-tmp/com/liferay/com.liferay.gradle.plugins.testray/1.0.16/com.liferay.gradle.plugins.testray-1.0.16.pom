@@ -8,9 +8,9 @@
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.liferay</groupId>
-  <artifactId>com.liferay.gradle.plugins.baseline</artifactId>
-  <version>7.0.1</version>
-  <description>The Baseline Gradle plugin lets you verify that the OSGi semantic versioning rules are obeyed by your OSGi bundle.</description>
+  <artifactId>com.liferay.gradle.plugins.testray</artifactId>
+  <version>1.0.16</version>
+  <description>Liferay Gradle Plugins Testray</description>
   <licenses>
     <license>
       <name>LGPL 2.1</name>
@@ -30,12 +30,6 @@
     <url>http://github.com/liferay/liferay-portal</url>
   </scm>
   <dependencies>
-    <dependency>
-      <groupId>com.liferay</groupId>
-      <artifactId>com.liferay.ant.bnd</artifactId>
-      <version>3.2.10</version>
-      <scope>compile</scope>
-    </dependency>
     <dependency>
       <groupId>com.liferay</groupId>
       <artifactId>com.liferay.gradle.util</artifactId>
