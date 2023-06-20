@@ -8,9 +8,9 @@
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.liferay</groupId>
-  <artifactId>com.liferay.gradle.plugins.xsd.builder</artifactId>
-  <version>1.0.12</version>
-  <description>The XSD Builder Gradle plugin lets you generate Apache XMLBeans bindings from XML Schema (XSD) files.</description>
+  <artifactId>com.liferay.osgi.bundle.builder</artifactId>
+  <version>2.1.2</version>
+  <description>Liferay OSGi Bundle Builder</description>
   <licenses>
     <license>
       <name>LGPL 2.1</name>
@@ -29,12 +29,4 @@
     <developerConnection>scm:git:git@github.com:liferay/liferay-portal.git</developerConnection>
     <url>http://github.com/liferay/liferay-portal</url>
   </scm>
-  <dependencies>
-    <dependency>
-      <groupId>com.liferay</groupId>
-      <artifactId>com.liferay.gradle.util</artifactId>
-      <version>1.0.48</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
 </project>
