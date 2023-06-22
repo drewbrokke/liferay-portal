@@ -13,10 +13,22 @@
 	},
 	"id": "__CLIENT_EXTENSION_ID__",
 	"kind": "Deployment",
+	"livenessProbe": {
+		"httpGet": {
+			"path": "/",
+			"port": 80
+		}
+	},
 	"loadBalancer": {
 		"cdn": true,
 		"targetPort": 80
 	},
 	"memory": 50,
-	"scale": 1
+	"scale": 1,
+	"readinessProbe": {
+		"httpGet": {
+			"path": "/",
+			"port": 80
+		}
+	}
 }
