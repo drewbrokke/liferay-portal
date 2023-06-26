@@ -57,7 +57,7 @@ public class VerifyProductTask extends DefaultTask {
 		
 		if (Objects.isNull(productInfo)) {
 			throw new GradleException(
-				"Can not get produtInfo for prdocut '" + _product + "'");
+				"Can not get produtInfo for product '" + _product + "'");
 		}
 
 		String appServerTomcatVersion = _extension.getAppServerTomcatVersion();
@@ -66,7 +66,7 @@ public class VerifyProductTask extends DefaultTask {
 		if (Objects.equals(appServerTomcatVersion, defaultAppServerTomcatVersion) 
 				&& Validator.isNull(defaultAppServerTomcatVersion)) {
 			throw new GradleException(
-				"Can not get correct tomcat version for prdocut '" + _product +
+				"Can not get correct tomcat version for product '" + _product +
 					"'");
 		}
 
@@ -76,7 +76,7 @@ public class VerifyProductTask extends DefaultTask {
 		if (Objects.equals(bundleChecksumMD5, defaultBundleChecksumMD5) 
 				&& Validator.isNull(defaultBundleChecksumMD5)) {
 			throw new GradleException(
-				"Can not get correct bundleChecksumMD5 for prdocut '" +
+				"Can not get correct bundleChecksumMD5 for product '" +
 					_product + "'");
 		}
 
@@ -86,7 +86,7 @@ public class VerifyProductTask extends DefaultTask {
 		if (Objects.equals(bundleUrl, defaultBundleUrl) 
 				&& Validator.isNull(defaultBundleUrl)) {
 			throw new GradleException(
-				"Can not get correct bundle url for prdocut '" + _product +
+				"Can not get correct bundle url for product '" + _product +
 					"'");
 		}
 
@@ -96,7 +96,7 @@ public class VerifyProductTask extends DefaultTask {
 		if (Objects.equals(dockerImage, defaultLiferayDockerImage) 
 				&& Validator.isNull(defaultLiferayDockerImage)) {
 			throw new GradleException(
-				"Can not get correct liferay docker image for prdocut '" +
+				"Can not get correct liferay docker image for product '" +
 					_product + "'");
 		}
 
@@ -106,7 +106,7 @@ public class VerifyProductTask extends DefaultTask {
 		if (Objects.equals(targetPlatformVersion, defaultTargetPlatformVersion) 
 				&& Validator.isNull(defaultTargetPlatformVersion)) {
 			throw new GradleException(
-				"Can not get correct tareget platform version for prdocut '" +
+				"Can not get correct tareget platform version for product '" +
 					_product + "'");
 		}
 	}
