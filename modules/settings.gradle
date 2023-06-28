@@ -1,3 +1,8 @@
+import com.liferay.gradle.util.FileUtil
+
+import org.apache.tools.ant.DirectoryScanner
+import org.apache.tools.ant.types.selectors.SelectorUtils
+
 buildscript {
 	apply from: "build-buildscript.gradle", to: buildscript
 
@@ -67,4 +72,16 @@ if (testClassGroupIndex) {
 
 	gradle.ext.testClassGroupIndex = testClassGroupIndex
 	gradle.ext.testClassGroups = properties["TEST_CLASS_GROUPS"]
+}
+
+String buildProfile = System.getProperty("build.profile")
+
+if (buildProfile == null) {
+	String relativePath = FileUtil.relativize(startParameter.currentDir, rootDir)
+
+	String normalizedRelativePath = relativePath.replace(File.separatorChar, '/' as char)
+
+	if ((normalizedRelativePath.startsWith("sdk/project-templates/project-templates-") || startParameter.taskNames.any { it.startsWith(":sdk:project-templates:project-templates-") }) && startParameter.taskNames.any { it.endsWith("installCache") || it.endsWith("jar") }) {
+		DirectoryScanner.removeDefaultExclude SelectorUtils.DEEP_TREE_MATCH + "/.gitignore"
+	}
 }
