@@ -69,6 +69,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
@@ -160,6 +161,12 @@ public class PortalK8sAgentImplTest {
 		_portalK8sConfigMapModifier = _serviceTracker.waitForService(2000);
 
 		Assert.assertNotNull(_portalK8sConfigMapModifier);
+
+		ServiceReference<PortalK8sConfigMapModifier> serviceReference =
+			_serviceTracker.getServiceReference();
+
+		Assert.assertEquals(
+			Integer.MAX_VALUE, serviceReference.getProperty("service.ranking"));
 	}
 
 	@AfterClass
