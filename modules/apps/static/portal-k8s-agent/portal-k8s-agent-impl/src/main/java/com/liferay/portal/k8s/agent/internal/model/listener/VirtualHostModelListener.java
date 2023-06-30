@@ -5,6 +5,7 @@
 
 package com.liferay.portal.k8s.agent.internal.model.listener;
 
+import com.liferay.osgi.util.service.Snapshot;
 import com.liferay.petra.string.StringPool;
 import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.k8s.agent.PortalK8sConfigMapModifier;
@@ -26,17 +27,12 @@ import java.util.Objects;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Raymond Augé
  */
-@Component(
-	configurationPid = "com.liferay.portal.k8s.agent.configuration.PortalK8sAgentConfiguration",
-	configurationPolicy = ConfigurationPolicy.REQUIRE,
-	service = ModelListener.class
-)
+@Component(service = ModelListener.class)
 public class VirtualHostModelListener extends BaseModelListener<VirtualHost> {
 
 	@Override
@@ -60,7 +56,10 @@ public class VirtualHostModelListener extends BaseModelListener<VirtualHost> {
 			return;
 		}
 
-		_portalK8sConfigMapModifier.modifyConfigMap(
+		PortalK8sConfigMapModifier portalK8sConfigMapModifier =
+			_portalK8sConfigMapModifierSnapshot.get();
+
+		portalK8sConfigMapModifier.modifyConfigMap(
 			configMapModel -> {
 				Map<String, String> data = configMapModel.data();
 
@@ -113,7 +112,10 @@ public class VirtualHostModelListener extends BaseModelListener<VirtualHost> {
 			virtualHostNames.add(virtualHost.getHostname());
 		}
 
-		_portalK8sConfigMapModifier.modifyConfigMap(
+		PortalK8sConfigMapModifier portalK8sConfigMapModifier =
+			_portalK8sConfigMapModifierSnapshot.get();
+
+		portalK8sConfigMapModifier.modifyConfigMap(
 			configMapModel -> {
 				Map<String, String> data = configMapModel.data();
 
@@ -137,11 +139,13 @@ public class VirtualHostModelListener extends BaseModelListener<VirtualHost> {
 			_getConfigMapName(company));
 	}
 
-	@Reference
-	private CompanyLocalService _companyLocalService;
+	private static final Snapshot<PortalK8sConfigMapModifier>
+		_portalK8sConfigMapModifierSnapshot = new Snapshot<>(
+			VirtualHostModelListener.class, PortalK8sConfigMapModifier.class,
+			null, true);
 
 	@Reference
-	private PortalK8sConfigMapModifier _portalK8sConfigMapModifier;
+	private CompanyLocalService _companyLocalService;
 
 	@Reference
 	private VirtualHostLocalService _virtualHostLocalService;
