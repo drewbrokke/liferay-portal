@@ -92,20 +92,23 @@ public abstract class BaseConfigurationFactory {
 
 		_extensionProperties = extensionProperties;
 
-		String serviceId = GetterUtil.getString(
-			properties.get("ext.lxc.liferay.com.serviceId"));
+		String projectName = GetterUtil.getString(
+			properties.get("projectName"));
+
+		String serviceOrProjectId = GetterUtil.getString(
+			properties.get("ext.lxc.liferay.com.serviceId"), projectName);
 
 		PortalK8sConfigMapModifier portalK8sConfigMapModifier =
 			_portalK8sConfigMapModifierSnapshot.get();
 
 		if ((portalK8sConfigMapModifier == null) ||
-			Validator.isNull(serviceId)) {
+			Validator.isNull(serviceOrProjectId)) {
 
 			return;
 		}
 
 		_configMapName = StringBundler.concat(
-			serviceId, StringPool.DASH, company.getWebId(),
+			serviceOrProjectId, StringPool.DASH, company.getWebId(),
 			"-lxc-ext-init-metadata");
 
 		portalK8sConfigMapModifier.modifyConfigMap(
@@ -122,7 +125,8 @@ public abstract class BaseConfigurationFactory {
 				labels.put(
 					"ext.lxc.liferay.com/projectId",
 					GetterUtil.getString(
-						properties.get("ext.lxc.liferay.com.projectId")));
+						properties.get("ext.lxc.liferay.com.projectId"),
+						projectName));
 				labels.put(
 					"ext.lxc.liferay.com/projectUid",
 					GetterUtil.getString(
