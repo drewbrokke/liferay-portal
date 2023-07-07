@@ -114,12 +114,6 @@
 	"main": "./out/extension.js",
 	"name": "poshi-language-support",
 	"publisher": "LiferayInc",
-	"readme": "./README.markdown",
-	"repository": {
-		"directory": "modules/test/poshi/poshi-vscode",
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-portal"
-	},
 	"scripts": {
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
