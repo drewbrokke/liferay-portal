@@ -73,15 +73,3 @@ if (testClassGroupIndex) {
 	gradle.ext.testClassGroupIndex = testClassGroupIndex
 	gradle.ext.testClassGroups = properties["TEST_CLASS_GROUPS"]
 }
-
-// String buildProfile = System.getProperty("build.profile")
-
-// if (buildProfile == null) {
-// 	String relativePath = FileUtil.relativize(startParameter.currentDir, rootDir)
-
-// 	String normalizedRelativePath = relativePath.replace(File.separatorChar, '/' as char)
-
-// 	if ((normalizedRelativePath.startsWith("sdk/project-templates") || startParameter.taskNames.any { it.startsWith(":sdk:project-templates") }) && startParameter.taskNames.any { it.endsWith("installCache") || it.endsWith("jar") || it.endsWith("test")}) {
-		DirectoryScanner.removeDefaultExclude SelectorUtils.DEEP_TREE_MATCH + "/.gitignore"
-//	}
-// }
