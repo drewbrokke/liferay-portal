@@ -98,13 +98,11 @@ interface Match {
 }
 
 function toMatch(regExpMatchArray: RegExpMatchArray): Match | void {
-	if (regExpMatchArray.index === undefined) {
-		return;
-	}
-	if (regExpMatchArray.index === -1) {
-		return;
-	}
-	if (!regExpMatchArray.input) {
+	if (
+		regExpMatchArray.index === undefined ||
+		regExpMatchArray.index === -1 ||
+		!regExpMatchArray.input
+	) {
 		return;
 	}
 
