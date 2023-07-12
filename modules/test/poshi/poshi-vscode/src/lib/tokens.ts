@@ -31,7 +31,7 @@ const tokenPatternMap = {
 	 * matches "PathFile"
 	 * matches "PathFile|Name.LOCATOR_NAME"
 	 */
-	pathFileName: /"([A-Z][A-Za-z]+)/g,
+	pathFileName: /"([A-Z][A-Za-z]+)#/g,
 
 	/**
 	 * matches PathFileName.LOCATOR_N|AME
