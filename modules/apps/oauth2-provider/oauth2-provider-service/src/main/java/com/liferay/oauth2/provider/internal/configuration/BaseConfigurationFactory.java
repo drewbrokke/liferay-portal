@@ -92,11 +92,12 @@ public abstract class BaseConfigurationFactory {
 
 		_extensionProperties = extensionProperties;
 
-		String projectName = GetterUtil.getString(
-			properties.get("projectName"));
+		String projectId = GetterUtil.getString(properties.get("projectId"));
 
 		String serviceOrProjectId = GetterUtil.getString(
-			properties.get("ext.lxc.liferay.com.serviceId"), projectName);
+			properties.get("ext.lxc.liferay.com.serviceId"),
+			GetterUtil.getString(
+				properties.get("ext.lxc.liferay.com.projectId"), projectId));
 
 		PortalK8sConfigMapModifier portalK8sConfigMapModifier =
 			_portalK8sConfigMapModifierSnapshot.get();
@@ -126,7 +127,12 @@ public abstract class BaseConfigurationFactory {
 					"ext.lxc.liferay.com/projectId",
 					GetterUtil.getString(
 						properties.get("ext.lxc.liferay.com.projectId"),
-						projectName));
+						projectId));
+				labels.put(
+					"ext.lxc.liferay.com/projectName",
+					GetterUtil.getString(
+						properties.get("ext.lxc.liferay.com.projectName"),
+						GetterUtil.getString(properties.get("projectName"))));
 				labels.put(
 					"ext.lxc.liferay.com/projectUid",
 					GetterUtil.getString(
