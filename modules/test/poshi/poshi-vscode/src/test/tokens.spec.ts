@@ -32,6 +32,18 @@ const testCases: TestCase[] = [
 		input: `test |TestCaseName {`,
 	},
 	{
+		expectedMatchText: ['Test_Case-Name3Foo'],
+		expectedTokenType: 'testCaseName',
+		input: `test |Test_Case-Name3Foo {`,
+		optionalDescription: 'with special characters',
+	},
+	{
+		expectedMatchText: ['testCaseName'],
+		expectedTokenType: 'testCaseName',
+		input: `test |testCaseName {`,
+		optionalDescription: 'with starting lower case',
+	},
+	{
 		expectedMatchText: ['variableName'],
 		expectedTokenType: 'variable',
 		input: 'foo bar ${|variableName} baz',
@@ -40,7 +52,7 @@ const testCases: TestCase[] = [
 		expectedMatchText: ['variableName'],
 		expectedTokenType: 'variable',
 		input: 'foo bar ${variableName|} baz',
-		optionalDescription: 'cursor at the end'
+		optionalDescription: 'cursor at the end',
 	},
 	{
 		expectedMatchText: ['TextInput'],
@@ -83,12 +95,18 @@ const testCases: TestCase[] = [
 		expectedMatchText: ['SomeClass'],
 		expectedTokenType: 'className',
 		input: 'var response = SomeClass|.someMethod(${curl});',
-		optionalDescription: 'cursor at the end'
+		optionalDescription: 'cursor at the end',
 	},
 	{
 		expectedMatchText: ['SomeClass', 'someMethod'],
 		expectedTokenType: 'methodInvocation',
 		input: 'var response = SomeClass.|someMethod(${curl});',
+	},
+	{
+		expectedMatchText: ['SomeClass', 'foo-Bar_Baz8'],
+		expectedTokenType: 'methodInvocation',
+		input: 'var response = SomeClass.|foo-Bar_Baz8(${curl});',
+		optionalDescription: 'numbers with special characters',
 	},
 	{
 		expectedMatchText: ['fooBar'],
@@ -97,10 +115,22 @@ const testCases: TestCase[] = [
 		optionalDescription: 'macro',
 	},
 	{
+		expectedMatchText: ['foo-Bar_Baz8'],
+		expectedTokenType: 'methodDefinition',
+		input: 'macro |foo-Bar_Baz8 {',
+		optionalDescription: 'macro with numbers with special characters',
+	},
+	{
 		expectedMatchText: ['fooBar'],
 		expectedTokenType: 'methodDefinition',
 		input: 'function |fooBar {',
 		optionalDescription: 'function',
+	},
+	{
+		expectedMatchText: ['foo-Bar_Baz8'],
+		expectedTokenType: 'methodDefinition',
+		input: 'function |foo-Bar_Baz8 {',
+		optionalDescription: 'function with numbers with special characters',
 	},
 ];
 
