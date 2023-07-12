@@ -67,7 +67,7 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 	configurationPolicy = ConfigurationPolicy.REQUIRE,
 	property = {
 		"portalK8sConfigurationPropertiesMutators.cardinality.minimum:Integer=3",
-		"service.ranking:Integer=" + Integer.MAX_VALUE
+		"service.ranking:Integer=" + 100
 	},
 	service = PortalK8sConfigMapModifier.class
 )
