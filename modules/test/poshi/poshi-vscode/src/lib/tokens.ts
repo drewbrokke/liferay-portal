@@ -141,6 +141,7 @@ export function getToken(
 
 export function getTokens(text: string): Token[] {
 	const tokens = [];
+
 	for (const key of Object.keys(tokenPatternMap)) {
 		const type = key as TokenType;
 
