@@ -35,7 +35,7 @@ const testCases: TestCase[] = [
 		expectedMatchText: ['Test_Case-Name3Foo'],
 		expectedTokenType: 'testCaseName',
 		input: `test |Test_Case-Name3Foo {`,
-		optionalDescription: 'with special characters',
+		optionalDescription: 'with numbers and special characters',
 	},
 	{
 		expectedMatchText: ['testCaseName'],
@@ -106,7 +106,7 @@ const testCases: TestCase[] = [
 		expectedMatchText: ['SomeClass', 'foo-Bar_Baz8'],
 		expectedTokenType: 'methodInvocation',
 		input: 'var response = SomeClass.|foo-Bar_Baz8(${curl});',
-		optionalDescription: 'numbers with special characters',
+		optionalDescription: 'with numbers and special characters',
 	},
 	{
 		expectedMatchText: ['fooBar'],
@@ -118,7 +118,7 @@ const testCases: TestCase[] = [
 		expectedMatchText: ['foo-Bar_Baz8'],
 		expectedTokenType: 'methodDefinition',
 		input: 'macro |foo-Bar_Baz8 {',
-		optionalDescription: 'macro with numbers with special characters',
+		optionalDescription: 'macro with numbers and special characters',
 	},
 	{
 		expectedMatchText: ['fooBar'],
@@ -130,7 +130,7 @@ const testCases: TestCase[] = [
 		expectedMatchText: ['foo-Bar_Baz8'],
 		expectedTokenType: 'methodDefinition',
 		input: 'function |foo-Bar_Baz8 {',
-		optionalDescription: 'function with numbers with special characters',
+		optionalDescription: 'function with numbers and special characters',
 	},
 ];
 
