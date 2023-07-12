@@ -96,7 +96,7 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 	@Test
 	public void testDefaultDxpMetadata() throws Exception {
 		Path dxpMetadataPath = _liferayHomePath.resolve(
-			"cx-metadata/" + TestPropsValues.COMPANY_WEB_ID + "/dxp-metadata");
+			"cx-metadata/default/dxp-metadata");
 
 		Assert.assertTrue(
 			dxpMetadataPath.toString() + " does not exist",
@@ -116,7 +116,7 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 			Files.exists(mainDomainPath));
 
 		Assert.assertEquals(
-			"localhost", new String(Files.readAllBytes(mainDomainPath)));
+			"localhost8080", new String(Files.readAllBytes(mainDomainPath)));
 	}
 
 	@Test
@@ -148,13 +148,7 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 
 		Path projectMetadataPath = _liferayHomePath.resolve(
 			Paths.get(
-				"cx-metadata", TestPropsValues.COMPANY_WEB_ID, projectId));
-
-		Path dxpMetadataPath = projectMetadataPath.resolve("dxp-metadata");
-
-		Assert.assertTrue(
-			dxpMetadataPath.toString() + " should exist",
-			Files.exists(dxpMetadataPath));
+				"cx-metadata/default", projectId));
 
 		Path extInitMetadataPath = projectMetadataPath.resolve(
 			"ext-init-metadata");

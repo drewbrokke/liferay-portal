@@ -14,33 +14,56 @@
 
 package com.liferay.portal.k8s.agent.internal;
 
+import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
+import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.k8s.agent.PortalK8sConfigMapModifier;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.Http;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PortalInetSocketAddressEventListener;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.util.PropsValues;
 
 import java.io.File;
 import java.io.IOException;
 
+import java.net.InetSocketAddress;
+
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.BasicFileAttributes;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.Consumer;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Gregory Amerson
  */
-@Component(service = PortalK8sConfigMapModifier.class)
+@Component(
+	service = {
+		PortalInetSocketAddressEventListener.class,
+		PortalK8sConfigMapModifier.class
+	}
+)
 public class DefaultLiferayHomeConfigMapEmitter
-	implements PortalK8sConfigMapModifier {
+	implements PortalInetSocketAddressEventListener,
+			   PortalK8sConfigMapModifier {
 
 	@Override
 	public Result modifyConfigMap(
@@ -95,6 +118,7 @@ public class DefaultLiferayHomeConfigMapEmitter
 		}
 
 		_validateLabels(configMapName, labels);
+		_updateForPortalLocalPort(labels, _getPortalLocalPort());
 
 		try {
 			_writeCXMetadata(data, labels);
@@ -104,6 +128,152 @@ public class DefaultLiferayHomeConfigMapEmitter
 		}
 
 		return Result.CREATED;
+	}
+
+	@Override
+	public void portalLocalInetSocketAddressConfigured(
+		InetSocketAddress localInetSocketAddress, boolean secure) {
+
+		_updateDxpMetadata(secure);
+	}
+
+	@Override
+	public void portalServerInetSocketAddressConfigured(
+		InetSocketAddress serverInetSocketAddress, boolean secure) {
+
+		_updateDxpMetadata(secure);
+	}
+
+	private Path _getCXMetadataPath() {
+		String liferayHome = System.getProperty("liferay.home");
+
+		if (!FileUtil.exists(liferayHome)) {
+			return null;
+		}
+
+		Path cxMetadataPath = Paths.get(liferayHome, "cx-metadata");
+
+		try {
+			cxMetadataPath = Files.createDirectories(cxMetadataPath);
+		}
+		catch (IOException ioException) {
+			_log.error("Could not create CX Metadata path", ioException);
+		}
+
+		return cxMetadataPath;
+	}
+
+	private int _getPortalLocalPort() {
+		return _portal.getPortalLocalPort(
+			Objects.equals(_getWebServerProtocol(), "https"));
+	}
+
+	private String _getWebServerProtocol() {
+		String webServerProtocol = PropsValues.WEB_SERVER_PROTOCOL;
+
+		if (Validator.isNull(webServerProtocol)) {
+			return Http.HTTP;
+		}
+
+		return webServerProtocol;
+	}
+
+	private void _updateDxpMetadata(boolean secure) {
+		try {
+			Files.walkFileTree(
+				_getCXMetadataPath(),
+				new SimpleFileVisitor<Path>() {
+
+					@Override
+					public FileVisitResult preVisitDirectory(
+							Path path, BasicFileAttributes basicFileAttributes)
+						throws IOException {
+
+						if (Objects.equals(
+								String.valueOf(path.getFileName()),
+								"dxp-metadata")) {
+
+							File dir = path.toFile();
+
+							Map<String, String> labels = new HashMap<>();
+
+							for (File file : dir.listFiles()) {
+								labels.put(
+									file.getName(),
+									new String(
+										Files.readAllBytes(file.toPath())));
+							}
+
+							_updateForPortalLocalPort(
+								labels, _portal.getPortalLocalPort(secure));
+
+							labels.forEach(
+								(key, value) -> {
+									Path file = path.resolve(key);
+
+									try {
+										Files.write(file, value.getBytes());
+									}
+									catch (IOException ioException) {
+										_log.error(
+											"Unable to write file " +
+												file.toString(),
+											ioException);
+									}
+								});
+
+							return FileVisitResult.SKIP_SUBTREE;
+						}
+
+						return FileVisitResult.CONTINUE;
+					}
+
+				});
+		}
+		catch (IOException ioException) {
+			_log.error("Unable to update DXP Metadata", ioException);
+		}
+	}
+
+	private void _updateForPortalLocalPort(
+		Map<String, String> labels, int portalLocalPort) {
+
+		if (portalLocalPort <= 0) {
+			return;
+		}
+
+		String lxcDXPMainDomain = labels.get("com.liferay.lxc.dxp.mainDomain");
+
+		if ((lxcDXPMainDomain != null) &&
+			(lxcDXPMainDomain.indexOf(':') == -1)) {
+
+			labels.put(
+				"com.liferay.lxc.dxp.mainDomain",
+				lxcDXPMainDomain + ":" + portalLocalPort);
+		}
+
+		List<String> lxcDXPDomains = StringUtil.split(
+			labels.get("com.liferay.lxc.dxp.domains"), CharPool.NEW_LINE);
+
+		if (!lxcDXPDomains.isEmpty()) {
+			List<String> updatedLxcDXPDomains = new ArrayList<>();
+
+			for (String lxcDXPDomain : lxcDXPDomains) {
+				if ((lxcDXPDomain != null) &&
+					(lxcDXPDomain.indexOf(":") == -1)) {
+
+					updatedLxcDXPDomains.add(
+						lxcDXPDomain + ":" + portalLocalPort);
+				}
+				else {
+					updatedLxcDXPDomains.add(lxcDXPDomain);
+				}
+			}
+
+			labels.put(
+				"com.liferay.lxc.dxp.domains",
+				StringUtil.merge(updatedLxcDXPDomains, StringPool.NEW_LINE));
+		}
 	}
 
 	private void _validateConfigMapName(String configMapName) {
@@ -214,15 +384,11 @@ public class DefaultLiferayHomeConfigMapEmitter
 			Map<String, String> data, Map<String, String> labels)
 		throws Exception {
 
-		String liferayHome = System.getProperty("liferay.home");
+		Path cxMetadataPath = _getCXMetadataPath();
 
-		if (!FileUtil.exists(liferayHome)) {
+		if (cxMetadataPath == null) {
 			return;
 		}
-
-		Path cxMetadataPath = Paths.get(liferayHome, "cx-metadata");
-
-		cxMetadataPath = Files.createDirectories(cxMetadataPath);
 
 		String metadataType = labels.get("lxc.liferay.com/metadataType");
 
@@ -231,6 +397,12 @@ public class DefaultLiferayHomeConfigMapEmitter
 
 		if ((metadataType == null) || (virtualInstanceId == null)) {
 			return;
+		}
+
+		if (Objects.equals(
+				virtualInstanceId, PropsValues.COMPANY_DEFAULT_WEB_ID)) {
+
+			virtualInstanceId = "default";
 		}
 
 		Path virtualInstanceIdPath = cxMetadataPath.resolve(virtualInstanceId);
@@ -245,43 +417,13 @@ public class DefaultLiferayHomeConfigMapEmitter
 			_writeCXData(dxpMetadataPath, data);
 		}
 		else if (Objects.equals(metadataType, "ext-init")) {
-			String projectId = labels.get("ext.lxc.liferay.com/projectId");
+			String projectName = labels.get("ext.lxc.liferay.com/projectName");
 
-			Path projectIdPath = virtualInstanceIdPath.resolve(projectId);
+			Path projectPath = virtualInstanceIdPath.resolve(projectName);
 
-			Files.createDirectories(projectIdPath);
+			Files.createDirectories(projectPath);
 
-			Path projectDxpMetadataPath = projectIdPath.resolve("dxp-metadata");
-
-			if (Files.exists(dxpMetadataPath)) {
-				Files.createDirectories(projectDxpMetadataPath);
-
-				File dxpMetadataDir = dxpMetadataPath.toFile();
-
-				for (File dxpMetadataFile : dxpMetadataDir.listFiles()) {
-					Path projectDxpMetadataFilePath =
-						projectDxpMetadataPath.resolve(
-							String.valueOf(dxpMetadataFile.getName()));
-
-					if (!Files.exists(projectDxpMetadataFilePath)) {
-						try {
-							Files.createLink(
-								projectDxpMetadataFilePath,
-								dxpMetadataFile.toPath());
-						}
-						catch (IOException ioException) {
-							_log.error("Unable to write CX data", ioException);
-						}
-					}
-				}
-			}
-			else {
-				Files.createSymbolicLink(
-					projectDxpMetadataPath, dxpMetadataPath);
-			}
-
-			Path extTnitMetadataPath = projectIdPath.resolve(
-				"ext-init-metadata");
+			Path extTnitMetadataPath = projectPath.resolve("ext-init-metadata");
 
 			Files.createDirectories(extTnitMetadataPath);
 
@@ -291,5 +433,8 @@ public class DefaultLiferayHomeConfigMapEmitter
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DefaultLiferayHomeConfigMapEmitter.class);
+
+	@Reference
+	private Portal _portal;
 
 }
