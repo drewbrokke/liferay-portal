@@ -20,7 +20,7 @@ const tokenPatternMap = {
 	/**
 	 * matches "test TestCaseName {"
 	 */
-	testCaseName: /test ([A-Z][A-Za-z]+) \{/g,
+	testCaseName: /test ([\w-]+) \{/g,
 
 	/**
 	 * matches "${vari|able}"
@@ -55,8 +55,8 @@ const tokenPatternMap = {
 	/**
 	 * matches ClassName.method|Name
 	 */
-	methodInvocation: /[^\w.]([A-Z][A-Za-z]+)\.([A-Za-z_][A-Za-z]+)/g,
-	methodDefinition: /(?:macro|function) ([A-Za-z_][A-Za-z]+) \{/g,
+	methodInvocation: /[^\w.]([A-Z][A-Za-z]+)\.([\w-]+)/g,
+	methodDefinition: /(?:macro|function) ([\w-]+) \{/g,
 
 	/**
 	 * matches "selenium"
