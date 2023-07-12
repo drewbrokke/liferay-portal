@@ -106,12 +106,6 @@ function toMatch(regExpMatchArray: RegExpMatchArray): Match | void {
 		return;
 	}
 
-	const lastMatch = regExpMatchArray[regExpMatchArray.length - 1];
-
-	const lastMatchStart = regExpMatchArray.input.indexOf(lastMatch);
-
-	const lastMatchEnd = lastMatchStart + lastMatch.length;
-
 	return {
 		captures: Array.from(regExpMatchArray),
 		originalText: regExpMatchArray.input,
@@ -119,7 +113,7 @@ function toMatch(regExpMatchArray: RegExpMatchArray): Match | void {
 		end: regExpMatchArray.index + regExpMatchArray[0].length,
 		length: regExpMatchArray[0].length,
 		isInRange(columnNumber: number) {
-			return _inRange(columnNumber, lastMatchStart, lastMatchEnd + 1);
+			return _inRange(columnNumber, this.start, this.end);
 		},
 	};
 }
