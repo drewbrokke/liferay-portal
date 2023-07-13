@@ -71,6 +71,12 @@ const testCases: TestCase[] = [
 		input: 'locator1 = "TextInput#|MAIL_DOMAIN",',
 	},
 	{
+		expectedMatchText: ['TextInput', 'MAIL_DOMAIN2_FOO'],
+		expectedTokenType: 'pathLocator',
+		input: 'locator1 = "TextInput#|MAIL_DOMAIN2_FOO",',
+		optionalDescription: 'with number',
+	},
+	{
 		expectedMatchText: ['JSONCurlUtil'],
 		expectedTokenType: 'utilClass',
 		input: 'var response = |JSONCurlUtil.post(${curl});',
