@@ -116,7 +116,7 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 			Files.exists(mainDomainPath));
 
 		Assert.assertEquals(
-			"localhost8080", new String(Files.readAllBytes(mainDomainPath)));
+			"localhost:8080", new String(Files.readAllBytes(mainDomainPath)));
 	}
 
 	@Test
@@ -147,8 +147,7 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 			configMapName);
 
 		Path projectMetadataPath = _liferayHomePath.resolve(
-			Paths.get(
-				"cx-metadata/default", projectId));
+			Paths.get("cx-metadata/default", projectId));
 
 		Path extInitMetadataPath = projectMetadataPath.resolve(
 			"ext-init-metadata");

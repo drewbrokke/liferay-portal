@@ -419,6 +419,10 @@ public class DefaultLiferayHomeConfigMapEmitter
 		else if (Objects.equals(metadataType, "ext-init")) {
 			String projectName = labels.get("ext.lxc.liferay.com/projectName");
 
+			if (projectName == null) {
+				projectName = labels.get("ext.lxc.liferay.com/projectId");
+			}
+
 			Path projectPath = virtualInstanceIdPath.resolve(projectName);
 
 			Files.createDirectories(projectPath);

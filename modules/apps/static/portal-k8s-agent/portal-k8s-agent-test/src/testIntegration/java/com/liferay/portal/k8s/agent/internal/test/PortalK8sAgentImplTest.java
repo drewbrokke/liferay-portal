@@ -166,7 +166,7 @@ public class PortalK8sAgentImplTest {
 			_serviceTracker.getServiceReference();
 
 		Assert.assertEquals(
-			Integer.MAX_VALUE, serviceReference.getProperty("service.ranking"));
+			100, serviceReference.getProperty("service.ranking"));
 	}
 
 	@AfterClass
