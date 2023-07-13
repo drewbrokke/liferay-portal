@@ -52,7 +52,7 @@ const testCases: TestCase[] = [
 		expectedMatchText: ['variableName'],
 		expectedTokenType: 'variable',
 		input: 'foo bar ${variableName|} baz',
-		optionalDescription: 'cursor at the end',
+		optionalDescription: 'with cursor at the end',
 	},
 	{
 		expectedMatchText: ['TextInput'],
@@ -63,7 +63,7 @@ const testCases: TestCase[] = [
 		expectedMatchText: ['TextInput'],
 		expectedTokenType: 'pathFileName',
 		input: 'locator1 = "TextInput|#MAIL_DOMAIN",',
-		optionalDescription: 'cursor at the end',
+		optionalDescription: 'with cursor at the end',
 	},
 	{
 		expectedMatchText: ['TextInput', 'MAIL_DOMAIN'],
@@ -85,7 +85,7 @@ const testCases: TestCase[] = [
 		expectedMatchText: ['JSONCurlUtil'],
 		expectedTokenType: 'utilClass',
 		input: 'var response = JSONCurlUtil|.post(${curl});',
-		optionalDescription: 'cursor at the end',
+		optionalDescription: 'with cursor at the end',
 	},
 	{
 		expectedMatchText: ['JSONCurlUtil', 'post'],
@@ -101,7 +101,7 @@ const testCases: TestCase[] = [
 		expectedMatchText: ['SomeClass'],
 		expectedTokenType: 'className',
 		input: 'var response = SomeClass|.someMethod(${curl});',
-		optionalDescription: 'cursor at the end',
+		optionalDescription: 'with cursor at the end',
 	},
 	{
 		expectedMatchText: ['SomeClass', 'someMethod'],
