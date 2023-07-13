@@ -177,7 +177,7 @@ const macro = test.macro({
 		let title = `${providedTitle} > ${testCase.expectedTokenType}`;
 
 		if (testCase.optionalDescription) {
-			title = `${title} > ${testCase.optionalDescription}`;
+			title = `${title} ${testCase.optionalDescription}`;
 		}
 
 		return title;
