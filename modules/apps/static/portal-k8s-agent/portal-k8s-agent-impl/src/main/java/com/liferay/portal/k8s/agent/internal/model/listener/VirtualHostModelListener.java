@@ -67,7 +67,9 @@ public class VirtualHostModelListener extends BaseModelListener<VirtualHost> {
 
 				Map<String, String> labels = configMapModel.labels();
 
-				labels.clear();
+				labels.put(
+					"dxp.lxc.liferay.com/virtualInstanceId",
+					company.getWebId());
 			},
 			_getConfigMapName(company));
 	}

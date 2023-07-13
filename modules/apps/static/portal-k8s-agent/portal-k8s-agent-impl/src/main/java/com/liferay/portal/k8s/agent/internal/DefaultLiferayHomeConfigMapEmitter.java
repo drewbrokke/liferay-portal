@@ -48,6 +48,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -56,6 +58,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Gregory Amerson
  */
 @Component(
+	property = "service.ranking:Integer=-1",
 	service = {
 		PortalInetSocketAddressEventListener.class,
 		PortalK8sConfigMapModifier.class
@@ -73,8 +76,6 @@ public class DefaultLiferayHomeConfigMapEmitter
 
 		Objects.requireNonNull(
 			configMapModelConsumer, "Config map model consumer is null");
-
-		_validateConfigMapName(configMapName);
 
 		Map<String, String> annotations = new TreeMap<>();
 		Map<String, String> binaryData = new TreeMap<>();
@@ -114,11 +115,19 @@ public class DefaultLiferayHomeConfigMapEmitter
 						"for ", configMapName, " resulting in no change"));
 			}
 
+			try {
+				_deleteCXMetadata(configMapName, labels);
+			}
+			catch (Exception exception) {
+				_log.error(
+					"Could not delete configMap metadata " + configMapName,
+					exception);
+			}
+
 			return Result.UNCHANGED;
 		}
 
-		_validateLabels(configMapName, labels);
-		_updateForPortalLocalPort(labels, _getPortalLocalPort());
+		_updateForPortalLocalPort(data, _getPortalLocalPort());
 
 		try {
 			_writeCXMetadata(data, labels);
@@ -142,6 +151,85 @@ public class DefaultLiferayHomeConfigMapEmitter
 		InetSocketAddress serverInetSocketAddress, boolean secure) {
 
 		_updateDxpMetadata(secure);
+	}
+
+	private void _deleteCXMetadata(
+			String configMapName, Map<String, String> labels)
+		throws Exception {
+
+		Path cxMetadataPath = _getCXMetadataPath();
+
+		String virtualInstanceId = labels.get(
+			"dxp.lxc.liferay.com/virtualInstanceId");
+
+		if ((cxMetadataPath == null) || (virtualInstanceId == null)) {
+			return;
+		}
+
+		if (Objects.equals(
+				virtualInstanceId, PropsValues.COMPANY_DEFAULT_WEB_ID)) {
+
+			virtualInstanceId = "default";
+		}
+
+		Path virtualInstanceIdPath = cxMetadataPath.resolve(virtualInstanceId);
+
+		Matcher matcher = _lxcDxpMetadataPattern.matcher(configMapName);
+
+		if (matcher.matches()) {
+			if (Files.exists(virtualInstanceIdPath)) {
+				_deleteFolder(virtualInstanceIdPath);
+			}
+		}
+		else {
+			matcher = _lxcExtInitMetadataPattern.matcher(configMapName);
+
+			String projectName = labels.get("ext.lxc.liferay.com/projectName");
+
+			if (matcher.matches() && (projectName != null)) {
+				Path projectPath = virtualInstanceIdPath.resolve(projectName);
+
+				if (Files.exists(projectPath)) {
+					_deleteFolder(projectPath);
+				}
+			}
+		}
+	}
+
+	private void _deleteFolder(Path folderPath) throws Exception {
+		if (!Files.exists(folderPath)) {
+			return;
+		}
+
+		Files.walkFileTree(
+			folderPath,
+			new SimpleFileVisitor<Path>() {
+
+				@Override
+				public FileVisitResult postVisitDirectory(
+						Path dirPath, IOException ioException)
+					throws IOException {
+
+					if (ioException != null) {
+						throw ioException;
+					}
+
+					Files.delete(dirPath);
+
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult visitFile(
+						Path filePath, BasicFileAttributes basicFileAttributes)
+					throws IOException {
+
+					Files.delete(filePath);
+
+					return FileVisitResult.CONTINUE;
+				}
+
+			});
 	}
 
 	private Path _getCXMetadataPath() {
@@ -195,19 +283,19 @@ public class DefaultLiferayHomeConfigMapEmitter
 
 							File dir = path.toFile();
 
-							Map<String, String> labels = new HashMap<>();
+							Map<String, String> data = new HashMap<>();
 
 							for (File file : dir.listFiles()) {
-								labels.put(
+								data.put(
 									file.getName(),
 									new String(
 										Files.readAllBytes(file.toPath())));
 							}
 
 							_updateForPortalLocalPort(
-								labels, _portal.getPortalLocalPort(secure));
+								data, _portal.getPortalLocalPort(secure));
 
-							labels.forEach(
+							data.forEach(
 								(key, value) -> {
 									Path file = path.resolve(key);
 
@@ -276,95 +364,6 @@ public class DefaultLiferayHomeConfigMapEmitter
 		}
 	}
 
-	private void _validateConfigMapName(String configMapName) {
-		Objects.requireNonNull(configMapName, "Config map name is null");
-
-		if (!configMapName.endsWith("-lxc-dxp-metadata") &&
-			!configMapName.endsWith("-lxc-ext-init-metadata")) {
-
-			throw new IllegalArgumentException(
-				StringBundler.concat(
-					"Config map name ", configMapName,
-					" does not follow a recognized pattern"));
-		}
-	}
-
-	private void _validateLabels(
-		String configMapName, Map<String, String> labels) {
-
-		_validateConfigMapName(configMapName);
-
-		String metadataType = labels.get("lxc.liferay.com/metadataType");
-
-		if ((metadataType == null) ||
-			(!Objects.equals(metadataType, "dxp") &&
-			 !Objects.equals(metadataType, "ext-init"))) {
-
-			throw new IllegalArgumentException(
-				StringBundler.concat(
-					"Config map labels must contain the key ",
-					"\"lxc.liferay.com/metadataType\" with a value of \"dxp\" ",
-					"or \"ext-init\""));
-		}
-
-		String virtualInstanceId = labels.get(
-			"dxp.lxc.liferay.com/virtualInstanceId");
-
-		if (virtualInstanceId == null) {
-			throw new IllegalArgumentException(
-				StringBundler.concat(
-					"Config map labels must contain the key ",
-					"\"dxp.lxc.liferay.com/virtualInstanceId\" whose value is ",
-					"the web ID of the virtual instance from which the ",
-					"configuration originated"));
-		}
-
-		// <virtualInstanceId>-lxc-dxp-metadata
-
-		if (configMapName.endsWith("-lxc-dxp-metadata") &&
-			!Objects.equals(
-				virtualInstanceId.concat("-lxc-dxp-metadata"), configMapName)) {
-
-			throw new IllegalArgumentException(
-				StringBundler.concat(
-					"A config map name with the suffix \"-lxc-dxp-metadata\" ",
-					"must begin with the value of the label ",
-					"\"dxp.lxc.liferay.com/virtualInstanceId\" followed by ",
-					"\"-lxc-dxp-metadata\""));
-		}
-
-		// <projectId>-<virtualInstanceId>-lxc-ext-init-metadata
-
-		else if (configMapName.endsWith("-lxc-ext-init-metadata")) {
-			String projectId = labels.get("ext.lxc.liferay.com/projectId");
-
-			if (projectId == null) {
-				throw new IllegalArgumentException(
-					StringBundler.concat(
-						"A config map with the suffix ",
-						"\"-lxc-ext-init-metadata\" must have a label with ",
-						"the key \"ext.lxc.liferay.com/projectId\" whose ",
-						"value is the name of the local project"));
-			}
-
-			if (!Objects.equals(
-					configMapName,
-					StringBundler.concat(
-						projectId, "-", virtualInstanceId,
-						"-lxc-ext-init-metadata"))) {
-
-				throw new IllegalArgumentException(
-					StringBundler.concat(
-						"A config map name with suffix ",
-						"\"-lxc-ext-init-metadata\" must begin with the value ",
-						"of the label \"ext.lxc.liferay.com/projectId\" ",
-						"followed by a \"-\" and then the value of the label ",
-						"\"dxp.lxc.liferay.com/virtualInstanceId\" followed ",
-						"by \"-lxc-ext-init-metadata\""));
-			}
-		}
-	}
-
 	private void _writeCXData(Path dataPath, Map<String, String> data) {
 		data.forEach(
 			(key, value) -> {
@@ -419,24 +418,21 @@ public class DefaultLiferayHomeConfigMapEmitter
 		else if (Objects.equals(metadataType, "ext-init")) {
 			String projectName = labels.get("ext.lxc.liferay.com/projectName");
 
-			if (projectName == null) {
-				projectName = labels.get("ext.lxc.liferay.com/projectId");
-			}
-
 			Path projectPath = virtualInstanceIdPath.resolve(projectName);
 
 			Files.createDirectories(projectPath);
 
-			Path extTnitMetadataPath = projectPath.resolve("ext-init-metadata");
-
-			Files.createDirectories(extTnitMetadataPath);
-
-			_writeCXData(extTnitMetadataPath, data);
+			_writeCXData(projectPath, data);
 		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DefaultLiferayHomeConfigMapEmitter.class);
+
+	private static final Pattern _lxcDxpMetadataPattern = Pattern.compile(
+		"(.*)-lxc-dxp-metadata$");
+	private static final Pattern _lxcExtInitMetadataPattern = Pattern.compile(
+		"(.*)-lxc-ext-init-metadata$");
 
 	@Reference
 	private Portal _portal;

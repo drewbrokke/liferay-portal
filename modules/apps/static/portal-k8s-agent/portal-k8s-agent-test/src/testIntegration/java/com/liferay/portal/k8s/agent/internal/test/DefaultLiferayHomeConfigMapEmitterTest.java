@@ -93,6 +93,10 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 		_serviceTracker.close();
 	}
 
+	// TODO
+
+	// add a test for multiple domains in a single virtual instance
+
 	@Test
 	public void testDefaultDxpMetadata() throws Exception {
 		Path dxpMetadataPath = _liferayHomePath.resolve(
@@ -120,12 +124,16 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 	}
 
 	@Test
+	public void testMultipleVirtualInstancesDxpMetadata() throws Exception {
+	}
+
+	@Test
 	public void testProjectMetadata() throws Exception {
-		String projectId = RandomTestUtil.randomString();
+		String projectName = RandomTestUtil.randomString();
 		String serviceId = RandomTestUtil.randomString();
 
 		String configMapName = StringBundler.concat(
-			projectId, StringPool.DASH, TestPropsValues.COMPANY_WEB_ID,
+			projectName, StringPool.DASH, TestPropsValues.COMPANY_WEB_ID,
 			"-lxc-ext-init-metadata");
 
 		_portalK8sConfigMapModifier.modifyConfigMap(
@@ -138,7 +146,7 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 				Map<String, String> labels = configMapModel.labels();
 
 				labels.put("lxc.liferay.com/metadataType", "ext-init");
-				labels.put("ext.lxc.liferay.com/projectId", projectId);
+				labels.put("ext.lxc.liferay.com/projectName", projectName);
 				labels.put("ext.lxc.liferay.com/serviceId", serviceId);
 				labels.put(
 					"dxp.lxc.liferay.com/virtualInstanceId",
@@ -147,7 +155,7 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 			configMapName);
 
 		Path projectMetadataPath = _liferayHomePath.resolve(
-			Paths.get("cx-metadata/default", projectId));
+			Paths.get("cx-metadata/default", projectName));
 
 		Path extInitMetadataPath = projectMetadataPath.resolve(
 			"ext-init-metadata");

@@ -165,8 +165,7 @@ public class PortalK8sAgentImplTest {
 		ServiceReference<PortalK8sConfigMapModifier> serviceReference =
 			_serviceTracker.getServiceReference();
 
-		Assert.assertEquals(
-			100, serviceReference.getProperty("service.ranking"));
+		Assert.assertNull(serviceReference.getProperty("service.ranking"));
 	}
 
 	@AfterClass
@@ -298,7 +297,7 @@ public class PortalK8sAgentImplTest {
 					).addToAnnotations(
 						"ext.lxc.liferay.com/mainDomain", mainDomain
 					).addToLabels(
-						"ext.lxc.liferay.com/projectId",
+						"ext.lxc.liferay.com/projectName",
 						RandomTestUtil.randomString()
 					).addToLabels(
 						"ext.lxc.liferay.com/serviceId", serviceId
@@ -363,7 +362,7 @@ public class PortalK8sAgentImplTest {
 						).addToAnnotations(
 							"ext.lxc.liferay.com/mainDomain", mainDomain
 						).addToLabels(
-							"ext.lxc.liferay.com/projectId",
+							"ext.lxc.liferay.com/projectName",
 							RandomTestUtil.randomString()
 						).addToLabels(
 							"ext.lxc.liferay.com/serviceId", serviceId
