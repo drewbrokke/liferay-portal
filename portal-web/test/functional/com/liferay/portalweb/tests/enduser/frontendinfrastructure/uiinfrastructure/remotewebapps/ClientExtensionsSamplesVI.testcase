@@ -192,26 +192,8 @@ definition {
 			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "deploy-workspace-client-extension -Dvirtual.instance.id=${companyWebId} -Dworkspace.client.extension.name=${clientExtensionName}");
 		}
 
-		task ("Get the Sample Etc Cron Client Secret") {
-			var portalURL = PropsUtil.get("portal.url");
-
-			OAuth2.openOAuth2Admin();
-
-			while (IsElementNotPresent(key_rowEntry = "Liferay Sample Etc Cron OAuth Application Headless Server", locator1 = "Icon#ROW_VERTICAL_ELLIPSIS")) {
-				OAuth2.openOAuth2Admin();
-			}
-
-			LexiconEntry.gotoEntryMenuItem(
-				menuItem = "Edit",
-				rowEntry = "Liferay Sample Etc Cron OAuth Application Headless Server");
-
-			OAuth2.assertPortletHeader(header = "Liferay Sample Etc Cron OAuth Application Headless Server");
-
-			var clientSecret = selenium.getElementValue("OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET");
-		}
-
 		task ("Assert the Message Board Thread Count of 0") {
-			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron -Doauth2.headless.server.client.secret=${clientSecret} -Dvirtual.instance.id=${companyWebId}");
+			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron -Dvirtual.instance.id=${companyWebId}");
 
 			var projectDir = PropsUtil.get("project.dir");
 
@@ -234,7 +216,7 @@ definition {
 		}
 
 		task ("Assert the Message Board Thread Count of 1") {
-			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron -Doauth2.headless.server.client.secret=${clientSecret} -Dvirtual.instance.id=${companyWebId}");
+			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron -Dvirtual.instance.id=${companyWebId}");
 
 			var springBootLogFileContent = FileUtil.read(${springBootLogFile});
 

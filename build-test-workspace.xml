@@ -74,22 +74,23 @@
 			<if>
 				<available file="${workspace.client.extension.dir}" />
 				<then>
-					<gradle-execute dir="${workspace.client.extension.dir}" task="clean" />
+					<gradle-execute dir="${workspace.client.extension.dir}" task="clean">
+						<arg value="-Pliferay.workspace.home.dir=${liferay.home}" />
+					</gradle-execute>
 
 					<if>
 						<available file="${workspace.client.extension.dir}/client-extension.poshi.yaml" />
 						<then>
-							<gradle-execute dir="${project.dir}/workspaces/${workspace.name}" task=":client-extensions:@{workspace.client.extension.name}:deployPoshi" />
+							<gradle-execute dir="${project.dir}/workspaces/${workspace.name}" task=":client-extensions:@{workspace.client.extension.name}:deployPoshi">
+								<arg value="-Pliferay.workspace.home.dir=${liferay.home}" />
+							</gradle-execute>
 						</then>
 						<else>
-							<gradle-execute dir="${project.dir}/workspaces/${workspace.name}" task=":client-extensions:@{workspace.client.extension.name}:deploy" />
+							<gradle-execute dir="${project.dir}/workspaces/${workspace.name}" task=":client-extensions:@{workspace.client.extension.name}:deploy">
+								<arg value="-Pliferay.workspace.home.dir=${liferay.home}" />
+							</gradle-execute>
 						</else>
 					</if>
-
-					<copy
-						file="${workspace.client.extension.dir}/dist/@{workspace.client.extension.name}.zip"
-						todir="${liferay.home}/deploy"
-					/>
 
 					<if>
 						<not>
@@ -149,25 +150,15 @@
 				logging.file.path=${workspace.client.extension.dir}/logs
 			</echo>
 
-			<if>
-				<not>
-					<equals arg1="@{virtual.instance.id}" arg2="" />
-				</not>
-				<then>
-					<echo append="true" file="${workspace.client.extension.dir}/application.properties">
-						com.liferay.lxc.dxp.domains=@{virtual.instance.id}:8080
-						com.liferay.lxc.dxp.mainDomain=@{virtual.instance.id}:8080
-					</echo>
-				</then>
-			</if>
-
 			<print-file file.name="${workspace.client.extension.dir}/application.properties" />
 
 			<delete file="${workspace.client.extension.dir}/logs/spring.log" />
 
 			<parallel>
 				<daemons>
-					<gradle-execute dir="${workspace.client.extension.dir}" task="bootRun" />
+					<gradle-execute dir="${workspace.client.extension.dir}" task="bootRun">
+						<arg value="-Pliferay.workspace.home.dir=${liferay.home}" />
+					</gradle-execute>
 				</daemons>
 
 				<sequential>
