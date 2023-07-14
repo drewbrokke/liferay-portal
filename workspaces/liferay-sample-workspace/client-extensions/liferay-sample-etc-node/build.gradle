@@ -1,4 +1,4 @@
 packageRunStart {
-  environment "DXP_METADATA_PATH", "${gradle.liferayWorkspace.homeDir}/cx-metadata/default/dxp-metadata/"
-  environment "EXT_INIT_METADATA_PATH", "${gradle.liferayWorkspace.homeDir}/cx-metadata/default/${project.name}/"
+	environment "DXP_METADATA_PATH", "${gradle.liferayWorkspace.homeDir}/cx-metadata/default/dxp-metadata/"
+	environment "EXT_INIT_METADATA_PATH", "${gradle.liferayWorkspace.homeDir}/cx-metadata/default/${project.name}/"
 }
