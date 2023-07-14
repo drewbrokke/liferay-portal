@@ -9,7 +9,7 @@ export default {
 	'com.liferay.lxc.dxp.server.protocol': 'http',
 	'configTreePaths': [
 		process.env.DXP_METADATA_PATH,
-		process.env.EXT_INIT_METADATA_PATH
+		process.env.EXT_INIT_METADATA_PATH,
 	],
 	'liferay.oauth.application.external.reference.codes':
 		'liferay-sample-node-oauth-application-user-agent',
