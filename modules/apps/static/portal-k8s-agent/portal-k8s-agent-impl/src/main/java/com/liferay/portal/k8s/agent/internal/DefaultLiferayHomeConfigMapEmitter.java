@@ -51,7 +51,11 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -59,10 +63,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	property = "service.ranking:Integer=-1",
-	service = {
-		PortalInetSocketAddressEventListener.class,
-		PortalK8sConfigMapModifier.class
-	}
+	service = PortalK8sConfigMapModifier.class
 )
 public class DefaultLiferayHomeConfigMapEmitter
 	implements PortalInetSocketAddressEventListener,
@@ -151,6 +152,17 @@ public class DefaultLiferayHomeConfigMapEmitter
 		InetSocketAddress serverInetSocketAddress, boolean secure) {
 
 		_updateDxpMetadata(secure);
+	}
+
+	@Activate
+	protected void activate(BundleContext bundleContext) {
+		_serviceRegistration = bundleContext.registerService(
+			PortalInetSocketAddressEventListener.class, this, null);
+	}
+
+	@Deactivate
+	protected void deactivate() {
+		_serviceRegistration.unregister();
 	}
 
 	private void _deleteCXMetadata(
@@ -436,5 +448,8 @@ public class DefaultLiferayHomeConfigMapEmitter
 
 	@Reference
 	private Portal _portal;
+
+	private ServiceRegistration<PortalInetSocketAddressEventListener>
+		_serviceRegistration;
 
 }
