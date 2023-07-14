@@ -15,10 +15,15 @@
 package com.liferay.portal.k8s.agent.internal.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.k8s.agent.PortalK8sConfigMapModifier;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.VirtualHost;
 import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.service.VirtualHostLocalService;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
@@ -33,6 +38,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.AfterClass;
@@ -85,17 +91,14 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 		ServiceReference<PortalK8sConfigMapModifier> serviceReference =
 			_serviceTracker.getServiceReference();
 
-		Assert.assertNull(serviceReference.getProperty("service.ranking"));
+		Assert.assertEquals(
+			-1, serviceReference.getProperty("service.ranking"));
 	}
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
 		_serviceTracker.close();
 	}
-
-	// TODO
-
-	// add a test for multiple domains in a single virtual instance
 
 	@Test
 	public void testDefaultDxpMetadata() throws Exception {
@@ -124,7 +127,55 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 	}
 
 	@Test
-	public void testMultipleVirtualInstancesDxpMetadata() throws Exception {
+	public void testMultipleVirtualHostsInVirtualInstance() throws Exception {
+		String webId = "fizzbuzz.com";
+
+		_company = _companyLocalService.addCompany(
+			null, webId, webId, webId, 0, true, null, null, null, null, null,
+			null);
+
+		_virtualHost = _virtualHostLocalService.createVirtualHost(-1);
+
+		_virtualHost.setCompanyId(_company.getCompanyId());
+
+		_virtualHost.setHostname("foobar.com");
+
+		_virtualHostLocalService.addVirtualHost(_virtualHost);
+
+		Path dxpMetadataPath = _liferayHomePath.resolve(
+			"cx-metadata/" + webId + "/dxp-metadata");
+
+		Assert.assertTrue(
+			dxpMetadataPath.toString() + " does not exist",
+			Files.exists(dxpMetadataPath));
+
+		File dxpMetadataDir = dxpMetadataPath.toFile();
+
+		String[] files = dxpMetadataDir.list();
+
+		Assert.assertEquals(Arrays.toString(files), 3, files.length);
+
+		Path mainDomainPath = dxpMetadataPath.resolve(
+			"com.liferay.lxc.dxp.mainDomain");
+
+		Assert.assertTrue(
+			mainDomainPath.toString() + " does not exist",
+			Files.exists(mainDomainPath));
+
+		Assert.assertEquals(
+			webId + ":8080", new String(Files.readAllBytes(mainDomainPath)));
+
+		Path domainsPath = dxpMetadataPath.resolve(
+			"com.liferay.lxc.dxp.domains");
+
+		List<String> lxcDXPDomains = StringUtil.split(
+			new String(Files.readAllBytes(domainsPath)), CharPool.NEW_LINE);
+
+		Assert.assertEquals(lxcDXPDomains.toString(), 2, lxcDXPDomains.size());
+
+		Assert.assertEquals("fizzbuzz.com:8080", lxcDXPDomains.get(0));
+
+		Assert.assertEquals("foobar.com:8080", lxcDXPDomains.get(1));
 	}
 
 	@Test
@@ -157,27 +208,24 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 		Path projectMetadataPath = _liferayHomePath.resolve(
 			Paths.get("cx-metadata/default", projectName));
 
-		Path extInitMetadataPath = projectMetadataPath.resolve(
-			"ext-init-metadata");
-
 		Assert.assertTrue(
-			extInitMetadataPath.toString() + " should exist",
-			Files.exists(extInitMetadataPath));
+			projectMetadataPath.toString() + " should exist",
+			Files.exists(projectMetadataPath));
 
-		File extInitMetadataDir = extInitMetadataPath.toFile();
+		File projectMetadataDir = projectMetadataPath.toFile();
 
-		String[] files = extInitMetadataDir.list();
+		String[] files = projectMetadataDir.list();
 
 		Assert.assertEquals(Arrays.toString(files), 2, files.length);
 
-		Path fooPath = extInitMetadataPath.resolve("foo");
+		Path fooPath = projectMetadataPath.resolve("foo");
 
 		Assert.assertTrue(
 			fooPath.toString() + " does not exist", Files.exists(fooPath));
 
 		Assert.assertEquals("bar", new String(Files.readAllBytes(fooPath)));
 
-		Path fizzPath = extInitMetadataPath.resolve("fizz");
+		Path fizzPath = projectMetadataPath.resolve("fizz");
 
 		Assert.assertTrue(
 			fizzPath.toString() + " does not exist", Files.exists(fooPath));
@@ -214,7 +262,7 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 			Files.exists(mainDomainPath));
 
 		Assert.assertEquals(
-			webId, new String(Files.readAllBytes(mainDomainPath)));
+			webId + ":8080", new String(Files.readAllBytes(mainDomainPath)));
 	}
 
 	private static Bundle _bundle;
@@ -231,5 +279,11 @@ public class DefaultLiferayHomeConfigMapEmitterTest {
 	private static ServiceTracker
 		<PortalK8sConfigMapModifier, PortalK8sConfigMapModifier>
 			_serviceTracker;
+
+	private Company _company;
+	private VirtualHost _virtualHost;
+
+	@Inject
+	private VirtualHostLocalService _virtualHostLocalService;
 
 }
