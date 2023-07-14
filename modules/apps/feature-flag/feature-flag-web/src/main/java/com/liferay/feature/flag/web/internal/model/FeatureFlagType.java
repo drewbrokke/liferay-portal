@@ -31,7 +31,7 @@ import java.util.function.Predicate;
  */
 public enum FeatureFlagType {
 
-	BETA("beta"), DEV("dev"), RELEASE("release");
+	BETA("beta"), DEPRECATION("deprecation"), DEV("dev"), RELEASE("release");
 
 	public static FeatureFlagType toFeatureFlagType(String string) {
 		for (FeatureFlagType featureFlagType : values()) {
