@@ -27,8 +27,8 @@ definition {
 		property workspaces.client.extension.names = "liferay-sample-custom-element-1,liferay-sample-custom-element-2,liferay-sample-global-css,liferay-sample-global-js,liferay-sample-iframe-1,liferay-sample-theme-css-1,liferay-sample-theme-favicon,liferay-sample-theme-spritemap-1";
 
 		task ("Assert the Portal server console has startup verbiage for each deployed Client Extension sample ") {
-			for (var clientExtension : list "liferay-sample-custom-element-1,liferay-sample-custom-element-2,liferay-sample-global-css,liferay-sample-global-js,liferay-sample-iframe-1,liferay-sample-theme-css-1,liferay-sample-theme-favicon,liferay-sample-theme-spritemap-1") {
-				AssertConsoleTextPresent(value1 = "STARTED ${clientExtension}");
+			for (var clientExtensionId : list "liferaysamplecustomelement1,liferaysamplecustomelement2,liferaysampleglobalcss,liferaysampleglobaljs,liferaysampleiframe1,liferaysamplethemecss1,liferaysamplethemefavicon,liferaysamplethemespritemap1") {
+				AssertConsoleTextPresent(value1 = "STARTED ${clientExtensionId}");
 			}
 		}
 
