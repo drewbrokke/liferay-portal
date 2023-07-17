@@ -12,6 +12,13 @@
 
 			<propertyregex
 				input="@{workspace.client.extension.name}"
+				property="client.extension.deployed.id"
+				regexp="[^a-zA-Z0-9\\s]"
+				replace=""
+			/>
+
+			<propertyregex
+				input="@{workspace.client.extension.name}"
 				property="workspace.name"
 				regexp="(liferay-[^-]+)-.*"
 				replace="\1-workspace"
@@ -101,7 +108,7 @@
 						</not>
 						<then>
 							<wait-for-client-extension-deployment
-								client.extension.deploy.log="STARTED @{workspace.client.extension.name}_"
+								client.extension.deploy.log="STARTED @{client.extension.deployed.id}_"
 							/>
 						</then>
 					</if>
@@ -265,6 +272,13 @@
 
 			<propertyregex
 				input="@{workspace.client.extension.name}"
+				property="client.extension.deployed.id"
+				regexp="[^a-zA-Z0-9\\s]"
+				replace=""
+			/>
+
+			<propertyregex
+				input="@{workspace.client.extension.name}"
 				property="workspace.name"
 				regexp="(liferay-[^-]+)-.*"
 				replace="\1-workspace"
@@ -285,7 +299,7 @@
 						</not>
 						<then>
 							<wait-for-client-extension-deployment
-								client.extension.deploy.log="STOPPED @{workspace.client.extension.name}_"
+								client.extension.deploy.log="STOPPED @{client.extension.deployed.id}_"
 							/>
 						</then>
 					</if>
