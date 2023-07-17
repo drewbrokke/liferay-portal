@@ -83,7 +83,7 @@
 				<then>
 					<gradle-execute dir="${workspace.client.extension.dir}" task="clean">
 						<arg value="-Pliferay.workspace.home.dir=${liferay.home}" />
-						<arg value="-PvirtualInstanceId=${virtual.instance.id}" />
+						<arg value="-PvirtualInstanceId=@{virtual.instance.id}" />
 					</gradle-execute>
 
 					<if>
@@ -91,13 +91,13 @@
 						<then>
 							<gradle-execute dir="${project.dir}/workspaces/${workspace.name}" task=":client-extensions:@{workspace.client.extension.name}:deployPoshi">
 								<arg value="-Pliferay.workspace.home.dir=${liferay.home}" />
-								<arg value="-PvirtualInstanceId=${virtual.instance.id}" />
+								<arg value="-PvirtualInstanceId=@{virtual.instance.id}" />
 							</gradle-execute>
 						</then>
 						<else>
 							<gradle-execute dir="${project.dir}/workspaces/${workspace.name}" task=":client-extensions:@{workspace.client.extension.name}:deploy">
 								<arg value="-Pliferay.workspace.home.dir=${liferay.home}" />
-								<arg value="-PvirtualInstanceId=${virtual.instance.id}" />
+								<arg value="-PvirtualInstanceId=@{virtual.instance.id}" />
 							</gradle-execute>
 						</else>
 					</if>
@@ -168,7 +168,7 @@
 				<daemons>
 					<gradle-execute dir="${workspace.client.extension.dir}" task="bootRun">
 						<arg value="-Pliferay.workspace.home.dir=${liferay.home}" />
-						<arg value="-PvirtualInstanceId=${virtual.instance.id}" />
+						<arg value="-PvirtualInstanceId=@{virtual.instance.id}" />
 					</gradle-execute>
 				</daemons>
 
