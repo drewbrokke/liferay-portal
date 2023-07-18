@@ -162,7 +162,7 @@ definition {
 		property workspaces.client.extension.names = "liferay-sample-etc-cron";
 
 		task ("Assert the Message Board Thread Count of 0") {
-			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron", "-Dvirtual.instance.id=${companyWebId}");
+			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron -Dvirtual.instance.id=${companyWebId}");
 
 			var projectDir = PropsUtil.get("project.dir");
 
@@ -185,7 +185,7 @@ definition {
 		}
 
 		task ("Assert the Message Board Thread Count of 1") {
-			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron", "-Dvirtual.instance.id=${companyWebId}");
+			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron -Dvirtual.instance.id=${companyWebId}");
 
 			var springBootLogFileContent = FileUtil.read(${springBootLogFile});
 
@@ -215,7 +215,7 @@ definition {
 		}
 
 		task ("When: The Spring-boot is started") {
-			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-spring-boot", "-Dvirtual.instance.id=${companyWebId}");
+			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-spring-boot -Dvirtual.instance.id=${companyWebId}");
 
 			var projectDir = PropsUtil.get("project.dir");
 
