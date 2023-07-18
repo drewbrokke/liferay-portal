@@ -433,7 +433,7 @@ definition {
 			Css.assertCssCustomPropertyValue(
 				attribute = "background-image",
 				element = "//header[@id='banner']",
-				expected = "url(\"${portalURL}/o/liferaysamplethemecss1/img/header_bg.jpg\")");
+				expected = "url(\"${portalURL}/o/liferay-sample-theme-css-1/img/header_bg.jpg\")");
 		}
 	}
 
