@@ -50,7 +50,7 @@ public class VirtualHostModelListener extends BaseModelListener<VirtualHost> {
 		Company company = _companyLocalService.fetchCompanyById(
 			virtualHost.getCompanyId());
 
-		if ((company != null) &&
+		if ((company == null) ||
 			Objects.equals(
 				company.getWebId(), PropsValues.COMPANY_DEFAULT_WEB_ID)) {
 
