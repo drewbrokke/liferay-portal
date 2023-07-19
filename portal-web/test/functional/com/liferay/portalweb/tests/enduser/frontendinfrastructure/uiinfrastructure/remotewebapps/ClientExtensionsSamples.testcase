@@ -7,10 +7,14 @@ definition {
 	property test.liferay.virtual.instance = "false";
 	property testray.main.component.name = "Liferay Sample Workspace";
 
+	static var companyWebId = "";
+
 	setUp {
 		TestCase.setUpPortalInstance();
 
 		User.firstLoginPG();
+
+		var companyWebId = JSONCompany.getWebId();
 	}
 
 	tearDown {
