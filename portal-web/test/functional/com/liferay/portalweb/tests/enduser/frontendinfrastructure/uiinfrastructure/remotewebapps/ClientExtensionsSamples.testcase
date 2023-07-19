@@ -7,14 +7,10 @@ definition {
 	property test.liferay.virtual.instance = "false";
 	property testray.main.component.name = "Liferay Sample Workspace";
 
-	static var companyWebId = "";
-
 	setUp {
 		TestCase.setUpPortalInstance();
 
 		User.firstLoginPG();
-
-		var companyWebId = JSONCompany.getWebId();
 	}
 
 	tearDown {
@@ -166,7 +162,7 @@ definition {
 		property workspaces.client.extension.names = "liferay-sample-etc-cron";
 
 		task ("Assert the Message Board Thread Count of 0") {
-			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron -Dvirtual.instance.id=${companyWebId}");
+			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron");
 
 			var projectDir = PropsUtil.get("project.dir");
 
@@ -189,7 +185,7 @@ definition {
 		}
 
 		task ("Assert the Message Board Thread Count of 1") {
-			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron -Dvirtual.instance.id=${companyWebId}");
+			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron");
 
 			var springBootLogFileContent = FileUtil.read(${springBootLogFile});
 
@@ -219,7 +215,7 @@ definition {
 		}
 
 		task ("When: The Spring-boot is started") {
-			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-spring-boot -Dvirtual.instance.id=${companyWebId}");
+			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-spring-boot");
 
 			var projectDir = PropsUtil.get("project.dir");
 

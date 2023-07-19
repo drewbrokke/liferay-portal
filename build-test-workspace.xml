@@ -133,7 +133,7 @@
 
 	<macrodef name="start-spring-boot-client-extension">
 		<attribute name="spring.boot.application.name" />
-		<attribute default="" name="virtual.instance.id" />
+		<attribute default="default" name="virtual.instance.id" />
 		<attribute name="workspace.client.extension.name" />
 
 		<text default="" name="application.properties" />
@@ -264,7 +264,7 @@
 	</macrodef>
 
 	<macrodef name="undeploy-workspace-client-extension">
-		<attribute default="" name="virtual.instance.id" />
+		<attribute default="default" name="virtual.instance.id" />
 		<attribute name="workspace.client.extension.name" />
 
 		<sequential>
