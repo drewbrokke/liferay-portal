@@ -25,10 +25,12 @@ bootRun {
 		println "DXP_METADATA_PATH: ${gradle.liferayWorkspace.homeDir}/cx-metadata/${virtualInstanceId}/dxp-metadata/"
 		new File("${gradle.liferayWorkspace.homeDir}/cx-metadata/${virtualInstanceId}/dxp-metadata/").listFiles().each {
 			println "DXP_METADATA_FILE: ${it}"
+			println "DXP_METADATA_FILE_CONTENT: ${it.text}"
 		}
 		println "EXT_INIT_METADATA_PATH: ${gradle.liferayWorkspace.homeDir}/cx-metadata/${virtualInstanceId}/${project.name}/"
 		new File("${gradle.liferayWorkspace.homeDir}/cx-metadata/${virtualInstanceId}/${project.name}/").listFiles().each {
 			println "EXT_INIT_METADATA_FILE: ${it}"
+			println "EXT_INIT_METADATA_FILE_CONTENT: ${it.text}"
 		}
 	}
 }
