@@ -186,10 +186,12 @@ definition {
 	@description = "Smoke test Liferay Sample Etc Cron"
 	@priority = 4
 	test LiferaySampleEtcCronSmoke {
-		task ("Deploy Liferay Sample Etc Cron into the current virtual instance") {
-			var clientExtensionName = "liferay-sample-etc-cron";
+		var clientExtensionSamples = "liferay-sample-etc-cron";
 
-			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "deploy-workspace-client-extension -Dvirtual.instance.id=${companyWebId} -Dworkspace.client.extension.name=${clientExtensionName}");
+		task ("Deploy Liferay Sample Etc Cron into the current virtual instance") {
+			for (var clientExtension : list ${clientExtensionSamples}) {
+				AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "deploy-workspace-client-extension -Dvirtual.instance.id=${companyWebId} -Dworkspace.client.extension.name=${clientExtension}");
+			}
 		}
 
 		task ("Assert the Message Board Thread Count of 0") {
@@ -225,10 +227,6 @@ definition {
 			if (!(contains(${springBootLogFileContent}, "There are 1 message board threads in the Guest site"))) {
 				fail("Could not find 'There are 1 message board threads in the Guest site'");
 			}
-		}
-
-		task ("Workaround for LPS-187832. Set property so the sample will be undeployed during tearDown") {
-			var clientExtensionSamples = "liferay-sample-etc-cron";
 		}
 	}
 
