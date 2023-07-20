@@ -165,6 +165,11 @@
 
 			<delete file="${workspace.client.extension.dir}/logs/spring.log" />
 
+			<echo><![CDATA[<gradle-execute dir="${workspace.client.extension.dir}" task="bootRun">
+	<arg value="-Pliferay.workspace.home.dir=${liferay.home}" />
+	<arg value="-PvirtualInstanceId=@{virtual.instance.id}" />
+</gradle-execute>]]></echo>
+
 			<parallel>
 				<daemons>
 					<gradle-execute dir="${workspace.client.extension.dir}" task="bootRun">
