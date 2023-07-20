@@ -39,6 +39,8 @@ public class SampleCommandLineRunner implements CommandLineRunner {
 			_lxcDXPMainDomain, _lxcDXPServerProtocol
 		).build();
 
+		java.util.logging.LogManager.getLogManager().getLogger("sun.net.www.protocol.http.HttpURLConnection").setLevel(java.util.logging.Level.ALL);
+
 		Site site = siteResource.getSiteByFriendlyUrlPath("guest");
 
 		MessageBoardThreadResource messageBoardThreadResource =
