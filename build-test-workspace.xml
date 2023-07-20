@@ -9,6 +9,7 @@
 
 		<sequential>
 			<var name="workspace.name" unset="true" />
+			<var name="client.extension.deployed.id" unset="true" />
 
 			<propertyregex
 				input="@{workspace.client.extension.name}"
@@ -108,7 +109,7 @@
 						</not>
 						<then>
 							<wait-for-client-extension-deployment
-								client.extension.deploy.log="STARTED @{client.extension.deployed.id}_"
+								client.extension.deploy.log="STARTED ${client.extension.deployed.id}_"
 							/>
 						</then>
 					</if>
@@ -269,6 +270,7 @@
 
 		<sequential>
 			<var name="workspace.name" unset="true" />
+			<var name="client.extension.deployed.id" unset="true" />
 
 			<propertyregex
 				input="@{workspace.client.extension.name}"
@@ -284,14 +286,10 @@
 				replace="\1-workspace"
 			/>
 
-			<var name="workspace.client.extension.dir" unset="true" />
-
-			<property name="workspace.client.extension.dir" value="${project.dir}/workspaces/${workspace.name}/client-extensions/@{workspace.client.extension.name}" />
-
 			<if>
-				<available file="${liferay.home}/osgi/modules/@{workspace.client.extension.name}.zip" />
+				<available file="${liferay.home}/osgi/client-extensions/@{workspace.client.extension.name}.zip" />
 				<then>
-					<delete file="${liferay.home}/osgi/modules/@{workspace.client.extension.name}.zip" />
+					<delete file="${liferay.home}/osgi/client-extensions/@{workspace.client.extension.name}.zip" />
 
 					<if>
 						<not>
@@ -299,7 +297,7 @@
 						</not>
 						<then>
 							<wait-for-client-extension-deployment
-								client.extension.deploy.log="STOPPED @{client.extension.deployed.id}_"
+								client.extension.deploy.log="STOPPED ${client.extension.deployed.id}_"
 							/>
 						</then>
 					</if>
