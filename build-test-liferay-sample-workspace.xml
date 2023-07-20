@@ -6,7 +6,7 @@
 	<import file="build-test-workspace.xml" />
 
 	<target name="start-liferay-sample-etc-cron">
-		<condition else="" property="virtual.instance.id" value="${virtual.instance.id}">
+		<condition else="default" property="virtual.instance.id" value="${virtual.instance.id}">
 			<isset property="virtual.instance.id" />
 		</condition>
 
@@ -18,7 +18,7 @@
 	</target>
 
 	<target name="start-liferay-sample-etc-spring-boot">
-		<condition else="" property="virtual.instance.id" value="${virtual.instance.id}">
+		<condition else="default" property="virtual.instance.id" value="${virtual.instance.id}">
 			<isset property="virtual.instance.id" />
 		</condition>
 
