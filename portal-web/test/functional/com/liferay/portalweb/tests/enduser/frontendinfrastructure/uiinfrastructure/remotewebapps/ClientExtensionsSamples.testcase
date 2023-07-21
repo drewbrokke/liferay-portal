@@ -163,7 +163,7 @@ definition {
 
 		task ("Create a guest site") {
 			JSONLayout.addPublicLayout(
-				friendlyURL = "guest"
+				friendlyURL = "guest",
 				groupName = "Guest",
 				layoutName = "Test Page");
 		}
