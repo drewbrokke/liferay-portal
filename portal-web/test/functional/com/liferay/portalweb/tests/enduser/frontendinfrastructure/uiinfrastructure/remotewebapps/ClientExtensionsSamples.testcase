@@ -161,6 +161,13 @@ definition {
 	test LiferaySampleEtcCronSmoke {
 		property workspaces.client.extension.names = "liferay-sample-etc-cron";
 
+		task ("Create a guest site") {
+			JSONLayout.addPublicLayout(
+				friendlyURL = "guest"
+				groupName = "Guest",
+				layoutName = "Test Page");
+		}
+
 		task ("Assert the Message Board Thread Count of 0") {
 			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron");
 

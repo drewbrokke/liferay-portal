@@ -194,8 +194,9 @@ definition {
 			}
 		}
 
-		task ("And: A new widget page is created") {
+		task ("Create a guest site") {
 			JSONLayout.addPublicLayout(
+				friendlyURL = "guest"
 				groupName = "Guest",
 				layoutName = "Test Page");
 		}
