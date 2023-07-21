@@ -201,6 +201,22 @@ definition {
 				layoutName = "Test Page");
 		}
 
+		task ("Assert the Sample Etc Cron OAuth Application") {
+			var portalURL = PropsUtil.get("portal.url");
+
+			OAuth2.openOAuth2Admin();
+
+			while (IsElementNotPresent(key_rowEntry = "Liferay Sample Etc Cron OAuth Application Headless Server", locator1 = "Icon#ROW_VERTICAL_ELLIPSIS")) {
+				OAuth2.openOAuth2Admin();
+			}
+
+			LexiconEntry.gotoEntryMenuItem(
+				menuItem = "Edit",
+				rowEntry = "Liferay Sample Etc Cron OAuth Application Headless Server");
+
+			OAuth2.assertPortletHeader(header = "Liferay Sample Etc Cron OAuth Application Headless Server");
+		}
+
 		task ("Assert the Message Board Thread Count of 0") {
 			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "start-liferay-sample-etc-cron -Dvirtual.instance.id=${companyWebId}");
 
