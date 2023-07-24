@@ -47,9 +47,11 @@ public class SampleCommandLineRunner implements CommandLineRunner {
 		String urlString = _lxcDXPServerProtocol + "://" + _lxcDXPMainDomain + "/o/headless-admin-user/v1.0/sites/by-friendly-url-path/guest";
 
     try {
+ 						_log.info("urlString: " + urlString);
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+						conn.setRequestProperty("Authorization", "Bearer " + oAuth2AccessToken.getTokenValue());
 
             int responseCode = conn.getResponseCode();
 						_log.info("Response Code: " + responseCode);
