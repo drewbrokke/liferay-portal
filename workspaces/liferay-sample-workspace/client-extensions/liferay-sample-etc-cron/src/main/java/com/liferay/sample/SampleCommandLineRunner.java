@@ -52,7 +52,7 @@ public class SampleCommandLineRunner implements CommandLineRunner {
             conn.setRequestMethod("GET");
 
             int responseCode = conn.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
+						_log.info("Response Code: " + responseCode);
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -64,16 +64,15 @@ public class SampleCommandLineRunner implements CommandLineRunner {
                 }
                 in.close();
 
-                System.out.println("Response Body:");
-                System.out.println(response.toString());
+								_log.info("Response Body: " + response.toString());
             } else {
-                System.out.println("GET request failed.");
-                System.out.println("responseCode: " + responseCode);
+								_log.error("GET request failed.");
+								_log.error("responseCode: " + responseCode);
             }
 
             conn.disconnect();
         } catch (IOException e) {
-            e.printStackTrace();
+						_log.error(e);
         }
 
 		java.util.logging.LogManager.getLogManager().getLogger("sun.net.www.protocol.http.HttpURLConnection").setLevel(java.util.logging.Level.ALL);
