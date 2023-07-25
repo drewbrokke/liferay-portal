@@ -161,6 +161,11 @@ definition {
 	test LiferaySampleEtcCronSmoke {
 		property workspaces.client.extension.names = "liferay-sample-etc-cron";
 
+		task ("Make sure oauth2 is initialized") {
+			var curl = '''http://localhost:8080/o/oauth2/jwks''';
+			JSONCurlUtil.get(${curl});
+		}
+
 		task ("Create a guest site") {
 			JSONLayout.addPublicLayout(
 				friendlyURL = "/guest",
