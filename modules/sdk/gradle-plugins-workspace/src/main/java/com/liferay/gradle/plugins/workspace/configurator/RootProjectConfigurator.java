@@ -21,6 +21,7 @@ import com.bmuschko.gradle.docker.tasks.image.Dockerfile;
 
 import com.liferay.gradle.plugins.LiferayBasePlugin;
 import com.liferay.gradle.plugins.node.NodeExtension;
+import com.liferay.gradle.plugins.node.PnpmPlugin;
 import com.liferay.gradle.plugins.node.task.NpmInstallTask;
 import com.liferay.gradle.plugins.source.formatter.FormatSourceTask;
 import com.liferay.gradle.plugins.source.formatter.SourceFormatterPlugin;
@@ -227,6 +228,9 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		if (nodePackageManager.equals("yarn")) {
 			GradleUtil.applyPlugin(project, LiferayWorkspaceYarnPlugin.class);
+		}
+		else if (nodePackageManager.equals("pnpm")) {
+			GradleUtil.applyPlugin(project, PnpmPlugin.class);
 		}
 		else {
 			_configureNpmProject(project);
