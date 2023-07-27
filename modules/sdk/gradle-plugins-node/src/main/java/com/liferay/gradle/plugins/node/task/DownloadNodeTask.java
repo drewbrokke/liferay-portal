@@ -102,6 +102,27 @@ public class DownloadNodeTask extends DefaultTask {
 				});
 		}
 
+		String pnpmUrl = getPnpmUrl();
+
+		final File pnpmDir = NodePluginUtil.getPnpmDir(nodeDir);
+
+		if (Validator.isNotNull(pnpmUrl)) {
+			final File pnpmFile = _download(pnpmUrl, null);
+
+			project.delete(pnpmDir);
+
+			project.copy(
+				new Action<CopySpec>() {
+
+					@Override
+					public void execute(CopySpec copySpec) {
+						copySpec.from(pnpmFile);
+						copySpec.into(pnpmDir);
+					}
+
+				});
+		}
+
 		String yarnUrl = getYarnUrl();
 
 		final File yarnDir = NodePluginUtil.getYarnDir(nodeDir);
@@ -156,6 +177,12 @@ public class DownloadNodeTask extends DefaultTask {
 
 	@Input
 	@Optional
+	public String getPnpmUrl() {
+		return GradleUtil.toString(_pnpmUrl);
+	}
+
+	@Input
+	@Optional
 	public String getYarnUrl() {
 		return GradleUtil.toString(_yarnUrl);
 	}
@@ -170,6 +197,10 @@ public class DownloadNodeTask extends DefaultTask {
 
 	public void setNpmUrl(Object npmUrl) {
 		_npmUrl = npmUrl;
+	}
+
+	public void setPnpmUrl(Object pnpmUrl) {
+		_pnpmUrl = pnpmUrl;
 	}
 
 	public void setYarnUrl(Object yarnUrl) {
@@ -213,6 +244,7 @@ public class DownloadNodeTask extends DefaultTask {
 	private final NodeExecutor _nodeExecutor;
 	private Object _nodeUrl;
 	private Object _npmUrl;
+	private Object _pnpmUrl;
 	private Object _yarnUrl;
 
 }
