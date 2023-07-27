@@ -42,6 +42,16 @@ public class NodePluginUtil {
 		return new File(nodeModulesDir, "npm");
 	}
 
+	public static File getPnpmDir(File nodeDir) {
+		File nodeModulesDir = new File(nodeDir, "node_modules");
+
+		if (!nodeModulesDir.exists()) {
+			nodeModulesDir = new File(nodeDir, "lib/node_modules");
+		}
+
+		return new File(nodeModulesDir, "pnpm");
+	}
+
 	public static File getYarnDir(File nodeDir) {
 		File nodeModulesDir = new File(nodeDir, "node_modules");
 

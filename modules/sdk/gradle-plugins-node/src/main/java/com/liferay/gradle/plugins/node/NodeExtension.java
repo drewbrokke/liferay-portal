@@ -150,6 +150,36 @@ public class NodeExtension {
 
 		};
 
+		_pnpmUrl = new Callable<String>() {
+
+			@Override
+			public String call() throws Exception {
+				String pnpmVersion = getPnpmVersion();
+
+				if (Validator.isNull(pnpmVersion)) {
+					return null;
+				}
+
+				if (OSDetector.isWindows()) {
+					return "https://github.com/pnpm/pnpm/releases/download/v" +
+						pnpmVersion + "/pnpm-win-x64.exe";
+				}
+				else if (OSDetector.isApple()) {
+					return "https://github.com/pnpm/pnpm/releases/download/v" +
+						pnpmVersion + "/pnpm-macos-x64";
+				}
+				else if (OSDetector.isAppleARM()) {
+					return "https://github.com/pnpm/pnpm/releases/download/v" +
+						pnpmVersion + "/pnpm-macos-arm64";
+				}
+				else {
+					return "https://github.com/pnpm/pnpm/releases/download/v" +
+						pnpmVersion + "/pnpm-linux-x64";
+				}
+			}
+
+		};
+
 		_project = project;
 
 		_scriptFile = new Callable<File>() {
@@ -221,6 +251,14 @@ public class NodeExtension {
 
 	public String getNpmVersion() {
 		return GradleUtil.toString(_npmVersion);
+	}
+
+	public String getPnpmUrl() {
+		return GradleUtil.toString(_pnpmUrl);
+	}
+
+	public String getPnpmVersion() {
+		return GradleUtil.toString(_pnpmVersion);
 	}
 
 	public File getScriptFile() {
@@ -340,6 +378,8 @@ public class NodeExtension {
 	private final List<Object> _npmArgs = new ArrayList<>();
 	private Object _npmUrl;
 	private Object _npmVersion;
+	private Object _pnpmUrl;
+	private Object _pnpmVersion = "8.6.10";
 	private final Project _project;
 	private Object _scriptFile;
 	private Object _useNpm = true;
