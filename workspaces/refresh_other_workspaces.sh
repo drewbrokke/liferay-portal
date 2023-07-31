@@ -5,7 +5,7 @@ cd $(dirname "${0}")
 function main {
 	for dir in "./"*
 	do
-		if [ ${dir} = "./liferay-sample-workspace" ] ||
+		if [ ${dir} = "./liferay-blank-workspace" ] ||
 		   [ -f ${dir} ]
 		then
 			continue
@@ -21,8 +21,11 @@ function main {
 			--exclude "poshi/build.gradle" \
 			--exclude "poshi/poshi-ext.properties" \
 			--exclude "poshi/src" \
+			--exclude "poshi" \
+			--exclude "build.gradle" \
+			--exclude "test.properties" \
 			--exclude "themes" \
-			liferay-sample-workspace/ ${dir}
+			liferay-blank-workspace/ ${dir}
 	done
 }
 
