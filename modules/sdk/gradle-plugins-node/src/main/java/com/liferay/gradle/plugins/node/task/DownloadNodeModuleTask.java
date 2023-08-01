@@ -12,6 +12,7 @@ import java.io.File;
 import java.nio.file.Files;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.gradle.api.GradleException;
 import org.gradle.api.Task;
@@ -91,11 +92,11 @@ public class DownloadNodeModuleTask extends ExecutePackageManagerTask {
 	protected List<String> getCompleteArgs() {
 		List<String> completeArgs = super.getCompleteArgs();
 
-		if (isUseNpm()) {
-			completeArgs.add("install");
+		if (Objects.equals(getUsingNPM(), "yarn")) {
+			completeArgs.add("add");
 		}
 		else {
-			completeArgs.add("add");
+			completeArgs.add("install");
 		}
 
 		completeArgs.add(getModuleName() + "@" + getModuleVersion());

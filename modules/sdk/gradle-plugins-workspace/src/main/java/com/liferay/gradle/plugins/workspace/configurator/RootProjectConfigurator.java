@@ -1826,7 +1826,7 @@ public class RootProjectConfigurator implements Plugin<Project> {
 													npmInstallTask.getProject(),
 													NodeExtension.class);
 
-											nodeExtension.setUseNpm(true);
+											nodeExtension.setUsingNPM("npm");
 										}
 
 									});

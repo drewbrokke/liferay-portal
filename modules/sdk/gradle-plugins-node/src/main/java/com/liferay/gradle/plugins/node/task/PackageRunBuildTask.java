@@ -9,6 +9,8 @@ import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
 
 import java.io.File;
 
+import java.util.Objects;
+
 import org.gradle.api.Project;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.InputDirectory;
@@ -108,7 +110,7 @@ public class PackageRunBuildTask extends PackageRunTask {
 	@Optional
 	@PathSensitive(PathSensitivity.RELATIVE)
 	public File getYarnProjectNodeModulesDir() {
-		if (isUseNpm()) {
+		if (!Objects.equals(getUsingNPM(), "yarn")) {
 			return null;
 		}
 

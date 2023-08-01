@@ -83,7 +83,7 @@ public class LiferayWorkspaceYarnPlugin extends YarnPlugin {
 										npmInstallTask.getProject(),
 										NodeExtension.class);
 
-								nodeExtension.setUseNpm(false);
+								nodeExtension.setUsingNPM("yarn");
 
 								npmInstallTask.finalizedBy(
 									yarnInstallTaskProvider);

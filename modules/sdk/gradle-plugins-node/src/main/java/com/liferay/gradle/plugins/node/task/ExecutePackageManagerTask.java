@@ -12,6 +12,7 @@ import com.liferay.gradle.util.Validator;
 import java.io.File;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 import org.gradle.api.Project;
@@ -132,6 +133,11 @@ public class ExecutePackageManagerTask extends ExecuteNodeScriptTask {
 		return GradleUtil.toString(_registry);
 	}
 
+	@Internal
+	public String getUsingNPM() {
+		return GradleUtil.toString(_usingNPM);
+	}
+
 	@Input
 	public boolean isCacheConcurrent() {
 		return GradleUtil.toBoolean(_cacheConcurrent);
@@ -150,11 +156,6 @@ public class ExecutePackageManagerTask extends ExecuteNodeScriptTask {
 	@Input
 	public boolean isProgress() {
 		return _progress;
-	}
-
-	@Internal
-	public boolean isUseNpm() {
-		return GradleUtil.toBoolean(_useNpm);
 	}
 
 	public void setCacheConcurrent(Object cacheConcurrent) {
@@ -189,14 +190,18 @@ public class ExecutePackageManagerTask extends ExecuteNodeScriptTask {
 		_registry = registry;
 	}
 
-	public void setUseNpm(Object useNpm) {
-		_useNpm = useNpm;
+	public void setUsingNPM(Object usingNPM) {
+		_usingNPM = usingNPM;
 	}
 
 	@Internal
 	@Override
 	protected List<String> getCompleteArgs() {
 		List<String> completeArgs = super.getCompleteArgs();
+
+		if (Objects.equals(getUsingNPM(), "pnpm")) {
+			return completeArgs;
+		}
 
 		completeArgs.add("--production");
 		completeArgs.add(Boolean.toString(isProduction()));
@@ -208,7 +213,7 @@ public class ExecutePackageManagerTask extends ExecuteNodeScriptTask {
 			completeArgs.add(registry);
 		}
 
-		if (!isUseNpm()) {
+		if (Objects.equals(getUsingNPM(), "yarn")) {
 			if (isOffline()) {
 				completeArgs.add("--offline");
 			}
@@ -244,6 +249,6 @@ public class ExecutePackageManagerTask extends ExecuteNodeScriptTask {
 	private boolean _production;
 	private boolean _progress = true;
 	private Object _registry;
-	private Object _useNpm;
+	private Object _usingNPM;
 
 }
