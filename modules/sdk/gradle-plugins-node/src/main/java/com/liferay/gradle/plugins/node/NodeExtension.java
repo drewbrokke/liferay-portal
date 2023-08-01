@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 import org.gradle.api.Project;
@@ -172,10 +173,9 @@ public class NodeExtension {
 					return "https://github.com/pnpm/pnpm/releases/download/v" +
 						pnpmVersion + "/pnpm-macos-arm64";
 				}
-				else {
-					return "https://github.com/pnpm/pnpm/releases/download/v" +
-						pnpmVersion + "/pnpm-linux-x64";
-				}
+
+				return "https://github.com/pnpm/pnpm/releases/download/v" +
+					pnpmVersion + "/pnpm-linux-x64";
 			}
 
 		};
@@ -192,9 +192,28 @@ public class NodeExtension {
 					return null;
 				}
 
-				if (isUseNpm()) {
+				if (Objects.equals(getUsingNPM(), "npm")) {
 					return new File(
 						NodePluginUtil.getNpmDir(nodeDir), "bin/npm-cli.js");
+				}
+				else if (Objects.equals(getUsingNPM(), "pnpm")) {
+					String scriptFileName = "pnpm-";
+
+					if (OSDetector.isWindows()) {
+						scriptFileName += "win-x64.exe";
+					}
+					else if (OSDetector.isApple()) {
+						scriptFileName += "macos-x64";
+					}
+					else if (OSDetector.isAppleARM()) {
+						scriptFileName += "macos-arm64";
+					}
+					else {
+						scriptFileName += "linux-x64";
+					}
+
+					return new File(
+						NodePluginUtil.getPnpmDir(nodeDir), scriptFileName);
 				}
 
 				return new File(
@@ -265,6 +284,10 @@ public class NodeExtension {
 		return GradleUtil.toFile(_project, _scriptFile);
 	}
 
+	public String getUsingNPM() {
+		return GradleUtil.toString(_usingNPM);
+	}
+
 	public String getYarnUrl() {
 		return GradleUtil.toString(_yarnUrl);
 	}
@@ -279,10 +302,6 @@ public class NodeExtension {
 
 	public boolean isGlobal() {
 		return _global;
-	}
-
-	public boolean isUseNpm() {
-		return GradleUtil.toBoolean(_useNpm);
 	}
 
 	public NodeExtension npmArgs(Iterable<?> npmArgs) {
@@ -337,8 +356,8 @@ public class NodeExtension {
 		_scriptFile = scriptFile;
 	}
 
-	public void setUseNpm(Object useNpm) {
-		_useNpm = useNpm;
+	public void setUsingNPM(Object usingNPM) {
+		_usingNPM = usingNPM;
 	}
 
 	public void setYarnUrl(Object yarnUrl) {
@@ -378,11 +397,11 @@ public class NodeExtension {
 	private final List<Object> _npmArgs = new ArrayList<>();
 	private Object _npmUrl;
 	private Object _npmVersion;
-	private Object _pnpmUrl;
-	private Object _pnpmVersion = "8.6.10";
+	private final Object _pnpmUrl;
+	private final Object _pnpmVersion = "8.6.10";
 	private final Project _project;
 	private Object _scriptFile;
-	private Object _useNpm = true;
+	private Object _usingNPM = "yarn";
 	private Object _yarnUrl;
 	private Object _yarnVersion = "1.13.0";
 

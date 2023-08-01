@@ -16,6 +16,8 @@ import com.liferay.gradle.util.copy.RenameDependencyClosure;
 
 import java.io.File;
 
+import java.util.Objects;
+
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -106,7 +108,7 @@ public class JSTranspilerBasePlugin implements Plugin<Project> {
 			copy.dependsOn(taskDependencies);
 			copy.mustRunAfter(npmInstallTask);
 
-			if (!npmInstallTask.isUseNpm()) {
+			if (Objects.equals(npmInstallTask.getUsingNPM(), "yarn")) {
 				Project curProject = npmInstallTask.getProject();
 
 				do {

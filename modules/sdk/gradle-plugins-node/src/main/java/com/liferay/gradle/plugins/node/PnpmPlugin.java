@@ -6,11 +6,13 @@
 package com.liferay.gradle.plugins.node;
 
 import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
+import com.liferay.gradle.plugins.node.task.NpmInstallTask;
 import com.liferay.gradle.plugins.node.task.PnpmInstallTask;
 
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskProvider;
 
 /**
@@ -24,11 +26,55 @@ public class PnpmPlugin implements Plugin<Project> {
 	public void apply(Project project) {
 		GradleUtil.applyPlugin(project, NodePlugin.class);
 
-		TaskProvider<PnpmInstallTask> yarnInstallTaskProvider =
+		TaskProvider<PnpmInstallTask> pnpmInstallTaskProvider =
 			GradleUtil.addTaskProvider(
 				project, PNPM_INSTALL_TASK_NAME, PnpmInstallTask.class);
 
-		_configureTaskPnpmInstallProvider(yarnInstallTaskProvider);
+		_configureTaskPnpmInstallProvider(pnpmInstallTaskProvider);
+
+		project.allprojects(
+			new Action<Project>() {
+
+				@Override
+				public void execute(Project project) {
+					_configureNodeProject(project, pnpmInstallTaskProvider);
+				}
+
+			});
+	}
+
+	private void _configureNodeProject(
+		Project project,
+		TaskProvider<PnpmInstallTask> pnpmInstallTaskProvider) {
+
+		project.afterEvaluate(
+			new Action<Project>() {
+
+				@Override
+				public void execute(Project project) {
+					TaskContainer taskContainer = project.getTasks();
+
+					taskContainer.withType(
+						NpmInstallTask.class,
+						new Action<NpmInstallTask>() {
+
+							@Override
+							public void execute(NpmInstallTask npmInstallTask) {
+								NodeExtension nodeExtension =
+									GradleUtil.getExtension(
+										npmInstallTask.getProject(),
+										NodeExtension.class);
+
+								nodeExtension.setUsingNPM("pnpm");
+
+								npmInstallTask.finalizedBy(
+									pnpmInstallTaskProvider);
+							}
+
+						});
+				}
+
+			});
 	}
 
 	private void _configureTaskPnpmInstallProvider(

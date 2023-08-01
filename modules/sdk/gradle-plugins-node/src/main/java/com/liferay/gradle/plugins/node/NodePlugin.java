@@ -169,7 +169,7 @@ public class NodePlugin implements Plugin<Project> {
 
 					// LPS-110486
 
-					nodeExtension.setUseNpm(true);
+					nodeExtension.setUsingNPM("npm");
 				}
 
 			});
@@ -227,6 +227,7 @@ public class NodePlugin implements Plugin<Project> {
 				public String call() throws Exception {
 					return nodeExtension.getPnpmUrl();
 				}
+
 			});
 
 		downloadNodeTask.setYarnUrl(
@@ -441,7 +442,7 @@ public class NodePlugin implements Plugin<Project> {
 
 				@Override
 				public void execute(Plugin plugin) {
-					nodeExtension.setUseNpm(false);
+					nodeExtension.setUsingNPM("yarn");
 				}
 
 			});
@@ -622,7 +623,7 @@ public class NodePlugin implements Plugin<Project> {
 
 				@Override
 				public File call() throws Exception {
-					if (nodeExtension.isUseNpm()) {
+					if (Objects.equals(nodeExtension.getUsingNPM(), "npm")) {
 						return project.file("node_modules");
 					}
 
@@ -643,12 +644,12 @@ public class NodePlugin implements Plugin<Project> {
 
 			});
 
-		executePackageManagerTask.setUseNpm(
-			new Callable<Boolean>() {
+		executePackageManagerTask.setUsingNPM(
+			new Callable<String>() {
 
 				@Override
-				public Boolean call() throws Exception {
-					return nodeExtension.isUseNpm();
+				public String call() throws Exception {
+					return "npm";
 				}
 
 			});
@@ -658,7 +659,7 @@ public class NodePlugin implements Plugin<Project> {
 		ExecutePackageManagerTask executePackageManagerTask,
 		NodeExtension nodeExtension) {
 
-		if (nodeExtension.isUseNpm()) {
+		if (Objects.equals(nodeExtension.getUsingNPM(), "npm")) {
 			executePackageManagerTask.args(nodeExtension.getNpmArgs());
 		}
 	}
@@ -669,7 +670,7 @@ public class NodePlugin implements Plugin<Project> {
 		npmInstallTask.setNodeVersion(nodeExtension.getNodeVersion());
 		npmInstallTask.setNpmVersion(nodeExtension.getNpmVersion());
 
-		if (!npmInstallTask.isUseNpm()) {
+		if (Objects.equals(npmInstallTask.getUsingNPM(), "yarn")) {
 			Project curProject = npmInstallTask.getProject();
 
 			do {
@@ -1012,7 +1013,7 @@ public class NodePlugin implements Plugin<Project> {
 	private File _getYarnWorkingDir(
 		Project project, NodeExtension nodeExtension) {
 
-		if (nodeExtension.isUseNpm()) {
+		if (!Objects.equals(nodeExtension.getUsingNPM(), "yarn")) {
 			return null;
 		}
 

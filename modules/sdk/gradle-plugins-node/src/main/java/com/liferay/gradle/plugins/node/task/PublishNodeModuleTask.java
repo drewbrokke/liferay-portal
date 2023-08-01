@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.gradle.api.Project;
@@ -262,7 +263,7 @@ public class PublishNodeModuleTask extends ExecutePackageManagerTask {
 	}
 
 	private File _getNpmrcFile() {
-		if (isUseNpm()) {
+		if (Objects.equals(getUsingNPM(), "npm")) {
 			return new File(getTemporaryDir(), "npmrc");
 		}
 
