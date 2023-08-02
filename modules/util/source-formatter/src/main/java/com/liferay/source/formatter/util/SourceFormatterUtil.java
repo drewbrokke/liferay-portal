@@ -720,7 +720,7 @@ public class SourceFormatterUtil {
 						StringBundler.concat(
 							baseDirName, StringPool.FORWARD_SLASH,
 							StringUtil.replace(
-								line, CharPool.BACK_SLASH, CharPool.SLASH))));
+								line, CharPool.SLASH, File.separatorChar))));
 
 				return gitFiles;
 			}
