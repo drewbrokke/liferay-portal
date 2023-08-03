@@ -649,7 +649,7 @@ public class NodePlugin implements Plugin<Project> {
 
 				@Override
 				public String call() throws Exception {
-					return "npm";
+					return nodeExtension.getUsingNPM();
 				}
 
 			});
