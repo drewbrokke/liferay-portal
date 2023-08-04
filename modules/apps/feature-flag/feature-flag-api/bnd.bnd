@@ -1,0 +1,8 @@
+Bundle-Name: Liferay Feature Flag API
+Bundle-SymbolicName: com.liferay.feature.flag.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.feature.flag.company.feature.flags,\
+	com.liferay.feature.flag.constants,\
+	com.liferay.feature.flag.manager,\
+	com.liferay.feature.flag.model
