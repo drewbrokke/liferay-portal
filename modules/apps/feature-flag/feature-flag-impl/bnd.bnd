@@ -1,0 +1,3 @@
+Bundle-Name: Liferay Feature Flag Implementation
+Bundle-SymbolicName: com.liferay.feature.flag.impl
+Bundle-Version: 1.0.0
