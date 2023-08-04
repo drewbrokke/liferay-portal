@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
@@ -7,10 +7,10 @@ package com.liferay.feature.flag.web.internal.configuration.admin.category;
 
 import com.liferay.configuration.admin.category.ConfigurationCategory;
 import com.liferay.configuration.admin.display.ConfigurationScreen;
+import com.liferay.feature.flag.constants.FeatureFlagConstants;
+import com.liferay.feature.flag.model.FeatureFlagType;
 import com.liferay.feature.flag.web.internal.configuration.admin.display.FeatureFlagConfigurationScreen;
 import com.liferay.feature.flag.web.internal.display.FeatureFlagsDisplayContextFactory;
-import com.liferay.feature.flag.web.internal.model.FeatureFlagType;
-import com.liferay.portal.kernel.feature.flag.FeatureFlagManager;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 
 import java.util.ArrayList;
@@ -31,8 +31,6 @@ import org.osgi.service.component.annotations.Reference;
 @Component(service = ConfigurationCategory.class)
 public class FeatureFlagConfigurationCategory implements ConfigurationCategory {
 
-	public static final String CATEGORY_KEY = "feature-flags";
-
 	@Override
 	public String getCategoryIcon() {
 		return "flag-full";
@@ -40,7 +38,7 @@ public class FeatureFlagConfigurationCategory implements ConfigurationCategory {
 
 	@Override
 	public String getCategoryKey() {
-		return CATEGORY_KEY;
+		return FeatureFlagConstants.CONFIGURATION_CATEGORY_KEY;
 	}
 
 	@Override
@@ -55,8 +53,8 @@ public class FeatureFlagConfigurationCategory implements ConfigurationCategory {
 				bundleContext.registerService(
 					ConfigurationScreen.class,
 					new FeatureFlagConfigurationScreen(
-						_featureFlagManager, featureFlagType,
-						_featureFlagsDisplayContextFactory, _servletContext),
+						featureFlagType, _featureFlagsDisplayContextFactory,
+						_servletContext),
 					new HashMapDictionary<>()));
 		}
 	}
@@ -67,9 +65,6 @@ public class FeatureFlagConfigurationCategory implements ConfigurationCategory {
 
 		_serviceRegistrations.clear();
 	}
-
-	@Reference
-	private FeatureFlagManager _featureFlagManager;
 
 	@Reference
 	private FeatureFlagsDisplayContextFactory

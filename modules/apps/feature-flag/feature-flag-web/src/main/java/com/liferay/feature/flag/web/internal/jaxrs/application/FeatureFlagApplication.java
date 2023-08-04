@@ -5,7 +5,7 @@
 
 package com.liferay.feature.flag.web.internal.jaxrs.application;
 
-import com.liferay.feature.flag.web.internal.company.feature.flags.CompanyFeatureFlagsProvider;
+import com.liferay.feature.flag.company.feature.flags.CompanyFeatureFlagsProvider;
 import com.liferay.portal.kernel.util.Portal;
 
 import java.util.Collections;

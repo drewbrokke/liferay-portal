@@ -1,16 +1,14 @@
 /**
- * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package com.liferay.feature.flag.web.internal.configuration.admin.display;
 
 import com.liferay.configuration.admin.display.ConfigurationScreen;
-import com.liferay.feature.flag.web.internal.configuration.admin.category.FeatureFlagConfigurationCategory;
-import com.liferay.feature.flag.web.internal.constants.FeatureFlagConstants;
+import com.liferay.feature.flag.constants.FeatureFlagConstants;
+import com.liferay.feature.flag.model.FeatureFlagType;
 import com.liferay.feature.flag.web.internal.display.FeatureFlagsDisplayContextFactory;
-import com.liferay.feature.flag.web.internal.model.FeatureFlagType;
-import com.liferay.portal.kernel.feature.flag.FeatureFlagManager;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.IOException;
@@ -28,11 +26,10 @@ import javax.servlet.http.HttpServletResponse;
 public class FeatureFlagConfigurationScreen implements ConfigurationScreen {
 
 	public FeatureFlagConfigurationScreen(
-		FeatureFlagManager featureFlagManager, FeatureFlagType featureFlagType,
+		FeatureFlagType featureFlagType,
 		FeatureFlagsDisplayContextFactory featureFlagsDisplayContextFactory,
 		ServletContext servletContext) {
 
-		_featureFlagManager = featureFlagManager;
 		_featureFlagType = featureFlagType;
 		_featureFlagsDisplayContextFactory = featureFlagsDisplayContextFactory;
 		_servletContext = servletContext;
@@ -40,7 +37,7 @@ public class FeatureFlagConfigurationScreen implements ConfigurationScreen {
 
 	@Override
 	public String getCategoryKey() {
-		return FeatureFlagConfigurationCategory.CATEGORY_KEY;
+		return FeatureFlagConstants.CONFIGURATION_CATEGORY_KEY;
 	}
 
 	@Override
@@ -90,7 +87,6 @@ public class FeatureFlagConfigurationScreen implements ConfigurationScreen {
 		}
 	}
 
-	private final FeatureFlagManager _featureFlagManager;
 	private final FeatureFlagsDisplayContextFactory
 		_featureFlagsDisplayContextFactory;
 	private final FeatureFlagType _featureFlagType;

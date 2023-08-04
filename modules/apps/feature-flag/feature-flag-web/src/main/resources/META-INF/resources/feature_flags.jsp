@@ -30,7 +30,7 @@ String displayStyle = featureFlagsDisplayContext.getDisplayStyle();
 				searchContainer="<%= featureFlagsDisplayContext.getSearchContainer() %>"
 			>
 				<liferay-ui:search-container-row
-					className="com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay"
+					className="com.liferay.feature.flag.model.FeatureFlagDisplay"
 					keyProperty="key"
 				>
 

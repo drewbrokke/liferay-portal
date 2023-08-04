@@ -12,8 +12,8 @@ taglib uri="http://liferay.com/tld/react" prefix="react" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
-<%@ page import="com.liferay.feature.flag.web.internal.display.FeatureFlagsDisplayContext" %><%@
-page import="com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay" %><%@
+<%@ page import="com.liferay.feature.flag.model.FeatureFlagDisplay" %><%@
+page import="com.liferay.feature.flag.web.internal.display.FeatureFlagsDisplayContext" %><%@
 page import="com.liferay.petra.string.StringPool" %><%@
 page import="com.liferay.portal.kernel.language.LanguageUtil" %><%@
 page import="com.liferay.portal.kernel.util.ArrayUtil" %><%@
