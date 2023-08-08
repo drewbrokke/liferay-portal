@@ -3,10 +3,9 @@
 cd $(dirname "${0}")
 
 function main {
-	for dir in "./"*
+	for dir in ./liferay-*-workspace
 	do
-		if [ ${dir} = "./liferay-blank-workspace" ] ||
-		   [ -f ${dir} ]
+		if [ ${dir} = "./liferay-blank-workspace" ]
 		then
 			continue
 		fi
