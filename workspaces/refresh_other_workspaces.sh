@@ -10,21 +10,39 @@ function main {
 			continue
 		fi
 
-		rsync \
-			-a --delete \
-			--exclude "README.markdown" \
-			--exclude "client-extensions" \
-			--exclude "modules" \
-			--exclude "node_modules" \
-			--exclude "node_modules_cache" \
-			--exclude "poshi/build.gradle" \
-			--exclude "poshi/poshi-ext.properties" \
-			--exclude "poshi/src" \
-			--exclude "poshi" \
-			--exclude "build.gradle" \
-			--exclude "test.properties" \
-			--exclude "themes" \
-			liferay-blank-workspace/ ${dir}
+		# Do not copy from source
+
+		rsync_excludes=(
+			--exclude "configs/common"
+			--exclude "configs/dev"
+			--exclude "configs/docker"
+			--exclude "configs/prod"
+			--exclude "configs/uat"
+			--exclude "Dockerfile.ext"
+			--exclude "GETTING_STARTED.markdown"
+			--exclude "gradle-local.properties"
+			--exclude "modules"
+			--exclude "platform.bndrun"
+			--exclude "themes"
+		)
+
+		# Do not delete from destination
+
+		rsync_excludes+=(
+			--exclude "build.gradle"
+			--exclude "client-extensions"
+			--exclude "node_modules"
+			--exclude "node_modules_cache"
+			--exclude "poshi"
+			--exclude "poshi/build.gradle"
+			--exclude "poshi/poshi-ext.properties"
+			--exclude "poshi/poshi.properties"
+			--exclude "poshi/src"
+			--exclude "README.markdown"
+			--exclude "test.properties"
+		)
+
+		rsync -a --delete "${rsync_excludes[@]}" liferay-blank-workspace/ ${dir}
 	done
 }
 
