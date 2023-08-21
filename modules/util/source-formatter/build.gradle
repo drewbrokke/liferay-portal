@@ -108,6 +108,18 @@ jarStandalone {
 
 		println "Archive path: " + archivePath
 	}
+
+	doLast {
+		copy{
+			from zipTree(jar.archiveFile).matching {
+				include "META-INF/MANIFEST.MF"
+			}
+
+			into new File(buildDir, "standalone-manifest")
+		}
+
+		ant.jar(destfile: jarStandalone.archivePath, manifest: new File(buildDir, "standalone-manifest/META-INF/MANIFEST.MF"), update: true)
+	}
 }
 
 liferay {
