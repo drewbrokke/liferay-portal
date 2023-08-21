@@ -75,19 +75,19 @@ jarStandalone {
 
 		configurations.api.dependencies.each {
 			if (it.group != null) {
-				standaloneDependencies.add(dependencies.create([group: it.group, name: it.name, version: it.version]))
+				standaloneDependencies.add(dependencies.create([group: it.group, name: it.name, transitive: true, version: it.version]))
 			}
 		}
 
 		configurations.compileInclude.dependencies.each {
 			if (it.group != null) {
-				standaloneDependencies.add(dependencies.create([group: it.group, name: it.name, version: it.version]))
+				standaloneDependencies.add(dependencies.create([group: it.group, name: it.name, transitive: true, version: it.version]))
 			}
 		}
 
 		configurations.compileOnly.dependencies.each {
 			if (it.group != "com.liferay.portal") {
-				standaloneDependencies.add(dependencies.create([group: it.group, name: it.name, version: it.version]))
+				standaloneDependencies.add(dependencies.create([group: it.group, name: it.name, transitive: true, version: it.version]))
 			}
 		}
 
