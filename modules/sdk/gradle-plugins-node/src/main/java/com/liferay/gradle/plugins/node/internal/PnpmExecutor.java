@@ -5,14 +5,23 @@
 
 package com.liferay.gradle.plugins.node.internal;
 
+import com.liferay.gradle.plugins.node.internal.util.NodePluginUtil;
+import com.liferay.gradle.util.GUtil;
+import com.liferay.gradle.util.GradleUtil;
+import com.liferay.gradle.util.OSDetector;
+import com.liferay.gradle.util.Validator;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,12 +30,6 @@ import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.process.ExecSpec;
-import org.gradle.util.GUtil;
-
-import com.liferay.gradle.plugins.node.internal.util.NodePluginUtil;
-import com.liferay.gradle.util.GradleUtil;
-import com.liferay.gradle.util.OSDetector;
-import com.liferay.gradle.util.Validator;
 
 /**
  * @author Seiphon Wang
@@ -45,6 +48,22 @@ public class PnpmExecutor {
 		return this;
 	}
 
+	public PnpmExecutor args(Object... args) {
+		return args(Arrays.asList(args));
+	}
+
+	public PnpmExecutor environment(Map<?, ?> environment) {
+		_environment.putAll(environment);
+
+		return this;
+	}
+
+	public PnpmExecutor environment(Object key, Object value) {
+		_environment.put(key, value);
+
+		return this;
+	}
+
 	public String execute() throws Exception {
 		File workingDir = getWorkingDir();
 
@@ -55,6 +74,50 @@ public class PnpmExecutor {
 		}
 
 		return _executeProcessBuilder();
+	}
+
+	public List<Object> getArgs() {
+		return _args;
+	}
+
+	public String getCommand() {
+		return GradleUtil.toString(_command);
+	}
+
+	public Map<?, ?> getEnvironment() {
+		return _environment;
+	}
+
+	public File getNodeDir() {
+		return GradleUtil.toFile(_project, _nodeDir);
+	}
+
+	public File getWorkingDir() {
+		return GradleUtil.toFile(_project, _workingDir);
+	}
+
+	public boolean isUseGradleExec() {
+		return _useGradleExec;
+	}
+
+	public void setArgs(Iterable<?> args) {
+		_args.clear();
+
+		args(args);
+	}
+
+	public void setArgs(Object... args) {
+		setArgs(Arrays.asList(args));
+	}
+
+	public void setCommand(Object command) {
+		_command = command;
+	}
+
+	public void setEnvironment(Map<?, ?> environment) {
+		_environment.clear();
+
+		environment(environment);
 	}
 
 	private String _executeGradleExec() {
@@ -75,6 +138,7 @@ public class PnpmExecutor {
 						new TeeOutputStream(byteArrayOutputStream, System.out));
 					execSpec.setWorkingDir(getWorkingDir());
 				}
+
 			});
 
 		String result = byteArrayOutputStream.toString();
@@ -88,7 +152,7 @@ public class PnpmExecutor {
 		processBuilder.directory(getWorkingDir());
 		processBuilder.redirectErrorStream(true);
 
-//		_updateEnvironment(processBuilder.environment());
+		//		_updateEnvironment(processBuilder.environment());
 
 		if (_logger.isInfoEnabled()) {
 			_logger.info(
@@ -125,16 +189,6 @@ public class PnpmExecutor {
 		return result.trim();
 	}
 
-	private Map<String, String> _getEnvironment(Map<?, ?> environment) {
-		Map<String, String> newEnvironment = new HashMap<>();
-
-		GUtil.addToMap(newEnvironment, environment);
-
-//		_updateEnvironment(newEnvironment);
-
-		return newEnvironment;
-	}
-
 	private List<String> _getCommandLine() {
 		List<String> commandLine = new ArrayList<>();
 
@@ -148,6 +202,16 @@ public class PnpmExecutor {
 		}
 
 		return commandLine;
+	}
+
+	private Map<String, String> _getEnvironment(Map<?, ?> environment) {
+		Map<String, String> newEnvironment = new HashMap<>();
+
+		GUtil.addToMap(newEnvironment, environment);
+
+		//		_updateEnvironment(newEnvironment);
+
+		return newEnvironment;
 	}
 
 	private String _getExecutable() {
@@ -172,14 +236,6 @@ public class PnpmExecutor {
 		}
 
 		return NodePluginUtil.getBinDir(nodeDir);
-	}
-
-	public File getNodeDir() {
-		return GradleUtil.toFile(_project, _nodeDir);
-	}
-
-	public List<Object> getArgs() {
-		return _args;
 	}
 
 	private List<String> _getWindowsArgs() {
@@ -221,25 +277,15 @@ public class PnpmExecutor {
 		return windowsArgs;
 	}
 
-	public boolean isUseGradleExec() {
-		return _useGradleExec;
-	}
-
-	public File getWorkingDir() {
-		return GradleUtil.toFile(_project, _workingDir);
-	}
-
-	public String getCommand() {
-		return GradleUtil.toString(_command);
-	}
-
 	private static final Logger _logger = Logging.getLogger(PnpmExecutor.class);
+
 	private final List<Object> _args = new ArrayList<>();
 	private Object _command = "pnpm";
+	private final Map<Object, Object> _environment = new LinkedHashMap<>();
 	private Object _nodeDir;
-	private Project _project;
+	private final Project _project;
 	private boolean _useGradleExec;
-	private Object _workingDir;
+	private final Object _workingDir;
 
 	private static class TeeOutputStream extends OutputStream {
 
@@ -290,4 +336,5 @@ public class PnpmExecutor {
 		private final OutputStream _outputStream2;
 
 	}
+
 }

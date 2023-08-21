@@ -199,10 +199,6 @@ public class ExecutePackageManagerTask extends ExecuteNodeScriptTask {
 	protected List<String> getCompleteArgs() {
 		List<String> completeArgs = super.getCompleteArgs();
 
-		if (Objects.equals(getUsingNPM(), "pnpm")) {
-			return completeArgs;
-		}
-
 		completeArgs.add("--production");
 		completeArgs.add(Boolean.toString(isProduction()));
 
