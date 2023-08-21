@@ -1,5 +1,7 @@
 apply plugin: "com.liferay.maven.plugin.builder"
 
+task jarStandalone(type: Jar)
+
 buildPluginDescriptor {
 	ext {
 		autoClean = false
@@ -58,6 +60,54 @@ deployDependencies {
 	}
 
 	rename(/checkstyle-(.+)\.jar/, "checkstyle" + renameSuffix)
+}
+
+jarStandalone {
+	dependsOn jar
+
+	classifier "standalone"
+	from new File(buildDir, "standalone")
+
+	doFirst {
+		Set<Dependency> standaloneDependencies = new HashSet<>()
+
+		standaloneDependencies.add(dependencies.create(files(jar)))
+
+		configurations.api.dependencies.each {
+			if (it.group != null) {
+				standaloneDependencies.add(dependencies.create([group: it.group, name: it.name, version: it.version]))
+			}
+		}
+
+		configurations.compileInclude.dependencies.each {
+			if (it.group != null) {
+				standaloneDependencies.add(dependencies.create([group: it.group, name: it.name, version: it.version]))
+			}
+		}
+
+		configurations.compileOnly.dependencies.each {
+			if (it.group != "com.liferay.portal") {
+				standaloneDependencies.add(dependencies.create([group: it.group, name: it.name, version: it.version]))
+			}
+		}
+
+		delete new File(buildDir, "standalone")
+
+		Configuration detachedConfiguration = configurations.detachedConfiguration(standaloneDependencies as Dependency[])
+
+		for (File file : detachedConfiguration.resolvedConfiguration.getFiles(Specs.satisfyAll())) {
+			copy {
+				from zipTree(file).matching {
+					exclude "license/**"
+				}
+
+				includeEmptyDirs = false
+				into new File(buildDir, "standalone")
+			}
+		}
+
+		println "Archive path: " + archivePath
+	}
 }
 
 liferay {
