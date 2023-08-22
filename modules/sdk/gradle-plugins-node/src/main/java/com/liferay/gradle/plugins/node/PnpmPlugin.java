@@ -6,8 +6,13 @@
 package com.liferay.gradle.plugins.node;
 
 import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
+import com.liferay.gradle.plugins.node.task.ExecutePnpmTask;
 import com.liferay.gradle.plugins.node.task.NpmInstallTask;
 import com.liferay.gradle.plugins.node.task.PnpmInstallTask;
+
+import java.io.File;
+
+import java.util.concurrent.Callable;
 
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
@@ -31,6 +36,32 @@ public class PnpmPlugin implements Plugin<Project> {
 				project, PNPM_INSTALL_TASK_NAME, PnpmInstallTask.class);
 
 		_configureTaskPnpmInstallProvider(pnpmInstallTaskProvider);
+
+		TaskContainer taskContainer = project.getTasks();
+
+		taskContainer.withType(
+			ExecutePnpmTask.class,
+			new Action<ExecutePnpmTask>() {
+
+				@Override
+				public void execute(ExecutePnpmTask executePnpmTask) {
+					executePnpmTask.setScriptFile(
+						new Callable<File>() {
+
+							@Override
+							public File call() throws Exception {
+								NodeExtension nodeExtension =
+									GradleUtil.getExtension(
+										executePnpmTask.getProject(),
+										NodeExtension.class);
+
+								return nodeExtension.getScriptFile();
+							}
+
+						});
+				}
+
+			});
 
 		project.allprojects(
 			new Action<Project>() {

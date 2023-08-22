@@ -162,6 +162,10 @@ public class ExecutePnpmTask extends DefaultTask {
 		_pnpmExecutor.setEnvironment(environment);
 	}
 
+	public void setScriptFile(Object scriptFile) {
+		_scriptFile = scriptFile;
+	}
+
 	@Internal
 	protected List<String> getCompleteArgs() {
 		File scriptFile = getScriptFile();
