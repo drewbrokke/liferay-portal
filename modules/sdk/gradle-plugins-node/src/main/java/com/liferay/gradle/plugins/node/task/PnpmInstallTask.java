@@ -5,7 +5,6 @@
 
 package com.liferay.gradle.plugins.node.task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,9 +18,9 @@ public class PnpmInstallTask extends ExecutePnpmTask {
 	}
 
 	protected void executePnpmInstall(boolean reset) throws Exception {
-		//		Project project = getProject();
+		//Project project = getProject();
 
-		//		File cacheDir = getCacheDir();
+		//File cacheDir = getCacheDir();
 
 		super.executeNode();
 	}
