@@ -7,7 +7,6 @@ package com.liferay.gradle.plugins.node.task;
 
 import com.liferay.gradle.plugins.node.NodePlugin;
 import com.liferay.gradle.plugins.node.internal.PnpmExecutor;
-import com.liferay.gradle.plugins.node.internal.util.FileUtil;
 import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
 
 import java.io.File;
@@ -60,7 +59,7 @@ public class ExecutePnpmTask extends DefaultTask {
 	}
 
 	@TaskAction
-	public void executeNode() throws Exception {
+	public void executePnpm() throws Exception {
 		setArgs(getCompleteArgs());
 
 		int pnpmInstallRetries = getNpmInstallRetries();
@@ -116,6 +115,11 @@ public class ExecutePnpmTask extends DefaultTask {
 		return _pnpmExecutor.getEnvironment();
 	}
 
+	@Internal
+	public File getNodeDir() {
+		return _pnpmExecutor.getNodeDir();
+	}
+
 	@Input
 	public int getNpmInstallRetries() {
 		return _pnpmInstallRetries;
@@ -131,19 +135,13 @@ public class ExecutePnpmTask extends DefaultTask {
 	}
 
 	@Internal
-	public File getScriptFile() {
-		File file = GradleUtil.toFile(getProject(), _scriptFile);
-
-		if (file == null) {
-			return null;
-		}
-
-		return file;
-	}
-
-	@Internal
 	public File getWorkingDir() {
 		return _pnpmExecutor.getWorkingDir();
+	}
+
+	@Input
+	public boolean isUseGradleExec() {
+		return _pnpmExecutor.isUseGradleExec();
 	}
 
 	public void setArgs(Iterable<?> args) {
@@ -162,23 +160,19 @@ public class ExecutePnpmTask extends DefaultTask {
 		_pnpmExecutor.setEnvironment(environment);
 	}
 
-	public void setScriptFile(Object scriptFile) {
-		_scriptFile = scriptFile;
+	public void setNodeDir(Object nodeDir) {
+		_pnpmExecutor.setNodeDir(nodeDir);
+	}
+
+	public void setUseGradleExec(boolean useGradleExec) {
+		_pnpmExecutor.setUseGradleExec(useGradleExec);
 	}
 
 	@Internal
 	protected List<String> getCompleteArgs() {
-		File scriptFile = getScriptFile();
-
 		List<String> args = GradleUtil.toStringList(getArgs());
 
-		if (scriptFile == null) {
-			return args;
-		}
-
 		List<String> completeArgs = new ArrayList<>();
-
-		completeArgs.add(FileUtil.getAbsolutePath(scriptFile));
 
 		completeArgs.addAll(args);
 
@@ -188,6 +182,5 @@ public class ExecutePnpmTask extends DefaultTask {
 	private final PnpmExecutor _pnpmExecutor;
 	private int _pnpmInstallRetries;
 	private String _result;
-	private Object _scriptFile;
 
 }

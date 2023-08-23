@@ -120,6 +120,14 @@ public class PnpmExecutor {
 		environment(environment);
 	}
 
+	public void setNodeDir(Object nodeDir) {
+		_nodeDir = nodeDir;
+	}
+
+	public void setUseGradleExec(boolean useGradleExec) {
+		_useGradleExec = useGradleExec;
+	}
+
 	private String _executeGradleExec() {
 		final ByteArrayOutputStream byteArrayOutputStream =
 			new ByteArrayOutputStream();
@@ -152,7 +160,7 @@ public class PnpmExecutor {
 		processBuilder.directory(getWorkingDir());
 		processBuilder.redirectErrorStream(true);
 
-		//		_updateEnvironment(processBuilder.environment());
+		_updateEnvironment(processBuilder.environment());
 
 		if (_logger.isInfoEnabled()) {
 			_logger.info(
@@ -209,13 +217,26 @@ public class PnpmExecutor {
 
 		GUtil.addToMap(newEnvironment, environment);
 
-		//		_updateEnvironment(newEnvironment);
+		_updateEnvironment(newEnvironment);
 
 		return newEnvironment;
 	}
 
 	private String _getExecutable() {
 		String executable = GradleUtil.toString(_command);
+
+		if (OSDetector.isWindows()) {
+			executable += "-win-x64.exe";
+		}
+		else if (OSDetector.isApple()) {
+			executable += "-macos-x64";
+		}
+		else if (OSDetector.isAppleARM()) {
+			executable += "-macos-arm64";
+		}
+		else {
+			executable += "-linux-x64";
+		}
 
 		File executableDir = _getExecutableDir();
 
@@ -235,7 +256,7 @@ public class PnpmExecutor {
 			return null;
 		}
 
-		return NodePluginUtil.getBinDir(nodeDir);
+		return NodePluginUtil.getBinDir(NodePluginUtil.getPnpmDir(nodeDir));
 	}
 
 	private List<String> _getWindowsArgs() {
@@ -276,6 +297,29 @@ public class PnpmExecutor {
 
 		return windowsArgs;
 	}
+
+	private void _updateEnvironment(Map<String, String> environment) {
+		GUtil.addToMap(environment, getEnvironment());
+
+		File executableDir = _getExecutableDir();
+
+		if (executableDir != null) {
+			for (String pathKey : _PATH_KEYS) {
+				String path = environment.get(pathKey);
+
+				if (Validator.isNull(path)) {
+					continue;
+				}
+
+				path =
+					executableDir.getAbsolutePath() + File.pathSeparator + path;
+
+				environment.put(pathKey, path);
+			}
+		}
+	}
+
+	private static final String[] _PATH_KEYS = {"Path", "PATH"};
 
 	private static final Logger _logger = Logging.getLogger(PnpmExecutor.class);
 
