@@ -13,7 +13,7 @@ import java.util.List;
 public class PnpmInstallTask extends ExecutePnpmTask {
 
 	@Override
-	public void executeNode() throws Exception {
+	public void executePnpm() throws Exception {
 		executePnpmInstall(false);
 	}
 
@@ -22,7 +22,7 @@ public class PnpmInstallTask extends ExecutePnpmTask {
 
 		//File cacheDir = getCacheDir();
 
-		super.executeNode();
+		super.executePnpm();
 	}
 
 	@Override

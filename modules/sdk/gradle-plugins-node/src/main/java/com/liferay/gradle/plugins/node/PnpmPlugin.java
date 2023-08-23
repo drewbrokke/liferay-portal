@@ -45,7 +45,10 @@ public class PnpmPlugin implements Plugin<Project> {
 
 				@Override
 				public void execute(ExecutePnpmTask executePnpmTask) {
-					executePnpmTask.setScriptFile(
+					executePnpmTask.setUseGradleExec(
+						GradleUtil.isRunningInsideDaemon());
+
+					executePnpmTask.setNodeDir(
 						new Callable<File>() {
 
 							@Override
@@ -55,7 +58,11 @@ public class PnpmPlugin implements Plugin<Project> {
 										executePnpmTask.getProject(),
 										NodeExtension.class);
 
-								return nodeExtension.getScriptFile();
+								if (nodeExtension.isDownload()) {
+									return nodeExtension.getNodeDir();
+								}
+
+								return null;
 							}
 
 						});
