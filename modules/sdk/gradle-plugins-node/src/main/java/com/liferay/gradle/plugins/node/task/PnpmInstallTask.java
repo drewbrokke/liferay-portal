@@ -5,7 +5,14 @@
 
 package com.liferay.gradle.plugins.node.task;
 
+import com.liferay.gradle.plugins.node.internal.util.FileUtil;
+
+import java.io.File;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import org.gradle.api.Project;
 
 /**
  * @author Seiphon Wang
@@ -18,9 +25,9 @@ public class PnpmInstallTask extends ExecutePnpmTask {
 	}
 
 	protected void executePnpmInstall(boolean reset) throws Exception {
-		//Project project = getProject();
+		Project project = getProject();
 
-		//File cacheDir = getCacheDir();
+		_addPnpmWorkspaceYamlFile(project);
 
 		super.executePnpm();
 	}
@@ -32,6 +39,27 @@ public class PnpmInstallTask extends ExecutePnpmTask {
 		completeArgs.add("install");
 
 		return completeArgs;
+	}
+
+	private void _addPnpmWorkspaceYamlFile(Project project) throws Exception {
+		File pnpmWorkspaceYamlFile = project.file("pnpm-workspace.yaml");
+
+		if (!pnpmWorkspaceYamlFile.exists()) {
+			pnpmWorkspaceYamlFile = new File(
+				project.getRootDir(), "pnpm-workspace.yaml");
+		}
+
+		List<String> contents = new ArrayList<>();
+
+		contents.add("packages:");
+		contents.add("  # all packages in subdirs of modules/");
+		contents.add("  - 'modules/**'");
+		contents.add("  # all packages in direct subdirs of themes/");
+		contents.add("  - 'themes/*'");
+		contents.add("  # exclude packages that are inside test directories");
+		contents.add("  - '!**/test/**'");
+
+		FileUtil.write(pnpmWorkspaceYamlFile, contents);
 	}
 
 }
