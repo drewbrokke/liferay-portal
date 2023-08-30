@@ -6,6 +6,7 @@
 package com.liferay.gradle.plugins.node.task;
 
 import com.liferay.gradle.plugins.node.internal.util.FileUtil;
+import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
 
 import java.io.File;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.gradle.api.Project;
+import org.gradle.api.tasks.Input;
 
 /**
  * @author Seiphon Wang
@@ -24,10 +26,17 @@ public class PnpmInstallTask extends ExecutePnpmTask {
 		executePnpmInstall(false);
 	}
 
-	protected void executePnpmInstall(boolean reset) throws Exception {
-		Project project = getProject();
+	@Input
+	public boolean isFrozenLockFile() {
+		return GradleUtil.toBoolean(_frozenLockFile);
+	}
 
-		_addPnpmWorkspaceYamlFile(project);
+	public void setFrozenLockFile(Object frozenLockFile) {
+		_frozenLockFile = frozenLockFile;
+	}
+
+	protected void executePnpmInstall(boolean reset) throws Exception {
+		_addPnpmWorkspaceYamlFile(getProject());
 
 		super.executePnpm();
 	}
@@ -37,6 +46,10 @@ public class PnpmInstallTask extends ExecutePnpmTask {
 		List<String> completeArgs = super.getCompleteArgs();
 
 		completeArgs.add("install");
+
+		if (isFrozenLockFile()) {
+			completeArgs.add("--frozen-lockfile");
+		}
 
 		return completeArgs;
 	}
@@ -61,5 +74,7 @@ public class PnpmInstallTask extends ExecutePnpmTask {
 
 		FileUtil.write(pnpmWorkspaceYamlFile, contents);
 	}
+
+	private Object _frozenLockFile;
 
 }

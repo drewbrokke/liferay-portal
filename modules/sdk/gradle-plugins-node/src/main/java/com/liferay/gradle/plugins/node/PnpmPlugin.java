@@ -125,6 +125,10 @@ public class PnpmPlugin implements Plugin<Project> {
 				public void execute(PnpmInstallTask pnpmInstallTask) {
 					pnpmInstallTask.setDescription(
 						"Installs Node packages from package.json.");
+					pnpmInstallTask.setFrozenLockFile(
+						Boolean.parseBoolean(
+							System.getProperty(
+								"frozen.lockfile", Boolean.TRUE.toString())));
 				}
 
 			});
