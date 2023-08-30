@@ -23,6 +23,12 @@ public class PnpmInstallTask extends ExecutePnpmTask {
 
 	@Override
 	public void executePnpm() throws Exception {
+		File npmrcFile = _getNpmrcFile();
+
+		if (!npmrcFile.exists()) {
+			_createNpmrcFile(npmrcFile);
+		}
+
 		executePnpmInstall(false);
 	}
 
@@ -73,6 +79,18 @@ public class PnpmInstallTask extends ExecutePnpmTask {
 		contents.add("  - '!**/test/**'");
 
 		FileUtil.write(pnpmWorkspaceYamlFile, contents);
+	}
+
+	private void _createNpmrcFile(File npmrcFile) throws Exception {
+		List<String> contents = new ArrayList<>();
+
+		contents.add("store-dir = ./node_modules_cache");
+
+		FileUtil.write(npmrcFile, contents);
+	}
+
+	private File _getNpmrcFile() {
+		return new File(getWorkingDir(), ".npmrc");
 	}
 
 	private Object _frozenLockFile;
