@@ -34,6 +34,14 @@ public class PnpmInstallTask extends ExecutePnpmTask {
 
 	@Input
 	public boolean isFrozenLockFile() {
+		Project project = getProject();
+
+		File pnpmLockYamlFile = project.file("pnpm-lock.yaml");
+
+		if (!pnpmLockYamlFile.exists()) {
+			return false;
+		}
+
 		return GradleUtil.toBoolean(_frozenLockFile);
 	}
 
