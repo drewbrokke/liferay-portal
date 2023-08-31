@@ -228,11 +228,11 @@ public class PnpmExecutor {
 		if (OSDetector.isWindows()) {
 			executable += "-win-x64.exe";
 		}
-		else if (OSDetector.isApple()) {
-			executable += "-macos-x64";
-		}
 		else if (OSDetector.isAppleARM()) {
 			executable += "-macos-arm64";
+		}
+		else if (OSDetector.isApple()) {
+			executable += "-macos-x64";
 		}
 		else {
 			executable += "-linux-x64";

@@ -165,13 +165,13 @@ public class NodeExtension {
 					return "https://github.com/pnpm/pnpm/releases/download/v" +
 						pnpmVersion + "/pnpm-win-x64.exe";
 				}
-				else if (OSDetector.isApple()) {
-					return "https://github.com/pnpm/pnpm/releases/download/v" +
-						pnpmVersion + "/pnpm-macos-x64";
-				}
 				else if (OSDetector.isAppleARM()) {
 					return "https://github.com/pnpm/pnpm/releases/download/v" +
 						pnpmVersion + "/pnpm-macos-arm64";
+				}
+				else if (OSDetector.isApple()) {
+					return "https://github.com/pnpm/pnpm/releases/download/v" +
+						pnpmVersion + "/pnpm-macos-x64";
 				}
 
 				return "https://github.com/pnpm/pnpm/releases/download/v" +
