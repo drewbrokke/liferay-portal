@@ -18,12 +18,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
+import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.gradle.api.Action;
 import org.gradle.api.Project;
@@ -242,6 +247,26 @@ public class PnpmExecutor {
 
 		if (executableDir != null) {
 			File executableFile = new File(executableDir, executable);
+
+			if (executableFile.exists() && !OSDetector.isWindows()) {
+				Set<PosixFilePermission> permissions = new HashSet<>();
+
+				permissions.add(PosixFilePermission.GROUP_EXECUTE);
+				permissions.add(PosixFilePermission.OTHERS_EXECUTE);
+				permissions.add(PosixFilePermission.OWNER_EXECUTE);
+				permissions.add(PosixFilePermission.OWNER_READ);
+				permissions.add(PosixFilePermission.OWNER_WRITE);
+
+				try {
+					Files.setPosixFilePermissions(
+						executableFile.toPath(), permissions);
+				}
+				catch (IOException ioException) {
+					new IOException(
+						"There is no execute permission for executable file " +
+							executableFile.getAbsolutePath());
+				}
+			}
 
 			executable = executableFile.getAbsolutePath();
 		}
