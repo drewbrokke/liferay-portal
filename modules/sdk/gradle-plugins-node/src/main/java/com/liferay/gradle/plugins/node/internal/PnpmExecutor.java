@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
@@ -233,11 +233,13 @@ public class PnpmExecutor {
 		if (OSDetector.isWindows()) {
 			executable += "-win-x64.exe";
 		}
-		else if (OSDetector.isAppleARM()) {
-			executable += "-macos-arm64";
-		}
 		else if (OSDetector.isApple()) {
-			executable += "-macos-x64";
+			if (OSDetector.isAppleARM()) {
+				executable += "-macos-arm64";
+			}
+			else {
+				executable += "-macos-x64";
+			}
 		}
 		else {
 			executable += "-linux-x64";
