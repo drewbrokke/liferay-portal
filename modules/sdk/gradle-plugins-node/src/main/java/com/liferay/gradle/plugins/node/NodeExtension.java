@@ -166,10 +166,13 @@ public class NodeExtension {
 						pnpmVersion + "/pnpm-win-x64.exe";
 				}
 				else if (OSDetector.isAppleARM()) {
-					return "https://github.com/pnpm/pnpm/releases/download/v" +
-						pnpmVersion + "/pnpm-macos-arm64";
 				}
 				else if (OSDetector.isApple()) {
+					if (OSDetector.isAppleARM()) {
+						return "https://github.com/pnpm/pnpm/releases" +
+							"/download/v" + pnpmVersion + "/pnpm-macos-arm64";
+					}
+
 					return "https://github.com/pnpm/pnpm/releases/download/v" +
 						pnpmVersion + "/pnpm-macos-x64";
 				}
