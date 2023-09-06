@@ -103,7 +103,7 @@ public class PnpmPlugin implements Plugin<Project> {
 										npmInstallTask.getProject(),
 										NodeExtension.class);
 
-								nodeExtension.setUsingNPM("pnpm");
+								nodeExtension.setPackageManager("pnpm");
 
 								npmInstallTask.finalizedBy(
 									pnpmInstallTaskProvider);

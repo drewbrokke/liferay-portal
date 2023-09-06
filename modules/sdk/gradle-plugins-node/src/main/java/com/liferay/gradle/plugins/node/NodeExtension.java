@@ -195,11 +195,11 @@ public class NodeExtension {
 					return null;
 				}
 
-				if (Objects.equals(getUsingNPM(), "npm")) {
+				if (Objects.equals(getPackageManager(), "npm")) {
 					return new File(
 						NodePluginUtil.getNpmDir(nodeDir), "bin/npm-cli.js");
 				}
-				else if (Objects.equals(getUsingNPM(), "pnpm")) {
+				else if (Objects.equals(getPackageManager(), "pnpm")) {
 					String scriptFileName = "pnpm-";
 
 					if (OSDetector.isWindows()) {
@@ -275,6 +275,10 @@ public class NodeExtension {
 		return GradleUtil.toString(_npmVersion);
 	}
 
+	public String getPackageManager() {
+		return GradleUtil.toString(_packageManager);
+	}
+
 	public String getPnpmUrl() {
 		return GradleUtil.toString(_pnpmUrl);
 	}
@@ -285,10 +289,6 @@ public class NodeExtension {
 
 	public File getScriptFile() {
 		return GradleUtil.toFile(_project, _scriptFile);
-	}
-
-	public String getUsingNPM() {
-		return GradleUtil.toString(_usingNPM);
 	}
 
 	public String getYarnUrl() {
@@ -355,12 +355,12 @@ public class NodeExtension {
 		_npmVersion = npmVersion;
 	}
 
-	public void setScriptFile(Object scriptFile) {
-		_scriptFile = scriptFile;
+	public void setPackageManager(Object packageManager) {
+		_packageManager = packageManager;
 	}
 
-	public void setUsingNPM(Object usingNPM) {
-		_usingNPM = usingNPM;
+	public void setScriptFile(Object scriptFile) {
+		_scriptFile = scriptFile;
 	}
 
 	public void setYarnUrl(Object yarnUrl) {
@@ -400,11 +400,11 @@ public class NodeExtension {
 	private final List<Object> _npmArgs = new ArrayList<>();
 	private Object _npmUrl;
 	private Object _npmVersion;
+	private Object _packageManager = "yarn";
 	private final Object _pnpmUrl;
 	private final Object _pnpmVersion = "8.6.10";
 	private final Project _project;
 	private Object _scriptFile;
-	private Object _usingNPM = "yarn";
 	private Object _yarnUrl;
 	private Object _yarnVersion = "1.13.0";
 

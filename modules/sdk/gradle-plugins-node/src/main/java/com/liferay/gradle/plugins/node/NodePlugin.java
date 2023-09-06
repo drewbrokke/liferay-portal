@@ -169,7 +169,7 @@ public class NodePlugin implements Plugin<Project> {
 
 					// LPS-110486
 
-					nodeExtension.setUsingNPM("npm");
+					nodeExtension.setPackageManager("npm");
 				}
 
 			});
@@ -442,7 +442,7 @@ public class NodePlugin implements Plugin<Project> {
 
 				@Override
 				public void execute(Plugin plugin) {
-					nodeExtension.setUsingNPM("yarn");
+					nodeExtension.setPackageManager("yarn");
 				}
 
 			});
@@ -623,7 +623,9 @@ public class NodePlugin implements Plugin<Project> {
 
 				@Override
 				public File call() throws Exception {
-					if (Objects.equals(nodeExtension.getUsingNPM(), "npm")) {
+					if (Objects.equals(
+							nodeExtension.getPackageManager(), "npm")) {
+
 						return project.file("node_modules");
 					}
 
@@ -649,7 +651,7 @@ public class NodePlugin implements Plugin<Project> {
 
 				@Override
 				public String call() throws Exception {
-					return nodeExtension.getUsingNPM();
+					return nodeExtension.getPackageManager();
 				}
 
 			});
@@ -659,7 +661,7 @@ public class NodePlugin implements Plugin<Project> {
 		ExecutePackageManagerTask executePackageManagerTask,
 		NodeExtension nodeExtension) {
 
-		if (Objects.equals(nodeExtension.getUsingNPM(), "npm")) {
+		if (Objects.equals(nodeExtension.getPackageManager(), "npm")) {
 			executePackageManagerTask.args(nodeExtension.getNpmArgs());
 		}
 	}
@@ -1013,7 +1015,7 @@ public class NodePlugin implements Plugin<Project> {
 	private File _getYarnWorkingDir(
 		Project project, NodeExtension nodeExtension) {
 
-		if (!Objects.equals(nodeExtension.getUsingNPM(), "yarn")) {
+		if (!Objects.equals(nodeExtension.getPackageManager(), "yarn")) {
 			return null;
 		}
 
