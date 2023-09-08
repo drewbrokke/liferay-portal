@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.liferay.feature.flag.web.internal.company.feature.flags;
+package com.liferay.feature.flag.web.internal.feature.flag;
 
 import com.liferay.feature.flag.web.internal.model.FeatureFlagImpl;
 import com.liferay.portal.kernel.feature.flag.FeatureFlag;
@@ -34,7 +34,7 @@ import org.junit.Test;
 /**
  * @author Drew Brokke
  */
-public class CompanyFeatureFlagsTest {
+public class FeatureFlagsBagTest {
 
 	@ClassRule
 	@Rule
@@ -54,19 +54,19 @@ public class CompanyFeatureFlagsTest {
 			featureFlagsMap.put(featureFlag.getKey(), featureFlag);
 		}
 
-		_companyFeatureFlags = new CompanyFeatureFlags(featureFlagsMap);
+		_featureFlagsBag = new FeatureFlagsBag(featureFlagsMap, 1L);
 	}
 
 	@Test
 	public void testGetFeatureFlags() {
-		List<FeatureFlag> actualFeatureFlags =
-			_companyFeatureFlags.getFeatureFlags(null);
+		List<FeatureFlag> actualFeatureFlags = _featureFlagsBag.getFeatureFlags(
+			null);
 
 		Assert.assertEquals(
 			actualFeatureFlags.toString(), _expectedFeatureFlags.length,
 			actualFeatureFlags.size());
 
-		actualFeatureFlags = _companyFeatureFlags.getFeatureFlags(
+		actualFeatureFlags = _featureFlagsBag.getFeatureFlags(
 			FeatureFlagType.BETA.getPredicate());
 
 		Assert.assertEquals(
@@ -80,7 +80,7 @@ public class CompanyFeatureFlagsTest {
 	@Test
 	public void testGetJSON() throws JSONException {
 		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
-			_companyFeatureFlags.getJSON());
+			_featureFlagsBag.getJSON());
 
 		Set<String> set = jsonObject.keySet();
 
@@ -102,17 +102,17 @@ public class CompanyFeatureFlagsTest {
 		for (FeatureFlag expectedFeatureFlag : _expectedFeatureFlags) {
 			Assert.assertEquals(
 				expectedFeatureFlag.isEnabled(),
-				_companyFeatureFlags.isEnabled(expectedFeatureFlag.getKey()));
+				_featureFlagsBag.isEnabled(expectedFeatureFlag.getKey()));
 		}
 
 		String randomKey = _createKey();
 
-		Assert.assertFalse(_companyFeatureFlags.isEnabled(randomKey));
+		Assert.assertFalse(_featureFlagsBag.isEnabled(randomKey));
 
 		PropsUtil.set(
 			FeatureFlagConstants.getKey(randomKey), Boolean.TRUE.toString());
 
-		Assert.assertTrue(_companyFeatureFlags.isEnabled(randomKey));
+		Assert.assertTrue(_featureFlagsBag.isEnabled(randomKey));
 	}
 
 	private FeatureFlag _createFeatureFlag(FeatureFlagType featureFlagType) {
@@ -130,12 +130,12 @@ public class CompanyFeatureFlagsTest {
 
 	private final FeatureFlag _betaFeatureFlag = _createFeatureFlag(
 		FeatureFlagType.BETA);
-	private CompanyFeatureFlags _companyFeatureFlags;
 	private final FeatureFlag _deprecationFeatureFlag = _createFeatureFlag(
 		FeatureFlagType.DEPRECATION);
 	private final FeatureFlag _devFeatureFlag = _createFeatureFlag(
 		FeatureFlagType.DEV);
 	private FeatureFlag[] _expectedFeatureFlags;
+	private FeatureFlagsBag _featureFlagsBag;
 	private final FeatureFlag _releaseFeatureFlag = _createFeatureFlag(
 		FeatureFlagType.RELEASE);
 
