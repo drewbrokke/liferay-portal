@@ -14,10 +14,14 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
+import com.liferay.portal.kernel.feature.flag.constants.FeatureFlagConstants;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.Serializable;
@@ -76,6 +80,14 @@ public class ConfigurationVisibilityUtil {
 
 		if (Validator.isBlank(featureFlagKey)) {
 			return true;
+		}
+
+		if (GetterUtil.getBoolean(
+				PropsUtil.get(
+					FeatureFlagConstants.getKey(featureFlagKey, "system")))) {
+
+			return FeatureFlagManagerUtil.isEnabled(
+				CompanyConstants.SYSTEM, featureFlagKey);
 		}
 
 		if (scope.equals(ExtendedObjectClassDefinition.Scope.COMPANY)) {
