@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.liferay.feature.flag.web.internal.company.feature.flags;
+package com.liferay.feature.flag.web.internal.feature.flag;
 
 import com.liferay.feature.flag.web.internal.manager.FeatureFlagPreferencesManager;
 import com.liferay.feature.flag.web.internal.model.DependencyAwareFeatureFlag;
@@ -13,18 +13,16 @@ import com.liferay.feature.flag.web.internal.model.PreferenceAwareFeatureFlag;
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.cluster.ClusterExecutor;
-import com.liferay.portal.kernel.cluster.ClusterRequest;
 import com.liferay.portal.kernel.feature.flag.FeatureFlag;
 import com.liferay.portal.kernel.feature.flag.constants.FeatureFlagConstants;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.MethodHandler;
-import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 import java.util.ArrayList;
@@ -34,65 +32,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 /**
- * @author Drew Brokke
+ * @author Thiago Buarque
  */
-@Component(service = CompanyFeatureFlagsProvider.class)
-public class CompanyFeatureFlagsProvider {
+public class FeatureFlagFactory {
 
-	public CompanyFeatureFlags getOrCreateCompanyFeatureFlags(long companyId) {
-		return _companyFeatureFlagsMap.computeIfAbsent(
-			companyId, key -> _createCompanyFeatureFlags(key));
-	}
+	public FeatureFlagsBag create(
+		long companyId,
+		FeatureFlagPreferencesManager featureFlagPreferencesManager,
+		Language language) {
 
-	public void setEnabled(long companyId, String key, boolean enabled) {
-		_featureFlagPreferencesManager.setEnabled(companyId, key, enabled);
-
-		_setEnabled(companyId, key, enabled);
-
-		if (!_clusterExecutor.isEnabled()) {
-			return;
-		}
-
-		MethodHandler methodHandler = new MethodHandler(
-			_setEnabledMethodKey, companyId, key, enabled);
-
-		ClusterRequest clusterRequest = ClusterRequest.createMulticastRequest(
-			methodHandler, true);
-
-		clusterRequest.setFireAndForget(true);
-
-		_clusterExecutor.execute(clusterRequest);
-	}
-
-	public <T> T withCompanyFeatureFlags(
-		long companyId, Function<CompanyFeatureFlags, T> function) {
-
-		return function.apply(getOrCreateCompanyFeatureFlags(companyId));
-	}
-
-	private static void _setEnabled(
-		long companyId, String key, boolean enabled) {
-
-		CompanyFeatureFlags companyFeatureFlags = _companyFeatureFlagsMap.get(
-			companyId);
-
-		if (companyFeatureFlags == null) {
-			return;
-		}
-
-		companyFeatureFlags.setEnabled(key, enabled);
-	}
-
-	private CompanyFeatureFlags _createCompanyFeatureFlags(long companyId) {
 		try (SafeCloseable safeCloseable =
 				CompanyThreadLocal.setWithSafeCloseable(companyId)) {
 
@@ -108,15 +60,22 @@ public class CompanyFeatureFlagsProvider {
 					continue;
 				}
 
-				FeatureFlag featureFlag = new FeatureFlagImpl(
-					stringPropertyName);
+				boolean system = GetterUtil.getBoolean(
+					properties.get(stringPropertyName + ".system"));
 
-				featureFlag = new LanguageAwareFeatureFlag(
-					featureFlag, _language);
-				featureFlag = new PreferenceAwareFeatureFlag(
-					companyId, featureFlag, _featureFlagPreferencesManager);
+				if ((system && (companyId == CompanyConstants.SYSTEM)) ||
+					(!system && (companyId != CompanyConstants.SYSTEM))) {
 
-				featureFlagsMap.put(featureFlag.getKey(), featureFlag);
+					FeatureFlag featureFlag = new FeatureFlagImpl(
+						stringPropertyName);
+
+					featureFlag = new LanguageAwareFeatureFlag(
+						featureFlag, language);
+					featureFlag = new PreferenceAwareFeatureFlag(
+						companyId, featureFlag, featureFlagPreferencesManager);
+
+					featureFlagsMap.put(featureFlag.getKey(), featureFlag);
+				}
 			}
 
 			for (Map.Entry<String, FeatureFlag> entry :
@@ -131,6 +90,21 @@ public class CompanyFeatureFlagsProvider {
 						_log.error(
 							"A feature flag cannot depend on itself: " +
 								dependencyKey);
+
+						continue;
+					}
+
+					if ((companyId == CompanyConstants.SYSTEM) &&
+						!GetterUtil.getBoolean(
+							properties.get(
+								FeatureFlagConstants.getKey(
+									dependencyKey, "system")))) {
+
+						_log.error(
+							String.format(
+								"The system feature flag %s cannot depend on " +
+									"the non-system feature flag %s",
+								featureFlag.getKey(), dependencyKey));
 
 						continue;
 					}
@@ -164,28 +138,14 @@ public class CompanyFeatureFlagsProvider {
 				}
 			}
 
-			return new CompanyFeatureFlags(
-				Collections.unmodifiableMap(featureFlagsMap));
+			return new FeatureFlagsBag(
+				Collections.unmodifiableMap(featureFlagsMap), companyId);
 		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		CompanyFeatureFlagsProvider.class);
+		FeatureFlagFactory.class);
 
-	private static final Map<Long, CompanyFeatureFlags>
-		_companyFeatureFlagsMap = new ConcurrentHashMap<>();
 	private static final Pattern _pattern = Pattern.compile("^([A-Z\\-0-9]+)$");
-	private static final MethodKey _setEnabledMethodKey = new MethodKey(
-		CompanyFeatureFlagsProvider.class, "_setEnabled", long.class,
-		String.class, boolean.class);
-
-	@Reference
-	private ClusterExecutor _clusterExecutor;
-
-	@Reference
-	private FeatureFlagPreferencesManager _featureFlagPreferencesManager;
-
-	@Reference
-	private Language _language;
 
 }
