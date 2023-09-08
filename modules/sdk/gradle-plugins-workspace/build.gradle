@@ -216,11 +216,11 @@ eclipse.classpath.file {
 }
 
 gradleTest {
-	dependsOn copyBundle
-	dependsOn copyDistBundleZipPluginsSdk
+	// dependsOn copyBundle
+	// dependsOn copyDistBundleZipPluginsSdk
 	dependsOn copyGradleTestDependencies
 	dependsOn copyGradleTestProjects
-	dependsOn copyHotFixZip
+	// dependsOn copyHotFixZip
 	dependsOn copyRepo
 	dependsOn copyWorkspacesSamples
 	dependsOn jar

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import com.liferay.gradle.plugins.LiferayBasePlugin;
 import com.liferay.gradle.plugins.extensions.LiferayExtension;
+import com.liferay.gradle.plugins.node.task.ExecuteNodeTask;
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
 import com.liferay.gradle.plugins.workspace.WorkspacePlugin;
 import com.liferay.gradle.plugins.workspace.internal.client.extension.ClientExtension;
@@ -37,6 +38,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -74,11 +77,15 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.provider.SetProperty;
 import org.gradle.api.tasks.Copy;
 import org.gradle.api.tasks.Delete;
+import org.gradle.api.tasks.Exec;
+import org.gradle.api.tasks.JavaExec;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskInputs;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.bundling.Zip;
 import org.gradle.language.base.plugins.LifecycleBasePlugin;
+import org.gradle.process.BaseExecSpec;
+import org.gradle.process.ProcessForkOptions;
 
 /**
  * @author Gregory Amerson
@@ -255,6 +262,67 @@ public class ClientExtensionProjectConfigurator
 		_addDockerTasks(
 			project, assembleClientExtensionTaskProvider,
 			createClientExtensionConfigTaskProvider, workspaceExtension);
+
+		_configureLiferayRoutes(project, workspaceExtension);
+	}
+
+	private static void _configureLiferayRoutes(
+		Project project, WorkspaceExtension workspaceExtension) {
+		Map<String, String> environmentVariables = new HashMap<>();
+
+		String liferayVirtualInstanceId = GradleUtil.getProperty(project.getRootProject(), "liferay.virtual.instance.id", "default");
+
+		environmentVariables.put(
+			"LIFERAY_ROUTES_CLIENT_EXTENSION",
+			String.format(
+				"%s/routes/%s/%s", workspaceExtension.getHomeDir(),
+				liferayVirtualInstanceId, project.getName()));
+		environmentVariables.put(
+			"LIFERAY_ROUTES_DXP",
+			String.format(
+				"%s/routes/%s/dxp", workspaceExtension.getHomeDir(),
+				liferayVirtualInstanceId));
+
+		project.afterEvaluate(p -> {
+			for (Task task : project.getTasks()) {
+				Class<? extends Task> aClass = task.getClass();
+
+				try {
+					Method environment = aClass.getMethod("environment", Map.class);
+
+					environment.invoke(task, environmentVariables);
+				}
+				catch (Exception e) {
+//					throw new RuntimeException(e);
+				}
+
+//				if (task instanceof ProcessForkOptions) {
+//					ProcessForkOptions processForkOptions = (ProcessForkOptions)task;
+//
+//					processForkOptions.environment(environmentVariables);
+//
+//					_logLiferayRoutesInjection(task, environmentVariables);
+//				}
+//				if (task instanceof ExecuteNodeTask) {
+//					ExecuteNodeTask executeNodeTask = (ExecuteNodeTask)task;
+//
+//					executeNodeTask.environment(environmentVariables);
+//
+//					_logLiferayRoutesInjection(task, environmentVariables);
+//				}
+			}
+		});
+	}
+
+	private void _logLiferayRoutesInjection(Task task, Map<String, String> environmentVariables) {
+		Logger logger = task.getLogger();
+
+		if (logger.isInfoEnabled()) {
+			logger.info("Injecting Liferay Routes configuration paths as environment variables into task {}", task.getPath());
+			for (Map.Entry<String, String> entry : environmentVariables.entrySet()) {
+				logger.info("{}: {}", entry.getKey(), entry.getValue());
+			}
+		}
 	}
 
 	@Override
