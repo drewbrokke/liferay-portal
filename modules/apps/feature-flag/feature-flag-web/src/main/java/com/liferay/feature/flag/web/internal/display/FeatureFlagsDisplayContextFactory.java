@@ -6,25 +6,31 @@
 package com.liferay.feature.flag.web.internal.display;
 
 import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
-import com.liferay.feature.flag.web.internal.company.feature.flags.CompanyFeatureFlags;
-import com.liferay.feature.flag.web.internal.company.feature.flags.CompanyFeatureFlagsProvider;
+import com.liferay.feature.flag.web.internal.feature.flag.FeatureFlagsBag;
+import com.liferay.feature.flag.web.internal.feature.flag.FeatureFlagsBagProvider;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
 import com.liferay.portal.kernel.feature.flag.FeatureFlag;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagType;
+import com.liferay.portal.kernel.feature.flag.constants.FeatureFlagConstants;
+import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.SearchOrderByUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -46,7 +52,7 @@ import org.osgi.service.component.annotations.Reference;
 public class FeatureFlagsDisplayContextFactory {
 
 	public FeatureFlagsDisplayContext create(
-		FeatureFlagType featureFlagType,
+		boolean systemScoped, FeatureFlagType featureFlagType,
 		HttpServletRequest httpServletRequest) {
 
 		FeatureFlagsDisplayContext featureFlagsDisplayContext =
@@ -113,17 +119,19 @@ public class FeatureFlagsDisplayContextFactory {
 
 		Predicate<FeatureFlag> finalPredicate = predicate;
 
-		CompanyFeatureFlags companyFeatureFlags =
-			_companyFeatureFlagsProvider.getOrCreateCompanyFeatureFlags(
-				_portal.getCompanyId(httpServletRequest));
+		long featureFlagCompanyId = systemScoped ? CompanyConstants.SYSTEM :
+			_portal.getCompanyId(httpServletRequest);
+
+		FeatureFlagsBag featureFlagsBag =
+			_featureFlagsBagProvider.getOrCreateFeatureFlagsBag(
+				featureFlagCompanyId);
 
 		List<FeatureFlagDisplay> featureFlagDisplays = TransformUtil.transform(
-			companyFeatureFlags.getFeatureFlags(finalPredicate),
+			featureFlagsBag.getFeatureFlags(finalPredicate),
 			featureFlag -> new FeatureFlagDisplay(
-				companyFeatureFlags.getFeatureFlags(
-					featureFlag1 -> ArrayUtil.contains(
-						featureFlag.getDependencyKeys(),
-						featureFlag1.getKey())),
+				featureFlagCompanyId,
+				_getDependentFeatureFlags(
+					featureFlagCompanyId, featureFlag, featureFlagsBag),
 				featureFlag, locale));
 
 		Comparator<FeatureFlagDisplay> comparator = Comparator.comparing(
@@ -164,12 +172,54 @@ public class FeatureFlagsDisplayContextFactory {
 		return normalized.contains(_normalize(locale, s2));
 	}
 
+	private List<FeatureFlag> _getDependentFeatureFlags(
+		long companyId, FeatureFlag featureFlag,
+		FeatureFlagsBag featureFlagsBag) {
+
+		List<String> featureFlagKeys = new ArrayList<>(
+			Arrays.asList(featureFlag.getDependencyKeys()));
+
+		List<FeatureFlag> dependentFeatureFlags = new ArrayList<>();
+
+		if (companyId != CompanyConstants.SYSTEM) {
+			List<String> systemFeatureFlagKeys = new ArrayList<>();
+
+			for (String key : featureFlagKeys) {
+				if (GetterUtil.getBoolean(
+						PropsUtil.get(
+							FeatureFlagConstants.getKey(key, "system")))) {
+
+					systemFeatureFlagKeys.add(key);
+				}
+			}
+
+			featureFlagKeys.removeAll(systemFeatureFlagKeys);
+
+			FeatureFlagsBag systemFeatureFlagsBag =
+				_featureFlagsBagProvider.getOrCreateFeatureFlagsBag(
+					CompanyConstants.SYSTEM);
+
+			dependentFeatureFlags.addAll(
+				systemFeatureFlagsBag.getFeatureFlags(
+					featureFlag1 -> ArrayUtil.contains(
+						systemFeatureFlagKeys.toArray(),
+						featureFlag1.getKey())));
+		}
+
+		dependentFeatureFlags.addAll(
+			featureFlagsBag.getFeatureFlags(
+				featureFlag1 -> ArrayUtil.contains(
+					featureFlagKeys.toArray(), featureFlag1.getKey())));
+
+		return dependentFeatureFlags;
+	}
+
 	private String _normalize(Locale locale, String string) {
 		return StringUtil.toLowerCase(string, locale);
 	}
 
 	@Reference
-	private CompanyFeatureFlagsProvider _companyFeatureFlagsProvider;
+	private FeatureFlagsBagProvider _featureFlagsBagProvider;
 
 	@Reference
 	private Portal _portal;
