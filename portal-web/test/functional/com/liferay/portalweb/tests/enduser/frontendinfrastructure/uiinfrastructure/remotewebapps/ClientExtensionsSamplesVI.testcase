@@ -40,7 +40,7 @@ definition {
 	@priority = 4
 	test AssertSamplesInConsoleAndAdminPage {
 		task ("Deploy multiple Client Extension samples into into the current virtual instance") {
-			var clientExtensionSamples = "liferay-sample-custom-element-1-vanilla-js,liferay-sample-custom-element-2-create-react-app,liferay-sample-global-css,liferay-sample-global-js,liferay-sample-iframe-1-application,liferay-sample-theme-css-1-theme-styled,liferay-sample-theme-favicon,liferay-sample-theme-spritemap-1";
+			var clientExtensionSamples = "liferay-sample-custom-element-1-vanilla-js,liferay-sample-custom-element-2-create-react-app,liferay-sample-global-css,liferay-sample-global-js,liferay-sample-iframe-1-application,liferay-sample-theme-css-1-theme-styled,liferay-sample-theme-favicon,liferay-sample-theme-spritemap-1-static-asset";
 
 			for (var clientExtension : list ${clientExtensionSamples}) {
 				AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "deploy-workspace-client-extension -Dvirtual.instance.id=${companyWebId} -Dworkspace.client.extension.name=${clientExtension}");
@@ -501,7 +501,7 @@ definition {
 	@priority = 4
 	test LiferaySampleThemeSpritemap1Smoke {
 		task ("Deploy Liferay Sample Theme Spritemap 1 into the current virtual instance") {
-			var clientExtensionSamples = "liferay-sample-theme-spritemap-1";
+			var clientExtensionSamples = "liferay-sample-theme-spritemap-1-static-asset";
 
 			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "deploy-workspace-client-extension -Dvirtual.instance.id=${companyWebId} -Dworkspace.client.extension.name=${clientExtensionSamples}");
 		}

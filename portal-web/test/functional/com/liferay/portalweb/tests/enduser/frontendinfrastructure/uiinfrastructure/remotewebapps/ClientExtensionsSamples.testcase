@@ -26,7 +26,7 @@ definition {
 	@description = "Assert all deployed Client Extensions Samples have startup logs in the console and are present in the admin page with the correct table values"
 	@priority = 4
 	test AssertSamplesInConsoleAndAdminPage {
-		property workspaces.client.extension.names = "liferay-sample-custom-element-1-vanilla-js,liferay-sample-custom-element-2-create-react-app,liferay-sample-global-css,liferay-sample-global-js,liferay-sample-iframe-1-application,liferay-sample-theme-css-1-theme-styled,liferay-sample-theme-favicon,liferay-sample-theme-spritemap-1";
+		property workspaces.client.extension.names = "liferay-sample-custom-element-1-vanilla-js,liferay-sample-custom-element-2-create-react-app,liferay-sample-global-css,liferay-sample-global-js,liferay-sample-iframe-1-application,liferay-sample-theme-css-1-theme-styled,liferay-sample-theme-favicon,liferay-sample-theme-spritemap-1-static-asset";
 
 		task ("Assert the Portal server console has startup verbiage for each deployed Client Extension sample ") {
 			for (var clientExtensionId : list "liferaysamplecustomelement1,liferaysamplecustomelement2,liferaysampleglobalcss,liferaysampleglobaljs,liferaysampleiframe1,liferaysamplethemecss1,liferaysamplethemefavicon,liferaysamplethemespritemap1") {
@@ -437,7 +437,7 @@ definition {
 	@description = "Smoke test Liferay Sample Theme Spritemap 1"
 	@priority = 4
 	test LiferaySampleThemeSpritemap1Smoke {
-		property workspaces.client.extension.names = "liferay-sample-theme-spritemap-1";
+		property workspaces.client.extension.names = "liferay-sample-theme-spritemap-1-static-asset";
 
 		task ("Navigate to Page Admin") {
 			PagesAdmin.openPagesAdmin(siteURLKey = "guest");
