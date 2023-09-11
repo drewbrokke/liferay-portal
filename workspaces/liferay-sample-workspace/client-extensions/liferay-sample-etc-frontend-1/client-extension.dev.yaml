@@ -1,8 +1,8 @@
-liferay-sample-etc-frontend-1-custom-element-header:
+liferay-sample-etc-frontend-1-multiple-cx-custom-element-header:
     baseURL: http://localhost:3000/assets
-liferay-sample-etc-frontend-1-custom-element-sidebar:
+liferay-sample-etc-frontend-1-multiple-cx-custom-element-sidebar:
     baseURL: http://localhost:3000/assets
-liferay-sample-etc-frontend-1-fds-cell-renderer:
+liferay-sample-etc-frontend-1-multiple-cx-fds-cell-renderer:
     baseURL: http://localhost:3000/assets
-liferay-sample-etc-frontend-1-theme-spritemap:
+liferay-sample-etc-frontend-1-multiple-cx-theme-spritemap:
     baseURL: http://localhost:3000/assets
