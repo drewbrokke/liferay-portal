@@ -6,6 +6,6 @@
 		"baseTheme": "unstyled"
 	},
 	"main": "package.json",
-	"name": "@liferay/liferay-sample-theme-css-2",
+	"name": "@liferay/liferay-sample-theme-css-2-theme-unstyled",
 	"version": "0.0.0"
 }
