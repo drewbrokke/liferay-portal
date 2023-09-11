@@ -1,8 +1,8 @@
 assemble:
     - from: assets
       into: static
-liferay-sample-custom-element-5:
-    htmlElementName: liferay-sample-custom-element-5
+liferay-sample-custom-element-5-no-build-react-with-clay-styles:
+    htmlElementName: liferay-sample-custom-element-5-no-build-react-with-clay-styles
     instanceable: false
     name: Liferay Sample Custom Element 5
     portletCategoryName: category.client-extensions
