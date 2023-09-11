@@ -1,4 +1,4 @@
-liferay-sample-iframe-1-counter-app:
+liferay-sample-iframe-1-application-counter-app:
     name: Counter App
     portletCategoryName: category.client-extensions
     type: iframe
