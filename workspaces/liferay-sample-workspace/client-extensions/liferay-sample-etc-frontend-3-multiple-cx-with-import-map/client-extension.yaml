@@ -1,8 +1,8 @@
 assemble:
     - from: assets
       into: static
-liferay-sample-etc-frontend-3-custom-element:
-    htmlElementName: liferay-sample-etc-frontend-3-custom-element
+liferay-sample-etc-frontend-3-multiple-cx-with-import-map-custom-element:
+    htmlElementName: liferay-sample-etc-frontend-3-multiple-cx-with-import-map-custom-element
     instanceable: false
     name: Liferay Sample Etc Frontend 3 Custom Element
     portletCategoryName: category.client-extensions
@@ -10,7 +10,7 @@ liferay-sample-etc-frontend-3-custom-element:
     urls:
         - custom-element/index.js
     useESM: true
-liferay-sample-etc-frontend-3-js-import-maps-entry:
+liferay-sample-etc-frontend-3-multiple-cx-with-import-map-js-import-maps-entry:
     bareSpecifier: my-utils
     name: Liferay Sample Etc Frontend 3 JS Import Maps Entry
     type: jsImportMapsEntry
