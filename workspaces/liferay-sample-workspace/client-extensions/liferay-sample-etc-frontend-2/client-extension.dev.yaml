@@ -1,4 +1,4 @@
-liferay-sample-etc-frontend-2-custom-element:
+liferay-sample-etc-frontend-2-multiple-cx-with-shared-util-custom-element:
     baseURL: http://localhost:3000/assets
-liferay-sample-etc-frontend-2-fds-cell-renderer:
+liferay-sample-etc-frontend-2-multiple-cx-with-shared-util-fds-cell-renderer:
     baseURL: http://localhost:3000/assets
