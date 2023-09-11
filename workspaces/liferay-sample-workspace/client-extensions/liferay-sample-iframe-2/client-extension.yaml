@@ -1,14 +1,14 @@
-liferay-sample-iframe-2-baseball:
+liferay-sample-iframe-2-multiple-cx-baseball:
     name: Baseball
     portletCategoryName: category.client-extensions
     type: iframe
     url: https://en.wikipedia.org/wiki/Baseball
-liferay-sample-iframe-2-football:
+liferay-sample-iframe-2-multiple-cx-football:
     name: Football
     portletCategoryName: category.client-extensions
     type: iframe
     url: https://en.wikipedia.org/wiki/Football
-liferay-sample-iframe-2-hockey:
+liferay-sample-iframe-2-multiple-cx-hockey:
     name: Hockey
     portletCategoryName: category.client-extensions
     type: iframe
