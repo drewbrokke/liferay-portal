@@ -1,11 +1,11 @@
 assemble:
     - from: assets
       into: static
-liferay-sample-etc-frontend-1-custom-element-header:
+liferay-sample-etc-frontend-1-multiple-cx-custom-element-header:
     cssURLs:
         - Header.css
     friendlyURLMapping:
-    htmlElementName: liferay-sample-etc-frontend-1-custom-element-header
+    htmlElementName: liferay-sample-etc-frontend-1-multiple-cx-custom-element-header
     instanceable: false
     name: Liferay Sample Etc Frontend 1 Custom Element Header
     portletCategoryName: category.client-extensions
@@ -13,11 +13,11 @@ liferay-sample-etc-frontend-1-custom-element-header:
     urls:
         - Header.js
     useESM: true
-liferay-sample-etc-frontend-1-custom-element-sidebar:
+liferay-sample-etc-frontend-1-multiple-cx-custom-element-sidebar:
     cssURLs:
         - Sidebar.css
     friendlyURLMapping:
-    htmlElementName: liferay-sample-etc-frontend-1-custom-element-sidebar
+    htmlElementName: liferay-sample-etc-frontend-1-multiple-cx-custom-element-sidebar
     instanceable: false
     name: Liferay Sample Etc Frontend 1 Custom Element Sidebar
     portletCategoryName: category.client-extensions
@@ -25,11 +25,11 @@ liferay-sample-etc-frontend-1-custom-element-sidebar:
     urls:
         - Sidebar.js
     useESM: true
-liferay-sample-etc-frontend-1-fds-cell-renderer:
+liferay-sample-etc-frontend-1-multiple-cx-fds-cell-renderer:
     name: Liferay Sample Etc Frontend 1 Frontend Data Set Cell Renderer
     type: fdsCellRenderer
     url: FDSIconCell.js
-liferay-sample-etc-frontend-1-theme-spritemap:
+liferay-sample-etc-frontend-1-multiple-cx-theme-spritemap:
     name: Liferay Sample Etc Frontend 1 Theme Spritemap
     type: themeSpritemap
     url: spritemap.svg
