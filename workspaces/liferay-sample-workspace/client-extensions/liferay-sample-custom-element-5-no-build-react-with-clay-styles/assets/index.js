@@ -34,7 +34,7 @@ class CustomElement extends HTMLElement {
 	}
 }
 
-const ELEMENT_NAME = 'liferay-sample-custom-element-5';
+const ELEMENT_NAME = 'liferay-sample-custom-element-5-no-build-react-with-clay-styles';
 
 if (customElements.get(ELEMENT_NAME)) {
 	// eslint-disable-next-line no-console
