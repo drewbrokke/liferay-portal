@@ -11,20 +11,21 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-class HeaderWebComponent extends HTMLElement {
+class SidebarWebComponent extends HTMLElement {
 	constructor() {
 		super();
 
 		const root = document.createElement('div');
 
-		root.innerHTML = '<div class="cx-header">Header</div>';
+		root.innerHTML = '<div class="cx-sidebar">Sidebar</div>';
 
 		this.appendChild(root);
 	}
 }
 
-const HEADER_ELEMENT_ID = 'liferay-sample-etc-frontend-1-custom-element-header';
+const SIDEBAR_ELEMENT_ID =
+	'liferay-sample-etc-frontend-1-multiple-cx-custom-element-sidebar';
 
-if (!customElements.get(HEADER_ELEMENT_ID)) {
-	customElements.define(HEADER_ELEMENT_ID, HeaderWebComponent);
+if (!customElements.get(SIDEBAR_ELEMENT_ID)) {
+	customElements.define(SIDEBAR_ELEMENT_ID, SidebarWebComponent);
 }
