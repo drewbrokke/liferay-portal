@@ -1,7 +1,7 @@
 assemble:
     - from: assets
       into: static
-liferay-sample-custom-element-1:
+liferay-sample-custom-element-1-vanilla-js:
     cssURLs:
         - style.css
     friendlyURLMapping: vanilla-counter
