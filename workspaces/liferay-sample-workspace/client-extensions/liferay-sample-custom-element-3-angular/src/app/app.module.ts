@@ -33,7 +33,7 @@ export class AppModule {
 		});
 
 		customElements.define(
-			'liferay-sample-custom-element-3',
+			'liferay-sample-custom-element-3-angular',
 			AppComponentElement
 		);
 	}

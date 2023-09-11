@@ -29,10 +29,10 @@ describe('AppComponent', () => {
 		expect(app).toBeTruthy();
 	});
 
-	it(`should have as title 'liferay-sample-custom-element-3'`, () => {
+	it(`should have as title 'liferay-sample-custom-element-3-angular'`, () => {
 		const fixture = TestBed.createComponent(AppComponent);
 		const app = fixture.componentInstance;
-		expect(app.title).toEqual('liferay-sample-custom-element-3');
+		expect(app.title).toEqual('liferay-sample-custom-element-3-angular');
 	});
 
 	it('should render title', () => {
@@ -40,7 +40,7 @@ describe('AppComponent', () => {
 		fixture.detectChanges();
 		const compiled = fixture.nativeElement as HTMLElement;
 		expect(compiled.querySelector('.content span')?.textContent).toContain(
-			'liferay-sample-custom-element-3 app is running!'
+			'liferay-sample-custom-element-3-angular app is running!'
 		);
 	});
 });

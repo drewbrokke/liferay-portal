@@ -26,7 +26,7 @@
 		"karma-jasmine-html-reporter": "~2.0.0",
 		"typescript": "~4.9.4"
 	},
-	"name": "liferay-sample-custom-element-3",
+	"name": "liferay-sample-custom-element-3-angular",
 	"private": true,
 	"scripts": {
 		"build": "ng build",
