@@ -79,7 +79,7 @@ class WebComponent extends HTMLElement {
 	}
 }
 
-const ELEMENT_ID = 'liferay-sample-custom-element-2';
+const ELEMENT_ID = 'liferay-sample-custom-element-2-create-react-app';
 
 if (!customElements.get(ELEMENT_ID)) {
 	customElements.define(ELEMENT_ID, WebComponent);

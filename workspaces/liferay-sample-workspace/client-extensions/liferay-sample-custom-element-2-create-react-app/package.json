@@ -17,7 +17,7 @@
 		"react-scripts": "5.0.1",
 		"sass": "^1.62.1"
 	},
-	"name": "liferay-sample-custom-element-2",
+	"name": "liferay-sample-custom-element-2-create-react-app",
 	"private": true,
 	"scripts": {
 		"build": "react-scripts build",

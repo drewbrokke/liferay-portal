@@ -1,11 +1,11 @@
 assemble:
     - from: build/static
       into: static
-liferay-sample-custom-element-2:
+liferay-sample-custom-element-2-create-react-app:
     cssURLs:
         - css/main.*.css
-    friendlyURLMapping: liferay-sample-custom-element-2
-    htmlElementName: liferay-sample-custom-element-2
+    friendlyURLMapping: liferay-sample-custom-element-2-create-react-app
+    htmlElementName: liferay-sample-custom-element-2-create-react-app
     instanceable: false
     name: Liferay Sample Custom Element 2
     portletCategoryName: category.client-extensions
