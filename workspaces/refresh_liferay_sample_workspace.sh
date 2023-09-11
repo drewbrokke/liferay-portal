@@ -302,11 +302,11 @@ EOF
 	# Client Extension: Sample Custom Element 3
 	#
 
-	rm -fr liferay-sample-workspace/client-extensions/liferay-sample-custom-element-3
+	rm -fr liferay-sample-workspace/client-extensions/liferay-sample-custom-element-3-angular
 
-	../tools/create_custom_element.sh liferay-sample-custom-element-3 angular
+	../tools/create_custom_element.sh liferay-sample-custom-element-3-angular angular
 
-	mv liferay-sample-custom-element-3 liferay-sample-workspace/client-extensions
+	mv liferay-sample-custom-element-3-angular liferay-sample-workspace/client-extensions
 }
 
 function main {
