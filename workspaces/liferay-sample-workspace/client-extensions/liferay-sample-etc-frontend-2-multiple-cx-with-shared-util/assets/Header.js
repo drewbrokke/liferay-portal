@@ -26,7 +26,7 @@ class HeaderWebComponent extends HTMLElement {
 	}
 }
 
-const HEADER_ELEMENT_ID = 'liferay-sample-etc-frontend-2-custom-element';
+const HEADER_ELEMENT_ID = 'liferay-sample-etc-frontend-2-multiple-cx-with-shared-util-custom-element';
 
 if (!customElements.get(HEADER_ELEMENT_ID)) {
 	customElements.define(HEADER_ELEMENT_ID, HeaderWebComponent);
