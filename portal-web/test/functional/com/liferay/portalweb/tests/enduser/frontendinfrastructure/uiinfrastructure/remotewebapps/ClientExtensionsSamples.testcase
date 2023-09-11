@@ -26,7 +26,7 @@ definition {
 	@description = "Assert all deployed Client Extensions Samples have startup logs in the console and are present in the admin page with the correct table values"
 	@priority = 4
 	test AssertSamplesInConsoleAndAdminPage {
-		property workspaces.client.extension.names = "liferay-sample-custom-element-1-vanilla-js,liferay-sample-custom-element-2,liferay-sample-global-css,liferay-sample-global-js,liferay-sample-iframe-1,liferay-sample-theme-css-1,liferay-sample-theme-favicon,liferay-sample-theme-spritemap-1";
+		property workspaces.client.extension.names = "liferay-sample-custom-element-1-vanilla-js,liferay-sample-custom-element-2-create-react-app,liferay-sample-global-css,liferay-sample-global-js,liferay-sample-iframe-1,liferay-sample-theme-css-1,liferay-sample-theme-favicon,liferay-sample-theme-spritemap-1";
 
 		task ("Assert the Portal server console has startup verbiage for each deployed Client Extension sample ") {
 			for (var clientExtensionId : list "liferaysamplecustomelement1,liferaysamplecustomelement2,liferaysampleglobalcss,liferaysampleglobaljs,liferaysampleiframe1,liferaysamplethemecss1,liferaysamplethemefavicon,liferaysamplethemespritemap1") {
@@ -119,7 +119,7 @@ definition {
 	@description = "Smoke test Liferay Sample Custom Element 2"
 	@priority = 4
 	test LiferaySampleCustomElement2Smoke {
-		property workspaces.client.extension.names = "liferay-sample-custom-element-2";
+		property workspaces.client.extension.names = "liferay-sample-custom-element-2-create-react-app";
 
 		task ("Given: The Liferay Sample Custom Element 2 is added to a page") {
 			JSONLayout.addPublicLayout(
@@ -218,7 +218,7 @@ definition {
 	@description = "Smoke test Liferay Sample Etc Spring Boot"
 	@priority = 4
 	test LiferaySampleEtcSpringBootSmoke {
-		property workspaces.client.extension.names = "liferay-sample-custom-element-2,liferay-sample-etc-spring-boot";
+		property workspaces.client.extension.names = "liferay-sample-custom-element-2-create-react-app,liferay-sample-etc-spring-boot";
 
 		task ("Given: A new widget page is created") {
 			JSONLayout.addPublicLayout(

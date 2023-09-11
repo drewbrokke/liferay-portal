@@ -40,7 +40,7 @@ definition {
 	@priority = 4
 	test AssertSamplesInConsoleAndAdminPage {
 		task ("Deploy multiple Client Extension samples into into the current virtual instance") {
-			var clientExtensionSamples = "liferay-sample-custom-element-1-vanilla-js,liferay-sample-custom-element-2,liferay-sample-global-css,liferay-sample-global-js,liferay-sample-iframe-1,liferay-sample-theme-css-1,liferay-sample-theme-favicon,liferay-sample-theme-spritemap-1";
+			var clientExtensionSamples = "liferay-sample-custom-element-1-vanilla-js,liferay-sample-custom-element-2-create-react-app,liferay-sample-global-css,liferay-sample-global-js,liferay-sample-iframe-1,liferay-sample-theme-css-1,liferay-sample-theme-favicon,liferay-sample-theme-spritemap-1";
 
 			for (var clientExtension : list ${clientExtensionSamples}) {
 				AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "deploy-workspace-client-extension -Dvirtual.instance.id=${companyWebId} -Dworkspace.client.extension.name=${clientExtension}");
@@ -143,7 +143,7 @@ definition {
 	@priority = 4
 	test LiferaySampleCustomElement2Smoke {
 		task ("Deploy Liferay Sample Custom Element 2 into the current virtual instance") {
-			var clientExtensionSamples = "liferay-sample-custom-element-2";
+			var clientExtensionSamples = "liferay-sample-custom-element-2-create-react-app";
 
 			AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "deploy-workspace-client-extension -Dvirtual.instance.id=${companyWebId} -Dworkspace.client.extension.name=${clientExtensionSamples}");
 		}
@@ -256,7 +256,7 @@ definition {
 	@priority = 4
 	test LiferaySampleEtcSpringBootSmoke {
 		task ("Given: Liferay Sample Custom Element 2 and Liferay Sample Etc Spring Boot are deployed into the current virtual instance") {
-			var clientExtensionSamples = "liferay-sample-custom-element-2,liferay-sample-etc-spring-boot";
+			var clientExtensionSamples = "liferay-sample-custom-element-2-create-react-app,liferay-sample-etc-spring-boot";
 
 			for (var clientExtension : list ${clientExtensionSamples}) {
 				AntCommands.runCommand("build-test-liferay-sample-workspace.xml", "deploy-workspace-client-extension -Dvirtual.instance.id=${companyWebId} -Dworkspace.client.extension.name=${clientExtension}");

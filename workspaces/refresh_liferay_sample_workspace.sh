@@ -109,15 +109,15 @@ EOF
 	# Client Extension: Sample Custom Element 2
 	#
 
-	rm -fr liferay-sample-workspace/client-extensions/liferay-sample-custom-element-2
+	rm -fr liferay-sample-workspace/client-extensions/liferay-sample-custom-element-2-create-react-app
 
-	../tools/create_custom_element.sh liferay-sample-custom-element-2 react
+	../tools/create_custom_element.sh liferay-sample-custom-element-2-create-react-app react
 
-	sed '/"eslintConfig": {/,/},/d' liferay-sample-custom-element-2/package.json | awk '!/^,$/' > temp.json && mv temp.json liferay-sample-custom-element-2/package.json
+	sed '/"eslintConfig": {/,/},/d' liferay-sample-custom-element-2-create-react-app/package.json | awk '!/^,$/' > temp.json && mv temp.json liferay-sample-custom-element-2-create-react-app/package.json
 
-	mkdir -p liferay-sample-custom-element-2/src/common/components
+	mkdir -p liferay-sample-custom-element-2-create-react-app/src/common/components
 
-	cat <<EOF > liferay-sample-custom-element-2/src/common/components/Comic.js
+	cat <<EOF > liferay-sample-custom-element-2-create-react-app/src/common/components/Comic.js
 /**
  * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
@@ -169,7 +169,7 @@ function Comic() {
 export default Comic;
 EOF
 
-	cat <<EOF > liferay-sample-custom-element-2/src/common/components/DadJoke.js
+	cat <<EOF > liferay-sample-custom-element-2-create-react-app/src/common/components/DadJoke.js
 /**
  * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
@@ -214,7 +214,7 @@ function DadJoke() {
 export default DadJoke;
 EOF
 
-	cat <<EOF > liferay-sample-custom-element-2/src/index.js
+	cat <<EOF > liferay-sample-custom-element-2-create-react-app/src/index.js
 /**
  * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
@@ -287,16 +287,16 @@ class WebComponent extends HTMLElement {
 	}
 }
 
-const ELEMENT_ID = 'liferay-sample-custom-element-2';
+const ELEMENT_ID = 'liferay-sample-custom-element-2-create-react-app';
 
 if (!customElements.get(ELEMENT_ID)) {
 	customElements.define(ELEMENT_ID, WebComponent);
 }
 EOF
 
-	sed -i "s/react-scripts test/react-scripts test --passWithNoTests --watchAll=false/" liferay-sample-custom-element-2/package.json
+	sed -i "s/react-scripts test/react-scripts test --passWithNoTests --watchAll=false/" liferay-sample-custom-element-2-create-react-app/package.json
 
-	mv liferay-sample-custom-element-2 liferay-sample-workspace/client-extensions
+	mv liferay-sample-custom-element-2-create-react-app liferay-sample-workspace/client-extensions
 
 	#
 	# Client Extension: Sample Custom Element 3
