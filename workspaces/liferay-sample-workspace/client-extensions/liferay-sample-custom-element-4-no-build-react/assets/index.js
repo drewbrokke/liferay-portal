@@ -35,12 +35,12 @@ class CustomElement extends HTMLElement {
 	}
 }
 
-const ELEMENT_NAME = 'liferay-sample-custom-element-4';
+const ELEMENT_NAME = 'liferay-sample-custom-element-4-no-build-react';
 
 if (customElements.get(ELEMENT_NAME)) {
 	// eslint-disable-next-line no-console
 	console.log(
-		'Skipping registration for <liferay-sample-custom-element-4> (already registered)'
+		'Skipping registration for <liferay-sample-custom-element-4-no-build-react> (already registered)'
 	);
 }
 else {

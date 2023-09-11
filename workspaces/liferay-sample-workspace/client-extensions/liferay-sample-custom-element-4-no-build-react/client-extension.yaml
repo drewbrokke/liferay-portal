@@ -1,11 +1,11 @@
 assemble:
     - from: assets
       into: static
-liferay-sample-custom-element-4:
+liferay-sample-custom-element-4-no-build-react:
     cssURLs:
         - style.css
-    friendlyURLMapping: liferay-sample-custom-element-4
-    htmlElementName: liferay-sample-custom-element-4
+    friendlyURLMapping: liferay-sample-custom-element-4-no-build-react
+    htmlElementName: liferay-sample-custom-element-4-no-build-react
     instanceable: false
     name: Liferay Sample Custom Element 4
     portletCategoryName: category.client-extensions
