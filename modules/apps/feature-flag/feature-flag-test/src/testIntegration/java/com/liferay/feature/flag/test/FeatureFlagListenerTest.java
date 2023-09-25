@@ -8,8 +8,8 @@ package com.liferay.feature.flag.test;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.feature.flag.test.util.FeatureFlagTestUtil;
 import com.liferay.petra.lang.SafeCloseable;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagListener;
+import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DataGuard;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -48,9 +48,6 @@ public class FeatureFlagListenerTest {
 	public static final AggregateTestRule aggregateTestRule =
 		new LiferayIntegrationTestRule();
 
-	public FeatureFlagListenerTest() throws PortalException {
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		Bundle bundle = FrameworkUtil.getBundle(FeatureFlagListenerTest.class);
@@ -63,6 +60,9 @@ public class FeatureFlagListenerTest {
 			_companyId, _FEATURE_FLAG_KEY_1);
 		_value2 = FeatureFlagTestUtil.getFeatureFlagValue(
 			_companyId, _FEATURE_FLAG_KEY_2);
+
+		_valueSystem = FeatureFlagTestUtil.getFeatureFlagValue(
+			CompanyConstants.SYSTEM, _FEATURE_FLAG_KEY_SYSTEM);
 	}
 
 	@After
@@ -71,6 +71,34 @@ public class FeatureFlagListenerTest {
 			_companyId, _value1, _FEATURE_FLAG_KEY_1);
 		FeatureFlagTestUtil.setFeatureFlagValue(
 			_companyId, _value2, _FEATURE_FLAG_KEY_2);
+		FeatureFlagTestUtil.setFeatureFlagValue(
+			CompanyConstants.SYSTEM, _valueSystem, _FEATURE_FLAG_KEY_SYSTEM);
+	}
+
+	@Test
+	public void testRegisterForSystemKey() throws Exception {
+		TestFeatureFlagListener featureFlagListener =
+			new TestFeatureFlagListener();
+
+		try (SafeCloseable ignored = _registerFeatureFlagListener(
+				featureFlagListener, _FEATURE_FLAG_KEY_SYSTEM)) {
+
+			_assertOnValueInvocations(
+				featureFlagListener,
+				_valuesToString(
+					CompanyConstants.SYSTEM, _FEATURE_FLAG_KEY_SYSTEM,
+					_valueSystem));
+
+			FeatureFlagTestUtil.setFeatureFlagValue(
+				CompanyConstants.SYSTEM, !_valueSystem,
+				_FEATURE_FLAG_KEY_SYSTEM);
+
+			_assertOnValueInvocations(
+				featureFlagListener,
+				_valuesToString(
+					CompanyConstants.SYSTEM, _FEATURE_FLAG_KEY_SYSTEM,
+					!_valueSystem));
+		}
 	}
 
 	@Test
@@ -209,11 +237,14 @@ public class FeatureFlagListenerTest {
 
 	private static final String _FEATURE_FLAG_KEY_2 = "TEST-456";
 
+	private static final String _FEATURE_FLAG_KEY_SYSTEM = "TEST-000";
+
 	private static long _companyId;
 
 	private BundleContext _bundleContext;
 	private boolean _value1;
 	private boolean _value2;
+	private boolean _valueSystem;
 
 	private class TestFeatureFlagListener implements FeatureFlagListener {
 
