@@ -10,6 +10,7 @@ import com.liferay.feature.flag.web.internal.model.DependencyAwareFeatureFlag;
 import com.liferay.feature.flag.web.internal.model.FeatureFlagImpl;
 import com.liferay.feature.flag.web.internal.model.LanguageAwareFeatureFlag;
 import com.liferay.feature.flag.web.internal.model.PreferenceAwareFeatureFlag;
+import com.liferay.osgi.util.service.Snapshot;
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -92,6 +93,11 @@ public class FeatureFlagsBagProvider {
 		}
 
 		featureFlagsBag.setEnabled(key, enabled);
+
+		FeatureFlagListenerRegistry featureFlagListenerRegistry =
+			_featureFlagListenerRegistrySnapshot.get();
+
+		featureFlagListenerRegistry.notifyListeners(companyId, key, enabled);
 	}
 
 	private FeatureFlagsBag _createFeatureFlagsBag(long companyId) {
@@ -217,6 +223,9 @@ public class FeatureFlagsBagProvider {
 	private static final Log _log = LogFactoryUtil.getLog(
 		FeatureFlagsBagProvider.class);
 
+	private static final Snapshot<FeatureFlagListenerRegistry>
+		_featureFlagListenerRegistrySnapshot = new Snapshot<>(
+			FeatureFlagsBagProvider.class, FeatureFlagListenerRegistry.class);
 	private static final Map<Long, FeatureFlagsBag> _featureFlagsBagMap =
 		new ConcurrentHashMap<>();
 	private static final Pattern _pattern = Pattern.compile("^([A-Z\\-0-9]+)$");
