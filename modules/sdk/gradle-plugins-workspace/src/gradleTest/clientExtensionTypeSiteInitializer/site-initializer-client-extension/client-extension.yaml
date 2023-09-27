@@ -1,0 +1,8 @@
+site-initializer-client-extension:
+    membershipType: open
+    name: Foo Site Initializer
+    parentSiteKey: fooSiteKey
+    siteExternalReferenceCode: fooExternalReferenceCode
+    templateKey: fooTemplateKey
+    templateType: fooTemplateType
+    type: siteInitializer
