@@ -57,16 +57,16 @@ public class FeatureFlagApplication extends Application {
 
 		_featureFlagsBagProvider.setEnabled(companyId, key, enabled);
 
-		FeatureFlagsBag companyFeatureFlags =
+		FeatureFlagsBag featureFlagsBag =
 			_featureFlagsBagProvider.getOrCreateFeatureFlagsBag(companyId);
 
 		return Response.ok(
 			HashMapBuilder.put(
 				"dependentFeatureFlags",
 				TransformUtil.transform(
-					_getDependentFeatureFlags(companyFeatureFlags, key),
+					_getDependentFeatureFlags(featureFlagsBag, key),
 					featureFlag -> _toMap(
-						featureFlag, companyId, companyFeatureFlags))
+						companyId, featureFlag, featureFlagsBag))
 			).build(),
 			MediaType.APPLICATION_JSON
 		).build();
@@ -76,39 +76,33 @@ public class FeatureFlagApplication extends Application {
 		return Collections.singleton(this);
 	}
 
-	/**
-	 * Returns any feature flags that are dependencies of this feature flag
-	 */
 	private List<FeatureFlag> _getDependencyFeatureFlags(
-		FeatureFlagsBag companyFeatureFlags, String key) {
+		FeatureFlagsBag featureFlagsBag, String key) {
 
-		FeatureFlag featureFlag = companyFeatureFlags.getFeatureFlag(key);
+		FeatureFlag featureFlag = featureFlagsBag.getFeatureFlag(key);
 
-		return companyFeatureFlags.getFeatureFlags(
+		return featureFlagsBag.getFeatureFlags(
 			maybeDependencyFeatureFlag -> ArrayUtil.contains(
 				featureFlag.getDependencyKeys(),
 				maybeDependencyFeatureFlag.getKey()));
 	}
 
-	/**
-	 * Returns any feature flags that depend on this feature flag
-	 */
 	private List<FeatureFlag> _getDependentFeatureFlags(
-		FeatureFlagsBag companyFeatureFlags, String key) {
+		FeatureFlagsBag featureFlagsBag, String key) {
 
-		return companyFeatureFlags.getFeatureFlags(
+		return featureFlagsBag.getFeatureFlags(
 			maybeDependentFeatureFlag -> ArrayUtil.contains(
 				maybeDependentFeatureFlag.getDependencyKeys(), key));
 	}
 
 	private Map<String, Object> _toMap(
-		FeatureFlag featureFlag, long companyId,
-		FeatureFlagsBag companyFeatureFlags) {
+		long companyId, FeatureFlag featureFlag,
+		FeatureFlagsBag featureFlagsBag) {
 
 		FeatureFlagDisplay featureFlagDisplay = new FeatureFlagDisplay(
 			companyId,
 			_getDependencyFeatureFlags(
-				companyFeatureFlags, featureFlag.getKey()),
+				featureFlagsBag, featureFlag.getKey()),
 			featureFlag, null);
 
 		return HashMapBuilder.<String, Object>put(
