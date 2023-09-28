@@ -5,9 +5,17 @@
 
 package com.liferay.feature.flag.web.internal.jaxrs.application;
 
+import com.liferay.feature.flag.web.internal.feature.flag.FeatureFlagsBag;
 import com.liferay.feature.flag.web.internal.feature.flag.FeatureFlagsBagProvider;
+import com.liferay.feature.flag.web.internal.model.FeatureFlagDisplay;
+import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.feature.flag.FeatureFlag;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +26,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.osgi.service.component.annotations.Component;
@@ -48,12 +57,67 @@ public class FeatureFlagApplication extends Application {
 
 		_featureFlagsBagProvider.setEnabled(companyId, key, enabled);
 
+		FeatureFlagsBag companyFeatureFlags =
+			_featureFlagsBagProvider.getOrCreateFeatureFlagsBag(companyId);
+
 		return Response.ok(
+			HashMapBuilder.put(
+				"dependentFeatureFlags",
+				TransformUtil.transform(
+					_getDependentFeatureFlags(companyFeatureFlags, key),
+					featureFlag -> _toMap(
+						featureFlag, companyId, companyFeatureFlags))
+			).build(),
+			MediaType.APPLICATION_JSON
 		).build();
 	}
 
 	public Set<Object> getSingletons() {
 		return Collections.singleton(this);
+	}
+
+	/**
+	 * Returns any feature flags that are dependencies of this feature flag
+	 */
+	private List<FeatureFlag> _getDependencyFeatureFlags(
+		FeatureFlagsBag companyFeatureFlags, String key) {
+
+		FeatureFlag featureFlag = companyFeatureFlags.getFeatureFlag(key);
+
+		return companyFeatureFlags.getFeatureFlags(
+			maybeDependencyFeatureFlag -> ArrayUtil.contains(
+				featureFlag.getDependencyKeys(),
+				maybeDependencyFeatureFlag.getKey()));
+	}
+
+	/**
+	 * Returns any feature flags that depend on this feature flag
+	 */
+	private List<FeatureFlag> _getDependentFeatureFlags(
+		FeatureFlagsBag companyFeatureFlags, String key) {
+
+		return companyFeatureFlags.getFeatureFlags(
+			maybeDependentFeatureFlag -> ArrayUtil.contains(
+				maybeDependentFeatureFlag.getDependencyKeys(), key));
+	}
+
+	private Map<String, Object> _toMap(
+		FeatureFlag featureFlag, long companyId,
+		FeatureFlagsBag companyFeatureFlags) {
+
+		FeatureFlagDisplay featureFlagDisplay = new FeatureFlagDisplay(
+			companyId,
+			_getDependencyFeatureFlags(
+				companyFeatureFlags, featureFlag.getKey()),
+			featureFlag, null);
+
+		return HashMapBuilder.<String, Object>put(
+			"disabled", !featureFlagDisplay.isDependenciesFulfilled()
+		).put(
+			"featureFlagKey", featureFlagDisplay.getKey()
+		).put(
+			"toggled", featureFlagDisplay.isEnabled()
+		).build();
 	}
 
 	@Reference

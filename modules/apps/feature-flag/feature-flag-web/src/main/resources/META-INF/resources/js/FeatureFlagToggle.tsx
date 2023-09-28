@@ -6,6 +6,14 @@
 import {ClayToggle} from '@clayui/form';
 import React, {useState} from 'react';
 
+import * as FeatureFlagToggleRegistry from './FeatureFlagToggleRegistry';
+
+interface IDependentFeatureFlag {
+	disabled: boolean;
+	featureFlagKey: string;
+	toggled: boolean;
+}
+
 interface IProps {
 	ariaDescribedBy: string;
 	companyId: number;
@@ -30,6 +38,18 @@ const FeatureFlagToggle = ({
 	const [disabled, setDisabled] = useState(initialDisabled);
 	const [toggled, setToggled] = useState(initialToggled);
 
+	FeatureFlagToggleRegistry.registerToggle(
+		featureFlagKey,
+		(newToggled: boolean, newDisabled: boolean) => {
+			if (toggled !== newToggled) {
+				setToggled(newToggled);
+			}
+			if (disabled !== newDisabled) {
+				setDisabled(newDisabled);
+			}
+		}
+	);
+
 	async function updateToggled(newToggled: boolean) {
 		setDisabled(true);
 
@@ -46,16 +66,27 @@ const FeatureFlagToggle = ({
 				}
 			);
 
-			if (response.ok) {
-				setToggled(newToggled);
-			}
-			else {
+			if (!response.ok) {
 				Liferay.Util.openToast({
 					message: Liferay.Language.get(
 						'could-not-update-feature-flag'
 					),
 					type: 'danger',
 				});
+
+				return;
+			}
+
+			setToggled(newToggled);
+
+			const json = await response.json();
+
+			for (const dependency of json.dependentFeatureFlags as IDependentFeatureFlag[]) {
+				FeatureFlagToggleRegistry.updateToggle(
+					dependency.featureFlagKey,
+					dependency.toggled,
+					dependency.disabled
+				);
 			}
 		}
 		finally {
