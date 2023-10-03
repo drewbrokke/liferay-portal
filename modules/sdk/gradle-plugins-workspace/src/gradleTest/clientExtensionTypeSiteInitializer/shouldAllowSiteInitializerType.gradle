@@ -1,0 +1,19 @@
+task runGradleTest
+
+runGradleTest {
+	dependsOn ":site-initializer-client-extension:createClientExtensionConfig"
+
+	doLast {
+		Project clientExtensionProject = project(":site-initializer-client-extension")
+
+		File cxBuildDir = clientExtensionProject.file("build/liferay-client-extension-build");
+
+		File liferayPluginPackagePropertiesFile = clientExtensionProject.file("${cxBuildDir}/WEB-INF/liferay-plugin-package.properties")
+
+		assert liferayPluginPackagePropertiesFile.text.contains("Liferay-Client-Extension-Site-Initializer=site-initializer/")
+
+		// File dockerfileFile = clientExtensionProject.file("${cxBuildDir}/Dockerfile")
+
+		// assert dockerfileFile.text.contains("COPY /site-initializer /opt/liferay/site-initializer")
+	}
+}

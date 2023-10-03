@@ -1,10 +1,8 @@
 task runGradleTest
 
 runGradleTest {
-	dependsOn "clean"
-
 	doLast {
-		println "just the base"
+		println "shouldPassBar"
 		assert true
 	}
 }

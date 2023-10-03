@@ -18,6 +18,7 @@ import com.liferay.gradle.plugins.workspace.configurator.ClientExtensionProjectC
 import com.liferay.gradle.plugins.workspace.internal.client.extension.ClientExtension;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
+import com.liferay.gradle.util.ArrayUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 
@@ -45,6 +46,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -98,8 +100,14 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 		for (ClientExtension clientExtension : _clientExtensions) {
 			if (Objects.equals(clientExtension.classification, "batch")) {
-				pluginPackageProperties.put(
-					"Liferay-Client-Extension-Batch", "batch/");
+				if (clientExtension.type.equals("batch")) {
+					pluginPackageProperties.put(
+						"Liferay-Client-Extension-Batch", "batch/");
+				}
+				else if (clientExtension.type.equals("siteInitializer")) {
+					pluginPackageProperties.put(
+						"Liferay-Client-Extension-Site-Initializer", "site-initializer/");
+				}
 			}
 
 			if (Objects.equals(clientExtension.classification, "frontend")) {
@@ -141,6 +149,16 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		).collect(
 			Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)
 		);
+
+		for (Map.Entry<String, String> entry : substitutionMap.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+
+			System.out.println("Entry:");
+			System.out.println("key = " + key);
+			System.out.println("value = " + value);
+			System.out.println();
+		}
 
 		String projectId = StringUtil.toAlphaNumericLowerCase(
 			_project.getName());
@@ -448,18 +466,26 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		}
 
 		if (_groupBatch.containsAll(classifications)) {
+			String[] types = {"batch", "siteInitializer"};
+
 			Stream<ClientExtension> stream = clientExtensions.stream();
 
-			List<ClientExtension> batches = stream.filter(
-				clientExtension -> Objects.equals(clientExtension.type, "batch")
+			Map<String, Long> collected = stream.filter(
+				clientExtension -> ArrayUtil.contains(
+					types, clientExtension.type)
+			).map(
+				clientExtension -> clientExtension.type
 			).collect(
-				Collectors.toList()
+				Collectors.groupingBy(
+					Function.identity(), Collectors.counting())
 			);
 
-			if (batches.size() > 1) {
-				throw new GradleException(
-					"A client extension project must not contain more than " +
-						"one batch type client extension");
+			for (String type : types) {
+				if (collected.getOrDefault(type, 0L) > 1) {
+					throw new GradleException(
+						"A client extension project must not contain more than " +
+							"one " + type + " type client extension");
+				}
 			}
 
 			return "batch";
