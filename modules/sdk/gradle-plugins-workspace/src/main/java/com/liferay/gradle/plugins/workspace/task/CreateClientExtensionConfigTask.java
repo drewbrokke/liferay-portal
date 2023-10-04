@@ -470,23 +470,34 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 			Stream<ClientExtension> stream = clientExtensions.stream();
 
-			Map<String, Long> collected = stream.filter(
+//			Map<String, Long> collected = stream.filter(
+//				clientExtension -> ArrayUtil.contains(
+//					types, clientExtension.type)
+//			).map(
+//				clientExtension -> clientExtension.type
+//			).collect(
+//				Collectors.groupingBy(
+//					Function.identity(), Collectors.counting())
+//			);
+
+			long count = stream.filter(
 				clientExtension -> ArrayUtil.contains(
 					types, clientExtension.type)
-			).map(
-				clientExtension -> clientExtension.type
-			).collect(
-				Collectors.groupingBy(
-					Function.identity(), Collectors.counting())
-			);
+			).count();
 
-			for (String type : types) {
-				if (collected.getOrDefault(type, 0L) > 1) {
-					throw new GradleException(
-						"A client extension project must not contain more than " +
-							"one " + type + " type client extension");
-				}
+			if (count > 1) {
+				throw new GradleException(
+					"A client extension project must not contain more than " +
+					"one batch or siteInitializer type client extension");
 			}
+
+//			for (String type : types) {
+//				if (collected.getOrDefault(type, 0L) > 1) {
+//					throw new GradleException(
+//						"A client extension project must not contain more than " +
+//							"one " + type + " type client extension");
+//				}
+//			}
 
 			return "batch";
 		}

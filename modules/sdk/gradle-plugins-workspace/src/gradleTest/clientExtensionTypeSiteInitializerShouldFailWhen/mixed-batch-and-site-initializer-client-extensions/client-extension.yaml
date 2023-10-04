@@ -1,0 +1,17 @@
+mixed-site-initializer-cx:
+    name: foo site initializer
+    oAuthApplicationHeadlessServer: oauth-cx
+    siteExternalReferenceCode: fooExternalReferenceCode
+    siteName: fooSiteName
+    type: siteInitializer
+mixed-batch-cx:
+    name: Liferay Sample Batch
+    oAuthApplicationHeadlessServer: oauth-cx
+    type: batch
+mixed-oauth-cx:
+    .serviceAddress: localhost:8080
+    .serviceScheme: http
+    name: OAuth CX
+    scopes:
+        - Liferay.Headless.Site.everything
+    type: oAuthApplicationHeadlessServer

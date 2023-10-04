@@ -1,0 +1,6 @@
+no-batch-site-initializer-cx:
+    name: foo site initializer
+    oAuthApplicationHeadlessServer: non-existent
+    siteExternalReferenceCode: fooExternalReferenceCode
+    siteName: fooSiteName
+    type: siteInitializer

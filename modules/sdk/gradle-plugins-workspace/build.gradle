@@ -30,13 +30,6 @@ if (System.properties["http.proxyHost"] == "squid.lax.liferay.com") {
 	pluginsSdkUrl = "https://repository-cdn.liferay.com/nexus/service/local/repositories/liferay-public-releases/content/com/liferay/portal/com.liferay.portal.plugins.sdk/1.0.22/com.liferay.portal.plugins.sdk-1.0.22-withdependencies.zip"
 }
 
-task foo {
-	doLast {
-		var f = file("${buildDir}/.product_info.json")
-		println f.text
-	}
-}
-
 tasks.eclipse {
 	ext.gradleVersion = gradleVersion
 }
@@ -223,18 +216,21 @@ eclipse.classpath.file {
 }
 
 gradleTest {
-	// dependsOn copyBundle
-	// dependsOn copyDistBundleZipPluginsSdk
 	dependsOn copyGradleTestDependencies
 	dependsOn copyGradleTestProjects
-	// dependsOn copyHotFixZip
 	dependsOn copyRepo
 	dependsOn copyWorkspacesSamples
 	dependsOn jar
 
+	if (!project.hasProperty("testLightExecution")) {
+		dependsOn copyBundle
+		dependsOn copyDistBundleZipPluginsSdk
+		dependsOn copyHotFixZip
+	}
+
 	deprecationMessagesAreFailures = false
 
-	expectFailure ~/.*ShouldFail.*/
+//	expectFailure ~/.*ShouldFail.*/
 
 	gradleArguments "--project-prop", "app.server.parent.dir=" + FileUtil.getAbsolutePath(copyBundle.destinationDir)
 	gradleArguments "--project-prop", "pluginClasspathDir=${uri(gradleTestDependenciesDir)}"
@@ -243,6 +239,14 @@ gradleTest {
 
 	beforeTest {
 		println "  ${it.name}"
+	}
+
+	if (project.hasProperty("testDebug")) {
+		debug true
+		debugTests true
+	}
+	if (project.hasProperty("testShowOutput")) {
+		testLogging.showStandardStreams = true
 	}
 }
 
