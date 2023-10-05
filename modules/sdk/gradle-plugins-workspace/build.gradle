@@ -30,14 +30,6 @@ if (System.properties["http.proxyHost"] == "squid.lax.liferay.com") {
 	pluginsSdkUrl = "https://repository-cdn.liferay.com/nexus/service/local/repositories/liferay-public-releases/content/com/liferay/portal/com.liferay.portal.plugins.sdk/1.0.22/com.liferay.portal.plugins.sdk-1.0.22-withdependencies.zip"
 }
 
-task foo {
-	ext.bar = "hello world"
-	doLast {
-		println ext.bar
-		println ext.properties.containsKey("bare")
-	}
-}
-
 tasks.eclipse {
 	ext.gradleVersion = gradleVersion
 }
@@ -239,7 +231,7 @@ gradleTest {
 	deprecationMessagesAreFailures = false
 
 	excludes = ["**/*_base*"]
-//	expectFailure ~/.*ShouldFail.*/
+	//	expectFailure ~/.*ShouldFail.*/
 
 	gradleArguments "--project-prop", "app.server.parent.dir=" + FileUtil.getAbsolutePath(copyBundle.destinationDir)
 	gradleArguments "--project-prop", "pluginClasspathDir=${uri(gradleTestDependenciesDir)}"

@@ -18,7 +18,6 @@ import com.liferay.gradle.plugins.workspace.configurator.ClientExtensionProjectC
 import com.liferay.gradle.plugins.workspace.internal.client.extension.ClientExtension;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
-import com.liferay.gradle.util.ArrayUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 
@@ -106,7 +105,8 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 				}
 				else if (clientExtension.type.equals("siteInitializer")) {
 					pluginPackageProperties.put(
-						"Liferay-Client-Extension-Site-Initializer", "site-initializer/");
+						"Liferay-Client-Extension-Site-Initializer",
+						"site-initializer/");
 				}
 			}
 
@@ -466,38 +466,30 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		}
 
 		if (_groupBatch.containsAll(classifications)) {
-			String[] types = {"batch", "siteInitializer"};
-
 			Stream<ClientExtension> stream = clientExtensions.stream();
 
-//			Map<String, Long> collected = stream.filter(
-//				clientExtension -> ArrayUtil.contains(
-//					types, clientExtension.type)
-//			).map(
-//				clientExtension -> clientExtension.type
-//			).collect(
-//				Collectors.groupingBy(
-//					Function.identity(), Collectors.counting())
-//			);
+			Map<String, Long> typeCountMap = stream.map(
+				clientExtension -> clientExtension.type
+			).collect(
+				Collectors.groupingBy(
+					Function.identity(), Collectors.counting())
+			);
 
-			long count = stream.filter(
-				clientExtension -> ArrayUtil.contains(
-					types, clientExtension.type)
-			).count();
+			long batchOrSiteInitializerTypeCount =
+				typeCountMap.getOrDefault("batch", 0L) +
+					typeCountMap.getOrDefault("siteInitializer", 0L);
 
-			if (count > 1) {
+			if (batchOrSiteInitializerTypeCount > 1) {
 				throw new GradleException(
 					"A client extension project must not contain more than " +
-					"one batch or siteInitializer type client extension");
+						"one batch or siteInitializer type client extension");
 			}
 
-//			for (String type : types) {
-//				if (collected.getOrDefault(type, 0L) > 1) {
-//					throw new GradleException(
-//						"A client extension project must not contain more than " +
-//							"one " + type + " type client extension");
-//				}
-//			}
+			if (typeCountMap.getOrDefault("oauth", 0L) != 1) {
+				throw new GradleException(
+					"A batch or siteInitializer type client extension " +
+						"requires exactly one oauth type client extension");
+			}
 
 			return "batch";
 		}

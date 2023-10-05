@@ -1,15 +1,3 @@
-site-initializer-cx-foo:
-    name: foo site initializer
-    oAuthApplicationHeadlessServer: oauth-cx
-    siteExternalReferenceCode: fooExternalReferenceCode
-    siteName: fooSiteName
-    type: siteInitializer
-site-initializer-cx-bar:
-    name: bar site initializer
-    oAuthApplicationHeadlessServer: oauth-cx
-    siteExternalReferenceCode: barExternalReferenceCode
-    siteName: barSiteName
-    type: siteInitializer
 oauth-cx:
     .serviceAddress: localhost:8080
     .serviceScheme: http
@@ -17,3 +5,15 @@ oauth-cx:
     scopes:
         - Liferay.Headless.Site.everything
     type: oAuthApplicationHeadlessServer
+site-initializer-cx-bar:
+    name: bar site initializer
+    oAuthApplicationHeadlessServer: oauth-cx
+    siteExternalReferenceCode: barExternalReferenceCode
+    siteName: barSiteName
+    type: siteInitializer
+site-initializer-cx-foo:
+    name: foo site initializer
+    oAuthApplicationHeadlessServer: oauth-cx
+    siteExternalReferenceCode: fooExternalReferenceCode
+    siteName: fooSiteName
+    type: siteInitializer
