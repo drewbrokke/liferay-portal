@@ -18,6 +18,7 @@ import com.liferay.gradle.plugins.workspace.configurator.ClientExtensionProjectC
 import com.liferay.gradle.plugins.workspace.internal.client.extension.ClientExtension;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
+import com.liferay.gradle.util.ArrayUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 
@@ -35,7 +36,6 @@ import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,7 +45,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -129,35 +128,18 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 			}
 		}
 
-		Stream<ClientExtension> stream = _clientExtensions.stream();
+		Map<String, String> substitutionMap = new HashMap<>();
 
-		Map<String, String> substitutionMap = stream.flatMap(
-			clientExtension -> {
-				Set<Map.Entry<String, Object>> entrySet =
-					clientExtension.typeSettings.entrySet();
+		for (ClientExtension clientExtension : _clientExtensions) {
+			for (Map.Entry<String, Object> entry :
+				clientExtension.typeSettings.entrySet()) {
 
-				Stream<Map.Entry<String, Object>> entrySetStream =
-					entrySet.stream();
+				String newKey = String.format(
+					"__%s.%s__", _getIdOrBatchType(clientExtension),
+					entry.getKey());
 
-				return entrySetStream.map(
-					entry -> new AbstractMap.SimpleEntry<>(
-						StringBundler.concat(
-							"__", _getIdOrBatch(clientExtension), ".",
-							entry.getKey(), "__"),
-						String.valueOf(entry.getValue())));
+				substitutionMap.put(newKey, String.valueOf(entry.getValue()));
 			}
-		).collect(
-			Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)
-		);
-
-		for (Map.Entry<String, String> entry : substitutionMap.entrySet()) {
-			String key = entry.getKey();
-			String value = entry.getValue();
-
-			System.out.println("Entry:");
-			System.out.println("key = " + key);
-			System.out.println("value = " + value);
-			System.out.println();
 		}
 
 		String projectId = StringUtil.toAlphaNumericLowerCase(
@@ -360,11 +342,13 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		return null;
 	}
 
-	private String _getIdOrBatch(ClientExtension clientExtension) {
+	private static final String[] _BATCH_TYPES = {"batch", "siteInitializer"};
+
+	private String _getIdOrBatchType(ClientExtension clientExtension) {
 		String id = clientExtension.id;
 
-		if (Objects.equals(clientExtension.type, "batch")) {
-			id = "batch";
+		if (ArrayUtil.contains(_BATCH_TYPES, clientExtension.type)) {
+			id = clientExtension.type;
 		}
 
 		return id;
@@ -468,16 +452,17 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		if (_groupBatch.containsAll(classifications)) {
 			Stream<ClientExtension> stream = clientExtensions.stream();
 
-			Map<String, Long> typeCountMap = stream.map(
-				clientExtension -> clientExtension.type
-			).collect(
+			Map<String, Long> typeCountMap = stream.collect(
 				Collectors.groupingBy(
-					Function.identity(), Collectors.counting())
-			);
+					clientExtension -> clientExtension.type,
+					Collectors.counting()));
+
+			Long siteInitializerTypeCount =
+				typeCountMap.getOrDefault("siteInitializer", 0L);
 
 			long batchOrSiteInitializerTypeCount =
 				typeCountMap.getOrDefault("batch", 0L) +
-					typeCountMap.getOrDefault("siteInitializer", 0L);
+				siteInitializerTypeCount;
 
 			if (batchOrSiteInitializerTypeCount > 1) {
 				throw new GradleException(
@@ -485,10 +470,18 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 						"one batch or siteInitializer type client extension");
 			}
 
-			if (typeCountMap.getOrDefault("oauth", 0L) != 1) {
+			if (typeCountMap.getOrDefault("oAuthApplicationHeadlessServer", 0L) != 1) {
 				throw new GradleException(
 					"A batch or siteInitializer type client extension " +
-						"requires exactly one oauth type client extension");
+						"requires exactly one oAuthApplicationHeadlessServer type client extension");
+			}
+
+			if (siteInitializerTypeCount > 0) {
+				File file = getProject().file("site-initializer");
+
+				if (!file.exists() || !file.isDirectory()) {
+					throw new GradleException("A site-initializer directory is required for a siteInitializer type client extension");
+				}
 			}
 
 			return "batch";

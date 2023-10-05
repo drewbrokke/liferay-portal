@@ -12,7 +12,7 @@ gradle.taskGraph.afterTask {
 		String actualErrorMessage = taskState.failure.cause.message
 		String expectedErrorMessage = task.ext.expectedErrorMessage
 
-		assert actualErrorMessage.contains(expectedErrorMessage)
+		assert actualErrorMessage.equals(expectedErrorMessage)
 
 		taskState.failure = null
 	}
