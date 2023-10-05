@@ -1,3 +1,0 @@
-createClientExtensionConfig {
-	ext.expectedErrorMessage = "Foo bar stuff"
-}

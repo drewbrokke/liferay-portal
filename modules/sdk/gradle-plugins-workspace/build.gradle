@@ -238,6 +238,7 @@ gradleTest {
 
 	deprecationMessagesAreFailures = false
 
+	excludes = ["**/*_base*"]
 //	expectFailure ~/.*ShouldFail.*/
 
 	gradleArguments "--project-prop", "app.server.parent.dir=" + FileUtil.getAbsolutePath(copyBundle.destinationDir)

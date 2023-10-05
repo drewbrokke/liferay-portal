@@ -1,0 +1,4 @@
+ext.expectedErrorMessage = "Foo bar stuff"
+ext.taskPath = ":no-oauth-cx:createClientExtensionConfig"
+
+apply from: "./_baseShouldFailTestCase.gradle"

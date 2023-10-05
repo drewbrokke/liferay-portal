@@ -1,3 +1,0 @@
-createClientExtensionConfig {
-	ext.expectedErrorMessage = "A client extension project must not contain more than one pony"
-}
