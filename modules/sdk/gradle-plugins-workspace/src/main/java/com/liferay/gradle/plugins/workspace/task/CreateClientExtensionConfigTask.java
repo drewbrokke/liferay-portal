@@ -132,7 +132,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 		for (ClientExtension clientExtension : _clientExtensions) {
 			for (Map.Entry<String, Object> entry :
-				clientExtension.typeSettings.entrySet()) {
+					clientExtension.typeSettings.entrySet()) {
 
 				String newKey = String.format(
 					"__%s.%s__", _getIdOrBatchType(clientExtension),
@@ -342,8 +342,6 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		return null;
 	}
 
-	private static final String[] _BATCH_TYPES = {"batch", "siteInitializer"};
-
 	private String _getIdOrBatchType(ClientExtension clientExtension) {
 		String id = clientExtension.id;
 
@@ -457,30 +455,46 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 					clientExtension -> clientExtension.type,
 					Collectors.counting()));
 
-			Long siteInitializerTypeCount =
-				typeCountMap.getOrDefault("siteInitializer", 0L);
+			long batchTypeCount = typeCountMap.getOrDefault("batch", 0L);
+			long siteInitializerTypeCount = typeCountMap.getOrDefault(
+				"siteInitializer", 0L);
 
-			long batchOrSiteInitializerTypeCount =
-				typeCountMap.getOrDefault("batch", 0L) +
-				siteInitializerTypeCount;
-
-			if (batchOrSiteInitializerTypeCount > 1) {
+			if ((batchTypeCount + siteInitializerTypeCount) > 1) {
 				throw new GradleException(
 					"A client extension project must not contain more than " +
 						"one batch or siteInitializer type client extension");
 			}
 
-			if (typeCountMap.getOrDefault("oAuthApplicationHeadlessServer", 0L) != 1) {
+			Long oAuthApplicationHeadlessServerTypeCount =
+				typeCountMap.getOrDefault("oAuthApplicationHeadlessServer", 0L);
+
+			if (oAuthApplicationHeadlessServerTypeCount != 1) {
+
 				throw new GradleException(
 					"A batch or siteInitializer type client extension " +
-						"requires exactly one oAuthApplicationHeadlessServer type client extension");
+						"requires exactly one oAuthApplicationHeadlessServer " +
+							"type client extension");
+			}
+
+			Project project = getProject();
+
+			if (batchTypeCount > 0) {
+				File file = project.file("batch");
+
+				if (!file.isDirectory()) {
+					throw new GradleException(
+						"A batch directory is required for a batch type " +
+							"client extension");
+				}
 			}
 
 			if (siteInitializerTypeCount > 0) {
-				File file = getProject().file("site-initializer");
+				File file = project.file("site-initializer");
 
-				if (!file.exists() || !file.isDirectory()) {
-					throw new GradleException("A site-initializer directory is required for a siteInitializer type client extension");
+				if (!file.isDirectory()) {
+					throw new GradleException(
+						"A site-initializer directory is required for a " +
+							"siteInitializer type client extension");
 				}
 			}
 
@@ -541,6 +555,8 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 			throw new GradleException(inputFile.getName() + " not specified");
 		}
 	}
+
+	private static final String[] _BATCH_TYPES = {"batch", "siteInitializer"};
 
 	private static final String _CLIENT_EXTENSION_CONFIG_FILE_NAME =
 		".client-extension-config.json";
