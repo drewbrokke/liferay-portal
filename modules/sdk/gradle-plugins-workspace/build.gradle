@@ -231,7 +231,6 @@ gradleTest {
 	deprecationMessagesAreFailures = false
 
 	excludes = ["**/*_base*"]
-	//	expectFailure ~/.*ShouldFail.*/
 
 	gradleArguments "--project-prop", "app.server.parent.dir=" + FileUtil.getAbsolutePath(copyBundle.destinationDir)
 	gradleArguments "--project-prop", "pluginClasspathDir=${uri(gradleTestDependenciesDir)}"
@@ -239,7 +238,9 @@ gradleTest {
 	versions gradleVersion
 
 	beforeTest {
-		println "  ${it.name}"
+		println "name: ${it.name}"
+		println "className: ${it.className}"
+		println "displayName ${it.displayName}"
 	}
 
 	if (project.hasProperty("testDebug")) {

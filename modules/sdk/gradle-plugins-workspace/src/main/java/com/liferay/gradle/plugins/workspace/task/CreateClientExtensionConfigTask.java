@@ -97,16 +97,15 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		jsonMap.put(":configurator:policy", "force");
 
 		for (ClientExtension clientExtension : _clientExtensions) {
-			if (Objects.equals(clientExtension.classification, "batch")) {
-				if (clientExtension.type.equals("batch")) {
-					pluginPackageProperties.put(
-						"Liferay-Client-Extension-Batch", "batch/");
-				}
-				else if (clientExtension.type.equals("siteInitializer")) {
-					pluginPackageProperties.put(
-						"Liferay-Client-Extension-Site-Initializer",
-						"site-initializer/");
-				}
+			if (clientExtension.type.equals("batch")) {
+				pluginPackageProperties.put(
+					"Liferay-Client-Extension-Batch", "batch/");
+			}
+
+			if (clientExtension.type.equals("siteInitializer")) {
+				pluginPackageProperties.put(
+					"Liferay-Client-Extension-Site-Initializer",
+					"site-initializer/");
 			}
 
 			if (Objects.equals(clientExtension.classification, "frontend")) {

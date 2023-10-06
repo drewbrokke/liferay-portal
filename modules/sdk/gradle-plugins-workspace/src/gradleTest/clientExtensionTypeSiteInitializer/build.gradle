@@ -15,5 +15,17 @@ runGradleTest {
 		FileTree siteInitializerZipTree = zipTree(siteInitializerZipFile)
 
 		assert !siteInitializerZipTree.isEmpty()
+
+		File liferayPluginPackagePropertiesFile = siteInitializerCxProject.file("${cxBuildDir}/WEB-INF/liferay-plugin-package.properties")
+
+		assert liferayPluginPackagePropertiesFile.exists()
+
+		assert liferayPluginPackagePropertiesFile.text.contains("Liferay-Client-Extension-Site-Initializer=site-initializer/")
+
+		File dockerfileFile = siteInitializerCxProject.file("${cxBuildDir}/Dockerfile")
+
+		assert dockerfileFile.exists()
+
+		assert dockerfileFile.text.contains("COPY /site-initializer /opt/liferay/site-initializer")
 	}
 }
