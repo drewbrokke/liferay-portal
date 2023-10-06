@@ -238,9 +238,7 @@ gradleTest {
 	versions gradleVersion
 
 	beforeTest {
-		println "name: ${it.name}"
-		println "className: ${it.className}"
-		println "displayName ${it.displayName}"
+		println "  ${it.name}"
 	}
 
 	if (project.hasProperty("testDebug")) {

@@ -18,7 +18,6 @@ import com.liferay.gradle.plugins.workspace.configurator.ClientExtensionProjectC
 import com.liferay.gradle.plugins.workspace.internal.client.extension.ClientExtension;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
-import com.liferay.gradle.util.ArrayUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 
@@ -344,8 +343,8 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 	private String _getIdOrBatchType(ClientExtension clientExtension) {
 		String id = clientExtension.id;
 
-		if (ArrayUtil.contains(_BATCH_TYPES, clientExtension.type)) {
-			id = clientExtension.type;
+		if (Objects.equals(clientExtension.classification, "batch")) {
+			id = "batch";
 		}
 
 		return id;
@@ -531,8 +530,6 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 			throw new GradleException(inputFile.getName() + " not specified");
 		}
 	}
-
-	private static final String[] _BATCH_TYPES = {"batch", "siteInitializer"};
 
 	private static final String _CLIENT_EXTENSION_CONFIG_FILE_NAME =
 		".client-extension-config.json";

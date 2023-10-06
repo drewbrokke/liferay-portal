@@ -6,12 +6,8 @@ oauth-cx:
         - Liferay.Headless.Site.everything
     type: oAuthApplicationHeadlessServer
 site-initializer-cx:
-    builtInTemplateKey: Sample Template Key
-    builtInTemplateType: Sample Template Type
-    membershipType: open
-    name: Liferay Sample Site Initializer
+    name: site initializer
     oAuthApplicationHeadlessServer: oauth-cx
-    parentSiteKey: Parent Site Name
-    siteExternalReferenceCode: External Reference Code
-    siteName: Site Name
+    siteExternalReferenceCode: externalReferenceCode
+    # siteName: siteName
     type: siteInitializer

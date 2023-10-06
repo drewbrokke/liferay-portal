@@ -161,9 +161,11 @@ public class ClientExtensionProjectConfigurator
 				DirectoryProperty destinationDirectoryProperty =
 					zip.getDestinationDirectory();
 
+				File file = new File(
+					project.getBuildDir(), CLIENT_EXTENSION_BUILD_DIR);
+
 				destinationDirectoryProperty.set(
-					new File(
-						project.getBuildDir(), CLIENT_EXTENSION_BUILD_DIR));
+					new File(file, "site-initializer"));
 
 				Property<String> archiveBaseNameProperty =
 					zip.getArchiveBaseName();
@@ -1064,7 +1066,8 @@ public class ClientExtensionProjectConfigurator
 		ClientExtension clientExtension, Project project) {
 
 		if (Objects.equals(clientExtension.type, "batch")) {
-			_validateOauthApplicationReference(clientExtension);
+			_validateRequiredTypeSettingsKeys(
+				clientExtension, "oAuthApplicationHeadlessServer");
 
 			File file = project.file("batch");
 
@@ -1075,16 +1078,12 @@ public class ClientExtensionProjectConfigurator
 			}
 		}
 		else if (Objects.equals(clientExtension.type, "instanceSettings")) {
-			if (!clientExtension.typeSettings.containsKey("pid")) {
-				throw new GradleException(
-					StringBundler.concat(
-						"Client extension ", clientExtension.id, " with type ",
-						clientExtension.type,
-						" must define the property \"pid\""));
-			}
+			_validateRequiredTypeSettingsKeys(clientExtension, "pid");
 		}
 		else if (Objects.equals(clientExtension.type, "siteInitializer")) {
-			_validateOauthApplicationReference(clientExtension);
+			_validateRequiredTypeSettingsKeys(
+				clientExtension, "oAuthApplicationHeadlessServer",
+				"siteExternalReferenceCode", "siteName");
 
 			File file = project.file("site-initializer");
 
@@ -1096,18 +1095,20 @@ public class ClientExtensionProjectConfigurator
 		}
 	}
 
-	private void _validateOauthApplicationReference(
-			ClientExtension clientExtension)
+	private void _validateRequiredTypeSettingsKeys(
+			ClientExtension clientExtension, String... requiredTypeSettingsKeys)
 		throws GradleException {
 
-		if (!clientExtension.typeSettings.containsKey(
-				"oAuthApplicationHeadlessServer")) {
+		for (String requiredTypeSettingsKey : requiredTypeSettingsKeys) {
+			if (!clientExtension.typeSettings.containsKey(
+					requiredTypeSettingsKey)) {
 
-			throw new GradleException(
-				StringBundler.concat(
-					"Client extension ", clientExtension.id, " with type ",
-					clientExtension.type, " must define the property ",
-					"\"oAuthApplicationHeadlessServer\""));
+				throw new GradleException(
+					StringBundler.concat(
+						"Client extension ", clientExtension.id, " with type ",
+						clientExtension.type, " must define the property \"",
+						requiredTypeSettingsKey, StringPool.QUOTE));
+			}
 		}
 	}
 
