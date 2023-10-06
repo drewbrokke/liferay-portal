@@ -19,7 +19,7 @@ runGradleTest {
 		assert file.exists()
 
 		expectedContentStrings.each {
-			file.text.contains(it)
+			assert file.text.contains(it)
 		}
 	}
 }
