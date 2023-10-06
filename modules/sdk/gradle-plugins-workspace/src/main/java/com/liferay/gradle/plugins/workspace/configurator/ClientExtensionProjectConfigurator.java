@@ -28,6 +28,7 @@ import com.liferay.gradle.plugins.workspace.internal.client.extension.ThemeCSSTy
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
 import com.liferay.gradle.plugins.workspace.task.CreateClientExtensionConfigTask;
+import com.liferay.gradle.util.ArrayUtil;
 import com.liferay.gradle.util.Validator;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -107,6 +108,9 @@ public class ClientExtensionProjectConfigurator
 	public static final String VALIDATE_CLIENT_EXTENSION_IDS_TASK_NAME =
 		"validateClientExtensionIds";
 
+	public static final String VALIDATE_CLIENT_EXTENSIONS_TASK_NAME =
+		"validateClientExtensions";
+
 	public ClientExtensionProjectConfigurator(Settings settings) {
 		super(settings);
 
@@ -139,6 +143,11 @@ public class ClientExtensionProjectConfigurator
 		TaskProvider<DefaultTask> validateClientExtensionIdsTaskProvider =
 			GradleUtil.addTaskProvider(
 				project, VALIDATE_CLIENT_EXTENSION_IDS_TASK_NAME,
+				DefaultTask.class);
+
+		TaskProvider<DefaultTask> validateClientExtensionTaskProvider =
+			GradleUtil.addTaskProvider(
+				project, VALIDATE_CLIENT_EXTENSIONS_TASK_NAME,
 				DefaultTask.class);
 
 		_baseConfigureClientExtensionProject(
@@ -200,7 +209,10 @@ public class ClientExtensionProjectConfigurator
 								project.getName());
 						clientExtension.projectName = project.getName();
 
-						_validateClientExtension(clientExtension);
+						validateClientExtensionTaskProvider.configure(
+							task -> task.doLast(
+								task1 -> _validateClientExtension(
+									clientExtension)));
 
 						_clientExtensionIds.compute(
 							clientExtension.id,
@@ -615,6 +627,8 @@ public class ClientExtensionProjectConfigurator
 					ASSEMBLE_CLIENT_EXTENSION_TASK_NAME);
 				createClientExtensionConfigTask.dependsOn(
 					VALIDATE_CLIENT_EXTENSION_IDS_TASK_NAME);
+				createClientExtensionConfigTask.dependsOn(
+					VALIDATE_CLIENT_EXTENSIONS_TASK_NAME);
 
 				TaskInputs taskInputs =
 					createClientExtensionConfigTask.getInputs();
@@ -1021,7 +1035,7 @@ public class ClientExtensionProjectConfigurator
 	}
 
 	private void _validateClientExtension(ClientExtension clientExtension) {
-		if (Objects.equals(clientExtension.type, "batch")) {
+		if (ArrayUtil.contains(_BATCH_TYPES, clientExtension.type)) {
 			if (!clientExtension.typeSettings.containsKey(
 					"oAuthApplicationHeadlessServer")) {
 
@@ -1042,6 +1056,8 @@ public class ClientExtensionProjectConfigurator
 			}
 		}
 	}
+
+	private static final String[] _BATCH_TYPES = {"batch", "siteInitializer"};
 
 	private static final String _CLIENT_EXTENSION_YAML =
 		"client-extension.yaml";

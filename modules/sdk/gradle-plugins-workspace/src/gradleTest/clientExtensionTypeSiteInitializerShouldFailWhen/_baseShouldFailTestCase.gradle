@@ -3,6 +3,14 @@ task runGradleTest
 assert ext.properties.containsKey("taskPath") : "No ext.taskPath extension property set"
 assert ext.properties.containsKey("expectedErrorMessage") : "No ext.expectedErrorMessage extension property set"
 
+gradle.taskGraph.beforeTask {
+	Task task ->
+
+	if (task.name == "validateClientExtensionIds") {
+		task.enabled = false
+	}
+}
+
 gradle.taskGraph.afterTask {
 	Task task, TaskState taskState ->
 

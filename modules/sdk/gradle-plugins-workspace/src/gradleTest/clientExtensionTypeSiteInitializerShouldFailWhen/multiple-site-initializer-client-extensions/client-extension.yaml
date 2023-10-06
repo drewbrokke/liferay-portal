@@ -1,19 +1,19 @@
 oauth-cx:
     .serviceAddress: localhost:8080
     .serviceScheme: http
-    name: OAuth CX
+    name: oauth
     scopes:
         - Liferay.Headless.Site.everything
     type: oAuthApplicationHeadlessServer
 site-initializer-cx-bar:
     name: bar site initializer
     oAuthApplicationHeadlessServer: oauth-cx
-    siteExternalReferenceCode: barExternalReferenceCode
-    siteName: barSiteName
+    siteExternalReferenceCode: externalReferenceCode
+    siteName: siteName
     type: siteInitializer
 site-initializer-cx-foo:
     name: foo site initializer
     oAuthApplicationHeadlessServer: oauth-cx
-    siteExternalReferenceCode: fooExternalReferenceCode
-    siteName: fooSiteName
+    siteExternalReferenceCode: externalReferenceCode
+    siteName: siteName
     type: siteInitializer

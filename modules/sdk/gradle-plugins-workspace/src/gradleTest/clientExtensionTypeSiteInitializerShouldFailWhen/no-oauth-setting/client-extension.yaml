@@ -1,7 +1,3 @@
-batch-cx:
-    name: batch
-    oAuthApplicationHeadlessServer: oauth-cx
-    type: batch
 oauth-cx:
     .serviceAddress: localhost:8080
     .serviceScheme: http
@@ -11,7 +7,6 @@ oauth-cx:
     type: oAuthApplicationHeadlessServer
 site-initializer-cx:
     name: site initializer
-    oAuthApplicationHeadlessServer: oauth-cx
-    siteExternalReferenceCode: fooExternalReferenceCode
-    siteName: fooSiteName
+    siteExternalReferenceCode: externalReferenceCode
+    siteName: siteName
     type: siteInitializer

@@ -469,7 +469,6 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 				typeCountMap.getOrDefault("oAuthApplicationHeadlessServer", 0L);
 
 			if (oAuthApplicationHeadlessServerTypeCount != 1) {
-
 				throw new GradleException(
 					"A batch or siteInitializer type client extension " +
 						"requires exactly one oAuthApplicationHeadlessServer " +
