@@ -28,7 +28,6 @@ import com.liferay.gradle.plugins.workspace.internal.client.extension.ThemeCSSTy
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
 import com.liferay.gradle.plugins.workspace.task.CreateClientExtensionConfigTask;
-import com.liferay.gradle.util.ArrayUtil;
 import com.liferay.gradle.util.Validator;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -96,6 +95,9 @@ public class ClientExtensionProjectConfigurator
 	public static final String ASSEMBLE_CLIENT_EXTENSION_TASK_NAME =
 		"assembleClientExtension";
 
+	public static final String ASSEMBLE_SITE_INITIALIZER_ZIP_TASK_NAME =
+		"assembleSiteInitializerZip";
+
 	public static final String BUILD_CLIENT_EXTENSION_ZIP_TASK_NAME =
 		"buildClientExtensionZip";
 
@@ -149,6 +151,25 @@ public class ClientExtensionProjectConfigurator
 			GradleUtil.addTaskProvider(
 				project, VALIDATE_CLIENT_EXTENSIONS_TASK_NAME,
 				DefaultTask.class);
+
+		TaskProvider<Zip> zipSiteInitializerTaskProvider =
+			GradleUtil.addTaskProvider(
+				project, ASSEMBLE_SITE_INITIALIZER_ZIP_TASK_NAME, Zip.class);
+
+		zipSiteInitializerTaskProvider.configure(
+			zip -> {
+				DirectoryProperty destinationDirectoryProperty =
+					zip.getDestinationDirectory();
+
+				destinationDirectoryProperty.set(
+					new File(
+						project.getBuildDir(), CLIENT_EXTENSION_BUILD_DIR));
+
+				Property<String> archiveBaseNameProperty =
+					zip.getArchiveBaseName();
+
+				archiveBaseNameProperty.set("site-initializer");
+			});
 
 		_baseConfigureClientExtensionProject(
 			project, assembleClientExtensionTaskProvider,
@@ -212,7 +233,7 @@ public class ClientExtensionProjectConfigurator
 						validateClientExtensionTaskProvider.configure(
 							task -> task.doLast(
 								task1 -> _validateClientExtension(
-									clientExtension)));
+									clientExtension, project)));
 
 						_clientExtensionIds.compute(
 							clientExtension.id,
@@ -252,6 +273,12 @@ public class ClientExtensionProjectConfigurator
 						}
 						else if (clientExtension.type.equals("themeCSS")) {
 							hasThemeCSSClientExtension.set(true);
+						}
+
+						if (clientExtension.type.equals("siteInitializer")) {
+							zipSiteInitializerTaskProvider.configure(
+								zip -> zip.from(
+									project.file("site-initializer")));
 						}
 					}
 					catch (JsonProcessingException jsonProcessingException) {
@@ -624,10 +651,9 @@ public class ClientExtensionProjectConfigurator
 		createClientExtensionConfigTaskProvider.configure(
 			createClientExtensionConfigTask -> {
 				createClientExtensionConfigTask.dependsOn(
-					ASSEMBLE_CLIENT_EXTENSION_TASK_NAME);
-				createClientExtensionConfigTask.dependsOn(
-					VALIDATE_CLIENT_EXTENSION_IDS_TASK_NAME);
-				createClientExtensionConfigTask.dependsOn(
+					ASSEMBLE_CLIENT_EXTENSION_TASK_NAME,
+					ASSEMBLE_SITE_INITIALIZER_ZIP_TASK_NAME,
+					VALIDATE_CLIENT_EXTENSION_IDS_TASK_NAME,
 					VALIDATE_CLIENT_EXTENSIONS_TASK_NAME);
 
 				TaskInputs taskInputs =
@@ -1034,16 +1060,18 @@ public class ClientExtensionProjectConfigurator
 		}
 	}
 
-	private void _validateClientExtension(ClientExtension clientExtension) {
-		if (ArrayUtil.contains(_BATCH_TYPES, clientExtension.type)) {
-			if (!clientExtension.typeSettings.containsKey(
-					"oAuthApplicationHeadlessServer")) {
+	private void _validateClientExtension(
+		ClientExtension clientExtension, Project project) {
 
+		if (Objects.equals(clientExtension.type, "batch")) {
+			_validateOauthApplicationReference(clientExtension);
+
+			File file = project.file("batch");
+
+			if (!file.isDirectory()) {
 				throw new GradleException(
-					StringBundler.concat(
-						"Client extension ", clientExtension.id, " with type ",
-						clientExtension.type, " must define the property ",
-						"\"oAuthApplicationHeadlessServer\""));
+					"A batch directory is required for a batch type client " +
+						"extension");
 			}
 		}
 		else if (Objects.equals(clientExtension.type, "instanceSettings")) {
@@ -1055,9 +1083,33 @@ public class ClientExtensionProjectConfigurator
 						" must define the property \"pid\""));
 			}
 		}
+		else if (Objects.equals(clientExtension.type, "siteInitializer")) {
+			_validateOauthApplicationReference(clientExtension);
+
+			File file = project.file("site-initializer");
+
+			if (!file.isDirectory()) {
+				throw new GradleException(
+					"A site-initializer directory is required for a " +
+						"siteInitializer type client extension");
+			}
+		}
 	}
 
-	private static final String[] _BATCH_TYPES = {"batch", "siteInitializer"};
+	private void _validateOauthApplicationReference(
+			ClientExtension clientExtension)
+		throws GradleException {
+
+		if (!clientExtension.typeSettings.containsKey(
+				"oAuthApplicationHeadlessServer")) {
+
+			throw new GradleException(
+				StringBundler.concat(
+					"Client extension ", clientExtension.id, " with type ",
+					clientExtension.type, " must define the property ",
+					"\"oAuthApplicationHeadlessServer\""));
+		}
+	}
 
 	private static final String _CLIENT_EXTENSION_YAML =
 		"client-extension.yaml";

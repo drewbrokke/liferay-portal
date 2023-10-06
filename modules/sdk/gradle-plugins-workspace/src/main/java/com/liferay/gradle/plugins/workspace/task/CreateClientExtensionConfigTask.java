@@ -475,28 +475,6 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 							"type client extension");
 			}
 
-			Project project = getProject();
-
-			if (batchTypeCount > 0) {
-				File file = project.file("batch");
-
-				if (!file.isDirectory()) {
-					throw new GradleException(
-						"A batch directory is required for a batch type " +
-							"client extension");
-				}
-			}
-
-			if (siteInitializerTypeCount > 0) {
-				File file = project.file("site-initializer");
-
-				if (!file.isDirectory()) {
-					throw new GradleException(
-						"A site-initializer directory is required for a " +
-							"siteInitializer type client extension");
-				}
-			}
-
 			return "batch";
 		}
 		else if (_groupFrontend.containsAll(classifications)) {

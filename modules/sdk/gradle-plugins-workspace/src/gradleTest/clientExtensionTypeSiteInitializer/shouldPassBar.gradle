@@ -1,8 +1,0 @@
-task runGradleTest
-
-runGradleTest {
-	doLast {
-		println "shouldPassBar"
-		assert true
-	}
-}
