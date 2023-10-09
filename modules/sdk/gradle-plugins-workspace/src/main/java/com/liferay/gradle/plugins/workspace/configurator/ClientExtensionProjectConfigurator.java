@@ -28,6 +28,7 @@ import com.liferay.gradle.plugins.workspace.internal.client.extension.ThemeCSSTy
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
 import com.liferay.gradle.plugins.workspace.task.CreateClientExtensionConfigTask;
+import com.liferay.gradle.util.ArrayUtil;
 import com.liferay.gradle.util.Validator;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -1066,7 +1067,7 @@ public class ClientExtensionProjectConfigurator
 		ClientExtension clientExtension, Project project) {
 
 		if (Objects.equals(clientExtension.type, "batch")) {
-			_validateRequiredTypeSettingsKeys(
+			_validateTypeSettingsRequiredKeys(
 				clientExtension, "oAuthApplicationHeadlessServer");
 
 			File file = project.file("batch");
@@ -1078,12 +1079,15 @@ public class ClientExtensionProjectConfigurator
 			}
 		}
 		else if (Objects.equals(clientExtension.type, "instanceSettings")) {
-			_validateRequiredTypeSettingsKeys(clientExtension, "pid");
+			_validateTypeSettingsRequiredKeys(clientExtension, "pid");
 		}
 		else if (Objects.equals(clientExtension.type, "siteInitializer")) {
-			_validateRequiredTypeSettingsKeys(
+			_validateTypeSettingsRequiredKeys(
 				clientExtension, "oAuthApplicationHeadlessServer",
 				"siteExternalReferenceCode", "siteName");
+			_validateTypeSettingsValues(
+				clientExtension, "membershipType", "open", "private",
+				"restricted");
 
 			File file = project.file("site-initializer");
 
@@ -1095,7 +1099,7 @@ public class ClientExtensionProjectConfigurator
 		}
 	}
 
-	private void _validateRequiredTypeSettingsKeys(
+	private void _validateTypeSettingsRequiredKeys(
 			ClientExtension clientExtension, String... requiredTypeSettingsKeys)
 		throws GradleException {
 
@@ -1109,6 +1113,26 @@ public class ClientExtensionProjectConfigurator
 						clientExtension.type, " must define the property \"",
 						requiredTypeSettingsKey, StringPool.QUOTE));
 			}
+		}
+	}
+
+	private void _validateTypeSettingsValues(
+			ClientExtension clientExtension, String typeSettingsKey,
+			String... validValues)
+		throws GradleException {
+
+		Object typeSettingsValue = clientExtension.typeSettings.get(
+			typeSettingsKey);
+
+		if ((typeSettingsValue != null) &&
+			!ArrayUtil.contains(validValues, typeSettingsValue)) {
+
+			throw new GradleException(
+				StringBundler.concat(
+					"Invalid value for the \"", typeSettingsKey,
+					"\" property. Valid values are: ",
+					com.liferay.petra.string.StringUtil.merge(
+						validValues, StringPool.COMMA_AND_SPACE)));
 		}
 	}
 

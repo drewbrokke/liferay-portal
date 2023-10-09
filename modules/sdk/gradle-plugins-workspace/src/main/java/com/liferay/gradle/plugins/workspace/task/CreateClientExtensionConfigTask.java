@@ -72,6 +72,9 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		_lcpJsonFile = _addTaskOutputFile("LCP.json");
 		_pluginPackagePropertiesFile = _addTaskOutputFile(
 			_PLUGIN_PACKAGE_PROPERTIES_PATH);
+
+		_siteInitializerJsonFile = _addTaskOutputFile(
+			_SITE_INITIALIZER_JSON_PATH);
 	}
 
 	public void addClientExtension(ClientExtension clientExtension) {
@@ -95,16 +98,24 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 		jsonMap.put(":configurator:policy", "force");
 
+		String batchType = null;
+
 		for (ClientExtension clientExtension : _clientExtensions) {
 			if (clientExtension.type.equals("batch")) {
 				pluginPackageProperties.put(
 					"Liferay-Client-Extension-Batch", "batch/");
+
+				batchType = "batch";
 			}
 
 			if (clientExtension.type.equals("siteInitializer")) {
 				pluginPackageProperties.put(
 					"Liferay-Client-Extension-Site-Initializer",
 					"site-initializer/");
+
+				batchType = StringUtil.getDockerSafeName(clientExtension.type);
+
+				_createSiteInitializerJsonFile(clientExtension);
 			}
 
 			if (Objects.equals(clientExtension.classification, "frontend")) {
@@ -138,6 +149,10 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 				substitutionMap.put(newKey, String.valueOf(entry.getValue()));
 			}
+		}
+
+		if (batchType != null) {
+			substitutionMap.put("__BATCH_TYPE__", batchType);
 		}
 
 		String projectId = StringUtil.toAlphaNumericLowerCase(
@@ -201,6 +216,11 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 	@InputFiles
 	public File getPluginPackagePropertiesFile() {
 		return GradleUtil.toFile(_project, _pluginPackagePropertiesFile);
+	}
+
+	@InputFiles
+	public File getSiteInitializerJsonFile() {
+		return GradleUtil.toFile(_project, _siteInitializerJsonFile);
 	}
 
 	@Input
@@ -280,6 +300,52 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 			String json = objectWriter.writeValueAsString(jsonMap);
 
 			Files.write(clientExtensionConfigFile.toPath(), json.getBytes());
+		}
+		catch (Exception exception) {
+			throw new GradleException(exception.getMessage(), exception);
+		}
+	}
+
+	private void _createSiteInitializerJsonFile(
+		ClientExtension clientExtension) {
+
+		Map<String, Object> typeSettings = clientExtension.typeSettings;
+
+		File siteInitializerJsonFile = getSiteInitializerJsonFile();
+
+		try {
+			HashMap<String, Object> jsonMap = new HashMap<>();
+
+			for (Map.Entry<String, Object> entry : typeSettings.entrySet()) {
+				String key = entry.getKey();
+
+				if (key.equals("builtInTemplateKey")) {
+					key = "templateKey";
+				}
+				else if (key.equals("builtInTemplateType")) {
+					key = "templateType";
+				}
+				else if (key.equals("siteExternalReferenceCode")) {
+					key = "externalReferenceCode";
+				}
+				else if (key.equals("siteName")) {
+					key = "name";
+				}
+
+				jsonMap.put(key, entry.getValue());
+			}
+
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			objectMapper.configure(
+				SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+
+			ObjectWriter objectWriter =
+				objectMapper.writerWithDefaultPrettyPrinter();
+
+			String json = objectWriter.writeValueAsString(jsonMap);
+
+			Files.write(siteInitializerJsonFile.toPath(), json.getBytes());
 		}
 		catch (Exception exception) {
 			throw new GradleException(exception.getMessage(), exception);
@@ -537,6 +603,9 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 	private static final String _PLUGIN_PACKAGE_PROPERTIES_PATH =
 		"WEB-INF/liferay-plugin-package.properties";
 
+	private static final String _SITE_INITIALIZER_JSON_PATH =
+		"site-initializer/site-initializer.json";
+
 	private static final Set<String> _groupBatch = Sets.newHashSet(
 		"batch", "configuration");
 	private static final Set<String> _groupConfiguration = Sets.newHashSet(
@@ -554,6 +623,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 	private final ObjectMapper _objectMapper = new ObjectMapper();
 	private final Object _pluginPackagePropertiesFile;
 	private final Project _project = getProject();
+	private final Object _siteInitializerJsonFile;
 	private String _type = "frontend";
 
 }

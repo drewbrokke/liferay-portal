@@ -1,0 +1,4 @@
+ext.expectedErrorMessage = "Invalid value for the \"membershipType\" property. Valid values are: open, private, restricted"
+ext.taskPath = ":invalid-setting-value-memebershipType:validateClientExtensions"
+
+apply from: "./_baseShouldFailTestCase.gradle"
