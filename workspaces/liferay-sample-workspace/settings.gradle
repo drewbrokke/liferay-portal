@@ -1,11 +1,15 @@
 buildscript {
 	dependencies {
 		classpath group: "biz.aQute.bnd", name: "biz.aQute.bnd.gradle", version: "5.3.0"
-		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "9.0.3"
+		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "99.9.9"
 	}
 
 	repositories {
 		mavenLocal()
+
+		maven {
+			url new File(rootProject.projectDir, "./fake-m2-repo")
+		}
 
 		maven {
 			url new File(rootProject.projectDir, "../../.m2-tmp")
