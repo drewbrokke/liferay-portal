@@ -1,5 +1,9 @@
 liferay-sample-site-initializer:
+    # builtInTemplateKey: Sample Template Key
+    # builtInTemplateType: site-initializer
+    # membershipType: open
     name: Liferay Sample Site Initializer
+    # parentSiteKey: Parent Site Name
     oAuthApplicationHeadlessServer: liferay-sample-site-initializer-oauth-application-headless-server
     siteExternalReferenceCode: sampleSiteExternalReferenceCode
     siteName: Sample Site Name
