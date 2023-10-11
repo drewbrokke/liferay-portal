@@ -1,0 +1,15 @@
+env:
+    WORKSPACE_NAME: liferay-ticket-workspace
+jobs:
+    publish-liferay-workspace:
+        secrets: inherit
+        uses: ./.github/workflows/ci-publish-workspaces.yaml
+        with:
+            workspace-name: $WORKSPACE_NAME
+name: CI Publish $WORKSPACE_NAME
+on:
+    push:
+        branches:
+            - master
+        paths:
+            - workspaces/$WORKSPACE_NAME/**
