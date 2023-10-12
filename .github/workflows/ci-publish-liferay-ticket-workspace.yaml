@@ -1,15 +1,13 @@
-env:
-    WORKSPACE_NAME: liferay-ticket-workspace
 jobs:
-    publish-liferay-workspace:
+    publish-liferay-ticket-workspace:
         secrets: inherit
         uses: ./.github/workflows/ci-publish-workspaces.yaml
         with:
-            workspace-name: $WORKSPACE_NAME
-name: CI Publish $WORKSPACE_NAME
+            workspace-name: liferay-ticket-workspace
+name: CI Publish liferay-ticket-workspace
 on:
     push:
         branches:
             - LPS-198630-TECHNICAL-TASK-v0-ticket-workspace-ant-task
         paths:
-            - workspaces/$WORKSPACE_NAME/**
+            - workspaces/liferay-ticket-workspace/**
