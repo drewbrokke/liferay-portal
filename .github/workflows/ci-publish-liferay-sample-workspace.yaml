@@ -1,7 +1,7 @@
 jobs:
     publish-liferay-sample-workspace:
         secrets: inherit
-        uses: ./.github/workflows/ci-publish-workspaces.yaml
+        uses: ./.github/workflows/ci-publish-workspace.yaml
         with:
             workspace-name: liferay-sample-workspace
 name: CI Publish liferay-sample-workspace
