@@ -94,8 +94,6 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 		Map<String, Object> jsonMap = new HashMap<>();
 
-		jsonMap.put(":configurator:policy", "force");
-
 		for (ClientExtension clientExtension : _clientExtensions) {
 			if (Objects.equals(clientExtension.classification, "batch")) {
 				pluginPackageProperties.put(
