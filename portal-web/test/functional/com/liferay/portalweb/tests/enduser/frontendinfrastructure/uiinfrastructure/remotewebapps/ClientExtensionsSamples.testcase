@@ -189,7 +189,20 @@ definition {
 
 			echo(${springBootLogFileContent});
 
-			if (!(contains(${springBootLogFileContent}, "There are 0 message board threads in the Guest site"))) {
+			var found = 0;
+			var trysRemaining = 5;
+
+			while (!(found == 1) && !(trysRemaining > 0)) {
+				Pause(locator1 = 1000);
+
+				if (contains(${springBootLogFileContent}, "There are 0 message board threads in the Guest site")) {
+					found = 1;
+				}
+
+				trysRemaining--;
+			}
+
+			if (!found) {
 				fail("Could not find 'There are 0 message board threads in the Guest site'");
 			}
 		}
