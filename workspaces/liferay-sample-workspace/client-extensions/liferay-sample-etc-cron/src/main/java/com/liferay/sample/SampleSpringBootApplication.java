@@ -25,6 +25,15 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 public class SampleSpringBootApplication {
 
 	public static void main(String[] args) {
+		if (System.getenv("LIFERAY_ROUTES_CLIENT_EXTENSION") == null) {
+			System.err.println("LIFERAY_ROUTES_CLIENT_EXTENSION is null");
+			System.exit(1);
+		}
+		if (System.getenv("LIFERAY_ROUTES_DXP") == null) {
+			System.err.println("LIFERAY_ROUTES_DXP is null");
+			System.exit(1);
+		}
+
 		new SpringApplicationBuilder(
 			SampleSpringBootApplication.class
 		).web(
