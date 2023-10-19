@@ -5,6 +5,11 @@
 
 package com.liferay.gradle.plugins.node;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+
 import com.liferay.gradle.plugins.node.internal.util.FileUtil;
 import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.node.internal.util.StringUtil;
@@ -21,6 +26,7 @@ import com.liferay.gradle.plugins.node.task.PublishNodeModuleTask;
 import com.liferay.gradle.plugins.node.task.YarnInstallTask;
 import com.liferay.gradle.util.OSGiUtil;
 import com.liferay.gradle.util.Validator;
+import com.liferay.portal.tools.bundle.support.commands.DownloadCommand;
 
 import groovy.json.JsonSlurper;
 
@@ -28,6 +34,8 @@ import groovy.lang.Closure;
 
 import java.io.File;
 import java.io.IOException;
+
+import java.net.URL;
 
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
@@ -38,6 +46,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
@@ -62,6 +71,8 @@ import org.gradle.api.tasks.TaskProvider;
 import org.gradle.jvm.tasks.Jar;
 import org.gradle.language.base.plugins.LifecycleBasePlugin;
 import org.gradle.util.VersionNumber;
+
+import org.osgi.framework.Version;
 
 /**
  * @author Andrea Di Giorgi
@@ -93,9 +104,6 @@ public class NodePlugin implements Plugin<Project> {
 		_configureExtensionNode(project, nodeExtension);
 
 		Delete cleanNpmTask = _addTaskCleanNpm(project, nodeExtension);
-
-		final DownloadNodeTask downloadNodeTask = _addTaskDownloadNode(
-			project, nodeExtension);
 
 		NpmInstallTask npmInstallTask = _addTaskNpmInstall(
 			project, cleanNpmTask);
@@ -129,8 +137,12 @@ public class NodePlugin implements Plugin<Project> {
 
 				@Override
 				public void execute(Project project) {
+					DownloadNodeTask downloadNodeTask = _addTaskDownloadNode(
+						project, nodeExtension);
+
 					_configureTaskDownloadNodeGlobal(
 						downloadNodeTask, nodeExtension);
+
 					_configureTasksExecutePackageManagerArgs(
 						project, nodeExtension);
 					_configureTasksNpmInstall(project, nodeExtension);
@@ -138,6 +150,38 @@ public class NodePlugin implements Plugin<Project> {
 				}
 
 			});
+	}
+
+	public static class NodeInfo {
+
+		public String getDate() {
+			return _date;
+		}
+
+		public String getNpmVersion() {
+			return _npm;
+		}
+
+		public String getVersion() {
+			return _version;
+		}
+
+		public String isLtsVersion() {
+			return _lts;
+		}
+
+		@SerializedName("date")
+		private String _date;
+
+		@SerializedName("lts")
+		private String _lts;
+
+		@SerializedName("npm")
+		private String _npm;
+
+		@SerializedName("version")
+		private String _version;
+
 	}
 
 	private Delete _addTaskCleanNpm(
@@ -186,6 +230,21 @@ public class NodePlugin implements Plugin<Project> {
 
 	private DownloadNodeTask _addTaskDownloadNode(
 		Project project, String taskName, final NodeExtension nodeExtension) {
+
+		if (nodeExtension.isUseLatestNode()) {
+			Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfo();
+
+			if (nodeInfoOptional.isPresent()) {
+				NodeInfo nodeInfo = nodeInfoOptional.get();
+
+				nodeExtension.setNodeVersion(
+					nodeInfo.getVersion(
+					).substring(
+						1
+					));
+				nodeExtension.setNpmVersion(nodeInfo.getNpmVersion());
+			}
+		}
 
 		DownloadNodeTask downloadNodeTask = GradleUtil.addTask(
 			project, taskName, DownloadNodeTask.class);
@@ -1000,6 +1059,59 @@ public class NodePlugin implements Plugin<Project> {
 			});
 	}
 
+	private Optional<NodeInfo> _getNodeInfos(Path downloadPath)
+		throws Exception {
+
+		try (JsonReader jsonReader = new JsonReader(
+				Files.newBufferedReader(downloadPath))) {
+
+			List<NodeInfo> nodeInfos = _parserNodeInfos(jsonReader);
+
+			return nodeInfos.stream(
+			).filter(
+				nodeInfo -> !Objects.equals(nodeInfo.isLtsVersion(), "false")
+			).min(
+				(first, second) -> {
+					Version firstVersion = Version.parseVersion(
+						first.getVersion(
+						).substring(
+							1
+						));
+					Version secondVersion = Version.parseVersion(
+						second.getVersion(
+						).substring(
+							1
+						));
+
+					return -1 * firstVersion.compareTo(secondVersion);
+				}
+			);
+		}
+	}
+
+	private Optional<NodeInfo> _getNodeVersionInfo() {
+		DownloadCommand downloadCommand = new DownloadCommand();
+
+		downloadCommand.setCacheDir(_nodeCacheDir);
+		downloadCommand.setConnectionTimeout(5 * 1000);
+		downloadCommand.setPassword(null);
+		downloadCommand.setQuiet(true);
+		downloadCommand.setToken(false);
+		downloadCommand.setUserName(null);
+
+		try {
+			downloadCommand.setUrl(new URL(_PRODUCT_NODE_URL));
+
+			downloadCommand.execute();
+
+			return _getNodeInfos(downloadCommand.getDownloadPath());
+		}
+		catch (Exception exception) {
+			throw new GradleException(
+				"Unable to get node version", exception.getCause());
+		}
+	}
+
 	private File _getYarnWorkingDir(
 		Project project, NodeExtension nodeExtension) {
 
@@ -1134,7 +1246,21 @@ public class NodePlugin implements Plugin<Project> {
 		return false;
 	}
 
+	private List<NodeInfo> _parserNodeInfos(JsonReader jsonReader) {
+		Gson gson = new Gson();
+
+		TypeToken<List<NodeInfo>> typeToken = new TypeToken<List<NodeInfo>>() {
+		};
+
+		return gson.fromJson(jsonReader, typeToken.getType());
+	}
+
+	private static final String _DEFAULT_NODE_CACHE_DIR_NAME = ".liferay/node";
+
 	private static final String _PACKAGE_RUN_TASK_NAME_PREFIX = "packageRun";
+
+	private static final String _PRODUCT_NODE_URL =
+		"https://nodejs.org/dist/index.json";
 
 	private static final VersionNumber _liferayNpmScripts12VersionNumber =
 		VersionNumber.version(12);
@@ -1142,5 +1268,8 @@ public class NodePlugin implements Plugin<Project> {
 		VersionNumber.version(8);
 	private static final VersionNumber _npm5VersionNumber =
 		VersionNumber.version(5);
+
+	private final File _nodeCacheDir = new File(
+		System.getProperty("user.home"), _DEFAULT_NODE_CACHE_DIR_NAME);
 
 }
