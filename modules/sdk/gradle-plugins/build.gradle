@@ -62,7 +62,13 @@ dependencies {
 	api group: "com.liferay", name: "com.liferay.gradle.plugins.wsdd.builder", version: "1.0.23"
 	api group: "com.liferay", name: "com.liferay.gradle.plugins.wsdl.builder", version: "3.0.3"
 	api group: "com.liferay", name: "com.liferay.gradle.plugins.xsd.builder", version: "1.0.12"
+
+	api group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
+	api group: "org.osgi", name: "osgi.core", version: "6.0.0"
 	api group: "com.liferay", name: "com.liferay.gradle.util", version: "1.0.48"
+	api(group: "com.liferay", name: "com.liferay.portal.tools.bundle.support", version: "3.7.4") {
+		exclude group: "biz.aQute.bnd", module: "biz.aQute.bnd"
+	}
 
 	compileOnly fileTree(builtBy: [rootProject.tasks.getByName("extractGradleApi" + gradleVersion.replace(".", ""))], dir: new File(rootProject.buildDir, "gradle-${gradleVersion}"), excludes: ["lib/plugins/biz.aQute.bndlib-4.0.0.jar"])
 }
