@@ -16,7 +16,6 @@ import com.liferay.gradle.plugins.node.NodePlugin;
 import com.liferay.gradle.plugins.node.task.ExecutePackageManagerTask;
 import com.liferay.gradle.plugins.node.task.NpmInstallTask;
 import com.liferay.gradle.plugins.node.task.PublishNodeModuleTask;
-import com.liferay.gradle.util.StringUtil;
 import com.liferay.gradle.util.Validator;
 import com.liferay.portal.tools.bundle.support.commands.DownloadCommand;
 
@@ -27,13 +26,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.gradle.api.Action;
 import org.gradle.api.GradleException;
@@ -42,6 +37,7 @@ import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.tasks.TaskContainer;
 
 import org.osgi.framework.Version;
+
 import org.parboiled.common.StringUtils;
 
 /**
@@ -259,14 +255,16 @@ public class NodeDefaultsPlugin extends BaseDefaultsPlugin<NodePlugin> {
 			return nodeInfos.stream(
 			).filter(
 				nodeInfo -> !Objects.equals(nodeInfo.isLtsVersion(), "false")
-			).min((first, second) -> {
-				Version firstVersion = Version.parseVersion(
-					StringUtils.substring(first.getVersion(), 1));
-				Version secondVersion = Version.parseVersion(
-					StringUtils.substring(second.getVersion(), 1));
+			).min(
+				(first, second) -> {
+					Version firstVersion = Version.parseVersion(
+						StringUtils.substring(first.getVersion(), 1));
+					Version secondVersion = Version.parseVersion(
+						StringUtils.substring(second.getVersion(), 1));
 
-				return -1 * firstVersion.compareTo(secondVersion);
-			});
+					return -1 * firstVersion.compareTo(secondVersion);
+				}
+			);
 		}
 	}
 
@@ -314,4 +312,5 @@ public class NodeDefaultsPlugin extends BaseDefaultsPlugin<NodePlugin> {
 
 	private final File _nodeCacheDir = new File(
 		System.getProperty("user.home"), _DEFAULT_NODE_CACHE_DIR_NAME);
+
 }
