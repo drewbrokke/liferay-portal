@@ -5,22 +5,38 @@
 
 package com.liferay.gradle.plugins.node;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+
 import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.node.internal.util.NodePluginUtil;
 import com.liferay.gradle.util.GUtil;
 import com.liferay.gradle.util.OSDetector;
 import com.liferay.gradle.util.Validator;
+import com.liferay.portal.tools.bundle.support.commands.DownloadCommand;
 
 import java.io.File;
+
+import java.net.URL;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 
+import org.gradle.api.GradleException;
 import org.gradle.api.Project;
+
+import org.osgi.framework.Version;
 
 /**
  * @author Andrea Di Giorgi
@@ -208,6 +224,19 @@ public class NodeExtension {
 	}
 
 	public String getNodeVersion() {
+		if (isUseLatestNode()) {
+			Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfo();
+
+			if (nodeInfoOptional.isPresent()) {
+				NodeInfo nodeInfo = nodeInfoOptional.get();
+
+				return nodeInfo.getVersion(
+				).substring(
+					1
+				);
+			}
+		}
+
 		return GradleUtil.toString(_nodeVersion);
 	}
 
@@ -220,6 +249,16 @@ public class NodeExtension {
 	}
 
 	public String getNpmVersion() {
+		if (isUseLatestNode()) {
+			Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfo();
+
+			if (nodeInfoOptional.isPresent()) {
+				NodeInfo nodeInfo = nodeInfoOptional.get();
+
+				return nodeInfo.getNpmVersion();
+			}
+		}
+
 		return GradleUtil.toString(_npmVersion);
 	}
 
@@ -241,6 +280,10 @@ public class NodeExtension {
 
 	public boolean isGlobal() {
 		return _global;
+	}
+
+	public boolean isUseLatestNode() {
+		return _useLatestNode;
 	}
 
 	public boolean isUseNpm() {
@@ -299,6 +342,10 @@ public class NodeExtension {
 		_scriptFile = scriptFile;
 	}
 
+	public void setUseLatestNode(boolean useLatestNode) {
+		_useLatestNode = useLatestNode;
+	}
+
 	public void setUseNpm(Object useNpm) {
 		_useNpm = useNpm;
 	}
@@ -310,6 +357,105 @@ public class NodeExtension {
 	public void setYarnVersion(Object yarnVersion) {
 		_yarnVersion = yarnVersion;
 	}
+
+	private static class NodeInfo {
+
+		public String getDate() {
+			return _date;
+		}
+
+		public String getNpmVersion() {
+			return _npm;
+		}
+
+		public String getVersion() {
+			return _version;
+		}
+
+		public String isLtsVersion() {
+			return _lts;
+		}
+
+		@SerializedName("date")
+		private String _date;
+
+		@SerializedName("lts")
+		private String _lts;
+
+		@SerializedName("npm")
+		private String _npm;
+
+		@SerializedName("version")
+		private String _version;
+
+	}
+
+	private Optional<NodeInfo> _getNodeInfos(Path downloadPath)
+		throws Exception {
+
+		try (JsonReader jsonReader = new JsonReader(
+				Files.newBufferedReader(downloadPath))) {
+
+			List<NodeInfo> nodeInfos = _parserNodeInfos(jsonReader);
+
+			return nodeInfos.stream(
+			).filter(
+				nodeInfo -> !Objects.equals(nodeInfo.isLtsVersion(), "false")
+			).min(
+				(first, second) -> {
+					Version firstVersion = Version.parseVersion(
+						first.getVersion(
+						).substring(
+							1
+						));
+					Version secondVersion = Version.parseVersion(
+						second.getVersion(
+						).substring(
+							1
+						));
+
+					return -1 * firstVersion.compareTo(secondVersion);
+				}
+			);
+		}
+	}
+
+	private Optional<NodeInfo> _getNodeVersionInfo() {
+		DownloadCommand downloadCommand = new DownloadCommand();
+
+		downloadCommand.setCacheDir(_nodeCacheDir);
+		downloadCommand.setConnectionTimeout(5 * 1000);
+		downloadCommand.setPassword(null);
+		downloadCommand.setQuiet(true);
+		downloadCommand.setToken(false);
+		downloadCommand.setUserName(null);
+
+		try {
+			downloadCommand.setUrl(new URL(_PRODUCT_NODE_URL));
+
+			downloadCommand.execute();
+
+			return _getNodeInfos(downloadCommand.getDownloadPath());
+		}
+		catch (Exception exception) {
+			throw new GradleException(
+				"Unable to get node version", exception.getCause());
+		}
+	}
+
+	private List<NodeInfo> _parserNodeInfos(JsonReader jsonReader) {
+		Gson gson = new Gson();
+
+		TypeToken<List<NodeInfo>> typeToken = new TypeToken<List<NodeInfo>>() {
+		};
+
+		return gson.fromJson(jsonReader, typeToken.getType());
+	}
+
+	private static final String _DEFAULT_NODE_CACHE_DIR_NAME = ".liferay/node";
+
+	private static final String _PRODUCT_NODE_URL =
+		"https://nodejs.org/dist/index.json";
 
 	private static final Map<String, String> _npmVersions =
 		new HashMap<String, String>() {
@@ -334,6 +480,8 @@ public class NodeExtension {
 
 	private boolean _download;
 	private boolean _global;
+	private final File _nodeCacheDir = new File(
+		System.getProperty("user.home"), _DEFAULT_NODE_CACHE_DIR_NAME);
 	private Object _nodeDir;
 	private Object _nodeUrl;
 	private Object _nodeVersion = "5.5.0";
@@ -342,6 +490,7 @@ public class NodeExtension {
 	private Object _npmVersion;
 	private final Project _project;
 	private Object _scriptFile;
+	private boolean _useLatestNode;
 	private Object _useNpm = true;
 	private Object _yarnUrl;
 	private Object _yarnVersion = "1.13.0";
