@@ -189,17 +189,17 @@ definition {
 
 			echo(${springBootLogFileContent});
 
-			var found = 0;
-			var trysRemaining = 5;
+			var found = false;
+			var trys = 5;
 
-			while (!(found == 1) && !(trysRemaining > 0)) {
+			while (!(contains(${springBootLogFileContent}, "There are 0 message board threads in the Guest site")) && !(MathUtil.isGreaterThan(${trys}, 0))) {
 				Pause(locator1 = 1000);
 
-				if (contains(${springBootLogFileContent}, "There are 0 message board threads in the Guest site")) {
-					found = 1;
-				}
+				var trys = MathUtil.difference(${trys}, 1);
+			}
 
-				trysRemaining--;
+			if (!(contains(${springBootLogFileContent}, "There are 0 message board threads in the Guest site"))) {
+				fail("Could not find 'There are 0 message board threads in the Guest site'");
 			}
 
 			if (!found) {
