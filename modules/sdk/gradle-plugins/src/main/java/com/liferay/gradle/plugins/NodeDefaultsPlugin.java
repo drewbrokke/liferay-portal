@@ -87,13 +87,15 @@ public class NodeDefaultsPlugin extends BaseDefaultsPlugin<NodePlugin> {
 		NodeExtension nodeExtension = extensionContainer.getByType(
 			NodeExtension.class);
 
-		Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfo();
+		if (nodeExtension.isUseLatestNode()){
+			Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfo();
 
-		if (nodeInfoOptional.isPresent()) {
-			NodeInfo nodeInfo = nodeInfoOptional.get();
+			if (nodeInfoOptional.isPresent()) {
+				NodeInfo nodeInfo = nodeInfoOptional.get();
 
-			_nodeVersion = StringUtils.substring(nodeInfo.getVersion(), 1);
-			_npmVersion = nodeInfo.getNpmVersion();
+				_nodeVersion = StringUtils.substring(nodeInfo.getVersion(), 1);
+				_npmVersion = nodeInfo.getNpmVersion();
+			}
 		}
 
 		_configureExtensionNode(project, nodeExtension);

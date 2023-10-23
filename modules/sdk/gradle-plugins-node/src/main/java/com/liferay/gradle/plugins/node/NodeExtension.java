@@ -243,7 +243,7 @@ public class NodeExtension {
 		return _global;
 	}
 
-	public boolean isUselatestNode() {
+	public boolean isUseLatestNode() {
 		return GradleUtil.toBoolean(_useLatestNode);
 	}
 
