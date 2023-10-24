@@ -69,7 +69,7 @@
     <dependency>
       <groupId>com.liferay</groupId>
       <artifactId>com.liferay.gradle.plugins</artifactId>
-      <version>14.0.195</version>
+      <version>14.0.197</version>
       <scope>compile</scope>
       <exclusions>
         <exclusion>
@@ -105,7 +105,7 @@
     <dependency>
       <groupId>com.liferay</groupId>
       <artifactId>com.liferay.gradle.plugins.source.formatter</artifactId>
-      <version>5.2.63</version>
+      <version>5.2.67</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
