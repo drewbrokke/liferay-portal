@@ -232,8 +232,13 @@ public class ClientExtensionProjectConfigurator
 
 						validateClientExtensionTaskProvider.configure(
 							task -> task.doLast(
-								task1 -> _validateClientExtension(
-									clientExtension, project)));
+								new Action<Task>() {
+									@Override
+									public void execute(Task task1) {
+										_validateClientExtension(
+											clientExtension, project);
+									}
+								}));
 
 						_clientExtensionIds.compute(
 							clientExtension.id,
