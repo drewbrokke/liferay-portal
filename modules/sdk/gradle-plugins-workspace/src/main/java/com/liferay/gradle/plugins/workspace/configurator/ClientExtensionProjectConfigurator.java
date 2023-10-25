@@ -641,6 +641,8 @@ public class ClientExtensionProjectConfigurator
 			createClientExtensionConfigTaskProvider,
 		TaskProvider<DefaultTask> validateClientExtensionIdsTaskProvider) {
 
+		File clientExtensionYamlFile = project.file(_CLIENT_EXTENSION_YAML);
+
 		createClientExtensionConfigTaskProvider.configure(
 			createClientExtensionConfigTask -> {
 				createClientExtensionConfigTask.dependsOn(
@@ -652,7 +654,7 @@ public class ClientExtensionProjectConfigurator
 				TaskInputs taskInputs =
 					createClientExtensionConfigTask.getInputs();
 
-				taskInputs.file(project.file(_CLIENT_EXTENSION_YAML));
+				taskInputs.file(clientExtensionYamlFile);
 
 				createClientExtensionConfigTask.addClientExtensionProperties(
 					_getClientExtensionProperties());
@@ -699,6 +701,11 @@ public class ClientExtensionProjectConfigurator
 						"unique among all projects.");
 				validateClientExtensionIdsTask.setGroup(
 					LifecycleBasePlugin.VERIFICATION_GROUP);
+
+				TaskInputs taskInputs =
+					validateClientExtensionIdsTask.getInputs();
+
+				taskInputs.file(clientExtensionYamlFile);
 
 				TaskOutputs outputs =
 					validateClientExtensionIdsTask.getOutputs();
