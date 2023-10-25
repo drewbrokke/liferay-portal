@@ -164,6 +164,10 @@ public class ClientExtensionProjectConfigurator
 			validateClientExtensionIdsTaskProvider,
 			validateClientExtensionTaskProvider);
 
+		_setOutputsUpToDateAlways(
+			validateClientExtensionIdsTaskProvider,
+			validateClientExtensionTaskProvider);
+
 		_baseConfigureClientExtensionProject(
 			project, assembleClientExtensionTaskProvider,
 			buildClientExtensionZipTaskProvider,
@@ -644,8 +648,6 @@ public class ClientExtensionProjectConfigurator
 			createClientExtensionConfigTaskProvider,
 		TaskProvider<DefaultTask> validateClientExtensionIdsTaskProvider) {
 
-		File clientExtensionYamlFile = project.file(_CLIENT_EXTENSION_YAML);
-
 		createClientExtensionConfigTaskProvider.configure(
 			createClientExtensionConfigTask -> {
 				createClientExtensionConfigTask.dependsOn(
@@ -699,11 +701,6 @@ public class ClientExtensionProjectConfigurator
 						"unique among all projects.");
 				validateClientExtensionIdsTask.setGroup(
 					LifecycleBasePlugin.VERIFICATION_GROUP);
-
-				TaskOutputs outputs =
-					validateClientExtensionIdsTask.getOutputs();
-
-				outputs.upToDateWhen(task -> true);
 
 				validateClientExtensionIdsTask.doFirst(
 					new Action<Task>() {
@@ -770,10 +767,26 @@ public class ClientExtensionProjectConfigurator
 	private final void _addInputFile(
 		File inputFile, TaskProvider<? extends Task>... taskProviders) {
 		for (TaskProvider<? extends Task> taskProvider : taskProviders) {
-			taskProvider.configure(task -> {
-				TaskInputs inputs = task.getInputs();
 
-				inputs.file(inputFile);
+			taskProvider.configure(new Action<Task>() {
+				@Override
+				public void execute(Task task) {
+					TaskInputs inputs = task.getInputs();
+
+					inputs.file(inputFile);
+				}
+			});
+		}
+	}
+	@SafeVarargs
+	private final void _setOutputsUpToDateAlways(TaskProvider<? extends Task>... taskProviders) {
+		for (TaskProvider<? extends Task> taskProvider : taskProviders) {
+			taskProvider.configure(new Action<Task>() {
+				@Override
+				public void execute(Task task) {
+					TaskOutputs outputs = task.getOutputs();
+					outputs.upToDateWhen(task1 -> true);
+				}
 			});
 		}
 	}
