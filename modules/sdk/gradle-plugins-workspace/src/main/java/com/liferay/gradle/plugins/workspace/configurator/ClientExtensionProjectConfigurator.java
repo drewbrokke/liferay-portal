@@ -158,6 +158,12 @@ public class ClientExtensionProjectConfigurator
 				project, VALIDATE_CLIENT_EXTENSIONS_TASK_NAME,
 				DefaultTask.class);
 
+		_addInputFile(
+			project.file(_CLIENT_EXTENSION_YAML),
+			createClientExtensionConfigTaskProvider,
+			validateClientExtensionIdsTaskProvider,
+			validateClientExtensionTaskProvider);
+
 		_baseConfigureClientExtensionProject(
 			project, assembleClientExtensionTaskProvider,
 			buildClientExtensionZipTaskProvider,
@@ -170,7 +176,8 @@ public class ClientExtensionProjectConfigurator
 		Map<String, JsonNode> profileJsonNodes =
 			_configureClientExtensionJsonNodes(
 				project, createClientExtensionConfigTaskProvider,
-				validateClientExtensionIdsTaskProvider);
+				validateClientExtensionIdsTaskProvider,
+				validateClientExtensionTaskProvider);
 
 		for (Map.Entry<String, JsonNode> profileJsonNodeEntry :
 				profileJsonNodes.entrySet()) {
@@ -623,14 +630,7 @@ public class ClientExtensionProjectConfigurator
 
 			profileJsonNodes.put(profileName, jsonNode);
 
-			for (TaskProvider<? extends Task> taskProvider : taskProviders) {
-				taskProvider.configure(
-					task -> {
-						TaskInputs taskInputs = task.getInputs();
-
-						taskInputs.file(file);
-					});
-			}
+			_addInputFile(file, taskProviders);
 		}
 
 		return profileJsonNodes;
@@ -653,11 +653,6 @@ public class ClientExtensionProjectConfigurator
 					BUILD_SITE_INITIALIZER_ZIP_TASK_NAME,
 					VALIDATE_CLIENT_EXTENSION_IDS_TASK_NAME,
 					VALIDATE_CLIENT_EXTENSIONS_TASK_NAME);
-
-				TaskInputs taskInputs =
-					createClientExtensionConfigTask.getInputs();
-
-				taskInputs.file(clientExtensionYamlFile);
 
 				createClientExtensionConfigTask.addClientExtensionProperties(
 					_getClientExtensionProperties());
@@ -705,15 +700,9 @@ public class ClientExtensionProjectConfigurator
 				validateClientExtensionIdsTask.setGroup(
 					LifecycleBasePlugin.VERIFICATION_GROUP);
 
-				TaskInputs taskInputs =
-					validateClientExtensionIdsTask.getInputs();
-
-				taskInputs.file(clientExtensionYamlFile);
-
 				TaskOutputs outputs =
 					validateClientExtensionIdsTask.getOutputs();
 
-				System.out.println("FOO BAR");
 				outputs.upToDateWhen(task -> true);
 
 				validateClientExtensionIdsTask.doFirst(
@@ -775,6 +764,18 @@ public class ClientExtensionProjectConfigurator
 
 				archiveBaseNameProperty.set("site-initializer");
 			});
+	}
+
+	@SafeVarargs
+	private final void _addInputFile(
+		File inputFile, TaskProvider<? extends Task>... taskProviders) {
+		for (TaskProvider<? extends Task> taskProvider : taskProviders) {
+			taskProvider.configure(task -> {
+				TaskInputs inputs = task.getInputs();
+
+				inputs.file(inputFile);
+			});
+		}
 	}
 
 	private void _configureConfigurationDefault(Project project) {
