@@ -169,7 +169,8 @@ public class ClientExtensionProjectConfigurator
 
 		Map<String, JsonNode> profileJsonNodes =
 			_configureClientExtensionJsonNodes(
-				project, createClientExtensionConfigTaskProvider);
+				project, createClientExtensionConfigTaskProvider,
+				validateClientExtensionIdsTaskProvider);
 
 		for (Map.Entry<String, JsonNode> profileJsonNodeEntry :
 				profileJsonNodes.entrySet()) {
@@ -576,10 +577,10 @@ public class ClientExtensionProjectConfigurator
 			});
 	}
 
-	private Map<String, JsonNode> _configureClientExtensionJsonNodes(
+	@SafeVarargs
+	private final Map<String, JsonNode> _configureClientExtensionJsonNodes(
 		Project project,
-		TaskProvider<CreateClientExtensionConfigTask>
-			createClientExtensionConfigTaskProvider) {
+		TaskProvider<? extends Task>... taskProviders) {
 
 		Map<String, JsonNode> profileJsonNodes = new HashMap<>();
 
@@ -622,12 +623,14 @@ public class ClientExtensionProjectConfigurator
 
 			profileJsonNodes.put(profileName, jsonNode);
 
-			createClientExtensionConfigTaskProvider.configure(
-				task -> {
-					TaskInputs taskInputs = task.getInputs();
+			for (TaskProvider<? extends Task> taskProvider : taskProviders) {
+				taskProvider.configure(
+					task -> {
+						TaskInputs taskInputs = task.getInputs();
 
-					taskInputs.file(file);
-				});
+						taskInputs.file(file);
+					});
+			}
 		}
 
 		return profileJsonNodes;
