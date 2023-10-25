@@ -71,7 +71,6 @@ import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.initialization.Settings;
-import org.gradle.api.internal.TaskOutputsInternal;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.BasePlugin;
@@ -160,8 +159,7 @@ public class ClientExtensionProjectConfigurator
 				DefaultTask.class);
 
 		_addInputFile(
-			project.file(_CLIENT_EXTENSION_YAML),
-			() -> true,
+			project.file(_CLIENT_EXTENSION_YAML), () -> true,
 			assembleClientExtensionTaskProvider,
 			createClientExtensionConfigTaskProvider,
 			validateClientExtensionIdsTaskProvider,
@@ -237,11 +235,13 @@ public class ClientExtensionProjectConfigurator
 						validateClientExtensionTaskProvider.configure(
 							task -> task.doLast(
 								new Action<Task>() {
+
 									@Override
 									public void execute(Task task1) {
 										_validateClientExtension(
 											clientExtension, project);
 									}
+
 								}));
 
 						_clientExtensionIds.compute(
@@ -291,7 +291,8 @@ public class ClientExtensionProjectConfigurator
 									zip.into("site-initializer");
 								});
 							createClientExtensionConfigTaskProvider.configure(
-								task -> task.dependsOn(BUILD_SITE_INITIALIZER_ZIP_TASK_NAME));
+								task -> task.dependsOn(
+									BUILD_SITE_INITIALIZER_ZIP_TASK_NAME));
 						}
 					}
 					catch (JsonProcessingException jsonProcessingException) {
@@ -462,6 +463,28 @@ public class ClientExtensionProjectConfigurator
 		cleanTask.dependsOn(dockerRemoveImage);
 	}
 
+	@SafeVarargs
+	private final void _addInputFile(
+		File inputFile, Supplier<Boolean> supplier,
+		TaskProvider<? extends Task>... taskProviders) {
+
+		for (TaskProvider<? extends Task> taskProvider : taskProviders) {
+			taskProvider.configure(
+				new Action<Task>() {
+
+					@Override
+					public void execute(Task task) {
+						if (supplier.get()) {
+							TaskInputs inputs = task.getInputs();
+
+							inputs.file(inputFile);
+						}
+					}
+
+				});
+		}
+	}
+
 	private TaskProvider<Zip> _baseConfigureClientExtensionProject(
 		Project project, TaskProvider<Copy> assembleClientExtensionTaskProvider,
 		TaskProvider<Zip> buildClientExtensionZipTaskProvider,
@@ -601,8 +624,7 @@ public class ClientExtensionProjectConfigurator
 
 	@SafeVarargs
 	private final Map<String, JsonNode> _configureClientExtensionJsonNodes(
-		Project project,
-		TaskProvider<? extends Task>... taskProviders) {
+		Project project, TaskProvider<? extends Task>... taskProviders) {
 
 		Map<String, JsonNode> profileJsonNodes = new HashMap<>();
 
@@ -645,7 +667,9 @@ public class ClientExtensionProjectConfigurator
 
 			profileJsonNodes.put(profileName, jsonNode);
 
-			_addInputFile(file, () -> _isActiveProfile(project, profileName), taskProviders);
+			_addInputFile(
+				file, () -> _isActiveProfile(project, profileName),
+				taskProviders);
 		}
 
 		return profileJsonNodes;
@@ -714,9 +738,11 @@ public class ClientExtensionProjectConfigurator
 
 				validateClientExtensionIdsTask.doFirst(
 					new Action<Task>() {
+
 						@Override
 						public void execute(
 							Task validateClientExtensionIdsTask1) {
+
 							StringBundler sb = new StringBundler();
 
 							File rootDir = project.getRootDir();
@@ -724,7 +750,7 @@ public class ClientExtensionProjectConfigurator
 							Path rootDirPath = rootDir.toPath();
 
 							for (Map.Entry<String, Set<Project>> entry :
-								_clientExtensionIds.entrySet()) {
+									_clientExtensionIds.entrySet()) {
 
 								Set<Project> projects = entry.getValue();
 
@@ -755,6 +781,7 @@ public class ClientExtensionProjectConfigurator
 								throw new GradleException(sb.toString());
 							}
 						}
+
 					});
 			});
 
@@ -771,36 +798,6 @@ public class ClientExtensionProjectConfigurator
 
 				archiveBaseNameProperty.set("site-initializer");
 			});
-	}
-
-	@SafeVarargs
-	private final void _addInputFile(
-		File inputFile, Supplier<Boolean> supplier, TaskProvider<? extends Task>... taskProviders) {
-		for (TaskProvider<? extends Task> taskProvider : taskProviders) {
-
-			taskProvider.configure(new Action<Task>() {
-				@Override
-				public void execute(Task task) {
-					if (supplier.get()) {
-						TaskInputs inputs = task.getInputs();
-
-						inputs.file(inputFile);
-					}
-				}
-			});
-		}
-	}
-	@SafeVarargs
-	private final void _setOutputsUpToDateAlways(TaskProvider<? extends Task>... taskProviders) {
-		for (TaskProvider<? extends Task> taskProvider : taskProviders) {
-			taskProvider.configure(new Action<Task>() {
-				@Override
-				public void execute(Task task) {
-					TaskOutputs outputs = task.getOutputs();
-					outputs.upToDateWhen(task1 -> true);
-				}
-			});
-		}
 	}
 
 	private void _configureConfigurationDefault(Project project) {
@@ -1111,6 +1108,25 @@ public class ClientExtensionProjectConfigurator
 			}
 
 			baseObjectNode.replace(fieldName, fieldNameOverrideJsonNode);
+		}
+	}
+
+	@SafeVarargs
+	private final void _setOutputsUpToDateAlways(
+		TaskProvider<? extends Task>... taskProviders) {
+
+		for (TaskProvider<? extends Task> taskProvider : taskProviders) {
+			taskProvider.configure(
+				new Action<Task>() {
+
+					@Override
+					public void execute(Task task) {
+						TaskOutputs outputs = task.getOutputs();
+
+						outputs.upToDateWhen(task1 -> true);
+					}
+
+				});
 		}
 	}
 
