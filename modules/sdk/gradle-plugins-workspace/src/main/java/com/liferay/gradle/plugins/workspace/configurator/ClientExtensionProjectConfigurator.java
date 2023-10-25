@@ -70,6 +70,7 @@ import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.initialization.Settings;
+import org.gradle.api.internal.TaskOutputsInternal;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.BasePlugin;
@@ -80,6 +81,7 @@ import org.gradle.api.tasks.Copy;
 import org.gradle.api.tasks.Delete;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskInputs;
+import org.gradle.api.tasks.TaskOutputs;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.TaskState;
 import org.gradle.api.tasks.bundling.Zip;
@@ -697,6 +699,12 @@ public class ClientExtensionProjectConfigurator
 						"unique among all projects.");
 				validateClientExtensionIdsTask.setGroup(
 					LifecycleBasePlugin.VERIFICATION_GROUP);
+
+				TaskOutputs outputs =
+					validateClientExtensionIdsTask.getOutputs();
+
+				System.out.println("FOO BAR");
+				outputs.upToDateWhen(task -> true);
 
 				validateClientExtensionIdsTask.doFirst(
 					validateClientExtensionIdsTask1 -> {
