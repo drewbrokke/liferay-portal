@@ -53,6 +53,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -160,6 +161,7 @@ public class ClientExtensionProjectConfigurator
 
 		_addInputFile(
 			project.file(_CLIENT_EXTENSION_YAML),
+			() -> true,
 			assembleClientExtensionTaskProvider,
 			createClientExtensionConfigTaskProvider,
 			validateClientExtensionIdsTaskProvider,
@@ -643,7 +645,7 @@ public class ClientExtensionProjectConfigurator
 
 			profileJsonNodes.put(profileName, jsonNode);
 
-			_addInputFile(file, taskProviders);
+			_addInputFile(file, () -> _isActiveProfile(project, profileName), taskProviders);
 		}
 
 		return profileJsonNodes;
@@ -773,15 +775,17 @@ public class ClientExtensionProjectConfigurator
 
 	@SafeVarargs
 	private final void _addInputFile(
-		File inputFile, TaskProvider<? extends Task>... taskProviders) {
+		File inputFile, Supplier<Boolean> supplier, TaskProvider<? extends Task>... taskProviders) {
 		for (TaskProvider<? extends Task> taskProvider : taskProviders) {
 
 			taskProvider.configure(new Action<Task>() {
 				@Override
 				public void execute(Task task) {
-					TaskInputs inputs = task.getInputs();
+					if (supplier.get()) {
+						TaskInputs inputs = task.getInputs();
 
-					inputs.file(inputFile);
+						inputs.file(inputFile);
+					}
 				}
 			});
 		}
