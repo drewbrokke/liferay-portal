@@ -160,6 +160,7 @@ public class ClientExtensionProjectConfigurator
 
 		_addInputFile(
 			project.file(_CLIENT_EXTENSION_YAML),
+			assembleClientExtensionTaskProvider,
 			createClientExtensionConfigTaskProvider,
 			validateClientExtensionIdsTaskProvider,
 			validateClientExtensionTaskProvider);
@@ -179,7 +180,8 @@ public class ClientExtensionProjectConfigurator
 
 		Map<String, JsonNode> profileJsonNodes =
 			_configureClientExtensionJsonNodes(
-				project, createClientExtensionConfigTaskProvider,
+				project, assembleClientExtensionTaskProvider,
+				createClientExtensionConfigTaskProvider,
 				validateClientExtensionIdsTaskProvider,
 				validateClientExtensionTaskProvider);
 
