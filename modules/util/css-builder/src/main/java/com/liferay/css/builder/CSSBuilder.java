@@ -401,6 +401,12 @@ public class CSSBuilder implements AutoCloseable {
 
 				Path path = outputPath.resolve(name);
 
+				Path canonicalPath = path.toRealPath();
+
+				if (!canonicalPath.equals(path)) {
+					continue;
+				}
+
 				Files.createDirectories(path.getParent());
 
 				Files.copy(
