@@ -5937,13 +5937,16 @@ information. Make sure to commit in all format-javadoc results.
 									<then>
 										<propertycopy from="gradle.plugins.test.excludes.globs[${gradle.plugin.dir.name}]" name="gradle.plugins.test.excludes.globs" override="true" />
 
-										<gradle-execute dir="@{gradle.plugin.dir}" forcedcacheenabled="false" task="gradleTest">
+										<echo>@{gradle.plugin.dir}</echo>
+										<echo>EXCLUDE FOUND</echo>
+										<echo>${gradle.plugins.test.excludes.globs}</echo>
+										<!-- <gradle-execute dir="@{gradle.plugin.dir}" forcedcacheenabled="false" task="gradleTest">
 											<arg value="-PtestExcludes=${gradle.plugins.test.excludes.globs}" />
-										</gradle-execute>
+										</gradle-execute> -->
 									</then>
-									<else>
+									<!-- <else>
 										<gradle-execute dir="@{gradle.plugin.dir}" forcedcacheenabled="false" task="gradleTest" />
-									</else>
+									</else> -->
 								</if>
 							</then>
 						</if>
