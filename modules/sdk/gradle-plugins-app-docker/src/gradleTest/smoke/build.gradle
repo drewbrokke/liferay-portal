@@ -73,7 +73,7 @@ runGradleTest {
 	onNext {
 		Image image ->
 
-		if (image.repoTags.contains("example/sample:foo")) {
+		if (image.repoTags != null && image.repoTags.contains("example/sample:foo")) {
 			assert image.repoTags.length == removeAppDockerImageTasks.size()
 
 			for (i in 0 .. (image.repoTags.length - 1)) {
