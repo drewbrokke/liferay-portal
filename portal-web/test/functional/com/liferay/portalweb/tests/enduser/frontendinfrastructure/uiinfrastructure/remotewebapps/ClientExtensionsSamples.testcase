@@ -189,7 +189,7 @@ definition {
 
 			echo(${springBootLogFileContent});
 
-			var found = false;
+			var found = "false";
 			var trys = 5;
 
 			while (!(contains(${springBootLogFileContent}, "There are 0 message board threads in the Guest site")) && !(MathUtil.isGreaterThan(${trys}, 0))) {
@@ -202,7 +202,7 @@ definition {
 				fail("Could not find 'There are 0 message board threads in the Guest site'");
 			}
 
-			if (!found) {
+			if (${found} != "true") {
 				fail("Could not find 'There are 0 message board threads in the Guest site'");
 			}
 		}
