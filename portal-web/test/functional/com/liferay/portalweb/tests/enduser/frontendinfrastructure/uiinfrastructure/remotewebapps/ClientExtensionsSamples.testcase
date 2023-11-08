@@ -192,10 +192,18 @@ definition {
 			var found = "false";
 			var tries = 5;
 
-			while (!(contains(${springBootLogFileContent}, "There are 0 message board threads in the Guest site")) && !(MathUtil.isGreaterThan(${tries}, 0))) {
+			var hasTriesLeft = MathUtil.isGreaterThan(${tries}, 0);
+
+			while (${hasTriesLeft} == "true") {
+				if (contains(${springBootLogFileContent}, "There are 0 message board threads in the Guest site")) {
+					break;
+				}
+
 				Pause(locator1 = 1000);
 
 				var tries = MathUtil.difference(${tries}, 1);
+
+				var hasTriesLeft = MathUtil.isGreaterThan(${tries}, 0);
 			}
 
 			if (!(contains(${springBootLogFileContent}, "There are 0 message board threads in the Guest site"))) {
