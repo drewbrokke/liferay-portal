@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import com.google.common.collect.Sets;
 
@@ -36,6 +37,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -50,9 +52,11 @@ import java.util.stream.Stream;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
+import org.gradle.api.file.ConfigurableFileTree;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.ProjectLayout;
 import org.gradle.api.file.RegularFile;
+import org.gradle.api.logging.Logger;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFiles;
@@ -157,6 +161,10 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 		if (batchType != null) {
 			substitutionMap.put("__BATCH_TYPE__", batchType);
+
+			if (Objects.equals(batchType, "batch")) {
+				_processBatchJSONFiles();
+			}
 		}
 
 		String projectId = StringUtil.toAlphaNumericLowerCase(
@@ -470,6 +478,128 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		return false;
 	}
 
+	private void _processBatchJSONFile(File file) throws IOException {
+		JsonNode rootNode = _objectMapper.readTree(file);
+
+		File parentFile = file.getParentFile();
+
+		JsonNode configurationNode = rootNode.findValue("configuration");
+
+		JsonNode classNameNode = configurationNode.findValue("className");
+
+		if ((classNameNode == null) ||
+			!Objects.equals(
+				_OBJECT_ENTRY_MODEL_CLASS_NAME, classNameNode.asText())) {
+
+			return;
+		}
+
+		JsonNode itemsNode = rootNode.findValue("items");
+
+		if (itemsNode == null) {
+			return;
+		}
+
+		boolean modified = false;
+
+		for (JsonNode itemNode : itemsNode) {
+			JsonNode externalReferenceCodeNode = itemNode.findValue(
+				"externalReferenceCode");
+
+			if (externalReferenceCodeNode == null) {
+				continue;
+			}
+
+			for (JsonNode childNode : itemNode) {
+				if (!childNode.isObject()) {
+					continue;
+				}
+
+				JsonNode fileBase64Node = childNode.findValue("fileBase64");
+
+				if ((fileBase64Node == null) ||
+					!Objects.equals(
+						_BATCH_OBJECT_FILE_TOKEN, fileBase64Node.asText())) {
+
+					continue;
+				}
+
+				JsonNode nameNode = childNode.findValue("name");
+
+				if (nameNode == null) {
+					throw new GradleException(
+						String.format(
+							"No name field found with token %s",
+							_BATCH_OBJECT_FILE_TOKEN));
+				}
+
+				File attachmentFile = new File(
+					parentFile,
+					String.format(
+						"attachments/%s/%s", externalReferenceCodeNode.asText(),
+						nameNode.asText()));
+
+				if (!attachmentFile.exists()) {
+					throw new GradleException(
+						String.format(
+							"Attachment file %s does not exist",
+							attachmentFile));
+				}
+
+				ObjectNode writeNode = (ObjectNode)childNode;
+
+				writeNode.put(
+					"fileBase64",
+					_base64Encoder.encodeToString(
+						Files.readAllBytes(attachmentFile.toPath())));
+
+				modified = true;
+			}
+		}
+
+		if (!modified) {
+			return;
+		}
+
+		File projectDir = _project.getProjectDir();
+
+		Path projectDirPath = projectDir.toPath();
+
+		Path relativeTargetFilePath = projectDirPath.relativize(file.toPath());
+
+		Path cxBuildDir = Paths.get(
+			String.valueOf(_project.getBuildDir()),
+			ClientExtensionProjectConfigurator.CLIENT_EXTENSION_BUILD_DIR);
+
+		Path resolvedTargetPath = cxBuildDir.resolve(relativeTargetFilePath);
+
+		ObjectWriter writer = _objectMapper.writer();
+
+		Files.write(resolvedTargetPath, writer.writeValueAsBytes(rootNode));
+
+		Logger logger = getLogger();
+
+		if (logger.isInfoEnabled()) {
+			logger.info("Replaced base64 tokens in {}", file);
+		}
+	}
+
+	private void _processBatchJSONFiles() {
+		ConfigurableFileTree fileTree = _project.fileTree("batch");
+
+		fileTree.include("**/*.json");
+
+		for (File file : fileTree.getFiles()) {
+			try {
+				_processBatchJSONFile(file);
+			}
+			catch (IOException ioException) {
+				throw new GradleException(
+					String.format("Could not read file %s", file));
+			}
+		}
+	}
+
 	private void _storePluginPackageProperties(
 		Properties pluginPackageProperties) {
 
@@ -593,8 +723,14 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		}
 	}
 
+	private static final String _BATCH_OBJECT_FILE_TOKEN =
+		"@batch_object_entry_file_base64@";
+
 	private static final String _CLIENT_EXTENSION_CONFIG_FILE_NAME =
 		".client-extension-config.json";
+
+	private static final String _OBJECT_ENTRY_MODEL_CLASS_NAME =
+		"com.liferay.object.rest.dto.v1_0.ObjectEntry";
 
 	private static final String _PLUGIN_PACKAGE_PROPERTIES_PATH =
 		"WEB-INF/liferay-plugin-package.properties";
@@ -623,6 +759,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 				}
 			};
 
+	private final Base64.Encoder _base64Encoder = Base64.getEncoder();
 	private final Object _clientExtensionConfigFile;
 	private Properties _clientExtensionProperties;
 	private final Set<ClientExtension> _clientExtensions = new HashSet<>();
