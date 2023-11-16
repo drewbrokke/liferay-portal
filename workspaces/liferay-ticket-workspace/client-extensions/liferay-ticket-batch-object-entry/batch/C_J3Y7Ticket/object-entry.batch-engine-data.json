@@ -36,7 +36,7 @@
 	"items": [
 		{
 			"attachment": {
-				"fileBase64": "MSAgIEV4YW1wbGUgb2YgYW4gYXR0YWNobWVudA0KIA==",
+				"fileBase64": "@batch_object_entry_file_base64@",
 				"name": "ticket_1.pdf"
 			},
 			"dateCreated": "2023-05-04T21:49:04Z",
@@ -68,7 +68,7 @@
 		},
 		{
 			"attachment": {
-				"fileBase64": "MSAgIEV4YW1wbGUgb2YgYW4gYXR0YWNobWVudA0KIA==",
+				"fileBase64": "@batch_object_entry_file_base64@",
 				"name": "ticket_2.pdf"
 			},
 			"dateCreated": "2023-05-04T21:49:04Z",
@@ -100,7 +100,7 @@
 		},
 		{
 			"attachment": {
-				"fileBase64": "MSAgIEV4YW1wbGUgb2YgYW4gYXR0YWNobWVudA0KIA==",
+				"fileBase64": "@batch_object_entry_file_base64@",
 				"name": "ticket_3.pdf"
 			},
 			"dateCreated": "2023-05-04T21:49:04Z",
