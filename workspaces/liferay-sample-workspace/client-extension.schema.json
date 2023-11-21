@@ -132,7 +132,14 @@
 									"$ref": "#/definitions/datatypes/properties/uniqueStringArray"
 								},
 								"friendlyURLMapping": {
-									"type": "string"
+									"anyOf": [
+										{
+											"type": "null"
+										},
+										{
+											"type": "string"
+										}
+									]
 								},
 								"htmlElementName": {
 									"description": "A lower-case kebab-case name to be used for the custom element. Must contain at least one hyphen.",
