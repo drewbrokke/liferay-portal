@@ -1,5 +1,6 @@
 {
-	"$id": "https://github.com/drewbrokke/schemas/client-extension.schema.json",
+	"$comment": "This JSON Schema is published to https://www.schemastore.org/json/. It can be found by searching under 'Liferay client-extension.yaml'. VSCode and IntelliJ IDEA both come with support for detecting schemas from SchemaStore.",
+	"$id": "https://raw.githubusercontent.com/liferay/liferay-portal/master/modules/sdk/gradle-plugins-workspace/src/main/resources/schemas/client-extension.schema.json",
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"definitions": {
 		"datatypes": {
