@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/drewbrokke/liferay-portal/cx-json-schema/workspaces/liferay-sample-workspace/client-extension.schema.json
+
 liferay-sample-site-initializer:
     name: Liferay Sample Site Initializer
     oAuthApplicationHeadlessServer: liferay-sample-site-initializer-oauth-application-headless-server
