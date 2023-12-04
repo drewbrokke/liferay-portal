@@ -13,5 +13,4 @@ runGradleTest {
 		assert node.nodeVersion.startsWith("2")
 	}
 
-
 }
