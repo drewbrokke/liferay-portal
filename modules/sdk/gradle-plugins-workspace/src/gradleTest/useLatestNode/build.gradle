@@ -12,5 +12,4 @@ runGradleTest {
 		assert node.nodeVersion != "16.13.0"
 	}
 
-
 }
