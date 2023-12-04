@@ -1,0 +1,16 @@
+task runGradleTest
+
+node {
+	useLatestNode = "true"
+}
+
+runGradleTest {
+	dependsOn downloadNode
+
+	doLast {
+		assert node.nodeVersion != null
+		assert node.nodeVersion != "16.13.0"
+	}
+
+
+}
