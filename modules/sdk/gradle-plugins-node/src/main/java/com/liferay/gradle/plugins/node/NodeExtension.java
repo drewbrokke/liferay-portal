@@ -358,38 +358,6 @@ public class NodeExtension {
 		_yarnVersion = yarnVersion;
 	}
 
-	private static class NodeInfo {
-
-		public String getDate() {
-			return _date;
-		}
-
-		public String getNpmVersion() {
-			return _npm;
-		}
-
-		public String getVersion() {
-			return _version;
-		}
-
-		public String isLtsVersion() {
-			return _lts;
-		}
-
-		@SerializedName("date")
-		private String _date;
-
-		@SerializedName("lts")
-		private String _lts;
-
-		@SerializedName("npm")
-		private String _npm;
-
-		@SerializedName("version")
-		private String _version;
-
-	}
-
 	private Optional<NodeInfo> _getNodeInfos(Path downloadPath)
 		throws Exception {
 
@@ -494,5 +462,37 @@ public class NodeExtension {
 	private Object _useNpm = true;
 	private Object _yarnUrl;
 	private Object _yarnVersion = "1.13.0";
+
+	private static class NodeInfo {
+
+		public String getDate() {
+			return _date;
+		}
+
+		public String getNpmVersion() {
+			return _npm;
+		}
+
+		public String getVersion() {
+			return _version;
+		}
+
+		public String isLtsVersion() {
+			return _lts;
+		}
+
+		@SerializedName("date")
+		private String _date;
+
+		@SerializedName("lts")
+		private String _lts;
+
+		@SerializedName("npm")
+		private String _npm;
+
+		@SerializedName("version")
+		private String _version;
+
+	}
 
 }
