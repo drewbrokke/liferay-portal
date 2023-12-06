@@ -1,19 +1,17 @@
 import groovy.json.JsonGenerator
-import groovy.json.JsonOutput
 
 import java.util.regex.Pattern
 
-task foo
-println "loaded generate-json-schema.gradle"
+task generateInstanceSettingsJsonSchema
 
 def schemaDataTypes = [
-	'boolean': 'boolean',
 	'LocalizedValuesMap': 'object',
-	'int': 'number',
-	'long': 'number',
 	'String': 'string',
 	'String[]': 'array',
-	'float': 'number'
+	'boolean': 'boolean',
+	'float': 'number',
+	'int': 'number',
+	'long': 'number',
 ]
 
 class AttributeDef {
@@ -107,22 +105,20 @@ JsonGenerator jsonGenerator = new JsonGenerator.Options()
 	.excludeFieldsByName("contentHash", "originalClassName", "requiredInput")
 	.build()
 
-def printJson = { println JsonOutput.prettyPrint(jsonGenerator.toJson(it)) }
+def getProcessOutput = { ["sh", "-c", it].execute().text.trim() }
 
-def doThing = {
+def generateJSONString = {
 	Properties languageProperties = new Properties()
 
-	String gitTopLevel = ["sh", "-c", "git rev-parse --show-toplevel"].execute().text.trim()
+	String gitTopLevel = getProcessOutput "git rev-parse --show-toplevel"
+
 	String languagePropertiesFilePath = 'modules/apps/portal-language/portal-language-lang/src/main/resources/content/Language.properties'
 
-	new File("${gitTopLevel}/${languagePropertiesFilePath}").withReader {
-		languageProperties.load(it)
-	}
+	new File("${gitTopLevel}/${languagePropertiesFilePath}").withReader {languageProperties.load(it) }
 
-	String[] configFilePaths = ["sh", "-c", "git -C ${gitTopLevel} grep -l 'scope = ExtendedObjectClassDefinition.Scope.(COMPANY|GROUP)' -- '*Configuration.java'"].execute().text.trim().split()
+	String[] configFilePaths = getProcessOutput("git -C ${gitTopLevel} grep -l 'scope = ExtendedObjectClassDefinition.Scope.(COMPANY|GROUP)' -- '*Configuration.java'").split()
 
 	ObjectDef[] objectDefs = configFilePaths.collect {configFilePath ->
-//		println configFilePath
 		ObjectDef objectDef = new ObjectDef();
 
 		AttributeDef attributeDef = new AttributeDef()
@@ -147,7 +143,6 @@ def doThing = {
 			withMatcher(line, attributeDef, ~/\brequiredInput = (?<requiredInput>true|false)/, null)
 			withMatcher(line, attributeDef, ~/\brequired = (?<required>true|false)/, null)
 			withMatcher(line, attributeDef, ~/\b(?<deprecated>@Deprecated)/, {attributeDef.deprecated = true})
-
 			withMatcher(line, attributeDef, ~/\s+public(default)? (?<type>\w+|\S+) (?<name>\w+)\(\)/, {
 				if (attributeDef.requiredInput) {
 					attributeDef.required = true;
@@ -175,6 +170,7 @@ def doThing = {
 		return objectDef
 	}.findAll {it.pid !== null}
 
+	// Write the schema
 	def schema = [
 	        oneOf: [],
 			properties: [
@@ -196,57 +192,59 @@ def doThing = {
 		typeSchema.title = objectDef.title
 		typeSchema.properties.pid.title = objectDef.title
 
-		objectDef.attributeDefs.each {
+		objectDef.attributeDefs.each { attributeDef ->
 			def propertySchema = [
-				default: it.defaultValue,
-				deprecated: it.deprecated,
-				description: it.description,
-				title: it.title,
-				type: it.type
+				default: attributeDef.defaultValue,
+				deprecated: attributeDef.deprecated,
+				description: attributeDef.description,
+				title: attributeDef.title,
+				type: attributeDef.type
 			]
 
-			if (it.isArray()) {
+			if (attributeDef.isArray()) {
 				propertySchema.items = [type: 'string']
 			}
-			if (it.isObject()) {
+			if (attributeDef.isObject()) {
 				propertySchema.properties = [:]
 			}
-			if (it.isNumber()) {
-				propertySchema.max = it.max
-				propertySchema.min = it.min
+			if (attributeDef.isNumber()) {
+				propertySchema.max = attributeDef.max
+				propertySchema.min = attributeDef.min
 			}
-			if (it.isString()) {
-				propertySchema.maxLength = it.max
-				propertySchema.minLength = it.min
+			if (attributeDef.isString()) {
+				propertySchema.maxLength = attributeDef.max
+				propertySchema.minLength = attributeDef.min
 			}
-			if (it.optionValues) {
-				if (it.isArray()) {
-					propertySchema.items.enum = it.optionValues
+			if (attributeDef.optionValues) {
+				if (attributeDef.isArray()) {
+					propertySchema.items.enum = attributeDef.optionValues
 				}
 				else {
-					propertySchema.enum = it.optionValues
+					propertySchema.enum = attributeDef.optionValues
 				}
 			}
-			if (it.required) {
-				typeSchema.required.add(it.name)
+			if (attributeDef.required) {
+				typeSchema.required.add(attributeDef.name)
 			}
 
-			typeSchema.properties[it.name] = propertySchema
+			typeSchema.properties[attributeDef.name] = propertySchema
 		}
 
 		schema.oneOf.add(typeSchema)
 		schema.properties.pid.enum.add(objectDef.pid)
 	}
 
-	file('./src/main/resources/schemas/client-extension-type-instance-settings.schema.json').text = jsonGenerator.toJson(schema)
+	return jsonGenerator.toJson(schema)
 }
 
-foo {
+generateInstanceSettingsJsonSchema {
 	outputs.upToDateWhen {
 		false
 	}
 
 	doFirst {
-		doThing()
+		String jsonString = generateJSONString()
+
+		file('src/main/resources/schemas/client-extension-type-instance-settings.schema.json').text = jsonString
 	}
 }
