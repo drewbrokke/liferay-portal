@@ -191,16 +191,18 @@ Closure<String> generateJSONString = {
 	]
 	objectDefs.each {objectDef ->
 		def typeSchema = [
-			properties: [pid: [const: objectDef.pid]],
+			properties: [
+				pid:
+					[
+						const: objectDef.pid,
+						description: objectDef.description,
+						title: objectDef.title,
+					]
+			],
 			required: ['pid'],
-			title: null as String,
-			description: null as String,
+			title: objectDef.title,
+			description: objectDef.description,
 		]
-
-		typeSchema.description = objectDef.description
-		typeSchema.properties.pid.description = objectDef.description
-		typeSchema.title = objectDef.title
-		typeSchema.properties.pid.title = objectDef.title
 
 		objectDef.attributeDefs.each { attributeDef ->
 			def propertySchema = [
