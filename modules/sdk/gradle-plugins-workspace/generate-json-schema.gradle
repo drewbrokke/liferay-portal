@@ -189,19 +189,19 @@ Closure<String> generateJSONString = {
 			]
 		]
 	]
+
 	objectDefs.each {objectDef ->
 		def typeSchema = [
+			description: objectDef.description,
 			properties: [
-				pid:
-					[
-						const: objectDef.pid,
-						description: objectDef.description,
-						title: objectDef.title,
-					]
+				pid: [
+					const: objectDef.pid,
+					description: objectDef.description,
+					title: objectDef.title,
+				]
 			],
 			required: ['pid'],
 			title: objectDef.title,
-			description: objectDef.description,
 		]
 
 		objectDef.attributeDefs.each { attributeDef ->
@@ -230,6 +230,8 @@ Closure<String> generateJSONString = {
 			if (attributeDef.optionValues) {
 				if (attributeDef.isArray()) {
 					propertySchema.items.enum = attributeDef.optionValues
+
+					propertySchema.items = propertySchema.items.sort()
 				}
 				else {
 					propertySchema.enum = attributeDef.optionValues
@@ -239,10 +241,12 @@ Closure<String> generateJSONString = {
 				typeSchema.required.add(attributeDef.name)
 			}
 
-			typeSchema.properties[attributeDef.name] = propertySchema
+			typeSchema.properties[attributeDef.name] = propertySchema.sort()
 		}
 
-		schema.oneOf.add(typeSchema)
+		typeSchema.properties = typeSchema.properties.sort()
+
+		schema.oneOf.add(typeSchema.sort())
 		schema.properties.pid.enum.add(objectDef.pid)
 	}
 
@@ -266,7 +270,15 @@ generateInstanceSettingsJsonSchema {
 			schemaFilePath = defaultSchemaFilePath
 		}
 
-		file(schemaFilePath).text = JsonOutput.prettyPrint(generateJSONString()).replaceAll(" {4}", "\t")
+		String jsonString = JsonOutput.prettyPrint(generateJSONString())
+
+		// Spaces to tabs
+		jsonString = jsonString.replaceAll(/ {4}/, "\t")
+		
+		// Removes empty lines
+		jsonString = jsonString.replaceAll('(?m)^\\s+$\\n', "")
+
+		file(schemaFilePath).text = jsonString
 	}
 }
 
