@@ -1,0 +1,252 @@
+import groovy.json.JsonGenerator
+import groovy.json.JsonOutput
+
+import java.util.regex.Pattern
+
+task foo
+println "loaded generate-json-schema.gradle"
+
+def schemaDataTypes = [
+	'boolean': 'boolean',
+	'LocalizedValuesMap': 'object',
+	'int': 'number',
+	'long': 'number',
+	'String': 'string',
+	'String[]': 'array',
+	'float': 'number'
+]
+
+class AttributeDef {
+	Object defaultValue
+	String description
+	Number max
+	Number min
+	String title
+	String[] optionLabels
+	Object[] optionValues
+	boolean requiredInput
+	boolean required = true
+	Boolean deprecated
+	String type
+	String name
+
+	boolean isArray() {
+		return type == 'array'
+	}
+	boolean isBoolean() {
+		return type == 'boolean'
+	}
+	boolean isNumber() {
+		return type == 'number'
+	}
+	boolean isObject() {
+		return type == 'object'
+	}
+	boolean isString() {
+		return type == 'string'
+	}
+}
+class ObjectDef {
+	List<AttributeDef> attributeDefs = []
+	String pid
+	String category
+	String description
+	String title
+	String interfaceName
+}
+
+def stringToNumber = { String s ->
+	if (!s) {
+		return 0
+	}
+
+	if (s.contains(".")) {
+		return Float.parseFloat(s)
+	}
+
+	return Integer.parseInt(s)
+}
+
+def withMatcher = { String s, Object o, Pattern pattern, Closure fn ->
+	def matcher = s =~ pattern
+
+	if (!matcher) {
+		return
+	}
+
+	for (final def metaPropertyValue in o.metaPropertyValues) {
+		String group;
+
+		try {
+			group = matcher.group(metaPropertyValue.name)
+		}
+		catch (Exception ignored) {
+			continue
+		}
+		metaPropertyValue.isCase()
+		if (metaPropertyValue.type in [Object[].class, String[].class]) {
+			metaPropertyValue.value = group.replaceAll('[ "]', "").split(",")
+		} else if (metaPropertyValue.type == Number.class) {
+			metaPropertyValue.value = stringToNumber(group)
+		} else if (metaPropertyValue.type == boolean.class) {
+			metaPropertyValue.value = group == "true"
+		} else if (metaPropertyValue.name == "type") {
+			metaPropertyValue.value = schemaDataTypes.get(group)
+		} else {
+			metaPropertyValue.value = group
+		}
+	}
+
+	if (fn) {
+		fn.call()
+	}
+}
+
+JsonGenerator jsonGenerator = new JsonGenerator.Options()
+	.excludeNulls()
+	.excludeFieldsByName("contentHash", "originalClassName", "requiredInput")
+	.build()
+
+def printJson = { println JsonOutput.prettyPrint(jsonGenerator.toJson(it)) }
+
+def doThing = {
+	Properties languageProperties = new Properties()
+
+	String gitTopLevel = ["sh", "-c", "git rev-parse --show-toplevel"].execute().text.trim()
+	String languagePropertiesFilePath = 'modules/apps/portal-language/portal-language-lang/src/main/resources/content/Language.properties'
+
+	new File("${gitTopLevel}/${languagePropertiesFilePath}").withReader {
+		languageProperties.load(it)
+	}
+
+	String[] configFilePaths = ["sh", "-c", "git -C ${gitTopLevel} grep -l 'scope = ExtendedObjectClassDefinition.Scope.(COMPANY|GROUP)' -- '*Configuration.java'"].execute().text.trim().split()
+
+	ObjectDef[] objectDefs = configFilePaths.collect {configFilePath ->
+//		println configFilePath
+		ObjectDef objectDef = new ObjectDef();
+
+		AttributeDef attributeDef = new AttributeDef()
+		new File("${gitTopLevel}/${configFilePath}").readLines().each {line ->
+			if (!objectDef.interfaceName) {
+				withMatcher(line, objectDef, ~/\bid = "(?<pid>com\..+)"/, null)
+				withMatcher(line, objectDef, ~/\bcategory = "(?<category>[^"]*)"/, null)
+				withMatcher(line, objectDef, ~/\bdescription = "(?<description>[^"]*)"/, { objectDef.description = languageProperties.getProperty(objectDef.description) })
+				withMatcher(line, objectDef, ~/\bname = "(?<title>[^"]*)"/, { objectDef.title = languageProperties.getProperty(objectDef.title) })
+				withMatcher(line, objectDef, ~/public @?interface (?<interfaceName>[A-Z][A-Za-z\d]+)\b/, null)
+
+				return
+			}
+
+			withMatcher(line, attributeDef, ~/\bdeflt = "(?<defaultValue>[^"]*)"/, null)
+			withMatcher(line, attributeDef, ~/\bdescription = "(?<description>[^"]*)"/, { attributeDef.description = languageProperties.getProperty(attributeDef.description) })
+			withMatcher(line, attributeDef, ~/\bmax = "(?<max>[^"]+)"/, null)
+			withMatcher(line, attributeDef, ~/\bmin = "(?<min>[^"]+)"/, null)
+			withMatcher(line, attributeDef, ~/\bname = "(?<title>[^"]*)"/, { attributeDef.title = languageProperties.getProperty(attributeDef.title) })
+			withMatcher(line, attributeDef, ~/\boptionLabels = \{(?<optionLabels>[^{}]*)}/, null)
+			withMatcher(line, attributeDef, ~/\boptionValues = \{(?<optionValues>[^{}]*)}/, null)
+			withMatcher(line, attributeDef, ~/\brequiredInput = (?<requiredInput>true|false)/, null)
+			withMatcher(line, attributeDef, ~/\brequired = (?<required>true|false)/, null)
+			withMatcher(line, attributeDef, ~/\b(?<deprecated>@Deprecated)/, {attributeDef.deprecated = true})
+
+			withMatcher(line, attributeDef, ~/\s+public(default)? (?<type>\w+|\S+) (?<name>\w+)\(\)/, {
+				if (attributeDef.requiredInput) {
+					attributeDef.required = true;
+				}
+
+				if (attributeDef.defaultValue != null) {
+					if (attributeDef.isBoolean()) {
+						attributeDef.defaultValue = attributeDef.defaultValue == "true"
+					}
+					if (attributeDef.isNumber()) {
+						attributeDef.defaultValue = stringToNumber(attributeDef.defaultValue as String)
+					}
+				}
+
+				if (attributeDef.optionValues && attributeDef.isNumber()) {
+					attributeDef.optionValues = attributeDef.optionValues.collect { stringToNumber(it as String) }
+				}
+
+				objectDef.attributeDefs.add(attributeDef)
+
+				attributeDef = new AttributeDef()
+			})
+		}
+
+		return objectDef
+	}.findAll {it.pid !== null}
+
+	def schema = [
+	        oneOf: [],
+			properties: [
+				pid: [
+					enum: []
+				]
+			]
+	]
+	objectDefs.each {objectDef ->
+		def typeSchema = [
+			properties: [pid: [const: objectDef.pid]],
+			required: ['pid'],
+			title: null as String,
+			description: null as String,
+		]
+
+		typeSchema.description = objectDef.description
+		typeSchema.properties.pid.description = objectDef.description
+		typeSchema.title = objectDef.title
+		typeSchema.properties.pid.title = objectDef.title
+
+		objectDef.attributeDefs.each {
+			def propertySchema = [
+				default: it.defaultValue,
+				deprecated: it.deprecated,
+				description: it.description,
+				title: it.title,
+				type: it.type
+			]
+
+			if (it.isArray()) {
+				propertySchema.items = [type: 'string']
+			}
+			if (it.isObject()) {
+				propertySchema.properties = [:]
+			}
+			if (it.isNumber()) {
+				propertySchema.max = it.max
+				propertySchema.min = it.min
+			}
+			if (it.isString()) {
+				propertySchema.maxLength = it.max
+				propertySchema.minLength = it.min
+			}
+			if (it.optionValues) {
+				if (it.isArray()) {
+					propertySchema.items.enum = it.optionValues
+				}
+				else {
+					propertySchema.enum = it.optionValues
+				}
+			}
+			if (it.required) {
+				typeSchema.required.add(it.name)
+			}
+
+			typeSchema.properties[it.name] = propertySchema
+		}
+
+		schema.oneOf.add(typeSchema)
+		schema.properties.pid.enum.add(objectDef.pid)
+	}
+
+	file('./src/main/resources/schemas/client-extension-type-instance-settings.schema.json').text = jsonGenerator.toJson(schema)
+}
+
+foo {
+	outputs.upToDateWhen {
+		false
+	}
+
+	doFirst {
+		doThing()
+	}
+}
