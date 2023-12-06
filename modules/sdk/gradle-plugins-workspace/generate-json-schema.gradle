@@ -1,17 +1,22 @@
 import groovy.json.JsonGenerator
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 
 import java.util.regex.Pattern
 
 task generateInstanceSettingsJsonSchema
+task testSchemaFileUpToDate
 
-def schemaDataTypes = [
-	'LocalizedValuesMap': 'object',
-	'String': 'string',
-	'String[]': 'array',
-	'boolean': 'boolean',
-	'float': 'number',
-	'int': 'number',
-	'long': 'number',
+String defaultSchemaFilePath = "src/main/resources/schemas/client-extension-type-instance-settings.schema.json"
+
+Map<String, String> schemaDataTypes = [
+		'LocalizedValuesMap': 'object',
+		'String'            : 'string',
+		'String[]'          : 'array',
+		'boolean'           : 'boolean',
+		'float'             : 'number',
+		'int'               : 'number',
+		'long'              : 'number',
 ]
 
 class AttributeDef {
@@ -44,6 +49,7 @@ class AttributeDef {
 		return type == 'string'
 	}
 }
+
 class ObjectDef {
 	List<AttributeDef> attributeDefs = []
 	String pid
@@ -53,7 +59,9 @@ class ObjectDef {
 	String interfaceName
 }
 
-def stringToNumber = { String s ->
+Closure<Float> stringToNumber = {
+	String s ->
+
 	if (!s) {
 		return 0
 	}
@@ -65,7 +73,9 @@ def stringToNumber = { String s ->
 	return Integer.parseInt(s)
 }
 
-def withMatcher = { String s, Object o, Pattern pattern, Closure fn ->
+Closure<Object> withMatcher = {
+	String s, Object o, Pattern pattern, Closure fn ->
+
 	def matcher = s =~ pattern
 
 	if (!matcher) {
@@ -73,25 +83,25 @@ def withMatcher = { String s, Object o, Pattern pattern, Closure fn ->
 	}
 
 	for (final def metaPropertyValue in o.metaPropertyValues) {
-		String group;
+		String value;
 
 		try {
-			group = matcher.group(metaPropertyValue.name)
+			value = matcher.group(metaPropertyValue.name)
 		}
 		catch (Exception ignored) {
 			continue
 		}
-		metaPropertyValue.isCase()
+
 		if (metaPropertyValue.type in [Object[].class, String[].class]) {
-			metaPropertyValue.value = group.replaceAll('[ "]', "").split(",")
+			metaPropertyValue.value = value.replaceAll('[ "]', "").split(",")
 		} else if (metaPropertyValue.type == Number.class) {
-			metaPropertyValue.value = stringToNumber(group)
+			metaPropertyValue.value = stringToNumber(value)
 		} else if (metaPropertyValue.type == boolean.class) {
-			metaPropertyValue.value = group == "true"
+			metaPropertyValue.value = value == "true"
 		} else if (metaPropertyValue.name == "type") {
-			metaPropertyValue.value = schemaDataTypes.get(group)
+			metaPropertyValue.value = schemaDataTypes.get(value)
 		} else {
-			metaPropertyValue.value = group
+			metaPropertyValue.value = value
 		}
 	}
 
@@ -100,14 +110,9 @@ def withMatcher = { String s, Object o, Pattern pattern, Closure fn ->
 	}
 }
 
-JsonGenerator jsonGenerator = new JsonGenerator.Options()
-	.excludeNulls()
-	.excludeFieldsByName("contentHash", "originalClassName", "requiredInput")
-	.build()
+Closure<String> getProcessOutput = { ["sh", "-c", it].execute().text.trim() }
 
-def getProcessOutput = { ["sh", "-c", it].execute().text.trim() }
-
-def generateJSONString = {
+Closure<String> generateJSONString = {
 	Properties languageProperties = new Properties()
 
 	String gitTopLevel = getProcessOutput "git rev-parse --show-toplevel"
@@ -118,11 +123,16 @@ def generateJSONString = {
 
 	String[] configFilePaths = getProcessOutput("git -C ${gitTopLevel} grep -l 'scope = ExtendedObjectClassDefinition.Scope.(COMPANY|GROUP)' -- '*Configuration.java'").split()
 
-	ObjectDef[] objectDefs = configFilePaths.collect {configFilePath ->
+	ObjectDef[] objectDefs = configFilePaths.collect {
+		configFilePath ->
+
 		ObjectDef objectDef = new ObjectDef();
 
 		AttributeDef attributeDef = new AttributeDef()
-		new File("${gitTopLevel}/${configFilePath}").readLines().each {line ->
+
+		new File("${gitTopLevel}/${configFilePath}").readLines().each {
+			line ->
+
 			if (!objectDef.interfaceName) {
 				withMatcher(line, objectDef, ~/\bid = "(?<pid>com\..+)"/, null)
 				withMatcher(line, objectDef, ~/\bcategory = "(?<category>[^"]*)"/, null)
@@ -172,12 +182,12 @@ def generateJSONString = {
 
 	// Write the schema
 	def schema = [
-	        oneOf: [],
-			properties: [
-				pid: [
-					enum: []
-				]
+		oneOf: [],
+		properties: [
+			pid: [
+				enum: []
 			]
+		]
 	]
 	objectDefs.each {objectDef ->
 		def typeSchema = [
@@ -234,6 +244,11 @@ def generateJSONString = {
 		schema.properties.pid.enum.add(objectDef.pid)
 	}
 
+	JsonGenerator jsonGenerator = new JsonGenerator.Options()
+		.excludeNulls()
+		.excludeFieldsByName("contentHash", "originalClassName", "requiredInput")
+		.build()
+
 	return jsonGenerator.toJson(schema)
 }
 
@@ -243,8 +258,30 @@ generateInstanceSettingsJsonSchema {
 	}
 
 	doFirst {
-		String jsonString = generateJSONString()
+		String schemaFilePath = project.findProperty("schemaFilePath")
 
-		file('src/main/resources/schemas/client-extension-type-instance-settings.schema.json').text = jsonString
+		if (schemaFilePath == null) {
+			schemaFilePath = defaultSchemaFilePath
+		}
+
+		file(schemaFilePath).text = JsonOutput.prettyPrint(generateJSONString()).replaceAll(" {4}", "\t")
+	}
+}
+
+testSchemaFileUpToDate{
+	outputs.upToDateWhen {
+		false
+	}
+
+	doFirst {
+		String schemaFilePath = project.findProperty("schemaFilePath")
+
+		if (schemaFilePath == null) {
+			schemaFilePath = defaultSchemaFilePath
+		}
+
+		JsonSlurper slurper = new JsonSlurper()
+
+		assert slurper.parse(file(schemaFilePath)) == slurper.parseText(generateJSONString()) : "Schema file is out of date"
 	}
 }
