@@ -1,0 +1,5889 @@
+{
+	"oneOf": [
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.accessibility.menu.web.internal.configuration.AccessibilityMenuConfiguration",
+					"title": "Accessibility Menu"
+				},
+				"enableAccessibilityMenu": {
+					"default": false,
+					"description": "Enable the accessibility menu which can be accessed by tabbing focus to the quick access menu. When enabled, users are able to save their accessibility settings in the browser local storage when not signed in and in the database when signed in.",
+					"title": "Enable Accessibility Menu",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Accessibility Menu"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.account.configuration.AccountEntryEmailConfiguration",
+					"title": "Account Email"
+				},
+				"invitationEmailSubject": {
+					"default": "${resource:com/liferay/account/dependencies/account_entry_invite_user_subject.tmpl}",
+					"description": "Provide a localized template for the subject of user invitation emails.",
+					"title": "Invitation Email Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"invitationEmailBody": {
+					"default": "${resource:com/liferay/account/dependencies/account_entry_invite_user_body.tmpl}",
+					"description": "Provide a localized template for the body of user invitation emails.",
+					"title": "Invitation Email Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"invitationTokenExpirationTime": {
+					"default": 48,
+					"description": "Define the time (in hours) before the invitation token expires.",
+					"title": "Invitation Token Expiration Time",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Account Email"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.account.configuration.AccountEntryEmailDomainsConfiguration",
+					"title": "Email Domains"
+				},
+				"enableEmailDomainValidation": {
+					"default": false,
+					"description": "Enable to allow entering a list of valid email domains when editing an account. Account users must have a matching email domain for self registration. Administrators can manually add account users with non-matching email domains.",
+					"title": "Enable Email Domain Validation",
+					"type": "boolean"
+				},
+				"blockedEmailDomains": {
+					"description": "Enter the list of account user email domains that are prohibited from self registration (e.g. gmail.com, yahoo.com, acme.com). Administrators can manually add account users with blocked email domains. Enter one email domain per line.",
+					"title": "Blocked Email Domains",
+					"type": "string"
+				},
+				"customTLDs": {
+					"description": "Set custom top-level domains that will be used when validating an account's domains. These should not be common.",
+					"title": "Custom Top-Level Domains",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Email Domains"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.account.internal.configuration.AccountEntryGroupConfiguration",
+					"description": "Define which types of accounts are allowed on this site.",
+					"title": "Accounts"
+				},
+				"allowedTypes": {
+					"default": "business,person,supplier",
+					"description": "Set the types of accounts which are allowed on this site. Only accounts of the chosen types can be created, viewed, and selected on this site. Duplicate values will be ignored.",
+					"title": "Allowed Account Types",
+					"type": "array",
+					"items": {
+						"type": "string",
+						"enum": [
+							"business",
+							"person",
+							"supplier"
+						]
+					}
+				}
+			},
+			"required": [
+				"pid",
+				"allowedTypes"
+			],
+			"title": "Accounts",
+			"description": "Define which types of accounts are allowed on this site."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.adaptive.media.image.internal.configuration.AMImageCompanyConfiguration",
+					"title": "Variants"
+				},
+				"imageVariants": {
+					"title": "Image Variants",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Variants"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.ai.creator.openai.configuration.AICreatorOpenAICompanyConfiguration",
+					"title": "OpenAI"
+				},
+				"apiKey": {
+					"default": "",
+					"title": "API Key",
+					"type": "string"
+				},
+				"enableChatGPTToCreateContent": {
+					"default": true,
+					"title": "Enable ChatGPT to Create Content",
+					"type": "boolean"
+				},
+				"enableDALLEToCreateImages": {
+					"default": true,
+					"title": "Enable DALL-E to Create Images",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "OpenAI"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.ai.creator.openai.configuration.AICreatorOpenAIGroupConfiguration",
+					"title": "OpenAI"
+				},
+				"apiKey": {
+					"default": "",
+					"title": "API Key",
+					"type": "string"
+				},
+				"enableChatGPTToCreateContent": {
+					"default": true,
+					"title": "Enable ChatGPT to Create Content",
+					"type": "boolean"
+				},
+				"enableDALLEToCreateImages": {
+					"default": true,
+					"title": "Enable DALL-E to Create Images",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "OpenAI"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.analytics.settings.configuration.AnalyticsConfiguration"
+				},
+				"commerceSyncEnabledAnalyticsChannelIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"firstSync": {
+					"default": true,
+					"type": "boolean"
+				},
+				"previousCommerceSyncEnabledAnalyticsChannelIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"hostsAllowed": {
+					"type": "string"
+				},
+				"liferayAnalyticsConnectionType": {
+					"type": "string"
+				},
+				"liferayAnalyticsDataSourceId": {
+					"type": "string"
+				},
+				"liferayAnalyticsEnableAllGroupIds": {
+					"type": "boolean"
+				},
+				"liferayAnalyticsEndpointURL": {
+					"type": "string"
+				},
+				"liferayAnalyticsFaroBackendSecuritySignature": {
+					"type": "string"
+				},
+				"liferayAnalyticsFaroBackendURL": {
+					"type": "string"
+				},
+				"liferayAnalyticsGroupIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"liferayAnalyticsProjectId": {
+					"type": "string"
+				},
+				"liferayAnalyticsURL": {
+					"type": "string"
+				},
+				"publicKey": {
+					"type": "string"
+				},
+				"siteReportingGrouping": {
+					"type": "string"
+				},
+				"syncAllAccounts": {
+					"type": "boolean"
+				},
+				"previousSyncAllAccounts": {
+					"type": "boolean"
+				},
+				"syncAllContacts": {
+					"type": "boolean"
+				},
+				"previousSyncAllContacts": {
+					"type": "boolean"
+				},
+				"syncedAccountFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"previousSyncedAccountFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedAccountGroupIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"previousSyncedAccountGroupIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedCategoryFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedCommerceChannelIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"previousSyncedCommerceChannelIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedContactFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"previousSyncedContactFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedGroupIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedOrderFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"previousSyncedOrderFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedOrderItemFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedProductChannelFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"previousSyncedProductFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedProductFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedOrganizationIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"previousSyncedOrganizationIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedUserFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"previousSyncedUserFieldNames": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"syncedUserGroupIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"previousSyncedUserGroupIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"token": {
+					"type": "string"
+				},
+				"wizardMode": {
+					"default": true,
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			]
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.asset.auto.tagger.google.cloud.natural.language.internal.configuration.GCloudNaturalLanguageAssetAutoTaggerCompanyConfiguration",
+					"description": "Auto tag of text using the Cloud Natural Language API.",
+					"title": "Google Cloud Natural Language Text Auto Tagging"
+				},
+				"apiKey": {
+					"description": "Set the API key for the Google Cloud Natural Language API. Billing must be enabled for this API to work. See {0} for more information.",
+					"title": "API Key",
+					"type": "string"
+				},
+				"classificationEndpointEnabled": {
+					"description": "Enable auto tagging of text using the Cloud Natural Language API Classification endpoint.",
+					"title": "Classification Endpoint Enabled",
+					"type": "boolean"
+				},
+				"confidence": {
+					"default": 0.5,
+					"description": "Set the classifier's confidence of the category. This number represents how certain the classifier is that this category represents the given text.",
+					"title": "Confidence",
+					"type": "number"
+				},
+				"entityEndpointEnabled": {
+					"description": "Enable auto tagging of text using the Cloud Natural Language API Entity endpoint.",
+					"title": "Entity Endpoint Enabled",
+					"type": "boolean"
+				},
+				"salience": {
+					"default": 0.02,
+					"description": "The salience score for an entity provides information about the importance or centrality of that entity to the entire text.",
+					"title": "Salience",
+					"type": "number"
+				},
+				"enabledClassNames": {
+					"default": "",
+					"title": "Enable Google Cloud Natural Language Text Auto Tagging For",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid",
+				"apiKey"
+			],
+			"title": "Google Cloud Natural Language Text Auto Tagging",
+			"description": "Auto tag of text using the Cloud Natural Language API."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.asset.auto.tagger.opennlp.internal.configuration.OpenNLPDocumentAssetAutoTaggerCompanyConfiguration",
+					"description": "OpenNLP Text Auto Tagging is based on three open source models (Location name finder model, Organization finder model, and Person name finder model). Use with caution because its accuracy may be limited.",
+					"title": "OpenNLP Text Auto Tagging"
+				},
+				"confidenceThreshold": {
+					"default": 0.1,
+					"description": "Set the minimum confidence threshold (from 0 to 1) above which tags will be applied.",
+					"title": "Confidence Threshold",
+					"type": "number"
+				},
+				"enabledClassNames": {
+					"default": "",
+					"title": "Enable OpenNLP Text Auto Tagging For",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "OpenNLP Text Auto Tagging",
+			"description": "OpenNLP Text Auto Tagging is based on three open source models (Location name finder model, Organization finder model, and Person name finder model). Use with caution because its accuracy may be limited."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.asset.auto.tagger.internal.configuration.AssetAutoTaggerCompanyConfiguration",
+					"title": "Asset Auto Tagging"
+				},
+				"enabled": {
+					"default": true,
+					"title": "Enable Auto Tagging of Assets",
+					"type": "boolean"
+				},
+				"updateAutoTags": {
+					"default": false,
+					"description": "If this option is checked, the option to trigger auto tagging when editing an asset will be enabled by default.",
+					"title": "Update Auto Tags",
+					"type": "boolean"
+				},
+				"maximumNumberOfTagsPerAsset": {
+					"description": "Set the maximum number of tags that will be automatically added to a single asset. Set to 0 if there is no limit. The value defined for the system scope takes precedence over the one defined here, so If this value is greater than the one defined at system scope level, the threshold applied will be the one defined at system scope level.",
+					"title": "Maximum Number of Tags",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Asset Auto Tagging"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.asset.auto.tagger.internal.configuration.AssetAutoTaggerGroupConfiguration",
+					"title": "Site Asset Auto Tagging"
+				},
+				"enabled": {
+					"default": true,
+					"title": "Enable Auto Tagging of Assets",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Site Asset Auto Tagging"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.asset.categories.configuration.AssetCategoriesCompanyConfiguration",
+					"title": "Categorization"
+				},
+				"includeChildrenCategoriesWhenSearchingParentCategories": {
+					"default": true,
+					"description": "When checked, assets with child categories also appear in search results. When unchecked, only assets with the exact category matches appear in search results.",
+					"title": "Include child categories when searching parent categories.",
+					"type": "boolean"
+				},
+				"maximumNumberOfCategoriesPerVocabulary": {
+					"default": 150,
+					"description": "Specify the maximum number of categories that a vocabulary can have.",
+					"title": "Maximum Number of Categories per Vocabulary",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Categorization"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.batch.engine.configuration.BatchEngineTaskCompanyConfiguration",
+					"title": "Batch Engine Task Configuration"
+				},
+				"csvFileColumnDelimiter": {
+					"default": ",",
+					"title": "CSV File Column Delimiter",
+					"type": "string"
+				},
+				"exportBatchSize": {
+					"default": 100,
+					"description": "Set the default size of a batch containing records to be written to an export file.",
+					"title": "Export Batch Size",
+					"type": "number"
+				},
+				"importBatchSize": {
+					"default": 100,
+					"description": "Set the default size of a batch containing records from an import file that will be written to a database.",
+					"title": "Import Batch Size",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Batch Engine Task Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.blogs.configuration.BlogsGroupServiceConfiguration",
+					"title": "Blogs Service"
+				},
+				"enableRss": {
+					"default": true,
+					"title": "Enable RSS",
+					"type": "boolean"
+				},
+				"rssDelta": {
+					"default": "${server-property://com.liferay.portal/search.container.page.default.delta}",
+					"title": "RSS Delta",
+					"type": "string"
+				},
+				"rssDisplayStyle": {
+					"default": "${server-property://com.liferay.portal/rss.feed.display.style.default}",
+					"title": "RSS Display Style",
+					"type": "string"
+				},
+				"rssFeedType": {
+					"default": "${server-property://com.liferay.portal/rss.feed.type.default}",
+					"title": "RSS Feed Type",
+					"type": "string"
+				},
+				"smallImageWidth": {
+					"default": 300,
+					"title": "Small Image Width",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Blogs Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.bookmarks.configuration.BookmarksGroupServiceConfiguration",
+					"title": "Bookmarks"
+				},
+				"emailEntryAddedBody": {
+					"default": "${resource:com/liferay/bookmarks/configuration/dependencies/email_entry_added_body.tmpl}",
+					"title": "Email Entry Added Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailEntryAddedEnabled": {
+					"default": true,
+					"title": "Email Entry Added Enabled",
+					"type": "boolean"
+				},
+				"emailEntryAddedSubject": {
+					"default": "${resource:com/liferay/bookmarks/configuration/dependencies/email_entry_added_subject.tmpl}",
+					"title": "Email Entry Added Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailEntryUpdatedBody": {
+					"default": "${resource:com/liferay/bookmarks/configuration/dependencies/email_entry_updated_body.tmpl}",
+					"title": "Email Entry Updated Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailEntryUpdatedEnabled": {
+					"default": true,
+					"title": "Email Entry Updated Enabled",
+					"type": "boolean"
+				},
+				"emailEntryUpdatedSubject": {
+					"default": "${resource:com/liferay/bookmarks/configuration/dependencies/email_entry_updated_subject.tmpl}",
+					"title": "Email Entry Updated Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailFromAddress": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.address}",
+					"title": "Email from Address",
+					"type": "string"
+				},
+				"emailFromName": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.name}",
+					"title": "Email from Name",
+					"type": "string"
+				},
+				"enableRelatedAssets": {
+					"default": true,
+					"title": "Enable Related Assets",
+					"type": "boolean"
+				},
+				"entriesPerPage": {
+					"default": "${server-property://com.liferay.portal/search.container.page.default.delta}",
+					"title": "Entries per Page",
+					"type": "string"
+				},
+				"entryColumns": {
+					"default": "name|url|visits|modified-date|action",
+					"title": "Entry Columns",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"folderColumns": {
+					"default": "folder|num-of-folders|num-of-entries|action",
+					"title": "Folder Columns",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"foldersPerPage": {
+					"default": "${server-property://com.liferay.portal/search.container.page.default.delta}",
+					"title": "Folders per Page",
+					"type": "string"
+				},
+				"showFoldersSearch": {
+					"default": true,
+					"title": "Show Folders Search",
+					"type": "boolean"
+				},
+				"showSubfolders": {
+					"default": true,
+					"title": "Show Subfolders",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Bookmarks"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.change.tracking.configuration.CTSettingsConfiguration",
+					"title": "Publications Settings"
+				},
+				"defaultCTCollectionTemplateId": {
+					"default": 0,
+					"title": "Default Publication Template ID",
+					"type": "number"
+				},
+				"defaultSandboxCTCollectionTemplateId": {
+					"default": 0,
+					"title": "Default Sandbox Publication Template ID",
+					"type": "number"
+				},
+				"enabled": {
+					"default": false,
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"remoteEnabled": {
+					"default": false,
+					"title": "Remote Enabled",
+					"type": "boolean"
+				},
+				"remoteClientId": {
+					"title": "Remote Client ID",
+					"type": "string"
+				},
+				"remoteClientSecret": {
+					"title": "Remote Client Secret",
+					"type": "string"
+				},
+				"sandboxEnabled": {
+					"default": false,
+					"title": "Sandbox Enabled",
+					"type": "boolean"
+				},
+				"unapprovedChangesAllowed": {
+					"default": false,
+					"title": "Allow Unapproved Changes",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Publications Settings"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.change.tracking.web.internal.configuration.CTConfiguration",
+					"title": "Publications View Changes"
+				},
+				"hiddenApplications": {
+					"description": "These applications will be hidden from the application menu when you are in a publication.",
+					"title": "Hidden Applications",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"productionOnlyApplication": {
+					"default": "com_liferay_dispatch_web_internal_portlet_DispatchPortlet, com_liferay_my_account_web_portlet_MyAccountPortlet, com_liferay_notification_web_internal_portlet_NotificationTemplatesPortlet, com_liferay_oauth_client_admin_web_internal_portlet_OAuthClientAdminPortlet, com_liferay_oauth2_provider_web_internal_portlet_OAuth2AdminPortlet, com_liferay_object_web_internal_object_definitions_portlet_ObjectDefinitionsPortlet, com_liferay_object_web_internal_list_type_portlet_portlet_ListTypeDefinitionsPortlet, com_liferay_password_policies_admin_web_portlet_PasswordPoliciesAdminPortlet, com_liferay_portal_language_override_web_internal_portlet_PLOPortlet, com_liferay_search_experiences_web_internal_blueprint_admin_portlet_SXPBlueprintAdminPortlet",
+					"description": "These applications do not participate in a publication. Any data saved will be saved directly into production.",
+					"title": "Production Only Application",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"unsupportedApplication": {
+					"default": "com_liferay_account_admin_web_internal_portlet_AccountEntriesAdminPortlet, com_liferay_address_web_internal_portlet_CountriesManagementAdminPortlet, com_liferay_users_admin_web_portlet_UsersAdminPortlet",
+					"description": "These applications do not support publications. Any data saved in a publication will result in an error.",
+					"title": "Unsupported Application",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Publications View Changes"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.click.to.chat.web.internal.configuration.ClickToChatConfiguration",
+					"title": "Click to Chat Configuration"
+				},
+				"enabled": {
+					"type": "boolean"
+				},
+				"chatProviderId": {
+					"type": "string"
+				},
+				"chatProviderAccountId": {
+					"type": "string"
+				},
+				"chatProviderKeyId": {
+					"type": "string"
+				},
+				"chatProviderSecretKey": {
+					"type": "string"
+				},
+				"guestUsersAllowed": {
+					"type": "boolean"
+				},
+				"hideInControlPanel": {
+					"type": "boolean"
+				},
+				"siteSettingsStrategy": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid",
+				"enabled",
+				"chatProviderId",
+				"chatProviderAccountId",
+				"chatProviderKeyId",
+				"chatProviderSecretKey",
+				"guestUsersAllowed",
+				"hideInControlPanel",
+				"siteSettingsStrategy"
+			],
+			"title": "Click to Chat Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.client.extension.type.configuration.CETConfiguration"
+				},
+				"baseURL": {
+					"type": "string"
+				},
+				"buildTimestamp": {
+					"type": "number"
+				},
+				"description": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"properties": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"sourceCodeURL": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string"
+				},
+				"typeSettings": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid",
+				"baseURL",
+				"name",
+				"type"
+			]
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.comment.configuration.CommentGroupServiceConfiguration",
+					"title": "Comments"
+				},
+				"emailFromName": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.name}",
+					"title": "Email from Name",
+					"type": "string"
+				},
+				"emailFromAddress": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.address}",
+					"title": "Email from Address",
+					"type": "string"
+				},
+				"discussionEmailCommentsAddedEnabled": {
+					"default": true,
+					"title": "Email Discussion Comment Added Enabled",
+					"type": "boolean"
+				},
+				"discussionEmailBody": {
+					"default": "${resource:com/liferay/comment/configuration/dependencies/discussion_email_added_body.tmpl}",
+					"title": "Email Discussion Comment Added Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"discussionEmailSubject": {
+					"default": "${resource:com/liferay/comment/configuration/dependencies/discussion_email_added_subject.tmpl}",
+					"title": "Email Discussion Comment Added Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"discussionEmailUpdatedBody": {
+					"default": "${resource:com/liferay/comment/configuration/dependencies/discussion_email_updated_body.tmpl}",
+					"title": "Email Discussion Comment Updated Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"discussionEmailUpdatedSubject": {
+					"default": "${resource:com/liferay/comment/configuration/dependencies/discussion_email_updated_subject.tmpl}",
+					"title": "Email Discussion Comment Updated Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"alwaysEditableByOwner": {
+					"default": false,
+					"description": "Set this property to true if users can edit their own discussion comments even if they do not have the permissions defined through the Site Members role.",
+					"title": "Always Editable by Owner",
+					"type": "boolean"
+				},
+				"subscribe": {
+					"default": true,
+					"description": "Set this to true if users are subscribed automatically to a discussion they participate in.",
+					"title": "Subscribe",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Comments"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.configuration.CommerceAccountGroupServiceConfiguration",
+					"title": "Commerce Account"
+				},
+				"commerceSiteType": {
+					"default": 0,
+					"title": "Commerce Site Type",
+					"type": "number",
+					"enum": [
+						0,
+						1,
+						2
+					]
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Account"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.configuration.CommerceOrderCheckoutConfiguration",
+					"title": "Order Checkout Configuration"
+				},
+				"checkoutRequestedDeliveryDateEnabled": {
+					"default": false,
+					"title": "Checkout Requested Delivery Date Enabled",
+					"type": "boolean"
+				},
+				"guestCheckoutEnabled": {
+					"default": false,
+					"title": "Guest Checkout Enabled",
+					"type": "boolean"
+				},
+				"hideShippingPriceZero": {
+					"default": false,
+					"title": "Hide Shipping Price Zero",
+					"type": "boolean"
+				},
+				"showSeparateOrderItems": {
+					"default": false,
+					"title": "Show Separate Order Items",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Order Checkout Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.configuration.CommerceOrderFieldsConfiguration",
+					"title": "Order Fields"
+				},
+				"accountCartMaxAllowed": {
+					"default": 0,
+					"title": "Account Cart Max Allowed",
+					"type": "number"
+				},
+				"showPurchaseOrderNumber": {
+					"default": true,
+					"title": "Show Purchase Order Number",
+					"type": "boolean"
+				},
+				"requestQuoteEnabled": {
+					"default": false,
+					"title": "Request Quote Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Order Fields"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.configuration.CommerceOrderImporterDateFormatConfiguration",
+					"title": "Order Importer Date Format Configuration"
+				},
+				"orderImporterDateFormat": {
+					"default": "yyyy-MM-dd",
+					"title": "Order Importer Date Format",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Order Importer Date Format Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.configuration.CommerceShippingGroupServiceConfiguration",
+					"title": "Shipping Group Service"
+				},
+				"commerceShippingOriginLocatorKey": {
+					"default": "address",
+					"title": "Shipping Origin Locator Key",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Shipping Group Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.inventory.configuration.CommerceInventoryGroupConfiguration",
+					"title": "Commerce Inventory Group Configuration"
+				},
+				"inventoryMethodKey": {
+					"default": "",
+					"title": "Inventory Method Key",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Inventory Group Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.payment.configuration.CommercePaymentEntryAuditConfiguration",
+					"title": "Commerce Payment Entry Audit"
+				},
+				"enabled": {
+					"default": true,
+					"title": "Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Payment Entry Audit"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.payment.configuration.CommercePaymentEntryRefundTypeConfiguration",
+					"title": "Refund Reasons"
+				},
+				"key": {
+					"title": "Key",
+					"type": "string"
+				},
+				"name": {
+					"title": "Name",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"priority": {
+					"title": "Priority",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid",
+				"key"
+			],
+			"title": "Refund Reasons"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.payment.method.authorize.net.internal.configuration.AuthorizeNetGroupServiceConfiguration",
+					"title": "Authorize.Net Payment Engine Group Service"
+				},
+				"apiLoginId": {
+					"title": "API Login ID",
+					"type": "string"
+				},
+				"environment": {
+					"title": "Environment",
+					"type": "string"
+				},
+				"requireCaptcha": {
+					"title": "Require CAPTCHA",
+					"type": "boolean"
+				},
+				"requireCardCodeVerification": {
+					"title": "Require Card Code Verification",
+					"type": "boolean"
+				},
+				"showBankAccount": {
+					"title": "Show Bank Account",
+					"type": "boolean"
+				},
+				"showCreditCard": {
+					"title": "Show Credit Card",
+					"type": "boolean"
+				},
+				"showStoreName": {
+					"title": "Show Store Name",
+					"type": "boolean"
+				},
+				"transactionKey": {
+					"title": "Transaction Key",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Authorize.Net Payment Engine Group Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.payment.method.mercanet.internal.configuration.MercanetGroupServiceConfiguration",
+					"title": "Mercanet Payment Engine Method Group Service"
+				},
+				"merchantId": {
+					"title": "Merchant ID",
+					"type": "string"
+				},
+				"environment": {
+					"title": "Environment",
+					"type": "string"
+				},
+				"secretKey": {
+					"title": "Secret Key",
+					"type": "string"
+				},
+				"keyVersion": {
+					"title": "Key Version",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Mercanet Payment Engine Method Group Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.payment.method.money.order.internal.configuration.MoneyOrderGroupServiceConfiguration",
+					"title": "Money Order Payment Engine Group Service"
+				},
+				"messageAsLocalizedXML": {
+					"title": "Message as Localized XML",
+					"type": "string"
+				},
+				"showMessagePage": {
+					"title": "Show Message Page",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Money Order Payment Engine Group Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.payment.method.paypal.internal.configuration.PayPalGroupServiceConfiguration",
+					"title": "PayPal Payment Engine Method Group Service"
+				},
+				"clientId": {
+					"title": "Client ID",
+					"type": "string"
+				},
+				"clientSecret": {
+					"title": "Client Secret",
+					"type": "string"
+				},
+				"merchantId": {
+					"title": "Merchant ID",
+					"type": "string"
+				},
+				"mode": {
+					"title": "Mode",
+					"type": "string"
+				},
+				"paymentAttemptsMaxCount": {
+					"default": "0",
+					"title": "Payment Attempts Max Count",
+					"type": "string"
+				},
+				"requestDetails": {
+					"title": "Request Details",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "PayPal Payment Engine Method Group Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.product.configuration.CPDefinitionOptionRelConfiguration",
+					"title": "Product Options"
+				},
+				"showUnselectableOptions": {
+					"default": false,
+					"title": "Show Unselectable Options",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Product Options"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.product.configuration.CPDisplayLayoutConfiguration",
+					"title": "CP Display Layout"
+				},
+				"assetCategoryLayoutUuid": {
+					"description": "TODO",
+					"title": "Asset Category Layout UUID",
+					"type": "string"
+				},
+				"productLayoutUuid": {
+					"description": "TODO",
+					"title": "Product Layout UUID",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "CP Display Layout"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.product.configuration.CPFriendlyURLConfiguration",
+					"title": "Friendly URL"
+				},
+				"assetCategoryURLSeparator": {
+					"default": "g",
+					"description": "Do not change it in production as you will introduce SEO issues.",
+					"title": "Asset Category URL Separator",
+					"type": "string"
+				},
+				"productURLSeparator": {
+					"default": "p",
+					"description": "You must restart portal after this change. Do not change it in production as you will introduce SEO issues.",
+					"title": "Product URL Separator",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Friendly URL"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.AccountEntryCommerceQualifierConfiguration",
+					"title": "Account Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Account Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.AccountGroupCommerceQualifierConfiguration",
+					"title": "Account Group Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Account Group Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.AddressCommerceQualifierConfiguration",
+					"title": "Address Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Address Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.COREntryCommerceQualifierConfiguration",
+					"title": "Commerce Order Rule Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"default": "account|account-group,channel,order-type",
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"default": "account|order-type|channel,account|order-type,account|channel,account,account-group|order-type|channel,account-group|order-type,account-group|channel,account-group,order-type|channel,order-type,channel",
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Order Rule Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.CommerceChannelCommerceQualifierConfiguration",
+					"title": "Commerce Channel Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Channel Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.CommerceCurrencyCommerceQualifierConfiguration",
+					"title": "Commerce Currency Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Currency Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.CommerceDiscountCommerceQualifierConfiguration",
+					"title": "Commerce Discount Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"default": "account|account-group,channel,order-type",
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"default": "account|order-type|channel,account|order-type,account|channel,account,account-group|order-type|channel,account-group|order-type,account-group|channel,account-group,order-type|channel,order-type,channel",
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Discount Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.CommerceInventoryWarehouseCommerceQualifierConfiguration",
+					"title": "Commerce Inventory Warehouse Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Inventory Warehouse Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.CommerceOrderTypeCommerceQualifierConfiguration",
+					"title": "Commerce Order Type Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"default": "channel",
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"default": "channel",
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Order Type Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.CommercePaymentMethodGroupRelCommerceQualifierConfiguration",
+					"title": "Commerce Payment Method Group Rel Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"default": "order-type",
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"default": "order-type",
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Payment Method Group Rel Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.CommercePriceListCommerceQualifierConfiguration",
+					"title": "Commerce Price List Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"default": "account|account-group,channel,order-type",
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"default": "account|order-type|channel,account|order-type,account|channel,account,account-group|order-type|channel,account-group|order-type,account-group|channel,account-group,order-type|channel,order-type,channel",
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Price List Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.CommerceShippingFixedOptionCommerceQualifierConfiguration",
+					"title": "Commerce Shipping Fixed Option Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"default": "order-type",
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"default": "order-type",
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Shipping Fixed Option Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.qualifier.configuration.CommerceTermEntryCommerceQualifierConfiguration",
+					"title": "Commerce Term Qualifiers"
+				},
+				"allowedTargetKeys": {
+					"default": "order-type",
+					"title": "Allowed Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderByTargetKeys": {
+					"default": "order-type",
+					"title": "Order by Target Keys",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Term Qualifiers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.shipping.engine.fedex.internal.configuration.FedExCommerceShippingEngineGroupServiceConfiguration",
+					"title": "Fedex Shipping Engine Group Service"
+				},
+				"packingType": {
+					"title": "Packing Type",
+					"type": "string"
+				},
+				"dropoffType": {
+					"title": "Dropoff Type",
+					"type": "string"
+				},
+				"accountNumber": {
+					"title": "Account Number",
+					"type": "string"
+				},
+				"useResidentialRates": {
+					"title": "Use Residential Rates",
+					"type": "boolean"
+				},
+				"useDiscountedRates": {
+					"title": "Use Discounted Rates",
+					"type": "boolean"
+				},
+				"key": {
+					"title": "Key",
+					"type": "string"
+				},
+				"meterNumber": {
+					"title": "Meter Number",
+					"type": "string"
+				},
+				"password": {
+					"title": "Password",
+					"type": "string"
+				},
+				"serviceTypes": {
+					"title": "Service Types",
+					"type": "string"
+				},
+				"url": {
+					"title": "URL",
+					"type": "string"
+				},
+				"maxWeightPounds": {
+					"default": 150,
+					"title": "Maximum Weight in Pounds",
+					"type": "number"
+				},
+				"maxWeightKilograms": {
+					"default": 68,
+					"title": "Maximum Weight in Kilograms",
+					"type": "number"
+				},
+				"maxSizeInches": {
+					"default": 165,
+					"title": "Maximum Size in Inches",
+					"type": "number"
+				},
+				"maxSizeCentimeters": {
+					"default": 419,
+					"title": "Maximum Size in Centimeters",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Fedex Shipping Engine Group Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.tax.configuration.CommerceShippingTaxConfiguration",
+					"title": "Commerce Shipping Tax"
+				},
+				"taxCategoryId": {
+					"default": 0,
+					"title": "Tax Category Id",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Shipping Tax"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.tax.engine.fixed.configuration.CommerceTaxByAddressTypeConfiguration",
+					"title": "Commerce Tax by Address"
+				},
+				"taxAppliedToShippingAddress": {
+					"default": false,
+					"title": "Tax Applied To Shipping Address",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Commerce Tax by Address"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.tax.engine.remote.internal.configuration.RemoteCommerceTaxConfiguration",
+					"title": "Remote Commerce Tax Configuration"
+				},
+				"taxValueEndpointAuthorizationToken": {
+					"title": "Tax Value Endpoint Authorization Token",
+					"type": "string"
+				},
+				"taxValueEndpointURL": {
+					"title": "Tax Value Endpoint URL",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Remote Commerce Tax Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.cookies.configuration.CookiesPreferenceHandlingConfiguration",
+					"title": "Preference Handling"
+				},
+				"enabled": {
+					"default": false,
+					"description": "This checkbox enables cookie preference handling based on user selected choices. It also enables the configuration options for both the banner and the consent panel.",
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"explicitConsentMode": {
+					"default": true,
+					"description": "If this option is checked, then no cookies are set until the user agrees to cookie usages. Otherwise, all cookies are set until the user opts out of them.",
+					"title": "Explicit Cookie Consent Mode",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Preference Handling"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.cookies.configuration.banner.CookiesBannerConfiguration",
+					"title": "Banner"
+				},
+				"content": {
+					"default": "${language:cookies-banner-content}",
+					"title": "Content",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"privacyPolicyLink": {
+					"title": "Privacy Policy Link",
+					"type": "string"
+				},
+				"linkDisplayText": {
+					"default": "${language:visit-our-privacy-policy}",
+					"title": "Link Display Text",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"includeDeclineAllButton": {
+					"default": true,
+					"title": "Include \"Decline All\" Button",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid",
+				"content",
+				"privacyPolicyLink",
+				"linkDisplayText",
+				"includeDeclineAllButton"
+			],
+			"title": "Banner"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.cookies.configuration.consent.CookiesConsentConfiguration",
+					"title": "Consent Panel"
+				},
+				"title": {
+					"default": "${language:cookie-configuration}",
+					"title": "Title",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"description": {
+					"default": "${language:cookies-consent-description}",
+					"title": "Description",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"cookiePolicyLink": {
+					"title": "Cookie Policy Link",
+					"type": "string"
+				},
+				"linkDisplayText": {
+					"default": "${language:visit-our-cookie-policy}",
+					"title": "Link Display Text",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"strictlyNecessaryCookiesDescription": {
+					"default": "${language:cookies-description[CONSENT_TYPE_NECESSARY]}",
+					"title": "Strictly Necessary Cookies Description",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"functionalCookiesDescription": {
+					"default": "${language:cookies-description[CONSENT_TYPE_FUNCTIONAL]}",
+					"title": "Functional Cookies Description",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"functionalCookiesPrechecked": {
+					"default": false,
+					"title": "Prechecked",
+					"type": "boolean"
+				},
+				"performanceCookiesDescription": {
+					"default": "${language:cookies-description[CONSENT_TYPE_PERFORMANCE]}",
+					"title": "Performance Cookies Description",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"performanceCookiesPrechecked": {
+					"default": false,
+					"title": "Prechecked",
+					"type": "boolean"
+				},
+				"personalizationCookiesDescription": {
+					"default": "${language:cookies-description[CONSENT_TYPE_PERSONALIZATION]}",
+					"title": "Personalization Cookies Description",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"personalizationCookiesPrechecked": {
+					"default": false,
+					"title": "Prechecked",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid",
+				"title",
+				"description",
+				"cookiePolicyLink",
+				"linkDisplayText",
+				"strictlyNecessaryCookiesDescription",
+				"functionalCookiesDescription",
+				"functionalCookiesPrechecked",
+				"performanceCookiesDescription",
+				"performanceCookiesPrechecked",
+				"personalizationCookiesDescription",
+				"personalizationCookiesPrechecked"
+			],
+			"title": "Consent Panel"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.digital.signature.configuration.DigitalSignatureConfiguration",
+					"title": "Digital Signature Configuration"
+				},
+				"enabled": {
+					"type": "boolean"
+				},
+				"apiUsername": {
+					"type": "string"
+				},
+				"apiAccountId": {
+					"type": "string"
+				},
+				"environment": {
+					"type": "string"
+				},
+				"accountBaseURI": {
+					"type": "string"
+				},
+				"integrationKey": {
+					"type": "string"
+				},
+				"rsaPrivateKey": {
+					"type": "string"
+				},
+				"siteSettingsStrategy": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid",
+				"enabled",
+				"apiUsername",
+				"apiAccountId",
+				"environment",
+				"accountBaseURI",
+				"integrationKey",
+				"rsaPrivateKey",
+				"siteSettingsStrategy"
+			],
+			"title": "Digital Signature Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.document.library.configuration.DLFileEntryConfiguration",
+					"title": "File Preview Limits"
+				},
+				"previewableProcessorMaxSize": {
+					"default": 20971520,
+					"title": "Maximum File Size",
+					"type": "number"
+				},
+				"maxNumberOfPages": {
+					"default": 3,
+					"title": "Maximum Number of Pages",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "File Preview Limits"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.document.library.asset.auto.tagger.google.cloud.vision.internal.configuration.GCloudVisionAssetAutoTagProviderCompanyConfiguration",
+					"description": "Auto tags images using the Google Cloud Vision API.",
+					"title": "Google Cloud Vision Image Auto Tagging"
+				},
+				"apiKey": {
+					"description": "Set the API key for the Google Cloud Vision API. Billing must be enabled for this API to work. See {0} for more information.",
+					"title": "API Key",
+					"type": "string"
+				},
+				"enabled": {
+					"description": "Enable auto tagging of images in the document library using the Google Cloud Vision API.",
+					"title": "Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid",
+				"apiKey"
+			],
+			"title": "Google Cloud Vision Image Auto Tagging",
+			"description": "Auto tags images using the Google Cloud Vision API."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.document.library.asset.auto.tagger.microsoft.cognitive.services.internal.configuration.MSCognitiveServicesAssetAutoTagProviderCompanyConfiguration",
+					"description": "Auto tags images using the Microsoft Cognitive Services Computer Vision API V2.",
+					"title": "Microsoft Cognitive Services Image Auto Tagging"
+				},
+				"apiKey": {
+					"description": "Set the API key for the Computer Vision API V2. See {0} for more information.",
+					"title": "API Key",
+					"type": "string"
+				},
+				"apiEndpoint": {
+					"description": "Set the endpoint for the Computer Vision API V2 (e.g. {0}). See {1} for more information.",
+					"title": "API Endpoint",
+					"type": "string"
+				},
+				"enabled": {
+					"description": "Enable auto tagging of images in the document library using Microsoft Cognitive Services.",
+					"title": "Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid",
+				"apiKey",
+				"apiEndpoint"
+			],
+			"title": "Microsoft Cognitive Services Image Auto Tagging",
+			"description": "Auto tags images using the Microsoft Cognitive Services Computer Vision API V2."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.document.library.asset.auto.tagger.tensorflow.internal.configuration.TensorFlowImageAssetAutoTagProviderCompanyConfiguration",
+					"description": "TensorFlow Image Auto Tagging is based on an open source model (Inception 5h). Its accuracy might be limited so please use with caution.",
+					"title": "TensorFlow Image Auto Tagging"
+				},
+				"enabled": {
+					"default": false,
+					"description": "Enable auto tagging of images in the document library using TensorFlow.",
+					"title": "Enable TensorFlow Image Auto Tagging",
+					"type": "boolean"
+				},
+				"confidenceThreshold": {
+					"default": 0.1,
+					"description": "Set the minimum confidence threshold (from 0 to 1) above which tags will be applied.",
+					"title": "Confidence Threshold",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "TensorFlow Image Auto Tagging",
+			"description": "TensorFlow Image Auto Tagging is based on an open source model (Inception 5h). Its accuracy might be limited so please use with caution."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.document.library.google.drive.configuration.DLGoogleDriveCompanyConfiguration",
+					"title": "Google Drive"
+				},
+				"clientId": {
+					"description": "Set the OAuth 2 client id for the Google Drive API. Go to {0} to create it.",
+					"title": "Client ID",
+					"type": "string"
+				},
+				"clientSecret": {
+					"description": "Set the OAuth 2 client secret for the Google Drive API. Go to {0} to create it.",
+					"title": "Client Secret",
+					"type": "string"
+				},
+				"pickerAPIKey": {
+					"description": "Set the API Key for the Google Picker API. Go to {0} to create it.",
+					"title": "Picker API Key",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid",
+				"clientId",
+				"clientSecret"
+			],
+			"title": "Google Drive"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.document.library.internal.configuration.DLFileOrderConfiguration",
+					"title": "File Order"
+				},
+				"orderByColumn": {
+					"default": "modifiedDate",
+					"title": "Order By",
+					"type": "string"
+				},
+				"sortBy": {
+					"default": "desc",
+					"title": "Sort Direction",
+					"type": "string",
+					"enum": [
+						"asc",
+						"desc"
+					]
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "File Order"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.document.library.internal.configuration.DLSizeLimitConfiguration",
+					"title": "File Size Limits"
+				},
+				"fileMaxSize": {
+					"default": 0,
+					"description": "Set the maximum file size in bytes to upload files. A value of 0 can be used to indicate an unlimited file size for documents. However, the portal still has a maximum file size set by the \"{0}\" property in the \"{1}\" configuration.",
+					"title": "Maximum File Size",
+					"type": "number"
+				},
+				"mimeTypeSizeLimit": {
+					"default": "",
+					"title": "Mime Type Size Limit",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"maxSizeToCopy": {
+					"default": 52428800,
+					"title": "Max Size to Copy",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "File Size Limits"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.document.library.web.internal.configuration.CacheControlConfiguration",
+					"title": "Cache Control"
+				},
+				"cacheControl": {
+					"default": "private, no-cache, no-store, must-revalidate",
+					"description": "Set the cache control policy for documents with view permissions for guests.",
+					"title": "Cache Control",
+					"type": "string"
+				},
+				"maxAge": {
+					"default": 0,
+					"description": "Set the number of seconds after a response is generated in which a response will be considered fresh.",
+					"title": "Max Age",
+					"type": "number"
+				},
+				"notCacheableMimeTypes": {
+					"description": "Set a list of mime types that will be uncacheable.",
+					"title": "Uncacheable Mime Types",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid",
+				"cacheControl"
+			],
+			"title": "Cache Control"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.dynamic.data.mapping.configuration.DDMGroupServiceConfiguration",
+					"title": "Dynamic Data Mapping Service"
+				},
+				"smallImageExtensions": {
+					"default": ".gif|.jpeg|.jpg|.png",
+					"description": "Set the allowed file extensions for template images. A file extension of * will permit all file extensions.",
+					"title": "Small Image Extensions",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"smallImageMaxSize": {
+					"default": 51200,
+					"description": "Set the maximum file size for template images in bytes. A value of 0 can be used to indicate unlimited file size.",
+					"title": "Small Image Maximum Size",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Dynamic Data Mapping Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.dynamic.data.mapping.data.provider.configuration.DDMDataProviderConfiguration",
+					"title": "Data Providers"
+				},
+				"accessLocalNetwork": {
+					"default": false,
+					"description": "Set if data providers have access to the local network.",
+					"title": "Access Local Network",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Data Providers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.dynamic.data.mapping.form.web.internal.configuration.DDMFormWebConfiguration",
+					"title": "Forms"
+				},
+				"autosaveInterval": {
+					"default": 1,
+					"description": "Set the autosave interval in minutes. A value of 0 turns off autosave.",
+					"title": "Autosave Interval",
+					"type": "number"
+				},
+				"csvExport": {
+					"default": "enabled-with-warning",
+					"title": "CSV Export",
+					"type": "string",
+					"enum": [
+						"enabled",
+						"enabled-with-warning",
+						"disabled"
+					]
+				},
+				"maximumRepetitionsForUploadFields": {
+					"default": 5,
+					"description": "For upload fields, the repeatable function is limited to a fixed number of repetitions for security reasons. The default value is 5.",
+					"title": "Maximum Repetitions for Upload Fields",
+					"type": "number"
+				},
+				"guestUploadFileExtensions": {
+					"default": "doc, docx, jpeg, jpg, pdf, png, ppt, pptx, tiff, txt, xls, xlsx",
+					"description": "Enter the list of file extensions guest users can upload. Use commas to separate extensions. The available file extensions for registered users are configured within the Documents and Media application.",
+					"title": "Guest Upload File Extensions",
+					"type": "string"
+				},
+				"guestUploadMaximumFileSize": {
+					"default": 25,
+					"description": "Set the maximum allowed file size (in megabytes) for guest user uploads. The default value is 25. The maximum file sizes for registered users are configured within the Documents and Media application.",
+					"title": "Guest Upload Maximum File Size",
+					"type": "number"
+				},
+				"guestUploadMaximumSubmissions": {
+					"default": 5,
+					"description": "Each form is limited to a fixed number of submissions per user for guest upload fields. The default value is 5.",
+					"title": "Guest Upload Maximum Submissions",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Forms"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.exportimport.configuration.ExportImportServiceConfiguration",
+					"description": "The settings in this configuration let you control the export/import, staging, and site template propagation processes.",
+					"title": "Export/Import, Staging"
+				},
+				"includeAllAssetLinks": {
+					"default": false,
+					"description": "If checked, all asset links are included from the site within the given date range. Uncheck to include only those asset links which are connected to the content.",
+					"title": "Include All Asset Links",
+					"type": "boolean"
+				},
+				"includeThumbnailsAndPreviewsDuringStaging": {
+					"default": true,
+					"description": "If checked, then the generated previews and thumbnails will be included during the staging process.",
+					"title": "Include Thumbnails And Previews During Staging",
+					"type": "boolean"
+				},
+				"replicateIndividualDeletionsByDefault": {
+					"default": false,
+					"description": "If checked, the delete operations performed for content types will be always replicated in the target site by default.",
+					"title": "Replicate Individual Deletions by Default",
+					"type": "boolean"
+				},
+				"publishPermissionsByDefault": {
+					"default": false,
+					"description": "If checked, the permissions assigned for the exported pages and individual portlet windows are always included by default.",
+					"title": "Publish Permissions by Default",
+					"type": "boolean"
+				},
+				"validateFileEntryReferences": {
+					"default": true,
+					"description": "If checked, publishing or importing some types of content with text in them will cause Liferay to check the content for any links to documents, and ensure that each of these links points to a valid document.",
+					"title": "Validate File Entries",
+					"type": "boolean"
+				},
+				"validateJournalFeedReferences": {
+					"default": true,
+					"description": "If checked, publishing or importing some types of content with text in them will cause Liferay to check the content for any references to web content feeds, and ensure that each one of these references points to a valid feed.",
+					"title": "Validate Journal Feed References",
+					"type": "boolean"
+				},
+				"validateLayoutReferences": {
+					"default": true,
+					"description": "If checked, publishing or importing some types of content with text in them will cause Liferay to check the content for any links that reference one of the portal's virtual hosts, and ensure that each of these links points to a valid page within Liferay. Uncheck this if your virtual host has pages not in Liferay.",
+					"title": "Validate Layout References",
+					"type": "boolean"
+				},
+				"validateLayoutReferencesWhitelistedURLPatterns": {
+					"description": "Specify a URL pattern that will be whitelisted when validating layout references. URLs that match this pattern will always pass the validation even if they do not point to a valid Liferay page.",
+					"title": "Validate Layout References Whitelisted URL Pattern",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"validateMissingReferences": {
+					"default": true,
+					"description": "If checked, publishing or importing will cause Liferay to check missing references. If unchecked, missing reference validation is skipped. As a result, references without existing targets can be published or imported to the target site.",
+					"title": "Validate Missing References",
+					"type": "boolean"
+				},
+				"showAdvancedStagingConfigurationByDefault": {
+					"default": false,
+					"description": "If checked, then the advanced publication configuration screen will be displayed by default when publishing pages.",
+					"title": "Show Advanced Staging Configuration by Default",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Export/Import, Staging",
+			"description": "The settings in this configuration let you control the export/import, staging, and site template propagation processes."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.flags.configuration.FlagsGroupServiceConfiguration",
+					"title": "Flags"
+				},
+				"emailBody": {
+					"default": "com/liferay/flags/dependencies/email_flag_body.tmpl",
+					"title": "Email Body",
+					"type": "string"
+				},
+				"emailEntryAddedEnabled": {
+					"default": true,
+					"title": "Email Entry Added Enabled",
+					"type": "boolean"
+				},
+				"emailFromAddress": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.address}",
+					"title": "Email from Address",
+					"type": "string"
+				},
+				"emailFromName": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.name}",
+					"title": "Email from Name",
+					"type": "string"
+				},
+				"emailSubject": {
+					"default": "com/liferay/flags/dependencies/email_flag_subject.tmpl",
+					"title": "Email Subject",
+					"type": "string"
+				},
+				"guestUsersEnabled": {
+					"default": false,
+					"title": "Guest Users Enabled",
+					"type": "boolean"
+				},
+				"reasons": {
+					"default": "sexual-content|violent-or-repulsive-content|hateful-or-abusive-content|harmful-dangerous-acts|spam|infringes-my-rights",
+					"title": "Reasons",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Flags"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.fragment.configuration.DefaultInputFragmentEntryConfiguration"
+				},
+				"defaultInputFragmentEntryKeys": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			]
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.fragment.configuration.FragmentServiceConfiguration",
+					"title": "Page Fragments"
+				},
+				"propagateChanges": {
+					"default": false,
+					"description": "When enabled, changes will be propagated immediately after publishing a fragment entry. If staging is enabled, this setting does not affect live sites.",
+					"title": "Propagate Fragment Changes Automatically",
+					"type": "boolean"
+				},
+				"propagateContributedFragmentChanges": {
+					"default": true,
+					"description": "When enabled, changes will be propagated immediately during the deploy process. When disabled, changes can be propagated manually after deploy process.",
+					"title": "Propagate Default Fragments Changes During Deploy Process Automatically",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Page Fragments"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.fragment.entry.processor.freemarker.internal.configuration.FreeMarkerFragmentEntryProcessorConfiguration",
+					"title": "FreeMarker Fragment Entry Processor"
+				},
+				"enable": {
+					"default": true,
+					"description": "Enable this to allow fragment authors to use FreeMarker.",
+					"title": "Enable FreeMarker",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "FreeMarker Fragment Entry Processor"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.fragment.web.internal.configuration.FragmentPortletConfiguration",
+					"title": "Fragment Thumbnails"
+				},
+				"thumbnailExtensions": {
+					"default": ".gif,.jpeg,.jpg,.png,.svg",
+					"title": "Allowed Thumbnail File Extensions",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Fragment Thumbnails"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.friendly.url.configuration.FriendlyURLRedirectionConfiguration",
+					"description": "Choose the default redirection type to use when old friendly URLs are referenced for display page templates or pages.",
+					"title": "Friendly URL Redirection"
+				},
+				"showAlternativeLayoutFriendlyURLMessage": {
+					"default": true,
+					"description": "Enable to show a message when you are redirected to a different layout friendly URL.",
+					"title": "Show Alternative Layout Friendly URL Message",
+					"type": "boolean"
+				},
+				"redirectionType": {
+					"default": "temporary",
+					"description": "This type of redirect will be used when a page or piece of content using a display page template is accessed using an old friendly URL.",
+					"title": "Redirection Type",
+					"type": "string",
+					"enum": [
+						"permanent",
+						"temporary"
+					]
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Friendly URL Redirection",
+			"description": "Choose the default redirection type to use when old friendly URLs are referenced for display page templates or pages."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.frontend.js.walkthrough.web.internal.configuration.WalkthroughConfiguration",
+					"title": "Walkthrough"
+				},
+				"enabled": {
+					"default": false,
+					"title": "Enable Walkthrough",
+					"type": "boolean"
+				},
+				"steps": {
+					"title": "Steps",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Walkthrough"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.frontend.js.web.internal.configuration.CustomDialogsSettingsConfiguration",
+					"title": "Custom Dialogs"
+				},
+				"enabled": {
+					"default": false,
+					"title": "Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Custom Dialogs"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.frontend.js.web.internal.session.timeout.configuration.SessionTimeoutConfiguration",
+					"title": "Session Timeout"
+				},
+				"autoExtendOffset": {
+					"default": 70,
+					"description": "When enabled, set the number of seconds between when the extend process is launched and the actual expiration of the session.",
+					"title": "Auto Extend Offset",
+					"type": "number"
+				},
+				"autoExtend": {
+					"default": false,
+					"description": "Enable auto extend to avoid having to ask the user whether to extend the session or not. Instead, it will be automatically extended. The purpose of this mode is to keep the session open as long as the user's browser is open with a page loaded.",
+					"title": "Auto Extend",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Session Timeout"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.journal.configuration.JournalGroupServiceConfiguration",
+					"title": "Service"
+				},
+				"emailFromName": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.name}",
+					"title": "Email from Name",
+					"type": "string"
+				},
+				"emailFromAddress": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.address}",
+					"title": "Email from Address",
+					"type": "string"
+				},
+				"emailArticleAddedEnabled": {
+					"default": true,
+					"title": "Email Article Added Enabled",
+					"type": "boolean"
+				},
+				"emailArticleAddedSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_added_subject.tmpl}",
+					"title": "Email Article Added Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleAddedBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_added_body.tmpl}",
+					"title": "Email Article Added Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleMovedFromFolderEnabled": {
+					"default": true,
+					"title": "Email Article Moved from Folder Enabled",
+					"type": "boolean"
+				},
+				"emailArticleMovedFromFolderSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_moved_from_folder_subject.tmpl}",
+					"title": "Email Article Moved from Folder Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleMovedFromFolderBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_moved_from_folder_body.tmpl}",
+					"title": "Email Article Moved from Folder Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleMovedToFolderEnabled": {
+					"default": true,
+					"title": "Email Article Moved to Folder Enabled",
+					"type": "boolean"
+				},
+				"emailArticleMovedToFolderSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_moved_to_folder_subject.tmpl}",
+					"title": "Email Article Moved to Folder Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleMovedToFolderBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_moved_to_folder_body.tmpl}",
+					"title": "Email Article Moved to Folder Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleReviewEnabled": {
+					"default": true,
+					"title": "Email Article Review Enabled",
+					"type": "boolean"
+				},
+				"emailArticleReviewSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_review_subject.tmpl}",
+					"title": "Email Article Review Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleReviewBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_review_body.tmpl}",
+					"title": "Email Article Review Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleApprovalRequestedEnabled": {
+					"default": false,
+					"title": "Email Article Approval Requested Enabled",
+					"type": "boolean"
+				},
+				"emailArticleApprovalRequestedSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_approval_requested_subject.tmpl}",
+					"title": "Email Article Approval Requested Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleApprovalRequestedBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_approval_requested_body.tmpl}",
+					"title": "Email Article Approval Requested Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleApprovalGrantedEnabled": {
+					"default": false,
+					"title": "Email Article Approval Granted Enabled",
+					"type": "boolean"
+				},
+				"emailArticleApprovalGrantedSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_approval_granted_subject.tmpl}",
+					"title": "Email Article Approval Granted Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleApprovalGrantedBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_approval_granted_body.tmpl}",
+					"title": "Email Article Approval Granted Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleApprovalDeniedEnabled": {
+					"default": false,
+					"title": "Email Article Approval Denied Enabled",
+					"type": "boolean"
+				},
+				"emailArticleApprovalDeniedSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_approval_denied_subject.tmpl}",
+					"title": "Email Article Approval Denied Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleApprovalDeniedBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_approval_denied_body.tmpl}",
+					"title": "Email Article Approval Denied Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleUpdatedEnabled": {
+					"default": true,
+					"title": "Email Article Updated Enabled",
+					"type": "boolean"
+				},
+				"emailArticleUpdatedSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_updated_subject.tmpl}",
+					"title": "Email Article Updated Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleUpdatedBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_updated_body.tmpl}",
+					"title": "Email Article Updated Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleMovedToTrashEnabled": {
+					"default": true,
+					"title": "Email Article Moved to Trash Enabled",
+					"type": "boolean"
+				},
+				"emailArticleMovedToTrashSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_moved_to_trash_subject.tmpl}",
+					"title": "Email Article Moved to Trash Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleMovedToTrashBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_moved_to_trash_body.tmpl}",
+					"title": "Email Article Moved to Trash Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleMovedFromTrashSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_moved_from_trash_subject.tmpl}",
+					"title": "Email Article Moved from Trash Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleMovedFromTrashBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_moved_from_trash_body.tmpl}",
+					"title": "Email Article Moved from Trash Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleExpiredEnabled": {
+					"default": true,
+					"title": "Email Article Expired Enabled",
+					"type": "boolean"
+				},
+				"emailArticleExpiredSubject": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_expired_subject.tmpl}",
+					"title": "Email Article Expired Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailArticleExpiredBody": {
+					"default": "${resource:com/liferay/journal/dependencies/email_article_expired_body.tmpl}",
+					"title": "Email Article Expired Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.journal.configuration.JournalServiceConfiguration",
+					"title": "Web Content"
+				},
+				"addDefaultStructures": {
+					"default": true,
+					"title": "Add Default Structures",
+					"type": "boolean"
+				},
+				"charactersblacklist": {
+					"default": "&|\\\\'|@|\\\\\\\\|]|}|:|=|>|/|<|[|{|%|+|#|`|?|\\\\\\",
+					"description": "Specify characters that are not allowed in web content folder names.",
+					"title": "Characters Blacklist",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"errorTemplateFTL": {
+					"default": "${resource:com/liferay/journal/dependencies/error.ftl}",
+					"title": "Error Template FTL",
+					"type": "string"
+				},
+				"checkInterval": {
+					"default": 15,
+					"description": "Set the check interval in minutes.",
+					"title": "Check Interval",
+					"type": "number",
+					"min": 1
+				},
+				"customTokenNames": {
+					"default": "",
+					"description": "Set a list of custom token names that will be replaced when article content is rendered.",
+					"title": "Custom Token Names",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"customTokenValues": {
+					"default": "",
+					"description": "Set a list of custom token values that will be replaced when article content is rendered.",
+					"title": "Custom Token Values",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"articleCommentsEnabled": {
+					"default": true,
+					"description": "Set this to true to enable comments for journal articles.",
+					"title": "Article Comments Enabled",
+					"type": "boolean"
+				},
+				"databaseContentKeywordSearchEnabled": {
+					"default": true,
+					"description": "Set this to false to ignore article content when performing keyword searches on the database for journal articles.",
+					"title": "Database Content Keyword Search Enabled",
+					"type": "boolean"
+				},
+				"expireAllArticleVersionsEnabled": {
+					"default": true,
+					"description": "Set this to true to expire all article versions when expiring an article. Set this to false to only expire the latest approved article version when expiring an article.",
+					"title": "Expire All Article Versions Enabled",
+					"type": "boolean"
+				},
+				"indexAllArticleVersionsEnabled": {
+					"default": true,
+					"description": "Set this to true to index all article versions. Set this to false to index only the last indexable version.",
+					"title": "Index All Article Versions Enabled",
+					"type": "boolean"
+				},
+				"publishToLiveByDefaultEnabled": {
+					"default": true,
+					"description": "Set this to true if web content articles should be published to live by default.",
+					"title": "Publish to Live by Default",
+					"type": "boolean"
+				},
+				"versionHistoryByDefaultEnabled": {
+					"default": true,
+					"description": "Set this to false if only the latest approved version of web content articles should be published by default.",
+					"title": "Version History by Default Enabled",
+					"type": "boolean"
+				},
+				"journalArticleExportImportProcessorCacheEnabled": {
+					"default": true,
+					"description": "Specify whether processed web content will be cached and reused when running an export or a publish process. Setting this to true will speed up export or publish processes involving web content, but will increase memory usage. The cache size and timeout may be configured for the cache using the cache name \"com.liferay.journal.internal.exportimport.content.processor.JournalArticleExportImportProcessorCache\".",
+					"title": "Journal Article Export/Import Processor Cache Enabled",
+					"type": "boolean"
+				},
+				"journalArticlePageBreakToken": {
+					"default": "@page_break@",
+					"description": "Set the token used when inserting simple page breaks in articles.",
+					"title": "Journal Article Page Break Token",
+					"type": "string"
+				},
+				"journalArticleStorageType": {
+					"default": "json",
+					"description": "Set the storage type that will be used to store the Journal articles.",
+					"title": "Journal Article Storage Type",
+					"type": "string"
+				},
+				"journalArticleMaxVersionCount": {
+					"default": 0,
+					"title": "Journal Article Maximum Version Count",
+					"type": "number"
+				},
+				"singleAssetPublishIncludeVersionHistory": {
+					"default": false,
+					"description": "Set whether the web content version history should be included in single asset publish processes.",
+					"title": "Single Asset Publish Process Includes Version History",
+					"type": "boolean"
+				},
+				"enableContentTransformerListener": {
+					"default": false,
+					"title": "Enable Content Transformer Listener",
+					"type": "boolean"
+				},
+				"termsOfUseJournalArticleGroupId": {
+					"default": 0,
+					"title": "Terms of Use Web Content Group ID",
+					"type": "number"
+				},
+				"termsOfUseJournalArticleId": {
+					"default": "",
+					"title": "Terms of Use Web Content Article ID",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Web Content"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.knowledge.base.configuration.KBGroupServiceConfiguration",
+					"title": "Service"
+				},
+				"getEditorName": {
+					"default": "ckeditor",
+					"title": "Editor Name",
+					"type": "string"
+				},
+				"articleIncrementPriorityEnabled": {
+					"default": true,
+					"title": "Article Increment Priority Enabled",
+					"type": "boolean"
+				},
+				"markdownImporterArticleExtensions": {
+					"default": ".markdown|.md",
+					"title": "Markdown Importer Article Extensions",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"markdownImporterArticleIntro": {
+					"default": "intro.markdown",
+					"title": "Markdown Importer Article Intro",
+					"type": "string"
+				},
+				"markdownImporterImageFileExtensions": {
+					"default": ".bmp|.gif|.jpeg|.jpg|.png",
+					"title": "Markdown Importer Image File Extensions",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"markdownImporterImageFolder": {
+					"default": "/images",
+					"title": "Markdown Importer Image Folder",
+					"type": "string"
+				},
+				"sourceURLEnabled": {
+					"default": false,
+					"title": "Source URL Enabled",
+					"type": "boolean"
+				},
+				"sourceURLEditMessageKey": {
+					"default": "edit-on-github",
+					"title": "Source URL Edit Message Key",
+					"type": "string"
+				},
+				"emailFromName": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.name}",
+					"title": "Email from Name",
+					"type": "string"
+				},
+				"emailFromAddress": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.address}",
+					"title": "Email from Address",
+					"type": "string"
+				},
+				"emailKBArticleAddedEnabled": {
+					"default": true,
+					"title": "Knowledge Base Article Added Email Enabled",
+					"type": "boolean"
+				},
+				"emailKBArticleAddedSubject": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_article_added_subject.tmpl}",
+					"title": "Knowledge Base Article Added Email Subject",
+					"type": "string"
+				},
+				"emailKBArticleAddedBody": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_article_added_body.tmpl}",
+					"title": "Knowledge Base Article Added Email Body",
+					"type": "string"
+				},
+				"emailKBArticleUpdatedEnabled": {
+					"default": true,
+					"title": "Knowledge Base Article Updated Email Enabled",
+					"type": "boolean"
+				},
+				"emailKBArticleUpdatedSubject": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_article_updated_subject.tmpl}",
+					"title": "Knowledge Base Article Updated Email Subject",
+					"type": "string"
+				},
+				"emailKBArticleUpdatedBody": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_article_updated_body.tmpl}",
+					"title": "Knowledge Base Article Updated Email Body",
+					"type": "string"
+				},
+				"emailKBArticleReviewEnabled": {
+					"default": true,
+					"title": "Knowledge Base Article Review Email Enabled",
+					"type": "boolean"
+				},
+				"emailKBArticleReviewSubject": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_article_review_subject.tmpl}",
+					"title": "Knowledge Base Article Review Email Subject",
+					"type": "string"
+				},
+				"emailKBArticleReviewBody": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_article_review_body.tmpl}",
+					"title": "Knowledge Base Article Review Email Body",
+					"type": "string"
+				},
+				"emailKBArticleExpiredEnabled": {
+					"default": true,
+					"title": "Knowledge Base Article Expired Email Enabled",
+					"type": "boolean"
+				},
+				"emailKBArticleExpiredSubject": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_article_expired_subject.tmpl}",
+					"title": "Knowledge Base Article Expired Email Subject",
+					"type": "string"
+				},
+				"emailKBArticleExpiredBody": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_article_expired_body.tmpl}",
+					"title": "Knowledge Base Article Expired Email Body",
+					"type": "string"
+				},
+				"emailKBArticleSuggestionInProgressEnabled": {
+					"default": true,
+					"title": "Knowledge Base Article Suggestion in Progress Email Enabled",
+					"type": "boolean"
+				},
+				"emailKBArticleSuggestionInProgressSubject": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_suggestion_in_progress_subject.tmpl}",
+					"title": "Knowledge Base Article Suggestion in Progress Email Subject",
+					"type": "string"
+				},
+				"emailKBArticleSuggestionInProgressBody": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_suggestion_in_progress_body.tmpl}",
+					"title": "Knowledge Base Article Suggestion in Progress Email Body",
+					"type": "string"
+				},
+				"emailKBArticleSuggestionReceivedEnabled": {
+					"default": true,
+					"title": "Knowledge Base Article Suggestion Received Email Enabled",
+					"type": "boolean"
+				},
+				"emailKBArticleSuggestionReceivedSubject": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_suggestion_received_subject.tmpl}",
+					"title": "Knowledge Base Article Suggestion Received Email Subject",
+					"type": "string"
+				},
+				"emailKBArticleSuggestionReceivedBody": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_suggestion_received_body.tmpl}",
+					"title": "Knowledge Base Article Suggestion Received Email Body",
+					"type": "string"
+				},
+				"emailKBArticleSuggestionResolvedEnabled": {
+					"default": true,
+					"title": "Knowledge Base Article Suggestion Resolved Email Enabled",
+					"type": "boolean"
+				},
+				"emailKBArticleSuggestionResolvedSubject": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_suggestion_resolved_subject.tmpl}",
+					"title": "Knowledge Base Article Suggestion Resolved Email Subject",
+					"type": "string"
+				},
+				"emailKBArticleSuggestionResolvedBody": {
+					"default": "${resource:com/liferay/knowledge/base/dependencies/email_kb_suggestion_resolved_body.tmpl}",
+					"title": "Knowledge Base Article Suggestion Resolved Email Body",
+					"type": "string"
+				},
+				"enableRss": {
+					"default": true,
+					"title": "Enable RSS",
+					"type": "boolean"
+				},
+				"rssDelta": {
+					"default": "${server-property://com.liferay.portal/search.container.page.default.delta}",
+					"title": "RSS Delta",
+					"type": "string"
+				},
+				"rssDisplayStyle": {
+					"default": "${server-property://com.liferay.portal/rss.feed.display.style.default}",
+					"title": "RSS Display Style",
+					"type": "string"
+				},
+				"rssFeedType": {
+					"default": "${server-property://com.liferay.portal/rss.feed.type.default}",
+					"title": "RSS Feed Type",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.layout.configuration.LockedLayoutsGroupConfiguration",
+					"title": "Locked Pages"
+				},
+				"allowAutomaticUnlockingProcess": {
+					"default": true,
+					"title": "Allow Automatic Unlocking Process",
+					"type": "boolean"
+				},
+				"autosaveMinutes": {
+					"default": 5,
+					"title": "Time Without Autosave",
+					"type": "number",
+					"max": 99999,
+					"min": 1
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Locked Pages"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.layout.content.page.editor.web.internal.configuration.PageEditorConfiguration",
+					"title": "Page Editor"
+				},
+				"autoExtendSessionEnabled": {
+					"default": true,
+					"description": "Enabling will automatically extend the session while the page editor is opened.",
+					"title": "Auto Extend Session Enabled",
+					"type": "boolean"
+				},
+				"maxNumberOfItemsInEditMode": {
+					"default": 20,
+					"description": "The maximum number of items that are shown in a collection are limited in the Edit mode, due to page render performance. This limit does not affect the collection visualization in the published page. Please be aware that increasing this value might have a negative impact on the performance of the Edit mode of a Content Page.",
+					"title": "Maximum Number of Items in Edit mode",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Page Editor"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.layout.internal.configuration.LayoutCrawlerClientConfiguration",
+					"description": "Configure the connection details used by the layout crawler client to retrieve content pages for indexing. Using this configuration, the layout Crawler could bypass cache, CDN, and SSO systems to retrieve indexable content directly from the application server.",
+					"title": "Layout Crawler Client Configuration"
+				},
+				"enabled": {
+					"default": false,
+					"description": "When the layout crawler client configuration is enabled, the instance will use these connection details to retrieve a content page for indexing.",
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"hostName": {
+					"default": "localhost",
+					"description": "Specify the hostname or IP address to connect to.",
+					"title": "Hostname or IP Address",
+					"type": "string"
+				},
+				"port": {
+					"default": 8080,
+					"description": "Specify the port to connect to.",
+					"title": "Port",
+					"type": "number"
+				},
+				"secure": {
+					"default": false,
+					"description": "Check to use an HTTPS connection. Otherwise, an HTTP connection will be used.",
+					"title": "Secure",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Layout Crawler Client Configuration",
+			"description": "Configure the connection details used by the layout crawler client to retrieve content pages for indexing. Using this configuration, the layout Crawler could bypass cache, CDN, and SSO systems to retrieve indexable content directly from the application server."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.layout.locked.layouts.web.internal.configuration.LockedLayoutsCompanyConfiguration",
+					"title": "Locked Pages"
+				},
+				"allowAutomaticUnlockingProcess": {
+					"default": true,
+					"title": "Allow Automatic Unlocking Process",
+					"type": "boolean"
+				},
+				"autosaveMinutes": {
+					"default": 5,
+					"title": "Time Without Autosave",
+					"type": "number",
+					"max": 99999,
+					"min": 1
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Locked Pages"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.layout.reports.web.internal.configuration.LayoutReportsGooglePageSpeedCompanyConfiguration",
+					"description": "Google PageSpeed Insights can find accessibility and SEO issues in your pages, and provide suggestions to fix them.",
+					"title": "Google PageSpeed Insights"
+				},
+				"enabled": {
+					"default": true,
+					"title": "Enable Google PageSpeed Insights",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Google PageSpeed Insights",
+			"description": "Google PageSpeed Insights can find accessibility and SEO issues in your pages, and provide suggestions to fix them."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.layout.reports.web.internal.configuration.LayoutReportsGooglePageSpeedGroupConfiguration",
+					"description": "Google PageSpeed Insights can find accessibility and SEO issues in your pages, and provide suggestions to fix them.",
+					"title": "Google PageSpeed Insights"
+				},
+				"enabled": {
+					"default": true,
+					"title": "Enable Google PageSpeed Insights",
+					"type": "boolean"
+				},
+				"apiKey": {
+					"description": "Get your API Key at {0}.",
+					"title": "API Key",
+					"type": "string"
+				},
+				"strategy": {
+					"default": "MOBILE",
+					"description": "Select what kind of device you want to audit for. Mobile strategy includes additional checks. Selected strategy will be applied to all page audits.",
+					"title": "Preferred Strategy",
+					"type": "string",
+					"enum": [
+						"MOBILE",
+						"DESKTOP"
+					]
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Google PageSpeed Insights",
+			"description": "Google PageSpeed Insights can find accessibility and SEO issues in your pages, and provide suggestions to fix them."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.layout.seo.internal.configuration.LayoutSEOCompanyConfiguration",
+					"description": "SEO Configuration",
+					"title": "SEO"
+				},
+				"canonicalURL": {
+					"default": "default-language-url",
+					"description": "Selecting \"Use Default Language URL\" will make all pages use as canonical URL the URL set for the default language of the site. Selecting \"Use Localized URL\" will set for each localized page the URL corresponding to its language as canonical URL.",
+					"title": "Canonical URL",
+					"type": "string",
+					"enum": [
+						"default-language-url",
+						"localized-url"
+					]
+				},
+				"enableOpenGraph": {
+					"default": true,
+					"description": "Enabling will embed Open Graph meta tags on every page so that content can be shared on applications supporting this protocol (e.g. Facebook, Twitter, Slack, etc.).",
+					"title": "Enable Open Graph",
+					"type": "boolean"
+				},
+				"enableLayoutTranslatedLanguages": {
+					"default": false,
+					"description": "Generate Hreflang meta data only for languages with translated content.",
+					"title": "Enable Only Translated Hreflangs",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "SEO",
+			"description": "SEO Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.layout.seo.internal.configuration.LayoutSEOGroupConfiguration",
+					"description": "SEO Configuration",
+					"title": "SEO"
+				},
+				"enableLayoutTranslatedLanguages": {
+					"default": false,
+					"description": "Generate Hreflang meta data only for languages with translated content.",
+					"title": "Enable Only Translated Hreflangs",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "SEO",
+			"description": "SEO Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.layout.set.prototype.configuration.LayoutSetPrototypeConfiguration",
+					"description": "Configure when automatic propagation is triggered for site templates.",
+					"title": "Site Templates"
+				},
+				"triggerPropagation": {
+					"default": false,
+					"description": "If unchecked, changes are propagated to sites individually when they are first visited by a user. If checked, enabling propagation in a template also triggers propagation for all connected sites simultaneously.",
+					"title": "Trigger Propagation",
+					"type": "boolean"
+				},
+				"cancelPropagationImportTask": {
+					"default": true,
+					"description": "If checked, old site template propagation import tasks will be cancelled when new ones are already scheduled for the same site. This can help to optimize the site template propagation process, when the template itself is frequently changed, and the propagation is also frequently triggered. This way, the sites will only be updated with the latest version of the template.",
+					"title": "Cancel old site template propagation import tasks.",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Site Templates",
+			"description": "Configure when automatic propagation is triggered for site templates."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.login.web.internal.configuration.AuthLoginConfiguration",
+					"title": "Login"
+				},
+				"promptEnabled": {
+					"default": false,
+					"description": "Set this to true to prompt a guest user to login when attempting to access a protected page resource in the portal. By setting this value to false, the portal will inform all users that a requested resource is not found if they have no entitlements to view the resource. The portal will not prompt for login even if the user is a guest user. This behavior complies with OWASP best practices.",
+					"title": "Prompt Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Login"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.mail.outlook.auth.connector.provider.internal.configuration.MailOutlookAuthConnectorCompanyConfiguration",
+					"title": "Outlook Auth Connector"
+				},
+				"clientId": {
+					"description": "Set the OAuth 2 client ID for the Outlook API.",
+					"title": "Client ID",
+					"type": "string"
+				},
+				"clientSecret": {
+					"description": "Set the OAuth 2 client secret for the Outlook API.",
+					"title": "Client Secret",
+					"type": "string"
+				},
+				"tenantId": {
+					"description": "Set the tenant ID for the Outlook API. Go to {0} to obtain it.",
+					"title": "Tenant ID",
+					"type": "string"
+				},
+				"pop3ConnectionEnabled": {
+					"default": false,
+					"description": "If enabled, the POP3 connection will use OAuth 2 as the authentication mechanism.",
+					"title": "POP3 Connection Enabled",
+					"type": "boolean"
+				},
+				"smtpConnectionEnabled": {
+					"default": false,
+					"description": "If enabled, the SMTP connection will use OAuth 2 as the authentication mechanism.",
+					"title": "SMTP Connection Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid",
+				"clientId",
+				"clientSecret",
+				"tenantId",
+				"pop3ConnectionEnabled",
+				"smtpConnectionEnabled"
+			],
+			"title": "Outlook Auth Connector"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.message.boards.moderation.configuration.MBModerationGroupConfiguration",
+					"title": "Message Boards Moderation Workflow"
+				},
+				"enableMessageBoardsModeration": {
+					"default": false,
+					"description": "Enables a reputation based approval workflow for message boards. This option is incompatible with other workflow definitions for message boards.",
+					"title": "Enable Message Boards Moderation",
+					"type": "boolean"
+				},
+				"authorizedDomainNames": {
+					"description": "Enter authorized domain names (e.g. example.com).",
+					"title": "Authorized Domain Names",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"minimumContributedMessages": {
+					"default": 1,
+					"description": "If a user has a number of contributed messages equal or greater than this value, then new posts will be automatically approved.",
+					"title": "Minimum Contributed Messages",
+					"type": "number",
+					"min": 1
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Message Boards Moderation Workflow"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.oauth2.provider.rest.internal.configuration.OAuth2InAssertionConfiguration",
+					"title": "OAuth 2 Incoming Assertion Configuration"
+				},
+				"issuer": {
+					"description": "OAuth 2 Incoming Assertion Issuer",
+					"title": "OAuth 2 Incoming Assertion Issuer",
+					"type": "string"
+				},
+				"signatureJSONWebKeySet": {
+					"description": "Input signature verification keys in JWKS format. In a typical scenario, one can retrieve them from an assertion issuer's JWKS endpoint.",
+					"title": "OAuth 2 Incoming Assertion Signature Verification JSON Web Key Set",
+					"type": "string"
+				},
+				"userAuthType": {
+					"default": "UUID",
+					"description": "Choose one of the following types to authenticate a user. Assertion issuer must configure assertion's \"sub\" claim to the same type.",
+					"title": "OAuth 2 Incoming Assertion User Authentication Type",
+					"type": "string",
+					"enum": [
+						"emailAddress",
+						"screenName",
+						"userId",
+						"UUID"
+					]
+				}
+			},
+			"required": [
+				"pid",
+				"issuer",
+				"signatureJSONWebKeySet",
+				"userAuthType"
+			],
+			"title": "OAuth 2 Incoming Assertion Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.oauth2.provider.rest.internal.endpoint.authorize.configuration.AuthorizeScreenConfiguration",
+					"title": "Authorize Screen"
+				},
+				"authorizeScreenURL": {
+					"default": "/?p_p_id=com_liferay_oauth2_provider_web_internal_portlet_OAuth2AuthorizePortlet&p_p_state=maximized",
+					"description": "Set the URL to screen where users approve authorization.",
+					"title": "Authorize Screen URL",
+					"type": "string"
+				},
+				"loginURL": {
+					"default": "/c/portal/login",
+					"description": "Set the URL where users can authenticate.",
+					"title": "Login URL",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Authorize Screen"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.object.storage.salesforce.configuration.SalesforceConfiguration",
+					"title": "Salesforce Integration"
+				},
+				"loginURL": {
+					"title": "Login URL",
+					"type": "string"
+				},
+				"consumerKey": {
+					"title": "Consumer Key",
+					"type": "string"
+				},
+				"consumerSecret": {
+					"title": "Consumer Secret",
+					"type": "string"
+				},
+				"username": {
+					"title": "Username",
+					"type": "string"
+				},
+				"password": {
+					"title": "Password",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Salesforce Integration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.crypto.hash.provider.bcrypt.internal.configuration.BCryptCryptoHashProviderConfiguration",
+					"title": "BCrypt Crypto Hash Provider Configuration"
+				},
+				"rounds": {
+					"default": 10,
+					"description": "BCrypt Rounds",
+					"title": "BCrypt Rounds",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "BCrypt Crypto Hash Provider Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.crypto.hash.provider.message.digest.internal.configuration.MessageDigestCryptoHashProviderConfiguration",
+					"title": "Message Digest Crypto Hash Provider Configuration"
+				},
+				"algorithm": {
+					"default": "SHA-256",
+					"description": "Set message digest algorithm.",
+					"title": "Message Digest Algorithm",
+					"type": "string"
+				},
+				"saltSize": {
+					"default": 32,
+					"description": "Set message digest salt size.",
+					"title": "Message Digest Salt Size",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Message Digest Crypto Hash Provider Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.remote.cors.configuration.PortalCORSConfiguration",
+					"description": "Enables CORS for matching URLs in the portal.",
+					"title": "Portal Cross-Origin Resource Sharing (CORS)"
+				},
+				"enabled": {
+					"default": true,
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"name": {
+					"description": "Identifies the configuration. The name is not used directly in the application.",
+					"title": "Name",
+					"type": "string"
+				},
+				"filterMappingURLPatterns": {
+					"default": "/api/jsonws/*|/documents/*|/image/*|/o/api/*|/o/graphql",
+					"description": "Set URL pattern where CORS is enabled.",
+					"title": "URL Pattern",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"headers": {
+					"default": "Access-Control-Allow-Credentials: true|Access-Control-Allow-Headers: *|Access-Control-Allow-Methods: *|Access-Control-Allow-Origin: *",
+					"description": "Set the headers to be sent in response to CORS requests in the form of \"Name: Value\".",
+					"title": "CORS Response Headers",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Portal Cross-Origin Resource Sharing (CORS)",
+			"description": "Enables CORS for matching URLs in the portal."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.search.elasticsearch7.configuration.DeepPaginationConfiguration",
+					"title": "Deep Pagination Configuration"
+				},
+				"enableDeepPagination": {
+					"default": false,
+					"description": "Enable deep pagination to paginate through all the results of a search query.",
+					"title": "Enable Deep Pagination",
+					"type": "boolean"
+				},
+				"pointInTimeKeepAliveSeconds": {
+					"default": 60,
+					"description": "The amount of time in seconds the search engine will keep a point in time alive (between 1 and 60).",
+					"title": "Point in Time Keep Alive",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Deep Pagination Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.search.rest.configuration.SearchSuggestionsCompanyConfiguration",
+					"title": "Search Suggestions"
+				},
+				"enableSuggestionsEndpoint": {
+					"default": true,
+					"description": "Enable or disable the suggestions REST endpoint. When disabled, search bar suggestions are not available for this virtual instance.",
+					"title": "Enable Suggestions Endpoint",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Search Suggestions"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.search.internal.configuration.AsahSearchKeywordsConfiguration",
+					"title": "Analytics Cloud Search Keywords"
+				},
+				"cacheTimeout": {
+					"default": 14400,
+					"title": "Cache Timeout",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Analytics Cloud Search Keywords"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.security.sso.openid.connect.internal.configuration.OpenIdConnectProviderConfiguration",
+					"title": "OpenID Connect Provider Connection"
+				},
+				"providerName": {
+					"default": "",
+					"description": "Set the name for the OpenID Connect provider.",
+					"title": "Provider Name",
+					"type": "string"
+				},
+				"scopes": {
+					"default": "openid email profile",
+					"description": "Set the scopes Liferay will request during authentication. Scopes are delimited with spaces.",
+					"title": "Scopes",
+					"type": "string"
+				},
+				"discoveryEndPoint": {
+					"default": "",
+					"description": "Set the discovery endpoint for the OpenID Connect provider. If this is set, manually set endpoints will be ignored.",
+					"title": "Discovery Endpoint",
+					"type": "string"
+				},
+				"discoveryEndPointCacheInMillis": {
+					"default": 360000,
+					"description": "Discovery endpoint metadata will be cached on this interval in milliseconds. If 0 is set, the metadata is never refreshed.",
+					"title": "Discovery Endpoint Cache in Milliseconds",
+					"type": "number"
+				},
+				"authorizationEndPoint": {
+					"default": "",
+					"description": "Set the authorization endpoint for the OpenID Connect provider.",
+					"title": "Authorization Endpoint",
+					"type": "string"
+				},
+				"issuerURL": {
+					"default": "",
+					"description": "Set the issuer URL for the OpenID Connect provider.",
+					"title": "Issuer URL",
+					"type": "string"
+				},
+				"jwksURI": {
+					"default": "",
+					"description": "Set the JWKS URI for the OpenID Connect provider.",
+					"title": "JWKS URI",
+					"type": "string"
+				},
+				"idTokenSigningAlgValues": {
+					"default": "RS256",
+					"description": "Set the supported ID token signing algorithms for the OpenID Connect Provider. If the discovery endpoint is not specified, these algorithms are used. In this case, the algorithm RS256 must be included and must be the first algorithm in the list. If the discovery endpoint is specified, no algorithms should be specified here since the supported signing algorithms for the identity token are obtained from the discovery endpoint.",
+					"title": "ID Token Signing Algorithms",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"subjectTypes": {
+					"default": "",
+					"description": "Set the subject types for the OpenID Connect provider.",
+					"title": "Subject Types",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"tokenEndPoint": {
+					"default": "",
+					"description": "Set the token endpoint for the OpenID Connect provider.",
+					"title": "Token Endpoint",
+					"type": "string"
+				},
+				"tokenConnectionTimeout": {
+					"default": 1000,
+					"description": "Set the amount of time to wait (in milliseconds) when establishing a connection to validate the token before timing out. A value of 0 means infinity and is not recommended.",
+					"title": "Token Connection Timeout in Milliseconds",
+					"type": "number"
+				},
+				"userInfoEndPoint": {
+					"default": "",
+					"description": "Set the user information endpoint for the OpenID Connect provider.",
+					"title": "User Information Endpoint",
+					"type": "string"
+				},
+				"openIdConnectClientId": {
+					"default": "",
+					"description": "Set the client ID for the OpenID Connect provider.",
+					"title": "OpenID Connect Client ID",
+					"type": "string"
+				},
+				"openIdConnectClientSecret": {
+					"default": "",
+					"description": "Set the client secret for the OpenID Connect provider.",
+					"title": "OpenID Connect Client Secret",
+					"type": "string"
+				},
+				"registeredIdTokenSigningAlg": {
+					"default": "",
+					"description": "Set the ID token signing algorithm registered with the OpenId Connect provider. The default is RS256.",
+					"title": "Registered ID Token Signing Algorithm",
+					"type": "string"
+				},
+				"customAuthorizationRequestParameters": {
+					"default": "",
+					"description": "Add custom authorization request parameters, e.g.: resource=https://contacts.google.com https://maps.google.com",
+					"title": "Custom Authorization Request Parameters",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"customTokenRequestParameters": {
+					"default": "",
+					"description": "Add custom token request parameters, e.g.: resource=https://contacts.google.com https://maps.google.com",
+					"title": "Custom Token Request Parameters",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid",
+				"providerName",
+				"scopes",
+				"openIdConnectClientId",
+				"openIdConnectClientSecret"
+			],
+			"title": "OpenID Connect Provider Connection"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.security.configuration.BasicAuthHeaderSupportConfiguration",
+					"title": "Basic Authentication Protocol Support"
+				},
+				"enabled": {
+					"default": true,
+					"title": "Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Basic Authentication Protocol Support"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.security.auto.login.internal.basic.auth.header.configuration.BasicAuthHeaderAutoLoginConfiguration",
+					"title": "Auto Login Basic Authentication Header"
+				},
+				"enabled": {
+					"default": false,
+					"title": "Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Auto Login Basic Authentication Header"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.security.content.security.policy.internal.configuration.ContentSecurityPolicyConfiguration",
+					"title": "Content Security Policy Configuration"
+				},
+				"enabled": {
+					"default": false,
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"policy": {
+					"description": "Specify the Content-Security-Policy HTTP header value. For every request, a unique nonce will be generated for link, script, and style tags. Use this value in your policy by including the placeholder {0}, which will be automatically replaced with the generated nonce.",
+					"title": "Content Security Policy",
+					"type": "string"
+				},
+				"excludedPaths": {
+					"default": "/api/,/combo,/documents/,/image/,/layouttpl/,/o/,/webdav/",
+					"description": "Content Security Policy will not apply to paths that start with the specified excluded paths.",
+					"title": "Excluded Paths",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Content Security Policy Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.security.ldap.authenticator.configuration.LDAPAuthConfiguration",
+					"title": "Authentication"
+				},
+				"companyId": {
+					"default": 0,
+					"title": "Company ID",
+					"type": "number"
+				},
+				"enabled": {
+					"default": false,
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"required": {
+					"default": false,
+					"title": "Required",
+					"type": "boolean"
+				},
+				"passwordPolicyEnabled": {
+					"default": false,
+					"description": "Set this to true to use LDAP's password policy instead of the portal password policy. If set to true, it is possible that portal generated passwords will not match the LDAP policy. See the \"passwords.regexptoolkit.*\" properties for details on configuring RegExpToolkit in generating these passwords. Note that if this is enabled, the portal will not check for valid passwords, expired passwords, or users that are locked out. This is now handled by the LDAP server's password policy.",
+					"title": "Password Policy Enabled",
+					"type": "boolean"
+				},
+				"method": {
+					"default": "bind",
+					"description": "Set either bind or password-compare for the LDAP authentication method. Bind is preferred by most vendors so that you do not have to worry about encryption strategies.",
+					"title": "Method",
+					"type": "string",
+					"enum": [
+						"bind",
+						"password-compare"
+					]
+				},
+				"passwordEncryptionAlgorithm": {
+					"default": "NONE",
+					"description": "Set the password encryption to use for comparing passwords during import and to use for encrypting passwords during export. Comparing passwords during import will only be used when the property \"LDAPAuthConfiguration.method\" is set to password-compare. If the encryption is set to NONE, which is the default value, passwords are considered as plain text. The SHA-512 algorithm is currently unsupported.",
+					"title": "Password Encryption Algorithm",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Authentication"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.security.ldap.configuration.LDAPServerConfiguration",
+					"title": "Servers"
+				},
+				"companyId": {
+					"default": 0,
+					"title": "Company ID",
+					"type": "number"
+				},
+				"ldapServerId": {
+					"default": 0,
+					"title": "LDAP Server ID",
+					"type": "number"
+				},
+				"serverName": {
+					"default": "",
+					"title": "Server Name",
+					"type": "string"
+				},
+				"clockSkew": {
+					"default": 3000,
+					"description": "The system time difference (in milliseconds) between the portal and the LDAP server. This is required for validating the user's modified timestamp during import.",
+					"title": "Clock Skew",
+					"type": "number"
+				},
+				"baseProviderURL": {
+					"default": "ldap://localhost:10389",
+					"title": "Base Provider URL",
+					"type": "string"
+				},
+				"baseDN": {
+					"default": "",
+					"description": "The Base DN specifies the initial search context for users and is optional.",
+					"title": "Base DN",
+					"type": "string"
+				},
+				"securityPrincipal": {
+					"default": "",
+					"title": "Security Principal",
+					"type": "string"
+				},
+				"securityCredential": {
+					"default": "secret",
+					"title": "Security Credential",
+					"type": "string"
+				},
+				"authSearchFilter": {
+					"default": "(mail=@email_address@)",
+					"description": "Enter the search filter that is used to test the validity of a user. The tokens @company_id@, @email_address@, @screen_name@, and @user_id@ are replaced at runtime with the correct values.",
+					"title": "Authentication Search Filter",
+					"type": "string"
+				},
+				"userSearchFilter": {
+					"default": "(objectClass=inetOrgPerson)",
+					"description": "Settings for importing users from LDAP to the portal. These settings are not used unless the property \"LDAPImportConfiguration.enabled\" is set to true.",
+					"title": "User Search Filter",
+					"type": "string"
+				},
+				"userMappings": {
+					"default": "emailAddress=mail|firstName=givenName|group=groupMembership|jobTitle=title|lastName=sn|password=userPassword|screenName=cn|uuid=uuid",
+					"description": "When importing and exporting users, the portal will use this mapping to connect LDAP user attributes and portal user attributes.",
+					"title": "User Mappings",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"userCustomMappings": {
+					"default": "",
+					"description": "When importing and exporting users, the portal will use this mapping to connect LDAP user attributes and portal user's custom attributes.",
+					"title": "User Custom Mappings",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"userIgnoreAttributes": {
+					"default": "",
+					"description": "Set the user attributes that are controlled from the portal. When adding or updating a user from LDAP, these attributes will be skipped.",
+					"title": "User Ignore Attributes",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"contactMappings": {
+					"default": "birthday=|facebookSn=|jabberSn=|skypeSn=|smsSn=|twitterSn=",
+					"description": "When importing and exporting users, the portal will use this mapping to connect LDAP user attributes and portal contact attributes.",
+					"title": "Contact Mappings",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"contactCustomMappings": {
+					"default": "",
+					"description": "When importing and exporting users, the portal will use this mapping to connect LDAP user attributes and portal contact's custom attributes.",
+					"title": "Contact Custom Mappings",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"groupSearchFilterEnabled": {
+					"default": true,
+					"title": "Group Search Filter Enabled",
+					"type": "boolean"
+				},
+				"ignoreUserSearchFilterForAuth": {
+					"default": true,
+					"description": "When checked, users do not need to match the LDAP server's search filter to authenticate.",
+					"title": "Ignore User Search Filter for Authentication",
+					"type": "boolean"
+				},
+				"groupSearchFilter": {
+					"default": "(objectClass=groupOfUniqueNames)",
+					"description": "Settings for importing groups from LDAP to the portal. These settings are not used unless the property \"LDAPImportConfiguration.enabled\" is set to true.",
+					"title": "Group Search Filter",
+					"type": "string"
+				},
+				"groupMappings": {
+					"default": "description=description|groupName=cn|user=uniqueMember",
+					"description": "When importing groups, the portal will use this mapping to connect LDAP group attributes and portal user group attributes.",
+					"title": "Group Mappings",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"usersDN": {
+					"default": "",
+					"description": "New users will be created at the specified DN. This will only be active if the property \"LDAPAuthConfiguration.enabled\" and \"LDAPExportConfiguration.enabled\" are set to true.",
+					"title": "Users DN",
+					"type": "string"
+				},
+				"userDefaultObjectClasses": {
+					"default": "top|person|inetOrgPerson|organizationalPerson",
+					"description": "When a user is exported to LDAP and the user does not exist, the user will be created with the following default object classes.",
+					"title": "User Default Object Classes",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"groupsDN": {
+					"default": "",
+					"description": "New groups will be created at the specified DN. This will only be active if the property \"LDAPAuthConfiguration.enabled\" and \"LDAPExportConfiguration.enabled\" are set to true.",
+					"title": "Groups DN",
+					"type": "string"
+				},
+				"groupDefaultObjectClasses": {
+					"default": "top|groupOfUniqueNames",
+					"description": "When a group is exported to LDAP and the group does not exist, the group will be created with the following default object classes.",
+					"title": "Group Default Object Classes",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Servers"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.security.ldap.configuration.SystemLDAPConfiguration",
+					"title": "Connection"
+				},
+				"companyId": {
+					"default": 0,
+					"title": "Company ID",
+					"type": "number"
+				},
+				"factoryInitial": {
+					"default": "com.sun.jndi.ldap.LdapCtxFactory",
+					"title": "Factory Initial",
+					"type": "string"
+				},
+				"referral": {
+					"default": "follow",
+					"title": "Referral",
+					"type": "string",
+					"enum": [
+						"follow",
+						"ignore",
+						"throws"
+					]
+				},
+				"pageSize": {
+					"default": 1000,
+					"description": "Set the page size for directory servers that support paging. This value needs to be 1000 or less for the Microsoft Active Directory Server.",
+					"title": "Page Size",
+					"type": "number"
+				},
+				"rangeSize": {
+					"default": 1000,
+					"description": "Set the number of values to return in each query to a multivalued attribute for directory servers that support range retrieval. The range size must be 1000 or less for Windows 2000 and 1500 or less for Windows Server 2003.",
+					"title": "Range Size",
+					"type": "number"
+				},
+				"connectionProperties": {
+					"default": "com.sun.jndi.ldap.connect.pool=true|com.sun.jndi.ldap.connect.timeout=500|com.sun.jndi.ldap.read.timeout=15000",
+					"title": "Connection Properties",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"errorPasswordAgeKeywords": {
+					"default": "age",
+					"title": "Error Password Age Keywords",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"errorPasswordExpiredKeywords": {
+					"default": "expired",
+					"title": "Error Password Expired Keywords",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"errorPasswordHistoryKeywords": {
+					"default": "history",
+					"title": "Error Password History Keywords",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"errorPasswordNotChangeableKeywords": {
+					"default": "not allowed to change",
+					"title": "Error Password Not Changeable Keywords",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"errorPasswordSyntaxKeywords": {
+					"default": "syntax",
+					"title": "Error Password Syntax Keywords",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"errorPasswordTrivialTextKeywords": {
+					"default": "trivial",
+					"title": "Error Password Trivial Text Keywords",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"errorUserLockoutKeywords": {
+					"default": "retry limit",
+					"title": "Error User Lockout Keywords",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Connection"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.security.ldap.exportimport.configuration.LDAPExportConfiguration",
+					"title": "Export"
+				},
+				"companyId": {
+					"default": 0,
+					"title": "Company ID",
+					"type": "number"
+				},
+				"exportEnabled": {
+					"default": false,
+					"description": "Settings for exporting users from the portal to LDAP. This allows a user to modify his first name, last name, etc. in the portal and have that change pushed to the LDAP server. This setting is not used unless the property \"LDAPAuthConfiguration.enabled\" is set to true.",
+					"title": "Export Enabled",
+					"type": "boolean"
+				},
+				"exportGroupEnabled": {
+					"default": true,
+					"description": "Set this to true if groups and their associations should be exported from the portal to LDAP. This setting is not used unless the property \"LDAPAuthConfiguration.enabled\" is set to true.",
+					"title": "Export Group Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Export"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.security.ldap.exportimport.configuration.LDAPImportConfiguration",
+					"title": "Import"
+				},
+				"companyId": {
+					"default": 0,
+					"title": "Company ID",
+					"type": "number"
+				},
+				"importEnabled": {
+					"default": false,
+					"title": "Enable Import",
+					"type": "boolean"
+				},
+				"importOnStartup": {
+					"default": false,
+					"title": "Enable Import on Startup",
+					"type": "boolean"
+				},
+				"importInterval": {
+					"default": 10,
+					"title": "Import Interval",
+					"type": "number",
+					"min": 1
+				},
+				"importMethod": {
+					"default": "user",
+					"description": "Set either user or group for import method. If set to user, the portal imports all users and the groups associated with those users. If set to group, the portal imports all groups and the users associated with those groups. This value should be set based on how your LDAP server stores group membership information.",
+					"title": "Import Method",
+					"type": "string",
+					"enum": [
+						"group",
+						"user"
+					]
+				},
+				"importLockExpirationTime": {
+					"default": 86400000,
+					"description": "Set the lock expiration time for LDAP import. By default, the expiration time is 1 day.",
+					"title": "Lock Expiration Time",
+					"type": "number"
+				},
+				"importUserSyncStrategy": {
+					"default": "auth-type",
+					"title": "Import User Synchronization Strategy",
+					"type": "string",
+					"enum": [
+						"auth-type",
+						"uuid"
+					]
+				},
+				"importUserPasswordEnabled": {
+					"default": true,
+					"title": "Enable User Password",
+					"type": "boolean"
+				},
+				"importUserPasswordAutogenerated": {
+					"default": false,
+					"title": "Autogenerate User Password",
+					"type": "boolean"
+				},
+				"importUserPasswordDefault": {
+					"default": "test",
+					"title": "Default User Password",
+					"type": "string"
+				},
+				"importGroupCacheEnabled": {
+					"default": true,
+					"description": "Specify whether time-group DN lookups will be cached during LDAP import and login. If set to true, this will speed up LDAP import and login, but updates to group attributes will not be recognized until the cache entry expires. The cache size and timeout may be configured for the cache using the cache name \"com.liferay.portal.security.exportimport.UserImporter\".",
+					"title": "Enable Group Cache",
+					"type": "boolean"
+				},
+				"importCreateRolePerGroup": {
+					"default": false,
+					"description": "Set this to true if the portal should automatically create a role per group imported from LDAP. The role will be assigned to the group so that users can automatically inherit that role when they are assigned to the group.",
+					"title": "Create Role per Group",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Import"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.vulcan.internal.configuration.HeadlessAPICompanyConfiguration",
+					"title": "Headless API"
+				},
+				"pageSizeLimit": {
+					"default": 500,
+					"description": "Set the page size limit of elements that can be recovered through REST. Enter a negative number or zero for unlimited page size.",
+					"title": "Page Size Limit",
+					"type": "number"
+				},
+				"queryDepthLimit": {
+					"default": 20,
+					"description": "Set the query depth limit for GraphQL. Enter a negative number or zero for an unlimited query depth.",
+					"title": "Query Depth Limit",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Headless API"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.vulcan.internal.configuration.VulcanCompanyConfiguration",
+					"title": "Headless API Endpoint"
+				},
+				"path": {
+					"default": "/api",
+					"title": "Path",
+					"type": "string"
+				},
+				"graphQLEnabled": {
+					"default": true,
+					"title": "GraphQL API",
+					"type": "boolean"
+				},
+				"restEnabled": {
+					"default": true,
+					"title": "REST API",
+					"type": "boolean"
+				},
+				"excludedOperationIds": {
+					"title": "Excluded Operation IDs",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid",
+				"path"
+			],
+			"title": "Headless API Endpoint"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.product.navigation.applications.menu.configuration.ApplicationsMenuInstanceConfiguration",
+					"title": "Applications Menu"
+				},
+				"enableApplicationsMenu": {
+					"default": true,
+					"description": "When enabled, the control panel applications and cross-site applications will be accessible through the new applications menu which can be accessed by clicking the grid menu icon in the upper-right corner.",
+					"title": "Enable Applications Menu",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Applications Menu"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.product.navigation.personal.menu.configuration.PersonalMenuConfiguration",
+					"title": "Personal Menu"
+				},
+				"personalApplicationsLookAndFeel": {
+					"default": "current-site",
+					"description": "Define the look and feel for personal applications. Use the same look and feel of the current site or My Dashboard pages.",
+					"title": "Personal Applications Look and Feel",
+					"type": "string",
+					"enum": [
+						"current-site",
+						"my-dashboard"
+					]
+				},
+				"showInControlMenu": {
+					"default": false,
+					"description": "Enable to always show the Personal Menu in the Control Menu. This guarantees users can always access the Personal Menu even if a theme does not provide it.",
+					"title": "Show in Control Menu",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Personal Menu"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.redirect.internal.configuration.RedirectPatternConfiguration",
+					"description": "Define a set of URL patterns that when matched, will redirect to the destination URL.",
+					"title": "Redirect Patterns"
+				},
+				"patternStrings": {
+					"description": "Redirect Patterns",
+					"title": "Define a set of URL patterns that when matched, will redirect to the destination URL. Each pattern specifies the regular expression to match as a regular expression and the destination URL to redirect to.",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Redirect Patterns",
+			"description": "Define a set of URL patterns that when matched, will redirect to the destination URL."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.redirect.internal.configuration.RedirectURLConfiguration",
+					"description": "Configure which domains or IP addresses can be redirected to.",
+					"title": "Redirect URLs"
+				},
+				"allowedDomains": {
+					"default": "",
+					"description": "Set the domains which the portal is allowed to redirect to. Remove all entries to allow any domain. Specifying a domain with a leading \"*.\" allows redirects to subdomains.",
+					"title": "Allowed Domains",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"allowedIPs": {
+					"default": "127.0.0.1|SERVER_IP",
+					"description": "Set the IPs which the portal is allowed to redirect to. Remove all entries to allow any IP. SERVER_IP will be replaced with the IP of the host server.",
+					"title": "Allowed IPs",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"securityMode": {
+					"default": "ip",
+					"description": "If you are redirecting by domain, the portal will only redirect users to domains defined in the \"Redirect URL Domains Allowed\" fields. If you are redirecting by IP, the portal will only redirect to domains whose IP address resolves to an IP address defined in one of the \"Redirect URL IPs Allowed\" fields.",
+					"title": "Security Mode",
+					"type": "string",
+					"enum": [
+						"domain",
+						"ip"
+					]
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Redirect URLs",
+			"description": "Configure which domains or IP addresses can be redirected to."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.segments.configuration.SegmentsCompanyConfiguration",
+					"title": "Segments Service"
+				},
+				"segmentationEnabled": {
+					"default": true,
+					"description": "Disable this option to prevent user segmentation on every request. If disabled, collections and experiences personalization will not be available.",
+					"title": "Enable Segmentation",
+					"type": "boolean"
+				},
+				"roleSegmentationEnabled": {
+					"default": false,
+					"description": "When checked, this option allows assigning roles to users dynamically.",
+					"title": "Enable Assign Roles by Segment",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Segments Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.segments.context.vocabulary.internal.configuration.SegmentsContextVocabularyCompanyConfiguration",
+					"description": "Link a session property to a vocabulary.",
+					"title": "Session Property Vocabularies"
+				},
+				"entityFieldName": {
+					"title": "Session Property Name",
+					"type": "string"
+				},
+				"assetVocabularyName": {
+					"title": "Vocabulary Name",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid",
+				"entityFieldName",
+				"assetVocabularyName"
+			],
+			"title": "Session Property Vocabularies",
+			"description": "Link a session property to a vocabulary."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.sharing.internal.configuration.SharingCompanyConfiguration",
+					"title": "Sharing"
+				},
+				"enabled": {
+					"default": true,
+					"title": "Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Sharing"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.sharing.internal.configuration.SharingGroupConfiguration",
+					"title": "Site Sharing"
+				},
+				"enabled": {
+					"default": true,
+					"title": "Enabled",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Site Sharing"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.site.configuration.MenuAccessConfiguration"
+				},
+				"showControlMenuByRole": {
+					"default": false,
+					"type": "boolean"
+				},
+				"accessToControlMenuRoleIds": {
+					"default": "",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			]
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.social.activity.configuration.SocialActivityGroupServiceConfiguration",
+					"title": "Social Activity"
+				},
+				"contributionIncrements": {
+					"default": "-100|-20|-10|-5|-4|-3|-2|-1|0|1|2|3|4|5|10|20|50|100",
+					"title": "Contribution Increments",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"contributionLimitValues": {
+					"default": "0|1|2|3|4|5|10|20",
+					"title": "Contribution Limit Values",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"participationIncrements": {
+					"default": "-100|-20|-10|-5|-4|-3|-2|-1|0|1|2|3|4|5|10|20|50|100",
+					"title": "Participation Increments",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"participationLimitValues": {
+					"default": "0|1|2|3|4|5|10|20",
+					"title": "Participation Limit Values",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Social Activity"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.social.activity.internal.configuration.SocialActivityCompanyConfiguration",
+					"title": "Social Activity"
+				},
+				"enableUserSocialActivityTracking": {
+					"default": true,
+					"title": "Enable User Social Activity Tracking",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Social Activity"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.staging.configuration.StagingConfiguration",
+					"description": "The settings in this configuration let you control the staging process.",
+					"title": "Staging"
+				},
+				"publishParentLayoutsByDefault": {
+					"default": true,
+					"description": "If checked, parent pages are always published to live.",
+					"title": "Publish Parent Pages by Default",
+					"type": "boolean"
+				},
+				"publishDisplayedContent": {
+					"default": false,
+					"description": "If checked, the displayed content will be published to Live for Dynamic Data Lists Display, Form, Web Content Display and Wiki Display. These widgets will publish the displayed content to Live independently of the Publish Process settings. For example, a Web Content Display will publish the Web Content even if Web Contents were not selected on the Publish Process screen. This can be useful to make sure that Staging and Live display the same content. However, in most cases the content is already available in Live and publishing it again can slow down the process unnecessarily. Uncheck to not publish the displayed content.",
+					"title": "Publish Displayed Content by Default",
+					"type": "boolean"
+				},
+				"stagingDeleteTempLAROnFailure": {
+					"default": true,
+					"description": "Uncheck to avoid deleting the temporary LAR during a failed staging publish process. In remote staging contexts, this only applies for the staging environment.",
+					"title": "Delete temporary LAR during a failed staging publish process.",
+					"type": "boolean"
+				},
+				"stagingDeleteTempLAROnSuccess": {
+					"default": true,
+					"description": "Uncheck to avoid deleting the temporary LAR during a successful staging publish process. In remote staging contexts, this only applies for the staging environment.",
+					"title": "Delete temporary LAR during a successful staging publish process.",
+					"type": "boolean"
+				},
+				"stagingUseVirtualHostForRemoteSite": {
+					"default": false,
+					"description": "The remote environment's virtual host is used when accessing the remote live site from the staged site.",
+					"title": "Use the virtual host of the remote site.",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Staging",
+			"description": "The settings in this configuration let you control the staging process."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.translation.translator.aws.internal.configuration.AWSTranslatorConfiguration",
+					"title": "Translator Using Amazon Translate"
+				},
+				"enabled": {
+					"default": false,
+					"description": "Enable or disable the integration with Amazon Translate API for automatic translations.",
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"accessKey": {
+					"default": "",
+					"title": "Access Key",
+					"type": "string"
+				},
+				"secretKey": {
+					"default": "",
+					"title": "Secret Key",
+					"type": "string"
+				},
+				"region": {
+					"default": "us-west-1",
+					"title": "Region",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Translator Using Amazon Translate"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.translation.translator.azure.internal.configuration.AzureTranslatorConfiguration",
+					"title": "Translator Using Microsoft Translate"
+				},
+				"enabled": {
+					"default": false,
+					"description": "Enable or disable the integration with Microsoft Translate API for automatic translations.",
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"subscriptionKey": {
+					"default": "",
+					"title": "Subscription Key",
+					"type": "string"
+				},
+				"resourceLocation": {
+					"default": "",
+					"title": "Resource Location",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Translator Using Microsoft Translate"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.translation.translator.deepl.internal.configuration.DeepLTranslatorConfiguration",
+					"title": "Translator Using DeepL Translate"
+				},
+				"enabled": {
+					"default": false,
+					"description": "Enable or disable the integration with DeepL Translate API for automatic translations.",
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"authKey": {
+					"title": "Token",
+					"type": "string"
+				},
+				"url": {
+					"default": "https://api-free.deepl.com/v2/translate",
+					"title": "API URL",
+					"type": "string"
+				},
+				"validateLanguageURL": {
+					"default": "https://api-free.deepl.com/v2/languages",
+					"title": "DeepL Validation API",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Translator Using DeepL Translate"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.translation.translator.google.cloud.internal.configuration.GoogleCloudTranslatorConfiguration",
+					"title": "Translator Using Google Cloud"
+				},
+				"enabled": {
+					"default": false,
+					"description": "Enable or disable the integration with Google Cloud Translation API for automatic translations.",
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"serviceAccountPrivateKey": {
+					"default": "",
+					"description": "Specify the service account private key in JSON format.",
+					"title": "Service Account Private Key",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Translator Using Google Cloud"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.user.associated.data.web.internal.configuration.AnonymousUserConfiguration",
+					"title": "Anonymous User"
+				},
+				"userId": {
+					"default": 0,
+					"description": "The user ID of the user designated as the anonymous user. This user will be used to replace a given user's data when an anonymization operation is requested.",
+					"title": "User ID",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Anonymous User"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.users.admin.configuration.UserFileUploadsConfiguration",
+					"title": "User Images"
+				},
+				"imageMaxSize": {
+					"default": 307200,
+					"description": "Set the maximum file size in bytes for user portraits. A value of 0 indicates no limit. Regardless of the value entered here, uploaded files cannot exceed the \"Max Size\" set in System Settings > Infrastructure > Upload Servlet Request.",
+					"title": "Maximum File Size",
+					"type": "number"
+				},
+				"imageMaxHeight": {
+					"default": 290,
+					"description": "Set the maximum user portrait height in pixels. A value of 0 indicates no restrictions on user portrait dimensions.",
+					"title": "Maximum Height",
+					"type": "number"
+				},
+				"imageMaxWidth": {
+					"default": 290,
+					"description": "Set the maximum user portrait width in pixels. A value of 0 indicates no restrictions on user portrait dimensions.",
+					"title": "Maximum Width",
+					"type": "number"
+				},
+				"imageCheckToken": {
+					"default": true,
+					"description": "Enable to check the image token for user portraits and organization logos before displaying them.",
+					"title": "Check Image Token",
+					"type": "boolean"
+				},
+				"imageDefaultUseInitials": {
+					"default": true,
+					"description": "Enable to set the user's initials as the default user portrait. Otherwise, the default portrait image files will be used. The default portrait image path is set by the \"image.default.user.portrait\" property in portal.properties.",
+					"title": "Use Initials For Default User Portrait",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "User Images"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.wiki.configuration.WikiGroupServiceConfiguration",
+					"title": "Wiki Service"
+				},
+				"defaultFormat": {
+					"default": "creole",
+					"title": "Default Format",
+					"type": "string"
+				},
+				"emailFromAddress": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.address}",
+					"title": "Email from Address",
+					"type": "string"
+				},
+				"emailFromName": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.name}",
+					"title": "Email from Name",
+					"type": "string"
+				},
+				"emailPageAddedBody": {
+					"default": "${resource:com/liferay/wiki/configuration/dependencies/email_page_added_body.tmpl}",
+					"title": "Email Page Added body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailPageAddedEnabled": {
+					"default": true,
+					"title": "Email Page Added Enabled",
+					"type": "boolean"
+				},
+				"emailPageAddedSubject": {
+					"default": "${resource:com/liferay/wiki/configuration/dependencies/email_page_added_subject.tmpl}",
+					"title": "Email Page Added Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailPageUpdatedBody": {
+					"default": "${resource:com/liferay/wiki/configuration/dependencies/email_page_updated_body.tmpl}",
+					"title": "Email Page Updated Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailPageUpdatedEnabled": {
+					"default": true,
+					"title": "Email Page Updated Enabled",
+					"type": "boolean"
+				},
+				"emailPageUpdatedSubject": {
+					"default": "${resource:com/liferay/wiki/configuration/dependencies/email_page_updated_subject.tmpl}",
+					"title": "Email Page Updated Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"enableRss": {
+					"default": true,
+					"title": "Enable RSS",
+					"type": "boolean"
+				},
+				"frontPageName": {
+					"default": "FrontPage",
+					"title": "Front Page Name",
+					"type": "string"
+				},
+				"getCreoleEditor": {
+					"default": "ckeditor_creole",
+					"title": "Creole Editor",
+					"type": "string"
+				},
+				"getHTMLEditor": {
+					"default": "ckeditor",
+					"title": "HTML Editor",
+					"type": "string"
+				},
+				"getMediaWikiEditor": {
+					"default": "simple",
+					"title": "Media Wiki Editor",
+					"type": "string"
+				},
+				"initialNodeName": {
+					"default": "Main",
+					"title": "Initial Node Name",
+					"type": "string"
+				},
+				"pageCommentsEnabled": {
+					"default": true,
+					"title": "Page Comments Enabled",
+					"type": "boolean"
+				},
+				"pageMinorEditAddSocialActivity": {
+					"default": true,
+					"title": "Page Minor Edit Add Social Activity",
+					"type": "boolean"
+				},
+				"pageMinorEditSendEmail": {
+					"default": false,
+					"title": "Page Minor Edit Send Email",
+					"type": "boolean"
+				},
+				"parsersCreoleSupportedProtocols": {
+					"default": "ftp://|http://|https://|mailto:|mms://",
+					"title": "Parsers Creole Supported Protocols",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"enableHighlightCreoleFormat": {
+					"default": false,
+					"title": "Enable the highlighting of links in Creole format for nonexisting wiki pages.",
+					"type": "boolean"
+				},
+				"rssAbstractLength": {
+					"default": 200,
+					"title": "RSS Abstract Length",
+					"type": "number"
+				},
+				"rssDelta": {
+					"default": "${server-property://com.liferay.portal/search.container.page.default.delta}",
+					"title": "RSS Delta",
+					"type": "string"
+				},
+				"rssDisplayStyle": {
+					"default": "${server-property://com.liferay.portal/rss.feed.display.style.default}",
+					"title": "RSS Display Style",
+					"type": "string"
+				},
+				"rssFeedType": {
+					"default": "${server-property://com.liferay.portal/rss.feed.type.default}",
+					"title": "RSS Feed Type",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Wiki Service"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.commerce.punchout.configuration.PunchOutConfiguration",
+					"title": "Punch Out"
+				},
+				"enabled": {
+					"default": false,
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"punchOutStartURL": {
+					"title": "Punch Out Start URL",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Punch Out"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.document.library.opener.onedrive.web.internal.configuration.DLOneDriveCompanyConfiguration",
+					"title": "OneDrive"
+				},
+				"clientId": {
+					"description": "Set the OAuth 2 client id for the OneDrive API. Go to {0} to create it.",
+					"title": "Client ID",
+					"type": "string"
+				},
+				"clientSecret": {
+					"description": "Set the OAuth 2 client secret for the OneDrive API. Go to {0} to create it.",
+					"title": "Client Secret",
+					"type": "string"
+				},
+				"tenant": {
+					"description": "Set the tenant for the OneDrive API. Go to {0} to obtain it.",
+					"title": "Tenant",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid",
+				"clientId",
+				"clientSecret",
+				"tenant"
+			],
+			"title": "OneDrive"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.multi.factor.authentication.email.otp.configuration.MFAEmailOTPConfiguration",
+					"title": "Multi-Factor Authentication and Email One-Time Password Configuration"
+				},
+				"enabled": {
+					"default": false,
+					"description": "Enabling multi-factor authentication implies enabling Email One-Time Password. It is strongly advised that other forms of user authentication that only support a single factor are disabled (e.g. Basic, Digest, WEBDAV).",
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"order": {
+					"default": 10,
+					"description": "Set the multi-factor authentication checker order. Checkers with higher order will be shown first.",
+					"title": "Order",
+					"type": "number"
+				},
+				"otpSize": {
+					"default": 6,
+					"description": "Set the length of a one-time password.",
+					"title": "One-Time Password Length",
+					"type": "number"
+				},
+				"resendEmailTimeout": {
+					"default": 30,
+					"description": "Set the allowed time in seconds between one-time password requests.",
+					"title": "Resend Email Timeout",
+					"type": "number"
+				},
+				"emailFromAddress": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.address}",
+					"description": "Set the sender address on the one-time password email.",
+					"title": "Template for Email \"From\" Field",
+					"type": "string"
+				},
+				"emailFromName": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.name}",
+					"title": "Email from Name",
+					"type": "string"
+				},
+				"emailOTPSentSubject": {
+					"default": "${resource:com/liferay/multi/factor/authentication/email/otp/configuration/dependencies/email_otp_sent_subject.tmpl}",
+					"title": "Template for Email \"Subject\" Field",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailOTPSentBody": {
+					"default": "${resource:com/liferay/multi/factor/authentication/email/otp/configuration/dependencies/email_otp_sent_body.tmpl}",
+					"title": "Template for Email \"Body\" Field",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"failedAttemptsAllowed": {
+					"default": -1,
+					"description": "Set the number of verification attempts allowed before blocking for the retry timeout.",
+					"title": "Set the number of allowed failed attempts.",
+					"type": "number"
+				},
+				"retryTimeout": {
+					"default": -1,
+					"description": "Set the time in seconds to block requests after reaching the limit for failed attempts allowed.",
+					"title": "Retry Timeout",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Multi-Factor Authentication and Email One-Time Password Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.multi.factor.authentication.fido2.web.internal.configuration.MFAFIDO2Configuration",
+					"title": "Fast IDentity Online 2 Configuration"
+				},
+				"enabled": {
+					"default": false,
+					"description": "Enable Fast IDentity Online 2.",
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"order": {
+					"default": 200,
+					"description": "Set the multi-factor authentication checker order. Checkers with higher order will be shown first.",
+					"title": "Order",
+					"type": "number"
+				},
+				"relyingPartyName": {
+					"default": "relying Party",
+					"description": "Set the relying party name.",
+					"title": "Relying Party Name",
+					"type": "string"
+				},
+				"allowedCredentialsPerUser": {
+					"default": 1,
+					"description": "Set the number of allowed credentials per user.",
+					"title": "Allowed Credentials Per User",
+					"type": "number"
+				},
+				"relyingPartyId": {
+					"default": "localhost",
+					"description": "Set the relying party ID. It must be equal to the origin's effective domain, or a registrable domain suffix of the origin's effective domain. For example an origin of https://login.example.com:1337 can only have relying party ID as one of the following: login.example.com or example.com. This is done in order to match the behavior of pervasively deployed ambient credentials (e.g. cookies, [RFC6265]).",
+					"title": "Relying Party ID",
+					"type": "string"
+				},
+				"origins": {
+					"default": "https://localhost",
+					"description": "Set the allowed origins that returned authenticator responses will be compared against. The default is the set containing only the string of \"https://\" + Relying Party ID.",
+					"title": "Origins",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"allowOriginPort": {
+					"default": false,
+					"description": "Enable to relax the origin matching rule to allow any port number.",
+					"title": "Allow Origin Port",
+					"type": "boolean"
+				},
+				"allowOriginSubdomain": {
+					"default": false,
+					"description": "Enable to relax the origin matching rule to allow any subdomain, of any depth.",
+					"title": "Allow Origin Subdomain",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Fast IDentity Online 2 Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.multi.factor.authentication.ip.address.internal.configuration.MFAIPAddressConfiguration",
+					"title": "IP Address Configuration"
+				},
+				"enabled": {
+					"default": false,
+					"description": "When the IP address configuration is enabled, the instance will check if the user tries to log in from a valid network ip and will allow the access the portal without showing any other multi-factor authentication verifiers.",
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"allowedIPAddressAndNetMask": {
+					"default": "127.0.0.1/255.0.0.0",
+					"description": "Set the allowed IP address and the network mask (can be either IPv4 or IPv6). Use the add button to add multiple ones.",
+					"title": "Allowed IP Address and Network Mask",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "IP Address Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.multi.factor.authentication.sample.internal.configuration.MFASampleConfiguration",
+					"title": "MFA Sample Configuration"
+				},
+				"enabled": {
+					"default": false,
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"order": {
+					"default": 400,
+					"title": "Order",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "MFA Sample Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.multi.factor.authentication.timebased.otp.web.internal.configuration.MFATimeBasedOTPConfiguration",
+					"title": "Time-Based One-Time Password Configuration"
+				},
+				"enabled": {
+					"default": false,
+					"description": "Enable time-based one-time password. Take into account that time-based one-time password also needs to be configured by each user. They will find a new section to configure it at \"Account Settings\".",
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"order": {
+					"default": 100,
+					"description": "Set the multi-factor authentication checker order. Checkers with higher order will be shown first.",
+					"title": "Order",
+					"type": "number"
+				},
+				"clockSkew": {
+					"default": 3000,
+					"description": "Set the time in milliseconds that the clocks can differ before a code will be rejected. This means the checker could perform a validation against the current time and then two further validations (+ clock skew time / - clock skew time).",
+					"title": "Clock Skew",
+					"type": "number"
+				},
+				"algorithmKeySize": {
+					"default": 20,
+					"description": "Set the size of the algorithm key.",
+					"title": "Algorithm Key Size",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Time-Based One-Time Password Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.portal.reports.engine.console.configuration.ReportsGroupServiceEmailConfiguration",
+					"title": "Reports Group Service Configuration"
+				},
+				"emailDeliveryBody": {
+					"default": "${resource:com/liferay/portal/reports/engine/console/admin/dependencies/email_delivery_body.tmpl}",
+					"title": "Email Delivery Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailDeliverySubject": {
+					"default": "${resource:com/liferay/portal/reports/engine/console/admin/dependencies/email_delivery_subject.tmpl}",
+					"title": "Email Delivery Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailNotificationsBody": {
+					"default": "${resource:com/liferay/portal/reports/engine/console/admin/dependencies/email_notifications_body.tmpl}",
+					"title": "Email Notifications Body",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailNotificationsSubject": {
+					"default": "${resource:com/liferay/portal/reports/engine/console/admin/dependencies/email_notifications_subject.tmpl}",
+					"title": "Email Notifications Subject",
+					"type": "object",
+					"properties": {
+						
+					}
+				},
+				"emailFromAddress": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.address}",
+					"title": "Email from Address",
+					"type": "string"
+				},
+				"emailFromName": {
+					"default": "${server-property://com.liferay.portal/admin.email.from.name}",
+					"title": "Email from Name",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Reports Group Service Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.saml.runtime.configuration.SamlProviderConfiguration",
+					"title": "SAML Provider Configuration"
+				},
+				"companyId": {
+					"default": 0,
+					"title": "Company ID",
+					"type": "number"
+				},
+				"keyStoreCredentialPassword": {
+					"default": "liferay",
+					"description": "Set the password used to protect the entry within the keystore.",
+					"title": "Keystore Credential Password",
+					"type": "string"
+				},
+				"keyStoreEncryptionCredentialPassword": {
+					"default": "liferay",
+					"description": "Password used to protect the encryption entry within the keystore",
+					"title": "Keystore Encryption Credential Password",
+					"type": "string"
+				},
+				"assertionSignatureRequired": {
+					"description": "Choose whether assertions must be signed by the IdP",
+					"title": "Require Assertion Signature?",
+					"type": "boolean"
+				},
+				"authnRequestSignatureRequired": {
+					"default": true,
+					"description": "Choose whether the IdP Authn requests from SPs must be signed.",
+					"title": "Require Authn Request Signature?",
+					"type": "boolean"
+				},
+				"authnRequestSigningAllowsDynamicACSURL": {
+					"default": true,
+					"description": "When the Authn request is signed, the service provider can request to use other ACS (Assertion Consumer Service) URLs not specified in the metadata for receiving the Authn response.",
+					"title": "Authn Request Signing Allows Dynamic ACS URL",
+					"type": "boolean"
+				},
+				"clockSkew": {
+					"default": 3000,
+					"description": "The system time difference (in milliseconds) between this SP and the IdP. Required for correct message validation.",
+					"title": "Clock Skew",
+					"type": "number"
+				},
+				"defaultAssertionLifetime": {
+					"default": 1800,
+					"description": "Defines how long IdP assertions last (in seconds). Used when configuring new SP connections.",
+					"title": "Default Assertion Lifetime",
+					"type": "number"
+				},
+				"enabled": {
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"entityId": {
+					"description": "The local SAML entity's ID",
+					"title": "Entity ID",
+					"type": "string"
+				},
+				"ldapImportEnabled": {
+					"description": "After IdP authentication, import user attributes from the LDAP servers configured via This SP's instance settings",
+					"title": "LDAP Import Enabled",
+					"type": "boolean"
+				},
+				"role": {
+					"title": "SAML Role",
+					"type": "string"
+				},
+				"sessionMaximumAge": {
+					"description": "SSO session time limit managed by the IdP (in seconds)",
+					"title": "Session Maximum Age",
+					"type": "number"
+				},
+				"sessionTimeout": {
+					"description": "Time (in seconds) till idle session expires",
+					"title": "Session Idle Timeout",
+					"type": "number"
+				},
+				"signAuthnRequest": {
+					"default": true,
+					"description": "Sign Authn Requests from This SP",
+					"title": "Sign Authn Requests?",
+					"type": "boolean"
+				},
+				"signMetadata": {
+					"default": true,
+					"description": "Sign metadata provided to peer SAML entities",
+					"title": "Sign Metadata?",
+					"type": "boolean"
+				},
+				"sslRequired": {
+					"description": "Require SAML messages to be exchanged over SSL. URLs in the metadata provided to peer SAML entities become https.",
+					"title": "SSL Required",
+					"type": "boolean"
+				},
+				"allowShowingTheLoginPortlet": {
+					"default": true,
+					"description": "Allow showing the login portlet when no SAML IdP is matched to the login request.",
+					"title": "Allow showing the login portlet.",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "SAML Provider Configuration"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.search.experiences.configuration.SemanticSearchConfiguration",
+					"description": "Configure third party providers and other settings to index and search text embeddings. Semantic Search is a beta feature: enable it in Instance Settings > Feature Flags.",
+					"title": "Semantic Search (Beta)"
+				},
+				"textEmbeddingsEnabled": {
+					"default": false,
+					"title": "Text Embeddings Enabled",
+					"type": "boolean"
+				},
+				"textEmbeddingProviderConfigurationJSONs": {
+					"default": "",
+					"title": "Text Embedding Provider Configuration JSONs",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"textEmbeddingCacheTimeout": {
+					"default": 604800,
+					"title": "Text Embedding Cache Timeout",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Semantic Search (Beta)",
+			"description": "Configure third party providers and other settings to index and search text embeddings. Semantic Search is a beta feature: enable it in Instance Settings > Feature Flags."
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.search.experiences.internal.configuration.IpstackConfiguration",
+					"title": "Ipstack"
+				},
+				"enabled": {
+					"default": false,
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"apiKey": {
+					"default": "",
+					"title": "API Key",
+					"type": "string"
+				},
+				"apiURL": {
+					"default": "http://api.ipstack.com",
+					"title": "API URL",
+					"type": "string"
+				},
+				"cacheTimeout": {
+					"default": 604800,
+					"title": "Cache Timeout",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Ipstack"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.search.experiences.internal.configuration.OpenWeatherMapConfiguration",
+					"title": "OpenWeatherMap"
+				},
+				"enabled": {
+					"default": false,
+					"title": "Enabled",
+					"type": "boolean"
+				},
+				"apiKey": {
+					"default": "",
+					"title": "API Key",
+					"type": "string"
+				},
+				"apiURL": {
+					"default": "http://api.openweathermap.org/data/2.5/weather",
+					"title": "API URL",
+					"type": "string"
+				},
+				"cacheTimeout": {
+					"default": 604800,
+					"title": "Cache Timeout",
+					"type": "number"
+				},
+				"units": {
+					"default": "metric",
+					"title": "Units",
+					"type": "string",
+					"enum": [
+						"imperial",
+						"metric",
+						"standard"
+					]
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "OpenWeatherMap"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.segments.asah.connector.internal.configuration.SegmentsAsahCompanyConfiguration",
+					"title": "Analytics Cloud Segments"
+				},
+				"anonymousUserSegmentsCacheExpirationTime": {
+					"default": 86400,
+					"description": "Define the time (in seconds) before clearing the Anonymous Segment cache.",
+					"title": "Anonymous User Segments Cache Expiration Time",
+					"type": "number"
+				},
+				"interestTermsCacheExpirationTime": {
+					"default": 86400,
+					"description": "Define the time (in seconds) before clearing the Interest Terms cache.",
+					"title": "Interest Terms Cache Expiration Time",
+					"type": "number"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Analytics Cloud Segments"
+		},
+		{
+			"properties": {
+				"pid": {
+					"const": "com.liferay.sharepoint.rest.repository.internal.configuration.SharepointRepositoryConfiguration",
+					"title": "Sharepoint OAuth2"
+				},
+				"name": {
+					"title": "Name",
+					"type": "string"
+				},
+				"authorizationGrantEndpoint": {
+					"title": "Authorization Grant Endpoint",
+					"type": "string"
+				},
+				"authorizationTokenEndpoint": {
+					"title": "Authorization Token Endpoint",
+					"type": "string"
+				},
+				"clientId": {
+					"title": "Client ID",
+					"type": "string"
+				},
+				"clientSecret": {
+					"title": "Client Secret",
+					"type": "string"
+				},
+				"scope": {
+					"title": "Scope",
+					"type": "string"
+				},
+				"tenantId": {
+					"title": "Tenant ID",
+					"type": "string"
+				},
+				"siteDomain": {
+					"title": "Site Domain",
+					"type": "string"
+				},
+				"resource": {
+					"title": "Resource",
+					"type": "string"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Sharepoint OAuth2"
+		}
+	],
+	"properties": {
+		"pid": {
+			"enum": [
+				"com.liferay.accessibility.menu.web.internal.configuration.AccessibilityMenuConfiguration",
+				"com.liferay.account.configuration.AccountEntryEmailConfiguration",
+				"com.liferay.account.configuration.AccountEntryEmailDomainsConfiguration",
+				"com.liferay.account.internal.configuration.AccountEntryGroupConfiguration",
+				"com.liferay.adaptive.media.image.internal.configuration.AMImageCompanyConfiguration",
+				"com.liferay.ai.creator.openai.configuration.AICreatorOpenAICompanyConfiguration",
+				"com.liferay.ai.creator.openai.configuration.AICreatorOpenAIGroupConfiguration",
+				"com.liferay.analytics.settings.configuration.AnalyticsConfiguration",
+				"com.liferay.asset.auto.tagger.google.cloud.natural.language.internal.configuration.GCloudNaturalLanguageAssetAutoTaggerCompanyConfiguration",
+				"com.liferay.asset.auto.tagger.opennlp.internal.configuration.OpenNLPDocumentAssetAutoTaggerCompanyConfiguration",
+				"com.liferay.asset.auto.tagger.internal.configuration.AssetAutoTaggerCompanyConfiguration",
+				"com.liferay.asset.auto.tagger.internal.configuration.AssetAutoTaggerGroupConfiguration",
+				"com.liferay.asset.categories.configuration.AssetCategoriesCompanyConfiguration",
+				"com.liferay.batch.engine.configuration.BatchEngineTaskCompanyConfiguration",
+				"com.liferay.blogs.configuration.BlogsGroupServiceConfiguration",
+				"com.liferay.bookmarks.configuration.BookmarksGroupServiceConfiguration",
+				"com.liferay.change.tracking.configuration.CTSettingsConfiguration",
+				"com.liferay.change.tracking.web.internal.configuration.CTConfiguration",
+				"com.liferay.click.to.chat.web.internal.configuration.ClickToChatConfiguration",
+				"com.liferay.client.extension.type.configuration.CETConfiguration",
+				"com.liferay.comment.configuration.CommentGroupServiceConfiguration",
+				"com.liferay.commerce.configuration.CommerceAccountGroupServiceConfiguration",
+				"com.liferay.commerce.configuration.CommerceOrderCheckoutConfiguration",
+				"com.liferay.commerce.configuration.CommerceOrderFieldsConfiguration",
+				"com.liferay.commerce.configuration.CommerceOrderImporterDateFormatConfiguration",
+				"com.liferay.commerce.configuration.CommerceShippingGroupServiceConfiguration",
+				"com.liferay.commerce.inventory.configuration.CommerceInventoryGroupConfiguration",
+				"com.liferay.commerce.payment.configuration.CommercePaymentEntryAuditConfiguration",
+				"com.liferay.commerce.payment.configuration.CommercePaymentEntryRefundTypeConfiguration",
+				"com.liferay.commerce.payment.method.authorize.net.internal.configuration.AuthorizeNetGroupServiceConfiguration",
+				"com.liferay.commerce.payment.method.mercanet.internal.configuration.MercanetGroupServiceConfiguration",
+				"com.liferay.commerce.payment.method.money.order.internal.configuration.MoneyOrderGroupServiceConfiguration",
+				"com.liferay.commerce.payment.method.paypal.internal.configuration.PayPalGroupServiceConfiguration",
+				"com.liferay.commerce.product.configuration.CPDefinitionOptionRelConfiguration",
+				"com.liferay.commerce.product.configuration.CPDisplayLayoutConfiguration",
+				"com.liferay.commerce.product.configuration.CPFriendlyURLConfiguration",
+				"com.liferay.commerce.qualifier.configuration.AccountEntryCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.AccountGroupCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.AddressCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.COREntryCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.CommerceChannelCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.CommerceCurrencyCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.CommerceDiscountCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.CommerceInventoryWarehouseCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.CommerceOrderTypeCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.CommercePaymentMethodGroupRelCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.CommercePriceListCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.CommerceShippingFixedOptionCommerceQualifierConfiguration",
+				"com.liferay.commerce.qualifier.configuration.CommerceTermEntryCommerceQualifierConfiguration",
+				"com.liferay.commerce.shipping.engine.fedex.internal.configuration.FedExCommerceShippingEngineGroupServiceConfiguration",
+				"com.liferay.commerce.tax.configuration.CommerceShippingTaxConfiguration",
+				"com.liferay.commerce.tax.engine.fixed.configuration.CommerceTaxByAddressTypeConfiguration",
+				"com.liferay.commerce.tax.engine.remote.internal.configuration.RemoteCommerceTaxConfiguration",
+				"com.liferay.cookies.configuration.CookiesPreferenceHandlingConfiguration",
+				"com.liferay.cookies.configuration.banner.CookiesBannerConfiguration",
+				"com.liferay.cookies.configuration.consent.CookiesConsentConfiguration",
+				"com.liferay.digital.signature.configuration.DigitalSignatureConfiguration",
+				"com.liferay.document.library.configuration.DLFileEntryConfiguration",
+				"com.liferay.document.library.asset.auto.tagger.google.cloud.vision.internal.configuration.GCloudVisionAssetAutoTagProviderCompanyConfiguration",
+				"com.liferay.document.library.asset.auto.tagger.microsoft.cognitive.services.internal.configuration.MSCognitiveServicesAssetAutoTagProviderCompanyConfiguration",
+				"com.liferay.document.library.asset.auto.tagger.tensorflow.internal.configuration.TensorFlowImageAssetAutoTagProviderCompanyConfiguration",
+				"com.liferay.document.library.google.drive.configuration.DLGoogleDriveCompanyConfiguration",
+				"com.liferay.document.library.internal.configuration.DLFileOrderConfiguration",
+				"com.liferay.document.library.internal.configuration.DLSizeLimitConfiguration",
+				"com.liferay.document.library.web.internal.configuration.CacheControlConfiguration",
+				"com.liferay.dynamic.data.mapping.configuration.DDMGroupServiceConfiguration",
+				"com.liferay.dynamic.data.mapping.data.provider.configuration.DDMDataProviderConfiguration",
+				"com.liferay.dynamic.data.mapping.form.web.internal.configuration.DDMFormWebConfiguration",
+				"com.liferay.exportimport.configuration.ExportImportServiceConfiguration",
+				"com.liferay.flags.configuration.FlagsGroupServiceConfiguration",
+				"com.liferay.fragment.configuration.DefaultInputFragmentEntryConfiguration",
+				"com.liferay.fragment.configuration.FragmentServiceConfiguration",
+				"com.liferay.fragment.entry.processor.freemarker.internal.configuration.FreeMarkerFragmentEntryProcessorConfiguration",
+				"com.liferay.fragment.web.internal.configuration.FragmentPortletConfiguration",
+				"com.liferay.friendly.url.configuration.FriendlyURLRedirectionConfiguration",
+				"com.liferay.frontend.js.walkthrough.web.internal.configuration.WalkthroughConfiguration",
+				"com.liferay.frontend.js.web.internal.configuration.CustomDialogsSettingsConfiguration",
+				"com.liferay.frontend.js.web.internal.session.timeout.configuration.SessionTimeoutConfiguration",
+				"com.liferay.journal.configuration.JournalGroupServiceConfiguration",
+				"com.liferay.journal.configuration.JournalServiceConfiguration",
+				"com.liferay.knowledge.base.configuration.KBGroupServiceConfiguration",
+				"com.liferay.layout.configuration.LockedLayoutsGroupConfiguration",
+				"com.liferay.layout.content.page.editor.web.internal.configuration.PageEditorConfiguration",
+				"com.liferay.layout.internal.configuration.LayoutCrawlerClientConfiguration",
+				"com.liferay.layout.locked.layouts.web.internal.configuration.LockedLayoutsCompanyConfiguration",
+				"com.liferay.layout.reports.web.internal.configuration.LayoutReportsGooglePageSpeedCompanyConfiguration",
+				"com.liferay.layout.reports.web.internal.configuration.LayoutReportsGooglePageSpeedGroupConfiguration",
+				"com.liferay.layout.seo.internal.configuration.LayoutSEOCompanyConfiguration",
+				"com.liferay.layout.seo.internal.configuration.LayoutSEOGroupConfiguration",
+				"com.liferay.layout.set.prototype.configuration.LayoutSetPrototypeConfiguration",
+				"com.liferay.login.web.internal.configuration.AuthLoginConfiguration",
+				"com.liferay.mail.outlook.auth.connector.provider.internal.configuration.MailOutlookAuthConnectorCompanyConfiguration",
+				"com.liferay.message.boards.moderation.configuration.MBModerationGroupConfiguration",
+				"com.liferay.oauth2.provider.rest.internal.configuration.OAuth2InAssertionConfiguration",
+				"com.liferay.oauth2.provider.rest.internal.endpoint.authorize.configuration.AuthorizeScreenConfiguration",
+				"com.liferay.object.storage.salesforce.configuration.SalesforceConfiguration",
+				"com.liferay.portal.crypto.hash.provider.bcrypt.internal.configuration.BCryptCryptoHashProviderConfiguration",
+				"com.liferay.portal.crypto.hash.provider.message.digest.internal.configuration.MessageDigestCryptoHashProviderConfiguration",
+				"com.liferay.portal.remote.cors.configuration.PortalCORSConfiguration",
+				"com.liferay.portal.search.elasticsearch7.configuration.DeepPaginationConfiguration",
+				"com.liferay.portal.search.rest.configuration.SearchSuggestionsCompanyConfiguration",
+				"com.liferay.portal.search.internal.configuration.AsahSearchKeywordsConfiguration",
+				"com.liferay.portal.security.sso.openid.connect.internal.configuration.OpenIdConnectProviderConfiguration",
+				"com.liferay.portal.security.configuration.BasicAuthHeaderSupportConfiguration",
+				"com.liferay.portal.security.auto.login.internal.basic.auth.header.configuration.BasicAuthHeaderAutoLoginConfiguration",
+				"com.liferay.portal.security.content.security.policy.internal.configuration.ContentSecurityPolicyConfiguration",
+				"com.liferay.portal.security.ldap.authenticator.configuration.LDAPAuthConfiguration",
+				"com.liferay.portal.security.ldap.configuration.LDAPServerConfiguration",
+				"com.liferay.portal.security.ldap.configuration.SystemLDAPConfiguration",
+				"com.liferay.portal.security.ldap.exportimport.configuration.LDAPExportConfiguration",
+				"com.liferay.portal.security.ldap.exportimport.configuration.LDAPImportConfiguration",
+				"com.liferay.portal.vulcan.internal.configuration.HeadlessAPICompanyConfiguration",
+				"com.liferay.portal.vulcan.internal.configuration.VulcanCompanyConfiguration",
+				"com.liferay.product.navigation.applications.menu.configuration.ApplicationsMenuInstanceConfiguration",
+				"com.liferay.product.navigation.personal.menu.configuration.PersonalMenuConfiguration",
+				"com.liferay.redirect.internal.configuration.RedirectPatternConfiguration",
+				"com.liferay.redirect.internal.configuration.RedirectURLConfiguration",
+				"com.liferay.segments.configuration.SegmentsCompanyConfiguration",
+				"com.liferay.segments.context.vocabulary.internal.configuration.SegmentsContextVocabularyCompanyConfiguration",
+				"com.liferay.sharing.internal.configuration.SharingCompanyConfiguration",
+				"com.liferay.sharing.internal.configuration.SharingGroupConfiguration",
+				"com.liferay.site.configuration.MenuAccessConfiguration",
+				"com.liferay.social.activity.configuration.SocialActivityGroupServiceConfiguration",
+				"com.liferay.social.activity.internal.configuration.SocialActivityCompanyConfiguration",
+				"com.liferay.staging.configuration.StagingConfiguration",
+				"com.liferay.translation.translator.aws.internal.configuration.AWSTranslatorConfiguration",
+				"com.liferay.translation.translator.azure.internal.configuration.AzureTranslatorConfiguration",
+				"com.liferay.translation.translator.deepl.internal.configuration.DeepLTranslatorConfiguration",
+				"com.liferay.translation.translator.google.cloud.internal.configuration.GoogleCloudTranslatorConfiguration",
+				"com.liferay.user.associated.data.web.internal.configuration.AnonymousUserConfiguration",
+				"com.liferay.users.admin.configuration.UserFileUploadsConfiguration",
+				"com.liferay.wiki.configuration.WikiGroupServiceConfiguration",
+				"com.liferay.commerce.punchout.configuration.PunchOutConfiguration",
+				"com.liferay.document.library.opener.onedrive.web.internal.configuration.DLOneDriveCompanyConfiguration",
+				"com.liferay.multi.factor.authentication.email.otp.configuration.MFAEmailOTPConfiguration",
+				"com.liferay.multi.factor.authentication.fido2.web.internal.configuration.MFAFIDO2Configuration",
+				"com.liferay.multi.factor.authentication.ip.address.internal.configuration.MFAIPAddressConfiguration",
+				"com.liferay.multi.factor.authentication.sample.internal.configuration.MFASampleConfiguration",
+				"com.liferay.multi.factor.authentication.timebased.otp.web.internal.configuration.MFATimeBasedOTPConfiguration",
+				"com.liferay.portal.reports.engine.console.configuration.ReportsGroupServiceEmailConfiguration",
+				"com.liferay.saml.runtime.configuration.SamlProviderConfiguration",
+				"com.liferay.search.experiences.configuration.SemanticSearchConfiguration",
+				"com.liferay.search.experiences.internal.configuration.IpstackConfiguration",
+				"com.liferay.search.experiences.internal.configuration.OpenWeatherMapConfiguration",
+				"com.liferay.segments.asah.connector.internal.configuration.SegmentsAsahCompanyConfiguration",
+				"com.liferay.sharepoint.rest.repository.internal.configuration.SharepointRepositoryConfiguration"
+			]
+		}
+	}
+}
