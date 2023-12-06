@@ -7,6 +7,8 @@ import de.undercouch.gradle.tasks.download.Download
 apply plugin: "de.undercouch.download"
 apply plugin: "org.ysb33r.gradletest"
 
+apply from: "./generate-json-schema.gradle"
+
 task copyBundle(type: Copy)
 task copyDistBundleZipPluginsSdk(type: Copy)
 task copyGradleTestDependencies(type: Copy)
