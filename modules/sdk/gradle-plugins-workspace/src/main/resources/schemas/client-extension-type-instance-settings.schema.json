@@ -3736,14 +3736,31 @@
 					"type": "number"
 				},
 				"pid": {
-					"const": "com.liferay.portal.search.internal.configuration.AsahSearchKeywordsConfiguration",
-					"title": "Analytics Cloud Search Keywords"
+					"const": "com.liferay.portal.search.internal.configuration.SiteActivityAsahConfiguration",
+					"title": "Analytics Cloud Search Site Activity"
 				}
 			},
 			"required": [
 				"pid"
 			],
-			"title": "Analytics Cloud Search Keywords"
+			"title": "Analytics Cloud Search Site Activity"
+		},
+		{
+			"properties": {
+				"cacheTimeout": {
+					"default": 14400,
+					"title": "Cache Timeout",
+					"type": "number"
+				},
+				"pid": {
+					"const": "com.liferay.portal.search.internal.configuration.UserActivityAsahConfiguration",
+					"title": "Analytics Cloud Search User Activity"
+				}
+			},
+			"required": [
+				"pid"
+			],
+			"title": "Analytics Cloud Search User Activity"
 		},
 		{
 			"properties": {
@@ -5786,7 +5803,8 @@
 				"com.liferay.portal.remote.cors.configuration.PortalCORSConfiguration",
 				"com.liferay.portal.search.elasticsearch7.configuration.DeepPaginationConfiguration",
 				"com.liferay.portal.search.rest.configuration.SearchSuggestionsCompanyConfiguration",
-				"com.liferay.portal.search.internal.configuration.AsahSearchKeywordsConfiguration",
+				"com.liferay.portal.search.internal.configuration.SiteActivityAsahConfiguration",
+				"com.liferay.portal.search.internal.configuration.UserActivityAsahConfiguration",
 				"com.liferay.portal.security.sso.openid.connect.internal.configuration.OpenIdConnectProviderConfiguration",
 				"com.liferay.portal.security.configuration.BasicAuthHeaderSupportConfiguration",
 				"com.liferay.portal.security.auto.login.internal.basic.auth.header.configuration.BasicAuthHeaderAutoLoginConfiguration",
