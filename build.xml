@@ -1352,14 +1352,13 @@ print AdminControl.invoke(appManager, 'startApplication', 'liferay-portal')
 	</target>
 
 	<target name="update-portal-osgi-configuration-properties">
-		<pathconvert pathsep="," property="configuration.java.files">
-			<fileset
-				dir="modules"
-				excludes=""
-				includes="**/apps/**/configuration/*Configuration.java"
-			>
-			</fileset>
-		</pathconvert>
+		<exec dir="modules" executable="git" outputproperty="configuration.java.files">
+			<arg line="ls-files --full-name -- 'apps/**/configuration/*Configuration.java'" />
+		</exec>
+
+		<exec dir="." executable="git" outputproperty="root.dir">
+			<arg line="rev-parse --show-toplevel" />
+		</exec>
 
 		<java
 			classname="com.liferay.portal.tools.ConfigurationEnvBuilder"
@@ -1370,6 +1369,7 @@ print AdminControl.invoke(appManager, 'startApplication', 'liferay-portal')
 		>
 			<arg value="configuration.java.files=${configuration.java.files}" />
 			<arg value="output.file=${project.dir}/portal-impl/src/portal-osgi-configuration.properties" />
+			<arg value="root.dir=${root.dir}" />
 			<jvmarg if:true="${jvm.debug}" line="${jpda.settings}" />
 		</java>
 	</target>
