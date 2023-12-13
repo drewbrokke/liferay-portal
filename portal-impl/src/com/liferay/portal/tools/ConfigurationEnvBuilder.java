@@ -297,8 +297,6 @@ public class ConfigurationEnvBuilder {
 			String[] configurationFilePaths, String rootDir)
 		throws Exception {
 
-		String jsonString = "";
-
 		Properties languageProperties = new Properties();
 
 		Path languagePropertiesPath = Paths.get(
@@ -382,11 +380,19 @@ public class ConfigurationEnvBuilder {
 				}
 
 				if (attributeDef.isNumber()) {
-					propertySchema.put("max", () -> attributeDef.max).put("min", () -> attributeDef.min);
+					propertySchema.put(
+						"max", () -> attributeDef.max
+					).put(
+						"min", () -> attributeDef.min
+					);
 				}
 
 				if (attributeDef.isString()) {
-					propertySchema.put("maxLength", () -> attributeDef.max).put("minLength", () -> attributeDef.min);
+					propertySchema.put(
+						"maxLength", () -> attributeDef.max
+					).put(
+						"minLength", () -> attributeDef.min
+					);
 				}
 
 				if (ArrayUtil.isNotEmpty(attributeDef.optionValues)) {
@@ -436,14 +442,12 @@ public class ConfigurationEnvBuilder {
 			);
 		}
 
-		jsonString = schema.toJSONString();
-
-		return jsonString;
+		return schema.toString();
 	}
 
-	private static void _setFieldValue(Field f, Object o, Object value) {
+	private static void _setFieldValue(Field field, Object object, Object value) {
 		try {
-			f.set(o, value);
+			field.set(object, value);
 		}
 		catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
@@ -474,16 +478,16 @@ public class ConfigurationEnvBuilder {
 		Class<?> clazz = o.getClass();
 
 		for (Field field : clazz.getDeclaredFields()) {
-			Class<?> typeClass = field.getType();
-
 			String value;
 
 			try {
 				value = matcher.group(field.getName());
 			}
-			catch (Exception ignored) {
+			catch (Exception exception) {
 				continue;
 			}
+
+			Class<?> typeClass = field.getType();
 
 			if (ArrayUtil.contains(
 					new Class<?>[] {Object[].class, String[].class},
@@ -516,11 +520,11 @@ public class ConfigurationEnvBuilder {
 		}
 	}
 
-	private static JSONArray jsonArray(Object... items) {
+	protected static JSONArray jsonArray(Object... items) {
 		return JSONFactoryUtil.createJSONArray(items);
 	}
 
-	private static JSONObject jsonObject(Consumer<JSONObject> consumer) {
+	protected static JSONObject jsonObject(Consumer<JSONObject> consumer) {
 		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
 
 		consumer.accept(jsonObject);
@@ -531,14 +535,14 @@ public class ConfigurationEnvBuilder {
 	private static final Pattern _pattern = Pattern.compile(
 		"\\s*public .* ([^\\s]+)\\(\\);");
 
-	static class ObjectDef {
+	protected static class ObjectDef {
 
-		List<AttributeDef> attributeDefs = new ArrayList<>();
-		String pid;
-		String category;
-		String description;
-		String title;
-		String interfaceName;
+		public List<AttributeDef> attributeDefs = new ArrayList<>();
+		public String pid;
+		public String category;
+		public String description;
+		public String title;
+		public String interfaceName;
 
 	}
 
@@ -559,38 +563,38 @@ public class ConfigurationEnvBuilder {
 			"String[]", "array"
 		).build();
 
-	private static class AttributeDef {
+	protected static class AttributeDef {
 
-		Object defaultValue;
-		String description;
-		Number max;
-		Number min;
-		String title;
-		String[] optionLabels;
-		Object[] optionValues;
-		boolean requiredInput;
-		boolean required = true;
-		Boolean deprecated;
-		String type;
-		String name;
+		public Object defaultValue;
+		public String description;
+		public Number max;
+		public Number min;
+		public String title;
+		public String[] optionLabels;
+		public Object[] optionValues;
+		public boolean requiredInput;
+		public boolean required = true;
+		public Boolean deprecated;
+		public String type;
+		public String name;
 
-		boolean isArray() {
+		public boolean isArray() {
 			return Objects.equals(type, "array");
 		}
 
-		boolean isBoolean() {
+		public boolean isBoolean() {
 			return Objects.equals(type, "boolean");
 		}
 
-		boolean isNumber() {
+		public boolean isNumber() {
 			return Objects.equals(type, "number");
 		}
 
-		boolean isObject() {
+		public boolean isObject() {
 			return Objects.equals(type, "object");
 		}
 
-		boolean isString() {
+		public boolean isString() {
 			return Objects.equals(type, "string");
 		}
 
