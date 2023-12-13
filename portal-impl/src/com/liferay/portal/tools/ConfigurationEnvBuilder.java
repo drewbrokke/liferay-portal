@@ -271,8 +271,6 @@ public class ConfigurationEnvBuilder {
 		"\\bmax = \"(?<max>[^\"]+)\"");
 	protected static final Pattern attributeMinPattern = Pattern.compile(
 		"\\bmin = \"(?<min>[^\"]+)\"");
-	protected static final Pattern attributeTypeNamePattern = Pattern.compile(
-		"\\s+public(default)? (?<type>\\w+|\\S+) (?<name>\\w+)\\(\\)");
 	protected static final Pattern attributeOptionLabelsPattern =
 		Pattern.compile("\\boptionLabels = \\{(?<optionLabels>[^{}]*)}");
 	protected static final Pattern attributeOptionValuesPattern =
@@ -283,6 +281,8 @@ public class ConfigurationEnvBuilder {
 		"\\brequired = (?<required>true|false)");
 	protected static final Pattern attributeTitlePattern = Pattern.compile(
 		"\\bname = \"(?<title>[^\"]*)\"");
+	protected static final Pattern attributeTypeNamePattern = Pattern.compile(
+		"\\s+public(default)? (?<type>\\w+|\\S+) (?<name>\\w+)\\(\\)");
 	protected static final Pattern objectDefCategoryPattern = Pattern.compile(
 		"\\bcategory = \"(?<category>[^\"]*)\"");
 	protected static final Pattern objectDefDescriptionPattern =
