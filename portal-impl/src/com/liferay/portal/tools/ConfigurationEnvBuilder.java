@@ -36,11 +36,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 /**
  * @author Matthew Tambara
@@ -124,6 +122,8 @@ public class ConfigurationEnvBuilder {
 		content = content.concat(
 			buildContent(configurationJavaFileNames, realPath));
 
+		Files.write(path, content.getBytes());
+
 		new JSONFactoryUtil(
 		).setJSONFactory(
 			new JSONFactoryImpl()
@@ -135,11 +135,9 @@ public class ConfigurationEnvBuilder {
 
 			Files.write(Paths.get(".", "schema.json"), jsonString.getBytes());
 		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
+		catch (Exception exception) {
+			throw new RuntimeException(exception);
 		}
-
-		Files.write(path, content.getBytes());
 	}
 
 	protected static JSONArray jsonArray(Object... items) {
@@ -178,7 +176,7 @@ public class ConfigurationEnvBuilder {
 
 	protected static boolean toBoolean(Object object) {
 		if (Objects.equals(
-			String.valueOf(object), String.valueOf(Boolean.TRUE))) {
+				String.valueOf(object), String.valueOf(Boolean.TRUE))) {
 
 			return true;
 		}
@@ -202,6 +200,7 @@ public class ConfigurationEnvBuilder {
 
 	protected static void withMatcher(
 		String s, Object object, Pattern pattern) {
+
 		withMatcher(s, object, pattern, null);
 	}
 
@@ -311,16 +310,17 @@ public class ConfigurationEnvBuilder {
 
 	}
 
-	private static Optional<ObjectDef> _constructObjectDef(
+	private static ObjectDef _constructObjectDef(
 			String configurationFilePath, String rootDir,
-			Properties languageProperties) throws Exception {
+			Properties languageProperties)
+		throws Exception {
 
 		ObjectDef objectDef = new ObjectDef();
 
 		AttributeDef attributeDef = new AttributeDef();
 
-		for (String line : Files.readAllLines(
-			Paths.get(rootDir, configurationFilePath))) {
+		for (String line :
+				Files.readAllLines(Paths.get(rootDir, configurationFilePath))) {
 
 			if (objectDef.interfaceName == null) {
 				withMatcher(
@@ -328,16 +328,14 @@ public class ConfigurationEnvBuilder {
 					Pattern.compile("\\bid = \"(?<pid>com\\..+)\""));
 				withMatcher(
 					line, objectDef,
-					Pattern.compile(
-						"\\bcategory = \"(?<category>[^\"]*)\""));
+					Pattern.compile("\\bcategory = \"(?<category>[^\"]*)\""));
 				withMatcher(
 					line, objectDef,
 					Pattern.compile(
 						"\\bdescription = \"(?<description>[^\"]*)\""),
 					(ObjectDef objectDef1) ->
-						objectDef1.description =
-							languageProperties.getProperty(
-								objectDef1.description));
+						objectDef1.description = languageProperties.getProperty(
+							objectDef1.description));
 				withMatcher(
 					line, objectDef,
 					Pattern.compile("\\bname = \"(?<title>[^\"]*)\""),
@@ -347,13 +345,13 @@ public class ConfigurationEnvBuilder {
 				withMatcher(
 					line, objectDef,
 					Pattern.compile(
-						"public @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+)\\b"));
+						" @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+) "));
 
 				continue;
 			}
 
 			if (objectDef.pid == null) {
-				return Optional.empty();
+				return null;
 			}
 
 			withMatcher(
@@ -361,12 +359,10 @@ public class ConfigurationEnvBuilder {
 				Pattern.compile("\\bdeflt = \"(?<defaultValue>[^\"]*)\""));
 			withMatcher(
 				line, attributeDef,
-				Pattern.compile(
-					"\\bdescription = \"(?<description>[^\"]*)\""),
+				Pattern.compile("\\bdescription = \"(?<description>[^\"]*)\""),
 				(AttributeDef attributeDef1) ->
-					attributeDef1.description =
-						languageProperties.getProperty(
-							attributeDef1.description));
+					attributeDef1.description = languageProperties.getProperty(
+						attributeDef1.description));
 			withMatcher(
 				line, attributeDef,
 				Pattern.compile("\\bmax = \"(?<max>[^\"]+)\""));
@@ -397,11 +393,13 @@ public class ConfigurationEnvBuilder {
 			withMatcher(
 				line, attributeDef,
 				Pattern.compile("\\b(?<deprecated>@Deprecated)"),
-				(AttributeDef attributeDef1) -> attributeDef1.deprecated = true);
-			withMatcher(
-				line, attributeDef,
-				Pattern.compile(
-					"\\s+public(default)? (?<type>\\w+|\\S+) (?<name>\\w+)\\(\\)"));
+				(AttributeDef attributeDef1) ->
+					attributeDef1.deprecated = true);
+
+			Pattern attributeNameTypePattern = Pattern.compile(
+				"\\s+public(default)? (?<type>\\w+|\\S+) (?<name>\\w+)\\(\\)");
+
+			withMatcher(line, attributeDef, attributeNameTypePattern);
 
 			if (attributeDef.name == null) {
 				continue;
@@ -423,8 +421,7 @@ public class ConfigurationEnvBuilder {
 				}
 
 				if (StringUtil.startsWith(
-					String.valueOf(attributeDef.defaultValue),
-					"${")) {
+						String.valueOf(attributeDef.defaultValue), "${")) {
 
 					attributeDef.defaultValue = null;
 				}
@@ -435,12 +432,9 @@ public class ConfigurationEnvBuilder {
 
 				Number[] optionValues = {};
 
-				for (Object optionValue :
-					attributeDef.optionValues) {
-
+				for (Object optionValue : attributeDef.optionValues) {
 					optionValues = ArrayUtil.append(
-						optionValues,
-						toNumber(String.valueOf(optionValue)));
+						optionValues, toNumber(String.valueOf(optionValue)));
 				}
 
 				attributeDef.optionValues = optionValues;
@@ -451,12 +445,9 @@ public class ConfigurationEnvBuilder {
 
 				Number[] optionValues = {};
 
-				for (Object optionValue :
-					attributeDef.optionValues) {
-
+				for (Object optionValue : attributeDef.optionValues) {
 					optionValues = ArrayUtil.append(
-						optionValues,
-						toNumber(String.valueOf(optionValue)));
+						optionValues, toNumber(String.valueOf(optionValue)));
 				}
 
 				attributeDef.optionValues = optionValues;
@@ -467,7 +458,7 @@ public class ConfigurationEnvBuilder {
 			attributeDef = new AttributeDef();
 		}
 
-		return Optional.of(objectDef);
+		return objectDef;
 	}
 
 	private static String _generateJSONString(
@@ -478,8 +469,8 @@ public class ConfigurationEnvBuilder {
 
 		Path languagePropertiesPath = Paths.get(
 			rootDir,
-			"modules/apps/portal-language/portal-language-lang/src/main/" +
-				"resources/content/Language.properties");
+			"modules/apps/portal-language/portal-language-lang/src/main" +
+				"/resources/content/Language.properties");
 
 		languageProperties.load(
 			new FileReader(languagePropertiesPath.toFile()));
@@ -487,10 +478,12 @@ public class ConfigurationEnvBuilder {
 		List<ObjectDef> objectDefs = new ArrayList<>();
 
 		for (String configurationFilePath : configurationFilePaths) {
-			Optional<ObjectDef> objectDefOptional = _constructObjectDef(
+			ObjectDef objectDef = _constructObjectDef(
 				configurationFilePath, rootDir, languageProperties);
 
-			objectDefOptional.ifPresent(objectDefs::add);
+			if (objectDef != null) {
+				objectDefs.add(objectDef);
+			}
 		}
 
 		JSONObject schemaJSONObject = jsonObject(
