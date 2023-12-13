@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -262,6 +261,9 @@ public class ConfigurationEnvBuilder {
 		}
 	}
 
+	protected static final Pattern attributeNameTypePattern = Pattern.compile(
+		"\\s+public(default)? (?<type>\\w+|\\S+) (?<name>\\w+)\\(\\)");
+
 	protected static class AttributeDef {
 
 		public boolean isArray() {
@@ -323,29 +325,19 @@ public class ConfigurationEnvBuilder {
 				Files.readAllLines(Paths.get(rootDir, configurationFilePath))) {
 
 			if (objectDef.interfaceName == null) {
+				withMatcher(line, objectDef, objectDefPidPattern);
+				withMatcher(line, objectDef, objectDefCategoryPattern);
 				withMatcher(
-					line, objectDef,
-					Pattern.compile("\\bid = \"(?<pid>com\\..+)\""));
-				withMatcher(
-					line, objectDef,
-					Pattern.compile("\\bcategory = \"(?<category>[^\"]*)\""));
-				withMatcher(
-					line, objectDef,
-					Pattern.compile(
-						"\\bdescription = \"(?<description>[^\"]*)\""),
+					line, objectDef, objectDefDescriptionPattern,
 					(ObjectDef objectDef1) ->
 						objectDef1.description = languageProperties.getProperty(
 							objectDef1.description));
 				withMatcher(
-					line, objectDef,
-					Pattern.compile("\\bname = \"(?<title>[^\"]*)\""),
+					line, objectDef, objectDefTitlePattern,
 					(ObjectDef objectDef1) ->
 						objectDef1.title = languageProperties.getProperty(
 							objectDef1.title));
-				withMatcher(
-					line, objectDef,
-					Pattern.compile(
-						" @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+) "));
+				withMatcher(line, objectDef, objectDefInterfaceNamePattern);
 
 				continue;
 			}
@@ -354,50 +346,27 @@ public class ConfigurationEnvBuilder {
 				return null;
 			}
 
+			withMatcher(line, attributeDef, attributeDefaultValuePattern);
 			withMatcher(
-				line, attributeDef,
-				Pattern.compile("\\bdeflt = \"(?<defaultValue>[^\"]*)\""));
-			withMatcher(
-				line, attributeDef,
-				Pattern.compile("\\bdescription = \"(?<description>[^\"]*)\""),
+				line, attributeDef, attributeDescriptionPattern,
 				(AttributeDef attributeDef1) ->
 					attributeDef1.description = languageProperties.getProperty(
 						attributeDef1.description));
+			withMatcher(line, attributeDef, attributeMaxPattern);
+			withMatcher(line, attributeDef, attributeMinPattern);
 			withMatcher(
-				line, attributeDef,
-				Pattern.compile("\\bmax = \"(?<max>[^\"]+)\""));
-			withMatcher(
-				line, attributeDef,
-				Pattern.compile("\\bmin = \"(?<min>[^\"]+)\""));
-			withMatcher(
-				line, attributeDef,
-				Pattern.compile("\\bname = \"(?<title>[^\"]*)\""),
+				line, attributeDef, attributeTitlePattern,
 				(AttributeDef attributeDef1) ->
 					attributeDef1.title = languageProperties.getProperty(
 						attributeDef1.title));
+			withMatcher(line, attributeDef, attributeOptionLabelsPattern);
+			withMatcher(line, attributeDef, attributeOptionValuesPattern);
+			withMatcher(line, attributeDef, attributeRequiredInputPattern);
+			withMatcher(line, attributeDef, attributeRequiredPattern);
 			withMatcher(
-				line, attributeDef,
-				Pattern.compile(
-					"\\boptionLabels = \\{(?<optionLabels>[^{}]*)}"));
-			withMatcher(
-				line, attributeDef,
-				Pattern.compile(
-					"\\boptionValues = \\{(?<optionValues>[^{}]*)}"));
-			withMatcher(
-				line, attributeDef,
-				Pattern.compile(
-					"\\brequiredInput = (?<requiredInput>true|false)"));
-			withMatcher(
-				line, attributeDef,
-				Pattern.compile("\\brequired = (?<required>true|false)"));
-			withMatcher(
-				line, attributeDef,
-				Pattern.compile("\\b(?<deprecated>@Deprecated)"),
+				line, attributeDef, attributeDeprecatedPattern,
 				(AttributeDef attributeDef1) ->
 					attributeDef1.deprecated = true);
-
-			Pattern attributeNameTypePattern = Pattern.compile(
-				"\\s+public(default)? (?<type>\\w+|\\S+) (?<name>\\w+)\\(\\)");
 
 			withMatcher(line, attributeDef, attributeNameTypePattern);
 
@@ -624,5 +593,35 @@ public class ConfigurationEnvBuilder {
 		).put(
 			"String[]", "array"
 		).build();
+	protected static final Pattern attributeDefaultValuePattern = Pattern.compile(
+		"\\bdeflt = \"(?<defaultValue>[^\"]*)\"");
+	protected static final Pattern attributeDeprecatedPattern = Pattern.compile(
+		"\\b(?<deprecated>@Deprecated)");
+	protected static final Pattern attributeDescriptionPattern = Pattern.compile(
+		"\\bdescription = \"(?<description>[^\"]*)\"");
+	protected static final Pattern attributeMaxPattern = Pattern.compile(
+		"\\bmax = \"(?<max>[^\"]+)\"");
+	protected static final Pattern attributeMinPattern = Pattern.compile(
+		"\\bmin = \"(?<min>[^\"]+)\"");
+	protected static final Pattern attributeOptionLabelsPattern = Pattern.compile(
+		"\\boptionLabels = \\{(?<optionLabels>[^{}]*)}");
+	protected static final Pattern attributeOptionValuesPattern = Pattern.compile(
+		"\\boptionValues = \\{(?<optionValues>[^{}]*)}");
+	protected static final Pattern attributeRequiredInputPattern =
+		Pattern.compile("\\brequiredInput = (?<requiredInput>true|false)");
+	protected static final Pattern attributeRequiredPattern = Pattern.compile(
+		"\\brequired = (?<required>true|false)");
+	protected static final Pattern attributeTitlePattern = Pattern.compile(
+		"\\bname = \"(?<title>[^\"]*)\"");
+	protected static final Pattern objectDefCategoryPattern = Pattern.compile(
+		"\\bcategory = \"(?<category>[^\"]*)\"");
+	protected static final Pattern objectDefDescriptionPattern = Pattern.compile(
+		"\\bdescription = \"(?<description>[^\"]*)\"");
+	protected static final Pattern objectDefInterfaceNamePattern =
+		Pattern.compile(" @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+) ");
+	protected static final Pattern objectDefPidPattern = Pattern.compile(
+		"\\bid = \"(?<pid>com\\..+)\"");
+	protected static final Pattern objectDefTitlePattern = Pattern.compile(
+		"\\bname = \"(?<title>[^\"]*)\"");
 
 }
