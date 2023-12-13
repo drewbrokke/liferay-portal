@@ -5,6 +5,7 @@
 
 package com.liferay.portal.tools;
 
+import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.json.JSONFactoryImpl;
@@ -30,7 +31,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -153,6 +153,13 @@ public class ConfigurationEnvBuilder {
 		return jsonObject;
 	}
 
+	protected static JSONObject jsonObject(String key, Object value) {
+		return jsonObject(jsonObject -> jsonObject.put(key, value));
+	}
+	protected static JSONObject jsonObject(String key, UnsafeSupplier<Object, Exception> valueUnsafeSupplier) {
+		return jsonObject(jsonObject -> jsonObject.put(key, valueUnsafeSupplier));
+	}
+
 	protected static class AttributeDef {
 
 		public boolean isArray() {
@@ -219,15 +226,15 @@ public class ConfigurationEnvBuilder {
 				AttributeDef attributeDef = attributeDefAtomicReference.get();
 
 				if (objectDef.interfaceName == null) {
-					_withMatcher(
+					withMatcher(
 						line, objectDef,
 						Pattern.compile("\\bid = \"(?<pid>com\\..+)\""), null);
-					_withMatcher(
+					withMatcher(
 						line, objectDef,
 						Pattern.compile(
 							"\\bcategory = \"(?<category>[^\"]*)\""),
 						null);
-					_withMatcher(
+					withMatcher(
 						line, objectDef,
 						Pattern.compile(
 							"\\bdescription = \"(?<description>[^\"]*)\""),
@@ -235,13 +242,13 @@ public class ConfigurationEnvBuilder {
 							objectDef.description =
 								languageProperties.getProperty(
 									objectDef.description));
-					_withMatcher(
+					withMatcher(
 						line, objectDef,
 						Pattern.compile("\\bname = \"(?<title>[^\"]*)\""),
 						() ->
 							objectDef.title = languageProperties.getProperty(
 								objectDef.title));
-					_withMatcher(
+					withMatcher(
 						line, objectDef,
 						Pattern.compile(
 							"public @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+)\\b"),
@@ -250,11 +257,11 @@ public class ConfigurationEnvBuilder {
 					return;
 				}
 
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile("\\bdeflt = \"(?<defaultValue>[^\"]*)\""),
 					null);
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile(
 						"\\bdescription = \"(?<description>[^\"]*)\""),
@@ -262,42 +269,42 @@ public class ConfigurationEnvBuilder {
 						attributeDef.description =
 							languageProperties.getProperty(
 								attributeDef.description));
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile("\\bmax = \"(?<max>[^\"]+)\""), null);
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile("\\bmin = \"(?<min>[^\"]+)\""), null);
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile("\\bname = \"(?<title>[^\"]*)\""),
 					() ->
 						attributeDef.title = languageProperties.getProperty(
 							attributeDef.title));
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile(
 						"\\boptionLabels = \\{(?<optionLabels>[^{}]*)}"),
 					null);
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile(
 						"\\boptionValues = \\{(?<optionValues>[^{}]*)}"),
 					null);
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile(
 						"\\brequiredInput = (?<requiredInput>true|false)"),
 					null);
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile("\\brequired = (?<required>true|false)"),
 					null);
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile("\\b(?<deprecated>@Deprecated)"),
 					() -> attributeDef.deprecated = true);
-				_withMatcher(
+				withMatcher(
 					line, attributeDef,
 					Pattern.compile(
 						"\\s+public(default)? (?<type>\\w+|\\S+) (?<name>\\w+)\\(\\)"),
@@ -313,7 +320,7 @@ public class ConfigurationEnvBuilder {
 							}
 
 							if (attributeDef.isNumber()) {
-								attributeDef.defaultValue = _stringToNumber(
+								attributeDef.defaultValue = toNumber(
 									String.valueOf(attributeDef.defaultValue));
 							}
 
@@ -335,7 +342,7 @@ public class ConfigurationEnvBuilder {
 
 								optionValues = ArrayUtil.append(
 									optionValues,
-									_stringToNumber(
+									toNumber(
 										String.valueOf(optionValue)));
 							}
 
@@ -379,70 +386,61 @@ public class ConfigurationEnvBuilder {
 			}
 		}
 
-		JSONObject schema = jsonObject(
+		JSONObject schemaJSONObject = jsonObject(
 			jsonObject -> jsonObject.put(
 				"oneOf", jsonArray()
 			).put(
 				"properties",
-				jsonObject(
-					propertiesJSONObject -> propertiesJSONObject.put(
-						"pid",
-						jsonObject(
-							pidJSONObject -> pidJSONObject.put(
-								"enum", jsonArray()))))
+				jsonObject("pid", jsonObject("enum", jsonArray()))
 			));
 
 		for (ObjectDef objectDef : objectDefs) {
-			JSONObject typeSchema = jsonObject(
+			JSONObject typeSchemaJSONObject = jsonObject(
 				jsonObject -> jsonObject.put(
 					"description", () -> objectDef.description
 				).put(
 					"properties",
 					jsonObject(
-						propertiesJSONObject -> propertiesJSONObject.put(
-							"pid",
-							jsonObject(
-								pid -> pid.put(
-									"const", objectDef.pid
-								).put(
-									"description", () -> objectDef.description
-								).put(
-									"title", () -> objectDef.title
-								))))
+						"pid",
+						jsonObject(
+							"const", objectDef.pid
+						).put(
+							"description", () -> objectDef.description
+						).put(
+							"title", () -> objectDef.title
+						)))
 				).put(
 					"required", jsonArray("pid")
 				).put(
 					"title", () -> objectDef.title
-				));
+				);
 
 			for (AttributeDef attributeDef : objectDef.attributeDefs) {
-				JSONObject propertySchema = jsonObject(
-					jsonObject -> jsonObject.put(
-						"default", () -> attributeDef.defaultValue
-					).put(
-						"deprecated", () -> attributeDef.deprecated
-					).put(
-						"description", () -> attributeDef.description
-					).put(
-						"title", () -> attributeDef.title
-					).put(
-						"type", () -> attributeDef.type
-					));
+				JSONObject propertySchemaJSONObject = jsonObject(
+					"default", () -> attributeDef.defaultValue
+				).put(
+					"deprecated", () -> attributeDef.deprecated
+				).put(
+					"description", () -> attributeDef.description
+				).put(
+					"title", () -> attributeDef.title
+				).put(
+					"type", () -> attributeDef.type
+				);
 
 				if (attributeDef.isArray()) {
-					propertySchema.put(
+					propertySchemaJSONObject.put(
 						"items",
-						JSONFactoryUtil.createJSONObject(
-							Collections.singletonMap("type", "string")));
+						jsonObject("type", "string"));
 				}
 
 				if (attributeDef.isObject()) {
-					propertySchema.put(
+					propertySchemaJSONObject.put(
 						"properties", JSONFactoryUtil.createJSONObject());
 				}
 
 				if (attributeDef.isNumber()) {
-					propertySchema.put(
+					propertySchemaJSONObject.put(
 						"max", () -> attributeDef.max
 					).put(
 						"min", () -> attributeDef.min
@@ -450,7 +448,7 @@ public class ConfigurationEnvBuilder {
 				}
 
 				if (attributeDef.isString()) {
-					propertySchema.put(
+					propertySchemaJSONObject.put(
 						"maxLength", () -> attributeDef.max
 					).put(
 						"minLength", () -> attributeDef.min
@@ -462,38 +460,39 @@ public class ConfigurationEnvBuilder {
 						attributeDef.optionValues);
 
 					if (attributeDef.isArray()) {
-						propertySchema.getJSONObject(
+						propertySchemaJSONObject.getJSONObject(
 							"items"
 						).put(
 							"enum", optionValuesJSONArray
 						);
 					}
 					else {
-						propertySchema.put("enum", optionValuesJSONArray);
+						propertySchemaJSONObject.put("enum", optionValuesJSONArray);
 					}
 				}
 
 				if (attributeDef.required) {
-					typeSchema.getJSONArray(
+					typeSchemaJSONObject.getJSONArray(
 						"required"
 					).put(
 						attributeDef.name
 					);
 				}
 
-				typeSchema.getJSONObject(
+				typeSchemaJSONObject.getJSONObject(
 					"properties"
 				).put(
-					attributeDef.name, propertySchema
+					attributeDef.name, propertySchemaJSONObject
 				);
 			}
 
-			schema.getJSONArray(
+			schemaJSONObject.getJSONArray(
 				"oneOf"
 			).put(
-				typeSchema
+				typeSchemaJSONObject
 			);
-			schema.getJSONObject(
+
+			schemaJSONObject.getJSONObject(
 				"properties"
 			).getJSONObject(
 				"pid"
@@ -504,21 +503,21 @@ public class ConfigurationEnvBuilder {
 			);
 		}
 
-		return schema.toString();
+		return schemaJSONObject.toString();
 	}
 
-	private static void _setFieldValue(
+	protected static void setFieldValue(
 		Field field, Object object, Object value) {
 
 		try {
 			field.set(object, value);
 		}
-		catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
+		catch (IllegalAccessException illegalAccessException) {
+			throw new RuntimeException(illegalAccessException);
 		}
 	}
 
-	private static Number _stringToNumber(String s) {
+	protected static Number toNumber(String s) {
 		if (Validator.isBlank(s)) {
 			return 0;
 		}
@@ -530,8 +529,8 @@ public class ConfigurationEnvBuilder {
 		return GetterUtil.getInteger(s);
 	}
 
-	private static void _withMatcher(
-		String s, Object o, Pattern pattern, Runnable runnable) {
+	protected static void withMatcher(
+		String s, Object object, Pattern pattern, Runnable runnable) {
 
 		Matcher matcher = pattern.matcher(s);
 
@@ -539,7 +538,7 @@ public class ConfigurationEnvBuilder {
 			return;
 		}
 
-		Class<?> clazz = o.getClass();
+		Class<?> clazz = object.getClass();
 
 		for (Field field : clazz.getDeclaredFields()) {
 			String value;
@@ -561,8 +560,8 @@ public class ConfigurationEnvBuilder {
 					new Class<?>[] {Object[].class, String[].class},
 					typeClass)) {
 
-				_setFieldValue(
-					field, o,
+				setFieldValue(
+					field, object,
 					value.replaceAll(
 						"[ \"]", ""
 					).split(
@@ -570,16 +569,16 @@ public class ConfigurationEnvBuilder {
 					));
 			}
 			else if (Objects.equals(typeClass, Number.class)) {
-				_setFieldValue(field, o, _stringToNumber(value));
+				setFieldValue(field, object, toNumber(value));
 			}
 			else if (Objects.equals(typeClass, boolean.class)) {
-				_setFieldValue(field, o, value.equals("true"));
+				setFieldValue(field, object, value.equals("true"));
 			}
 			else if (Objects.equals(field.getName(), "type")) {
-				_setFieldValue(field, o, _schemaDataTypes.get(value));
+				setFieldValue(field, object, _schemaDataTypes.get(value));
 			}
 			else {
-				_setFieldValue(field, o, value);
+				setFieldValue(field, object, value);
 			}
 		}
 
@@ -588,7 +587,8 @@ public class ConfigurationEnvBuilder {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(ConfigurationEnvBuilder.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		ConfigurationEnvBuilder.class);
 
 	private static final Pattern _pattern = Pattern.compile(
 		"\\s*public .* ([^\\s]+)\\(\\);");
