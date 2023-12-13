@@ -11,6 +11,8 @@ import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -137,6 +139,66 @@ public class ConfigurationEnvBuilder {
 		}
 
 		Files.write(path, content.getBytes());
+	}
+
+	protected static JSONArray jsonArray(Object... items) {
+		return JSONFactoryUtil.createJSONArray(items);
+	}
+
+	protected static JSONObject jsonObject(Consumer<JSONObject> consumer) {
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+
+		consumer.accept(jsonObject);
+
+		return jsonObject;
+	}
+
+	protected static class AttributeDef {
+
+		public boolean isArray() {
+			return Objects.equals(type, "array");
+		}
+
+		public boolean isBoolean() {
+			return Objects.equals(type, "boolean");
+		}
+
+		public boolean isNumber() {
+			return Objects.equals(type, "number");
+		}
+
+		public boolean isObject() {
+			return Objects.equals(type, "object");
+		}
+
+		public boolean isString() {
+			return Objects.equals(type, "string");
+		}
+
+		public Object defaultValue;
+		public Boolean deprecated;
+		public String description;
+		public Number max;
+		public Number min;
+		public String name;
+		public String[] optionLabels;
+		public Object[] optionValues;
+		public boolean required = true;
+		public boolean requiredInput;
+		public String title;
+		public String type;
+
+	}
+
+	protected static class ObjectDef {
+
+		public List<AttributeDef> attributeDefs = new ArrayList<>();
+		public String category;
+		public String description;
+		public String interfaceName;
+		public String pid;
+		public String title;
+
 	}
 
 	private static ObjectDef _constructObjectDef(
@@ -445,7 +507,9 @@ public class ConfigurationEnvBuilder {
 		return schema.toString();
 	}
 
-	private static void _setFieldValue(Field field, Object object, Object value) {
+	private static void _setFieldValue(
+		Field field, Object object, Object value) {
+
 		try {
 			field.set(object, value);
 		}
@@ -484,6 +548,10 @@ public class ConfigurationEnvBuilder {
 				value = matcher.group(field.getName());
 			}
 			catch (Exception exception) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(exception);
+				}
+
 				continue;
 			}
 
@@ -508,7 +576,7 @@ public class ConfigurationEnvBuilder {
 				_setFieldValue(field, o, value.equals("true"));
 			}
 			else if (Objects.equals(field.getName(), "type")) {
-				_setFieldValue(field, o, schemaDataTypes.get(value));
+				_setFieldValue(field, o, _schemaDataTypes.get(value));
 			}
 			else {
 				_setFieldValue(field, o, value);
@@ -520,33 +588,11 @@ public class ConfigurationEnvBuilder {
 		}
 	}
 
-	protected static JSONArray jsonArray(Object... items) {
-		return JSONFactoryUtil.createJSONArray(items);
-	}
-
-	protected static JSONObject jsonObject(Consumer<JSONObject> consumer) {
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
-
-		consumer.accept(jsonObject);
-
-		return jsonObject;
-	}
+	private static final Log _log = LogFactoryUtil.getLog(ConfigurationEnvBuilder.class);
 
 	private static final Pattern _pattern = Pattern.compile(
 		"\\s*public .* ([^\\s]+)\\(\\);");
-
-	protected static class ObjectDef {
-
-		public List<AttributeDef> attributeDefs = new ArrayList<>();
-		public String pid;
-		public String category;
-		public String description;
-		public String title;
-		public String interfaceName;
-
-	}
-
-	private static final Map<String, String> schemaDataTypes =
+	private static final Map<String, String> _schemaDataTypes =
 		HashMapBuilder.put(
 			"boolean", "boolean"
 		).put(
@@ -562,42 +608,5 @@ public class ConfigurationEnvBuilder {
 		).put(
 			"String[]", "array"
 		).build();
-
-	protected static class AttributeDef {
-
-		public Object defaultValue;
-		public String description;
-		public Number max;
-		public Number min;
-		public String title;
-		public String[] optionLabels;
-		public Object[] optionValues;
-		public boolean requiredInput;
-		public boolean required = true;
-		public Boolean deprecated;
-		public String type;
-		public String name;
-
-		public boolean isArray() {
-			return Objects.equals(type, "array");
-		}
-
-		public boolean isBoolean() {
-			return Objects.equals(type, "boolean");
-		}
-
-		public boolean isNumber() {
-			return Objects.equals(type, "number");
-		}
-
-		public boolean isObject() {
-			return Objects.equals(type, "object");
-		}
-
-		public boolean isString() {
-			return Objects.equals(type, "string");
-		}
-
-	}
 
 }
