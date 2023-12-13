@@ -225,12 +225,12 @@ public class NodeExtension {
 
 	public String getNodeVersion() {
 		if (isUseLatestNode()) {
-			Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfo();
+			Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfoOptional();
 
 			if (nodeInfoOptional.isPresent()) {
 				NodeInfo nodeInfo = nodeInfoOptional.get();
 
-				return nodeInfo.getVersion(
+				return nodeInfo.getNodeVersion(
 				).substring(
 					1
 				);
@@ -250,7 +250,7 @@ public class NodeExtension {
 
 	public String getNpmVersion() {
 		if (isUseLatestNode()) {
-			Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfo();
+			Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfoOptional();
 
 			if (nodeInfoOptional.isPresent()) {
 				NodeInfo nodeInfo = nodeInfoOptional.get();
@@ -358,26 +358,33 @@ public class NodeExtension {
 		_yarnVersion = yarnVersion;
 	}
 
-	private Optional<NodeInfo> _getNodeInfos(Path downloadPath)
+	private Optional<NodeInfo> _getNodeInfoOptional(Path downloadPath)
 		throws Exception {
 
 		try (JsonReader jsonReader = new JsonReader(
 				Files.newBufferedReader(downloadPath))) {
 
-			List<NodeInfo> nodeInfos = _parserNodeInfos(jsonReader);
+			Gson gson = new Gson();
+
+			TypeToken<List<NodeInfo>> typeToken =
+				new TypeToken<List<NodeInfo>>() {
+				};
+
+			List<NodeInfo> nodeInfos = gson.fromJson(
+				jsonReader, typeToken.getType());
 
 			return nodeInfos.stream(
 			).filter(
-				nodeInfo -> !Objects.equals(nodeInfo.isLtsVersion(), "false")
+				nodeInfo -> !Objects.equals(nodeInfo.getLts(), "false")
 			).min(
 				(first, second) -> {
 					Version firstVersion = Version.parseVersion(
-						first.getVersion(
+						first.getNodeVersion(
 						).substring(
 							1
 						));
 					Version secondVersion = Version.parseVersion(
-						second.getVersion(
+						second.getNodeVersion(
 						).substring(
 							1
 						));
@@ -388,7 +395,7 @@ public class NodeExtension {
 		}
 	}
 
-	private Optional<NodeInfo> _getNodeVersionInfo() {
+	private Optional<NodeInfo> _getNodeVersionInfoOptional() {
 		DownloadCommand downloadCommand = new DownloadCommand();
 
 		downloadCommand.setCacheDir(_nodeCacheDir);
@@ -403,21 +410,12 @@ public class NodeExtension {
 
 			downloadCommand.execute();
 
-			return _getNodeInfos(downloadCommand.getDownloadPath());
+			return _getNodeInfoOptional(downloadCommand.getDownloadPath());
 		}
 		catch (Exception exception) {
 			throw new GradleException(
 				"Unable to get node version", exception.getCause());
 		}
-	}
-
-	private List<NodeInfo> _parserNodeInfos(JsonReader jsonReader) {
-		Gson gson = new Gson();
-
-		TypeToken<List<NodeInfo>> typeToken = new TypeToken<List<NodeInfo>>() {
-		};
-
-		return gson.fromJson(jsonReader, typeToken.getType());
 	}
 
 	private static final String _DEFAULT_NODE_CACHE_DIR_NAME = ".liferay/node";
@@ -469,16 +467,16 @@ public class NodeExtension {
 			return _date;
 		}
 
-		public String getNpmVersion() {
-			return _npm;
-		}
-
-		public String getVersion() {
-			return _version;
-		}
-
-		public String isLtsVersion() {
+		public String getLts() {
 			return _lts;
+		}
+
+		public String getNodeVersion() {
+			return _nodeVersion;
+		}
+
+		public String getNpmVersion() {
+			return _npmVersion;
 		}
 
 		@SerializedName("date")
@@ -487,11 +485,11 @@ public class NodeExtension {
 		@SerializedName("lts")
 		private String _lts;
 
-		@SerializedName("npm")
-		private String _npm;
-
 		@SerializedName("version")
-		private String _version;
+		private String _nodeVersion;
+
+		@SerializedName("npm")
+		private String _npmVersion;
 
 	}
 
