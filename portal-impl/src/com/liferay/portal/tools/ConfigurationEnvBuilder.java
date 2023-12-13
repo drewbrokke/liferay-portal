@@ -5,15 +5,17 @@
 
 package com.liferay.portal.tools;
 
-import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.json.JSONFactoryImpl;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,11 +26,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -116,8 +120,13 @@ public class ConfigurationEnvBuilder {
 		content = content.concat(
 			buildContent(configurationJavaFileNames, realPath));
 
+		new JSONFactoryUtil().setJSONFactory(new JSONFactoryImpl());
+
 		try {
-			_generateJSONString(configurationJavaFileNames, realPath.toString());
+			String jsonString = _generateJSONString(configurationJavaFileNames,
+				realPath.toString());
+
+			Files.write(Paths.get(".", "schema.json"), jsonString.getBytes());
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
@@ -160,15 +169,118 @@ public class ConfigurationEnvBuilder {
 			}
 		}
 
+		JSONObject schema = jsonObject(
+			jsonObject -> jsonObject.put(
+				"oneOf", jsonArray()
+			).put(
+				"properties", jsonObject(propertiesJSONObject -> propertiesJSONObject.put(
+						"pid", jsonObject(pidJSONObject -> pidJSONObject.put("enum", jsonArray())
+						)
+					)
+				)
+			)
+		);
+
+		for (ObjectDef objectDef : objectDefs) {
+			JSONObject typeSchema = jsonObject(
+				jsonObject -> jsonObject.put(
+					"description", () -> objectDef.description
+				).put(
+					"title", () -> objectDef.title
+				).put(
+					"required", jsonArray("pid")
+				).put(
+					"properties",
+					jsonObject(
+						propertiesJSONObject -> propertiesJSONObject.put(
+							"pid", jsonObject(pid -> pid.put(
+									"const", objectDef.pid
+								).put(
+									"description", () -> objectDef.description
+								).put(
+									"title", () -> objectDef.title
+								)
+							)
+						)
+					)
+				)
+			);
+
+			for (AttributeDef attributeDef : objectDef.attributeDefs) {
+				JSONObject propertySchema = jsonObject(
+					jsonObject -> jsonObject.put(
+						"default", () -> attributeDef.defaultValue
+					).put(
+						"deprecated", () -> attributeDef.deprecated
+					).put(
+						"description", () -> attributeDef.description
+					).put(
+						"title", () -> attributeDef.title
+					).put(
+						"type", () -> attributeDef.type
+					)
+				);
+
+				if (attributeDef.isArray()) {
+					propertySchema.put(
+						"items",
+						JSONFactoryUtil.createJSONObject(
+							Collections.singletonMap("type", "string")));
+				}
+				if (attributeDef.isObject()) {
+					propertySchema.put(
+						"properties", JSONFactoryUtil.createJSONObject());
+				}
+				if (attributeDef.isNumber()) {
+					propertySchema.put("max", () -> attributeDef.max);
+					propertySchema.put("min", () -> attributeDef.min);
+				}
+				if (attributeDef.isString()) {
+					propertySchema.put("maxLength", () -> attributeDef.max);
+					propertySchema.put("minLength", () -> attributeDef.min);
+				}
+				if (ArrayUtil.isNotEmpty(attributeDef.optionValues)) {
+					JSONArray optionValuesJSONArray = jsonArray(attributeDef.optionValues);
+
+					if (attributeDef.isArray()) {
+						propertySchema.getJSONObject("items").put("enum", optionValuesJSONArray);
+					}
+					else {
+						propertySchema.put("enum", optionValuesJSONArray);
+					}
+				}
+				if (attributeDef.required) {
+					typeSchema.getJSONArray("required").put(attributeDef.name);
+				}
+
+				typeSchema.getJSONObject("properties").put(attributeDef.name, propertySchema);
+			}
+
+			schema.getJSONArray("oneOf").put(typeSchema);
+			schema.getJSONObject("properties").getJSONObject("pid").getJSONArray("enum").put(objectDef.pid);
+		}
+
+		jsonString = schema.toJSONString();
+
 		return jsonString;
+	}
+
+	private static JSONArray jsonArray(Object... items) {
+		return JSONFactoryUtil.createJSONArray(items);
+	}
+
+	private static JSONObject jsonObject(Consumer<JSONObject> consumer) {
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+
+		consumer.accept(jsonObject);
+
+		return jsonObject;
 	}
 
 	private static ObjectDef _constructObjectDef(
 		String configurationFilePath, String rootDir,
 		Properties languageProperties)
 		throws IOException {
-
-		System.out.printf("%s\n\n", configurationFilePath);
 
 		ObjectDef objectDef = new ObjectDef();
 
@@ -212,23 +324,16 @@ public class ConfigurationEnvBuilder {
 					if (attributeDef.isNumber()) {
 						attributeDef.defaultValue = _stringToNumber(String.valueOf(attributeDef.defaultValue));
 					}
-				}
-
-				if (ArrayUtil.isNotEmpty(attributeDef.optionValues) && attributeDef.isNumber()) {
-					Object[] optionValues = {};
-
-					for (Object optionValue : attributeDef.optionValues) {
-						ArrayUtil.append(optionValues, _stringToNumber(String.valueOf(optionValue)));
+					if (StringUtil.startsWith(String.valueOf(attributeDef.defaultValue), "${")) {
+						attributeDef.defaultValue = null;
 					}
-
-					attributeDef.optionValues = optionValues;
 				}
 
 				if (ArrayUtil.isNotEmpty(attributeDef.optionValues) && attributeDef.isNumber()) {
-					Object[] optionValues = {};
+					Number[] optionValues = {};
 
 					for (Object optionValue : attributeDef.optionValues) {
-						ArrayUtil.append(optionValues, _stringToNumber(String.valueOf(optionValue)));
+						optionValues = ArrayUtil.append(optionValues, _stringToNumber(String.valueOf(optionValue)));
 					}
 
 					attributeDef.optionValues = optionValues;
@@ -327,7 +432,7 @@ public class ConfigurationEnvBuilder {
 		Object[] optionValues;
 		boolean requiredInput;
 		boolean required = true;
-		boolean deprecated;
+		Boolean deprecated;
 		String type;
 		String name;
 
