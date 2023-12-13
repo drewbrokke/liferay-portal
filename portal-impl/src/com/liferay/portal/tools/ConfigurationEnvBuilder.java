@@ -16,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +25,8 @@ import java.util.regex.Pattern;
  */
 public class ConfigurationEnvBuilder {
 
-	public static String buildContent(String[] configurationJavaFileNames)
+	public static String buildContent(
+			String[] configurationJavaFileNames, Path rootPath)
 		throws IOException {
 
 		StringBundler sb = new StringBundler();
@@ -42,8 +42,6 @@ public class ConfigurationEnvBuilder {
 				continue;
 			}
 
-			Path path = Paths.get(configurationJavaFileName);
-
 			String fullyQualifiedName = configurationJavaFileName.substring(
 				configurationJavaFileName.indexOf(
 					StringBundler.concat("com", File.separator, "liferay")),
@@ -52,9 +50,9 @@ public class ConfigurationEnvBuilder {
 			fullyQualifiedName = StringUtil.replace(
 				fullyQualifiedName, File.separator, StringPool.PERIOD);
 
-			List<String> lines = Files.readAllLines(path);
+			Path path = rootPath.resolve(Paths.get(configurationJavaFileName));
 
-			for (String line : lines) {
+			for (String line : Files.readAllLines(path)) {
 				if (line.contains("public class")) {
 					break;
 				}
@@ -87,7 +85,9 @@ public class ConfigurationEnvBuilder {
 		Map<String, String> arguments = ArgumentsUtil.parseArguments(args);
 
 		String[] configurationJavaFileNames = StringUtil.split(
-			arguments.get("configuration.java.files"));
+			arguments.get("configuration.java.files"), '\n');
+
+		Path rootPath = Paths.get(arguments.getOrDefault("root.dir", "."));
 
 		Path path = Paths.get(arguments.get("output.file"));
 
@@ -97,7 +97,8 @@ public class ConfigurationEnvBuilder {
 
 		content = content.substring(0, index);
 
-		content = content.concat(buildContent(configurationJavaFileNames));
+		content = content.concat(
+			buildContent(configurationJavaFileNames, rootPath.toRealPath()));
 
 		Files.write(path, content.getBytes());
 	}
