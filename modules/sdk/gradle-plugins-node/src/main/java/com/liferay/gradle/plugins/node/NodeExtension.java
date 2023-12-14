@@ -18,11 +18,11 @@ import com.liferay.gradle.util.Validator;
 import com.liferay.portal.tools.bundle.support.commands.DownloadCommand;
 
 import java.io.File;
+import java.io.IOException;
 
 import java.net.URL;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -372,20 +372,14 @@ public class NodeExtension {
 			downloadCommand.setUrl(new URL(_PRODUCT_NODE_URL));
 
 			downloadCommand.execute();
-
-			return _getNodeInfoOptional(downloadCommand.getDownloadPath());
 		}
 		catch (Exception exception) {
 			throw new GradleException(
 				"Unable to get node version", exception.getCause());
 		}
-	}
-
-	private Optional<NodeInfo> _getNodeInfoOptional(Path downloadPath)
-		throws Exception {
 
 		try (JsonReader jsonReader = new JsonReader(
-				Files.newBufferedReader(downloadPath))) {
+				Files.newBufferedReader(downloadCommand.getDownloadPath()))) {
 
 			Gson gson = new Gson();
 
@@ -415,6 +409,10 @@ public class NodeExtension {
 					return -1 * firstVersion.compareTo(secondVersion);
 				}
 			);
+		}
+		catch (IOException ioException) {
+			throw new GradleException(
+				"Could not read downloaded file", ioException.getCause());
 		}
 	}
 
