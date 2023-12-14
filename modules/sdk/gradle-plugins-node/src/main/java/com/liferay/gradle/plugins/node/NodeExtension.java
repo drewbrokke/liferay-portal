@@ -230,10 +230,7 @@ public class NodeExtension {
 			if (nodeInfoOptional.isPresent()) {
 				NodeInfo nodeInfo = nodeInfoOptional.get();
 
-				return nodeInfo.getNodeVersion(
-				).substring(
-					1
-				);
+				return nodeInfo.getNodeVersion();
 			}
 		}
 
@@ -396,15 +393,9 @@ public class NodeExtension {
 			).min(
 				(first, second) -> {
 					Version firstVersion = Version.parseVersion(
-						first.getNodeVersion(
-						).substring(
-							1
-						));
+						first.getNodeVersion());
 					Version secondVersion = Version.parseVersion(
-						second.getNodeVersion(
-						).substring(
-							1
-						));
+						second.getNodeVersion());
 
 					return -1 * firstVersion.compareTo(secondVersion);
 				}
@@ -470,7 +461,7 @@ public class NodeExtension {
 		}
 
 		public String getNodeVersion() {
-			return _nodeVersion;
+			return _nodeVersion.substring(1);
 		}
 
 		public String getNpmVersion() {
