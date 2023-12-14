@@ -392,7 +392,7 @@ public class NodeExtension {
 
 			return nodeInfos.stream(
 			).filter(
-				nodeInfo -> !Objects.equals(nodeInfo.getLts(), "false")
+				NodeInfo::isLtsVersion
 			).min(
 				(first, second) -> {
 					Version firstVersion = Version.parseVersion(
@@ -475,6 +475,14 @@ public class NodeExtension {
 
 		public String getNpmVersion() {
 			return _npmVersion;
+		}
+
+		public boolean isLtsVersion() {
+			if (Objects.equals(getLts(), "false")) {
+				return false;
+			}
+
+			return true;
 		}
 
 		@SerializedName("date")
