@@ -44,6 +44,8 @@ import java.util.regex.Pattern;
  */
 public class ConfigurationEnvBuilder {
 
+	private static final Properties languageProperties = new Properties();
+
 	public static String buildContent(
 			String[] configurationJavaFileNames, Path rootPath)
 		throws IOException {
@@ -108,6 +110,13 @@ public class ConfigurationEnvBuilder {
 
 		Path rootPath = Paths.get(arguments.getOrDefault("root.dir", "."));
 
+		List<Path> configurationPaths = new ArrayList<>();
+
+		for (String configurationJavaFileName : configurationJavaFileNames) {
+			configurationPaths.add(rootPath.resolve(configurationJavaFileName));
+		}
+
+
 		Path path = Paths.get(arguments.get("output.file"));
 
 		String content = new String(Files.readAllBytes(path));
@@ -129,6 +138,13 @@ public class ConfigurationEnvBuilder {
 		);
 
 		try {
+			Path languagePropertiesPath = Paths.get(
+				realPath.toString(),
+				"modules/apps/portal-language/portal-language-lang/src/main" +
+				"/resources/content/Language.properties");
+
+			languageProperties.load(
+				new FileReader(languagePropertiesPath.toFile()));
 			String jsonString = _generateJSONString(
 				configurationJavaFileNames, realPath.toString());
 
@@ -343,8 +359,7 @@ public class ConfigurationEnvBuilder {
 	}
 
 	private static ObjectDef _constructObjectDef(
-			String configurationFilePath, String rootDir,
-			Properties languageProperties)
+			String configurationFilePath, String rootDir)
 		throws Exception {
 
 		ObjectDef objectDef = new ObjectDef();
@@ -465,21 +480,13 @@ public class ConfigurationEnvBuilder {
 			String[] configurationFilePaths, String rootDir)
 		throws Exception {
 
-		Properties languageProperties = new Properties();
 
-		Path languagePropertiesPath = Paths.get(
-			rootDir,
-			"modules/apps/portal-language/portal-language-lang/src/main" +
-				"/resources/content/Language.properties");
-
-		languageProperties.load(
-			new FileReader(languagePropertiesPath.toFile()));
 
 		List<ObjectDef> objectDefs = new ArrayList<>();
 
 		for (String configurationFilePath : configurationFilePaths) {
 			ObjectDef objectDef = _constructObjectDef(
-				configurationFilePath, rootDir, languageProperties);
+				configurationFilePath, rootDir);
 
 			if (objectDef != null) {
 				objectDefs.add(objectDef);
