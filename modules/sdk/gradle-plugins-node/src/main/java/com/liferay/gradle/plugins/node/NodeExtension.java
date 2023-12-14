@@ -225,7 +225,7 @@ public class NodeExtension {
 
 	public String getNodeVersion() {
 		if (isUseLatestNode()) {
-			Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfoOptional();
+			Optional<NodeInfo> nodeInfoOptional = _getNodeInfoOptional();
 
 			if (nodeInfoOptional.isPresent()) {
 				NodeInfo nodeInfo = nodeInfoOptional.get();
@@ -250,7 +250,7 @@ public class NodeExtension {
 
 	public String getNpmVersion() {
 		if (isUseLatestNode()) {
-			Optional<NodeInfo> nodeInfoOptional = _getNodeVersionInfoOptional();
+			Optional<NodeInfo> nodeInfoOptional = _getNodeInfoOptional();
 
 			if (nodeInfoOptional.isPresent()) {
 				NodeInfo nodeInfo = nodeInfoOptional.get();
@@ -358,6 +358,29 @@ public class NodeExtension {
 		_yarnVersion = yarnVersion;
 	}
 
+	private Optional<NodeInfo> _getNodeInfoOptional() {
+		DownloadCommand downloadCommand = new DownloadCommand();
+
+		downloadCommand.setCacheDir(_nodeCacheDir);
+		downloadCommand.setConnectionTimeout(5 * 1000);
+		downloadCommand.setPassword(null);
+		downloadCommand.setQuiet(true);
+		downloadCommand.setToken(false);
+		downloadCommand.setUserName(null);
+
+		try {
+			downloadCommand.setUrl(new URL(_PRODUCT_NODE_URL));
+
+			downloadCommand.execute();
+
+			return _getNodeInfoOptional(downloadCommand.getDownloadPath());
+		}
+		catch (Exception exception) {
+			throw new GradleException(
+				"Unable to get node version", exception.getCause());
+		}
+	}
+
 	private Optional<NodeInfo> _getNodeInfoOptional(Path downloadPath)
 		throws Exception {
 
@@ -392,29 +415,6 @@ public class NodeExtension {
 					return -1 * firstVersion.compareTo(secondVersion);
 				}
 			);
-		}
-	}
-
-	private Optional<NodeInfo> _getNodeVersionInfoOptional() {
-		DownloadCommand downloadCommand = new DownloadCommand();
-
-		downloadCommand.setCacheDir(_nodeCacheDir);
-		downloadCommand.setConnectionTimeout(5 * 1000);
-		downloadCommand.setPassword(null);
-		downloadCommand.setQuiet(true);
-		downloadCommand.setToken(false);
-		downloadCommand.setUserName(null);
-
-		try {
-			downloadCommand.setUrl(new URL(_PRODUCT_NODE_URL));
-
-			downloadCommand.execute();
-
-			return _getNodeInfoOptional(downloadCommand.getDownloadPath());
-		}
-		catch (Exception exception) {
-			throw new GradleException(
-				"Unable to get node version", exception.getCause());
 		}
 	}
 
