@@ -215,6 +215,10 @@ public class NodeExtension {
 		};
 	}
 
+	public String getLts() {
+		return GradleUtil.toString(_lts);
+	}
+
 	public File getNodeDir() {
 		return GradleUtil.toFile(_project, _nodeDir);
 	}
@@ -303,6 +307,10 @@ public class NodeExtension {
 
 	public void setGlobal(boolean global) {
 		_global = global;
+	}
+
+	public void setLts(Object lts) {
+		_lts = lts;
 	}
 
 	public void setNodeDir(Object nodeDir) {
@@ -435,6 +443,7 @@ public class NodeExtension {
 
 	private boolean _download;
 	private boolean _global;
+	private Object _lts;
 	private final File _nodeCacheDir = new File(
 		System.getProperty("user.home"), _DEFAULT_NODE_CACHE_DIR_NAME);
 	private Object _nodeDir;
