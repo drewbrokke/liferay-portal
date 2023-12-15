@@ -46,6 +46,41 @@ public class NodeExtension {
 	public NodeExtension(final Project project) {
 		_download = GradleUtil.getProperty(project, "nodeDownload", true);
 
+		DownloadCommand downloadCommand = new DownloadCommand();
+
+		downloadCommand.setCacheDir(_nodeCacheDir);
+		downloadCommand.setConnectionTimeout(5 * 1000);
+		downloadCommand.setPassword(null);
+		downloadCommand.setQuiet(true);
+		downloadCommand.setToken(false);
+		downloadCommand.setUserName(null);
+
+		try {
+			downloadCommand.setUrl(new URL(_PRODUCT_NODE_URL));
+
+			downloadCommand.execute();
+		}
+		catch (Exception exception) {
+			throw new GradleException(
+				"Unable to get node version", exception.getCause());
+		}
+
+		try (JsonReader jsonReader = new JsonReader(
+				Files.newBufferedReader(downloadCommand.getDownloadPath()))) {
+
+			Gson gson = new Gson();
+
+			TypeToken<List<NodeInfo>> typeToken =
+				new TypeToken<List<NodeInfo>>() {
+				};
+
+			_nodeInfos = gson.fromJson(jsonReader, typeToken.getType());
+		}
+		catch (IOException ioException) {
+			throw new GradleException(
+				"Could not read downloaded file", ioException.getCause());
+		}
+
 		_nodeDir = new Callable<File>() {
 
 			@Override
@@ -364,55 +399,19 @@ public class NodeExtension {
 	}
 
 	private Optional<NodeInfo> _getNodeInfoOptional() {
-		DownloadCommand downloadCommand = new DownloadCommand();
+		return _nodeInfos.stream(
+		).filter(
+			NodeInfo::isLtsVersion
+		).min(
+			(first, second) -> {
+				Version firstVersion = Version.parseVersion(
+					first.getNodeVersion());
+				Version secondVersion = Version.parseVersion(
+					second.getNodeVersion());
 
-		downloadCommand.setCacheDir(_nodeCacheDir);
-		downloadCommand.setConnectionTimeout(5 * 1000);
-		downloadCommand.setPassword(null);
-		downloadCommand.setQuiet(true);
-		downloadCommand.setToken(false);
-		downloadCommand.setUserName(null);
-
-		try {
-			downloadCommand.setUrl(new URL(_PRODUCT_NODE_URL));
-
-			downloadCommand.execute();
-		}
-		catch (Exception exception) {
-			throw new GradleException(
-				"Unable to get node version", exception.getCause());
-		}
-
-		try (JsonReader jsonReader = new JsonReader(
-				Files.newBufferedReader(downloadCommand.getDownloadPath()))) {
-
-			Gson gson = new Gson();
-
-			TypeToken<List<NodeInfo>> typeToken =
-				new TypeToken<List<NodeInfo>>() {
-				};
-
-			List<NodeInfo> nodeInfos = gson.fromJson(
-				jsonReader, typeToken.getType());
-
-			return nodeInfos.stream(
-			).filter(
-				NodeInfo::isLtsVersion
-			).min(
-				(first, second) -> {
-					Version firstVersion = Version.parseVersion(
-						first.getNodeVersion());
-					Version secondVersion = Version.parseVersion(
-						second.getNodeVersion());
-
-					return -1 * firstVersion.compareTo(secondVersion);
-				}
-			);
-		}
-		catch (IOException ioException) {
-			throw new GradleException(
-				"Could not read downloaded file", ioException.getCause());
-		}
+				return -1 * firstVersion.compareTo(secondVersion);
+			}
+		);
 	}
 
 	private static final String _DEFAULT_NODE_CACHE_DIR_NAME = ".liferay/node";
@@ -447,6 +446,7 @@ public class NodeExtension {
 	private final File _nodeCacheDir = new File(
 		System.getProperty("user.home"), _DEFAULT_NODE_CACHE_DIR_NAME);
 	private Object _nodeDir;
+	private final List<NodeInfo> _nodeInfos;
 	private Object _nodeUrl;
 	private Object _nodeVersion = "5.5.0";
 	private final List<Object> _npmArgs = new ArrayList<>();
