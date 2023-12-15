@@ -32,9 +32,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
+import org.gradle.api.logging.Logger;
 
 import org.osgi.framework.Version;
 
@@ -263,17 +265,12 @@ public class NodeExtension {
 	}
 
 	public String getNodeVersion() {
-		if (isUseLatestNode()) {
-			Optional<NodeInfo> nodeInfoOptional = _getNodeInfoOptional();
-
-			if (nodeInfoOptional.isPresent()) {
-				NodeInfo nodeInfo = nodeInfoOptional.get();
-
-				return nodeInfo.getNodeVersion();
-			}
-		}
-
-		return GradleUtil.toString(_nodeVersion);
+		return _getLTSNodeInfoOptional(
+		).map(
+			NodeInfo::getNodeVersion
+		).orElse(
+			GradleUtil.toString(_nodeVersion)
+		);
 	}
 
 	public List<String> getNpmArgs() {
@@ -285,17 +282,12 @@ public class NodeExtension {
 	}
 
 	public String getNpmVersion() {
-		if (isUseLatestNode()) {
-			Optional<NodeInfo> nodeInfoOptional = _getNodeInfoOptional();
-
-			if (nodeInfoOptional.isPresent()) {
-				NodeInfo nodeInfo = nodeInfoOptional.get();
-
-				return nodeInfo.getNpmVersion();
-			}
-		}
-
-		return GradleUtil.toString(_npmVersion);
+		return _getLTSNodeInfoOptional(
+		).map(
+			NodeInfo::getNpmVersion
+		).orElse(
+			GradleUtil.toString(_npmVersion)
+		);
 	}
 
 	public File getScriptFile() {
@@ -398,10 +390,16 @@ public class NodeExtension {
 		_yarnVersion = yarnVersion;
 	}
 
-	private Optional<NodeInfo> _getNodeInfoOptional() {
-		return _nodeInfos.stream(
+	private Optional<NodeInfo> _getLTSNodeInfoOptional() {
+		String lts = getLts();
+
+		if (lts == null) {
+			return Optional.empty();
+		}
+
+		Optional<NodeInfo> nodeInfoOptional = _nodeInfos.stream(
 		).filter(
-			NodeInfo::isLtsVersion
+			nodeInfo -> Objects.equals(nodeInfo.getLts(), lts)
 		).min(
 			(first, second) -> {
 				Version firstVersion = Version.parseVersion(
@@ -412,6 +410,28 @@ public class NodeExtension {
 				return -1 * firstVersion.compareTo(secondVersion);
 			}
 		);
+
+		if (!nodeInfoOptional.isPresent()) {
+			Logger logger = _project.getLogger();
+
+			if (logger.isErrorEnabled()) {
+				logger.error(
+					String.format(
+						"Property \"lts\" must be one of: %s",
+						_nodeInfos.stream(
+						).map(
+							NodeInfo::getLts
+						).distinct(
+						).filter(
+							nodeInfoLts -> !Objects.equals(nodeInfoLts, "false")
+						).sorted(
+						).collect(
+							Collectors.joining(", ")
+						)));
+			}
+		}
+
+		return nodeInfoOptional;
 	}
 
 	private static final String _DEFAULT_NODE_CACHE_DIR_NAME = ".liferay/node";
