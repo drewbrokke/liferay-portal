@@ -316,10 +316,6 @@ public class NodeExtension {
 		return _global;
 	}
 
-	public boolean isUseLatestNode() {
-		return _useLatestNode;
-	}
-
 	public boolean isUseNpm() {
 		return GradleUtil.toBoolean(_useNpm);
 	}
@@ -378,10 +374,6 @@ public class NodeExtension {
 
 	public void setScriptFile(Object scriptFile) {
 		_scriptFile = scriptFile;
-	}
-
-	public void setUseLatestNode(boolean useLatestNode) {
-		_useLatestNode = useLatestNode;
 	}
 
 	public void setUseNpm(Object useNpm) {
@@ -460,7 +452,6 @@ public class NodeExtension {
 	private final Map<String, String> _npmVersions;
 	private final Project _project;
 	private Object _scriptFile;
-	private boolean _useLatestNode;
 	private Object _useNpm = true;
 	private Object _yarnUrl;
 	private Object _yarnVersion = "1.13.0";
