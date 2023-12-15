@@ -474,14 +474,6 @@ public class NodeExtension {
 			return _npmVersion;
 		}
 
-		public boolean isLtsVersion() {
-			if (Objects.equals(getLts(), "false")) {
-				return false;
-			}
-
-			return true;
-		}
-
 		@SerializedName("date")
 		private String _date;
 
