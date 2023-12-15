@@ -26,7 +26,6 @@ import java.nio.file.Files;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -82,6 +81,13 @@ public class NodeExtension {
 			throw new GradleException(
 				"Could not read downloaded file", ioException.getCause());
 		}
+
+		_npmVersions = _nodeInfos.stream(
+		).filter(
+			nodeInfo -> nodeInfo.getNpmVersion() != null
+		).collect(
+			Collectors.toMap(NodeInfo::getNodeVersion, NodeInfo::getNpmVersion)
+		);
 
 		_nodeDir = new Callable<File>() {
 
@@ -439,27 +445,6 @@ public class NodeExtension {
 	private static final String _PRODUCT_NODE_URL =
 		"https://nodejs.org/dist/index.json";
 
-	private static final Map<String, String> _npmVersions =
-		new HashMap<String, String>() {
-			{
-				put("5.5.0", "3.3.12");
-				put("5.6.0", "3.6.0");
-				put("5.7.0", "3.6.0");
-				put("5.7.1", "3.6.0");
-				put("5.8.0", "3.7.3");
-				put("5.9.0", "3.7.3");
-				put("5.9.1", "3.7.3");
-				put("5.10.0", "3.8.3");
-				put("5.10.1", "3.8.3");
-				put("5.11.0", "3.8.6");
-				put("5.11.1", "3.8.6");
-				put("5.12.0", "3.8.6");
-				put("6.0.0", "3.8.6");
-				put("6.1.0", "3.8.6");
-				put("6.2.0", "3.8.9");
-			}
-		};
-
 	private boolean _download;
 	private boolean _global;
 	private Object _lts;
@@ -472,6 +457,7 @@ public class NodeExtension {
 	private final List<Object> _npmArgs = new ArrayList<>();
 	private Object _npmUrl;
 	private Object _npmVersion;
+	private final Map<String, String> _npmVersions;
 	private final Project _project;
 	private Object _scriptFile;
 	private boolean _useLatestNode;
