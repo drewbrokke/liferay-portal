@@ -1,0 +1,16 @@
+apply plugin: "com.liferay.node"
+
+node {
+	lts = "Dubnium"
+}
+
+task runGradleTest
+
+runGradleTest {
+	dependsOn downloadNode
+
+	doLast {
+		assert node.nodeVersion == "10.24.1"
+		assert node.npmVersion == "6.14.12"
+	}
+}
