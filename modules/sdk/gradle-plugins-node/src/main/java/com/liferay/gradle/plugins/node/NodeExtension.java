@@ -398,14 +398,14 @@ public class NodeExtension {
 		Optional<NodeInfo> nodeInfoOptional = _nodeInfos.stream(
 		).filter(
 			nodeInfo -> Objects.equals(nodeInfo.getLts(), lts)
-		).min(
+		).max(
 			(first, second) -> {
 				Version firstVersion = Version.parseVersion(
 					first.getNodeVersion());
 				Version secondVersion = Version.parseVersion(
 					second.getNodeVersion());
 
-				return -1 * firstVersion.compareTo(secondVersion);
+				return firstVersion.compareTo(secondVersion);
 			}
 		);
 
