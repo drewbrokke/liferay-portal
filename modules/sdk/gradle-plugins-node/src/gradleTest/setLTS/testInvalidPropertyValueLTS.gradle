@@ -1,0 +1,36 @@
+apply plugin: "com.liferay.node"
+
+node {
+	lts = "fooBarInvalid"
+}
+
+LogListener logListener = new LogListener()
+
+task runGradleTest
+
+downloadNode {
+	doFirst {
+		logging.addStandardErrorListener(logListener)
+	}
+}
+
+runGradleTest {
+	dependsOn downloadNode
+
+	doLast {
+		assert node.nodeVersion == "5.5.0"
+		assert node.npmVersion == null
+
+		assert logListener.log.contains('Property "lts" must be one of: ')
+	}
+}
+
+class LogListener implements StandardOutputListener {
+
+	void onOutput(CharSequence charSequence) {
+		log = log + charSequence
+	}
+
+	String log = ""
+
+}
