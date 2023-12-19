@@ -22,7 +22,7 @@ dependencies {
 	api group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
 	api group: "org.osgi", name: "osgi.core", version: "6.0.0"
 
-	api(group: "com.liferay", name: "com.liferay.portal.tools.bundle.support", version: "3.7.4") {
+	api(group: "com.liferay", name: "com.liferay.portal.tools.bundle.support", version: "3.7.5") {
 		exclude group: "biz.aQute.bnd", module: "biz.aQute.bnd"
 	}
 
