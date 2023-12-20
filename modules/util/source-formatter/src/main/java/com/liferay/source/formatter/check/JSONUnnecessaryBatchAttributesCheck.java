@@ -13,7 +13,7 @@ import com.liferay.portal.kernel.json.JSONUtil;
 /**
  * @author Qi Zhang
  */
-public class JSONBatchEngineDataFileCheck extends BaseFileCheck {
+public class JSONUnnecessaryBatchAttributesCheck extends BaseFileCheck {
 
 	@Override
 	public boolean isLiferaySourceCheck() {
