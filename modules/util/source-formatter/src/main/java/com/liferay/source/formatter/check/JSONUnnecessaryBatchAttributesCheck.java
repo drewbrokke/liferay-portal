@@ -24,9 +24,7 @@ public class JSONUnnecessaryBatchAttributesCheck extends BaseFileCheck {
 	protected String doProcess(
 		String fileName, String absolutePath, String content) {
 
-		if (!absolutePath.endsWith(".batch-engine-data.json") ||
-			!absolutePath.matches(".+/workspaces/.+/client-extensions/.+")) {
-
+		if (!absolutePath.endsWith(".batch-engine-data.json")) {
 			return content;
 		}
 
