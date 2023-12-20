@@ -22,8 +22,7 @@ public class JSONBatchEngineDataFileCheck extends BaseFileCheck {
 
 	@Override
 	protected String doProcess(
-			String fileName, String absolutePath, String content)
-		throws JSONException {
+		String fileName, String absolutePath, String content) {
 
 		if (!absolutePath.endsWith(".batch-engine-data.json") ||
 			!absolutePath.matches(".+/workspaces/.+/client-extensions/.+")) {
@@ -31,23 +30,53 @@ public class JSONBatchEngineDataFileCheck extends BaseFileCheck {
 			return content;
 		}
 
-		JSONObject jsonObject = new JSONObjectImpl(content);
+		JSONObject jsonObject = null;
 
-		jsonObject.remove("actions");
-		jsonObject.remove("facets");
+		try {
+			jsonObject = new JSONObjectImpl(content);
+		}
+		catch (JSONException jsonException) {
+			return content;
+		}
 
-		JSONObject configurationJSONObject = jsonObject.getJSONObject(
-			"configuration");
-
-		if (configurationJSONObject != null) {
-			configurationJSONObject.remove("companyId");
-			configurationJSONObject.remove("userId");
-			configurationJSONObject.remove("version");
-
-			jsonObject.put("configuration", configurationJSONObject);
+		for (String unnecessaryAttribute : _UNNECESSARY_ATTRIBUTES) {
+			_checkChildJsonObject(jsonObject, unnecessaryAttribute);
 		}
 
 		return JSONUtil.toString(jsonObject);
 	}
+
+	private void _checkChildJsonObject(
+		JSONObject jsonObject, String unnecessaryAttribute) {
+
+		int index = unnecessaryAttribute.indexOf(":");
+
+		if (index != -1) {
+			String key = unnecessaryAttribute.substring(0, index);
+
+			JSONObject childJSONObject = jsonObject.getJSONObject(key);
+
+			if (childJSONObject == null) {
+				return;
+			}
+
+			_checkChildJsonObject(
+				childJSONObject, unnecessaryAttribute.substring(index + 1));
+
+			jsonObject.put(key, childJSONObject);
+
+			return;
+		}
+
+		String[] attributes = unnecessaryAttribute.split(",");
+
+		for (String attribute : attributes) {
+			jsonObject.remove(attribute);
+		}
+	}
+
+	private static final String[] _UNNECESSARY_ATTRIBUTES = {
+		"actions", "configuration:companyId,userId,version", "facets"
+	};
 
 }
