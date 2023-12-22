@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.HttpComponentsUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropertiesUtil;
@@ -322,6 +323,19 @@ public class CETFactoryImpl implements CETFactory {
 			if (cetImplFactory.isURLCETPropertyName(name)) {
 				value = value.replaceAll(
 					Pattern.quote("${modifiedTime}"), modifiedTime);
+
+				// HttpComponentsUtil.hasProtocol(value) should be equal to
+				// uri.isAbsolute() since both impls check the URL scheme.
+
+				if ((modifiedDate != null) &&
+					!HttpComponentsUtil.hasProtocol(value)) {
+
+					// This method always replaces the current parameter, so
+					// there will not be duplicate params.
+
+					value = HttpComponentsUtil.setParameter(
+						value, "t", modifiedTime);
+				}
 			}
 
 			transformedUnicodeProperties.put(name, value);
