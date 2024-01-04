@@ -1,0 +1,34 @@
+apply plugin: "com.liferay.node"
+
+LogListener logListener = new LogListener()
+
+task runGradleTest
+
+downloadNode {
+	doFirst {
+		logging.addStandardErrorListener(logListener)
+	}
+}
+
+runGradleTest {
+	dependsOn ":with-invalid-lts-value:downloadNode"
+
+	doLast {
+		def project1 = project(":with-invalid-lts-value")
+
+		assert project1.node.nodeVersion == "10.15.3"
+		assert project1.node.npmVersion == "6.4.1"
+
+		assert logListener.log.contains('Property "lts" must be one of: ')
+	}
+}
+
+class LogListener implements StandardOutputListener {
+
+	void onOutput(CharSequence charSequence) {
+		log = log + charSequence
+	}
+
+	String log = ""
+
+}

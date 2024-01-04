@@ -1,0 +1,14 @@
+task runGradleTest
+
+runGradleTest {
+	dependsOn ":with-valid-lts-value:downloadNode"
+
+	doLast {
+		def project1 = project(":with-valid-lts-value")
+
+		println "AAAAAAA: ${project1.node.nodeVersion}"
+
+		assert project1.node.nodeVersion == "10.24.1"
+		assert project1.node.npmVersion == "6.14.12"
+	}
+}
