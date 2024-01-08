@@ -44,62 +44,6 @@ import java.util.regex.Pattern;
  */
 public class ConfigurationEnvBuilder {
 
-	protected static String buildContent(
-			String[] configurationJavaFileNames, Path rootPath)
-		throws IOException {
-
-		StringBundler sb = new StringBundler();
-
-		sb.append("##\n## OSGi Configuration Overrides\n##\n");
-
-		Matcher matcher = _pattern.matcher("");
-
-		for (String configurationJavaFileName : configurationJavaFileNames) {
-			if (configurationJavaFileName.contains(
-					"/build/compile-include-sources/")) {
-
-				continue;
-			}
-
-			String fullyQualifiedName = configurationJavaFileName.substring(
-				configurationJavaFileName.indexOf(
-					StringBundler.concat("com", File.separator, "liferay")),
-				configurationJavaFileName.indexOf(".java"));
-
-			fullyQualifiedName = StringUtil.replace(
-				fullyQualifiedName, File.separator, StringPool.PERIOD);
-
-			Path path = rootPath.resolve(Paths.get(configurationJavaFileName));
-
-			for (String line : Files.readAllLines(path)) {
-				if (line.contains("public class")) {
-					break;
-				}
-
-				matcher.reset(line);
-
-				if (matcher.matches()) {
-					String configurationKey = StringBundler.concat(
-						"configuration.override.", fullyQualifiedName,
-						StringPool.UNDERLINE, matcher.group(1));
-
-					sb.append("\n");
-					sb.append("    #\n");
-					sb.append("    # Env: ");
-					sb.append(
-						ToolsUtil.encodeEnvironmentProperty(configurationKey));
-					sb.append("\n");
-					sb.append("    #\n");
-					sb.append("    #");
-					sb.append(configurationKey);
-					sb.append(StringPool.EQUAL);
-				}
-			}
-		}
-
-		return sb.toString();
-	}
-
 	public static void main(String[] args) throws IOException {
 		Map<String, String> arguments = ArgumentsUtil.parseArguments(args);
 
@@ -173,6 +117,62 @@ public class ConfigurationEnvBuilder {
 				sb.append("    #");
 				sb.append(configurationKey);
 				sb.append(StringPool.EQUAL);
+			}
+		}
+
+		return sb.toString();
+	}
+
+	protected static String buildContent(
+			String[] configurationJavaFileNames, Path rootPath)
+		throws IOException {
+
+		StringBundler sb = new StringBundler();
+
+		sb.append("##\n## OSGi Configuration Overrides\n##\n");
+
+		Matcher matcher = _pattern.matcher("");
+
+		for (String configurationJavaFileName : configurationJavaFileNames) {
+			if (configurationJavaFileName.contains(
+					"/build/compile-include-sources/")) {
+
+				continue;
+			}
+
+			String fullyQualifiedName = configurationJavaFileName.substring(
+				configurationJavaFileName.indexOf(
+					StringBundler.concat("com", File.separator, "liferay")),
+				configurationJavaFileName.indexOf(".java"));
+
+			fullyQualifiedName = StringUtil.replace(
+				fullyQualifiedName, File.separator, StringPool.PERIOD);
+
+			Path path = rootPath.resolve(Paths.get(configurationJavaFileName));
+
+			for (String line : Files.readAllLines(path)) {
+				if (line.contains("public class")) {
+					break;
+				}
+
+				matcher.reset(line);
+
+				if (matcher.matches()) {
+					String configurationKey = StringBundler.concat(
+						"configuration.override.", fullyQualifiedName,
+						StringPool.UNDERLINE, matcher.group(1));
+
+					sb.append("\n");
+					sb.append("    #\n");
+					sb.append("    # Env: ");
+					sb.append(
+						ToolsUtil.encodeEnvironmentProperty(configurationKey));
+					sb.append("\n");
+					sb.append("    #\n");
+					sb.append("    #");
+					sb.append(configurationKey);
+					sb.append(StringPool.EQUAL);
+				}
 			}
 		}
 
