@@ -137,22 +137,18 @@ public class ConfigurationEnvBuilder {
 			new JSONFactoryImpl()
 		);
 
-		try {
-			Path languagePropertiesPath = Paths.get(
-				realPath.toString(),
-				"modules/apps/portal-language/portal-language-lang/src/main" +
-				"/resources/content/Language.properties");
+		Path languagePropertiesPath = Paths.get(
+			realPath.toString(),
+			"modules/apps/portal-language/portal-language-lang/src/main" +
+			"/resources/content/Language.properties");
 
-			languageProperties.load(
-				new FileReader(languagePropertiesPath.toFile()));
-			String jsonString = _generateJSONString(
-				configurationJavaFileNames, realPath.toString());
+		languageProperties.load(
+			new FileReader(languagePropertiesPath.toFile()));
 
-			Files.write(Paths.get(".", "schema.json"), jsonString.getBytes());
-		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
-		}
+		String jsonString = generateJSONString(
+			configurationJavaFileNames, realPath.toString());
+
+		Files.write(Paths.get(".", "schema.json"), jsonString.getBytes());
 	}
 
 	protected static JSONArray jsonArray(Object... items) {
@@ -358,17 +354,28 @@ public class ConfigurationEnvBuilder {
 
 	}
 
-	private static ObjectDef _constructObjectDef(
-			String configurationFilePath, String rootDir)
-		throws Exception {
+	protected static ObjectDef constructObjectDef(
+			String configurationFilePath, String rootDir) {
 
 		ObjectDef objectDef = new ObjectDef();
 
 		AttributeDef attributeDef = new AttributeDef();
 
-		for (String line :
-				Files.readAllLines(Paths.get(rootDir, configurationFilePath))) {
+		List<String> lines;
 
+		try {
+			lines = Files.readAllLines(Paths.get(rootDir, configurationFilePath));
+		}
+		catch (IOException e) {
+			_log.error(
+				String.format(
+					"Could not read configuration file %s%n",
+					configurationFilePath));
+
+			return null;
+		}
+
+		for (String line : lines) {
 			if (objectDef.interfaceName == null) {
 				withMatcher(line, objectDef, objectDefCategoryPattern);
 				withMatcher(
@@ -476,22 +483,25 @@ public class ConfigurationEnvBuilder {
 		return objectDef;
 	}
 
-	private static String _generateJSONString(
-			String[] configurationFilePaths, String rootDir)
-		throws Exception {
-
-
-
+	protected static List<ObjectDef> getObjectDefs(String[] configurationFilePaths, String rootDir) {
 		List<ObjectDef> objectDefs = new ArrayList<>();
 
 		for (String configurationFilePath : configurationFilePaths) {
-			ObjectDef objectDef = _constructObjectDef(
+			ObjectDef objectDef = constructObjectDef(
 				configurationFilePath, rootDir);
 
 			if (objectDef != null) {
 				objectDefs.add(objectDef);
 			}
 		}
+
+		return objectDefs;
+	}
+
+	protected static String generateJSONString(
+			String[] configurationFilePaths, String rootDir) {
+
+		List<ObjectDef> objectDefs = getObjectDefs(configurationFilePaths, rootDir);
 
 		JSONObject schemaJSONObject = jsonObject(
 			jsonObject -> jsonObject.put(
