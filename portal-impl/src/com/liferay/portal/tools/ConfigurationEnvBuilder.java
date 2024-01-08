@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
  */
 public class ConfigurationEnvBuilder {
 
-	public static String buildContent(
+	protected static String buildContent(
 			String[] configurationJavaFileNames, Path rootPath)
 		throws IOException {
 
