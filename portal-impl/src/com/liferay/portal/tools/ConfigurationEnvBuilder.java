@@ -44,35 +44,6 @@ import java.util.regex.Pattern;
  */
 public class ConfigurationEnvBuilder {
 
-	protected static String buildContent(List<ObjectDef> objectDefs) {
-		StringBundler sb = new StringBundler();
-
-		sb.append("##\n## OSGi Configuration Overrides\n##\n");
-
-		for (ObjectDef objectDef : objectDefs) {
-			String fullyQualifiedName = objectDef.pid;
-
-			for (AttributeDef attributeDef : objectDef.attributeDefs) {
-				String configurationKey = StringBundler.concat(
-					"configuration.override.", fullyQualifiedName,
-					StringPool.UNDERLINE, attributeDef.name);
-
-				sb.append("\n");
-				sb.append("    #\n");
-				sb.append("    # Env: ");
-				sb.append(
-					ToolsUtil.encodeEnvironmentProperty(configurationKey));
-				sb.append("\n");
-				sb.append("    #\n");
-				sb.append("    #");
-				sb.append(configurationKey);
-				sb.append(StringPool.EQUAL);
-			}
-		}
-
-		return sb.toString();
-	}
-
 	public static String buildContent(
 			String[] configurationJavaFileNames, Path rootPath)
 		throws IOException {
@@ -158,8 +129,8 @@ public class ConfigurationEnvBuilder {
 		languageProperties.load(
 			new FileReader(languagePropertiesPath.toFile()));
 
-		List<ObjectDef> objectDefs =
-			getObjectDefs(configurationJavaFileNames, realPath.toString());
+		List<ObjectDef> objectDefs = getObjectDefs(
+			configurationJavaFileNames, realPath.toString());
 
 		Path path = Paths.get(arguments.get("output.file"));
 
@@ -177,6 +148,35 @@ public class ConfigurationEnvBuilder {
 		String jsonString = generateJSONString(objectDefs);
 
 		Files.write(Paths.get(".", "schema.json"), jsonString.getBytes());
+	}
+
+	protected static String buildContent(List<ObjectDef> objectDefs) {
+		StringBundler sb = new StringBundler();
+
+		sb.append("##\n## OSGi Configuration Overrides\n##\n");
+
+		for (ObjectDef objectDef : objectDefs) {
+			String fullyQualifiedName = objectDef.pid;
+
+			for (AttributeDef attributeDef : objectDef.attributeDefs) {
+				String configurationKey = StringBundler.concat(
+					"configuration.override.", fullyQualifiedName,
+					StringPool.UNDERLINE, attributeDef.name);
+
+				sb.append("\n");
+				sb.append("    #\n");
+				sb.append("    # Env: ");
+				sb.append(
+					ToolsUtil.encodeEnvironmentProperty(configurationKey));
+				sb.append("\n");
+				sb.append("    #\n");
+				sb.append("    #");
+				sb.append(configurationKey);
+				sb.append(StringPool.EQUAL);
+			}
+		}
+
+		return sb.toString();
 	}
 
 	protected static ObjectDef constructObjectDef(
