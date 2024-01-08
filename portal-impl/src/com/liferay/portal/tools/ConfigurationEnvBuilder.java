@@ -177,8 +177,9 @@ public class ConfigurationEnvBuilder {
 				withMatcher(
 					line, objectDef, objectDefDescriptionPattern,
 					(ObjectDef curObjectDef) ->
-						curObjectDef.description = languageProperties.getProperty(
-							curObjectDef.description));
+						curObjectDef.description =
+							languageProperties.getProperty(
+								curObjectDef.description));
 				withMatcher(line, objectDef, objectDefPidPattern);
 				withMatcher(
 					line, objectDef, objectDefTitlePattern,
@@ -203,8 +204,9 @@ public class ConfigurationEnvBuilder {
 			withMatcher(
 				line, attributeDef, attributeDescriptionPattern,
 				(AttributeDef curAttributeDef) ->
-					curAttributeDef.description = languageProperties.getProperty(
-						curAttributeDef.description));
+					curAttributeDef.description =
+						languageProperties.getProperty(
+							curAttributeDef.description));
 			withMatcher(line, attributeDef, attributeMaxPattern);
 			withMatcher(line, attributeDef, attributeMinPattern);
 			withMatcher(line, attributeDef, attributeOptionLabelsPattern);
