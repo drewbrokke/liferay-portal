@@ -151,8 +151,6 @@ public class ConfigurationEnvBuilder {
 	protected static ObjectDef constructObjectDef(
 		String configurationFilePath, String rootDir) {
 
-
-
 		List<String> lines;
 
 		try {
@@ -163,7 +161,8 @@ public class ConfigurationEnvBuilder {
 			_log.error(
 				String.format(
 					"Could not read configuration file %s%n",
-					configurationFilePath), ioException);
+					configurationFilePath),
+				ioException);
 
 			return null;
 		}
@@ -177,15 +176,15 @@ public class ConfigurationEnvBuilder {
 				withMatcher(line, objectDef, objectDefCategoryPattern);
 				withMatcher(
 					line, objectDef, objectDefDescriptionPattern,
-					(ObjectDef objectDef1) ->
-						objectDef1.description = languageProperties.getProperty(
-							objectDef1.description));
+					(ObjectDef curObjectDef) ->
+						curObjectDef.description = languageProperties.getProperty(
+							curObjectDef.description));
 				withMatcher(line, objectDef, objectDefPidPattern);
 				withMatcher(
 					line, objectDef, objectDefTitlePattern,
-					(ObjectDef objectDef1) ->
-						objectDef1.title = languageProperties.getProperty(
-							objectDef1.title));
+					(ObjectDef curObjectDef) ->
+						curObjectDef.title = languageProperties.getProperty(
+							curObjectDef.title));
 
 				withMatcher(line, objectDef, objectDefInterfaceNamePattern);
 
@@ -199,13 +198,13 @@ public class ConfigurationEnvBuilder {
 			withMatcher(line, attributeDef, attributeDefaultValuePattern);
 			withMatcher(
 				line, attributeDef, attributeDeprecatedPattern,
-				(AttributeDef attributeDef1) ->
-					attributeDef1.deprecated = true);
+				(AttributeDef curAttributeDef) ->
+					curAttributeDef.deprecated = true);
 			withMatcher(
 				line, attributeDef, attributeDescriptionPattern,
-				(AttributeDef attributeDef1) ->
-					attributeDef1.description = languageProperties.getProperty(
-						attributeDef1.description));
+				(AttributeDef curAttributeDef) ->
+					curAttributeDef.description = languageProperties.getProperty(
+						curAttributeDef.description));
 			withMatcher(line, attributeDef, attributeMaxPattern);
 			withMatcher(line, attributeDef, attributeMinPattern);
 			withMatcher(line, attributeDef, attributeOptionLabelsPattern);
@@ -214,9 +213,9 @@ public class ConfigurationEnvBuilder {
 			withMatcher(line, attributeDef, attributeRequiredPattern);
 			withMatcher(
 				line, attributeDef, attributeTitlePattern,
-				(AttributeDef attributeDef1) ->
-					attributeDef1.title = languageProperties.getProperty(
-						attributeDef1.title));
+				(AttributeDef curAttributeDef) ->
+					curAttributeDef.title = languageProperties.getProperty(
+						curAttributeDef.title));
 
 			withMatcher(line, attributeDef, attributeTypeNamePattern);
 
@@ -564,6 +563,7 @@ public class ConfigurationEnvBuilder {
 		"\\bname = \"(?<title>[^\"]*)\"");
 	protected static final Pattern attributeTypeNamePattern = Pattern.compile(
 		"\\s+public(default)? (?<type>\\w+|\\S+) (?<name>\\w+)\\(\\)");
+	protected static final Properties languageProperties = new Properties();
 	protected static final Pattern objectDefCategoryPattern = Pattern.compile(
 		"\\bcategory = \"(?<category>[^\"]*)\"");
 	protected static final Pattern objectDefDescriptionPattern =
@@ -574,6 +574,22 @@ public class ConfigurationEnvBuilder {
 		"\\bid = \"(?<pid>com\\..+)\"");
 	protected static final Pattern objectDefTitlePattern = Pattern.compile(
 		"\\bname = \"(?<title>[^\"]*)\"");
+	protected static final Map<String, String> schemaDataTypes =
+		HashMapBuilder.put(
+			"boolean", "boolean"
+		).put(
+			"float", "number"
+		).put(
+			"int", "number"
+		).put(
+			"LocalizedValuesMap", "object"
+		).put(
+			"long", "number"
+		).put(
+			"String", "string"
+		).put(
+			"String[]", "array"
+		).build();
 
 	protected static class AttributeDef {
 
@@ -628,22 +644,5 @@ public class ConfigurationEnvBuilder {
 
 	private static final Pattern _pattern = Pattern.compile(
 		"\\s*public .* ([^\\s]+)\\(\\);");
-	protected static final Map<String, String> schemaDataTypes =
-		HashMapBuilder.put(
-			"boolean", "boolean"
-		).put(
-			"float", "number"
-		).put(
-			"int", "number"
-		).put(
-			"LocalizedValuesMap", "object"
-		).put(
-			"long", "number"
-		).put(
-			"String", "string"
-		).put(
-			"String[]", "array"
-		).build();
-	protected static final Properties languageProperties = new Properties();
 
 }
