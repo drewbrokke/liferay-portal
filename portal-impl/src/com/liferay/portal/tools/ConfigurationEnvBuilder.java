@@ -44,8 +44,6 @@ import java.util.regex.Pattern;
  */
 public class ConfigurationEnvBuilder {
 
-	private static final Properties languageProperties = new Properties();
-
 	public static String buildContent(
 			String[] configurationJavaFileNames, Path rootPath)
 		throws IOException {
@@ -116,7 +114,6 @@ public class ConfigurationEnvBuilder {
 			configurationPaths.add(rootPath.resolve(configurationJavaFileName));
 		}
 
-
 		Path path = Paths.get(arguments.get("output.file"));
 
 		String content = new String(Files.readAllBytes(path));
@@ -140,7 +137,7 @@ public class ConfigurationEnvBuilder {
 		Path languagePropertiesPath = Paths.get(
 			realPath.toString(),
 			"modules/apps/portal-language/portal-language-lang/src/main" +
-			"/resources/content/Language.properties");
+				"/resources/content/Language.properties");
 
 		languageProperties.load(
 			new FileReader(languagePropertiesPath.toFile()));
@@ -151,229 +148,29 @@ public class ConfigurationEnvBuilder {
 		Files.write(Paths.get(".", "schema.json"), jsonString.getBytes());
 	}
 
-	protected static JSONArray jsonArray(Object... items) {
-		return JSONFactoryUtil.createJSONArray(items);
-	}
-
-	protected static JSONObject jsonObject(Consumer<JSONObject> consumer) {
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
-
-		consumer.accept(jsonObject);
-
-		return jsonObject;
-	}
-
-	protected static JSONObject jsonObject(String key, Object value) {
-		return jsonObject(jsonObject -> jsonObject.put(key, value));
-	}
-
-	protected static JSONObject jsonObject(
-		String key, UnsafeSupplier<Object, Exception> valueUnsafeSupplier) {
-
-		return jsonObject(
-			jsonObject -> jsonObject.put(key, valueUnsafeSupplier));
-	}
-
-	protected static void setFieldValue(
-		Field field, Object object, Object value) {
-
-		try {
-			field.set(object, value);
-		}
-		catch (IllegalAccessException illegalAccessException) {
-			throw new RuntimeException(illegalAccessException);
-		}
-	}
-
-	protected static boolean toBoolean(Object object) {
-		if (Objects.equals(
-				String.valueOf(object), String.valueOf(Boolean.TRUE))) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	protected static Number toNumber(Object object) {
-		String s = String.valueOf(object);
-
-		if (Validator.isBlank(s)) {
-			return 0;
-		}
-
-		if (s.contains(".")) {
-			return GetterUtil.getFloat(s);
-		}
-
-		return GetterUtil.getInteger(s);
-	}
-
-	protected static void withMatcher(
-		String s, Object object, Pattern pattern) {
-
-		withMatcher(s, object, pattern, null);
-	}
-
-	protected static <T> void withMatcher(
-		String s, T target, Pattern pattern, Consumer<T> consumer) {
-
-		Matcher matcher = pattern.matcher(s);
-
-		if (!matcher.find()) {
-			return;
-		}
-
-		Class<?> clazz = target.getClass();
-
-		for (Field field : clazz.getDeclaredFields()) {
-			String value;
-
-			try {
-				value = matcher.group(field.getName());
-			}
-			catch (Exception exception) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(exception);
-				}
-
-				continue;
-			}
-
-			Class<?> typeClass = field.getType();
-
-			if (ArrayUtil.contains(
-					new Class<?>[] {Object[].class, String[].class},
-					typeClass)) {
-
-				setFieldValue(
-					field, target,
-					value.replaceAll(
-						"[ \"]", ""
-					).split(
-						","
-					));
-			}
-			else if (Objects.equals(typeClass, Number.class)) {
-				setFieldValue(field, target, toNumber(value));
-			}
-			else if (Objects.equals(typeClass, boolean.class)) {
-				setFieldValue(field, target, toBoolean(value));
-			}
-			else if (Objects.equals(field.getName(), "type")) {
-				setFieldValue(field, target, _schemaDataTypes.get(value));
-			}
-			else {
-				setFieldValue(field, target, value);
-			}
-		}
-
-		if (consumer != null) {
-			consumer.accept(target);
-		}
-	}
-
-	protected static final Pattern attributeDefaultValuePattern =
-		Pattern.compile("\\bdeflt = \"(?<defaultValue>[^\"]*)\"");
-	protected static final Pattern attributeDeprecatedPattern = Pattern.compile(
-		"\\b(?<deprecated>@Deprecated)");
-	protected static final Pattern attributeDescriptionPattern =
-		Pattern.compile("\\bdescription = \"(?<description>[^\"]*)\"");
-	protected static final Pattern attributeMaxPattern = Pattern.compile(
-		"\\bmax = \"(?<max>[^\"]+)\"");
-	protected static final Pattern attributeMinPattern = Pattern.compile(
-		"\\bmin = \"(?<min>[^\"]+)\"");
-	protected static final Pattern attributeOptionLabelsPattern =
-		Pattern.compile("\\boptionLabels = \\{(?<optionLabels>[^{}]*)}");
-	protected static final Pattern attributeOptionValuesPattern =
-		Pattern.compile("\\boptionValues = \\{(?<optionValues>[^{}]*)}");
-	protected static final Pattern attributeRequiredInputPattern =
-		Pattern.compile("\\brequiredInput = (?<requiredInput>true|false)");
-	protected static final Pattern attributeRequiredPattern = Pattern.compile(
-		"\\brequired = (?<required>true|false)");
-	protected static final Pattern attributeTitlePattern = Pattern.compile(
-		"\\bname = \"(?<title>[^\"]*)\"");
-	protected static final Pattern attributeTypeNamePattern = Pattern.compile(
-		"\\s+public(default)? (?<type>\\w+|\\S+) (?<name>\\w+)\\(\\)");
-	protected static final Pattern objectDefCategoryPattern = Pattern.compile(
-		"\\bcategory = \"(?<category>[^\"]*)\"");
-	protected static final Pattern objectDefDescriptionPattern =
-		Pattern.compile("\\bdescription = \"(?<description>[^\"]*)\"");
-	protected static final Pattern objectDefInterfaceNamePattern =
-		Pattern.compile(" @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+) ");
-	protected static final Pattern objectDefPidPattern = Pattern.compile(
-		"\\bid = \"(?<pid>com\\..+)\"");
-	protected static final Pattern objectDefTitlePattern = Pattern.compile(
-		"\\bname = \"(?<title>[^\"]*)\"");
-
-	protected static class AttributeDef {
-
-		public boolean isArray() {
-			return Objects.equals(type, "array");
-		}
-
-		public boolean isBoolean() {
-			return Objects.equals(type, "boolean");
-		}
-
-		public boolean isNumber() {
-			return Objects.equals(type, "number");
-		}
-
-		public boolean isObject() {
-			return Objects.equals(type, "object");
-		}
-
-		public boolean isString() {
-			return Objects.equals(type, "string");
-		}
-
-		public Object defaultValue;
-		public Boolean deprecated;
-		public String description;
-		public Number max;
-		public Number min;
-		public String name;
-		public String[] optionLabels;
-		public Object[] optionValues;
-		public boolean required = true;
-		public boolean requiredInput;
-		public String title;
-		public String type;
-
-	}
-
-	protected static class ObjectDef {
-
-		public List<AttributeDef> attributeDefs = new ArrayList<>();
-		public String category;
-		public String description;
-		public String interfaceName;
-		public String pid;
-		public String title;
-
-	}
-
 	protected static ObjectDef constructObjectDef(
-			String configurationFilePath, String rootDir) {
+		String configurationFilePath, String rootDir) {
 
-		ObjectDef objectDef = new ObjectDef();
 
-		AttributeDef attributeDef = new AttributeDef();
 
 		List<String> lines;
 
 		try {
-			lines = Files.readAllLines(Paths.get(rootDir, configurationFilePath));
+			lines = Files.readAllLines(
+				Paths.get(rootDir, configurationFilePath));
 		}
-		catch (IOException e) {
+		catch (IOException ioException) {
 			_log.error(
 				String.format(
 					"Could not read configuration file %s%n",
-					configurationFilePath));
+					configurationFilePath), ioException);
 
 			return null;
 		}
+
+		ObjectDef objectDef = new ObjectDef();
+
+		AttributeDef attributeDef = new AttributeDef();
 
 		for (String line : lines) {
 			if (objectDef.interfaceName == null) {
@@ -483,25 +280,11 @@ public class ConfigurationEnvBuilder {
 		return objectDef;
 	}
 
-	protected static List<ObjectDef> getObjectDefs(String[] configurationFilePaths, String rootDir) {
-		List<ObjectDef> objectDefs = new ArrayList<>();
-
-		for (String configurationFilePath : configurationFilePaths) {
-			ObjectDef objectDef = constructObjectDef(
-				configurationFilePath, rootDir);
-
-			if (objectDef != null) {
-				objectDefs.add(objectDef);
-			}
-		}
-
-		return objectDefs;
-	}
-
 	protected static String generateJSONString(
-			String[] configurationFilePaths, String rootDir) {
+		String[] configurationFilePaths, String rootDir) {
 
-		List<ObjectDef> objectDefs = getObjectDefs(configurationFilePaths, rootDir);
+		List<ObjectDef> objectDefs = getObjectDefs(
+			configurationFilePaths, rootDir);
 
 		JSONObject schemaJSONObject = jsonObject(
 			jsonObject -> jsonObject.put(
@@ -620,12 +403,232 @@ public class ConfigurationEnvBuilder {
 		return schemaJSONObject.toString();
 	}
 
+	protected static List<ObjectDef> getObjectDefs(
+		String[] configurationFilePaths, String rootDir) {
+
+		List<ObjectDef> objectDefs = new ArrayList<>();
+
+		for (String configurationFilePath : configurationFilePaths) {
+			ObjectDef objectDef = constructObjectDef(
+				configurationFilePath, rootDir);
+
+			if (objectDef != null) {
+				objectDefs.add(objectDef);
+			}
+		}
+
+		return objectDefs;
+	}
+
+	protected static JSONArray jsonArray(Object... items) {
+		return JSONFactoryUtil.createJSONArray(items);
+	}
+
+	protected static JSONObject jsonObject(Consumer<JSONObject> consumer) {
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+
+		consumer.accept(jsonObject);
+
+		return jsonObject;
+	}
+
+	protected static JSONObject jsonObject(String key, Object value) {
+		return jsonObject(jsonObject -> jsonObject.put(key, value));
+	}
+
+	protected static JSONObject jsonObject(
+		String key, UnsafeSupplier<Object, Exception> valueUnsafeSupplier) {
+
+		return jsonObject(
+			jsonObject -> jsonObject.put(key, valueUnsafeSupplier));
+	}
+
+	protected static void setFieldValue(
+		Field field, Object object, Object value) {
+
+		try {
+			field.set(object, value);
+		}
+		catch (IllegalAccessException illegalAccessException) {
+			throw new RuntimeException(illegalAccessException);
+		}
+	}
+
+	protected static boolean toBoolean(Object object) {
+		if (Objects.equals(
+				String.valueOf(object), String.valueOf(Boolean.TRUE))) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	protected static Number toNumber(Object object) {
+		String s = String.valueOf(object);
+
+		if (Validator.isBlank(s)) {
+			return 0;
+		}
+
+		if (s.contains(".")) {
+			return GetterUtil.getFloat(s);
+		}
+
+		return GetterUtil.getInteger(s);
+	}
+
+	protected static void withMatcher(
+		String s, Object object, Pattern pattern) {
+
+		withMatcher(s, object, pattern, null);
+	}
+
+	protected static <T> void withMatcher(
+		String s, T target, Pattern pattern, Consumer<T> consumer) {
+
+		Matcher matcher = pattern.matcher(s);
+
+		if (!matcher.find()) {
+			return;
+		}
+
+		Class<?> clazz = target.getClass();
+
+		for (Field field : clazz.getDeclaredFields()) {
+			String value;
+
+			try {
+				value = matcher.group(field.getName());
+			}
+			catch (Exception exception) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(exception);
+				}
+
+				continue;
+			}
+
+			Class<?> typeClass = field.getType();
+
+			if (ArrayUtil.contains(
+					new Class<?>[] {Object[].class, String[].class},
+					typeClass)) {
+
+				setFieldValue(
+					field, target,
+					value.replaceAll(
+						"[ \"]", ""
+					).split(
+						","
+					));
+			}
+			else if (Objects.equals(typeClass, Number.class)) {
+				setFieldValue(field, target, toNumber(value));
+			}
+			else if (Objects.equals(typeClass, boolean.class)) {
+				setFieldValue(field, target, toBoolean(value));
+			}
+			else if (Objects.equals(field.getName(), "type")) {
+				setFieldValue(field, target, schemaDataTypes.get(value));
+			}
+			else {
+				setFieldValue(field, target, value);
+			}
+		}
+
+		if (consumer != null) {
+			consumer.accept(target);
+		}
+	}
+
+	protected static final Pattern attributeDefaultValuePattern =
+		Pattern.compile("\\bdeflt = \"(?<defaultValue>[^\"]*)\"");
+	protected static final Pattern attributeDeprecatedPattern = Pattern.compile(
+		"\\b(?<deprecated>@Deprecated)");
+	protected static final Pattern attributeDescriptionPattern =
+		Pattern.compile("\\bdescription = \"(?<description>[^\"]*)\"");
+	protected static final Pattern attributeMaxPattern = Pattern.compile(
+		"\\bmax = \"(?<max>[^\"]+)\"");
+	protected static final Pattern attributeMinPattern = Pattern.compile(
+		"\\bmin = \"(?<min>[^\"]+)\"");
+	protected static final Pattern attributeOptionLabelsPattern =
+		Pattern.compile("\\boptionLabels = \\{(?<optionLabels>[^{}]*)}");
+	protected static final Pattern attributeOptionValuesPattern =
+		Pattern.compile("\\boptionValues = \\{(?<optionValues>[^{}]*)}");
+	protected static final Pattern attributeRequiredInputPattern =
+		Pattern.compile("\\brequiredInput = (?<requiredInput>true|false)");
+	protected static final Pattern attributeRequiredPattern = Pattern.compile(
+		"\\brequired = (?<required>true|false)");
+	protected static final Pattern attributeTitlePattern = Pattern.compile(
+		"\\bname = \"(?<title>[^\"]*)\"");
+	protected static final Pattern attributeTypeNamePattern = Pattern.compile(
+		"\\s+public(default)? (?<type>\\w+|\\S+) (?<name>\\w+)\\(\\)");
+	protected static final Pattern objectDefCategoryPattern = Pattern.compile(
+		"\\bcategory = \"(?<category>[^\"]*)\"");
+	protected static final Pattern objectDefDescriptionPattern =
+		Pattern.compile("\\bdescription = \"(?<description>[^\"]*)\"");
+	protected static final Pattern objectDefInterfaceNamePattern =
+		Pattern.compile(" @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+) ");
+	protected static final Pattern objectDefPidPattern = Pattern.compile(
+		"\\bid = \"(?<pid>com\\..+)\"");
+	protected static final Pattern objectDefTitlePattern = Pattern.compile(
+		"\\bname = \"(?<title>[^\"]*)\"");
+
+	protected static class AttributeDef {
+
+		public boolean isArray() {
+			return Objects.equals(type, "array");
+		}
+
+		public boolean isBoolean() {
+			return Objects.equals(type, "boolean");
+		}
+
+		public boolean isNumber() {
+			return Objects.equals(type, "number");
+		}
+
+		public boolean isObject() {
+			return Objects.equals(type, "object");
+		}
+
+		public boolean isString() {
+			return Objects.equals(type, "string");
+		}
+
+		public Object defaultValue;
+		public Boolean deprecated;
+		public String description;
+		public Number max;
+		public Number min;
+		public String name;
+		public String[] optionLabels;
+		public Object[] optionValues;
+		public boolean required = true;
+		public boolean requiredInput;
+		public String title;
+		public String type;
+
+	}
+
+	protected static class ObjectDef {
+
+		public List<AttributeDef> attributeDefs = new ArrayList<>();
+		public String category;
+		public String description;
+		public String interfaceName;
+		public String pid;
+		public String title;
+
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		ConfigurationEnvBuilder.class);
 
 	private static final Pattern _pattern = Pattern.compile(
 		"\\s*public .* ([^\\s]+)\\(\\);");
-	private static final Map<String, String> _schemaDataTypes =
+	protected static final Map<String, String> schemaDataTypes =
 		HashMapBuilder.put(
 			"boolean", "boolean"
 		).put(
@@ -641,5 +644,6 @@ public class ConfigurationEnvBuilder {
 		).put(
 			"String[]", "array"
 		).build();
+	protected static final Properties languageProperties = new Properties();
 
 }
