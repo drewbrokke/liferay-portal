@@ -1,29 +1,29 @@
 <?xml version="1.0"?>
 
 <project basedir="." default="compile" name="portal-kernel" xmlns:antelope="antlib:ise.antelope.tasks" xmlns:artifact="antlib:org.apache.maven.artifact.ant" xmlns:if="ant:if">
-        <import file="build.xml" />
+	<import file="build.xml" />
 
-        <target name="compile">
-                <setup-sdk />
+	<target name="compile">
+		<setup-sdk />
 
-                <setup-libs />
+		<setup-libs />
 
-                <gradle-execute dir="modules/core" task="deploy">
-                        <arg value="--parallel" />
-                        <arg value="-Dbuild.profile=portal-pre" />
-                        <arg value="-Pforced.deploy.dir=${project.dir}/tmp/lib-pre" />
-                </gradle-execute>
+		<gradle-execute dir="modules/core" task="deploy">
+			<arg value="--parallel" />
+			<arg value="-Dbuild.profile=portal-pre" />
+			<arg value="-Pforced.deploy.dir=${project.dir}/tmp/lib-pre" />
+		</gradle-execute>
 
-                <ant dir="portal-kernel" inheritAll="false" target="install-portal-snapshot" />
+		<ant dir="portal-kernel" inheritAll="false" target="install-portal-snapshot" />
 
-                <gradle-execute dir="modules/apps" task="deploy">
-                        <arg value="--parallel" />
-                        <arg value="-Dbuild.profile=portal-pre" />
-                        <arg value="-Pforced.deploy.dir=${project.dir}/tmp/lib-pre" />
-                </gradle-execute>
+		<gradle-execute dir="modules/apps" task="deploy">
+			<arg value="--parallel" />
+			<arg value="-Dbuild.profile=portal-pre" />
+			<arg value="-Pforced.deploy.dir=${project.dir}/tmp/lib-pre" />
+		</gradle-execute>
 
-                <ant dir="portal-impl" inheritAll="false" target="compile" />
+		<ant dir="portal-impl" inheritAll="false" target="compile" />
 
-                <print-current-time />
-        </target>
+		<print-current-time />
+	</target>
 </project>
