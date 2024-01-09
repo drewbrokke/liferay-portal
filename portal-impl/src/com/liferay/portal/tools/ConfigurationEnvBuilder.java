@@ -33,7 +33,6 @@ import java.nio.file.Paths;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -221,7 +220,8 @@ public class ConfigurationEnvBuilder {
 				withMatcher(
 					line, objectDef, objectDefScopePattern,
 					(ObjectDef curObjectDef) ->
-						curObjectDef.scope = StringUtil.lowerCase(curObjectDef.scope));
+						curObjectDef.scope = StringUtil.lowerCase(
+							curObjectDef.scope));
 				withMatcher(
 					line, objectDef, objectDefTitlePattern,
 					(ObjectDef curObjectDef) ->
@@ -355,8 +355,8 @@ public class ConfigurationEnvBuilder {
 				if (_log.isInfoEnabled()) {
 					_log.info(
 						String.format(
-							"Scope for %s is %s, SKIPPING %n",
-							objectDef.pid, objectDef.scope));
+							"Scope for %s is %s, SKIPPING %n", objectDef.pid,
+							objectDef.scope));
 				}
 
 				continue;
@@ -505,14 +505,17 @@ public class ConfigurationEnvBuilder {
 				).findFirst(
 				).ifPresent(
 					superObjectDef -> {
-						for (AttributeDef attributeDef : superObjectDef.attributeDefs) {
-							if (!objectDef.attributeDefs.contains(attributeDef)) {
+						for (AttributeDef attributeDef :
+								superObjectDef.attributeDefs) {
+
+							if (!objectDef.attributeDefs.contains(
+									attributeDef)) {
+
 								objectDef.attributeDefs.add(attributeDef);
 
 								Collections.sort(objectDef.attributeDefs);
 							}
 						}
-
 					}
 				);
 			}
@@ -674,9 +677,9 @@ public class ConfigurationEnvBuilder {
 		"\\bcategory = \"(?<category>[^\"]*)\"");
 	protected static final Pattern objectDefDescriptionPattern =
 		Pattern.compile("\\bdescription = \"(?<description>[^\"]*)\"");
-	protected static final Pattern objectDefScopePattern =
-		Pattern.compile(
-			"\\bscope = ExtendedObjectClassDefinition\\.Scope\\.(?<scope>SYSTEM|COMPANY|GROUP|PORTLET_INSTANCE)\\b");
+	protected static final Pattern objectDefScopePattern = Pattern.compile(
+		"\\bscope = ExtendedObjectClassDefinition\\.Scope\\." +
+			"(?<scope>SYSTEM|COMPANY|GROUP|PORTLET_INSTANCE)\\b");
 	protected static final Pattern objectDefInterfaceNamePattern =
 		Pattern.compile(" @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+)\\b");
 	protected static final Pattern objectDefExtendsInterfaceNamePattern =
@@ -708,6 +711,22 @@ public class ConfigurationEnvBuilder {
 		).build();
 
 	protected static class AttributeDef implements Comparable<AttributeDef> {
+
+		@Override
+		public int compareTo(AttributeDef attributeDef) {
+			return name.compareTo(attributeDef.name);
+		}
+
+		@Override
+		public boolean equals(Object object) {
+			if (!Objects.equals(AttributeDef.class, object.getClass())) {
+				return false;
+			}
+
+			AttributeDef attributeDef = (AttributeDef)object;
+
+			return Objects.equals(name, attributeDef.name);
+		}
 
 		public boolean isArray() {
 			return Objects.equals(type, "array");
@@ -743,24 +762,24 @@ public class ConfigurationEnvBuilder {
 		public String title;
 		public String type;
 
-		@Override
-		public boolean equals(Object obj) {
-			if (!Objects.equals(AttributeDef.class, obj.getClass())) {
-				return false;
-			}
-
-			AttributeDef attributeDef = (AttributeDef)obj;
-
-			return Objects.equals(name, attributeDef.name);
-		}
-
-		@Override
-		public int compareTo(AttributeDef attributeDef) {
-			return name.compareTo(attributeDef.name);
-		}
 	}
 
 	protected static class ObjectDef implements Comparable<ObjectDef> {
+
+		@Override
+		public int compareTo(ObjectDef objectDef) {
+			return pid.compareTo(objectDef.pid);
+		}
+
+		public boolean extendsObjectDef(ObjectDef superObjectDef) {
+			if (Objects.equals(
+					extendsInterfaceName, superObjectDef.interfaceName)) {
+
+				return true;
+			}
+
+			return false;
+		}
 
 		public List<AttributeDef> attributeDefs = new ArrayList<>();
 		public String category;
@@ -772,20 +791,6 @@ public class ConfigurationEnvBuilder {
 		public String scope = "system";
 		public String title;
 
-		public boolean extendsObjectDef(ObjectDef superObjectDef) {
-			if (Objects.equals(
-				extendsInterfaceName, superObjectDef.interfaceName)) {
-
-				return true;
-			}
-
-			return false;
-		}
-
-		@Override
-		public int compareTo(ObjectDef objectDef) {
-			return pid.compareTo(objectDef.pid);
-		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
