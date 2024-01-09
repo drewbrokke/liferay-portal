@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -84,8 +85,7 @@ public class ConfigurationEnvBuilder {
 
 		content = content.substring(0, index);
 
-		content = content.concat(
-			buildContent(configurationJavaFileNames, realPath));
+		content = content.concat(buildContent(objectDefs));
 
 		Files.write(path, content.getBytes());
 
@@ -211,6 +211,7 @@ public class ConfigurationEnvBuilder {
 						curObjectDef.description =
 							languageProperties.getProperty(
 								curObjectDef.description));
+				withMatcher(line, objectDef, objectDefMetaAnnotationPattern, (ObjectDef curObjectDef) -> curObjectDef.hasMetaAnnotation = true);
 				withMatcher(line, objectDef, objectDefPidPattern);
 				withMatcher(
 					line, objectDef, objectDefTitlePattern,
@@ -223,8 +224,16 @@ public class ConfigurationEnvBuilder {
 				continue;
 			}
 
-			if (objectDef.pid == null) {
-				return null;
+			if (!StringUtil.startsWith(objectDef.pid, "com.liferay")) {
+				String fullyQualifiedName = configurationFilePath.substring(
+					configurationFilePath.indexOf(
+						StringBundler.concat("com", File.separator, "liferay")),
+					configurationFilePath.indexOf(".java"));
+
+				fullyQualifiedName = StringUtil.replace(
+					fullyQualifiedName, File.separator, StringPool.PERIOD);
+
+				objectDef.pid = fullyQualifiedName;
 			}
 
 			withMatcher(line, attributeDef, attributeDefaultValuePattern);
@@ -239,6 +248,7 @@ public class ConfigurationEnvBuilder {
 						languageProperties.getProperty(
 							curAttributeDef.description));
 			withMatcher(line, attributeDef, attributeMaxPattern);
+			withMatcher(line, attributeDef, attributeDefMetaAnnotationPattern, (AttributeDef curAttributeDef) -> curAttributeDef.hasMetaAnnotation = true);
 			withMatcher(line, attributeDef, attributeMinPattern);
 			withMatcher(line, attributeDef, attributeOptionLabelsPattern);
 			withMatcher(line, attributeDef, attributeOptionValuesPattern);
@@ -304,9 +314,15 @@ public class ConfigurationEnvBuilder {
 				attributeDef.optionValues = optionValues;
 			}
 
-			objectDef.attributeDefs.add(attributeDef);
+			if (objectDef.hasMetaAnnotation || attributeDef.hasMetaAnnotation) {
+				objectDef.attributeDefs.add(attributeDef);
+			}
 
 			attributeDef = new AttributeDef();
+		}
+
+		if (ListUtil.isEmpty(objectDef.attributeDefs)) {
+			return null;
 		}
 
 		return objectDef;
@@ -597,11 +613,16 @@ public class ConfigurationEnvBuilder {
 	protected static final Pattern objectDefDescriptionPattern =
 		Pattern.compile("\\bdescription = \"(?<description>[^\"]*)\"");
 	protected static final Pattern objectDefInterfaceNamePattern =
-		Pattern.compile(" @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+) ");
+		Pattern.compile(" @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+)\\b");
 	protected static final Pattern objectDefPidPattern = Pattern.compile(
-		"\\bid = \"(?<pid>com\\..+)\"");
+		"\\bid = \"?(?<pid>[\\w.]+)\"?");
 	protected static final Pattern objectDefTitlePattern = Pattern.compile(
 		"\\bname = \"(?<title>[^\"]*)\"");
+
+	protected static final Pattern objectDefMetaAnnotationPattern = Pattern.compile(
+		"@Meta.OCD\\b");
+	protected static final Pattern attributeDefMetaAnnotationPattern = Pattern.compile(
+		"@Meta.AD\\b");
 	protected static final Map<String, String> schemaDataTypes =
 		HashMapBuilder.put(
 			"boolean", "boolean"
@@ -644,6 +665,7 @@ public class ConfigurationEnvBuilder {
 		public Object defaultValue;
 		public Boolean deprecated;
 		public String description;
+		public boolean hasMetaAnnotation;
 		public Number max;
 		public Number min;
 		public String name;
@@ -661,6 +683,7 @@ public class ConfigurationEnvBuilder {
 		public List<AttributeDef> attributeDefs = new ArrayList<>();
 		public String category;
 		public String description;
+		public boolean hasMetaAnnotation;
 		public String interfaceName;
 		public String pid;
 		public String title;
