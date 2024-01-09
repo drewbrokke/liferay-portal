@@ -217,6 +217,10 @@ public class ConfigurationEnvBuilder {
 						curObjectDef.hasMetaAnnotation = true);
 				withMatcher(line, objectDef, objectDefPidPattern);
 				withMatcher(
+					line, objectDef, objectDefScopePattern,
+					(ObjectDef curObjectDef) ->
+						curObjectDef.scope = StringUtil.lowerCase(curObjectDef.scope));
+				withMatcher(
 					line, objectDef, objectDefTitlePattern,
 					(ObjectDef curObjectDef) ->
 						curObjectDef.title = languageProperties.getProperty(
@@ -343,6 +347,17 @@ public class ConfigurationEnvBuilder {
 			));
 
 		for (ObjectDef objectDef : objectDefs) {
+			if (!Objects.equals(objectDef.scope, "company")) {
+				if (_log.isInfoEnabled()) {
+					_log.info(
+						String.format(
+							"Scope for %s is %s, SKIPPING %n",
+							objectDef.pid, objectDef.scope));
+				}
+
+				continue;
+			}
+
 			JSONObject typeSchemaJSONObject = jsonObject(
 				"description", () -> objectDef.description
 			).put(
@@ -618,6 +633,9 @@ public class ConfigurationEnvBuilder {
 		"\\bcategory = \"(?<category>[^\"]*)\"");
 	protected static final Pattern objectDefDescriptionPattern =
 		Pattern.compile("\\bdescription = \"(?<description>[^\"]*)\"");
+	protected static final Pattern objectDefScopePattern =
+		Pattern.compile(
+			"\\bscope = ExtendedObjectClassDefinition\\.Scope\\.(?<scope>SYSTEM|COMPANY|GROUP|PORTLET_INSTANCE)\\b");
 	protected static final Pattern objectDefInterfaceNamePattern =
 		Pattern.compile(" @?interface (?<interfaceName>[A-Z][A-Za-z\\d]+)\\b");
 	protected static final Pattern objectDefPidPattern = Pattern.compile(
@@ -691,6 +709,7 @@ public class ConfigurationEnvBuilder {
 		public boolean hasMetaAnnotation;
 		public String interfaceName;
 		public String pid;
+		public String scope = "system";
 		public String title;
 
 	}
