@@ -54,12 +54,6 @@ public class ConfigurationEnvBuilder {
 
 		Path rootPath = Paths.get(arguments.getOrDefault("root.dir", "."));
 
-		List<Path> configurationPaths = new ArrayList<>();
-
-		for (String configurationJavaFileName : configurationJavaFileNames) {
-			configurationPaths.add(rootPath.resolve(configurationJavaFileName));
-		}
-
 		Path realPath = rootPath.toRealPath();
 
 		new JSONFactoryUtil(
