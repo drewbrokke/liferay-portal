@@ -211,7 +211,10 @@ public class ConfigurationEnvBuilder {
 						curObjectDef.description =
 							languageProperties.getProperty(
 								curObjectDef.description));
-				withMatcher(line, objectDef, objectDefMetaAnnotationPattern, (ObjectDef curObjectDef) -> curObjectDef.hasMetaAnnotation = true);
+				withMatcher(
+					line, objectDef, objectDefMetaAnnotationPattern,
+					(ObjectDef curObjectDef) ->
+						curObjectDef.hasMetaAnnotation = true);
 				withMatcher(line, objectDef, objectDefPidPattern);
 				withMatcher(
 					line, objectDef, objectDefTitlePattern,
@@ -248,7 +251,10 @@ public class ConfigurationEnvBuilder {
 						languageProperties.getProperty(
 							curAttributeDef.description));
 			withMatcher(line, attributeDef, attributeMaxPattern);
-			withMatcher(line, attributeDef, attributeDefMetaAnnotationPattern, (AttributeDef curAttributeDef) -> curAttributeDef.hasMetaAnnotation = true);
+			withMatcher(
+				line, attributeDef, attributeDefMetaAnnotationPattern,
+				(AttributeDef curAttributeDef) ->
+					curAttributeDef.hasMetaAnnotation = true);
 			withMatcher(line, attributeDef, attributeMinPattern);
 			withMatcher(line, attributeDef, attributeOptionLabelsPattern);
 			withMatcher(line, attributeDef, attributeOptionValuesPattern);
@@ -618,11 +624,10 @@ public class ConfigurationEnvBuilder {
 		"\\bid = \"?(?<pid>[\\w.]+)\"?");
 	protected static final Pattern objectDefTitlePattern = Pattern.compile(
 		"\\bname = \"(?<title>[^\"]*)\"");
-
-	protected static final Pattern objectDefMetaAnnotationPattern = Pattern.compile(
-		"@Meta.OCD\\b");
-	protected static final Pattern attributeDefMetaAnnotationPattern = Pattern.compile(
-		"@Meta.AD\\b");
+	protected static final Pattern objectDefMetaAnnotationPattern =
+		Pattern.compile("@Meta.OCD\\b");
+	protected static final Pattern attributeDefMetaAnnotationPattern =
+		Pattern.compile("@Meta.AD\\b");
 	protected static final Map<String, String> schemaDataTypes =
 		HashMapBuilder.put(
 			"boolean", "boolean"
