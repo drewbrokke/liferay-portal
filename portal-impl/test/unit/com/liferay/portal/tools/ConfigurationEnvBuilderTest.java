@@ -35,7 +35,7 @@ import org.junit.Test;
 /**
  * @author Matthew Tambara
  */
-public class ConfigurationEnvBuilderTest {
+public class ConfigurationEnvBuilderTest extends ConfigurationEnvBuilder {
 
 	@ClassRule
 	@Rule
@@ -73,8 +73,10 @@ public class ConfigurationEnvBuilderTest {
 			});
 
 		List<String> expectedList = StringUtil.split(
-			ConfigurationEnvBuilder.buildContent(
-				configurationJavaFileNames.toArray(new String[0])),
+			buildContent(
+				getObjectDefs(
+					Paths.get("."),
+					configurationJavaFileNames.toArray(new String[0]))),
 			CharPool.NEW_LINE);
 
 		List<String> actualList = _readPortalOSGiConfigurationProperties();
