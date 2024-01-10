@@ -10,7 +10,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -49,44 +49,49 @@ public class ConfigurationEnvBuilder {
 	public static void main(String[] args) throws IOException {
 		Map<String, String> arguments = ArgumentsUtil.parseArguments(args);
 
-		String[] configurationJavaFileNames = StringUtil.split(
-			arguments.get("configuration.java.files"), '\n');
-
-		Path rootPath = Paths.get(arguments.getOrDefault("root.dir", "."));
-
-		Path realPath = rootPath.toRealPath();
-
-		new JSONFactoryUtil(
-		).setJSONFactory(
-			new JSONFactoryImpl()
-		);
-
 		Path languagePropertiesPath = Paths.get(
-			realPath.toString(),
-			"modules/apps/portal-language/portal-language-lang/src/main" +
-				"/resources/content/Language.properties");
+			arguments.get("language.properties.file"));
 
-		languageProperties.load(
-			new FileReader(languagePropertiesPath.toFile()));
+		File languagePropertiesFile = languagePropertiesPath.toFile();
+
+		if (languagePropertiesFile.exists()) {
+			languageProperties.load(new FileReader(languagePropertiesFile));
+		}
+
+		Path basePath = Paths.get(".");
 
 		List<ObjectDef> objectDefs = getObjectDefs(
-			configurationJavaFileNames, realPath.toString());
+			basePath.toRealPath(),
+			StringUtil.split(arguments.get("configuration.java.files"), '\n'));
 
-		Path path = Paths.get(arguments.get("properties.output.file"));
+		Path propertiesOutputPath = Paths.get(
+			arguments.get("properties.output.file"));
 
-		String content = new String(Files.readAllBytes(path));
+		File propertiesOutputFile = propertiesOutputPath.toFile();
 
-		int index = content.indexOf("##\n## OSGi Configuration Overrides");
+		if (propertiesOutputFile.exists()) {
+			String content = new String(
+				Files.readAllBytes(propertiesOutputPath));
 
-		content = content.substring(0, index);
+			int index = content.indexOf("##\n## OSGi Configuration Overrides");
 
-		content = content.concat(buildContent(objectDefs));
+			content = content.substring(0, index);
 
-		Files.write(path, content.getBytes());
+			content = content.concat(buildContent(objectDefs));
 
-		String jsonString = generateJSONString(objectDefs);
+			Files.write(propertiesOutputPath, content.getBytes());
+		}
 
-		Files.write(Paths.get(arguments.get("json.schema.output.file")), jsonString.getBytes());
+		Path jsonSchemaOutputPath = Paths.get(
+			arguments.get("json.schema.output.file"));
+
+		File jsonSchemaOutputFile = jsonSchemaOutputPath.toFile();
+
+		if (jsonSchemaOutputFile.exists()) {
+			String jsonString = generateJSONString(objectDefs);
+
+			Files.write(jsonSchemaOutputPath, jsonString.getBytes());
+		}
 	}
 
 	protected static String buildContent(List<ObjectDef> objectDefs) {
@@ -118,70 +123,20 @@ public class ConfigurationEnvBuilder {
 		return sb.toString();
 	}
 
-	protected static String buildContent(
-			String[] configurationJavaFileNames, Path rootPath)
-		throws IOException {
-
-		StringBundler sb = new StringBundler();
-
-		sb.append("##\n## OSGi Configuration Overrides\n##\n");
-
-		Matcher matcher = _pattern.matcher("");
-
-		for (String configurationJavaFileName : configurationJavaFileNames) {
-			if (configurationJavaFileName.contains(
-					"/build/compile-include-sources/")) {
-
-				continue;
-			}
-
-			String fullyQualifiedName = configurationJavaFileName.substring(
-				configurationJavaFileName.indexOf(
-					StringBundler.concat("com", File.separator, "liferay")),
-				configurationJavaFileName.indexOf(".java"));
-
-			fullyQualifiedName = StringUtil.replace(
-				fullyQualifiedName, File.separator, StringPool.PERIOD);
-
-			Path path = rootPath.resolve(Paths.get(configurationJavaFileName));
-
-			for (String line : Files.readAllLines(path)) {
-				if (line.contains("public class")) {
-					break;
-				}
-
-				matcher.reset(line);
-
-				if (matcher.matches()) {
-					String configurationKey = StringBundler.concat(
-						"configuration.override.", fullyQualifiedName,
-						StringPool.UNDERLINE, matcher.group(1));
-
-					sb.append("\n");
-					sb.append("    #\n");
-					sb.append("    # Env: ");
-					sb.append(
-						ToolsUtil.encodeEnvironmentProperty(configurationKey));
-					sb.append("\n");
-					sb.append("    #\n");
-					sb.append("    #");
-					sb.append(configurationKey);
-					sb.append(StringPool.EQUAL);
-				}
-			}
-		}
-
-		return sb.toString();
+	protected static String lang(String key) {
+		return languageProperties.getProperty(key, key);
 	}
 
-	protected static ObjectDef constructObjectDef(
-		String configurationFilePath, String rootDir) {
+	protected static ObjectDef createObjectDef(
+		Path basePath, String configurationFilePath) {
 
 		List<String> lines;
 
 		try {
+			String realString = basePath.toString();
+
 			lines = Files.readAllLines(
-				Paths.get(rootDir, configurationFilePath));
+				Paths.get(realString, configurationFilePath));
 		}
 		catch (IOException ioException) {
 			_log.error(
@@ -203,9 +158,8 @@ public class ConfigurationEnvBuilder {
 				withMatcher(
 					line, objectDef, objectDefDescriptionPattern,
 					(ObjectDef curObjectDef) ->
-						curObjectDef.description =
-							languageProperties.getProperty(
-								curObjectDef.description));
+						curObjectDef.description = lang(
+							curObjectDef.description));
 				withMatcher(
 					line, objectDef, objectDefMetaAnnotationPattern,
 					(ObjectDef curObjectDef) ->
@@ -219,8 +173,7 @@ public class ConfigurationEnvBuilder {
 				withMatcher(
 					line, objectDef, objectDefTitlePattern,
 					(ObjectDef curObjectDef) ->
-						curObjectDef.title = languageProperties.getProperty(
-							curObjectDef.title));
+						curObjectDef.title = lang(curObjectDef.title));
 
 				withMatcher(line, objectDef, objectDefInterfaceNamePattern);
 
@@ -249,9 +202,8 @@ public class ConfigurationEnvBuilder {
 			withMatcher(
 				line, attributeDef, attributeDescriptionPattern,
 				(AttributeDef curAttributeDef) ->
-					curAttributeDef.description =
-						languageProperties.getProperty(
-							curAttributeDef.description));
+					curAttributeDef.description = lang(
+						curAttributeDef.description));
 			withMatcher(line, attributeDef, attributeMaxPattern);
 			withMatcher(
 				line, attributeDef, attributeDefMetaAnnotationPattern,
@@ -265,8 +217,7 @@ public class ConfigurationEnvBuilder {
 			withMatcher(
 				line, attributeDef, attributeTitlePattern,
 				(AttributeDef curAttributeDef) ->
-					curAttributeDef.title = languageProperties.getProperty(
-						curAttributeDef.title));
+					curAttributeDef.title = lang(curAttributeDef.title));
 
 			withMatcher(line, attributeDef, attributeTypeNamePattern);
 
@@ -395,7 +346,7 @@ public class ConfigurationEnvBuilder {
 
 				if (attributeDef.isObject()) {
 					propertySchemaJSONObject.put(
-						"properties", JSONFactoryUtil.createJSONObject());
+						"properties", _jsonFactory.createJSONObject());
 				}
 
 				if (attributeDef.isNumber()) {
@@ -466,13 +417,16 @@ public class ConfigurationEnvBuilder {
 	}
 
 	protected static List<ObjectDef> getObjectDefs(
-		String[] configurationFilePaths, String rootDir) {
+			Path basePath, String[] configurationFilePaths)
+		throws IOException {
 
 		List<ObjectDef> objectDefs = new ArrayList<>();
 
+		Path realPath = basePath.toRealPath();
+
 		for (String configurationFilePath : configurationFilePaths) {
-			ObjectDef objectDef = constructObjectDef(
-				configurationFilePath, rootDir);
+			ObjectDef objectDef = createObjectDef(
+				realPath, configurationFilePath);
 
 			if (objectDef != null) {
 				objectDefs.add(objectDef);
@@ -496,21 +450,15 @@ public class ConfigurationEnvBuilder {
 				objectDefs.stream(
 				).filter(
 					objectDef::extendsObjectDef
-				).findFirst(
-				).ifPresent(
-					superObjectDef -> {
-						for (AttributeDef attributeDef :
-								superObjectDef.attributeDefs) {
-
-							if (!objectDef.attributeDefs.contains(
-									attributeDef)) {
-
-								objectDef.attributeDefs.add(attributeDef);
-
-								Collections.sort(objectDef.attributeDefs);
-							}
-						}
-					}
+				).limit(
+					1
+				).flatMap(
+					objectDef1 -> objectDef1.attributeDefs.stream()
+				).filter(
+					attributeDef -> !objectDef.attributeDefs.contains(
+						attributeDef)
+				).forEach(
+					objectDef.attributeDefs::add
 				);
 			}
 
@@ -523,11 +471,11 @@ public class ConfigurationEnvBuilder {
 	}
 
 	protected static JSONArray jsonArray(Object... items) {
-		return JSONFactoryUtil.createJSONArray(items);
+		return _jsonFactory.createJSONArray(items);
 	}
 
 	protected static JSONObject jsonObject(Consumer<JSONObject> consumer) {
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+		JSONObject jsonObject = _jsonFactory.createJSONObject();
 
 		consumer.accept(jsonObject);
 
@@ -790,7 +738,6 @@ public class ConfigurationEnvBuilder {
 	private static final Log _log = LogFactoryUtil.getLog(
 		ConfigurationEnvBuilder.class);
 
-	private static final Pattern _pattern = Pattern.compile(
-		"\\s*public .* ([^\\s]+)\\(\\);");
+	private static final JSONFactory _jsonFactory = new JSONFactoryImpl();
 
 }
