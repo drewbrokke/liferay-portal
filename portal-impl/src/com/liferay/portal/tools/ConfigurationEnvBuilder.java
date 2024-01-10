@@ -462,6 +462,8 @@ public class ConfigurationEnvBuilder {
 				);
 			}
 
+			Collections.sort(objectDef.attributeDefs);
+
 			newObjectDefs.add(objectDef);
 		}
 
