@@ -1353,7 +1353,7 @@ print AdminControl.invoke(appManager, 'startApplication', 'liferay-portal')
 
 	<target name="update-portal-osgi-configuration-properties">
 		<exec dir="${project.dir}" executable="git" outputproperty="configuration.java.files">
-			<arg line="ls-files --full-name -- '**/apps/**/configuration/*Configuration.java' ':!:**/*-test/**'" />
+			<arg line="ls-files --full-name -- ':(glob)**/apps/**/configuration/**/*Configuration.java' ':!:**/*-test/**'" />
 		</exec>
 
 		<exec dir="${project.dir}" executable="git" outputproperty="language.properties.file">
