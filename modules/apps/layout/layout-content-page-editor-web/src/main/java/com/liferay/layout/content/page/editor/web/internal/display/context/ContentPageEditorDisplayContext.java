@@ -389,7 +389,10 @@ public class ContentPageEditorDisplayContext {
 
 					FrontendTokenDefinition frontendTokenDefinition =
 						_frontendTokenDefinitionRegistry.
-							getFrontendTokenDefinition(layoutSet.getThemeId());
+							getFrontendTokenDefinition(
+								layoutSet.getCompanyId(),
+								_frontendTokenDefinitionRegistry.getThemeCSSCETExternalReferenceCode(layoutSet),
+								layoutSet.getThemeId());
 
 					if (frontendTokenDefinition == null) {
 						return _jsonFactory.createJSONObject();

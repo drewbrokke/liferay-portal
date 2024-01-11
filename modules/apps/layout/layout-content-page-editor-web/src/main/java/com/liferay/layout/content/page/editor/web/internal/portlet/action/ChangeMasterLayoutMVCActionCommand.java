@@ -170,6 +170,8 @@ public class ChangeMasterLayoutMVCActionCommand
 			"tokenValues",
 			StyleBookEntryUtil.getFrontendTokensValues(
 				_frontendTokenDefinitionRegistry.getFrontendTokenDefinition(
+					layoutSet.getCompanyId(),
+					_frontendTokenDefinitionRegistry.getThemeCSSCETExternalReferenceCode(layoutSet),
 					layoutSet.getThemeId()),
 				themeDisplay.getLocale(), styleBookEntry)
 		);

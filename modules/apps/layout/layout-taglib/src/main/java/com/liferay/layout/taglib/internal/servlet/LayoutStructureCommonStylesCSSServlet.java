@@ -282,6 +282,8 @@ public class LayoutStructureCommonStylesCSSServlet extends HttpServlet {
 
 		FrontendTokenDefinition frontendTokenDefinition =
 			frontendTokenDefinitionRegistry.getFrontendTokenDefinition(
+				layoutSet.getCompanyId(),
+				frontendTokenDefinitionRegistry.getThemeCSSCETExternalReferenceCode(layoutSet),
 				layoutSet.getThemeId());
 
 		if (frontendTokenDefinition == null) {

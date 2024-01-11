@@ -5,6 +5,9 @@
 
 package com.liferay.frontend.token.definition.internal;
 
+import com.liferay.client.extension.constants.ClientExtensionEntryConstants;
+import com.liferay.client.extension.model.ClientExtensionEntryRel;
+import com.liferay.client.extension.service.ClientExtensionEntryRelLocalServiceUtil;
 import com.liferay.frontend.token.definition.FrontendTokenDefinition;
 import com.liferay.frontend.token.definition.FrontendTokenDefinitionRegistry;
 import com.liferay.petra.concurrent.DCLSingleton;
@@ -13,10 +16,12 @@ import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.resource.bundle.ResourceBundleLoader;
 import com.liferay.portal.kernel.resource.bundle.ResourceBundleLoaderUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.URLUtil;
 
 import java.io.IOException;
@@ -29,6 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.liferay.frontend.token.definition.register.CETFrontendTokenDefinitionRegistry;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
@@ -47,7 +53,24 @@ public class FrontendTokenDefinitionRegistryImpl
 	implements FrontendTokenDefinitionRegistry {
 
 	@Override
-	public FrontendTokenDefinition getFrontendTokenDefinition(String themeId) {
+	public FrontendTokenDefinition getFrontendTokenDefinition(
+		long companyId, String externalReferenceCode, String themeId) {
+
+		if (externalReferenceCode != null) {
+			long startTime = System.currentTimeMillis();
+
+			FrontendTokenDefinition tokenDefinition =
+				_cetFrontendTokenDefinitionRegistry.getTokenDefinition(
+					companyId,
+					externalReferenceCode);
+
+			if (tokenDefinition != null) {
+				System.out.println("CET CSS theme FTD loading time: " +
+								   (System.currentTimeMillis() - startTime));
+				return tokenDefinition;
+			}
+		}
+
 		Map<String, FrontendTokenDefinitionImpl>
 			themeIdFrontendTokenDefinitionImpls =
 				_themeIdFrontendTokenDefinitionImplsDCLSingleton.getSingleton(
@@ -58,6 +81,20 @@ public class FrontendTokenDefinitionRegistryImpl
 					});
 
 		return themeIdFrontendTokenDefinitionImpls.get(themeId);
+	}
+
+	@Override
+	public String getThemeCSSCETExternalReferenceCode(LayoutSet layoutSet) {
+		ClientExtensionEntryRel clientExtensionEntryRel =
+			ClientExtensionEntryRelLocalServiceUtil.fetchClientExtensionEntryRel(
+				PortalUtil.getClassNameId(LayoutSet.class), layoutSet.getLayoutSetId(),
+				ClientExtensionEntryConstants.TYPE_THEME_CSS);
+
+		if (clientExtensionEntryRel != null) {
+			return clientExtensionEntryRel.getCETExternalReferenceCode();
+		}
+
+		return null;
 	}
 
 	@Activate
@@ -166,6 +203,10 @@ public class FrontendTokenDefinitionRegistryImpl
 
 	@Reference
 	protected Portal portal;
+
+	@Reference
+	private CETFrontendTokenDefinitionRegistry
+		_cetFrontendTokenDefinitionRegistry;
 
 	private String _getFrontendTokenDefinitionJSON(Bundle bundle) {
 		URL url = bundle.getEntry("WEB-INF/frontend-token-definition.json");

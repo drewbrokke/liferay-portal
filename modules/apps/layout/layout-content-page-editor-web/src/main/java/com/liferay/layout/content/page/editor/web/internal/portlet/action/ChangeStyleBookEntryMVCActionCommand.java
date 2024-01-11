@@ -87,6 +87,8 @@ public class ChangeStyleBookEntryMVCActionCommand
 
 		FrontendTokenDefinition frontendTokenDefinition =
 			_frontendTokenDefinitionRegistry.getFrontendTokenDefinition(
+				layoutSet.getCompanyId(),
+				_frontendTokenDefinitionRegistry.getThemeCSSCETExternalReferenceCode(layoutSet),
 				layoutSet.getThemeId());
 
 		StyleBookEntry styleBookEntry = null;
