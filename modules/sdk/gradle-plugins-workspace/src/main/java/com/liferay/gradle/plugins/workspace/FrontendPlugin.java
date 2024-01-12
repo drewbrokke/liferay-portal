@@ -6,7 +6,6 @@
 package com.liferay.gradle.plugins.workspace;
 
 import com.liferay.gradle.plugins.LiferayBasePlugin;
-import com.liferay.gradle.plugins.node.NodeExtension;
 import com.liferay.gradle.plugins.node.NodePlugin;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.util.Validator;
@@ -20,7 +19,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.Map;
 
-import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -34,8 +32,6 @@ import org.gradle.api.tasks.Copy;
 import org.gradle.api.tasks.Delete;
 import org.gradle.language.base.plugins.LifecycleBasePlugin;
 
-import org.osgi.framework.Version;
-
 /**
  * @author Gregory Amerson
  */
@@ -45,7 +41,10 @@ public class FrontendPlugin implements Plugin<Project> {
 	public void apply(Project project) {
 		GradleUtil.applyPlugin(project, BasePlugin.class);
 		GradleUtil.applyPlugin(project, LiferayBasePlugin.class);
-		GradleUtil.applyPlugin(project, NodePlugin.class);
+
+		LiferayWorkspaceNodeUtil.applyNodePlugin(project);
+
+		LiferayWorkspaceNodeUtil.configureMinimumVersions(project);
 
 		Map<String, Object> packageJsonMap = _getPackageJsonMap(project);
 
@@ -54,7 +53,6 @@ public class FrontendPlugin implements Plugin<Project> {
 
 		_configureArtifacts(project);
 		_configureConfigurationDefault(project);
-		_configureNodeAndNpmVersion(project);
 		_configureTaskClean(project);
 		_configureTaskDeploy(project);
 	}
@@ -114,42 +112,6 @@ public class FrontendPlugin implements Plugin<Project> {
 		defaultConfiguration.extendsFrom(archivesConfiguration);
 	}
 
-	private void _configureNodeAndNpmVersion(Project project) {
-		NodeExtension nodeExtension = GradleUtil.getExtension(
-			project, NodeExtension.class);
-
-		String nodeVersion = nodeExtension.getNodeVersion();
-
-		try {
-			Version version = Version.parseVersion(nodeVersion);
-
-			if (version.compareTo(_MINIMUM_NODE_VERSION) < 0) {
-				nodeVersion = _MINIMUM_NODE_VERSION.toString();
-
-				nodeExtension.setNodeVersion(nodeVersion);
-			}
-		}
-		catch (Exception exception) {
-			throw new GradleException(
-				"Unable to parse node version", exception);
-		}
-
-		String npmVersion = nodeExtension.getNpmVersion();
-
-		try {
-			Version version = Version.parseVersion(nodeVersion);
-
-			if (version.compareTo(_MINIMUM_NPM_VERSION) < 0) {
-				npmVersion = _MINIMUM_NPM_VERSION.toString();
-
-				nodeExtension.setNpmVersion(npmVersion);
-			}
-		}
-		catch (Exception exception) {
-			throw new GradleException("Unable to parse npm version", exception);
-		}
-	}
-
 	private void _configureTaskClean(Project project) {
 		Delete delete = (Delete)GradleUtil.getTask(
 			project, BasePlugin.CLEAN_TASK_NAME);
@@ -193,11 +155,5 @@ public class FrontendPlugin implements Plugin<Project> {
 
 		return (Map<String, Object>)jsonSlurper.parse(file);
 	}
-
-	private static final Version _MINIMUM_NODE_VERSION = Version.parseVersion(
-		"10.15.3");
-
-	private static final Version _MINIMUM_NPM_VERSION = Version.parseVersion(
-		"6.4.1");
 
 }

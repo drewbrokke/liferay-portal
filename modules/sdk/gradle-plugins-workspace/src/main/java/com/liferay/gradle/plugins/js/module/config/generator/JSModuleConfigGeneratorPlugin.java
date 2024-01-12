@@ -7,6 +7,7 @@ package com.liferay.gradle.plugins.js.module.config.generator;
 
 import com.liferay.gradle.plugins.node.NodePlugin;
 import com.liferay.gradle.plugins.node.task.DownloadNodeModuleTask;
+import com.liferay.gradle.plugins.workspace.LiferayWorkspaceNodeUtil;
 import com.liferay.gradle.util.GradleUtil;
 
 import java.io.File;
@@ -43,7 +44,7 @@ public class JSModuleConfigGeneratorPlugin implements Plugin<Project> {
 
 	@Override
 	public void apply(Project project) {
-		GradleUtil.applyPlugin(project, NodePlugin.class);
+		LiferayWorkspaceNodeUtil.applyNodePlugin(project);
 
 		final Task npmInstallTask = GradleUtil.getTask(
 			project, NodePlugin.NPM_INSTALL_TASK_NAME);
