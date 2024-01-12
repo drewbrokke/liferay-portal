@@ -31,13 +31,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.gradle.api.GradleException;
+import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 
 /**
  * @author Drew Brokke
  */
-public class LiferayWorkspaceNodePlugin extends NodePlugin {
+public class LiferayWorkspaceNodePlugin implements Plugin<Project> {
 
 	public LiferayWorkspaceNodePlugin() {
 		DownloadCommand downloadCommand = new DownloadCommand();
@@ -80,7 +81,7 @@ public class LiferayWorkspaceNodePlugin extends NodePlugin {
 
 	@Override
 	public void apply(Project project) {
-		super.apply(project);
+		GradleUtil.applyPlugin(project, NodePlugin.class);
 
 		NodeExtension nodeExtension = GradleUtil.getExtension(
 			project, NodeExtension.class);
