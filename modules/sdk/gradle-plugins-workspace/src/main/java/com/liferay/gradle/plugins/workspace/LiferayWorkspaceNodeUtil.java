@@ -6,28 +6,34 @@
 package com.liferay.gradle.plugins.workspace;
 
 import aQute.bnd.version.Version;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+
 import com.liferay.gradle.plugins.node.NodeExtension;
 import com.liferay.gradle.plugins.node.NodePlugin;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
 import com.liferay.gradle.util.Validator;
 import com.liferay.portal.tools.bundle.support.commands.DownloadCommand;
-import org.gradle.api.GradleException;
-import org.gradle.api.Project;
-import org.gradle.api.logging.Logger;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.net.URL;
+
 import java.nio.file.Files;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.gradle.api.GradleException;
+import org.gradle.api.Project;
+import org.gradle.api.logging.Logger;
 
 /**
  * @author Drew Brokke
@@ -41,21 +47,21 @@ public class LiferayWorkspaceNodeUtil {
 	}
 
 	public static void configureLTS(Project project) {
-		NodeExtension nodeExtension = GradleUtil.getExtension(
-			project, NodeExtension.class);
-
-		Optional<NodeInfo> ltsNodeInfoOptional = _getLTSNodeInfoOptional(
-			project);
-
-		ltsNodeInfoOptional.ifPresent(
+		_getLTSNodeInfoOptional(
+			project
+		).ifPresent(
 			nodeInfo -> {
-				String lts = nodeInfo.getLts();
+				NodeExtension nodeExtension = GradleUtil.getExtension(
+					project, NodeExtension.class);
+
 				String nodeVersion = nodeInfo.getNodeVersion();
 				String npmVersion = nodeInfo.getNpmVersion();
 
 				Logger logger = project.getLogger();
 
 				if (logger.isInfoEnabled()) {
+					String lts = nodeInfo.getLts();
+
 					logger.info(
 						"Using {} LTS Node version: {}", StringUtil.quote(lts),
 						nodeVersion);
@@ -82,7 +88,8 @@ public class LiferayWorkspaceNodeUtil {
 
 			if (_MINIMUM_NODE_VERSION.compareTo(nodeVersion) > 0) {
 				if (logger.isInfoEnabled()) {
-					logger.info("Using minimum Node version {}", _MINIMUM_NODE_VERSION);
+					logger.info(
+						"Using minimum Node version {}", _MINIMUM_NODE_VERSION);
 				}
 
 				nodeExtension.setNodeVersion(_MINIMUM_NODE_VERSION.toString());
@@ -99,7 +106,8 @@ public class LiferayWorkspaceNodeUtil {
 
 			if (_MINIMUM_NPM_VERSION.compareTo(npmVersion) > 0) {
 				if (logger.isInfoEnabled()) {
-					logger.info("Using minimum NPM version {}", _MINIMUM_NODE_VERSION);
+					logger.info(
+						"Using minimum NPM version {}", _MINIMUM_NODE_VERSION);
 				}
 
 				nodeExtension.setNpmVersion(_MINIMUM_NPM_VERSION.toString());
@@ -160,28 +168,14 @@ public class LiferayWorkspaceNodeUtil {
 		return nodeInfoOptional;
 	}
 
-	private static final String _DEFAULT_NODE_CACHE_DIR_NAME = ".liferay/node";
-
-	private static final String _LTS_PROPERTY_NAME = "node.lts.codename";
-
-	private static final Version _MINIMUM_NODE_VERSION = Version.parseVersion(
-		"10.15.3");
-
-	private static final Version _MINIMUM_NPM_VERSION = Version.parseVersion(
-		"6.4.1");
-
-	private static final String _PRODUCT_NODE_URL =
-		"https://nodejs.org/dist/index.json";
-
-	private static List<NodeInfo> _nodeInfos;
-
 	private static List<NodeInfo> _getNodeInfos() {
 		if (_nodeInfos == null) {
 			DownloadCommand downloadCommand = new DownloadCommand();
 
 			downloadCommand.setCacheDir(
 				new File(
-					System.getProperty("user.home"), _DEFAULT_NODE_CACHE_DIR_NAME));
+					System.getProperty("user.home"),
+					_DEFAULT_NODE_CACHE_DIR_NAME));
 			downloadCommand.setConnectionTimeout(5 * 1000);
 			downloadCommand.setPassword(null);
 			downloadCommand.setQuiet(true);
@@ -199,7 +193,8 @@ public class LiferayWorkspaceNodeUtil {
 			}
 
 			try (JsonReader jsonReader = new JsonReader(
-				Files.newBufferedReader(downloadCommand.getDownloadPath()))) {
+					Files.newBufferedReader(
+						downloadCommand.getDownloadPath()))) {
 
 				Gson gson = new Gson();
 
@@ -217,6 +212,21 @@ public class LiferayWorkspaceNodeUtil {
 
 		return _nodeInfos;
 	}
+
+	private static final String _DEFAULT_NODE_CACHE_DIR_NAME = ".liferay/node";
+
+	private static final String _LTS_PROPERTY_NAME = "node.lts.codename";
+
+	private static final Version _MINIMUM_NODE_VERSION = Version.parseVersion(
+		"10.15.3");
+
+	private static final Version _MINIMUM_NPM_VERSION = Version.parseVersion(
+		"6.4.1");
+
+	private static final String _PRODUCT_NODE_URL =
+		"https://nodejs.org/dist/index.json";
+
+	private static List<NodeInfo> _nodeInfos;
 
 	private static class NodeInfo {
 
