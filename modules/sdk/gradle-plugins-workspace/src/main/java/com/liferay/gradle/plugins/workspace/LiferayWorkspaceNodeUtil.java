@@ -49,27 +49,24 @@ public class LiferayWorkspaceNodeUtil {
 
 		ltsNodeInfoOptional.ifPresent(
 			nodeInfo -> {
+				String lts = nodeInfo.getLts();
+				String nodeVersion = nodeInfo.getNodeVersion();
+				String npmVersion = nodeInfo.getNpmVersion();
+
 				Logger logger = project.getLogger();
 
 				if (logger.isInfoEnabled()) {
 					logger.info(
-						"Using {} LTS versions: Node {}, NPM {}",
-						StringUtil.quote(nodeInfo.getLts()),
-						nodeInfo.getNodeVersion(),
-						nodeInfo.getNpmVersion());
+						"Using {} LTS Node version: {}", StringUtil.quote(lts),
+						nodeVersion);
+					logger.info(
+						"Using {} LTS NPM version: {}", StringUtil.quote(lts),
+						npmVersion);
 				}
-			}
-		);
 
-		ltsNodeInfoOptional.map(
-			NodeInfo::getNodeVersion
-		).ifPresent(
-			nodeExtension::setNodeVersion
-		);
-		ltsNodeInfoOptional.map(
-			NodeInfo::getNpmVersion
-		).ifPresent(
-			nodeExtension::setNpmVersion
+				nodeExtension.setNodeVersion(nodeVersion);
+				nodeExtension.setNpmVersion(npmVersion);
+			}
 		);
 	}
 
