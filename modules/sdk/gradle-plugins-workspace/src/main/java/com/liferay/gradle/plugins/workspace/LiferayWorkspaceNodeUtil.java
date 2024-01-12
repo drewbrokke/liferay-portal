@@ -13,10 +13,10 @@ import com.google.gson.stream.JsonReader;
 import com.liferay.gradle.plugins.node.NodeExtension;
 import com.liferay.gradle.plugins.node.NodePlugin;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
+import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
 import com.liferay.gradle.util.Validator;
 import com.liferay.portal.tools.bundle.support.commands.DownloadCommand;
 import org.gradle.api.GradleException;
-import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 
@@ -34,12 +34,32 @@ import java.util.stream.Collectors;
  */
 public class LiferayWorkspaceNodeUtil {
 
-	public static void ensureLTS(Project project) {
+	public static void applyNodePlugin(Project project) {
+		GradleUtil.applyPlugin(project, NodePlugin.class);
+
+		configureLTS(project);
+	}
+
+	public static void configureLTS(Project project) {
 		NodeExtension nodeExtension = GradleUtil.getExtension(
 			project, NodeExtension.class);
 
 		Optional<NodeInfo> ltsNodeInfoOptional = _getLTSNodeInfoOptional(
 			project);
+
+		ltsNodeInfoOptional.ifPresent(
+			nodeInfo -> {
+				Logger logger = project.getLogger();
+
+				if (logger.isInfoEnabled()) {
+					logger.info(
+						"Using {} LTS versions: Node {}, NPM {}",
+						StringUtil.quote(nodeInfo.getLts()),
+						nodeInfo.getNodeVersion(),
+						nodeInfo.getNpmVersion());
+				}
+			}
+		);
 
 		ltsNodeInfoOptional.map(
 			NodeInfo::getNodeVersion
@@ -53,7 +73,7 @@ public class LiferayWorkspaceNodeUtil {
 		);
 	}
 
-	public static void ensureMinimumVersions(Project project) {
+	public static void configureMinimumVersions(Project project) {
 		NodeExtension nodeExtension = GradleUtil.getExtension(
 			project, NodeExtension.class);
 

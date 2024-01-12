@@ -41,9 +41,10 @@ public class FrontendPlugin implements Plugin<Project> {
 	public void apply(Project project) {
 		GradleUtil.applyPlugin(project, BasePlugin.class);
 		GradleUtil.applyPlugin(project, LiferayBasePlugin.class);
-		GradleUtil.applyPlugin(project, LiferayWorkspaceNodePlugin.class);
 
-		LiferayWorkspaceNodeUtil.ensureMinimumVersions(project);
+		LiferayWorkspaceNodeUtil.applyNodePlugin(project);
+
+		LiferayWorkspaceNodeUtil.configureMinimumVersions(project);
 
 		Map<String, Object> packageJsonMap = _getPackageJsonMap(project);
 
