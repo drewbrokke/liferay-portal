@@ -77,11 +77,17 @@ public class LiferayWorkspaceNodeUtil {
 		NodeExtension nodeExtension = GradleUtil.getExtension(
 			project, NodeExtension.class);
 
+		Logger logger = project.getLogger();
+
 		try {
 			Version nodeVersion = Version.parseVersion(
 				nodeExtension.getNodeVersion());
 
 			if (_MINIMUM_NODE_VERSION.compareTo(nodeVersion) > 0) {
+				if (logger.isInfoEnabled()) {
+					logger.info("Using minimum Node version {}", _MINIMUM_NODE_VERSION);
+				}
+
 				nodeExtension.setNodeVersion(_MINIMUM_NODE_VERSION.toString());
 			}
 		}
@@ -95,6 +101,10 @@ public class LiferayWorkspaceNodeUtil {
 				nodeExtension.getNpmVersion());
 
 			if (_MINIMUM_NPM_VERSION.compareTo(npmVersion) > 0) {
+				if (logger.isInfoEnabled()) {
+					logger.info("Using minimum NPM version {}", _MINIMUM_NODE_VERSION);
+				}
+
 				nodeExtension.setNpmVersion(_MINIMUM_NPM_VERSION.toString());
 			}
 		}
