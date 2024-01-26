@@ -11,7 +11,8 @@ import * as path from 'path';
 import {documentLibraryPagesTest} from '../../fixtures/documentLibraryPages.fixtures';
 import {exportImportPagesTest} from '../../fixtures/exportImportPages.fixtures';
 import {loginTest} from '../../fixtures/loginTest';
-import {HeadlessDeliveryV10DocumentFolderService} from '../../utils/headless';
+import {HeadlessDeliveryClient} from '../../../../apps/headless/headless-delivery/headless-delivery-client-js/src/main/resources/META-INF/resources/node';
+import {liferayConfig} from '../../liferay.config';
 
 export const test = mergeTests(
 	documentLibraryPagesTest,
@@ -23,6 +24,7 @@ test('can import a folder with document type restrictions and workflow', async (
 	documentLibraryEditFolderPage,
 	documentLibraryPage,
 	exportImportFramePage,
+	login,
 }) => {
 	await documentLibraryPage.goto();
 	await documentLibraryPage.openOptionsMenu();
@@ -37,8 +39,12 @@ test('can import a folder with document type restrictions and workflow', async (
 		await documentLibraryEditFolderPage.getSelectedWorkflowDefinition()
 	).toBe('Single Approver@1');
 
-	await HeadlessDeliveryV10DocumentFolderService.headlessDeliveryV10DeleteSiteDocumentsFolderByExternalReferenceCode(
-		'Guest',
-		'LPS-205933'
-	);
+	await new HeadlessDeliveryClient({
+		USERNAME: login.user,
+		PASSWORD: login.password,
+		BASE: liferayConfig.environment.baseUrl + '/o/headless-delivery/v1.0',
+	}).documentFolder.deleteSiteDocumentsFolderByExternalReferenceCode({
+		siteId: 'Guest' as any,
+		externalReferenceCode: 'LPS-205933',
+	});
 });
