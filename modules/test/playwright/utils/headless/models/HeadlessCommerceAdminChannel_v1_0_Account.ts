@@ -1,9 +1,0 @@
-/* generated using openapi-typescript-codegen -- do no edit */
-/* istanbul ignore file */
-/* tslint:disable */
-/* eslint-disable */
-export type HeadlessCommerceAdminChannel_v1_0_Account = {
-	'id'?: number;
-	'name'?: string;
-	readonly 'x-class-name'?: string;
-};

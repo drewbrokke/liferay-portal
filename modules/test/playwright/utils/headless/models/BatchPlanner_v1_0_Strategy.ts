@@ -1,9 +1,0 @@
-/* generated using openapi-typescript-codegen -- do no edit */
-/* istanbul ignore file */
-/* tslint:disable */
-/* eslint-disable */
-export type BatchPlanner_v1_0_Strategy = {
-	'name'?: string;
-	'type'?: string;
-	readonly 'x-class-name'?: string;
-};
