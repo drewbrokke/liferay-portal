@@ -24,7 +24,7 @@ export class ProcessMetricService {
     }): CancelablePromise<Array<ProcessMetric>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/metrics',
+            url: '/portal-workflow-metrics/v1.0/processes/metrics',
             query: {
                 'title': title,
                 'page': page,
@@ -50,7 +50,7 @@ export class ProcessMetricService {
     }): CancelablePromise<ProcessMetric> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/metrics',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/metrics',
             path: {
                 'processId': processId,
             },

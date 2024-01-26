@@ -12,14 +12,14 @@ export class OrderTypeService {
      * @returns OrderType Successful operation
      * @throws ApiError
      */
-    public getWarehouseOrderTypesOrderType({
+    public getHeadlessCommerceAdminInventoryV10WarehouseOrderTypesOrderType({
         warehouseOrderTypeId,
     }: {
         warehouseOrderTypeId: number,
     }): CancelablePromise<OrderType> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouse-order-types/{warehouseOrderTypeId}/order-type',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouse-order-types/{warehouseOrderTypeId}/order-type',
             path: {
                 'warehouseOrderTypeId': warehouseOrderTypeId,
             },

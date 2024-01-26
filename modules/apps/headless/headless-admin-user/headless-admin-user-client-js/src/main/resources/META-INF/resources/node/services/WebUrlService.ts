@@ -19,7 +19,7 @@ export class WebUrlService {
     }): CancelablePromise<Array<WebUrl>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/organizations/{organizationId}/web-urls',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}/web-urls',
             path: {
                 'organizationId': organizationId,
             },
@@ -37,7 +37,7 @@ export class WebUrlService {
     }): CancelablePromise<Array<WebUrl>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-accounts/{userAccountId}/web-urls',
+            url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/web-urls',
             path: {
                 'userAccountId': userAccountId,
             },
@@ -55,7 +55,7 @@ export class WebUrlService {
     }): CancelablePromise<WebUrl> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/web-urls/{webUrlId}',
+            url: '/headless-admin-user/v1.0/web-urls/{webUrlId}',
             path: {
                 'webUrlId': webUrlId,
             },

@@ -19,7 +19,7 @@ export class TermOrderTypeService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/term-order-types/{termOrderTypeId}',
+            url: '/headless-commerce-admin-order/v1.0/term-order-types/{termOrderTypeId}',
             path: {
                 'termOrderTypeId': termOrderTypeId,
             },
@@ -44,7 +44,7 @@ export class TermOrderTypeService {
     }): CancelablePromise<Array<TermOrderType>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/terms/by-externalReferenceCode/{externalReferenceCode}/term-order-types',
+            url: '/headless-commerce-admin-order/v1.0/terms/by-externalReferenceCode/{externalReferenceCode}/term-order-types',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class TermOrderTypeService {
     }): CancelablePromise<TermOrderType | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/terms/by-externalReferenceCode/{externalReferenceCode}/term-order-types',
+            url: '/headless-commerce-admin-order/v1.0/terms/by-externalReferenceCode/{externalReferenceCode}/term-order-types',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -106,7 +106,7 @@ export class TermOrderTypeService {
     }): CancelablePromise<Array<TermOrderType>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/terms/{id}/term-order-types',
+            url: '/headless-commerce-admin-order/v1.0/terms/{id}/term-order-types',
             path: {
                 'id': id,
             },
@@ -137,7 +137,7 @@ export class TermOrderTypeService {
     }): CancelablePromise<TermOrderType | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/terms/{id}/term-order-types',
+            url: '/headless-commerce-admin-order/v1.0/terms/{id}/term-order-types',
             path: {
                 'id': id,
             },

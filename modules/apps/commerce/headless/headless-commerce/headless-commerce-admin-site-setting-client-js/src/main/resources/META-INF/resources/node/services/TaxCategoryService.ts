@@ -23,7 +23,7 @@ export class TaxCategoryService {
     }): CancelablePromise<Array<TaxCategory>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/commerceAdminSiteSetting/{groupId}/taxCategory',
+            url: '/headless-commerce-admin-site-setting/v1.0/commerceAdminSiteSetting/{groupId}/taxCategory',
             path: {
                 'groupId': groupId,
             },
@@ -53,7 +53,7 @@ export class TaxCategoryService {
     }): CancelablePromise<TaxCategory | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/commerceAdminSiteSetting/{groupId}/taxCategory',
+            url: '/headless-commerce-admin-site-setting/v1.0/commerceAdminSiteSetting/{groupId}/taxCategory',
             path: {
                 'groupId': groupId,
             },
@@ -79,7 +79,7 @@ export class TaxCategoryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/taxCategory/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/taxCategory/{id}',
             path: {
                 'id': id,
             },
@@ -100,7 +100,7 @@ export class TaxCategoryService {
     }): CancelablePromise<TaxCategory> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/taxCategory/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/taxCategory/{id}',
             path: {
                 'id': id,
             },
@@ -126,7 +126,7 @@ export class TaxCategoryService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/taxCategory/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/taxCategory/{id}',
             path: {
                 'id': id,
             },

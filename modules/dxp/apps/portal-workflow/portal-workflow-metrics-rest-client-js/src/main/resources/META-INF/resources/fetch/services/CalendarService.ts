@@ -14,7 +14,7 @@ export class CalendarService {
     public getCalendarsPage(): CancelablePromise<Array<Calendar>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/calendars',
+            url: '/portal-workflow-metrics/v1.0/calendars',
         });
     }
 }

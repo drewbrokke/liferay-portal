@@ -14,7 +14,7 @@ export class FieldSummaryService {
     public getField(): CancelablePromise<FieldSummary> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/fields',
+            url: '/analytics-settings-rest/v1.0/fields',
         });
     }
 }

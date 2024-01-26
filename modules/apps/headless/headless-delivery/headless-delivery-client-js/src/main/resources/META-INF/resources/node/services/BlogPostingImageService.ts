@@ -19,7 +19,7 @@ export class BlogPostingImageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/blog-posting-images/{blogPostingImageId}',
+            url: '/headless-delivery/v1.0/blog-posting-images/{blogPostingImageId}',
             path: {
                 'blogPostingImageId': blogPostingImageId,
             },
@@ -43,7 +43,7 @@ export class BlogPostingImageService {
     }): CancelablePromise<BlogPostingImage> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/blog-posting-images/{blogPostingImageId}',
+            url: '/headless-delivery/v1.0/blog-posting-images/{blogPostingImageId}',
             path: {
                 'blogPostingImageId': blogPostingImageId,
             },
@@ -84,7 +84,7 @@ export class BlogPostingImageService {
     }): CancelablePromise<Array<BlogPostingImage>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/blog-posting-images',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-posting-images',
             path: {
                 'siteId': siteId,
             },
@@ -118,7 +118,7 @@ export class BlogPostingImageService {
     }): CancelablePromise<BlogPostingImage> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/blog-posting-images',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-posting-images',
             path: {
                 'siteId': siteId,
             },

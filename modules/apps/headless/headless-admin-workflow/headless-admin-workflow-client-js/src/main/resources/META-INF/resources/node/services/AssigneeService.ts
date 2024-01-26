@@ -22,7 +22,7 @@ export class AssigneeService {
     }): CancelablePromise<Array<Assignee>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/{workflowTaskId}/assignable-users',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/assignable-users',
             path: {
                 'workflowTaskId': workflowTaskId,
             },

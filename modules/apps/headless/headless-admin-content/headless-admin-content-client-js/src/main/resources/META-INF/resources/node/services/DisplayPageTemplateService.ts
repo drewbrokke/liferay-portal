@@ -31,7 +31,7 @@ export class DisplayPageTemplateService {
     }): CancelablePromise<Array<DisplayPageTemplate>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/display-page-templates',
+            url: '/headless-admin-content/v1.0/sites/{siteId}/display-page-templates',
             path: {
                 'siteId': siteId,
             },
@@ -67,7 +67,7 @@ export class DisplayPageTemplateService {
     }): CancelablePromise<DisplayPageTemplate> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/display-page-templates/{displayPageTemplateKey}',
+            url: '/headless-admin-content/v1.0/sites/{siteId}/display-page-templates/{displayPageTemplateKey}',
             path: {
                 'siteId': siteId,
                 'displayPageTemplateKey': displayPageTemplateKey,

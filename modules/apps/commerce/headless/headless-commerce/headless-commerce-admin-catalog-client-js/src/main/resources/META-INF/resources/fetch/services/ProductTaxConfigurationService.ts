@@ -19,7 +19,7 @@ export class ProductTaxConfigurationService {
     }): CancelablePromise<ProductTaxConfiguration> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/taxConfiguration',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/taxConfiguration',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -45,7 +45,7 @@ export class ProductTaxConfigurationService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/taxConfiguration',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/taxConfiguration',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -71,7 +71,7 @@ export class ProductTaxConfigurationService {
     }): CancelablePromise<ProductTaxConfiguration> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/taxConfiguration',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/taxConfiguration',
             path: {
                 'id': id,
             },
@@ -97,7 +97,7 @@ export class ProductTaxConfigurationService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/products/{id}/taxConfiguration',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/taxConfiguration',
             path: {
                 'id': id,
             },

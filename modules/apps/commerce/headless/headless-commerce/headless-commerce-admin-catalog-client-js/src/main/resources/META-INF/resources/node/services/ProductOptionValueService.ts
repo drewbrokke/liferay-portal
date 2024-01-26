@@ -19,7 +19,7 @@ export class ProductOptionValueService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/product-option-values/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-option-values/{id}',
             path: {
                 'id': id,
             },
@@ -40,7 +40,7 @@ export class ProductOptionValueService {
     }): CancelablePromise<ProductOptionValue> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/product-option-values/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-option-values/{id}',
             path: {
                 'id': id,
             },
@@ -65,7 +65,7 @@ export class ProductOptionValueService {
     }): CancelablePromise<ProductOptionValue> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/product-option-values/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-option-values/{id}',
             path: {
                 'id': id,
             },
@@ -99,7 +99,7 @@ export class ProductOptionValueService {
     }): CancelablePromise<Array<ProductOptionValue>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/productOptions/{id}/productOptionValues',
+            url: '/headless-commerce-admin-catalog/v1.0/productOptions/{id}/productOptionValues',
             path: {
                 'id': id,
             },
@@ -131,7 +131,7 @@ export class ProductOptionValueService {
     }): CancelablePromise<ProductOptionValue | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/productOptions/{id}/productOptionValues',
+            url: '/headless-commerce-admin-catalog/v1.0/productOptions/{id}/productOptionValues',
             path: {
                 'id': id,
             },

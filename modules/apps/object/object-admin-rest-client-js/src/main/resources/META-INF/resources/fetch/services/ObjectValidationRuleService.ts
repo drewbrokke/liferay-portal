@@ -28,7 +28,7 @@ export class ObjectValidationRuleService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-validation-rules',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-validation-rules',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -56,7 +56,7 @@ export class ObjectValidationRuleService {
     }): CancelablePromise<ObjectValidationRule> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-validation-rules',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-validation-rules',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -85,7 +85,7 @@ export class ObjectValidationRuleService {
     }): CancelablePromise<Array<ObjectValidationRule>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/{objectDefinitionId}/object-validation-rules',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-validation-rules',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -113,7 +113,7 @@ export class ObjectValidationRuleService {
     }): CancelablePromise<ObjectValidationRule> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/{objectDefinitionId}/object-validation-rules',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-validation-rules',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -132,7 +132,7 @@ export class ObjectValidationRuleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/object-validation-rules/{objectValidationRuleId}',
+            url: '/object-admin/v1.0/object-validation-rules/{objectValidationRuleId}',
             path: {
                 'objectValidationRuleId': objectValidationRuleId,
             },
@@ -149,7 +149,7 @@ export class ObjectValidationRuleService {
     }): CancelablePromise<ObjectValidationRule> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-validation-rules/{objectValidationRuleId}',
+            url: '/object-admin/v1.0/object-validation-rules/{objectValidationRuleId}',
             path: {
                 'objectValidationRuleId': objectValidationRuleId,
             },
@@ -168,7 +168,7 @@ export class ObjectValidationRuleService {
     }): CancelablePromise<ObjectValidationRule> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/object-validation-rules/{objectValidationRuleId}',
+            url: '/object-admin/v1.0/object-validation-rules/{objectValidationRuleId}',
             path: {
                 'objectValidationRuleId': objectValidationRuleId,
             },
@@ -189,7 +189,7 @@ export class ObjectValidationRuleService {
     }): CancelablePromise<ObjectValidationRule> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-validation-rules/{objectValidationRuleId}',
+            url: '/object-admin/v1.0/object-validation-rules/{objectValidationRuleId}',
             path: {
                 'objectValidationRuleId': objectValidationRuleId,
             },

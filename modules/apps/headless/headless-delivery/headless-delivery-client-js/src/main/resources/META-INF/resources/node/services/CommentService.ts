@@ -37,7 +37,7 @@ export class CommentService {
     }): CancelablePromise<Array<Comment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/blog-postings/{blogPostingId}/comments',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}/comments',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -68,7 +68,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/blog-postings/{blogPostingId}/comments',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}/comments',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -88,7 +88,7 @@ export class CommentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/comments/{commentId}',
+            url: '/headless-delivery/v1.0/comments/{commentId}',
             path: {
                 'commentId': commentId,
             },
@@ -112,7 +112,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/comments/{commentId}',
+            url: '/headless-delivery/v1.0/comments/{commentId}',
             path: {
                 'commentId': commentId,
             },
@@ -137,7 +137,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/comments/{commentId}',
+            url: '/headless-delivery/v1.0/comments/{commentId}',
             path: {
                 'commentId': commentId,
             },
@@ -175,7 +175,7 @@ export class CommentService {
     }): CancelablePromise<Array<Comment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/comments/{parentCommentId}/comments',
+            url: '/headless-delivery/v1.0/comments/{parentCommentId}/comments',
             path: {
                 'parentCommentId': parentCommentId,
             },
@@ -206,7 +206,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/comments/{parentCommentId}/comments',
+            url: '/headless-delivery/v1.0/comments/{parentCommentId}/comments',
             path: {
                 'parentCommentId': parentCommentId,
             },
@@ -244,7 +244,7 @@ export class CommentService {
     }): CancelablePromise<Array<Comment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/documents/{documentId}/comments',
+            url: '/headless-delivery/v1.0/documents/{documentId}/comments',
             path: {
                 'documentId': documentId,
             },
@@ -275,7 +275,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/documents/{documentId}/comments',
+            url: '/headless-delivery/v1.0/documents/{documentId}/comments',
             path: {
                 'documentId': documentId,
             },
@@ -299,7 +299,7 @@ export class CommentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/blog-postings/by-external-reference-code/{blogPostingExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings/by-external-reference-code/{blogPostingExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'blogPostingExternalReferenceCode': blogPostingExternalReferenceCode,
@@ -329,7 +329,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/blog-postings/by-external-reference-code/{blogPostingExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings/by-external-reference-code/{blogPostingExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'blogPostingExternalReferenceCode': blogPostingExternalReferenceCode,
@@ -360,7 +360,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/blog-postings/by-external-reference-code/{blogPostingExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings/by-external-reference-code/{blogPostingExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'blogPostingExternalReferenceCode': blogPostingExternalReferenceCode,
@@ -386,7 +386,7 @@ export class CommentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/comments/by-external-reference-code/{parentCommentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/comments/by-external-reference-code/{parentCommentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'parentCommentExternalReferenceCode': parentCommentExternalReferenceCode,
@@ -416,7 +416,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/comments/by-external-reference-code/{parentCommentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/comments/by-external-reference-code/{parentCommentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'parentCommentExternalReferenceCode': parentCommentExternalReferenceCode,
@@ -447,7 +447,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/comments/by-external-reference-code/{parentCommentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/comments/by-external-reference-code/{parentCommentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'parentCommentExternalReferenceCode': parentCommentExternalReferenceCode,
@@ -473,7 +473,7 @@ export class CommentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/documents/by-external-reference-code/{documentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents/by-external-reference-code/{documentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'documentExternalReferenceCode': documentExternalReferenceCode,
@@ -503,7 +503,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/documents/by-external-reference-code/{documentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents/by-external-reference-code/{documentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'documentExternalReferenceCode': documentExternalReferenceCode,
@@ -534,7 +534,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/documents/by-external-reference-code/{documentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents/by-external-reference-code/{documentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'documentExternalReferenceCode': documentExternalReferenceCode,
@@ -560,7 +560,7 @@ export class CommentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/structured-contents/by-external-reference-code/{structuredContentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-external-reference-code/{structuredContentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'structuredContentExternalReferenceCode': structuredContentExternalReferenceCode,
@@ -590,7 +590,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/structured-contents/by-external-reference-code/{structuredContentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-external-reference-code/{structuredContentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'structuredContentExternalReferenceCode': structuredContentExternalReferenceCode,
@@ -621,7 +621,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/structured-contents/by-external-reference-code/{structuredContentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-external-reference-code/{structuredContentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'structuredContentExternalReferenceCode': structuredContentExternalReferenceCode,
@@ -661,7 +661,7 @@ export class CommentService {
     }): CancelablePromise<Array<Comment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/structured-contents/{structuredContentId}/comments',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/comments',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -692,7 +692,7 @@ export class CommentService {
     }): CancelablePromise<Comment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/structured-contents/{structuredContentId}/comments',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/comments',
             path: {
                 'structuredContentId': structuredContentId,
             },

@@ -12,14 +12,14 @@ export class PaymentMethodGroupRelOrderTypeService {
      * @returns void
      * @throws ApiError
      */
-    public deletePaymentMethodGroupRelOrderTypes({
+    public deleteHeadlessCommerceAdminChannelV10PaymentMethodGroupRelOrderTypes({
         paymentMethodGroupRelOrderTypeId,
     }: {
         paymentMethodGroupRelOrderTypeId: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/payment-method-group-rel-order-types/{paymentMethodGroupRelOrderTypeId}',
+            url: '/headless-commerce-admin-channel/v1.0/payment-method-group-rel-order-types/{paymentMethodGroupRelOrderTypeId}',
             path: {
                 'paymentMethodGroupRelOrderTypeId': paymentMethodGroupRelOrderTypeId,
             },
@@ -33,7 +33,7 @@ export class PaymentMethodGroupRelOrderTypeService {
      * @returns PaymentMethodGroupRelOrderType Successful operation
      * @throws ApiError
      */
-    public getPaymentMethodGroupRelsPaymentMethodGroupRelOrderTypes({
+    public getHeadlessCommerceAdminChannelV10PaymentMethodGroupRelsPaymentMethodGroupRelOrderTypes({
         id,
         filter,
         page,
@@ -50,7 +50,7 @@ export class PaymentMethodGroupRelOrderTypeService {
     }): CancelablePromise<Array<PaymentMethodGroupRelOrderType>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/payment-method-group-rels/{id}/payment-method-group-rel-order-types',
+            url: '/headless-commerce-admin-channel/v1.0/payment-method-group-rels/{id}/payment-method-group-rel-order-types',
             path: {
                 'id': id,
             },
@@ -74,7 +74,7 @@ export class PaymentMethodGroupRelOrderTypeService {
      * @returns any Async
      * @throws ApiError
      */
-    public postPaymentMethodGroupRelsPaymentMethodGroupRelOrderTypes({
+    public postHeadlessCommerceAdminChannelV10PaymentMethodGroupRelsPaymentMethodGroupRelOrderTypes({
         id,
         requestBody,
     }: {
@@ -83,7 +83,7 @@ export class PaymentMethodGroupRelOrderTypeService {
     }): CancelablePromise<PaymentMethodGroupRelOrderType | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/payment-method-group-rels/{id}/payment-method-group-rel-order-types',
+            url: '/headless-commerce-admin-channel/v1.0/payment-method-group-rels/{id}/payment-method-group-rel-order-types',
             path: {
                 'id': id,
             },

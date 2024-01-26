@@ -28,7 +28,7 @@ export class ObjectLayoutService {
     }): CancelablePromise<Array<ObjectLayout>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-layouts',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-layouts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -56,7 +56,7 @@ export class ObjectLayoutService {
     }): CancelablePromise<ObjectLayout> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-layouts',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-layouts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -85,7 +85,7 @@ export class ObjectLayoutService {
     }): CancelablePromise<Array<ObjectLayout>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/{objectDefinitionId}/object-layouts',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-layouts',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -113,7 +113,7 @@ export class ObjectLayoutService {
     }): CancelablePromise<ObjectLayout> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/{objectDefinitionId}/object-layouts',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-layouts',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -132,7 +132,7 @@ export class ObjectLayoutService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/object-layouts/{objectLayoutId}',
+            url: '/object-admin/v1.0/object-layouts/{objectLayoutId}',
             path: {
                 'objectLayoutId': objectLayoutId,
             },
@@ -149,7 +149,7 @@ export class ObjectLayoutService {
     }): CancelablePromise<ObjectLayout> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-layouts/{objectLayoutId}',
+            url: '/object-admin/v1.0/object-layouts/{objectLayoutId}',
             path: {
                 'objectLayoutId': objectLayoutId,
             },
@@ -168,7 +168,7 @@ export class ObjectLayoutService {
     }): CancelablePromise<ObjectLayout> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-layouts/{objectLayoutId}',
+            url: '/object-admin/v1.0/object-layouts/{objectLayoutId}',
             path: {
                 'objectLayoutId': objectLayoutId,
             },

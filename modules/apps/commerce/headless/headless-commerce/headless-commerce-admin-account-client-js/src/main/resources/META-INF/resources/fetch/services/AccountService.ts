@@ -23,7 +23,7 @@ export class AccountService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accountGroups/by-externalReferenceCode/{externalReferenceCode}/accounts',
+            url: '/headless-commerce-admin-account/v1.0/accountGroups/by-externalReferenceCode/{externalReferenceCode}/accounts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -51,7 +51,7 @@ export class AccountService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accountGroups/by-externalReferenceCode/{externalReferenceCode}/accounts/{accountExternalReferenceCode}',
+            url: '/headless-commerce-admin-account/v1.0/accountGroups/by-externalReferenceCode/{externalReferenceCode}/accounts/{accountExternalReferenceCode}',
             path: {
                 'accountExternalReferenceCode': accountExternalReferenceCode,
                 'externalReferenceCode': externalReferenceCode,
@@ -84,7 +84,7 @@ export class AccountService {
     }): CancelablePromise<Array<Account>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts',
+            url: '/headless-commerce-admin-account/v1.0/accounts',
             query: {
                 'filter': filter,
                 'page': page,
@@ -112,7 +112,7 @@ export class AccountService {
     }): CancelablePromise<Account | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts',
+            url: '/headless-commerce-admin-account/v1.0/accounts',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -135,7 +135,7 @@ export class AccountService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -156,7 +156,7 @@ export class AccountService {
     }): CancelablePromise<Account> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -182,7 +182,7 @@ export class AccountService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -210,7 +210,7 @@ export class AccountService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/logo',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/logo',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -236,7 +236,7 @@ export class AccountService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/{id}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}',
             path: {
                 'id': id,
             },
@@ -257,7 +257,7 @@ export class AccountService {
     }): CancelablePromise<Account> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}',
             path: {
                 'id': id,
             },
@@ -283,7 +283,7 @@ export class AccountService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/accounts/{id}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}',
             path: {
                 'id': id,
             },
@@ -311,7 +311,7 @@ export class AccountService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/logo',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/logo',
             path: {
                 'id': id,
             },

@@ -21,7 +21,7 @@ export class FormService {
     }): CancelablePromise<Form> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/forms/{formId}',
+            url: '/headless-form/v1.0/forms/{formId}',
             path: {
                 'formId': formId,
             },
@@ -43,7 +43,7 @@ export class FormService {
     }): CancelablePromise<FormContext> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/forms/{formId}/evaluate-context',
+            url: '/headless-form/v1.0/forms/{formId}/evaluate-context',
             path: {
                 'formId': formId,
             },
@@ -71,7 +71,7 @@ export class FormService {
     }): CancelablePromise<FormDocument> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/forms/{formId}/form-document',
+            url: '/headless-form/v1.0/forms/{formId}/form-document',
             path: {
                 'formId': formId,
             },
@@ -95,7 +95,7 @@ export class FormService {
     }): CancelablePromise<Array<Form>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/forms',
+            url: '/headless-form/v1.0/sites/{siteId}/forms',
             path: {
                 'siteId': siteId,
             },

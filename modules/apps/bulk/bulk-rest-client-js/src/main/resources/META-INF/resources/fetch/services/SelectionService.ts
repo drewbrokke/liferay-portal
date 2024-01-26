@@ -19,7 +19,7 @@ export class SelectionService {
     }): CancelablePromise<Selection> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/bulk-selection',
+            url: '/bulk/v1.0/bulk-selection',
             body: requestBody,
             mediaType: 'application/json',
         });

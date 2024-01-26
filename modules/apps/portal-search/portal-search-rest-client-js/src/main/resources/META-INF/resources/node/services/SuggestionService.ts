@@ -33,7 +33,7 @@ export class SuggestionService {
     }): CancelablePromise<Array<SuggestionsContributorResults>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/suggestions',
+            url: '/portal-search-rest/v1.0/suggestions',
             query: {
                 'currentURL': currentUrl,
                 'destinationFriendlyURL': destinationFriendlyUrl,

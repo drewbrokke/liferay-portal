@@ -12,14 +12,14 @@ export class ShippingFixedOptionOrderTypeService {
      * @returns void
      * @throws ApiError
      */
-    public deleteShippingFixedOptionOrderTypes({
+    public deleteHeadlessCommerceAdminChannelV10ShippingFixedOptionOrderTypes({
         shippingFixedOptionOrderTypeId,
     }: {
         shippingFixedOptionOrderTypeId: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/shipping-fixed-option-order-types/{shippingFixedOptionOrderTypeId}',
+            url: '/headless-commerce-admin-channel/v1.0/shipping-fixed-option-order-types/{shippingFixedOptionOrderTypeId}',
             path: {
                 'shippingFixedOptionOrderTypeId': shippingFixedOptionOrderTypeId,
             },
@@ -33,7 +33,7 @@ export class ShippingFixedOptionOrderTypeService {
      * @returns ShippingFixedOptionOrderType Successful operation
      * @throws ApiError
      */
-    public getShippingFixedOptionsShippingFixedOptionOrderTypes({
+    public getHeadlessCommerceAdminChannelV10ShippingFixedOptionsShippingFixedOptionOrderTypes({
         id,
         filter,
         page,
@@ -50,7 +50,7 @@ export class ShippingFixedOptionOrderTypeService {
     }): CancelablePromise<Array<ShippingFixedOptionOrderType>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/shipping-fixed-options/{id}/shipping-fixed-option-order-types',
+            url: '/headless-commerce-admin-channel/v1.0/shipping-fixed-options/{id}/shipping-fixed-option-order-types',
             path: {
                 'id': id,
             },
@@ -74,7 +74,7 @@ export class ShippingFixedOptionOrderTypeService {
      * @returns any Async
      * @throws ApiError
      */
-    public postShippingFixedOptionsShippingFixedOptionOrderTypes({
+    public postHeadlessCommerceAdminChannelV10ShippingFixedOptionsShippingFixedOptionOrderTypes({
         id,
         requestBody,
     }: {
@@ -83,7 +83,7 @@ export class ShippingFixedOptionOrderTypeService {
     }): CancelablePromise<ShippingFixedOptionOrderType | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/shipping-fixed-options/{id}/shipping-fixed-option-order-types',
+            url: '/headless-commerce-admin-channel/v1.0/shipping-fixed-options/{id}/shipping-fixed-option-order-types',
             path: {
                 'id': id,
             },

@@ -27,7 +27,7 @@ export class OrderService {
     }): CancelablePromise<Array<Order>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders',
+            url: '/headless-commerce-admin-order/v1.0/orders',
             query: {
                 'filter': filter,
                 'page': page,
@@ -56,7 +56,7 @@ export class OrderService {
     }): CancelablePromise<Order | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/orders',
+            url: '/headless-commerce-admin-order/v1.0/orders',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -79,7 +79,7 @@ export class OrderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -100,7 +100,7 @@ export class OrderService {
     }): CancelablePromise<Order> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -126,7 +126,7 @@ export class OrderService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -152,7 +152,7 @@ export class OrderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/orders/{id}',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}',
             path: {
                 'id': id,
             },
@@ -173,7 +173,7 @@ export class OrderService {
     }): CancelablePromise<Order> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/{id}',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}',
             path: {
                 'id': id,
             },
@@ -199,7 +199,7 @@ export class OrderService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/orders/{id}',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}',
             path: {
                 'id': id,
             },

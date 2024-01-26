@@ -12,14 +12,14 @@ export class PlacedOrderItemShipmentService {
      * @returns PlacedOrderItemShipment
      * @throws ApiError
      */
-    public getPlacedOrderItemsPlacedOrderItemShipments({
+    public getHeadlessCommerceDeliveryOrderV10PlacedOrderItemsPlacedOrderItemShipments({
         placedOrderItemId,
     }: {
         placedOrderItemId: number,
     }): CancelablePromise<Array<PlacedOrderItemShipment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/placed-order-items/{placedOrderItemId}/placed-order-item-shipments',
+            url: '/headless-commerce-delivery-order/v1.0/placed-order-items/{placedOrderItemId}/placed-order-item-shipments',
             path: {
                 'placedOrderItemId': placedOrderItemId,
             },

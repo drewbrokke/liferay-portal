@@ -19,7 +19,7 @@ export class GroupedProductService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/grouped-products/{groupedProductId}',
+            url: '/headless-commerce-admin-catalog/v1.0/grouped-products/{groupedProductId}',
             path: {
                 'groupedProductId': groupedProductId,
             },
@@ -39,7 +39,7 @@ export class GroupedProductService {
     }): CancelablePromise<GroupedProduct> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/grouped-products/{groupedProductId}',
+            url: '/headless-commerce-admin-catalog/v1.0/grouped-products/{groupedProductId}',
             path: {
                 'groupedProductId': groupedProductId,
             },
@@ -69,7 +69,7 @@ export class GroupedProductService {
     }): CancelablePromise<Array<GroupedProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/grouped-products',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/grouped-products',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -99,7 +99,7 @@ export class GroupedProductService {
     }): CancelablePromise<GroupedProduct> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/grouped-products',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/grouped-products',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -129,7 +129,7 @@ export class GroupedProductService {
     }): CancelablePromise<Array<GroupedProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/grouped-products',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/grouped-products',
             path: {
                 'id': id,
             },
@@ -159,7 +159,7 @@ export class GroupedProductService {
     }): CancelablePromise<GroupedProduct> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/grouped-products',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/grouped-products',
             path: {
                 'id': id,
             },

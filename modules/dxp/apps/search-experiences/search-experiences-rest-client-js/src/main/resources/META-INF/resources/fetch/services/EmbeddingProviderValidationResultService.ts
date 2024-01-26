@@ -19,7 +19,7 @@ export class EmbeddingProviderValidationResultService {
     }): CancelablePromise<EmbeddingProviderValidationResult> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/text-embeddings/validate-provider-configuration',
+            url: '/search-experiences-rest/v1.0/text-embeddings/validate-provider-configuration',
             body: requestBody,
             mediaType: 'application/json',
         });

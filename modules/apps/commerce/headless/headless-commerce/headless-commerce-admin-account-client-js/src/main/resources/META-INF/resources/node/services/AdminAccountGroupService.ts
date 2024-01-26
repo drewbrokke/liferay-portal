@@ -27,7 +27,7 @@ export class AdminAccountGroupService {
     }): CancelablePromise<Array<AdminAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accountGroups',
+            url: '/headless-commerce-admin-account/v1.0/accountGroups',
             query: {
                 'filter': filter,
                 'page': page,
@@ -55,7 +55,7 @@ export class AdminAccountGroupService {
     }): CancelablePromise<AdminAccountGroup | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accountGroups',
+            url: '/headless-commerce-admin-account/v1.0/accountGroups',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -78,7 +78,7 @@ export class AdminAccountGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accountGroups/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-account/v1.0/accountGroups/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -99,7 +99,7 @@ export class AdminAccountGroupService {
     }): CancelablePromise<AdminAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accountGroups/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-account/v1.0/accountGroups/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -125,7 +125,7 @@ export class AdminAccountGroupService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/accountGroups/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-account/v1.0/accountGroups/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -151,7 +151,7 @@ export class AdminAccountGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accountGroups/{id}',
+            url: '/headless-commerce-admin-account/v1.0/accountGroups/{id}',
             path: {
                 'id': id,
             },
@@ -172,7 +172,7 @@ export class AdminAccountGroupService {
     }): CancelablePromise<AdminAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accountGroups/{id}',
+            url: '/headless-commerce-admin-account/v1.0/accountGroups/{id}',
             path: {
                 'id': id,
             },
@@ -198,7 +198,7 @@ export class AdminAccountGroupService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/accountGroups/{id}',
+            url: '/headless-commerce-admin-account/v1.0/accountGroups/{id}',
             path: {
                 'id': id,
             },
@@ -228,7 +228,7 @@ export class AdminAccountGroupService {
     }): CancelablePromise<Array<AdminAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountGroups',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountGroups',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -259,7 +259,7 @@ export class AdminAccountGroupService {
     }): CancelablePromise<Array<AdminAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/accountGroups',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountGroups',
             path: {
                 'id': id,
             },

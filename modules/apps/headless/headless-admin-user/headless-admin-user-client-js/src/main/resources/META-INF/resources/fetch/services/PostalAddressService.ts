@@ -19,7 +19,7 @@ export class PostalAddressService {
     }): CancelablePromise<Array<PostalAddress>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{accountId}/postal-addresses',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/postal-addresses',
             path: {
                 'accountId': accountId,
             },
@@ -38,7 +38,7 @@ export class PostalAddressService {
     }): CancelablePromise<PostalAddress> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{accountId}/postal-addresses',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/postal-addresses',
             path: {
                 'accountId': accountId,
             },
@@ -58,7 +58,7 @@ export class PostalAddressService {
     }): CancelablePromise<Array<PostalAddress>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/organizations/{organizationId}/postal-addresses',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}/postal-addresses',
             path: {
                 'organizationId': organizationId,
             },
@@ -76,7 +76,7 @@ export class PostalAddressService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/postal-addresses/{postalAddressId}',
+            url: '/headless-admin-user/v1.0/postal-addresses/{postalAddressId}',
             path: {
                 'postalAddressId': postalAddressId,
             },
@@ -94,7 +94,7 @@ export class PostalAddressService {
     }): CancelablePromise<PostalAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/postal-addresses/{postalAddressId}',
+            url: '/headless-admin-user/v1.0/postal-addresses/{postalAddressId}',
             path: {
                 'postalAddressId': postalAddressId,
             },
@@ -113,7 +113,7 @@ export class PostalAddressService {
     }): CancelablePromise<PostalAddress> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/postal-addresses/{postalAddressId}',
+            url: '/headless-admin-user/v1.0/postal-addresses/{postalAddressId}',
             path: {
                 'postalAddressId': postalAddressId,
             },
@@ -134,7 +134,7 @@ export class PostalAddressService {
     }): CancelablePromise<PostalAddress> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/postal-addresses/{postalAddressId}',
+            url: '/headless-admin-user/v1.0/postal-addresses/{postalAddressId}',
             path: {
                 'postalAddressId': postalAddressId,
             },
@@ -154,7 +154,7 @@ export class PostalAddressService {
     }): CancelablePromise<Array<PostalAddress>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-accounts/{userAccountId}/postal-addresses',
+            url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/postal-addresses',
             path: {
                 'userAccountId': userAccountId,
             },

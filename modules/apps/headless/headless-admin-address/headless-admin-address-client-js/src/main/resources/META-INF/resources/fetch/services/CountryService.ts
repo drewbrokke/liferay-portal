@@ -26,7 +26,7 @@ export class CountryService {
     }): CancelablePromise<Array<Country>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/countries',
+            url: '/headless-admin-address/v1.0/countries',
             query: {
                 'active': active,
                 'page': page,
@@ -47,7 +47,7 @@ export class CountryService {
     }): CancelablePromise<Country> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/countries',
+            url: '/headless-admin-address/v1.0/countries',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -63,7 +63,7 @@ export class CountryService {
     }): CancelablePromise<Country> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/countries/by-a2/{a2}',
+            url: '/headless-admin-address/v1.0/countries/by-a2/{a2}',
             path: {
                 'a2': a2,
             },
@@ -80,7 +80,7 @@ export class CountryService {
     }): CancelablePromise<Country> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/countries/by-a3/{a3}',
+            url: '/headless-admin-address/v1.0/countries/by-a3/{a3}',
             path: {
                 'a3': a3,
             },
@@ -97,7 +97,7 @@ export class CountryService {
     }): CancelablePromise<Country> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/countries/by-name/{name}',
+            url: '/headless-admin-address/v1.0/countries/by-name/{name}',
             path: {
                 'name': name,
             },
@@ -114,7 +114,7 @@ export class CountryService {
     }): CancelablePromise<Country> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/countries/by-number/{number}',
+            url: '/headless-admin-address/v1.0/countries/by-number/{number}',
             path: {
                 'number': number,
             },
@@ -131,7 +131,7 @@ export class CountryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/countries/{countryId}',
+            url: '/headless-admin-address/v1.0/countries/{countryId}',
             path: {
                 'countryId': countryId,
             },
@@ -148,7 +148,7 @@ export class CountryService {
     }): CancelablePromise<Country> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/countries/{countryId}',
+            url: '/headless-admin-address/v1.0/countries/{countryId}',
             path: {
                 'countryId': countryId,
             },
@@ -167,7 +167,7 @@ export class CountryService {
     }): CancelablePromise<Country> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/countries/{countryId}',
+            url: '/headless-admin-address/v1.0/countries/{countryId}',
             path: {
                 'countryId': countryId,
             },
@@ -188,7 +188,7 @@ export class CountryService {
     }): CancelablePromise<Country> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/countries/{countryId}',
+            url: '/headless-admin-address/v1.0/countries/{countryId}',
             path: {
                 'countryId': countryId,
             },

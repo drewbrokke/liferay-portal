@@ -19,7 +19,7 @@ export class ImportTaskService {
     }): CancelablePromise<ImportTask> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/import-task/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-batch-engine/v1.0/import-task/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -37,7 +37,7 @@ export class ImportTaskService {
     }): CancelablePromise<Blob> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/import-task/by-external-reference-code/{externalReferenceCode}/content',
+            url: '/headless-batch-engine/v1.0/import-task/by-external-reference-code/{externalReferenceCode}/content',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -54,7 +54,7 @@ export class ImportTaskService {
     }): CancelablePromise<Blob> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/import-task/by-external-reference-code/{externalReferenceCode}/failed-items/report',
+            url: '/headless-batch-engine/v1.0/import-task/by-external-reference-code/{externalReferenceCode}/failed-items/report',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -82,7 +82,7 @@ export class ImportTaskService {
     }): CancelablePromise<ImportTask> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/import-task/{className}',
+            url: '/headless-batch-engine/v1.0/import-task/{className}',
             path: {
                 'className': className,
             },
@@ -122,7 +122,7 @@ export class ImportTaskService {
     }): CancelablePromise<ImportTask> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/import-task/{className}',
+            url: '/headless-batch-engine/v1.0/import-task/{className}',
             path: {
                 'className': className,
             },
@@ -162,7 +162,7 @@ export class ImportTaskService {
     }): CancelablePromise<ImportTask> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/import-task/{className}',
+            url: '/headless-batch-engine/v1.0/import-task/{className}',
             path: {
                 'className': className,
             },
@@ -189,7 +189,7 @@ export class ImportTaskService {
     }): CancelablePromise<ImportTask> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/import-task/{importTaskId}',
+            url: '/headless-batch-engine/v1.0/import-task/{importTaskId}',
             path: {
                 'importTaskId': importTaskId,
             },
@@ -207,7 +207,7 @@ export class ImportTaskService {
     }): CancelablePromise<Blob> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/import-task/{importTaskId}/content',
+            url: '/headless-batch-engine/v1.0/import-task/{importTaskId}/content',
             path: {
                 'importTaskId': importTaskId,
             },
@@ -224,7 +224,7 @@ export class ImportTaskService {
     }): CancelablePromise<Blob> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/import-task/{importTaskId}/failed-items/report',
+            url: '/headless-batch-engine/v1.0/import-task/{importTaskId}/failed-items/report',
             path: {
                 'importTaskId': importTaskId,
             },

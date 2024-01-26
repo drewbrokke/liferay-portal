@@ -14,7 +14,7 @@ export class DataSourceService {
     public deleteDataSource(): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/data-sources',
+            url: '/analytics-settings-rest/v1.0/data-sources',
             errors: {
                 500: `Unexpected error`,
             },
@@ -31,7 +31,7 @@ export class DataSourceService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/data-sources',
+            url: '/analytics-settings-rest/v1.0/data-sources',
             body: requestBody,
             mediaType: 'application/json',
             errors: {

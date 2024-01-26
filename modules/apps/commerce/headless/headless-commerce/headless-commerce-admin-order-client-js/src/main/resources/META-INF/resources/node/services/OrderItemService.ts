@@ -12,7 +12,7 @@ export class OrderItemService {
      * @returns OrderItem Successful operation
      * @throws ApiError
      */
-    public getOrderItems({
+    public getHeadlessCommerceAdminOrderV10OrderItems({
         filter,
         page,
         pageSize,
@@ -27,7 +27,7 @@ export class OrderItemService {
     }): CancelablePromise<Array<OrderItem>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orderItems',
+            url: '/headless-commerce-admin-order/v1.0/orderItems',
             query: {
                 'filter': filter,
                 'page': page,
@@ -54,7 +54,7 @@ export class OrderItemService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/orderItems/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/orderItems/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -75,7 +75,7 @@ export class OrderItemService {
     }): CancelablePromise<OrderItem> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orderItems/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/orderItems/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -101,7 +101,7 @@ export class OrderItemService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/orderItems/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/orderItems/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -120,7 +120,7 @@ export class OrderItemService {
      * @returns OrderItem Successful operation
      * @throws ApiError
      */
-    public putOrderItemsByExternalReferenceCode({
+    public putHeadlessCommerceAdminOrderV10OrderItemsByExternalReferenceCode({
         externalReferenceCode,
         requestBody,
     }: {
@@ -129,7 +129,7 @@ export class OrderItemService {
     }): CancelablePromise<OrderItem> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/orderItems/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/orderItems/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -155,7 +155,7 @@ export class OrderItemService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/orderItems/{id}',
+            url: '/headless-commerce-admin-order/v1.0/orderItems/{id}',
             path: {
                 'id': id,
             },
@@ -176,7 +176,7 @@ export class OrderItemService {
     }): CancelablePromise<OrderItem> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orderItems/{id}',
+            url: '/headless-commerce-admin-order/v1.0/orderItems/{id}',
             path: {
                 'id': id,
             },
@@ -202,7 +202,7 @@ export class OrderItemService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/orderItems/{id}',
+            url: '/headless-commerce-admin-order/v1.0/orderItems/{id}',
             path: {
                 'id': id,
             },
@@ -221,7 +221,7 @@ export class OrderItemService {
      * @returns OrderItem Successful operation
      * @throws ApiError
      */
-    public putOrderItems({
+    public putHeadlessCommerceAdminOrderV10OrderItems({
         id,
         requestBody,
     }: {
@@ -230,7 +230,7 @@ export class OrderItemService {
     }): CancelablePromise<OrderItem> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/orderItems/{id}',
+            url: '/headless-commerce-admin-order/v1.0/orderItems/{id}',
             path: {
                 'id': id,
             },
@@ -260,7 +260,7 @@ export class OrderItemService {
     }): CancelablePromise<Array<OrderItem>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}/orderItems',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/orderItems',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -291,7 +291,7 @@ export class OrderItemService {
     }): CancelablePromise<OrderItem | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}/orderItems',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/orderItems',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -321,7 +321,7 @@ export class OrderItemService {
     }): CancelablePromise<Array<OrderItem>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/{id}/orderItems',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}/orderItems',
             path: {
                 'id': id,
             },
@@ -352,7 +352,7 @@ export class OrderItemService {
     }): CancelablePromise<OrderItem | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/orders/{id}/orderItems',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}/orderItems',
             path: {
                 'id': id,
             },

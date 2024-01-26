@@ -12,7 +12,7 @@ export class ShippingMethodService {
      * @returns ShippingMethod Successful operation
      * @throws ApiError
      */
-    public getChannelsShippingMethods({
+    public getHeadlessCommerceAdminChannelV10ChannelsShippingMethods({
         channelId,
         page,
         pageSize,
@@ -23,7 +23,7 @@ export class ShippingMethodService {
     }): CancelablePromise<Array<ShippingMethod>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/shipping-methods',
+            url: '/headless-commerce-admin-channel/v1.0/channels/{channelId}/shipping-methods',
             path: {
                 'channelId': channelId,
             },

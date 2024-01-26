@@ -12,14 +12,14 @@ export class PlacedOrderCommentService {
      * @returns PlacedOrderComment Successful operation
      * @throws ApiError
      */
-    public getPlacedOrderComments({
+    public getHeadlessCommerceDeliveryOrderV10PlacedOrderComments({
         placedOrderCommentId,
     }: {
         placedOrderCommentId: number,
     }): CancelablePromise<PlacedOrderComment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/placed-order-comments/{placedOrderCommentId}',
+            url: '/headless-commerce-delivery-order/v1.0/placed-order-comments/{placedOrderCommentId}',
             path: {
                 'placedOrderCommentId': placedOrderCommentId,
             },
@@ -36,7 +36,7 @@ export class PlacedOrderCommentService {
      * @returns PlacedOrderComment Successful operation
      * @throws ApiError
      */
-    public getPlacedOrdersPlacedOrderComments({
+    public getHeadlessCommerceDeliveryOrderV10PlacedOrdersPlacedOrderComments({
         placedOrderId,
         page,
         pageSize,
@@ -47,7 +47,7 @@ export class PlacedOrderCommentService {
     }): CancelablePromise<Array<PlacedOrderComment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/placed-orders/{placedOrderId}/placed-order-comments',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/placed-order-comments',
             path: {
                 'placedOrderId': placedOrderId,
             },

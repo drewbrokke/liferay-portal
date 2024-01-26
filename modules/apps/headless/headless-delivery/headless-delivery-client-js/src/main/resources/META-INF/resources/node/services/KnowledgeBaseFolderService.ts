@@ -19,7 +19,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/knowledge-base-folders/{knowledgeBaseFolderId}',
+            url: '/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}',
             path: {
                 'knowledgeBaseFolderId': knowledgeBaseFolderId,
             },
@@ -43,7 +43,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<KnowledgeBaseFolder> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/knowledge-base-folders/{knowledgeBaseFolderId}',
+            url: '/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}',
             path: {
                 'knowledgeBaseFolderId': knowledgeBaseFolderId,
             },
@@ -68,7 +68,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<KnowledgeBaseFolder> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/knowledge-base-folders/{knowledgeBaseFolderId}',
+            url: '/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}',
             path: {
                 'knowledgeBaseFolderId': knowledgeBaseFolderId,
             },
@@ -90,7 +90,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<KnowledgeBaseFolder> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/knowledge-base-folders/{knowledgeBaseFolderId}',
+            url: '/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}',
             path: {
                 'knowledgeBaseFolderId': knowledgeBaseFolderId,
             },
@@ -117,7 +117,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/knowledge-base-folders/{knowledgeBaseFolderId}/permissions',
+            url: '/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}/permissions',
             path: {
                 'knowledgeBaseFolderId': knowledgeBaseFolderId,
             },
@@ -142,7 +142,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/knowledge-base-folders/{knowledgeBaseFolderId}/permissions',
+            url: '/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}/permissions',
             path: {
                 'knowledgeBaseFolderId': knowledgeBaseFolderId,
             },
@@ -171,7 +171,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<Array<KnowledgeBaseFolder>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/knowledge-base-folders/{parentKnowledgeBaseFolderId}/knowledge-base-folders',
+            url: '/headless-delivery/v1.0/knowledge-base-folders/{parentKnowledgeBaseFolderId}/knowledge-base-folders',
             path: {
                 'parentKnowledgeBaseFolderId': parentKnowledgeBaseFolderId,
             },
@@ -198,7 +198,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<KnowledgeBaseFolder> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/knowledge-base-folders/{parentKnowledgeBaseFolderId}/knowledge-base-folders',
+            url: '/headless-delivery/v1.0/knowledge-base-folders/{parentKnowledgeBaseFolderId}/knowledge-base-folders',
             path: {
                 'parentKnowledgeBaseFolderId': parentKnowledgeBaseFolderId,
             },
@@ -228,7 +228,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<Array<KnowledgeBaseFolder>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/knowledge-base-folders',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders',
             path: {
                 'siteId': siteId,
             },
@@ -255,7 +255,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<KnowledgeBaseFolder> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/knowledge-base-folders',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders',
             path: {
                 'siteId': siteId,
             },
@@ -277,7 +277,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/knowledge-base-folders/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -304,7 +304,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<KnowledgeBaseFolder> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/knowledge-base-folders/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -332,7 +332,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<KnowledgeBaseFolder> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/knowledge-base-folders/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -360,7 +360,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/knowledge-base-folders/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -385,7 +385,7 @@ export class KnowledgeBaseFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/knowledge-base-folders/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/permissions',
             path: {
                 'siteId': siteId,
             },

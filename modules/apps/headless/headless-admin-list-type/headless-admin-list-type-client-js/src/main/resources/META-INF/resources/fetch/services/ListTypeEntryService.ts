@@ -30,7 +30,7 @@ export class ListTypeEntryService {
     }): CancelablePromise<Array<ListTypeEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/list-type-definitions/by-external-reference-code/{externalReferenceCode}/list-type-entries',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/{externalReferenceCode}/list-type-entries',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -57,7 +57,7 @@ export class ListTypeEntryService {
     }): CancelablePromise<ListTypeEntry> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/list-type-definitions/by-external-reference-code/{externalReferenceCode}/list-type-entries',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/{externalReferenceCode}/list-type-entries',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -88,7 +88,7 @@ export class ListTypeEntryService {
     }): CancelablePromise<Array<ListTypeEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/list-type-definitions/{listTypeDefinitionId}/list-type-entries',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}/list-type-entries',
             path: {
                 'listTypeDefinitionId': listTypeDefinitionId,
             },
@@ -115,7 +115,7 @@ export class ListTypeEntryService {
     }): CancelablePromise<ListTypeEntry> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/list-type-definitions/{listTypeDefinitionId}/list-type-entries',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}/list-type-entries',
             path: {
                 'listTypeDefinitionId': listTypeDefinitionId,
             },
@@ -134,7 +134,7 @@ export class ListTypeEntryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/list-type-entries/{listTypeEntryId}',
+            url: '/headless-admin-list-type/v1.0/list-type-entries/{listTypeEntryId}',
             path: {
                 'listTypeEntryId': listTypeEntryId,
             },
@@ -151,7 +151,7 @@ export class ListTypeEntryService {
     }): CancelablePromise<ListTypeEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/list-type-entries/{listTypeEntryId}',
+            url: '/headless-admin-list-type/v1.0/list-type-entries/{listTypeEntryId}',
             path: {
                 'listTypeEntryId': listTypeEntryId,
             },
@@ -170,7 +170,7 @@ export class ListTypeEntryService {
     }): CancelablePromise<ListTypeEntry> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/list-type-entries/{listTypeEntryId}',
+            url: '/headless-admin-list-type/v1.0/list-type-entries/{listTypeEntryId}',
             path: {
                 'listTypeEntryId': listTypeEntryId,
             },

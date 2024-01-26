@@ -18,7 +18,7 @@ export class SlaResultService {
     }): CancelablePromise<SLAResult> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/last-sla-result',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/last-sla-result',
             path: {
                 'processId': processId,
             },

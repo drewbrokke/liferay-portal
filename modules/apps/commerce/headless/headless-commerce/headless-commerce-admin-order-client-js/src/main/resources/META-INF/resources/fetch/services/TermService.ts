@@ -27,7 +27,7 @@ export class TermService {
     }): CancelablePromise<Array<Term>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/terms',
+            url: '/headless-commerce-admin-order/v1.0/terms',
             query: {
                 'filter': filter,
                 'page': page,
@@ -55,7 +55,7 @@ export class TermService {
     }): CancelablePromise<Term | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/terms',
+            url: '/headless-commerce-admin-order/v1.0/terms',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -78,7 +78,7 @@ export class TermService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/terms/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/terms/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -99,7 +99,7 @@ export class TermService {
     }): CancelablePromise<Term> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/terms/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/terms/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -125,7 +125,7 @@ export class TermService {
     }): CancelablePromise<Term> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/terms/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/terms/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -144,14 +144,14 @@ export class TermService {
      * @returns void
      * @throws ApiError
      */
-    public deleteTerms({
+    public deleteHeadlessCommerceAdminOrderV10Terms({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/terms/{id}',
+            url: '/headless-commerce-admin-order/v1.0/terms/{id}',
             path: {
                 'id': id,
             },
@@ -165,14 +165,14 @@ export class TermService {
      * @returns Term Successful operation
      * @throws ApiError
      */
-    public getTerms({
+    public getHeadlessCommerceAdminOrderV10Terms({
         id,
     }: {
         id: number,
     }): CancelablePromise<Term> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/terms/{id}',
+            url: '/headless-commerce-admin-order/v1.0/terms/{id}',
             path: {
                 'id': id,
             },
@@ -189,7 +189,7 @@ export class TermService {
      * @returns Term Succesfully update the Term
      * @throws ApiError
      */
-    public patchTerms({
+    public patchHeadlessCommerceAdminOrderV10Terms({
         id,
         requestBody,
     }: {
@@ -198,7 +198,7 @@ export class TermService {
     }): CancelablePromise<Term> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/terms/{id}',
+            url: '/headless-commerce-admin-order/v1.0/terms/{id}',
             path: {
                 'id': id,
             },

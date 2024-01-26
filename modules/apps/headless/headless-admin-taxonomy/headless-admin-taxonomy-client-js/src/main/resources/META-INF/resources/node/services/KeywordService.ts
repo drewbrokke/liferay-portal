@@ -34,7 +34,7 @@ export class KeywordService {
     }): CancelablePromise<Array<Keyword>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/keywords',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -63,7 +63,7 @@ export class KeywordService {
     }): CancelablePromise<Keyword> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/asset-libraries/{assetLibraryId}/keywords',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -88,7 +88,7 @@ export class KeywordService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/keywords/permissions',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -112,7 +112,7 @@ export class KeywordService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/asset-libraries/{assetLibraryId}/keywords/permissions',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -140,7 +140,7 @@ export class KeywordService {
     }): CancelablePromise<Array<Keyword>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/keywords/ranked',
+            url: '/headless-admin-taxonomy/v1.0/keywords/ranked',
             query: {
                 'fields': fields,
                 'restrictFields': restrictFields,
@@ -163,7 +163,7 @@ export class KeywordService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/keywords/{keywordId}',
+            url: '/headless-admin-taxonomy/v1.0/keywords/{keywordId}',
             path: {
                 'keywordId': keywordId,
             },
@@ -185,7 +185,7 @@ export class KeywordService {
     }): CancelablePromise<Keyword> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/keywords/{keywordId}',
+            url: '/headless-admin-taxonomy/v1.0/keywords/{keywordId}',
             path: {
                 'keywordId': keywordId,
             },
@@ -209,7 +209,7 @@ export class KeywordService {
     }): CancelablePromise<Keyword> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/keywords/{keywordId}',
+            url: '/headless-admin-taxonomy/v1.0/keywords/{keywordId}',
             path: {
                 'keywordId': keywordId,
             },
@@ -228,7 +228,7 @@ export class KeywordService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/keywords/{keywordId}/subscribe',
+            url: '/headless-admin-taxonomy/v1.0/keywords/{keywordId}/subscribe',
             path: {
                 'keywordId': keywordId,
             },
@@ -245,7 +245,7 @@ export class KeywordService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/keywords/{keywordId}/unsubscribe',
+            url: '/headless-admin-taxonomy/v1.0/keywords/{keywordId}/unsubscribe',
             path: {
                 'keywordId': keywordId,
             },
@@ -279,7 +279,7 @@ export class KeywordService {
     }): CancelablePromise<Array<Keyword>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/keywords',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords',
             path: {
                 'siteId': siteId,
             },
@@ -309,7 +309,7 @@ export class KeywordService {
     }): CancelablePromise<Keyword> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/keywords',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords',
             path: {
                 'siteId': siteId,
             },
@@ -334,7 +334,7 @@ export class KeywordService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/keywords/permissions',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -358,7 +358,7 @@ export class KeywordService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/keywords/permissions',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords/permissions',
             path: {
                 'siteId': siteId,
             },

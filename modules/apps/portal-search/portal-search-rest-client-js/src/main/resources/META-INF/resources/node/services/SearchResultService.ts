@@ -44,7 +44,7 @@ export class SearchResultService {
     }): CancelablePromise<Array<SearchResult>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/search',
+            url: '/portal-search-rest/v1.0/search',
             query: {
                 'entryClassNames': entryClassNames,
                 'fields': fields,

@@ -25,7 +25,7 @@ export class SearchResponseService {
     }): CancelablePromise<SearchResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/search',
+            url: '/search-experiences-rest/v1.0/search',
             query: {
                 'query': query,
                 'page': page,

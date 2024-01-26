@@ -28,7 +28,7 @@ export class NotificationQueueEntryService {
     }): CancelablePromise<Array<NotificationQueueEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/notification-queue-entries',
+            url: '/notification/v1.0/notification-queue-entries',
             headers: {
                 'Accept-Language': acceptLanguage,
             },
@@ -52,7 +52,7 @@ export class NotificationQueueEntryService {
     }): CancelablePromise<NotificationQueueEntry> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/notification-queue-entries',
+            url: '/notification/v1.0/notification-queue-entries',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -68,7 +68,7 @@ export class NotificationQueueEntryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/notification-queue-entries/{notificationQueueEntryId}',
+            url: '/notification/v1.0/notification-queue-entries/{notificationQueueEntryId}',
             path: {
                 'notificationQueueEntryId': notificationQueueEntryId,
             },
@@ -85,7 +85,7 @@ export class NotificationQueueEntryService {
     }): CancelablePromise<NotificationQueueEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/notification-queue-entries/{notificationQueueEntryId}',
+            url: '/notification/v1.0/notification-queue-entries/{notificationQueueEntryId}',
             path: {
                 'notificationQueueEntryId': notificationQueueEntryId,
             },
@@ -102,7 +102,7 @@ export class NotificationQueueEntryService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/notification-queue-entries/{notificationQueueEntryId}/resend',
+            url: '/notification/v1.0/notification-queue-entries/{notificationQueueEntryId}/resend',
             path: {
                 'notificationQueueEntryId': notificationQueueEntryId,
             },

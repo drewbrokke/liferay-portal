@@ -27,7 +27,7 @@ export class CurrencyService {
     }): CancelablePromise<Array<Currency>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/currencies',
+            url: '/headless-commerce-admin-catalog/v1.0/currencies',
             query: {
                 'filter': filter,
                 'page': page,
@@ -55,7 +55,7 @@ export class CurrencyService {
     }): CancelablePromise<Currency | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/currencies',
+            url: '/headless-commerce-admin-catalog/v1.0/currencies',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -78,7 +78,7 @@ export class CurrencyService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/currencies/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/currencies/{id}',
             path: {
                 'id': id,
             },
@@ -99,7 +99,7 @@ export class CurrencyService {
     }): CancelablePromise<Currency> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/currencies/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/currencies/{id}',
             path: {
                 'id': id,
             },
@@ -125,7 +125,7 @@ export class CurrencyService {
     }): CancelablePromise<Currency> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/currencies/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/currencies/{id}',
             path: {
                 'id': id,
             },

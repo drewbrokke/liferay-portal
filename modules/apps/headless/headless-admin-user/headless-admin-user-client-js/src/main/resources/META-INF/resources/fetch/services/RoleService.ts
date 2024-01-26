@@ -25,7 +25,7 @@ export class RoleService {
     }): CancelablePromise<Array<Role>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/roles',
+            url: '/headless-admin-user/v1.0/roles',
             query: {
                 'types': types,
                 'page': page,
@@ -46,7 +46,7 @@ export class RoleService {
     }): CancelablePromise<Role> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/roles',
+            url: '/headless-admin-user/v1.0/roles',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -63,7 +63,7 @@ export class RoleService {
     }): CancelablePromise<Role> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/roles/{roleId}',
+            url: '/headless-admin-user/v1.0/roles/{roleId}',
             path: {
                 'roleId': roleId,
             },
@@ -83,7 +83,7 @@ export class RoleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/roles/{roleId}/association/user-account/{userAccountId}',
+            url: '/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}',
             path: {
                 'roleId': roleId,
                 'userAccountId': userAccountId,
@@ -104,7 +104,7 @@ export class RoleService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/roles/{roleId}/association/user-account/{userAccountId}',
+            url: '/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}',
             path: {
                 'roleId': roleId,
                 'userAccountId': userAccountId,
@@ -127,7 +127,7 @@ export class RoleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/roles/{roleId}/association/user-account/{userAccountId}/organization/{organizationId}',
+            url: '/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}/organization/{organizationId}',
             path: {
                 'roleId': roleId,
                 'userAccountId': userAccountId,
@@ -151,7 +151,7 @@ export class RoleService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/roles/{roleId}/association/user-account/{userAccountId}/organization/{organizationId}',
+            url: '/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}/organization/{organizationId}',
             path: {
                 'roleId': roleId,
                 'userAccountId': userAccountId,
@@ -175,7 +175,7 @@ export class RoleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/roles/{roleId}/association/user-account/{userAccountId}/site/{siteId}',
+            url: '/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}/site/{siteId}',
             path: {
                 'roleId': roleId,
                 'userAccountId': userAccountId,
@@ -199,7 +199,7 @@ export class RoleService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/roles/{roleId}/association/user-account/{userAccountId}/site/{siteId}',
+            url: '/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}/site/{siteId}',
             path: {
                 'roleId': roleId,
                 'userAccountId': userAccountId,

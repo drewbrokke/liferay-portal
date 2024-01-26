@@ -25,7 +25,7 @@ export class PriceListService {
     }): CancelablePromise<Array<PriceList>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceLists',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists',
             query: {
                 'filter': filter,
                 'page': page,
@@ -52,7 +52,7 @@ export class PriceListService {
     }): CancelablePromise<PriceList | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/priceLists',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -75,7 +75,7 @@ export class PriceListService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/priceLists/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -96,7 +96,7 @@ export class PriceListService {
     }): CancelablePromise<PriceList> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceLists/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -122,7 +122,7 @@ export class PriceListService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/priceLists/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -148,7 +148,7 @@ export class PriceListService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/priceLists/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/{id}',
             path: {
                 'id': id,
             },
@@ -169,7 +169,7 @@ export class PriceListService {
     }): CancelablePromise<PriceList> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceLists/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/{id}',
             path: {
                 'id': id,
             },
@@ -195,7 +195,7 @@ export class PriceListService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/priceLists/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/{id}',
             path: {
                 'id': id,
             },

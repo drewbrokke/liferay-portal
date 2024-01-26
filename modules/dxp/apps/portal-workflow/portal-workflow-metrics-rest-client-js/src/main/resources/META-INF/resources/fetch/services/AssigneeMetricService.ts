@@ -27,7 +27,7 @@ export class AssigneeMetricService {
     }): CancelablePromise<Array<AssigneeMetric>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/processes/{processId}/assignees/metrics',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/assignees/metrics',
             path: {
                 'processId': processId,
             },

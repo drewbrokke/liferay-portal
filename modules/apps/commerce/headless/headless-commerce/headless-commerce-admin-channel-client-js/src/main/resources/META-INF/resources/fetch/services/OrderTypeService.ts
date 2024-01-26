@@ -12,14 +12,14 @@ export class OrderTypeService {
      * @returns OrderType Successful operation
      * @throws ApiError
      */
-    public getPaymentMethodGroupRelOrderTypesOrderType({
+    public getHeadlessCommerceAdminChannelV10PaymentMethodGroupRelOrderTypesOrderType({
         paymentMethodGroupRelOrderTypeId,
     }: {
         paymentMethodGroupRelOrderTypeId: number,
     }): CancelablePromise<OrderType> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/payment-method-group-rel-order-types/{paymentMethodGroupRelOrderTypeId}/order-type',
+            url: '/headless-commerce-admin-channel/v1.0/payment-method-group-rel-order-types/{paymentMethodGroupRelOrderTypeId}/order-type',
             path: {
                 'paymentMethodGroupRelOrderTypeId': paymentMethodGroupRelOrderTypeId,
             },
@@ -36,14 +36,14 @@ export class OrderTypeService {
      * @returns OrderType Successful operation
      * @throws ApiError
      */
-    public getShippingFixedOptionOrderTypesOrderType({
+    public getHeadlessCommerceAdminChannelV10ShippingFixedOptionOrderTypesOrderType({
         shippingFixedOptionOrderTypeId,
     }: {
         shippingFixedOptionOrderTypeId: number,
     }): CancelablePromise<OrderType> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/shipping-fixed-option-order-types/{shippingFixedOptionOrderTypeId}/order-type',
+            url: '/headless-commerce-admin-channel/v1.0/shipping-fixed-option-order-types/{shippingFixedOptionOrderTypeId}/order-type',
             path: {
                 'shippingFixedOptionOrderTypeId': shippingFixedOptionOrderTypeId,
             },

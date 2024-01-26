@@ -19,7 +19,7 @@ export class AccountAddressChannelService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-address-channels/{accountAddressChannelId}',
+            url: '/headless-commerce-admin-channel/v1.0/account-address-channels/{accountAddressChannelId}',
             path: {
                 'accountAddressChannelId': accountAddressChannelId,
             },
@@ -44,7 +44,7 @@ export class AccountAddressChannelService {
     }): CancelablePromise<Array<AccountAddressChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-addresses/by-externalReferenceCode/{externalReferenceCode}/account-address-channels',
+            url: '/headless-commerce-admin-channel/v1.0/account-addresses/by-externalReferenceCode/{externalReferenceCode}/account-address-channels',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class AccountAddressChannelService {
     }): CancelablePromise<AccountAddressChannel | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/account-addresses/by-externalReferenceCode/{externalReferenceCode}/account-address-channels',
+            url: '/headless-commerce-admin-channel/v1.0/account-addresses/by-externalReferenceCode/{externalReferenceCode}/account-address-channels',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -110,7 +110,7 @@ export class AccountAddressChannelService {
     }): CancelablePromise<Array<AccountAddressChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-addresses/{addressId}/account-address-channels',
+            url: '/headless-commerce-admin-channel/v1.0/account-addresses/{addressId}/account-address-channels',
             path: {
                 'addressId': addressId,
             },
@@ -143,7 +143,7 @@ export class AccountAddressChannelService {
     }): CancelablePromise<AccountAddressChannel | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/account-addresses/{addressId}/account-address-channels',
+            url: '/headless-commerce-admin-channel/v1.0/account-addresses/{addressId}/account-address-channels',
             path: {
                 'addressId': addressId,
             },

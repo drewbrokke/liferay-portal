@@ -36,7 +36,7 @@ export class ContentStructureService {
     }): CancelablePromise<Array<ContentStructure>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/content-structures',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-structures',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -72,7 +72,7 @@ export class ContentStructureService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/content-structures/permissions',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-structures/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -97,7 +97,7 @@ export class ContentStructureService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/asset-libraries/{assetLibraryId}/content-structures/permissions',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-structures/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -122,7 +122,7 @@ export class ContentStructureService {
     }): CancelablePromise<ContentStructure> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/content-structures/{contentStructureId}',
+            url: '/headless-delivery/v1.0/content-structures/{contentStructureId}',
             path: {
                 'contentStructureId': contentStructureId,
             },
@@ -152,7 +152,7 @@ export class ContentStructureService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/content-structures/{contentStructureId}/permissions',
+            url: '/headless-delivery/v1.0/content-structures/{contentStructureId}/permissions',
             path: {
                 'contentStructureId': contentStructureId,
             },
@@ -177,7 +177,7 @@ export class ContentStructureService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/content-structures/{contentStructureId}/permissions',
+            url: '/headless-delivery/v1.0/content-structures/{contentStructureId}/permissions',
             path: {
                 'contentStructureId': contentStructureId,
             },
@@ -214,7 +214,7 @@ export class ContentStructureService {
     }): CancelablePromise<Array<ContentStructure>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/content-structures',
+            url: '/headless-delivery/v1.0/sites/{siteId}/content-structures',
             path: {
                 'siteId': siteId,
             },
@@ -250,7 +250,7 @@ export class ContentStructureService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/content-structures/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/content-structures/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -275,7 +275,7 @@ export class ContentStructureService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/content-structures/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/content-structures/permissions',
             path: {
                 'siteId': siteId,
             },

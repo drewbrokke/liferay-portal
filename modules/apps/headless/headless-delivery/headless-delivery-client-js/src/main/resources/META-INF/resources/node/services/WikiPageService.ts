@@ -21,7 +21,7 @@ export class WikiPageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/wiki-pages/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/wiki-pages/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -48,7 +48,7 @@ export class WikiPageService {
     }): CancelablePromise<WikiPage> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/wiki-pages/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/wiki-pages/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -76,7 +76,7 @@ export class WikiPageService {
     }): CancelablePromise<WikiPage> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/wiki-pages/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/wiki-pages/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -115,7 +115,7 @@ export class WikiPageService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/wiki-nodes/{wikiNodeId}/wiki-pages',
+            url: '/headless-delivery/v1.0/wiki-nodes/{wikiNodeId}/wiki-pages',
             path: {
                 'wikiNodeId': wikiNodeId,
             },
@@ -146,7 +146,7 @@ export class WikiPageService {
     }): CancelablePromise<WikiPage> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/wiki-nodes/{wikiNodeId}/wiki-pages',
+            url: '/headless-delivery/v1.0/wiki-nodes/{wikiNodeId}/wiki-pages',
             path: {
                 'wikiNodeId': wikiNodeId,
             },
@@ -172,7 +172,7 @@ export class WikiPageService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/wiki-pages/{parentWikiPageId}/wiki-pages',
+            url: '/headless-delivery/v1.0/wiki-pages/{parentWikiPageId}/wiki-pages',
             path: {
                 'parentWikiPageId': parentWikiPageId,
             },
@@ -197,7 +197,7 @@ export class WikiPageService {
     }): CancelablePromise<WikiPage> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/wiki-pages/{parentWikiPageId}/wiki-pages',
+            url: '/headless-delivery/v1.0/wiki-pages/{parentWikiPageId}/wiki-pages',
             path: {
                 'parentWikiPageId': parentWikiPageId,
             },
@@ -217,7 +217,7 @@ export class WikiPageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/wiki-pages/{wikiPageId}',
+            url: '/headless-delivery/v1.0/wiki-pages/{wikiPageId}',
             path: {
                 'wikiPageId': wikiPageId,
             },
@@ -241,7 +241,7 @@ export class WikiPageService {
     }): CancelablePromise<WikiPage> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/wiki-pages/{wikiPageId}',
+            url: '/headless-delivery/v1.0/wiki-pages/{wikiPageId}',
             path: {
                 'wikiPageId': wikiPageId,
             },
@@ -266,7 +266,7 @@ export class WikiPageService {
     }): CancelablePromise<WikiPage> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/wiki-pages/{wikiPageId}',
+            url: '/headless-delivery/v1.0/wiki-pages/{wikiPageId}',
             path: {
                 'wikiPageId': wikiPageId,
             },
@@ -293,7 +293,7 @@ export class WikiPageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/wiki-pages/{wikiPageId}/permissions',
+            url: '/headless-delivery/v1.0/wiki-pages/{wikiPageId}/permissions',
             path: {
                 'wikiPageId': wikiPageId,
             },
@@ -318,7 +318,7 @@ export class WikiPageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/wiki-pages/{wikiPageId}/permissions',
+            url: '/headless-delivery/v1.0/wiki-pages/{wikiPageId}/permissions',
             path: {
                 'wikiPageId': wikiPageId,
             },
@@ -336,7 +336,7 @@ export class WikiPageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/wiki-pages/{wikiPageId}/subscribe',
+            url: '/headless-delivery/v1.0/wiki-pages/{wikiPageId}/subscribe',
             path: {
                 'wikiPageId': wikiPageId,
             },
@@ -353,7 +353,7 @@ export class WikiPageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/wiki-pages/{wikiPageId}/unsubscribe',
+            url: '/headless-delivery/v1.0/wiki-pages/{wikiPageId}/unsubscribe',
             path: {
                 'wikiPageId': wikiPageId,
             },

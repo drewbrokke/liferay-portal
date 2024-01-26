@@ -26,7 +26,7 @@ export class DataDefinitionService {
     }): CancelablePromise<Array<DataDefinition>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-definitions/by-content-type/{contentType}',
+            url: '/data-engine/v2.0/data-definitions/by-content-type/{contentType}',
             path: {
                 'contentType': contentType,
             },
@@ -51,7 +51,7 @@ export class DataDefinitionService {
     }): CancelablePromise<DataDefinition> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/data-definitions/by-content-type/{contentType}',
+            url: '/data-engine/v2.0/data-definitions/by-content-type/{contentType}',
             path: {
                 'contentType': contentType,
             },
@@ -66,7 +66,7 @@ export class DataDefinitionService {
     public getDataDefinitionDataDefinitionFieldFieldTypes(): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-definitions/data-definition-fields/field-types',
+            url: '/data-engine/v2.0/data-definitions/data-definition-fields/field-types',
         });
     }
     /**
@@ -80,7 +80,7 @@ export class DataDefinitionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/data-definitions/{dataDefinitionId}',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -97,7 +97,7 @@ export class DataDefinitionService {
     }): CancelablePromise<DataDefinition> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-definitions/{dataDefinitionId}',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -116,7 +116,7 @@ export class DataDefinitionService {
     }): CancelablePromise<DataDefinition> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/data-definitions/{dataDefinitionId}',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -137,7 +137,7 @@ export class DataDefinitionService {
     }): CancelablePromise<DataDefinition> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/data-definitions/{dataDefinitionId}',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -156,7 +156,7 @@ export class DataDefinitionService {
     }): CancelablePromise<DataDefinition> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/data-definitions/{dataDefinitionId}/copy',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/copy',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -175,7 +175,7 @@ export class DataDefinitionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-definitions/{dataDefinitionId}/permissions',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/permissions',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -197,7 +197,7 @@ export class DataDefinitionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/data-definitions/{dataDefinitionId}/permissions',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/permissions',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -225,7 +225,7 @@ export class DataDefinitionService {
     }): CancelablePromise<Array<DataDefinition>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/data-definitions/by-content-type/{contentType}',
+            url: '/data-engine/v2.0/sites/{siteId}/data-definitions/by-content-type/{contentType}',
             path: {
                 'siteId': siteId,
                 'contentType': contentType,
@@ -253,7 +253,7 @@ export class DataDefinitionService {
     }): CancelablePromise<DataDefinition> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/data-definitions/by-content-type/{contentType}',
+            url: '/data-engine/v2.0/sites/{siteId}/data-definitions/by-content-type/{contentType}',
             path: {
                 'siteId': siteId,
                 'contentType': contentType,
@@ -277,7 +277,7 @@ export class DataDefinitionService {
     }): CancelablePromise<DataDefinition> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/data-definitions/by-content-type/{contentType}/by-data-definition-key/{dataDefinitionKey}',
+            url: '/data-engine/v2.0/sites/{siteId}/data-definitions/by-content-type/{contentType}/by-data-definition-key/{dataDefinitionKey}',
             path: {
                 'siteId': siteId,
                 'contentType': contentType,

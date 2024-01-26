@@ -19,7 +19,7 @@ export class ShippingMethodService {
     }): CancelablePromise<Array<ShippingMethod>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/carts/{cartId}/shipping-methods',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/shipping-methods',
             path: {
                 'cartId': cartId,
             },

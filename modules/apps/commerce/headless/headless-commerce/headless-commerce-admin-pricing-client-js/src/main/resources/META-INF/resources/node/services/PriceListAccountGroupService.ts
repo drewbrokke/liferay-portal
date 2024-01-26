@@ -19,7 +19,7 @@ export class PriceListAccountGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/priceListAccountGroups/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceListAccountGroups/{id}',
             path: {
                 'id': id,
             },
@@ -44,7 +44,7 @@ export class PriceListAccountGroupService {
     }): CancelablePromise<Array<PriceListAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceLists/by-externalReferenceCode/{externalReferenceCode}/priceListAccountGroup',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/by-externalReferenceCode/{externalReferenceCode}/priceListAccountGroup',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class PriceListAccountGroupService {
     }): CancelablePromise<PriceListAccountGroup | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/priceLists/by-externalReferenceCode/{externalReferenceCode}/priceListAccountGroup',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/by-externalReferenceCode/{externalReferenceCode}/priceListAccountGroup',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -104,7 +104,7 @@ export class PriceListAccountGroupService {
     }): CancelablePromise<Array<PriceListAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceLists/{id}/priceListAccountGroups',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/{id}/priceListAccountGroups',
             path: {
                 'id': id,
             },
@@ -134,7 +134,7 @@ export class PriceListAccountGroupService {
     }): CancelablePromise<PriceListAccountGroup | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/priceLists/{id}/priceListAccountGroups',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/{id}/priceListAccountGroups',
             path: {
                 'id': id,
             },

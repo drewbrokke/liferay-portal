@@ -27,7 +27,7 @@ export class AttachmentService {
     }): CancelablePromise<Array<Attachment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/products/{productId}/attachments',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/attachments',
             path: {
                 'channelId': channelId,
                 'productId': productId,
@@ -64,7 +64,7 @@ export class AttachmentService {
     }): CancelablePromise<Array<Attachment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/products/{productId}/images',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/images',
             path: {
                 'channelId': channelId,
                 'productId': productId,

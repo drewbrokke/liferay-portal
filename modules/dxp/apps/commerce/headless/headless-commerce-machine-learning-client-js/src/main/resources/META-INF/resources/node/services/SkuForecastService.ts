@@ -29,7 +29,7 @@ export class SkuForecastService {
     }): CancelablePromise<Array<SkuForecast>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skuForecasts/by-monthlyDemand',
+            url: '/headless-commerce-machine-learning/v1.0/skuForecasts/by-monthlyDemand',
             query: {
                 'forecastLength': forecastLength,
                 'forecastStartDate': forecastStartDate,

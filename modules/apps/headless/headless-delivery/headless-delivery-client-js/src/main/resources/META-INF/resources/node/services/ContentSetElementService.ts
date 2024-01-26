@@ -28,7 +28,7 @@ export class ContentSetElementService {
     }): CancelablePromise<Array<ContentSetElement>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/content-sets/by-key/{key}/content-set-elements',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-sets/by-key/{key}/content-set-elements',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'key': key,
@@ -62,7 +62,7 @@ export class ContentSetElementService {
     }): CancelablePromise<Array<ContentSetElement>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/content-sets/by-uuid/{uuid}/content-set-elements',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-sets/by-uuid/{uuid}/content-set-elements',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'uuid': uuid,
@@ -95,7 +95,7 @@ export class ContentSetElementService {
     }): CancelablePromise<Array<ContentSetElement>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/content-sets/{contentSetId}/content-set-elements',
+            url: '/headless-delivery/v1.0/content-sets/{contentSetId}/content-set-elements',
             path: {
                 'contentSetId': contentSetId,
             },
@@ -129,7 +129,7 @@ export class ContentSetElementService {
     }): CancelablePromise<Array<ContentSetElement>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/content-sets/by-key/{key}/content-set-elements',
+            url: '/headless-delivery/v1.0/sites/{siteId}/content-sets/by-key/{key}/content-set-elements',
             path: {
                 'siteId': siteId,
                 'key': key,
@@ -164,7 +164,7 @@ export class ContentSetElementService {
     }): CancelablePromise<Array<ContentSetElement>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/content-sets/by-uuid/{uuid}/content-set-elements',
+            url: '/headless-delivery/v1.0/sites/{siteId}/content-sets/by-uuid/{uuid}/content-set-elements',
             path: {
                 'siteId': siteId,
                 'uuid': uuid,

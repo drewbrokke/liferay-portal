@@ -20,7 +20,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -44,7 +44,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<KnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -69,7 +69,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<KnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -91,7 +91,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<KnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -111,7 +111,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}/my-rating',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/my-rating',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -133,7 +133,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}/my-rating',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/my-rating',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -157,7 +157,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}/my-rating',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/my-rating',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -179,7 +179,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}/my-rating',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/my-rating',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -206,7 +206,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}/permissions',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/permissions',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -231,7 +231,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}/permissions',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/permissions',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -249,7 +249,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}/subscribe',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/subscribe',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -266,7 +266,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/knowledge-base-articles/{knowledgeBaseArticleId}/unsubscribe',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/unsubscribe',
             path: {
                 'knowledgeBaseArticleId': knowledgeBaseArticleId,
             },
@@ -304,7 +304,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<Array<KnowledgeBaseArticle>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/knowledge-base-articles/{parentKnowledgeBaseArticleId}/knowledge-base-articles',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{parentKnowledgeBaseArticleId}/knowledge-base-articles',
             path: {
                 'parentKnowledgeBaseArticleId': parentKnowledgeBaseArticleId,
             },
@@ -336,7 +336,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<KnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/knowledge-base-articles/{parentKnowledgeBaseArticleId}/knowledge-base-articles',
+            url: '/headless-delivery/v1.0/knowledge-base-articles/{parentKnowledgeBaseArticleId}/knowledge-base-articles',
             path: {
                 'parentKnowledgeBaseArticleId': parentKnowledgeBaseArticleId,
             },
@@ -376,7 +376,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<Array<KnowledgeBaseArticle>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/knowledge-base-folders/{knowledgeBaseFolderId}/knowledge-base-articles',
+            url: '/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}/knowledge-base-articles',
             path: {
                 'knowledgeBaseFolderId': knowledgeBaseFolderId,
             },
@@ -408,7 +408,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<KnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/knowledge-base-folders/{knowledgeBaseFolderId}/knowledge-base-articles',
+            url: '/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}/knowledge-base-articles',
             path: {
                 'knowledgeBaseFolderId': knowledgeBaseFolderId,
             },
@@ -448,7 +448,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<Array<KnowledgeBaseArticle>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/knowledge-base-articles',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles',
             path: {
                 'siteId': siteId,
             },
@@ -480,7 +480,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<KnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/knowledge-base-articles',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles',
             path: {
                 'siteId': siteId,
             },
@@ -502,7 +502,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/knowledge-base-articles/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -529,7 +529,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<KnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/knowledge-base-articles/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -557,7 +557,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<KnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/knowledge-base-articles/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -585,7 +585,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/knowledge-base-articles/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -610,7 +610,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/knowledge-base-articles/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -628,7 +628,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/knowledge-base-articles/subscribe',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles/subscribe',
             path: {
                 'siteId': siteId,
             },
@@ -645,7 +645,7 @@ export class KnowledgeBaseArticleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/knowledge-base-articles/unsubscribe',
+            url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles/unsubscribe',
             path: {
                 'siteId': siteId,
             },

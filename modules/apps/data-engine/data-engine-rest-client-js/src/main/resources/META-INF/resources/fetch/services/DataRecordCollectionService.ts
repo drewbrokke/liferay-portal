@@ -18,7 +18,7 @@ export class DataRecordCollectionService {
     }): CancelablePromise<DataRecordCollection> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-definitions/{dataDefinitionId}/data-record-collection',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-record-collection',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -41,7 +41,7 @@ export class DataRecordCollectionService {
     }): CancelablePromise<Array<DataRecordCollection>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-definitions/{dataDefinitionId}/data-record-collections',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-record-collections',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -65,7 +65,7 @@ export class DataRecordCollectionService {
     }): CancelablePromise<DataRecordCollection> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/data-definitions/{dataDefinitionId}/data-record-collections',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-record-collections',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -84,7 +84,7 @@ export class DataRecordCollectionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/data-record-collections/{dataRecordCollectionId}',
+            url: '/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}',
             path: {
                 'dataRecordCollectionId': dataRecordCollectionId,
             },
@@ -101,7 +101,7 @@ export class DataRecordCollectionService {
     }): CancelablePromise<DataRecordCollection> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-record-collections/{dataRecordCollectionId}',
+            url: '/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}',
             path: {
                 'dataRecordCollectionId': dataRecordCollectionId,
             },
@@ -120,7 +120,7 @@ export class DataRecordCollectionService {
     }): CancelablePromise<DataRecordCollection> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/data-record-collections/{dataRecordCollectionId}',
+            url: '/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}',
             path: {
                 'dataRecordCollectionId': dataRecordCollectionId,
             },
@@ -141,7 +141,7 @@ export class DataRecordCollectionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-record-collections/{dataRecordCollectionId}/permissions',
+            url: '/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/permissions',
             path: {
                 'dataRecordCollectionId': dataRecordCollectionId,
             },
@@ -163,7 +163,7 @@ export class DataRecordCollectionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/data-record-collections/{dataRecordCollectionId}/permissions',
+            url: '/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/permissions',
             path: {
                 'dataRecordCollectionId': dataRecordCollectionId,
             },
@@ -181,7 +181,7 @@ export class DataRecordCollectionService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-record-collections/{dataRecordCollectionId}/permissions/by-current-user',
+            url: '/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/permissions/by-current-user',
             path: {
                 'dataRecordCollectionId': dataRecordCollectionId,
             },
@@ -200,7 +200,7 @@ export class DataRecordCollectionService {
     }): CancelablePromise<DataRecordCollection> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/data-record-collections/by-data-record-collection-key/{dataRecordCollectionKey}',
+            url: '/data-engine/v2.0/sites/{siteId}/data-record-collections/by-data-record-collection-key/{dataRecordCollectionKey}',
             path: {
                 'siteId': siteId,
                 'dataRecordCollectionKey': dataRecordCollectionKey,

@@ -15,7 +15,7 @@ export class SamlProviderService {
     public getSamlProvider(): CancelablePromise<SamlProvider> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/saml-provider',
+            url: '/saml-admin/v1.0/saml-provider',
         });
     }
     /**
@@ -30,7 +30,7 @@ export class SamlProviderService {
     }): CancelablePromise<SamlProvider> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/saml-provider',
+            url: '/saml-admin/v1.0/saml-provider',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -47,7 +47,7 @@ export class SamlProviderService {
     }): CancelablePromise<SamlProvider> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/saml-provider',
+            url: '/saml-admin/v1.0/saml-provider',
             body: requestBody,
             mediaType: 'application/json',
         });

@@ -23,7 +23,7 @@ export class TierPriceService {
     }): CancelablePromise<Array<TierPrice>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceEntries/by-externalReferenceCode/{externalReferenceCode}/tierPrices',
+            url: '/headless-commerce-admin-pricing/v1.0/priceEntries/by-externalReferenceCode/{externalReferenceCode}/tierPrices',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -54,7 +54,7 @@ export class TierPriceService {
     }): CancelablePromise<TierPrice | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/priceEntries/by-externalReferenceCode/{externalReferenceCode}/tierPrices',
+            url: '/headless-commerce-admin-pricing/v1.0/priceEntries/by-externalReferenceCode/{externalReferenceCode}/tierPrices',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -84,7 +84,7 @@ export class TierPriceService {
     }): CancelablePromise<Array<TierPrice>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceEntries/{id}/tierPrices',
+            url: '/headless-commerce-admin-pricing/v1.0/priceEntries/{id}/tierPrices',
             path: {
                 'id': id,
             },
@@ -115,7 +115,7 @@ export class TierPriceService {
     }): CancelablePromise<TierPrice | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/priceEntries/{id}/tierPrices',
+            url: '/headless-commerce-admin-pricing/v1.0/priceEntries/{id}/tierPrices',
             path: {
                 'id': id,
             },
@@ -141,7 +141,7 @@ export class TierPriceService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/tierPrices/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/tierPrices/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -162,7 +162,7 @@ export class TierPriceService {
     }): CancelablePromise<TierPrice> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/tierPrices/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/tierPrices/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -188,7 +188,7 @@ export class TierPriceService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/tierPrices/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/tierPrices/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -214,7 +214,7 @@ export class TierPriceService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/tierPrices/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/tierPrices/{id}',
             path: {
                 'id': id,
             },
@@ -235,7 +235,7 @@ export class TierPriceService {
     }): CancelablePromise<TierPrice> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/tierPrices/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/tierPrices/{id}',
             path: {
                 'id': id,
             },
@@ -261,7 +261,7 @@ export class TierPriceService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/tierPrices/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/tierPrices/{id}',
             path: {
                 'id': id,
             },

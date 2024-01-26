@@ -24,7 +24,7 @@ export class WorkflowLogService {
     }): CancelablePromise<Array<WorkflowLog>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-instances/{workflowInstanceId}/workflow-logs',
+            url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-logs',
             path: {
                 'workflowInstanceId': workflowInstanceId,
             },
@@ -46,7 +46,7 @@ export class WorkflowLogService {
     }): CancelablePromise<WorkflowLog> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-logs/{workflowLogId}',
+            url: '/headless-admin-workflow/v1.0/workflow-logs/{workflowLogId}',
             path: {
                 'workflowLogId': workflowLogId,
             },
@@ -69,7 +69,7 @@ export class WorkflowLogService {
     }): CancelablePromise<Array<WorkflowLog>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/{workflowTaskId}/workflow-logs',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/workflow-logs',
             path: {
                 'workflowTaskId': workflowTaskId,
             },

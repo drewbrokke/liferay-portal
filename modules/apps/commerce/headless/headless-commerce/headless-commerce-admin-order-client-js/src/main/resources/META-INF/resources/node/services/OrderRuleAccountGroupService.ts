@@ -12,14 +12,14 @@ export class OrderRuleAccountGroupService {
      * @returns void
      * @throws ApiError
      */
-    public deleteOrderRuleAccountGroups({
+    public deleteHeadlessCommerceAdminOrderV10OrderRuleAccountGroups({
         orderRuleAccountGroupId,
     }: {
         orderRuleAccountGroupId: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/order-rule-account-groups/{orderRuleAccountGroupId}',
+            url: '/headless-commerce-admin-order/v1.0/order-rule-account-groups/{orderRuleAccountGroupId}',
             path: {
                 'orderRuleAccountGroupId': orderRuleAccountGroupId,
             },
@@ -44,7 +44,7 @@ export class OrderRuleAccountGroupService {
     }): CancelablePromise<Array<OrderRuleAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-account-groups',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-account-groups',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class OrderRuleAccountGroupService {
     }): CancelablePromise<OrderRuleAccountGroup | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-account-groups',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-account-groups',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -110,7 +110,7 @@ export class OrderRuleAccountGroupService {
     }): CancelablePromise<Array<OrderRuleAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules/{id}/order-rule-account-groups',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-account-groups',
             path: {
                 'id': id,
             },

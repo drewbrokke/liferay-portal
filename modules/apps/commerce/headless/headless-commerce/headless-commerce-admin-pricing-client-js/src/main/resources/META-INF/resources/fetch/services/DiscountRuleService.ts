@@ -23,7 +23,7 @@ export class DiscountRuleService {
     }): CancelablePromise<Array<DiscountRule>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discount/by-externalReferenceCode/{externalReferenceCode}/discountRules',
+            url: '/headless-commerce-admin-pricing/v1.0/discount/by-externalReferenceCode/{externalReferenceCode}/discountRules',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -54,7 +54,7 @@ export class DiscountRuleService {
     }): CancelablePromise<DiscountRule | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/discount/by-externalReferenceCode/{externalReferenceCode}/discountRules',
+            url: '/headless-commerce-admin-pricing/v1.0/discount/by-externalReferenceCode/{externalReferenceCode}/discountRules',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -80,7 +80,7 @@ export class DiscountRuleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/discountRules/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/discountRules/{id}',
             path: {
                 'id': id,
             },
@@ -101,7 +101,7 @@ export class DiscountRuleService {
     }): CancelablePromise<DiscountRule> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discountRules/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/discountRules/{id}',
             path: {
                 'id': id,
             },
@@ -127,7 +127,7 @@ export class DiscountRuleService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/discountRules/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/discountRules/{id}',
             path: {
                 'id': id,
             },
@@ -157,7 +157,7 @@ export class DiscountRuleService {
     }): CancelablePromise<Array<DiscountRule>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discounts/{id}/discountRules',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}/discountRules',
             path: {
                 'id': id,
             },
@@ -188,7 +188,7 @@ export class DiscountRuleService {
     }): CancelablePromise<DiscountRule | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/discounts/{id}/discountRules',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}/discountRules',
             path: {
                 'id': id,
             },

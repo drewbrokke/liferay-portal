@@ -19,7 +19,7 @@ export class NavigationMenuService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/navigation-menus/{navigationMenuId}',
+            url: '/headless-delivery/v1.0/navigation-menus/{navigationMenuId}',
             path: {
                 'navigationMenuId': navigationMenuId,
             },
@@ -42,7 +42,7 @@ export class NavigationMenuService {
     }): CancelablePromise<NavigationMenu> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/navigation-menus/{navigationMenuId}',
+            url: '/headless-delivery/v1.0/navigation-menus/{navigationMenuId}',
             path: {
                 'navigationMenuId': navigationMenuId,
             },
@@ -67,7 +67,7 @@ export class NavigationMenuService {
     }): CancelablePromise<NavigationMenu> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/navigation-menus/{navigationMenuId}',
+            url: '/headless-delivery/v1.0/navigation-menus/{navigationMenuId}',
             path: {
                 'navigationMenuId': navigationMenuId,
             },
@@ -94,7 +94,7 @@ export class NavigationMenuService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/navigation-menus/{navigationMenuId}/permissions',
+            url: '/headless-delivery/v1.0/navigation-menus/{navigationMenuId}/permissions',
             path: {
                 'navigationMenuId': navigationMenuId,
             },
@@ -119,7 +119,7 @@ export class NavigationMenuService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/navigation-menus/{navigationMenuId}/permissions',
+            url: '/headless-delivery/v1.0/navigation-menus/{navigationMenuId}/permissions',
             path: {
                 'navigationMenuId': navigationMenuId,
             },
@@ -147,7 +147,7 @@ export class NavigationMenuService {
     }): CancelablePromise<Array<NavigationMenu>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/navigation-menus',
+            url: '/headless-delivery/v1.0/sites/{siteId}/navigation-menus',
             path: {
                 'siteId': siteId,
             },
@@ -174,7 +174,7 @@ export class NavigationMenuService {
     }): CancelablePromise<NavigationMenu> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/navigation-menus',
+            url: '/headless-delivery/v1.0/sites/{siteId}/navigation-menus',
             path: {
                 'siteId': siteId,
             },
@@ -201,7 +201,7 @@ export class NavigationMenuService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/navigation-menus/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/navigation-menus/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -226,7 +226,7 @@ export class NavigationMenuService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/navigation-menus/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/navigation-menus/permissions',
             path: {
                 'siteId': siteId,
             },

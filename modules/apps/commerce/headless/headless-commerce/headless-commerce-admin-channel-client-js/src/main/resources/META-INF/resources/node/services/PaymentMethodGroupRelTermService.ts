@@ -12,14 +12,14 @@ export class PaymentMethodGroupRelTermService {
      * @returns void
      * @throws ApiError
      */
-    public deletePaymentMethodGroupRelTerms({
+    public deleteHeadlessCommerceAdminChannelV10PaymentMethodGroupRelTerms({
         paymentMethodGroupRelTermId,
     }: {
         paymentMethodGroupRelTermId: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/payment-method-group-rel-terms/{paymentMethodGroupRelTermId}',
+            url: '/headless-commerce-admin-channel/v1.0/payment-method-group-rel-terms/{paymentMethodGroupRelTermId}',
             path: {
                 'paymentMethodGroupRelTermId': paymentMethodGroupRelTermId,
             },
@@ -33,7 +33,7 @@ export class PaymentMethodGroupRelTermService {
      * @returns PaymentMethodGroupRelTerm Successful operation
      * @throws ApiError
      */
-    public getPaymentMethodGroupRelsPaymentMethodGroupRelTerms({
+    public getHeadlessCommerceAdminChannelV10PaymentMethodGroupRelsPaymentMethodGroupRelTerms({
         id,
         filter,
         page,
@@ -50,7 +50,7 @@ export class PaymentMethodGroupRelTermService {
     }): CancelablePromise<Array<PaymentMethodGroupRelTerm>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/payment-method-group-rels/{id}/payment-method-group-rel-terms',
+            url: '/headless-commerce-admin-channel/v1.0/payment-method-group-rels/{id}/payment-method-group-rel-terms',
             path: {
                 'id': id,
             },
@@ -74,7 +74,7 @@ export class PaymentMethodGroupRelTermService {
      * @returns any Async
      * @throws ApiError
      */
-    public postPaymentMethodGroupRelsPaymentMethodGroupRelTerms({
+    public postHeadlessCommerceAdminChannelV10PaymentMethodGroupRelsPaymentMethodGroupRelTerms({
         id,
         requestBody,
     }: {
@@ -83,7 +83,7 @@ export class PaymentMethodGroupRelTermService {
     }): CancelablePromise<PaymentMethodGroupRelTerm | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/payment-method-group-rels/{id}/payment-method-group-rel-terms',
+            url: '/headless-commerce-admin-channel/v1.0/payment-method-group-rels/{id}/payment-method-group-rel-terms',
             path: {
                 'id': id,
             },

@@ -20,7 +20,7 @@ export class PlanService {
     }): CancelablePromise<Array<Plan>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/plans',
+            url: '/batch-planner/v1.0/plans',
             query: {
                 'page': page,
                 'pageSize': pageSize,
@@ -38,7 +38,7 @@ export class PlanService {
     }): CancelablePromise<Plan> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/plans',
+            url: '/batch-planner/v1.0/plans',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -54,7 +54,7 @@ export class PlanService {
     }): CancelablePromise<Blob> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/plans/{internalClassNameKey}/template',
+            url: '/batch-planner/v1.0/plans/{internalClassNameKey}/template',
             path: {
                 'internalClassNameKey': internalClassNameKey,
             },
@@ -71,7 +71,7 @@ export class PlanService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/plans/{planId}',
+            url: '/batch-planner/v1.0/plans/{planId}',
             path: {
                 'planId': planId,
             },
@@ -88,7 +88,7 @@ export class PlanService {
     }): CancelablePromise<Plan> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/plans/{planId}',
+            url: '/batch-planner/v1.0/plans/{planId}',
             path: {
                 'planId': planId,
             },
@@ -107,7 +107,7 @@ export class PlanService {
     }): CancelablePromise<Plan> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/plans/{planId}',
+            url: '/batch-planner/v1.0/plans/{planId}',
             path: {
                 'planId': planId,
             },

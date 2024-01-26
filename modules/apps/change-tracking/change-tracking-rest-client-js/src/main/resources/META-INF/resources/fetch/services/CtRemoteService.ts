@@ -24,7 +24,7 @@ export class CtRemoteService {
     }): CancelablePromise<Array<CTRemote>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-remotes',
+            url: '/change-tracking-rest/v1.0/ct-remotes',
             query: {
                 'page': page,
                 'pageSize': pageSize,
@@ -44,7 +44,7 @@ export class CtRemoteService {
     }): CancelablePromise<CTRemote> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/ct-remotes',
+            url: '/change-tracking-rest/v1.0/ct-remotes',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -60,7 +60,7 @@ export class CtRemoteService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/ct-remotes/{id}',
+            url: '/change-tracking-rest/v1.0/ct-remotes/{id}',
             path: {
                 'id': id,
             },
@@ -77,7 +77,7 @@ export class CtRemoteService {
     }): CancelablePromise<CTRemote> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-remotes/{id}',
+            url: '/change-tracking-rest/v1.0/ct-remotes/{id}',
             path: {
                 'id': id,
             },
@@ -96,7 +96,7 @@ export class CtRemoteService {
     }): CancelablePromise<CTRemote> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/ct-remotes/{id}',
+            url: '/change-tracking-rest/v1.0/ct-remotes/{id}',
             path: {
                 'id': id,
             },
@@ -117,7 +117,7 @@ export class CtRemoteService {
     }): CancelablePromise<CTRemote> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/ct-remotes/{id}',
+            url: '/change-tracking-rest/v1.0/ct-remotes/{id}',
             path: {
                 'id': id,
             },

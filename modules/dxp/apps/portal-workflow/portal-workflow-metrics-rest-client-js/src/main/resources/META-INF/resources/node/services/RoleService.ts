@@ -20,7 +20,7 @@ export class RoleService {
     }): CancelablePromise<Array<Role>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/roles',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/roles',
             path: {
                 'processId': processId,
             },

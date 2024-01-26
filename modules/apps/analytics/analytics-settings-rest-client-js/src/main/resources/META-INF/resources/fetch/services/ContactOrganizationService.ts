@@ -24,7 +24,7 @@ export class ContactOrganizationService {
     }): CancelablePromise<Array<ContactOrganization>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/contacts/organizations',
+            url: '/analytics-settings-rest/v1.0/contacts/organizations',
             query: {
                 'keywords': keywords,
                 'page': page,

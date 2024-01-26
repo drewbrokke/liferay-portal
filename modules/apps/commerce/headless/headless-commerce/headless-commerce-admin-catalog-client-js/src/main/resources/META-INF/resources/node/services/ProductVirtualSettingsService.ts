@@ -19,7 +19,7 @@ export class ProductVirtualSettingsService {
     }): CancelablePromise<ProductVirtualSettings> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/product-virtual-settings',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/product-virtual-settings',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -43,7 +43,7 @@ export class ProductVirtualSettingsService {
     }): CancelablePromise<ProductVirtualSettings> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/product-virtual-settings',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/product-virtual-settings',
             path: {
                 'id': id,
             },

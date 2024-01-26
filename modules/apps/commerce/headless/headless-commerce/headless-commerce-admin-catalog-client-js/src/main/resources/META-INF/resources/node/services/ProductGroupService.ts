@@ -27,7 +27,7 @@ export class ProductGroupService {
     }): CancelablePromise<Array<ProductGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/product-groups',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups',
             query: {
                 'filter': filter,
                 'page': page,
@@ -55,7 +55,7 @@ export class ProductGroupService {
     }): CancelablePromise<ProductGroup | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/product-groups',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -78,7 +78,7 @@ export class ProductGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/product-groups/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -99,7 +99,7 @@ export class ProductGroupService {
     }): CancelablePromise<ProductGroup> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/product-groups/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -125,7 +125,7 @@ export class ProductGroupService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/product-groups/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -151,7 +151,7 @@ export class ProductGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/product-groups/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/{id}',
             path: {
                 'id': id,
             },
@@ -172,7 +172,7 @@ export class ProductGroupService {
     }): CancelablePromise<ProductGroup> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/product-groups/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/{id}',
             path: {
                 'id': id,
             },
@@ -198,7 +198,7 @@ export class ProductGroupService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/product-groups/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/{id}',
             path: {
                 'id': id,
             },

@@ -19,7 +19,7 @@ export class CartCommentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/cart-comments/{cartCommentId}',
+            url: '/headless-commerce-delivery-cart/v1.0/cart-comments/{cartCommentId}',
             path: {
                 'cartCommentId': cartCommentId,
             },
@@ -40,7 +40,7 @@ export class CartCommentService {
     }): CancelablePromise<CartComment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/cart-comments/{cartCommentId}',
+            url: '/headless-commerce-delivery-cart/v1.0/cart-comments/{cartCommentId}',
             path: {
                 'cartCommentId': cartCommentId,
             },
@@ -66,7 +66,7 @@ export class CartCommentService {
     }): CancelablePromise<CartComment> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/cart-comments/{cartCommentId}',
+            url: '/headless-commerce-delivery-cart/v1.0/cart-comments/{cartCommentId}',
             path: {
                 'cartCommentId': cartCommentId,
             },
@@ -94,7 +94,7 @@ export class CartCommentService {
     }): CancelablePromise<CartComment> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/cart-comments/{cartCommentId}',
+            url: '/headless-commerce-delivery-cart/v1.0/cart-comments/{cartCommentId}',
             path: {
                 'cartCommentId': cartCommentId,
             },
@@ -124,7 +124,7 @@ export class CartCommentService {
     }): CancelablePromise<Array<CartComment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/carts/{cartId}/comments',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/comments',
             path: {
                 'cartId': cartId,
             },
@@ -154,7 +154,7 @@ export class CartCommentService {
     }): CancelablePromise<CartComment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/carts/{cartId}/comments',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/comments',
             path: {
                 'cartId': cartId,
             },

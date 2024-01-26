@@ -12,7 +12,7 @@ export class PlacedOrderService {
      * @returns PlacedOrder Successful operation
      * @throws ApiError
      */
-    public getChannelsAccountsPlacedOrders({
+    public getHeadlessCommerceDeliveryOrderV10ChannelsAccountsPlacedOrders({
         accountId,
         channelId,
         page,
@@ -25,7 +25,7 @@ export class PlacedOrderService {
     }): CancelablePromise<Array<PlacedOrder>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/accounts/{accountId}/placed-orders',
+            url: '/headless-commerce-delivery-order/v1.0/channels/{channelId}/accounts/{accountId}/placed-orders',
             path: {
                 'accountId': accountId,
                 'channelId': channelId,
@@ -46,14 +46,14 @@ export class PlacedOrderService {
      * @returns PlacedOrder
      * @throws ApiError
      */
-    public getPlacedOrders({
+    public getHeadlessCommerceDeliveryOrderV10PlacedOrders({
         placedOrderId,
     }: {
         placedOrderId: number,
     }): CancelablePromise<PlacedOrder> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/placed-orders/{placedOrderId}',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}',
             path: {
                 'placedOrderId': placedOrderId,
             },
@@ -77,7 +77,7 @@ export class PlacedOrderService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/placed-orders/{placedOrderId}/payment-url',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/payment-url',
             path: {
                 'placedOrderId': placedOrderId,
             },

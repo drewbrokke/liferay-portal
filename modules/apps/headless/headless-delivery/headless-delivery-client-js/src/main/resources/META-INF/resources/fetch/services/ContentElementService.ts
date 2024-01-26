@@ -34,7 +34,7 @@ export class ContentElementService {
     }): CancelablePromise<Array<ContentElement>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/content-elements',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-elements',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -77,7 +77,7 @@ export class ContentElementService {
     }): CancelablePromise<Array<ContentElement>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/content-elements',
+            url: '/headless-delivery/v1.0/sites/{siteId}/content-elements',
             path: {
                 'siteId': siteId,
             },

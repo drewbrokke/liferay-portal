@@ -19,7 +19,7 @@ export class PhoneService {
     }): CancelablePromise<Array<Phone>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/organizations/{organizationId}/phones',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}/phones',
             path: {
                 'organizationId': organizationId,
             },
@@ -37,7 +37,7 @@ export class PhoneService {
     }): CancelablePromise<Phone> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/phones/{phoneId}',
+            url: '/headless-admin-user/v1.0/phones/{phoneId}',
             path: {
                 'phoneId': phoneId,
             },
@@ -55,7 +55,7 @@ export class PhoneService {
     }): CancelablePromise<Array<Phone>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-accounts/{userAccountId}/phones',
+            url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/phones',
             path: {
                 'userAccountId': userAccountId,
             },

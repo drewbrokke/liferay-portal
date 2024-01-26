@@ -28,7 +28,7 @@ export class RegionService {
     }): CancelablePromise<Array<Region>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/countries/{countryId}/regions',
+            url: '/headless-admin-address/v1.0/countries/{countryId}/regions',
             path: {
                 'countryId': countryId,
             },
@@ -54,7 +54,7 @@ export class RegionService {
     }): CancelablePromise<Region> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/countries/{countryId}/regions',
+            url: '/headless-admin-address/v1.0/countries/{countryId}/regions',
             path: {
                 'countryId': countryId,
             },
@@ -75,7 +75,7 @@ export class RegionService {
     }): CancelablePromise<Region> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/countries/{countryId}/regions/by-region-code/{regionCode}',
+            url: '/headless-admin-address/v1.0/countries/{countryId}/regions/by-region-code/{regionCode}',
             path: {
                 'countryId': countryId,
                 'regionCode': regionCode,
@@ -101,7 +101,7 @@ export class RegionService {
     }): CancelablePromise<Array<Region>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/regions',
+            url: '/headless-admin-address/v1.0/regions',
             query: {
                 'active': active,
                 'page': page,
@@ -122,7 +122,7 @@ export class RegionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/regions/{regionId}',
+            url: '/headless-admin-address/v1.0/regions/{regionId}',
             path: {
                 'regionId': regionId,
             },
@@ -139,7 +139,7 @@ export class RegionService {
     }): CancelablePromise<Region> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/regions/{regionId}',
+            url: '/headless-admin-address/v1.0/regions/{regionId}',
             path: {
                 'regionId': regionId,
             },
@@ -158,7 +158,7 @@ export class RegionService {
     }): CancelablePromise<Region> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/regions/{regionId}',
+            url: '/headless-admin-address/v1.0/regions/{regionId}',
             path: {
                 'regionId': regionId,
             },
@@ -179,7 +179,7 @@ export class RegionService {
     }): CancelablePromise<Region> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/regions/{regionId}',
+            url: '/headless-admin-address/v1.0/regions/{regionId}',
             path: {
                 'regionId': regionId,
             },

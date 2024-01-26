@@ -26,7 +26,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<Array<TaxonomyCategory>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/taxonomy-categories/ranked',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/ranked',
             query: {
                 'fields': fields,
                 'restrictFields': restrictFields,
@@ -64,7 +64,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<Array<TaxonomyCategory>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/taxonomy-categories/{parentTaxonomyCategoryId}/taxonomy-categories',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/{parentTaxonomyCategoryId}/taxonomy-categories',
             path: {
                 'parentTaxonomyCategoryId': parentTaxonomyCategoryId,
             },
@@ -94,7 +94,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<TaxonomyCategory> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/taxonomy-categories/{parentTaxonomyCategoryId}/taxonomy-categories',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/{parentTaxonomyCategoryId}/taxonomy-categories',
             path: {
                 'parentTaxonomyCategoryId': parentTaxonomyCategoryId,
             },
@@ -114,7 +114,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/taxonomy-categories/{taxonomyCategoryId}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}',
             path: {
                 'taxonomyCategoryId': taxonomyCategoryId,
             },
@@ -136,7 +136,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<TaxonomyCategory> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/taxonomy-categories/{taxonomyCategoryId}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}',
             path: {
                 'taxonomyCategoryId': taxonomyCategoryId,
             },
@@ -160,7 +160,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<TaxonomyCategory> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/taxonomy-categories/{taxonomyCategoryId}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}',
             path: {
                 'taxonomyCategoryId': taxonomyCategoryId,
             },
@@ -182,7 +182,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<TaxonomyCategory> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/taxonomy-categories/{taxonomyCategoryId}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}',
             path: {
                 'taxonomyCategoryId': taxonomyCategoryId,
             },
@@ -207,7 +207,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/taxonomy-categories/{taxonomyCategoryId}/permissions',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}/permissions',
             path: {
                 'taxonomyCategoryId': taxonomyCategoryId,
             },
@@ -231,7 +231,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/taxonomy-categories/{taxonomyCategoryId}/permissions',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}/permissions',
             path: {
                 'taxonomyCategoryId': taxonomyCategoryId,
             },
@@ -268,7 +268,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<Array<TaxonomyCategory>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
             },
@@ -299,7 +299,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<TaxonomyCategory> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
             },
@@ -321,7 +321,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
                 'externalReferenceCode': externalReferenceCode,
@@ -346,7 +346,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<TaxonomyCategory> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
                 'externalReferenceCode': externalReferenceCode,
@@ -373,7 +373,7 @@ export class TaxonomyCategoryService {
     }): CancelablePromise<TaxonomyCategory> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
                 'externalReferenceCode': externalReferenceCode,

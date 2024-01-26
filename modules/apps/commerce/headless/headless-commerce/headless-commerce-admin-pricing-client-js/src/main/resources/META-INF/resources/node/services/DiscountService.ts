@@ -21,7 +21,7 @@ export class DiscountService {
     }): CancelablePromise<Array<Discount>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discounts',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts',
             query: {
                 'page': page,
                 'pageSize': pageSize,
@@ -46,7 +46,7 @@ export class DiscountService {
     }): CancelablePromise<Discount | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/discounts',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -69,7 +69,7 @@ export class DiscountService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/discounts/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -90,7 +90,7 @@ export class DiscountService {
     }): CancelablePromise<Discount> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discounts/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -116,7 +116,7 @@ export class DiscountService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/discounts/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -142,7 +142,7 @@ export class DiscountService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/discounts/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}',
             path: {
                 'id': id,
             },
@@ -163,7 +163,7 @@ export class DiscountService {
     }): CancelablePromise<Discount> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discounts/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}',
             path: {
                 'id': id,
             },
@@ -189,7 +189,7 @@ export class DiscountService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/discounts/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}',
             path: {
                 'id': id,
             },

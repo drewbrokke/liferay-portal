@@ -23,7 +23,7 @@ export class DefaultService {
     }): CancelablePromise<OrderRuleAccountGroup | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-rules/{id}/order-rule-account-groups',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-account-groups',
             path: {
                 'id': id,
             },
@@ -52,7 +52,7 @@ export class DefaultService {
     }): CancelablePromise<OrderRuleAccount | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-rules/{id}/order-rule-accounts',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-accounts',
             path: {
                 'id': id,
             },

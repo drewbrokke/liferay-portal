@@ -18,7 +18,7 @@ export class ProcessService {
     }): CancelablePromise<Process> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/processes',
+            url: '/portal-workflow-metrics/v1.0/processes',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -34,7 +34,7 @@ export class ProcessService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/processes/{processId}',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}',
             path: {
                 'processId': processId,
             },
@@ -51,7 +51,7 @@ export class ProcessService {
     }): CancelablePromise<Process> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}',
             path: {
                 'processId': processId,
             },
@@ -70,7 +70,7 @@ export class ProcessService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/processes/{processId}',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}',
             path: {
                 'processId': processId,
             },
@@ -89,7 +89,7 @@ export class ProcessService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/title',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/title',
             path: {
                 'processId': processId,
             },

@@ -37,7 +37,7 @@ export class SitePageService {
     }): CancelablePromise<Array<SitePage>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/site-pages',
+            url: '/headless-delivery/v1.0/sites/{siteId}/site-pages',
             path: {
                 'siteId': siteId,
             },
@@ -68,7 +68,7 @@ export class SitePageService {
     }): CancelablePromise<SitePage> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/site-pages',
+            url: '/headless-delivery/v1.0/sites/{siteId}/site-pages',
             path: {
                 'siteId': siteId,
             },
@@ -98,7 +98,7 @@ export class SitePageService {
     }): CancelablePromise<SitePage> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/site-pages/{friendlyUrlPath}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/site-pages/{friendlyUrlPath}',
             path: {
                 'siteId': siteId,
                 'friendlyUrlPath': friendlyUrlPath,
@@ -135,7 +135,7 @@ export class SitePageService {
     }): CancelablePromise<Array<SitePage>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/site-pages/{friendlyUrlPath}/experiences',
+            url: '/headless-delivery/v1.0/sites/{siteId}/site-pages/{friendlyUrlPath}/experiences',
             path: {
                 'siteId': siteId,
                 'friendlyUrlPath': friendlyUrlPath,
@@ -174,7 +174,7 @@ export class SitePageService {
     }): CancelablePromise<SitePage> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/site-pages/{friendlyUrlPath}/experiences/{experienceKey}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/site-pages/{friendlyUrlPath}/experiences/{experienceKey}',
             path: {
                 'siteId': siteId,
                 'friendlyUrlPath': friendlyUrlPath,
@@ -212,7 +212,7 @@ export class SitePageService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/site-pages/{friendlyUrlPath}/experiences/{experienceKey}/rendered-page',
+            url: '/headless-delivery/v1.0/sites/{siteId}/site-pages/{friendlyUrlPath}/experiences/{experienceKey}/rendered-page',
             path: {
                 'siteId': siteId,
                 'friendlyUrlPath': friendlyUrlPath,
@@ -245,7 +245,7 @@ export class SitePageService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/site-pages/{friendlyUrlPath}/rendered-page',
+            url: '/headless-delivery/v1.0/sites/{siteId}/site-pages/{friendlyUrlPath}/rendered-page',
             path: {
                 'siteId': siteId,
                 'friendlyUrlPath': friendlyUrlPath,

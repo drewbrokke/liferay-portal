@@ -14,7 +14,7 @@ export class QueryPrefilterContributorService {
     public getQueryPrefilterContributorsPage(): CancelablePromise<Array<QueryPrefilterContributor>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/query-prefilter-contributors',
+            url: '/search-experiences-rest/v1.0/query-prefilter-contributors',
         });
     }
 }

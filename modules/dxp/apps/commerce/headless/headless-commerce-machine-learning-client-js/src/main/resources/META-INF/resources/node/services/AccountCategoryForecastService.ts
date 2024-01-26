@@ -31,7 +31,7 @@ export class AccountCategoryForecastService {
     }): CancelablePromise<Array<AccountCategoryForecast>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accountCategoryForecasts/by-monthlyRevenue',
+            url: '/headless-commerce-machine-learning/v1.0/accountCategoryForecasts/by-monthlyRevenue',
             query: {
                 'accountIds': accountIds,
                 'categoryIds': categoryIds,

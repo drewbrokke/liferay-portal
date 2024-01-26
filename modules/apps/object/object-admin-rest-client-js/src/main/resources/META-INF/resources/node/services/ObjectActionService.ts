@@ -18,7 +18,7 @@ export class ObjectActionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/object-actions/{objectActionId}',
+            url: '/object-admin/v1.0/object-actions/{objectActionId}',
             path: {
                 'objectActionId': objectActionId,
             },
@@ -35,7 +35,7 @@ export class ObjectActionService {
     }): CancelablePromise<ObjectAction> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-actions/{objectActionId}',
+            url: '/object-admin/v1.0/object-actions/{objectActionId}',
             path: {
                 'objectActionId': objectActionId,
             },
@@ -54,7 +54,7 @@ export class ObjectActionService {
     }): CancelablePromise<ObjectAction> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/object-actions/{objectActionId}',
+            url: '/object-admin/v1.0/object-actions/{objectActionId}',
             path: {
                 'objectActionId': objectActionId,
             },
@@ -75,7 +75,7 @@ export class ObjectActionService {
     }): CancelablePromise<ObjectAction> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-actions/{objectActionId}',
+            url: '/object-admin/v1.0/object-actions/{objectActionId}',
             path: {
                 'objectActionId': objectActionId,
             },
@@ -102,7 +102,7 @@ export class ObjectActionService {
     }): CancelablePromise<Array<ObjectAction>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-actions',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-actions',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -127,7 +127,7 @@ export class ObjectActionService {
     }): CancelablePromise<ObjectAction> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-actions',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-actions',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -154,7 +154,7 @@ export class ObjectActionService {
     }): CancelablePromise<Array<ObjectAction>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/{objectDefinitionId}/object-actions',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-actions',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -179,7 +179,7 @@ export class ObjectActionService {
     }): CancelablePromise<ObjectAction> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/{objectDefinitionId}/object-actions',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-actions',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },

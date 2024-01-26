@@ -27,7 +27,7 @@ export class PaymentService {
     }): CancelablePromise<Array<Payment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/payments',
+            url: '/headless-commerce-admin-payment/v1.0/payments',
             query: {
                 'filter': filter,
                 'page': page,
@@ -56,7 +56,7 @@ export class PaymentService {
     }): CancelablePromise<Payment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/payments',
+            url: '/headless-commerce-admin-payment/v1.0/payments',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -79,7 +79,7 @@ export class PaymentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/payments/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-payment/v1.0/payments/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -100,7 +100,7 @@ export class PaymentService {
     }): CancelablePromise<Payment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/payments/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-payment/v1.0/payments/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -126,7 +126,7 @@ export class PaymentService {
     }): CancelablePromise<Payment> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/payments/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-payment/v1.0/payments/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -153,7 +153,7 @@ export class PaymentService {
     }): CancelablePromise<Payment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/payments/by-externalReferenceCode/{externalReferenceCode}/refund',
+            url: '/headless-commerce-admin-payment/v1.0/payments/by-externalReferenceCode/{externalReferenceCode}/refund',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -177,7 +177,7 @@ export class PaymentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/payments/{id}',
+            url: '/headless-commerce-admin-payment/v1.0/payments/{id}',
             path: {
                 'id': id,
             },
@@ -198,7 +198,7 @@ export class PaymentService {
     }): CancelablePromise<Payment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/payments/{id}',
+            url: '/headless-commerce-admin-payment/v1.0/payments/{id}',
             path: {
                 'id': id,
             },
@@ -224,7 +224,7 @@ export class PaymentService {
     }): CancelablePromise<Payment> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/payments/{id}',
+            url: '/headless-commerce-admin-payment/v1.0/payments/{id}',
             path: {
                 'id': id,
             },
@@ -251,7 +251,7 @@ export class PaymentService {
     }): CancelablePromise<Payment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/payments/{id}/refund',
+            url: '/headless-commerce-admin-payment/v1.0/payments/{id}/refund',
             path: {
                 'id': id,
             },

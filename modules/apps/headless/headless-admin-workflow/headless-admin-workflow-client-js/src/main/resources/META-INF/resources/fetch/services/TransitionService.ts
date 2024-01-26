@@ -22,7 +22,7 @@ export class TransitionService {
     }): CancelablePromise<Array<Transition>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-instances/{workflowInstanceId}/next-transitions',
+            url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/next-transitions',
             path: {
                 'workflowInstanceId': workflowInstanceId,
             },
@@ -47,7 +47,7 @@ export class TransitionService {
     }): CancelablePromise<Array<Transition>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/{workflowTaskId}/next-transitions',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/next-transitions',
             path: {
                 'workflowTaskId': workflowTaskId,
             },

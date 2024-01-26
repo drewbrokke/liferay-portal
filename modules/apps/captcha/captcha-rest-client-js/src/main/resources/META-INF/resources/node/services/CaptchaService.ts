@@ -14,7 +14,7 @@ export class CaptchaService {
     public getCaptchaChallenge(): CancelablePromise<Captcha> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/captcha/challenge',
+            url: '/captcha/v1.0/captcha/challenge',
         });
     }
     /**
@@ -28,7 +28,7 @@ export class CaptchaService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/captcha/response',
+            url: '/captcha/v1.0/captcha/response',
             body: requestBody,
             mediaType: 'application/json',
             errors: {

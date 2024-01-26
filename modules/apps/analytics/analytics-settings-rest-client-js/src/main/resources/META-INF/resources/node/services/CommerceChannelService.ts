@@ -24,7 +24,7 @@ export class CommerceChannelService {
     }): CancelablePromise<Array<CommerceChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/commerce-channels',
+            url: '/analytics-settings-rest/v1.0/commerce-channels',
             query: {
                 'keywords': keywords,
                 'page': page,

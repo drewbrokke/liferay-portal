@@ -19,7 +19,7 @@ export class ProductGroupProductService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/product-group-products/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-group-products/{id}',
             path: {
                 'id': id,
             },
@@ -44,7 +44,7 @@ export class ProductGroupProductService {
     }): CancelablePromise<Array<ProductGroupProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/product-groups/by-externalReferenceCode/{externalReferenceCode}/product-group-products',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/by-externalReferenceCode/{externalReferenceCode}/product-group-products',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class ProductGroupProductService {
     }): CancelablePromise<ProductGroupProduct | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/product-groups/by-externalReferenceCode/{externalReferenceCode}/product-group-products',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/by-externalReferenceCode/{externalReferenceCode}/product-group-products',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -104,7 +104,7 @@ export class ProductGroupProductService {
     }): CancelablePromise<Array<ProductGroupProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/product-groups/{id}/product-group-products',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/{id}/product-group-products',
             path: {
                 'id': id,
             },
@@ -134,7 +134,7 @@ export class ProductGroupProductService {
     }): CancelablePromise<ProductGroupProduct | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/product-groups/{id}/product-group-products',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/{id}/product-group-products',
             path: {
                 'id': id,
             },

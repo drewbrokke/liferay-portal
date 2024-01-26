@@ -14,7 +14,7 @@ export class TimeRangeService {
     public getTimeRangesPage(): CancelablePromise<Array<TimeRange>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/time-ranges',
+            url: '/portal-workflow-metrics/v1.0/time-ranges',
         });
     }
 }

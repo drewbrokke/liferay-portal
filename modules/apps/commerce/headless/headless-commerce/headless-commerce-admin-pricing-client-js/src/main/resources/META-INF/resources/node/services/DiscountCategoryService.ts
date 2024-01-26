@@ -19,7 +19,7 @@ export class DiscountCategoryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/discountCategories/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/discountCategories/{id}',
             path: {
                 'id': id,
             },
@@ -44,7 +44,7 @@ export class DiscountCategoryService {
     }): CancelablePromise<Array<DiscountCategory>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discounts/by-externalReferenceCode/{externalReferenceCode}/discountCategories',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/by-externalReferenceCode/{externalReferenceCode}/discountCategories',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class DiscountCategoryService {
     }): CancelablePromise<DiscountCategory | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/discounts/by-externalReferenceCode/{externalReferenceCode}/discountCategories',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/by-externalReferenceCode/{externalReferenceCode}/discountCategories',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -104,7 +104,7 @@ export class DiscountCategoryService {
     }): CancelablePromise<Array<DiscountCategory>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discounts/{id}/discountCategories',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}/discountCategories',
             path: {
                 'id': id,
             },
@@ -134,7 +134,7 @@ export class DiscountCategoryService {
     }): CancelablePromise<DiscountCategory | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/discounts/{id}/discountCategories',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}/discountCategories',
             path: {
                 'id': id,
             },

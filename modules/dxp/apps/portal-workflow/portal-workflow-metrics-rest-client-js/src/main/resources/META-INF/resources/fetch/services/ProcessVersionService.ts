@@ -18,7 +18,7 @@ export class ProcessVersionService {
     }): CancelablePromise<Array<ProcessVersion>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/process-versions',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/process-versions',
             path: {
                 'processId': processId,
             },

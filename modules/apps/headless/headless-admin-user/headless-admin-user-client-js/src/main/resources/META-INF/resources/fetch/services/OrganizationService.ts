@@ -13,7 +13,7 @@ export class OrganizationService {
      * @returns Organization
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeOrganizations({
+    public getHeadlessAdminUserV10AccountsByExternalReferenceCodeOrganizations({
         externalReferenceCode,
         filter,
         page,
@@ -30,7 +30,7 @@ export class OrganizationService {
     }): CancelablePromise<Array<Organization>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-external-reference-code/{externalReferenceCode}/organizations',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/organizations',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -47,7 +47,7 @@ export class OrganizationService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountsByExternalReferenceCodeOrganizations({
+    public deleteHeadlessAdminUserV10AccountsByExternalReferenceCodeOrganizations({
         externalReferenceCode,
         organizationId,
     }: {
@@ -56,7 +56,7 @@ export class OrganizationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/by-external-reference-code/{externalReferenceCode}/organizations/{organizationId}',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/organizations/{organizationId}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'organizationId': organizationId,
@@ -67,7 +67,7 @@ export class OrganizationService {
      * @returns Organization
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeOrganizations1({
+    public getHeadlessAdminUserV10AccountsByExternalReferenceCodeOrganizations1({
         externalReferenceCode,
         organizationId,
     }: {
@@ -76,7 +76,7 @@ export class OrganizationService {
     }): CancelablePromise<Organization> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-external-reference-code/{externalReferenceCode}/organizations/{organizationId}',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/organizations/{organizationId}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'organizationId': organizationId,
@@ -87,7 +87,7 @@ export class OrganizationService {
      * @returns void
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeOrganizations({
+    public postHeadlessAdminUserV10AccountsByExternalReferenceCodeOrganizations({
         externalReferenceCode,
         organizationId,
     }: {
@@ -96,7 +96,7 @@ export class OrganizationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-external-reference-code/{externalReferenceCode}/organizations/{organizationId}',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/organizations/{organizationId}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'organizationId': organizationId,
@@ -108,7 +108,7 @@ export class OrganizationService {
      * @returns Organization
      * @throws ApiError
      */
-    public getAccountsOrganizations({
+    public getHeadlessAdminUserV10AccountsOrganizations({
         accountId,
         filter,
         page,
@@ -125,7 +125,7 @@ export class OrganizationService {
     }): CancelablePromise<Array<Organization>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{accountId}/organizations',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/organizations',
             path: {
                 'accountId': accountId,
             },
@@ -142,7 +142,7 @@ export class OrganizationService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountsOrganizations({
+    public deleteHeadlessAdminUserV10AccountsOrganizations({
         accountId,
         organizationId,
     }: {
@@ -151,7 +151,7 @@ export class OrganizationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/{accountId}/organizations/{organizationId}',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/organizations/{organizationId}',
             path: {
                 'accountId': accountId,
                 'organizationId': organizationId,
@@ -162,7 +162,7 @@ export class OrganizationService {
      * @returns Organization
      * @throws ApiError
      */
-    public getAccountsOrganizations1({
+    public getHeadlessAdminUserV10AccountsOrganizations1({
         accountId,
         organizationId,
     }: {
@@ -171,7 +171,7 @@ export class OrganizationService {
     }): CancelablePromise<Organization> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{accountId}/organizations/{organizationId}',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/organizations/{organizationId}',
             path: {
                 'accountId': accountId,
                 'organizationId': organizationId,
@@ -182,7 +182,7 @@ export class OrganizationService {
      * @returns void
      * @throws ApiError
      */
-    public postAccountsOrganizations({
+    public postHeadlessAdminUserV10AccountsOrganizations({
         accountId,
         organizationId,
     }: {
@@ -191,7 +191,7 @@ export class OrganizationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{accountId}/organizations/{organizationId}',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/organizations/{organizationId}',
             path: {
                 'accountId': accountId,
                 'organizationId': organizationId,
@@ -220,7 +220,7 @@ export class OrganizationService {
     }): CancelablePromise<Array<Organization>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/organizations',
+            url: '/headless-admin-user/v1.0/organizations',
             query: {
                 'flatten': flatten,
                 'filter': filter,
@@ -243,7 +243,7 @@ export class OrganizationService {
     }): CancelablePromise<Organization> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/organizations',
+            url: '/headless-admin-user/v1.0/organizations',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -253,14 +253,14 @@ export class OrganizationService {
      * @returns void
      * @throws ApiError
      */
-    public deleteOrganizationsByExternalReferenceCode({
+    public deleteHeadlessAdminUserV10OrganizationsByExternalReferenceCode({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/organizations/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -270,14 +270,14 @@ export class OrganizationService {
      * @returns Organization
      * @throws ApiError
      */
-    public getOrganizationsByExternalReferenceCode({
+    public getHeadlessAdminUserV10OrganizationsByExternalReferenceCode({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
     }): CancelablePromise<Organization> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/organizations/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -288,7 +288,7 @@ export class OrganizationService {
      * @returns Organization Organization successfully updated
      * @throws ApiError
      */
-    public patchOrganizationsByExternalReferenceCode({
+    public patchHeadlessAdminUserV10OrganizationsByExternalReferenceCode({
         externalReferenceCode,
         requestBody,
     }: {
@@ -297,7 +297,7 @@ export class OrganizationService {
     }): CancelablePromise<Organization> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/organizations/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -310,7 +310,7 @@ export class OrganizationService {
      * @returns Organization Organization successfully replaced
      * @throws ApiError
      */
-    public putOrganizationsByExternalReferenceCode({
+    public putHeadlessAdminUserV10OrganizationsByExternalReferenceCode({
         externalReferenceCode,
         requestBody,
     }: {
@@ -319,7 +319,7 @@ export class OrganizationService {
     }): CancelablePromise<Organization> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/organizations/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -339,7 +339,7 @@ export class OrganizationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/organizations/{organizationId}',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}',
             path: {
                 'organizationId': organizationId,
             },
@@ -357,7 +357,7 @@ export class OrganizationService {
     }): CancelablePromise<Organization> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/organizations/{organizationId}',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}',
             path: {
                 'organizationId': organizationId,
             },
@@ -377,7 +377,7 @@ export class OrganizationService {
     }): CancelablePromise<Organization> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/organizations/{organizationId}',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}',
             path: {
                 'organizationId': organizationId,
             },
@@ -399,7 +399,7 @@ export class OrganizationService {
     }): CancelablePromise<Organization> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/organizations/{organizationId}',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}',
             path: {
                 'organizationId': organizationId,
             },
@@ -431,7 +431,7 @@ export class OrganizationService {
     }): CancelablePromise<Array<Organization>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/organizations/{organizationId}/child-organizations',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}/child-organizations',
             path: {
                 'organizationId': organizationId,
             },
@@ -462,7 +462,7 @@ export class OrganizationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/organizations/{organizationId}/user-accounts/by-email-address',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts/by-email-address',
             path: {
                 'organizationId': organizationId,
             },
@@ -489,7 +489,7 @@ export class OrganizationService {
     }): CancelablePromise<Array<UserAccount>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/organizations/{organizationId}/user-accounts/by-email-address',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts/by-email-address',
             path: {
                 'organizationId': organizationId,
             },
@@ -514,7 +514,7 @@ export class OrganizationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/organizations/{organizationId}/user-accounts/by-email-address/{emailAddress}',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts/by-email-address/{emailAddress}',
             path: {
                 'organizationId': organizationId,
                 'emailAddress': emailAddress,
@@ -535,7 +535,7 @@ export class OrganizationService {
     }): CancelablePromise<UserAccount> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/organizations/{organizationId}/user-accounts/by-email-address/{emailAddress}',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts/by-email-address/{emailAddress}',
             path: {
                 'organizationId': organizationId,
                 'emailAddress': emailAddress,
@@ -566,7 +566,7 @@ export class OrganizationService {
     }): CancelablePromise<Array<Organization>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/organizations/{parentOrganizationId}/organizations',
+            url: '/headless-admin-user/v1.0/organizations/{parentOrganizationId}/organizations',
             path: {
                 'parentOrganizationId': parentOrganizationId,
             },

@@ -25,7 +25,7 @@ export class RelatedProductService {
     }): CancelablePromise<Array<RelatedProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/relatedProducts',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/relatedProducts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -56,7 +56,7 @@ export class RelatedProductService {
     }): CancelablePromise<RelatedProduct | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/relatedProducts',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/relatedProducts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -88,7 +88,7 @@ export class RelatedProductService {
     }): CancelablePromise<Array<RelatedProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/relatedProducts',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/relatedProducts',
             path: {
                 'id': id,
             },
@@ -119,7 +119,7 @@ export class RelatedProductService {
     }): CancelablePromise<RelatedProduct | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/relatedProducts',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/relatedProducts',
             path: {
                 'id': id,
             },
@@ -145,7 +145,7 @@ export class RelatedProductService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/relatedProducts/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/relatedProducts/{id}',
             path: {
                 'id': id,
             },
@@ -166,7 +166,7 @@ export class RelatedProductService {
     }): CancelablePromise<RelatedProduct> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/relatedProducts/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/relatedProducts/{id}',
             path: {
                 'id': id,
             },

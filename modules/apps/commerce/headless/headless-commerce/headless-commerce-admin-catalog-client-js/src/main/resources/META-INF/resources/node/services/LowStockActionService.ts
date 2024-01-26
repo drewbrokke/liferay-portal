@@ -15,7 +15,7 @@ export class LowStockActionService {
     public getLowStockActionsPage(): CancelablePromise<Array<LowStockAction>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/low-stock-actions',
+            url: '/headless-commerce-admin-catalog/v1.0/low-stock-actions',
             errors: {
                 401: `Authentication information is missing or invalid`,
                 404: `The specified resource was not found`,

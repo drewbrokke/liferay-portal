@@ -19,7 +19,7 @@ export class TicketService {
     }): CancelablePromise<Ticket> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-accounts/{userAccountId}/email-verification-ticket',
+            url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/email-verification-ticket',
             path: {
                 'userAccountId': userAccountId,
             },
@@ -37,7 +37,7 @@ export class TicketService {
     }): CancelablePromise<Ticket> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-accounts/{userAccountId}/password-reset-ticket',
+            url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/password-reset-ticket',
             path: {
                 'userAccountId': userAccountId,
             },

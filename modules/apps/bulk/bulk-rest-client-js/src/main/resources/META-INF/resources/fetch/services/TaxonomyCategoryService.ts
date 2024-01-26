@@ -11,14 +11,14 @@ export class TaxonomyCategoryService {
      * @returns void
      * @throws ApiError
      */
-    public patchTaxonomyCategoriesBatch({
+    public patchBulkV10TaxonomyCategoriesBatch({
         requestBody,
     }: {
         requestBody?: TaxonomyCategoryBulkSelection,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/taxonomy-categories/batch',
+            url: '/bulk/v1.0/taxonomy-categories/batch',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -27,14 +27,14 @@ export class TaxonomyCategoryService {
      * @returns any
      * @throws ApiError
      */
-    public putTaxonomyCategoriesBatch({
+    public putBulkV10TaxonomyCategoriesBatch({
         requestBody,
     }: {
         requestBody?: TaxonomyCategoryBulkSelection,
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/taxonomy-categories/batch',
+            url: '/bulk/v1.0/taxonomy-categories/batch',
             body: requestBody,
             mediaType: 'application/json',
         });

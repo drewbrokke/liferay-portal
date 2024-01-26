@@ -18,7 +18,7 @@ export class StrategyService {
     }): CancelablePromise<Array<Strategy>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/plans/{internalClassNameKey}/strategies',
+            url: '/batch-planner/v1.0/plans/{internalClassNameKey}/strategies',
             path: {
                 'internalClassNameKey': internalClassNameKey,
             },

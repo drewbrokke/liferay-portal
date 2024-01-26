@@ -23,7 +23,7 @@ export class AccountOrganizationService {
     }): CancelablePromise<Array<AccountOrganization>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountOrganizations',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountOrganizations',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -54,7 +54,7 @@ export class AccountOrganizationService {
     }): CancelablePromise<AccountOrganization | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountOrganizations',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountOrganizations',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -82,7 +82,7 @@ export class AccountOrganizationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountOrganizations/{organizationId}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountOrganizations/{organizationId}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'organizationId': organizationId,
@@ -106,7 +106,7 @@ export class AccountOrganizationService {
     }): CancelablePromise<AccountOrganization> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountOrganizations/{organizationId}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountOrganizations/{organizationId}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'organizationId': organizationId,
@@ -135,7 +135,7 @@ export class AccountOrganizationService {
     }): CancelablePromise<Array<AccountOrganization>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/accountOrganizations',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountOrganizations',
             path: {
                 'id': id,
             },
@@ -166,7 +166,7 @@ export class AccountOrganizationService {
     }): CancelablePromise<AccountOrganization | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/accountOrganizations',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountOrganizations',
             path: {
                 'id': id,
             },
@@ -194,7 +194,7 @@ export class AccountOrganizationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/{id}/accountOrganizations/{organizationId}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountOrganizations/{organizationId}',
             path: {
                 'id': id,
                 'organizationId': organizationId,
@@ -218,7 +218,7 @@ export class AccountOrganizationService {
     }): CancelablePromise<AccountOrganization> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/accountOrganizations/{organizationId}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountOrganizations/{organizationId}',
             path: {
                 'id': id,
                 'organizationId': organizationId,

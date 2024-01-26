@@ -12,14 +12,14 @@ export class ShippingAddressService {
      * @returns ShippingAddress Successful operation
      * @throws ApiError
      */
-    public getShipmentsByExternalReferenceCodeShippingAddress({
+    public getHeadlessCommerceAdminShipmentV10ShipmentsByExternalReferenceCodeShippingAddress({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
     }): CancelablePromise<ShippingAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/shipments/by-externalReferenceCode/{externalReferenceCode}/shipping-address',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}/shipping-address',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -36,7 +36,7 @@ export class ShippingAddressService {
      * @returns ShippingAddress Updated
      * @throws ApiError
      */
-    public patchShipmentsByExternalReferenceCodeShippingAddress({
+    public patchHeadlessCommerceAdminShipmentV10ShipmentsByExternalReferenceCodeShippingAddress({
         externalReferenceCode,
         requestBody,
     }: {
@@ -45,7 +45,7 @@ export class ShippingAddressService {
     }): CancelablePromise<ShippingAddress> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/shipments/by-externalReferenceCode/{externalReferenceCode}/shipping-address',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}/shipping-address',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -71,7 +71,7 @@ export class ShippingAddressService {
     }): CancelablePromise<ShippingAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/shipments/{shipmentId}/shipping-address',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}/shipping-address',
             path: {
                 'shipmentId': shipmentId,
             },
@@ -97,7 +97,7 @@ export class ShippingAddressService {
     }): CancelablePromise<ShippingAddress> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/shipments/{shipmentId}/shipping-address',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}/shipping-address',
             path: {
                 'shipmentId': shipmentId,
             },

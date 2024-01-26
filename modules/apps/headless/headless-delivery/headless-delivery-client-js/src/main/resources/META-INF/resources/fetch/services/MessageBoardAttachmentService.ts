@@ -19,7 +19,7 @@ export class MessageBoardAttachmentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/message-board-attachments/{messageBoardAttachmentId}',
+            url: '/headless-delivery/v1.0/message-board-attachments/{messageBoardAttachmentId}',
             path: {
                 'messageBoardAttachmentId': messageBoardAttachmentId,
             },
@@ -43,7 +43,7 @@ export class MessageBoardAttachmentService {
     }): CancelablePromise<MessageBoardAttachment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/message-board-attachments/{messageBoardAttachmentId}',
+            url: '/headless-delivery/v1.0/message-board-attachments/{messageBoardAttachmentId}',
             path: {
                 'messageBoardAttachmentId': messageBoardAttachmentId,
             },
@@ -72,7 +72,7 @@ export class MessageBoardAttachmentService {
     }): CancelablePromise<Array<MessageBoardAttachment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/message-board-messages/{messageBoardMessageId}/message-board-attachments',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/message-board-attachments',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -100,7 +100,7 @@ export class MessageBoardAttachmentService {
     }): CancelablePromise<MessageBoardAttachment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/message-board-messages/{messageBoardMessageId}/message-board-attachments',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/message-board-attachments',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -126,7 +126,7 @@ export class MessageBoardAttachmentService {
     }): CancelablePromise<Array<MessageBoardAttachment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/message-board-threads/{messageBoardThreadId}/message-board-attachments',
+            url: '/headless-delivery/v1.0/message-board-threads/{messageBoardThreadId}/message-board-attachments',
             path: {
                 'messageBoardThreadId': messageBoardThreadId,
             },
@@ -154,7 +154,7 @@ export class MessageBoardAttachmentService {
     }): CancelablePromise<MessageBoardAttachment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/message-board-threads/{messageBoardThreadId}/message-board-attachments',
+            url: '/headless-delivery/v1.0/message-board-threads/{messageBoardThreadId}/message-board-attachments',
             path: {
                 'messageBoardThreadId': messageBoardThreadId,
             },
@@ -178,7 +178,7 @@ export class MessageBoardAttachmentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/message-board-messages/by-external-reference-code/{messageBoardMessageExternalReferenceCode}/message-board-attachments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/message-board-messages/by-external-reference-code/{messageBoardMessageExternalReferenceCode}/message-board-attachments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'messageBoardMessageExternalReferenceCode': messageBoardMessageExternalReferenceCode,
@@ -206,7 +206,7 @@ export class MessageBoardAttachmentService {
     }): CancelablePromise<MessageBoardAttachment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/message-board-messages/by-external-reference-code/{messageBoardMessageExternalReferenceCode}/message-board-attachments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/message-board-messages/by-external-reference-code/{messageBoardMessageExternalReferenceCode}/message-board-attachments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'messageBoardMessageExternalReferenceCode': messageBoardMessageExternalReferenceCode,

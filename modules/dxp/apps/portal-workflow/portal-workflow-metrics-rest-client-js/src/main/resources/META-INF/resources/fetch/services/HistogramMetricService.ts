@@ -24,7 +24,7 @@ export class HistogramMetricService {
     }): CancelablePromise<HistogramMetric> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/histograms/metrics',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/histograms/metrics',
             path: {
                 'processId': processId,
             },

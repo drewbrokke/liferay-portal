@@ -21,7 +21,7 @@ export class PageDefinitionService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/page-definitions/preview',
+            url: '/headless-admin-content/v1.0/sites/{siteId}/page-definitions/preview',
             path: {
                 'siteId': siteId,
             },

@@ -18,7 +18,7 @@ export class SearchableAssetNameDisplayService {
     }): CancelablePromise<Array<SearchableAssetNameDisplay>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/searchable-asset-names/{languageId}',
+            url: '/search-experiences-rest/v1.0/searchable-asset-names/{languageId}',
             path: {
                 'languageId': languageId,
             },

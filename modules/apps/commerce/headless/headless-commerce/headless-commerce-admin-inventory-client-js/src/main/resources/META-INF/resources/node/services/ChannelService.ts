@@ -19,7 +19,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouse-channels/{warehouseChannelId}/channel',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouse-channels/{warehouseChannelId}/channel',
             path: {
                 'warehouseChannelId': warehouseChannelId,
             },

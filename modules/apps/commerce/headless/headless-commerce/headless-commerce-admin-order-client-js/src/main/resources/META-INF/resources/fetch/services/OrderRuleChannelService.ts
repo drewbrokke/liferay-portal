@@ -19,7 +19,7 @@ export class OrderRuleChannelService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/order-rule-channels/{orderRuleChannelId}',
+            url: '/headless-commerce-admin-order/v1.0/order-rule-channels/{orderRuleChannelId}',
             path: {
                 'orderRuleChannelId': orderRuleChannelId,
             },
@@ -44,7 +44,7 @@ export class OrderRuleChannelService {
     }): CancelablePromise<Array<OrderRuleChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-channels',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-channels',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class OrderRuleChannelService {
     }): CancelablePromise<OrderRuleChannel | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-channels',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-channels',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -110,7 +110,7 @@ export class OrderRuleChannelService {
     }): CancelablePromise<Array<OrderRuleChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules/{id}/order-rule-channels',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-channels',
             path: {
                 'id': id,
             },
@@ -143,7 +143,7 @@ export class OrderRuleChannelService {
     }): CancelablePromise<OrderRuleChannel | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-rules/{id}/order-rule-channels',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-channels',
             path: {
                 'id': id,
             },

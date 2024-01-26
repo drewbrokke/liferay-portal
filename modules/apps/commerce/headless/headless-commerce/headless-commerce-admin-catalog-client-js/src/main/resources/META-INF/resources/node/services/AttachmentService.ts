@@ -21,7 +21,7 @@ export class AttachmentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/attachment/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/attachment/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -42,7 +42,7 @@ export class AttachmentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/attachment/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/attachment/{id}',
             path: {
                 'id': id,
             },
@@ -67,7 +67,7 @@ export class AttachmentService {
     }): CancelablePromise<Array<Attachment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/attachments',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/attachments',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -97,7 +97,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/attachments',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/attachments',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -126,7 +126,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/attachments/by-base64',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/attachments/by-base64',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -155,7 +155,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/attachments/by-url',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/attachments/by-url',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -185,7 +185,7 @@ export class AttachmentService {
     }): CancelablePromise<Array<Attachment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/images',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/images',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -215,7 +215,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/images',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/images',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -244,7 +244,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/images/by-base64',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/images/by-base64',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -273,7 +273,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/images/by-url',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/images/by-url',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -303,7 +303,7 @@ export class AttachmentService {
     }): CancelablePromise<Array<Attachment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/attachments',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/attachments',
             path: {
                 'id': id,
             },
@@ -333,7 +333,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/attachments',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/attachments',
             path: {
                 'id': id,
             },
@@ -362,7 +362,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/attachments/by-base64',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/attachments/by-base64',
             path: {
                 'id': id,
             },
@@ -391,7 +391,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/attachments/by-url',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/attachments/by-url',
             path: {
                 'id': id,
             },
@@ -421,7 +421,7 @@ export class AttachmentService {
     }): CancelablePromise<Array<Attachment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/images',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/images',
             path: {
                 'id': id,
             },
@@ -451,7 +451,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/images',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/images',
             path: {
                 'id': id,
             },
@@ -480,7 +480,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/images/by-base64',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/images/by-base64',
             path: {
                 'id': id,
             },
@@ -509,7 +509,7 @@ export class AttachmentService {
     }): CancelablePromise<Attachment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/images/by-url',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/images/by-url',
             path: {
                 'id': id,
             },

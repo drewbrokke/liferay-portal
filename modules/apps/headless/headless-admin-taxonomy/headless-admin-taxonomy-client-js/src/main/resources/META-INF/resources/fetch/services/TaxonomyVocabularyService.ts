@@ -34,7 +34,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<Array<TaxonomyVocabulary>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/taxonomy-vocabularies',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -63,7 +63,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<TaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/asset-libraries/{assetLibraryId}/taxonomy-vocabularies',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -85,7 +85,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'externalReferenceCode': externalReferenceCode,
@@ -110,7 +110,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<TaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'externalReferenceCode': externalReferenceCode,
@@ -137,7 +137,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<TaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'externalReferenceCode': externalReferenceCode,
@@ -163,7 +163,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/permissions',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -187,7 +187,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/permissions',
+            url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -222,7 +222,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<Array<TaxonomyVocabulary>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/taxonomy-vocabularies',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies',
             path: {
                 'siteId': siteId,
             },
@@ -252,7 +252,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<TaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/taxonomy-vocabularies',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies',
             path: {
                 'siteId': siteId,
             },
@@ -274,7 +274,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -299,7 +299,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<TaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -326,7 +326,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<TaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -352,7 +352,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/taxonomy-vocabularies/permissions',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -376,7 +376,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/taxonomy-vocabularies/permissions',
+            url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -395,7 +395,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
             },
@@ -417,7 +417,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<TaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
             },
@@ -441,7 +441,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<TaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
             },
@@ -463,7 +463,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<TaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
             },
@@ -488,7 +488,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}/permissions',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/permissions',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
             },
@@ -512,7 +512,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/taxonomy-vocabularies/{taxonomyVocabularyId}/permissions',
+            url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/permissions',
             path: {
                 'taxonomyVocabularyId': taxonomyVocabularyId,
             },

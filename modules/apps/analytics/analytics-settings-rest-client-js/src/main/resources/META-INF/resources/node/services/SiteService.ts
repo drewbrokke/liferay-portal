@@ -24,7 +24,7 @@ export class SiteService {
     }): CancelablePromise<Array<Site>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites',
+            url: '/analytics-settings-rest/v1.0/sites',
             query: {
                 'keywords': keywords,
                 'page': page,

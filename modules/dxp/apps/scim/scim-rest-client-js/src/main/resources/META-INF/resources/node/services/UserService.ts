@@ -23,7 +23,7 @@ export class UserService {
     }): CancelablePromise<(Blob | QueryResponse)> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/v2/Users',
+            url: '/scim/v1.0/v2/Users',
             query: {
                 'count': count,
                 'startIndex': startIndex,
@@ -42,7 +42,7 @@ export class UserService {
     }): CancelablePromise<(Blob | User)> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/v2/Users',
+            url: '/scim/v1.0/v2/Users',
             body: requestBody,
             mediaType: 'application/scim+json',
         });
@@ -59,7 +59,7 @@ export class UserService {
     }): CancelablePromise<(Blob | QueryResponse)> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/v2/Users/.search',
+            url: '/scim/v1.0/v2/Users/.search',
             body: requestBody,
             mediaType: 'application/scim+json',
         });
@@ -76,7 +76,7 @@ export class UserService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/v2/Users/{id}',
+            url: '/scim/v1.0/v2/Users/{id}',
             path: {
                 'id': id,
             },
@@ -94,7 +94,7 @@ export class UserService {
     }): CancelablePromise<(Blob | User)> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/v2/Users/{id}',
+            url: '/scim/v1.0/v2/Users/{id}',
             path: {
                 'id': id,
             },
@@ -114,7 +114,7 @@ export class UserService {
     }): CancelablePromise<(Blob | User)> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/v2/Users/{id}',
+            url: '/scim/v1.0/v2/Users/{id}',
             path: {
                 'id': id,
             },

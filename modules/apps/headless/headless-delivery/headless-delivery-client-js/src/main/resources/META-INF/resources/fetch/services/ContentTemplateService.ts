@@ -36,7 +36,7 @@ export class ContentTemplateService {
     }): CancelablePromise<Array<ContentTemplate>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/content-templates',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-templates',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -82,7 +82,7 @@ export class ContentTemplateService {
     }): CancelablePromise<Array<ContentTemplate>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/content-templates',
+            url: '/headless-delivery/v1.0/sites/{siteId}/content-templates',
             path: {
                 'siteId': siteId,
             },
@@ -118,7 +118,7 @@ export class ContentTemplateService {
     }): CancelablePromise<ContentTemplate> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/content-templates/{contentTemplateId}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/content-templates/{contentTemplateId}',
             path: {
                 'siteId': siteId,
                 'contentTemplateId': contentTemplateId,

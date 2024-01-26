@@ -19,7 +19,7 @@ export class UserGroupService {
     }): CancelablePromise<Array<UserGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-accounts/{userAccountId}/user-groups',
+            url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/user-groups',
             path: {
                 'userAccountId': userAccountId,
             },
@@ -44,7 +44,7 @@ export class UserGroupService {
     }): CancelablePromise<Array<UserGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-groups',
+            url: '/headless-admin-user/v1.0/user-groups',
             query: {
                 'filter': filter,
                 'page': page,
@@ -65,7 +65,7 @@ export class UserGroupService {
     }): CancelablePromise<UserGroup> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/user-groups',
+            url: '/headless-admin-user/v1.0/user-groups',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -81,7 +81,7 @@ export class UserGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/user-groups/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/user-groups/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -98,7 +98,7 @@ export class UserGroupService {
     }): CancelablePromise<UserGroup> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-groups/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/user-groups/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -117,7 +117,7 @@ export class UserGroupService {
     }): CancelablePromise<UserGroup> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/user-groups/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/user-groups/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -138,7 +138,7 @@ export class UserGroupService {
     }): CancelablePromise<UserGroup> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/user-groups/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/user-groups/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -157,7 +157,7 @@ export class UserGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/user-groups/{userGroupId}',
+            url: '/headless-admin-user/v1.0/user-groups/{userGroupId}',
             path: {
                 'userGroupId': userGroupId,
             },
@@ -174,7 +174,7 @@ export class UserGroupService {
     }): CancelablePromise<UserGroup> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-groups/{userGroupId}',
+            url: '/headless-admin-user/v1.0/user-groups/{userGroupId}',
             path: {
                 'userGroupId': userGroupId,
             },
@@ -193,7 +193,7 @@ export class UserGroupService {
     }): CancelablePromise<UserGroup> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/user-groups/{userGroupId}',
+            url: '/headless-admin-user/v1.0/user-groups/{userGroupId}',
             path: {
                 'userGroupId': userGroupId,
             },
@@ -214,7 +214,7 @@ export class UserGroupService {
     }): CancelablePromise<UserGroup> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/user-groups/{userGroupId}',
+            url: '/headless-admin-user/v1.0/user-groups/{userGroupId}',
             path: {
                 'userGroupId': userGroupId,
             },
@@ -235,7 +235,7 @@ export class UserGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/user-groups/{userGroupId}/user-group-users',
+            url: '/headless-admin-user/v1.0/user-groups/{userGroupId}/user-group-users',
             path: {
                 'userGroupId': userGroupId,
             },
@@ -256,7 +256,7 @@ export class UserGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/user-groups/{userGroupId}/user-group-users',
+            url: '/headless-admin-user/v1.0/user-groups/{userGroupId}/user-group-users',
             path: {
                 'userGroupId': userGroupId,
             },

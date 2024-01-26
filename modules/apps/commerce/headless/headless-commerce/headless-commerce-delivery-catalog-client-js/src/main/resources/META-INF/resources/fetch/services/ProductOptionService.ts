@@ -25,7 +25,7 @@ export class ProductOptionService {
     }): CancelablePromise<Array<ProductOption>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/products/{productId}/product-options',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/product-options',
             path: {
                 'channelId': channelId,
                 'productId': productId,

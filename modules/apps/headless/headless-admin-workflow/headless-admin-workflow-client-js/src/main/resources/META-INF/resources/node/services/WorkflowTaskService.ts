@@ -29,7 +29,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<Array<WorkflowTask>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-instances/{workflowInstanceId}/workflow-tasks',
+            url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-tasks',
             path: {
                 'workflowInstanceId': workflowInstanceId,
             },
@@ -57,7 +57,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<Array<WorkflowTask>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-instances/{workflowInstanceId}/workflow-tasks/assigned-to-me',
+            url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-tasks/assigned-to-me',
             path: {
                 'workflowInstanceId': workflowInstanceId,
             },
@@ -87,7 +87,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<Array<WorkflowTask>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-instances/{workflowInstanceId}/workflow-tasks/assigned-to-user',
+            url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-tasks/assigned-to-user',
             path: {
                 'workflowInstanceId': workflowInstanceId,
             },
@@ -116,7 +116,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<Array<WorkflowTask>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-tasks',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks',
             query: {
                 'page': page,
                 'pageSize': pageSize,
@@ -137,7 +137,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/workflow-tasks/assign-to-user',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/assign-to-user',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -155,7 +155,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<Array<WorkflowTask>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/assigned-to-me',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-me',
             query: {
                 'page': page,
                 'pageSize': pageSize,
@@ -175,7 +175,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<Array<WorkflowTask>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/assigned-to-my-roles',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-my-roles',
             query: {
                 'page': page,
                 'pageSize': pageSize,
@@ -197,7 +197,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<Array<WorkflowTask>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/assigned-to-role',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-role',
             query: {
                 'roleId': roleId,
                 'page': page,
@@ -220,7 +220,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<Array<WorkflowTask>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/assigned-to-user',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-user',
             query: {
                 'assigneeId': assigneeId,
                 'page': page,
@@ -243,7 +243,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<Array<WorkflowTask>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/assigned-to-user-roles',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-user-roles',
             query: {
                 'assigneeId': assigneeId,
                 'page': page,
@@ -262,7 +262,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/workflow-tasks/change-transition',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/change-transition',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -282,7 +282,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<Array<WorkflowTask>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/submitting-user',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/submitting-user',
             query: {
                 'creatorId': creatorId,
                 'page': page,
@@ -301,7 +301,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/workflow-tasks/update-due-date',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/update-due-date',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -317,7 +317,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<WorkflowTask> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/{workflowTaskId}',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}',
             path: {
                 'workflowTaskId': workflowTaskId,
             },
@@ -336,7 +336,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<WorkflowTask> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-tasks/{workflowTaskId}/assign-to-me',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/assign-to-me',
             path: {
                 'workflowTaskId': workflowTaskId,
             },
@@ -357,7 +357,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<WorkflowTask> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-tasks/{workflowTaskId}/assign-to-role',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/assign-to-role',
             path: {
                 'workflowTaskId': workflowTaskId,
             },
@@ -378,7 +378,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<WorkflowTask> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-tasks/{workflowTaskId}/assign-to-user',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/assign-to-user',
             path: {
                 'workflowTaskId': workflowTaskId,
             },
@@ -399,7 +399,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<WorkflowTask> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-tasks/{workflowTaskId}/change-transition',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/change-transition',
             path: {
                 'workflowTaskId': workflowTaskId,
             },
@@ -418,7 +418,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<boolean> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-tasks/{workflowTaskId}/has-assignable-users',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/has-assignable-users',
             path: {
                 'workflowTaskId': workflowTaskId,
             },
@@ -437,7 +437,7 @@ export class WorkflowTaskService {
     }): CancelablePromise<WorkflowTask> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-tasks/{workflowTaskId}/update-due-date',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/update-due-date',
             path: {
                 'workflowTaskId': workflowTaskId,
             },

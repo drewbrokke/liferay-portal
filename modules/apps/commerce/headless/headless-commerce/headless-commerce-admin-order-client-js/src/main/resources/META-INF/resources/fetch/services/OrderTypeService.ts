@@ -19,7 +19,7 @@ export class OrderTypeService {
     }): CancelablePromise<OrderType> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rule-order-types/{orderRuleOrderTypeId}/order-type',
+            url: '/headless-commerce-admin-order/v1.0/order-rule-order-types/{orderRuleOrderTypeId}/order-type',
             path: {
                 'orderRuleOrderTypeId': orderRuleOrderTypeId,
             },
@@ -51,7 +51,7 @@ export class OrderTypeService {
     }): CancelablePromise<Array<OrderType>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-types',
+            url: '/headless-commerce-admin-order/v1.0/order-types',
             query: {
                 'filter': filter,
                 'page': page,
@@ -80,7 +80,7 @@ export class OrderTypeService {
     }): CancelablePromise<OrderType | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-types',
+            url: '/headless-commerce-admin-order/v1.0/order-types',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -103,7 +103,7 @@ export class OrderTypeService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/order-types/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/order-types/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -124,7 +124,7 @@ export class OrderTypeService {
     }): CancelablePromise<OrderType> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-types/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/order-types/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -150,7 +150,7 @@ export class OrderTypeService {
     }): CancelablePromise<OrderType> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/order-types/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/order-types/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -176,7 +176,7 @@ export class OrderTypeService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/order-types/{id}',
+            url: '/headless-commerce-admin-order/v1.0/order-types/{id}',
             path: {
                 'id': id,
             },
@@ -197,7 +197,7 @@ export class OrderTypeService {
     }): CancelablePromise<OrderType> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-types/{id}',
+            url: '/headless-commerce-admin-order/v1.0/order-types/{id}',
             path: {
                 'id': id,
             },
@@ -223,7 +223,7 @@ export class OrderTypeService {
     }): CancelablePromise<OrderType> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/order-types/{id}',
+            url: '/headless-commerce-admin-order/v1.0/order-types/{id}',
             path: {
                 'id': id,
             },
@@ -249,7 +249,7 @@ export class OrderTypeService {
     }): CancelablePromise<OrderType> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/term-order-types/{termOrderTypeId}/order-type',
+            url: '/headless-commerce-admin-order/v1.0/term-order-types/{termOrderTypeId}/order-type',
             path: {
                 'termOrderTypeId': termOrderTypeId,
             },

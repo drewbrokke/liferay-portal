@@ -19,7 +19,7 @@ export class ProductShippingConfigurationService {
     }): CancelablePromise<ProductShippingConfiguration> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/shippingConfiguration',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/shippingConfiguration',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -45,7 +45,7 @@ export class ProductShippingConfigurationService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/shippingConfiguration',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/shippingConfiguration',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -71,7 +71,7 @@ export class ProductShippingConfigurationService {
     }): CancelablePromise<ProductShippingConfiguration> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/shippingConfiguration',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/shippingConfiguration',
             path: {
                 'id': id,
             },
@@ -97,7 +97,7 @@ export class ProductShippingConfigurationService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/products/{id}/shippingConfiguration',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/shippingConfiguration',
             path: {
                 'id': id,
             },

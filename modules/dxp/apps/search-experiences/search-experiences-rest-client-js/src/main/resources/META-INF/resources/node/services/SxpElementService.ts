@@ -26,7 +26,7 @@ export class SxpElementService {
     }): CancelablePromise<Array<SXPElement>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sxp-elements',
+            url: '/search-experiences-rest/v1.0/sxp-elements',
             query: {
                 'filter': filter,
                 'page': page,
@@ -47,7 +47,7 @@ export class SxpElementService {
     }): CancelablePromise<SXPElement> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sxp-elements',
+            url: '/search-experiences-rest/v1.0/sxp-elements',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -63,7 +63,7 @@ export class SxpElementService {
     }): CancelablePromise<SXPElement> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sxp-elements/by-external-reference-code/{externalReferenceCode}',
+            url: '/search-experiences-rest/v1.0/sxp-elements/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -82,7 +82,7 @@ export class SxpElementService {
     }): CancelablePromise<SXPElement> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sxp-elements/by-external-reference-code/{externalReferenceCode}',
+            url: '/search-experiences-rest/v1.0/sxp-elements/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -101,7 +101,7 @@ export class SxpElementService {
     }): CancelablePromise<SXPElement> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sxp-elements/preview',
+            url: '/search-experiences-rest/v1.0/sxp-elements/preview',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -117,7 +117,7 @@ export class SxpElementService {
     }): CancelablePromise<SXPElement> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sxp-elements/validate',
+            url: '/search-experiences-rest/v1.0/sxp-elements/validate',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -133,7 +133,7 @@ export class SxpElementService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sxp-elements/{sxpElementId}',
+            url: '/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}',
             path: {
                 'sxpElementId': sxpElementId,
             },
@@ -150,7 +150,7 @@ export class SxpElementService {
     }): CancelablePromise<SXPElement> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sxp-elements/{sxpElementId}',
+            url: '/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}',
             path: {
                 'sxpElementId': sxpElementId,
             },
@@ -169,7 +169,7 @@ export class SxpElementService {
     }): CancelablePromise<SXPElement> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/sxp-elements/{sxpElementId}',
+            url: '/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}',
             path: {
                 'sxpElementId': sxpElementId,
             },
@@ -190,7 +190,7 @@ export class SxpElementService {
     }): CancelablePromise<SXPElement> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sxp-elements/{sxpElementId}',
+            url: '/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}',
             path: {
                 'sxpElementId': sxpElementId,
             },
@@ -209,7 +209,7 @@ export class SxpElementService {
     }): CancelablePromise<SXPElement> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sxp-elements/{sxpElementId}/copy',
+            url: '/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}/copy',
             path: {
                 'sxpElementId': sxpElementId,
             },
@@ -226,7 +226,7 @@ export class SxpElementService {
     }): CancelablePromise<Blob> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sxp-elements/{sxpElementId}/export',
+            url: '/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}/export',
             path: {
                 'sxpElementId': sxpElementId,
             },

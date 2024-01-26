@@ -19,7 +19,7 @@ export class TaskService {
     }): CancelablePromise<Array<Task>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/tasks',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/tasks',
             path: {
                 'processId': processId,
             },
@@ -38,7 +38,7 @@ export class TaskService {
     }): CancelablePromise<Task> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/processes/{processId}/tasks',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/tasks',
             path: {
                 'processId': processId,
             },
@@ -59,7 +59,7 @@ export class TaskService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/processes/{processId}/tasks/{taskId}',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/tasks/{taskId}',
             path: {
                 'processId': processId,
                 'taskId': taskId,
@@ -79,7 +79,7 @@ export class TaskService {
     }): CancelablePromise<Task> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/tasks/{taskId}',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/tasks/{taskId}',
             path: {
                 'processId': processId,
                 'taskId': taskId,
@@ -101,7 +101,7 @@ export class TaskService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/processes/{processId}/tasks/{taskId}',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/tasks/{taskId}',
             path: {
                 'processId': processId,
                 'taskId': taskId,
@@ -125,7 +125,7 @@ export class TaskService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/processes/{processId}/tasks/{taskId}/complete',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/tasks/{taskId}/complete',
             path: {
                 'processId': processId,
                 'taskId': taskId,
@@ -149,7 +149,7 @@ export class TaskService {
     }): CancelablePromise<Array<Task>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/tasks',
+            url: '/portal-workflow-metrics/v1.0/tasks',
             query: {
                 'page': page,
                 'pageSize': pageSize,

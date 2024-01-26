@@ -20,7 +20,7 @@ export class WishListItemService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/wishlist-items/{wishListItemId}',
+            url: '/headless-commerce-delivery-catalog/v1.0/wishlist-items/{wishListItemId}',
             path: {
                 'wishListItemId': wishListItemId,
             },
@@ -43,7 +43,7 @@ export class WishListItemService {
     }): CancelablePromise<WishListItem> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/wishlist-items/{wishListItemId}',
+            url: '/headless-commerce-delivery-catalog/v1.0/wishlist-items/{wishListItemId}',
             path: {
                 'wishListItemId': wishListItemId,
             },
@@ -75,7 +75,7 @@ export class WishListItemService {
     }): CancelablePromise<Array<WishListItem>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/wishlists/{wishListId}/wishlist-items',
+            url: '/headless-commerce-delivery-catalog/v1.0/wishlists/{wishListId}/wishlist-items',
             path: {
                 'wishListId': wishListId,
             },
@@ -107,7 +107,7 @@ export class WishListItemService {
     }): CancelablePromise<WishListItem> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/wishlists/{wishListId}/wishlist-items',
+            url: '/headless-commerce-delivery-catalog/v1.0/wishlists/{wishListId}/wishlist-items',
             path: {
                 'wishListId': wishListId,
             },

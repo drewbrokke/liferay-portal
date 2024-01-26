@@ -28,7 +28,7 @@ export class ObjectRelationshipService {
     }): CancelablePromise<Array<ObjectRelationship>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-relationships',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-relationships',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -54,7 +54,7 @@ export class ObjectRelationshipService {
     }): CancelablePromise<ObjectRelationship> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-relationships',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-relationships',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -83,7 +83,7 @@ export class ObjectRelationshipService {
     }): CancelablePromise<Array<ObjectRelationship>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/{objectDefinitionId}/object-relationships',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-relationships',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -109,7 +109,7 @@ export class ObjectRelationshipService {
     }): CancelablePromise<ObjectRelationship> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/{objectDefinitionId}/object-relationships',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-relationships',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -130,7 +130,7 @@ export class ObjectRelationshipService {
     }): CancelablePromise<ObjectRelationship> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-relationships/by-external-reference-code/{externalReferenceCode}',
+            url: '/object-admin/v1.0/object-relationships/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -149,7 +149,7 @@ export class ObjectRelationshipService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/object-relationships/{objectRelationshipId}',
+            url: '/object-admin/v1.0/object-relationships/{objectRelationshipId}',
             path: {
                 'objectRelationshipId': objectRelationshipId,
             },
@@ -166,7 +166,7 @@ export class ObjectRelationshipService {
     }): CancelablePromise<ObjectRelationship> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-relationships/{objectRelationshipId}',
+            url: '/object-admin/v1.0/object-relationships/{objectRelationshipId}',
             path: {
                 'objectRelationshipId': objectRelationshipId,
             },
@@ -185,7 +185,7 @@ export class ObjectRelationshipService {
     }): CancelablePromise<ObjectRelationship> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-relationships/{objectRelationshipId}',
+            url: '/object-admin/v1.0/object-relationships/{objectRelationshipId}',
             path: {
                 'objectRelationshipId': objectRelationshipId,
             },

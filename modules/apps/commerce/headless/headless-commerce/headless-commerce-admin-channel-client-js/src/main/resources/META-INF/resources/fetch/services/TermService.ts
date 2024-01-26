@@ -12,14 +12,14 @@ export class TermService {
      * @returns Term Successful operation
      * @throws ApiError
      */
-    public getPaymentMethodGroupRelTermsTerm({
+    public getHeadlessCommerceAdminChannelV10PaymentMethodGroupRelTermsTerm({
         paymentMethodGroupRelTermId,
     }: {
         paymentMethodGroupRelTermId: number,
     }): CancelablePromise<Term> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/payment-method-group-rel-terms/{paymentMethodGroupRelTermId}/term',
+            url: '/headless-commerce-admin-channel/v1.0/payment-method-group-rel-terms/{paymentMethodGroupRelTermId}/term',
             path: {
                 'paymentMethodGroupRelTermId': paymentMethodGroupRelTermId,
             },
@@ -36,14 +36,14 @@ export class TermService {
      * @returns Term Successful operation
      * @throws ApiError
      */
-    public getShippingFixedOptionTermsTerm({
+    public getHeadlessCommerceAdminChannelV10ShippingFixedOptionTermsTerm({
         shippingFixedOptionTermId,
     }: {
         shippingFixedOptionTermId: number,
     }): CancelablePromise<Term> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/shipping-fixed-option-terms/{shippingFixedOptionTermId}/term',
+            url: '/headless-commerce-admin-channel/v1.0/shipping-fixed-option-terms/{shippingFixedOptionTermId}/term',
             path: {
                 'shippingFixedOptionTermId': shippingFixedOptionTermId,
             },

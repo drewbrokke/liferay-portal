@@ -19,7 +19,7 @@ export class CatalogService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/catalog/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/catalog/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -40,7 +40,7 @@ export class CatalogService {
     }): CancelablePromise<Catalog> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/catalog/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/catalog/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -66,7 +66,7 @@ export class CatalogService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/catalog/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/catalog/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -92,7 +92,7 @@ export class CatalogService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/catalog/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/catalog/{id}',
             path: {
                 'id': id,
             },
@@ -113,7 +113,7 @@ export class CatalogService {
     }): CancelablePromise<Catalog> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/catalog/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/catalog/{id}',
             path: {
                 'id': id,
             },
@@ -139,7 +139,7 @@ export class CatalogService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/catalog/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/catalog/{id}',
             path: {
                 'id': id,
             },
@@ -173,7 +173,7 @@ export class CatalogService {
     }): CancelablePromise<Array<Catalog>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/catalogs',
+            url: '/headless-commerce-admin-catalog/v1.0/catalogs',
             query: {
                 'filter': filter,
                 'page': page,
@@ -201,7 +201,7 @@ export class CatalogService {
     }): CancelablePromise<Catalog | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/catalogs',
+            url: '/headless-commerce-admin-catalog/v1.0/catalogs',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -228,7 +228,7 @@ export class CatalogService {
     }): CancelablePromise<Catalog> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/catalog',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/catalog',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -259,7 +259,7 @@ export class CatalogService {
     }): CancelablePromise<Catalog> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/catalog',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/catalog',
             path: {
                 'id': id,
             },

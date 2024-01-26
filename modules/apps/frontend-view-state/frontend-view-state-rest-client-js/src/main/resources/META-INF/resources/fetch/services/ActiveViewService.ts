@@ -10,7 +10,7 @@ export class ActiveViewService {
      * @returns any
      * @throws ApiError
      */
-    public getActiveViewPageLayoutPortlet({
+    public getFrontendViewStateV10ActiveViewPageLayoutPortlet({
         activeViewId,
         pageLayoutId,
         portletId,
@@ -21,7 +21,7 @@ export class ActiveViewService {
     }): CancelablePromise<Record<string, any>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/active-view/{activeViewId}/page-layout/{pageLayoutId}/portlet/{portletId}',
+            url: '/frontend-view-state/v1.0/active-view/{activeViewId}/page-layout/{pageLayoutId}/portlet/{portletId}',
             path: {
                 'activeViewId': activeViewId,
                 'pageLayoutId': pageLayoutId,
@@ -33,7 +33,7 @@ export class ActiveViewService {
      * @returns any
      * @throws ApiError
      */
-    public putActiveViewPageLayoutPortlet({
+    public putFrontendViewStateV10ActiveViewPageLayoutPortlet({
         activeViewId,
         pageLayoutId,
         portletId,
@@ -46,7 +46,7 @@ export class ActiveViewService {
     }): CancelablePromise<Record<string, any>> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/active-view/{activeViewId}/page-layout/{pageLayoutId}/portlet/{portletId}',
+            url: '/frontend-view-state/v1.0/active-view/{activeViewId}/page-layout/{pageLayoutId}/portlet/{portletId}',
             path: {
                 'activeViewId': activeViewId,
                 'pageLayoutId': pageLayoutId,

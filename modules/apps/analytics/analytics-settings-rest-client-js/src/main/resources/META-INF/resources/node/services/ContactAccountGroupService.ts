@@ -24,7 +24,7 @@ export class ContactAccountGroupService {
     }): CancelablePromise<Array<ContactAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/contacts/account-groups',
+            url: '/analytics-settings-rest/v1.0/contacts/account-groups',
             query: {
                 'keywords': keywords,
                 'page': page,

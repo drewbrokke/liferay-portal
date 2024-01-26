@@ -14,7 +14,7 @@ export class ModelPrefilterContributorService {
     public getModelPrefilterContributorsPage(): CancelablePromise<Array<ModelPrefilterContributor>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/model-prefilter-contributors',
+            url: '/search-experiences-rest/v1.0/model-prefilter-contributors',
         });
     }
 }

@@ -12,14 +12,14 @@ export class PlacedOrderAddressService {
      * @returns PlacedOrderAddress
      * @throws ApiError
      */
-    public getPlacedOrdersPlacedOrderBillingAddress({
+    public getHeadlessCommerceDeliveryOrderV10PlacedOrdersPlacedOrderBillingAddress({
         placedOrderId,
     }: {
         placedOrderId: number,
     }): CancelablePromise<PlacedOrderAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/placed-orders/{placedOrderId}/placed-order-billing-address',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/placed-order-billing-address',
             path: {
                 'placedOrderId': placedOrderId,
             },
@@ -35,14 +35,14 @@ export class PlacedOrderAddressService {
      * @returns PlacedOrderAddress
      * @throws ApiError
      */
-    public getPlacedOrdersPlacedOrderShippingAddress({
+    public getHeadlessCommerceDeliveryOrderV10PlacedOrdersPlacedOrderShippingAddress({
         placedOrderId,
     }: {
         placedOrderId: number,
     }): CancelablePromise<PlacedOrderAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/placed-orders/{placedOrderId}/placed-order-shipping-address',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/placed-order-shipping-address',
             path: {
                 'placedOrderId': placedOrderId,
             },

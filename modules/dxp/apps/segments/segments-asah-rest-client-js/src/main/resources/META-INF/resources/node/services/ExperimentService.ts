@@ -18,7 +18,7 @@ export class ExperimentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/experiments/{experimentId}',
+            url: '/segments-asah/v1.0/experiments/{experimentId}',
             path: {
                 'experimentId': experimentId,
             },
@@ -35,7 +35,7 @@ export class ExperimentService {
     }): CancelablePromise<Experiment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/experiments/{experimentId}',
+            url: '/segments-asah/v1.0/experiments/{experimentId}',
             path: {
                 'experimentId': experimentId,
             },

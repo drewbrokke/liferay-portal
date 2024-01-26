@@ -12,14 +12,14 @@ export class PlacedOrderItemService {
      * @returns PlacedOrderItem
      * @throws ApiError
      */
-    public getPlacedOrderItems({
+    public getHeadlessCommerceDeliveryOrderV10PlacedOrderItems({
         placedOrderItemId,
     }: {
         placedOrderItemId: number,
     }): CancelablePromise<PlacedOrderItem> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/placed-order-items/{placedOrderItemId}',
+            url: '/headless-commerce-delivery-order/v1.0/placed-order-items/{placedOrderItemId}',
             path: {
                 'placedOrderItemId': placedOrderItemId,
             },
@@ -35,7 +35,7 @@ export class PlacedOrderItemService {
      * @returns PlacedOrderItem Return the items of the placed order
      * @throws ApiError
      */
-    public getPlacedOrdersPlacedOrderItems({
+    public getHeadlessCommerceDeliveryOrderV10PlacedOrdersPlacedOrderItems({
         placedOrderId,
         skuId,
         page,
@@ -48,7 +48,7 @@ export class PlacedOrderItemService {
     }): CancelablePromise<Array<PlacedOrderItem>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/placed-orders/{placedOrderId}/placed-order-items',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/placed-order-items',
             path: {
                 'placedOrderId': placedOrderId,
             },

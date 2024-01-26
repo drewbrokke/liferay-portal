@@ -19,7 +19,7 @@ export class PinService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/pins/{pinId}',
+            url: '/headless-commerce-admin-catalog/v1.0/pins/{pinId}',
             path: {
                 'pinId': pinId,
             },
@@ -39,7 +39,7 @@ export class PinService {
     }): CancelablePromise<Pin> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/pins/{pinId}',
+            url: '/headless-commerce-admin-catalog/v1.0/pins/{pinId}',
             path: {
                 'pinId': pinId,
             },
@@ -73,7 +73,7 @@ export class PinService {
     }): CancelablePromise<Array<Pin>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/pins',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/pins',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -105,7 +105,7 @@ export class PinService {
     }): CancelablePromise<Pin> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/pins',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/pins',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -139,7 +139,7 @@ export class PinService {
     }): CancelablePromise<Array<Pin>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/pins',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/pins',
             path: {
                 'id': id,
             },
@@ -171,7 +171,7 @@ export class PinService {
     }): CancelablePromise<Pin> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/pins',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/pins',
             path: {
                 'id': id,
             },

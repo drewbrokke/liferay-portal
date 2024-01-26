@@ -24,7 +24,7 @@ export class MlModelService {
     }): CancelablePromise<Array<MLModel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sentence-transformer/ml-models',
+            url: '/search-experiences-rest/v1.0/sentence-transformer/ml-models',
             query: {
                 'limit': limit,
                 'pipelineTag': pipelineTag,

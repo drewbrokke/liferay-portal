@@ -14,7 +14,7 @@ export class KeywordQueryContributorService {
     public getKeywordQueryContributorsPage(): CancelablePromise<Array<KeywordQueryContributor>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/keyword-query-contributors',
+            url: '/search-experiences-rest/v1.0/keyword-query-contributors',
         });
     }
 }

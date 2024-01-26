@@ -20,7 +20,7 @@ export class FieldService {
     }): CancelablePromise<Array<Field>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/plans/{internalClassNameKey}/fields',
+            url: '/batch-planner/v1.0/plans/{internalClassNameKey}/fields',
             path: {
                 'internalClassNameKey': internalClassNameKey,
             },

@@ -29,7 +29,7 @@ export class SkuService {
     }): CancelablePromise<Array<Sku>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/products/{productId}/skus',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/skus',
             path: {
                 'channelId': channelId,
                 'productId': productId,
@@ -66,7 +66,7 @@ export class SkuService {
     }): CancelablePromise<Sku> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/channels/{channelId}/products/{productId}/skus',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/skus',
             path: {
                 'channelId': channelId,
                 'productId': productId,
@@ -107,7 +107,7 @@ export class SkuService {
     }): CancelablePromise<Sku> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/channels/{channelId}/products/{productId}/skus/by-sku-option',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/skus/by-sku-option',
             path: {
                 'channelId': channelId,
                 'productId': productId,
@@ -145,7 +145,7 @@ export class SkuService {
     }): CancelablePromise<Sku> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/products/{productId}/skus/{skuId}',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/skus/{skuId}',
             path: {
                 'channelId': channelId,
                 'productId': productId,

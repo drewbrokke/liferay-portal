@@ -12,14 +12,14 @@ export class AccountChannelEntryService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountChannelBillingAddresses({
+    public deleteHeadlessCommerceAdminAccountV10AccountChannelBillingAddresses({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-channel-billing-addresses/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-billing-addresses/{id}',
             path: {
                 'id': id,
             },
@@ -33,14 +33,14 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountChannelBillingAddresses({
+    public getHeadlessCommerceAdminAccountV10AccountChannelBillingAddresses({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-channel-billing-addresses/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-billing-addresses/{id}',
             path: {
                 'id': id,
             },
@@ -57,7 +57,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Updated
      * @throws ApiError
      */
-    public patchAccountChannelBillingAddresses({
+    public patchHeadlessCommerceAdminAccountV10AccountChannelBillingAddresses({
         id,
         requestBody,
     }: {
@@ -66,7 +66,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-channel-billing-addresses/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-billing-addresses/{id}',
             path: {
                 'id': id,
             },
@@ -85,14 +85,14 @@ export class AccountChannelEntryService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountChannelCurrencies({
+    public deleteHeadlessCommerceAdminAccountV10AccountChannelCurrencies({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-channel-currencies/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-currencies/{id}',
             path: {
                 'id': id,
             },
@@ -106,14 +106,14 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountChannelCurrencies({
+    public getHeadlessCommerceAdminAccountV10AccountChannelCurrencies({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-channel-currencies/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-currencies/{id}',
             path: {
                 'id': id,
             },
@@ -130,7 +130,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Updated
      * @throws ApiError
      */
-    public patchAccountChannelCurrencies({
+    public patchHeadlessCommerceAdminAccountV10AccountChannelCurrencies({
         id,
         requestBody,
     }: {
@@ -139,7 +139,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-channel-currencies/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-currencies/{id}',
             path: {
                 'id': id,
             },
@@ -158,14 +158,14 @@ export class AccountChannelEntryService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountChannelDeliveryTerms({
+    public deleteHeadlessCommerceAdminAccountV10AccountChannelDeliveryTerms({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-channel-delivery-terms/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-delivery-terms/{id}',
             path: {
                 'id': id,
             },
@@ -179,14 +179,14 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountChannelDeliveryTerms({
+    public getHeadlessCommerceAdminAccountV10AccountChannelDeliveryTerms({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-channel-delivery-terms/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-delivery-terms/{id}',
             path: {
                 'id': id,
             },
@@ -203,7 +203,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Updated
      * @throws ApiError
      */
-    public patchAccountChannelDeliveryTerms({
+    public patchHeadlessCommerceAdminAccountV10AccountChannelDeliveryTerms({
         id,
         requestBody,
     }: {
@@ -212,7 +212,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-channel-delivery-terms/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-delivery-terms/{id}',
             path: {
                 'id': id,
             },
@@ -231,14 +231,14 @@ export class AccountChannelEntryService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountChannelDiscounts({
+    public deleteHeadlessCommerceAdminAccountV10AccountChannelDiscounts({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-channel-discounts/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-discounts/{id}',
             path: {
                 'id': id,
             },
@@ -252,14 +252,14 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountChannelDiscounts({
+    public getHeadlessCommerceAdminAccountV10AccountChannelDiscounts({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-channel-discounts/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-discounts/{id}',
             path: {
                 'id': id,
             },
@@ -276,7 +276,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Updated
      * @throws ApiError
      */
-    public patchAccountChannelDiscounts({
+    public patchHeadlessCommerceAdminAccountV10AccountChannelDiscounts({
         id,
         requestBody,
     }: {
@@ -285,7 +285,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-channel-discounts/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-discounts/{id}',
             path: {
                 'id': id,
             },
@@ -304,14 +304,14 @@ export class AccountChannelEntryService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountChannelPaymentMethods({
+    public deleteHeadlessCommerceAdminAccountV10AccountChannelPaymentMethods({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-channel-payment-methods/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-payment-methods/{id}',
             path: {
                 'id': id,
             },
@@ -325,14 +325,14 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountChannelPaymentMethods({
+    public getHeadlessCommerceAdminAccountV10AccountChannelPaymentMethods({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-channel-payment-methods/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-payment-methods/{id}',
             path: {
                 'id': id,
             },
@@ -349,7 +349,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Updated
      * @throws ApiError
      */
-    public patchAccountChannelPaymentMethods({
+    public patchHeadlessCommerceAdminAccountV10AccountChannelPaymentMethods({
         id,
         requestBody,
     }: {
@@ -358,7 +358,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-channel-payment-methods/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-payment-methods/{id}',
             path: {
                 'id': id,
             },
@@ -377,14 +377,14 @@ export class AccountChannelEntryService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountChannelPaymentTerms({
+    public deleteHeadlessCommerceAdminAccountV10AccountChannelPaymentTerms({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-channel-payment-terms/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-payment-terms/{id}',
             path: {
                 'id': id,
             },
@@ -398,14 +398,14 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountChannelPaymentTerms({
+    public getHeadlessCommerceAdminAccountV10AccountChannelPaymentTerms({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-channel-payment-terms/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-payment-terms/{id}',
             path: {
                 'id': id,
             },
@@ -422,7 +422,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Updated
      * @throws ApiError
      */
-    public patchAccountChannelPaymentTerms({
+    public patchHeadlessCommerceAdminAccountV10AccountChannelPaymentTerms({
         id,
         requestBody,
     }: {
@@ -431,7 +431,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-channel-payment-terms/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-payment-terms/{id}',
             path: {
                 'id': id,
             },
@@ -450,14 +450,14 @@ export class AccountChannelEntryService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountChannelPriceList({
+    public deleteHeadlessCommerceAdminAccountV10AccountChannelPriceList({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-channel-price-list/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-price-list/{id}',
             path: {
                 'id': id,
             },
@@ -471,14 +471,14 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountChannelPriceList({
+    public getHeadlessCommerceAdminAccountV10AccountChannelPriceList({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-channel-price-list/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-price-list/{id}',
             path: {
                 'id': id,
             },
@@ -495,7 +495,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Updated
      * @throws ApiError
      */
-    public patchAccountChannelPriceList({
+    public patchHeadlessCommerceAdminAccountV10AccountChannelPriceList({
         id,
         requestBody,
     }: {
@@ -504,7 +504,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-channel-price-list/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-price-list/{id}',
             path: {
                 'id': id,
             },
@@ -523,14 +523,14 @@ export class AccountChannelEntryService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountChannelShippingAddresses({
+    public deleteHeadlessCommerceAdminAccountV10AccountChannelShippingAddresses({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-channel-shipping-addresses/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-shipping-addresses/{id}',
             path: {
                 'id': id,
             },
@@ -544,14 +544,14 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountChannelShippingAddresses({
+    public getHeadlessCommerceAdminAccountV10AccountChannelShippingAddresses({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-channel-shipping-addresses/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-shipping-addresses/{id}',
             path: {
                 'id': id,
             },
@@ -568,7 +568,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Updated
      * @throws ApiError
      */
-    public patchAccountChannelShippingAddresses({
+    public patchHeadlessCommerceAdminAccountV10AccountChannelShippingAddresses({
         id,
         requestBody,
     }: {
@@ -577,7 +577,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-channel-shipping-addresses/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-shipping-addresses/{id}',
             path: {
                 'id': id,
             },
@@ -596,14 +596,14 @@ export class AccountChannelEntryService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountChannelUsers({
+    public deleteHeadlessCommerceAdminAccountV10AccountChannelUsers({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-channel-users/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-users/{id}',
             path: {
                 'id': id,
             },
@@ -617,14 +617,14 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountChannelUsers({
+    public getHeadlessCommerceAdminAccountV10AccountChannelUsers({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-channel-users/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-users/{id}',
             path: {
                 'id': id,
             },
@@ -641,7 +641,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Updated
      * @throws ApiError
      */
-    public patchAccountChannelUsers({
+    public patchHeadlessCommerceAdminAccountV10AccountChannelUsers({
         id,
         requestBody,
     }: {
@@ -650,7 +650,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-channel-users/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-users/{id}',
             path: {
                 'id': id,
             },
@@ -669,7 +669,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountChannelBillingAddresses({
+    public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelBillingAddresses({
         externalReferenceCode,
         page,
         pageSize,
@@ -680,7 +680,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-billing-addresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-billing-addresses',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -702,7 +702,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeAccountChannelBillingAddresses({
+    public postHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelBillingAddresses({
         externalReferenceCode,
         requestBody,
     }: {
@@ -711,7 +711,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-billing-addresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-billing-addresses',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -730,7 +730,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountChannelCurrencies({
+    public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelCurrencies({
         externalReferenceCode,
         page,
         pageSize,
@@ -741,7 +741,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-currencies',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-currencies',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -763,7 +763,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeAccountChannelCurrencies({
+    public postHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelCurrencies({
         externalReferenceCode,
         requestBody,
     }: {
@@ -772,7 +772,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-currencies',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-currencies',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -791,7 +791,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountChannelDeliveryTerms({
+    public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelDeliveryTerms({
         externalReferenceCode,
         page,
         pageSize,
@@ -802,7 +802,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-delivery-terms',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-delivery-terms',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -824,7 +824,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeAccountChannelDeliveryTerms({
+    public postHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelDeliveryTerms({
         externalReferenceCode,
         requestBody,
     }: {
@@ -833,7 +833,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-delivery-terms',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-delivery-terms',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -852,7 +852,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountChannelDiscounts({
+    public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelDiscounts({
         externalReferenceCode,
         page,
         pageSize,
@@ -863,7 +863,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-discounts',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-discounts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -885,7 +885,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeAccountChannelDiscounts({
+    public postHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelDiscounts({
         externalReferenceCode,
         requestBody,
     }: {
@@ -894,7 +894,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-discounts',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-discounts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -913,7 +913,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountChannelPaymentMethods({
+    public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelPaymentMethods({
         externalReferenceCode,
         page,
         pageSize,
@@ -924,7 +924,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-methods',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-methods',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -946,7 +946,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeAccountChannelPaymentMethods({
+    public postHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelPaymentMethods({
         externalReferenceCode,
         requestBody,
     }: {
@@ -955,7 +955,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-methods',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-methods',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -974,7 +974,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountChannelPaymentTerms({
+    public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelPaymentTerms({
         externalReferenceCode,
         page,
         pageSize,
@@ -985,7 +985,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-terms',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-terms',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -1007,7 +1007,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeAccountChannelPaymentTerms({
+    public postHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelPaymentTerms({
         externalReferenceCode,
         requestBody,
     }: {
@@ -1016,7 +1016,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-terms',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-terms',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -1035,7 +1035,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountChannelPriceLists({
+    public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelPriceLists({
         externalReferenceCode,
         page,
         pageSize,
@@ -1046,7 +1046,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-price-lists',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-price-lists',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -1068,7 +1068,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeAccountChannelPriceLists({
+    public postHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelPriceLists({
         externalReferenceCode,
         requestBody,
     }: {
@@ -1077,7 +1077,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-price-lists',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-price-lists',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -1096,7 +1096,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountChannelShippingAddresses({
+    public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelShippingAddresses({
         externalReferenceCode,
         page,
         pageSize,
@@ -1107,7 +1107,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-addresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-addresses',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -1129,7 +1129,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeAccountChannelShippingAddresses({
+    public postHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelShippingAddresses({
         externalReferenceCode,
         requestBody,
     }: {
@@ -1138,7 +1138,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-addresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-addresses',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -1157,7 +1157,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountChannelUsers({
+    public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelUsers({
         externalReferenceCode,
         page,
         pageSize,
@@ -1168,7 +1168,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-users',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-users',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -1190,7 +1190,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeAccountChannelUsers({
+    public postHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelUsers({
         externalReferenceCode,
         requestBody,
     }: {
@@ -1199,7 +1199,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-users',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-users',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -1218,7 +1218,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsAccountChannelBillingAddresses({
+    public getHeadlessCommerceAdminAccountV10AccountsAccountChannelBillingAddresses({
         id,
         page,
         pageSize,
@@ -1229,7 +1229,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/account-channel-billing-addresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-billing-addresses',
             path: {
                 'id': id,
             },
@@ -1251,7 +1251,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsAccountChannelBillingAddresses({
+    public postHeadlessCommerceAdminAccountV10AccountsAccountChannelBillingAddresses({
         id,
         requestBody,
     }: {
@@ -1260,7 +1260,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/account-channel-billing-addresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-billing-addresses',
             path: {
                 'id': id,
             },
@@ -1279,7 +1279,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsAccountChannelCurrencies({
+    public getHeadlessCommerceAdminAccountV10AccountsAccountChannelCurrencies({
         id,
         page,
         pageSize,
@@ -1290,7 +1290,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/account-channel-currencies',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-currencies',
             path: {
                 'id': id,
             },
@@ -1312,7 +1312,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsAccountChannelCurrencies({
+    public postHeadlessCommerceAdminAccountV10AccountsAccountChannelCurrencies({
         id,
         requestBody,
     }: {
@@ -1321,7 +1321,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/account-channel-currencies',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-currencies',
             path: {
                 'id': id,
             },
@@ -1340,7 +1340,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsAccountChannelDeliveryTerms({
+    public getHeadlessCommerceAdminAccountV10AccountsAccountChannelDeliveryTerms({
         id,
         page,
         pageSize,
@@ -1351,7 +1351,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/account-channel-delivery-terms',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-delivery-terms',
             path: {
                 'id': id,
             },
@@ -1373,7 +1373,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsAccountChannelDeliveryTerms({
+    public postHeadlessCommerceAdminAccountV10AccountsAccountChannelDeliveryTerms({
         id,
         requestBody,
     }: {
@@ -1382,7 +1382,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/account-channel-delivery-terms',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-delivery-terms',
             path: {
                 'id': id,
             },
@@ -1401,7 +1401,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsAccountChannelDiscounts({
+    public getHeadlessCommerceAdminAccountV10AccountsAccountChannelDiscounts({
         id,
         page,
         pageSize,
@@ -1412,7 +1412,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/account-channel-discounts',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-discounts',
             path: {
                 'id': id,
             },
@@ -1434,7 +1434,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsAccountChannelDiscounts({
+    public postHeadlessCommerceAdminAccountV10AccountsAccountChannelDiscounts({
         id,
         requestBody,
     }: {
@@ -1443,7 +1443,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/account-channel-discounts',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-discounts',
             path: {
                 'id': id,
             },
@@ -1462,7 +1462,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsAccountChannelPaymentMethods({
+    public getHeadlessCommerceAdminAccountV10AccountsAccountChannelPaymentMethods({
         id,
         page,
         pageSize,
@@ -1473,7 +1473,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/account-channel-payment-methods',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-payment-methods',
             path: {
                 'id': id,
             },
@@ -1495,7 +1495,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsAccountChannelPaymentMethods({
+    public postHeadlessCommerceAdminAccountV10AccountsAccountChannelPaymentMethods({
         id,
         requestBody,
     }: {
@@ -1504,7 +1504,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/account-channel-payment-methods',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-payment-methods',
             path: {
                 'id': id,
             },
@@ -1523,7 +1523,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsAccountChannelPaymentTerms({
+    public getHeadlessCommerceAdminAccountV10AccountsAccountChannelPaymentTerms({
         id,
         page,
         pageSize,
@@ -1534,7 +1534,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/account-channel-payment-terms',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-payment-terms',
             path: {
                 'id': id,
             },
@@ -1556,7 +1556,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsAccountChannelPaymentTerms({
+    public postHeadlessCommerceAdminAccountV10AccountsAccountChannelPaymentTerms({
         id,
         requestBody,
     }: {
@@ -1565,7 +1565,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/account-channel-payment-terms',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-payment-terms',
             path: {
                 'id': id,
             },
@@ -1584,7 +1584,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsAccountChannelPriceLists({
+    public getHeadlessCommerceAdminAccountV10AccountsAccountChannelPriceLists({
         id,
         page,
         pageSize,
@@ -1595,7 +1595,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/account-channel-price-lists',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-price-lists',
             path: {
                 'id': id,
             },
@@ -1617,7 +1617,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsAccountChannelPriceLists({
+    public postHeadlessCommerceAdminAccountV10AccountsAccountChannelPriceLists({
         id,
         requestBody,
     }: {
@@ -1626,7 +1626,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/account-channel-price-lists',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-price-lists',
             path: {
                 'id': id,
             },
@@ -1645,7 +1645,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsAccountChannelShippingAddresses({
+    public getHeadlessCommerceAdminAccountV10AccountsAccountChannelShippingAddresses({
         id,
         page,
         pageSize,
@@ -1656,7 +1656,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/account-channel-shipping-addresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-shipping-addresses',
             path: {
                 'id': id,
             },
@@ -1678,7 +1678,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsAccountChannelShippingAddresses({
+    public postHeadlessCommerceAdminAccountV10AccountsAccountChannelShippingAddresses({
         id,
         requestBody,
     }: {
@@ -1687,7 +1687,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/account-channel-shipping-addresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-shipping-addresses',
             path: {
                 'id': id,
             },
@@ -1706,7 +1706,7 @@ export class AccountChannelEntryService {
      * @returns AccountChannelEntry Successful operation
      * @throws ApiError
      */
-    public getAccountsAccountChannelUsers({
+    public getHeadlessCommerceAdminAccountV10AccountsAccountChannelUsers({
         id,
         page,
         pageSize,
@@ -1717,7 +1717,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<Array<AccountChannelEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/account-channel-users',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-users',
             path: {
                 'id': id,
             },
@@ -1739,7 +1739,7 @@ export class AccountChannelEntryService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsAccountChannelUsers({
+    public postHeadlessCommerceAdminAccountV10AccountsAccountChannelUsers({
         id,
         requestBody,
     }: {
@@ -1748,7 +1748,7 @@ export class AccountChannelEntryService {
     }): CancelablePromise<AccountChannelEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/account-channel-users',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-users',
             path: {
                 'id': id,
             },

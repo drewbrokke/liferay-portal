@@ -28,7 +28,7 @@ export class ListTypeDefinitionService {
     }): CancelablePromise<Array<ListTypeDefinition>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/list-type-definitions',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions',
             query: {
                 'aggregationTerms': aggregationTerms,
                 'filter': filter,
@@ -50,7 +50,7 @@ export class ListTypeDefinitionService {
     }): CancelablePromise<ListTypeDefinition> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/list-type-definitions',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -66,7 +66,7 @@ export class ListTypeDefinitionService {
     }): CancelablePromise<ListTypeDefinition> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/list-type-definitions/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -85,7 +85,7 @@ export class ListTypeDefinitionService {
     }): CancelablePromise<ListTypeDefinition> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/list-type-definitions/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -104,7 +104,7 @@ export class ListTypeDefinitionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/list-type-definitions/{listTypeDefinitionId}',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}',
             path: {
                 'listTypeDefinitionId': listTypeDefinitionId,
             },
@@ -121,7 +121,7 @@ export class ListTypeDefinitionService {
     }): CancelablePromise<ListTypeDefinition> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/list-type-definitions/{listTypeDefinitionId}',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}',
             path: {
                 'listTypeDefinitionId': listTypeDefinitionId,
             },
@@ -140,7 +140,7 @@ export class ListTypeDefinitionService {
     }): CancelablePromise<ListTypeDefinition> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/list-type-definitions/{listTypeDefinitionId}',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}',
             path: {
                 'listTypeDefinitionId': listTypeDefinitionId,
             },
@@ -161,7 +161,7 @@ export class ListTypeDefinitionService {
     }): CancelablePromise<ListTypeDefinition> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/list-type-definitions/{listTypeDefinitionId}',
+            url: '/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}',
             path: {
                 'listTypeDefinitionId': listTypeDefinitionId,
             },

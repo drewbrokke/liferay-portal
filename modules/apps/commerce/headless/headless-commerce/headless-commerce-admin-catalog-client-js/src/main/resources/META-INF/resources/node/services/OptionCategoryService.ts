@@ -25,7 +25,7 @@ export class OptionCategoryService {
     }): CancelablePromise<Array<OptionCategory>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/optionCategories',
+            url: '/headless-commerce-admin-catalog/v1.0/optionCategories',
             query: {
                 'filter': filter,
                 'page': page,
@@ -52,7 +52,7 @@ export class OptionCategoryService {
     }): CancelablePromise<OptionCategory | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/optionCategories',
+            url: '/headless-commerce-admin-catalog/v1.0/optionCategories',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -75,7 +75,7 @@ export class OptionCategoryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/optionCategories/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/optionCategories/{id}',
             path: {
                 'id': id,
             },
@@ -96,7 +96,7 @@ export class OptionCategoryService {
     }): CancelablePromise<OptionCategory> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/optionCategories/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/optionCategories/{id}',
             path: {
                 'id': id,
             },
@@ -122,7 +122,7 @@ export class OptionCategoryService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/optionCategories/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/optionCategories/{id}',
             path: {
                 'id': id,
             },

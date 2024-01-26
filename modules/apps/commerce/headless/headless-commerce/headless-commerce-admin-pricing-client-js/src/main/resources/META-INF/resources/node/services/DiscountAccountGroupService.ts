@@ -19,7 +19,7 @@ export class DiscountAccountGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/discountAccountGroups/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/discountAccountGroups/{id}',
             path: {
                 'id': id,
             },
@@ -44,7 +44,7 @@ export class DiscountAccountGroupService {
     }): CancelablePromise<Array<DiscountAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discounts/by-externalReferenceCode/{externalReferenceCode}/discountAccountGroups',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/by-externalReferenceCode/{externalReferenceCode}/discountAccountGroups',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class DiscountAccountGroupService {
     }): CancelablePromise<DiscountAccountGroup | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/discounts/by-externalReferenceCode/{externalReferenceCode}/discountAccountGroups',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/by-externalReferenceCode/{externalReferenceCode}/discountAccountGroups',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -104,7 +104,7 @@ export class DiscountAccountGroupService {
     }): CancelablePromise<Array<DiscountAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discounts/{id}/discountAccountGroups',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}/discountAccountGroups',
             path: {
                 'id': id,
             },
@@ -134,7 +134,7 @@ export class DiscountAccountGroupService {
     }): CancelablePromise<DiscountAccountGroup | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/discounts/{id}/discountAccountGroups',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}/discountAccountGroups',
             path: {
                 'id': id,
             },

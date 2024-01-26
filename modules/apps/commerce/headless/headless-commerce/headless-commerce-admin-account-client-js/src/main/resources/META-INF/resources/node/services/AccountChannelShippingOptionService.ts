@@ -12,14 +12,14 @@ export class AccountChannelShippingOptionService {
      * @returns void
      * @throws ApiError
      */
-    public deleteAccountChannelShippingOptions({
+    public deleteHeadlessCommerceAdminAccountV10AccountChannelShippingOptions({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-channel-shipping-options/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-shipping-options/{id}',
             path: {
                 'id': id,
             },
@@ -33,14 +33,14 @@ export class AccountChannelShippingOptionService {
      * @returns AccountChannelShippingOption Successful operation
      * @throws ApiError
      */
-    public getAccountChannelShippingOptions({
+    public getHeadlessCommerceAdminAccountV10AccountChannelShippingOptions({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountChannelShippingOption> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-channel-shipping-options/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-shipping-options/{id}',
             path: {
                 'id': id,
             },
@@ -57,7 +57,7 @@ export class AccountChannelShippingOptionService {
      * @returns AccountChannelShippingOption Updated
      * @throws ApiError
      */
-    public patchAccountChannelShippingOptions({
+    public patchHeadlessCommerceAdminAccountV10AccountChannelShippingOptions({
         id,
         requestBody,
     }: {
@@ -66,7 +66,7 @@ export class AccountChannelShippingOptionService {
     }): CancelablePromise<AccountChannelShippingOption> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-channel-shipping-options/{id}',
+            url: '/headless-commerce-admin-account/v1.0/account-channel-shipping-options/{id}',
             path: {
                 'id': id,
             },
@@ -85,7 +85,7 @@ export class AccountChannelShippingOptionService {
      * @returns AccountChannelShippingOption Successful operation
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountChannelShippingOption({
+    public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelShippingOption({
         externalReferenceCode,
         page,
         pageSize,
@@ -96,7 +96,7 @@ export class AccountChannelShippingOptionService {
     }): CancelablePromise<Array<AccountChannelShippingOption>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-option',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-option',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -118,7 +118,7 @@ export class AccountChannelShippingOptionService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsByExternalReferenceCodeAccountChannelShippingOption({
+    public postHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelShippingOption({
         externalReferenceCode,
         requestBody,
     }: {
@@ -127,7 +127,7 @@ export class AccountChannelShippingOptionService {
     }): CancelablePromise<AccountChannelShippingOption | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-option',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-option',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -146,7 +146,7 @@ export class AccountChannelShippingOptionService {
      * @returns AccountChannelShippingOption Successful operation
      * @throws ApiError
      */
-    public getAccountsAccountChannelShippingOption({
+    public getHeadlessCommerceAdminAccountV10AccountsAccountChannelShippingOption({
         id,
         page,
         pageSize,
@@ -157,7 +157,7 @@ export class AccountChannelShippingOptionService {
     }): CancelablePromise<Array<AccountChannelShippingOption>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/account-channel-shipping-option',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-shipping-option',
             path: {
                 'id': id,
             },
@@ -179,7 +179,7 @@ export class AccountChannelShippingOptionService {
      * @returns any Async
      * @throws ApiError
      */
-    public postAccountsAccountChannelShippingOption({
+    public postHeadlessCommerceAdminAccountV10AccountsAccountChannelShippingOption({
         id,
         requestBody,
     }: {
@@ -188,7 +188,7 @@ export class AccountChannelShippingOptionService {
     }): CancelablePromise<AccountChannelShippingOption | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/account-channel-shipping-option',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-shipping-option',
             path: {
                 'id': id,
             },

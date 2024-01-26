@@ -19,7 +19,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rule-channels/{orderRuleChannelId}/channel',
+            url: '/headless-commerce-admin-order/v1.0/order-rule-channels/{orderRuleChannelId}/channel',
             path: {
                 'orderRuleChannelId': orderRuleChannelId,
             },
@@ -43,7 +43,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-type-channels/{orderTypeChannelId}/channel',
+            url: '/headless-commerce-admin-order/v1.0/order-type-channels/{orderTypeChannelId}/channel',
             path: {
                 'orderTypeChannelId': orderTypeChannelId,
             },
@@ -67,7 +67,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}/channel',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/channel',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -91,7 +91,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/{id}/channel',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}/channel',
             path: {
                 'id': id,
             },

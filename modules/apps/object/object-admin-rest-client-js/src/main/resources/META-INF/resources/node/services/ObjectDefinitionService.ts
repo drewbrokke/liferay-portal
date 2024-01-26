@@ -30,7 +30,7 @@ export class ObjectDefinitionService {
     }): CancelablePromise<Array<ObjectDefinition>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions',
+            url: '/object-admin/v1.0/object-definitions',
             headers: {
                 'Accept-Language': acceptLanguage,
             },
@@ -55,7 +55,7 @@ export class ObjectDefinitionService {
     }): CancelablePromise<ObjectDefinition> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions',
+            url: '/object-admin/v1.0/object-definitions',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -71,7 +71,7 @@ export class ObjectDefinitionService {
     }): CancelablePromise<ObjectDefinition> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -90,7 +90,7 @@ export class ObjectDefinitionService {
     }): CancelablePromise<ObjectDefinition> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -109,7 +109,7 @@ export class ObjectDefinitionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/object-definitions/{objectDefinitionId}',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -126,7 +126,7 @@ export class ObjectDefinitionService {
     }): CancelablePromise<ObjectDefinition> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/{objectDefinitionId}',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -145,7 +145,7 @@ export class ObjectDefinitionService {
     }): CancelablePromise<ObjectDefinition> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/object-definitions/{objectDefinitionId}',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -166,7 +166,7 @@ export class ObjectDefinitionService {
     }): CancelablePromise<ObjectDefinition> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-definitions/{objectDefinitionId}',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -185,7 +185,7 @@ export class ObjectDefinitionService {
     }): CancelablePromise<ObjectDefinition> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/{objectDefinitionId}/publish',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/publish',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },

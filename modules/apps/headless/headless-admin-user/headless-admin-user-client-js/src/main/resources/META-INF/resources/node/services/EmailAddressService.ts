@@ -19,7 +19,7 @@ export class EmailAddressService {
     }): CancelablePromise<EmailAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/email-addresses/{emailAddressId}',
+            url: '/headless-admin-user/v1.0/email-addresses/{emailAddressId}',
             path: {
                 'emailAddressId': emailAddressId,
             },
@@ -37,7 +37,7 @@ export class EmailAddressService {
     }): CancelablePromise<Array<EmailAddress>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/organizations/{organizationId}/email-addresses',
+            url: '/headless-admin-user/v1.0/organizations/{organizationId}/email-addresses',
             path: {
                 'organizationId': organizationId,
             },
@@ -55,7 +55,7 @@ export class EmailAddressService {
     }): CancelablePromise<Array<EmailAddress>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-accounts/{userAccountId}/email-addresses',
+            url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/email-addresses',
             path: {
                 'userAccountId': userAccountId,
             },

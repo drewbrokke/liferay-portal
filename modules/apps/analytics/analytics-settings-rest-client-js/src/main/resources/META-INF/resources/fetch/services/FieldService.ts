@@ -24,7 +24,7 @@ export class FieldService {
     }): CancelablePromise<Array<Field>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/fields/accounts',
+            url: '/analytics-settings-rest/v1.0/fields/accounts',
             query: {
                 'keyword': keyword,
                 'page': page,
@@ -44,7 +44,7 @@ export class FieldService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/fields/accounts',
+            url: '/analytics-settings-rest/v1.0/fields/accounts',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -66,7 +66,7 @@ export class FieldService {
     }): CancelablePromise<Array<Field>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/fields/orders',
+            url: '/analytics-settings-rest/v1.0/fields/orders',
             query: {
                 'keyword': keyword,
                 'page': page,
@@ -86,7 +86,7 @@ export class FieldService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/fields/orders',
+            url: '/analytics-settings-rest/v1.0/fields/orders',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -108,7 +108,7 @@ export class FieldService {
     }): CancelablePromise<Array<Field>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/fields/people',
+            url: '/analytics-settings-rest/v1.0/fields/people',
             query: {
                 'keyword': keyword,
                 'page': page,
@@ -128,7 +128,7 @@ export class FieldService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/fields/people',
+            url: '/analytics-settings-rest/v1.0/fields/people',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -150,7 +150,7 @@ export class FieldService {
     }): CancelablePromise<Array<Field>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/fields/products',
+            url: '/analytics-settings-rest/v1.0/fields/products',
             query: {
                 'keyword': keyword,
                 'page': page,
@@ -170,7 +170,7 @@ export class FieldService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/fields/products',
+            url: '/analytics-settings-rest/v1.0/fields/products',
             body: requestBody,
             mediaType: 'application/json',
         });

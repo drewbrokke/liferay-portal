@@ -19,7 +19,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-address-channels/{accountAddressChannelId}/channel',
+            url: '/headless-commerce-admin-channel/v1.0/account-address-channels/{accountAddressChannelId}/channel',
             path: {
                 'accountAddressChannelId': accountAddressChannelId,
             },
@@ -36,7 +36,7 @@ export class ChannelService {
      * @returns Channel Successful operation
      * @throws ApiError
      */
-    public getChannels({
+    public getHeadlessCommerceAdminChannelV10Channels({
         filter,
         page,
         pageSize,
@@ -51,7 +51,7 @@ export class ChannelService {
     }): CancelablePromise<Array<Channel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels',
+            url: '/headless-commerce-admin-channel/v1.0/channels',
             query: {
                 'filter': filter,
                 'page': page,
@@ -71,14 +71,14 @@ export class ChannelService {
      * @returns Channel Created
      * @throws ApiError
      */
-    public postChannels({
+    public postHeadlessCommerceAdminChannelV10Channels({
         requestBody,
     }: {
         requestBody: Channel,
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/channels',
+            url: '/headless-commerce-admin-channel/v1.0/channels',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -94,14 +94,14 @@ export class ChannelService {
      * @returns void
      * @throws ApiError
      */
-    public deleteChannelsByExternalReferenceCode({
+    public deleteHeadlessCommerceAdminChannelV10ChannelsByExternalReferenceCode({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/channels/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -115,14 +115,14 @@ export class ChannelService {
      * @returns Channel
      * @throws ApiError
      */
-    public getChannelsByExternalReferenceCode({
+    public getHeadlessCommerceAdminChannelV10ChannelsByExternalReferenceCode({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -138,7 +138,7 @@ export class ChannelService {
      * @returns Channel Updated
      * @throws ApiError
      */
-    public patchChannelsByExternalReferenceCode({
+    public patchHeadlessCommerceAdminChannelV10ChannelsByExternalReferenceCode({
         externalReferenceCode,
         requestBody,
     }: {
@@ -147,7 +147,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/channels/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -166,7 +166,7 @@ export class ChannelService {
      * @returns Channel Updated
      * @throws ApiError
      */
-    public putChannelsByExternalReferenceCode({
+    public putHeadlessCommerceAdminChannelV10ChannelsByExternalReferenceCode({
         externalReferenceCode,
         requestBody,
     }: {
@@ -175,7 +175,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/channels/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -194,14 +194,14 @@ export class ChannelService {
      * @returns void
      * @throws ApiError
      */
-    public deleteChannels({
+    public deleteHeadlessCommerceAdminChannelV10Channels({
         channelId,
     }: {
         channelId: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/channels/{channelId}',
+            url: '/headless-commerce-admin-channel/v1.0/channels/{channelId}',
             path: {
                 'channelId': channelId,
             },
@@ -215,14 +215,14 @@ export class ChannelService {
      * @returns Channel
      * @throws ApiError
      */
-    public getChannels1({
+    public getHeadlessCommerceAdminChannelV10Channels1({
         channelId,
     }: {
         channelId: number,
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}',
+            url: '/headless-commerce-admin-channel/v1.0/channels/{channelId}',
             path: {
                 'channelId': channelId,
             },
@@ -238,7 +238,7 @@ export class ChannelService {
      * @returns Channel Updated
      * @throws ApiError
      */
-    public patchChannels({
+    public patchHeadlessCommerceAdminChannelV10Channels({
         channelId,
         requestBody,
     }: {
@@ -247,7 +247,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/channels/{channelId}',
+            url: '/headless-commerce-admin-channel/v1.0/channels/{channelId}',
             path: {
                 'channelId': channelId,
             },
@@ -266,7 +266,7 @@ export class ChannelService {
      * @returns Channel Updated
      * @throws ApiError
      */
-    public putChannels({
+    public putHeadlessCommerceAdminChannelV10Channels({
         channelId,
         requestBody,
     }: {
@@ -275,7 +275,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/channels/{channelId}',
+            url: '/headless-commerce-admin-channel/v1.0/channels/{channelId}',
             path: {
                 'channelId': channelId,
             },

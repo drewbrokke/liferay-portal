@@ -19,7 +19,7 @@ export class SkuSubscriptionConfigurationService {
     }): CancelablePromise<SkuSubscriptionConfiguration> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skus/by-externalReferenceCode/{externalReferenceCode}/skuSubscriptionConfiguration',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}/skuSubscriptionConfiguration',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -43,7 +43,7 @@ export class SkuSubscriptionConfigurationService {
     }): CancelablePromise<SkuSubscriptionConfiguration> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skus/{id}/skuSubscriptionConfiguration',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/{id}/skuSubscriptionConfiguration',
             path: {
                 'id': id,
             },

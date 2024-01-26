@@ -19,7 +19,7 @@ export class AvailabilityEstimateService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/availabilityEstimate/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/availabilityEstimate/{id}',
             path: {
                 'id': id,
             },
@@ -40,7 +40,7 @@ export class AvailabilityEstimateService {
     }): CancelablePromise<AvailabilityEstimate> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/availabilityEstimate/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/availabilityEstimate/{id}',
             path: {
                 'id': id,
             },
@@ -66,7 +66,7 @@ export class AvailabilityEstimateService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/availabilityEstimate/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/availabilityEstimate/{id}',
             path: {
                 'id': id,
             },
@@ -96,7 +96,7 @@ export class AvailabilityEstimateService {
     }): CancelablePromise<Array<AvailabilityEstimate>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/commerceAdminSiteSetting/{groupId}/availabilityEstimate',
+            url: '/headless-commerce-admin-site-setting/v1.0/commerceAdminSiteSetting/{groupId}/availabilityEstimate',
             path: {
                 'groupId': groupId,
             },
@@ -126,7 +126,7 @@ export class AvailabilityEstimateService {
     }): CancelablePromise<AvailabilityEstimate | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/commerceAdminSiteSetting/{groupId}/availabilityEstimate',
+            url: '/headless-commerce-admin-site-setting/v1.0/commerceAdminSiteSetting/{groupId}/availabilityEstimate',
             path: {
                 'groupId': groupId,
             },

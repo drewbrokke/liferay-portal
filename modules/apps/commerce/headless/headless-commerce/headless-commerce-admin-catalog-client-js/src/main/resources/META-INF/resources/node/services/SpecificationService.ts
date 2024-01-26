@@ -27,7 +27,7 @@ export class SpecificationService {
     }): CancelablePromise<Array<Specification>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/specifications',
+            url: '/headless-commerce-admin-catalog/v1.0/specifications',
             query: {
                 'filter': filter,
                 'page': page,
@@ -55,7 +55,7 @@ export class SpecificationService {
     }): CancelablePromise<Specification | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/specifications',
+            url: '/headless-commerce-admin-catalog/v1.0/specifications',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -78,7 +78,7 @@ export class SpecificationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/specifications/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/specifications/{id}',
             path: {
                 'id': id,
             },
@@ -99,7 +99,7 @@ export class SpecificationService {
     }): CancelablePromise<Specification> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/specifications/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/specifications/{id}',
             path: {
                 'id': id,
             },
@@ -125,7 +125,7 @@ export class SpecificationService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/specifications/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/specifications/{id}',
             path: {
                 'id': id,
             },

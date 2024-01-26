@@ -23,7 +23,7 @@ export class LinkedProductService {
     }): CancelablePromise<Array<LinkedProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/linked-products',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/linked-products',
             path: {
                 'id': id,
             },

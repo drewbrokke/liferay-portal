@@ -19,7 +19,7 @@ export class OrderAccountGroupService {
     }): CancelablePromise<OrderAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rule-account-groups/{orderRuleAccountGroupId}/account-group',
+            url: '/headless-commerce-admin-order/v1.0/order-rule-account-groups/{orderRuleAccountGroupId}/account-group',
             path: {
                 'orderRuleAccountGroupId': orderRuleAccountGroupId,
             },

@@ -19,7 +19,7 @@ export class MappedProductService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/mapped-products/{mappedProductId}',
+            url: '/headless-commerce-admin-catalog/v1.0/mapped-products/{mappedProductId}',
             path: {
                 'mappedProductId': mappedProductId,
             },
@@ -39,7 +39,7 @@ export class MappedProductService {
     }): CancelablePromise<MappedProduct> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/mapped-products/{mappedProductId}',
+            url: '/headless-commerce-admin-catalog/v1.0/mapped-products/{mappedProductId}',
             path: {
                 'mappedProductId': mappedProductId,
             },
@@ -73,7 +73,7 @@ export class MappedProductService {
     }): CancelablePromise<Array<MappedProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/mapped-products',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/mapped-products',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -105,7 +105,7 @@ export class MappedProductService {
     }): CancelablePromise<MappedProduct> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/mapped-products',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/mapped-products',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -133,7 +133,7 @@ export class MappedProductService {
     }): CancelablePromise<MappedProduct> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/mapped-products/by-sequence/{sequence}',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/mapped-products/by-sequence/{sequence}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'sequence': sequence,
@@ -166,7 +166,7 @@ export class MappedProductService {
     }): CancelablePromise<Array<MappedProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/mapped-products',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/mapped-products',
             path: {
                 'id': id,
             },
@@ -198,7 +198,7 @@ export class MappedProductService {
     }): CancelablePromise<MappedProduct> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/mapped-products',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/mapped-products',
             path: {
                 'id': id,
             },
@@ -226,7 +226,7 @@ export class MappedProductService {
     }): CancelablePromise<MappedProduct> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/mapped-products/by-sequence/{sequence}',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/mapped-products/by-sequence/{sequence}',
             path: {
                 'id': id,
                 'sequence': sequence,

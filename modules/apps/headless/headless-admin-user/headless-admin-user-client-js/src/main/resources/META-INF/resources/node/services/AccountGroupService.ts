@@ -27,7 +27,7 @@ export class AccountGroupService {
     }): CancelablePromise<Array<AccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-groups',
+            url: '/headless-admin-user/v1.0/account-groups',
             query: {
                 'filter': filter,
                 'page': page,
@@ -49,7 +49,7 @@ export class AccountGroupService {
     }): CancelablePromise<AccountGroup> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/account-groups',
+            url: '/headless-admin-user/v1.0/account-groups',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -68,7 +68,7 @@ export class AccountGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-groups/by-external-reference-code/{accountExternalReferenceCode}/accounts/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/account-groups/by-external-reference-code/{accountExternalReferenceCode}/accounts/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'accountExternalReferenceCode': accountExternalReferenceCode,
                 'externalReferenceCode': externalReferenceCode,
@@ -89,7 +89,7 @@ export class AccountGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/account-groups/by-external-reference-code/{accountExternalReferenceCode}/accounts/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/account-groups/by-external-reference-code/{accountExternalReferenceCode}/accounts/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'accountExternalReferenceCode': accountExternalReferenceCode,
                 'externalReferenceCode': externalReferenceCode,
@@ -108,7 +108,7 @@ export class AccountGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-groups/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/account-groups/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -125,7 +125,7 @@ export class AccountGroupService {
     }): CancelablePromise<AccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-groups/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/account-groups/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -145,7 +145,7 @@ export class AccountGroupService {
     }): CancelablePromise<AccountGroup> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-groups/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/account-groups/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -167,7 +167,7 @@ export class AccountGroupService {
     }): CancelablePromise<AccountGroup> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/account-groups/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/account-groups/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -187,7 +187,7 @@ export class AccountGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/account-groups/{accountGroupId}',
+            url: '/headless-admin-user/v1.0/account-groups/{accountGroupId}',
             path: {
                 'accountGroupId': accountGroupId,
             },
@@ -204,7 +204,7 @@ export class AccountGroupService {
     }): CancelablePromise<AccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/account-groups/{accountGroupId}',
+            url: '/headless-admin-user/v1.0/account-groups/{accountGroupId}',
             path: {
                 'accountGroupId': accountGroupId,
             },
@@ -224,7 +224,7 @@ export class AccountGroupService {
     }): CancelablePromise<AccountGroup> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/account-groups/{accountGroupId}',
+            url: '/headless-admin-user/v1.0/account-groups/{accountGroupId}',
             path: {
                 'accountGroupId': accountGroupId,
             },
@@ -246,7 +246,7 @@ export class AccountGroupService {
     }): CancelablePromise<AccountGroup> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/account-groups/{accountGroupId}',
+            url: '/headless-admin-user/v1.0/account-groups/{accountGroupId}',
             path: {
                 'accountGroupId': accountGroupId,
             },
@@ -258,7 +258,7 @@ export class AccountGroupService {
      * @returns AccountGroup
      * @throws ApiError
      */
-    public getAccountsByExternalReferenceCodeAccountGroups({
+    public getHeadlessAdminUserV10AccountsByExternalReferenceCodeAccountGroups({
         accountExternalReferenceCode,
         page,
         pageSize,
@@ -269,7 +269,7 @@ export class AccountGroupService {
     }): CancelablePromise<Array<AccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-groups',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-groups',
             path: {
                 'accountExternalReferenceCode': accountExternalReferenceCode,
             },
@@ -283,7 +283,7 @@ export class AccountGroupService {
      * @returns AccountGroup
      * @throws ApiError
      */
-    public getAccountsAccountGroups({
+    public getHeadlessAdminUserV10AccountsAccountGroups({
         accountId,
         page,
         pageSize,
@@ -294,7 +294,7 @@ export class AccountGroupService {
     }): CancelablePromise<Array<AccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{accountId}/account-groups',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/account-groups',
             path: {
                 'accountId': accountId,
             },

@@ -24,7 +24,7 @@ export class ChannelService {
     }): CancelablePromise<Array<Channel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels',
+            url: '/analytics-settings-rest/v1.0/channels',
             query: {
                 'keywords': keywords,
                 'page': page,
@@ -44,7 +44,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/channels',
+            url: '/analytics-settings-rest/v1.0/channels',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -63,7 +63,7 @@ export class ChannelService {
     }): CancelablePromise<Channel> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/channels',
+            url: '/analytics-settings-rest/v1.0/channels',
             body: requestBody,
             mediaType: 'application/json',
             errors: {

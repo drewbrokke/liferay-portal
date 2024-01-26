@@ -27,7 +27,7 @@ export class ShipmentService {
     }): CancelablePromise<Array<Shipment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/shipments',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments',
             query: {
                 'filter': filter,
                 'page': page,
@@ -56,7 +56,7 @@ export class ShipmentService {
     }): CancelablePromise<Shipment | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/shipments',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -72,14 +72,14 @@ export class ShipmentService {
      * @returns void
      * @throws ApiError
      */
-    public deleteShipmentsByExternalReferenceCode({
+    public deleteHeadlessCommerceAdminShipmentV10ShipmentsByExternalReferenceCode({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/shipments/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -93,14 +93,14 @@ export class ShipmentService {
      * @returns Shipment
      * @throws ApiError
      */
-    public getShipmentsByExternalReferenceCode({
+    public getHeadlessCommerceAdminShipmentV10ShipmentsByExternalReferenceCode({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/shipments/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -116,7 +116,7 @@ export class ShipmentService {
      * @returns Shipment Updated
      * @throws ApiError
      */
-    public patchShipmentsByExternalReferenceCode({
+    public patchHeadlessCommerceAdminShipmentV10ShipmentsByExternalReferenceCode({
         externalReferenceCode,
         requestBody,
     }: {
@@ -125,7 +125,7 @@ export class ShipmentService {
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/shipments/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -144,7 +144,7 @@ export class ShipmentService {
      * @returns Shipment Updated
      * @throws ApiError
      */
-    public putShipmentsByExternalReferenceCode({
+    public putHeadlessCommerceAdminShipmentV10ShipmentsByExternalReferenceCode({
         externalReferenceCode,
         requestBody,
     }: {
@@ -153,7 +153,7 @@ export class ShipmentService {
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/shipments/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -171,14 +171,14 @@ export class ShipmentService {
      * @returns Shipment
      * @throws ApiError
      */
-    public postShipmentsByExternalReferenceCodeStatusDelivered({
+    public postHeadlessCommerceAdminShipmentV10ShipmentsByExternalReferenceCodeStatusDelivered({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/shipments/by-externalReferenceCode/{externalReferenceCode}/status-delivered',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}/status-delivered',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -188,14 +188,14 @@ export class ShipmentService {
      * @returns Shipment
      * @throws ApiError
      */
-    public postShipmentsByExternalReferenceCodeStatusFinishProcessing({
+    public postHeadlessCommerceAdminShipmentV10ShipmentsByExternalReferenceCodeStatusFinishProcessing({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/shipments/by-externalReferenceCode/{externalReferenceCode}/status-finish-processing',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}/status-finish-processing',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -212,7 +212,7 @@ export class ShipmentService {
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/shipments/by-externalReferenceCode/{externalReferenceCode}/status-shipped',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}/status-shipped',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -230,7 +230,7 @@ export class ShipmentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/shipments/{shipmentId}',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}',
             path: {
                 'shipmentId': shipmentId,
             },
@@ -251,7 +251,7 @@ export class ShipmentService {
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/shipments/{shipmentId}',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}',
             path: {
                 'shipmentId': shipmentId,
             },
@@ -277,7 +277,7 @@ export class ShipmentService {
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/shipments/{shipmentId}',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}',
             path: {
                 'shipmentId': shipmentId,
             },
@@ -302,7 +302,7 @@ export class ShipmentService {
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/shipments/{shipmentId}/status-delivered',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}/status-delivered',
             path: {
                 'shipmentId': shipmentId,
             },
@@ -319,7 +319,7 @@ export class ShipmentService {
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/shipments/{shipmentId}/status-finish-processing',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}/status-finish-processing',
             path: {
                 'shipmentId': shipmentId,
             },
@@ -336,7 +336,7 @@ export class ShipmentService {
     }): CancelablePromise<Shipment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/shipments/{shipmentId}/status-shipped',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}/status-shipped',
             path: {
                 'shipmentId': shipmentId,
             },

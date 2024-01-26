@@ -19,7 +19,7 @@ export class CartItemService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/cart-items/{cartItemId}',
+            url: '/headless-commerce-delivery-cart/v1.0/cart-items/{cartItemId}',
             path: {
                 'cartItemId': cartItemId,
             },
@@ -40,7 +40,7 @@ export class CartItemService {
     }): CancelablePromise<CartItem> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/cart-items/{cartItemId}',
+            url: '/headless-commerce-delivery-cart/v1.0/cart-items/{cartItemId}',
             path: {
                 'cartItemId': cartItemId,
             },
@@ -65,7 +65,7 @@ export class CartItemService {
     }): CancelablePromise<CartItem> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/cart-items/{cartItemId}',
+            url: '/headless-commerce-delivery-cart/v1.0/cart-items/{cartItemId}',
             path: {
                 'cartItemId': cartItemId,
             },
@@ -92,7 +92,7 @@ export class CartItemService {
     }): CancelablePromise<CartItem> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/cart-items/{cartItemId}',
+            url: '/headless-commerce-delivery-cart/v1.0/cart-items/{cartItemId}',
             path: {
                 'cartItemId': cartItemId,
             },
@@ -123,7 +123,7 @@ export class CartItemService {
     }): CancelablePromise<Array<CartItem>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/carts/{cartId}/items',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/items',
             path: {
                 'cartId': cartId,
             },
@@ -153,7 +153,7 @@ export class CartItemService {
     }): CancelablePromise<CartItem> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/carts/{cartId}/items',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/items',
             path: {
                 'cartId': cartId,
             },

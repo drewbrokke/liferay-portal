@@ -29,7 +29,7 @@ export class AccountService {
     }): CancelablePromise<Array<Account>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/accounts',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/accounts',
             path: {
                 'channelId': channelId,
             },
@@ -62,7 +62,7 @@ export class AccountService {
     }): CancelablePromise<Account | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/channels/{channelId}/accounts',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/accounts',
             path: {
                 'channelId': channelId,
             },

@@ -12,14 +12,14 @@ export class UserAccountFullNameDefinitionService {
      * @returns UserAccountFullNameDefinition
      * @throws ApiError
      */
-    public getUserAccountFullNameDefinition({
+    public getHeadlessAdminUserV10UserAccountFullNameDefinition({
         languageId,
     }: {
         languageId?: string,
     }): CancelablePromise<UserAccountFullNameDefinition> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-account-full-name-definition',
+            url: '/headless-admin-user/v1.0/user-account-full-name-definition',
             query: {
                 'languageId': languageId,
             },

@@ -25,7 +25,7 @@ export class WishListService {
     }): CancelablePromise<Array<WishList>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/wishlists',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/wishlists',
             path: {
                 'channelId': channelId,
             },
@@ -57,7 +57,7 @@ export class WishListService {
     }): CancelablePromise<WishList> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/channels/{channelId}/wishlists',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/wishlists',
             path: {
                 'channelId': channelId,
             },
@@ -87,7 +87,7 @@ export class WishListService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/wishlists/{wishListId}',
+            url: '/headless-commerce-delivery-catalog/v1.0/wishlists/{wishListId}',
             path: {
                 'wishListId': wishListId,
             },
@@ -108,7 +108,7 @@ export class WishListService {
     }): CancelablePromise<WishList> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/wishlists/{wishListId}',
+            url: '/headless-commerce-delivery-catalog/v1.0/wishlists/{wishListId}',
             path: {
                 'wishListId': wishListId,
             },
@@ -133,7 +133,7 @@ export class WishListService {
     }): CancelablePromise<WishList> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/wishlists/{wishListId}',
+            url: '/headless-commerce-delivery-catalog/v1.0/wishlists/{wishListId}',
             path: {
                 'wishListId': wishListId,
             },

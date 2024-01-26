@@ -19,7 +19,7 @@ export class SkuUnitOfMeasureService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sku-unit-of-measures/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/sku-unit-of-measures/{id}',
             path: {
                 'id': id,
             },
@@ -40,7 +40,7 @@ export class SkuUnitOfMeasureService {
     }): CancelablePromise<SkuUnitOfMeasure> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sku-unit-of-measures/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/sku-unit-of-measures/{id}',
             path: {
                 'id': id,
             },
@@ -67,7 +67,7 @@ export class SkuUnitOfMeasureService {
     }): CancelablePromise<SkuUnitOfMeasure | any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/sku-unit-of-measures/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/sku-unit-of-measures/{id}',
             path: {
                 'id': id,
             },
@@ -97,7 +97,7 @@ export class SkuUnitOfMeasureService {
     }): CancelablePromise<Array<SkuUnitOfMeasure>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skus/by-externalReferenceCode/{externalReferenceCode}/sku-unit-of-measures',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}/sku-unit-of-measures',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -128,7 +128,7 @@ export class SkuUnitOfMeasureService {
     }): CancelablePromise<SkuUnitOfMeasure | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/skus/by-externalReferenceCode/{externalReferenceCode}/sku-unit-of-measures',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}/sku-unit-of-measures',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -158,7 +158,7 @@ export class SkuUnitOfMeasureService {
     }): CancelablePromise<Array<SkuUnitOfMeasure>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skus/{id}/sku-unit-of-measures',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/{id}/sku-unit-of-measures',
             path: {
                 'id': id,
             },
@@ -189,7 +189,7 @@ export class SkuUnitOfMeasureService {
     }): CancelablePromise<SkuUnitOfMeasure | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/skus/{id}/sku-unit-of-measures',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/{id}/sku-unit-of-measures',
             path: {
                 'id': id,
             },

@@ -19,7 +19,7 @@ export class SiteService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}',
+            url: '/headless-site/v1.0/sites/{siteId}',
             path: {
                 'siteId': siteId,
             },
@@ -37,7 +37,7 @@ export class SiteService {
     }): CancelablePromise<Site> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites',
+            url: '/headless-site/v1.0/sites',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -54,7 +54,7 @@ export class SiteService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-site/v1.0/sites/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -76,7 +76,7 @@ export class SiteService {
     }): CancelablePromise<Site> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-site/v1.0/sites/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },

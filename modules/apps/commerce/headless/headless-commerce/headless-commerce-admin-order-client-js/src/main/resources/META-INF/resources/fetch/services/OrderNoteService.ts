@@ -19,7 +19,7 @@ export class OrderNoteService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/orderNotes/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/orderNotes/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -40,7 +40,7 @@ export class OrderNoteService {
     }): CancelablePromise<OrderNote> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orderNotes/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/orderNotes/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -66,7 +66,7 @@ export class OrderNoteService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/orderNotes/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/orderNotes/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -92,7 +92,7 @@ export class OrderNoteService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/orderNotes/{id}',
+            url: '/headless-commerce-admin-order/v1.0/orderNotes/{id}',
             path: {
                 'id': id,
             },
@@ -113,7 +113,7 @@ export class OrderNoteService {
     }): CancelablePromise<OrderNote> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orderNotes/{id}',
+            url: '/headless-commerce-admin-order/v1.0/orderNotes/{id}',
             path: {
                 'id': id,
             },
@@ -139,7 +139,7 @@ export class OrderNoteService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/orderNotes/{id}',
+            url: '/headless-commerce-admin-order/v1.0/orderNotes/{id}',
             path: {
                 'id': id,
             },
@@ -169,7 +169,7 @@ export class OrderNoteService {
     }): CancelablePromise<Array<OrderNote>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}/orderNotes',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/orderNotes',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -200,7 +200,7 @@ export class OrderNoteService {
     }): CancelablePromise<OrderNote | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}/orderNotes',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/orderNotes',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -230,7 +230,7 @@ export class OrderNoteService {
     }): CancelablePromise<Array<OrderNote>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/{id}/orderNotes',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}/orderNotes',
             path: {
                 'id': id,
             },
@@ -261,7 +261,7 @@ export class OrderNoteService {
     }): CancelablePromise<OrderNote | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/orders/{id}/orderNotes',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}/orderNotes',
             path: {
                 'id': id,
             },

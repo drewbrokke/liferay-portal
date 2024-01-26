@@ -25,7 +25,7 @@ export class WarehouseService {
     }): CancelablePromise<Array<Warehouse>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouses',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses',
             query: {
                 'filter': filter,
                 'page': page,
@@ -53,7 +53,7 @@ export class WarehouseService {
     }): CancelablePromise<Warehouse | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/warehouses',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -76,7 +76,7 @@ export class WarehouseService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/warehouses/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -97,7 +97,7 @@ export class WarehouseService {
     }): CancelablePromise<Warehouse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouses/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -123,7 +123,7 @@ export class WarehouseService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/warehouses/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -149,7 +149,7 @@ export class WarehouseService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/warehouses/{id}',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/{id}',
             path: {
                 'id': id,
             },
@@ -170,7 +170,7 @@ export class WarehouseService {
     }): CancelablePromise<Warehouse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouses/{id}',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/{id}',
             path: {
                 'id': id,
             },
@@ -196,7 +196,7 @@ export class WarehouseService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/warehouses/{id}',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/{id}',
             path: {
                 'id': id,
             },

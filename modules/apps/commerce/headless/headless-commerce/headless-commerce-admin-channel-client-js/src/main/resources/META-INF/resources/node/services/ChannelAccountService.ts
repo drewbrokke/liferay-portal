@@ -19,7 +19,7 @@ export class ChannelAccountService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/channel-accounts/{channelAccountId}',
+            url: '/headless-commerce-admin-channel/v1.0/channel-accounts/{channelAccountId}',
             path: {
                 'channelAccountId': channelAccountId,
             },
@@ -44,7 +44,7 @@ export class ChannelAccountService {
     }): CancelablePromise<Array<ChannelAccount>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/by-externalReferenceCode/{externalReferenceCode}/channel-accounts',
+            url: '/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/channel-accounts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class ChannelAccountService {
     }): CancelablePromise<ChannelAccount | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/channels/by-externalReferenceCode/{externalReferenceCode}/channel-accounts',
+            url: '/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/channel-accounts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -110,7 +110,7 @@ export class ChannelAccountService {
     }): CancelablePromise<Array<ChannelAccount>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{id}/channel-accounts',
+            url: '/headless-commerce-admin-channel/v1.0/channels/{id}/channel-accounts',
             path: {
                 'id': id,
             },
@@ -143,7 +143,7 @@ export class ChannelAccountService {
     }): CancelablePromise<ChannelAccount | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/channels/{id}/channel-accounts',
+            url: '/headless-commerce-admin-channel/v1.0/channels/{id}/channel-accounts',
             path: {
                 'id': id,
             },

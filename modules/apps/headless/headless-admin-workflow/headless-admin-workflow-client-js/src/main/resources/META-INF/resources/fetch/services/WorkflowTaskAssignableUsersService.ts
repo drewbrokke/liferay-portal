@@ -19,7 +19,7 @@ export class WorkflowTaskAssignableUsersService {
     }): CancelablePromise<WorkflowTaskAssignableUsers> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-tasks/assignable-users',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/assignable-users',
             body: requestBody,
             mediaType: 'application/json',
         });

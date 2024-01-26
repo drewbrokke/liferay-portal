@@ -19,7 +19,7 @@ export class ProductOptionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/productOptions/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/productOptions/{id}',
             path: {
                 'id': id,
             },
@@ -40,7 +40,7 @@ export class ProductOptionService {
     }): CancelablePromise<ProductOption> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/productOptions/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/productOptions/{id}',
             path: {
                 'id': id,
             },
@@ -66,7 +66,7 @@ export class ProductOptionService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/productOptions/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/productOptions/{id}',
             path: {
                 'id': id,
             },
@@ -100,7 +100,7 @@ export class ProductOptionService {
     }): CancelablePromise<Array<ProductOption>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/productOptions',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/productOptions',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -133,7 +133,7 @@ export class ProductOptionService {
     }): CancelablePromise<Array<ProductOption> | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/productOptions',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/productOptions',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -167,7 +167,7 @@ export class ProductOptionService {
     }): CancelablePromise<Array<ProductOption>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/productOptions',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/productOptions',
             path: {
                 'id': id,
             },
@@ -200,7 +200,7 @@ export class ProductOptionService {
     }): CancelablePromise<Array<ProductOption> | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/productOptions',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/productOptions',
             path: {
                 'id': id,
             },

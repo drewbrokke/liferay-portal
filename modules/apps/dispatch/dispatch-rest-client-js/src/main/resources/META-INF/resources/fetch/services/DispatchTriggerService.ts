@@ -14,7 +14,7 @@ export class DispatchTriggerService {
     public getDispatchTriggersPage(): CancelablePromise<Array<DispatchTrigger>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/dispatch-triggers',
+            url: '/dispatch-rest/v1.0/dispatch-triggers',
         });
     }
     /**
@@ -28,7 +28,7 @@ export class DispatchTriggerService {
     }): CancelablePromise<DispatchTrigger> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/dispatch-triggers',
+            url: '/dispatch-rest/v1.0/dispatch-triggers',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -44,7 +44,7 @@ export class DispatchTriggerService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/dispatch-triggers/{dispatchTriggerId}/run',
+            url: '/dispatch-rest/v1.0/dispatch-triggers/{dispatchTriggerId}/run',
             path: {
                 'dispatchTriggerId': dispatchTriggerId,
             },

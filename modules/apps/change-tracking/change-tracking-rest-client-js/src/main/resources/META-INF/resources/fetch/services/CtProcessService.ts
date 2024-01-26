@@ -28,7 +28,7 @@ export class CtProcessService {
     }): CancelablePromise<Array<CTProcess>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-processes',
+            url: '/change-tracking-rest/v1.0/ct-processes',
             query: {
                 'status': status,
                 'filter': filter,
@@ -50,7 +50,7 @@ export class CtProcessService {
     }): CancelablePromise<CTProcess> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-processes/{ctProcessId}',
+            url: '/change-tracking-rest/v1.0/ct-processes/{ctProcessId}',
             path: {
                 'ctProcessId': ctProcessId,
             },
@@ -71,7 +71,7 @@ export class CtProcessService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/ct-processes/{ctProcessId}/revert',
+            url: '/change-tracking-rest/v1.0/ct-processes/{ctProcessId}/revert',
             path: {
                 'ctProcessId': ctProcessId,
             },

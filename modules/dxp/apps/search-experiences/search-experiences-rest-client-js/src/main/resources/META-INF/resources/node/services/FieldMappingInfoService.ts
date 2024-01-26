@@ -22,7 +22,7 @@ export class FieldMappingInfoService {
     }): CancelablePromise<Array<FieldMappingInfo>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/field-mapping-infos',
+            url: '/search-experiences-rest/v1.0/field-mapping-infos',
             query: {
                 'external': external,
                 'indexName': indexName,

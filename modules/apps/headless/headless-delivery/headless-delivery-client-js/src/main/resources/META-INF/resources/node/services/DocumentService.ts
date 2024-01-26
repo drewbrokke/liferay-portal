@@ -39,7 +39,7 @@ export class DocumentService {
     }): CancelablePromise<Array<Document>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/documents',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/documents',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -73,7 +73,7 @@ export class DocumentService {
     }): CancelablePromise<Document> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/asset-libraries/{assetLibraryId}/documents',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/documents',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -95,7 +95,7 @@ export class DocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/asset-libraries/{assetLibraryId}/documents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/documents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'externalReferenceCode': externalReferenceCode,
@@ -122,7 +122,7 @@ export class DocumentService {
     }): CancelablePromise<Document> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/documents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/documents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'externalReferenceCode': externalReferenceCode,
@@ -153,7 +153,7 @@ export class DocumentService {
     }): CancelablePromise<Document> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/asset-libraries/{assetLibraryId}/documents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/documents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'externalReferenceCode': externalReferenceCode,
@@ -181,7 +181,7 @@ export class DocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/documents/permissions',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/documents/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -206,7 +206,7 @@ export class DocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/asset-libraries/{assetLibraryId}/documents/permissions',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/documents/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -229,7 +229,7 @@ export class DocumentService {
     }): CancelablePromise<Array<Document>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/documents/rated-by-me',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/documents/rated-by-me',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -271,7 +271,7 @@ export class DocumentService {
     }): CancelablePromise<Array<Document>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/document-folders/{documentFolderId}/documents',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/documents',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -306,7 +306,7 @@ export class DocumentService {
     }): CancelablePromise<Document> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/document-folders/{documentFolderId}/documents',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/documents',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -326,7 +326,7 @@ export class DocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/documents/{documentId}',
+            url: '/headless-delivery/v1.0/documents/{documentId}',
             path: {
                 'documentId': documentId,
             },
@@ -350,7 +350,7 @@ export class DocumentService {
     }): CancelablePromise<Document> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/documents/{documentId}',
+            url: '/headless-delivery/v1.0/documents/{documentId}',
             path: {
                 'documentId': documentId,
             },
@@ -378,7 +378,7 @@ export class DocumentService {
     }): CancelablePromise<Document> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/documents/{documentId}',
+            url: '/headless-delivery/v1.0/documents/{documentId}',
             path: {
                 'documentId': documentId,
             },
@@ -403,7 +403,7 @@ export class DocumentService {
     }): CancelablePromise<Document> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/documents/{documentId}',
+            url: '/headless-delivery/v1.0/documents/{documentId}',
             path: {
                 'documentId': documentId,
             },
@@ -423,7 +423,7 @@ export class DocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/documents/{documentId}/my-rating',
+            url: '/headless-delivery/v1.0/documents/{documentId}/my-rating',
             path: {
                 'documentId': documentId,
             },
@@ -445,7 +445,7 @@ export class DocumentService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/documents/{documentId}/my-rating',
+            url: '/headless-delivery/v1.0/documents/{documentId}/my-rating',
             path: {
                 'documentId': documentId,
             },
@@ -469,7 +469,7 @@ export class DocumentService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/documents/{documentId}/my-rating',
+            url: '/headless-delivery/v1.0/documents/{documentId}/my-rating',
             path: {
                 'documentId': documentId,
             },
@@ -491,7 +491,7 @@ export class DocumentService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/documents/{documentId}/my-rating',
+            url: '/headless-delivery/v1.0/documents/{documentId}/my-rating',
             path: {
                 'documentId': documentId,
             },
@@ -518,7 +518,7 @@ export class DocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/documents/{documentId}/permissions',
+            url: '/headless-delivery/v1.0/documents/{documentId}/permissions',
             path: {
                 'documentId': documentId,
             },
@@ -543,7 +543,7 @@ export class DocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/documents/{documentId}/permissions',
+            url: '/headless-delivery/v1.0/documents/{documentId}/permissions',
             path: {
                 'documentId': documentId,
             },
@@ -570,7 +570,7 @@ export class DocumentService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/documents/{documentId}/rendered-content-by-display-page/{displayPageKey}',
+            url: '/headless-delivery/v1.0/documents/{documentId}/rendered-content-by-display-page/{displayPageKey}',
             path: {
                 'documentId': documentId,
                 'displayPageKey': displayPageKey,
@@ -614,7 +614,7 @@ export class DocumentService {
     }): CancelablePromise<Array<Document>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/documents',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents',
             path: {
                 'siteId': siteId,
             },
@@ -649,7 +649,7 @@ export class DocumentService {
     }): CancelablePromise<Document> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/documents',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents',
             path: {
                 'siteId': siteId,
             },
@@ -671,7 +671,7 @@ export class DocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/documents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -698,7 +698,7 @@ export class DocumentService {
     }): CancelablePromise<Document> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/documents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -729,7 +729,7 @@ export class DocumentService {
     }): CancelablePromise<Document> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/documents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -757,7 +757,7 @@ export class DocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/documents/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -782,7 +782,7 @@ export class DocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/documents/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -805,7 +805,7 @@ export class DocumentService {
     }): CancelablePromise<Array<Document>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/documents/rated-by-me',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents/rated-by-me',
             path: {
                 'siteId': siteId,
             },

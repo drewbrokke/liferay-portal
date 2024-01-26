@@ -23,7 +23,7 @@ export class SkuService {
     }): CancelablePromise<Array<Sku>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/skus',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/skus',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -53,7 +53,7 @@ export class SkuService {
     }): CancelablePromise<Sku | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/skus',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/skus',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -83,7 +83,7 @@ export class SkuService {
     }): CancelablePromise<Array<Sku>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/skus',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/skus',
             path: {
                 'id': id,
             },
@@ -113,7 +113,7 @@ export class SkuService {
     }): CancelablePromise<Sku | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/skus',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/skus',
             path: {
                 'id': id,
             },
@@ -147,7 +147,7 @@ export class SkuService {
     }): CancelablePromise<Array<Sku>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skus',
+            url: '/headless-commerce-admin-catalog/v1.0/skus',
             query: {
                 'filter': filter,
                 'page': page,
@@ -175,7 +175,7 @@ export class SkuService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/skus/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -196,7 +196,7 @@ export class SkuService {
     }): CancelablePromise<Sku> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skus/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -223,7 +223,7 @@ export class SkuService {
     }): CancelablePromise<Sku | any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/skus/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -249,7 +249,7 @@ export class SkuService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/skus/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/{id}',
             path: {
                 'id': id,
             },
@@ -270,7 +270,7 @@ export class SkuService {
     }): CancelablePromise<Sku> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skus/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/{id}',
             path: {
                 'id': id,
             },
@@ -297,7 +297,7 @@ export class SkuService {
     }): CancelablePromise<Sku | any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/skus/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/{id}',
             path: {
                 'id': id,
             },
@@ -331,7 +331,7 @@ export class SkuService {
     }): CancelablePromise<Array<Sku>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/unit-of-measure-skus',
+            url: '/headless-commerce-admin-catalog/v1.0/unit-of-measure-skus',
             query: {
                 'filter': filter,
                 'page': page,

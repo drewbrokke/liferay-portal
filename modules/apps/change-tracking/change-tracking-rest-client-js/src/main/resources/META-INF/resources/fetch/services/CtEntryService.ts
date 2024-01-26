@@ -30,7 +30,7 @@ export class CtEntryService {
     }): CancelablePromise<Array<CTEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-collections/{ctCollectionId}/ct-entries',
+            url: '/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/ct-entries',
             path: {
                 'ctCollectionId': ctCollectionId,
             },
@@ -55,7 +55,7 @@ export class CtEntryService {
     }): CancelablePromise<CTEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-entries/{ctEntryId}',
+            url: '/change-tracking-rest/v1.0/ct-entries/{ctEntryId}',
             path: {
                 'ctEntryId': ctEntryId,
             },

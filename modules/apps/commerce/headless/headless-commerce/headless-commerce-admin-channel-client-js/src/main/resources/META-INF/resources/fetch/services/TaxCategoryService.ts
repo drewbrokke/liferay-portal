@@ -12,7 +12,7 @@ export class TaxCategoryService {
      * @returns TaxCategory Successful operation
      * @throws ApiError
      */
-    public getTaxCategories({
+    public getHeadlessCommerceAdminChannelV10TaxCategories({
         page,
         pageSize,
         search,
@@ -23,7 +23,7 @@ export class TaxCategoryService {
     }): CancelablePromise<Array<TaxCategory>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/tax-categories',
+            url: '/headless-commerce-admin-channel/v1.0/tax-categories',
             query: {
                 'page': page,
                 'pageSize': pageSize,
@@ -41,14 +41,14 @@ export class TaxCategoryService {
      * @returns TaxCategory Successful operation
      * @throws ApiError
      */
-    public getTaxCategories1({
+    public getHeadlessCommerceAdminChannelV10TaxCategories1({
         id,
     }: {
         id: number,
     }): CancelablePromise<TaxCategory> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/tax-categories/{id}',
+            url: '/headless-commerce-admin-channel/v1.0/tax-categories/{id}',
             path: {
                 'id': id,
             },

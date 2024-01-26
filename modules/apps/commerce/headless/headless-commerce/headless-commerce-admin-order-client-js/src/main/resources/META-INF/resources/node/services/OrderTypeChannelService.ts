@@ -19,7 +19,7 @@ export class OrderTypeChannelService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/order-type-channels/{orderTypeChannelId}',
+            url: '/headless-commerce-admin-order/v1.0/order-type-channels/{orderTypeChannelId}',
             path: {
                 'orderTypeChannelId': orderTypeChannelId,
             },
@@ -44,7 +44,7 @@ export class OrderTypeChannelService {
     }): CancelablePromise<Array<OrderTypeChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-types/by-externalReferenceCode/{externalReferenceCode}/order-type-channels',
+            url: '/headless-commerce-admin-order/v1.0/order-types/by-externalReferenceCode/{externalReferenceCode}/order-type-channels',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class OrderTypeChannelService {
     }): CancelablePromise<OrderTypeChannel | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-types/by-externalReferenceCode/{externalReferenceCode}/order-type-channels',
+            url: '/headless-commerce-admin-order/v1.0/order-types/by-externalReferenceCode/{externalReferenceCode}/order-type-channels',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -108,7 +108,7 @@ export class OrderTypeChannelService {
     }): CancelablePromise<Array<OrderTypeChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-types/{id}/order-type-channels',
+            url: '/headless-commerce-admin-order/v1.0/order-types/{id}/order-type-channels',
             path: {
                 'id': id,
             },
@@ -140,7 +140,7 @@ export class OrderTypeChannelService {
     }): CancelablePromise<OrderTypeChannel | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-types/{id}/order-type-channels',
+            url: '/headless-commerce-admin-order/v1.0/order-types/{id}/order-type-channels',
             path: {
                 'id': id,
             },

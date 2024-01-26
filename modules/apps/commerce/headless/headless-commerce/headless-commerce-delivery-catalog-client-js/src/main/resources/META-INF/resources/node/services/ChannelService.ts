@@ -27,7 +27,7 @@ export class ChannelService {
     }): CancelablePromise<Array<Channel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels',
             query: {
                 'filter': filter,
                 'page': page,

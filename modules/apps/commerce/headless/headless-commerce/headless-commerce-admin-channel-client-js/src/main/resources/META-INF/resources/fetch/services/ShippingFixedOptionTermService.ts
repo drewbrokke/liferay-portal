@@ -12,14 +12,14 @@ export class ShippingFixedOptionTermService {
      * @returns void
      * @throws ApiError
      */
-    public deleteShippingFixedOptionTerms({
+    public deleteHeadlessCommerceAdminChannelV10ShippingFixedOptionTerms({
         shippingFixedOptionTermId,
     }: {
         shippingFixedOptionTermId: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/shipping-fixed-option-terms/{shippingFixedOptionTermId}',
+            url: '/headless-commerce-admin-channel/v1.0/shipping-fixed-option-terms/{shippingFixedOptionTermId}',
             path: {
                 'shippingFixedOptionTermId': shippingFixedOptionTermId,
             },
@@ -33,7 +33,7 @@ export class ShippingFixedOptionTermService {
      * @returns ShippingFixedOptionTerm Successful operation
      * @throws ApiError
      */
-    public getShippingFixedOptionsShippingFixedOptionTerms({
+    public getHeadlessCommerceAdminChannelV10ShippingFixedOptionsShippingFixedOptionTerms({
         id,
         filter,
         page,
@@ -50,7 +50,7 @@ export class ShippingFixedOptionTermService {
     }): CancelablePromise<Array<ShippingFixedOptionTerm>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/shipping-fixed-options/{id}/shipping-fixed-option-terms',
+            url: '/headless-commerce-admin-channel/v1.0/shipping-fixed-options/{id}/shipping-fixed-option-terms',
             path: {
                 'id': id,
             },
@@ -74,7 +74,7 @@ export class ShippingFixedOptionTermService {
      * @returns any Async
      * @throws ApiError
      */
-    public postShippingFixedOptionsShippingFixedOptionTerms({
+    public postHeadlessCommerceAdminChannelV10ShippingFixedOptionsShippingFixedOptionTerms({
         id,
         requestBody,
     }: {
@@ -83,7 +83,7 @@ export class ShippingFixedOptionTermService {
     }): CancelablePromise<ShippingFixedOptionTerm | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/shipping-fixed-options/{id}/shipping-fixed-option-terms',
+            url: '/headless-commerce-admin-channel/v1.0/shipping-fixed-options/{id}/shipping-fixed-option-terms',
             path: {
                 'id': id,
             },

@@ -19,7 +19,7 @@ export class ShippingAddressService {
     }): CancelablePromise<ShippingAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orderItems/{id}/shippingAddress',
+            url: '/headless-commerce-admin-order/v1.0/orderItems/{id}/shippingAddress',
             path: {
                 'id': id,
             },
@@ -43,7 +43,7 @@ export class ShippingAddressService {
     }): CancelablePromise<ShippingAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}/shippingAddress',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/shippingAddress',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -69,7 +69,7 @@ export class ShippingAddressService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}/shippingAddress',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/shippingAddress',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -95,7 +95,7 @@ export class ShippingAddressService {
     }): CancelablePromise<ShippingAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/{id}/shippingAddress',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}/shippingAddress',
             path: {
                 'id': id,
             },
@@ -121,7 +121,7 @@ export class ShippingAddressService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/orders/{id}/shippingAddress',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}/shippingAddress',
             path: {
                 'id': id,
             },

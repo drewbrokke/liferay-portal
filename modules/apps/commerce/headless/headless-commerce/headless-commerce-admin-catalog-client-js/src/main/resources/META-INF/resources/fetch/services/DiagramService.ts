@@ -21,7 +21,7 @@ export class DiagramService {
     }): CancelablePromise<Diagram> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/diagrams/{diagramId}',
+            url: '/headless-commerce-admin-catalog/v1.0/diagrams/{diagramId}',
             path: {
                 'diagramId': diagramId,
             },
@@ -47,7 +47,7 @@ export class DiagramService {
     }): CancelablePromise<Diagram> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/diagrams',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/diagrams',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -73,7 +73,7 @@ export class DiagramService {
     }): CancelablePromise<Diagram> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/diagrams',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/diagrams',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -99,7 +99,7 @@ export class DiagramService {
     }): CancelablePromise<Diagram> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/diagrams',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/diagrams',
             path: {
                 'id': id,
             },
@@ -125,7 +125,7 @@ export class DiagramService {
     }): CancelablePromise<Diagram> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/products/{id}/diagrams',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/diagrams',
             path: {
                 'id': id,
             },

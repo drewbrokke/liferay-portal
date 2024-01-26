@@ -30,7 +30,7 @@ export class NotificationTemplateService {
     }): CancelablePromise<Array<NotificationTemplate>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/notification-templates',
+            url: '/notification/v1.0/notification-templates',
             headers: {
                 'Accept-Language': acceptLanguage,
             },
@@ -55,7 +55,7 @@ export class NotificationTemplateService {
     }): CancelablePromise<NotificationTemplate> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/notification-templates',
+            url: '/notification/v1.0/notification-templates',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -71,7 +71,7 @@ export class NotificationTemplateService {
     }): CancelablePromise<NotificationTemplate> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/notification-templates/by-external-reference-code/{externalReferenceCode}',
+            url: '/notification/v1.0/notification-templates/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -90,7 +90,7 @@ export class NotificationTemplateService {
     }): CancelablePromise<NotificationTemplate> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/notification-templates/by-external-reference-code/{externalReferenceCode}',
+            url: '/notification/v1.0/notification-templates/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -109,7 +109,7 @@ export class NotificationTemplateService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/notification-templates/{notificationTemplateId}',
+            url: '/notification/v1.0/notification-templates/{notificationTemplateId}',
             path: {
                 'notificationTemplateId': notificationTemplateId,
             },
@@ -126,7 +126,7 @@ export class NotificationTemplateService {
     }): CancelablePromise<NotificationTemplate> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/notification-templates/{notificationTemplateId}',
+            url: '/notification/v1.0/notification-templates/{notificationTemplateId}',
             path: {
                 'notificationTemplateId': notificationTemplateId,
             },
@@ -145,7 +145,7 @@ export class NotificationTemplateService {
     }): CancelablePromise<NotificationTemplate> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/notification-templates/{notificationTemplateId}',
+            url: '/notification/v1.0/notification-templates/{notificationTemplateId}',
             path: {
                 'notificationTemplateId': notificationTemplateId,
             },
@@ -166,7 +166,7 @@ export class NotificationTemplateService {
     }): CancelablePromise<NotificationTemplate> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/notification-templates/{notificationTemplateId}',
+            url: '/notification/v1.0/notification-templates/{notificationTemplateId}',
             path: {
                 'notificationTemplateId': notificationTemplateId,
             },
@@ -185,7 +185,7 @@ export class NotificationTemplateService {
     }): CancelablePromise<NotificationTemplate> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/notification-templates/{notificationTemplateId}/copy',
+            url: '/notification/v1.0/notification-templates/{notificationTemplateId}/copy',
             path: {
                 'notificationTemplateId': notificationTemplateId,
             },

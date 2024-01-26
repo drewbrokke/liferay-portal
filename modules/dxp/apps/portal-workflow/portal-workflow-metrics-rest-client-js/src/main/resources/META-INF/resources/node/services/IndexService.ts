@@ -14,7 +14,7 @@ export class IndexService {
     public getIndexesPage(): CancelablePromise<Array<Index>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/indexes',
+            url: '/portal-workflow-metrics/v1.0/indexes',
         });
     }
     /**
@@ -28,7 +28,7 @@ export class IndexService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/indexes/refresh',
+            url: '/portal-workflow-metrics/v1.0/indexes/refresh',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -44,7 +44,7 @@ export class IndexService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/indexes/reindex',
+            url: '/portal-workflow-metrics/v1.0/indexes/reindex',
             body: requestBody,
             mediaType: 'application/json',
         });

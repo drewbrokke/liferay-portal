@@ -19,7 +19,7 @@ export class ExportTaskService {
     }): CancelablePromise<ExportTask> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/export-task/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-batch-engine/v1.0/export-task/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -37,7 +37,7 @@ export class ExportTaskService {
     }): CancelablePromise<Blob> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/export-task/by-external-reference-code/{externalReferenceCode}/content',
+            url: '/headless-batch-engine/v1.0/export-task/by-external-reference-code/{externalReferenceCode}/content',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -65,7 +65,7 @@ export class ExportTaskService {
     }): CancelablePromise<ExportTask> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/export-task/{className}/{contentType}',
+            url: '/headless-batch-engine/v1.0/export-task/{className}/{contentType}',
             path: {
                 'className': className,
                 'contentType': contentType,
@@ -90,7 +90,7 @@ export class ExportTaskService {
     }): CancelablePromise<ExportTask> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/export-task/{exportTaskId}',
+            url: '/headless-batch-engine/v1.0/export-task/{exportTaskId}',
             path: {
                 'exportTaskId': exportTaskId,
             },
@@ -108,7 +108,7 @@ export class ExportTaskService {
     }): CancelablePromise<Blob> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/export-task/{exportTaskId}/content',
+            url: '/headless-batch-engine/v1.0/export-task/{exportTaskId}/content',
             path: {
                 'exportTaskId': exportTaskId,
             },

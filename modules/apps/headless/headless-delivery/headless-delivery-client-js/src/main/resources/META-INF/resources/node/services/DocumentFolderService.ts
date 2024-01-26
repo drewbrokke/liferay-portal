@@ -39,7 +39,7 @@ export class DocumentFolderService {
     }): CancelablePromise<Array<DocumentFolder>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/document-folders',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -70,7 +70,7 @@ export class DocumentFolderService {
     }): CancelablePromise<DocumentFolder> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/asset-libraries/{assetLibraryId}/document-folders',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -97,7 +97,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/document-folders/permissions',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -122,7 +122,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/asset-libraries/{assetLibraryId}/document-folders/permissions',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -145,7 +145,7 @@ export class DocumentFolderService {
     }): CancelablePromise<Array<DocumentFolder>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/document-folders/rated-by-me',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders/rated-by-me',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -167,7 +167,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/document-folders/{documentFolderId}',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -191,7 +191,7 @@ export class DocumentFolderService {
     }): CancelablePromise<DocumentFolder> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/document-folders/{documentFolderId}',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -216,7 +216,7 @@ export class DocumentFolderService {
     }): CancelablePromise<DocumentFolder> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/document-folders/{documentFolderId}',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -238,7 +238,7 @@ export class DocumentFolderService {
     }): CancelablePromise<DocumentFolder> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/document-folders/{documentFolderId}',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -258,7 +258,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/document-folders/{documentFolderId}/my-rating',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/my-rating',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -280,7 +280,7 @@ export class DocumentFolderService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/document-folders/{documentFolderId}/my-rating',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/my-rating',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -304,7 +304,7 @@ export class DocumentFolderService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/document-folders/{documentFolderId}/my-rating',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/my-rating',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -326,7 +326,7 @@ export class DocumentFolderService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/document-folders/{documentFolderId}/my-rating',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/my-rating',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -353,7 +353,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/document-folders/{documentFolderId}/permissions',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/permissions',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -378,7 +378,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/document-folders/{documentFolderId}/permissions',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/permissions',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -396,7 +396,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/document-folders/{documentFolderId}/subscribe',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/subscribe',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -413,7 +413,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/document-folders/{documentFolderId}/unsubscribe',
+            url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/unsubscribe',
             path: {
                 'documentFolderId': documentFolderId,
             },
@@ -451,7 +451,7 @@ export class DocumentFolderService {
     }): CancelablePromise<Array<DocumentFolder>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/document-folders/{parentDocumentFolderId}/document-folders',
+            url: '/headless-delivery/v1.0/document-folders/{parentDocumentFolderId}/document-folders',
             path: {
                 'parentDocumentFolderId': parentDocumentFolderId,
             },
@@ -483,7 +483,7 @@ export class DocumentFolderService {
     }): CancelablePromise<DocumentFolder> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/document-folders/{parentDocumentFolderId}/document-folders',
+            url: '/headless-delivery/v1.0/document-folders/{parentDocumentFolderId}/document-folders',
             path: {
                 'parentDocumentFolderId': parentDocumentFolderId,
             },
@@ -523,7 +523,7 @@ export class DocumentFolderService {
     }): CancelablePromise<Array<DocumentFolder>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/document-folders',
+            url: '/headless-delivery/v1.0/sites/{siteId}/document-folders',
             path: {
                 'siteId': siteId,
             },
@@ -555,7 +555,7 @@ export class DocumentFolderService {
     }): CancelablePromise<DocumentFolder> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/document-folders',
+            url: '/headless-delivery/v1.0/sites/{siteId}/document-folders',
             path: {
                 'siteId': siteId,
             },
@@ -582,7 +582,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/document-folders/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/document-folders/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -607,7 +607,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/document-folders/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/document-folders/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -630,7 +630,7 @@ export class DocumentFolderService {
     }): CancelablePromise<Array<DocumentFolder>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/document-folders/rated-by-me',
+            url: '/headless-delivery/v1.0/sites/{siteId}/document-folders/rated-by-me',
             path: {
                 'siteId': siteId,
             },
@@ -654,7 +654,7 @@ export class DocumentFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/documents-folder/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents-folder/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -675,7 +675,7 @@ export class DocumentFolderService {
     }): CancelablePromise<DocumentFolder> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/documents-folder/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents-folder/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -698,7 +698,7 @@ export class DocumentFolderService {
     }): CancelablePromise<DocumentFolder> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/documents-folder/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/documents-folder/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,

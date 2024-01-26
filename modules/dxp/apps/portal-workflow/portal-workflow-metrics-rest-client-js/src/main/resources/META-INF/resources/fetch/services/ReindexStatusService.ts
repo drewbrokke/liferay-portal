@@ -14,7 +14,7 @@ export class ReindexStatusService {
     public getReindexStatusesPage(): CancelablePromise<Array<ReindexStatus>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/reindex/statuses',
+            url: '/portal-workflow-metrics/v1.0/reindex/statuses',
         });
     }
 }

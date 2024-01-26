@@ -28,7 +28,7 @@ export class ObjectViewService {
     }): CancelablePromise<Array<ObjectView>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-views',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-views',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -56,7 +56,7 @@ export class ObjectViewService {
     }): CancelablePromise<ObjectView> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-views',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-views',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -85,7 +85,7 @@ export class ObjectViewService {
     }): CancelablePromise<Array<ObjectView>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/{objectDefinitionId}/object-views',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-views',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -113,7 +113,7 @@ export class ObjectViewService {
     }): CancelablePromise<ObjectView> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/{objectDefinitionId}/object-views',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-views',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -132,7 +132,7 @@ export class ObjectViewService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/object-views/{objectViewId}',
+            url: '/object-admin/v1.0/object-views/{objectViewId}',
             path: {
                 'objectViewId': objectViewId,
             },
@@ -149,7 +149,7 @@ export class ObjectViewService {
     }): CancelablePromise<ObjectView> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-views/{objectViewId}',
+            url: '/object-admin/v1.0/object-views/{objectViewId}',
             path: {
                 'objectViewId': objectViewId,
             },
@@ -168,7 +168,7 @@ export class ObjectViewService {
     }): CancelablePromise<ObjectView> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-views/{objectViewId}',
+            url: '/object-admin/v1.0/object-views/{objectViewId}',
             path: {
                 'objectViewId': objectViewId,
             },
@@ -187,7 +187,7 @@ export class ObjectViewService {
     }): CancelablePromise<ObjectView> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-views/{objectViewId}/copy',
+            url: '/object-admin/v1.0/object-views/{objectViewId}/copy',
             path: {
                 'objectViewId': objectViewId,
             },

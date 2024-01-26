@@ -20,7 +20,7 @@ export class SiteScopeService {
     }): CancelablePromise<Array<SiteScope>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/plans/{internalClassNameKey}/site-scopes',
+            url: '/batch-planner/v1.0/plans/{internalClassNameKey}/site-scopes',
             path: {
                 'internalClassNameKey': internalClassNameKey,
             },

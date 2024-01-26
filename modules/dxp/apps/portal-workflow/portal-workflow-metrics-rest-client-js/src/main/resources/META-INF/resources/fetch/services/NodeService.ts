@@ -18,7 +18,7 @@ export class NodeService {
     }): CancelablePromise<Array<Node>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/nodes',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/nodes',
             path: {
                 'processId': processId,
             },
@@ -37,7 +37,7 @@ export class NodeService {
     }): CancelablePromise<Node> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/processes/{processId}/nodes',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/nodes',
             path: {
                 'processId': processId,
             },
@@ -58,7 +58,7 @@ export class NodeService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/processes/{processId}/nodes/{nodeId}',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/nodes/{nodeId}',
             path: {
                 'processId': processId,
                 'nodeId': nodeId,

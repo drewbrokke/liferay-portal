@@ -10,10 +10,10 @@ export class AnalyticsDxpEntityBatchExporterService {
      * @returns void
      * @throws ApiError
      */
-    public postConfigurationWizardMode(): CancelablePromise<void> {
+    public postAnalyticsSettingsRestV10ConfigurationWizardMode(): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/configuration/wizard-mode',
+            url: '/analytics-settings-rest/v1.0/configuration/wizard-mode',
         });
     }
 }

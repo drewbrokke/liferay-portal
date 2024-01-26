@@ -23,7 +23,7 @@ export class AccountMemberService {
     }): CancelablePromise<Array<AccountMember>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -54,7 +54,7 @@ export class AccountMemberService {
     }): CancelablePromise<AccountMember | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -82,7 +82,7 @@ export class AccountMemberService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers/{userId}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers/{userId}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'userId': userId,
@@ -106,7 +106,7 @@ export class AccountMemberService {
     }): CancelablePromise<AccountMember> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers/{userId}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers/{userId}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'userId': userId,
@@ -135,7 +135,7 @@ export class AccountMemberService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers/{userId}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers/{userId}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'userId': userId,
@@ -166,7 +166,7 @@ export class AccountMemberService {
     }): CancelablePromise<Array<AccountMember>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/accountMembers',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountMembers',
             path: {
                 'id': id,
             },
@@ -197,7 +197,7 @@ export class AccountMemberService {
     }): CancelablePromise<AccountMember | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/accountMembers',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountMembers',
             path: {
                 'id': id,
             },
@@ -225,7 +225,7 @@ export class AccountMemberService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/{id}/accountMembers/{userId}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountMembers/{userId}',
             path: {
                 'id': id,
                 'userId': userId,
@@ -249,7 +249,7 @@ export class AccountMemberService {
     }): CancelablePromise<AccountMember> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/accountMembers/{userId}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountMembers/{userId}',
             path: {
                 'id': id,
                 'userId': userId,
@@ -278,7 +278,7 @@ export class AccountMemberService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/accounts/{id}/accountMembers/{userId}',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountMembers/{userId}',
             path: {
                 'id': id,
                 'userId': userId,

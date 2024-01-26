@@ -19,7 +19,7 @@ export class ProductChannelService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/product-channels/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-channels/{id}',
             path: {
                 'id': id,
             },
@@ -40,7 +40,7 @@ export class ProductChannelService {
     }): CancelablePromise<ProductChannel> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/product-channels/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-channels/{id}',
             path: {
                 'id': id,
             },
@@ -68,7 +68,7 @@ export class ProductChannelService {
     }): CancelablePromise<Array<ProductChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/product-channels',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/product-channels',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -99,7 +99,7 @@ export class ProductChannelService {
     }): CancelablePromise<Array<ProductChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/product-channels',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/product-channels',
             path: {
                 'id': id,
             },

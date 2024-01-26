@@ -19,7 +19,7 @@ export class DataLayoutService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/data-definitions/{dataDefinitionId}/data-layouts',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-layouts',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -44,7 +44,7 @@ export class DataLayoutService {
     }): CancelablePromise<Array<DataLayout>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-definitions/{dataDefinitionId}/data-layouts',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-layouts',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -69,7 +69,7 @@ export class DataLayoutService {
     }): CancelablePromise<DataLayout> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/data-definitions/{dataDefinitionId}/data-layouts',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-layouts',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -88,7 +88,7 @@ export class DataLayoutService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/data-layouts/{dataLayoutId}',
+            url: '/data-engine/v2.0/data-layouts/{dataLayoutId}',
             path: {
                 'dataLayoutId': dataLayoutId,
             },
@@ -105,7 +105,7 @@ export class DataLayoutService {
     }): CancelablePromise<DataLayout> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-layouts/{dataLayoutId}',
+            url: '/data-engine/v2.0/data-layouts/{dataLayoutId}',
             path: {
                 'dataLayoutId': dataLayoutId,
             },
@@ -124,7 +124,7 @@ export class DataLayoutService {
     }): CancelablePromise<DataLayout> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/data-layouts/{dataLayoutId}',
+            url: '/data-engine/v2.0/data-layouts/{dataLayoutId}',
             path: {
                 'dataLayoutId': dataLayoutId,
             },
@@ -145,7 +145,7 @@ export class DataLayoutService {
     }): CancelablePromise<Record<string, Record<string, any>>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/data-layouts/{dataLayoutId}/context',
+            url: '/data-engine/v2.0/data-layouts/{dataLayoutId}/context',
             path: {
                 'dataLayoutId': dataLayoutId,
             },
@@ -168,7 +168,7 @@ export class DataLayoutService {
     }): CancelablePromise<DataLayout> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/data-layouts/by-content-type/{contentType}/by-data-layout-key/{dataLayoutKey}',
+            url: '/data-engine/v2.0/sites/{siteId}/data-layouts/by-content-type/{contentType}/by-data-layout-key/{dataLayoutKey}',
             path: {
                 'siteId': siteId,
                 'contentType': contentType,

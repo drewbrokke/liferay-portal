@@ -19,7 +19,7 @@ export class OrderRuleOrderTypeService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/order-rule-order-types/{orderRuleOrderTypeId}',
+            url: '/headless-commerce-admin-order/v1.0/order-rule-order-types/{orderRuleOrderTypeId}',
             path: {
                 'orderRuleOrderTypeId': orderRuleOrderTypeId,
             },
@@ -44,7 +44,7 @@ export class OrderRuleOrderTypeService {
     }): CancelablePromise<Array<OrderRuleOrderType>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-order-types',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-order-types',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class OrderRuleOrderTypeService {
     }): CancelablePromise<OrderRuleOrderType | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-order-types',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-order-types',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -106,7 +106,7 @@ export class OrderRuleOrderTypeService {
     }): CancelablePromise<Array<OrderRuleOrderType>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules/{id}/order-rule-order-types',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-order-types',
             path: {
                 'id': id,
             },
@@ -137,7 +137,7 @@ export class OrderRuleOrderTypeService {
     }): CancelablePromise<OrderRuleOrderType | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-rules/{id}/order-rule-order-types',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-order-types',
             path: {
                 'id': id,
             },

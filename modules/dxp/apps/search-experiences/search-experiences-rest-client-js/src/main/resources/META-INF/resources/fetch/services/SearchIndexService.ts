@@ -14,7 +14,7 @@ export class SearchIndexService {
     public getSearchIndexesPage(): CancelablePromise<Array<SearchIndex>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/search-indexes',
+            url: '/search-experiences-rest/v1.0/search-indexes',
         });
     }
 }

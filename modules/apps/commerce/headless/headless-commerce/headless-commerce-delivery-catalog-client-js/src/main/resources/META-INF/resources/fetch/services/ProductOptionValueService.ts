@@ -34,7 +34,7 @@ export class ProductOptionValueService {
     }): CancelablePromise<Array<ProductOptionValue>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/products/{productId}/product-options/{productOptionId}/product-option-values',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/product-options/{productOptionId}/product-option-values',
             path: {
                 'channelId': channelId,
                 'productId': productId,
@@ -82,7 +82,7 @@ export class ProductOptionValueService {
     }): CancelablePromise<Array<ProductOptionValue>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/channels/{channelId}/products/{productId}/product-options/{productOptionId}/product-option-values',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/product-options/{productOptionId}/product-option-values',
             path: {
                 'channelId': channelId,
                 'productId': productId,

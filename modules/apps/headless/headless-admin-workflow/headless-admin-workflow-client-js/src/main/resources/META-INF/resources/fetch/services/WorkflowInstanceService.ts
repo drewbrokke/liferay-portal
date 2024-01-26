@@ -28,7 +28,7 @@ export class WorkflowInstanceService {
     }): CancelablePromise<Array<WorkflowInstance>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-instances',
+            url: '/headless-admin-workflow/v1.0/workflow-instances',
             query: {
                 'assetClassName': assetClassName,
                 'assetPrimaryKey': assetPrimaryKey,
@@ -49,7 +49,7 @@ export class WorkflowInstanceService {
     }): CancelablePromise<WorkflowInstance> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-instances/submit',
+            url: '/headless-admin-workflow/v1.0/workflow-instances/submit',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -65,7 +65,7 @@ export class WorkflowInstanceService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/workflow-instances/{workflowInstanceId}',
+            url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}',
             path: {
                 'workflowInstanceId': workflowInstanceId,
             },
@@ -82,7 +82,7 @@ export class WorkflowInstanceService {
     }): CancelablePromise<WorkflowInstance> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-instances/{workflowInstanceId}',
+            url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}',
             path: {
                 'workflowInstanceId': workflowInstanceId,
             },
@@ -101,7 +101,7 @@ export class WorkflowInstanceService {
     }): CancelablePromise<WorkflowInstance> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-instances/{workflowInstanceId}/change-transition',
+            url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/change-transition',
             path: {
                 'workflowInstanceId': workflowInstanceId,
             },

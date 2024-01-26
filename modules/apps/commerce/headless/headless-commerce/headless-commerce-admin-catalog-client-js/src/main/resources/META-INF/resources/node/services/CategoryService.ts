@@ -23,7 +23,7 @@ export class CategoryService {
     }): CancelablePromise<Array<Category>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/categories',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/categories',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -52,7 +52,7 @@ export class CategoryService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/categories',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/categories',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -82,7 +82,7 @@ export class CategoryService {
     }): CancelablePromise<Array<Category>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/categories',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/categories',
             path: {
                 'id': id,
             },
@@ -111,7 +111,7 @@ export class CategoryService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/products/{id}/categories',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/categories',
             path: {
                 'id': id,
             },

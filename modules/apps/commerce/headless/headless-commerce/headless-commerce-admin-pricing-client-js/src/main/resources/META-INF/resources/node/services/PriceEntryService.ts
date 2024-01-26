@@ -19,7 +19,7 @@ export class PriceEntryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/priceEntries/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceEntries/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -40,7 +40,7 @@ export class PriceEntryService {
     }): CancelablePromise<PriceEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceEntries/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceEntries/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -66,7 +66,7 @@ export class PriceEntryService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/priceEntries/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceEntries/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -92,7 +92,7 @@ export class PriceEntryService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/priceEntries/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceEntries/{id}',
             path: {
                 'id': id,
             },
@@ -113,7 +113,7 @@ export class PriceEntryService {
     }): CancelablePromise<PriceEntry> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceEntries/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceEntries/{id}',
             path: {
                 'id': id,
             },
@@ -139,7 +139,7 @@ export class PriceEntryService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/priceEntries/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/priceEntries/{id}',
             path: {
                 'id': id,
             },
@@ -169,7 +169,7 @@ export class PriceEntryService {
     }): CancelablePromise<Array<PriceEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceLists/by-externalReferenceCode/{externalReferenceCode}/priceEntries',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/by-externalReferenceCode/{externalReferenceCode}/priceEntries',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -199,7 +199,7 @@ export class PriceEntryService {
     }): CancelablePromise<PriceEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/priceLists/by-externalReferenceCode/{externalReferenceCode}/priceEntries',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/by-externalReferenceCode/{externalReferenceCode}/priceEntries',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -229,7 +229,7 @@ export class PriceEntryService {
     }): CancelablePromise<Array<PriceEntry>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/priceLists/{id}/priceEntries',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/{id}/priceEntries',
             path: {
                 'id': id,
             },
@@ -259,7 +259,7 @@ export class PriceEntryService {
     }): CancelablePromise<PriceEntry | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/priceLists/{id}/priceEntries',
+            url: '/headless-commerce-admin-pricing/v1.0/priceLists/{id}/priceEntries',
             path: {
                 'id': id,
             },

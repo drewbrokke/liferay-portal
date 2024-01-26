@@ -20,7 +20,7 @@ export class ExperimentRunService {
     }): CancelablePromise<ExperimentRun> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/experiments/{experimentId}/run',
+            url: '/segments-asah/v1.0/experiments/{experimentId}/run',
             path: {
                 'experimentId': experimentId,
             },

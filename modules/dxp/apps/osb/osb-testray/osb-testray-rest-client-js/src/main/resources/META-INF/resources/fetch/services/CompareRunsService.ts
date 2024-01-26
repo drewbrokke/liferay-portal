@@ -20,7 +20,7 @@ export class CompareRunsService {
     }): CancelablePromise<CompareRuns> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/compare-runs/{idRunA}/{idRunB}',
+            url: '/osb-testray-rest/v1.0/compare-runs/{idRunA}/{idRunB}',
             path: {
                 'idRunA': idRunA,
                 'idRunB': idRunB,

@@ -19,7 +19,7 @@ export class OrderRuleAccountService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/order-rule-accounts/{orderRuleAccountId}',
+            url: '/headless-commerce-admin-order/v1.0/order-rule-accounts/{orderRuleAccountId}',
             path: {
                 'orderRuleAccountId': orderRuleAccountId,
             },
@@ -44,7 +44,7 @@ export class OrderRuleAccountService {
     }): CancelablePromise<Array<OrderRuleAccount>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-accounts',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-accounts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class OrderRuleAccountService {
     }): CancelablePromise<OrderRuleAccount | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-accounts',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-accounts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -110,7 +110,7 @@ export class OrderRuleAccountService {
     }): CancelablePromise<Array<OrderRuleAccount>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules/{id}/order-rule-accounts',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-accounts',
             path: {
                 'id': id,
             },

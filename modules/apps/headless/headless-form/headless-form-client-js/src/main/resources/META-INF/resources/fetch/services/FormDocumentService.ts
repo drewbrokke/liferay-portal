@@ -19,7 +19,7 @@ export class FormDocumentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/form-documents/{formDocumentId}',
+            url: '/headless-form/v1.0/form-documents/{formDocumentId}',
             path: {
                 'formDocumentId': formDocumentId,
             },
@@ -37,7 +37,7 @@ export class FormDocumentService {
     }): CancelablePromise<FormDocument> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/form-documents/{formDocumentId}',
+            url: '/headless-form/v1.0/form-documents/{formDocumentId}',
             path: {
                 'formDocumentId': formDocumentId,
             },

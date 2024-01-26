@@ -19,7 +19,7 @@ export class SkuVirtualSettingsService {
     }): CancelablePromise<SkuVirtualSettings> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skus/by-externalReferenceCode/{externalReferenceCode}/sku-virtual-settings',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}/sku-virtual-settings',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -43,7 +43,7 @@ export class SkuVirtualSettingsService {
     }): CancelablePromise<SkuVirtualSettings> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skus/{id}/sku-virtual-settings',
+            url: '/headless-commerce-admin-catalog/v1.0/skus/{id}/sku-virtual-settings',
             path: {
                 'id': id,
             },

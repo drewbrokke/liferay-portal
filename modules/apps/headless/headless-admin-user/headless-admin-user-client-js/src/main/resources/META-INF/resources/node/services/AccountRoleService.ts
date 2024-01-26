@@ -23,7 +23,7 @@ export class AccountRoleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'accountExternalReferenceCode': accountExternalReferenceCode,
                 'accountRoleId': accountRoleId,
@@ -47,7 +47,7 @@ export class AccountRoleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'accountExternalReferenceCode': accountExternalReferenceCode,
                 'accountRoleId': accountRoleId,
@@ -69,7 +69,7 @@ export class AccountRoleService {
     }): CancelablePromise<Array<AccountRole>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-external-reference-code/{accountExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}/account-roles',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}/account-roles',
             path: {
                 'accountExternalReferenceCode': accountExternalReferenceCode,
                 'externalReferenceCode': externalReferenceCode,
@@ -98,7 +98,7 @@ export class AccountRoleService {
     }): CancelablePromise<Array<AccountRole>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-external-reference-code/{externalReferenceCode}/account-roles',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -125,7 +125,7 @@ export class AccountRoleService {
     }): CancelablePromise<AccountRole> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-external-reference-code/{externalReferenceCode}/account-roles',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -149,7 +149,7 @@ export class AccountRoleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/by-external-reference-code/{externalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-email-address/{emailAddress}',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-email-address/{emailAddress}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'accountRoleId': accountRoleId,
@@ -173,7 +173,7 @@ export class AccountRoleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-external-reference-code/{externalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-email-address/{emailAddress}',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-email-address/{emailAddress}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'accountRoleId': accountRoleId,
@@ -195,7 +195,7 @@ export class AccountRoleService {
     }): CancelablePromise<Array<AccountRole>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address/{emailAddress}/account-roles',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address/{emailAddress}/account-roles',
             path: {
                 'externalReferenceCode': externalReferenceCode,
                 'emailAddress': emailAddress,
@@ -224,7 +224,7 @@ export class AccountRoleService {
     }): CancelablePromise<Array<AccountRole>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{accountId}/account-roles',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/account-roles',
             path: {
                 'accountId': accountId,
             },
@@ -251,7 +251,7 @@ export class AccountRoleService {
     }): CancelablePromise<AccountRole> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{accountId}/account-roles',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/account-roles',
             path: {
                 'accountId': accountId,
             },
@@ -275,7 +275,7 @@ export class AccountRoleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accounts/{accountId}/account-roles/{accountRoleId}/user-accounts/{userAccountId}',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/account-roles/{accountRoleId}/user-accounts/{userAccountId}',
             path: {
                 'accountId': accountId,
                 'accountRoleId': accountRoleId,
@@ -299,7 +299,7 @@ export class AccountRoleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{accountId}/account-roles/{accountRoleId}/user-accounts/{userAccountId}',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/account-roles/{accountRoleId}/user-accounts/{userAccountId}',
             path: {
                 'accountId': accountId,
                 'accountRoleId': accountRoleId,

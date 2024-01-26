@@ -14,7 +14,7 @@ export class ContactConfigurationService {
     public getContactConfiguration(): CancelablePromise<ContactConfiguration> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/contacts/configuration',
+            url: '/analytics-settings-rest/v1.0/contacts/configuration',
         });
     }
     /**
@@ -28,7 +28,7 @@ export class ContactConfigurationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/contacts/configuration',
+            url: '/analytics-settings-rest/v1.0/contacts/configuration',
             body: requestBody,
             mediaType: 'application/json',
         });

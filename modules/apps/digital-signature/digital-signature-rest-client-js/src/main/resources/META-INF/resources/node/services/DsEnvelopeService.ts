@@ -22,7 +22,7 @@ export class DsEnvelopeService {
     }): CancelablePromise<Array<DSEnvelope>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/ds-envelopes',
+            url: '/digital-signature-rest/v1.0/sites/{siteId}/ds-envelopes',
             path: {
                 'siteId': siteId,
             },
@@ -45,7 +45,7 @@ export class DsEnvelopeService {
     }): CancelablePromise<DSEnvelope> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/ds-envelopes',
+            url: '/digital-signature-rest/v1.0/sites/{siteId}/ds-envelopes',
             path: {
                 'siteId': siteId,
             },
@@ -66,7 +66,7 @@ export class DsEnvelopeService {
     }): CancelablePromise<DSEnvelope> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/ds-envelopes/{dsEnvelopeId}',
+            url: '/digital-signature-rest/v1.0/sites/{siteId}/ds-envelopes/{dsEnvelopeId}',
             path: {
                 'siteId': siteId,
                 'dsEnvelopeId': dsEnvelopeId,

@@ -18,7 +18,7 @@ export class DataListViewService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/data-definitions/{dataDefinitionId}/data-list-views',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-list-views',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -43,7 +43,7 @@ export class DataListViewService {
     }): CancelablePromise<Array<DataListView>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-definitions/{dataDefinitionId}/data-list-views',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-list-views',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -68,7 +68,7 @@ export class DataListViewService {
     }): CancelablePromise<DataListView> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/data-definitions/{dataDefinitionId}/data-list-views',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-list-views',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },
@@ -87,7 +87,7 @@ export class DataListViewService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/data-list-views/{dataListViewId}',
+            url: '/data-engine/v2.0/data-list-views/{dataListViewId}',
             path: {
                 'dataListViewId': dataListViewId,
             },
@@ -104,7 +104,7 @@ export class DataListViewService {
     }): CancelablePromise<DataListView> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-list-views/{dataListViewId}',
+            url: '/data-engine/v2.0/data-list-views/{dataListViewId}',
             path: {
                 'dataListViewId': dataListViewId,
             },
@@ -123,7 +123,7 @@ export class DataListViewService {
     }): CancelablePromise<DataListView> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/data-list-views/{dataListViewId}',
+            url: '/data-engine/v2.0/data-list-views/{dataListViewId}',
             path: {
                 'dataListViewId': dataListViewId,
             },

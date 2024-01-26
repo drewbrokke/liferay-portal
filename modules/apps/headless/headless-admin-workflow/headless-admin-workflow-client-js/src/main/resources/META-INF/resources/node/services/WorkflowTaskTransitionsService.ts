@@ -19,7 +19,7 @@ export class WorkflowTaskTransitionsService {
     }): CancelablePromise<WorkflowTaskTransitions> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-tasks/next-transitions',
+            url: '/headless-admin-workflow/v1.0/workflow-tasks/next-transitions',
             body: requestBody,
             mediaType: 'application/json',
         });

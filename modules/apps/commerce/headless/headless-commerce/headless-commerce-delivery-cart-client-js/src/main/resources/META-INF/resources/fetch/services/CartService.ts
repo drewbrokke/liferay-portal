@@ -20,7 +20,7 @@ export class CartService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/carts/{cartId}',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}',
             path: {
                 'cartId': cartId,
             },
@@ -41,7 +41,7 @@ export class CartService {
     }): CancelablePromise<Cart> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/carts/{cartId}',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}',
             path: {
                 'cartId': cartId,
             },
@@ -66,7 +66,7 @@ export class CartService {
     }): CancelablePromise<Cart> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/carts/{cartId}',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}',
             path: {
                 'cartId': cartId,
             },
@@ -94,7 +94,7 @@ export class CartService {
     }): CancelablePromise<Cart> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/carts/{cartId}',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}',
             path: {
                 'cartId': cartId,
             },
@@ -119,7 +119,7 @@ export class CartService {
     }): CancelablePromise<Cart> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/carts/{cartId}/checkout',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/checkout',
             path: {
                 'cartId': cartId,
             },
@@ -139,7 +139,7 @@ export class CartService {
     }): CancelablePromise<Cart> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/carts/{cartId}/coupon-code',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/coupon-code',
             path: {
                 'cartId': cartId,
             },
@@ -165,7 +165,7 @@ export class CartService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/carts/{cartId}/payment-url',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/payment-url',
             path: {
                 'cartId': cartId,
             },
@@ -194,7 +194,7 @@ export class CartService {
     }): CancelablePromise<Array<Cart>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channels/{channelId}/account/{accountId}/carts',
+            url: '/headless-commerce-delivery-cart/v1.0/channels/{channelId}/account/{accountId}/carts',
             path: {
                 'accountId': accountId,
                 'channelId': channelId,
@@ -225,7 +225,7 @@ export class CartService {
     }): CancelablePromise<Cart> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/channels/{channelId}/carts',
+            url: '/headless-commerce-delivery-cart/v1.0/channels/{channelId}/carts',
             path: {
                 'channelId': channelId,
             },

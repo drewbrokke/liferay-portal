@@ -20,7 +20,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/message-board-messages/{messageBoardMessageId}',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -44,7 +44,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<MessageBoardMessage> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/message-board-messages/{messageBoardMessageId}',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -69,7 +69,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<MessageBoardMessage> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/message-board-messages/{messageBoardMessageId}',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -91,7 +91,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<MessageBoardMessage> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/message-board-messages/{messageBoardMessageId}',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -111,7 +111,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/message-board-messages/{messageBoardMessageId}/my-rating',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/my-rating',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -133,7 +133,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/message-board-messages/{messageBoardMessageId}/my-rating',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/my-rating',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -157,7 +157,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/message-board-messages/{messageBoardMessageId}/my-rating',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/my-rating',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -179,7 +179,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/message-board-messages/{messageBoardMessageId}/my-rating',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/my-rating',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -206,7 +206,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/message-board-messages/{messageBoardMessageId}/permissions',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/permissions',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -231,7 +231,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/message-board-messages/{messageBoardMessageId}/permissions',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/permissions',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -249,7 +249,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/message-board-messages/{messageBoardMessageId}/subscribe',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/subscribe',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -266,7 +266,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/message-board-messages/{messageBoardMessageId}/unsubscribe',
+            url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/unsubscribe',
             path: {
                 'messageBoardMessageId': messageBoardMessageId,
             },
@@ -304,7 +304,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<Array<MessageBoardMessage>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/message-board-messages/{parentMessageBoardMessageId}/message-board-messages',
+            url: '/headless-delivery/v1.0/message-board-messages/{parentMessageBoardMessageId}/message-board-messages',
             path: {
                 'parentMessageBoardMessageId': parentMessageBoardMessageId,
             },
@@ -336,7 +336,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<MessageBoardMessage> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/message-board-messages/{parentMessageBoardMessageId}/message-board-messages',
+            url: '/headless-delivery/v1.0/message-board-messages/{parentMessageBoardMessageId}/message-board-messages',
             path: {
                 'parentMessageBoardMessageId': parentMessageBoardMessageId,
             },
@@ -374,7 +374,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<Array<MessageBoardMessage>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/message-board-threads/{messageBoardThreadId}/message-board-messages',
+            url: '/headless-delivery/v1.0/message-board-threads/{messageBoardThreadId}/message-board-messages',
             path: {
                 'messageBoardThreadId': messageBoardThreadId,
             },
@@ -405,7 +405,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<MessageBoardMessage> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/message-board-threads/{messageBoardThreadId}/message-board-messages',
+            url: '/headless-delivery/v1.0/message-board-threads/{messageBoardThreadId}/message-board-messages',
             path: {
                 'messageBoardThreadId': messageBoardThreadId,
             },
@@ -445,7 +445,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<Array<MessageBoardMessage>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/message-board-messages',
+            url: '/headless-delivery/v1.0/sites/{siteId}/message-board-messages',
             path: {
                 'siteId': siteId,
             },
@@ -477,7 +477,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/message-board-messages/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/message-board-messages/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -504,7 +504,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<MessageBoardMessage> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/message-board-messages/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/message-board-messages/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -532,7 +532,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<MessageBoardMessage> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/message-board-messages/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/message-board-messages/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -562,7 +562,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<MessageBoardMessage> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/message-board-messages/by-friendly-url-path/{friendlyUrlPath}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/message-board-messages/by-friendly-url-path/{friendlyUrlPath}',
             path: {
                 'siteId': siteId,
                 'friendlyUrlPath': friendlyUrlPath,
@@ -596,7 +596,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/message-board-messages/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/message-board-messages/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -621,7 +621,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/message-board-messages/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/message-board-messages/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -646,7 +646,7 @@ export class MessageBoardMessageService {
     }): CancelablePromise<Array<MessageBoardMessage>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/{userId}/message-board-messages/activity',
+            url: '/headless-delivery/v1.0/sites/{siteId}/{userId}/message-board-messages/activity',
             path: {
                 'siteId': siteId,
                 'userId': userId,

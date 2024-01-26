@@ -19,7 +19,7 @@ export class BillingAddressService {
     }): CancelablePromise<BillingAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}/billingAddress',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/billingAddress',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -45,7 +45,7 @@ export class BillingAddressService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}/billingAddress',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/billingAddress',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -71,7 +71,7 @@ export class BillingAddressService {
     }): CancelablePromise<BillingAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/{id}/billingAddress',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}/billingAddress',
             path: {
                 'id': id,
             },
@@ -97,7 +97,7 @@ export class BillingAddressService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/orders/{id}/billingAddress',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}/billingAddress',
             path: {
                 'id': id,
             },

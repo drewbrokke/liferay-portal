@@ -21,7 +21,7 @@ export class StatusService {
     }): CancelablePromise<Experiment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/experiments/{experimentId}/status',
+            url: '/segments-asah/v1.0/experiments/{experimentId}/status',
             path: {
                 'experimentId': experimentId,
             },

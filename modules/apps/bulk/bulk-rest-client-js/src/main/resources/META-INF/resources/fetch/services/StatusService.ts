@@ -14,7 +14,7 @@ export class StatusService {
     public getStatus(): CancelablePromise<Status> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/status',
+            url: '/bulk/v1.0/status',
         });
     }
 }

@@ -22,7 +22,7 @@ export class UserService {
     }): CancelablePromise<User | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers/createUser',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers/createUser',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },

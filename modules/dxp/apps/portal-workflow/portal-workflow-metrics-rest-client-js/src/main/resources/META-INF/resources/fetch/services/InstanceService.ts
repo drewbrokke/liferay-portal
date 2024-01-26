@@ -38,7 +38,7 @@ export class InstanceService {
     }): CancelablePromise<Array<Instance>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/instances',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/instances',
             path: {
                 'processId': processId,
             },
@@ -69,7 +69,7 @@ export class InstanceService {
     }): CancelablePromise<Instance> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/processes/{processId}/instances',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/instances',
             path: {
                 'processId': processId,
             },
@@ -90,7 +90,7 @@ export class InstanceService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/processes/{processId}/instances/{instanceId}',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/instances/{instanceId}',
             path: {
                 'processId': processId,
                 'instanceId': instanceId,
@@ -110,7 +110,7 @@ export class InstanceService {
     }): CancelablePromise<Instance> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/instances/{instanceId}',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/instances/{instanceId}',
             path: {
                 'processId': processId,
                 'instanceId': instanceId,
@@ -132,7 +132,7 @@ export class InstanceService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/processes/{processId}/instances/{instanceId}',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/instances/{instanceId}',
             path: {
                 'processId': processId,
                 'instanceId': instanceId,
@@ -156,7 +156,7 @@ export class InstanceService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/processes/{processId}/instances/{instanceId}/complete',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/instances/{instanceId}/complete',
             path: {
                 'processId': processId,
                 'instanceId': instanceId,

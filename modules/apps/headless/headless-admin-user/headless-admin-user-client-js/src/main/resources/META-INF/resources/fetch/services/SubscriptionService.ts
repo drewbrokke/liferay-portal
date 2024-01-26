@@ -22,7 +22,7 @@ export class SubscriptionService {
     }): CancelablePromise<Array<Subscription>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/my-user-account/subscriptions',
+            url: '/headless-admin-user/v1.0/my-user-account/subscriptions',
             query: {
                 'contentType': contentType,
                 'page': page,
@@ -41,7 +41,7 @@ export class SubscriptionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/my-user-account/subscriptions/{subscriptionId}',
+            url: '/headless-admin-user/v1.0/my-user-account/subscriptions/{subscriptionId}',
             path: {
                 'subscriptionId': subscriptionId,
             },
@@ -58,7 +58,7 @@ export class SubscriptionService {
     }): CancelablePromise<Subscription> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/my-user-account/subscriptions/{subscriptionId}',
+            url: '/headless-admin-user/v1.0/my-user-account/subscriptions/{subscriptionId}',
             path: {
                 'subscriptionId': subscriptionId,
             },

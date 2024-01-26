@@ -34,7 +34,7 @@ export class NodeMetricService {
     }): CancelablePromise<Array<NodeMetric>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/nodes/metrics',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/nodes/metrics',
             path: {
                 'processId': processId,
             },

@@ -19,7 +19,7 @@ export class FormStructureService {
     }): CancelablePromise<FormStructure> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/form-structures/{formStructureId}',
+            url: '/headless-form/v1.0/form-structures/{formStructureId}',
             path: {
                 'formStructureId': formStructureId,
             },
@@ -41,7 +41,7 @@ export class FormStructureService {
     }): CancelablePromise<Array<FormStructure>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/form-structures',
+            url: '/headless-form/v1.0/sites/{siteId}/form-structures',
             path: {
                 'siteId': siteId,
             },

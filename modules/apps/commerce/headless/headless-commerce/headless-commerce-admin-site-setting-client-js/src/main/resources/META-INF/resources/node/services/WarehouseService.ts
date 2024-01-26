@@ -25,7 +25,7 @@ export class WarehouseService {
     }): CancelablePromise<Array<Warehouse>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/commerceAdminSiteSetting/{groupId}/warehouse',
+            url: '/headless-commerce-admin-site-setting/v1.0/commerceAdminSiteSetting/{groupId}/warehouse',
             path: {
                 'groupId': groupId,
             },
@@ -56,7 +56,7 @@ export class WarehouseService {
     }): CancelablePromise<Warehouse | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/commerceAdminSiteSetting/{groupId}/warehouse',
+            url: '/headless-commerce-admin-site-setting/v1.0/commerceAdminSiteSetting/{groupId}/warehouse',
             path: {
                 'groupId': groupId,
             },
@@ -82,7 +82,7 @@ export class WarehouseService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/warehouse/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/warehouse/{id}',
             path: {
                 'id': id,
             },
@@ -103,7 +103,7 @@ export class WarehouseService {
     }): CancelablePromise<Warehouse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouse/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/warehouse/{id}',
             path: {
                 'id': id,
             },
@@ -129,7 +129,7 @@ export class WarehouseService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/warehouse/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/warehouse/{id}',
             path: {
                 'id': id,
             },

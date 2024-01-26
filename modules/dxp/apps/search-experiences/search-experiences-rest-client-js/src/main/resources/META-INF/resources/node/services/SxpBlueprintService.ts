@@ -26,7 +26,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<Array<SXPBlueprint>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sxp-blueprints',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints',
             query: {
                 'filter': filter,
                 'page': page,
@@ -47,7 +47,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<SXPBlueprint> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sxp-blueprints',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -63,7 +63,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<SXPBlueprint> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sxp-blueprints/by-external-reference-code/{externalReferenceCode}',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -82,7 +82,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<SXPBlueprint> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sxp-blueprints/by-external-reference-code/{externalReferenceCode}',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -101,7 +101,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<SXPBlueprint> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sxp-blueprints/validate',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints/validate',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -117,7 +117,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sxp-blueprints/{sxpBlueprintId}',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints/{sxpBlueprintId}',
             path: {
                 'sxpBlueprintId': sxpBlueprintId,
             },
@@ -134,7 +134,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<SXPBlueprint> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sxp-blueprints/{sxpBlueprintId}',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints/{sxpBlueprintId}',
             path: {
                 'sxpBlueprintId': sxpBlueprintId,
             },
@@ -153,7 +153,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<SXPBlueprint> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/sxp-blueprints/{sxpBlueprintId}',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints/{sxpBlueprintId}',
             path: {
                 'sxpBlueprintId': sxpBlueprintId,
             },
@@ -174,7 +174,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<SXPBlueprint> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sxp-blueprints/{sxpBlueprintId}',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints/{sxpBlueprintId}',
             path: {
                 'sxpBlueprintId': sxpBlueprintId,
             },
@@ -193,7 +193,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<SXPBlueprint> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sxp-blueprints/{sxpBlueprintId}/copy',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints/{sxpBlueprintId}/copy',
             path: {
                 'sxpBlueprintId': sxpBlueprintId,
             },
@@ -210,7 +210,7 @@ export class SxpBlueprintService {
     }): CancelablePromise<Blob> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sxp-blueprints/{sxpBlueprintId}/export',
+            url: '/search-experiences-rest/v1.0/sxp-blueprints/{sxpBlueprintId}/export',
             path: {
                 'sxpBlueprintId': sxpBlueprintId,
             },

@@ -19,7 +19,7 @@ export class ProductAccountGroupService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/product-account-groups/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-account-groups/{id}',
             path: {
                 'id': id,
             },
@@ -40,7 +40,7 @@ export class ProductAccountGroupService {
     }): CancelablePromise<ProductAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/product-account-groups/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/product-account-groups/{id}',
             path: {
                 'id': id,
             },
@@ -68,7 +68,7 @@ export class ProductAccountGroupService {
     }): CancelablePromise<Array<ProductAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/by-externalReferenceCode/{externalReferenceCode}/product-account-groups',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/product-account-groups',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -99,7 +99,7 @@ export class ProductAccountGroupService {
     }): CancelablePromise<Array<ProductAccountGroup>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/products/{id}/product-account-groups',
+            url: '/headless-commerce-admin-catalog/v1.0/products/{id}/product-account-groups',
             path: {
                 'id': id,
             },

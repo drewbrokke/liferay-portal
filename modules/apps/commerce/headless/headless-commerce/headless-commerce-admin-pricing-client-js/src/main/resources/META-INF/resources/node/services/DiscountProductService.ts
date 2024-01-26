@@ -19,7 +19,7 @@ export class DiscountProductService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/discountProducts/{id}',
+            url: '/headless-commerce-admin-pricing/v1.0/discountProducts/{id}',
             path: {
                 'id': id,
             },
@@ -44,7 +44,7 @@ export class DiscountProductService {
     }): CancelablePromise<Array<DiscountProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discounts/by-externalReferenceCode/{externalReferenceCode}/discountProducts',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/by-externalReferenceCode/{externalReferenceCode}/discountProducts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class DiscountProductService {
     }): CancelablePromise<DiscountProduct | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/discounts/by-externalReferenceCode/{externalReferenceCode}/discountProducts',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/by-externalReferenceCode/{externalReferenceCode}/discountProducts',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -104,7 +104,7 @@ export class DiscountProductService {
     }): CancelablePromise<Array<DiscountProduct>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/discounts/{id}/discountProducts',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}/discountProducts',
             path: {
                 'id': id,
             },
@@ -134,7 +134,7 @@ export class DiscountProductService {
     }): CancelablePromise<DiscountProduct | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/discounts/{id}/discountProducts',
+            url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}/discountProducts',
             path: {
                 'id': id,
             },

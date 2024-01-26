@@ -27,7 +27,7 @@ export class OrderRuleService {
     }): CancelablePromise<Array<OrderRule>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules',
+            url: '/headless-commerce-admin-order/v1.0/order-rules',
             query: {
                 'filter': filter,
                 'page': page,
@@ -55,7 +55,7 @@ export class OrderRuleService {
     }): CancelablePromise<OrderRule | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/order-rules',
+            url: '/headless-commerce-admin-order/v1.0/order-rules',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -78,7 +78,7 @@ export class OrderRuleService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -99,7 +99,7 @@ export class OrderRuleService {
     }): CancelablePromise<OrderRule> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -125,7 +125,7 @@ export class OrderRuleService {
     }): CancelablePromise<OrderRule> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/order-rules/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -144,14 +144,14 @@ export class OrderRuleService {
      * @returns void
      * @throws ApiError
      */
-    public deleteOrderRules({
+    public deleteHeadlessCommerceAdminOrderV10OrderRules({
         id,
     }: {
         id: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/order-rules/{id}',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}',
             path: {
                 'id': id,
             },
@@ -165,14 +165,14 @@ export class OrderRuleService {
      * @returns OrderRule Successful operation
      * @throws ApiError
      */
-    public getOrderRules({
+    public getHeadlessCommerceAdminOrderV10OrderRules({
         id,
     }: {
         id: number,
     }): CancelablePromise<OrderRule> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rules/{id}',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}',
             path: {
                 'id': id,
             },
@@ -189,7 +189,7 @@ export class OrderRuleService {
      * @returns OrderRule Succesfully update the Order Rule
      * @throws ApiError
      */
-    public patchOrderRules({
+    public patchHeadlessCommerceAdminOrderV10OrderRules({
         id,
         requestBody,
     }: {
@@ -198,7 +198,7 @@ export class OrderRuleService {
     }): CancelablePromise<OrderRule> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/order-rules/{id}',
+            url: '/headless-commerce-admin-order/v1.0/order-rules/{id}',
             path: {
                 'id': id,
             },

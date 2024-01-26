@@ -41,7 +41,7 @@ export class StructuredContentService {
     }): CancelablePromise<Array<StructuredContent>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/structured-contents',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-contents',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -77,7 +77,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/asset-libraries/{assetLibraryId}/structured-contents',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-contents',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -102,7 +102,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/asset-libraries/{assetLibraryId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'externalReferenceCode': externalReferenceCode,
@@ -128,7 +128,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'externalReferenceCode': externalReferenceCode,
@@ -156,7 +156,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/asset-libraries/{assetLibraryId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'assetLibraryId': assetLibraryId,
                 'externalReferenceCode': externalReferenceCode,
@@ -184,7 +184,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/structured-contents/permissions',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-contents/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -209,7 +209,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/asset-libraries/{assetLibraryId}/structured-contents/permissions',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-contents/permissions',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -248,7 +248,7 @@ export class StructuredContentService {
     }): CancelablePromise<Array<StructuredContent>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/content-structures/{contentStructureId}/structured-contents',
+            url: '/headless-delivery/v1.0/content-structures/{contentStructureId}/structured-contents',
             path: {
                 'contentStructureId': contentStructureId,
             },
@@ -302,7 +302,7 @@ export class StructuredContentService {
     }): CancelablePromise<Array<StructuredContent>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/structured-contents',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents',
             path: {
                 'siteId': siteId,
             },
@@ -339,7 +339,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/structured-contents',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents',
             path: {
                 'siteId': siteId,
             },
@@ -364,7 +364,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -391,7 +391,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -419,7 +419,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -450,7 +450,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/structured-contents/by-key/{key}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-key/{key}',
             path: {
                 'siteId': siteId,
                 'key': key,
@@ -487,7 +487,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/structured-contents/by-uuid/{uuid}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-uuid/{uuid}',
             path: {
                 'siteId': siteId,
                 'uuid': uuid,
@@ -521,7 +521,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/structured-contents/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -546,7 +546,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/structured-contents/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -587,7 +587,7 @@ export class StructuredContentService {
     }): CancelablePromise<Array<StructuredContent>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/structured-content-folders/{structuredContentFolderId}/structured-contents',
+            url: '/headless-delivery/v1.0/structured-content-folders/{structuredContentFolderId}/structured-contents',
             path: {
                 'structuredContentFolderId': structuredContentFolderId,
             },
@@ -624,7 +624,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/structured-content-folders/{structuredContentFolderId}/structured-contents',
+            url: '/headless-delivery/v1.0/structured-content-folders/{structuredContentFolderId}/structured-contents',
             path: {
                 'structuredContentFolderId': structuredContentFolderId,
             },
@@ -647,7 +647,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/structured-contents/{structuredContentId}',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -673,7 +673,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/structured-contents/{structuredContentId}',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -703,7 +703,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/structured-contents/{structuredContentId}',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -730,7 +730,7 @@ export class StructuredContentService {
     }): CancelablePromise<StructuredContent> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/structured-contents/{structuredContentId}',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -753,7 +753,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/structured-contents/{structuredContentId}/my-rating',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/my-rating',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -775,7 +775,7 @@ export class StructuredContentService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/structured-contents/{structuredContentId}/my-rating',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/my-rating',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -799,7 +799,7 @@ export class StructuredContentService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/structured-contents/{structuredContentId}/my-rating',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/my-rating',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -821,7 +821,7 @@ export class StructuredContentService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/structured-contents/{structuredContentId}/my-rating',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/my-rating',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -848,7 +848,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/structured-contents/{structuredContentId}/permissions',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/permissions',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -873,7 +873,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/structured-contents/{structuredContentId}/permissions',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/permissions',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -900,7 +900,7 @@ export class StructuredContentService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/structured-contents/{structuredContentId}/rendered-content-by-display-page/{displayPageKey}',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/rendered-content-by-display-page/{displayPageKey}',
             path: {
                 'structuredContentId': structuredContentId,
                 'displayPageKey': displayPageKey,
@@ -932,7 +932,7 @@ export class StructuredContentService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/structured-contents/{structuredContentId}/rendered-content/{contentTemplateId}',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/rendered-content/{contentTemplateId}',
             path: {
                 'structuredContentId': structuredContentId,
                 'contentTemplateId': contentTemplateId,
@@ -955,7 +955,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/structured-contents/{structuredContentId}/subscribe',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/subscribe',
             path: {
                 'structuredContentId': structuredContentId,
             },
@@ -972,7 +972,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/structured-contents/{structuredContentId}/unsubscribe',
+            url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/unsubscribe',
             path: {
                 'structuredContentId': structuredContentId,
             },

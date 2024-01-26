@@ -25,7 +25,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<Array<MeasurementUnit>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/measurement-units',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units',
             query: {
                 'filter': filter,
                 'page': page,
@@ -53,7 +53,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<MeasurementUnit | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/measurement-units',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -76,7 +76,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/measurement-units/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -97,7 +97,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<MeasurementUnit> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/measurement-units/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -123,7 +123,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/measurement-units/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -149,7 +149,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/measurement-units/by-key/{key}',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/by-key/{key}',
             path: {
                 'key': key,
             },
@@ -170,7 +170,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<MeasurementUnit> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/measurement-units/by-key/{key}',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/by-key/{key}',
             path: {
                 'key': key,
             },
@@ -196,7 +196,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/measurement-units/by-key/{key}',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/by-key/{key}',
             path: {
                 'key': key,
             },
@@ -228,7 +228,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<Array<MeasurementUnit>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/measurement-units/by-type/{measurementUnitType}',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/by-type/{measurementUnitType}',
             path: {
                 'measurementUnitType': measurementUnitType,
             },
@@ -257,7 +257,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/measurement-units/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/{id}',
             path: {
                 'id': id,
             },
@@ -278,7 +278,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<MeasurementUnit> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/measurement-units/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/{id}',
             path: {
                 'id': id,
             },
@@ -304,7 +304,7 @@ export class MeasurementUnitService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/measurement-units/{id}',
+            url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/{id}',
             path: {
                 'id': id,
             },

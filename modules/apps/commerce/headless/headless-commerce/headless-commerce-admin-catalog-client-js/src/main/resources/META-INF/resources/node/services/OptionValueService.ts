@@ -19,7 +19,7 @@ export class OptionValueService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/optionValues/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/optionValues/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -40,7 +40,7 @@ export class OptionValueService {
     }): CancelablePromise<OptionValue> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/optionValues/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/optionValues/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -65,7 +65,7 @@ export class OptionValueService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/optionValues/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-catalog/v1.0/optionValues/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -91,7 +91,7 @@ export class OptionValueService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/optionValues/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/optionValues/{id}',
             path: {
                 'id': id,
             },
@@ -112,7 +112,7 @@ export class OptionValueService {
     }): CancelablePromise<OptionValue> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/optionValues/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/optionValues/{id}',
             path: {
                 'id': id,
             },
@@ -137,7 +137,7 @@ export class OptionValueService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/optionValues/{id}',
+            url: '/headless-commerce-admin-catalog/v1.0/optionValues/{id}',
             path: {
                 'id': id,
             },
@@ -171,7 +171,7 @@ export class OptionValueService {
     }): CancelablePromise<Array<OptionValue>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/options/by-externalReferenceCode/{externalReferenceCode}/optionValues',
+            url: '/headless-commerce-admin-catalog/v1.0/options/by-externalReferenceCode/{externalReferenceCode}/optionValues',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -203,7 +203,7 @@ export class OptionValueService {
     }): CancelablePromise<OptionValue | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/options/by-externalReferenceCode/{externalReferenceCode}/optionValues',
+            url: '/headless-commerce-admin-catalog/v1.0/options/by-externalReferenceCode/{externalReferenceCode}/optionValues',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -237,7 +237,7 @@ export class OptionValueService {
     }): CancelablePromise<Array<OptionValue>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/options/{id}/optionValues',
+            url: '/headless-commerce-admin-catalog/v1.0/options/{id}/optionValues',
             path: {
                 'id': id,
             },
@@ -269,7 +269,7 @@ export class OptionValueService {
     }): CancelablePromise<OptionValue | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/options/{id}/optionValues',
+            url: '/headless-commerce-admin-catalog/v1.0/options/{id}/optionValues',
             path: {
                 'id': id,
             },

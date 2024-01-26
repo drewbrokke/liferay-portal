@@ -21,7 +21,7 @@ export class TaxonomyVocabularyService {
     }): CancelablePromise<Array<TaxonomyVocabulary>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/taxonomy-vocabularies/common',
+            url: '/bulk/v1.0/sites/{siteId}/taxonomy-vocabularies/common',
             path: {
                 'siteId': siteId,
             },

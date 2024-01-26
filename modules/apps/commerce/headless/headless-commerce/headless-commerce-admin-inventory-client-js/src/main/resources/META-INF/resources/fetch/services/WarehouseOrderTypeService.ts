@@ -12,14 +12,14 @@ export class WarehouseOrderTypeService {
      * @returns void
      * @throws ApiError
      */
-    public deleteWarehouseOrderTypes({
+    public deleteHeadlessCommerceAdminInventoryV10WarehouseOrderTypes({
         warehouseOrderTypeId,
     }: {
         warehouseOrderTypeId: number,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/warehouse-order-types/{warehouseOrderTypeId}',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouse-order-types/{warehouseOrderTypeId}',
             path: {
                 'warehouseOrderTypeId': warehouseOrderTypeId,
             },
@@ -44,7 +44,7 @@ export class WarehouseOrderTypeService {
     }): CancelablePromise<Array<WarehouseOrderType>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouse-order-types',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouse-order-types',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class WarehouseOrderTypeService {
     }): CancelablePromise<WarehouseOrderType | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouse-order-types',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouse-order-types',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -110,7 +110,7 @@ export class WarehouseOrderTypeService {
     }): CancelablePromise<Array<WarehouseOrderType>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouses/{id}/warehouse-order-types',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/{id}/warehouse-order-types',
             path: {
                 'id': id,
             },
@@ -143,7 +143,7 @@ export class WarehouseOrderTypeService {
     }): CancelablePromise<WarehouseOrderType | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/warehouses/{id}/warehouse-order-types',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/{id}/warehouse-order-types',
             path: {
                 'id': id,
             },

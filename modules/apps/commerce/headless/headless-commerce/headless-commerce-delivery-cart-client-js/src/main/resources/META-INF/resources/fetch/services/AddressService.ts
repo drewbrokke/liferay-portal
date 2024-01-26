@@ -19,7 +19,7 @@ export class AddressService {
     }): CancelablePromise<Address> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/carts/{cartId}/billing-address',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/billing-address',
             path: {
                 'cartId': cartId,
             },
@@ -42,7 +42,7 @@ export class AddressService {
     }): CancelablePromise<Address> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/carts/{cartId}/shipping-address',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/shipping-address',
             path: {
                 'cartId': cartId,
             },

@@ -28,7 +28,7 @@ export class ObjectFieldService {
     }): CancelablePromise<Array<ObjectField>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-fields',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-fields',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -54,7 +54,7 @@ export class ObjectFieldService {
     }): CancelablePromise<ObjectField> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/by-external-reference-code/{externalReferenceCode}/object-fields',
+            url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-fields',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -83,7 +83,7 @@ export class ObjectFieldService {
     }): CancelablePromise<Array<ObjectField>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-definitions/{objectDefinitionId}/object-fields',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-fields',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -109,7 +109,7 @@ export class ObjectFieldService {
     }): CancelablePromise<ObjectField> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-definitions/{objectDefinitionId}/object-fields',
+            url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-fields',
             path: {
                 'objectDefinitionId': objectDefinitionId,
             },
@@ -128,7 +128,7 @@ export class ObjectFieldService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/object-fields/{objectFieldId}',
+            url: '/object-admin/v1.0/object-fields/{objectFieldId}',
             path: {
                 'objectFieldId': objectFieldId,
             },
@@ -145,7 +145,7 @@ export class ObjectFieldService {
     }): CancelablePromise<ObjectField> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-fields/{objectFieldId}',
+            url: '/object-admin/v1.0/object-fields/{objectFieldId}',
             path: {
                 'objectFieldId': objectFieldId,
             },
@@ -164,7 +164,7 @@ export class ObjectFieldService {
     }): CancelablePromise<ObjectField> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/object-fields/{objectFieldId}',
+            url: '/object-admin/v1.0/object-fields/{objectFieldId}',
             path: {
                 'objectFieldId': objectFieldId,
             },
@@ -185,7 +185,7 @@ export class ObjectFieldService {
     }): CancelablePromise<ObjectField> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-fields/{objectFieldId}',
+            url: '/object-admin/v1.0/object-fields/{objectFieldId}',
             path: {
                 'objectFieldId': objectFieldId,
             },

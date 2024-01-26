@@ -24,7 +24,7 @@ export class ObjectFolderService {
     }): CancelablePromise<Array<ObjectFolder>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-folders',
+            url: '/object-admin/v1.0/object-folders',
             headers: {
                 'Accept-Language': acceptLanguage,
             },
@@ -46,7 +46,7 @@ export class ObjectFolderService {
     }): CancelablePromise<ObjectFolder> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/object-folders',
+            url: '/object-admin/v1.0/object-folders',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -62,7 +62,7 @@ export class ObjectFolderService {
     }): CancelablePromise<ObjectFolder> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-folders/by-external-reference-code/{externalReferenceCode}',
+            url: '/object-admin/v1.0/object-folders/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -81,7 +81,7 @@ export class ObjectFolderService {
     }): CancelablePromise<ObjectFolder> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-folders/by-external-reference-code/{externalReferenceCode}',
+            url: '/object-admin/v1.0/object-folders/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -100,7 +100,7 @@ export class ObjectFolderService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/object-folders/{objectFolderId}',
+            url: '/object-admin/v1.0/object-folders/{objectFolderId}',
             path: {
                 'objectFolderId': objectFolderId,
             },
@@ -117,7 +117,7 @@ export class ObjectFolderService {
     }): CancelablePromise<ObjectFolder> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/object-folders/{objectFolderId}',
+            url: '/object-admin/v1.0/object-folders/{objectFolderId}',
             path: {
                 'objectFolderId': objectFolderId,
             },
@@ -136,7 +136,7 @@ export class ObjectFolderService {
     }): CancelablePromise<ObjectFolder> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/object-folders/{objectFolderId}',
+            url: '/object-admin/v1.0/object-folders/{objectFolderId}',
             path: {
                 'objectFolderId': objectFolderId,
             },
@@ -157,7 +157,7 @@ export class ObjectFolderService {
     }): CancelablePromise<ObjectFolder> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/object-folders/{objectFolderId}',
+            url: '/object-admin/v1.0/object-folders/{objectFolderId}',
             path: {
                 'objectFolderId': objectFolderId,
             },

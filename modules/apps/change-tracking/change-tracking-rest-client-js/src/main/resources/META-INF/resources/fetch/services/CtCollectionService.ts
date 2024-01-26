@@ -26,7 +26,7 @@ export class CtCollectionService {
     }): CancelablePromise<Array<CTCollection>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-collections',
+            url: '/change-tracking-rest/v1.0/ct-collections',
             query: {
                 'status': status,
                 'page': page,
@@ -47,7 +47,7 @@ export class CtCollectionService {
     }): CancelablePromise<CTCollection> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/ct-collections',
+            url: '/change-tracking-rest/v1.0/ct-collections',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -63,7 +63,7 @@ export class CtCollectionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/ct-collections/by-external-reference-code/{externalReferenceCode}',
+            url: '/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -80,7 +80,7 @@ export class CtCollectionService {
     }): CancelablePromise<CTCollection> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-collections/by-external-reference-code/{externalReferenceCode}',
+            url: '/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -99,7 +99,7 @@ export class CtCollectionService {
     }): CancelablePromise<CTCollection> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/ct-collections/by-external-reference-code/{externalReferenceCode}',
+            url: '/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -118,7 +118,7 @@ export class CtCollectionService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/ct-collections/by-external-reference-code/{externalReferenceCode}/publish',
+            url: '/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}/publish',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -137,7 +137,7 @@ export class CtCollectionService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/ct-collections/by-external-reference-code/{externalReferenceCode}/schedule-publish',
+            url: '/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}/schedule-publish',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -157,7 +157,7 @@ export class CtCollectionService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-collections/by-external-reference-code/{externalReferenceCode}/share-link',
+            url: '/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}/share-link',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -174,7 +174,7 @@ export class CtCollectionService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-collections/b{ctCollectionId}/share-link',
+            url: '/change-tracking-rest/v1.0/ct-collections/b{ctCollectionId}/share-link',
             path: {
                 'ctCollectionId': ctCollectionId,
             },
@@ -191,7 +191,7 @@ export class CtCollectionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/ct-collections/{ctCollectionId}',
+            url: '/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}',
             path: {
                 'ctCollectionId': ctCollectionId,
             },
@@ -208,7 +208,7 @@ export class CtCollectionService {
     }): CancelablePromise<CTCollection> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/ct-collections/{ctCollectionId}',
+            url: '/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}',
             path: {
                 'ctCollectionId': ctCollectionId,
             },
@@ -227,7 +227,7 @@ export class CtCollectionService {
     }): CancelablePromise<CTCollection> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/ct-collections/{ctCollectionId}',
+            url: '/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}',
             path: {
                 'ctCollectionId': ctCollectionId,
             },
@@ -248,7 +248,7 @@ export class CtCollectionService {
     }): CancelablePromise<CTCollection> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/ct-collections/{ctCollectionId}',
+            url: '/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}',
             path: {
                 'ctCollectionId': ctCollectionId,
             },
@@ -267,7 +267,7 @@ export class CtCollectionService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/ct-collections/{ctCollectionId}/checkout',
+            url: '/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/checkout',
             path: {
                 'ctCollectionId': ctCollectionId,
             },
@@ -284,7 +284,7 @@ export class CtCollectionService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/ct-collections/{ctCollectionId}/publish',
+            url: '/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/publish',
             path: {
                 'ctCollectionId': ctCollectionId,
             },
@@ -303,7 +303,7 @@ export class CtCollectionService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/ct-collections/{ctCollectionId}/schedule-publish',
+            url: '/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/schedule-publish',
             path: {
                 'ctCollectionId': ctCollectionId,
             },

@@ -20,7 +20,7 @@ export class DataDefinitionFieldLinkService {
     }): CancelablePromise<Array<DataDefinitionFieldLink>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/data-definitions/{dataDefinitionId}/data-definition-field-links',
+            url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-definition-field-links',
             path: {
                 'dataDefinitionId': dataDefinitionId,
             },

@@ -14,7 +14,7 @@ export class SearchableAssetNameService {
     public getSearchableAssetNamesPage(): CancelablePromise<Array<SearchableAssetName>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/searchable-asset-names',
+            url: '/search-experiences-rest/v1.0/searchable-asset-names',
         });
     }
 }

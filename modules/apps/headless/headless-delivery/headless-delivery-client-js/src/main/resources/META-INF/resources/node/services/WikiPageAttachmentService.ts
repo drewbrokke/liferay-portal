@@ -23,7 +23,7 @@ export class WikiPageAttachmentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/wiki-pages/by-external-reference-code/{wikiPageExternalReferenceCode}/wiki-page-attachments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/wiki-pages/by-external-reference-code/{wikiPageExternalReferenceCode}/wiki-page-attachments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'wikiPageExternalReferenceCode': wikiPageExternalReferenceCode,
@@ -51,7 +51,7 @@ export class WikiPageAttachmentService {
     }): CancelablePromise<WikiPageAttachment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/wiki-pages/by-external-reference-code/{wikiPageExternalReferenceCode}/wiki-page-attachments/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/wiki-pages/by-external-reference-code/{wikiPageExternalReferenceCode}/wiki-page-attachments/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'wikiPageExternalReferenceCode': wikiPageExternalReferenceCode,
@@ -75,7 +75,7 @@ export class WikiPageAttachmentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/wiki-page-attachments/{wikiPageAttachmentId}',
+            url: '/headless-delivery/v1.0/wiki-page-attachments/{wikiPageAttachmentId}',
             path: {
                 'wikiPageAttachmentId': wikiPageAttachmentId,
             },
@@ -99,7 +99,7 @@ export class WikiPageAttachmentService {
     }): CancelablePromise<WikiPageAttachment> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/wiki-page-attachments/{wikiPageAttachmentId}',
+            url: '/headless-delivery/v1.0/wiki-page-attachments/{wikiPageAttachmentId}',
             path: {
                 'wikiPageAttachmentId': wikiPageAttachmentId,
             },
@@ -128,7 +128,7 @@ export class WikiPageAttachmentService {
     }): CancelablePromise<Array<WikiPageAttachment>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/wiki-pages/{wikiPageId}/wiki-page-attachments',
+            url: '/headless-delivery/v1.0/wiki-pages/{wikiPageId}/wiki-page-attachments',
             path: {
                 'wikiPageId': wikiPageId,
             },
@@ -156,7 +156,7 @@ export class WikiPageAttachmentService {
     }): CancelablePromise<WikiPageAttachment> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/wiki-pages/{wikiPageId}/wiki-page-attachments',
+            url: '/headless-delivery/v1.0/wiki-pages/{wikiPageId}/wiki-page-attachments',
             path: {
                 'wikiPageId': wikiPageId,
             },

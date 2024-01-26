@@ -19,7 +19,7 @@ export class FormRecordService {
     }): CancelablePromise<FormRecord> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/form-records/{formRecordId}',
+            url: '/headless-form/v1.0/form-records/{formRecordId}',
             path: {
                 'formRecordId': formRecordId,
             },
@@ -41,7 +41,7 @@ export class FormRecordService {
     }): CancelablePromise<FormRecord> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/form-records/{formRecordId}',
+            url: '/headless-form/v1.0/form-records/{formRecordId}',
             path: {
                 'formRecordId': formRecordId,
             },
@@ -68,7 +68,7 @@ export class FormRecordService {
     }): CancelablePromise<Array<FormRecord>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/forms/{formId}/form-records',
+            url: '/headless-form/v1.0/forms/{formId}/form-records',
             path: {
                 'formId': formId,
             },
@@ -94,7 +94,7 @@ export class FormRecordService {
     }): CancelablePromise<FormRecord> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/forms/{formId}/form-records',
+            url: '/headless-form/v1.0/forms/{formId}/form-records',
             path: {
                 'formId': formId,
             },
@@ -117,7 +117,7 @@ export class FormRecordService {
     }): CancelablePromise<FormRecord> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/forms/{formId}/form-records/by-latest-draft',
+            url: '/headless-form/v1.0/forms/{formId}/form-records/by-latest-draft',
             path: {
                 'formId': formId,
             },

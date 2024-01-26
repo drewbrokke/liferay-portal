@@ -20,7 +20,7 @@ export class BlogPostingService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/blog-postings/{blogPostingId}',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -44,7 +44,7 @@ export class BlogPostingService {
     }): CancelablePromise<BlogPosting> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/blog-postings/{blogPostingId}',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -69,7 +69,7 @@ export class BlogPostingService {
     }): CancelablePromise<BlogPosting> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/blog-postings/{blogPostingId}',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -91,7 +91,7 @@ export class BlogPostingService {
     }): CancelablePromise<BlogPosting> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/blog-postings/{blogPostingId}',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -111,7 +111,7 @@ export class BlogPostingService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/blog-postings/{blogPostingId}/my-rating',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}/my-rating',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -133,7 +133,7 @@ export class BlogPostingService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/blog-postings/{blogPostingId}/my-rating',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}/my-rating',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -157,7 +157,7 @@ export class BlogPostingService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/blog-postings/{blogPostingId}/my-rating',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}/my-rating',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -179,7 +179,7 @@ export class BlogPostingService {
     }): CancelablePromise<Rating> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/blog-postings/{blogPostingId}/my-rating',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}/my-rating',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -206,7 +206,7 @@ export class BlogPostingService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/blog-postings/{blogPostingId}/permissions',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}/permissions',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -231,7 +231,7 @@ export class BlogPostingService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/blog-postings/{blogPostingId}/permissions',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}/permissions',
             path: {
                 'blogPostingId': blogPostingId,
             },
@@ -258,7 +258,7 @@ export class BlogPostingService {
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/blog-postings/{blogPostingId}/rendered-content-by-display-page/{displayPageKey}',
+            url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}/rendered-content-by-display-page/{displayPageKey}',
             path: {
                 'blogPostingId': blogPostingId,
                 'displayPageKey': displayPageKey,
@@ -300,7 +300,7 @@ export class BlogPostingService {
     }): CancelablePromise<Array<BlogPosting>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/blog-postings',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings',
             path: {
                 'siteId': siteId,
             },
@@ -331,7 +331,7 @@ export class BlogPostingService {
     }): CancelablePromise<BlogPosting> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/blog-postings',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings',
             path: {
                 'siteId': siteId,
             },
@@ -353,7 +353,7 @@ export class BlogPostingService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/sites/{siteId}/blog-postings/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -380,7 +380,7 @@ export class BlogPostingService {
     }): CancelablePromise<BlogPosting> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/blog-postings/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -408,7 +408,7 @@ export class BlogPostingService {
     }): CancelablePromise<BlogPosting> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/blog-postings/by-external-reference-code/{externalReferenceCode}',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings/by-external-reference-code/{externalReferenceCode}',
             path: {
                 'siteId': siteId,
                 'externalReferenceCode': externalReferenceCode,
@@ -436,7 +436,7 @@ export class BlogPostingService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/blog-postings/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -461,7 +461,7 @@ export class BlogPostingService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/blog-postings/permissions',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings/permissions',
             path: {
                 'siteId': siteId,
             },
@@ -479,7 +479,7 @@ export class BlogPostingService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/blog-postings/subscribe',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings/subscribe',
             path: {
                 'siteId': siteId,
             },
@@ -496,7 +496,7 @@ export class BlogPostingService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/sites/{siteId}/blog-postings/unsubscribe',
+            url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings/unsubscribe',
             path: {
                 'siteId': siteId,
             },

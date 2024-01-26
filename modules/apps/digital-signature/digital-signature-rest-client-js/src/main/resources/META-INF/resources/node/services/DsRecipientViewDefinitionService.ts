@@ -23,7 +23,7 @@ export class DsRecipientViewDefinitionService {
     }): CancelablePromise<DSEnvelopeSignatureURL> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/ds-recipient-view-definition/{dsEnvelopeId}',
+            url: '/digital-signature-rest/v1.0/sites/{siteId}/ds-recipient-view-definition/{dsEnvelopeId}',
             path: {
                 'siteId': siteId,
                 'dsEnvelopeId': dsEnvelopeId,

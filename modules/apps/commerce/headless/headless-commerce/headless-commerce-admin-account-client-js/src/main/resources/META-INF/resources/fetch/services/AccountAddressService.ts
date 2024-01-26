@@ -19,7 +19,7 @@ export class AccountAddressService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accountAddresses/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-account/v1.0/accountAddresses/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -40,7 +40,7 @@ export class AccountAddressService {
     }): CancelablePromise<AccountAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accountAddresses/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-account/v1.0/accountAddresses/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -66,7 +66,7 @@ export class AccountAddressService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/accountAddresses/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-account/v1.0/accountAddresses/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -92,7 +92,7 @@ export class AccountAddressService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/accountAddresses/{id}',
+            url: '/headless-commerce-admin-account/v1.0/accountAddresses/{id}',
             path: {
                 'id': id,
             },
@@ -106,14 +106,14 @@ export class AccountAddressService {
      * @returns AccountAddress Successful operation
      * @throws ApiError
      */
-    public getAccountAddresses({
+    public getHeadlessCommerceAdminAccountV10AccountAddresses({
         id,
     }: {
         id: number,
     }): CancelablePromise<AccountAddress> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accountAddresses/{id}',
+            url: '/headless-commerce-admin-account/v1.0/accountAddresses/{id}',
             path: {
                 'id': id,
             },
@@ -130,7 +130,7 @@ export class AccountAddressService {
      * @returns AccountAddress Successful operation
      * @throws ApiError
      */
-    public patchAccountAddresses({
+    public patchHeadlessCommerceAdminAccountV10AccountAddresses({
         id,
         requestBody,
     }: {
@@ -139,7 +139,7 @@ export class AccountAddressService {
     }): CancelablePromise<AccountAddress> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/accountAddresses/{id}',
+            url: '/headless-commerce-admin-account/v1.0/accountAddresses/{id}',
             path: {
                 'id': id,
             },
@@ -158,7 +158,7 @@ export class AccountAddressService {
      * @returns AccountAddress Successful operation
      * @throws ApiError
      */
-    public putAccountAddresses({
+    public putHeadlessCommerceAdminAccountV10AccountAddresses({
         id,
         requestBody,
     }: {
@@ -167,7 +167,7 @@ export class AccountAddressService {
     }): CancelablePromise<AccountAddress> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/accountAddresses/{id}',
+            url: '/headless-commerce-admin-account/v1.0/accountAddresses/{id}',
             path: {
                 'id': id,
             },
@@ -197,7 +197,7 @@ export class AccountAddressService {
     }): CancelablePromise<Array<AccountAddress>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountAddresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountAddresses',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -228,7 +228,7 @@ export class AccountAddressService {
     }): CancelablePromise<AccountAddress | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/by-externalReferenceCode/{externalReferenceCode}/accountAddresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountAddresses',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -258,7 +258,7 @@ export class AccountAddressService {
     }): CancelablePromise<Array<AccountAddress>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/accounts/{id}/accountAddresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountAddresses',
             path: {
                 'id': id,
             },
@@ -289,7 +289,7 @@ export class AccountAddressService {
     }): CancelablePromise<AccountAddress | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/accounts/{id}/accountAddresses',
+            url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountAddresses',
             path: {
                 'id': id,
             },

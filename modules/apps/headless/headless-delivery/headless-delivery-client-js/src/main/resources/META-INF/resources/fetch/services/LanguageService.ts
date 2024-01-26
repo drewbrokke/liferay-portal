@@ -23,7 +23,7 @@ export class LanguageService {
     }): CancelablePromise<Array<Language>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/asset-libraries/{assetLibraryId}/languages',
+            url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/languages',
             path: {
                 'assetLibraryId': assetLibraryId,
             },
@@ -49,7 +49,7 @@ export class LanguageService {
     }): CancelablePromise<Array<Language>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/languages',
+            url: '/headless-delivery/v1.0/sites/{siteId}/languages',
             path: {
                 'siteId': siteId,
             },

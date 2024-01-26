@@ -23,7 +23,7 @@ export class SegmentUserService {
     }): CancelablePromise<Array<SegmentUser>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/segments/{segmentId}/user-accounts',
+            url: '/headless-admin-user/v1.0/segments/{segmentId}/user-accounts',
             path: {
                 'segmentId': segmentId,
             },

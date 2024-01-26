@@ -31,7 +31,7 @@ export class UserNotificationService {
     }): CancelablePromise<Array<UserNotification>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/my-user-notifications',
+            url: '/headless-user-notification/v1.0/my-user-notifications',
             query: {
                 'fields': fields,
                 'restrictFields': restrictFields,
@@ -69,7 +69,7 @@ export class UserNotificationService {
     }): CancelablePromise<Array<UserNotification>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-accounts/{userAccountId}/user-notifications',
+            url: '/headless-user-notification/v1.0/user-accounts/{userAccountId}/user-notifications',
             path: {
                 'userAccountId': userAccountId,
             },
@@ -100,7 +100,7 @@ export class UserNotificationService {
     }): CancelablePromise<UserNotification> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/user-notifications/{userNotificationId}',
+            url: '/headless-user-notification/v1.0/user-notifications/{userNotificationId}',
             path: {
                 'userNotificationId': userNotificationId,
             },
@@ -126,7 +126,7 @@ export class UserNotificationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/user-notifications/{userNotificationId}/read',
+            url: '/headless-user-notification/v1.0/user-notifications/{userNotificationId}/read',
             path: {
                 'userNotificationId': userNotificationId,
             },
@@ -152,7 +152,7 @@ export class UserNotificationService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/user-notifications/{userNotificationId}/unread',
+            url: '/headless-user-notification/v1.0/user-notifications/{userNotificationId}/unread',
             path: {
                 'userNotificationId': userNotificationId,
             },

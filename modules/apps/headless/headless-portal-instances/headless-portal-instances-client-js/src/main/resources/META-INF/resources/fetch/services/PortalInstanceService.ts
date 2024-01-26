@@ -19,7 +19,7 @@ export class PortalInstanceService {
     }): CancelablePromise<Array<PortalInstance>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/portal-instances',
+            url: '/headless-portal-instances/v1.0/portal-instances',
             query: {
                 'skipDefault': skipDefault,
             },
@@ -37,7 +37,7 @@ export class PortalInstanceService {
     }): CancelablePromise<PortalInstance> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/portal-instances',
+            url: '/headless-portal-instances/v1.0/portal-instances',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -54,7 +54,7 @@ export class PortalInstanceService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/portal-instances/{portalInstanceId}',
+            url: '/headless-portal-instances/v1.0/portal-instances/{portalInstanceId}',
             path: {
                 'portalInstanceId': portalInstanceId,
             },
@@ -72,7 +72,7 @@ export class PortalInstanceService {
     }): CancelablePromise<PortalInstance> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/portal-instances/{portalInstanceId}',
+            url: '/headless-portal-instances/v1.0/portal-instances/{portalInstanceId}',
             path: {
                 'portalInstanceId': portalInstanceId,
             },
@@ -92,7 +92,7 @@ export class PortalInstanceService {
     }): CancelablePromise<PortalInstance> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/portal-instances/{portalInstanceId}',
+            url: '/headless-portal-instances/v1.0/portal-instances/{portalInstanceId}',
             path: {
                 'portalInstanceId': portalInstanceId,
             },
@@ -112,7 +112,7 @@ export class PortalInstanceService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/portal-instances/{portalInstanceId}/activate',
+            url: '/headless-portal-instances/v1.0/portal-instances/{portalInstanceId}/activate',
             path: {
                 'portalInstanceId': portalInstanceId,
             },
@@ -130,7 +130,7 @@ export class PortalInstanceService {
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/portal-instances/{portalInstanceId}/deactivate',
+            url: '/headless-portal-instances/v1.0/portal-instances/{portalInstanceId}/deactivate',
             path: {
                 'portalInstanceId': portalInstanceId,
             },

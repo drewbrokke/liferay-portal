@@ -19,7 +19,7 @@ export class WarehouseChannelService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/warehouse-channels/{warehouseChannelId}',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouse-channels/{warehouseChannelId}',
             path: {
                 'warehouseChannelId': warehouseChannelId,
             },
@@ -44,7 +44,7 @@ export class WarehouseChannelService {
     }): CancelablePromise<Array<WarehouseChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouse-channels',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouse-channels',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -74,7 +74,7 @@ export class WarehouseChannelService {
     }): CancelablePromise<WarehouseChannel | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouse-channels',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouse-channels',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -110,7 +110,7 @@ export class WarehouseChannelService {
     }): CancelablePromise<Array<WarehouseChannel>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouses/{id}/warehouse-channels',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/{id}/warehouse-channels',
             path: {
                 'id': id,
             },
@@ -143,7 +143,7 @@ export class WarehouseChannelService {
     }): CancelablePromise<WarehouseChannel | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/warehouses/{id}/warehouse-channels',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/{id}/warehouse-channels',
             path: {
                 'id': id,
             },

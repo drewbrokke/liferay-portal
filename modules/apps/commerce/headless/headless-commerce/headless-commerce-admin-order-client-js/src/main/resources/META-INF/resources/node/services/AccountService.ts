@@ -19,7 +19,7 @@ export class AccountService {
     }): CancelablePromise<Account> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/order-rule-accounts/{orderRuleAccountId}/account',
+            url: '/headless-commerce-admin-order/v1.0/order-rule-accounts/{orderRuleAccountId}/account',
             path: {
                 'orderRuleAccountId': orderRuleAccountId,
             },
@@ -43,7 +43,7 @@ export class AccountService {
     }): CancelablePromise<Account> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/by-externalReferenceCode/{externalReferenceCode}/account',
+            url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/account',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -67,7 +67,7 @@ export class AccountService {
     }): CancelablePromise<Account> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/orders/{id}/account',
+            url: '/headless-commerce-admin-order/v1.0/orders/{id}/account',
             path: {
                 'id': id,
             },

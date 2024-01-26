@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema } from '../models/paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema';
+import type { paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema } from '../models/paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class StructuredContentService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the site's structured contents latest version. Results can be paginated, filtered, searched, flattened, and sorted.
-     * @returns paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema
+     * @returns paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema
      * @throws ApiError
      */
     public getSiteStructuredContentsPage({
@@ -38,10 +38,10 @@ export class StructuredContentService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema>> {
+    }): CancelablePromise<Array<paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}/structured-contents',
+            url: '/headless-admin-content/v1.0/sites/{siteId}/structured-contents',
             path: {
                 'siteId': siteId,
             },
@@ -64,7 +64,7 @@ export class StructuredContentService {
     }
     /**
      * Creates a draft of a structured content
-     * @returns paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema
+     * @returns paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema
      * @throws ApiError
      */
     public postSiteStructuredContentDraft({
@@ -72,11 +72,11 @@ export class StructuredContentService {
         requestBody,
     }: {
         siteId: number,
-        requestBody?: paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema,
-    }): CancelablePromise<paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema> {
+        requestBody?: paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema,
+    }): CancelablePromise<paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/sites/{siteId}/structured-contents/draft',
+            url: '/headless-admin-content/v1.0/sites/{siteId}/structured-contents/draft',
             path: {
                 'siteId': siteId,
             },
@@ -98,7 +98,7 @@ export class StructuredContentService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/structured-contents/{structuredContentId}/by-version/{version}',
+            url: '/headless-admin-content/v1.0/structured-contents/{structuredContentId}/by-version/{version}',
             path: {
                 'structuredContentId': structuredContentId,
                 'version': version,
@@ -107,7 +107,7 @@ export class StructuredContentService {
     }
     /**
      * Retrieves a version of a structured content
-     * @returns paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema
+     * @returns paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema
      * @throws ApiError
      */
     public getStructuredContentByVersion({
@@ -122,10 +122,10 @@ export class StructuredContentService {
         fields?: string,
         nestedFields?: string,
         restrictFields?: string,
-    }): CancelablePromise<paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema> {
+    }): CancelablePromise<paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/structured-contents/{structuredContentId}/by-version/{version}',
+            url: '/headless-admin-content/v1.0/structured-contents/{structuredContentId}/by-version/{version}',
             path: {
                 'structuredContentId': structuredContentId,
                 'version': version,
@@ -139,7 +139,7 @@ export class StructuredContentService {
     }
     /**
      * Retrieves all versions of a structured content via its ID.
-     * @returns paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema
+     * @returns paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema
      * @throws ApiError
      */
     public getStructuredContentsVersionsPage({
@@ -154,10 +154,10 @@ export class StructuredContentService {
         nestedFields?: string,
         restrictFields?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<paths_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema>> {
+    }): CancelablePromise<Array<paths_1headless_admin_content_1v1_0_1sites_1_siteId_1structured_contents_1draft_post_requestBody_content_application_1xml_schema>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/structured-contents/{structuredContentId}/versions',
+            url: '/headless-admin-content/v1.0/structured-contents/{structuredContentId}/versions',
             path: {
                 'structuredContentId': structuredContentId,
             },

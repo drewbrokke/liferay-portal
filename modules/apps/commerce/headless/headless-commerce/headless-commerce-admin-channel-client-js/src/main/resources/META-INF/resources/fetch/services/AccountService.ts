@@ -19,7 +19,7 @@ export class AccountService {
     }): CancelablePromise<Account> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/channel-accounts/{channelAccountId}/account',
+            url: '/headless-commerce-admin-channel/v1.0/channel-accounts/{channelAccountId}/account',
             path: {
                 'channelAccountId': channelAccountId,
             },

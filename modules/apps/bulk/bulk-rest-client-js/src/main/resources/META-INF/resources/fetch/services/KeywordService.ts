@@ -13,14 +13,14 @@ export class KeywordService {
      * @returns void
      * @throws ApiError
      */
-    public patchKeywordsBatch({
+    public patchBulkV10KeywordsBatch({
         requestBody,
     }: {
         requestBody?: KeywordBulkSelection,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/keywords/batch',
+            url: '/bulk/v1.0/keywords/batch',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -29,14 +29,14 @@ export class KeywordService {
      * @returns void
      * @throws ApiError
      */
-    public putKeywordsBatch({
+    public putBulkV10KeywordsBatch({
         requestBody,
     }: {
         requestBody?: KeywordBulkSelection,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/keywords/batch',
+            url: '/bulk/v1.0/keywords/batch',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -52,7 +52,7 @@ export class KeywordService {
     }): CancelablePromise<Array<Keyword>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/keywords/common',
+            url: '/bulk/v1.0/keywords/common',
             body: requestBody,
             mediaType: 'application/json',
         });

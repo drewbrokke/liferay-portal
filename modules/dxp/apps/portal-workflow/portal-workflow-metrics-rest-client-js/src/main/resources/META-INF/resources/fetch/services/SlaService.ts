@@ -24,7 +24,7 @@ export class SlaService {
     }): CancelablePromise<Array<SLA>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/processes/{processId}/slas',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/slas',
             path: {
                 'processId': processId,
             },
@@ -48,7 +48,7 @@ export class SlaService {
     }): CancelablePromise<SLA> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/processes/{processId}/slas',
+            url: '/portal-workflow-metrics/v1.0/processes/{processId}/slas',
             path: {
                 'processId': processId,
             },
@@ -67,7 +67,7 @@ export class SlaService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/slas/{slaId}',
+            url: '/portal-workflow-metrics/v1.0/slas/{slaId}',
             path: {
                 'slaId': slaId,
             },
@@ -84,7 +84,7 @@ export class SlaService {
     }): CancelablePromise<SLA> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/slas/{slaId}',
+            url: '/portal-workflow-metrics/v1.0/slas/{slaId}',
             path: {
                 'slaId': slaId,
             },
@@ -103,7 +103,7 @@ export class SlaService {
     }): CancelablePromise<SLA> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/slas/{slaId}',
+            url: '/portal-workflow-metrics/v1.0/slas/{slaId}',
             path: {
                 'slaId': slaId,
             },

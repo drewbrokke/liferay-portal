@@ -19,7 +19,7 @@ export class ReplenishmentItemService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/replenishment-items/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-inventory/v1.0/replenishment-items/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -40,7 +40,7 @@ export class ReplenishmentItemService {
     }): CancelablePromise<ReplenishmentItem> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/replenishment-items/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-inventory/v1.0/replenishment-items/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -66,7 +66,7 @@ export class ReplenishmentItemService {
     }): CancelablePromise<ReplenishmentItem> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/replenishment-items/by-externalReferenceCode/{externalReferenceCode}',
+            url: '/headless-commerce-admin-inventory/v1.0/replenishment-items/by-externalReferenceCode/{externalReferenceCode}',
             path: {
                 'externalReferenceCode': externalReferenceCode,
             },
@@ -92,7 +92,7 @@ export class ReplenishmentItemService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/replenishment-items/{replenishmentItemId}',
+            url: '/headless-commerce-admin-inventory/v1.0/replenishment-items/{replenishmentItemId}',
             path: {
                 'replenishmentItemId': replenishmentItemId,
             },
@@ -113,7 +113,7 @@ export class ReplenishmentItemService {
     }): CancelablePromise<ReplenishmentItem> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/replenishment-items/{replenishmentItemId}',
+            url: '/headless-commerce-admin-inventory/v1.0/replenishment-items/{replenishmentItemId}',
             path: {
                 'replenishmentItemId': replenishmentItemId,
             },
@@ -139,7 +139,7 @@ export class ReplenishmentItemService {
     }): CancelablePromise<ReplenishmentItem> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/replenishment-items/{replenishmentItemId}',
+            url: '/headless-commerce-admin-inventory/v1.0/replenishment-items/{replenishmentItemId}',
             path: {
                 'replenishmentItemId': replenishmentItemId,
             },
@@ -169,7 +169,7 @@ export class ReplenishmentItemService {
     }): CancelablePromise<Array<ReplenishmentItem>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/skus/by-sku/{sku}/replenishment-items',
+            url: '/headless-commerce-admin-inventory/v1.0/skus/by-sku/{sku}/replenishment-items',
             path: {
                 'sku': sku,
             },
@@ -201,7 +201,7 @@ export class ReplenishmentItemService {
     }): CancelablePromise<Array<ReplenishmentItem>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/warehouses/{warehouseId}/replenishment-items',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/{warehouseId}/replenishment-items',
             path: {
                 'warehouseId': warehouseId,
             },
@@ -234,7 +234,7 @@ export class ReplenishmentItemService {
     }): CancelablePromise<ReplenishmentItem | any> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/warehouses/{warehouseId}/skus/by-sku/{sku}/replenishment-items',
+            url: '/headless-commerce-admin-inventory/v1.0/warehouses/{warehouseId}/skus/by-sku/{sku}/replenishment-items',
             path: {
                 'warehouseId': warehouseId,
                 'sku': sku,

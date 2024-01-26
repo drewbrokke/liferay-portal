@@ -20,7 +20,7 @@ export class SiteService {
     }): CancelablePromise<Array<Site>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/my-user-account/sites',
+            url: '/headless-admin-user/v1.0/my-user-account/sites',
             query: {
                 'page': page,
                 'pageSize': pageSize,
@@ -38,7 +38,7 @@ export class SiteService {
     }): CancelablePromise<Site> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/by-friendly-url-path/{friendlyUrlPath}',
+            url: '/headless-admin-user/v1.0/sites/by-friendly-url-path/{friendlyUrlPath}',
             path: {
                 'friendlyUrlPath': friendlyUrlPath,
             },
@@ -55,7 +55,7 @@ export class SiteService {
     }): CancelablePromise<Site> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/sites/{siteId}',
+            url: '/headless-admin-user/v1.0/sites/{siteId}',
             path: {
                 'siteId': siteId,
             },

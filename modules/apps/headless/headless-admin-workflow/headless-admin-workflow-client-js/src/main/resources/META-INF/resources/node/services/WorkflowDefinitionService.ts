@@ -24,7 +24,7 @@ export class WorkflowDefinitionService {
     }): CancelablePromise<Array<WorkflowDefinition>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-definitions',
+            url: '/headless-admin-workflow/v1.0/workflow-definitions',
             query: {
                 'active': active,
                 'page': page,
@@ -44,7 +44,7 @@ export class WorkflowDefinitionService {
     }): CancelablePromise<WorkflowDefinition> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-definitions',
+            url: '/headless-admin-workflow/v1.0/workflow-definitions',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -64,7 +64,7 @@ export class WorkflowDefinitionService {
     }): CancelablePromise<WorkflowDefinition> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-definitions/by-name/{name}',
+            url: '/headless-admin-workflow/v1.0/workflow-definitions/by-name/{name}',
             path: {
                 'name': name,
             },
@@ -85,7 +85,7 @@ export class WorkflowDefinitionService {
     }): CancelablePromise<WorkflowDefinition> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-definitions/deploy',
+            url: '/headless-admin-workflow/v1.0/workflow-definitions/deploy',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -101,7 +101,7 @@ export class WorkflowDefinitionService {
     }): CancelablePromise<WorkflowDefinition> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-definitions/save',
+            url: '/headless-admin-workflow/v1.0/workflow-definitions/save',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -119,7 +119,7 @@ export class WorkflowDefinitionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/workflow-definitions/undeploy',
+            url: '/headless-admin-workflow/v1.0/workflow-definitions/undeploy',
             query: {
                 'name': name,
                 'version': version,
@@ -141,7 +141,7 @@ export class WorkflowDefinitionService {
     }): CancelablePromise<WorkflowDefinition> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/workflow-definitions/update-active',
+            url: '/headless-admin-workflow/v1.0/workflow-definitions/update-active',
             query: {
                 'active': active,
                 'name': name,
@@ -160,7 +160,7 @@ export class WorkflowDefinitionService {
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/workflow-definitions/{workflowDefinitionId}',
+            url: '/headless-admin-workflow/v1.0/workflow-definitions/{workflowDefinitionId}',
             path: {
                 'workflowDefinitionId': workflowDefinitionId,
             },
@@ -177,7 +177,7 @@ export class WorkflowDefinitionService {
     }): CancelablePromise<WorkflowDefinition> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/workflow-definitions/{workflowDefinitionId}',
+            url: '/headless-admin-workflow/v1.0/workflow-definitions/{workflowDefinitionId}',
             path: {
                 'workflowDefinitionId': workflowDefinitionId,
             },
@@ -196,7 +196,7 @@ export class WorkflowDefinitionService {
     }): CancelablePromise<WorkflowDefinition> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/workflow-definitions/{workflowDefinitionId}',
+            url: '/headless-admin-workflow/v1.0/workflow-definitions/{workflowDefinitionId}',
             path: {
                 'workflowDefinitionId': workflowDefinitionId,
             },

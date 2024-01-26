@@ -19,7 +19,7 @@ export class PaymentMethodService {
     }): CancelablePromise<Array<PaymentMethod>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/carts/{cartId}/payment-methods',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/payment-methods',
             path: {
                 'cartId': cartId,
             },
