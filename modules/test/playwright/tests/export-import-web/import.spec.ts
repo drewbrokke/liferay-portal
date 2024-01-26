@@ -41,6 +41,7 @@ test('can import a folder with document type restrictions and workflow', async (
 	await authenticate(
 		HeadlessDeliveryClient
 	).documentFolder.deleteSiteDocumentsFolderByExternalReferenceCode({
+		// TODO: This can also be a string but the type only supports number
 		siteId: 'Guest' as any,
 		externalReferenceCode: 'LPS-205933',
 	});
