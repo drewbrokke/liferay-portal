@@ -10,12 +10,10 @@ import {applicationsMenuPageTest} from '../../fixtures/applicationsMenuPageTest'
 import {loginTest} from '../../fixtures/loginTest';
 import {pageEditorPagesTest} from '../../fixtures/pageEditorPages';
 import getRandomId from '../../utils/getRandomId';
-import {
-	HeadlessDeliveryV10SitePageService,
-	HeadlessSiteV10SiteService,
-} from '../../utils/headless';
 import getFragmentDefinition from './utils/getFragmentDefinition';
 import getPageDefinition from './utils/getPageDefinition';
+import {HeadlessSiteClient} from '../../../../apps/headless/headless-site/headless-site-client-js/src/main/resources/META-INF/resources/node';
+import {HeadlessDeliveryClient} from '../../../../apps/headless/headless-delivery/headless-delivery-client-js/src/main/resources/META-INF/resources/node';
 
 export const test = mergeTests(
 	apiHelpersTest,
@@ -60,14 +58,15 @@ test('shows correct sections on each configuration panel when viewport is not De
 	apiHelpers,
 	page,
 	pageEditorPage,
+	authenticate,
 }) => {
 	await apiHelpers.featureFlag.updateFeatureFlag('LPS-178052', true);
 	await page.goto('/');
 
 	// Create a site
 
-	const site = await HeadlessSiteV10SiteService.headlessSiteV10PostSite({
-		name: getRandomId(),
+	const site = await authenticate(HeadlessSiteClient).site.postSite({
+		requestBody: {name: getRandomId()},
 	});
 
 	// Create a page with a Heading fragment
@@ -79,14 +78,15 @@ test('shows correct sections on each configuration panel when viewport is not De
 		'BASIC_COMPONENT-heading'
 	);
 
-	const layout =
-		await HeadlessDeliveryV10SitePageService.headlessDeliveryV10PostSiteSitePage(
-			`${site.id}`,
-			{
-				pageDefinition: getPageDefinition([headingFragment]),
-				title: getRandomId(),
-			}
-		);
+	const layout = await authenticate(
+		HeadlessDeliveryClient
+	).sitePage.postSiteSitePage({
+		siteId: site.id,
+		requestBody: {
+			pageDefinition: getPageDefinition([headingFragment]),
+			title: getRandomId(),
+		},
+	});
 
 	// Go to edit mode of page
 
@@ -116,7 +116,7 @@ test('shows correct sections on each configuration panel when viewport is not De
 
 	// Delete the site
 
-	await HeadlessSiteV10SiteService.headlessSiteV10DeleteSite(`${site.id}`);
+	await authenticate(HeadlessSiteClient).site.deleteSite({siteId: site.id});
 
 	await apiHelpers.featureFlag.updateFeatureFlag('LPS-178052', false);
 });
