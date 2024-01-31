@@ -28,22 +28,24 @@ import groovy.lang.Closure;
 import groovy.lang.MissingPropertyException;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 
 import java.net.URL;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
@@ -57,6 +59,7 @@ import org.gradle.api.logging.Logger;
  * @author Andrea Di Giorgi
  * @author Simon Jiang
  * @author Gregory Amerson
+ * @author Drew Brokke
  */
 public class WorkspaceExtension {
 
@@ -73,6 +76,34 @@ public class WorkspaceExtension {
 		_projectConfigurators.add(new PluginsProjectConfigurator(settings));
 		_projectConfigurators.add(new ThemesProjectConfigurator(settings));
 		_projectConfigurators.add(new WarsProjectConfigurator(settings));
+
+		_productInfoMap = _getProductInfoMap(
+			Arrays.asList(
+				() -> _getProductInfoMap(_PRODUCT_INFO_URL),
+				() -> _getProductInfoMap(_CDN_PRODUCT_INFO_URL),
+				() -> {
+					String resourcePath = "/.product_info.json";
+
+					try (InputStream inputStream =
+							WorkspaceExtension.class.getResourceAsStream(
+								resourcePath)) {
+
+						Objects.requireNonNull(
+							inputStream,
+							String.format(
+								"No resource found at path %s", resourcePath));
+
+						return _getProductInfoMap(
+							new InputStreamReader(inputStream));
+					}
+					catch (Exception exception) {
+						System.out.printf(
+							"Could not get local resource: %s%n",
+							exception.getMessage());
+
+						return null;
+					}
+				}));
 
 		_appServerTomcatVersion = GradleUtil.getProperty(
 			settings, "app.server.tomcat.version",
@@ -573,83 +604,68 @@ public class WorkspaceExtension {
 		);
 	}
 
-	private ProductInfo _getProductInfo(Path downloadPath, String product)
-		throws Exception {
-
-		try (JsonReader jsonReader = new JsonReader(
-				Files.newBufferedReader(downloadPath))) {
-
-			Map<String, ProductInfo> productInfos = _getProductInfos(
-				jsonReader);
-
-			return productInfos.get(product);
-		}
-	}
-
 	private ProductInfo _getProductInfo(String product) {
 		if (product == null) {
 			return null;
 		}
 
-		return _productInfos.computeIfAbsent(
-			product,
-			key -> {
-				DownloadCommand downloadCommand = new DownloadCommand();
-
-				downloadCommand.setCacheDir(_workspaceCacheDir);
-				downloadCommand.setConnectionTimeout(5 * 1000);
-				downloadCommand.setPassword(null);
-				downloadCommand.setQuiet(true);
-				downloadCommand.setToken(false);
-				downloadCommand.setUserName(null);
-
-				try {
-					downloadCommand.setUrl(new URL(_PRODUCT_INFO_URL));
-
-					downloadCommand.execute();
-
-					return _getProductInfo(
-						downloadCommand.getDownloadPath(), product);
-				}
-				catch (Exception exception1) {
-					try {
-						downloadCommand.setUrl(new URL(_CDN_PRODUCT_INFO_URL));
-
-						downloadCommand.execute();
-
-						return _getProductInfo(
-							downloadCommand.getDownloadPath(), product);
-					}
-					catch (Exception exception2) {
-						try (InputStream inputStream =
-								WorkspaceExtension.class.getResourceAsStream(
-									"/.product_info.json");
-							JsonReader jsonReader = new JsonReader(
-								new InputStreamReader(inputStream))) {
-
-							Map<String, ProductInfo> productInfos =
-								_getProductInfos(jsonReader);
-
-							return productInfos.get(product);
-						}
-						catch (Exception exception3) {
-							throw new GradleException(
-								"Unable to get product info for :" + product,
-								exception3);
-						}
-					}
-				}
-			});
+		return _productInfoMap.get(product);
 	}
 
-	private Map<String, ProductInfo> _getProductInfos(JsonReader jsonReader) {
-		Gson gson = new Gson();
+	private Map<String, ProductInfo> _getProductInfoMap(
+			List<Supplier<Map<String, ProductInfo>>> suppliers)
+		throws GradleException {
 
-		TypeToken<Map<String, ProductInfo>> typeToken =
-			new TypeToken<Map<String, ProductInfo>>() {
-			};
+		for (Supplier<Map<String, ProductInfo>> supplier : suppliers) {
+			Map<String, ProductInfo> productInfoMap = supplier.get();
 
-		return gson.fromJson(jsonReader, typeToken.getType());
+			if (productInfoMap != null) {
+				return productInfoMap;
+			}
+		}
+
+		throw new GradleException("Could not get product info");
+	}
+
+	private Map<String, ProductInfo> _getProductInfoMap(Reader reader)
+		throws IOException {
+
+		try (JsonReader jsonReader = new JsonReader(reader)) {
+			Gson gson = new Gson();
+
+			TypeToken<Map<String, ProductInfo>> typeToken =
+				new TypeToken<Map<String, ProductInfo>>() {
+				};
+
+			return gson.fromJson(jsonReader, typeToken.getType());
+		}
+	}
+
+	private Map<String, ProductInfo> _getProductInfoMap(String url) {
+		DownloadCommand downloadCommand = new DownloadCommand();
+
+		downloadCommand.setCacheDir(_workspaceCacheDir);
+		downloadCommand.setConnectionTimeout(5 * 1000);
+		downloadCommand.setPassword(null);
+		downloadCommand.setQuiet(true);
+		downloadCommand.setToken(false);
+		downloadCommand.setUserName(null);
+
+		try {
+			downloadCommand.setUrl(new URL(url));
+
+			downloadCommand.execute();
+
+			return _getProductInfoMap(
+				Files.newBufferedReader(downloadCommand.getDownloadPath()));
+		}
+		catch (Exception exception) {
+			System.out.printf(
+				"Could not get resource from url %s: %s%n", url,
+				exception.getMessage());
+
+			return null;
+		}
 	}
 
 	private Object _getProperty(Object object, String keySuffix) {
@@ -748,7 +764,7 @@ public class WorkspaceExtension {
 	private Object _homeDir;
 	private Object _nodePackageManager;
 	private Object _product;
-	private final Map<String, ProductInfo> _productInfos = new HashMap<>();
+	private final Map<String, ProductInfo> _productInfoMap;
 	private final Set<ProjectConfigurator> _projectConfigurators =
 		new LinkedHashSet<>();
 	private final Plugin<Project> _rootProjectConfigurator;
