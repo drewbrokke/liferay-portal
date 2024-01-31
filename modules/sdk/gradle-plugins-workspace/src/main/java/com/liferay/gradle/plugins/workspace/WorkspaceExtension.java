@@ -5,10 +5,7 @@
 
 package com.liferay.gradle.plugins.workspace;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 
 import com.liferay.gradle.plugins.workspace.configurator.ClientExtensionProjectConfigurator;
 import com.liferay.gradle.plugins.workspace.configurator.ExtProjectConfigurator;
@@ -18,9 +15,9 @@ import com.liferay.gradle.plugins.workspace.configurator.RootProjectConfigurator
 import com.liferay.gradle.plugins.workspace.configurator.ThemesProjectConfigurator;
 import com.liferay.gradle.plugins.workspace.configurator.WarsProjectConfigurator;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
+import com.liferay.gradle.plugins.workspace.internal.util.ResourceUtil;
 import com.liferay.gradle.util.Validator;
 import com.liferay.petra.string.StringUtil;
-import com.liferay.portal.tools.bundle.support.commands.DownloadCommand;
 import com.liferay.portal.tools.bundle.support.constants.BundleSupportConstants;
 import com.liferay.workspace.bundle.url.codec.BundleURLCodec;
 
@@ -28,24 +25,14 @@ import groovy.lang.Closure;
 import groovy.lang.MissingPropertyException;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
-import java.net.URL;
-
-import java.nio.file.Files;
-
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
@@ -77,33 +64,12 @@ public class WorkspaceExtension {
 		_projectConfigurators.add(new ThemesProjectConfigurator(settings));
 		_projectConfigurators.add(new WarsProjectConfigurator(settings));
 
-		_productInfoMap = _getProductInfoMap(
-			Arrays.asList(
-				() -> _getProductInfoMap(_PRODUCT_INFO_URL),
-				() -> _getProductInfoMap(_CDN_PRODUCT_INFO_URL),
-				() -> {
-					String resourcePath = "/.product_info.json";
-
-					try (InputStream inputStream =
-							WorkspaceExtension.class.getResourceAsStream(
-								resourcePath)) {
-
-						Objects.requireNonNull(
-							inputStream,
-							String.format(
-								"No resource found at path %s", resourcePath));
-
-						return _getProductInfoMap(
-							new InputStreamReader(inputStream));
-					}
-					catch (Exception exception) {
-						System.out.printf(
-							"Could not get local resource: %s%n",
-							exception.getMessage());
-
-						return null;
-					}
-				}));
+		_productInfoMap = ResourceUtil.readJson(
+			ProductInfoMap.class,
+			ResourceUtil.getURLResolver(_workspaceCacheDir, _PRODUCT_INFO_URL),
+			ResourceUtil.getURLResolver(
+				_workspaceCacheDir, _CDN_PRODUCT_INFO_URL),
+			ResourceUtil.getClassLoaderResolver("/.product_info.json"));
 
 		_appServerTomcatVersion = GradleUtil.getProperty(
 			settings, "app.server.tomcat.version",
@@ -612,62 +578,6 @@ public class WorkspaceExtension {
 		return _productInfoMap.get(product);
 	}
 
-	private Map<String, ProductInfo> _getProductInfoMap(
-			List<Supplier<Map<String, ProductInfo>>> suppliers)
-		throws GradleException {
-
-		for (Supplier<Map<String, ProductInfo>> supplier : suppliers) {
-			Map<String, ProductInfo> productInfoMap = supplier.get();
-
-			if (productInfoMap != null) {
-				return productInfoMap;
-			}
-		}
-
-		throw new GradleException("Could not get product info");
-	}
-
-	private Map<String, ProductInfo> _getProductInfoMap(Reader reader)
-		throws IOException {
-
-		try (JsonReader jsonReader = new JsonReader(reader)) {
-			Gson gson = new Gson();
-
-			TypeToken<Map<String, ProductInfo>> typeToken =
-				new TypeToken<Map<String, ProductInfo>>() {
-				};
-
-			return gson.fromJson(jsonReader, typeToken.getType());
-		}
-	}
-
-	private Map<String, ProductInfo> _getProductInfoMap(String url) {
-		DownloadCommand downloadCommand = new DownloadCommand();
-
-		downloadCommand.setCacheDir(_workspaceCacheDir);
-		downloadCommand.setConnectionTimeout(5 * 1000);
-		downloadCommand.setPassword(null);
-		downloadCommand.setQuiet(true);
-		downloadCommand.setToken(false);
-		downloadCommand.setUserName(null);
-
-		try {
-			downloadCommand.setUrl(new URL(url));
-
-			downloadCommand.execute();
-
-			return _getProductInfoMap(
-				Files.newBufferedReader(downloadCommand.getDownloadPath()));
-		}
-		catch (Exception exception) {
-			System.out.printf(
-				"Could not get resource from url %s: %s%n", url,
-				exception.getMessage());
-
-			return null;
-		}
-	}
-
 	private Object _getProperty(Object object, String keySuffix) {
 		return GradleUtil.getProperty(
 			object, WorkspacePlugin.PROPERTY_PREFIX + keySuffix);
@@ -764,12 +674,15 @@ public class WorkspaceExtension {
 	private Object _homeDir;
 	private Object _nodePackageManager;
 	private Object _product;
-	private final Map<String, ProductInfo> _productInfoMap;
+	private final ProductInfoMap _productInfoMap;
 	private final Set<ProjectConfigurator> _projectConfigurators =
 		new LinkedHashSet<>();
 	private final Plugin<Project> _rootProjectConfigurator;
 	private Object _targetPlatformVersion;
 	private final File _workspaceCacheDir = new File(
 		System.getProperty("user.home"), _DEFAULT_WORKSPACE_CACHE_DIR_NAME);
+
+	private static class ProductInfoMap extends HashMap<String, ProductInfo> {
+	}
 
 }
