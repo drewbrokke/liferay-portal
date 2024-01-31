@@ -16,6 +16,7 @@ task copyRepo(type: Copy)
 task copyWorkspacesSamples
 task downloadBundle(type: Download)
 task downloadHotFixZip(type: Download)
+task downloadNodeInfo(type: Download)
 task downloadPluginsSdk(type: Download)
 task downloadProductInfo(type: Download)
 
@@ -198,6 +199,12 @@ downloadPluginsSdk {
 	src pluginsSdkUrl
 }
 
+downloadNodeInfo {
+	dest new File(buildDir, ".node_info.json")
+	onlyIfNewer true
+	src "https://nodejs.org/dist/index.json"
+}
+
 downloadProductInfo {
 	dest buildDir
 	onlyIfNewer true
@@ -252,7 +259,7 @@ liferayOSGi {
 }
 
 processResources {
-	from downloadProductInfo
+	from downloadNodeInfo, downloadProductInfo
 }
 
 updateFileVersions {
