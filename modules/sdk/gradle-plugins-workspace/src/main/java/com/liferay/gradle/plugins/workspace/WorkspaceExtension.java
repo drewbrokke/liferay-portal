@@ -32,6 +32,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.Set;
 
 import org.gradle.api.GradleException;
@@ -70,6 +71,30 @@ public class WorkspaceExtension {
 			ResourceUtil.getURLResolver(
 				_workspaceCacheDir, _CDN_PRODUCT_INFO_URL),
 			ResourceUtil.getClassLoaderResolver("/.product_info.json"));
+
+		String product = getProduct();
+
+		File productReleasePropertiesCacheDir = new File(_releasePropertiesCacheDir, getProduct());
+
+		Properties properties = ResourceUtil.readProperties(
+			ResourceUtil.getURLResolver(
+				productReleasePropertiesCacheDir,
+				String.format(
+					"https://releases.liferay.com/dxp/%s/release.properties",
+					product)),
+			ResourceUtil.getURLResolver(
+				productReleasePropertiesCacheDir,
+				String.format(
+					"https://releases-cdn.liferay.com/dxp/%s/release.properties",
+					product)));
+
+		for (Object key : properties.keySet()) {
+			System.out.println();
+			System.out.println("key = " + key);
+
+			String value = properties.getProperty((String) key);
+			System.out.println("value = " + value);
+		}
 
 		_appServerTomcatVersion = GradleUtil.getProperty(
 			settings, "app.server.tomcat.version",
@@ -681,6 +706,9 @@ public class WorkspaceExtension {
 	private Object _targetPlatformVersion;
 	private final File _workspaceCacheDir = new File(
 		System.getProperty("user.home"), _DEFAULT_WORKSPACE_CACHE_DIR_NAME);
+
+	private final File _releasePropertiesCacheDir = new File(
+		_workspaceCacheDir, "releaseProperties");
 
 	private static class ProductInfoMap extends HashMap<String, ProductInfo> {
 	}
