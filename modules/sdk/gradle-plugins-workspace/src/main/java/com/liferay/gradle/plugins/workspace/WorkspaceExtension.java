@@ -631,8 +631,14 @@ public class WorkspaceExtension {
 
 	private String _decodeBundleUrl(ProductInfo productInfo) {
 		try {
+			String bundleUrl = productInfo.getBundleUrl();
+
+			if (bundleUrl.endsWith(".7z")) {
+				return bundleUrl;
+			}
+
 			return BundleURLCodec.decode(
-				productInfo.getBundleUrl(), productInfo.getReleaseDate());
+				bundleUrl, productInfo.getReleaseDate());
 		}
 		catch (Exception exception) {
 			throw new GradleException(
