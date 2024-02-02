@@ -34,6 +34,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
@@ -50,6 +51,17 @@ import org.gradle.api.logging.Logger;
  * @author Drew Brokke
  */
 public class WorkspaceExtension {
+
+	private class Pair {
+
+		protected final String propKey;
+		protected final Consumer<String> setter;
+
+		private Pair(String propKey, Consumer<String> setter) {
+			this.propKey = propKey;
+			this.setter = setter;
+		}
+	}
 
 	@SuppressWarnings("serial")
 	public WorkspaceExtension(Settings settings) {
@@ -72,29 +84,64 @@ public class WorkspaceExtension {
 				_workspaceCacheDir, _CDN_PRODUCT_INFO_URL),
 			ResourceUtil.getClassLoaderResolver("/.product_info.json"));
 
-		String product = getProduct();
+		String[] products = {getProduct()};
 
-		File productReleasePropertiesCacheDir = new File(_releasePropertiesCacheDir, getProduct());
+		for (String product : products) {
+			File productReleasePropertiesCacheDir = new File(_releasePropertiesCacheDir, getProduct());
 
-		Properties properties = ResourceUtil.readProperties(
-			ResourceUtil.getURLResolver(
-				productReleasePropertiesCacheDir,
-				String.format(
-					"https://releases.liferay.com/dxp/%s/release.properties",
-					product)),
-			ResourceUtil.getURLResolver(
-				productReleasePropertiesCacheDir,
-				String.format(
-					"https://releases-cdn.liferay.com/dxp/%s/release.properties",
-					product)));
+			Properties properties = ResourceUtil.readProperties(
+				ResourceUtil.getLocalFileResolver(
+					new File(productReleasePropertiesCacheDir, "release.properties")),
+				ResourceUtil.getURLResolver(
+					productReleasePropertiesCacheDir,
+					String.format(
+						"https://releases.liferay.com/dxp/%s/release.properties",
+						product)),
+				ResourceUtil.getURLResolver(
+					productReleasePropertiesCacheDir,
+					String.format(
+						"https://releases-cdn.liferay.com/dxp/%s/release.properties",
+						product)));
 
-		for (Object key : properties.keySet()) {
-			System.out.println();
-			System.out.println("key = " + key);
+			for (Object key : properties.keySet()) {
+				System.out.println();
+				System.out.println("key = " + key);
 
-			String value = properties.getProperty((String) key);
-			System.out.println("value = " + value);
+				String value = properties.getProperty((String) key);
+				System.out.println("value = " + value);
+			}
+
+			ProductInfo productInfo = new ProductInfo();
+
+
+			for (Pair pair : new Pair[]{
+//			app.server.tomcat.version=9.0.83
+				new Pair("app.server.tomcat.version", productInfo::setAppServerTomcatVersion),
+//			bundle.checksum.sha512=483466fb2a44d6e01363640124fb37ba1cf8b7566056981ede4e2b11d4728d5bac849e54e5bca16e29dee224f53be161d107002965999e9502119afe5ff443e1
+				new Pair("bundle.checksum.sha512", productInfo::setBundleChecksumMD5),
+//			bundle.url=https://releases-cdn.liferay.com/dxp/2023.q4.3/liferay-dxp-tomcat-2023.q4.3-1706176353.7z
+				new Pair("bundle.url", productInfo::setBundleUrl),
+//			liferay.docker.image=liferay/dxp:2023.q4.3
+				new Pair("liferay.docker.image", productInfo::setLiferayDockerImage),
+//			release.date=2024-01-25
+				new Pair("release.date", productInfo::setLiferayProductVersion),
+//			liferay.product.version=DXP 2023.Q4.3
+				new Pair("liferay.product.version", productInfo::setReleaseDate),
+//			target.platform.version=2023.q4.3
+				new Pair("target.platform.version", productInfo::setTargetPlatformVersion)
+			}) {
+				pair.setter.accept(properties.getProperty(pair.propKey));
+			}
+
+			_productInfoMap.put(product, productInfo);
+
+			// Remaining unused properties
+//			build.timestamp=1706176353
+//			git.hash.liferay-docker=f1601aedc5d3967e0fbe4cbf7281582d8a44a5f7
+//			git.hash.liferay-portal-ee=658769cbe057f9f03732cdc3b4c6a02291414c91
+//			liferay.docker.tags=2023.q4.3
 		}
+
 
 		_appServerTomcatVersion = GradleUtil.getProperty(
 			settings, "app.server.tomcat.version",
@@ -529,6 +576,34 @@ public class WorkspaceExtension {
 
 		public String getTargetPlatformVersion() {
 			return _targetPlatformVersion;
+		}
+
+		public void setAppServerTomcatVersion(String appServerTomcatVersion) {
+			_appServerTomcatVersion = appServerTomcatVersion;
+		}
+
+		public void setBundleChecksumMD5(String bundleChecksumMD5) {
+			_bundleChecksumMD5 = bundleChecksumMD5;
+		}
+
+		public void setBundleUrl(String bundleUrl) {
+			_bundleUrl = bundleUrl;
+		}
+
+		public void setLiferayDockerImage(String liferayDockerImage) {
+			_liferayDockerImage = liferayDockerImage;
+		}
+
+		public void setLiferayProductVersion(String liferayProductVersion) {
+			_liferayProductVersion = liferayProductVersion;
+		}
+
+		public void setReleaseDate(String releaseDate) {
+			_releaseDate = releaseDate;
+		}
+
+		public void setTargetPlatformVersion(String targetPlatformVersion) {
+			_targetPlatformVersion = targetPlatformVersion;
 		}
 
 		@SerializedName("appServerTomcatVersion")
