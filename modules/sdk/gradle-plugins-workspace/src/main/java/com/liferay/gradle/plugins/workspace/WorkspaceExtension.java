@@ -103,14 +103,6 @@ public class WorkspaceExtension {
 						"https://releases-cdn.liferay.com/dxp/%s/release.properties",
 						product)));
 
-			for (Object key : properties.keySet()) {
-				System.out.println();
-				System.out.println("key = " + key);
-
-				String value = properties.getProperty((String) key);
-				System.out.println("value = " + value);
-			}
-
 			ProductInfo productInfo = new ProductInfo();
 
 
@@ -130,7 +122,9 @@ public class WorkspaceExtension {
 //			target.platform.version=2023.q4.3
 				new Pair("target.platform.version", productInfo::setTargetPlatformVersion)
 			}) {
-				pair.setter.accept(properties.getProperty(pair.propKey));
+				if (properties.containsKey(pair.propKey)) {
+					pair.setter.accept(properties.getProperty(pair.propKey));
+				}
 			}
 
 			_productInfoMap.put(product, productInfo);
