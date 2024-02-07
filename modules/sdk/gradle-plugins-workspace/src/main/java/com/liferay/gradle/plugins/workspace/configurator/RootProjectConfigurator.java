@@ -1035,13 +1035,18 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 			});
 
-		download.doFirst(
-			new Action<Task>() {
+		download.onlyIfNewer(true);
+		download.setDescription("Downloads the Liferay bundle zip file.");
+
+		project.afterEvaluate(
+			new Action<Project>() {
 
 				@Override
-				public void execute(Task task) {
+				public void execute(Project project) {
+					_configureDownloadTask(
+						project, download, workspaceExtension);
+
 					Logger logger = download.getLogger();
-					Project project = download.getProject();
 
 					for (Object src : _getSrcList(download)) {
 						File file = null;
@@ -1079,20 +1084,6 @@ public class RootProjectConfigurator implements Plugin<Project> {
 										" cannot be the same");
 						}
 					}
-				}
-
-			});
-
-		download.onlyIfNewer(true);
-		download.setDescription("Downloads the Liferay bundle zip file.");
-
-		project.afterEvaluate(
-			new Action<Project>() {
-
-				@Override
-				public void execute(Project project) {
-					_configureDownloadTask(
-						project, download, workspaceExtension);
 				}
 
 			});
