@@ -19,8 +19,6 @@ import com.liferay.gradle.plugins.workspace.configurator.ClientExtensionProjectC
 import com.liferay.gradle.plugins.workspace.internal.client.extension.ClientExtension;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
-import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -270,8 +268,8 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 				pluginPackageProperties.put(
 					"required-deployment-contexts",
-					com.liferay.petra.string.StringUtil.merge(
-						dependencies, StringPool.COMMA));
+					StringUtil.join(
+						StringUtil.COMMA, dependencies));
 			}
 		}
 		catch (IOException ioException) {
@@ -484,7 +482,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 	}
 
 	private boolean _isWildcardValue(String value) {
-		if (value.contains(StringPool.STAR)) {
+		if (value.contains(StringUtil.STAR)) {
 			return true;
 		}
 

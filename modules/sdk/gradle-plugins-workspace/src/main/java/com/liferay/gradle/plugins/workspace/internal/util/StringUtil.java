@@ -8,6 +8,10 @@ package com.liferay.gradle.plugins.workspace.internal.util;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -19,6 +23,42 @@ import java.util.stream.Stream;
  * @author Gregory Amerson
  */
 public class StringUtil {
+
+	public static final String NEW_LINE = "\n";
+	public static final String COMMA_AND_SPACE = ", ";
+
+	public static String join(String delimiter, Object[] objects) {
+		return join(delimiter, Arrays.stream(objects));
+	}
+	public static String join(String delimiter, Collection<?> objects) {
+		return join(delimiter, objects.stream());
+	}
+
+	public static String join(String delimiter, Stream<?> stream) {
+		return stream.map(String::valueOf).collect(Collectors.joining(delimiter));
+	}
+
+	public static final String BLANK = "";
+	public static final String COMMA = ",";
+	public static final String STAR = "*";
+
+	public static List<String> split(String s) {
+		return split(s, COMMA);
+	}
+
+	public static List<String> split(String s, String delimiter) {
+		if ((s == null) || s.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		s = s.trim();
+
+		if (s.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		return Arrays.asList(s.split(COMMA));
+	}
 
 	public static String capitalize(String s) {
 		if ((s == null) || s.isEmpty()) {

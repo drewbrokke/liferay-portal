@@ -9,10 +9,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
-import com.liferay.petra.string.StringUtil;
+import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -109,11 +106,11 @@ public class ClientExtension {
 				Object value = entry.getValue();
 
 				if (value instanceof List) {
-					value = StringUtil.merge(
-						(List<?>)value, StringPool.NEW_LINE);
+					value = StringUtil.join(
+						StringUtil.NEW_LINE, (List<?>)value);
 				}
 
-				return StringBundler.concat(entry.getKey(), "=", value);
+				return entry.getKey() + "=" + value;
 			}
 		).collect(
 			Collectors.toList()

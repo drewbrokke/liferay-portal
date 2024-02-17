@@ -30,8 +30,6 @@ import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
 import com.liferay.gradle.plugins.workspace.task.CreateClientExtensionConfigTask;
 import com.liferay.gradle.util.ArrayUtil;
 import com.liferay.gradle.util.Validator;
-import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
 
 import groovy.lang.Closure;
 
@@ -55,6 +53,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.gradle.api.Action;
 import org.gradle.api.GradleException;
@@ -758,7 +758,7 @@ public class ClientExtensionProjectConfigurator
 						public void execute(
 							Task validateClientExtensionIdsTask1) {
 
-							StringBundler sb = new StringBundler();
+							StringBuilder sb = new StringBuilder();
 
 							File rootDir = project.getRootDir();
 
@@ -785,10 +785,10 @@ public class ClientExtensionProjectConfigurator
 											rootDirPath.relativize(
 												projectDir.toPath()));
 
-										sb.append(StringPool.NEW_LINE);
+										sb.append(StringUtil.COMMA_AND_SPACE);
 									}
 
-									sb.append(StringPool.NEW_LINE);
+									sb.append(StringUtil.COMMA_AND_SPACE);
 								}
 							}
 
@@ -944,11 +944,10 @@ public class ClientExtensionProjectConfigurator
 
 						if (logger.isInfoEnabled()) {
 							logger.info(
-								StringBundler.concat(
-									"Injecting Liferay routes configuration ",
-									"paths as environment variables into the ",
-									"process invoked by the task ",
-									task.getPath()));
+								"Injecting Liferay routes configuration " +
+									"paths as environment variables into the " +
+										"process invoked by the task {}",
+								task.getPath());
 
 							for (Map.Entry<String, String> entry :
 									environmentVariables.entrySet()) {
@@ -1029,9 +1028,9 @@ public class ClientExtensionProjectConfigurator
 		}
 
 		throw new GradleException(
-			StringBundler.concat(
-				"Client extension ", id, " with type ", type,
-				" is of unkown classification"));
+			String.format(
+				"Client extension %s with type %s is of unknown classification",
+				id, type));
 	}
 
 	private Properties _getClientExtensionProperties() {
@@ -1077,7 +1076,7 @@ public class ClientExtensionProjectConfigurator
 		}
 		catch (IOException ioException) {
 			throw new GradleException(
-				StringBundler.concat("Unable to parse ", file.getName(), "."),
+				String.format("Unable to parse %s.", file.getName()),
 				ioException);
 		}
 	}
@@ -1220,8 +1219,7 @@ public class ClientExtensionProjectConfigurator
 					"property %s. Valid values are: %s.",
 				clientExtension.id, StringUtil.quote(typeSettingsValue),
 				StringUtil.quote(typeSettingsKey),
-				com.liferay.petra.string.StringUtil.merge(
-					validValues, StringPool.COMMA_AND_SPACE)));
+				StringUtil.join(StringUtil.COMMA_AND_SPACE, validValues)));
 	}
 
 	private static final String _CLIENT_EXTENSION_YAML =
