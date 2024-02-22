@@ -124,12 +124,12 @@ public class WorkspaceExtension {
 							"value managed by the liferay.workspace.product " +
 								"setting.";
 
-					ReleaseUtil.Release release = ReleaseUtil.getRelease(
-						product);
+					ReleaseUtil.ReleaseProperties releaseProperties =
+						ReleaseUtil.getReleaseProperties(product);
 
 					if (!Objects.equals(
 							getAppServerTomcatVersion(),
-							release.getAppServerTomcatVersion())) {
+							releaseProperties.getAppServerTomcatVersion())) {
 
 						logger.lifecycle(
 							String.format(
@@ -139,7 +139,7 @@ public class WorkspaceExtension {
 
 					if (!Objects.equals(
 							getBundleChecksumSHA512(),
-							release.getBundleChecksumSHA512())) {
+							releaseProperties.getBundleChecksumSHA512())) {
 
 						logger.lifecycle(
 							String.format(
@@ -148,7 +148,7 @@ public class WorkspaceExtension {
 					}
 
 					if (!Objects.equals(
-							getBundleUrl(), release.getBundleUrl())) {
+							getBundleUrl(), releaseProperties.getBundleUrl())) {
 
 						logger.lifecycle(
 							String.format(
@@ -158,7 +158,7 @@ public class WorkspaceExtension {
 
 					if (!Objects.equals(
 							getDockerImageLiferay(),
-							release.getLiferayDockerImage())) {
+							releaseProperties.getLiferayDockerImage())) {
 
 						logger.lifecycle(
 							String.format(
@@ -168,7 +168,7 @@ public class WorkspaceExtension {
 
 					if (!Objects.equals(
 							getTargetPlatformVersion(),
-							release.getTargetPlatformVersion())) {
+							releaseProperties.getTargetPlatformVersion())) {
 
 						logger.lifecycle(
 							String.format(
@@ -184,8 +184,9 @@ public class WorkspaceExtension {
 
 	public String getAppServerTomcatVersion() {
 		if (Objects.isNull(_appServerTomcatVersion)) {
-			return ReleaseUtil.getFromRelease(
-				getProduct(), ReleaseUtil.Release::getAppServerTomcatVersion);
+			return ReleaseUtil.getFromReleaseProperties(
+				getProduct(),
+				ReleaseUtil.ReleaseProperties::getAppServerTomcatVersion);
 		}
 
 		return GradleUtil.toString(_appServerTomcatVersion);
@@ -197,8 +198,9 @@ public class WorkspaceExtension {
 
 	public String getBundleChecksumSHA512() {
 		if (Objects.isNull(_bundleChecksumSHA512)) {
-			return ReleaseUtil.getFromRelease(
-				getProduct(), ReleaseUtil.Release::getBundleChecksumSHA512);
+			return ReleaseUtil.getFromReleaseProperties(
+				getProduct(),
+				ReleaseUtil.ReleaseProperties::getBundleChecksumSHA512);
 		}
 
 		return GradleUtil.toString(_bundleChecksumSHA512);
@@ -210,8 +212,8 @@ public class WorkspaceExtension {
 
 	public String getBundleUrl() {
 		if (Objects.isNull(_bundleUrl)) {
-			return ReleaseUtil.getFromRelease(
-				getProduct(), ReleaseUtil.Release::getBundleUrl);
+			return ReleaseUtil.getFromReleaseProperties(
+				getProduct(), ReleaseUtil.ReleaseProperties::getBundleUrl);
 		}
 
 		return GradleUtil.toString(_bundleUrl);
@@ -239,8 +241,9 @@ public class WorkspaceExtension {
 
 	public String getDockerImageLiferay() {
 		if (Objects.isNull(_dockerImageLiferay)) {
-			return ReleaseUtil.getFromRelease(
-				getProduct(), ReleaseUtil.Release::getLiferayDockerImage);
+			return ReleaseUtil.getFromReleaseProperties(
+				getProduct(),
+				ReleaseUtil.ReleaseProperties::getLiferayDockerImage);
 		}
 
 		return GradleUtil.toString(_dockerImageLiferay);
@@ -288,8 +291,9 @@ public class WorkspaceExtension {
 
 	public String getTargetPlatformVersion() {
 		if (Objects.isNull(_targetPlatformVersion)) {
-			return ReleaseUtil.getFromRelease(
-				getProduct(), ReleaseUtil.Release::getTargetPlatformVersion);
+			return ReleaseUtil.getFromReleaseProperties(
+				getProduct(),
+				ReleaseUtil.ReleaseProperties::getTargetPlatformVersion);
 		}
 
 		return GradleUtil.toString(_targetPlatformVersion);
