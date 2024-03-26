@@ -142,27 +142,11 @@ public class ProjectTemplatesSimulationPanelEntryTest
 
 		File mavenModulesDir = new File(mavenWorkspaceDir, "modules");
 
-		String newTemplate = "false";
-
-		if (_liferayVersion.startsWith("7.4")) {
-			String qualifiedVersion = _liferayVersion.substring(
-				_liferayVersion.lastIndexOf(".") + 1);
-
-			if (_liferayProduct.equals("dxp")) {
-				qualifiedVersion = qualifiedVersion.substring(1);
-			}
-
-			if (Integer.valueOf(qualifiedVersion) > 71) {
-				newTemplate = "true";
-			}
-		}
-
 		File mavenProjectDir = buildTemplateWithMaven(
 			mavenModulesDir, mavenModulesDir, template, name, "com.test",
 			mavenExecutor, "-DclassName=Simulator",
 			"-DliferayProduct=" + _liferayProduct,
-			"-DliferayVersion=" + _liferayVersion,
-			"-DnewTemplate=" + newTemplate, "-Dpackage=" + packageName);
+			"-DliferayVersion=" + _liferayVersion, "-Dpackage=" + packageName);
 
 		if (!_liferayVersion.startsWith("7.0")) {
 			testContains(
