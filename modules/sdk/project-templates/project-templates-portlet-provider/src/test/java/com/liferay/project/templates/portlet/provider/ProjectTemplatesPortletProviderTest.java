@@ -138,26 +138,10 @@ public class ProjectTemplatesPortletProviderTest
 
 		File mavenModulesDir = new File(mavenWorkspaceDir, "modules");
 
-		String newTemplate = "false";
-
-		if (_liferayVersion.startsWith("7.4")) {
-			String qualifiedVersion = _liferayVersion.substring(
-				_liferayVersion.lastIndexOf(".") + 1);
-
-			if (_liferayProduct.equals("dxp")) {
-				qualifiedVersion = qualifiedVersion.substring(1);
-			}
-
-			if (Integer.valueOf(qualifiedVersion) > 71) {
-				newTemplate = "true";
-			}
-		}
-
 		File mavenProjectDir = buildTemplateWithMaven(
 			mavenModulesDir, mavenModulesDir, template, name, "com.test",
 			mavenExecutor, "-DclassName=ProviderTest",
 			"-DliferayProduct=" + _liferayProduct,
-			"-DnewTemplate=" + newTemplate,
 			"-DliferayVersion=" + _liferayVersion, "-Dpackage=provider.test");
 
 		if (!_liferayVersion.startsWith("7.0")) {
