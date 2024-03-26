@@ -51,6 +51,7 @@ public class ProjectTemplatesRESTBuilderWorkspaceTest
 			new Object[][] {
 				{"guestbook", "com.liferay.docs.guestbook", "dxp", "7.1.10.7"},
 				{"guestbook", "com.liferay.docs.guestbook", "dxp", "7.2.10.7"},
+				{"guestbook", "com.liferay.docs.guestbook", "dxp", "2024.q1.1"},
 				{"guestbook", "com.liferay.docs.guestbook", "portal", "7.3.7"},
 				{
 					"guestbook", "com.liferay.docs.guestbook", "portal",
@@ -65,6 +66,10 @@ public class ProjectTemplatesRESTBuilderWorkspaceTest
 					"7.2.10.7"
 				},
 				{
+					"backend-integration", "com.liferay.docs.guestbook", "dxp",
+					"2024.q1.1"
+				},
+				{
 					"backend-integration", "com.liferay.docs.guestbook",
 					"portal", "7.3.7"
 				},
@@ -74,6 +79,7 @@ public class ProjectTemplatesRESTBuilderWorkspaceTest
 				},
 				{"sample", "com.test.sample", "dxp", "7.1.10.7"},
 				{"sample", "com.test.sample", "dxp", "7.2.10.7"},
+				{"sample", "com.test.sample", "dxp", "2024.q1.1"},
 				{"sample", "com.test.sample", "portal", "7.3.7"},
 				{"sample", "com.test.sample", "portal", "7.4.3.56"}
 			});
