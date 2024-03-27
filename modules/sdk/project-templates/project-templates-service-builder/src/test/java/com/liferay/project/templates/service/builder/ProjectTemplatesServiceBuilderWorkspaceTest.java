@@ -202,7 +202,7 @@ public class ProjectTemplatesServiceBuilderWorkspaceTest
 				"dependency-injector=\"ds\"");
 		}
 
-		if ((VersionUtil.getMajorVersion(_liferayVersion) == 7) &&
+		if (VersionUtil.isLiferayQuarterlyVersion(_liferayVersion) ||
 			(VersionUtil.getMinorVersion(_liferayVersion) < 3)) {
 			testContains(
 				gradleProjectDir, _name + "-api/build.gradle",
