@@ -62,9 +62,15 @@ public class ServiceBuilderProjectTemplateCustomizer
 
 		File serviceXMLFile = new File(serviceDir, "service.xml");
 
+		String liferayVersion = projectTemplatesArgs.getLiferayVersion();
+
 		String minorVersionString = String.valueOf(
 			VersionUtil.getMinorVersion(
-				projectTemplatesArgs.getLiferayVersion()));
+				liferayVersion));
+
+		if (VersionUtil.isLiferayQuarterlyVersion(liferayVersion)) {
+			minorVersionString = "4";
+		}
 
 		FileUtil.replaceString(
 			serviceXMLFile, "7.0", "7." + minorVersionString);

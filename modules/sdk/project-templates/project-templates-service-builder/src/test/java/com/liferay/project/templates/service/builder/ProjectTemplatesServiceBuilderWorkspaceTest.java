@@ -202,7 +202,8 @@ public class ProjectTemplatesServiceBuilderWorkspaceTest
 				"dependency-injector=\"ds\"");
 		}
 
-		if (VersionUtil.getMinorVersion(_liferayVersion) < 3) {
+		if ((VersionUtil.getMajorVersion(_liferayVersion) == 7) &&
+			(VersionUtil.getMinorVersion(_liferayVersion) < 3)) {
 			testContains(
 				gradleProjectDir, _name + "-api/build.gradle",
 				DEPENDENCY_RELEASE_DXP_API);
