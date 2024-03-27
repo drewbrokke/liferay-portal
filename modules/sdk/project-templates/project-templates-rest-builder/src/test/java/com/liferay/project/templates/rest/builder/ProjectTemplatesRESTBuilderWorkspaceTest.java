@@ -9,6 +9,7 @@ import com.liferay.maven.executor.MavenExecutor;
 import com.liferay.project.templates.BaseProjectTemplatesTestCase;
 import com.liferay.project.templates.extensions.util.FileUtil;
 import com.liferay.project.templates.extensions.util.Validator;
+import com.liferay.project.templates.extensions.util.VersionUtil;
 import com.liferay.project.templates.util.FileTestUtil;
 
 import java.io.File;
@@ -210,6 +211,14 @@ public class ProjectTemplatesRESTBuilderWorkspaceTest
 				gradleProjectDir, _name + "-impl/build.gradle",
 				"compileOnly group: \"javax.servlet\", name: " +
 					"\"javax.servlet-api\"");
+		}
+		else if (VersionUtil.isLiferayQuarterlyVersion(_liferayVersion)) {
+			testContains(
+				gradleProjectDir, _name + "-api/build.gradle",
+				DEPENDENCY_RELEASE_DXP_API);
+			testContains(
+				gradleProjectDir, _name + "-impl/build.gradle",
+				DEPENDENCY_RELEASE_DXP_API);
 		}
 		else {
 			testContains(
