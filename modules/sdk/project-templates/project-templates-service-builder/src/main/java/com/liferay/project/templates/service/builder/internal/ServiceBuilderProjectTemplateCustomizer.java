@@ -65,8 +65,7 @@ public class ServiceBuilderProjectTemplateCustomizer
 		String liferayVersion = projectTemplatesArgs.getLiferayVersion();
 
 		String minorVersionString = String.valueOf(
-			VersionUtil.getMinorVersion(
-				liferayVersion));
+			VersionUtil.getMinorVersion(liferayVersion));
 
 		if (VersionUtil.isLiferayQuarterlyVersion(liferayVersion)) {
 			minorVersionString = "4";

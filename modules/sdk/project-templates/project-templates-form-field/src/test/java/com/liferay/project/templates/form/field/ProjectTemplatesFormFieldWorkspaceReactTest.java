@@ -43,7 +43,8 @@ public class ProjectTemplatesFormFieldWorkspaceReactTest
 
 	@Parameterized.Parameters(name = "Testcase-{index}: testing {0}")
 	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {{"7.3.7"}, {"7.4.3.56"}, {"2024.q1.1"}});
+		return Arrays.asList(
+			new Object[][] {{"7.3.7"}, {"7.4.3.56"}, {"2024.q1.1"}});
 	}
 
 	@BeforeClass
@@ -116,8 +117,7 @@ public class ProjectTemplatesFormFieldWorkspaceReactTest
 
 		testContains(
 			gradleProjectDir, "package.json", "\"@babel/cli\": \"^7.2.3\"",
-			"\"@liferay/portal-" + jsLiferayApiVersion +
-			"\": \"*\"");
+			"\"@liferay/portal-" + jsLiferayApiVersion + "\": \"*\"");
 		testContains(
 			gradleProjectDir,
 			"src/main/java/foobar/form/field/FoobarDDMFormFieldType.java",

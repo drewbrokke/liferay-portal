@@ -204,6 +204,7 @@ public class ProjectTemplatesServiceBuilderWorkspaceTest
 
 		if (VersionUtil.isLiferayQuarterlyVersion(_liferayVersion) ||
 			(VersionUtil.getMinorVersion(_liferayVersion) < 3)) {
+
 			testContains(
 				gradleProjectDir, _name + "-api/build.gradle",
 				DEPENDENCY_RELEASE_DXP_API);

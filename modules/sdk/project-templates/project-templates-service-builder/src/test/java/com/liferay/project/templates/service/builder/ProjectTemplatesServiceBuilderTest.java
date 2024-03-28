@@ -121,7 +121,7 @@ public class ProjectTemplatesServiceBuilderTest
 			"liferay-service-builder_7_4_0.dtd");
 	}
 
-		@Test
+	@Test
 	public void testBuildTemplateContentDTDVersionServiceBuilderQuarterly()
 		throws Exception {
 
