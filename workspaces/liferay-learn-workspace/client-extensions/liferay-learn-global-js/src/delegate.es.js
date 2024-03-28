@@ -37,7 +37,7 @@ function delegate(element, eventName, selector, callback) {
 	const eventHandler = (event) => {
 		const {defaultPrevented, target} = event;
 
-		if (defaultPrevented || (eventName === 'click' && isDisabled(target))) {
+		if (defaultPrevented || (eventName == 'click' && isDisabled(target))) {
 			return;
 		}
 
