@@ -10,6 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.File;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import java.util.ArrayList;
@@ -154,6 +159,9 @@ public class ReleaseUtil {
 
 		File releasesJsonFile = new File(_workspaceCacheDir, "releases.json");
 
+		ResourceUtil.Resolver classLoaderResolver =
+			ResourceUtil.getClassLoaderResolver("/releases.json");
+
 		ReleaseEntryList releaseEntries = ResourceUtil.readJson(
 			ReleaseEntryList.class,
 			ResourceUtil.getLocalFileResolver(
@@ -165,10 +173,21 @@ public class ReleaseUtil {
 				_workspaceCacheDir,
 				"https://releases-cdn.liferay.com/releases.json"),
 			ResourceUtil.getLocalFileResolver(releasesJsonFile),
-			ResourceUtil.getClassLoaderResolver("/releases.json"));
+			classLoaderResolver);
 
 		if (releaseEntries == null) {
 			throw new GradleException("Unable to read releases.json");
+		}
+
+		if (releasesJsonFile.exists()) {
+			try (InputStream inputStream = classLoaderResolver.resolve()) {
+				Files.copy(
+					inputStream, releasesJsonFile.toPath());
+			}
+			catch (Exception exception) {
+				throw new GradleException(
+					"Could not write releases.json", exception);
+			}
 		}
 
 		for (ReleaseEntry releaseEntry : releaseEntries) {
