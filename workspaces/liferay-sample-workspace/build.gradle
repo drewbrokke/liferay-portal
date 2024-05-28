@@ -1,4 +1,54 @@
+import com.liferay.gradle.util.GradleUtil;
+import java.util.concurrent.Callable;
+
 apply plugin: "com.liferay.node"
+apply plugin: "com.liferay.base.plugin"
+apply plugin: "com.liferay.test.integration"
+
+File bundleHome = gradle.liferayWorkspace.homeDir
+
+File _tomcatDir = new File(bundleHome, "tomcat")
+
+
+println liferay
+
+
+File _binDir = new File(_tomcatDir, "bin")
+File _deployDir = new File(_tomcatDir, "webapps")
+File _portalDir = new File(_tomcatDir, "webapps/ROOT")
+File _shieldedContainerLibPortalDir = new File(_tomcatDir, "webapps/ROOT/WEB-INF/shielded-container-lib")
+File _libGlobalDir = new File(_tomcatDir, "lib/ext")
+
+
+String tomcatVersion = gradle.liferayWorkspace.appServerTomcatVersion
+
+String _zipUrl ="http://archive.apache.org/dist/tomcat/tomcat-9/v${tomcatVersion}/bin/apache-tomcat-${tomcatVersion}.zip"
+
+liferay.appServers.tomcat {
+	binDir = _binDir
+	deployDir = _deployDir
+	dir = _tomcatDir
+	libGlobalDir = _libGlobalDir
+	managerPassword = "tomcat"
+	managerUserName = "tomcat"
+	portalDir = _portalDir
+	shieldedContainerLibPortalDir = _shieldedContainerLibPortalDir
+	startExecutable = "catalina.sh"
+	startExecutableArgs = ["run"]
+	stopExecutable = "shutdown.sh"
+	version = tomcatVersion
+	zipUrl = _zipUrl
+}
+
+testIntegrationTomcat {
+	dir = _tomcatDir
+}
+setUpTestableTomcat {
+	zipUrl = _zipUrl
+}
+startTestableTomcat {
+	liferayHome = bundleHome
+}
 
 createDockerContainer {
 	hostConfig.network = "host"
@@ -6,4 +56,211 @@ createDockerContainer {
 
 node {
 	nodeVersion = "16.15.1"
+}
+
+// Check GETTING_STARTED.markdown for information regarding usage.
+
+if (!gradle.liferayWorkspace.homeDir.exists()) {
+	return
+}
+
+def windows = false
+
+def scriptFileName = "catalina.sh"
+if (windows) {
+	scriptFileName = "catalina.bat"
+}
+
+def scriptFile = fileTree(gradle.liferayWorkspace.homeDir) {
+	include "**/tomcat*/bin/${scriptFileName}"
+}.singleFile
+
+// println scriptFile
+
+def binDir = scriptFile.parentFile
+
+// println binDir
+
+def catalinaPidFile = new File(binDir, "catalina.pid")
+
+// println catalinaPidFile
+
+task serverLogs(type: Exec)
+task serverStart(type: Exec)
+task serverStatus(type: DefaultTask)
+task serverStop(type: Exec)
+
+task startPlaywrightTests(type: Exec)
+
+startPlaywrightTests {
+	dependsOn serverStart
+
+	workingDir 'playwright'
+	commandLine 'npm', 'run', 'testheaded'
+}
+
+serverStatus {
+	group "server"
+
+	doLast {
+		if (!catalinaPidFile.exists()) {
+			logger.info "Server is not running"
+
+			ext {
+				status = "stopped"
+			}
+
+			return
+		}
+
+		def pid = catalinaPidFile.text.trim()
+
+		// logger.lifecycle "Tomcat process file found at ${catalinaPidFile} with pid: ${pid}"
+
+		def stdout = new ByteArrayOutputStream()
+
+		exec {
+			commandLine 'jps', '-q'
+			standardOutput = stdout
+		}
+
+		def inputStream = new ByteArrayInputStream(stdout.toByteArray())
+
+		def inputStreamReader = new InputStreamReader(inputStream)
+
+		def bufferedReader = new BufferedReader(inputStreamReader)
+
+		def processFound = bufferedReader.lines()
+			.filter({ Objects.equals(pid, it) })
+			.findFirst()
+			.isPresent()
+
+		if (processFound) {
+			logger.info "Server is running"
+
+			ext {
+				status = "running"
+			}
+		}
+		else {
+			logger.info "Server is not running"
+
+			ext {
+				status = "stopped"
+			}
+		}
+	}
+}
+
+Callable<Boolean> isReachable = {
+	try {
+		println "Trying to reach server..."
+		URL url = new URL( "http://localhost:8080");
+
+		HttpURLConnection httpURLConnection =
+			(HttpURLConnection)url.openConnection();
+
+		httpURLConnection.setRequestMethod("HEAD");
+
+		int responseCode = httpURLConnection.getResponseCode();
+
+		if ((responseCode > 0) && (responseCode < 400)) {
+			println "Success!"
+			return true;
+		}
+	}
+	catch (IOException ioException) {
+	}
+
+	return false;
+}
+
+serverStart {
+	dependsOn serverStatus
+	group "server"
+
+	onlyIf {
+		if (!serverStatus.ext.status == "stopped") {
+			return false;
+		}
+
+		if (isReachable()) {
+			return false;
+		}
+
+		return true;
+	}
+
+	workingDir binDir
+
+	if (windows) {
+		commandLine 'cmd', '/c', '${scriptFileName}', 'start'
+	}
+	else {
+		commandLine "./${scriptFileName}", "start"
+	}
+
+	doLast {
+
+
+		GradleUtil.waitFor(isReachable, 1000, 120000);
+	}
+
+	environment CATALINA_PID: catalinaPidFile
+}
+
+serverStop {
+	dependsOn serverStatus
+	group "server"
+
+	onlyIf {
+		serverStatus.ext.status == "running"
+	}
+
+	workingDir binDir
+
+	if (windows) {
+		commandLine 'cmd', '/c', '${scriptFileName}', 'stop', 30
+	}
+	else {
+		commandLine "./${scriptFileName}", "stop", 30
+	}
+
+	environment CATALINA_PID: catalinaPidFile
+}
+
+
+def logFiles = fileTree(gradle.liferayWorkspace.homeDir) {
+	include "**/logs/liferay.*.log"
+}.files
+
+if (!logFiles.isEmpty()) {
+	serverLogs {
+		dependsOn serverStatus
+		group "server"
+
+		onlyIf {
+			if (!(serverStatus.ext.status == "running")) {
+				logger.warn "Start server with 'serverStart' task to view the logs"
+				return false
+			}
+
+			if (logFiles.isEmpty()) {
+				logger.warn "No log files available"
+
+				return false
+			}
+
+			return true
+		}
+
+		def logFile = logFiles.getAt(0)
+
+		if (windows) {
+			commandLine 'cmd', '/c', 'tail', '-f', logFile
+		}
+		else {
+			commandLine "tail", "-f", logFile
+		}
+	}
 }

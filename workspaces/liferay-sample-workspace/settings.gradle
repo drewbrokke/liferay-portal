@@ -1,7 +1,9 @@
 buildscript {
 	dependencies {
 		classpath group: "biz.aQute.bnd", name: "biz.aQute.bnd.gradle", version: "5.3.0"
-		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "10.1.2"
+		classpath(group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "10.1.2") {
+			// exclude group: "com.liferay", module: "com.liferay.gradle.plugins.poshi.runner"
+		}
 	}
 
 	repositories {
@@ -20,3 +22,7 @@ buildscript {
 apply plugin: "com.liferay.workspace"
 
 include "poshi"
+
+gradle.liferayWorkspace {
+	nodePackageManager = "npm"
+}

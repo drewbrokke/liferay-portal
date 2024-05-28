@@ -1,0 +1,4 @@
+packageRunBuild {
+	inputs.dir(file('assets'))
+	outputs.dir(new File(buildDir, 'static'))
+}
