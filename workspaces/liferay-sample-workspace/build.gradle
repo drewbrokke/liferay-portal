@@ -1,6 +1,11 @@
 import com.liferay.gradle.util.GradleUtil;
 import java.util.concurrent.Callable;
 
+def foo = true
+if (foo) {
+	return
+}
+
 apply plugin: "com.liferay.node"
 apply plugin: "com.liferay.base.plugin"
 apply plugin: "com.liferay.test.integration"
