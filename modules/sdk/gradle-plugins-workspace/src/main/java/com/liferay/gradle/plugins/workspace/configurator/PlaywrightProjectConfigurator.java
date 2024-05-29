@@ -97,8 +97,8 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 		TaskContainer taskContainer = project.getTasks();
 
-		Task startTestableTomcatTask = taskContainer.getByName(
-			TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
+		Task stopTestableTomcatTask = taskContainer.getByName(
+			TestIntegrationPlugin.STOP_TESTABLE_TOMCAT_TASK_NAME);
 
 		taskContainer.withType(
 			PackageRunTask.class,
@@ -109,7 +109,9 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 				if (packageRunTask.getName().startsWith("packageRunTest")) {
 					System.out.println("This one is a test");
 
-					packageRunTask.dependsOn(startTestableTomcatTask);
+					packageRunTask.dependsOn(TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
+
+					stopTestableTomcatTask.mustRunAfter(packageRunTask);
 				}
 			}
 		);
