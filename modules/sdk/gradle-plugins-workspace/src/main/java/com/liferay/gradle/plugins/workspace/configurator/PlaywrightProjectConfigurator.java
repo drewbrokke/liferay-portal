@@ -10,6 +10,7 @@ import com.liferay.gradle.plugins.workspace.LiferayWorkspaceNodePlugin;
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
 import com.liferay.gradle.util.GradleUtil;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
 import org.gradle.api.initialization.Settings;
 import org.gradle.api.tasks.TaskContainer;
 
@@ -89,7 +90,10 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 		// set up package run task
 
 		TaskContainer taskContainer = project.getTasks();
-		
+
+		Task startTestableTomcatTask = taskContainer.getByName(
+			TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
+
 		taskContainer.withType(
 			PackageRunTask.class,
 			packageRunTask -> {
@@ -98,6 +102,8 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 				if (packageRunTask.getName().startsWith("packageRunTest")) {
 					System.out.println("This one is a test");
+
+					packageRunTask.dependsOn(startTestableTomcatTask);
 				}
 			}
 		);
