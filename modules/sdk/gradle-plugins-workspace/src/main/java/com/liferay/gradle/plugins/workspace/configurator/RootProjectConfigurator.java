@@ -20,11 +20,15 @@ import com.bmuschko.gradle.docker.tasks.image.DockerTagImage;
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile;
 
 import com.liferay.gradle.plugins.LiferayBasePlugin;
+import com.liferay.gradle.plugins.extensions.AppServer;
+import com.liferay.gradle.plugins.extensions.LiferayExtension;
+import com.liferay.gradle.plugins.internal.TestIntegrationDefaultsPlugin;
 import com.liferay.gradle.plugins.node.NodeExtension;
 import com.liferay.gradle.plugins.node.task.NpmInstallTask;
 import com.liferay.gradle.plugins.source.formatter.FormatSourceTask;
 import com.liferay.gradle.plugins.source.formatter.SourceFormatterPlugin;
 import com.liferay.gradle.plugins.test.integration.TestIntegrationPlugin;
+import com.liferay.gradle.plugins.test.integration.TestIntegrationTomcatExtension;
 import com.liferay.gradle.plugins.test.integration.task.StartTestableTomcatTask;
 import com.liferay.gradle.plugins.workspace.LiferayWorkspaceYarnPlugin;
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
@@ -271,7 +275,40 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		_addTaskFormatSourceUpgrade(project);
 
+		_configureTestIntegration(project);
+	}
+
+	private void _configureTestIntegration(Project project) {
+		GradleUtil.applyPlugin(project, LiferayBasePlugin.class);
 		GradleUtil.applyPlugin(project, TestIntegrationPlugin.class);
+		TestIntegrationDefaultsPlugin.INSTANCE.apply(project);
+
+		LiferayExtension liferayExtension =
+			GradleUtil.getExtension(project, LiferayExtension.class);
+
+		AppServer appServer = liferayExtension.getAppServer();
+
+		TestIntegrationTomcatExtension testIntegrationTomcatExtension =
+			GradleUtil.getExtension(project,
+				TestIntegrationTomcatExtension.class);
+
+		WorkspaceExtension workspaceExtension =
+			GradleUtil.getExtension(
+				project.getGradle(), WorkspaceExtension.class);
+
+//		testIntegrationTomcatExtension.setDir(
+//			new Callable<File>() {
+//
+//				@Override
+//				public File call() throws Exception {
+////					return workspaceExtension.getHomeDir();
+//					return new File(
+//						workspaceExtension.getHomeDir(),
+//						"tomcat-" +
+//						workspaceExtension.getAppServerTomcatVersion());
+//				}
+//
+//			});
 	}
 
 	private void _configureServerTasks(Project project) {
