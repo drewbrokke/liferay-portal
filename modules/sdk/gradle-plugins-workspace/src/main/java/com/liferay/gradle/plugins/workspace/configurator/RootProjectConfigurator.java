@@ -303,19 +303,19 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		System.out.println("workspaceExtension = " + workspaceExtension);
 
-//		testIntegrationTomcatExtension.setDir(
-//			new Callable<File>() {
-//
-//				@Override
-//				public File call() throws Exception {
-////					return workspaceExtension.getHomeDir();
+		testIntegrationTomcatExtension.setDir(
+			new Callable<File>() {
+
+				@Override
+				public File call() throws Exception {
+					return new File(workspaceExtension.getHomeDir(), "tomcat");
 //					return new File(
 //						workspaceExtension.getHomeDir(),
 //						"tomcat-" +
 //						workspaceExtension.getAppServerTomcatVersion());
-//				}
-//
-//			});
+				}
+
+			});
 	}
 
 	private void _configureServerTasks(Project project) {
