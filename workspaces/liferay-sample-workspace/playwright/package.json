@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "testheadless": "npx playwright test",
-    "testheaded": "npx playwright test --headed"
+    "testheadless": "playwright test",
+    "test": "playwright test --headed"
   },
   "keywords": [],
   "author": "",
@@ -13,8 +13,5 @@
   "devDependencies": {
     "@playwright/test": "^1.44.0",
     "@types/node": "^20.12.12"
-  },
-  "dependencies": {
-    "execa": "^9.1.0"
   }
 }
