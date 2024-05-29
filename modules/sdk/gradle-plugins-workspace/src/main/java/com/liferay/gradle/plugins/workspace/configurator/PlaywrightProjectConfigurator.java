@@ -3,12 +3,11 @@ package com.liferay.gradle.plugins.workspace.configurator;
 import com.liferay.gradle.plugins.LiferayBasePlugin;
 import com.liferay.gradle.plugins.internal.TestIntegrationDefaultsPlugin;
 import com.liferay.gradle.plugins.node.task.PackageRunTask;
-import com.liferay.gradle.plugins.node.task.PackageRunTestTask;
 import com.liferay.gradle.plugins.test.integration.TestIntegrationPlugin;
 import com.liferay.gradle.plugins.test.integration.TestIntegrationTomcatExtension;
 import com.liferay.gradle.plugins.workspace.LiferayWorkspaceNodePlugin;
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
-import com.liferay.gradle.util.GradleUtil;
+import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.initialization.Settings;
@@ -67,6 +66,13 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 	@Override
 	public void apply(Project project) {
+		// TODO make this a method
+		boolean isDefaultRepositoryEnabled = true;
+
+		if (isDefaultRepositoryEnabled) {
+			GradleUtil.addDefaultRepositories(project);
+		}
+
 		GradleUtil.applyPlugin(project, LiferayBasePlugin.class);
 		GradleUtil.applyPlugin(project, TestIntegrationPlugin.class);
 
