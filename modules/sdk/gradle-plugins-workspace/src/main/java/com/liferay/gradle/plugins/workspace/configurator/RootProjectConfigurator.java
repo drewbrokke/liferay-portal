@@ -20,16 +20,10 @@ import com.bmuschko.gradle.docker.tasks.image.DockerTagImage;
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile;
 
 import com.liferay.gradle.plugins.LiferayBasePlugin;
-import com.liferay.gradle.plugins.extensions.AppServer;
-import com.liferay.gradle.plugins.extensions.LiferayExtension;
-import com.liferay.gradle.plugins.internal.TestIntegrationDefaultsPlugin;
 import com.liferay.gradle.plugins.node.NodeExtension;
 import com.liferay.gradle.plugins.node.task.NpmInstallTask;
 import com.liferay.gradle.plugins.source.formatter.FormatSourceTask;
 import com.liferay.gradle.plugins.source.formatter.SourceFormatterPlugin;
-import com.liferay.gradle.plugins.test.integration.TestIntegrationPlugin;
-import com.liferay.gradle.plugins.test.integration.TestIntegrationTomcatExtension;
-import com.liferay.gradle.plugins.test.integration.task.StartTestableTomcatTask;
 import com.liferay.gradle.plugins.workspace.LiferayWorkspaceYarnPlugin;
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
 import com.liferay.gradle.plugins.workspace.WorkspacePlugin;
@@ -274,72 +268,6 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			verifyProductTask);
 
 		_addTaskFormatSourceUpgrade(project);
-
-		_configureTestIntegration(project);
-	}
-
-	private void _configureTestIntegration(Project project) {
-		GradleUtil.applyPlugin(project, LiferayBasePlugin.class);
-		GradleUtil.applyPlugin(project, TestIntegrationPlugin.class);
-		TestIntegrationDefaultsPlugin.INSTANCE.apply(project);
-
-		LiferayExtension liferayExtension =
-			GradleUtil.getExtension(project, LiferayExtension.class);
-
-		AppServer appServer = liferayExtension.getAppServer();
-
-		System.out.println("appServer = " + appServer);
-
-		TestIntegrationTomcatExtension testIntegrationTomcatExtension =
-			GradleUtil.getExtension(project,
-				TestIntegrationTomcatExtension.class);
-
-		System.out.println("testIntegrationTomcatExtension = " +
-						   testIntegrationTomcatExtension);
-
-		WorkspaceExtension workspaceExtension =
-			GradleUtil.getExtension(
-				project.getGradle(), WorkspaceExtension.class);
-
-		System.out.println("workspaceExtension = " + workspaceExtension);
-
-		testIntegrationTomcatExtension.setDir(
-			new Callable<File>() {
-
-				@Override
-				public File call() throws Exception {
-					return new File(workspaceExtension.getHomeDir(), "tomcat");
-//					return new File(
-//						workspaceExtension.getHomeDir(),
-//						"tomcat-" +
-//						workspaceExtension.getAppServerTomcatVersion());
-				}
-
-			});
-	}
-
-	private void _configureServerTasks(Project project) {
-		TaskProvider<DefaultTask> serverStatus =
-			GradleUtil.addTaskProvider(project, "serverStatus", DefaultTask.class);
-		TaskProvider<Exec> serverStart =
-			GradleUtil.addTaskProvider(project, "serverStart", Exec.class);
-		TaskProvider<Exec> serverStop =
-			GradleUtil.addTaskProvider(project, "serverStop", Exec.class);
-
-
-	}
-
-	private void _configureServerStartTask(
-		Project project, TaskProvider<DefaultTask> serverStart) {
-
-		StartTestableTomcatTask t = null;
-
-		serverStart.configure(
-			defaultTask -> {
-				defaultTask.setGroup("server");
-
-			}
-		);
 	}
 
 	public boolean isDefaultRepositoryEnabled() {

@@ -1,8 +1,17 @@
 package com.liferay.gradle.plugins.workspace.configurator;
 
+import com.liferay.gradle.plugins.LiferayBasePlugin;
+import com.liferay.gradle.plugins.internal.TestIntegrationDefaultsPlugin;
+import com.liferay.gradle.plugins.node.task.PackageRunTask;
+import com.liferay.gradle.plugins.node.task.PackageRunTestTask;
+import com.liferay.gradle.plugins.test.integration.TestIntegrationPlugin;
+import com.liferay.gradle.plugins.test.integration.TestIntegrationTomcatExtension;
+import com.liferay.gradle.plugins.workspace.LiferayWorkspaceNodePlugin;
+import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
+import com.liferay.gradle.util.GradleUtil;
 import org.gradle.api.Project;
-import org.gradle.api.file.FileVisitor;
 import org.gradle.api.initialization.Settings;
+import org.gradle.api.tasks.TaskContainer;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 /**
  * @author Drew Brokke
@@ -56,6 +66,41 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 	@Override
 	public void apply(Project project) {
-		System.out.println("let's go! " + project.getPath());
+		GradleUtil.applyPlugin(project, LiferayBasePlugin.class);
+		GradleUtil.applyPlugin(project, TestIntegrationPlugin.class);
+
+		TestIntegrationDefaultsPlugin.INSTANCE.apply(project);
+
+		TestIntegrationTomcatExtension testIntegrationTomcatExtension =
+			GradleUtil.getExtension(
+				project,
+				TestIntegrationTomcatExtension.class);
+
+		WorkspaceExtension workspaceExtension =
+			GradleUtil.getExtension(
+				project.getGradle(), WorkspaceExtension.class);
+
+		testIntegrationTomcatExtension.setDir(
+			(Callable<File>) () -> new File(
+				workspaceExtension.getHomeDir(), "tomcat"));
+
+		LiferayWorkspaceNodePlugin.INSTANCE.apply(project);
+
+		// set up package run task
+
+		TaskContainer taskContainer = project.getTasks();
+		
+		taskContainer.withType(
+			PackageRunTask.class,
+			packageRunTask -> {
+				System.out.println(
+					"packageRunTask.getPath() = " + packageRunTask.getPath());
+
+				if (packageRunTask.getName().startsWith("packageRunTest")) {
+					System.out.println("This one is a test");
+				}
+			}
+		);
 	}
+
 }
