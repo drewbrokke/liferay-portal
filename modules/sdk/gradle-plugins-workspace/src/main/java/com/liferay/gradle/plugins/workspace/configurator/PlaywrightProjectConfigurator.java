@@ -41,15 +41,18 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 			new SimpleFileVisitor<Path>() {
 				@Override
 				public FileVisitResult preVisitDirectory(
-					Path dir, BasicFileAttributes attrs) throws IOException {
+						Path directoryPath, BasicFileAttributes attrs)
+					throws IOException {
 
-					if (Files.exists(dir.resolve("playwright.config.ts"))) {
-						projectDirs.add(dir.toFile());
+					if (Files.exists(
+						directoryPath.resolve("playwright.config.ts"))) {
+
+						projectDirs.add(directoryPath.toFile());
 
 						return FileVisitResult.SKIP_SUBTREE;
 					}
 
-					return super.preVisitDirectory(dir, attrs);
+					return super.preVisitDirectory(directoryPath, attrs);
 				}
 			}
 		);
