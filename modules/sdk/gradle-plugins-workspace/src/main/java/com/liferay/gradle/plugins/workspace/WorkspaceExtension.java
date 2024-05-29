@@ -8,6 +8,7 @@ package com.liferay.gradle.plugins.workspace;
 import com.liferay.gradle.plugins.workspace.configurator.ClientExtensionProjectConfigurator;
 import com.liferay.gradle.plugins.workspace.configurator.ExtProjectConfigurator;
 import com.liferay.gradle.plugins.workspace.configurator.ModulesProjectConfigurator;
+import com.liferay.gradle.plugins.workspace.configurator.PlaywrightProjectConfigurator;
 import com.liferay.gradle.plugins.workspace.configurator.PluginsProjectConfigurator;
 import com.liferay.gradle.plugins.workspace.configurator.RootProjectConfigurator;
 import com.liferay.gradle.plugins.workspace.configurator.ThemesProjectConfigurator;
@@ -54,6 +55,7 @@ public class WorkspaceExtension {
 		_projectConfigurators.add(new ExtProjectConfigurator(settings));
 		_projectConfigurators.add(new ModulesProjectConfigurator(settings));
 		_projectConfigurators.add(new PluginsProjectConfigurator(settings));
+		_projectConfigurators.add(new PlaywrightProjectConfigurator(settings));
 		_projectConfigurators.add(new ThemesProjectConfigurator(settings));
 		_projectConfigurators.add(new WarsProjectConfigurator(settings));
 
