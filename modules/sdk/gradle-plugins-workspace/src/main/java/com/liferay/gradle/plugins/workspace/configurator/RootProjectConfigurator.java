@@ -962,10 +962,19 @@ public class RootProjectConfigurator implements Plugin<Project> {
 				});
 		}
 
-		Task deployTask = GradleUtil.addTask(
-			project, LiferayBasePlugin.DEPLOY_TASK_NAME, Copy.class);
+		project.afterEvaluate(
+			project1 -> {
+				Task deployTask = GradleUtil.fetchTask(project,
+					LiferayBasePlugin.DEPLOY_TASK_NAME);
 
-		deployTask.finalizedBy(copy);
+				if (deployTask == null) {
+					deployTask = GradleUtil.addTask(
+						project, LiferayBasePlugin.DEPLOY_TASK_NAME, Copy.class);
+				}
+
+				deployTask.finalizedBy(copy);
+			}
+		);
 
 		return copy;
 	}
