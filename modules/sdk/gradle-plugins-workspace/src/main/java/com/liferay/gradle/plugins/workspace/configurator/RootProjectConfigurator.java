@@ -24,6 +24,8 @@ import com.liferay.gradle.plugins.node.NodeExtension;
 import com.liferay.gradle.plugins.node.task.NpmInstallTask;
 import com.liferay.gradle.plugins.source.formatter.FormatSourceTask;
 import com.liferay.gradle.plugins.source.formatter.SourceFormatterPlugin;
+import com.liferay.gradle.plugins.test.integration.TestIntegrationPlugin;
+import com.liferay.gradle.plugins.test.integration.task.StartTestableTomcatTask;
 import com.liferay.gradle.plugins.workspace.LiferayWorkspaceYarnPlugin;
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
 import com.liferay.gradle.plugins.workspace.WorkspacePlugin;
@@ -88,8 +90,10 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.provider.SetProperty;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Copy;
+import org.gradle.api.tasks.Exec;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskOutputs;
+import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.WorkResult;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
 import org.gradle.api.tasks.bundling.Compression;
@@ -266,6 +270,32 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			verifyProductTask);
 
 		_addTaskFormatSourceUpgrade(project);
+
+		GradleUtil.applyPlugin(project, TestIntegrationPlugin.class);
+	}
+
+	private void _configureServerTasks(Project project) {
+		TaskProvider<DefaultTask> serverStatus =
+			GradleUtil.addTaskProvider(project, "serverStatus", DefaultTask.class);
+		TaskProvider<Exec> serverStart =
+			GradleUtil.addTaskProvider(project, "serverStart", Exec.class);
+		TaskProvider<Exec> serverStop =
+			GradleUtil.addTaskProvider(project, "serverStop", Exec.class);
+
+
+	}
+
+	private void _configureServerStartTask(
+		Project project, TaskProvider<DefaultTask> serverStart) {
+
+		StartTestableTomcatTask t = null;
+
+		serverStart.configure(
+			defaultTask -> {
+				defaultTask.setGroup("server");
+
+			}
+		);
 	}
 
 	public boolean isDefaultRepositoryEnabled() {
