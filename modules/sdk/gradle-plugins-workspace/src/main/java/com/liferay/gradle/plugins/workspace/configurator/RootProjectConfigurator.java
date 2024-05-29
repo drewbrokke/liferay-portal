@@ -288,13 +288,20 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		AppServer appServer = liferayExtension.getAppServer();
 
+		System.out.println("appServer = " + appServer);
+
 		TestIntegrationTomcatExtension testIntegrationTomcatExtension =
 			GradleUtil.getExtension(project,
 				TestIntegrationTomcatExtension.class);
 
+		System.out.println("testIntegrationTomcatExtension = " +
+						   testIntegrationTomcatExtension);
+
 		WorkspaceExtension workspaceExtension =
 			GradleUtil.getExtension(
 				project.getGradle(), WorkspaceExtension.class);
+
+		System.out.println("workspaceExtension = " + workspaceExtension);
 
 //		testIntegrationTomcatExtension.setDir(
 //			new Callable<File>() {
