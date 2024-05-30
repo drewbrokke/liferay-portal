@@ -97,11 +97,11 @@ public class TestSetUpTask extends DefaultTask {
 		}
 	}
 
+	@Input
 	public Property<String> getExpectedLogOutput() {
 		return _expectedLogOutput;
 	}
 
-	@Input
 	private final Property<String> _expectedLogOutput;
 
 }
