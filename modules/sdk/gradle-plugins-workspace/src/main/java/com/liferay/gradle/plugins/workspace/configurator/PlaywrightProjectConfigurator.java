@@ -70,9 +70,6 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 		TaskContainer taskContainer = project.getTasks();
 
-		Task stopTestableTomcatTask = taskContainer.getByName(
-			TestIntegrationPlugin.STOP_TESTABLE_TOMCAT_TASK_NAME);
-
 		taskContainer.withType(
 			PackageRunTask.class,
 			packageRunTask -> {
@@ -87,7 +84,7 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 					packageRunTask.dependsOn(
 						TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
 
-					stopTestableTomcatTask.mustRunAfter(packageRunTask);
+					_configureSetUpTearDown(project, packageRunTask);
 				}
 			});
 	}
