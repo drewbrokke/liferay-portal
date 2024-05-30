@@ -8,20 +8,25 @@ import com.liferay.gradle.plugins.test.integration.TestIntegrationTomcatExtensio
 import com.liferay.gradle.plugins.workspace.LiferayWorkspaceNodePlugin;
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
-import org.gradle.api.Project;
-import org.gradle.api.Task;
-import org.gradle.api.initialization.Settings;
-import org.gradle.api.tasks.TaskContainer;
+import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
+
+import org.gradle.api.DefaultTask;
+import org.gradle.api.Project;
+import org.gradle.api.Task;
+import org.gradle.api.initialization.Settings;
+import org.gradle.api.tasks.TaskContainer;
 
 /**
  * @author Drew Brokke
@@ -33,43 +38,10 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 	}
 
 	@Override
-	protected Iterable<File> doGetProjectDirs(File rootDir) throws Exception {
-		ArrayList<File> projectDirs = new ArrayList<>();
-
-		Files.walkFileTree(
-			rootDir.toPath(),
-			new SimpleFileVisitor<Path>() {
-				@Override
-				public FileVisitResult preVisitDirectory(
-						Path directoryPath, BasicFileAttributes attrs)
-					throws IOException {
-
-					if (Files.exists(
-						directoryPath.resolve("playwright.config.ts"))) {
-
-						projectDirs.add(directoryPath.toFile());
-
-						return FileVisitResult.SKIP_SUBTREE;
-					}
-
-					return super.preVisitDirectory(directoryPath, attrs);
-				}
-			}
-		);
-
-		return projectDirs;
-	}
-
-	@Override
-	public String getName() {
-		return NAME;
-	}
-
-	protected static final String NAME = "playwright";
-
-	@Override
 	public void apply(Project project) {
+
 		// TODO make this a method
+
 		boolean isDefaultRepositoryEnabled = true;
 
 		if (isDefaultRepositoryEnabled) {
@@ -83,15 +55,13 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 		TestIntegrationTomcatExtension testIntegrationTomcatExtension =
 			GradleUtil.getExtension(
-				project,
-				TestIntegrationTomcatExtension.class);
+				project, TestIntegrationTomcatExtension.class);
 
-		WorkspaceExtension workspaceExtension =
-			GradleUtil.getExtension(
-				project.getGradle(), WorkspaceExtension.class);
+		WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
+			project.getGradle(), WorkspaceExtension.class);
 
 		testIntegrationTomcatExtension.setDir(
-			(Callable<File>) () -> new File(
+			(Callable<File>)() -> new File(
 				workspaceExtension.getHomeDir(), "tomcat"));
 
 		LiferayWorkspaceNodePlugin.INSTANCE.apply(project);
@@ -109,15 +79,91 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 				System.out.println(
 					"packageRunTask.getPath() = " + packageRunTask.getPath());
 
-				if (packageRunTask.getName().startsWith("packageRunTest")) {
+				String name = packageRunTask.getName();
+
+				if (name.startsWith("packageRunTest")) {
 					System.out.println("This one is a test");
 
-					packageRunTask.dependsOn(TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
+					packageRunTask.dependsOn(
+						TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
 
 					stopTestableTomcatTask.mustRunAfter(packageRunTask);
 				}
-			}
-		);
+			});
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
+	}
+
+	@Override
+	protected Iterable<File> doGetProjectDirs(File rootDir) throws Exception {
+		ArrayList<File> projectDirs = new ArrayList<>();
+
+		Files.walkFileTree(
+			rootDir.toPath(),
+			new SimpleFileVisitor<Path>() {
+
+				@Override
+				public FileVisitResult preVisitDirectory(
+						Path directoryPath, BasicFileAttributes attrs)
+					throws IOException {
+
+					if (Files.exists(
+							directoryPath.resolve("playwright.config.ts"))) {
+
+						projectDirs.add(directoryPath.toFile());
+
+						return FileVisitResult.SKIP_SUBTREE;
+					}
+
+					return super.preVisitDirectory(directoryPath, attrs);
+				}
+
+			});
+
+		return projectDirs;
+	}
+
+	protected static final String NAME = "playwright";
+
+	private void _configureSetUpTask(Project project, DefaultTask setUpTask) {
+		setUpTask.mustRunAfter(
+			TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
+	}
+
+	private void _configureSetUpTearDown(
+		Project project, PackageRunTask packageRunTask) {
+
+		String capitalizedTaskName = StringUtil.capitalize(
+			packageRunTask.getName());
+
+		String setUpTaskName = "setUp" + capitalizedTaskName;
+		String tearDownTaskName = "tearDown" + capitalizedTaskName;
+
+		DefaultTask setUpTask = GradleUtil.addTask(
+			project, setUpTaskName, TestSetUpTask.class);
+
+		packageRunTask.dependsOn(setUpTask);
+
+		_configureSetUpTask(project, setUpTask);
+
+		DefaultTask tearDownTask = GradleUtil.addTask(
+			project, tearDownTaskName, DefaultTask.class);
+
+		packageRunTask.finalizedBy(tearDownTask);
+
+		_configureTearDownTask(project, tearDownTask);
+
+		Task stopTestableTomcatTask = GradleUtil.getTask(
+			project, TestIntegrationPlugin.STOP_TESTABLE_TOMCAT_TASK_NAME);
+
+		stopTestableTomcatTask.mustRunAfter(tearDownTask);
+	}
+
+	private void _configureTearDownTask(
+		Project project, DefaultTask tearDownTask) {
 	}
 
 }

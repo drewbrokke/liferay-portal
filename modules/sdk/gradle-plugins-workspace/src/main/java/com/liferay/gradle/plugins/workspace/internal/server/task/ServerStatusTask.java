@@ -6,7 +6,4 @@ import org.gradle.api.DefaultTask;
  * @author Drew Brokke
  */
 public class ServerStatusTask extends DefaultTask {
-
-
-
 }

@@ -88,10 +88,8 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.provider.SetProperty;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Copy;
-import org.gradle.api.tasks.Exec;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskOutputs;
-import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.WorkResult;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
 import org.gradle.api.tasks.bundling.Compression;
@@ -892,17 +890,17 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		project.afterEvaluate(
 			project1 -> {
-				Task deployTask = GradleUtil.fetchTask(project,
-					LiferayBasePlugin.DEPLOY_TASK_NAME);
+				Task deployTask = GradleUtil.fetchTask(
+					project, LiferayBasePlugin.DEPLOY_TASK_NAME);
 
 				if (deployTask == null) {
 					deployTask = GradleUtil.addTask(
-						project, LiferayBasePlugin.DEPLOY_TASK_NAME, Copy.class);
+						project, LiferayBasePlugin.DEPLOY_TASK_NAME,
+						Copy.class);
 				}
 
 				deployTask.finalizedBy(copy);
-			}
-		);
+			});
 
 		return copy;
 	}
