@@ -12,6 +12,7 @@ import org.gradle.api.file.ConfigurableFileTree;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.TaskAction;
 
 /**
  * @author Drew Brokke
@@ -35,6 +36,7 @@ public class TestSetUpTask extends DefaultTask {
 			});
 	}
 
+	@TaskAction
 	public void checkLogs() throws Exception {
 		int max = 0;
 		File logFile = null;
