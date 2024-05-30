@@ -139,7 +139,7 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 		String setUpTaskName = "setUp" + capitalizedTaskName;
 		String tearDownTaskName = "tearDown" + capitalizedTaskName;
 
-		DefaultTask setUpTask = GradleUtil.addTask(
+		TestSetUpTask setUpTask = GradleUtil.addTask(
 			project, setUpTaskName, TestSetUpTask.class);
 
 		packageRunTask.dependsOn(setUpTask);
@@ -151,7 +151,7 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 		packageRunTask.finalizedBy(tearDownTask);
 
-		_configureTearDownTask(project, tearDownTask);
+		_configureTearDownTask(project, setUpTask, tearDownTask);
 
 		Task stopTestableTomcatTask = GradleUtil.getTask(
 			project, TestIntegrationPlugin.STOP_TESTABLE_TOMCAT_TASK_NAME);
@@ -160,7 +160,11 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 	}
 
 	private void _configureTearDownTask(
-		Project project, DefaultTask tearDownTask) {
+		Project project, TestSetUpTask setUpTask, DefaultTask tearDownTask) {
+
+		String cleanSetUpTaskName = "clean" + StringUtil.capitalize(setUpTask.getName());
+
+		tearDownTask.dependsOn(cleanSetUpTaskName);
 	}
 
 }
