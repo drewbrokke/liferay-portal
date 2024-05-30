@@ -5,14 +5,19 @@ import com.liferay.gradle.util.GradleUtil;
 
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.util.List;
+import java.util.Set;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.file.ConfigurableFileTree;
+import org.gradle.api.internal.TaskOutputsInternal;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
+import org.gradle.api.provider.SetProperty;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.TaskOutputs;
 
 /**
  * @author Drew Brokke
@@ -25,6 +30,7 @@ public class TestSetUpTask extends DefaultTask {
 		ObjectFactory objects = project.getObjects();
 
 		_expectedLogOutput = objects.property(String.class);
+		_outputGlobs = objects.setProperty(String.class);
 
 		onlyIf(
 			task -> {
@@ -34,6 +40,28 @@ public class TestSetUpTask extends DefaultTask {
 
 				return false;
 			});
+
+		project.afterEvaluate(
+			project1 -> {
+				if (!_outputGlobs.isPresent()) {
+					return;
+				}
+
+				TaskOutputs taskOutputs = getOutputs();
+
+				WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
+					project1.getGradle(), WorkspaceExtension.class);
+
+				taskOutputs.files(
+					project.fileTree(
+						workspaceExtension.getHomeDir(),
+						configurableFileTree -> {
+							Set<String> strings = _outputGlobs.get();
+
+							strings.forEach(configurableFileTree::include);
+						}));
+			}
+		);
 	}
 
 	@TaskAction
@@ -105,5 +133,12 @@ public class TestSetUpTask extends DefaultTask {
 	}
 
 	private final Property<String> _expectedLogOutput;
+
+	@Input
+	public SetProperty<String> getOutputGlobs() {
+		return _outputGlobs;
+	}
+
+	private final SetProperty<String> _outputGlobs;
 
 }
