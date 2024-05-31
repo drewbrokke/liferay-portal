@@ -128,8 +128,8 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 					setUpTask.getStartServer();
 
 				if (startServerProperty.getOrElse(false)) {
-					setUpTask.mustRunAfter(
-						TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
+//					setUpTask.mustRunAfter(
+//						TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
 				}
 			}
 		);
@@ -172,10 +172,10 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 					setUpTask.getStartServer();
 
 				if (startServerProperty.getOrElse(false)) {
-					Task stopTestableTomcatTask = GradleUtil.getTask(
-						project, TestIntegrationPlugin.STOP_TESTABLE_TOMCAT_TASK_NAME);
-
-					stopTestableTomcatTask.mustRunAfter(tearDownTask);
+//					Task stopTestableTomcatTask = GradleUtil.getTask(
+//						project, TestIntegrationPlugin.STOP_TESTABLE_TOMCAT_TASK_NAME);
+//
+//					stopTestableTomcatTask.mustRunAfter(tearDownTask);
 				}
 			}
 		);

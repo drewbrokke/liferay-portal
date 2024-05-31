@@ -46,33 +46,25 @@ public class TestSetUpTask extends DefaultTask {
 
 		project.afterEvaluate(
 			project1 -> {
-				TaskOutputs taskOutputs = getOutputs();
+				Task previousTask = null;
 
-				for (Object o : getDependsOn()) {
-					System.out.println("o = " + o);
-				}
-
-				if (_taskPaths.isPresent()) {
-					Set<String> objects1 = _taskPaths.get();
-
-					TaskContainer taskContainer = project1.getTasks();
-
-					Task previous = null;
-
-					for (String taskPath : objects1) {
-						Task task = taskContainer.getByPath(taskPath);
-
-						dependsOn(task);
-
-						if (previous != null) {
-							task.mustRunAfter(previous);
-						}
-
-						previous = task;
+				for (Object object : getDependsOn()) {
+					if (!(object instanceof Task)) {
+						continue;
 					}
+
+					Task task = (Task)object;
+
+					if (previousTask != null) {
+						task.mustRunAfter(previousTask);
+					}
+
+					previousTask = task;
 				}
 
 				if (_outputGlobs.isPresent()) {
+					TaskOutputs taskOutputs = getOutputs();
+
 					WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
 						project1.getGradle(), WorkspaceExtension.class);
 
