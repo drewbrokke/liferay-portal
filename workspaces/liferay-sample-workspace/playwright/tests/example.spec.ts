@@ -8,16 +8,16 @@ import {Locator, expect, test} from '@playwright/test';
 import {cleanCX, deployCX} from '../utils/deployHelpers.ts';
 import performLogin from '../utils/performLogin.ts';
 
-test.beforeAll(async () => {
-	await deployCX(
-		'client-extensions/liferay-sample-custom-element-1',
-		'STARTED liferaysamplecustomelement1'
-	);
-});
+// test.beforeAll(async () => {
+// 	await deployCX(
+// 		'client-extensions/liferay-sample-custom-element-1',
+// 		'STARTED liferaysamplecustomelement1'
+// 	);
+// });
 
-test.afterAll(async () => {
-	await cleanCX();
-});
+// test.afterAll(async () => {
+// 	await cleanCX();
+// });
 
 async function dragAndDrop(from: Locator, to: Locator, options: any = {}) {
 	await expect(from).toBeVisible();

@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "testheadless": "playwright test",
-    "test": "playwright test --headed"
+    "test-headless": "playwright test",
+    "test-just-a-couple": "playwright test **/foo.spec",
+    "test": "playwright test --headed",
+    "test-remote": "playwright test --headed"
   },
   "keywords": [],
   "author": "",

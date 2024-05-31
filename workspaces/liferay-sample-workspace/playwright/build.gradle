@@ -1,0 +1,25 @@
+import com.liferay.gradle.plugins.workspace.testing.task.ExecuteAndWaitForTask;
+import com.liferay.gradle.plugins.workspace.testing.task.WaitForLogOutputTask;
+
+task deployClientExtensions1(type: WaitForLogOutputTask) {
+    dependsOn ":client-extensions:liferay-sample-custom-element-1:deploy"
+    expectedLogOutput.set "STARTED liferaysamplecustomelement1"
+}
+task deployClientExtensions2(type: WaitForLogOutputTask) {
+    dependsOn ":client-extensions:liferay-sample-custom-element-2:deploy"
+    expectedLogOutput.set "STARTED liferaysamplecustomelement2"
+}
+task fooExecute(type: ExecuteAndWaitForTask) {
+
+}
+
+setUpPackageRunTest {
+    outputGlobs.add "**/liferay-sample-custom-element-1.zip"
+    outputGlobs.add "**/liferay-sample-custom-element-2.zip"
+
+    startServer.set true
+
+    taskPaths.add "deployClientExtensions1"
+    taskPaths.add "deployClientExtensions2"
+    taskPaths.add "fooExecute"
+}

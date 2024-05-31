@@ -22,17 +22,17 @@ const logFiles = fs
 	.readdirSync(logsDir)
 	.filter((f) => f.endsWith('.log'))
 	.map((f) => {
-		const {mtimeMs} = fs.statSync(path.join(logsDir, f));
-
 		return {
-			mtime: mtimeMs,
+			date: Number(f.split('.')[1].split('-').join('')),
 			name: f,
 		};
 	});
 
-logFiles.sort((a, b) => b.mtime - a.mtime);
+logFiles.sort((a, b) => b.date - a.date);
 
 const logFile = path.join(logsDir, logFiles[0].name);
+
+console.log(`LOG FILE: ${logFile}`)
 
 async function tailForOutput(filename, targetString): Promise<void> {
 	let {size: lastReadPosition} = await fsPromises.stat(filename);
