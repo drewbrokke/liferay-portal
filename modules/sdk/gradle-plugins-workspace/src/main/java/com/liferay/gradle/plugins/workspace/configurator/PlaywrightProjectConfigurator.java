@@ -77,9 +77,6 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 				String name = packageRunTask.getName();
 
 				if (name.startsWith("packageRunTest")) {
-					packageRunTask.dependsOn(
-						TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
-
 					_configureSetUpTearDown(project, packageRunTask);
 				}
 			});
