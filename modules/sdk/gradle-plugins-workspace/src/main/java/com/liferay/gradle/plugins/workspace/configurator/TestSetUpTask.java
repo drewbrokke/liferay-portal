@@ -33,7 +33,7 @@ public class TestSetUpTask extends DefaultTask {
 
 		_expectedLogOutput = objects.property(String.class);
 		_outputGlobs = objects.setProperty(String.class);
-		_taskPaths = objects.setProperty(String.class);
+		_taskPaths = objects.setProperty(Object.class);
 
 		onlyIf(
 			task -> {
@@ -46,20 +46,22 @@ public class TestSetUpTask extends DefaultTask {
 
 		project.afterEvaluate(
 			project1 -> {
-				Task previousTask = null;
+				if (_taskPaths.isPresent()) {
+					Task previousTask = null;
 
-				for (Object object : getDependsOn()) {
-					if (!(object instanceof Task)) {
-						continue;
+					for (Object object : _taskPaths.get()) {
+						Task task = _toTask(object, project1);
+
+						if (task == null) {
+							continue;
+						}
+
+						if (previousTask != null) {
+							task.mustRunAfter(previousTask);
+						}
+
+						previousTask = task;
 					}
-
-					Task task = (Task)object;
-
-					if (previousTask != null) {
-						task.mustRunAfter(previousTask);
-					}
-
-					previousTask = task;
 				}
 
 				if (_outputGlobs.isPresent()) {
@@ -81,6 +83,20 @@ public class TestSetUpTask extends DefaultTask {
 			}
 		);
 		_startServer = objects.property(Boolean.class);
+	}
+
+	private Task _toTask(Object object, Project project) {
+		if (object instanceof Task) {
+			return (Task)object;
+		}
+
+		if (object instanceof String) {
+			TaskContainer taskContainer = project.getTasks();
+
+			return taskContainer.findByPath((String)object);
+		}
+
+		return null;
 	}
 
 	@TaskAction
@@ -165,11 +181,11 @@ public class TestSetUpTask extends DefaultTask {
 	private final SetProperty<String> _outputGlobs;
 
 	@Input
-	public SetProperty<String> getTaskPaths() {
+	public SetProperty<Object> getTaskPaths() {
 		return _taskPaths;
 	}
 
-	private final SetProperty<String> _taskPaths;
+	private final SetProperty<Object> _taskPaths;
 
 	@Input
 	public Property<Boolean> getStartServer() {
