@@ -33,7 +33,7 @@ public class TestSetUpTask extends DefaultTask {
 
 		_expectedLogOutput = objects.property(String.class);
 		_outputGlobs = objects.setProperty(String.class);
-		_taskPaths = objects.setProperty(Object.class);
+		_taskPaths = objects.setProperty(String.class);
 
 		onlyIf(
 			task -> {
@@ -48,9 +48,10 @@ public class TestSetUpTask extends DefaultTask {
 			project1 -> {
 				if (_taskPaths.isPresent()) {
 					Task previousTask = null;
+					TaskContainer taskContainer = project.getTasks();
 
-					for (Object object : _taskPaths.get()) {
-						Task task = _toTask(object, project1);
+					for (String taskPath : _taskPaths.get()) {
+						Task task = taskContainer.findByPath(taskPath);
 
 						if (task == null) {
 							continue;
@@ -183,11 +184,11 @@ public class TestSetUpTask extends DefaultTask {
 	private final SetProperty<String> _outputGlobs;
 
 	@Input
-	public SetProperty<Object> getTaskPaths() {
+	public SetProperty<String> getTaskPaths() {
 		return _taskPaths;
 	}
 
-	private final SetProperty<Object> _taskPaths;
+	private final SetProperty<String> _taskPaths;
 
 	@Input
 	public Property<Boolean> getStartServer() {
