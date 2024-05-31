@@ -6,6 +6,7 @@ import com.liferay.gradle.plugins.node.task.PackageRunTask;
 import com.liferay.gradle.plugins.test.integration.TestIntegrationPlugin;
 import com.liferay.gradle.plugins.test.integration.TestIntegrationTomcatExtension;
 import com.liferay.gradle.plugins.workspace.LiferayWorkspaceNodePlugin;
+import com.liferay.gradle.plugins.workspace.LiferayWorkspaceServerPlugin;
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
@@ -22,9 +23,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
+import com.liferay.gradle.plugins.workspace.testing.task.TestSetUpTask;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
 import org.gradle.api.initialization.Settings;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.TaskContainer;
@@ -40,31 +41,7 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 	@Override
 	public void apply(Project project) {
-
-		// TODO make this a method
-
-		boolean isDefaultRepositoryEnabled = true;
-
-		if (isDefaultRepositoryEnabled) {
-			GradleUtil.addDefaultRepositories(project);
-		}
-
-		GradleUtil.applyPlugin(project, LiferayBasePlugin.class);
-		GradleUtil.applyPlugin(project, TestIntegrationPlugin.class);
-
-		TestIntegrationDefaultsPlugin.INSTANCE.apply(project);
-
-		TestIntegrationTomcatExtension testIntegrationTomcatExtension =
-			GradleUtil.getExtension(
-				project, TestIntegrationTomcatExtension.class);
-
-		WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
-			project.getGradle(), WorkspaceExtension.class);
-
-		testIntegrationTomcatExtension.setDir(
-			(Callable<File>)() -> new File(
-				workspaceExtension.getHomeDir(), "tomcat"));
-
+		GradleUtil.applyPlugin(project, LiferayWorkspaceServerPlugin.class);
 		LiferayWorkspaceNodePlugin.INSTANCE.apply(project);
 
 		// set up package run task
@@ -124,7 +101,7 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 				Property<Boolean> startServerProperty =
 					setUpTask.getStartServer();
 
-				if (startServerProperty.getOrElse(false)) {
+				if (startServerProperty.get()) {
 //					setUpTask.mustRunAfter(
 //						TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
 				}
@@ -168,7 +145,7 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 				Property<Boolean> startServerProperty =
 					setUpTask.getStartServer();
 
-				if (startServerProperty.getOrElse(false)) {
+				if (startServerProperty.get()) {
 //					Task stopTestableTomcatTask = GradleUtil.getTask(
 //						project, TestIntegrationPlugin.STOP_TESTABLE_TOMCAT_TASK_NAME);
 //

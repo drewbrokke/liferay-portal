@@ -9,5 +9,6 @@ Export-Package:\
 	com.liferay.gradle.plugins.soy.task,\
 	com.liferay.gradle.plugins.workspace,\
 	com.liferay.gradle.plugins.workspace.configurator,\
-	com.liferay.gradle.plugins.workspace.task
+	com.liferay.gradle.plugins.workspace.task,\
+	com.liferay.gradle.plugins.workspace.testing.task
 -donotcopy: (\.gradle)
