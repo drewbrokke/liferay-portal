@@ -29,6 +29,7 @@ import org.gradle.api.Project;
 import org.gradle.api.initialization.Settings;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.TaskContainer;
+import org.gradle.language.base.plugins.LifecycleBasePlugin;
 
 /**
  * @author Drew Brokke
@@ -41,6 +42,7 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 	@Override
 	public void apply(Project project) {
+		GradleUtil.applyPlugin(project, LifecycleBasePlugin.class);
 		GradleUtil.applyPlugin(project, LiferayWorkspaceServerPlugin.class);
 		LiferayWorkspaceNodePlugin.INSTANCE.apply(project);
 
