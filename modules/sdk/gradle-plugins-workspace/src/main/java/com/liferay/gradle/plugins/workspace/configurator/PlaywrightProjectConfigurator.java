@@ -23,11 +23,15 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
+import com.liferay.gradle.plugins.workspace.testing.task.ExecuteAndWaitForTask;
 import com.liferay.gradle.plugins.workspace.testing.task.TestSetUpTask;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
+import org.gradle.api.file.RegularFile;
 import org.gradle.api.initialization.Settings;
 import org.gradle.api.provider.Property;
+import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.language.base.plugins.LifecycleBasePlugin;
 
@@ -114,21 +118,17 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 	private void _configureSetUpTearDown(
 		Project project, PackageRunTask packageRunTask) {
 
-		String capitalizedTaskName = StringUtil.capitalize(
-			packageRunTask.getName());
-
-		String setUpTaskName = "setUp" + capitalizedTaskName;
-		String tearDownTaskName = "tearDown" + capitalizedTaskName;
-
 		TestSetUpTask setUpTask = GradleUtil.addTask(
-			project, setUpTaskName, TestSetUpTask.class);
+			project, _getPrependedTaskName("setUp", packageRunTask),
+			TestSetUpTask.class);
 
 		packageRunTask.dependsOn(setUpTask);
 
 		_configureSetUpTask(project, setUpTask);
 
 		DefaultTask tearDownTask = GradleUtil.addTask(
-			project, tearDownTaskName, DefaultTask.class);
+			project, _getPrependedTaskName("tearDown", packageRunTask),
+			DefaultTask.class);
 
 		packageRunTask.finalizedBy(tearDownTask);
 
@@ -138,7 +138,7 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 	private void _configureTearDownTask(
 		Project project, TestSetUpTask setUpTask, DefaultTask tearDownTask) {
 
-		String cleanSetUpTaskName = "clean" + StringUtil.capitalize(setUpTask.getName());
+		String cleanSetUpTaskName = _getPrependedTaskName("clean", setUpTask);
 
 		tearDownTask.dependsOn(cleanSetUpTaskName);
 
@@ -153,8 +153,49 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 //
 //					stopTestableTomcatTask.mustRunAfter(tearDownTask);
 				}
+
+				TaskContainer taskContainer = project1.getTasks();
+
+				taskContainer.withType(
+					ExecuteAndWaitForTask.class,
+					executeAndWaitTask -> {
+						String cleanTaskName =
+							_getPrependedTaskName("clean", executeAndWaitTask);
+
+						tearDownTask.dependsOn(cleanTaskName);
+
+						Task cleanTask = taskContainer.findByPath(cleanTaskName);
+
+						cleanTask.doFirst(cleanTask1 -> {
+							Provider<RegularFile> pidFileProvider =
+								executeAndWaitTask.getPidFile();
+
+							if (pidFileProvider.isPresent()) {
+								RegularFile regularFile = pidFileProvider.get();
+
+								File pidFile = regularFile.getAsFile();
+
+								System.out.println("Deleting pidFile = " + pidFile);
+
+								try {
+									String content = new String(
+										Files.readAllBytes(pidFile.toPath()));
+
+									System.out.println("content = " + content);
+								}
+								catch (IOException e) {
+									throw new RuntimeException(e);
+								}
+							}
+						});
+					}
+				);
 			}
 		);
+	}
+
+	private String _getPrependedTaskName(String prefix, Task task) {
+		return prefix + StringUtil.capitalize(task.getName());
 	}
 
 }
