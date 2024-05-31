@@ -56,6 +56,8 @@ public class TestSetUpTask extends DefaultTask {
 							continue;
 						}
 
+						dependsOn(task);
+
 						if (previousTask != null) {
 							task.mustRunAfter(previousTask);
 						}
