@@ -26,6 +26,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.initialization.Settings;
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.TaskContainer;
 
 /**
@@ -73,14 +74,9 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 		taskContainer.withType(
 			PackageRunTask.class,
 			packageRunTask -> {
-				System.out.println(
-					"packageRunTask.getPath() = " + packageRunTask.getPath());
-
 				String name = packageRunTask.getName();
 
 				if (name.startsWith("packageRunTest")) {
-					System.out.println("This one is a test");
-
 					packageRunTask.dependsOn(
 						TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
 
@@ -125,9 +121,18 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 	protected static final String NAME = "playwright";
 
-	private void _configureSetUpTask(Project project, DefaultTask setUpTask) {
-		setUpTask.mustRunAfter(
-			TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
+	private void _configureSetUpTask(Project project, TestSetUpTask setUpTask) {
+		project.afterEvaluate(
+			project1 -> {
+				Property<Boolean> startServerProperty =
+					setUpTask.getStartServer();
+
+				if (startServerProperty.getOrElse(false)) {
+					setUpTask.mustRunAfter(
+						TestIntegrationPlugin.START_TESTABLE_TOMCAT_TASK_NAME);
+				}
+			}
+		);
 	}
 
 	private void _configureSetUpTearDown(
@@ -152,11 +157,6 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 		packageRunTask.finalizedBy(tearDownTask);
 
 		_configureTearDownTask(project, setUpTask, tearDownTask);
-
-		Task stopTestableTomcatTask = GradleUtil.getTask(
-			project, TestIntegrationPlugin.STOP_TESTABLE_TOMCAT_TASK_NAME);
-
-		stopTestableTomcatTask.mustRunAfter(tearDownTask);
 	}
 
 	private void _configureTearDownTask(
@@ -165,6 +165,20 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 		String cleanSetUpTaskName = "clean" + StringUtil.capitalize(setUpTask.getName());
 
 		tearDownTask.dependsOn(cleanSetUpTaskName);
+
+		project.afterEvaluate(
+			project1 -> {
+				Property<Boolean> startServerProperty =
+					setUpTask.getStartServer();
+
+				if (startServerProperty.getOrElse(false)) {
+					Task stopTestableTomcatTask = GradleUtil.getTask(
+						project, TestIntegrationPlugin.STOP_TESTABLE_TOMCAT_TASK_NAME);
+
+					stopTestableTomcatTask.mustRunAfter(tearDownTask);
+				}
+			}
+		);
 	}
 
 }

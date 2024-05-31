@@ -1,7 +1,7 @@
 package com.liferay.gradle.plugins.workspace.configurator;
 
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
-import com.liferay.gradle.util.GradleUtil;
+import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 
 import java.io.File;
 import java.io.RandomAccessFile;
@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
 import org.gradle.api.file.ConfigurableFileTree;
 import org.gradle.api.internal.TaskOutputsInternal;
 import org.gradle.api.model.ObjectFactory;
@@ -17,6 +18,7 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.provider.SetProperty;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskOutputs;
 
 /**
@@ -31,6 +33,7 @@ public class TestSetUpTask extends DefaultTask {
 
 		_expectedLogOutput = objects.property(String.class);
 		_outputGlobs = objects.setProperty(String.class);
+		_taskPaths = objects.setProperty(String.class);
 
 		onlyIf(
 			task -> {
@@ -43,25 +46,47 @@ public class TestSetUpTask extends DefaultTask {
 
 		project.afterEvaluate(
 			project1 -> {
-				if (!_outputGlobs.isPresent()) {
-					return;
-				}
-
 				TaskOutputs taskOutputs = getOutputs();
 
-				WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
-					project1.getGradle(), WorkspaceExtension.class);
+				if (_taskPaths.isPresent()) {
+					Set<String> objects1 = _taskPaths.get();
 
-				taskOutputs.files(
-					project.fileTree(
-						workspaceExtension.getHomeDir(),
-						configurableFileTree -> {
-							Set<String> strings = _outputGlobs.get();
+					TaskContainer taskContainer = project1.getTasks();
 
-							strings.forEach(configurableFileTree::include);
-						}));
+					Task previous = null;
+
+					for (String taskPath : objects1) {
+						Task task = taskContainer.getByPath(taskPath);
+
+						dependsOn(task);
+
+						taskOutputs.files(task);
+
+						if (previous != null) {
+							task.mustRunAfter(previous);
+						}
+
+						previous = task;
+					}
+				}
+
+				if (_outputGlobs.isPresent()) {
+					WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
+						project1.getGradle(), WorkspaceExtension.class);
+
+					taskOutputs.files(
+						project.fileTree(
+							workspaceExtension.getHomeDir(),
+							configurableFileTree -> {
+								Set<String> strings = _outputGlobs.get();
+
+								strings.forEach(configurableFileTree::include);
+							}));
+				}
+
 			}
 		);
+		_startServer = objects.property(Boolean.class);
 	}
 
 	@TaskAction
@@ -140,5 +165,19 @@ public class TestSetUpTask extends DefaultTask {
 	}
 
 	private final SetProperty<String> _outputGlobs;
+
+	@Input
+	public SetProperty<String> getTaskPaths() {
+		return _taskPaths;
+	}
+
+	private final SetProperty<String> _taskPaths;
+
+	@Input
+	public Property<Boolean> getStartServer() {
+		return _startServer;
+	}
+
+	private final Property<Boolean> _startServer;
 
 }
