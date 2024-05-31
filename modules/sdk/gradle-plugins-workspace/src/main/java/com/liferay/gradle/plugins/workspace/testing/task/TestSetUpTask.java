@@ -10,6 +10,7 @@ import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
 import org.gradle.api.provider.SetProperty;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskOutputs;
 
@@ -69,6 +70,11 @@ public class TestSetUpTask extends DefaultTask {
 		);
 		_startServer = objects.property(Boolean.class);
 		_startServer.set(false);
+	}
+
+	@TaskAction
+	public void foo() {
+
 	}
 
 	@Input
