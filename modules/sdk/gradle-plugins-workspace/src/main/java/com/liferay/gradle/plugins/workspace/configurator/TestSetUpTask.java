@@ -48,6 +48,10 @@ public class TestSetUpTask extends DefaultTask {
 			project1 -> {
 				TaskOutputs taskOutputs = getOutputs();
 
+				for (Object o : getDependsOn()) {
+					System.out.println("o = " + o);
+				}
+
 				if (_taskPaths.isPresent()) {
 					Set<String> objects1 = _taskPaths.get();
 
@@ -59,8 +63,6 @@ public class TestSetUpTask extends DefaultTask {
 						Task task = taskContainer.getByPath(taskPath);
 
 						dependsOn(task);
-
-						taskOutputs.files(task);
 
 						if (previous != null) {
 							task.mustRunAfter(previous);
@@ -116,6 +118,10 @@ public class TestSetUpTask extends DefaultTask {
 			if (date > max) {
 				logFile = file;
 			}
+		}
+
+		if (logFile == null) {
+			return;
 		}
 
 		try (RandomAccessFile randomAccessFile = new RandomAccessFile(
