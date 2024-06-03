@@ -1,11 +1,18 @@
 package com.liferay.gradle.plugins.workspace.testing.task;
 
+import org.gradle.BuildListener;
+import org.gradle.BuildResult;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
+import org.gradle.api.execution.TaskExecutionGraph;
+import org.gradle.api.execution.TaskExecutionGraphListener;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.ProjectLayout;
 import org.gradle.api.file.RegularFile;
+import org.gradle.api.initialization.Settings;
+import org.gradle.api.invocation.Gradle;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
 import org.gradle.api.provider.Provider;
@@ -27,7 +34,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +48,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Drew Brokke
  */
 public class ExecuteAndWaitForTask extends DefaultTask {
+
+	private final Property<Process> _process;
 
 	@OutputFile
 	public Provider<RegularFile> getStdoutFile() {
@@ -78,6 +90,8 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 		_waitForTimeout = objects.property(Integer.class);
 
 		_waitForTimeout.set(30 * 1000);
+
+		_process = objects.property(Process.class);
 	}
 
 	@OutputFile
@@ -98,16 +112,9 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 	@TaskAction
 	public void run() throws Exception {
 		String expectedOutput = _expectedOutput.get();
-		RegularFile pidRegularFile = _pidFile.get();
-		RegularFile stdoutRegularFile = _stdoutFile.get();
+		File pidFile = _pidFile.map(RegularFile::getAsFile).get();
+		File stdoutFile = _stdoutFile.map(RegularFile::getAsFile).get();
 		Integer timeout = _waitForTimeout.get();
-
-		File pidFile = pidRegularFile.getAsFile();
-		File stdoutFile = stdoutRegularFile.getAsFile();
-
-		Files.write(pidFile.toPath(), "foo bar".getBytes());
-
-		System.out.println("pidFile = " + pidFile);
 
 		ProcessExecutor processExecutor =
 			new ProcessExecutor(_execArgs.get());
@@ -122,7 +129,7 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 						return;
 					}
 
-					if (line.contains(expectedOutput)) {
+					if (line.matches(expectedOutput)) {
 						countDownLatch.countDown();
 					}
 				}
@@ -135,8 +142,22 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 		StartedProcess startedProcess = processExecutor.start();
 
 		Process process = startedProcess.getProcess();
+		_process.set(process);
 
 //		TODO record pid to file
+		Class<Process> processClass = Process.class;
+
+		for (Method method : processClass.getMethods()) {
+			if (Objects.equals(method.getName(), "pid")) {
+				Long pid = (Long)method.invoke(process);
+
+				Files.write(pidFile.toPath(), pid.toString().getBytes());
+
+				System.out.println("pid = " + pid);
+
+				break;
+			}
+		}
 
 		boolean await = countDownLatch.await(
 			timeout, TimeUnit.MILLISECONDS);
