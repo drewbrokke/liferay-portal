@@ -67,6 +67,51 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 					_configureSetUpTearDown(project, packageRunTask);
 				}
 			});
+
+		taskContainer.withType(
+			ExecuteAndWaitForTask.class,
+			executeAndWaitForTask -> {
+				String cleanTaskName =
+					_getPrependedTaskName("clean", executeAndWaitForTask);
+
+				Task cleanTask = taskContainer.findByPath(cleanTaskName);
+
+				if (cleanTask == null) {
+					return;
+				}
+
+				Provider<RegularFile> pidFileProvider =
+					executeAndWaitForTask.getPidFile();
+
+				RegularFile regularFile = pidFileProvider.get();
+
+				File pidFile = regularFile.getAsFile();
+
+				cleanTask.onlyIf(cleanTask1 -> pidFile.exists());
+
+				cleanTask.doFirst(cleanTask1 -> {
+					try {
+						int pid = Integer.parseInt(new String(
+							Files.readAllBytes(pidFile.toPath())));
+
+						PidProcess process = Processes.newPidProcess(pid);
+
+						if (!process.isAlive()) {
+							System.out.println("process is already stopped");
+
+							return;
+						}
+
+						ProcessUtil.destroyGracefullyOrForcefullyAndWait(process, 30, TimeUnit.SECONDS, 10, TimeUnit.SECONDS);
+
+						System.out.println("terminated process = " + process.getDescription() + " " + process.getPid());
+
+					}
+					catch (Exception exception) {
+						throw new RuntimeException(exception);
+					}
+				});
+			});
 	}
 
 	@Override
@@ -163,48 +208,9 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 				taskContainer.withType(
 					ExecuteAndWaitForTask.class,
 					executeAndWaitTask -> {
-						String cleanTaskName =
-							_getPrependedTaskName("clean", executeAndWaitTask);
 
-						tearDownTask.dependsOn(cleanTaskName);
 
-						Task cleanTask = taskContainer.findByPath(cleanTaskName);
-
-						if (cleanTask == null) {
-							return;
-						}
-
-						Provider<RegularFile> pidFileProvider =
-							executeAndWaitTask.getPidFile();
-
-						RegularFile regularFile = pidFileProvider.get();
-
-						File pidFile = regularFile.getAsFile();
-
-						cleanTask.onlyIf(cleanTask1 -> pidFile.exists());
-
-						cleanTask.doFirst(cleanTask1 -> {
-							try {
-								int pid = Integer.parseInt(new String(
-									Files.readAllBytes(pidFile.toPath())));
-
-								PidProcess process = Processes.newPidProcess(pid);
-
-								if (!process.isAlive()) {
-									System.out.println("process is already stopped");
-
-									return;
-								}
-
-								ProcessUtil.destroyGracefullyOrForcefullyAndWait(process, 30, TimeUnit.SECONDS, 10, TimeUnit.SECONDS);
-
-								System.out.println("terminated process = " + process.getDescription() + " " + process.getPid());
-
-							}
-							catch (Exception exception) {
-								throw new RuntimeException(exception);
-							}
-						});
+						tearDownTask.dependsOn(_getPrependedTaskName("clean", executeAndWaitTask));
 					}
 				);
 			}
