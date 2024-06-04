@@ -129,7 +129,9 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 						return;
 					}
 
-					if (line.matches(expectedOutput)) {
+					System.out.println(line);
+
+					if (line.contains(expectedOutput)) {
 						countDownLatch.countDown();
 					}
 				}
@@ -142,22 +144,8 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 		StartedProcess startedProcess = processExecutor.start();
 
 		Process process = startedProcess.getProcess();
+
 		_process.set(process);
-
-//		TODO record pid to file
-		Class<Process> processClass = Process.class;
-
-		for (Method method : processClass.getMethods()) {
-			if (Objects.equals(method.getName(), "pid")) {
-				Long pid = (Long)method.invoke(process);
-
-				Files.write(pidFile.toPath(), pid.toString().getBytes());
-
-				System.out.println("pid = " + pid);
-
-				break;
-			}
-		}
 
 		boolean await = countDownLatch.await(
 			timeout, TimeUnit.MILLISECONDS);
@@ -166,6 +154,21 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 			process.destroyForcibly();
 
 			throw new GradleException("Could not find the expected output");
+		}
+
+		//	TODO record pid to file
+		Class<Process> processClass = Process.class;
+
+		for (Method method : processClass.getMethods()) {
+			if (Objects.equals(method.getName(), "pid")) {
+				String pidString = String.valueOf(method.invoke(process));
+
+				Files.write(pidFile.toPath(), pidString.getBytes());
+
+				System.out.println("pid = " + pidString);
+
+				break;
+			}
 		}
 	}
 

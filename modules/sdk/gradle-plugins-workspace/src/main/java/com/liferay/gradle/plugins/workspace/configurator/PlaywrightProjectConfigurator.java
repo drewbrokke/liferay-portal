@@ -22,6 +22,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import com.liferay.gradle.plugins.workspace.testing.task.ExecuteAndWaitForTask;
 import com.liferay.gradle.plugins.workspace.testing.task.TestSetUpTask;
@@ -34,6 +35,9 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.language.base.plugins.LifecycleBasePlugin;
+import org.zeroturnaround.process.PidProcess;
+import org.zeroturnaround.process.ProcessUtil;
+import org.zeroturnaround.process.Processes;
 
 /**
  * @author Drew Brokke
@@ -166,26 +170,39 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 
 						Task cleanTask = taskContainer.findByPath(cleanTaskName);
 
+						if (cleanTask == null) {
+							return;
+						}
+
+						Provider<RegularFile> pidFileProvider =
+							executeAndWaitTask.getPidFile();
+
+						RegularFile regularFile = pidFileProvider.get();
+
+						File pidFile = regularFile.getAsFile();
+
+						cleanTask.onlyIf(cleanTask1 -> pidFile.exists());
+
 						cleanTask.doFirst(cleanTask1 -> {
-							Provider<RegularFile> pidFileProvider =
-								executeAndWaitTask.getPidFile();
+							try {
+								int pid = Integer.parseInt(new String(
+									Files.readAllBytes(pidFile.toPath())));
 
-							if (pidFileProvider.isPresent()) {
-								RegularFile regularFile = pidFileProvider.get();
+								PidProcess process = Processes.newPidProcess(pid);
 
-								File pidFile = regularFile.getAsFile();
+								if (!process.isAlive()) {
+									System.out.println("process is already stopped");
 
-								System.out.println("Deleting pidFile = " + pidFile);
-
-								try {
-									String content = new String(
-										Files.readAllBytes(pidFile.toPath()));
-
-									System.out.println("content = " + content);
+									return;
 								}
-								catch (IOException e) {
-									throw new RuntimeException(e);
-								}
+
+								ProcessUtil.destroyGracefullyOrForcefullyAndWait(process, 30, TimeUnit.SECONDS, 10, TimeUnit.SECONDS);
+
+								System.out.println("terminated process = " + process.getDescription() + " " + process.getPid());
+
+							}
+							catch (Exception exception) {
+								throw new RuntimeException(exception);
 							}
 						});
 					}
