@@ -18,6 +18,7 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.provider.SetProperty;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.zeroturnaround.exec.ProcessExecutor;
@@ -26,6 +27,8 @@ import org.zeroturnaround.exec.StartedProcess;
 import org.zeroturnaround.exec.listener.ProcessListener;
 import org.zeroturnaround.exec.stream.LogOutputStream;
 import org.zeroturnaround.exec.stream.slf4j.Slf4jOutputStream;
+import org.zeroturnaround.process.PidProcess;
+import org.zeroturnaround.process.Processes;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -48,8 +51,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Drew Brokke
  */
 public class ExecuteAndWaitForTask extends DefaultTask {
-
-	private final Property<Process> _process;
 
 	@OutputFile
 	public Provider<RegularFile> getStdoutFile() {
@@ -82,6 +83,24 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 		DirectoryProperty buildDirectory = layout.getBuildDirectory();
 
 		_pidFile = buildDirectory.file(String.format("%s/pid", getName()));
+
+		_pid = _pidFile.map(
+			RegularFile::getAsFile
+		).map(
+			pidFile -> {
+				if (!pidFile.exists()) {
+					return null;
+				}
+
+				try {
+					return Integer.parseInt(new String(
+						Files.readAllBytes(pidFile.toPath())));
+				}
+				catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		);
 		_stdoutFile =
 			buildDirectory.file(String.format("%s/stdout.txt", getName()));
 		_expectedOutput = objects.property(String.class);
@@ -91,7 +110,9 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 
 		_waitForTimeout.set(30 * 1000);
 
-		_process = objects.property(Process.class);
+		onlyIf(
+			task -> !_pid.isPresent()
+		);
 	}
 
 	@OutputFile
@@ -107,6 +128,13 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 	private final Property<String> _expectedOutput;
 
 	private final Provider<RegularFile> _pidFile;
+
+	@Internal
+	public Provider<Integer> getPid() {
+		return _pid;
+	}
+
+	private final Provider<Integer> _pid;
 
 
 	@TaskAction
@@ -145,8 +173,6 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 
 		Process process = startedProcess.getProcess();
 
-		_process.set(process);
-
 		boolean await = countDownLatch.await(
 			timeout, TimeUnit.MILLISECONDS);
 
@@ -156,7 +182,6 @@ public class ExecuteAndWaitForTask extends DefaultTask {
 			throw new GradleException("Could not find the expected output");
 		}
 
-		//	TODO record pid to file
 		Class<Process> processClass = Process.class;
 
 		for (Method method : processClass.getMethods()) {

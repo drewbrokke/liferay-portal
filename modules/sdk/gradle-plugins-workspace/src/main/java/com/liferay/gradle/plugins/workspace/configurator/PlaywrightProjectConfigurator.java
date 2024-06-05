@@ -80,19 +80,13 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 					return;
 				}
 
-				Provider<RegularFile> pidFileProvider =
-					executeAndWaitForTask.getPidFile();
+				Provider<Integer> pidProvider = executeAndWaitForTask.getPid();
 
-				RegularFile regularFile = pidFileProvider.get();
-
-				File pidFile = regularFile.getAsFile();
-
-				cleanTask.onlyIf(cleanTask1 -> pidFile.exists());
+				cleanTask.onlyIf(cleanTask1 -> pidProvider.isPresent());
 
 				cleanTask.doFirst(cleanTask1 -> {
 					try {
-						int pid = Integer.parseInt(new String(
-							Files.readAllBytes(pidFile.toPath())));
+						int pid = pidProvider.get();
 
 						PidProcess process = Processes.newPidProcess(pid);
 
@@ -203,16 +197,16 @@ public class PlaywrightProjectConfigurator extends BaseProjectConfigurator {
 //					stopTestableTomcatTask.mustRunAfter(tearDownTask);
 				}
 
-				TaskContainer taskContainer = project1.getTasks();
+//				TaskContainer taskContainer = project1.getTasks();
 
-				taskContainer.withType(
-					ExecuteAndWaitForTask.class,
-					executeAndWaitTask -> {
-
-
-						tearDownTask.dependsOn(_getPrependedTaskName("clean", executeAndWaitTask));
-					}
-				);
+//				taskContainer.withType(
+//					ExecuteAndWaitForTask.class,
+//					executeAndWaitTask -> {
+//
+//
+//						tearDownTask.dependsOn(_getPrependedTaskName("clean", executeAndWaitTask));
+//					}
+//				);
 			}
 		);
 	}
