@@ -23,6 +23,6 @@ apply plugin: "com.liferay.workspace"
 
 include "poshi"
 
-gradle.liferayWorkspace {
-	nodePackageManager = "npm"
-}
+// gradle.liferayWorkspace {
+// 	nodePackageManager = "npm"
+// }

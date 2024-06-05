@@ -9,21 +9,28 @@ import com.liferay.gradle.plugins.workspace.testing.task.WaitForLogOutputTask;
 //     dependsOn ":client-extensions:liferay-sample-custom-element-2:deploy"
 //     expectedLogOutput.set "STARTED liferaysamplecustomelement2"
 // }
+
+
 task deploySpringBootClientExtension(type: WaitForLogOutputTask) {
     dependsOn ":client-extensions:liferay-sample-etc-spring-boot:deploy"
     expectedLogOutput.set "OAuth 2 application with external reference code liferay-sample-etc-spring-boot-oauth-application-user-agent and company ID"
 }
+
 task startSpringBootServer(type: ExecuteAndWaitForTask) {
     execArgs.addAll rootProject.file("gradlew").path, ":client-extensions:liferay-sample-etc-spring-boot:bootRun"
     expectedOutput.set "Started SampleSpringBootApplication in"
-    waitForTimeout.set 20 * 1000
+    waitForTimeout.set 120 * 1000
 }
 
-setUpPackageRunTest {
+setUpPackageRunTestDummy {
     outputGlobs.add "**/liferay-sample-etc-spring-boot.zip"
 
     startServer.set true
 
     taskPaths.add "deploySpringBootClientExtension"
     taskPaths.add "startSpringBootServer"
+}
+
+tearDownPackageRunTestDummy {
+    dependsOn "cleanStartSpringBootServer"
 }

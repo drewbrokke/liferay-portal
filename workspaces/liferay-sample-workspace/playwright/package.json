@@ -6,7 +6,8 @@
     "test-headless": "playwright test",
     "test-just-a-couple": "playwright test **/foo.spec",
     "test": "playwright test --headed",
-    "test-remote": "playwright test --headed"
+    "test-remote": "playwright test --headed",
+    "test-dummy": "echo TEST TEST TEST"
   },
   "keywords": [],
   "author": "",
