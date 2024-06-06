@@ -16,7 +16,7 @@ runGradleTest {
 	dependsOn eclipseClasspath
 
 	doLast {
-		assert plugins.hasPlugin("com.liferay.target.platform")
+		assert plugins.hasPlugin("com.liferay.target.platformm")
 
 		List eclipseDependencies = eclipse.classpath.resolveDependencies()
 
