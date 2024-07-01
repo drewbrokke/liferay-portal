@@ -6,8 +6,8 @@
 package com.liferay.release.util.internal;
 
 import com.liferay.release.util.ReleaseEntry;
-import com.liferay.release.util.internal.util.ResourceUtil;
 import com.liferay.release.util.internal.util.StringUtil;
+import com.liferay.resource.util.ResourceUtil;
 
 import java.io.File;
 import java.io.IOException;

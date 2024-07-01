@@ -15,6 +15,7 @@ dependencies {
 	compileInclude group: "com.liferay", name: "com.liferay.portal.tools.bundle.support", version: "3.7.5"
 
 	implementation group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.16.1"
+	implementation group: "com.liferay", name: "com.liferay.resource.util", version: "1.0.0"
 	implementation group: "org.slf4j", name: "slf4j-api", version: "1.7.26"
 }
 
