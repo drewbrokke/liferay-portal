@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.liferay.release.util.internal.util;
+package com.liferay.resource.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.liferay.portal.tools.bundle.support.commands.DownloadCommand;
+import com.liferay.resource.util.internal.util.StringUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
