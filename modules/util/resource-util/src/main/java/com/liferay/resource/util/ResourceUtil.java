@@ -7,7 +7,7 @@ package com.liferay.resource.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.liferay.portal.tools.bundle.support.commands.DownloadCommand;
+import com.liferay.resource.util.internal.util.HttpUtil;
 import com.liferay.resource.util.internal.util.StringUtil;
 
 import java.io.File;
@@ -19,6 +19,7 @@ import java.net.URL;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 
@@ -96,31 +97,24 @@ public class ResourceUtil {
 		};
 	}
 
-	public static Resolver getURIResolver(File cacheDir, URI uri) {
+	public static Resolver getURIResolver(
+		File cacheDir, int connectionTimeout, URI uri) {
+
 		return () -> {
 			_logInfo("Trying to get resource from URL {}", uri);
 
 			URL url = uri.toURL();
 
 			try {
-				DownloadCommand downloadCommand = new DownloadCommand();
-
-				downloadCommand.setCacheDir(cacheDir);
-				downloadCommand.setConnectionTimeout(5 * 1000);
-				downloadCommand.setPassword(null);
-				downloadCommand.setQuiet(true);
-				downloadCommand.setToken(false);
-				downloadCommand.setUrl(url);
-				downloadCommand.setUserName(null);
-
-				downloadCommand.execute();
-
-				Path downloadPath = downloadCommand.getDownloadPath();
-
-				if (!Objects.equals(uri.getScheme(), "file")) {
-					Files.setLastModifiedTime(
-						downloadPath, FileTime.from(Instant.now()));
+				if (Objects.equals(uri.getScheme(), "file")) {
+					return Files.newInputStream(Paths.get(uri));
 				}
+
+				Path downloadPath = HttpUtil.downloadFile(
+					uri, null, null, cacheDir.toPath(), connectionTimeout);
+
+				Files.setLastModifiedTime(
+					downloadPath, FileTime.from(Instant.now()));
 
 				return Files.newInputStream(downloadPath);
 			}
@@ -132,6 +126,10 @@ public class ResourceUtil {
 					exception);
 			}
 		};
+	}
+
+	public static Resolver getURIResolver(File cacheDir, URI uri) {
+		return getURIResolver(cacheDir, 5 * 1000, uri);
 	}
 
 	public static Resolver getURLResolver(File cacheDir, String url) {
