@@ -460,6 +460,9 @@ public class ClientExtensionProjectConfigurator
 			GradleUtil.addDefaultRepositories(project);
 		}
 
+		String virtualInstanceId = GradleUtil.getProperty(
+			project.getRootProject(), "liferay.virtual.instance.id", "default");
+
 		GradleUtil.applyPlugin(project, BasePlugin.class);
 		GradleUtil.applyPlugin(project, DockerRemoteApiPlugin.class);
 		GradleUtil.applyPlugin(project, LiferayBasePlugin.class);
@@ -486,7 +489,7 @@ public class ClientExtensionProjectConfigurator
 
 		addTaskDockerDeploy(
 			project, buildClientExtensionZipTaskProvider,
-			new File(workspaceExtension.getDockerDir(), "client-extensions"));
+			new File(workspaceExtension.getDockerDir(), "client-extensions/" + virtualInstanceId));
 
 		_configureArtifacts(project, buildClientExtensionZipTaskProvider);
 		_configureRootTaskDistBundle(
@@ -873,6 +876,9 @@ public class ClientExtensionProjectConfigurator
 	private void _configureLiferayExtension(
 		Project project, LiferayExtension liferayExtension) {
 
+		String liferayVirtualInstanceId = GradleUtil.getProperty(
+			project.getRootProject(), "liferay.virtual.instance.id", "default");
+
 		liferayExtension.setDeployDir(
 			new Callable<File>() {
 
@@ -880,7 +886,7 @@ public class ClientExtensionProjectConfigurator
 				public File call() throws Exception {
 					File dir = new File(
 						liferayExtension.getAppServerParentDir(),
-						"osgi/client-extensions");
+						"osgi/client-extensions/" + liferayVirtualInstanceId);
 
 					dir.mkdirs();
 
@@ -977,8 +983,11 @@ public class ClientExtensionProjectConfigurator
 
 		copy.dependsOn(assembleTask);
 
+		String liferayVirtualInstanceId = GradleUtil.getProperty(
+			project.getRootProject(), "liferay.virtual.instance.id", "default");
+
 		copy.into(
-			"osgi/client-extensions",
+			"osgi/client-extensions/" + liferayVirtualInstanceId,
 			new Closure<Void>(project) {
 
 				public void doCall(CopySpec copySpec) {

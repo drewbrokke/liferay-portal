@@ -462,7 +462,10 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		File dockerDir = workspaceExtension.getDockerDir();
 
-		File clientExtensionsDir = new File(dockerDir, "client-extensions");
+		String liferayVirtualInstanceId = GradleUtil.getProperty(
+			project.getRootProject(), "liferay.virtual.instance.id", "default");
+
+		File clientExtensionsDir = new File(dockerDir, "client-extensions/" + liferayVirtualInstanceId);
 		File deployDir = new File(dockerDir, "deploy");
 		File workDir = new File(dockerDir, "work");
 
@@ -498,7 +501,7 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		MapProperty<String, String> bindsMapProperty = hostConfig.getBinds();
 
 		bindsMapProperty.put(
-			clientExtensionsPath, "/opt/liferay/osgi/client-extensions");
+			clientExtensionsPath, "/opt/liferay/osgi/client-extensions/" + liferayVirtualInstanceId);
 		bindsMapProperty.put(deployPath, "/mnt/liferay/deploy");
 		bindsMapProperty.put(workPath, "/opt/liferay/work");
 
@@ -560,9 +563,12 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			"ENV LIFERAY_WORKSPACE_ENVIRONMENT=" +
 				workspaceExtension.getEnvironment());
 
+		String liferayVirtualInstanceId = GradleUtil.getProperty(
+			project.getRootProject(), "liferay.virtual.instance.id", "default");
+
 		dockerfile.instruction(
 			"COPY --chown=liferay:liferay client-extensions /home/liferay" +
-				"/osgi/client-extensions");
+				"/osgi/client-extensions/" + liferayVirtualInstanceId);
 		dockerfile.instruction(
 			"COPY --chown=liferay:liferay deploy /mnt/liferay/deploy");
 		dockerfile.instruction(
@@ -597,7 +603,7 @@ public class RootProjectConfigurator implements Plugin<Project> {
 						File destinationDir = workspaceExtension.getDockerDir();
 
 						_createTouchFile(
-							new File(destinationDir, "client-extensions"));
+							new File(destinationDir, "client-extensions/" + liferayVirtualInstanceId));
 						_createTouchFile(new File(destinationDir, "configs"));
 						_createTouchFile(new File(destinationDir, "deploy"));
 						_createTouchFile(new File(destinationDir, "patching"));
