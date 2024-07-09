@@ -7,6 +7,7 @@ package com.liferay.portal.osgi.web.wab.generator.internal.artifact;
 
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.instance.PortalInstancePool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -32,9 +33,31 @@ import org.osgi.framework.Constants;
  */
 public class ArtifactURLUtil {
 
+	public static String getVirtualInstanceId(String path) {
+		String[] folders = path.split("/");
+
+		String virtualInstanceId = folders[folders.length - 2];
+
+		String defaultVirtualInstanceId = PortalInstancePool.getWebId(PortalInstancePool.getDefaultCompanyId());
+
+		if(virtualInstanceId.equals("default") || virtualInstanceId.equals(defaultVirtualInstanceId)) {
+			return "default";
+		} else if (virtualInstanceId.equals("client-extensions")) {
+			return "";
+		}
+
+		return virtualInstanceId;
+	}
+
 	public static String getClientExtensionSymbolicName(String path) {
 		int x = path.lastIndexOf('/');
 		int y = path.lastIndexOf(CharPool.PERIOD);
+
+		String virtualInstanceId = getVirtualInstanceId(path);
+
+		if(!virtualInstanceId.equals("default") && !virtualInstanceId.isEmpty()) {
+			return path.substring(x + 1, y) + "_" + getVirtualInstanceId(path);
+		}
 
 		return path.substring(x + 1, y);
 	}
@@ -83,7 +106,8 @@ public class ArtifactURLUtil {
 			StringBundler.concat(
 				artifact.getPath(), "?", Constants.BUNDLE_SYMBOLICNAME, "=",
 				symbolicName, "&Web-ContextPath=/", contextName,
-				"&fileExtension=", fileExtension, "&protocol=file"));
+				"&fileExtension=", fileExtension,
+				"&virtualInstanceId=", getVirtualInstanceId(path), "&protocol=file"));
 	}
 
 	private static boolean _isClientExtensionZip(String path) {

@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.deploy.auto.AutoDeployException;
 import com.liferay.portal.kernel.deploy.auto.AutoDeployListener;
 import com.liferay.portal.kernel.deploy.auto.context.AutoDeploymentContext;
 import com.liferay.portal.kernel.deploy.hot.DependencyManagementThreadLocal;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PortletConstants;
@@ -64,12 +66,15 @@ import com.liferay.portal.util.PropsValues;
 import com.liferay.util.JS;
 import com.liferay.whip.util.ReflectionUtil;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -96,6 +101,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -114,13 +120,15 @@ public class WabProcessor {
 	}
 
 	public File getProcessedFile() throws IOException {
-		Properties pluginPackageProperties = _getPluginPackageProperties();
+		String virtualInstanceId = MapUtil.getString(_parameters, "virtualInstanceId");
+
+		Properties pluginPackageProperties = _getPluginPackageProperties(virtualInstanceId);
 
 		if (Objects.equals(
 				MapUtil.getString(_parameters, "fileExtension"), "zip")) {
 
 			_pluginDir = _convertToClientExtensionBundleDir(
-				pluginPackageProperties);
+				pluginPackageProperties, virtualInstanceId);
 		}
 		else {
 			_pluginDir = _autoDeploy();
@@ -264,7 +272,8 @@ public class WabProcessor {
 	}
 
 	private File _convertToClientExtensionBundleDir(
-		Properties pluginPackageProperties) {
+		Properties pluginPackageProperties,
+		String virtualInstanceId) {
 
 		Path clientExtensionBundlePath = null;
 
@@ -346,8 +355,56 @@ public class WabProcessor {
 				if (!name.contains("/") &&
 					name.endsWith(".client-extension-config.json")) {
 
+					InputStream targetStream = zipFile.getInputStream(zipEntry);
+
+					if(!virtualInstanceId.isEmpty()) {
+						String json = new BufferedReader(
+							new InputStreamReader(
+								zipFile.getInputStream(zipEntry),
+								StandardCharsets.UTF_8))
+							.lines()
+							.collect(Collectors.joining("\n"));
+
+						JSONObject originalJson =
+							JSONFactoryUtil.createJSONObject(json);
+
+						JSONObject updatedJson = JSONFactoryUtil.createJSONObject();
+
+						Iterator<String> jsonKeySet = originalJson.keys();
+
+						while(jsonKeySet.hasNext()) {
+							String originalPid = jsonKeySet.next();
+							String newPid = originalPid;
+
+							JSONObject properties = originalJson.getJSONObject(originalPid);
+
+							if(!virtualInstanceId.equals("default")) {
+								String suffix = "_" + virtualInstanceId;
+
+								String updatedBaseUrl =
+									properties.getString("baseURL") + suffix;
+								String updatedWebContextPath =
+									properties.getString("webContextPath") + suffix;
+
+								properties.put("baseURL", updatedBaseUrl);
+								properties.put("webContextPath", updatedWebContextPath);
+
+								newPid = originalPid + "/" + virtualInstanceId;
+							}
+
+							properties.put("dxp.lxc.liferay.com.virtualInstanceId",
+								virtualInstanceId);
+
+							updatedJson.put(
+								newPid, properties);
+						}
+
+						targetStream = new ByteArrayInputStream(
+							updatedJson.toString().getBytes());
+					}
+
 					Files.copy(
-						zipFile.getInputStream(zipEntry),
+						targetStream,
 						osgiInfConfiguratorPath.resolve(name));
 				}
 				else if (name.startsWith(batchPathString)) {
@@ -526,7 +583,7 @@ public class WabProcessor {
 		return displayName.concat("-client-extension");
 	}
 
-	private Properties _getPluginPackageProperties() throws IOException {
+	private Properties _getPluginPackageProperties(String virtualInstanceId) throws IOException {
 		if (_pluginPackageProperties != null) {
 			return _pluginPackageProperties;
 		}
@@ -540,9 +597,21 @@ public class WabProcessor {
 			}
 
 			try {
-				return _pluginPackageProperties = PropertiesUtil.load(
+				_pluginPackageProperties = PropertiesUtil.load(
 					zipFile.getInputStream(zipEntry),
 					StandardCharsets.UTF_8.name());
+
+				if(!virtualInstanceId.equals("default") && !virtualInstanceId.isEmpty()) {
+					String bundleSymbolicName = _pluginPackageProperties.getProperty("Bundle-SymbolicName");
+					String name = _pluginPackageProperties.getProperty("name");
+
+					String suffix = "_" + virtualInstanceId;
+
+					_pluginPackageProperties.setProperty("Bundle-SymbolicName",bundleSymbolicName + suffix);
+					_pluginPackageProperties.setProperty("name",name + suffix);
+				}
+
+				return _pluginPackageProperties;
 			}
 			catch (IOException ioException) {
 				if (_log.isDebugEnabled()) {
