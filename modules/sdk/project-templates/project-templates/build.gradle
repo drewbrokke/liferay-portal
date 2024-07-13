@@ -30,6 +30,11 @@ configurations {
 	releaseApiJarSources
 	testAPI
 
+	mainSources {
+		canBeConsumed = true
+		canBeResolved = false
+	}
+
 	projectTemplatesTests {
 		extendsFrom projectTemplates
 
@@ -54,6 +59,7 @@ configurations {
 }
 
 artifacts {
+	mainSources sourceSets.main.output.files
 	testAPI testAPIJar
 }
 
