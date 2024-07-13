@@ -11,5 +11,5 @@ dependencies {
 	testImplementation group: "net.diibadaaba.zipdiff", name: "zipdiff", version: "1.0"
 	testImplementation project(path: ":sdk:project-templates:project-templates", configuration: "testAPI")
 
-	testRuntimeOnly project(":sdk:project-templates:project-templates").files("classes")
+	testRuntimeOnly project(path: ":sdk:project-templates:project-templates", configuration: "mainSources")
 }
