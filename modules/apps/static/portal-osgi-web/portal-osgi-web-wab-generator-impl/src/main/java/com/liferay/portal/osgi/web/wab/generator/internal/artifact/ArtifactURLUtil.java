@@ -6,9 +6,10 @@
 package com.liferay.portal.osgi.web.wab.generator.internal.artifact;
 
 import com.liferay.petra.string.CharPool;
-import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.instance.PortalInstancePool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.util.PropsValues;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +37,14 @@ public class ArtifactURLUtil {
 		int x = path.lastIndexOf('/');
 		int y = path.lastIndexOf(CharPool.PERIOD);
 
+		String virtualInstanceId = getVirtualInstanceId(path);
+
+		if (!virtualInstanceId.equals("default") &&
+			!virtualInstanceId.isEmpty()) {
+
+			return path.substring(x + 1, y) + "_" + getVirtualInstanceId(path);
+		}
+
 		return path.substring(x + 1, y);
 	}
 
@@ -54,8 +63,32 @@ public class ArtifactURLUtil {
 		return symbolicName;
 	}
 
+	public static String getVirtualInstanceId(String path) {
+		String virtualInstanceId = new File(
+			path
+		).getParentFile(
+		).getName();
+		String defaultVirtualInstanceId = PortalInstancePool.getWebId(
+			PortalInstancePool.getDefaultCompanyId());
+		String clientExtensionsRootDir = new File(
+			PropsValues.MODULE_FRAMEWORK_CLIENT_EXTENSIONS_DIR
+		).getName();
+
+		if (virtualInstanceId.equals("default") ||
+			virtualInstanceId.equals(defaultVirtualInstanceId)) {
+
+			return "default";
+		}
+		else if (virtualInstanceId.equals(clientExtensionsRootDir)) {
+			return "";
+		}
+
+		return virtualInstanceId;
+	}
+
 	public static URL transform(URL artifact) throws Exception {
 		String contextName = null;
+		boolean clientExtension = false;
 
 		String path = artifact.getPath();
 
@@ -72,18 +105,32 @@ public class ArtifactURLUtil {
 
 		if (fileExtension.equals("zip") && _isClientExtensionZip(path)) {
 			symbolicName = getClientExtensionSymbolicName(path);
+			clientExtension = true;
 		}
 
 		if (contextName == null) {
 			contextName = symbolicName;
 		}
 
-		return new URL(
-			"webbundle", null,
-			StringBundler.concat(
-				artifact.getPath(), "?", Constants.BUNDLE_SYMBOLICNAME, "=",
-				symbolicName, "&Web-ContextPath=/", contextName,
-				"&fileExtension=", fileExtension, "&protocol=file"));
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(artifact.getPath());
+		sb.append("?");
+		sb.append(Constants.BUNDLE_SYMBOLICNAME);
+		sb.append("=");
+		sb.append(symbolicName);
+		sb.append("&Web-ContextPath=/");
+		sb.append(contextName);
+		sb.append("&fileExtension=");
+		sb.append(fileExtension);
+		sb.append("&protocol=file");
+
+		if (clientExtension) {
+			sb.append("&virtualInstanceId=");
+			sb.append(getVirtualInstanceId(path));
+		}
+
+		return new URL("webbundle", null, sb.toString());
 	}
 
 	private static boolean _isClientExtensionZip(String path) {
