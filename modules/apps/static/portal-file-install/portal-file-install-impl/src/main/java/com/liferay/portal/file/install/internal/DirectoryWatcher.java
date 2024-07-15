@@ -14,6 +14,7 @@ import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.file.install.FileInstaller;
+import com.liferay.portal.kernel.instance.PortalInstancePool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ModuleFrameworkPropsValues;
@@ -33,6 +34,7 @@ import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -292,6 +294,8 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 							MODULE_FRAMEWORK_FILE_INSTALL_ACTIVE_LEVEL) &&
 					(_systemBundle.getState() == Bundle.ACTIVE)) {
 
+					_addOrRemoveScannerClientExtensionWatchedDirs();
+
 					Set<File> files = _scanner.scan(false);
 
 					if (files != null) {
@@ -347,6 +351,50 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 		}
 
 		super.start();
+	}
+
+	private void _addOrRemoveScannerClientExtensionWatchedDirs() {
+		List<String> virtualInstances = new ArrayList<>();
+
+		virtualInstances.add("default");
+
+		Collections.addAll(virtualInstances, PortalInstancePool.getWebIds());
+
+		List<File> clientExtensionDirs = new ArrayList<>();
+		String clientExtensionRootDir =
+			PropsValues.MODULE_FRAMEWORK_CLIENT_EXTENSIONS_DIR;
+
+		for (String name : virtualInstances) {
+			clientExtensionDirs.add(new File(clientExtensionRootDir, name));
+		}
+
+		List<File> scannerWatchedDirs = new ArrayList<>();
+
+		for (File dir : _scanner.getWatchedDirs()) {
+			scannerWatchedDirs.add(dir);
+		}
+
+		for (File dir : clientExtensionDirs) {
+			if (!scannerWatchedDirs.contains(dir)) {
+				_addScannerWatchedDir(dir);
+			}
+		}
+
+		for (File dir : scannerWatchedDirs) {
+			if (!clientExtensionDirs.contains(dir) &&
+				!_watchedDirPaths.contains(Util.getFilePath(dir.getPath()))) {
+
+				_removeScannerWatchedDir(dir);
+			}
+		}
+	}
+
+	private void _addScannerWatchedDir(File dir) {
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+
+		_scanner.addWatchedDir(dir);
 	}
 
 	private boolean _contains(String path, List<String> dirPaths) {
@@ -898,6 +946,14 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 		synchronized (_currentManagedArtifacts) {
 			_currentManagedArtifacts.remove(file);
 		}
+	}
+
+	private void _removeScannerWatchedDir(File dir) {
+		if (dir.exists()) {
+			dir.delete();
+		}
+
+		_scanner.removeWatchedDir(dir);
 	}
 
 	private void _setArtifact(File file, Artifact artifact) {
