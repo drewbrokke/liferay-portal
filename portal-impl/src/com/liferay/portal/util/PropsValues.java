@@ -1352,6 +1352,9 @@ public class PropsValues {
 	public static final String MODULE_FRAMEWORK_BASE_DIR = PropsUtil.get(
 		PropsKeys.MODULE_FRAMEWORK_BASE_DIR);
 
+	public static final String MODULE_FRAMEWORK_CLIENT_EXTENSIONS_DIR =
+		PropsUtil.get(PropsKeys.MODULE_FRAMEWORK_CLIENT_EXTENSIONS_DIR);
+
 	public static final String MODULE_FRAMEWORK_CONFIGS_DIR = PropsUtil.get(
 		PropsKeys.MODULE_FRAMEWORK_CONFIGS_DIR);
 
