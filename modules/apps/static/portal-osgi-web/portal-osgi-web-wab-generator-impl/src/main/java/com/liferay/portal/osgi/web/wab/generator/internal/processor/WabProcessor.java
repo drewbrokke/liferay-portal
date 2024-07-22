@@ -96,7 +96,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -354,74 +353,50 @@ public class WabProcessor {
 				if (!name.contains("/") &&
 					name.endsWith(".client-extension-config.json")) {
 
-					InputStream targetInputStream = zipFile.getInputStream(
-						zipEntry);
+					try (InputStream targetInputStream = zipFile.getInputStream(
+							zipEntry)) {
 
-					if (!virtualInstanceId.isEmpty()) {
-						String json = "";
-
-						try (Scanner scanner = new Scanner(
-								targetInputStream,
-								StandardCharsets.UTF_8.name())) {
-
-							json = scanner.useDelimiter(
-								"\\A"
-							).next();
-						}
-
-						JSONObject originalJSONObject =
-							JSONFactoryUtil.createJSONObject(json);
-
-						JSONObject updatedJSONObject =
+						JSONObject processedJSONObject =
 							JSONFactoryUtil.createJSONObject();
 
-						Iterator<String> jsonKeySetIterator =
-							originalJSONObject.keys();
+						JSONObject originalJSONObject =
+							JSONFactoryUtil.createJSONObject(
+								StringUtil.read(targetInputStream));
 
-						while (jsonKeySetIterator.hasNext()) {
-							String originalPid = jsonKeySetIterator.next();
-
-							String newPid = originalPid;
-
+						for (String pid : originalJSONObject.keySet()) {
 							JSONObject propertiesJSONObject =
-								originalJSONObject.getJSONObject(originalPid);
+								originalJSONObject.getJSONObject(pid);
 
-							if (!virtualInstanceId.equals("default")) {
-								String suffix = "_" + virtualInstanceId;
-								String currentBaseUrl =
-									propertiesJSONObject.getString("baseURL");
-								String currentWebContextPath =
-									propertiesJSONObject.getString(
-										"webContextPath");
-
-								String updatedBaseUrl = currentBaseUrl + suffix;
-								String updatedWebContextPath =
-									currentWebContextPath + suffix;
+							if (Validator.isNotNull(virtualInstanceId)) {
+								pid = pid + "/" + virtualInstanceId;
 
 								propertiesJSONObject.put(
-									"baseURL", updatedBaseUrl
+									"baseURL",
+									_suffix(
+										propertiesJSONObject.getString(
+											"baseURL"),
+										virtualInstanceId)
 								).put(
-									"webContextPath", updatedWebContextPath
+									"dxp.lxc.liferay.com.virtualInstanceId",
+									virtualInstanceId
+								).put(
+									"webContextPath",
+									_suffix(
+										propertiesJSONObject.getString(
+											"webContextPath"),
+										virtualInstanceId)
 								);
-
-								newPid = originalPid + "/" + virtualInstanceId;
 							}
 
-							propertiesJSONObject.put(
-								"dxp.lxc.liferay.com.virtualInstanceId",
-								virtualInstanceId);
-
-							updatedJSONObject.put(newPid, propertiesJSONObject);
+							processedJSONObject.put(pid, propertiesJSONObject);
 						}
 
-						targetInputStream = new ByteArrayInputStream(
-							updatedJSONObject.toString(
-							).getBytes());
-					}
+						String jsonString = processedJSONObject.toString();
 
-					Files.copy(
-						targetInputStream,
-						osgiInfConfiguratorPath.resolve(name));
+						Files.copy(
+							new ByteArrayInputStream(jsonString.getBytes()),
+							osgiInfConfiguratorPath.resolve(name));
+					}
 				}
 				else if (name.startsWith(batchPathString)) {
 					Files.copy(
@@ -619,19 +594,19 @@ public class WabProcessor {
 					zipFile.getInputStream(zipEntry),
 					StandardCharsets.UTF_8.name());
 
-				if (!virtualInstanceId.equals("default") &&
-					!virtualInstanceId.isEmpty()) {
+				for (Map.Entry<Object, Object> entry :
+						_pluginPackageProperties.entrySet()) {
 
-					String bundleSymbolicName =
-						_pluginPackageProperties.getProperty(
-							"Bundle-SymbolicName");
-					String name = _pluginPackageProperties.getProperty("name");
+					Object key = entry.getKey();
 
-					String suffix = "_" + virtualInstanceId;
+					if (Objects.equals(key, "Bundle-SymbolicName") ||
+						Objects.equals(key, "name")) {
 
-					_pluginPackageProperties.setProperty(
-						"Bundle-SymbolicName", bundleSymbolicName + suffix);
-					_pluginPackageProperties.setProperty("name", name + suffix);
+						entry.setValue(
+							_suffix(
+								String.valueOf(entry.getValue()),
+								virtualInstanceId));
+					}
 				}
 
 				return _pluginPackageProperties;
@@ -1582,6 +1557,14 @@ public class WabProcessor {
 
 			return SAXReaderUtil.createDocument();
 		}
+	}
+
+	private String _suffix(String baseString, String virtualInstanceId) {
+		if (Validator.isNotNull(virtualInstanceId)) {
+			return baseString + "_" + virtualInstanceId;
+		}
+
+		return baseString;
 	}
 
 	private File _transformToOSGiBundle(
