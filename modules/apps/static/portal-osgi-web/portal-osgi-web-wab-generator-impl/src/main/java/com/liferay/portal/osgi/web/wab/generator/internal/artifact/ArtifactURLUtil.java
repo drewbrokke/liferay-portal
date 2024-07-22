@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,23 +65,26 @@ public class ArtifactURLUtil {
 	}
 
 	public static String getVirtualInstanceId(String path) {
-		String virtualInstanceId = new File(
-			path
-		).getParentFile(
-		).getName();
-		String defaultVirtualInstanceId = PortalInstancePool.getWebId(
-			PortalInstancePool.getDefaultCompanyId());
-		String clientExtensionsRootDir = new File(
-			PropsValues.MODULE_FRAMEWORK_CLIENT_EXTENSIONS_DIR
-		).getName();
+		File file = new File(path);
 
-		if (virtualInstanceId.equals("default") ||
-			virtualInstanceId.equals(defaultVirtualInstanceId)) {
+		File parentDirectory = file.getParentFile();
 
-			return "default";
+		if (Objects.equals(
+				parentDirectory,
+				new File(PropsValues.MODULE_FRAMEWORK_CLIENT_EXTENSIONS_DIR))) {
+
+			return null;
 		}
-		else if (virtualInstanceId.equals(clientExtensionsRootDir)) {
-			return "";
+
+		String virtualInstanceId = parentDirectory.getName();
+
+		if (Objects.equals(
+				virtualInstanceId,
+				PortalInstancePool.getWebId(
+					PortalInstancePool.getDefaultCompanyId())) ||
+			Objects.equals(virtualInstanceId, "default")) {
+
+			return null;
 		}
 
 		return virtualInstanceId;
