@@ -368,33 +368,7 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 			clientExtensionDirs.add(new File(clientExtensionRootDir, name));
 		}
 
-		List<File> scannerWatchedDirs = new ArrayList<>();
-
-		for (File dir : _scanner.getWatchedDirs()) {
-			scannerWatchedDirs.add(dir);
-		}
-
-		for (File dir : clientExtensionDirs) {
-			if (!scannerWatchedDirs.contains(dir)) {
-				_addScannerWatchedDir(dir);
-			}
-		}
-
-		for (File dir : scannerWatchedDirs) {
-			if (!clientExtensionDirs.contains(dir) &&
-				!_watchedDirPaths.contains(Util.getFilePath(dir.getPath()))) {
-
-				_removeScannerWatchedDir(dir);
-			}
-		}
-	}
-
-	private void _addScannerWatchedDir(File dir) {
-		if (!dir.exists()) {
-			dir.mkdir();
-		}
-
-		_scanner.addWatchedDir(dir);
+		_scanner.setExtraWatchedDirs(clientExtensionDirs);
 	}
 
 	private boolean _contains(String path, List<String> dirPaths) {
@@ -946,14 +920,6 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 		synchronized (_currentManagedArtifacts) {
 			_currentManagedArtifacts.remove(file);
 		}
-	}
-
-	private void _removeScannerWatchedDir(File dir) {
-		if (dir.exists()) {
-			dir.delete();
-		}
-
-		_scanner.removeWatchedDir(dir);
 	}
 
 	private void _setArtifact(File file, Artifact artifact) {
