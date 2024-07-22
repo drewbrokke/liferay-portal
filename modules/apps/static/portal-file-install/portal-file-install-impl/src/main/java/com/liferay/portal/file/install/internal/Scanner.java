@@ -45,10 +45,6 @@ public class Scanner {
 		_recurseSubdir = SUBDIR_MODE_RECURSE.equals(subdirMode);
 	}
 
-	public void addWatchedDir(File dir) {
-		_watchedDirs.add(dir);
-	}
-
 	public long getChecksum(File file) {
 		Long checksum = _storedChecksums.get(file);
 
@@ -59,16 +55,8 @@ public class Scanner {
 		return 0;
 	}
 
-	public List<File> getWatchedDirs() {
-		return _watchedDirs;
-	}
-
 	public void initialize(Map<File, Long> checksums) {
 		_storedChecksums.putAll(checksums);
-	}
-
-	public void removeWatchedDir(File dir) {
-		_watchedDirs.remove(dir);
 	}
 
 	public Set<File> scan(boolean reportImmediately) {
