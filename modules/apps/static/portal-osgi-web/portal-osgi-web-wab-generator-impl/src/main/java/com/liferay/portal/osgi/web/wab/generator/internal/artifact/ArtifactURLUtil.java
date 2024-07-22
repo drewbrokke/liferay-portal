@@ -38,14 +38,6 @@ public class ArtifactURLUtil {
 		int x = path.lastIndexOf('/');
 		int y = path.lastIndexOf(CharPool.PERIOD);
 
-		String virtualInstanceId = getVirtualInstanceId(path);
-
-		if (!virtualInstanceId.equals("default") &&
-			!virtualInstanceId.isEmpty()) {
-
-			return path.substring(x + 1, y) + "_" + getVirtualInstanceId(path);
-		}
-
 		return path.substring(x + 1, y);
 	}
 
@@ -92,7 +84,6 @@ public class ArtifactURLUtil {
 
 	public static URL transform(URL artifact) throws Exception {
 		String contextName = null;
-		boolean clientExtension = false;
 
 		String path = artifact.getPath();
 
@@ -105,11 +96,18 @@ public class ArtifactURLUtil {
 			}
 		}
 
+		String virtualInstanceId = null;
+
 		String symbolicName = getSymbolicName(path);
 
 		if (fileExtension.equals("zip") && _isClientExtensionZip(path)) {
 			symbolicName = getClientExtensionSymbolicName(path);
-			clientExtension = true;
+
+			virtualInstanceId = getVirtualInstanceId(path);
+
+			if (virtualInstanceId != null) {
+				symbolicName = symbolicName + "_" + virtualInstanceId;
+			}
 		}
 
 		if (contextName == null) {
@@ -129,9 +127,9 @@ public class ArtifactURLUtil {
 		sb.append(fileExtension);
 		sb.append("&protocol=file");
 
-		if (clientExtension) {
+		if (virtualInstanceId != null) {
 			sb.append("&virtualInstanceId=");
-			sb.append(getVirtualInstanceId(path));
+			sb.append(virtualInstanceId);
 		}
 
 		return new URL("webbundle", null, sb.toString());
