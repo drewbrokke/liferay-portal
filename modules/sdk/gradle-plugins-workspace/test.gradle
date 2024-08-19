@@ -67,6 +67,8 @@ copyGradleTestDependencies {
 		println "RUNTIME CLASSPATH: ${it}"
 	}
 
+	exclude "biz.aQute.bnd-6.4.0.jar"
+
 	from configurations.runtimeClasspath
 	from jar
 	into gradleTestDependenciesDir
