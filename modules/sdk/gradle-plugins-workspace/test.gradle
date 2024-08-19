@@ -64,10 +64,11 @@ copyGradleTestDependencies {
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
 	eachFile {
-		println "COMPILE CLASSPATH: ${it}"
+		println "RUNTIME CLASSPATH: ${it}"
 	}
 
 	from configurations.runtimeClasspath
+	from jar
 	into gradleTestDependenciesDir
 }
 
