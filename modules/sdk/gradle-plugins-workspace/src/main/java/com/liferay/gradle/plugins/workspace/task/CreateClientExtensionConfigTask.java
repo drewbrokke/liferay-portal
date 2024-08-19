@@ -15,8 +15,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import com.google.common.collect.Sets;
-
 import com.liferay.gradle.plugins.workspace.configurator.ClientExtensionProjectConfigurator;
 import com.liferay.gradle.plugins.workspace.internal.client.extension.ClientExtension;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
@@ -37,6 +35,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
@@ -901,13 +900,13 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		}
 	}
 
-	private static final Set<String> _groupBatch = Sets.newHashSet(
+	private static final List<String> _groupBatch = Arrays.asList(
 		"batch", "configuration");
-	private static final Set<String> _groupConfiguration = Sets.newHashSet(
-		"configuration");
-	private static final Set<String> _groupFrontend = Sets.newHashSet(
+	private static final List<String> _groupConfiguration =
+		Collections.singletonList("configuration");
+	private static final List<String> _groupFrontend = Arrays.asList(
 		"configuration", "frontend");
-	private static final Set<String> _groupMicroservice = Sets.newHashSet(
+	private static final List<String> _groupMicroservice = Arrays.asList(
 		"configuration", "microservice");
 	private static final Map<String, String>
 		_typeSettingsToSiteInitializerJsonKeyMap =
