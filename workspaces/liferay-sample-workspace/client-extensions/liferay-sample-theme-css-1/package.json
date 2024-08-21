@@ -9,6 +9,9 @@
 		"baseTheme": "styled",
 		"version": "0.0.0"
 	},
+	"scripts": {
+		"build": "gulp build"
+	},
 	"main": "package.json",
 	"name": "@liferay/liferay-sample-theme-css-1",
 	"version": "0.0.0",
