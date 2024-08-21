@@ -1,2 +1,6 @@
+assembleClientExtension {
+	dependsOn packageRunBuild
+}
+
 buildCSS.enabled = false
 buildTheme.enabled = false
