@@ -10,7 +10,23 @@
 const gulp = require('gulp');
 const liferayThemeTasks = require('liferay-theme-tasks');
 
+const disabledTasks = [
+	// 'build:web-inf',
+	// 'build:liferay-look-and-feel',
+	'build:war'
+];
+
 liferayThemeTasks.registerTasks({
 	gulp,
+	hookFn: function(gulp) {
+		for (const disabledTask of disabledTasks) {
+			gulp.task(disabledTask, function(done) {
+				console.log(`Skipping task: ${disabledTask}`);
+
+				done();
+			});
+		}
+
+	},
 	pathBuild: "./build/buildTheme"
 });
