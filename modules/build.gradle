@@ -24,6 +24,12 @@ buildscript {
 	apply from: rootProject.file("build-buildscript.gradle"), to: buildscript
 }
 
+if (!Boolean.getBoolean("gradle.test.enabled") &&
+	gradle.startParameter.taskNames.contains("gradleTest")) {
+
+	throw new GradleException('Add the "-Dgradle.test.enabled" system property to run gradleTest')
+}
+
 apply plugin: "com.liferay.yarn.defaults.plugin"
 
 ext {
@@ -727,11 +733,7 @@ gradle.beforeProject {
 		}
 
 		pluginManager.withPlugin("org.ysb33r.gradletest") {
-			task prepareGradleTestInputs
-
 			gradleTest {
-				dependsOn prepareGradleTestInputs
-
 				if (project.hasProperty("testDebug")) {
 					debug true
 					debugTests true
@@ -755,18 +757,6 @@ gradle.beforeProject {
 
 				if (project.hasProperty("testShowOutput")) {
 					testLogging.showStandardStreams = true
-				}
-			}
-
-			prepareGradleTestInputs {
-				doLast {
-					File dir = file("build/classes/test")
-
-					dir.mkdirs()
-
-					File tmpFile = new File(dir, "tmp")
-
-					tmpFile.createNewFile()
 				}
 			}
 		}

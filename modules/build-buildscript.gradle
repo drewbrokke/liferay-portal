@@ -4,7 +4,7 @@ dependencies {
 	classpath group: "de.undercouch", name: "gradle-download-task", version: "5.4.0"
 
 	if (Boolean.getBoolean("gradle.test.enabled")) {
-		classpath group: "org.ysb33r.gradle", name: "gradletest", version: "3.0.0-alpha.5"
+		classpath group: "org.ysb33r.gradle", name: "gradletest", version: "3.0.0"
 	}
 }
 
