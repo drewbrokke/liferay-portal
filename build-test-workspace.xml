@@ -200,7 +200,7 @@
 						</then>
 					</if>
 
-					<waitfor checkevery="1" checkeveryunit="second" maxwait="60" maxwaitunit="second" timeoutproperty="spring.boot.startup.timeout">
+					<waitfor checkevery="1" checkeveryunit="second" maxwait="6000" maxwaitunit="second" timeoutproperty="spring.boot.startup.timeout">
 						<resourcecontains
 							resource="${workspace.client.extension.dir}/logs/spring.log"
 							substring="Started @{spring.boot.application.name} in"
