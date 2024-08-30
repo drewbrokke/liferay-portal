@@ -321,7 +321,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 	private void _addDependenciesBundleSupport(Project project) {
 		GradleUtil.addDependency(
 			project, BUNDLE_SUPPORT_CONFIGURATION_NAME, "com.liferay",
-			"com.liferay.portal.tools.bundle.support", "latest.release");
+			"com.liferay.portal.tools.bundle.support",
+			_PORTAL_TOOLS_BUNDLE_SUPPORT_VERSION);
 	}
 
 	private void _addDockerTasks(
@@ -1963,6 +1964,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 	private static final String _LIFERAY_IMAGE_SETUP_SCRIPT =
 		"100_liferay_image_setup.sh";
+
+	private static final String _PORTAL_TOOLS_BUNDLE_SUPPORT_VERSION = "3.7.6";
 
 	private static final Spec<Task> _skipIfExecutingParentTaskSpec =
 		new Spec<Task>() {
