@@ -67,3 +67,7 @@ test {
 	systemProperty "repository.url", System.properties["repository.url"]
 	systemProperty "bundle.support.version", jar.archiveVersion.get()
 }
+
+updateFileVersions {
+	match(/private static final String _PORTAL_TOOLS_BUNDLE_SUPPORT_VERSION = "(\d.+)";/, "../../sdk/gradle-plugins-workspace/src/main/java/com/liferay/gradle/plugins/workspace/configurator/RootProjectConfigurator.java")
+}
