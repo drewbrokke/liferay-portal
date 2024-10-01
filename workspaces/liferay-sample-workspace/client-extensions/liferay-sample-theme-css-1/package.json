@@ -2,10 +2,16 @@
 	"dependencies": {
 		"sassy-inputs": "1.0.6"
 	},
+	"devDependencies": {
+		"rtlcss": "^4.3.0"
+	},
 	"liferayDesignPack": {
 		"baseTheme": "styled"
 	},
 	"main": "package.json",
 	"name": "@liferay/liferay-sample-theme-css-1",
+	"scripts": {
+		"rtlCss": "rtlcss build/buildTheme/css/main.css build/buildTheme/css/main_rtl.css"
+	},
 	"version": "0.0.0"
 }
