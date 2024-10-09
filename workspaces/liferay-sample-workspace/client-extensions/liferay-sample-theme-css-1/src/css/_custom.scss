@@ -13,4 +13,20 @@ header {
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	}
+
+	.flip-right {
+		margin-left: 10px;
+		text-align: left;
+		border-left: 10px;
+	}
+
+	.stay-left {
+		/*rtl:ignore*/
+		margin-left: 10px;
+
+		/*rtl:begin:ignore*/
+		text-align: left;
+		border-left: 10px;
+		/*rtl:end:ignore*/
+	}
 }
