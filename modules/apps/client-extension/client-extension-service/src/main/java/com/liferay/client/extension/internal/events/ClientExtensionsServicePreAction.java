@@ -15,18 +15,26 @@ import com.liferay.client.extension.type.ThemeSpritemapCET;
 import com.liferay.client.extension.type.manager.CETManager;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.events.Action;
 import com.liferay.portal.kernel.events.LifecycleAction;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.vulcan.pagination.Pagination;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +63,10 @@ public class ClientExtensionsServicePreAction extends Action {
 		Layout layout = themeDisplay.getLayout();
 
 		if (layout.isTypeControlPanel()) {
+			if (FeatureFlagManagerUtil.isEnabled("LPD-34650")) {
+				_applyControlPanelThemeCSSCET(httpServletRequest, themeDisplay);
+			}
+
 			String mode = ParamUtil.getString(
 				httpServletRequest, "p_l_mode", Constants.VIEW);
 
@@ -82,23 +94,51 @@ public class ClientExtensionsServicePreAction extends Action {
 
 		themeDisplay.setFaviconURL(_getFaviconURL(layout));
 
-		ThemeCSSCET themeCSSCET = _getThemeCSSCET(layout);
-
-		if (themeCSSCET != null) {
-			if (_portal.isRightToLeft(httpServletRequest)) {
-				themeDisplay.setClayCSSURL(themeCSSCET.getClayRTLURL());
-				themeDisplay.setMainCSSURL(themeCSSCET.getMainRTLURL());
-			}
-			else {
-				themeDisplay.setClayCSSURL(themeCSSCET.getClayURL());
-				themeDisplay.setMainCSSURL(themeCSSCET.getMainURL());
-			}
-		}
+		_setThemeDisplayCSSURLs(
+			httpServletRequest, _getThemeCSSCET(layout), themeDisplay);
 
 		ThemeSpritemapCET themeSpritemapCET = _getThemeSpritemapCET(layout);
 
 		if (themeSpritemapCET != null) {
 			themeDisplay.setPathThemeSpritemap(themeSpritemapCET.getURL());
+		}
+	}
+
+	private void _applyControlPanelThemeCSSCET(
+		HttpServletRequest httpServletRequest, ThemeDisplay themeDisplay) {
+
+		try {
+			List<CET> cets = ListUtil.filter(
+				_cetManager.getCETs(
+					themeDisplay.getCompanyId(), null,
+					ClientExtensionEntryConstants.TYPE_THEME_CSS,
+					Pagination.of(QueryUtil.ALL_POS, QueryUtil.ALL_POS), null),
+				cet -> {
+					ThemeCSSCET themeCSSCET = (ThemeCSSCET)cet;
+
+					return Objects.equals(
+						themeCSSCET.getScope(), "controlPanel");
+				});
+
+			if (cets.isEmpty()) {
+				return;
+			}
+
+			if (cets.size() > 1) {
+				_log.error(
+					"Only one theme CSS client extension can be applied to " +
+						"the control panel at the same time");
+
+				return;
+			}
+
+			_setThemeDisplayCSSURLs(
+				httpServletRequest, (ThemeCSSCET)cets.get(0), themeDisplay);
+		}
+		catch (PortalException portalException) {
+			_log.error(
+				"Unable to apply control panel theme CSS client extension",
+				portalException);
 		}
 	}
 
@@ -247,6 +287,27 @@ public class ClientExtensionsServicePreAction extends Action {
 
 		return null;
 	}
+
+	private void _setThemeDisplayCSSURLs(
+		HttpServletRequest httpServletRequest, ThemeCSSCET themeCSSCET,
+		ThemeDisplay themeDisplay) {
+
+		if (themeCSSCET == null) {
+			return;
+		}
+
+		if (_portal.isRightToLeft(httpServletRequest)) {
+			themeDisplay.setClayCSSURL(themeCSSCET.getClayRTLURL());
+			themeDisplay.setMainCSSURL(themeCSSCET.getMainRTLURL());
+		}
+		else {
+			themeDisplay.setClayCSSURL(themeCSSCET.getClayURL());
+			themeDisplay.setMainCSSURL(themeCSSCET.getMainURL());
+		}
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ClientExtensionsServicePreAction.class);
 
 	@Reference
 	private CETManager _cetManager;
