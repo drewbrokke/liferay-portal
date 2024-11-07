@@ -7270,7 +7270,7 @@ information. Make sure to commit in all format-javadoc results.
 					<sequential>
 						<if>
 							<resourcecontains
-								resource="@{gradle.plugin.dir}/build.gradle"
+								resource="@{gradle.plugin.dir}/test.gradle"
 								substring="gradleTest"
 							/>
 							<then>
