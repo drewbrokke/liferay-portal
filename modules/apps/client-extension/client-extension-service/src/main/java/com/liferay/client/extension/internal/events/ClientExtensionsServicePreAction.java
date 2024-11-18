@@ -63,10 +63,6 @@ public class ClientExtensionsServicePreAction extends Action {
 		Layout layout = themeDisplay.getLayout();
 
 		if (layout.isTypeControlPanel()) {
-			if (FeatureFlagManagerUtil.isEnabled("LPD-34650")) {
-				_applyControlPanelThemeCSSCET(httpServletRequest, themeDisplay);
-			}
-
 			String mode = ParamUtil.getString(
 				httpServletRequest, "p_l_mode", Constants.VIEW);
 
@@ -94,51 +90,23 @@ public class ClientExtensionsServicePreAction extends Action {
 
 		themeDisplay.setFaviconURL(_getFaviconURL(layout));
 
-		_setThemeDisplayCSSURLs(
-			httpServletRequest, _getThemeCSSCET(layout), themeDisplay);
+		ThemeCSSCET themeCSSCET = _getThemeCSSCET(layout);
+
+		if (themeCSSCET != null) {
+			if (_portal.isRightToLeft(httpServletRequest)) {
+				themeDisplay.setClayCSSURL(themeCSSCET.getClayRTLURL());
+				themeDisplay.setMainCSSURL(themeCSSCET.getMainRTLURL());
+			}
+			else {
+				themeDisplay.setClayCSSURL(themeCSSCET.getClayURL());
+				themeDisplay.setMainCSSURL(themeCSSCET.getMainURL());
+			}
+		}
 
 		ThemeSpritemapCET themeSpritemapCET = _getThemeSpritemapCET(layout);
 
 		if (themeSpritemapCET != null) {
 			themeDisplay.setPathThemeSpritemap(themeSpritemapCET.getURL());
-		}
-	}
-
-	private void _applyControlPanelThemeCSSCET(
-		HttpServletRequest httpServletRequest, ThemeDisplay themeDisplay) {
-
-		try {
-			List<CET> cets = ListUtil.filter(
-				_cetManager.getCETs(
-					themeDisplay.getCompanyId(), null,
-					ClientExtensionEntryConstants.TYPE_THEME_CSS,
-					Pagination.of(QueryUtil.ALL_POS, QueryUtil.ALL_POS), null),
-				cet -> {
-					ThemeCSSCET themeCSSCET = (ThemeCSSCET)cet;
-
-					return Objects.equals(
-						themeCSSCET.getScope(), "controlPanel");
-				});
-
-			if (cets.isEmpty()) {
-				return;
-			}
-
-			if (cets.size() > 1) {
-				_log.error(
-					"Only one theme CSS client extension can be applied to " +
-						"the control panel at the same time");
-
-				return;
-			}
-
-			_setThemeDisplayCSSURLs(
-				httpServletRequest, (ThemeCSSCET)cets.get(0), themeDisplay);
-		}
-		catch (PortalException portalException) {
-			_log.error(
-				"Unable to apply control panel theme CSS client extension",
-				portalException);
 		}
 	}
 
@@ -155,6 +123,41 @@ public class ClientExtensionsServicePreAction extends Action {
 
 		return _cetManager.getCET(
 			companyId, clientExtensionEntryRel.getCETExternalReferenceCode());
+	}
+
+	private CET _getControlPanelThemeCSSCET(long companyId) {
+		try {
+			List<CET> cets = ListUtil.filter(
+				_cetManager.getCETs(
+					companyId, null,
+					ClientExtensionEntryConstants.TYPE_THEME_CSS,
+					Pagination.of(QueryUtil.ALL_POS, QueryUtil.ALL_POS), null),
+				cet -> {
+					ThemeCSSCET themeCSSCET1 = (ThemeCSSCET)cet;
+
+					return Objects.equals(
+						themeCSSCET1.getScope(), "controlPanel");
+				});
+
+			if (ListUtil.isEmpty(cets)) {
+				return null;
+			}
+
+			if (cets.size() > 1) {
+				_log.error(
+					"Only one theme CSS client extension can be applied to " +
+						"the control panel at a time");
+
+				return null;
+			}
+
+			return cets.get(0);
+		}
+		catch (PortalException portalException) {
+			_log.error("Could not fetch CETs", portalException);
+
+			return null;
+		}
 	}
 
 	private String _getFaviconURL(Layout layout) {
@@ -215,10 +218,21 @@ public class ClientExtensionsServicePreAction extends Action {
 	}
 
 	private ThemeCSSCET _getThemeCSSCET(Layout layout) {
-		CET cet = _getCET(
-			_portal.getClassNameId(Layout.class), layout.getPlid(),
-			layout.getCompanyId(),
-			ClientExtensionEntryConstants.TYPE_THEME_CSS);
+		CET cet = null;
+
+		if (layout.isTypeControlPanel() &&
+			FeatureFlagManagerUtil.isEnabled(
+				layout.getCompanyId(), "LPD-34650")) {
+
+			cet = _getControlPanelThemeCSSCET(layout.getCompanyId());
+		}
+
+		if (cet == null) {
+			_getCET(
+				_portal.getClassNameId(Layout.class), layout.getPlid(),
+				layout.getCompanyId(),
+				ClientExtensionEntryConstants.TYPE_THEME_CSS);
+		}
 
 		if ((cet == null) && (layout.getMasterLayoutPlid() > 0)) {
 			cet = _getCET(
@@ -286,24 +300,6 @@ public class ClientExtensionsServicePreAction extends Action {
 		}
 
 		return null;
-	}
-
-	private void _setThemeDisplayCSSURLs(
-		HttpServletRequest httpServletRequest, ThemeCSSCET themeCSSCET,
-		ThemeDisplay themeDisplay) {
-
-		if (themeCSSCET == null) {
-			return;
-		}
-
-		if (_portal.isRightToLeft(httpServletRequest)) {
-			themeDisplay.setClayCSSURL(themeCSSCET.getClayRTLURL());
-			themeDisplay.setMainCSSURL(themeCSSCET.getMainRTLURL());
-		}
-		else {
-			themeDisplay.setClayCSSURL(themeCSSCET.getClayURL());
-			themeDisplay.setMainCSSURL(themeCSSCET.getMainURL());
-		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
