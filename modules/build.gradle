@@ -783,10 +783,22 @@ gradle.beforeProject {
 			tasks.withType(JavaCompile) {
 				JavaCompile javaCompileTask ->
 
-				println "javaCompileTask: ${javaCompileTask}"
+				if (javaCompileTask.name.equals("compileJava") || javaCompileTask.name.equals("compileJSP")) {
+					configurations.compileOnly.allDependencies.withType(ProjectDependency) {
+						javaCompileTask.dependsOn "${it.dependencyProject.path}:jar"
+					}
+				}
 
-				configurations.compileOnly.allDependencies.withType(ProjectDependency) {
-					javaCompileTask.dependsOn "${it.dependencyProject.path}:jar"
+				if (javaCompileTask.name.equals("compileTestIntegrationJava")) {
+					configurations.testIntegrationImplementation.allDependencies.withType(ProjectDependency) {
+						javaCompileTask.dependsOn "${it.dependencyProject.path}:jar"
+					}
+				}
+
+				if (javaCompileTask.name.equals("compileTestJava")) {
+					configurations.testImplementation.allDependencies.withType(ProjectDependency) {
+						javaCompileTask.dependsOn "${it.dependencyProject.path}:jar"
+					}
 				}
 
 				doFirst {
