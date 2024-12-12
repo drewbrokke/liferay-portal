@@ -780,35 +780,23 @@ gradle.beforeProject {
 		}
 
 		if (Boolean.getBoolean("build.jakarta.transformer.enabled") && (javaVersion.compareTo(JavaVersion.VERSION_17) >= 0) && _containsProject(project, System.getProperty("build.jakarta.transformer.include.dirs"), rootDir.parentFile)) {
-			pluginManager.withPlugin("com.liferay.jasper.jspc") {
-				tasks.named("compileJSP") {
-					configurations.compileOnly.allDependencies.withType(ProjectDependency) {
-						compileJSP.dependsOn "${it.dependencyProject.path}:jar"
-					}
+			tasks.withType(JavaCompile) {
+				JavaCompile javaCompileTask ->
 
-					doFirst {
-						FileCollection jarFiles = files(configurations.jspC.files.findAll { it.name.endsWith(".jar") })
+				println "javaCompileTask: ${javaCompileTask}"
 
-						_transformToJakarta(it, jarFiles, file("$buildDir/jakarta-transformer/${it.name}"))
-
-						classpath = files(configurations.jspC.files - jarFiles) + files(fileTree(dir: file("$buildDir/jakarta-transformer/${it.name}")))
-					}
+				configurations.compileOnly.allDependencies.withType(ProjectDependency) {
+					javaCompileTask.dependsOn "${it.dependencyProject.path}:jar"
 				}
-			}
 
-			pluginManager.withPlugin("java") {
-				tasks.named("compileJava") {
-					configurations.compileOnly.allDependencies.withType(ProjectDependency) {
-						compileJava.dependsOn "${it.dependencyProject.path}:jar"
-					}
+				doFirst {
+					FileCollection jarFiles = files(classpath.files.findAll { it.name.endsWith(".jar") })
 
-					doFirst {
-						FileCollection jarFiles = files(configurations.compileClasspath.files.findAll { it.name.endsWith(".jar") })
+					File transformedFilesBuildDir = file("$buildDir/jakarta-transformer/${javaCompileTask.name}")
 
-						_transformToJakarta(it, jarFiles, file("$buildDir/jakarta-transformer/${it.name}"))
+					_transformToJakarta(javaCompileTask, jarFiles, transformedFilesBuildDir)
 
-						classpath = files(configurations.compileClasspath.files - jarFiles) + files(fileTree(dir: file("$buildDir/jakarta-transformer/${it.name}")))
-					}
+					classpath = files(classpath.files - jarFiles) + files(fileTree(dir: transformedFilesBuildDir))
 				}
 			}
 		}
