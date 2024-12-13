@@ -938,7 +938,7 @@ private void _transformToJakarta(Task task, FileCollection jarFiles, File output
 
 		org.eclipse.transformer.cli.JakartaTransformerCLI.runWith(new org.eclipse.transformer.cli.JakartaTransformerCLI(System.out, System.out, new String[] {it.getAbsolutePath(), file.getAbsolutePath()}))
 
-		task.logger.lifecycle "Jakarta: ${task.project.name}:${task.name} ${it.name} -> ${FileUtil.relativize(file, task.project.projectDir.parentFile)}"
+		task.logger.lifecycle "Jakarta: ${task.project.name}:${task.name} ${it.absolutePath} -> ${FileUtil.relativize(file, task.project.projectDir.parentFile)}"
 	}
 }
 
