@@ -803,11 +803,23 @@ gradle.beforeProject {
 					}
 
 					doFirst {
+						println "BEFORE CLASSPATH:"
+						classpath.files.each {
+							println it
+						}
+						println ""
+
 						FileCollection jarFiles = files(configurations.compileClasspath.files.findAll { it.name.endsWith(".jar") })
 
 						_transformToJakarta(it, jarFiles, file("$buildDir/jakarta-transformer/${it.name}"))
 
 						classpath = files(configurations.compileClasspath.files - jarFiles) + files(fileTree(dir: file("$buildDir/jakarta-transformer/${it.name}")))
+
+						println "AFTER CLASSPATH:"
+						classpath.files.each {
+							println it
+						}
+						println ""
 					}
 				}
 			}
