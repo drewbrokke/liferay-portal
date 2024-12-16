@@ -6,6 +6,10 @@ dependencies {
 	if (Boolean.getBoolean("gradle.test.enabled")) {
 		classpath group: "org.ysb33r.gradle", name: "gradletest", version: "3.0.0-alpha.5"
 	}
+
+	if (Boolean.getBoolean("bnd.upgrade")) {
+		classpath group: "biz.aQute.bnd", name: "biz.aQute.bnd.gradle", version: "7.0.0"
+	}
 }
 
 repositories {
