@@ -1,9 +1,349 @@
-apply plugin: "com.liferay.node"
+import com.bmuschko.gradle.docker.tasks.AbstractDockerRemoteApiTask
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerInspectContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStopContainer
+import com.bmuschko.gradle.docker.tasks.network.DockerCreateNetwork
+import com.bmuschko.gradle.docker.tasks.network.DockerInspectNetwork
 
-createDockerContainer {
-	hostConfig.network = "host"
-}
+import com.github.dockerjava.api.command.ConnectToNetworkCmd
+import com.github.dockerjava.api.command.CreateNetworkCmd
+import com.github.dockerjava.api.exception.NotFoundException
+import com.github.dockerjava.api.model.ContainerNetwork
+import com.github.dockerjava.api.model.HostConfig
+import com.github.dockerjava.api.model.Network
+import com.github.dockerjava.api.model.Network.Ipam
+
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+import java.nio.file.Files
+
+import java.util.concurrent.Callable
+import java.util.jar.Attributes
+import java.util.jar.Attributes.Name
+import java.util.jar.JarOutputStream
+import java.util.jar.Manifest
+import java.util.stream.Collectors
+import java.util.zip.ZipEntry
+
+import javax.inject.Inject
+
+import org.gradle.api.provider.Provider
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Nested
+import org.gradle.api.tasks.Optional
+
+apply plugin: "com.liferay.node"
 
 node {
 	nodeVersion = "16.15.1"
+}
+
+abstract public class CXContainerExtension {
+	String configJarName
+	String containerIP
+	boolean requiresRoute
+}
+
+abstract class DockerGetOrCreateNetwork extends DockerCreateNetwork {
+
+	DockerGetOrCreateNetwork() {
+		project.extensions.create("cxContainer", CXContainerExtension);
+	}
+
+	@Input
+	abstract Property<String> getContainerName()
+
+	@Override
+	public void runRemoteCommand() {
+		String networkName = getNetworkName().get()
+		Network network = null;
+
+		try {
+			getLogger().quiet("Finding network '${networkName}'.");
+
+			network = getDockerClient().inspectNetworkCmd().withNetworkId(networkName).exec();
+
+			if (getNextHandler() != null) {
+				getNextHandler().execute(network);
+			}
+
+			getLogger().quiet("Found network '${networkName}'.");
+		}
+		catch (NotFoundException notFoundException) {
+			getLogger().quiet("Creating network '${networkName}'.");
+
+			getDockerClient().createNetworkCmd().withName(networkName).exec();
+
+			List<Network> networks = getDockerClient().listNetworksCmd().withNameFilter(networkName).exec();
+
+			if (!networks.isEmpty() && networks.size() == 1) {
+				network = networks.get(0);
+			}
+			else {
+				throw new IllegalStateException(
+					"Found wrong number of networks for name filter '${networkName}'");
+			}
+
+			getLogger().quiet("Created network '${networkName}'.");
+		}
+
+		project.extensions.cxContainer.containerIP = getNextNetworkIP(network);
+		getLogger().quiet("Next Network IP: ${project.extensions.cxContainer.containerIP}");
+	}
+
+	private String getNextNetworkIP(Network network) {
+		def subnetPrefix = network.ipam.config.get(0).subnet[0..-4].split('\\.')[0..2].join('.')
+		def networkAddresses = network.containers.entrySet().stream().map(
+			entry -> entry.value.ipv4Address[0..-4]
+		).collect(Collectors.toList())
+
+		String nextNetworkIP = "NOT SET"
+
+		if (!networkAddresses.isEmpty()) {
+			for (int x = 2; x < 255; x++) {
+				String nextIp = "${subnetPrefix}.${x}"
+				if (!networkAddresses.contains(nextIp)) {
+					nextNetworkIP = nextIp
+					break;
+				}
+			}
+		}
+		else {
+			nextNetworkIP = "${subnetPrefix}.2"
+		}
+
+		return nextNetworkIP
+	}
+
+}
+
+abstract class DockerConnectNetwork extends AbstractDockerRemoteApiTask {
+	@Input
+	abstract Property<String> getContainerName()
+	@Input
+	abstract Property<String> getNetworkName()
+
+	@Override
+	public void runRemoteCommand() {
+		String containerIP = project.extensions.cxContainer.containerIP
+		String containerName = getContainerName().get()
+		String networkName = getNetworkName().get()
+		getLogger().quiet("Connecting container '${containerName}' to network '${networkName}' with IP '${containerIP}'.")
+
+		ConnectToNetworkCmd connectToNetworkCmd = getDockerClient().connectToNetworkCmd().withNetworkId(
+			networkName
+		).withContainerId(
+			containerName
+		)
+
+		connectToNetworkCmd.withContainerNetwork(
+			new ContainerNetwork().withIpv4Address(
+				containerIP
+			)
+		).exec()
+	}
+}
+
+def liferayVirtualInstanceId = gradle.liferayWorkspace.virtualInstanceId ?: 'default'
+def liferayHome = gradle.liferayWorkspace.homeDir
+
+configure(
+	subprojects.findAll {
+		it.file("./client-extension.yaml").exists()
+	}
+) {
+	def projectName = project.name
+	def projectId = projectName.replaceAll("-", "")
+	def configJarName = "${projectId}_${liferayVirtualInstanceId}-cx-config.jar"
+	def hostIP = getHostIP()
+	def dockerContainerStatus
+
+	tasks.register('getOrCreateDockerNetwork', DockerGetOrCreateNetwork) {
+		networkName = 'bridge-cx'
+		containerName = projectName
+	}
+
+	tasks.register('connectDockerContainerToNetwork', DockerConnectNetwork) {
+		dependsOn tasks.getOrCreateDockerNetwork
+		networkName = 'bridge-cx'
+		containerName = projectName
+	}
+
+	tasks.register('createDockerContainer', DockerCreateContainer) {
+		dependsOn tasks.registerClientExtensionOnly, tasks.buildDockerImage, tasks.preInspectDockerContainer
+		targetImageId "${projectName}:latest"
+		containerName = projectName
+
+		hostConfig.extraHosts.add("${liferayVirtualInstanceId}:${hostIP}")
+
+		envVars.value project.provider(() -> {
+				Map<String, String> envs = new HashMap<>();
+
+				def _lcpJsonObject = getLcpJsonObject(project)
+
+				_lcpJsonObject?.env.each(entry -> {
+						envs.put(entry.key, entry.value)
+					})
+
+				return envs;
+			})
+
+		hostConfig.binds.put("${liferayHome}/routes/${liferayVirtualInstanceId}/dxp", "/etc/liferay/lxc/dxp-metadata")
+		hostConfig.binds.put("${liferayHome}/routes/${liferayVirtualInstanceId}/${projectName}", "/etc/liferay/lxc/ext-init-metadata")
+
+		finalizedBy tasks.connectDockerContainerToNetwork
+	}
+
+	tasks.register('runDockerContainer', DockerStartContainer) {
+		dependsOn tasks.createDockerContainer
+		targetContainerId projectName
+
+		doFirst {
+			if (project.extensions.cxContainer.requiresRoute) {
+				def containerRoutesDir = new File("${liferayHome}/routes/${liferayVirtualInstanceId}/${projectName}")
+				while (!containerRoutesDir.exists()) {
+					getLogger().quiet("Waiting for routes. Make sure Liferay is running...")
+					sleep(500);
+				}
+				getLogger().quiet("Routes ready! Starting container.")
+			}
+		}
+	}
+
+	tasks.register('preInspectDockerContainer', DockerInspectContainer) {
+		targetContainerId projectName
+		onNext {
+			container ->
+			dockerContainerStatus = container.state.status
+		}
+		onError {
+			// do nothing
+		}
+		finalizedBy tasks.stopDockerContainer
+	}
+
+	tasks.register('removeDockerContainer', DockerRemoveContainer) {
+		targetContainerId projectName
+		onlyIf {
+			dockerContainerStatus != null && dockerContainerStatus != "running"
+		}
+		onNext {
+			container ->
+			dockerContainerStatus = null
+		}
+	}
+
+	tasks.register('stopDockerContainer', DockerStopContainer) {
+		targetContainerId projectName
+		onlyIf {
+			dockerContainerStatus = = "running"
+		}
+		onNext {
+			container ->
+			dockerContainerStatus = container.state.status
+		}
+		finalizedBy tasks.removeDockerContainer
+	}
+
+	tasks.register('registerClientExtensionOnly') {
+		dependsOn tasks.createClientExtensionConfig, tasks.getOrCreateDockerNetwork
+
+		doLast {
+			getLogger().quiet("Host IP: ${hostIP}")
+
+			def containerIP = project.extensions.cxContainer.containerIP
+			def clientExtensionConfigJsonFile = new File("${project.buildDir}/liferay-client-extension-build/${projectName}.client-extension-config.json")
+			def clientExtensionConfigJsonObject = new JsonSlurper().parse(clientExtensionConfigJsonFile)
+			def clientExtensionAddress = containerIP
+
+			def _lcpJsonObject = getLcpJsonObject(project)
+
+			if (_lcpJsonObject?.loadBalancer?.targetPort) {
+				def lcpJsonLoadBalancerTargetPort = _lcpJsonObject.loadBalancer.targetPort
+				clientExtensionAddress = "${containerIP}:${lcpJsonLoadBalancerTargetPort}"
+				getLogger().quiet("Address of CX Docker Container: ${clientExtensionAddress}")
+			}
+
+			def keysToScope = []
+			boolean requiresRoute = false
+			clientExtensionConfigJsonObject.each {
+				entry ->
+				if (!entry.key.startsWith(':')) {
+					keysToScope += entry.key
+				}
+
+				if (entry.key.startsWith("com.liferay.oauth2.provider.configuration.OAuth2ProviderApplication")) {
+					entry.value.put(".serviceAddress", clientExtensionAddress)
+					requiresRoute = true;
+				}
+
+				entry.value.put("dxp.lxc.liferay.com.virtualInstanceId", liferayVirtualInstanceId)
+				entry.value.put("baseURL", "http://${clientExtensionAddress}")
+			}
+
+			for (keyToScope in keysToScope) {
+				def value = clientExtensionConfigJsonObject.remove(keyToScope)
+				def renamedKey = "${keyToScope}/${liferayVirtualInstanceId}"
+				clientExtensionConfigJsonObject.put(renamedKey, value)
+			}
+
+			def jsonString = JsonOutput.toJson(clientExtensionConfigJsonObject)
+			def zipFileName = "${project.buildDir}/cx-config/${configJarName}"
+
+			new File(zipFileName).parentFile.mkdirs()
+
+			Manifest manifest = new Manifest()
+			manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
+			manifest.getMainAttributes().put(new Attributes.Name("Bundle-ManifestVersion"), "2");
+			manifest.getMainAttributes().put(new Attributes.Name("Bundle-SymbolicName"), "${projectId}_${liferayVirtualInstanceId}".toString());
+			manifest.getMainAttributes().put(new Attributes.Name("Bundle-Version"), "0.0.1");
+			manifest.getMainAttributes().put(
+				new Attributes.Name("Require-Capability"),
+				"osgi.extender;filter:=\"(&(osgi.extender=osgi.configurator)(version>=1.0)(!(version>=2.0)))\"");
+
+			try (JarOutputStream output = new JarOutputStream(new FileOutputStream(zipFileName), manifest)) {
+				output.putNextEntry(new ZipEntry("OSGI-INF/configurator/${projectName}.client-extension-config.json"))
+				Files.copy(new ByteArrayInputStream(jsonString.getBytes("UTF-8")), output)
+				output.closeEntry()
+			}
+
+			copy {
+				from zipFileName
+				into liferay.deployDir
+			}
+
+			getLogger().quiet("CX OSGi JSON:\n${JsonOutput.prettyPrint(jsonString)}")
+
+			project.extensions.cxContainer.configJarName = zipFileName
+			project.extensions.cxContainer.requiresRoute = requiresRoute
+		}
+	}
+
+	tasks.register('unregisterClientExtensionOnly') {
+		doLast {
+			delete(files("${liferay.deployDir}/${configJarName}"))
+		}
+	}
+
+	afterEvaluate {
+		tasks.named('clean') {
+			dependsOn('unregisterClientExtensionOnly')
+		}
+	}
+}
+
+def getHostIP() {
+	// Define a different command per OS to obtain the host IP
+	def cmd = ['sh', '-c', /ip -p -j route get 8.8.8.8 | jq -r '.[] | .prefsrc'/];
+	def proc = cmd.execute()
+	proc.waitFor()
+	return proc.text.trim();
+}
+
+def getLcpJsonObject(theProject) {
+	def lcpJsonFile = new File("${theProject.buildDir}/liferay-client-extension-build/LCP.json")
+	return new JsonSlurper().parse(lcpJsonFile)
 }
