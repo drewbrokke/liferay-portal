@@ -845,6 +845,8 @@ gradle.beforeProject {
 					Task jarTask ->
 
 					bundle {
+						instruction "-fixupmessages": "No translation found for macro: range;[==,==]"
+
 						setClasspath(
 							project.providers.provider {
 								FileCollection jarFiles = files(project.configurations.compileClasspath.findAll { it.name.endsWith(".jar") })
