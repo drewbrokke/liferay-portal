@@ -56,4 +56,4 @@ Import-Package:\
 	\
 	*
 -fixupmessages: "^Classes found in the wrong directory: \\\\{META-INF/versions/9/";is:=warning
--includeresource: @graphql-java-annotations-[0-9.]*.jar!/graphql/annotations/annotationTypes/*
+-includeresource: @graphql-java-annotations-[0-9.]*(-JAKARTA-SNAPSHOT)?.jar!/graphql/annotations/annotationTypes/*
