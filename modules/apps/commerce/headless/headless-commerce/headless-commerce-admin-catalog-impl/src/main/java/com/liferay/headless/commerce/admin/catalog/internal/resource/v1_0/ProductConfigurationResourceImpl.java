@@ -50,8 +50,12 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Objects;
 
+<<<<<<< HEAD
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+=======
+import jakarta.ws.rs.core.Response;
+>>>>>>> cab2c1215b1cb (LPS-00000 apps: javax -> jakarta)
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

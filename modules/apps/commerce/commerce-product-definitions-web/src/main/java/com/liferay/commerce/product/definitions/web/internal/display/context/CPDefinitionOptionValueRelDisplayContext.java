@@ -37,7 +37,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.TimeZone;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Marco Leo

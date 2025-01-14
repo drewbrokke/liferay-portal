@@ -16,8 +16,8 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import java.util.Locale;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Iván Zaera

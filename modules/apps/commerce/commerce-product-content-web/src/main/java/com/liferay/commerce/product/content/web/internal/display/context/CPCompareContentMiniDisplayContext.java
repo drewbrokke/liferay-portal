@@ -40,7 +40,7 @@ import java.util.Map;
 import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Alessio Antonio Rendina

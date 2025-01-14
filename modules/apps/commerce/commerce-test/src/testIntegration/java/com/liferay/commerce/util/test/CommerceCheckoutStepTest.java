@@ -50,7 +50,7 @@ import java.math.BigDecimal;
 
 import javax.portlet.ActionRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.frutilla.FrutillaRule;
 

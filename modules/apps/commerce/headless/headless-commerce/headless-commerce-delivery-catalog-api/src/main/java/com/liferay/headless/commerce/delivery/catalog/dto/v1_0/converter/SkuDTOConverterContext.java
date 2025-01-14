@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 import java.util.Locale;
 
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * @author Andrea Sbarra

@@ -10,8 +10,8 @@ import com.liferay.bean.portlet.extension.ScopedBean;
 import java.util.Enumeration;
 import java.util.Objects;
 
-import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.spi.Bean;
+import jakarta.enterprise.context.spi.CreationalContext;
+import jakarta.enterprise.inject.spi.Bean;
 
 import javax.mvc.RedirectScoped;
 

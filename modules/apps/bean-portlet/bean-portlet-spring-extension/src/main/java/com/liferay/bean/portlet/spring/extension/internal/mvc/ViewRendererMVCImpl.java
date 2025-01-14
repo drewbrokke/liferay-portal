@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.ManagedBean;
+import jakarta.annotation.ManagedBean;
 
 import javax.mvc.Models;
 import javax.mvc.binding.BindingResult;
@@ -30,7 +30,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
 
-import javax.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.Configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -176,7 +176,7 @@ public class ViewRendererMVCImpl
 		private ViewEnginePriorityComparator() {
 
 			// The Javadoc for javax.mvc.engine.ViewEngine states "View engines
-			// can be decorated with javax.annotation.Priority to indicate their
+			// can be decorated with jakarta.annotation.Priority to indicate their
 			// priority; otherwise the priority is assumed to be
 			// ViewEngine.PRIORITY_APPLICATION."
 

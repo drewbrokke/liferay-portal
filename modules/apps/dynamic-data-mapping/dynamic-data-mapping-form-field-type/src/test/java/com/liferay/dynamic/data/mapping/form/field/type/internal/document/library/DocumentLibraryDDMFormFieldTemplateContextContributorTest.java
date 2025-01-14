@@ -53,7 +53,7 @@ import java.util.ResourceBundle;
 
 import javax.portlet.MutableResourceParameters;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.hamcrest.CoreMatchers;
 

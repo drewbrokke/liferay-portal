@@ -9,7 +9,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Marco Leo

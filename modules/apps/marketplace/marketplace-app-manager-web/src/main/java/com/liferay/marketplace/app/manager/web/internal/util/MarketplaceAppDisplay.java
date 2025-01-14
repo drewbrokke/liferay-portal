@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import javax.portlet.MimeResponse;
 import javax.portlet.PortletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Ryan Park

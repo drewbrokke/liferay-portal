@@ -35,7 +35,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Dictionary;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

@@ -25,7 +25,7 @@ import com.liferay.site.navigation.util.comparator.SiteNavigationMenuNameCompara
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Eudaldo Alonso

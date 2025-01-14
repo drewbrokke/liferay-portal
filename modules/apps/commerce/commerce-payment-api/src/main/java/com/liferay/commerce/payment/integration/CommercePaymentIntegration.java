@@ -12,7 +12,7 @@ import com.liferay.portal.kernel.util.UnicodeProperties;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Luca Pellizzon

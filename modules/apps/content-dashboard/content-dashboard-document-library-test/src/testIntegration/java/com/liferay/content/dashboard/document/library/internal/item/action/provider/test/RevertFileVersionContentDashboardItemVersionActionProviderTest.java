@@ -45,7 +45,7 @@ import java.net.URLEncoder;
 
 import javax.portlet.ActionRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.junit.Assert;
 import org.junit.Before;

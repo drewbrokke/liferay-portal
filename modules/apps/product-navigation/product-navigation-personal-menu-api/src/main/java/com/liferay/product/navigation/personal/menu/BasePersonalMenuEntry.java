@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 
 import javax.portlet.PortletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Provides a skeletal implementation of the {@link PersonalMenuEntry} to

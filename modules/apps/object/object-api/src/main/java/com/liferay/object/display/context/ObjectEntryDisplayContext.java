@@ -16,7 +16,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 
 import java.util.Map;
 
-import javax.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.PageContext;
 
 /**
  * @author Gabriel Albuquerque

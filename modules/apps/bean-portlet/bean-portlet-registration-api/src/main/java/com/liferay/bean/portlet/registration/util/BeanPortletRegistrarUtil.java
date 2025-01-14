@@ -92,8 +92,8 @@ import javax.portlet.filter.PortletFilter;
 import javax.portlet.filter.RenderFilter;
 import javax.portlet.filter.ResourceFilter;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
 
 import javax.xml.namespace.QName;
 

@@ -12,7 +12,7 @@ import java.util.Collection;
 
 import javax.portlet.ClientDataRequest;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 
 /**
  * @author Neil Griffin

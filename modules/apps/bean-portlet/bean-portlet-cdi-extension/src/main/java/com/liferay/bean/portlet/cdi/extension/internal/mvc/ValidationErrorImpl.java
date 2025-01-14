@@ -7,7 +7,7 @@ package com.liferay.bean.portlet.cdi.extension.internal.mvc;
 
 import javax.mvc.binding.ValidationError;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 /**
  * @author Neil Griffin

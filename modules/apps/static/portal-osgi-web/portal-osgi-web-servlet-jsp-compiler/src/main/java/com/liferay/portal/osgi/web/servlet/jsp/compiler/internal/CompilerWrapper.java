@@ -42,7 +42,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
@@ -242,7 +242,7 @@ public class CompilerWrapper extends Compiler {
 		Class<?> clazz = CompilerWrapper.class;
 
 		URL url = clazz.getResource(
-			"/javax/servlet/jsp/resources/".concat(name));
+			"/jakarta.servlet.jsp.resources/".concat(name));
 
 		String location = null;
 
@@ -692,7 +692,7 @@ public class CompilerWrapper extends Compiler {
 	private static final String[] _JSP_COMPILER_DEPENDENCIES = {
 		"com.liferay.portal.kernel.exception.PortalException",
 		"com.liferay.portal.util.PortalImpl", "javax.portlet.PortletException",
-		"javax.servlet.ServletException"
+		"jakarta.servlet.ServletException"
 	};
 
 	private static final Log _log = LogFactoryUtil.getLog(

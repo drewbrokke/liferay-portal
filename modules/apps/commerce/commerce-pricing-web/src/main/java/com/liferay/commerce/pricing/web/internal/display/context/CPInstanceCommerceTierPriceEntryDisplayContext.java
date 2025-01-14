@@ -27,7 +27,7 @@ import com.liferay.taglib.util.CustomAttributesUtil;
 
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Alessio Antonio Rendina

@@ -10,7 +10,7 @@ import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 
 import javax.portlet.PortletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Marcellus Tavares

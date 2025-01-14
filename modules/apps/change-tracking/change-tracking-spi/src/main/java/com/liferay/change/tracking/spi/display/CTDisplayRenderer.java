@@ -12,7 +12,7 @@ import java.io.InputStream;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Display renderer used to describe and render models of a given type. If an

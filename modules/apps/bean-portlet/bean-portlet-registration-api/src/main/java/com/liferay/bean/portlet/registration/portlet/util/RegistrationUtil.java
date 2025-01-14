@@ -33,7 +33,7 @@ import java.util.Set;
 import javax.portlet.Portlet;
 import javax.portlet.filter.PortletFilter;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;

@@ -71,7 +71,7 @@ import java.util.Map;
 import javax.portlet.PortletURL;
 import javax.portlet.filter.PortletURLWrapper;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Marco Leo

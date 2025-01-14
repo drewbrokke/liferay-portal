@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Sergio González

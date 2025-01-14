@@ -45,7 +45,7 @@ import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
 
 import javax.portlet.ActionRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.junit.After;
 import org.junit.Assert;

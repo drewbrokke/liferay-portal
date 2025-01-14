@@ -19,7 +19,7 @@ import com.liferay.rss.util.RSSUtil;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Adolfo Pérez

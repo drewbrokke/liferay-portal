@@ -17,20 +17,20 @@ import java.io.Serializable;
 
 import java.lang.reflect.Method;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
+import jakarta.interceptor.AroundInvoke;
+import jakarta.interceptor.Interceptor;
+import jakarta.interceptor.InvocationContext;
 
 import javax.mvc.security.Csrf;
 import javax.mvc.security.CsrfProtected;
 
 import javax.portlet.ClientDataRequest;
 
-import javax.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.Configuration;
 
 /**
  * @author Neil Griffin

@@ -5,8 +5,8 @@
 
 package com.liferay.bean.portlet.cdi.extension.internal.mvc;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
 import javax.mvc.security.Encoders;
 

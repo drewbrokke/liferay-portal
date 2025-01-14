@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Stefano Motta

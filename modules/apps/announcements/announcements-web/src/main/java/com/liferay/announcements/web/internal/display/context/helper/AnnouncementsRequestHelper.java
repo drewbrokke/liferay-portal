@@ -14,7 +14,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Adolfo Pérez

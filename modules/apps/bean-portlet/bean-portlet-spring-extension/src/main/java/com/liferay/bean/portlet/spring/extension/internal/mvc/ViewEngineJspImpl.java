@@ -5,8 +5,8 @@
 
 package com.liferay.bean.portlet.spring.extension.internal.mvc;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Priority;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.Priority;
 
 import javax.mvc.engine.ViewEngine;
 import javax.mvc.engine.ViewEngineContext;
@@ -17,7 +17,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.PortletResponse;
 
-import javax.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.Configuration;
 
 /**
  * @author Neil Griffin

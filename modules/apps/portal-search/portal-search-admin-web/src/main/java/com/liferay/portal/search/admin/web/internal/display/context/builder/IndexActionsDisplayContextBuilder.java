@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
 
 import javax.portlet.RenderRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Olivia Yu

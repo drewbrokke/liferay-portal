@@ -26,8 +26,8 @@ import java.util.Map;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceURL;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.jsp.PageContext;
 
 /**
  * @author Alejandro Tardín

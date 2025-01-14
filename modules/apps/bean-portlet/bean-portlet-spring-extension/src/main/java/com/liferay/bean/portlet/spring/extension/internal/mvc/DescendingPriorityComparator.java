@@ -7,7 +7,7 @@ package com.liferay.bean.portlet.spring.extension.internal.mvc;
 
 import java.util.Comparator;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 
 /**
  * @author Neil Griffin

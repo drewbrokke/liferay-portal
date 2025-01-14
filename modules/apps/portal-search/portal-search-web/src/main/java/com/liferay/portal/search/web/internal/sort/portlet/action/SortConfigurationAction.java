@@ -22,8 +22,8 @@ import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchRe
 import javax.portlet.PortletConfig;
 import javax.portlet.RenderRequest;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

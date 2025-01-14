@@ -57,7 +57,7 @@ import java.util.zip.ZipEntry;
 
 import javax.portlet.Portlet;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.junit.After;
 import org.junit.AfterClass;

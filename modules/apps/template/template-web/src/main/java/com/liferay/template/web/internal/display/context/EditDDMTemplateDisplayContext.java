@@ -41,7 +41,7 @@ import java.util.ResourceBundle;
 
 import javax.portlet.PortletConfig;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Eudaldo Alonso

@@ -13,8 +13,8 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Represents the root panel category for all implemented categories in the

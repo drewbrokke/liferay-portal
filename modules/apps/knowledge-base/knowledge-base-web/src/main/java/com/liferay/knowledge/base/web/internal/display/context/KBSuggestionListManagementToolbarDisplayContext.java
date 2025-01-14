@@ -33,7 +33,7 @@ import java.util.Objects;
 import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Alejandro Tardín

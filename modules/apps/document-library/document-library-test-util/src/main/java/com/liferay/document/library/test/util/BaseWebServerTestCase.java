@@ -17,7 +17,7 @@ import com.liferay.portal.webserver.WebServerServlet;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.Servlet;
+import jakarta.servlet.Servlet;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;

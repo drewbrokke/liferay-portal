@@ -10,8 +10,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Andrea Di Giorgi

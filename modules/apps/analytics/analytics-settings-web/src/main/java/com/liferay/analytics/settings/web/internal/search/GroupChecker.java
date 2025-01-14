@@ -13,7 +13,7 @@ import java.util.Set;
 
 import javax.portlet.RenderResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author André Miranda

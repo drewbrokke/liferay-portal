@@ -15,8 +15,8 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Locale;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Priority;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.Priority;
 
 import javax.portlet.ActionURL;
 import javax.portlet.CacheControl;
@@ -27,7 +27,7 @@ import javax.portlet.RenderURL;
 import javax.portlet.ResourceURL;
 import javax.portlet.filter.MimeResponseWrapper;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import org.w3c.dom.Element;
 

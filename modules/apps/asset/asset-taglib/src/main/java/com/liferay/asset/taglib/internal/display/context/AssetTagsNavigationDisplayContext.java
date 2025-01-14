@@ -31,7 +31,7 @@ import java.util.Map;
 
 import javax.portlet.RenderResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Mikel Lorza

@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 
 import javax.portlet.RenderResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Pei-Jung Lan

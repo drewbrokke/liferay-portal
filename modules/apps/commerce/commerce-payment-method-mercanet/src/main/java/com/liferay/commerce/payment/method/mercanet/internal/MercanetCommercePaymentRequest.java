@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Luca Pellizzon

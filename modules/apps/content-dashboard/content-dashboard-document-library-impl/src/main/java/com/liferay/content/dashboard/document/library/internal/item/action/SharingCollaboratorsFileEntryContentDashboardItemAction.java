@@ -20,7 +20,7 @@ import java.util.Locale;
 
 import javax.portlet.PortletResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Cristina González

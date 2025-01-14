@@ -10,7 +10,7 @@ import com.liferay.frontend.data.set.sample.web.internal.view.util.FDSViewSerial
 import com.liferay.frontend.data.set.view.FDSViewSerializer;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Marko Cikos

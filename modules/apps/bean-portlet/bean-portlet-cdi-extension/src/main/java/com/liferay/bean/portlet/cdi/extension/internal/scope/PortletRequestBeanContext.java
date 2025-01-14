@@ -7,9 +7,9 @@ package com.liferay.bean.portlet.cdi.extension.internal.scope;
 
 import java.lang.annotation.Annotation;
 
-import javax.enterprise.context.spi.Contextual;
-import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.spi.Bean;
+import jakarta.enterprise.context.spi.Contextual;
+import jakarta.enterprise.context.spi.CreationalContext;
+import jakarta.enterprise.inject.spi.Bean;
 
 import javax.portlet.annotations.PortletRequestScoped;
 

@@ -38,7 +38,7 @@ import com.liferay.product.navigation.control.menu.ProductNavigationControlMenuE
 
 import javax.portlet.Portlet;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.junit.Assert;
 import org.junit.Before;

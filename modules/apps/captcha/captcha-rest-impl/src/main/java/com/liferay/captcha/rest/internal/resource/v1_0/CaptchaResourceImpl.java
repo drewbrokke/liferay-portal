@@ -23,7 +23,7 @@ import com.liferay.portal.servlet.filters.secure.NonceUtil;
 
 import java.io.ByteArrayOutputStream;
 
-import javax.ws.rs.ForbiddenException;
+import jakarta.ws.rs.ForbiddenException;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

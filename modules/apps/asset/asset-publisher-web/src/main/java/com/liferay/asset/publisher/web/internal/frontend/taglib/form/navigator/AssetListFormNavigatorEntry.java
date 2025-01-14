@@ -13,7 +13,7 @@ import com.liferay.portal.kernel.model.User;
 
 import java.util.Objects;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

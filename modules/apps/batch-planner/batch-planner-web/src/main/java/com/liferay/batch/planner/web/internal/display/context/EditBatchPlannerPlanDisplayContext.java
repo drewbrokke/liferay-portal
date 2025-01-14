@@ -29,7 +29,7 @@ import java.util.Map;
 
 import javax.portlet.RenderRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Igor Beslic

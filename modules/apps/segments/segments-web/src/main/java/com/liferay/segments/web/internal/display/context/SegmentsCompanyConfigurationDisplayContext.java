@@ -23,7 +23,7 @@ import com.liferay.segments.configuration.provider.SegmentsConfigurationProvider
 import javax.portlet.PortletResponse;
 import javax.portlet.ResourceURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Cristina González

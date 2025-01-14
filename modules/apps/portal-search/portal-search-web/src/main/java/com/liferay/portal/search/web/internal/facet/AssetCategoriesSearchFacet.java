@@ -17,7 +17,7 @@ import com.liferay.portal.search.web.facet.SearchFacet;
 
 import javax.portlet.ActionRequest;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

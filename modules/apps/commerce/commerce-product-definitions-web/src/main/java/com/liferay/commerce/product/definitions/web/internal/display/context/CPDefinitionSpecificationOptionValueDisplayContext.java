@@ -46,7 +46,7 @@ import java.util.TreeMap;
 
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Andrea Di Giorgi

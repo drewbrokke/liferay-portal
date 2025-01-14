@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.service.UserService;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

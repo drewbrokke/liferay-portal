@@ -21,7 +21,7 @@ import com.liferay.portal.workflow.instance.tracker.web.internal.constants.Workf
 
 import javax.portlet.PortletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

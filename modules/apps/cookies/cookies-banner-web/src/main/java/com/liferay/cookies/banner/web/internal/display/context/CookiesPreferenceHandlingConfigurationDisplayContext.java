@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import javax.portlet.ResourceURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Rachael Koestartyo

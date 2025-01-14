@@ -10,7 +10,7 @@ import com.liferay.info.form.InfoForm;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Víctor Galán

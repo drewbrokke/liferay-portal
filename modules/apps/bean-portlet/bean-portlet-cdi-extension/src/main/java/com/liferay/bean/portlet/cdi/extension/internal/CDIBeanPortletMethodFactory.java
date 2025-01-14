@@ -11,7 +11,7 @@ import com.liferay.bean.portlet.extension.BeanPortletMethodType;
 
 import java.lang.reflect.Method;
 
-import javax.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.BeanManager;
 
 /**
  * @author Neil Griffin

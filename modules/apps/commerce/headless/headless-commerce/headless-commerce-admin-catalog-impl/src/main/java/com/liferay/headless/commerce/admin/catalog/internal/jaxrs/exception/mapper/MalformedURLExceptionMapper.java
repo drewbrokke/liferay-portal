@@ -10,7 +10,7 @@ import com.liferay.portal.vulcan.jaxrs.exception.mapper.Problem;
 
 import java.net.MalformedURLException;
 
-import javax.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.ExceptionMapper;
 
 import org.osgi.service.component.annotations.Component;
 

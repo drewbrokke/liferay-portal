@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Marco Leo

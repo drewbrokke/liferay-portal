@@ -33,7 +33,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

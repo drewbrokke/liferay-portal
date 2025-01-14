@@ -15,7 +15,7 @@ import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
 
 import javax.portlet.PortletPreferences;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Reference;
 

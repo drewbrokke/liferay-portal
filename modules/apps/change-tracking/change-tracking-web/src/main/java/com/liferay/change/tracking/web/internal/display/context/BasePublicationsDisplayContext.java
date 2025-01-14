@@ -16,7 +16,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ConcurrentModificationException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Samuel Trong Tran

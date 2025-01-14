@@ -67,7 +67,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import javax.mail.internet.InternetAddress;
+import jakarta.mail.internet.InternetAddress;
 
 import javax.portlet.PortletMode;
 import javax.portlet.PortletRequest;

@@ -9,7 +9,7 @@ import java.util.Collection;
 
 import javax.portlet.PortletResponse;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import org.w3c.dom.Element;
 

@@ -16,7 +16,7 @@ import java.util.List;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Víctor Galán

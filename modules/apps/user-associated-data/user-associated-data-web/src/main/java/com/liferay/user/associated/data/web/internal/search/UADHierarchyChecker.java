@@ -15,7 +15,7 @@ import com.liferay.user.associated.data.display.UADDisplay;
 
 import javax.portlet.PortletResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Samuel Trong Tran

@@ -16,7 +16,7 @@ import java.beans.PropertyDescriptor;
 
 import java.lang.reflect.Method;
 
-import javax.annotation.ManagedBean;
+import jakarta.annotation.ManagedBean;
 
 import javax.mvc.Controller;
 import javax.mvc.MvcContext;
@@ -26,10 +26,10 @@ import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
-import javax.validation.MessageInterpolator;
-import javax.validation.Validator;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.Validator;
 
-import javax.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.Configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

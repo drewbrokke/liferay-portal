@@ -17,7 +17,7 @@ import com.liferay.portletmvc4spring.test.mock.web.portlet.MockPortletResponse;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.junit.Assert;
 import org.junit.Before;

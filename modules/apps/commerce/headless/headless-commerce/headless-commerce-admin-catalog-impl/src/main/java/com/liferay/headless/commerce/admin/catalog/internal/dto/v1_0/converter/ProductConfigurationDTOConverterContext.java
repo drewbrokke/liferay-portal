@@ -12,7 +12,7 @@ import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * @author Andrea Sbarra

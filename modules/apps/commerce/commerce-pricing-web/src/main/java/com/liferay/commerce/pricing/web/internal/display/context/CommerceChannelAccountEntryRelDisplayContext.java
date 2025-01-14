@@ -37,7 +37,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Alessio Antonio Rendina

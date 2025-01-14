@@ -11,8 +11,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-import javax.ws.rs.ClientErrorException;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.ClientErrorException;
+import jakarta.ws.rs.core.Response;
 
 /**
  * @author Zoltán Takács

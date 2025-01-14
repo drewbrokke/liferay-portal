@@ -12,7 +12,7 @@ import com.liferay.portal.search.web.internal.custom.facet.portlet.CustomFacetPo
 
 import javax.portlet.RenderRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Petteri Karttunen
