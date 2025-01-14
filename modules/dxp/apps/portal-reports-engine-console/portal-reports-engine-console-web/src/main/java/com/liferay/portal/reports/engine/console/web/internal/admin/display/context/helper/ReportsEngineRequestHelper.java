@@ -21,7 +21,7 @@ import com.liferay.portal.reports.engine.console.constants.ReportsEngineConsoleC
 import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Rafael Praxedes

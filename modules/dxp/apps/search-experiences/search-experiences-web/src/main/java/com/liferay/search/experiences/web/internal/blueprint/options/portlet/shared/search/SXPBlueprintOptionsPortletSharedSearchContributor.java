@@ -15,7 +15,7 @@ import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchSe
 import com.liferay.search.experiences.constants.SXPPortletKeys;
 import com.liferay.search.experiences.web.internal.blueprint.options.portlet.preferences.SXPBlueprintOptionsPortletPreferencesUtil;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
