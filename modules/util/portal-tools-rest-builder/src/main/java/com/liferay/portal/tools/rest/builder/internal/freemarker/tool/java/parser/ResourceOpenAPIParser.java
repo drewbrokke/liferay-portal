@@ -221,12 +221,12 @@ public class ResourceOpenAPIParser {
 			}
 		}
 
-		methodAnnotations.add("@javax.ws.rs.Path(\"" + path + "\")");
+		methodAnnotations.add("@jakarta.ws.rs.Path(\"" + path + "\")");
 
 		String annotationString = StringUtil.toUpperCase(
 			OpenAPIParserUtil.getHTTPMethod(operation));
 
-		methodAnnotations.add("@javax.ws.rs." + annotationString);
+		methodAnnotations.add("@jakarta.ws.rs." + annotationString);
 
 		String methodAnnotation = _getMethodAnnotationConsumes(
 			javaMethodSignature.getRequestBodyMediaTypes());
@@ -547,7 +547,7 @@ public class ResourceOpenAPIParser {
 				Collections.singleton(ContentTypes.APPLICATION_JSON),
 				schemaName, javaMethodParameters,
 				_getBatchMethodName(batchOperationType, methodName),
-				"javax.ws.rs.core.Response", parentSchemaName));
+				"jakarta.ws.rs.core.Response", parentSchemaName));
 	}
 
 	private static String _addParameter(Parameter parameter) {
@@ -876,10 +876,10 @@ public class ResourceOpenAPIParser {
 		}
 
 		if (requestBodyMediaTypes.size() > 1) {
-			return "@javax.ws.rs.Consumes({" + sb.toString() + "})";
+			return "@jakarta.ws.rs.Consumes({" + sb.toString() + "})";
 		}
 
-		return "@javax.ws.rs.Consumes(" + sb.toString() + ")";
+		return "@jakarta.ws.rs.Consumes(" + sb.toString() + ")";
 	}
 
 	private static String _getMethodAnnotationProduces(Operation operation) {
@@ -920,10 +920,10 @@ public class ResourceOpenAPIParser {
 		sb.setLength(sb.length() - 2);
 
 		if (mediaTypes.size() > 1) {
-			return "@javax.ws.rs.Produces({" + sb.toString() + "})";
+			return "@jakarta.ws.rs.Produces({" + sb.toString() + "})";
 		}
 
-		return "@javax.ws.rs.Produces(" + sb.toString() + ")";
+		return "@jakarta.ws.rs.Produces(" + sb.toString() + ")";
 	}
 
 	private static String _getMethodName(
@@ -1086,26 +1086,26 @@ public class ResourceOpenAPIParser {
 		if (Objects.equals(parameterType, Aggregation.class.getName()) &&
 			parameterNames.contains("aggregationTerms")) {
 
-			return "@javax.ws.rs.core.Context";
+			return "@jakarta.ws.rs.core.Context";
 		}
 
 		if (Objects.equals(parameterType, Filter.class.getName()) &&
 			parameterNames.contains("filter")) {
 
-			return "@javax.ws.rs.core.Context";
+			return "@jakarta.ws.rs.core.Context";
 		}
 
 		if (Objects.equals(parameterType, Pagination.class.getName()) &&
 			parameterNames.contains("page") &&
 			parameterNames.contains("pageSize")) {
 
-			return "@javax.ws.rs.core.Context";
+			return "@jakarta.ws.rs.core.Context";
 		}
 
 		if (Objects.equals(parameterType, Sort[].class.getName()) &&
 			parameterNames.contains("sort")) {
 
-			return "@javax.ws.rs.core.Context";
+			return "@jakarta.ws.rs.core.Context";
 		}
 
 		for (Parameter parameter : operation.getParameters()) {
@@ -1124,7 +1124,7 @@ public class ResourceOpenAPIParser {
 				configYAML, parameter.getSchema(), schemas);
 
 			if (defaultValue != null) {
-				sb.append("@javax.ws.rs.DefaultValue(\"");
+				sb.append("@jakarta.ws.rs.DefaultValue(\"");
 				sb.append(defaultValue);
 				sb.append("\")");
 			}
@@ -1134,11 +1134,11 @@ public class ResourceOpenAPIParser {
 			}
 
 			if (parameter.isRequired()) {
-				sb.append("@javax.validation.constraints.NotNull");
+				sb.append("@jakarta.validation.constraints.NotNull");
 			}
 
 			sb.append("@io.swagger.v3.oas.annotations.Parameter(hidden=true)");
-			sb.append("@javax.ws.rs.");
+			sb.append("@jakarta.ws.rs.");
 			sb.append(StringUtil.upperCaseFirstLetter(parameter.getIn()));
 			sb.append("Param(\"");
 			sb.append(parameter.getName());
@@ -1303,7 +1303,7 @@ public class ResourceOpenAPIParser {
 
 			if (responseCode.isDefaultResponse() ||
 				(_FAMILY_SUCCESSFUL !=
-					javax.ws.rs.core.Response.Status.Family.familyOf(
+					jakarta.ws.rs.core.Response.Status.Family.familyOf(
 						curHttpStatusCode))) {
 
 				continue;
@@ -1346,7 +1346,7 @@ public class ResourceOpenAPIParser {
 				String format = schema.getFormat();
 
 				if ((format != null) && format.equals("binary")) {
-					return javax.ws.rs.core.Response.class.getName();
+					return jakarta.ws.rs.core.Response.class.getName();
 				}
 
 				returnType = OpenAPIParserUtil.getJavaDataType(
@@ -1372,7 +1372,7 @@ public class ResourceOpenAPIParser {
 			return returnType;
 		}
 
-		return javax.ws.rs.core.Response.class.getName();
+		return jakarta.ws.rs.core.Response.class.getName();
 	}
 
 	private static boolean _isSchemaMethod(
@@ -1494,8 +1494,8 @@ public class ResourceOpenAPIParser {
 		}
 	}
 
-	private static final javax.ws.rs.core.Response.Status.Family
-		_FAMILY_SUCCESSFUL = javax.ws.rs.core.Response.Status.Family.SUCCESSFUL;
+	private static final jakarta.ws.rs.core.Response.Status.Family
+		_FAMILY_SUCCESSFUL = jakarta.ws.rs.core.Response.Status.Family.SUCCESSFUL;
 
 	private enum BatchOperationType {
 
