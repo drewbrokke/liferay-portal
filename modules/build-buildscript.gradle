@@ -1,7 +1,19 @@
 dependencies {
-	classpath group: "com.liferay", name: "com.liferay.gradle.plugins.defaults", version: "10.1.232"
+	classpath(group: "com.liferay", name: "com.liferay.gradle.plugins.defaults", version: "10.1.232") {
+		if (Boolean.getBoolean("build.jakarta.transformer.enabled")) {
+			exclude group: "javax.servlet.jsp.jstl", module: "javax.servlet.jsp.jstl-api"
+			exclude group: "org.apache.tomcat", module: "tomcat-jasper"
+			exclude group: "org.glassfish.web", module: "javax.servlet.jsp.jstl"
+		}
+	}
 	classpath group: "com.liferay", name: "com.liferay.gradle.plugins.maven.plugin.builder", version: "2.0.3"
 	classpath group: "de.undercouch", name: "gradle-download-task", version: "5.4.0"
+
+	if (Boolean.getBoolean("build.jakarta.transformer.enabled")) {
+		classpath group: "jakarta.servlet.jsp.jstl", name: "jakarta.servlet.jsp.jstl-api", version: "3.0.2"
+		classpath group: "org.apache.tomcat", name: "tomcat-jasper", version: "10.1.34"
+		classpath group: "org.glassfish.web", name: "jakarta.servlet.jsp.jstl", version: "3.0.1"
+	}
 
 	if (Boolean.getBoolean("gradle.test.enabled")) {
 		classpath group: "org.ysb33r.gradle", name: "gradletest", version: "3.0.0-alpha.5"
