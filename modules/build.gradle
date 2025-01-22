@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentSkipListSet
 import org.apache.tools.ant.DirectoryScanner
 import org.apache.tools.ant.filters.ReplaceTokens
 
+import org.gradle.api.artifacts.transform.*
 import org.gradle.api.attributes.LibraryElements
 import org.gradle.api.execution.TaskExecutionGraph
 import org.gradle.plugins.ide.api.XmlFileContentMerger
@@ -29,6 +30,56 @@ buildscript {
 }
 
 apply plugin: "com.liferay.yarn.defaults.plugin"
+
+abstract class MyTransform implements TransformAction<Parameters> {
+	interface Parameters extends TransformParameters {
+
+		@Input
+		Property<String> getPropertiesFileAbsolutePath()
+
+		@org.gradle.api.tasks.CompileClasspath
+		ConfigurableFileCollection getTransformerClasspathFiles()
+	}
+
+	protected static Logger logger
+
+	@org.gradle.api.tasks.Classpath
+	@InputArtifact
+	abstract Provider<FileSystemLocation> getInputArtifact()
+
+	@Override
+	void transform(TransformOutputs outputs) {
+		File inputJarFile = inputArtifact.get().asFile
+
+		String fileName = inputJarFile.name.contains('.') ? inputJarFile.name.replaceFirst(/(\.[^.]+)$/, '-JAKARTA-SNAPSHOT$1') : inputJarFile.name
+
+		File outputJarFile = outputs.file(fileName)
+
+		URLClassLoader urlClassLoader = new URLClassLoader(
+			parameters.transformerClasspathFiles.collect { it.toURI() }.collect{ it.toURL() }.toArray(new URL[0]),
+			null as java.lang.ClassLoader);
+
+		Class<?> jakartaTransformerCLIClass = Class.forName("org.eclipse.transformer.cli.JakartaTransformerCLI", true, urlClassLoader)
+
+		Object jakartaTransformerCLIClassConstructor = jakartaTransformerCLIClass.getConstructor(PrintStream, PrintStream, String[].class)
+		Object runMethod = jakartaTransformerCLIClass.getMethod("run")
+
+		PrintStream errorPrintStream = new PrintStream(new ByteArrayOutputStream())
+		PrintStream standardPrintStream = new PrintStream(new ByteArrayOutputStream())
+
+		Object resultCode = runMethod.invoke(jakartaTransformerCLIClassConstructor.newInstance(standardPrintStream, errorPrintStream, ["--quiet", "--versions", parameters.propertiesFileAbsolutePath.get(), inputJarFile.absolutePath, outputJarFile.absolutePath] as String[]))
+		Thread currentThread = Thread.currentThread();
+
+		if (resultCode.toString() == "Success") {
+			this.logger.info "Jakarta:  ${inputJarFile} -> ${outputJarFile}"
+		}
+		else {
+			throw new GradleException("Jakarta: ERROR ${resultCode}\n${errorPrintStream}")
+		}
+	}
+}
+
+MyTransform.logger = project.logger
 
 ext {
 	projectTemplateTokens = [
@@ -818,46 +869,30 @@ gradle.beforeProject {
 			}
 
 			pluginManager.withPlugin("java") {
+				File propertiesFile = project.rootProject.file("liferay-jakarta-versions.properties")
+
+				dependencies {
+					registerTransform(MyTransform) {
+						from.attribute(ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE, "jar")
+						to.attribute(ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE, "transformed-jar")
+
+						parameters {
+							transformerClasspathFiles = files(project.rootProject.configurations.jakartaTransformer.files)
+							propertiesFileAbsolutePath = propertiesFile.absolutePath
+						}
+					}
+				}
+
 				configurations.compileClasspath.attributes {
-					attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, LibraryElements.JAR))
+					attribute(ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE, "transformed-jar")
 				}
 
 				configurations.testCompileClasspath.attributes {
-					attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, LibraryElements.JAR))
+					attribute(ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE, "transformed-jar")
 				}
 
 				configurations.testIntegrationCompileClasspath.attributes {
-					attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, LibraryElements.JAR))
-				}
-
-				tasks.named("compileJava") {
-					doFirst {
-						FileCollection jarFiles = files(classpath.files.findAll { it.name.endsWith(".jar") })
-
-						classpath = files(classpath.files - jarFiles) + _transformToJakarta(jakartaOutputDir, rootProject.configurations.jakartaTransformer, jarFiles, it)
-					}
-				}
-
-				tasks.named("compileTestIntegrationJava") {
-					doFirst {
-						FileCollection jarFiles = files(classpath.files.findAll { it.name.endsWith(".jar") })
-
-						classpath = files(classpath - jarFiles) + _transformToJakarta(jakartaOutputDir, rootProject.configurations.jakartaTransformer, jarFiles, it)
-					}
-				}
-
-				tasks.named("compileTestJava") {
-					doFirst {
-						FileCollection jarFiles = files(classpath.files.findAll { it.name.endsWith(".jar") })
-
-						classpath = files(classpath - jarFiles) + _transformToJakarta(jakartaOutputDir, rootProject.configurations.jakartaTransformer, jarFiles, it)
-					}
-				}
-
-				tasks.named("jar") {
-					classpath = tasks.named("compileJava").map {
-						it.classpath
-					}
+					attribute(ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE, "transformed-jar")
 				}
 			}
 		}
