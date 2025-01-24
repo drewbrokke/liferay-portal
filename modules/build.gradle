@@ -796,8 +796,48 @@ gradle.beforeProject {
 
 		if (Boolean.getBoolean("build.jakarta.transformer.enabled") && (javaVersion.compareTo(JavaVersion.VERSION_17) >= 0) && _containsProject(project, System.getProperty("build.jakarta.transformer.include.dirs"), rootDir.parentFile)) {
 			pluginManager.withPlugin("com.liferay.jasper.jspc") {
-				configurations.jspC.attributes {
-					attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, LibraryElements.JAR))
+				configurations {
+					add
+					remove
+					transform
+				}
+
+				dependencies {
+					add group: "jakarta.servlet.jsp.jstl", name: "jakarta.servlet.jsp.jstl-api", version: "3.0.2"
+					add group: "org.apache.tomcat", name: "tomcat-jasper", version: "10.1.34"
+					add group: "org.glassfish.web", name: "jakarta.servlet.jsp.jstl", version: "3.0.1"
+
+					remove group: "com.liferay", name: "com.liferay.gradle.plugins.jasper.jspc", version: "2.0.20"
+
+					transform group: "com.liferay", name: "com.liferay.gradle.plugins.jasper.jspc", version: "2.0.20", transitive: false
+				}
+
+				configurations.jspC {
+					attributes {
+						attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, LibraryElements.JAR))
+					}
+
+					resolutionStrategy {
+						dependencySubstitution {
+							dependencySubstitutions ->
+
+							all { DependencySubstitution dependencySubstitution ->
+								def requested = dependencySubstitution.requested
+
+								if (requested instanceof ModuleComponentSelector) {
+									if (requested.group == "javax.servlet.jsp.jstl" && requested.module == "javax.servlet.jsp.jstl-api") {
+										dependencySubstitution.useTarget("jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.2")
+									}
+									if (requested.group == "org.apache.tomcat" && requested.module == "tomcat-jasper") {
+										dependencySubstitution.useTarget("org.apache.tomcat:tomcat-jasper:10.1.34")
+									}
+									if (requested.group == "org.glassfish.web" && requested.module == "javax.servlet.jsp.jstl") {
+										dependencySubstitution.useTarget("org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1")
+									}
+								}
+							}
+						}
+					}
 				}
 
 				tasks.named("compileJSP") {
@@ -809,7 +849,12 @@ gradle.beforeProject {
 				}
 
 				tasks.named("generateJSPJava") {
+					// compileJspClasspath = project.rootProject.buildscript.configurations.classpath - configurations.remove + configurations.add
+					compileJspClasspath = files(Thread.currentThread().getContextClassLoader().getURLs()) + project.rootProject.buildscript.configurations.classpath - configurations.remove + configurations.add
+
 					doFirst {
+						compileJspClasspath = compileJspClasspath + _transformToJakarta(jakartaOutputDir, rootProject.configurations.jakartaTransformer, configurations.transform, it)
+
 						FileCollection jarFiles = files(jspCClasspath.files.findAll { it.name.endsWith(".jar") })
 
 						jspCClasspath = files(jspCClasspath - jarFiles) + _transformToJakarta(jakartaOutputDir, rootProject.configurations.jakartaTransformer, jarFiles, it)
