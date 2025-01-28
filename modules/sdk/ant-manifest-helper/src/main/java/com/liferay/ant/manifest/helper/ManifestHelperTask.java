@@ -6,6 +6,7 @@
 package com.liferay.ant.manifest.helper;
 
 import com.liferay.ant.manifest.helper.util.Validator;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.OSDetector;
 import com.liferay.portal.kernel.util.ReleaseInfo;
@@ -71,6 +72,7 @@ public class ManifestHelperTask extends Task {
 			String.valueOf(ReleaseInfo.getBuildNumber()));
 		project.setProperty(
 			"release.info.code.name", ReleaseInfo.getCodeName());
+		project.setProperty("release.info.cpe.id", getCpeId());
 		project.setProperty(
 			"release.info.parent.build.number",
 			String.valueOf(ReleaseInfo.getParentBuildNumber()));
@@ -113,6 +115,34 @@ public class ManifestHelperTask extends Task {
 		}
 
 		return StringPool.BLANK;
+	}
+
+	protected String getCpeId() {
+		if (ReleaseInfo.isDXP()) {
+			StringBundler sb = new StringBundler(5);
+
+			sb.append("cpe:2.3:a:liferay:dxp:");
+
+			String versionDisplayName = ReleaseInfo.getVersionDisplayName();
+
+			String qVersion = versionDisplayName.substring(
+				0, versionDisplayName.lastIndexOf(StringPool.PERIOD));
+
+			sb.append(qVersion.toLowerCase());
+
+			sb.append(StringPool.COLON);
+			sb.append(
+				versionDisplayName.substring(
+					versionDisplayName.lastIndexOf(StringPool.PERIOD) + 1));
+			sb.append(":*:*:*:*:*:*");
+
+			return sb.toString();
+		}
+
+		return StringBundler.concat(
+			"cpe:2.3:a:liferay:portal:", ReleaseInfo.getVersion(),
+			project.getProperty("release.info.version.file.suffix"),
+			":*:*:*:*:*:*:*");
 	}
 
 	protected String getDateString(Date date) {
