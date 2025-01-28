@@ -12,12 +12,12 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.InetAddressUtil;
 import com.liferay.portal.remote.cors.annotation.CORS;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

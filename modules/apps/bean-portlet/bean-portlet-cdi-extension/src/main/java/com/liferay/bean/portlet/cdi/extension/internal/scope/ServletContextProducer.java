@@ -5,6 +5,8 @@
 
 package com.liferay.bean.portlet.cdi.extension.internal.scope;
 
+import jakarta.servlet.ServletContext;
+
 import javax.annotation.Priority;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -14,8 +16,6 @@ import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 
 import javax.interceptor.Interceptor;
-
-import javax.servlet.ServletContext;
 
 /**
  * @author Neil Griffin

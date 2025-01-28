@@ -27,10 +27,10 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.trash.TrashHelper;
 
+import jakarta.servlet.ServletContext;
+
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
-
-import javax.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

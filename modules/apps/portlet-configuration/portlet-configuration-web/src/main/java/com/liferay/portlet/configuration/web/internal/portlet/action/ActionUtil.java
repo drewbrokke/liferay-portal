@@ -34,6 +34,9 @@ import com.liferay.portlet.portletconfiguration.util.PublicRenderParameterConfig
 import com.liferay.portlet.portletconfiguration.util.PublicRenderParameterIdentifierComparator;
 import com.liferay.portlet.portletconfiguration.util.PublicRenderParameterIdentifierConfigurationComparator;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -46,9 +49,6 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Jorge Ferrer

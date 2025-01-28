@@ -27,6 +27,9 @@ import com.liferay.portal.kernel.portlet.async.PortletAsyncScopeManagerFactory;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.Validator;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.PrintWriter;
 
 import java.lang.annotation.Annotation;
@@ -70,9 +73,6 @@ import javax.portlet.filter.EventFilter;
 import javax.portlet.filter.HeaderFilter;
 import javax.portlet.filter.RenderFilter;
 import javax.portlet.filter.ResourceFilter;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

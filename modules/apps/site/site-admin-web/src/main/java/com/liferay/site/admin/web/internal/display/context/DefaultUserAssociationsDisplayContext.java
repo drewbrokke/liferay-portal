@@ -27,9 +27,9 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.site.teams.item.selector.criterion.SiteTeamsItemSelectorCriterion;
 
-import javax.portlet.PortletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.portlet.PortletResponse;
 
 /**
  * @author Eudaldo Alonso

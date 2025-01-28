@@ -126,6 +126,8 @@ import com.liferay.portal.test.rule.SynchronousMailTestRule;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.BaseExceptionMapper;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.InputStream;
 
 import java.text.DateFormat;
@@ -141,8 +143,6 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import javax.portlet.PortletPreferences;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.core.Response;
 

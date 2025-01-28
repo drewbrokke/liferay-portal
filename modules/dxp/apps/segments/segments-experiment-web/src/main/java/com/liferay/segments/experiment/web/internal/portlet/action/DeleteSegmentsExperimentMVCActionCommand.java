@@ -21,10 +21,10 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.segments.constants.SegmentsPortletKeys;
 import com.liferay.segments.service.SegmentsExperimentService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

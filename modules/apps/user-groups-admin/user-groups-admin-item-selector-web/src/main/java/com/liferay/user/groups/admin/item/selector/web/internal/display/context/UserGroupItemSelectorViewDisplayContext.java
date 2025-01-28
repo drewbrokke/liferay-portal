@@ -18,11 +18,11 @@ import com.liferay.portlet.usersadmin.util.UsersAdminUtil;
 import com.liferay.user.groups.admin.item.selector.UserGroupItemSelectorCriterion;
 import com.liferay.user.groups.admin.item.selector.web.internal.search.UserGroupItemSelectorChecker;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alessio Antonio Rendina

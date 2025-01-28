@@ -22,13 +22,13 @@ import com.liferay.saml.runtime.configuration.SamlProviderConfigurationHelper;
 import com.liferay.saml.runtime.metadata.LocalEntityManager;
 import com.liferay.saml.web.internal.display.context.GeneralTabDefaultViewDisplayContext;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Map;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;

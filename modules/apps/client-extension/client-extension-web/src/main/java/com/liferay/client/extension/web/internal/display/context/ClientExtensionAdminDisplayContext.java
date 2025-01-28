@@ -16,10 +16,10 @@ import com.liferay.portal.kernel.portlet.url.builder.ResourceURLBuilder;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Iván Zaera Avellón

@@ -20,7 +20,7 @@ import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.util.PropsValues;
 
-import javax.mail.Session;
+import jakarta.mail.Session;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletPreferences;

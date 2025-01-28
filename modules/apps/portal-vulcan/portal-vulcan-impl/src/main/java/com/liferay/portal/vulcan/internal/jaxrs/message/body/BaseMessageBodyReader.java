@@ -16,6 +16,8 @@ import com.liferay.portal.vulcan.extension.EntityExtensionHandler;
 import com.liferay.portal.vulcan.extension.EntityExtensionThreadLocal;
 import com.liferay.portal.vulcan.internal.jaxrs.validation.ValidationUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -30,8 +32,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.InternalServerErrorException;

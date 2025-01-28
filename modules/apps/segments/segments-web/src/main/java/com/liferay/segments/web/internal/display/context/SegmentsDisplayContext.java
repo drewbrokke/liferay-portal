@@ -50,6 +50,8 @@ import com.liferay.segments.web.internal.security.permission.resource.SegmentsEn
 import com.liferay.segments.web.internal.util.comparator.SegmentsEntryModifiedDateComparator;
 import com.liferay.segments.web.internal.util.comparator.SegmentsEntryNameComparator;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Map;
 import java.util.Objects;
 
@@ -57,8 +59,6 @@ import javax.portlet.ActionRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Eduardo García

@@ -24,9 +24,9 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 
-import javax.portlet.RenderResponse;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.portlet.RenderResponse;
 
 /**
  * @author Marco Galluzzi

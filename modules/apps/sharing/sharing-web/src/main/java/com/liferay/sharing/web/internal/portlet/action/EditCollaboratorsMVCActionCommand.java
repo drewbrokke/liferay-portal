@@ -33,6 +33,8 @@ import com.liferay.sharing.service.SharingEntryService;
 import com.liferay.sharing.web.internal.constants.SharingPortletKeys;
 import com.liferay.sharing.web.internal.display.SharingEntryPermissionDisplayAction;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 import java.text.DateFormat;
@@ -48,8 +50,6 @@ import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

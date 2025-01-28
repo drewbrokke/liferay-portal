@@ -7,13 +7,13 @@ package com.liferay.portal.vulcan.internal.jaxrs.context.provider;
 
 import com.liferay.portal.vulcan.fields.FieldsQueryParam;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.ext.Provider;
 

@@ -16,14 +16,14 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portlet.display.template.portlet.action.BaseConfigurationAction;
 import com.liferay.rss.constants.RSSPortletKeys;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 

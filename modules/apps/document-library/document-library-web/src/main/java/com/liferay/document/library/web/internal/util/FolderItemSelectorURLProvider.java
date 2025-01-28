@@ -18,9 +18,9 @@ import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import javax.portlet.PortletURL;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.portlet.PortletURL;
 
 /**
  * @author Adolfo Pérez

@@ -16,11 +16,11 @@ import com.liferay.search.experiences.constants.SXPActionKeys;
 import com.liferay.search.experiences.constants.SXPConstants;
 import com.liferay.search.experiences.constants.SXPPortletKeys;
 
+import jakarta.servlet.ServletContext;
+
 import java.util.Map;
 
 import javax.portlet.PortletRequest;
-
-import javax.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

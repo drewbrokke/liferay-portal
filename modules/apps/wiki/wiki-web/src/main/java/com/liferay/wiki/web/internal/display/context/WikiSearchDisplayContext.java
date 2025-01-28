@@ -28,10 +28,10 @@ import com.liferay.wiki.model.WikiNode;
 import com.liferay.wiki.model.WikiPage;
 import com.liferay.wiki.web.internal.display.context.helper.WikiPortletInstanceSettingsHelper;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Mariano Álvaro Sáiz

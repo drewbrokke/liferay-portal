@@ -10,7 +10,7 @@ import com.liferay.portal.kernel.servlet.HttpMethods;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.BaseExceptionMapper;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.Problem;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;

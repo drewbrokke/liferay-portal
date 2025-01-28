@@ -38,6 +38,8 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.staging.constants.StagingProcessesPortletKeys;
 import com.liferay.trash.service.TrashEntryService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.net.ConnectException;
 
 import java.util.ArrayList;
@@ -45,8 +47,6 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

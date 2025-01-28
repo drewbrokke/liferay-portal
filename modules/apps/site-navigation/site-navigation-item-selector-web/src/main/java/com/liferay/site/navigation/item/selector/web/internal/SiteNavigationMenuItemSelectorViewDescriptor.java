@@ -22,10 +22,10 @@ import com.liferay.site.navigation.service.SiteNavigationMenuServiceUtil;
 import com.liferay.site.navigation.util.comparator.SiteNavigationMenuModifiedDateComparator;
 import com.liferay.site.navigation.util.comparator.SiteNavigationMenuNameComparator;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Eudaldo Alonso

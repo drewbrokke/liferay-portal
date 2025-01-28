@@ -16,9 +16,9 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.aggregation.Aggregation;
 import com.liferay.portal.vulcan.internal.accept.language.AcceptLanguageImpl;
 
-import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.ext.Provider;

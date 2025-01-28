@@ -17,10 +17,10 @@ import com.liferay.portlet.usersadmin.util.UsersAdminUtil;
 import com.liferay.roles.admin.search.RoleSearch;
 import com.liferay.roles.admin.search.RoleSearchTerms;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Mariano Álvaro Sáiz

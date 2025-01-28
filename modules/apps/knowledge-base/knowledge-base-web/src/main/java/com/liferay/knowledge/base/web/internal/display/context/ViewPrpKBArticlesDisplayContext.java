@@ -14,10 +14,10 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Mariano Álvaro Sáiz

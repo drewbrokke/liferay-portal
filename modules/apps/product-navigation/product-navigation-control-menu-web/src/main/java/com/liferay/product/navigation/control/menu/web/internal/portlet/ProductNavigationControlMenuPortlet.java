@@ -15,6 +15,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.product.navigation.control.menu.constants.ProductNavigationControlMenuPortletKeys;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 import javax.portlet.Portlet;
@@ -23,8 +25,6 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

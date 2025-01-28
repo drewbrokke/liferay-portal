@@ -49,6 +49,9 @@ import com.liferay.portal.util.WebAppPool;
 import com.liferay.product.navigation.personal.menu.BasePersonalMenuEntry;
 import com.liferay.roles.admin.constants.RolesAdminWebKeys;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -62,9 +65,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import javax.portlet.RenderResponse;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Evan Thibodeau

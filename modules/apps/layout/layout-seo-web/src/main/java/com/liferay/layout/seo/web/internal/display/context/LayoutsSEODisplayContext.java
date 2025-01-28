@@ -70,6 +70,8 @@ import com.liferay.portal.util.PropsValues;
 import com.liferay.portlet.display.template.PortletDisplayTemplate;
 import com.liferay.site.display.context.GroupDisplayContextHelper;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -81,8 +83,6 @@ import java.util.Objects;
 import javax.portlet.MimeResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alicia García

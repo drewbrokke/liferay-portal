@@ -13,6 +13,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.Validator;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 import java.lang.reflect.Method;
@@ -34,8 +36,6 @@ import javax.portlet.RenderParameters;
 import javax.portlet.ResourceResponse;
 import javax.portlet.filter.RenderURLWrapper;
 import javax.portlet.filter.ResourceURLWrapper;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationEventPublisher;
 

@@ -10,7 +10,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.pagination.provider.PaginationProvider;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.ext.Provider;
 

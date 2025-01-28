@@ -28,11 +28,11 @@ import com.liferay.saved.content.constants.MySavedContentPortletKeys;
 import com.liferay.saved.content.model.SavedContentEntry;
 import com.liferay.saved.content.service.SavedContentEntryServiceUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alicia García

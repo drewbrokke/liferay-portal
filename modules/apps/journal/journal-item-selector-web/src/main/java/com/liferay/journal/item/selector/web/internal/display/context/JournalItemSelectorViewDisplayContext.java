@@ -23,12 +23,12 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Locale;
 
 import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Eduardo García

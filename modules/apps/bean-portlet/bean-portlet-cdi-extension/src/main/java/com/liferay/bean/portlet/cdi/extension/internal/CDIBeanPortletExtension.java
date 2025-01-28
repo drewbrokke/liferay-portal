@@ -32,6 +32,9 @@ import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.PrintWriter;
 
 import java.lang.annotation.Annotation;
@@ -88,9 +91,6 @@ import javax.portlet.annotations.PortletSerializable;
 import javax.portlet.annotations.PortletSessionScoped;
 import javax.portlet.annotations.RenderStateScoped;
 import javax.portlet.annotations.WindowId;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;

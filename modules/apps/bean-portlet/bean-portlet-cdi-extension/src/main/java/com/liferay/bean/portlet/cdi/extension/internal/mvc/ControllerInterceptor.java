@@ -12,6 +12,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.Validator;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -49,8 +51,6 @@ import javax.portlet.annotations.InitMethod;
 import javax.portlet.annotations.RenderMethod;
 import javax.portlet.filter.RenderURLWrapper;
 import javax.portlet.filter.ResourceURLWrapper;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Neil Griffin

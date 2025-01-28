@@ -28,6 +28,8 @@ import com.liferay.roles.item.selector.regular.role.RegularRoleItemSelectorCrite
 import com.liferay.roles.item.selector.site.role.SiteRoleItemSelectorCriterion;
 import com.liferay.site.configuration.manager.MenuAccessConfigurationManager;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,8 +37,6 @@ import java.util.List;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.portlet.PortletURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Mikel Lorza

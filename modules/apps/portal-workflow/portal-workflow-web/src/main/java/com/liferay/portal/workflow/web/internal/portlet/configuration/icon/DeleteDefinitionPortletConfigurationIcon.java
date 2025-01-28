@@ -13,11 +13,11 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowDefinition;
 import com.liferay.portal.workflow.constants.WorkflowPortletKeys;
 
+import jakarta.servlet.ServletContext;
+
 import java.util.Map;
 
 import javax.portlet.PortletRequest;
-
-import javax.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

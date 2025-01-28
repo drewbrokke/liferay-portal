@@ -31,6 +31,8 @@ import com.liferay.wiki.service.WikiPageLocalServiceUtil;
 import com.liferay.wiki.web.internal.item.selector.WikiPageItemSelectorReturnTypeResolver;
 import com.liferay.wiki.web.internal.item.selector.view.WikiPageItemSelectorView;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,8 +40,6 @@ import java.util.Locale;
 import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Roberto Díaz

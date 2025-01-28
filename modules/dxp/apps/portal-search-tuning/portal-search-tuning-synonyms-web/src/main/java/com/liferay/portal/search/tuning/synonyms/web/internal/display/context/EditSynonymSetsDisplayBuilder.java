@@ -13,10 +13,10 @@ import com.liferay.portal.search.tuning.synonyms.index.name.SynonymSetIndexNameB
 import com.liferay.portal.search.tuning.synonyms.web.internal.index.SynonymSet;
 import com.liferay.portal.search.tuning.synonyms.web.internal.index.SynonymSetIndexReader;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Kevin Tan

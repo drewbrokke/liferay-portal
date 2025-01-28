@@ -16,6 +16,11 @@ import com.liferay.segments.item.selector.criterion.SegmentsEntryItemSelectorCri
 import com.liferay.segments.item.selector.web.internal.display.context.SegmentsEntryDisplayContext;
 import com.liferay.segments.service.SegmentsEntryLocalService;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 import java.util.Collections;
@@ -24,11 +29,6 @@ import java.util.Locale;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

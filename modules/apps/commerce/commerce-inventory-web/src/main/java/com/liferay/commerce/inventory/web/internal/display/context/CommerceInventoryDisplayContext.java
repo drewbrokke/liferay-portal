@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.security.permission.resource.PortletResourcePer
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.math.BigDecimal;
 
 import java.util.ArrayList;
@@ -39,8 +41,6 @@ import java.util.List;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderResponse;
 import javax.portlet.RenderURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Luca Pellizzon

@@ -13,11 +13,11 @@ import com.liferay.wiki.exception.NoSuchNodeException;
 import com.liferay.wiki.navigation.web.internal.constants.WikiNavigationPortletKeys;
 import com.liferay.wiki.service.WikiNodeService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

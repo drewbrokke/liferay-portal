@@ -38,12 +38,12 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.trash.TrashHelper;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alejandro Tardín

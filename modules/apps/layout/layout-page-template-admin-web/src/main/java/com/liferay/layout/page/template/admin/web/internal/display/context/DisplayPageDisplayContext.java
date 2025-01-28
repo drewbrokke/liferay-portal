@@ -48,6 +48,8 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.site.navigation.taglib.servlet.taglib.util.BreadcrumbEntryBuilder;
 import com.liferay.site.navigation.taglib.servlet.taglib.util.BreadcrumbEntryListBuilder;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,8 +58,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.portlet.PortletURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Jürgen Kappler

@@ -8,6 +8,8 @@ package com.liferay.bean.portlet.spring.extension.internal.beans;
 import com.liferay.bean.portlet.spring.extension.internal.scope.SpringScopedBeanManager;
 import com.liferay.bean.portlet.spring.extension.internal.scope.SpringScopedBeanManagerThreadLocal;
 
+import jakarta.servlet.http.Cookie;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -26,8 +28,6 @@ import javax.portlet.PortletURL;
 import javax.portlet.RenderURL;
 import javax.portlet.ResourceURL;
 import javax.portlet.filter.MimeResponseWrapper;
-
-import javax.servlet.http.Cookie;
 
 import org.w3c.dom.Element;
 

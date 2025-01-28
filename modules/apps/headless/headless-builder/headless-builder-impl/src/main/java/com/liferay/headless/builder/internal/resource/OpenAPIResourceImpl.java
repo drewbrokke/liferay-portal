@@ -7,10 +7,10 @@ package com.liferay.headless.builder.internal.resource;
 
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

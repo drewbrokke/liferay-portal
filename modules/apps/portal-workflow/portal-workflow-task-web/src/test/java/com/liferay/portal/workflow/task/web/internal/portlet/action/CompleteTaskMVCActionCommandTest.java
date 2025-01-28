@@ -14,10 +14,10 @@ import com.liferay.portletmvc4spring.test.mock.web.portlet.MockActionRequest;
 import com.liferay.portletmvc4spring.test.mock.web.portlet.MockActionResponse;
 import com.liferay.portletmvc4spring.test.mock.web.portlet.MockPortletResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Assert;
 import org.junit.Before;

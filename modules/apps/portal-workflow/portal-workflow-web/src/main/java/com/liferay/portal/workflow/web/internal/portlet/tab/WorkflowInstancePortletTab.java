@@ -29,6 +29,8 @@ import com.liferay.portal.workflow.web.internal.display.context.WorkflowInstance
 import com.liferay.portal.workflow.web.internal.display.context.WorkflowInstanceViewDisplayContext;
 import com.liferay.portal.workflow.web.internal.request.preprocessor.helper.WorkflowPreprocessorHelper;
 
+import jakarta.servlet.ServletContext;
+
 import java.util.Objects;
 
 import javax.portlet.ActionRequest;
@@ -36,8 +38,6 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

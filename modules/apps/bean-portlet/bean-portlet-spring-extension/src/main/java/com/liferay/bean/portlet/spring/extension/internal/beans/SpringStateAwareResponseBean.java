@@ -8,6 +8,8 @@ package com.liferay.bean.portlet.spring.extension.internal.beans;
 import com.liferay.bean.portlet.spring.extension.internal.scope.SpringScopedBeanManager;
 import com.liferay.bean.portlet.spring.extension.internal.scope.SpringScopedBeanManagerThreadLocal;
 
+import jakarta.servlet.http.Cookie;
+
 import java.io.Serializable;
 
 import java.util.Collection;
@@ -24,8 +26,6 @@ import javax.portlet.StateAwareResponse;
 import javax.portlet.WindowState;
 import javax.portlet.WindowStateException;
 import javax.portlet.filter.StateAwareResponseWrapper;
-
-import javax.servlet.http.Cookie;
 
 import javax.xml.namespace.QName;
 

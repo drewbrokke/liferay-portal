@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.Portal;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.PrintWriter;
 
 import java.text.DateFormat;
@@ -31,8 +33,6 @@ import java.util.Date;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

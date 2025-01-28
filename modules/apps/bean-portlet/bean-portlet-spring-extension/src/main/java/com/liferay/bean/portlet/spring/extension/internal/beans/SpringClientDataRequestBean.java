@@ -8,6 +8,9 @@ package com.liferay.bean.portlet.spring.extension.internal.beans;
 import com.liferay.bean.portlet.spring.extension.internal.scope.SpringScopedBeanManager;
 import com.liferay.bean.portlet.spring.extension.internal.scope.SpringScopedBeanManagerThreadLocal;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.Part;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,9 +38,6 @@ import javax.portlet.RenderParameters;
 import javax.portlet.RenderState;
 import javax.portlet.WindowState;
 import javax.portlet.filter.ClientDataRequestWrapper;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.Part;
 
 /**
  * @author Neil Griffin

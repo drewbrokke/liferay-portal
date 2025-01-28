@@ -111,6 +111,8 @@ import com.liferay.portal.util.RepositoryUtil;
 import com.liferay.trash.service.TrashEntryService;
 import com.liferay.upload.UploadResponseHandler;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -132,8 +134,6 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileUploadBase;
 

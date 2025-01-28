@@ -15,10 +15,10 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Collections;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

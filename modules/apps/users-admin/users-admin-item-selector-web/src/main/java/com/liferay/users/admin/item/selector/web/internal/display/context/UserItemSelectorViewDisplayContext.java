@@ -15,11 +15,11 @@ import com.liferay.users.admin.item.selector.web.internal.search.UserItemSelecto
 import com.liferay.users.admin.search.UserSearch;
 import com.liferay.users.admin.search.UserSearchTerms;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alessio Antonio Rendina

@@ -61,6 +61,8 @@ import com.liferay.site.search.GroupSearch;
 import com.liferay.users.admin.search.UserSearch;
 import com.liferay.users.admin.search.UserSearchTerms;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
@@ -68,8 +70,6 @@ import java.util.Objects;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Pei-Jung Lan

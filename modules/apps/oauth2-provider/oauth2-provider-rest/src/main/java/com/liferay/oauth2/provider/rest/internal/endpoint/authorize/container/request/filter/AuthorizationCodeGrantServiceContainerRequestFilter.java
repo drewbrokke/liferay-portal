@@ -30,6 +30,8 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.net.URI;
 
 import java.security.Principal;
@@ -38,8 +40,6 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.Priority;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.Priorities;
 import javax.ws.rs.WebApplicationException;

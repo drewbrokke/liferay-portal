@@ -29,13 +29,13 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.style.book.constants.StyleBookPortletKeys;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

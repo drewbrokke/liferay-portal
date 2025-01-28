@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -32,8 +34,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

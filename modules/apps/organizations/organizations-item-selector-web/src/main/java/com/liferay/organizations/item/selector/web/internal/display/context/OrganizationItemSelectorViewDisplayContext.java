@@ -24,13 +24,13 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.usersadmin.util.UsersAdminUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.LinkedHashMap;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alessio Antonio Rendina
