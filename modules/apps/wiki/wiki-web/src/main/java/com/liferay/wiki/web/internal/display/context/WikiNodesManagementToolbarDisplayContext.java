@@ -38,6 +38,8 @@ import com.liferay.wiki.web.internal.security.permission.resource.WikiNodePermis
 import com.liferay.wiki.web.internal.security.permission.resource.WikiResourcePermission;
 import com.liferay.wiki.web.internal.util.WikiPortletUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +48,6 @@ import java.util.Objects;
 import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alejandro Tardín

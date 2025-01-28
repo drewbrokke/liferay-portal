@@ -11,6 +11,8 @@ import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import jakarta.servlet.http.Cookie;
+
 import java.net.URI;
 
 import java.util.Collections;
@@ -28,8 +30,6 @@ import javax.mvc.security.Encoders;
 
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
-
-import javax.servlet.http.Cookie;
 
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.UriBuilder;

@@ -8,6 +8,8 @@ package com.liferay.bean.portlet.spring.extension.internal.beans;
 import com.liferay.bean.portlet.spring.extension.internal.scope.SpringScopedBeanManager;
 import com.liferay.bean.portlet.spring.extension.internal.scope.SpringScopedBeanManagerThreadLocal;
 
+import jakarta.servlet.http.Cookie;
+
 import java.security.Principal;
 
 import java.util.Enumeration;
@@ -28,8 +30,6 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderState;
 import javax.portlet.WindowState;
 import javax.portlet.filter.RenderRequestWrapper;
-
-import javax.servlet.http.Cookie;
 
 /**
  * @author Neil Griffin

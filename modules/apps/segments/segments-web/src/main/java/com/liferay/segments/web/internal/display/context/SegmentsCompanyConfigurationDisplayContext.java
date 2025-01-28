@@ -20,10 +20,10 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.segments.configuration.provider.SegmentsConfigurationProvider;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.PortletResponse;
 import javax.portlet.ResourceURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Cristina González

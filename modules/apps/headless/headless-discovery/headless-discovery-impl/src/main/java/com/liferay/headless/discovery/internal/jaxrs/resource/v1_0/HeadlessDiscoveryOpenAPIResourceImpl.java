@@ -25,6 +25,8 @@ import com.liferay.portal.vulcan.openapi.OpenAPIContext;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 import com.liferay.portal.vulcan.util.UriInfoUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -37,8 +39,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;

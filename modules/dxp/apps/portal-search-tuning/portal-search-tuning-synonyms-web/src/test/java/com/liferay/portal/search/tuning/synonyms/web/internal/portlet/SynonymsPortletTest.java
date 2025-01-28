@@ -15,6 +15,8 @@ import com.liferay.portal.search.sort.Sorts;
 import com.liferay.portal.search.tuning.synonyms.web.internal.BaseSynonymsWebTestCase;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
@@ -23,8 +25,6 @@ import javax.portlet.PortletConfig;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.WindowState;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
 import org.junit.ClassRule;

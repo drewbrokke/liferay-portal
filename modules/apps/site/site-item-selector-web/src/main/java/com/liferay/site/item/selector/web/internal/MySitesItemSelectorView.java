@@ -20,6 +20,11 @@ import com.liferay.site.item.selector.criterion.SiteItemSelectorCriterion;
 import com.liferay.site.item.selector.web.internal.renderer.MyGroupItemSelectorViewRenderer;
 import com.liferay.site.provider.GroupURLProvider;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+
 import java.io.IOException;
 
 import java.util.Collections;
@@ -27,11 +32,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.portlet.PortletURL;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;

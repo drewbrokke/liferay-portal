@@ -47,6 +47,8 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.text.Format;
 
 import java.util.LinkedHashMap;
@@ -54,8 +56,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.portlet.PortletConfig;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Adolfo Pérez

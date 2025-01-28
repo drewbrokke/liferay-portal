@@ -17,6 +17,8 @@ import com.liferay.segments.criteria.contributor.SegmentsCriteriaContributorRegi
 import com.liferay.segments.odata.retriever.ODataRetriever;
 import com.liferay.segments.web.internal.constants.SegmentsWebKeys;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.PrintWriter;
 
 import java.util.Locale;
@@ -25,8 +27,6 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletSession;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

@@ -26,6 +26,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.WebAppPool;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,8 +36,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import javax.portlet.PortletRequest;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Iván Zaera Avellón

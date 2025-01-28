@@ -144,6 +144,8 @@ import com.liferay.upload.UploadFileEntryHandler;
 import com.liferay.upload.UploadHandler;
 import com.liferay.upload.UploadResponseHandler;
 
+import jakarta.servlet.ServletContext;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -155,8 +157,6 @@ import java.util.Objects;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletRequest;
-
-import javax.servlet.ServletContext;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;

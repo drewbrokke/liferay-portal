@@ -71,6 +71,8 @@ import com.liferay.portal.util.PropsImpl;
 import com.liferay.portletmvc4spring.test.mock.web.portlet.MockRenderRequest;
 import com.liferay.portletmvc4spring.test.mock.web.portlet.MockRenderResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
@@ -80,8 +82,6 @@ import java.util.Set;
 
 import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.hamcrest.CoreMatchers;
 

@@ -27,6 +27,11 @@ import com.liferay.site.item.selector.display.context.SitesItemSelectorViewDispl
 import com.liferay.site.item.selector.renderer.SiteItemSelectorViewRenderer;
 import com.liferay.site.search.GroupSearch;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 import java.util.Collections;
@@ -37,11 +42,6 @@ import java.util.ResourceBundle;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.portlet.PortletURL;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

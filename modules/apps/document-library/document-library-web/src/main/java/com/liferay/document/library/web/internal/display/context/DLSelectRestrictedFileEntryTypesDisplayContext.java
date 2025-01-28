@@ -7,11 +7,11 @@ package com.liferay.document.library.web.internal.display.context;
 
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alejandro Tardín

@@ -11,6 +11,8 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
+import jakarta.servlet.http.Cookie;
+
 import java.lang.annotation.Annotation;
 
 import java.util.Arrays;
@@ -44,8 +46,6 @@ import javax.portlet.annotations.ContextPath;
 import javax.portlet.annotations.Namespace;
 import javax.portlet.annotations.PortletName;
 import javax.portlet.annotations.WindowId;
-
-import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;

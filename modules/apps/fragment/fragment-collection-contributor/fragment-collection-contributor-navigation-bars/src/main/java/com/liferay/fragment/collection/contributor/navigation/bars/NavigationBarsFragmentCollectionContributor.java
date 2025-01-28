@@ -9,9 +9,9 @@ import com.liferay.fragment.contributor.BaseFragmentCollectionContributor;
 import com.liferay.fragment.contributor.FragmentCollectionContributor;
 import com.liferay.site.navigation.constants.SiteNavigationMenuPortletKeys;
 
-import javax.portlet.Portlet;
+import jakarta.servlet.ServletContext;
 
-import javax.servlet.ServletContext;
+import javax.portlet.Portlet;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

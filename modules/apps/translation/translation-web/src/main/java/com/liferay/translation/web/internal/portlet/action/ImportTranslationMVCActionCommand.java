@@ -49,6 +49,9 @@ import com.liferay.translation.url.provider.TranslationURLProvider;
 import com.liferay.translation.web.internal.display.context.ImportTranslationResultsDisplayContext;
 import com.liferay.translation.web.internal.helper.TranslationRequestHelper;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -63,9 +66,6 @@ import java.util.function.Supplier;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

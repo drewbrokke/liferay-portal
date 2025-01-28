@@ -17,9 +17,9 @@ import com.liferay.site.item.selector.display.context.SitesItemSelectorViewDispl
 import com.liferay.site.manager.RecentGroupManager;
 import com.liferay.site.search.GroupSearch;
 
-import javax.portlet.PortletURL;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.portlet.PortletURL;
 
 /**
  * @author Julio Camarero

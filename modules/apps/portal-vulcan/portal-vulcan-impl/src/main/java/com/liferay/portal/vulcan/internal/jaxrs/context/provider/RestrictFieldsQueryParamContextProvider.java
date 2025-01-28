@@ -7,11 +7,11 @@ package com.liferay.portal.vulcan.internal.jaxrs.context.provider;
 
 import com.liferay.portal.vulcan.fields.RestrictFieldsQueryParam;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.ext.Provider;
 

@@ -10,9 +10,9 @@ import com.liferay.asset.publisher.util.AssetPublisherHelper;
 import com.liferay.asset.publisher.web.internal.configuration.AssetPublisherWebConfiguration;
 import com.liferay.portal.kernel.util.GetterUtil;
 
-import javax.portlet.PortletPreferences;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.portlet.PortletPreferences;
 
 /**
  * @author Pavel Savinov

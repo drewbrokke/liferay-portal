@@ -19,11 +19,11 @@ import com.liferay.portal.service.permission.UserGroupPermissionUtil;
 import com.liferay.user.groups.admin.constants.UserGroupsAdminPortletKeys;
 import com.liferay.user.groups.admin.web.internal.portlet.action.ActionUtil;
 
+import jakarta.servlet.ServletContext;
+
 import java.util.Map;
 
 import javax.portlet.PortletRequest;
-
-import javax.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

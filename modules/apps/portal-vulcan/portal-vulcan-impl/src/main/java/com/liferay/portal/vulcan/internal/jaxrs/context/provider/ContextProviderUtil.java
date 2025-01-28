@@ -10,11 +10,11 @@ import com.liferay.portal.vulcan.internal.jaxrs.lifecycle.SafeReleaseInstanceRes
 import com.liferay.portal.vulcan.jaxrs.constants.JaxRsConstants;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.MultivaluedHashMap;

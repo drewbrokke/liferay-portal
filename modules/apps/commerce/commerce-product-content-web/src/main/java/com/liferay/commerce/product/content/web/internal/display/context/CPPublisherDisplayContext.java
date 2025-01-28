@@ -60,6 +60,8 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -70,8 +72,6 @@ import java.util.Map;
 
 import javax.portlet.PortletURL;
 import javax.portlet.filter.PortletURLWrapper;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Marco Leo

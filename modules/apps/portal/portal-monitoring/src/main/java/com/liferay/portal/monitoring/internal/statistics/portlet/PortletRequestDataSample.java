@@ -19,10 +19,10 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.monitoring.internal.BaseDataSample;
 import com.liferay.portal.monitoring.internal.MonitorNames;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Karthik Sudarshan

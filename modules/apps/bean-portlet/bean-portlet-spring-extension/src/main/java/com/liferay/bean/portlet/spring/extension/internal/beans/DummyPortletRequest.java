@@ -5,6 +5,8 @@
 
 package com.liferay.bean.portlet.spring.extension.internal.beans;
 
+import jakarta.servlet.http.Cookie;
+
 import java.security.Principal;
 
 import java.util.Enumeration;
@@ -19,8 +21,6 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
 import javax.portlet.RenderParameters;
 import javax.portlet.WindowState;
-
-import javax.servlet.http.Cookie;
 
 /**
  * @author Neil Griffin

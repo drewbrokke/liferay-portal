@@ -39,12 +39,12 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.site.navigation.menu.item.display.page.internal.type.DisplayPageTypeContext;
 import com.liferay.site.navigation.model.SiteNavigationMenuItem;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Map;
 
 import javax.portlet.PortletResponse;
 import javax.portlet.PortletURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Lourdes Fernández Besada

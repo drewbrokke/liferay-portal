@@ -9,9 +9,9 @@ import com.liferay.client.extension.web.internal.type.deployer.Registrable;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 
-import java.util.Dictionary;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Dictionary;
 
 /**
  * @author Iván Zaera Avellón

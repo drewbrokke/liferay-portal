@@ -18,10 +18,10 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Collection;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.validation.constraints.NotNull;
 

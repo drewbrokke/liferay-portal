@@ -47,11 +47,11 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.taglib.util.ThemeUtil;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Context;

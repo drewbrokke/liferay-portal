@@ -5,9 +5,9 @@
 
 package com.liferay.portal.vulcan.internal.multipart;
 
-import java.lang.reflect.Parameter;
+import jakarta.servlet.http.Part;
 
-import javax.servlet.http.Part;
+import java.lang.reflect.Parameter;
 
 import javax.ws.rs.core.HttpHeaders;
 

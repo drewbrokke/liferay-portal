@@ -8,11 +8,11 @@ package com.liferay.enterprise.product.notification.web.internal.jaxrs.applicati
 import com.liferay.enterprise.product.notification.web.internal.EPNManager;
 import com.liferay.portal.kernel.util.Portal;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.Collections;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

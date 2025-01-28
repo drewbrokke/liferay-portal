@@ -15,10 +15,10 @@ import com.liferay.style.book.constants.StyleBookPortletKeys;
 import com.liferay.style.book.web.internal.display.context.StyleBookDisplayContext;
 import com.liferay.style.book.web.internal.display.context.StyleBookManagementToolbarDisplayContext;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

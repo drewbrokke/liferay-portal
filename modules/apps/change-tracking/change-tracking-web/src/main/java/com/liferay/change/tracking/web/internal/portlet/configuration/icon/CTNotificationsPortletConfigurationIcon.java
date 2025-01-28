@@ -16,13 +16,13 @@ import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 
+import jakarta.servlet.ServletContext;
+
 import java.util.Map;
 import java.util.Objects;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceURL;
-
-import javax.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

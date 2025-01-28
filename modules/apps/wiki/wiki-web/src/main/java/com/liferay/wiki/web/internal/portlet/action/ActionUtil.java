@@ -47,6 +47,8 @@ import com.liferay.wiki.web.internal.security.permission.resource.WikiNodePermis
 import com.liferay.wiki.web.internal.util.WikiUtil;
 import com.liferay.wiki.web.internal.util.WikiWebComponentProvider;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -58,8 +60,6 @@ import javax.portlet.PortletResponse;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Brian Wing Shun Chan

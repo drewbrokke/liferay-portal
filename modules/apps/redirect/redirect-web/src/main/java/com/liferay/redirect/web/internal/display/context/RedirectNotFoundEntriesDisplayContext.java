@@ -40,6 +40,8 @@ import com.liferay.redirect.web.internal.util.RedirectUtil;
 import com.liferay.staging.StagingGroupHelper;
 import com.liferay.staging.StagingGroupHelperUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.time.Duration;
 import java.time.Instant;
 
@@ -48,8 +50,6 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.portlet.PortletURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alejandro Tardín

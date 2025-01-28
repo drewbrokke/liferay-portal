@@ -19,9 +19,9 @@ import com.liferay.portal.workflow.kaleo.forms.service.KaleoProcessLinkLocalServ
 import com.liferay.portal.workflow.kaleo.forms.service.KaleoProcessLocalService;
 import com.liferay.portal.workflow.kaleo.forms.service.permission.KaleoProcessPermission;
 
-import javax.portlet.Portlet;
+import jakarta.servlet.ServletContext;
 
-import javax.servlet.ServletContext;
+import javax.portlet.Portlet;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

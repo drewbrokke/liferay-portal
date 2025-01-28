@@ -39,6 +39,8 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
+import jakarta.servlet.http.Cookie;
+
 import java.security.Principal;
 
 import java.util.Collections;
@@ -54,8 +56,6 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
 import javax.portlet.RenderParameters;
 import javax.portlet.WindowState;
-
-import javax.servlet.http.Cookie;
 
 import org.junit.Assert;
 import org.junit.Before;

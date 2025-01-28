@@ -64,6 +64,10 @@ import com.liferay.portlet.configuration.kernel.util.PortletConfigurationApplica
 import com.liferay.segments.model.SegmentsExperienceModel;
 import com.liferay.segments.service.SegmentsExperienceLocalService;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -77,10 +81,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.portlet.PortletConfig;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;

@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.settings.SystemSettingsLocator;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,8 +33,6 @@ import java.util.Objects;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderResponse;
 import javax.portlet.WindowStateException;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Marco Leo

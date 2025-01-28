@@ -57,11 +57,11 @@ import com.liferay.wiki.web.internal.security.permission.resource.WikiPagePermis
 import com.liferay.wiki.web.internal.util.WikiPortletUtil;
 import com.liferay.wiki.web.internal.util.WikiWebComponentProvider;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Iván Zaera

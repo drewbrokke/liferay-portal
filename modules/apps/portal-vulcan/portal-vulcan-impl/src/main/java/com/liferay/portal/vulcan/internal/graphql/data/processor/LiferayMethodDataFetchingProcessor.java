@@ -54,6 +54,10 @@ import com.liferay.portal.vulcan.util.SortUtil;
 import graphql.annotations.processor.util.NamingKit;
 import graphql.annotations.processor.util.ReflectionKit;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -65,10 +69,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiFunction;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;

@@ -22,6 +22,8 @@ import com.liferay.portal.vulcan.internal.fields.servlet.NestedFieldsHttpServlet
 import com.liferay.portal.vulcan.internal.jaxrs.message.exchange.ExchangeWrapper;
 import com.liferay.portal.vulcan.pagination.Page;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 import java.lang.annotation.Annotation;
@@ -38,8 +40,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;

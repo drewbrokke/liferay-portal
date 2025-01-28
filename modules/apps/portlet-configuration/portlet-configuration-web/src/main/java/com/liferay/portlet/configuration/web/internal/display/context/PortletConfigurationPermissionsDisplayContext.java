@@ -56,6 +56,9 @@ import com.liferay.roles.admin.role.type.contributor.provider.RoleTypeContributo
 import com.liferay.roles.admin.search.RoleSearch;
 import com.liferay.roles.admin.search.RoleSearchTerms;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -70,9 +73,6 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.WindowStateException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author Eudaldo Alonso

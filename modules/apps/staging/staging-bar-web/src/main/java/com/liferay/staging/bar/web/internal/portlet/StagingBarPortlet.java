@@ -49,6 +49,8 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.staging.bar.web.internal.portlet.constants.StagingBarPortletKeys;
 import com.liferay.staging.constants.StagingProcessesWebKeys;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 import java.net.ConnectException;
@@ -61,8 +63,6 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

@@ -49,6 +49,8 @@ import com.liferay.portal.workflow.web.internal.util.filter.WorkflowDefinitionDe
 import com.liferay.portal.workflow.web.internal.util.filter.WorkflowDefinitionScopePredicate;
 import com.liferay.portal.workflow.web.internal.util.filter.WorkflowDefinitionTitlePredicate;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -60,8 +62,6 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Leonardo Barros
