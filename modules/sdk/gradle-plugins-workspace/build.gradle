@@ -32,6 +32,12 @@ configurations {
 dependencies {
 	compileOnly fileTree(builtBy: [rootProject.tasks.getByName("extractGradleApi" + gradleVersion.replace(".", ""))], dir: new File(rootProject.buildDir, "gradle-${gradleVersion}"))
 
+	constraints {
+		implementation(group: "org.apache.tomcat", name: "tomcat-jasper", version: "9.0.98") {
+			because "JSP Compilation is broken in tests with tomcat-jasper 9.0.97"
+		}
+	}
+
 	implementation group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "6.4.0"
 	implementation group: "com.bmuschko", name: "gradle-docker-plugin", version: "6.7.0"
 	implementation group: "com.fasterxml.jackson.dataformat", name: "jackson-dataformat-yaml", version: "2.16.1"
