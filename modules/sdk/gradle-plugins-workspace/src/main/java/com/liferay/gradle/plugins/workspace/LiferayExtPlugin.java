@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.concurrent.Callable;
 
 import org.gradle.api.Action;
+import org.gradle.api.JavaVersion;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
@@ -331,6 +332,30 @@ public class LiferayExtPlugin implements Plugin<Project> {
 						buildExtInfoBaseDirTaskProvider.get();
 
 					buildExtInfoTask.dependsOn(buildExtInfoBaseDirSync);
+
+					JavaVersion javaVersion = buildExtInfoTask.getJavaVersion();
+
+					if (javaVersion.isJava11Compatible()) {
+						buildExtInfoTask.jvmArgs(
+							"--add-opens", "java.base/java.lang=ALL-UNNAMED");
+						buildExtInfoTask.jvmArgs(
+							"--add-opens",
+							"java.base/java.lang.invoke=ALL-UNNAMED");
+						buildExtInfoTask.jvmArgs(
+							"--add-opens",
+							"java.base/java.lang.reflect=ALL-UNNAMED");
+						buildExtInfoTask.jvmArgs(
+							"--add-opens", "java.base/java.net=ALL-UNNAMED");
+						buildExtInfoTask.jvmArgs(
+							"--add-opens",
+							"java.base/sun.net.www.protocol.http=ALL-UNNAMED");
+						buildExtInfoTask.jvmArgs(
+							"--add-opens",
+							"java.base/sun.util.calendar=ALL-UNNAMED");
+						buildExtInfoTask.jvmArgs(
+							"--add-opens",
+							"jdk.zipfs/jdk.nio.zipfs=ALL-UNNAMED");
+					}
 
 					buildExtInfoTask.setBaseDir(
 						new Callable<File>() {
