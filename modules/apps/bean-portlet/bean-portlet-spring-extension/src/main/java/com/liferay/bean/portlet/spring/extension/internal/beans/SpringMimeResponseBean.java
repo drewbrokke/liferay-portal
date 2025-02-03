@@ -17,8 +17,8 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Locale;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Priority;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.Priority;
 
 import javax.portlet.ActionURL;
 import javax.portlet.CacheControl;

@@ -42,7 +42,7 @@ import java.util.Locale;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * @author Alejandro Tardín

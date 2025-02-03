@@ -23,8 +23,8 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Priority;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.Priority;
 
 import javax.portlet.ClientDataRequest;
 import javax.portlet.PortalContext;

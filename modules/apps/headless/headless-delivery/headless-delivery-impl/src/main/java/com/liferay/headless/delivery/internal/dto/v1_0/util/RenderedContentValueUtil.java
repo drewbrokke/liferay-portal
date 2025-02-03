@@ -31,8 +31,8 @@ import java.net.URI;
 
 import java.util.Locale;
 
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * @author Javier Gamarra

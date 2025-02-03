@@ -12,8 +12,8 @@ import jakarta.servlet.http.Cookie;
 
 import java.util.Collection;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Priority;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.Priority;
 
 import javax.portlet.PortletResponse;
 import javax.portlet.filter.PortletResponseWrapper;

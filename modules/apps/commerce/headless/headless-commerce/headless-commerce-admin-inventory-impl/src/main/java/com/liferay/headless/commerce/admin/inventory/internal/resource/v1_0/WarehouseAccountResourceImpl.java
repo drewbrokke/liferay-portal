@@ -33,8 +33,8 @@ import com.liferay.portal.vulcan.pagination.Pagination;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriInfo;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

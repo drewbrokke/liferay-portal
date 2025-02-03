@@ -15,8 +15,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Priority;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.Priority;
 
 import javax.portlet.MutableRenderParameters;
 import javax.portlet.PortletMode;

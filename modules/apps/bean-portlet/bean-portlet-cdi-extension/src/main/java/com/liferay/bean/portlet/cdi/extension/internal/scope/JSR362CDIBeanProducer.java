@@ -18,11 +18,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.Typed;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.Typed;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 import javax.portlet.ActionParameters;
 import javax.portlet.ActionRequest;

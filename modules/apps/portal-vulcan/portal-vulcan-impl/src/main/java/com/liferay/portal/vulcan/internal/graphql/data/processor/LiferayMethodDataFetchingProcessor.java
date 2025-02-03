@@ -70,13 +70,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
-import javax.validation.ValidationException;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotNull;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.UriInfo;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.apache.cxf.jaxrs.impl.UriInfoImpl;

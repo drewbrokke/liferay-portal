@@ -23,7 +23,7 @@ import java.io.Serializable;
 
 import java.util.Map;
 
-import javax.ws.rs.HttpMethod;
+import jakarta.ws.rs.HttpMethod;
 
 /**
  * @author Carlos Correa

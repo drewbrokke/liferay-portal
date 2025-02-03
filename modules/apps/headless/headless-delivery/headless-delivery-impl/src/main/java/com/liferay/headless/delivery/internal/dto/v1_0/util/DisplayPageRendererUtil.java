@@ -40,7 +40,7 @@ import com.liferay.portal.vulcan.util.JaxRsLinkUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.UriInfo;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

@@ -31,8 +31,8 @@ import javax.mvc.security.Encoders;
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
 
-import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.UriBuilder;
 
 /**
  * @author Neil Griffin
@@ -63,7 +63,7 @@ public class MVCContextImpl implements MvcContext {
 		_csrf = new CsrfImpl(
 			"p_auth", csrfLiferayPortletURL.getParameter("p_auth"));
 
-		Map<String, javax.ws.rs.core.Cookie> cookieMap = new HashMap<>();
+		Map<String, jakarta.ws.rs.core.Cookie> cookieMap = new HashMap<>();
 
 		Cookie[] cookies = portletRequest.getCookies();
 
@@ -71,7 +71,7 @@ public class MVCContextImpl implements MvcContext {
 			for (Cookie cookie : cookies) {
 				cookieMap.put(
 					cookie.getName(),
-					new javax.ws.rs.core.Cookie(
+					new jakarta.ws.rs.core.Cookie(
 						cookie.getName(), cookie.getValue()));
 			}
 		}

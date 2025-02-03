@@ -242,7 +242,7 @@ public class CompilerWrapper extends Compiler {
 		Class<?> clazz = CompilerWrapper.class;
 
 		URL url = clazz.getResource(
-			"/javax/servlet/jsp/resources/".concat(name));
+			"/jakarta.servlet.jsp.resources/".concat(name));
 
 		String location = null;
 

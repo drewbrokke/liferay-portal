@@ -9,7 +9,7 @@ import jakarta.servlet.http.Part;
 
 import java.lang.reflect.Parameter;
 
-import javax.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.HttpHeaders;
 
 /**
  * @author Javier Gamarra
