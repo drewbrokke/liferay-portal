@@ -36,4 +36,4 @@ Main-Class: com.liferay.portal.tools.wsdd.builder.WSDDBuilder
 	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/security/xml/SecureXMLFactoryProviderUtil.class,\
 	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/util/*,\
 	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/xml/XMLSchema.class,\
-	@xercesImpl-[0-9.]*.jar!/org/apache/xerces/xni/XNIException.class
+	@xercesImpl-[0-9.]*-JAKARTA-SNAPSHOT.jar!/org/apache/xerces/xni/XNIException.class

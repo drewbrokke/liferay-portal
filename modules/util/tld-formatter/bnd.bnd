@@ -23,4 +23,4 @@ Main-Class: com.liferay.tld.formatter.TLDFormatter
 	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/log/*,\
 	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/memory/SoftReferenceThreadLocal.class,\
 	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/util/*,\
-	@xercesImpl-[0-9.]*.jar!/org/apache/xerces/xni/XNIException.class
+	@xercesImpl-[0-9.]*-JAKARTA-SNAPSHOT.jar!/org/apache/xerces/xni/XNIException.class

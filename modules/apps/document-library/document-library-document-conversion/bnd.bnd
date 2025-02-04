@@ -17,6 +17,6 @@ Require-Capability:\
 -dsannotations-options: inherit
 -includeresource:\
 	OSGI-INF/configurator=configurator,\
-	@google-collections-[0-9.]*.jar,\
-	@joda-time-[0-9.]*.jar,\
-	@jsontoken-[0-9.]*.jar
+	@google-collections-[0-9.]*-JAKARTA-SNAPSHOT.jar,\
+	@joda-time-[0-9.]*-JAKARTA-SNAPSHOT.jar,\
+	@jsontoken-[0-9.]*-JAKARTA-SNAPSHOT.jar
