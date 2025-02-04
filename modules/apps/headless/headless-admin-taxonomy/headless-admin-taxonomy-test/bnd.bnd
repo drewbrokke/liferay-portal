@@ -4,4 +4,4 @@ Bundle-Version: 1.0.0
 -includeresource: :\
 	com.liferay.headless.admin.taxonomy.client.jar=com.liferay.headless.admin.taxonomy.client-*.jar;lib:=true,\
 	com.liferay.headless.batch.engine.client.jar=com.liferay.headless.batch.engine.client-*.jar;lib:=true,\
-	@jsonassert-[0-9.]*.jar
+	@jsonassert-[0-9.]*-JAKARTA-SNAPSHOT.jar

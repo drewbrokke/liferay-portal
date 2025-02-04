@@ -50,4 +50,4 @@ Import-Package:\
 	*
 -includeresource:\
 	mockserver-netty-no-dependencies-[0-9.]*.jar;lib:=true,\
-	@jsonassert-[0-9.]*.jar
+	@jsonassert-[0-9.]*-JAKARTA-SNAPSHOT.jar

@@ -36,4 +36,4 @@ Main-Class: com.liferay.javadoc.formatter.JavadocFormatter
 	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/xml/XMLSchema.class,\
 	@com.liferay.util.java-*.jar!/com/liferay/util/xml/Dom4jDocUtil.class,\
 	@com.liferay.util.java-*.jar!/com/liferay/util/xml/XMLSafeReader.class,\
-	@xercesImpl-[0-9.]*.jar!/org/apache/xerces/xni/XNIException.class
+	@xercesImpl-[0-9.]*-JAKARTA-SNAPSHOT.jar!/org/apache/xerces/xni/XNIException.class
