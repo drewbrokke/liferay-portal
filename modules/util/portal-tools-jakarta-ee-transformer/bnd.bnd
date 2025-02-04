@@ -3,5 +3,5 @@ Bundle-SymbolicName: com.liferay.portal.tools.jakarta.ee.transformer
 Bundle-Version: 1.0.0
 Premain-Class: com.liferay.portal.tools.jakarta.ee.transformer.TransformerAgent
 -includeresource:\
-	@asm-[0-9.]*.jar!/!module-info.class,\
-	@asm-commons-[0-9.]*.jar!/!module-info.class
+	@asm-[0-9.]*-JAKARTA-SNAPSHOT.jar!/!module-info.class,\
+	@asm-commons-[0-9.]*-JAKARTA-SNAPSHOT.jar!/!module-info.class
