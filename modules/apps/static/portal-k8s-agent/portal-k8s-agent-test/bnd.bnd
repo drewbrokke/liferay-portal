@@ -32,5 +32,5 @@ Import-Package:\
 	\
 	org.xml.sax
 -includeresource:\
-	@kubernetes-server-mock-[0-9.]*.jar,\
-	@mockwebserver-[0-9.]*.jar
+	@kubernetes-server-mock-[0-9.]*-JAKARTA-SNAPSHOT.jar,\
+	@mockwebserver-[0-9.]*-JAKARTA-SNAPSHOT.jar
