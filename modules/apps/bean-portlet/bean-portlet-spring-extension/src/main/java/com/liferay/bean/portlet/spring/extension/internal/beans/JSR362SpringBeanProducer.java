@@ -45,7 +45,7 @@ import javax.portlet.annotations.Namespace;
 import javax.portlet.annotations.PortletName;
 import javax.portlet.annotations.WindowId;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;

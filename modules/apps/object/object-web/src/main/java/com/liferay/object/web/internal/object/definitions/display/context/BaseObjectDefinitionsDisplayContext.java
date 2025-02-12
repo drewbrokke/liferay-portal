@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Feliphe Marinho

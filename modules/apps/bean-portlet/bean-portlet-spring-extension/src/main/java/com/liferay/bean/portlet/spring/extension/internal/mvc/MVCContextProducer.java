@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import javax.mvc.MvcContext;
 import javax.mvc.locale.LocaleResolver;
@@ -59,7 +59,7 @@ public class MVCContextProducer implements ApplicationContextAware {
 	private ApplicationContext _applicationContext;
 
 	@Autowired
-	private javax.ws.rs.core.Configuration _configuration;
+	private jakarta.ws.rs.core.Configuration _configuration;
 
 	@Autowired
 	private Encoders _encoders;

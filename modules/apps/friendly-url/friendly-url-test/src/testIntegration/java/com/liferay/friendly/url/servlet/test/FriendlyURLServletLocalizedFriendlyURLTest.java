@@ -42,9 +42,9 @@ import java.util.Objects;
 
 import javax.portlet.PortletPreferences;
 
-import javax.servlet.Servlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 import org.junit.Assert;
 import org.junit.Before;

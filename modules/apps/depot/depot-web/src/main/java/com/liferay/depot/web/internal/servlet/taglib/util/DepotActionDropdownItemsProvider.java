@@ -25,7 +25,7 @@ import java.util.List;
 
 import javax.portlet.ActionURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Alicia García

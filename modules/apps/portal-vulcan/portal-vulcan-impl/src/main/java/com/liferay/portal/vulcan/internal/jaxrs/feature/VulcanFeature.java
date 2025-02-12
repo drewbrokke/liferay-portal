@@ -75,9 +75,9 @@ import com.liferay.portal.vulcan.internal.jaxrs.writer.interceptor.ProblemWriter
 import com.liferay.portal.vulcan.internal.param.converter.provider.DateParamConverterProvider;
 import com.liferay.portal.vulcan.pagination.provider.PaginationProvider;
 
-import javax.ws.rs.Priorities;
-import javax.ws.rs.core.Feature;
-import javax.ws.rs.core.FeatureContext;
+import jakarta.ws.rs.Priorities;
+import jakarta.ws.rs.core.Feature;
+import jakarta.ws.rs.core.FeatureContext;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;

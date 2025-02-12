@@ -35,7 +35,7 @@ import javax.portlet.ResourceResponse;
 import javax.portlet.filter.RenderURLWrapper;
 import javax.portlet.filter.ResourceURLWrapper;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationEventPublisher;
 

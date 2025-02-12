@@ -21,7 +21,7 @@ import com.liferay.portal.workflow.kaleo.forms.service.permission.KaleoProcessPe
 
 import javax.portlet.Portlet;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

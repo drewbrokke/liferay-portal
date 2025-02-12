@@ -14,8 +14,8 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Priority;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.Priority;
 
 import javax.portlet.PortalContext;
 import javax.portlet.PortletContext;
@@ -28,7 +28,7 @@ import javax.portlet.RenderState;
 import javax.portlet.WindowState;
 import javax.portlet.filter.PortletRequestWrapper;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 /**
  * @author Neil Griffin

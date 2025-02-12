@@ -31,7 +31,7 @@ import com.liferay.wiki.web.internal.display.context.helper.WikiPortletInstanceS
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Mariano Álvaro Sáiz

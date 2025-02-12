@@ -19,7 +19,7 @@ import com.liferay.site.search.GroupSearch;
 
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Julio Camarero

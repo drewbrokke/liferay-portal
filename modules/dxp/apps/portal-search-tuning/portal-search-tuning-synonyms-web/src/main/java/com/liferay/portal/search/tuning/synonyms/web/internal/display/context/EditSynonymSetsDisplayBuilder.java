@@ -16,7 +16,7 @@ import com.liferay.portal.search.tuning.synonyms.web.internal.index.SynonymSetIn
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Kevin Tan

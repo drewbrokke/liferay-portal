@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 import javax.portlet.ResourceURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author David Arques

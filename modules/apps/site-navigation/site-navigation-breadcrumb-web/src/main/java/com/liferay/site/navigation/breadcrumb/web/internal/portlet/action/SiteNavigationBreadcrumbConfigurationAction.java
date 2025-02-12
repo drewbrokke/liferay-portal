@@ -9,7 +9,7 @@ import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portlet.display.template.portlet.action.BaseConfigurationAction;
 import com.liferay.site.navigation.breadcrumb.web.internal.constants.SiteNavigationBreadcrumbPortletKeys;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 

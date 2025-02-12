@@ -30,7 +30,7 @@ import com.liferay.portal.workflow.manager.WorkflowDefinitionManager;
 
 import java.util.Collections;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Alec Sloan

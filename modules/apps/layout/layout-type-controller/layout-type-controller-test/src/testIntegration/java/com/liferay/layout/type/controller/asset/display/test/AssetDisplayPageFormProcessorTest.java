@@ -55,7 +55,7 @@ import javax.portlet.PortletSession;
 import javax.portlet.RenderParameters;
 import javax.portlet.WindowState;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import org.junit.Assert;
 import org.junit.Before;

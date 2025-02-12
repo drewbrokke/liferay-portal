@@ -28,7 +28,7 @@ import java.util.Locale;
 
 import javax.portlet.RenderRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Barbara Cabrera
