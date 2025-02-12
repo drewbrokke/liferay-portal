@@ -21,7 +21,7 @@ import javax.mvc.security.CsrfProtected;
 
 import javax.portlet.ClientDataRequest;
 
-import javax.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.Configuration;
 
 /**
  * @author Neil Griffin

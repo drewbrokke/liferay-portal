@@ -24,8 +24,8 @@ import java.util.Map;
 
 import javax.portlet.PortletException;
 
-import javax.servlet.ServletRequestWrapper;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletRequestWrapper;
+import jakarta.servlet.http.Part;
 
 import org.osgi.service.component.annotations.Component;
 

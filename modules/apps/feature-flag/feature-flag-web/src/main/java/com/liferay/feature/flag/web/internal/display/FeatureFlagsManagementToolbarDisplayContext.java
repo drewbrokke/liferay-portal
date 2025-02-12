@@ -27,7 +27,7 @@ import java.util.function.Predicate;
 import javax.portlet.MutableRenderParameters;
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Drew Brokke

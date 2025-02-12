@@ -13,7 +13,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import javax.portlet.PortletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Raymond Augé

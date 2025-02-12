@@ -57,7 +57,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
 import javax.portlet.ResourceURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Alejandro Tardín

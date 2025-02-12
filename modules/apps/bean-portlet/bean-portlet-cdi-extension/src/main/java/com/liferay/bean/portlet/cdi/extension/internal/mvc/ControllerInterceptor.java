@@ -20,15 +20,15 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 
-import javax.enterprise.event.Event;
+import jakarta.enterprise.event.Event;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
+import jakarta.interceptor.AroundInvoke;
+import jakarta.interceptor.Interceptor;
+import jakarta.interceptor.InvocationContext;
 
 import javax.mvc.View;
 import javax.mvc.event.MvcEvent;
@@ -50,7 +50,7 @@ import javax.portlet.annotations.RenderMethod;
 import javax.portlet.filter.RenderURLWrapper;
 import javax.portlet.filter.ResourceURLWrapper;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Neil Griffin

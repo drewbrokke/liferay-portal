@@ -10,13 +10,13 @@ import com.liferay.bean.portlet.spring.extension.internal.scope.SpringScopedBean
 
 import java.util.Collection;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Priority;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.Priority;
 
 import javax.portlet.PortletResponse;
 import javax.portlet.filter.PortletResponseWrapper;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import org.w3c.dom.Element;
 

@@ -7,7 +7,7 @@ package com.liferay.bean.portlet.spring.extension.internal.mvc;
 
 import com.liferay.portal.kernel.util.HtmlUtil;
 
-import javax.annotation.ManagedBean;
+import jakarta.annotation.ManagedBean;
 
 import javax.mvc.security.Encoders;
 

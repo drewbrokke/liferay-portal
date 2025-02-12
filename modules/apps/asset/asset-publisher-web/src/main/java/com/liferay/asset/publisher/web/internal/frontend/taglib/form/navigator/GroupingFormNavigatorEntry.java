@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import java.util.Map;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
