@@ -164,7 +164,7 @@ import java.util.Objects;
 import javax.portlet.Portlet;
 import javax.portlet.PortletRequest;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;

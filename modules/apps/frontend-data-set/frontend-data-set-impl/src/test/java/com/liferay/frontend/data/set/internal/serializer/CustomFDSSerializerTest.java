@@ -45,7 +45,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.junit.Assert;
 import org.junit.Before;

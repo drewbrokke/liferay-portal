@@ -24,7 +24,7 @@ import java.util.List;
 import javax.portlet.ActionRequest;
 import javax.portlet.RenderResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author David Truong

@@ -12,9 +12,9 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import java.util.List;
 import java.util.Set;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.SessionScoped;
 
 import javax.portlet.PortletSession;
 import javax.portlet.annotations.PortletRequestScoped;

@@ -15,7 +15,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Daniel Sanz

@@ -24,7 +24,7 @@ import java.util.List;
 
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

@@ -23,7 +23,7 @@ import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 
 import java.math.BigDecimal;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

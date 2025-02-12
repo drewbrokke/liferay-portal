@@ -43,7 +43,7 @@ import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;

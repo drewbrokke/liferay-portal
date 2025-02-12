@@ -50,23 +50,23 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.NotSupportedException;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.NotSupportedException;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * @author Javier Gamarra
  * @generated
  */
 @Generated("")
-@javax.ws.rs.Path("/v1.0")
+@jakarta.ws.rs.Path("/v1.0")
 public abstract class BaseObjectValidationRuleResourceImpl
 	implements EntityModelResource, ObjectValidationRuleResource,
 			   VulcanBatchEngineTaskItemDelegate<ObjectValidationRule>,
@@ -108,23 +108,23 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path(
 		"/object-definitions/by-external-reference-code/{externalReferenceCode}/object-validation-rules"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<ObjectValidationRule>
 			getObjectDefinitionByExternalReferenceCodeObjectValidationRulesPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("externalReferenceCode")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("externalReferenceCode")
 				String externalReferenceCode,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.ws.rs.QueryParam("search")
+				@jakarta.ws.rs.QueryParam("search")
 				String search,
-				@javax.ws.rs.core.Context Pagination pagination,
-				@javax.ws.rs.core.Context Sort[] sorts)
+				@jakarta.ws.rs.core.Context Pagination pagination,
+				@jakarta.ws.rs.core.Context Sort[] sorts)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -150,18 +150,18 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path(
 		"/object-definitions/by-external-reference-code/{externalReferenceCode}/object-validation-rules"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ObjectValidationRule
 			postObjectDefinitionByExternalReferenceCodeObjectValidationRule(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("externalReferenceCode")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("externalReferenceCode")
 				String externalReferenceCode,
 				ObjectValidationRule objectValidationRule)
 		throws Exception {
@@ -205,23 +205,23 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path(
 		"/object-definitions/{objectDefinitionId}/object-validation-rules"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<ObjectValidationRule>
 			getObjectDefinitionObjectValidationRulesPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("objectDefinitionId")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("objectDefinitionId")
 				Long objectDefinitionId,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.ws.rs.QueryParam("search")
+				@jakarta.ws.rs.QueryParam("search")
 				String search,
-				@javax.ws.rs.core.Context Pagination pagination,
-				@javax.ws.rs.core.Context Sort[] sorts)
+				@jakarta.ws.rs.core.Context Pagination pagination,
+				@jakarta.ws.rs.core.Context Sort[] sorts)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -267,31 +267,31 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.Path(
 		"/object-definitions/{objectDefinitionId}/object-validation-rules/export-batch"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces("application/json")
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces("application/json")
 	@Override
 	public Response postObjectDefinitionObjectValidationRulesPageExportBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("objectDefinitionId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("objectDefinitionId")
 			Long objectDefinitionId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("search")
+			@jakarta.ws.rs.QueryParam("search")
 			String search,
-			@javax.ws.rs.core.Context Sort[] sorts,
+			@jakarta.ws.rs.core.Context Sort[] sorts,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.DefaultValue("JSON")
-			@javax.ws.rs.QueryParam("contentType")
+			@jakarta.ws.rs.DefaultValue("JSON")
+			@jakarta.ws.rs.QueryParam("contentType")
 			String contentType,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("fieldNames")
+			@jakarta.ws.rs.QueryParam("fieldNames")
 			String fieldNames)
 		throws Exception {
 
@@ -334,17 +334,17 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path(
 		"/object-definitions/{objectDefinitionId}/object-validation-rules"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ObjectValidationRule postObjectDefinitionObjectValidationRule(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("objectDefinitionId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("objectDefinitionId")
 			Long objectDefinitionId,
 			ObjectValidationRule objectValidationRule)
 		throws Exception {
@@ -376,20 +376,20 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.Path(
 		"/object-definitions/{objectDefinitionId}/object-validation-rules/batch"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces("application/json")
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces("application/json")
 	@Override
 	public Response postObjectDefinitionObjectValidationRuleBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("objectDefinitionId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("objectDefinitionId")
 			Long objectDefinitionId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
 			Object object)
 		throws Exception {
@@ -430,14 +430,14 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/object-validation-rules/{objectValidationRuleId}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.DELETE
+	@jakarta.ws.rs.Path("/object-validation-rules/{objectValidationRuleId}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public void deleteObjectValidationRule(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("objectValidationRuleId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("objectValidationRuleId")
 			Long objectValidationRuleId)
 		throws Exception {
 	}
@@ -462,14 +462,14 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/object-validation-rules/batch")
-	@javax.ws.rs.Produces("application/json")
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.DELETE
+	@jakarta.ws.rs.Path("/object-validation-rules/batch")
+	@jakarta.ws.rs.Produces("application/json")
 	@Override
 	public Response deleteObjectValidationRuleBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
 			Object object)
 		throws Exception {
@@ -510,14 +510,14 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/object-validation-rules/{objectValidationRuleId}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/object-validation-rules/{objectValidationRuleId}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ObjectValidationRule getObjectValidationRule(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("objectValidationRuleId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("objectValidationRuleId")
 			Long objectValidationRuleId)
 		throws Exception {
 
@@ -544,15 +544,15 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.PATCH
-	@javax.ws.rs.Path("/object-validation-rules/{objectValidationRuleId}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.PATCH
+	@jakarta.ws.rs.Path("/object-validation-rules/{objectValidationRuleId}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ObjectValidationRule patchObjectValidationRule(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("objectValidationRuleId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("objectValidationRuleId")
 			Long objectValidationRuleId,
 			ObjectValidationRule objectValidationRule)
 		throws Exception {
@@ -640,15 +640,15 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path("/object-validation-rules/{objectValidationRuleId}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
-	@javax.ws.rs.PUT
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path("/object-validation-rules/{objectValidationRuleId}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.PUT
 	@Override
 	public ObjectValidationRule putObjectValidationRule(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("objectValidationRuleId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("objectValidationRuleId")
 			Long objectValidationRuleId,
 			ObjectValidationRule objectValidationRule)
 		throws Exception {
@@ -676,14 +676,14 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path("/object-validation-rules/batch")
-	@javax.ws.rs.Produces("application/json")
-	@javax.ws.rs.PUT
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.Path("/object-validation-rules/batch")
+	@jakarta.ws.rs.Produces("application/json")
+	@jakarta.ws.rs.PUT
 	@Override
 	public Response putObjectValidationRuleBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
 			Object object)
 		throws Exception {

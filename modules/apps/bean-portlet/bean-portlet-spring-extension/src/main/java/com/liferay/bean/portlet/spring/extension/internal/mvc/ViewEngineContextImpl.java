@@ -10,7 +10,7 @@ import javax.mvc.Models;
 import javax.portlet.MimeResponse;
 import javax.portlet.PortletRequest;
 
-import javax.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.Configuration;
 
 /**
  * @author Neil Griffin

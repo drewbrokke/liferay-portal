@@ -13,7 +13,7 @@ import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 

@@ -40,8 +40,8 @@ import javax.portlet.PortletURL;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.junit.Assert;
 import org.junit.Before;

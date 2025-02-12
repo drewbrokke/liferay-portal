@@ -11,7 +11,7 @@ import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 
 import java.util.Dictionary;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Iván Zaera Avellón

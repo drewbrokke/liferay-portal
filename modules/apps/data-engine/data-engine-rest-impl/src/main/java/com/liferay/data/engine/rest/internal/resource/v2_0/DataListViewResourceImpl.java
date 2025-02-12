@@ -51,9 +51,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

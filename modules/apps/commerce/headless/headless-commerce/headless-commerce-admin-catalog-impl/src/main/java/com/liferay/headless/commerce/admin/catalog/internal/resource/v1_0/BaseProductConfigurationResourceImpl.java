@@ -50,23 +50,23 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.NotSupportedException;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.NotSupportedException;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * @author Zoltán Takács
  * @generated
  */
 @Generated("")
-@javax.ws.rs.Path("/v1.0")
+@jakarta.ws.rs.Path("/v1.0")
 public abstract class BaseProductConfigurationResourceImpl
 	implements EntityModelResource, ProductConfigurationResource,
 			   VulcanBatchEngineTaskItemDelegate<ProductConfiguration>,
@@ -116,27 +116,27 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path(
 		"/product-configuration-lists/by-externalReferenceCode/{externalReferenceCode}/product-configurations"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<ProductConfiguration>
 			getProductConfigurationListByExternalReferenceCodeProductConfigurationsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("externalReferenceCode")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("externalReferenceCode")
 				String externalReferenceCode,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.ws.rs.QueryParam("search")
+				@jakarta.ws.rs.QueryParam("search")
 				String search,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.ws.rs.QueryParam("showDifferences")
+				@jakarta.ws.rs.QueryParam("showDifferences")
 				Boolean showDifferences,
-				@javax.ws.rs.core.Context Filter filter,
-				@javax.ws.rs.core.Context Pagination pagination,
-				@javax.ws.rs.core.Context Sort[] sorts)
+				@jakarta.ws.rs.core.Context Filter filter,
+				@jakarta.ws.rs.core.Context Pagination pagination,
+				@jakarta.ws.rs.core.Context Sort[] sorts)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -162,18 +162,18 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path(
 		"/product-configuration-lists/by-externalReferenceCode/{externalReferenceCode}/product-configurations"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductConfiguration
 			postProductConfigurationListByExternalReferenceCodeProductConfiguration(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("externalReferenceCode")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("externalReferenceCode")
 				String externalReferenceCode,
 				ProductConfiguration productConfiguration)
 		throws Exception {
@@ -225,27 +225,27 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path(
 		"/product-configuration-lists/{id}/product-configurations"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<ProductConfiguration>
 			getProductConfigurationListIdProductConfigurationsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("id")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("id")
 				Long id,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.ws.rs.QueryParam("search")
+				@jakarta.ws.rs.QueryParam("search")
 				String search,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.ws.rs.QueryParam("showDifferences")
+				@jakarta.ws.rs.QueryParam("showDifferences")
 				Boolean showDifferences,
-				@javax.ws.rs.core.Context Filter filter,
-				@javax.ws.rs.core.Context Pagination pagination,
-				@javax.ws.rs.core.Context Sort[] sorts)
+				@jakarta.ws.rs.core.Context Filter filter,
+				@jakarta.ws.rs.core.Context Pagination pagination,
+				@jakarta.ws.rs.core.Context Sort[] sorts)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -271,18 +271,18 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path(
 		"/product-configuration-lists/{id}/product-configurations"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductConfiguration
 			postProductConfigurationListIdProductConfiguration(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("id")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("id")
 				Long id,
 				ProductConfiguration productConfiguration)
 		throws Exception {
@@ -310,16 +310,16 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.Path(
 		"/product-configuration-lists/product-configurations/batch"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces("application/json")
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces("application/json")
 	@Override
 	public Response postProductConfigurationListIdProductConfigurationBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
 			Object object)
 		throws Exception {
@@ -360,16 +360,16 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.DELETE
+	@jakarta.ws.rs.Path(
 		"/product-configurations/by-externalReferenceCode/{externalReferenceCode}"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public void deleteProductConfigurationByExternalReferenceCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode)
 		throws Exception {
 	}
@@ -394,16 +394,16 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path(
 		"/product-configurations/by-externalReferenceCode/{externalReferenceCode}"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductConfiguration getProductConfigurationByExternalReferenceCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode)
 		throws Exception {
 
@@ -430,18 +430,18 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.PATCH
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.PATCH
+	@jakarta.ws.rs.Path(
 		"/product-configurations/by-externalReferenceCode/{externalReferenceCode}"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductConfiguration
 			patchProductConfigurationByExternalReferenceCode(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("externalReferenceCode")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("externalReferenceCode")
 				String externalReferenceCode,
 				ProductConfiguration productConfiguration)
 		throws Exception {
@@ -469,13 +469,13 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/product-configurations/{id}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.DELETE
+	@jakarta.ws.rs.Path("/product-configurations/{id}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public void deleteProductConfiguration(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			@jakarta.validation.constraints.NotNull @jakarta.ws.rs.PathParam("id")
 			Long id)
 		throws Exception {
 	}
@@ -500,14 +500,14 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/product-configurations/batch")
-	@javax.ws.rs.Produces("application/json")
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.DELETE
+	@jakarta.ws.rs.Path("/product-configurations/batch")
+	@jakarta.ws.rs.Produces("application/json")
 	@Override
 	public Response deleteProductConfigurationBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
 			Object object)
 		throws Exception {
@@ -548,13 +548,13 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/product-configurations/{id}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/product-configurations/{id}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductConfiguration getProductConfiguration(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			@jakarta.validation.constraints.NotNull @jakarta.ws.rs.PathParam("id")
 			Long id)
 		throws Exception {
 
@@ -581,14 +581,14 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.PATCH
-	@javax.ws.rs.Path("/product-configurations/{id}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.PATCH
+	@jakarta.ws.rs.Path("/product-configurations/{id}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductConfiguration patchProductConfiguration(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			@jakarta.validation.constraints.NotNull @jakarta.ws.rs.PathParam("id")
 			Long id,
 			ProductConfiguration productConfiguration)
 		throws Exception {
@@ -616,16 +616,16 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path(
 		"/products/by-externalReferenceCode/{externalReferenceCode}/configuration"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductConfiguration getProductByExternalReferenceCodeConfiguration(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode)
 		throws Exception {
 
@@ -652,17 +652,17 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.PATCH
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.PATCH
+	@jakarta.ws.rs.Path(
 		"/products/by-externalReferenceCode/{externalReferenceCode}/configuration"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Response patchProductByExternalReferenceCodeConfiguration(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode,
 			ProductConfiguration productConfiguration)
 		throws Exception {
@@ -692,13 +692,13 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/products/{id}/configuration")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/products/{id}/configuration")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductConfiguration getProductIdConfiguration(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			@jakarta.validation.constraints.NotNull @jakarta.ws.rs.PathParam("id")
 			Long id)
 		throws Exception {
 
@@ -725,14 +725,14 @@ public abstract class BaseProductConfigurationResourceImpl
 			)
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.PATCH
-	@javax.ws.rs.Path("/products/{id}/configuration")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.PATCH
+	@jakarta.ws.rs.Path("/products/{id}/configuration")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Response patchProductIdConfiguration(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			@jakarta.validation.constraints.NotNull @jakarta.ws.rs.PathParam("id")
 			Long id,
 			ProductConfiguration productConfiguration)
 		throws Exception {

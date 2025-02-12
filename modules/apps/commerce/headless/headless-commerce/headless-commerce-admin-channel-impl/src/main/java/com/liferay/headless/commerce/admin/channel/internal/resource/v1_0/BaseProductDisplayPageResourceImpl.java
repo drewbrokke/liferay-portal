@@ -50,23 +50,23 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.NotSupportedException;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.NotSupportedException;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * @author Andrea Sbarra
  * @generated
  */
 @Generated("")
-@javax.ws.rs.Path("/v1.0")
+@jakarta.ws.rs.Path("/v1.0")
 public abstract class BaseProductDisplayPageResourceImpl
 	implements EntityModelResource, ProductDisplayPageResource,
 			   VulcanBatchEngineTaskItemDelegate<ProductDisplayPage>,
@@ -110,24 +110,24 @@ public abstract class BaseProductDisplayPageResourceImpl
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path(
 		"/channels/by-externalReferenceCode/{externalReferenceCode}/product-display-pages"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<ProductDisplayPage>
 			getChannelByExternalReferenceCodeProductDisplayPagesPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("externalReferenceCode")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("externalReferenceCode")
 				String externalReferenceCode,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.ws.rs.QueryParam("search")
+				@jakarta.ws.rs.QueryParam("search")
 				String search,
-				@javax.ws.rs.core.Context Filter filter,
-				@javax.ws.rs.core.Context Pagination pagination,
-				@javax.ws.rs.core.Context Sort[] sorts)
+				@jakarta.ws.rs.core.Context Filter filter,
+				@jakarta.ws.rs.core.Context Pagination pagination,
+				@jakarta.ws.rs.core.Context Sort[] sorts)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -151,18 +151,18 @@ public abstract class BaseProductDisplayPageResourceImpl
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path(
 		"/channels/by-externalReferenceCode/{externalReferenceCode}/product-display-pages"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductDisplayPage
 			postChannelByExternalReferenceCodeProductDisplayPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("externalReferenceCode")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("externalReferenceCode")
 				String externalReferenceCode,
 				ProductDisplayPage productDisplayPage)
 		throws Exception {
@@ -208,20 +208,20 @@ public abstract class BaseProductDisplayPageResourceImpl
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/channels/{id}/product-display-pages")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/channels/{id}/product-display-pages")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<ProductDisplayPage> getChannelIdProductDisplayPagesPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			@jakarta.validation.constraints.NotNull @jakarta.ws.rs.PathParam("id")
 			Long id,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("search")
+			@jakarta.ws.rs.QueryParam("search")
 			String search,
-			@javax.ws.rs.core.Context Filter filter,
-			@javax.ws.rs.core.Context Pagination pagination,
-			@javax.ws.rs.core.Context Sort[] sorts)
+			@jakarta.ws.rs.core.Context Filter filter,
+			@jakarta.ws.rs.core.Context Pagination pagination,
+			@jakarta.ws.rs.core.Context Sort[] sorts)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -245,14 +245,14 @@ public abstract class BaseProductDisplayPageResourceImpl
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path("/channels/{id}/product-display-pages")
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path("/channels/{id}/product-display-pages")
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductDisplayPage postChannelIdProductDisplayPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			@jakarta.validation.constraints.NotNull @jakarta.ws.rs.PathParam("id")
 			Long id,
 			ProductDisplayPage productDisplayPage)
 		throws Exception {
@@ -278,13 +278,13 @@ public abstract class BaseProductDisplayPageResourceImpl
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
 		}
 	)
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/product-display-pages/{id}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.DELETE
+	@jakarta.ws.rs.Path("/product-display-pages/{id}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public void deleteProductDisplayPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			@jakarta.validation.constraints.NotNull @jakarta.ws.rs.PathParam("id")
 			Long id)
 		throws Exception {
 	}
@@ -307,14 +307,14 @@ public abstract class BaseProductDisplayPageResourceImpl
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
 		}
 	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/product-display-pages/batch")
-	@javax.ws.rs.Produces("application/json")
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.DELETE
+	@jakarta.ws.rs.Path("/product-display-pages/batch")
+	@jakarta.ws.rs.Produces("application/json")
 	@Override
 	public Response deleteProductDisplayPageBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
 			Object object)
 		throws Exception {
@@ -353,13 +353,13 @@ public abstract class BaseProductDisplayPageResourceImpl
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
 		}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/product-display-pages/{id}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/product-display-pages/{id}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductDisplayPage getProductDisplayPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			@jakarta.validation.constraints.NotNull @jakarta.ws.rs.PathParam("id")
 			Long id)
 		throws Exception {
 
@@ -384,14 +384,14 @@ public abstract class BaseProductDisplayPageResourceImpl
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
 		}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.PATCH
-	@javax.ws.rs.Path("/product-display-pages/{id}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.PATCH
+	@jakarta.ws.rs.Path("/product-display-pages/{id}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ProductDisplayPage patchProductDisplayPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			@jakarta.validation.constraints.NotNull @jakarta.ws.rs.PathParam("id")
 			Long id,
 			ProductDisplayPage productDisplayPage)
 		throws Exception {

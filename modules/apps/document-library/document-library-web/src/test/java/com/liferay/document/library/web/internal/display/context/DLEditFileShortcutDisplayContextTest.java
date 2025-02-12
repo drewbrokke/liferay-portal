@@ -28,7 +28,7 @@ import java.util.Map;
 
 import javax.portlet.PortletURL;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.assertj.core.api.AbstractUriAssert;
 import org.assertj.core.api.Assertions;

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.annotation.ManagedBean;
+import jakarta.annotation.ManagedBean;
 
 import javax.mvc.binding.BindingError;
 import javax.mvc.binding.ParamError;

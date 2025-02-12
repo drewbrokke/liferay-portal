@@ -52,23 +52,23 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.NotSupportedException;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.NotSupportedException;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * @author Andrea Sbarra
  * @generated
  */
 @Generated("")
-@javax.ws.rs.Path("/v1.0")
+@jakarta.ws.rs.Path("/v1.0")
 public abstract class BaseCartResourceImpl
 	implements CartResource, EntityModelResource,
 			   VulcanBatchEngineTaskItemDelegate<Cart>,
@@ -90,14 +90,14 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/carts/by-externalReferenceCode/{externalReferenceCode}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.DELETE
+	@jakarta.ws.rs.Path("/carts/by-externalReferenceCode/{externalReferenceCode}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Response deleteCartByExternalReferenceCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode)
 		throws Exception {
 
@@ -125,14 +125,14 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/carts/by-externalReferenceCode/{externalReferenceCode}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/carts/by-externalReferenceCode/{externalReferenceCode}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Cart getCartByExternalReferenceCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode)
 		throws Exception {
 
@@ -155,15 +155,15 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.PATCH
-	@javax.ws.rs.Path("/carts/by-externalReferenceCode/{externalReferenceCode}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.PATCH
+	@jakarta.ws.rs.Path("/carts/by-externalReferenceCode/{externalReferenceCode}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Cart patchCartByExternalReferenceCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode,
 			Cart cart)
 		throws Exception {
@@ -290,15 +290,15 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path("/carts/by-externalReferenceCode/{externalReferenceCode}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
-	@javax.ws.rs.PUT
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path("/carts/by-externalReferenceCode/{externalReferenceCode}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.PUT
 	@Override
 	public Cart putCartByExternalReferenceCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode,
 			Cart cart)
 		throws Exception {
@@ -322,16 +322,16 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Path(
 		"/carts/by-externalReferenceCode/{externalReferenceCode}/checkout"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Cart postCartByExternalReferenceCodeCheckout(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode)
 		throws Exception {
 
@@ -357,17 +357,17 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path(
 		"/carts/by-externalReferenceCode/{externalReferenceCode}/coupon-code"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Cart postCartByExternalReferenceCodeCouponCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode,
 			CouponCode couponCode)
 		throws Exception {
@@ -395,19 +395,19 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path(
 		"/carts/by-externalReferenceCode/{externalReferenceCode}/payment-url"
 	)
-	@javax.ws.rs.Produces("text/plain")
+	@jakarta.ws.rs.Produces("text/plain")
 	@Override
 	public String getCartByExternalReferenceCodePaymentUrl(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL)
 		throws Exception {
 
@@ -430,14 +430,14 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/carts/{cartId}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.DELETE
+	@jakarta.ws.rs.Path("/carts/{cartId}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Response deleteCart(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("cartId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("cartId")
 			Long cartId)
 		throws Exception {
 
@@ -462,14 +462,14 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/carts/batch")
-	@javax.ws.rs.Produces("application/json")
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.DELETE
+	@jakarta.ws.rs.Path("/carts/batch")
+	@jakarta.ws.rs.Produces("application/json")
 	@Override
 	public Response deleteCartBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
 			Object object)
 		throws Exception {
@@ -509,14 +509,14 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/carts/{cartId}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/carts/{cartId}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Cart getCart(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("cartId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("cartId")
 			Long cartId)
 		throws Exception {
 
@@ -539,15 +539,15 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.PATCH
-	@javax.ws.rs.Path("/carts/{cartId}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.PATCH
+	@jakarta.ws.rs.Path("/carts/{cartId}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Cart patchCart(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("cartId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("cartId")
 			Long cartId,
 			Cart cart)
 		throws Exception {
@@ -672,15 +672,15 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path("/carts/{cartId}")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
-	@javax.ws.rs.PUT
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path("/carts/{cartId}")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.PUT
 	@Override
 	public Cart putCart(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("cartId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("cartId")
 			Long cartId,
 			Cart cart)
 		throws Exception {
@@ -704,14 +704,14 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path("/carts/batch")
-	@javax.ws.rs.Produces("application/json")
-	@javax.ws.rs.PUT
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.Path("/carts/batch")
+	@jakarta.ws.rs.Produces("application/json")
+	@jakarta.ws.rs.PUT
 	@Override
 	public Response putCartBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
 			Object object)
 		throws Exception {
@@ -748,14 +748,14 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Path("/carts/{cartId}/checkout")
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path("/carts/{cartId}/checkout")
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Cart postCartCheckout(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("cartId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("cartId")
 			Long cartId)
 		throws Exception {
 
@@ -781,15 +781,15 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path("/carts/{cartId}/coupon-code")
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path("/carts/{cartId}/coupon-code")
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Cart postCartCouponCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("cartId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("cartId")
 			Long cartId,
 			CouponCode couponCode)
 		throws Exception {
@@ -817,17 +817,17 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/carts/{cartId}/payment-url")
-	@javax.ws.rs.Produces("text/plain")
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/carts/{cartId}/payment-url")
+	@jakarta.ws.rs.Produces("text/plain")
 	@Override
 	public String getCartPaymentURL(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("cartId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("cartId")
 			Long cartId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
+			@jakarta.ws.rs.QueryParam("callbackURL")
 			String callbackURL)
 		throws Exception {
 
@@ -869,26 +869,26 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path(
 		"/channels/by-externalReferenceCode/{channelExternalReferenceCode}/account/by-externalReferenceCode/{accountExternalReferenceCode}/carts"
 	)
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<Cart>
 			getChannelByExternalReferenceCodeChannelExternalReferenceCodeAccountByExternalReferenceCodeAccountExternalReferenceCodeCartsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("accountExternalReferenceCode")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("accountExternalReferenceCode")
 				String accountExternalReferenceCode,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("channelExternalReferenceCode")
+				@jakarta.validation.constraints.NotNull
+				@jakarta.ws.rs.PathParam("channelExternalReferenceCode")
 				String channelExternalReferenceCode,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.ws.rs.QueryParam("search")
+				@jakarta.ws.rs.QueryParam("search")
 				String search,
-				@javax.ws.rs.core.Context Pagination pagination)
+				@jakarta.ws.rs.core.Context Pagination pagination)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -911,17 +911,17 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path(
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path(
 		"/channels/by-externalReferenceCode/{externalReferenceCode}/carts"
 	)
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Cart postChannelCartByExternalReferenceCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("externalReferenceCode")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode,
 			Cart cart)
 		throws Exception {
@@ -964,23 +964,23 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/channels/{channelId}/account/{accountId}/carts")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/channels/{channelId}/account/{accountId}/carts")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<Cart> getChannelAccountCartsPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("accountId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("accountId")
 			Long accountId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("channelId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("channelId")
 			Long channelId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("search")
+			@jakarta.ws.rs.QueryParam("search")
 			String search,
-			@javax.ws.rs.core.Context Pagination pagination)
+			@jakarta.ws.rs.core.Context Pagination pagination)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -1025,21 +1025,21 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/channels/{channelId}/carts")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/channels/{channelId}/carts")
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<Cart> getChannelCartsPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("channelId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("channelId")
 			Long channelId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("search")
+			@jakarta.ws.rs.QueryParam("search")
 			String search,
-			@javax.ws.rs.core.Context Filter filter,
-			@javax.ws.rs.core.Context Pagination pagination,
-			@javax.ws.rs.core.Context Sort[] sorts)
+			@jakarta.ws.rs.core.Context Filter filter,
+			@jakarta.ws.rs.core.Context Pagination pagination,
+			@jakarta.ws.rs.core.Context Sort[] sorts)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -1061,15 +1061,15 @@ public abstract class BaseCartResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Cart")}
 	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path("/channels/{channelId}/carts")
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path("/channels/{channelId}/carts")
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Cart postChannelCart(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("channelId")
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("channelId")
 			Long channelId,
 			Cart cart)
 		throws Exception {

@@ -39,7 +39,7 @@ import com.liferay.portal.workflow.util.WorkflowDefinitionManagerUtil;
 import java.util.List;
 import java.util.Objects;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Adolfo Pérez

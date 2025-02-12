@@ -32,7 +32,7 @@ import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Alessio Antonio Rendina

@@ -15,12 +15,12 @@ import java.text.ParseException;
 
 import java.util.function.Function;
 
-import javax.annotation.ManagedBean;
+import jakarta.annotation.ManagedBean;
 
 import javax.portlet.PortletRequest;
 
-import javax.ws.rs.ext.ParamConverter;
-import javax.ws.rs.ext.ParamConverterProvider;
+import jakarta.ws.rs.ext.ParamConverter;
+import jakarta.ws.rs.ext.ParamConverterProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

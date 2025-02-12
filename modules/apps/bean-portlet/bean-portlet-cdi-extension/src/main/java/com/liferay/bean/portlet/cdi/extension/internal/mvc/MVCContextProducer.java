@@ -8,14 +8,14 @@ package com.liferay.bean.portlet.cdi.extension.internal.mvc;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.BeanManager;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import javax.mvc.MvcContext;
 import javax.mvc.locale.LocaleResolver;
@@ -25,7 +25,7 @@ import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
 import javax.portlet.annotations.PortletRequestScoped;
 
-import javax.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.Configuration;
 
 /**
  * @author Neil Griffin

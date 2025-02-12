@@ -15,7 +15,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Pavel Savinov

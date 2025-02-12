@@ -28,7 +28,7 @@ import java.util.List;
 
 import javax.portlet.PortletResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Rubén Pulido

@@ -29,7 +29,7 @@ import com.liferay.site.teams.item.selector.criterion.SiteTeamsItemSelectorCrite
 
 import javax.portlet.PortletResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Eudaldo Alonso

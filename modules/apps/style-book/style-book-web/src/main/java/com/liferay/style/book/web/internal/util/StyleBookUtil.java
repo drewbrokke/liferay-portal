@@ -11,7 +11,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Theme;
 import com.liferay.portal.kernel.service.ThemeLocalServiceUtil;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Evan Thibodeau
