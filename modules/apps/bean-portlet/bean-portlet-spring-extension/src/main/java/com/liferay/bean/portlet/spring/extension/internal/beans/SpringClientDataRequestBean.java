@@ -20,8 +20,8 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Priority;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.Priority;
 
 import javax.portlet.ClientDataRequest;
 import javax.portlet.PortalContext;
@@ -36,8 +36,8 @@ import javax.portlet.RenderState;
 import javax.portlet.WindowState;
 import javax.portlet.filter.ClientDataRequestWrapper;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.Part;
 
 /**
  * @author Neil Griffin

@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.util.ResourceBundleUtil;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.mockito.Mockito;
 

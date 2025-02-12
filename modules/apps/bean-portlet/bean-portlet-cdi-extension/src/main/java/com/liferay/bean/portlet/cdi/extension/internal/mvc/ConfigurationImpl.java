@@ -14,9 +14,9 @@ import java.util.Set;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletContext;
 
-import javax.ws.rs.RuntimeType;
-import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.Feature;
+import jakarta.ws.rs.RuntimeType;
+import jakarta.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.Feature;
 
 /**
  * @author Neil Griffin

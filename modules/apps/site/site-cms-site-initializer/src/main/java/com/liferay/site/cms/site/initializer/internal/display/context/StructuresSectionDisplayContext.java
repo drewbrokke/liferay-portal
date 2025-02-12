@@ -24,7 +24,7 @@ import com.liferay.site.cms.site.initializer.internal.configuration.CMSSiteIniti
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Sam Ziemer

@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import javax.mvc.locale.LocaleResolver;
 import javax.mvc.locale.LocaleResolverContext;

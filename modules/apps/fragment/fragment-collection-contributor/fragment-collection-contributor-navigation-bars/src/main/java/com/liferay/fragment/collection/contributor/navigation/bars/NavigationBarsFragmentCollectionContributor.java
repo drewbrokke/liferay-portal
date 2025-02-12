@@ -11,7 +11,7 @@ import com.liferay.site.navigation.constants.SiteNavigationMenuPortletKeys;
 
 import javax.portlet.Portlet;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

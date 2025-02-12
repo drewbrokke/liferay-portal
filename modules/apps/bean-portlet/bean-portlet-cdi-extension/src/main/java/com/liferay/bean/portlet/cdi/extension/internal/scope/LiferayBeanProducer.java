@@ -8,10 +8,10 @@ package com.liferay.bean.portlet.cdi.extension.internal.scope;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import javax.enterprise.inject.Produces;
+import jakarta.enterprise.inject.Produces;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.annotations.PortletRequestScoped;

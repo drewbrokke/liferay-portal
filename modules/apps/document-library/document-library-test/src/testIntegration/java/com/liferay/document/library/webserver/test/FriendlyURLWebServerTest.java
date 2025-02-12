@@ -29,7 +29,7 @@ import com.liferay.portal.webserver.WebServerServlet;
 
 import java.util.Collections;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
