@@ -3,7 +3,7 @@ dependencies {
 	compileOnly project(":core:shielded-container-api")
 }
 
-if (!_isJakartaAppServer()) {
+if (jakartaAppServer) {
 	task updateSPIFile(type: Zip)
 
 	jar {
