@@ -2,3 +2,7 @@ dependencies {
 	compileOnly group: "org.apache.felix", name: "org.apache.felix.http.servlet-api", version: "1.1.2"
 	compileOnly project(":core:shielded-container-api")
 }
+
+if (jakartaAppServer) {
+	println "IS JAKARTA APP SERVER"
+}
