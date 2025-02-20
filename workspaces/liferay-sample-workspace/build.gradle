@@ -306,7 +306,8 @@ configure(
 
 			try (JarOutputStream output = new JarOutputStream(new FileOutputStream(zipFileName), manifest)) {
 				output.putNextEntry(new ZipEntry("OSGI-INF/configurator/${projectName}.client-extension-config.json"))
-				Files.copy(new ByteArrayInputStream(jsonString.getBytes("UTF-8")), output)
+				new ByteArrayInputStream(jsonString.getBytes("UTF-8")).transferTo(output)
+				//Files.copy(new ByteArrayInputStream(jsonString.getBytes("UTF-8")), output, StandardCopyOption.REPLACE_EXISTING)
 				output.closeEntry()
 			}
 
@@ -347,3 +348,10 @@ def getLcpJsonObject(theProject) {
 	def lcpJsonFile = new File("${theProject.buildDir}/liferay-client-extension-build/LCP.json")
 	return new JsonSlurper().parse(lcpJsonFile)
 }
+
+tasks.register('getHostIP') {
+  doLast {
+    getLogger().quiet(getHostIP())
+  }
+}
+
