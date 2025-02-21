@@ -4,6 +4,7 @@ import com.liferay.gradle.util.FileUtil
 import com.liferay.gradle.util.GradleUtil
 import com.liferay.gradle.util.Validator
 import com.liferay.gradle.util.copy.StripPathSegmentsAction
+import com.liferay.gradle.util.transform.JakartaTransformerTransformAction;
 
 import groovy.json.JsonSlurper
 
@@ -142,6 +143,14 @@ if (Boolean.getBoolean("build.jakarta.transformer.enabled")) {
 			url System.properties["repository.url"] ?: "https://repository-cdn.liferay.com/nexus/content/groups/public"
 		}
 	}
+
+	URLClassLoader urlClassLoader = new URLClassLoader(
+		configurations.jakartaTransformer.collect { it.toURI() }.collect{ it.toURL() }.toArray(new URL[0]),
+		null as java.lang.ClassLoader);
+
+	JakartaTransformerTransformAction.setClassLoader(urlClassLoader)
+	JakartaTransformerTransformAction.setLogger(project.logger)
+	JakartaTransformerTransformAction.setPropertiesFile(project.file("liferay-jakarta-versions.properties"))
 }
 
 if (FileUtil.exists(rootProject, "private/yarn.lock")) {
@@ -884,14 +893,9 @@ gradle.beforeProject {
 				File propertiesFile = project.rootProject.file("liferay-jakarta-versions.properties")
 
 				dependencies {
-					registerTransform(MyTransform) {
+					registerTransform(JakartaTransformerTransformAction) {
 						from.attribute(ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE, ArtifactTypeDefinition.JAR_TYPE)
 						to.attribute(ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE, "transformed-jar")
-
-						parameters {
-							transformerClasspathFiles = project.rootProject.configurations.jakartaTransformer
-							propertiesFileAbsolutePath = propertiesFile.absolutePath
-						}
 					}
 				}
 
