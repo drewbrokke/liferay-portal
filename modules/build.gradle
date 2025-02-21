@@ -32,56 +32,6 @@ buildscript {
 
 apply plugin: "com.liferay.yarn.defaults.plugin"
 
-abstract class MyTransform implements TransformAction<Parameters> {
-	interface Parameters extends TransformParameters {
-
-		@Input
-		Property<String> getPropertiesFileAbsolutePath()
-
-		@org.gradle.api.tasks.CompileClasspath
-		ConfigurableFileCollection getTransformerClasspathFiles()
-	}
-
-	protected static Logger logger
-
-	@org.gradle.api.tasks.Classpath
-	@InputArtifact
-	abstract Provider<FileSystemLocation> getInputArtifact()
-
-	@Override
-	void transform(TransformOutputs outputs) {
-		File inputJarFile = inputArtifact.get().asFile
-
-		String fileName = inputJarFile.name.contains('.') ? inputJarFile.name.replaceFirst(/(\.[^.]+)$/, '-JAKARTA-SNAPSHOT$1') : inputJarFile.name
-
-		File outputJarFile = outputs.file(fileName)
-
-		URLClassLoader urlClassLoader = new URLClassLoader(
-			parameters.transformerClasspathFiles.collect { it.toURI() }.collect{ it.toURL() }.toArray(new URL[0]),
-			null as java.lang.ClassLoader);
-
-		Class<?> jakartaTransformerCLIClass = Class.forName("org.eclipse.transformer.cli.JakartaTransformerCLI", true, urlClassLoader)
-
-		Object jakartaTransformerCLIClassConstructor = jakartaTransformerCLIClass.getConstructor(PrintStream, PrintStream, String[].class)
-		Object runMethod = jakartaTransformerCLIClass.getMethod("run")
-
-		PrintStream errorPrintStream = new PrintStream(new ByteArrayOutputStream())
-		PrintStream standardPrintStream = new PrintStream(new ByteArrayOutputStream())
-
-		Object resultCode = runMethod.invoke(jakartaTransformerCLIClassConstructor.newInstance(standardPrintStream, errorPrintStream, ["--quiet", "--versions", parameters.propertiesFileAbsolutePath.get(), inputJarFile.absolutePath, outputJarFile.absolutePath] as String[]))
-		Thread currentThread = Thread.currentThread();
-
-		if (resultCode.toString() == "Success") {
-			this.logger.info "Jakarta:  ${inputJarFile} -> ${outputJarFile}"
-		}
-		else {
-			throw new GradleException("Jakarta: ERROR ${resultCode}\n${errorPrintStream}")
-		}
-	}
-}
-
-MyTransform.logger = project.logger
-
 ext {
 	projectTemplateTokens = [
 		"biz.aQute.bnd.version": "6.4.0",
