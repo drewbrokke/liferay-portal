@@ -350,8 +350,7 @@ def getLcpJsonObject(theProject) {
 }
 
 tasks.register('getHostIP') {
-  doLast {
-    getLogger().quiet(getHostIP())
-  }
+	doLast {
+		getLogger().quiet(getHostIP())
+	}
 }
-
