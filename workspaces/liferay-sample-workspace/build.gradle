@@ -30,6 +30,8 @@ import java.util.zip.ZipEntry
 
 import javax.inject.Inject
 
+import org.apache.tools.ant.taskdefs.condition.Os
+
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Nested
@@ -339,7 +341,13 @@ configure(
 
 def getHostIP() {
 	// Define a different command per OS to obtain the host IP
-	def cmd = ['sh', '-c', /ip -p -j route get 8.8.8.8 | jq -r '.[] | .prefsrc'/];
+	def cmd
+	if (Os.isFamily(Os.FAMILY_MAC)) {
+		cmd = ['sh', '-c', /route -n get default | grep "interface: " | awk "{print $2}" | xargs -n1 ipconfig getifaddr/];
+	} else {
+		cmd = ['sh', '-c', /ip -p -j route get 8.8.8.8 | jq -r '.[] | .prefsrc'/];
+	}
+
 	def proc = cmd.execute()
 	proc.waitFor()
 	return proc.text.trim();
