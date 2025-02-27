@@ -149,6 +149,7 @@ abstract class DockerConnectNetwork extends AbstractDockerRemoteApiTask {
 
 def liferayVirtualInstanceId = gradle.liferayWorkspace.virtualInstanceId ?: 'default'
 def liferayHome = gradle.liferayWorkspace.homeDir
+logger.quiet("Client extensions are being registered to virtualInstance '${liferayVirtualInstanceId}' located at '${liferayHome}'")
 
 configure(
 	subprojects.findAll {
