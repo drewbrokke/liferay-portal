@@ -27,7 +27,7 @@ import org.mockito.Mockito;
  * @author Drew Brokke
  */
 @RunWith(Parameterized.class)
-public class CpeUtilTest extends CpeUtil {
+public class CPEUtilTest extends CPEUtil {
 
 	@Parameterized.Parameters(name = "{1}, {2}, {3}, {4}")
 	public static Iterable<Object[]> data() {
@@ -50,7 +50,7 @@ public class CpeUtilTest extends CpeUtil {
 			});
 	}
 
-	public CpeUtilTest(
+	public CPEUtilTest(
 		String expectedValue, String product, String version,
 		String versionDisplayName, String versionFileSuffix) {
 

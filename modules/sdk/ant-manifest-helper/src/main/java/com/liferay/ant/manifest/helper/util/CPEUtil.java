@@ -14,7 +14,7 @@ import org.apache.tools.ant.Project;
  * @author Istvan Sajtos
  * @author Drew Brokke
  */
-public class CpeUtil {
+public class CPEUtil {
 
 	public static String getName(Project project) {
 		try {
