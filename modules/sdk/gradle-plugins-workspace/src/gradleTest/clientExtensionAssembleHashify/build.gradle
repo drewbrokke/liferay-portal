@@ -1,0 +1,21 @@
+task runGradleTest
+
+runGradleTest {
+	dependsOn ":client-extension:createClientExtensionConfig"
+
+	doLast {
+		Project clientExtensionProject = project(":client-extension")
+
+		File clientExtensionBuildDir = new File(clientExtensionProject.buildDir, "liferay-client-extension-build")
+
+		String icoFileName = "favicon_primary.651f833c07aef3c91608d34f8fccdd3775433ee.ico"
+
+		File icoFile = new File(clientExtensionBuildDir, "static/${icoFileName}")
+
+		assert icoFile.exists()
+
+		File clientExtensionConfigJsonFile = new File(clientExtensionBuildDir, "client-extension.client-extension-config.json")
+
+		assert clientExtensionConfigJsonFile.text.contains("url=${icoFileName}")
+	}
+}

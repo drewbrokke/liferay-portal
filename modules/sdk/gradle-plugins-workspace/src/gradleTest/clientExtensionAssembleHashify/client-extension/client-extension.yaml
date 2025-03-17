@@ -1,0 +1,8 @@
+assemble:
+    - from: assets
+      hashify: favicon_*.ico
+      into: static
+hashify-test-theme-favicon-primary:
+    name: Hashify Test Theme Favicon Primary
+    type: themeFavicon
+    url: favicon_primary.*.ico
