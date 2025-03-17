@@ -8,8 +8,10 @@ package com.liferay.gradle.plugins.workspace.internal.util.copy;
 import com.liferay.gradle.util.hash.HashUtil;
 import com.liferay.gradle.util.hash.HashValue;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 
 import org.gradle.api.Action;
 import org.gradle.api.file.FileCopyDetails;
@@ -19,17 +21,15 @@ import org.gradle.api.file.FileCopyDetails;
  */
 public class HashifyAction implements Action<FileCopyDetails> {
 
-	public HashifyAction(String regex) {
-		_fileNamePattern = Pattern.compile(regex);
+	public HashifyAction(String fileNameGlob) {
+		FileSystem fileSystem = FileSystems.getDefault();
+
+		_pathMatcher = fileSystem.getPathMatcher("glob:" + fileNameGlob);
 	}
 
 	@Override
 	public void execute(FileCopyDetails fileCopyDetails) {
-		String fileName = fileCopyDetails.getName();
-
-		Matcher matcher = _fileNamePattern.matcher(fileName);
-
-		if (!matcher.matches()) {
+		if (!_pathMatcher.matches(Paths.get(fileCopyDetails.getName()))) {
 			return;
 		}
 
@@ -53,6 +53,6 @@ public class HashifyAction implements Action<FileCopyDetails> {
 		return shortFileName + '.' + hashValue.asHexString() + '.' + extension;
 	}
 
-	private final Pattern _fileNamePattern;
+	private final PathMatcher _pathMatcher;
 
 }
