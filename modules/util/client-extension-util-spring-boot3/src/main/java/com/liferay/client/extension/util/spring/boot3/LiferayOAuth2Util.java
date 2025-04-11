@@ -5,7 +5,7 @@
 
 package com.liferay.client.extension.util.spring.boot3;
 
-import com.liferay.petra.string.StringBundler;
+import com.liferay.client.extension.util.spring.boot3.internal.StringBundler;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

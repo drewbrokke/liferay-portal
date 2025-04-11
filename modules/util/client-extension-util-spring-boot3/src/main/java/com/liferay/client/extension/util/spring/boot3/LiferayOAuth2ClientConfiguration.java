@@ -5,7 +5,7 @@
 
 package com.liferay.client.extension.util.spring.boot3;
 
-import com.liferay.petra.string.StringBundler;
+import com.liferay.client.extension.util.spring.boot3.internal.StringBundler;
 
 import java.util.ArrayList;
 import java.util.Collections;
