@@ -274,9 +274,7 @@ public class SystemEventAdvice extends ChainableMethodAdvice {
 			getUuidMethod = modelClass.getMethod("getUuid", new Class<?>[0]);
 		}
 		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception);
-			}
+			_log.debug(exception);
 
 			_noUUIDClassNames.add(className);
 
@@ -338,14 +336,12 @@ public class SystemEventAdvice extends ChainableMethodAdvice {
 			!GroupedModel.class.isAssignableFrom(parameterType) &&
 			!StagedModel.class.isAssignableFrom(parameterType)) {
 
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					StringBundler.concat(
-						"If send is true, the first parameter of ",
-						aopMethodInvocation,
-						" must implement AuditedModel, GroupedModel, or ",
-						"StagedModel"));
-			}
+			_log.debug(
+				() -> StringBundler.concat(
+					"If send is true, the first parameter of ",
+					aopMethodInvocation,
+					" must implement AuditedModel, GroupedModel, or ",
+					"StagedModel"));
 
 			return false;
 		}
