@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.util.SystemProperties;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Tomas Polesovsky
@@ -91,6 +92,16 @@ public class SanitizerLogWrapper extends LogWrapper {
 	}
 
 	@Override
+	public void debug(Supplier<Object> msgSupplier) {
+		super.debug(sanitize(msgSupplier));
+	}
+
+	@Override
+	public void debug(Supplier<Object> msgSupplier, Throwable throwable) {
+		super.debug(sanitize(msgSupplier), sanitize(throwable));
+	}
+
+	@Override
 	public void debug(Throwable throwable) {
 		super.debug(sanitize(throwable));
 	}
@@ -103,6 +114,16 @@ public class SanitizerLogWrapper extends LogWrapper {
 	@Override
 	public void error(Object msg, Throwable throwable) {
 		super.error(sanitize(msg), sanitize(throwable));
+	}
+
+	@Override
+	public void error(Supplier<Object> msgSupplier) {
+		super.error(sanitize(msgSupplier));
+	}
+
+	@Override
+	public void error(Supplier<Object> msgSupplier, Throwable throwable) {
+		super.error(sanitize(msgSupplier), sanitize(throwable));
 	}
 
 	@Override
@@ -121,6 +142,16 @@ public class SanitizerLogWrapper extends LogWrapper {
 	}
 
 	@Override
+	public void fatal(Supplier<Object> msgSupplier) {
+		super.fatal(sanitize(msgSupplier));
+	}
+
+	@Override
+	public void fatal(Supplier<Object> msgSupplier, Throwable throwable) {
+		super.fatal(sanitize(msgSupplier), sanitize(throwable));
+	}
+
+	@Override
 	public void fatal(Throwable throwable) {
 		super.fatal(sanitize(throwable));
 	}
@@ -133,6 +164,16 @@ public class SanitizerLogWrapper extends LogWrapper {
 	@Override
 	public void info(Object msg, Throwable throwable) {
 		super.info(sanitize(msg), sanitize(throwable));
+	}
+
+	@Override
+	public void info(Supplier<Object> msgSupplier) {
+		super.info(sanitize(msgSupplier));
+	}
+
+	@Override
+	public void info(Supplier<Object> msgSupplier, Throwable throwable) {
+		super.info(sanitize(msgSupplier), sanitize(throwable));
 	}
 
 	@Override
@@ -151,6 +192,16 @@ public class SanitizerLogWrapper extends LogWrapper {
 	}
 
 	@Override
+	public void trace(Supplier<Object> msgSupplier) {
+		super.trace(sanitize(msgSupplier));
+	}
+
+	@Override
+	public void trace(Supplier<Object> msgSupplier, Throwable throwable) {
+		super.trace(sanitize(msgSupplier), sanitize(throwable));
+	}
+
+	@Override
 	public void trace(Throwable throwable) {
 		super.trace(sanitize(throwable));
 	}
@@ -163,6 +214,16 @@ public class SanitizerLogWrapper extends LogWrapper {
 	@Override
 	public void warn(Object msg, Throwable throwable) {
 		super.warn(sanitize(msg), sanitize(throwable));
+	}
+
+	@Override
+	public void warn(Supplier<Object> msgSupplier) {
+		super.warn(sanitize(msgSupplier));
+	}
+
+	@Override
+	public void warn(Supplier<Object> msgSupplier, Throwable throwable) {
+		super.warn(sanitize(msgSupplier), sanitize(throwable));
 	}
 
 	@Override
@@ -239,6 +300,10 @@ public class SanitizerLogWrapper extends LogWrapper {
 		}
 
 		return defaultResult;
+	}
+
+	protected Supplier<Object> sanitize(Supplier<Object> msgSupplier) {
+		return () -> sanitize(msgSupplier.get());
 	}
 
 	protected Throwable sanitize(Throwable throwable) {

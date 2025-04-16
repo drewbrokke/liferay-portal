@@ -5,6 +5,8 @@
 
 package com.liferay.portal.kernel.log;
 
+import java.util.function.Supplier;
+
 /**
  * @author Brian Wing Shun Chan
  */
@@ -31,6 +33,26 @@ public class LogWrapper implements Log {
 		}
 		catch (Exception exception) {
 			printMsg(msg);
+		}
+	}
+
+	@Override
+	public void debug(Supplier<Object> msgSupplier) {
+		try {
+			_log.debug(msgSupplier);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
+		}
+	}
+
+	@Override
+	public void debug(Supplier<Object> msgSupplier, Throwable throwable) {
+		try {
+			_log.debug(msgSupplier, throwable);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
 		}
 	}
 
@@ -65,6 +87,26 @@ public class LogWrapper implements Log {
 	}
 
 	@Override
+	public void error(Supplier<Object> msgSupplier) {
+		try {
+			_log.error(msgSupplier);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
+		}
+	}
+
+	@Override
+	public void error(Supplier<Object> msgSupplier, Throwable throwable) {
+		try {
+			_log.error(msgSupplier, throwable);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
+		}
+	}
+
+	@Override
 	public void error(Throwable throwable) {
 		try {
 			_log.error(throwable);
@@ -91,6 +133,26 @@ public class LogWrapper implements Log {
 		}
 		catch (Exception exception) {
 			printMsg(msg);
+		}
+	}
+
+	@Override
+	public void fatal(Supplier<Object> msgSupplier) {
+		try {
+			_log.fatal(msgSupplier);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
+		}
+	}
+
+	@Override
+	public void fatal(Supplier<Object> msgSupplier, Throwable throwable) {
+		try {
+			_log.fatal(msgSupplier, throwable);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
 		}
 	}
 
@@ -125,6 +187,26 @@ public class LogWrapper implements Log {
 		}
 		catch (Exception exception) {
 			printMsg(msg);
+		}
+	}
+
+	@Override
+	public void info(Supplier<Object> msgSupplier) {
+		try {
+			_log.info(msgSupplier);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
+		}
+	}
+
+	@Override
+	public void info(Supplier<Object> msgSupplier, Throwable throwable) {
+		try {
+			_log.info(msgSupplier, throwable);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
 		}
 	}
 
@@ -198,6 +280,26 @@ public class LogWrapper implements Log {
 	}
 
 	@Override
+	public void trace(Supplier<Object> msgSupplier) {
+		try {
+			_log.trace(msgSupplier);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
+		}
+	}
+
+	@Override
+	public void trace(Supplier<Object> msgSupplier, Throwable throwable) {
+		try {
+			_log.trace(msgSupplier, throwable);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
+		}
+	}
+
+	@Override
 	public void trace(Throwable throwable) {
 		try {
 			_log.trace(throwable);
@@ -224,6 +326,26 @@ public class LogWrapper implements Log {
 		}
 		catch (Exception exception) {
 			printMsg(msg);
+		}
+	}
+
+	@Override
+	public void warn(Supplier<Object> msgSupplier) {
+		try {
+			_log.warn(msgSupplier);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
+		}
+	}
+
+	@Override
+	public void warn(Supplier<Object> msgSupplier, Throwable throwable) {
+		try {
+			_log.warn(msgSupplier, throwable);
+		}
+		catch (Exception exception) {
+			printMsg(msgSupplier.get());
 		}
 	}
 

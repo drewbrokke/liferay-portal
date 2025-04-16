@@ -5,6 +5,7 @@
 
 package com.liferay.portal.kernel.log;
 
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,47 +20,77 @@ public class Jdk14LogImpl implements Log {
 
 	@Override
 	public void debug(Object msg) {
-		_log.log(Level.FINE, msg.toString());
+		_log(Level.FINE, msg, null);
 	}
 
 	@Override
 	public void debug(Object msg, Throwable throwable) {
-		_log.log(Level.FINE, msg.toString(), throwable);
+		_log(Level.FINE, msg, throwable);
+	}
+
+	@Override
+	public void debug(Supplier<Object> msgSupplier) {
+		_log(Level.FINE, msgSupplier, null);
+	}
+
+	@Override
+	public void debug(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.FINE, msgSupplier, throwable);
 	}
 
 	@Override
 	public void debug(Throwable throwable) {
-		_log.log(Level.FINE, throwable.getMessage(), throwable);
+		_log(Level.FINE, throwable, throwable);
 	}
 
 	@Override
 	public void error(Object msg) {
-		_log.log(Level.SEVERE, msg.toString());
+		_log(Level.SEVERE, msg, null);
 	}
 
 	@Override
 	public void error(Object msg, Throwable throwable) {
-		_log.log(Level.SEVERE, msg.toString(), throwable);
+		_log(Level.SEVERE, msg, throwable);
+	}
+
+	@Override
+	public void error(Supplier<Object> msgSupplier) {
+		_log(Level.SEVERE, msgSupplier, null);
+	}
+
+	@Override
+	public void error(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.SEVERE, msgSupplier, throwable);
 	}
 
 	@Override
 	public void error(Throwable throwable) {
-		_log.log(Level.SEVERE, throwable.getMessage(), throwable);
+		_log(Level.SEVERE, throwable, throwable);
 	}
 
 	@Override
 	public void fatal(Object msg) {
-		_log.log(Level.SEVERE, msg.toString());
+		_log(Level.SEVERE, msg, null);
 	}
 
 	@Override
 	public void fatal(Object msg, Throwable throwable) {
-		_log.log(Level.SEVERE, msg.toString(), throwable);
+		_log(Level.SEVERE, msg, throwable);
+	}
+
+	@Override
+	public void fatal(Supplier<Object> msgSupplier) {
+		_log(Level.SEVERE, msgSupplier, null);
+	}
+
+	@Override
+	public void fatal(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.SEVERE, msgSupplier, throwable);
 	}
 
 	@Override
 	public void fatal(Throwable throwable) {
-		_log.log(Level.SEVERE, throwable.getMessage(), throwable);
+		_log(Level.SEVERE, throwable, throwable);
 	}
 
 	public Logger getWrappedLogger() {
@@ -68,17 +99,27 @@ public class Jdk14LogImpl implements Log {
 
 	@Override
 	public void info(Object msg) {
-		_log.log(Level.INFO, msg.toString());
+		_log(Level.INFO, msg, null);
 	}
 
 	@Override
 	public void info(Object msg, Throwable throwable) {
-		_log.log(Level.INFO, msg.toString(), throwable);
+		_log(Level.INFO, msg, throwable);
+	}
+
+	@Override
+	public void info(Supplier<Object> msgSupplier) {
+		_log(Level.INFO, msgSupplier, null);
+	}
+
+	@Override
+	public void info(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.INFO, msgSupplier, throwable);
 	}
 
 	@Override
 	public void info(Throwable throwable) {
-		_log.log(Level.INFO, throwable.getMessage(), throwable);
+		_log(Level.INFO, throwable, throwable);
 	}
 
 	@Override
@@ -117,32 +158,68 @@ public class Jdk14LogImpl implements Log {
 
 	@Override
 	public void trace(Object msg) {
-		_log.log(Level.FINEST, msg.toString());
+		_log(Level.FINEST, msg, null);
 	}
 
 	@Override
 	public void trace(Object msg, Throwable throwable) {
-		_log.log(Level.FINEST, msg.toString(), throwable);
+		_log(Level.FINEST, msg, throwable);
+	}
+
+	@Override
+	public void trace(Supplier<Object> msgSupplier) {
+		_log(Level.FINEST, msgSupplier, null);
+	}
+
+	@Override
+	public void trace(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.FINEST, msgSupplier, throwable);
 	}
 
 	@Override
 	public void trace(Throwable throwable) {
-		_log.log(Level.FINEST, throwable.getMessage(), throwable);
+		_log(Level.FINEST, throwable, throwable);
 	}
 
 	@Override
 	public void warn(Object msg) {
-		_log.log(Level.WARNING, msg.toString());
+		_log(Level.WARNING, msg, null);
 	}
 
 	@Override
 	public void warn(Object msg, Throwable throwable) {
-		_log.log(Level.WARNING, msg.toString(), throwable);
+		_log(Level.WARNING, msg, throwable);
+	}
+
+	@Override
+	public void warn(Supplier<Object> msgSupplier) {
+		_log(Level.WARNING, msgSupplier, null);
+	}
+
+	@Override
+	public void warn(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.WARNING, msgSupplier, throwable);
 	}
 
 	@Override
 	public void warn(Throwable throwable) {
-		_log.log(Level.WARNING, throwable.getMessage(), throwable);
+		_log(Level.WARNING, throwable, throwable);
+	}
+
+	private void _log(Level level, Object msg, Throwable throwable) {
+		if (!_log.isLoggable(level)) {
+			return;
+		}
+
+		if (msg instanceof Supplier<?> supplier) {
+			msg = supplier.get();
+		}
+
+		if (msg instanceof Throwable) {
+			msg = throwable.getMessage();
+		}
+
+		_log.log(level, msg.toString(), throwable);
 	}
 
 	private final Logger _log;
