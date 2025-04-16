@@ -5,6 +5,8 @@
 
 package com.liferay.portal.kernel.log;
 
+import java.util.function.Supplier;
+
 /**
  * @author Brian Wing Shun Chan
  */
@@ -14,11 +16,19 @@ public interface Log {
 
 	public void debug(Object msg, Throwable throwable);
 
+	public void debug(Supplier<Object> msgSupplier);
+
+	public void debug(Supplier<Object> msgSupplier, Throwable throwable);
+
 	public void debug(Throwable throwable);
 
 	public void error(Object msg);
 
 	public void error(Object msg, Throwable throwable);
+
+	public void error(Supplier<Object> msgSupplier);
+
+	public void error(Supplier<Object> msgSupplier, Throwable throwable);
 
 	public void error(Throwable throwable);
 
@@ -26,11 +36,19 @@ public interface Log {
 
 	public void fatal(Object msg, Throwable throwable);
 
+	public void fatal(Supplier<Object> msgSupplier);
+
+	public void fatal(Supplier<Object> msgSupplier, Throwable throwable);
+
 	public void fatal(Throwable throwable);
 
 	public void info(Object msg);
 
 	public void info(Object msg, Throwable throwable);
+
+	public void info(Supplier<Object> msgSupplier);
+
+	public void info(Supplier<Object> msgSupplier, Throwable throwable);
 
 	public void info(Throwable throwable);
 
@@ -52,11 +70,19 @@ public interface Log {
 
 	public void trace(Object msg, Throwable throwable);
 
+	public void trace(Supplier<Object> msgSupplier);
+
+	public void trace(Supplier<Object> msgSupplier, Throwable throwable);
+
 	public void trace(Throwable throwable);
 
 	public void warn(Object msg);
 
 	public void warn(Object msg, Throwable throwable);
+
+	public void warn(Supplier<Object> msgSupplier);
+
+	public void warn(Supplier<Object> msgSupplier, Throwable throwable);
 
 	public void warn(Throwable throwable);
 
