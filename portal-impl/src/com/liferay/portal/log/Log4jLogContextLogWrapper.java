@@ -16,6 +16,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.apache.logging.log4j.ThreadContext;
 
@@ -55,6 +56,28 @@ public class Log4jLogContextLogWrapper extends LogWrapper {
 	}
 
 	@Override
+	public void debug(Supplier<Object> messageSupplier) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.debug(messageSupplier);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
+	public void debug(Supplier<Object> messageSupplier, Throwable throwable) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.debug(messageSupplier, throwable);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
 	public void debug(Throwable throwable) {
 		Map<String, String> context = _getContext();
 
@@ -83,6 +106,28 @@ public class Log4jLogContextLogWrapper extends LogWrapper {
 		ThreadContext.putAll(context);
 
 		super.error(message, throwable);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
+	public void error(Supplier<Object> messageSupplier) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.error(messageSupplier);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
+	public void error(Supplier<Object> messageSupplier, Throwable throwable) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.error(messageSupplier, throwable);
 
 		ThreadContext.removeAll(context.keySet());
 	}
@@ -121,6 +166,28 @@ public class Log4jLogContextLogWrapper extends LogWrapper {
 	}
 
 	@Override
+	public void fatal(Supplier<Object> messageSupplier) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.fatal(messageSupplier);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
+	public void fatal(Supplier<Object> messageSupplier, Throwable throwable) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.fatal(messageSupplier, throwable);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
 	public void fatal(Throwable throwable) {
 		Map<String, String> context = _getContext();
 
@@ -149,6 +216,28 @@ public class Log4jLogContextLogWrapper extends LogWrapper {
 		ThreadContext.putAll(context);
 
 		super.info(message, throwable);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
+	public void info(Supplier<Object> messageSupplier) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.info(messageSupplier);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
+	public void info(Supplier<Object> messageSupplier, Throwable throwable) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.info(messageSupplier, throwable);
 
 		ThreadContext.removeAll(context.keySet());
 	}
@@ -187,6 +276,28 @@ public class Log4jLogContextLogWrapper extends LogWrapper {
 	}
 
 	@Override
+	public void trace(Supplier<Object> messageSupplier) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.trace(messageSupplier);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
+	public void trace(Supplier<Object> messageSupplier, Throwable throwable) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.trace(messageSupplier, throwable);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
 	public void trace(Throwable throwable) {
 		Map<String, String> context = _getContext();
 
@@ -215,6 +326,28 @@ public class Log4jLogContextLogWrapper extends LogWrapper {
 		ThreadContext.putAll(context);
 
 		super.warn(message, throwable);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
+	public void warn(Supplier<Object> messageSupplier) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.warn(messageSupplier);
+
+		ThreadContext.removeAll(context.keySet());
+	}
+
+	@Override
+	public void warn(Supplier<Object> messageSupplier, Throwable throwable) {
+		Map<String, String> context = _getContext();
+
+		ThreadContext.putAll(context);
+
+		super.warn(messageSupplier, throwable);
 
 		ThreadContext.removeAll(context.keySet());
 	}

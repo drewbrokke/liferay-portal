@@ -8,6 +8,8 @@ package com.liferay.portal.log;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogWrapper;
 
+import java.util.function.Supplier;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
@@ -22,77 +24,102 @@ public class Log4jLogImpl implements Log {
 
 	@Override
 	public void debug(Object msg) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.DEBUG, null, msg, null);
+		_log(Level.DEBUG, msg, null);
 	}
 
 	@Override
 	public void debug(Object msg, Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.DEBUG, null, msg, throwable);
+		_log(Level.DEBUG, msg, throwable);
+	}
+
+	@Override
+	public void debug(Supplier<Object> msgSupplier) {
+		_log(Level.DEBUG, msgSupplier, null);
+	}
+
+	@Override
+	public void debug(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.DEBUG, msgSupplier, throwable);
 	}
 
 	@Override
 	public void debug(Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.DEBUG, null, throwable.getMessage(),
-			throwable);
+		_log(Level.DEBUG, throwable, throwable);
 	}
 
 	@Override
 	public void error(Object msg) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.ERROR, null, msg, null);
+		_log(Level.ERROR, msg, null);
 	}
 
 	@Override
 	public void error(Object msg, Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.ERROR, null, msg, throwable);
+		_log(Level.ERROR, msg, throwable);
+	}
+
+	@Override
+	public void error(Supplier<Object> msgSupplier) {
+		_log(Level.ERROR, msgSupplier, null);
+	}
+
+	@Override
+	public void error(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.ERROR, msgSupplier, throwable);
 	}
 
 	@Override
 	public void error(Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.ERROR, null, throwable.getMessage(),
-			throwable);
+		_log(Level.ERROR, throwable, throwable);
 	}
 
 	@Override
 	public void fatal(Object msg) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.FATAL, null, msg, null);
+		_log(Level.FATAL, msg, null);
 	}
 
 	@Override
 	public void fatal(Object msg, Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.FATAL, null, msg, throwable);
+		_log(Level.FATAL, msg, throwable);
+	}
+
+	@Override
+	public void fatal(Supplier<Object> msgSupplier) {
+		_log(Level.FATAL, msgSupplier, null);
+	}
+
+	@Override
+	public void fatal(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.FATAL, msgSupplier, throwable);
 	}
 
 	@Override
 	public void fatal(Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.FATAL, null, throwable.getMessage(),
-			throwable);
+		_log(Level.FATAL, throwable, throwable);
 	}
 
 	@Override
 	public void info(Object msg) {
-		_logger.logIfEnabled(_logWrapperClassName, Level.INFO, null, msg, null);
+		_log(Level.INFO, msg, null);
 	}
 
 	@Override
 	public void info(Object msg, Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.INFO, null, msg, throwable);
+		_log(Level.INFO, msg, throwable);
+	}
+
+	@Override
+	public void info(Supplier<Object> msgSupplier) {
+		_log(Level.INFO, msgSupplier, null);
+	}
+
+	@Override
+	public void info(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.INFO, msgSupplier, throwable);
 	}
 
 	@Override
 	public void info(Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.INFO, null, throwable.getMessage(),
-			throwable);
+		_log(Level.INFO, throwable, throwable);
 	}
 
 	@Override
@@ -132,39 +159,71 @@ public class Log4jLogImpl implements Log {
 
 	@Override
 	public void trace(Object msg) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.TRACE, null, msg, null);
+		_log(Level.TRACE, msg, null);
 	}
 
 	@Override
 	public void trace(Object msg, Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.TRACE, null, msg, throwable);
+		_log(Level.TRACE, msg, throwable);
+	}
+
+	@Override
+	public void trace(Supplier<Object> msgSupplier) {
+		_log(Level.TRACE, msgSupplier, null);
+	}
+
+	@Override
+	public void trace(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.TRACE, msgSupplier, throwable);
 	}
 
 	@Override
 	public void trace(Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.TRACE, null, throwable.getMessage(),
-			throwable);
+		_log(Level.TRACE, throwable, throwable);
 	}
 
 	@Override
 	public void warn(Object msg) {
-		_logger.logIfEnabled(_logWrapperClassName, Level.WARN, null, msg, null);
+		_log(Level.WARN, msg, null);
 	}
 
 	@Override
 	public void warn(Object msg, Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.WARN, null, msg, throwable);
+		_log(Level.WARN, msg, throwable);
+	}
+
+	@Override
+	public void warn(Supplier<Object> msgSupplier) {
+		_log(Level.WARN, msgSupplier, null);
+	}
+
+	@Override
+	public void warn(Supplier<Object> msgSupplier, Throwable throwable) {
+		_log(Level.WARN, msgSupplier, throwable);
 	}
 
 	@Override
 	public void warn(Throwable throwable) {
-		_logger.logIfEnabled(
-			_logWrapperClassName, Level.WARN, null, throwable.getMessage(),
-			throwable);
+		_log(Level.WARN, throwable, throwable);
+	}
+
+	private void _log(Level level, Object msg, Throwable throwable) {
+		if (msg instanceof Supplier<?> supplier) {
+			_logger.logIfEnabled(
+				_logWrapperClassName, level, null, supplier, throwable);
+
+			return;
+		}
+
+		if (msg instanceof Throwable) {
+			_logger.logIfEnabled(
+				_logWrapperClassName, level, null, throwable::getMessage,
+				throwable);
+
+			return;
+		}
+
+		_logger.logIfEnabled(_logWrapperClassName, level, null, msg, throwable);
 	}
 
 	private final org.apache.logging.log4j.core.Logger _logger;
