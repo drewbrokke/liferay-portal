@@ -1,0 +1,20 @@
+#set ($versionPolicy = '${replacestring;${range;[==,==]};.*,(.*)];$1}')
+Bundle-Name: ${artifactId}
+Bundle-SymbolicName: ${package}
+Bundle-Version: ${version}
+Export-Package: ${package}.constants
+Provide-Capability:\
+	liferay.language.resources;\
+		resource.bundle.base.name="content.Language"
+#if (${buildType} != "gradle")
+-consumer-policy: ${versionPolicy}
+#if (!${liferayVersion.startsWith("7.0")})-contract: JavaPortlet,JavaServlet
+#end
+-jsp: *.jsp,*.jspf,*.jspx
+-metatype: *
+-plugin.jsp: com.liferay.ant.bnd.jsp.JspAnalyzerPlugin
+-plugin.metatype: com.liferay.ant.bnd.metatype.MetatypePlugin
+-plugin.resourcebundle: com.liferay.ant.bnd.resource.bundle.ResourceBundleLoaderAnalyzerPlugin
+-plugin.sass: com.liferay.ant.bnd.sass.SassAnalyzerPlugin
+-provider-policy: ${versionPolicy}
+-sass: *#end
