@@ -80,7 +80,7 @@ public class ProjectTemplatesMVCPortletSuffixTest
 		testContains(
 			gradleProjectDir,
 			"src/main/java/portlet/portlet/portlet/PortletPortlet.java",
-			"javax.portlet.name=\" + PortletPortletKeys.PORTLET",
+			"jakarta.portlet.name=\" + PortletPortletKeys.PORTLET",
 			"public class PortletPortlet extends MVCPortlet {");
 	}
 

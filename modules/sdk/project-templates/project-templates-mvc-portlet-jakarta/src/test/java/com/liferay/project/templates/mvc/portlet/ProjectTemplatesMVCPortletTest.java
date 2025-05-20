@@ -78,12 +78,12 @@ public class ProjectTemplatesMVCPortletTest
 			"public class FooPortletKeys", "public static final String FOO");
 		testContains(
 			gradleProjectDir, "src/main/java/foo/portlet/FooPortlet.java",
-			"javax.portlet.display-name=Foo",
-			"javax.portlet.name=\" + FooPortletKeys.FOO",
+			"jakarta.portlet.display-name=Foo",
+			"jakarta.portlet.name=\" + FooPortletKeys.FOO",
 			"public class FooPortlet extends MVCPortlet {");
 		testContains(
 			gradleProjectDir, "src/main/resources/content/Language.properties",
-			"javax.portlet.title.foo_FooPortlet=Foo",
+			"jakarta.portlet.title.foo_FooPortlet=Foo",
 			"foo.caption=Hello from Foo!");
 	}
 
