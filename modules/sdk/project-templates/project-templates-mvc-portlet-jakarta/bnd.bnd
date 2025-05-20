@@ -2,7 +2,7 @@ Bundle-Description: Creates a Liferay MVC portlet as a module project with Jakar
 Bundle-Name: Liferay Project Templates MVC Portlet Jakarta
 Bundle-SymbolicName: com.liferay.project.templates.mvc.portlet.jakarta
 Bundle-Version: 1.0.0
-Liferay-Versions: [7,9999.0)
+Liferay-Versions: [2025.2,9999.0)
 -removeheaders:\
 	Import-Package,\
 	Private-Package,\
