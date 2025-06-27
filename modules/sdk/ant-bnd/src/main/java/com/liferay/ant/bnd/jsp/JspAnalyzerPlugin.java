@@ -96,7 +96,14 @@ public class JspAnalyzerPlugin implements AnalyzerPlugin {
 		}
 
 		if (matches) {
-			addRequiredPackageImports(analyzer, _REQUIRED_PACKAGE_NAMES_JAKARTA);
+			if (taglibURIs.contains("http://java.sun.com/jsp/jstl/core")) {
+				addRequiredPackageImports(
+					analyzer, _REQUIRED_PACKAGE_NAMES_JAVAX);
+			}
+			else {
+				addRequiredPackageImports(
+					analyzer, _REQUIRED_PACKAGE_NAMES_JAKARTA);
+			}
 		}
 
 		return false;
