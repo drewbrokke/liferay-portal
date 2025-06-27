@@ -22,6 +22,7 @@ import com.liferay.gradle.plugins.test.integration.TestIntegrationPlugin;
 import com.liferay.gradle.plugins.test.integration.TestIntegrationTomcatExtension;
 import com.liferay.gradle.plugins.upgrade.table.builder.UpgradeTableBuilderPlugin;
 import com.liferay.gradle.plugins.workspace.FrontendPlugin;
+import com.liferay.gradle.plugins.workspace.LiferayJspCompatibilityPlugin;
 import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
 import com.liferay.gradle.plugins.workspace.WorkspacePlugin;
 import com.liferay.gradle.plugins.workspace.internal.JSModuleConfigGeneratorDefaultsPlugin;
@@ -118,6 +119,8 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 			}
 
 			GradleUtil.applyPlugin(project, LiferayOSGiPlugin.class);
+			GradleUtil.applyPlugin(
+				project, LiferayJspCompatibilityPlugin.class);
 
 			if (FileUtil.exists(project, "rest-config.yaml")) {
 				GradleUtil.applyPlugin(project, RESTBuilderPlugin.class);
