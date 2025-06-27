@@ -9,7 +9,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.liferay</groupId>
   <artifactId>com.liferay.gradle.plugins.workspace</artifactId>
-  <version>13.0.12</version>
+  <version>13.1.0</version>
   <description>Liferay Gradle Plugins Workspace</description>
   <licenses>
     <license>
