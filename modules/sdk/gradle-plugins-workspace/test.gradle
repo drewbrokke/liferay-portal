@@ -122,6 +122,8 @@ copyWorkspacesSamples {
 
 dependencies {
 	gradleTestDependencies group: "com.google.guava", name: "guava", version: "32.0.1-jre"
+	// javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api
+	gradleTestDependencies group: "javax.servlet.jsp.jstl", name: "javax.servlet.jsp.jstl-api", version: "latest.release"
 }
 
 downloadBundle {

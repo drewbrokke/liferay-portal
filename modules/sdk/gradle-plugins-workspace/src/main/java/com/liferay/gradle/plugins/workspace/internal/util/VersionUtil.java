@@ -29,6 +29,13 @@ public class VersionUtil {
 		return dxpVersionMatcher.matches();
 	}
 
+	public static boolean isJakartaCompatibleVersion(
+		String targetPlatformVersion) {
+
+		return com.liferay.project.templates.extensions.util.VersionUtil.
+			isJakartaCompatibleVersion(targetPlatformVersion);
+	}
+
 	public static String normalizeTargetPlatformVersion(
 		String targetPlatformVersion) {
 

@@ -66,13 +66,8 @@ public class LiferayJspCompatibilityPlugin implements Plugin<Project> {
 
 		tasks.withType(
 			CompileJSPTask.class,
-			compileJSP -> {
-				compileJSP.setCompileJspClasspath( GradleUtil.getConfiguration(project, configurationName)); 
-				compileJSP.doFirst((task) -> {
-
-					compileJSP.getCompileJspClasspath().getFiles().forEach(f -> System.out.println(f));
-				});
-			});
+			compileJSP -> compileJSP.setCompileJspClasspath(
+				GradleUtil.getConfiguration(project, configurationName)));
 	}
 
 	private void _configureJspCConfiguration(Project project) {
