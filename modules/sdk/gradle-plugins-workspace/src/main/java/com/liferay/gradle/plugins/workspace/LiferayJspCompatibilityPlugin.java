@@ -60,7 +60,7 @@ public class LiferayJspCompatibilityPlugin implements Plugin<Project> {
 			"9.0.104");
 		GradleUtil.addDependency(
 			project, configurationName, "com.liferay",
-			"com.liferay.gradle.plugins.jasper.jspc", "2.1.0", false);
+			"com.liferay.gradle.plugins.jasper.jspc", "3.0.0", false);
 
 		TaskContainer tasks = project.getTasks();
 
