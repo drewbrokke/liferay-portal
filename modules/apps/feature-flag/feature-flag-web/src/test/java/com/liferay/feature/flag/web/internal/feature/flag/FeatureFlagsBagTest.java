@@ -9,7 +9,6 @@ import com.liferay.feature.flag.web.internal.model.FeatureFlagImpl;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.feature.flag.FeatureFlag;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagType;
-import com.liferay.portal.kernel.feature.flag.constants.FeatureFlagConstants;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -17,10 +16,6 @@ import com.liferay.portal.kernel.test.randomizerbumpers.NumericStringRandomizerB
 import com.liferay.portal.kernel.test.randomizerbumpers.UniqueStringRandomizerBumper;
 import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.test.log.LogCapture;
-import com.liferay.portal.test.log.LogEntry;
-import com.liferay.portal.test.log.LoggerTestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.HashMap;
@@ -108,29 +103,17 @@ public class FeatureFlagsBagTest {
 
 		String randomKey = _createKey();
 
-		Assert.assertFalse(_featureFlagsBag.isEnabled(randomKey));
+		try {
+			_featureFlagsBag.isEnabled(randomKey);
 
-		PropsUtil.set(
-			FeatureFlagConstants.getKey(randomKey), Boolean.TRUE.toString());
-
-		Assert.assertTrue(_featureFlagsBag.isEnabled(randomKey));
-
-		try (LogCapture logCapture = LoggerTestUtil.configureLog4JLogger(
-				FeatureFlagsBag.class.getName(), LoggerTestUtil.INFO)) {
-
-			String key = "LPS-9099";
-
-			_featureFlagsBag.isEnabled(key);
-
-			List<LogEntry> logEntries = logCapture.getLogEntries();
-
-			LogEntry logEntry = logEntries.get(0);
-
+			Assert.fail("Nonexistent keys should throw an exception");
+		}
+		catch (Exception exception) {
 			Assert.assertEquals(
 				StringBundler.concat(
-					"Feature flag ", key, " is not available for company ",
-					_COMPANY_ID),
-				logEntry.getMessage());
+					"Feature flag ", randomKey,
+					" is not available for company ", _COMPANY_ID),
+				exception.getMessage());
 		}
 	}
 
