@@ -9,13 +9,8 @@ import com.liferay.feature.flag.web.internal.model.FeatureFlagWrapper;
 import com.liferay.feature.flag.web.internal.model.PreferenceAwareFeatureFlag;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.feature.flag.FeatureFlag;
-import com.liferay.portal.kernel.feature.flag.constants.FeatureFlagConstants;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
 
 import java.util.ArrayList;
@@ -87,13 +82,10 @@ public class FeatureFlagsBag {
 			return featureFlag.isEnabled();
 		}
 
-		_log.error(
+		throw new IllegalArgumentException(
 			StringBundler.concat(
 				"Feature flag ", key, " is not available for company ",
 				_companyId));
-
-		return GetterUtil.getBoolean(
-			PropsUtil.get(FeatureFlagConstants.getKey(key)));
 	}
 
 	public void setEnabled(String key, boolean enabled) {
@@ -121,9 +113,6 @@ public class FeatureFlagsBag {
 			featureFlag = featureFlagWrapper.getFeatureFlag();
 		}
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		FeatureFlagsBag.class);
 
 	private final long _companyId;
 	private final Map<String, FeatureFlag> _featureFlagsMap;
