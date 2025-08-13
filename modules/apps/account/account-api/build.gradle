@@ -8,3 +8,26 @@ dependencies {
 	compileOnly project(":core:petra:petra-sql-dsl-api")
 	compileOnly project(":core:petra:petra-string")
 }
+
+
+tasks.register('pullTogetherResources', Copy) {
+	from "src/main/resources/zip-test"
+	// from packageRunBuild
+
+	into "build/pullTogetherResources"
+}
+// src/main/resources/zip-test
+
+tasks.register('makeTheZip', Zip) {
+	from tasks.named('pullTogetherResources')
+	archiveBaseName = "myCustomCXZip"
+	archiveExtension = "zip"
+
+	into "build/makeTheZip"
+}
+
+// Copy task
+deploy {
+	from tasks.named('makeTheZip')
+	// into 'whatever the CX destination is'
+}
