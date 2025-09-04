@@ -253,8 +253,13 @@ public class ServiceTrackerMapImpl<K, SR, TS, R>
 			DefaultEmitter defaultEmitter = new DefaultEmitter(
 				serviceReference);
 
-			_serviceReferenceMapper.map(
-				(ServiceReference)serviceReference, defaultEmitter);
+			try {
+				_serviceReferenceMapper.map(
+					(ServiceReference)serviceReference, defaultEmitter);
+			}
+			catch (Throwable throwable) {
+				return null;
+			}
 
 			return defaultEmitter.getServiceReferenceServiceTuple();
 		}
