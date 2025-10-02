@@ -1,8 +1,11 @@
 #!/bin/bash
 
+TEMP_DIR=$(mktemp -d "${TMPDIR:-/tmp/}$(basename "$0").XXXXXXXXXXXX")
+trap 'rm -rf ${TEMP_DIR}' EXIT
+
 # Define the input file and output file names
 input_template=~/.pr_description_template.md
-adapted_template=$(mktemp /tmp/pr_description_template.XXXXXXXXXXX.md)
+adapted_template="${TEMP_DIR}/pr_description_template.md"
 
 # Declare arrays to store sections to omit and omitted sections
 declare -a sections_to_omit
@@ -117,7 +120,7 @@ echo "Successfully processed '$input_template'. Modified template saved to '$ada
 
 remote=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null | cut -d/ -f1)
 git push --set-upstream ${remote:-origin} $(git branch --show-current)
-prefilled_template=$(mktemp /tmp/g.XXXXXXXXXXX.md)
+prefilled_template="${TEMP_DIR}/g.md"
 if [[ -f $adapted_template ]]; then
 	lps=$(git show --pretty='format:%s' --no-patch | cut -d' ' -f1)
 	if [[ ! -z $lps ]]; then
