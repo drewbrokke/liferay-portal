@@ -16,8 +16,9 @@ declare -a gh_args
 # Function to generate a simplified, consistent short name from a section title
 get_short_name() {
 	local title="$1"
+	local sanitized_title
 	# Convert to lowercase and replace spaces with hyphens
-	local sanitized_title=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+	sanitized_title=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 	# Remove punctuation and special characters
 	sanitized_title=$(echo "$sanitized_title" | sed 's/[^a-z0-9-]//g' | sed 's/--/-/g')
 
@@ -61,7 +62,7 @@ for arg in "$@"; do
 	elif [ "$arg" == "-h" ] || [ "$arg" == "--help" ]; then
 		usage
 	else
-		gh_args+="${arg}"
+		gh_args+=("${arg}")
 	fi
 done
 
@@ -74,12 +75,12 @@ fi
 
 # Process the markdown file
 omitting=false
->"$adapted_template" # Clear the output file before writing
+true >"$adapted_template" # Clear the output file before writing
 while IFS= read -r line; do
 	# Check if the line is a level 2 heading
 	if [[ "$line" =~ ^"## " ]]; then
 		# Extract the section title and get its short name
-		title_raw=$(echo "$line" | sed 's/^## //')
+		title_raw="${line/#\#\# /}"
 		title_short_name=$(get_short_name "$title_raw")
 
 		# Check if this section should be omitted
@@ -118,14 +119,14 @@ done <"$input_template"
 
 echo "Successfully processed '$input_template'. Modified template saved to '$adapted_template'."
 
-remote=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null | cut -d/ -f1)
-git push --set-upstream ${remote:-origin} $(git branch --show-current)
+remote=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null | cut -d/ -f1)
+git push --set-upstream "${remote:-origin}" "$(git branch --show-current)"
 prefilled_template="${TEMP_DIR}/g.md"
 if [[ -f $adapted_template ]]; then
 	lps=$(git show --pretty='format:%s' --no-patch | cut -d' ' -f1)
 	if [[ ! -z $lps ]]; then
 		url="https://liferay.atlassian.net/browse/"$lps
-		sed -e "s/{lps}/$lps/g" -e "s,{url},$url," <$adapted_template >$prefilled_template
+		sed -e "s/{lps}/$lps/g" -e "s,{url},$url," <"$adapted_template" >"$prefilled_template"
 	fi
 fi
 
@@ -158,5 +159,5 @@ if [ -n "$omitted_sections" ]; then
 	done
 fi
 
-echo gh $gh_args --title "$(head -1 $prefilled_template)" --body "$(tail -n +3 $prefilled_template)"
-mv -f $prefilled_template /tmp/g.lastpr
+echo gh "${gh_args[@]}" --title "$(head -1 "$prefilled_template")" --body "$(tail -n +3 "$prefilled_template")"
+mv -f "$prefilled_template" /tmp/g.lastpr
