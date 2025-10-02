@@ -88,7 +88,6 @@ while IFS= read -r line; do
 		for omit_name in "${sections_to_omit[@]}"; do
 			if [ "$title_short_name" == "$omit_name" ]; then
 				should_omit=true
-				omitted_sections+=("$title_raw")
 				break
 			fi
 		done
@@ -146,15 +145,17 @@ template_sections=$(extract_sections "$input_template" | sort)
 filled_sections=$(extract_sections "${prefilled_template}" | sort)
 
 # Use `comm` to find lines unique to the first file (template_sections)
-omitted_sections=$(comm -23 <(echo "$template_sections") <(echo "$filled_sections"))
+while read -r line; do
+	omitted_sections+=("${line}")
+done < <(comm -23 <(echo "$template_sections") <(echo "$filled_sections"))
 
 # Append the missing sections to the filled file if any were found
-if [ -n "$omitted_sections" ]; then
+if [ "${#omitted_sections[@]}" -gt 0 ]; then
 	# Append the sections to the filled file with a 2nd-level heading and a placeholder for content
 	echo -e "\n\n" >>"${prefilled_template}"
 	echo -e "## Omitted Sections" >>"${prefilled_template}"
 
-	echo "$omitted_sections" | while read -r line; do
+	for line in "${omitted_sections[@]}"; do
 		echo "  - $line" >>"${prefilled_template}"
 	done
 fi
