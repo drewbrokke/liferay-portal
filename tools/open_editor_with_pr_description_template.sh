@@ -131,9 +131,7 @@ if [[ -f $adapted_template ]]; then
 	fi
 fi
 
-vi ${prefilled_template}
-
-#echo ${GH_EDITOR:-${VISUAL:-${EDITOR:-ed}}} ${prefilled_template} >/dev/null
+"${GH_EDITOR:-${VISUAL:-${EDITOR:-ed}}}" "${prefilled_template}"
 
 # Function to extract and clean 2nd-level sections
 extract_sections() {
