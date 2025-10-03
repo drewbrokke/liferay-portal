@@ -8,10 +8,9 @@ input_template="$(dirname "$0")/pr_description_template.md"
 adapted_template="${TEMP_DIR}/pr_description_template.md"
 
 # Declare arrays to store sections to omit and omitted sections
-declare -a sections_to_omit
-declare -a omitted_sections
-
 declare -a gh_args
+declare -a omitted_sections
+declare -a sections_to_omit
 
 if ! command -v gh >/dev/null; then
 	echo "Please install the gh command-line tool following these instructions: https://github.com/cli/cli#installation"
