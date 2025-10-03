@@ -15,6 +15,18 @@ declare -a gh_args
 
 gh_args+=("pc")
 
+alias_name="pc"
+
+if ! gh alias list | cut -d':' -f1 | grep -q -E "^${alias_name}$"; then
+	echo "Please set the \"${alias_name}\" gh alias using your team's Github username:"
+	echo ""
+	echo "gh alias set ${alias_name} 'pr create -R liferay-team-name/liferay-portal'"
+
+	exit 1
+fi
+
+gh_args+=("${alias_name}")
+
 # Function to generate a simplified, consistent short name from a section title
 get_short_name() {
 	local title="$1"
