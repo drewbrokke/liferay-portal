@@ -4,7 +4,7 @@ TEMP_DIR=$(mktemp -d "${TMPDIR:-/tmp/}$(basename "$0").XXXXXXXXXXXX")
 trap 'rm -rf ${TEMP_DIR}' EXIT
 
 # Define the input file and output file names
-input_template=~/.pr_description_template.md
+input_template="$(dirname "$0")/pr_description_template.md"
 adapted_template="${TEMP_DIR}/pr_description_template.md"
 
 # Declare arrays to store sections to omit and omitted sections
