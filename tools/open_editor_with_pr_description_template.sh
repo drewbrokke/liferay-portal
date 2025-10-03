@@ -13,6 +13,8 @@ declare -a omitted_sections
 
 declare -a gh_args
 
+gh_args+=("pc")
+
 # Function to generate a simplified, consistent short name from a section title
 get_short_name() {
 	local title="$1"
