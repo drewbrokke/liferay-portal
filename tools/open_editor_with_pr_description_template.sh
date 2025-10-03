@@ -122,10 +122,10 @@ remote=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null | cu
 git push --set-upstream "${remote:-origin}" "$(git branch --show-current)"
 prefilled_template="${TEMP_DIR}/g.md"
 if [[ -f $adapted_template ]]; then
-	lps=$(git show --pretty='format:%s' --no-patch | cut -d' ' -f1)
-	if [[ ! -z $lps ]]; then
-		url="https://liferay.atlassian.net/browse/"$lps
-		sed -e "s/{lps}/$lps/g" -e "s,{url},$url," <"$adapted_template" >"$prefilled_template"
+	lpd=$(git show --pretty='format:%s' --no-patch | cut -d' ' -f1)
+	if [[ ! -z $lpd ]]; then
+		url="https://liferay.atlassian.net/browse/"$lpd
+		sed -e "s/{lpd}/$lpd/g" -e "s,{url},$url," <"$adapted_template" >"$prefilled_template"
 	fi
 fi
 
