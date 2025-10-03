@@ -162,5 +162,12 @@ if [ "${#omitted_sections[@]}" -gt 0 ]; then
 	done
 fi
 
-echo gh "${gh_args[@]}" --title "$(head -1 "$prefilled_template")" --body "$(tail -n +3 "$prefilled_template")"
-mv -f "$prefilled_template" /tmp/g.lastpr
+cat "$prefilled_template" > /tmp/g.lastpr
+
+tail -n +3 /tmp/g.lastpr > /tmp/g.bodyfile
+
+gh_args+=(--title "$(head -1 /tmp/g.lastpr)")
+gh_args+=(--body-file /tmp/g.bodyfile)
+gh_args+=(--web)
+
+gh "${gh_args[@]}"
