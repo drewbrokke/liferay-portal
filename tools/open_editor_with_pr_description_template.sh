@@ -72,40 +72,39 @@ done
 if [ ${#sections_to_omit[@]} -eq 0 ]; then
 	echo "No sections specified for omission. Creating a copy of the original template."
 	cp "$input_template" "$adapted_template"
-#     exit 0
-fi
+else
+	# Process the markdown file
+	omitting=false
+	true >"$adapted_template" # Clear the output file before writing
+	while IFS= read -r line; do
+		# Check if the line is a level 2 heading
+		if [[ "$line" =~ ^"## " ]]; then
+			# Extract the section title and get its short name
+			title_raw="${line/#\#\# /}"
+			title_short_name=$(get_short_name "$title_raw")
 
-# Process the markdown file
-omitting=false
-true >"$adapted_template" # Clear the output file before writing
-while IFS= read -r line; do
-	# Check if the line is a level 2 heading
-	if [[ "$line" =~ ^"## " ]]; then
-		# Extract the section title and get its short name
-		title_raw="${line/#\#\# /}"
-		title_short_name=$(get_short_name "$title_raw")
+			# Check if this section should be omitted
+			should_omit=false
+			for omit_name in "${sections_to_omit[@]}"; do
+				if [ "$title_short_name" == "$omit_name" ]; then
+					should_omit=true
+					break
+				fi
+			done
 
-		# Check if this section should be omitted
-		should_omit=false
-		for omit_name in "${sections_to_omit[@]}"; do
-			if [ "$title_short_name" == "$omit_name" ]; then
-				should_omit=true
-				break
+			if [ "$should_omit" == true ]; then
+				omitting=true
+				continue
+			else
+				omitting=false
+				echo "$line" >>"$adapted_template"
 			fi
-		done
-
-		if [ "$should_omit" == true ]; then
-			omitting=true
-			continue
-		else
-			omitting=false
+		elif [ "$omitting" == false ]; then
+			# If not a header and we are not currently omitting, write the line
 			echo "$line" >>"$adapted_template"
 		fi
-	elif [ "$omitting" == false ]; then
-		# If not a header and we are not currently omitting, write the line
-		echo "$line" >>"$adapted_template"
-	fi
-done <"$input_template"
+	done <"$input_template"
+fi
 
 # Add the "Omitted Sections" summary at the end
 # if [ ${#omitted_sections[@]} -gt 0 ]; then
