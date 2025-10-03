@@ -13,7 +13,11 @@ declare -a omitted_sections
 
 declare -a gh_args
 
-gh_args+=("pc")
+if ! command -v gh >/dev/null; then
+	echo "Please install the gh command-line tool following these instructions: https://github.com/cli/cli#installation"
+
+	exit 1
+fi
 
 alias_name="pc"
 
