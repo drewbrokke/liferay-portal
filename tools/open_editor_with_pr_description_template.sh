@@ -107,8 +107,6 @@ else
 fi
 
 
-echo "Successfully processed '$input_template'. Modified template saved to '$adapted_template'."
-
 remote=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null | cut -d/ -f1)
 git push --set-upstream "${remote:-origin}" "$(git branch --show-current)"
 prefilled_template="${TEMP_DIR}/g.md"
