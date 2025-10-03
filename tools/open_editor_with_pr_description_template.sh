@@ -106,16 +106,6 @@ else
 	done <"$input_template"
 fi
 
-# Add the "Omitted Sections" summary at the end
-# if [ ${#omitted_sections[@]} -gt 0 ]; then
-#     echo "" >> "$adapted_template"
-#     echo "---" >> "$adapted_template"
-#     echo "" >> "$adapted_template"
-#     echo "## Omitted Sections" >> "$adapted_template"
-#     for section_title in "${omitted_sections[@]}"; do
-#         echo "  - $section_title" >> "$adapted_template"
-#     done
-# fi
 
 echo "Successfully processed '$input_template'. Modified template saved to '$adapted_template'."
 
