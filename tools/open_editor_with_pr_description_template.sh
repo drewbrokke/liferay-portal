@@ -35,7 +35,7 @@ get_short_name() {
 	local title="$1"
 	local sanitized_title
 	# Convert to lowercase and replace spaces with hyphens
-	sanitized_title=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+	sanitized_title=$(echo "$title" | tr '[:upper:] ' '[:lower:]-')
 	# Remove punctuation and special characters
 	sanitized_title=$(echo "$sanitized_title" | sed -e 's/[^a-z0-9-]//g' -e 's/--/-/g')
 
