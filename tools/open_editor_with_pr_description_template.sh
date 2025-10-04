@@ -20,7 +20,7 @@ fi
 
 alias_name="pc"
 
-if ! gh alias list | cut -d':' -f1 | grep -q -E "^${alias_name}$"; then
+if ! gh alias list | grep -q "^${alias_name}:"; then
 	echo "Please set the \"${alias_name}\" gh alias using your team's Github username:"
 	echo ""
 	echo "gh alias set ${alias_name} 'pr create -R liferay-team-name/liferay-portal'"
