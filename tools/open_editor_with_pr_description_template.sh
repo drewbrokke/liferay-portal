@@ -37,7 +37,7 @@ get_short_name() {
 	# Convert to lowercase and replace spaces with hyphens
 	sanitized_title=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 	# Remove punctuation and special characters
-	sanitized_title=$(echo "$sanitized_title" | sed 's/[^a-z0-9-]//g' | sed 's/--/-/g')
+	sanitized_title=$(echo "$sanitized_title" | sed -e 's/[^a-z0-9-]//g' -e 's/--/-/g')
 
 	# Custom abbreviations for common phrases
 	case "$sanitized_title" in
@@ -139,7 +139,7 @@ fi
 extract_sections() {
 	local file=$1
 	# Use grep to find lines starting with '## ', then sed to remove the '## ' prefix and trim whitespace
-	grep "^## " "$file" | sed 's/^## //g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
+	grep "^## " "$file" | sed -e 's/^## //g' -e 's/^[[:space:]]*//;s/[[:space:]]*$//'
 }
 
 # Extract sections from both files and sort them
