@@ -67,7 +67,7 @@ usage() {
 }
 
 # Check if the input file is provided and exists
-if [ -z "$input_template" ] || [ ! -f "$input_template" ]; then
+if [[ -z "$input_template" ]] || [[ ! -f "$input_template" ]]; then
 	echo "Error: File '$input_template' not found or not specified."
 	usage
 fi
@@ -76,7 +76,7 @@ fi
 for arg in "$@"; do
 	if [[ "$arg" == "--no-"* ]]; then
 		sections_to_omit+=("${arg#--no-}")
-	elif [ "$arg" == "-h" ] || [ "$arg" == "--help" ]; then
+	elif [[ "$arg" == "-h" ]] || [[ "$arg" == "--help" ]]; then
 		usage
 	else
 		gh_args+=("${arg}")
@@ -84,7 +84,7 @@ for arg in "$@"; do
 done
 
 # If no sections are specified for omission, just copy the file
-if [ ${#sections_to_omit[@]} -eq 0 ]; then
+if [[ ${#sections_to_omit[@]} -eq 0 ]]; then
 	echo "No sections specified for omission. Creating a copy of the original template."
 	cp "$input_template" "$adapted_template"
 else
@@ -101,20 +101,20 @@ else
 			# Check if this section should be omitted
 			should_omit=false
 			for omit_name in "${sections_to_omit[@]}"; do
-				if [ "$title_short_name" == "$omit_name" ]; then
+				if [[ "$title_short_name" == "$omit_name" ]]; then
 					should_omit=true
 					break
 				fi
 			done
 
-			if [ "$should_omit" == true ]; then
+			if [[ "$should_omit" == "true" ]]; then
 				omitting=true
 				continue
 			else
 				omitting=false
 				echo "$line" >>"$adapted_template"
 			fi
-		elif [ "$omitting" == false ]; then
+		elif [[ "$omitting" == "false" ]]; then
 			# If not a header and we are not currently omitting, write the line
 			echo "$line" >>"$adapted_template"
 		fi
@@ -152,7 +152,7 @@ while read -r line; do
 done < <(comm -23 <(echo "$template_sections") <(echo "$filled_sections"))
 
 # Append the missing sections to the filled file if any were found
-if [ "${#omitted_sections[@]}" -gt 0 ]; then
+if [[ "${#omitted_sections[@]}" -gt 0 ]]; then
 	# Append the sections to the filled file with a 2nd-level heading and a placeholder for content
 	echo -e "\n\n" >>"${prefilled_template}"
 	echo -e "## Omitted Sections" >>"${prefilled_template}"
