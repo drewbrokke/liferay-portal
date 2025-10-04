@@ -121,16 +121,16 @@ else
 	done <"$input_template"
 fi
 
-
 remote=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null | cut -d/ -f1)
 git push --set-upstream "${remote:-origin}" "$(git branch --show-current)"
+
 prefilled_template="${TEMP_DIR}/g.md"
-if [[ -f $adapted_template ]]; then
-	lpd=$(git show --pretty='format:%s' --no-patch | cut -d' ' -f1)
-	if [[ "$lpd" ]]; then
-		url="https://liferay.atlassian.net/browse/"$lpd
-		sed -e "s/{lpd}/$lpd/g" -e "s,{url},$url," <"$adapted_template" >"$prefilled_template"
-	fi
+lpd=$(git show --pretty='format:%s' --no-patch | cut -d' ' -f1)
+if [[ "$lpd" ]]; then
+	url="https://liferay.atlassian.net/browse/"$lpd
+	sed -e "s/{lpd}/$lpd/g" -e "s,{url},$url," <"$adapted_template" > "$prefilled_template"
+else
+	cp "$adapted_template" "$prefilled_template"
 fi
 
 "${GH_EDITOR:-${VISUAL:-${EDITOR:-ed}}}" "${prefilled_template}"
