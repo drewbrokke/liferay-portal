@@ -16,7 +16,7 @@ that the code is easier to understand.
 # How can you verify that it works?
 
 If the PR includes automated tests, simply saying "Run the included automated
-tests." is enough. Please, add extra information that might be needed to 
+tests." is enough. Please, add extra information that might be needed to
 understand the testing strategy.
 
 If the PR doesn't include tests, and the ticket includes reproduction steps:
@@ -40,7 +40,7 @@ Otherwise, you need to give a rationale of why.
 
 ## Has a11y been checked?
 
-If the PR is not relate at all with the UI, omit this section.
+If the PR is not related at all with the UI, omit this section.
 
 Otherwise, you need to give a rationale of how.
 
@@ -54,14 +54,14 @@ Otherwise, you need to give a rationale of why.
 
 If the PR does not introduce breaking changes, omit this section.
 
-Otherwise, you need to explain the rationale of why. You can 
+Otherwise, you need to explain the rationale of why. You can
 refer to the particular commit message where this is explained.
 
 ## Are you affecting other teams functionalities?
 
 If the PR does not affect other team functionalities, omit this section.
 
-Otherwise, you need to give a rationale of why, and a description of the 
+Otherwise, you need to give a rationale of why, and a description of the
 mitigation plan agreed with other teams.
 
 ## How does this affect performance?
@@ -73,8 +73,8 @@ Make references to how the differences were measured.
 
 ## Have you followed well established secure coding patterns?
 
-If you have escaped user input, avoid path traversal, controlled user access, ... 
+If you have escaped user input, avoid path traversal, controlled user access, ...
 (see https://owasp.org/www-project-top-ten/), you can omit this section.
 
-If there is any particular aspect that the reviewer should take care particularly, 
-please, explain it so it can be properly considered.
+If there is any particular aspect that the reviewer should pay particular
+attention to, please explain it so it can be properly considered.
