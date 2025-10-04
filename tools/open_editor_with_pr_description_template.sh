@@ -121,9 +121,6 @@ else
 	done <"$input_template"
 fi
 
-remote=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null | cut -d/ -f1)
-git push --set-upstream "${remote:-origin}" "$(git branch --show-current)"
-
 prefilled_template="${TEMP_DIR}/g.md"
 lpd=$(git show --pretty='format:%s' --no-patch | cut -d' ' -f1)
 if [[ "$lpd" ]]; then
