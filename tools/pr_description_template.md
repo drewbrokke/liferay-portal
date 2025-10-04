@@ -23,9 +23,12 @@ If the PR doesn't include tests, and the ticket includes reproduction steps:
 "Follow the steps described in {url}."
 
 Otherwise, define a procedure to test the changes using a numbered list. E.g:
+
 1. Go to "Foo".
-2. Click on "Bar".
-3. Go back to step #1.
+
+1. Click on "Bar".
+
+1. Go back to step #1.
 
 # High level requirements rationale
 
