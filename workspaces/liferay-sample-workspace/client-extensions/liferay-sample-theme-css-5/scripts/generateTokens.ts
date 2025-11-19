@@ -7,9 +7,13 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 
 const INPUT_PATH = path.resolve('./lexicon-foundations-tokens.json');
-const OUTPUT_PATH = path.resolve('./src/frontend-token-definition.json');
+// const OUTPUT_PATH = path.resolve('./src/frontend-token-definition.json');
+const OUTPUT_PATH = path.resolve('./build/generateTokens/frontend-token-definition.json');
+// const OUTPUT_PATH_SASS = path.resolve(
+// 	'./src/css/_lexicon-foundations-tokens.scss'
+// );
 const OUTPUT_PATH_SASS = path.resolve(
-	'./src/css/_lexicon-foundations-tokens.scss'
+	'./build/generateTokens/_lexicon-foundations-tokens.scss'
 );
 
 type IFigmaToken = {
