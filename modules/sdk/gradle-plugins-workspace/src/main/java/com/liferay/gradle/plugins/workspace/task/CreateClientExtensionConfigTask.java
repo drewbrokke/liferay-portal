@@ -54,6 +54,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.file.ConfigurableFileTree;
+import org.gradle.api.file.Directory;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.ProjectLayout;
 import org.gradle.api.file.RegularFile;
@@ -104,10 +105,18 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 			ProviderFactory providerFactory = _project.getProviders();
 
+			ProjectLayout layout = _project.getLayout();
+
+			Directory projectDirectory = layout.getProjectDirectory();
+
+			RegularFile frontendTokenDefinitionJSONRegularFile =
+				projectDirectory.file(
+					(String)clientExtension.typeSettings.get(
+						"frontendTokenDefinitionJSON"));
+
 			taskInputs.file(
 				providerFactory.provider(
-					() -> clientExtension.typeSettings.get(
-						"frontendTokenDefinitionJSON")));
+					() -> frontendTokenDefinitionJSONRegularFile));
 		}
 	}
 
