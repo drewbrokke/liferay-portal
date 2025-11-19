@@ -1,4 +1,5 @@
 assemble:
+    -   fromTask: packageRunGenerateTokens
     -   from: build/buildTheme/img
         into: static/img
     -   from: build/buildTheme/images
