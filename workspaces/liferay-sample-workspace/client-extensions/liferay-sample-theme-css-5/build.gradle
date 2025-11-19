@@ -1,0 +1,4 @@
+packageRunGenerateTokens {
+	inputs.file "lexicon-foundations-tokens.json"
+	outputs.file "src/frontend-token-definition.json"
+}
