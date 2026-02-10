@@ -216,6 +216,9 @@
 	<bean class="com.liferay.portal.service.impl.PortalLocalServiceImpl" id="com.liferay.portal.kernel.service.PortalLocalService" />
 	<bean class="com.liferay.portal.service.impl.PortalServiceImpl" id="com.liferay.portal.kernel.service.PortalService" />
 	<bean class="com.liferay.portal.service.impl.PortalPreferencesLocalServiceImpl" id="com.liferay.portal.kernel.service.PortalPreferencesLocalService" />
+	<bean class="com.liferay.portal.feature.flag.FeatureFlagManagerImpl" id="com.liferay.portal.kernel.feature.flag.FeatureFlagManager" />
+	<bean class="com.liferay.portal.feature.flag.FeatureFlagPreferencesManager" id="com.liferay.portal.feature.flag.FeatureFlagPreferencesManager" />
+	<bean class="com.liferay.portal.feature.flag.FeatureFlagsBagProviderImpl" id="com.liferay.portal.feature.flag.FeatureFlagsBagProvider" />
 	<bean class="com.liferay.portal.service.persistence.impl.PortalPreferencesModelArgumentsResolver" id="com.liferay.portal.service.persistence.impl.PortalPreferencesModelArgumentsResolver" />
 	<bean class="com.liferay.portal.service.persistence.impl.PortalPreferencesPersistenceImpl" id="com.liferay.portal.kernel.service.persistence.PortalPreferencesPersistence" />
 	<bean class="com.liferay.portal.service.impl.PortalPreferenceValueLocalServiceImpl" id="com.liferay.portal.kernel.service.PortalPreferenceValueLocalService" />

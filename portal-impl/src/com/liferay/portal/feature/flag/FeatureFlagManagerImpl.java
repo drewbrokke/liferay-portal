@@ -1,0 +1,64 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.portal.feature.flag;
+
+import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.feature.flag.FeatureFlag;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManager;
+import com.liferay.portal.kernel.model.CompanyConstants;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+
+import java.util.List;
+import java.util.function.Predicate;
+
+/**
+ * @author Drew Brokke
+ */
+public class FeatureFlagManagerImpl implements FeatureFlagManager {
+
+	@Override
+	public List<FeatureFlag> getFeatureFlags(
+		long companyId, Predicate<FeatureFlag> predicate) {
+
+		FeatureFlagsBag featureFlagsBag =
+			getFeatureFlagsBagProvider().getOrCreateFeatureFlagsBag(companyId);
+
+		return featureFlagsBag.getFeatureFlags(predicate);
+	}
+
+	@Override
+	public String getJSON(long companyId) {
+		FeatureFlagsBag featureFlagsBag =
+			getFeatureFlagsBagProvider().getOrCreateFeatureFlagsBag(companyId);
+
+		return featureFlagsBag.getJSON();
+	}
+
+	@Override
+	public boolean isEnabled(long companyId, String key) {
+		if (getFeatureFlagsBagProvider().isSystemKey(key)) {
+			companyId = CompanyConstants.SYSTEM;
+		}
+
+		FeatureFlagsBag featureFlagsBag =
+			getFeatureFlagsBagProvider().getOrCreateFeatureFlagsBag(companyId);
+
+		return featureFlagsBag.isEnabled(key);
+	}
+
+	@Override
+	public boolean isEnabled(String key) {
+		return isEnabled(CompanyThreadLocal.getCompanyId(), key);
+	}
+
+	protected FeatureFlagsBagProvider getFeatureFlagsBagProvider() {
+		return _featureFlagsBagProvider.unwrapProxy();
+	}
+
+	@BeanReference(type = FeatureFlagsBagProvider.class)
+	private FeatureFlagsBagProvider _featureFlagsBagProvider;
+
+}
