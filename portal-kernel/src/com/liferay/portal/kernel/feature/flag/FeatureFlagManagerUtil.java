@@ -74,6 +74,14 @@ public class FeatureFlagManagerUtil {
 					"default value.");
 		}
 
+		_log.error(
+			"PROBLEM: Feature flag manager service not found, asking for key " +
+				key);
+
+		Exception exception = new Exception();
+
+		exception.printStackTrace();
+
 		return GetterUtil.getBoolean(PropsUtil.get("feature.flag." + key));
 	}
 
