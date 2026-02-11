@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
-import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -64,11 +63,8 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Drew Brokke
  */
-@Component(
-	service = {FeatureFlagsBagProvider.class, IdentifiableOSGiService.class}
-)
-public class FeatureFlagsBagProviderImpl
-	implements FeatureFlagsBagProvider, IdentifiableOSGiService {
+@Component(service = FeatureFlagsBagProvider.class)
+public class FeatureFlagsBagProviderImpl implements FeatureFlagsBagProvider {
 
 	@Override
 	public void clearCache() {
@@ -95,11 +91,6 @@ public class FeatureFlagsBagProviderImpl
 		}
 
 		return featureFlagsBag;
-	}
-
-	@Override
-	public String getOSGiServiceIdentifier() {
-		return FeatureFlagsBagProviderImpl.class.getName();
 	}
 
 	@Override
