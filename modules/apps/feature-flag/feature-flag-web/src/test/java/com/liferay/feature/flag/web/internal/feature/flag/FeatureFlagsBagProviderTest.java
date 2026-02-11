@@ -41,13 +41,13 @@ public class FeatureFlagsBagProviderTest {
 
 	@BeforeClass
 	public static void setUpClass() {
-		_featureFlagsBagProviderImpl = new FeatureFlagsBagProviderImpl();
+		_featureFlagsBagProvider = new FeatureFlagsBagProvider();
 
 		ReflectionTestUtil.setFieldValue(
-			_featureFlagsBagProviderImpl, "_featureFlagPreferencesManager",
+			_featureFlagsBagProvider, "_featureFlagPreferencesManager",
 			_featureFlagPreferencesManager);
 		ReflectionTestUtil.setFieldValue(
-			_featureFlagsBagProviderImpl, "_language", _language);
+			_featureFlagsBagProvider, "_language", _language);
 	}
 
 	@Test
@@ -60,12 +60,12 @@ public class FeatureFlagsBagProviderTest {
 		PropsUtil.set(FeatureFlagConstants.getKey(key, "dependencies"), key);
 
 		try (LogCapture logCapture = LoggerTestUtil.configureLog4JLogger(
-				FeatureFlagsBagProviderImpl.class.getName(),
+				FeatureFlagsBagProvider.class.getName(),
 				LoggerTestUtil.ERROR)) {
 
-			_featureFlagsBagProviderImpl.clearCache();
+			_featureFlagsBagProvider.clearCache();
 
-			_featureFlagsBagProviderImpl.getOrCreateFeatureFlagsBag(companyId);
+			_featureFlagsBagProvider.getOrCreateFeatureFlagsBag(companyId);
 
 			List<LogEntry> logEntries = logCapture.getLogEntries();
 
@@ -102,11 +102,10 @@ public class FeatureFlagsBagProviderTest {
 		PropsUtil.set(FeatureFlagConstants.getKey(key3), "true");
 
 		try {
-			_featureFlagsBagProviderImpl.clearCache();
+			_featureFlagsBagProvider.clearCache();
 
 			FeatureFlagsBag featureFlagsBag =
-				_featureFlagsBagProviderImpl.getOrCreateFeatureFlagsBag(
-					companyId);
+				_featureFlagsBagProvider.getOrCreateFeatureFlagsBag(companyId);
 
 			List<String> keys = Arrays.asList(key1, key2, key3);
 
@@ -152,12 +151,12 @@ public class FeatureFlagsBagProviderTest {
 		PropsUtil.set(FeatureFlagConstants.getKey(key2), "true");
 
 		try (LogCapture logCapture = LoggerTestUtil.configureLog4JLogger(
-				FeatureFlagsBagProviderImpl.class.getName(),
+				FeatureFlagsBagProvider.class.getName(),
 				LoggerTestUtil.ERROR)) {
 
-			_featureFlagsBagProviderImpl.clearCache();
+			_featureFlagsBagProvider.clearCache();
 
-			_featureFlagsBagProviderImpl.getOrCreateFeatureFlagsBag(companyId);
+			_featureFlagsBagProvider.getOrCreateFeatureFlagsBag(companyId);
 
 			List<LogEntry> logEntries = logCapture.getLogEntries();
 
@@ -194,11 +193,10 @@ public class FeatureFlagsBagProviderTest {
 		PropsUtil.set(FeatureFlagConstants.getKey(key2, "system"), "false");
 
 		try {
-			_featureFlagsBagProviderImpl.clearCache();
+			_featureFlagsBagProvider.clearCache();
 
 			FeatureFlagsBag featureFlagsBag =
-				_featureFlagsBagProviderImpl.getOrCreateFeatureFlagsBag(
-					companyId);
+				_featureFlagsBagProvider.getOrCreateFeatureFlagsBag(companyId);
 
 			List<String> keys = Arrays.asList(key1, key2);
 
@@ -223,7 +221,7 @@ public class FeatureFlagsBagProviderTest {
 	private static final FeatureFlagPreferencesManager
 		_featureFlagPreferencesManager = Mockito.mock(
 			FeatureFlagPreferencesManager.class);
-	private static FeatureFlagsBagProviderImpl _featureFlagsBagProviderImpl;
+	private static FeatureFlagsBagProvider _featureFlagsBagProvider;
 	private static final Language _language = Mockito.mock(Language.class);
 
 }
