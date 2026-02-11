@@ -63,16 +63,14 @@ import org.osgi.service.component.annotations.Reference;
  * @author Drew Brokke
  */
 @Component(service = FeatureFlagsBagProvider.class)
-public class FeatureFlagsBagProviderImpl implements FeatureFlagsBagProvider {
+public class FeatureFlagsBagProvider {
 
-	@Override
 	public void clearCache() {
 		_featureFlagsBags.clear();
 
 		_initSystemFeatureFlags(true);
 	}
 
-	@Override
 	public FeatureFlagsBag getOrCreateFeatureFlagsBag(long companyId) {
 		FeatureFlagsBag featureFlagsBag = _featureFlagsBags.get(companyId);
 
@@ -92,12 +90,10 @@ public class FeatureFlagsBagProviderImpl implements FeatureFlagsBagProvider {
 		return featureFlagsBag;
 	}
 
-	@Override
 	public boolean isSystemKey(String key) {
 		return _systemFeatureFlags.contains(key);
 	}
 
-	@Override
 	public void setEnabled(long companyId, String key, boolean enabled) {
 		_featureFlagPreferencesManager.setEnabled(companyId, key, enabled);
 
@@ -374,15 +370,15 @@ public class FeatureFlagsBagProviderImpl implements FeatureFlagsBagProvider {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		FeatureFlagsBagProviderImpl.class);
+		FeatureFlagsBagProvider.class);
 
 	private static final Map<Long, FeatureFlagsBag> _featureFlagsBags =
 		new ConcurrentHashMap<>();
 	private static ServiceTrackerMap<String, List<FeatureFlagListener>>
 		_serviceTrackerMap;
 	private static final MethodKey _setEnabledMethodKey = new MethodKey(
-		FeatureFlagsBagProviderImpl.class, "_setEnabled", long.class,
-		String.class, boolean.class);
+		FeatureFlagsBagProvider.class, "_setEnabled", long.class, String.class,
+		boolean.class);
 
 	@Reference
 	private ClusterExecutor _clusterExecutor;
