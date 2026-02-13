@@ -35,6 +35,14 @@ public class FeatureFlagManagerUtil {
 		}
 	}
 
+	public static AutoCloseable setTemporaryFeatureFlagManager(FeatureFlagManager featureFlagManager) {
+		FeatureFlagManager oldFeatureFlagManager = _featureFlagManager;
+
+		_featureFlagManager = featureFlagManager;
+
+		return () -> _featureFlagManager = oldFeatureFlagManager;
+	}
+
 	public static void checkEnabled(String key) {
 		if (!isEnabled(key)) {
 			throw new UnsupportedOperationException(
