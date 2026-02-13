@@ -58,7 +58,7 @@ public class FeatureFlagTestRule
 		FeatureFlagManager featureFlagManager =
 			FeatureFlagManagerUtil.getFeatureFlagManager();
 
-		_autoCloseable = FeatureFlagManagerUtil.setTemporaryFeatureFlagManager(
+		_autoCloseable = FeatureFlagManagerUtil.setFeatureFlagManagerWithAutoCloseable(
 			new MockFeatureFlagManager(featureFlagManager));
 
 		return _updateFeatureFlags(description);
