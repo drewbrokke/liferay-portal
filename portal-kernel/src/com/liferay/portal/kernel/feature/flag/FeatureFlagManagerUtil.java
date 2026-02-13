@@ -93,7 +93,7 @@ public class FeatureFlagManagerUtil {
 			servicePropertiesFunction);
 	}
 
-	public static AutoCloseable setTemporaryFeatureFlagManager(
+	public static AutoCloseable setFeatureFlagManagerWithAutoCloseable(
 		FeatureFlagManager featureFlagManager) {
 
 		FeatureFlagManager oldFeatureFlagManager = _featureFlagManager;

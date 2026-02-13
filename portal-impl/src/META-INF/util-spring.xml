@@ -34,6 +34,9 @@
 		<property name="currentConnection" ref="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.json.JSONFactoryUtil" factory-method="getJSONFactory" id="com.liferay.portal.kernel.json.JSONFactory" />
+	<bean class="com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil" id="com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil">
+		<property name="FeatureFlagManager" ref="com.liferay.portal.kernel.feature.flag.FeatureFlagManager" />
+	</bean>
 	<bean class="com.liferay.portal.language.LanguageImpl" id="com.liferay.portal.kernel.language.Language" />
 	<bean class="com.liferay.portal.kernel.language.LanguageUtil" id="com.liferay.portal.kernel.language.LanguageUtil">
 		<property name="language" ref="com.liferay.portal.kernel.language.Language" />
@@ -88,8 +91,5 @@
 	<bean class="com.liferay.portlet.social.util.SocialConfigurationImpl" id="com.liferay.social.kernel.util.SocialConfiguration" />
 	<bean class="com.liferay.social.kernel.util.SocialConfigurationUtil" id="com.liferay.social.kernel.util.SocialConfigurationUtil">
 		<property name="socialConfiguration" ref="com.liferay.social.kernel.util.SocialConfiguration" />
-	</bean>
-	<bean class="com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil" id="com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil">
-		<property name="FeatureFlagManager" ref="com.liferay.portal.kernel.feature.flag.FeatureFlagManager" />
 	</bean>
 </beans>
