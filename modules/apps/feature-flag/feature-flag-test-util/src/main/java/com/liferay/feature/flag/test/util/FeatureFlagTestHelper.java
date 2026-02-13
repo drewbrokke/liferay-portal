@@ -39,8 +39,7 @@ public class FeatureFlagTestHelper {
 
 		for (Bundle curBundle : bundleContext.getBundles()) {
 			if (Objects.equals(
-					curBundle.getSymbolicName(),
-					"org.eclipse.osgi")) {
+					curBundle.getSymbolicName(), "org.eclipse.osgi")) {
 
 				featureFlagWebBundle = curBundle;
 			}
