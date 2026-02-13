@@ -89,4 +89,7 @@
 	<bean class="com.liferay.social.kernel.util.SocialConfigurationUtil" id="com.liferay.social.kernel.util.SocialConfigurationUtil">
 		<property name="socialConfiguration" ref="com.liferay.social.kernel.util.SocialConfiguration" />
 	</bean>
+	<bean class="com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil">
+		<property name="FeatureFlagManager" ref="com.liferay.portal.kernel.feature.flag.FeatureFlagManager" />
+	</bean>
 </beans>
