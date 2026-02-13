@@ -5,9 +5,9 @@
 
 package com.liferay.portal.feature.flag;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.feature.flag.model.FeatureFlagWrapper;
 import com.liferay.portal.feature.flag.model.PreferenceAwareFeatureFlag;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.feature.flag.FeatureFlag;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;

@@ -19,7 +19,6 @@ import com.liferay.portal.feature.flag.model.FeatureFlagImpl;
 import com.liferay.portal.feature.flag.model.LanguageAwareFeatureFlag;
 import com.liferay.portal.feature.flag.model.PreferenceAwareFeatureFlag;
 import com.liferay.portal.kernel.bean.BeanReference;
-import com.liferay.portal.kernel.cluster.ClusterExecutor;
 import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
 import com.liferay.portal.kernel.cluster.ClusterRequest;
 import com.liferay.portal.kernel.feature.flag.FeatureFlag;
