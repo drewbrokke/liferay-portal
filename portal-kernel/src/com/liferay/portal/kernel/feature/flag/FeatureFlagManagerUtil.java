@@ -57,13 +57,13 @@ public class FeatureFlagManagerUtil {
 					"default value.");
 		}
 
-		if (_JSON == null) {
-			_JSON = String.valueOf(
+		if (_json == null) {
+			_json = String.valueOf(
 				JSONFactoryUtil.createJSONObject(
 					PropsUtil.getProperties("feature.flag.", true)));
 		}
 
-		return _JSON;
+		return _json;
 	}
 
 	public static boolean isEnabled(long companyId, String key) {
@@ -113,7 +113,7 @@ public class FeatureFlagManagerUtil {
 		_featureFlagManager = featureFlagManager;
 	}
 
-	private static String _JSON;
+	private static String _json;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		FeatureFlagManagerUtil.class);
