@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.liferay.feature.flag.web.internal.model.listener;
+package com.liferay.portal.feature.flag.model.listener;
 
-import com.liferay.feature.flag.web.internal.feature.flag.FeatureFlagsBag;
-import com.liferay.feature.flag.web.internal.feature.flag.FeatureFlagsBagProvider;
+import com.liferay.portal.feature.flag.FeatureFlagsBag;
+import com.liferay.portal.feature.flag.FeatureFlagsBagProvider;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.feature.flag.FeatureFlag;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagType;
@@ -14,7 +15,6 @@ import com.liferay.portal.kernel.feature.flag.constants.FeatureFlagConstants;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.CompanyConstants;
-import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.PortalPreferencesLocalService;
@@ -25,16 +25,18 @@ import com.liferay.portlet.PortalPreferencesWrapper;
 
 import java.util.List;
 
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 /**
  * @author Drew Brokke
  * @author Thiago Buarque
  */
-@Component(service = ModelListener.class)
 public class CompanyModelListener extends BaseModelListener<Company> {
+
+	public void afterPropertiesSet() {
+		_processDeprecationFeatureFlags(CompanyConstants.SYSTEM);
+
+		_companyLocalService.forEachCompanyId(
+			this::_processDeprecationFeatureFlags);
+	}
 
 	@Override
 	public void onAfterCreate(Company company) throws ModelListenerException {
@@ -44,14 +46,6 @@ public class CompanyModelListener extends BaseModelListener<Company> {
 
 				return null;
 			});
-	}
-
-	@Activate
-	protected void activate() {
-		_processDeprecationFeatureFlags(CompanyConstants.SYSTEM);
-
-		_companyLocalService.forEachCompanyId(
-			this::_processDeprecationFeatureFlags);
 	}
 
 	private PortalPreferences _getPortalPreferences(long companyId) {
@@ -97,13 +91,13 @@ public class CompanyModelListener extends BaseModelListener<Company> {
 			companyId, PortletKeys.PREFS_OWNER_TYPE_COMPANY, portalPreferences);
 	}
 
-	@Reference
+	@BeanReference(type = CompanyLocalService.class)
 	private CompanyLocalService _companyLocalService;
 
-	@Reference
+	@BeanReference(type = FeatureFlagsBagProvider.class)
 	private FeatureFlagsBagProvider _featureFlagsBagProvider;
 
-	@Reference
+	@BeanReference(type = PortalPreferencesLocalService.class)
 	private PortalPreferencesLocalService _portalPreferencesLocalService;
 
 }
