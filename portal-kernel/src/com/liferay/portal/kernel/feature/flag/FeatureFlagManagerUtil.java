@@ -57,6 +57,12 @@ public class FeatureFlagManagerUtil {
 					"default value.");
 		}
 
+		if (_JSON == null) {
+			_JSON = String.valueOf(
+				JSONFactoryUtil.createJSONObject(
+					PropsUtil.getProperties("feature.flag.", true)));
+		}
+
 		return _JSON;
 	}
 
@@ -107,9 +113,7 @@ public class FeatureFlagManagerUtil {
 		_featureFlagManager = featureFlagManager;
 	}
 
-	private static final String _JSON = String.valueOf(
-		JSONFactoryUtil.createJSONObject(
-			PropsUtil.getProperties("feature.flag.", true)));
+	private static String _JSON;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		FeatureFlagManagerUtil.class);
