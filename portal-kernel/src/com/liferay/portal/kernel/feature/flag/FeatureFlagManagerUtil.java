@@ -113,12 +113,11 @@ public class FeatureFlagManagerUtil {
 		_featureFlagManager = featureFlagManager;
 	}
 
-	private static String _json;
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		FeatureFlagManagerUtil.class);
 
 	private static FeatureFlagManager _featureFlagManager;
+	private static String _json;
 
 	private static class FeatureFlaggedServiceRegistration<T>
 		implements ServiceRegistration<T> {
