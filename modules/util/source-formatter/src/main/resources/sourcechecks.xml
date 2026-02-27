@@ -211,6 +211,14 @@
 			<description name="Finds missing and unnecessary whitespace." />
 			<property name="enabled" value="false" />
 		</check>
+		<check name="SassVariableAlphabetizationCheck">
+			<category name="Styling" />
+			<description name="Checks for unalphabetized Sass variable declarations." />
+		</check>
+		<check name="SassMapNewlineCheck">
+			<category name="Styling" />
+			<description name="Ensures Sass map keys with nested maps are separated by new lines." />
+		</check>
 	</source-processor>
 	<source-processor name="DockerfileSourceProcessor">
 		<check name="DockerfileEmptyLinesCheck">
