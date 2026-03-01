@@ -1,0 +1,24 @@
+$btn-primary: (
+	background-color: black,
+
+	hover: (
+		color: orange,
+	),
+
+	focus: (
+		color: purple,
+	),
+
+	active: (
+		color: orange,
+		background-color: green,
+	),
+);
+
+$btn-secondary: (
+	border-radius: 4px,
+
+	background-color: black,
+	box-shadow: none,
+	color: orange,
+);

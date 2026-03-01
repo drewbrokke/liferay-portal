@@ -17,4 +17,14 @@ public class CSSSourceProcessorTest extends BaseSourceProcessorTestCase {
 		//test("IncorrectWhitespace.testcss");
 	}
 
+	@Test
+	public void testSCSSMapCheck() throws Exception {
+		test("SCSSMapCheck.testscss");
+	}
+
+	@Test
+	public void testSCSSVariablesOrderCheck() throws Exception {
+		test("SCSSVariablesOrderCheck.testscss");
+	}
+
 }

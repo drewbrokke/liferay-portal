@@ -1,0 +1,8 @@
+$link-hover-decoration: underline !default;
+
+$link-color: $primary !default;
+$link-decoration: none !default;
+$link-hover-color: $primary-d2 !default;
+
+$screen-lg: 1200px !default;
+$screen-md: 992px !default;

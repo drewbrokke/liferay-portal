@@ -206,6 +206,14 @@
 			<category name="Styling" />
 			<description name="Sorts properties in `.css` files." />
 		</check>
+		<check name="SCSSMapCheck">
+			<category name="Styling" />
+			<description name="Checks the order and spacing of Sass map entries in `.scss` files." />
+		</check>
+		<check name="SCSSVariablesOrderCheck">
+			<category name="Styling" />
+			<description name="Sorts blocks of Sass variables in `.scss` files." />
+		</check>
 		<check name="WhitespaceCheck">
 			<category name="Styling" />
 			<description name="Finds missing and unnecessary whitespace." />
