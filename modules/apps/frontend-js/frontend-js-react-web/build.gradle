@@ -8,3 +8,13 @@ dependencies {
 	compileOnly project(":core:petra:petra-function")
 	compileOnly project(":core:petra:petra-string")
 }
+
+pluginManager.withPlugin("com.liferay.node") {
+	File nodeScriptsConfigFile = project.file("node-scripts.config.js")
+
+	if (nodeScriptsConfigFile.exists()) {
+		configure(tasks.findByName("packageRunBuild")) {
+			inputs.file nodeScriptsConfigFile
+		}
+	}
+}
