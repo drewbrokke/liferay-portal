@@ -9,6 +9,7 @@ dependencies {
 	compileOnly project(":core:petra:petra-string")
 }
 
+/*
 pluginManager.withPlugin("com.liferay.node") {
 	File nodeScriptsConfigFile = project.file("node-scripts.config.js")
 
@@ -18,3 +19,12 @@ pluginManager.withPlugin("com.liferay.node") {
 		}
 	}
 }
+
+pluginManager.withPlugin("com.liferay.node") {
+	configure(tasks.findByName("packageRunBuild")) {
+		for(def file : inputs.files) {
+			System.err.println("==== " + file)
+		}
+	}
+}
+*/
