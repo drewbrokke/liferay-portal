@@ -107,6 +107,8 @@ import java.util.regex.Pattern;
 public class SourceFormatter {
 
 	public static void main(String[] args) throws Exception {
+		System.out.println("1. JUST THE CHANGE, NO CACHE");
+
 		Map<String, String> arguments = ArgumentsUtil.parseArguments(args);
 
 		try {
