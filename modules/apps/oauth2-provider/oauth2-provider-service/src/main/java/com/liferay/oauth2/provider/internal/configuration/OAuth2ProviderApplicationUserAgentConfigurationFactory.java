@@ -11,6 +11,7 @@ import com.liferay.oauth2.provider.constants.GrantType;
 import com.liferay.oauth2.provider.model.OAuth2Application;
 import com.liferay.oauth2.provider.redirect.OAuth2RedirectURIInterpolator;
 import com.liferay.oauth2.provider.util.OAuth2SecureRandomGenerator;
+import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.osgi.util.configuration.ConfigurationFactoryUtil;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringBundler;
@@ -183,6 +184,9 @@ public class OAuth2ProviderApplicationUserAgentConfigurationFactory
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		OAuth2ProviderApplicationUserAgentConfigurationFactory.class);
+
+	@Reference
+	private ObjectDefinitionLocalService _objectDefinitionLocalService;
 
 	@Reference
 	private VirtualHostLocalService _virtualHostLocalService;
