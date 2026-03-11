@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.kernel.dependency.manager.DependencyManagerSyncUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
@@ -31,6 +32,7 @@ import com.liferay.portal.kernel.util.ListUtil;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -168,7 +170,16 @@ public class OAuth2ProviderApplicationUserAgentConfigurationFactory
 					privacyPolicyURL(),
 				redirectURIsList, false, true, null, new ServiceContext());
 
-		updateScopes(oAuth2Application, scopeAliasesList);
+		AtomicReference<OAuth2Application> oAuth2ApplicationAtomicReference =
+			new AtomicReference<>(oAuth2Application);
+
+		DependencyManagerSyncUtil.registerSyncCallable(
+			() -> {
+				updateScopes(
+					oAuth2ApplicationAtomicReference.get(), scopeAliasesList);
+
+				return null;
+			});
 
 		if (_log.isDebugEnabled()) {
 			_log.debug(
