@@ -23,12 +23,13 @@ usage() {
 	echo "  missing-override    Runs format-source-missing-override"
 	echo ""
 	echo "Options:"
+	echo "  -d, --directory [dir]    A directory to format"
 	echo "  -f, --files [list]       Comma-separated list of files to format"
 	echo "  -e, --extensions [list]  Comma-separated list of extensions (java,jsp,xml,etc.)"
 	echo "  -n, --checks [list]      Comma-separated list of specific check names to run"
 	echo "  -s, --skip [list]        Comma-separated list of checks to skip"
 	echo "  --no-fix                 Set source.auto.fix=false (Dry run)"
-	echo "  -d, --debug              Run with debug information (format-source-debug)"
+	echo "  --debug              Run with debug information (format-source-debug)"
 	echo "  -h, --help               Show this help message"
 	echo ""
 	echo "Examples:"
@@ -119,6 +120,12 @@ while [[ $# -gt 0 ]]; do
 			TARGET="format-source-missing-override"
 			shift
 			;;
+		-d|--directory)
+			check_arg "$1" "$2"
+			check_files "$1" "$2"
+			EXTRA_ARGS="$EXTRA_ARGS -Dsource.base.dir=$2"
+			shift 2
+			;;
 		-f|--files)
 			check_arg "$1" "$2"
 			check_files "$1" "$2"
@@ -146,7 +153,7 @@ while [[ $# -gt 0 ]]; do
 			EXTRA_ARGS="$EXTRA_ARGS -Dsource.auto.fix=false"
 			shift
 			;;
-		-d|--debug)
+		--debug)
 			if [ "$TARGET" == "format-source" ]; then
 				TARGET="format-source-debug"
 			else
