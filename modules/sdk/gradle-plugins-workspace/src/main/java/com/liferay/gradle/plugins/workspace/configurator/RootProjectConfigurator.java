@@ -36,6 +36,7 @@ import com.liferay.gradle.plugins.workspace.task.InitBundleTask;
 import com.liferay.gradle.plugins.workspace.task.UpgradeSourceCodeTask;
 import com.liferay.gradle.plugins.workspace.task.VerifyBundleTask;
 import com.liferay.gradle.plugins.workspace.task.VerifyProductTask;
+import com.liferay.gradle.plugins.workspace.task.WorkspaceVersionTask;
 import com.liferay.gradle.util.ArrayUtil;
 import com.liferay.gradle.util.OSDetector;
 import com.liferay.gradle.util.Validator;
@@ -85,6 +86,7 @@ import org.gradle.api.initialization.Settings;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.ExtensionAware;
+import org.gradle.api.plugins.HelpTasksPlugin;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Property;
@@ -195,6 +197,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 	public static final String VERIFY_PRODUCT_TASK_NAME = "verifyProduct";
 
+	public static final String WORKSPACE_VERSION_TASK_NAME = "workspaceVersion";
+
 	/**
 	 * @deprecated As of 1.4.0, replaced by
 	 *             {@link #RootProjectConfigurator(Settings)}
@@ -280,6 +284,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		_configureTaskUpgradeSourceCode(
 			upgradeSourceCodeTask, workspaceExtension);
+
+		_addTaskWorkspaceVersion(project);
 
 		_addTaskUpgradeJakarta(project);
 	}
@@ -1633,6 +1639,16 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			"Verify Liferay Workspace product settings.");
 
 		return verifyProductTask;
+	}
+
+	private WorkspaceVersionTask _addTaskWorkspaceVersion(Project project) {
+		WorkspaceVersionTask workspaceVersionTask = GradleUtil.addTask(
+			project, WORKSPACE_VERSION_TASK_NAME, WorkspaceVersionTask.class);
+
+		workspaceVersionTask.setDescription("KYLE TEST");
+		workspaceVersionTask.setGroup(HelpTasksPlugin.HELP_GROUP);
+
+		return workspaceVersionTask;
 	}
 
 	private <T extends AbstractArchiveTask> void _configureDistBundleEnvArchive(
