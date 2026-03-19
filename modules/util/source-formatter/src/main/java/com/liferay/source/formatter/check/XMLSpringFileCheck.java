@@ -5,6 +5,7 @@
 
 package com.liferay.source.formatter.check;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.NaturalOrderStringComparator;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -35,23 +36,27 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 	protected String doProcess(
 		String fileName, String absolutePath, String content) {
 
-		if (fileName.endsWith("-spring.xml")) {
-			content = _sortBeanElements(content);
-
-			_checkSpringXML(fileName, content);
+		if (!fileName.endsWith("-spring.xml")) {
+			return content;
 		}
+
+		Document document = SourceUtil.readXML(content);
+
+		if (document == null) {
+			return content;
+		}
+
+		Element rootElement = document.getRootElement();
+
+		content = _sortBeanElements(content, rootElement);
+
+		_checkPropertyOrder(fileName, rootElement);
 
 		return content;
 	}
 
-	private void _checkSpringXML(String fileName, String content) {
-		Document document = SourceUtil.readXML(content);
-
-		if (document == null) {
-			return;
-		}
-
-		Element rootElement = document.getRootElement();
+	private void _checkPropertyOrder(
+		String fileName, Element rootElement) {
 
 		for (Element beanElement :
 				(List<Element>)rootElement.elements("bean")) {
@@ -66,20 +71,10 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 				fileName, beanElement, "property", name,
 				new ElementComparator());
 		}
-
-		checkElementOrder(
-			fileName, rootElement, "bean", null,
-			new SpringBeanElementComparator("id"));
 	}
 
-	private String _sortBeanElements(String content) {
-		Document document = SourceUtil.readXML(content);
-
-		if (document == null) {
-			return content;
-		}
-
-		Element rootElement = document.getRootElement();
+	private String _sortBeanElements(
+		String content, Element rootElement) {
 
 		List<Element> beanElements = (List<Element>)rootElement.elements(
 			"bean");
@@ -140,9 +135,10 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 			(index1, index2) -> comparator.compare(
 				beanElements.get(index1), beanElements.get(index2)));
 
-		StringBuilder sb = new StringBuilder(content.length());
+		StringBundler sb = new StringBundler(
+			(beanStrings.size() * 2) + 2);
 
-		sb.append(content, 0, firstBeanStart);
+		sb.append(content.substring(0, firstBeanStart));
 
 		for (int i = 0; i < indices.size(); i++) {
 			if (i > 0) {
