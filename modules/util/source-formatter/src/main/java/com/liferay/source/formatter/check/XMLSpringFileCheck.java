@@ -55,9 +55,7 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 		return content;
 	}
 
-	private void _checkPropertyOrder(
-		String fileName, Element rootElement) {
-
+	private void _checkPropertyOrder(String fileName, Element rootElement) {
 		for (Element beanElement :
 				(List<Element>)rootElement.elements("bean")) {
 
@@ -73,9 +71,7 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 		}
 	}
 
-	private String _sortBeanElements(
-		String content, Element rootElement) {
-
+	private String _sortBeanElements(String content, Element rootElement) {
 		List<Element> beanElements = (List<Element>)rootElement.elements(
 			"bean");
 
@@ -135,8 +131,7 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 			(index1, index2) -> comparator.compare(
 				beanElements.get(index1), beanElements.get(index2)));
 
-		StringBundler sb = new StringBundler(
-			(beanStrings.size() * 2) + 2);
+		StringBundler sb = new StringBundler((beanStrings.size() * 2) + 2);
 
 		sb.append(content.substring(0, firstBeanStart));
 
