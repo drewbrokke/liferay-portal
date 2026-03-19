@@ -46,6 +46,11 @@ public class XMLSourceProcessorTest extends BaseSourceProcessorTestCase {
 	}
 
 	@Test
+	public void testSortSpringBeans() throws Exception {
+		test("SortSpringBeans-spring.testxml");
+	}
+
+	@Test
 	public void testSortTagAttributes() throws Exception {
 		test("SortTagAttributes.testjelly");
 	}
