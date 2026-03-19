@@ -12,6 +12,8 @@ import com.liferay.portal.tools.ImportPackage;
 import com.liferay.source.formatter.check.comparator.ElementComparator;
 import com.liferay.source.formatter.check.util.SourceUtil;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,6 +36,8 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 		String fileName, String absolutePath, String content) {
 
 		if (fileName.endsWith("-spring.xml")) {
+			content = _sortBeanElements(content);
+
 			_checkSpringXML(fileName, content);
 		}
 
@@ -67,6 +71,94 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 			fileName, rootElement, "bean", null,
 			new SpringBeanElementComparator("id"));
 	}
+
+	private String _sortBeanElements(String content) {
+		Document document = SourceUtil.readXML(content);
+
+		if (document == null) {
+			return content;
+		}
+
+		Element rootElement = document.getRootElement();
+
+		List<Element> beanElements = (List<Element>)rootElement.elements(
+			"bean");
+
+		if (beanElements.size() <= 1) {
+			return content;
+		}
+
+		SpringBeanElementComparator comparator =
+			new SpringBeanElementComparator("id");
+
+		boolean needsSort = false;
+
+		for (int i = 0; i < (beanElements.size() - 1); i++) {
+			int result = comparator.compare(
+				beanElements.get(i), beanElements.get(i + 1));
+
+			if (result > 0) {
+				needsSort = true;
+
+				break;
+			}
+		}
+
+		if (!needsSort) {
+			return content;
+		}
+
+		Matcher matcher = _beanElementPattern.matcher(content);
+
+		List<String> beanStrings = new ArrayList<>();
+
+		int firstBeanStart = -1;
+		int lastBeanEnd = -1;
+
+		while (matcher.find()) {
+			if (firstBeanStart == -1) {
+				firstBeanStart = matcher.start();
+			}
+
+			lastBeanEnd = matcher.end();
+
+			beanStrings.add(matcher.group());
+		}
+
+		if (beanStrings.size() != beanElements.size()) {
+			return content;
+		}
+
+		List<Integer> indices = new ArrayList<>();
+
+		for (int i = 0; i < beanElements.size(); i++) {
+			indices.add(i);
+		}
+
+		Collections.sort(
+			indices,
+			(index1, index2) -> comparator.compare(
+				beanElements.get(index1), beanElements.get(index2)));
+
+		StringBuilder sb = new StringBuilder(content.length());
+
+		sb.append(content, 0, firstBeanStart);
+
+		for (int i = 0; i < indices.size(); i++) {
+			if (i > 0) {
+				sb.append(StringPool.NEW_LINE);
+			}
+
+			sb.append(beanStrings.get(indices.get(i)));
+		}
+
+		sb.append(content.substring(lastBeanEnd));
+
+		return sb.toString();
+	}
+
+	private static final Pattern _beanElementPattern = Pattern.compile(
+		"\\t<bean\\b[^>]*?/>|\\t<bean\\b[^>]*?>[\\s\\S]*?</bean>");
 
 	private class SpringBeanElementComparator extends ElementComparator {
 
