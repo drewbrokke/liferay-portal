@@ -44,8 +44,13 @@ public class WorkspaceVersionTask extends DefaultTask {
 
 		_currentVersionProperty = project.getObjects().property(String.class);
 
-		project.getGradle().settingsEvaluated(settings -> _currentVersionProperty.set(
-			settings.getBuildscript().getConfigurations().findByName("classpath").getDependencies().stream().filter(dependency -> dependency.getName().contains("gradle.plugins.workspace")).findFirst().get().getVersion()));
+		project.getGradle().settingsEvaluated(settings -> {
+			_currentVersionProperty.set(
+				settings.getBuildscript().getConfigurations().findByName(
+					"classpath").getDependencies().stream().filter(
+					dependency -> dependency.getName().contains(
+						"gradle.plugins.workspace")).findFirst().get().getVersion());
+		});
 
 		_cacheFile = new File(project.getRootDir(), ".workspacecheck");
 
