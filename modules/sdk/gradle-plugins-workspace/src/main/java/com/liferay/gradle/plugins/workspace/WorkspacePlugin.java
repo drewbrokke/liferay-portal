@@ -58,6 +58,14 @@ public class WorkspacePlugin implements Plugin<Settings> {
 			ReleaseUtil.initialize(0);
 		}
 
+		String theVersion =
+			settings.getBuildscript().getConfigurations().findByName(
+				"classpath").getDependencies().stream().filter(
+				dependency -> dependency.getName().contains(
+					"gradle.plugins.workspace")).findFirst().get().getVersion();
+
+		System.out.println("theVersion = " + theVersion);
+
 		Gradle gradle = settings.getGradle();
 		File rootDir = settings.getRootDir();
 
