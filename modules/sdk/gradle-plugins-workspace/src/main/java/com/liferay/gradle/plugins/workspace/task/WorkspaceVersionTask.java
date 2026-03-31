@@ -88,7 +88,7 @@ public class WorkspaceVersionTask extends DefaultTask {
 			return;
 		}
 
-		_currentWorkspaceVersion = _getLiferayWorkspaceVersion();
+		// _currentWorkspaceVersion = _getLiferayWorkspaceVersion();
 
 		try {
 			URL url = new URL(
