@@ -6,7 +6,6 @@
 package com.liferay.gradle.plugins.workspace.task;
 
 import java.io.File;
-import java.io.IOException;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -21,15 +20,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.gradle.api.DefaultTask;
-import org.gradle.api.GradleException;
 import org.gradle.api.Project;
-import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.ConfigurationContainer;
 
-import org.gradle.api.initialization.Settings;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.plugins.ExtraPropertiesExtension;
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.util.VersionNumber;
 
@@ -41,9 +37,15 @@ import org.w3c.dom.NodeList;
  * @author Kyle Miho
  */
 public class WorkspaceVersionTask extends DefaultTask {
+	private final Property<String> _currentVersionProperty;
 
 	public WorkspaceVersionTask() throws Exception {
 		Project project = getProject();
+
+		_currentVersionProperty = project.getObjects().property(String.class);
+
+		project.getGradle().settingsEvaluated(settings -> _currentVersionProperty.set(
+			settings.getBuildscript().getConfigurations().findByName("classpath").getDependencies().stream().filter(dependency -> dependency.getName().contains("gradle.plugins.workspace")).findFirst().get().getVersion()));
 
 		_cacheFile = new File(project.getRootDir(), ".workspacecheck");
 
@@ -88,7 +90,7 @@ public class WorkspaceVersionTask extends DefaultTask {
 			return;
 		}
 
-		// _currentWorkspaceVersion = _getLiferayWorkspaceVersion();
+		 _currentWorkspaceVersion = _getLiferayWorkspaceVersion(null, null);
 
 		try {
 			URL url = new URL(
@@ -160,6 +162,9 @@ public class WorkspaceVersionTask extends DefaultTask {
 	}
 
 	private VersionNumber _getLiferayWorkspaceVersion(String groupName, String artifactName) {
+		if (true) {
+			return VersionNumber.parse(_currentVersionProperty.get());
+		}
 		//project.getGradle().getSettings().getBuildscript().getConfigurations().getByName("classpath").getIncoming().getArtifacts().getArtifacts()
 
 		//getProject().getRootProject().getGradle().getSettings().getBuildscript().getConfigurations().getByName("classpath").getDependencies();
