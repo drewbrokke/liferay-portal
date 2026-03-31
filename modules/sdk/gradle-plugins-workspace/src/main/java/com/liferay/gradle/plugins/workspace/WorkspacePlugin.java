@@ -14,6 +14,7 @@ import groovy.lang.Closure;
 
 import java.io.File;
 
+import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.jar.JarFile;
 
 import net.saliman.gradle.plugin.properties.PropertiesPlugin;
 
@@ -30,6 +32,8 @@ import org.gradle.StartParameter;
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.file.FileCollection;
 import org.gradle.api.initialization.Settings;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.Logger;
@@ -58,13 +62,36 @@ public class WorkspacePlugin implements Plugin<Settings> {
 			ReleaseUtil.initialize(0);
 		}
 
-		String theVersion =
+		Configuration classpathConfiguration =
 			settings.getBuildscript().getConfigurations().findByName(
-				"classpath").getDependencies().stream().filter(
-				dependency -> dependency.getName().contains(
-					"gradle.plugins.workspace")).findFirst().get().getVersion();
+				"classpath");
 
-		System.out.println("theVersion = " + theVersion);
+		FileCollection classpathFiles = classpathConfiguration.getIncoming().getFiles();
+
+		for (File file : classpathFiles.getFiles()) {
+			if (file.getName().contains("workspace")) {
+				try {
+					JarFile jarFile = new JarFile(file);
+					String version = jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
+					System.out.println("############ version = " + version);
+					jarFile.close();
+				}
+				catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+
+//		classpathFiles.filter(filterSpec -> {
+//			return filterSpec.getName().contains("workspace");
+//		});
+
+//		String theVersion =
+//			classpathConfiguration.getDependencies().stream().filter(
+//				dependency -> dependency.getName().contains(
+//					"gradle.plugins.workspace")).findFirst().get().getVersion();
+//
+//		System.out.println("theVersion = " + theVersion);
 
 		Gradle gradle = settings.getGradle();
 		File rootDir = settings.getRootDir();
