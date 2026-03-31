@@ -285,9 +285,19 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		_configureTaskUpgradeSourceCode(
 			upgradeSourceCodeTask, workspaceExtension);
 
-		_addTaskWorkspaceVersion(project);
+		WorkspaceVersionTask workspaceVersionTask =
+			_addTaskWorkspaceVersion(project);
+
+		_configureWorkspaceVersionTask(workspaceExtension, workspaceVersionTask);
 
 		_addTaskUpgradeJakarta(project);
+	}
+
+	public void _configureWorkspaceVersionTask(WorkspaceExtension workspaceExtension, WorkspaceVersionTask workspaceVersionTask) {
+		Property<String> currentVersionProperty =
+			workspaceVersionTask.getCurrentVersionProperty();
+
+		currentVersionProperty.convention(workspaceExtension.getWorkspaceVersion());
 	}
 
 	public boolean isDefaultRepositoryEnabled() {

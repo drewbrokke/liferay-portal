@@ -498,4 +498,14 @@ public class WorkspaceExtension {
 	private Object _targetPlatformVersion;
 	private Object _virtualInstanceId;
 
+	public String getWorkspaceVersion() {
+		return GradleUtil.toString(_workspaceVersion);
+	}
+
+	public void setWorkspaceVersion(Object workspaceVersion) {
+		_workspaceVersion = workspaceVersion;
+	}
+
+	private Object _workspaceVersion;
+
 }

@@ -33,6 +33,7 @@ import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.initialization.Settings;
 import org.gradle.api.invocation.Gradle;
@@ -68,11 +69,13 @@ public class WorkspacePlugin implements Plugin<Settings> {
 
 		FileCollection classpathFiles = classpathConfiguration.getIncoming().getFiles();
 
+		String workspaceVersion = null;
 		for (File file : classpathFiles.getFiles()) {
 			if (file.getName().contains("workspace")) {
 				try {
 					JarFile jarFile = new JarFile(file);
 					String version = jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
+					workspaceVersion = version;
 					System.out.println("############ version = " + version);
 					jarFile.close();
 				}
@@ -82,16 +85,17 @@ public class WorkspacePlugin implements Plugin<Settings> {
 			}
 		}
 
-//		classpathFiles.filter(filterSpec -> {
-//			return filterSpec.getName().contains("workspace");
-//		});
+		classpathFiles.filter(filterSpec -> {
+			return filterSpec.getName().contains("workspace");
+		});
 
-//		String theVersion =
-//			classpathConfiguration.getDependencies().stream().filter(
-//				dependency -> dependency.getName().contains(
-//					"gradle.plugins.workspace")).findFirst().get().getVersion();
-//
-//		System.out.println("theVersion = " + theVersion);
+		String theVersion =
+			classpathConfiguration.getDependencies().stream().filter(
+				dependency -> dependency.getName().contains(
+					"gradle.plugins.workspace")).findFirst().map(
+				Dependency::getVersion).orElse("NOTHING");
+
+		System.out.println("theVersion = " + theVersion);
 
 		Gradle gradle = settings.getGradle();
 		File rootDir = settings.getRootDir();
@@ -100,6 +104,8 @@ public class WorkspacePlugin implements Plugin<Settings> {
 
 		final WorkspaceExtension workspaceExtension = _addWorkspaceExtension(
 			settings);
+
+		workspaceExtension.setWorkspaceVersion(workspaceVersion);
 
 		Path rootDirPath = rootDir.toPath();
 

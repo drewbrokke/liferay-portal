@@ -23,9 +23,11 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 
 import org.gradle.api.invocation.Gradle;
+import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.plugins.ExtraPropertiesExtension;
 import org.gradle.api.provider.Property;
+import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.util.VersionNumber;
 
@@ -37,20 +39,31 @@ import org.w3c.dom.NodeList;
  * @author Kyle Miho
  */
 public class WorkspaceVersionTask extends DefaultTask {
+	@Input
+	public Property<String> getCurrentVersionProperty() {
+		return _currentVersionProperty;
+	}
+
 	private final Property<String> _currentVersionProperty;
+
+	@Input
+	public Property<String> getLatestVersionProperty() {
+		return _latestVersionProperty;
+	}
+
+	private final Property<String> _latestVersionProperty;
 
 	public WorkspaceVersionTask() throws Exception {
 		Project project = getProject();
 
-		_currentVersionProperty = project.getObjects().property(String.class);
+		ObjectFactory objects = project.getObjects();
 
-		project.getGradle().settingsEvaluated(settings -> {
-			_currentVersionProperty.set(
-				settings.getBuildscript().getConfigurations().findByName(
-					"classpath").getDependencies().stream().filter(
-					dependency -> dependency.getName().contains(
-						"gradle.plugins.workspace")).findFirst().get().getVersion());
-		});
+		_currentVersionProperty = objects.property(String.class);
+		_latestVersionProperty = objects.property(String.class);
+
+		_latestVersionProperty.convention(project.provider(() -> {
+			return null;
+		}));
 
 		_cacheFile = new File(project.getRootDir(), ".workspacecheck");
 
