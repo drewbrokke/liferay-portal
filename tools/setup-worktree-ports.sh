@@ -393,7 +393,12 @@ function patch_portal_ext_properties() {
 	local offset=$1
 	local props_file="${BUNDLE_DIR}/portal-ext.properties"
 	local http_port=$(( DEFAULT_TOMCAT_HTTP + offset ))
-	local socket_line="portal.instance.http.socket.address=localhost:${http_port}"
+
+	local expected_lines=(
+		"include-and-override=portal-developer.properties"
+		"portal.instance.inet.socket.address=localhost:${http_port}"
+		"browser.launcher.url="
+	)
 
 	if [[ ! -f "${props_file}" ]]; then
 		if [[ "${ARG_DRY_RUN}" == "true" ]]; then
@@ -402,30 +407,51 @@ function patch_portal_ext_properties() {
 			return
 		fi
 
-		echo "${socket_line}" > "${props_file}"
+		for line in "${expected_lines[@]}"; do
+			echo "${line}" >> "${props_file}"
+		done
 
-		echo "  [OK] portal-ext.properties: created with ${socket_line}"
+		echo "  [OK] portal-ext.properties: created with worktree properties"
 
 		return
 	fi
 
-	if grep -q "^${socket_line}$" "${props_file}"; then
-		echo "  [SKIP] portal-ext.properties: portal.instance.http.socket.address already correct"
+	local needs_update=false
+
+	for line in "${expected_lines[@]}"; do
+		if ! grep -qF "${line}" "${props_file}"; then
+			needs_update=true
+
+			break
+		fi
+	done
+
+	if [[ "${needs_update}" == "false" ]]; then
+		echo "  [SKIP] portal-ext.properties: already correct"
 
 		return
 	fi
 
 	if [[ "${ARG_DRY_RUN}" == "true" ]]; then
-		echo "  [DRY RUN] Would patch portal-ext.properties (portal.instance.http.socket.address)"
+		echo "  [DRY RUN] Would patch portal-ext.properties"
 
 		return
 	fi
 
-	sed_inplace '/^portal\.instance\.http\.socket\.address=/d' "${props_file}"
+	sed_inplace \
+		-e '/^include-and-override=portal-developer\.properties$/d' \
+		-e '/^portal\.instance\.inet\.socket\.address=/d' \
+		-e '/^portal\.instance\.http\.socket\.address=/d' \
+		-e '/^browser\.launcher\.url=/d' \
+		"${props_file}"
 
-	echo "${socket_line}" >> "${props_file}"
+	for line in "${expected_lines[@]}"; do
+		echo "${line}" >> "${props_file}"
+	done
 
-	echo "  [OK] portal-ext.properties: ${socket_line}"
+	echo "  [OK] portal-ext.properties: include-and-override=portal-developer.properties"
+	echo "  [OK] portal-ext.properties: portal.instance.inet.socket.address=localhost:${http_port}"
+	echo "  [OK] portal-ext.properties: browser.launcher.url= (disabled)"
 }
 
 function configure_database() {
