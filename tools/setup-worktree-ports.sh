@@ -484,6 +484,19 @@ function configure_database() {
 	if grep -q "^jdbc\.default\.url=.*/${db_name}?" "${props_file}"; then
 		echo "  [SKIP] portal-ext.properties: MySQL database already set to ${db_name}"
 
+		local db_user="root"
+		local db_pass=""
+
+		if grep -q '^jdbc\.default\.username=' "${props_file}"; then
+			db_user=$(grep '^jdbc\.default\.username=' "${props_file}" | tail -1 | sed 's/^jdbc\.default\.username=//')
+		fi
+
+		if grep -q '^jdbc\.default\.password=' "${props_file}"; then
+			db_pass=$(grep '^jdbc\.default\.password=' "${props_file}" | tail -1 | sed 's/^jdbc\.default\.password=//')
+		fi
+
+		_try_create_database "${db_name}" "${db_user}" "${db_pass}"
+
 		return
 	fi
 
@@ -540,10 +553,12 @@ function _try_create_database() {
 		return
 	fi
 
+	local create_sql="CREATE DATABASE IF NOT EXISTS ${db_name} CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci"
+
 	if ! command -v mysql &>/dev/null; then
 		echo ""
 		echo "  WARNING: mysql CLI not found. Please create the database manually:"
-		echo "    mysql -u ${db_user} -e \"CREATE DATABASE IF NOT EXISTS \`${db_name}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;\""
+		echo "    mysql -u ${db_user} -e '${create_sql};'"
 
 		return
 	fi
@@ -554,12 +569,17 @@ function _try_create_database() {
 		mysql_args+=(-p"${db_pass}")
 	fi
 
-	if mysql "${mysql_args[@]}" -e "CREATE DATABASE IF NOT EXISTS \`${db_name}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;" 2>/dev/null; then
+	local mysql_output
+
+	if mysql_output=$(mysql "${mysql_args[@]}" -e "${create_sql};" 2>&1); then
 		echo "  [OK] MySQL database '${db_name}' created (or already exists)"
 	else
 		echo ""
-		echo "  WARNING: Could not auto-create database. Please run manually:"
-		echo "    mysql -u ${db_user} -e \"CREATE DATABASE IF NOT EXISTS \`${db_name}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;\""
+		echo "  WARNING: Could not auto-create database:"
+		echo "    ${mysql_output}"
+		echo ""
+		echo "  Please run manually:"
+		echo "    mysql -u ${db_user} -e '${create_sql};'"
 	fi
 }
 
