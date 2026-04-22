@@ -59,6 +59,36 @@ function sed_inplace() {
 	fi
 }
 
+function derive_db_name() {
+	local worktree_dir
+
+	worktree_dir=$(basename "${REPO_ROOT}")
+
+	# Strip common "liferay-portal-" prefix if present
+
+	local suffix="${worktree_dir#liferay-portal-}"
+
+	# If stripping removed everything (dir was exactly "liferay-portal"), this is the main worktree
+
+	if [[ -z "${suffix}" || "${suffix}" == "liferay-portal" ]]; then
+		echo "${DEFAULT_DB_NAME}"
+
+		return
+	fi
+
+	# Sanitize: lowercase, replace non-alphanumeric with underscore, collapse multiple underscores, trim
+
+	local sanitized
+
+	sanitized=$(echo "${suffix}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/^_//;s/_$//')
+
+	# Truncate to fit MySQL's 64-char limit (lportal_ = 8 chars, leaves 56)
+
+	sanitized="${sanitized:0:56}"
+
+	echo "${DEFAULT_DB_NAME}_${sanitized}"
+}
+
 function is_port_available() {
 	local port=$1
 
@@ -398,6 +428,7 @@ function patch_portal_ext_properties() {
 		"include-and-override=portal-developer.properties"
 		"portal.instance.inet.socket.address=localhost:${http_port}"
 		"browser.launcher.url="
+		"setup.wizard.enabled=false"
 	)
 
 	if [[ ! -f "${props_file}" ]]; then
@@ -443,6 +474,7 @@ function patch_portal_ext_properties() {
 		-e '/^portal\.instance\.inet\.socket\.address=/d' \
 		-e '/^portal\.instance\.http\.socket\.address=/d' \
 		-e '/^browser\.launcher\.url=/d' \
+		-e '/^setup\.wizard\.enabled=/d' \
 		"${props_file}"
 
 	for line in "${expected_lines[@]}"; do
@@ -457,7 +489,9 @@ function patch_portal_ext_properties() {
 function configure_database() {
 	local offset=$1
 	local props_file="${BUNDLE_DIR}/portal-ext.properties"
-	local db_name="${DEFAULT_DB_NAME}_wt${offset}"
+	local db_name
+
+	db_name=$(derive_db_name)
 	local jdbc_url="jdbc:mysql://localhost/${db_name}?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true"
 
 	if [[ ! -f "${props_file}" ]]; then
@@ -622,7 +656,7 @@ function print_port_table() {
 	printf "  %-24s %s\n" "Arquillian:" "$(( DEFAULT_ARQUILLIAN + offset ))"
 	printf "  %-24s %s\n" "DataGuard:" "$(( DEFAULT_DATAGUARD + offset ))"
 	printf "  %-24s %s\n" "Glowroot:" "$(( DEFAULT_GLOWROOT + offset ))"
-	printf "  %-24s %s\n" "MySQL Database:" "${DEFAULT_DB_NAME}_wt${offset}"
+	printf "  %-24s %s\n" "MySQL Database:" "$(derive_db_name)"
 
 	echo ""
 	echo "  Liferay URL: http://localhost:$(( DEFAULT_TOMCAT_HTTP + offset ))"
