@@ -1,6 +1,6 @@
 ---
 allowed-tools: [Bash, Read, Edit, Write, Grep, Glob]
-argument-hint: "[new | status | list | cleanup | BUNDLE_DIR]"
+argument-hint: "[new | status | list | cleanup]"
 description: Use when creating a git worktree for parallel Liferay development, setting up a worktree bundle after ant all, checking which ports a worktree uses, listing all worktrees and their status, or tearing down a worktree. Covers the full lifecycle from git worktree add through cleanup.
 name: worktree-setup
 ---
@@ -59,19 +59,30 @@ Rule: strip `liferay-portal-` prefix, lowercase, replace non-alphanumeric with `
 git worktree add -b <BRANCH> ../<DIR_NAME> master
 ```
 
+If this fails because the branch already exists, offer the user two options:
+- **Reuse** the existing branch: `git worktree add ../<DIR_NAME> <BRANCH>`
+- **New branch** with a suggested alternative name (e.g., append `-v2`, `-wt`, or a short descriptor)
+
 ### 2. Configure bundle directory
 
 Create `app.server.<username>.properties` in the worktree root:
 
 ```properties
-app.server.parent.dir=${project.dir}/bundles
+app.server.parent.dir=${project.dir}/bundle
 ```
 
 ### 3. Build
 
+Check whether a bundle already exists by looking for a `tomcat-*` directory inside the resolved bundle parent directory (see step 4a).
+
+- **Bundle exists:** Skip `ant all`. Inform the user the existing bundle will be reused. If the user explicitly requests a rebuild, run `ant all`.
+- **No bundle:** Run `ant all`:
+
 ```bash
 cd <WORKTREE_DIR> && ant all
 ```
+
+If `ant all` fails, stop and surface the full error to the user — do not continue to port configuration.
 
 ### 4. Configure Ports
 
@@ -79,7 +90,7 @@ cd <WORKTREE_DIR> && ant all
 
 1. Read `app.server.<username>.properties` in the worktree root
 2. Parse `app.server.parent.dir`, replacing `${project.dir}` with the repo root
-3. Fallback: `<REPO_ROOT>/bundles/`
+3. Fallback: `<REPO_ROOT>/bundle/`
 4. Find the `tomcat-*` directory inside it
 
 #### 4b. Determine the offset
@@ -96,7 +107,7 @@ File: `<TOMCAT>/conf/server.xml`
 Read the current HTTP port from the `protocol="HTTP/1.1"` Connector to determine the current offset. Then replace all port attributes:
 
 ```bash
-# Use sed (gsed on macOS) — single invocation for atomicity
+# Single sed invocation for atomicity
 sed -i \
   -e 's/port="<CURRENT_SHUTDOWN>"/port="<TARGET_SHUTDOWN>"/g' \
   -e 's/port="<CURRENT_HTTP>"/port="<TARGET_HTTP>"/g' \
@@ -124,7 +135,12 @@ Use `sed 's/osgi\.console=[0-9]*/osgi.console=<TARGET>/'` to handle any current 
 
 These get **wiped on rebuild** — always overwrite.
 
-`<BUNDLE>/osgi/configs/com.liferay.portal.search.elasticsearch8.configuration.ElasticsearchConfiguration.config`:
+Detect the Elasticsearch version by checking which configuration file already exists in `<BUNDLE>/osgi/configs/`:
+- `com.liferay.portal.search.elasticsearch8.configuration.ElasticsearchConfiguration.config` → elasticsearch8
+- `com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config` → elasticsearch7
+- Neither exists → default to elasticsearch8
+
+`<BUNDLE>/osgi/configs/com.liferay.portal.search.elasticsearch<VERSION>.configuration.ElasticsearchConfiguration.config`:
 ```
 sidecarHttpPort="<9201+N>"
 transportTcpPort="<9301+N>"
@@ -206,7 +222,13 @@ Print a table of all assigned ports, the DB name, the Liferay URL, and the Glowr
 ### 5. Start
 
 ```bash
-<BUNDLE>/tomcat-*/bin/catalina.sh run
+<BUNDLE>/tomcat-*/bin/catalina.sh start
+```
+
+Tell the user how to follow the log:
+
+```bash
+tail -f <BUNDLE>/tomcat-*/logs/catalina.out
 ```
 
 ## Re-Runnability
@@ -263,6 +285,8 @@ Read `<BUNDLE>/.worktree-port-offset` and print the port table for a single work
 
 **Confirm with the user before destructive steps.**
 
+Resolve the worktree's absolute path from `git worktree list --porcelain` output.
+
 ```bash
 # 1. Stop Tomcat
 <BUNDLE>/tomcat-*/bin/catalina.sh stop
@@ -270,9 +294,8 @@ Read `<BUNDLE>/.worktree-port-offset` and print the port table for a single work
 # 2. Drop the database
 mysql -u root -e 'DROP DATABASE IF EXISTS <DB_NAME>;'
 
-# 3. Remove the worktree (from the main repo)
-cd <MAIN_REPO>
-git worktree remove ../<WORKTREE_DIR>
+# 3. Remove the worktree (use absolute path from git worktree list)
+git worktree remove <ABSOLUTE_WORKTREE_PATH>
 
 # 4. Delete the branch
 git branch -D <BRANCH>
