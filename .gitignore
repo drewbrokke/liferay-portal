@@ -11,6 +11,7 @@
 *.iml
 *.ipr
 *.iws
+*.local.*
 *.swp
 *~
 .DS_Store
