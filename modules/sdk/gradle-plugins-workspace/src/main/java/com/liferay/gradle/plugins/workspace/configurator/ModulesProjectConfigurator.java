@@ -160,15 +160,20 @@ public class ModulesProjectConfigurator extends BaseProjectConfigurator {
 			GradleUtil.applyPlugin(project, UpgradeTableBuilderPlugin.class);
 			GradleUtil.applyPlugin(project, WSDDBuilderPlugin.class);
 
-			if (GradleUtil.hasTask(
-					project, NodePlugin.PACKAGE_RUN_BUILD_TASK_NAME)) {
+			File packageJsonFile = project.file("package.json");
 
-				GradleUtil.applyPlugin(project, JSTranspilerBasePlugin.class);
-			}
-			else {
-				GradleUtil.applyPlugin(
-					project, JSModuleConfigGeneratorPlugin.class);
-				GradleUtil.applyPlugin(project, JSTranspilerPlugin.class);
+			if (packageJsonFile.exists()) {
+				if (GradleUtil.hasTask(
+						project, NodePlugin.PACKAGE_RUN_BUILD_TASK_NAME)) {
+
+					GradleUtil.applyPlugin(
+						project, JSTranspilerBasePlugin.class);
+				}
+				else {
+					GradleUtil.applyPlugin(
+						project, JSModuleConfigGeneratorPlugin.class);
+					GradleUtil.applyPlugin(project, JSTranspilerPlugin.class);
+				}
 			}
 
 			JSModuleConfigGeneratorDefaultsPlugin.INSTANCE.apply(project);
