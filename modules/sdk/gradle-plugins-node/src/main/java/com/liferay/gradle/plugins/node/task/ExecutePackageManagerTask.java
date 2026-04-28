@@ -198,8 +198,7 @@ public class ExecutePackageManagerTask extends ExecuteNodeScriptTask {
 	protected List<String> getCompleteArgs() {
 		List<String> completeArgs = super.getCompleteArgs();
 
-		completeArgs.add("--production");
-		completeArgs.add(Boolean.toString(isProduction()));
+		completeArgs.add("--production=" + Boolean.toString(isProduction()));
 
 		String registry = getRegistry();
 

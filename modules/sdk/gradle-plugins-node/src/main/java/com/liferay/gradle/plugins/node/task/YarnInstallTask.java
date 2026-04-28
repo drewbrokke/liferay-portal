@@ -67,8 +67,8 @@ public class YarnInstallTask extends ExecutePackageManagerTask {
 		long networkTimeout = getNetworkTimeout();
 
 		if (networkTimeout > 0) {
-			completeArgs.add("--network-timeout");
-			completeArgs.add(String.valueOf(networkTimeout));
+			completeArgs.add(
+				"--network-timeout=" + String.valueOf(networkTimeout));
 		}
 
 		completeArgs.add("--prefer-offline");
