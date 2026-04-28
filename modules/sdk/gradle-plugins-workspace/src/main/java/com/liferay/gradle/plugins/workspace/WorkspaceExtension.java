@@ -96,6 +96,8 @@ public class WorkspaceExtension {
 			settings, "node.package.manager", _NODE_PACKAGE_MANAGER);
 		_targetPlatformVersion = _getProperty(
 			settings, "target.platform.version");
+		_versionCheckFrequency = _getProperty(
+			settings, "version.check.frequency");
 		_virtualInstanceId = GradleUtil.getProperty(
 			settings, "liferay.virtual.instance.id");
 
@@ -311,8 +313,16 @@ public class WorkspaceExtension {
 		return GradleUtil.toString(_targetPlatformVersion);
 	}
 
+	public String getVersionCheckFrequency() {
+		return GradleUtil.toString(_versionCheckFrequency);
+	}
+
 	public String getVirtualInstanceId() {
 		return GradleUtil.toString(_virtualInstanceId);
+	}
+
+	public String getWorkspaceVersion() {
+		return GradleUtil.toString(_workspaceVersion);
 	}
 
 	public boolean isBundleDistIncludeMetadata() {
@@ -415,8 +425,16 @@ public class WorkspaceExtension {
 		_targetPlatformVersion = targetPlatformVersion;
 	}
 
+	public void setVersionCheckFrequency(Object versionCheckFrequency) {
+		_versionCheckFrequency = versionCheckFrequency;
+	}
+
 	public void setVirtualInstanceId(Object virtualInstanceId) {
 		_virtualInstanceId = virtualInstanceId;
+	}
+
+	public void setWorkspaceVersion(Object workspaceVersion) {
+		_workspaceVersion = workspaceVersion;
 	}
 
 	private Object _getProperty(Object object, String keySuffix) {
@@ -496,6 +514,8 @@ public class WorkspaceExtension {
 		new LinkedHashSet<>();
 	private final Plugin<Project> _rootProjectConfigurator;
 	private Object _targetPlatformVersion;
+	private Object _versionCheckFrequency;
 	private Object _virtualInstanceId;
+	private Object _workspaceVersion;
 
 }
