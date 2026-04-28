@@ -31,6 +31,7 @@ import com.liferay.gradle.plugins.workspace.docker.DockerPruneImage;
 import com.liferay.gradle.plugins.workspace.internal.configurator.TargetPlatformRootProjectConfigurator;
 import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
+import com.liferay.gradle.plugins.workspace.task.CheckWorkspaceVersionTask;
 import com.liferay.gradle.plugins.workspace.task.CreateTokenTask;
 import com.liferay.gradle.plugins.workspace.task.InitBundleTask;
 import com.liferay.gradle.plugins.workspace.task.UpgradeSourceCodeTask;
@@ -64,6 +65,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -74,7 +76,13 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.DependencySet;
+import org.gradle.api.artifacts.ModuleVersionIdentifier;
+import org.gradle.api.artifacts.ResolvedArtifact;
+import org.gradle.api.artifacts.ResolvedConfiguration;
+import org.gradle.api.artifacts.ResolvedModuleVersion;
+import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.execution.TaskExecutionGraph;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.DirectoryProperty;
@@ -85,6 +93,7 @@ import org.gradle.api.initialization.Settings;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.ExtensionAware;
+import org.gradle.api.plugins.HelpTasksPlugin;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Property;
@@ -120,6 +129,9 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 	public static final String BUNDLE_SUPPORT_CONFIGURATION_NAME =
 		"bundleSupport";
+
+	public static final String CHECK_WORKSPACE_VERSION_TASK_NAME =
+		"checkWorkspaceVersion";
 
 	public static final String CLEAN_DOCKER_IMAGE_TASK_NAME =
 		"cleanDockerImage";
@@ -283,6 +295,12 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		_configureTaskUpgradeSourceCode(
 			upgradeSourceCodeTask, workspaceExtension);
+
+		CheckWorkspaceVersionTask checkWorkspaceVersionTask =
+			_addTaskCheckWorkspaceVersion(project);
+
+		_configureCheckWorkspaceVersionTask(
+			project, workspaceExtension, checkWorkspaceVersionTask);
 
 		_addTaskUpgradeJakarta(project);
 	}
@@ -499,6 +517,21 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		cleanTask.dependsOn(dockerRemoveImage);
 
 		return dockerBuildImage;
+	}
+
+	private CheckWorkspaceVersionTask _addTaskCheckWorkspaceVersion(
+		Project project) {
+
+		CheckWorkspaceVersionTask workspaceVersionTask = GradleUtil.addTask(
+			project, CHECK_WORKSPACE_VERSION_TASK_NAME,
+			CheckWorkspaceVersionTask.class);
+
+		workspaceVersionTask.setDescription(
+			"Informs if the Liferay Workspace product is the latest release " +
+				"version.");
+		workspaceVersionTask.setGroup(HelpTasksPlugin.HELP_GROUP);
+
+		return workspaceVersionTask;
 	}
 
 	private DockerCreateContainer _addTaskCreateDockerContainer(
@@ -1645,6 +1678,75 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			"Verify Liferay Workspace product settings.");
 
 		return verifyProductTask;
+	}
+
+	private void _configureCheckWorkspaceVersionTask(
+		Project project, WorkspaceExtension workspaceExtension,
+		CheckWorkspaceVersionTask workspaceVersionTask) {
+
+		Property<String> currentVersionProperty =
+			workspaceVersionTask.getCurrentVersionProperty();
+
+		currentVersionProperty.convention(
+			workspaceExtension.getWorkspaceVersion());
+
+		Property<String> latestVersionProperty =
+			workspaceVersionTask.getLatestVersionProperty();
+
+		latestVersionProperty.convention(
+			project.provider(
+				() -> {
+					ConfigurationContainer configurationContainer =
+						project.getConfigurations();
+
+					DependencyHandler dependencyHandler =
+						project.getDependencies();
+
+					Configuration configuration =
+						configurationContainer.detachedConfiguration(
+							dependencyHandler.create(
+								"com.liferay:com.liferay.gradle.plugins." +
+									"workspace:latest.release"));
+
+					ResolvedConfiguration resolvedConfiguration =
+						configuration.getResolvedConfiguration();
+
+					Set<ResolvedArtifact> resolvedArtifacts =
+						resolvedConfiguration.getResolvedArtifacts();
+
+					Stream<ResolvedArtifact> resolvedArtifactsStream =
+						resolvedArtifacts.stream();
+
+					resolvedArtifactsStream = resolvedArtifactsStream.filter(
+						artifact -> {
+							ResolvedModuleVersion versionId =
+								artifact.getModuleVersion();
+
+							ModuleVersionIdentifier componentId =
+								versionId.getId();
+
+							String moduleName = componentId.getName();
+
+							return Objects.equals(
+								moduleName,
+								"com.liferay.gradle.plugins.workspace");
+						});
+
+					return resolvedArtifactsStream.findFirst(
+					).map(
+						artifact -> {
+							ResolvedModuleVersion versionId =
+								artifact.getModuleVersion();
+
+							ModuleVersionIdentifier componentId =
+								versionId.getId();
+
+							return componentId.getVersion();
+						}
+					).orElse(
+						null
+					);
+				}));
 	}
 
 	private <T extends AbstractArchiveTask> void _configureDistBundleEnvArchive(
