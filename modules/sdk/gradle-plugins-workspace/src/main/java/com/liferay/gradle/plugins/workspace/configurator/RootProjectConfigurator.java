@@ -1695,58 +1695,9 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		latestVersionProperty.convention(
 			project.provider(
-				() -> {
-					ConfigurationContainer configurationContainer =
-						project.getConfigurations();
-
-					DependencyHandler dependencyHandler =
-						project.getDependencies();
-
-					Configuration configuration =
-						configurationContainer.detachedConfiguration(
-							dependencyHandler.create(
-								"com.liferay:com.liferay.gradle.plugins." +
-									"workspace:latest.release"));
-
-					ResolvedConfiguration resolvedConfiguration =
-						configuration.getResolvedConfiguration();
-
-					Set<ResolvedArtifact> resolvedArtifacts =
-						resolvedConfiguration.getResolvedArtifacts();
-
-					Stream<ResolvedArtifact> resolvedArtifactsStream =
-						resolvedArtifacts.stream();
-
-					resolvedArtifactsStream = resolvedArtifactsStream.filter(
-						artifact -> {
-							ResolvedModuleVersion versionId =
-								artifact.getModuleVersion();
-
-							ModuleVersionIdentifier componentId =
-								versionId.getId();
-
-							String moduleName = componentId.getName();
-
-							return Objects.equals(
-								moduleName,
-								"com.liferay.gradle.plugins.workspace");
-						});
-
-					return resolvedArtifactsStream.findFirst(
-					).map(
-						artifact -> {
-							ResolvedModuleVersion versionId =
-								artifact.getModuleVersion();
-
-							ModuleVersionIdentifier componentId =
-								versionId.getId();
-
-							return componentId.getVersion();
-						}
-					).orElse(
-						null
-					);
-				}));
+				() -> _getLatestVersion(
+					project, "com.liferay",
+					"com.liferay.gradle.plugins.workspace")));
 	}
 
 	private <T extends AbstractArchiveTask> void _configureDistBundleEnvArchive(
@@ -2112,6 +2063,55 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		}
 
 		return sb.toString();
+	}
+
+	private String _getLatestVersion(
+		Project project, String group, String artifact) {
+
+		ConfigurationContainer configurationContainer =
+			project.getConfigurations();
+
+		DependencyHandler dependencyHandler = project.getDependencies();
+
+		Configuration configuration =
+			configurationContainer.detachedConfiguration(
+				dependencyHandler.create(
+					group + ":" + artifact + ":latest.release"));
+
+		ResolvedConfiguration resolvedConfiguration =
+			configuration.getResolvedConfiguration();
+
+		Set<ResolvedArtifact> resolvedArtifacts =
+			resolvedConfiguration.getResolvedArtifacts();
+
+		Stream<ResolvedArtifact> resolvedArtifactsStream =
+			resolvedArtifacts.stream();
+
+		resolvedArtifactsStream = resolvedArtifactsStream.filter(
+			resolvedArtifact -> {
+				ResolvedModuleVersion versionId =
+					resolvedArtifact.getModuleVersion();
+
+				ModuleVersionIdentifier componentId = versionId.getId();
+
+				String moduleName = componentId.getName();
+
+				return Objects.equals(moduleName, artifact);
+			});
+
+		return resolvedArtifactsStream.findFirst(
+		).map(
+			resolvedArtifact -> {
+				ResolvedModuleVersion versionId =
+					resolvedArtifact.getModuleVersion();
+
+				ModuleVersionIdentifier componentId = versionId.getId();
+
+				return componentId.getVersion();
+			}
+		).orElse(
+			null
+		);
 	}
 
 	private String _loadTemplate(String name) {
