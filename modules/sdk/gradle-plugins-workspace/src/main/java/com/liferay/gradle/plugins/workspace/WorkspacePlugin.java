@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import net.saliman.gradle.plugin.properties.PropertiesPlugin;
 
@@ -31,12 +30,7 @@ import org.gradle.StartParameter;
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.ConfigurationContainer;
-import org.gradle.api.artifacts.Dependency;
-import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.initialization.Settings;
-import org.gradle.api.initialization.dsl.ScriptHandler;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
@@ -64,16 +58,6 @@ public class WorkspacePlugin implements Plugin<Settings> {
 			ReleaseUtil.initialize(0);
 		}
 
-		ScriptHandler scriptHandler = settings.getBuildscript();
-
-		ConfigurationContainer configurationContainer =
-			scriptHandler.getConfigurations();
-
-		Configuration configuration = configurationContainer.findByName(
-			"classpath");
-
-		String workspaceVersion = _getWorkspaceVersion(configuration);
-
 		Gradle gradle = settings.getGradle();
 		File rootDir = settings.getRootDir();
 
@@ -81,8 +65,6 @@ public class WorkspacePlugin implements Plugin<Settings> {
 
 		final WorkspaceExtension workspaceExtension = _addWorkspaceExtension(
 			settings);
-
-		workspaceExtension.setWorkspaceVersion(workspaceVersion);
 
 		Path rootDirPath = rootDir.toPath();
 
@@ -215,30 +197,6 @@ public class WorkspacePlugin implements Plugin<Settings> {
 			pluginAware.apply(
 				Collections.singletonMap("plugin", PropertiesPlugin.class));
 		}
-	}
-
-	private String _getWorkspaceVersion(Configuration configuration) {
-		if (configuration == null) {
-			return "";
-		}
-
-		DependencySet dependencySet = configuration.getDependencies();
-
-		Stream<Dependency> dependencySetStream = dependencySet.stream();
-
-		dependencySetStream = dependencySetStream.filter(
-			dependency -> {
-				String name = dependency.getName();
-
-				return name.contains("com.liferay.gradle.plugins.workspace");
-			});
-
-		return dependencySetStream.findFirst(
-		).map(
-			Dependency::getVersion
-		).orElse(
-			null
-		);
 	}
 
 	private void _setPortalVersion(

@@ -65,7 +65,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -76,13 +75,11 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.artifacts.ResolvedArtifact;
 import org.gradle.api.artifacts.ResolvedConfiguration;
 import org.gradle.api.artifacts.ResolvedModuleVersion;
-import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.execution.TaskExecutionGraph;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.DirectoryProperty;
@@ -527,8 +524,7 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			CheckWorkspaceVersionTask.class);
 
 		workspaceVersionTask.setDescription(
-			"Informs if the Liferay Workspace product is the latest release " +
-				"version.");
+			"Checks if a newer version of Liferay Workspace is available");
 		workspaceVersionTask.setGroup(HelpTasksPlugin.HELP_GROUP);
 
 		return workspaceVersionTask;
@@ -1688,65 +1684,16 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			workspaceVersionTask.getCurrentVersionProperty();
 
 		currentVersionProperty.convention(
-			workspaceExtension.getWorkspaceVersion());
+			workspaceExtension.getCurrentWorkspaceVersion());
 
 		Property<String> latestVersionProperty =
 			workspaceVersionTask.getLatestVersionProperty();
 
 		latestVersionProperty.convention(
 			project.provider(
-				() -> {
-					ConfigurationContainer configurationContainer =
-						project.getConfigurations();
-
-					DependencyHandler dependencyHandler =
-						project.getDependencies();
-
-					Configuration configuration =
-						configurationContainer.detachedConfiguration(
-							dependencyHandler.create(
-								"com.liferay:com.liferay.gradle.plugins." +
-									"workspace:latest.release"));
-
-					ResolvedConfiguration resolvedConfiguration =
-						configuration.getResolvedConfiguration();
-
-					Set<ResolvedArtifact> resolvedArtifacts =
-						resolvedConfiguration.getResolvedArtifacts();
-
-					Stream<ResolvedArtifact> resolvedArtifactsStream =
-						resolvedArtifacts.stream();
-
-					resolvedArtifactsStream = resolvedArtifactsStream.filter(
-						artifact -> {
-							ResolvedModuleVersion versionId =
-								artifact.getModuleVersion();
-
-							ModuleVersionIdentifier componentId =
-								versionId.getId();
-
-							String moduleName = componentId.getName();
-
-							return Objects.equals(
-								moduleName,
-								"com.liferay.gradle.plugins.workspace");
-						});
-
-					return resolvedArtifactsStream.findFirst(
-					).map(
-						artifact -> {
-							ResolvedModuleVersion versionId =
-								artifact.getModuleVersion();
-
-							ModuleVersionIdentifier componentId =
-								versionId.getId();
-
-							return componentId.getVersion();
-						}
-					).orElse(
-						null
-					);
-				}));
+				() -> _getLatestArtifactVersion(
+					project, "com.liferay",
+					"com.liferay.gradle.plugins.workspace")));
 	}
 
 	private <T extends AbstractArchiveTask> void _configureDistBundleEnvArchive(
@@ -2112,6 +2059,39 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		}
 
 		return sb.toString();
+	}
+
+	private String _getLatestArtifactVersion(
+		Project project, String groupName, String artifactName) {
+
+		String configurationName = "latestWorkspaceVersion";
+
+		Configuration configuration = GradleUtil.addConfiguration(
+			project, configurationName);
+
+		GradleUtil.addDependency(
+			project, configurationName, groupName, artifactName,
+			"latest.release");
+
+		ResolvedConfiguration resolvedConfiguration =
+			configuration.getResolvedConfiguration();
+
+		Set<ResolvedArtifact> resolvedArtifacts =
+			resolvedConfiguration.getResolvedArtifacts();
+
+		return resolvedArtifacts.stream(
+		).map(
+			ResolvedArtifact::getModuleVersion
+		).map(
+			ResolvedModuleVersion::getId
+		).filter(
+			componentId -> Objects.equals(componentId.getName(), artifactName)
+		).findFirst(
+		).map(
+			ModuleVersionIdentifier::getVersion
+		).orElse(
+			null
+		);
 	}
 
 	private String _loadTemplate(String name) {

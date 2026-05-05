@@ -32,7 +32,12 @@ import java.util.Set;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.ConfigurationContainer;
+import org.gradle.api.artifacts.Dependency;
+import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.initialization.Settings;
+import org.gradle.api.initialization.dsl.ScriptHandler;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.Logger;
 
@@ -96,10 +101,20 @@ public class WorkspaceExtension {
 			settings, "node.package.manager", _NODE_PACKAGE_MANAGER);
 		_targetPlatformVersion = _getProperty(
 			settings, "target.platform.version");
-		_versionCheckFrequency = _getProperty(
-			settings, "version.check.frequency");
+		_versionCheckInterval = _getProperty(
+			settings, "version.check.interval");
 		_virtualInstanceId = GradleUtil.getProperty(
 			settings, "liferay.virtual.instance.id");
+
+		ScriptHandler scriptHandler = settings.getBuildscript();
+
+		ConfigurationContainer configurationContainer =
+			scriptHandler.getConfigurations();
+
+		Configuration configuration = configurationContainer.findByName(
+			"classpath");
+
+		setCurrentWorkspaceVersion(_getCurrentWorkspaceVersion(configuration));
 
 		_gradle.projectsEvaluated(
 			new Closure<Void>(_gradle) {
@@ -235,6 +250,10 @@ public class WorkspaceExtension {
 		return GradleUtil.toFile(_gradle.getRootProject(), _configsDir);
 	}
 
+	public String getCurrentWorkspaceVersion() {
+		return GradleUtil.toString(_currentWorkspaceVersion);
+	}
+
 	public List<String> getDirExcludesGlobs() {
 		return GradleUtil.toStringList(_dirExcludesGlobs);
 	}
@@ -313,16 +332,12 @@ public class WorkspaceExtension {
 		return GradleUtil.toString(_targetPlatformVersion);
 	}
 
-	public String getVersionCheckFrequency() {
-		return GradleUtil.toString(_versionCheckFrequency);
+	public String getVersionCheckInterval() {
+		return GradleUtil.toString(_versionCheckInterval);
 	}
 
 	public String getVirtualInstanceId() {
 		return GradleUtil.toString(_virtualInstanceId);
-	}
-
-	public String getWorkspaceVersion() {
-		return GradleUtil.toString(_workspaceVersion);
 	}
 
 	public boolean isBundleDistIncludeMetadata() {
@@ -361,6 +376,10 @@ public class WorkspaceExtension {
 
 	public void setConfigsDir(Object configsDir) {
 		_configsDir = configsDir;
+	}
+
+	public void setCurrentWorkspaceVersion(Object workspaceVersion) {
+		_currentWorkspaceVersion = workspaceVersion;
 	}
 
 	public void setDirExcludesGlobs(Iterable<String> dirExcludesGlobs) {
@@ -425,16 +444,34 @@ public class WorkspaceExtension {
 		_targetPlatformVersion = targetPlatformVersion;
 	}
 
-	public void setVersionCheckFrequency(Object versionCheckFrequency) {
-		_versionCheckFrequency = versionCheckFrequency;
+	public void setVersionCheckInterval(Object versionCheckInterval) {
+		_versionCheckInterval = versionCheckInterval;
 	}
 
 	public void setVirtualInstanceId(Object virtualInstanceId) {
 		_virtualInstanceId = virtualInstanceId;
 	}
 
-	public void setWorkspaceVersion(Object workspaceVersion) {
-		_workspaceVersion = workspaceVersion;
+	private String _getCurrentWorkspaceVersion(Configuration configuration) {
+		if (configuration == null) {
+			return "";
+		}
+
+		DependencySet dependencySet = configuration.getDependencies();
+
+		return dependencySet.stream(
+		).filter(
+			dependency -> {
+				String name = dependency.getName();
+
+				return name.contains("com.liferay.gradle.plugins.workspace");
+			}
+		).findFirst(
+		).map(
+			Dependency::getVersion
+		).orElse(
+			null
+		);
 	}
 
 	private Object _getProperty(Object object, String keySuffix) {
@@ -495,6 +532,7 @@ public class WorkspaceExtension {
 	private Object _bundleDistRootDirName;
 	private Object _bundleUrl;
 	private Object _configsDir;
+	private Object _currentWorkspaceVersion;
 	private Iterable<String> _dirExcludesGlobs;
 	private Object _dockerContainerId;
 	private Object _dockerDir;
@@ -514,8 +552,7 @@ public class WorkspaceExtension {
 		new LinkedHashSet<>();
 	private final Plugin<Project> _rootProjectConfigurator;
 	private Object _targetPlatformVersion;
-	private Object _versionCheckFrequency;
+	private Object _versionCheckInterval;
 	private Object _virtualInstanceId;
-	private Object _workspaceVersion;
 
 }
