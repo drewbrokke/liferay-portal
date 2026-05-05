@@ -18,10 +18,12 @@ import java.util.regex.Pattern;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.ExtensionAware;
 import org.gradle.api.provider.Property;
+import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.util.internal.VersionNumber;
@@ -56,6 +58,29 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		}
 
 		_checkInterval = _getWorkspaceCheckInterval();
+
+		onlyIf(
+			new Spec<Task>() {
+
+				@Override
+				public boolean isSatisfiedBy(Task task) {
+					if (_checkInterval == -1) {
+						return false;
+					}
+
+					long timeDifference =
+						System.currentTimeMillis() - _lastCheckedTime;
+
+					if ((_checkInterval == 0) ||
+						(timeDifference >= _checkInterval)) {
+
+						return true;
+					}
+
+					return false;
+				}
+
+			});
 	}
 
 	@Input
@@ -70,29 +95,6 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 
 	@TaskAction
 	public void printVersionInfo() throws Exception {
-		if (_checkInterval == -1) {
-			return;
-		}
-
-		long timeDifference = System.currentTimeMillis() - _lastCheckedTime;
-
-		if ((timeDifference < _checkInterval) && (_checkInterval != 0)) {
-			return;
-		}
-
-		try {
-			long currentTime = System.currentTimeMillis();
-
-			String currentTimeString = String.valueOf(currentTime);
-
-			Files.write(_cacheFile.toPath(), currentTimeString.getBytes());
-		}
-		catch (Exception exception) {
-			if (_logger.isLifecycleEnabled()) {
-				_logger.lifecycle("Failed to write to cache file.");
-			}
-		}
-
 		if ((_currentVersionProperty == null) ||
 			(_latestVersionProperty == null)) {
 
@@ -111,12 +113,25 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		if (latestWorkspaceVersion.compareTo(currentWorkspaceVersion) > 0) {
 			if (_logger.isLifecycleEnabled()) {
 				_logger.lifecycle(
-					"Latest workspace version is newer than current " +
-						"workspace version.");
+					"There is a newer version of Liferay Workspace " +
+						"available: ");
 				_logger.lifecycle(
 					"Current Workspace Version: " + currentWorkspaceVersion);
 				_logger.lifecycle(
 					"Latest Workspace Version: " + latestWorkspaceVersion);
+			}
+		}
+
+		try {
+			long currentTime = System.currentTimeMillis();
+
+			String currentTimeString = String.valueOf(currentTime);
+
+			Files.write(_cacheFile.toPath(), currentTimeString.getBytes());
+		}
+		catch (Exception exception) {
+			if (_logger.isLifecycleEnabled()) {
+				_logger.lifecycle("Failed to write to cache file.");
 			}
 		}
 	}
@@ -127,7 +142,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
 			(ExtensionAware)project.getGradle(), WorkspaceExtension.class);
 
-		String time = workspaceExtension.getVersionCheckFrequency();
+		String time = workspaceExtension.getVersionCheckInterval();
 
 		if ((time == null) || time.equals("0")) {
 			return 0;
@@ -137,7 +152,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			return -1;
 		}
 
-		Matcher matcher = _workspaceCheckFrequencyPattern.matcher(time.trim());
+		Matcher matcher = _workspaceCheckIntervalPattern.matcher(time.trim());
 
 		if (matcher.matches()) {
 			long value = Long.parseLong(matcher.group(1));
@@ -160,18 +175,20 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			else if (unit.equalsIgnoreCase("d")) {
 				return TimeUnit.DAYS.toMillis(value);
 			}
+		}
 
-			return 0;
+		if (_logger.isWarnEnabled()) {
+			_logger.warn("Invalid workspace check interval: " + time);
 		}
 
 		return 0;
 	}
 
-	private static final Pattern _workspaceCheckFrequencyPattern =
+	private static final Pattern _workspaceCheckIntervalPattern =
 		Pattern.compile("(\\d+)([smhd])?", Pattern.CASE_INSENSITIVE);
 
 	private final File _cacheFile;
-	private long _checkInterval;
+	private final long _checkInterval;
 	private final Property<String> _currentVersionProperty;
 	private final long _lastCheckedTime;
 	private final Property<String> _latestVersionProperty;
