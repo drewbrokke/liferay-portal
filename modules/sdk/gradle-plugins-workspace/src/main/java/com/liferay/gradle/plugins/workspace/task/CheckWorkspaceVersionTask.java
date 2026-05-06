@@ -19,12 +19,17 @@ import java.util.regex.Pattern;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.file.Directory;
+import org.gradle.api.file.ProjectLayout;
+import org.gradle.api.file.RegularFile;
+import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.ExtensionAware;
 import org.gradle.api.provider.Property;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.LocalState;
 import org.gradle.api.tasks.TaskAction;
 
 import org.osgi.framework.Version;
@@ -42,13 +47,22 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		_currentVersionProperty = objects.property(String.class);
 		_latestVersionProperty = objects.property(String.class);
 
-		_cacheFile = new File(project.getRootDir(), ".workspacecheck");
+		_cacheFileProperty = objects.fileProperty();
 
-		if (_cacheFile.exists()) {
+		ProjectLayout projectLayout = project.getLayout();
+
+		Directory projectDirectory = projectLayout.getProjectDirectory();
+
+		_cacheFileProperty.convention(projectDirectory.file(".workspacecheck"));
+
+		RegularFile regularFile = _cacheFileProperty.get();
+
+		File cacheFile = regularFile.getAsFile();
+
+		if (cacheFile.exists()) {
 			try {
-				String content = Files.readString(_cacheFile.toPath());
-
-				_lastCheckedTime = Long.parseLong(content);
+				_lastCheckedTime = Long.parseLong(
+					Files.readString(cacheFile.toPath()));
 			}
 			catch (Exception exception) {
 				throw new Exception("Failed to read from .workspacecheck file");
@@ -91,6 +105,11 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			});
 	}
 
+	@LocalState
+	public RegularFileProperty getCacheFileProperty() {
+		return _cacheFileProperty;
+	}
+
 	@Input
 	public Property<String> getCurrentVersionProperty() {
 		return _currentVersionProperty;
@@ -118,9 +137,12 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		}
 
 		try {
+			RegularFile regularFile = _cacheFileProperty.get();
+
+			File cacheFile = regularFile.getAsFile();
+
 			Files.writeString(
-				_cacheFile.toPath(),
-				String.valueOf(System.currentTimeMillis()));
+				cacheFile.toPath(), String.valueOf(System.currentTimeMillis()));
 		}
 		catch (Exception exception) {
 			Logger logger = getLogger();
@@ -182,7 +204,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 	private static final Pattern _workspaceCheckIntervalPattern =
 		Pattern.compile("(\\d+)([smhd])?", Pattern.CASE_INSENSITIVE);
 
-	private final File _cacheFile;
+	private final RegularFileProperty _cacheFileProperty;
 	private final long _checkInterval;
 	private final Property<String> _currentVersionProperty;
 	private final long _lastCheckedTime;
