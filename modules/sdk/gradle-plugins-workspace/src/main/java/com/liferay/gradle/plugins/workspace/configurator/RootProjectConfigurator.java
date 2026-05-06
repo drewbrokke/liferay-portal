@@ -84,10 +84,13 @@ import org.gradle.api.artifacts.ResolvedModuleVersion;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.execution.TaskExecutionGraph;
 import org.gradle.api.file.CopySpec;
+import org.gradle.api.file.Directory;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.DuplicatesStrategy;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.file.FileCopyDetails;
+import org.gradle.api.file.ProjectLayout;
+import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.initialization.Settings;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.Logger;
@@ -1681,6 +1684,22 @@ public class RootProjectConfigurator implements Plugin<Project> {
 	private void _configureCheckWorkspaceVersionTask(
 		Project project, WorkspaceExtension workspaceExtension,
 		CheckWorkspaceVersionTask checkWorkspaceVersionTask) {
+
+		RegularFileProperty cacheFileProperty =
+			checkWorkspaceVersionTask.getCacheFileProperty();
+
+		ProjectLayout projectLayout = project.getLayout();
+
+		Directory directory = projectLayout.getProjectDirectory();
+
+		cacheFileProperty.convention(
+			directory.file(".gradle/liferay-workspace/.workspacecheck"));
+
+		Property<String> checkIntervalProperty =
+			checkWorkspaceVersionTask.getCheckIntervalProperty();
+
+		checkIntervalProperty.convention(
+			project.provider(workspaceExtension::getVersionCheckInterval));
 
 		Property<String> currentVersionProperty =
 			checkWorkspaceVersionTask.getCurrentVersionProperty();
