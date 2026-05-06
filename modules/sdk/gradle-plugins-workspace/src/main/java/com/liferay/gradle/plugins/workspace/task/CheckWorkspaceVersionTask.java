@@ -101,7 +101,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 	}
 
 	@TaskAction
-	public void printVersionInfo() throws Exception {
+	public void printVersionInfo() {
 		VersionNumber currentWorkspaceVersion = VersionNumber.parse(
 			_currentVersionProperty.get());
 		VersionNumber latestWorkspaceVersion = VersionNumber.parse(
