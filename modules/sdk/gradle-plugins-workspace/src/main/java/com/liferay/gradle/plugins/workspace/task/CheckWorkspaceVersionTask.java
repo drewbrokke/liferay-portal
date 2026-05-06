@@ -26,7 +26,8 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.util.internal.VersionNumber;
+
+import org.osgi.framework.Version;
 
 /**
  * @author Kyle Miho
@@ -102,20 +103,18 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 
 	@TaskAction
 	public void printVersionInfo() {
-		VersionNumber currentWorkspaceVersion = VersionNumber.parse(
+		Version currentVersion = Version.parseVersion(
 			_currentVersionProperty.get());
-		VersionNumber latestWorkspaceVersion = VersionNumber.parse(
+		Version latestVersion = Version.parseVersion(
 			_latestVersionProperty.get());
 
-		if (latestWorkspaceVersion.compareTo(currentWorkspaceVersion) > 0) {
+		if (currentVersion.compareTo(latestVersion) > 0) {
 			Logger logger = getLogger();
 
 			logger.lifecycle(
 				"There is a newer version of Liferay Workspace available: ");
-			logger.lifecycle(
-				"Current Workspace Version: " + currentWorkspaceVersion);
-			logger.lifecycle(
-				"Latest Workspace Version: " + latestWorkspaceVersion);
+			logger.lifecycle("Current Workspace Version: " + currentVersion);
+			logger.lifecycle("Latest Workspace Version: " + latestVersion);
 		}
 
 		try {
