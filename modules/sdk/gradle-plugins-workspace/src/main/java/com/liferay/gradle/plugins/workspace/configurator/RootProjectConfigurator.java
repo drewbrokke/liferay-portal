@@ -75,11 +75,13 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.artifacts.ResolvedArtifact;
 import org.gradle.api.artifacts.ResolvedConfiguration;
 import org.gradle.api.artifacts.ResolvedModuleVersion;
+import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.execution.TaskExecutionGraph;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.DirectoryProperty;
@@ -2064,14 +2066,13 @@ public class RootProjectConfigurator implements Plugin<Project> {
 	private String _getLatestArtifactVersion(
 		Project project, String groupName, String artifactName) {
 
-		String configurationName = "latestWorkspaceVersion";
+		ConfigurationContainer configurations = project.getConfigurations();
+		DependencyHandler dependencies = project.getDependencies();
 
-		Configuration configuration = GradleUtil.addConfiguration(
-			project, configurationName);
-
-		GradleUtil.addDependency(
-			project, configurationName, groupName, artifactName,
-			"latest.release");
+		Configuration configuration = configurations.detachedConfiguration(
+			dependencies.create(
+				StringUtil.concat(
+					groupName, ":", artifactName, ":latest.release")));
 
 		ResolvedConfiguration resolvedConfiguration =
 			configuration.getResolvedConfiguration();
