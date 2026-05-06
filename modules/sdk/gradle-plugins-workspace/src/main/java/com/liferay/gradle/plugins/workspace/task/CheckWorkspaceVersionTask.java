@@ -98,9 +98,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		if ((_currentVersionProperty == null) ||
 			(_latestVersionProperty == null)) {
 
-			if (_logger.isLifecycleEnabled()) {
-				_logger.lifecycle("Unable to get workspace version.");
-			}
+			_logger.lifecycle("Unable to get workspace version.");
 
 			return;
 		}
@@ -111,15 +109,12 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			_latestVersionProperty.get());
 
 		if (latestWorkspaceVersion.compareTo(currentWorkspaceVersion) > 0) {
-			if (_logger.isLifecycleEnabled()) {
-				_logger.lifecycle(
-					"There is a newer version of Liferay Workspace " +
-						"available: ");
-				_logger.lifecycle(
-					"Current Workspace Version: " + currentWorkspaceVersion);
-				_logger.lifecycle(
-					"Latest Workspace Version: " + latestWorkspaceVersion);
-			}
+			_logger.lifecycle(
+				"There is a newer version of Liferay Workspace available: ");
+			_logger.lifecycle(
+				"Current Workspace Version: " + currentWorkspaceVersion);
+			_logger.lifecycle(
+				"Latest Workspace Version: " + latestWorkspaceVersion);
 		}
 
 		try {
@@ -130,9 +125,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			Files.write(_cacheFile.toPath(), currentTimeString.getBytes());
 		}
 		catch (Exception exception) {
-			if (_logger.isLifecycleEnabled()) {
-				_logger.lifecycle("Failed to write to cache file.");
-			}
+			_logger.lifecycle("Failed to write to cache file.");
 		}
 	}
 
