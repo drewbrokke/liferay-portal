@@ -98,7 +98,9 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		if ((_currentVersionProperty == null) ||
 			(_latestVersionProperty == null)) {
 
-			_logger.lifecycle("Unable to get workspace version.");
+			Logger logger = getLogger();
+
+			logger.lifecycle("Unable to get workspace version.");
 
 			return;
 		}
@@ -109,11 +111,13 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			_latestVersionProperty.get());
 
 		if (latestWorkspaceVersion.compareTo(currentWorkspaceVersion) > 0) {
-			_logger.lifecycle(
+			Logger logger = getLogger();
+
+			logger.lifecycle(
 				"There is a newer version of Liferay Workspace available: ");
-			_logger.lifecycle(
+			logger.lifecycle(
 				"Current Workspace Version: " + currentWorkspaceVersion);
-			_logger.lifecycle(
+			logger.lifecycle(
 				"Latest Workspace Version: " + latestWorkspaceVersion);
 		}
 
@@ -125,7 +129,9 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			Files.write(_cacheFile.toPath(), currentTimeString.getBytes());
 		}
 		catch (Exception exception) {
-			_logger.lifecycle("Failed to write to cache file.");
+			Logger logger = getLogger();
+
+			logger.lifecycle("Failed to write to cache file.");
 		}
 	}
 
@@ -170,8 +176,10 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			}
 		}
 
-		if (_logger.isWarnEnabled()) {
-			_logger.warn("Invalid workspace check interval: " + time);
+		Logger logger = getLogger();
+
+		if (logger.isWarnEnabled()) {
+			logger.warn("Invalid workspace check interval: " + time);
 		}
 
 		return 0;
@@ -185,6 +193,5 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 	private final Property<String> _currentVersionProperty;
 	private final long _lastCheckedTime;
 	private final Property<String> _latestVersionProperty;
-	private final Logger _logger = getLogger();
 
 }
