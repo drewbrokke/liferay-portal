@@ -60,6 +60,13 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		_checkInterval = _getWorkspaceCheckInterval();
 
 		onlyIf(
+			"Current version is set",
+			task -> _currentVersionProperty.isPresent());
+		onlyIf(
+			"Latest version is set",
+			task -> _latestVersionProperty.isPresent());
+
+		onlyIf(
 			new Spec<Task>() {
 
 				@Override
@@ -95,16 +102,6 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 
 	@TaskAction
 	public void printVersionInfo() throws Exception {
-		if ((_currentVersionProperty == null) ||
-			(_latestVersionProperty == null)) {
-
-			Logger logger = getLogger();
-
-			logger.lifecycle("Unable to get workspace version.");
-
-			return;
-		}
-
 		VersionNumber currentWorkspaceVersion = VersionNumber.parse(
 			_currentVersionProperty.get());
 		VersionNumber latestWorkspaceVersion = VersionNumber.parse(
