@@ -78,6 +78,7 @@ public class WorkspaceExtension {
 		_configsDir = _getProperty(
 			settings, "configs.dir",
 			BundleSupportConstants.DEFAULT_CONFIGS_DIR_NAME);
+		_currentWorkspaceVersion = _getCurrentWorkspaceVersion(settings);
 		_dirExcludesGlobs = StringUtil.split(
 			GradleUtil.toString(_getProperty(settings, "dir.excludes.globs")));
 		_dockerDir = _getProperty(settings, "docker.dir", _DOCKER_DIR);
@@ -105,16 +106,6 @@ public class WorkspaceExtension {
 			settings, "version.check.interval");
 		_virtualInstanceId = GradleUtil.getProperty(
 			settings, "liferay.virtual.instance.id");
-
-		ScriptHandler scriptHandler = settings.getBuildscript();
-
-		ConfigurationContainer configurationContainer =
-			scriptHandler.getConfigurations();
-
-		Configuration configuration = configurationContainer.findByName(
-			"classpath");
-
-		setCurrentWorkspaceVersion(_getCurrentWorkspaceVersion(configuration));
 
 		_gradle.projectsEvaluated(
 			new Closure<Void>(_gradle) {
@@ -452,23 +443,26 @@ public class WorkspaceExtension {
 		_virtualInstanceId = virtualInstanceId;
 	}
 
-	private String _getCurrentWorkspaceVersion(Configuration configuration) {
-		if (configuration == null) {
-			return "";
-		}
+	private String _getCurrentWorkspaceVersion(Settings settings) {
+		ScriptHandler scriptHandler = settings.getBuildscript();
+
+		ConfigurationContainer configurationContainer =
+			scriptHandler.getConfigurations();
+
+		Configuration configuration = configurationContainer.getByName(
+			"classpath");
 
 		DependencySet dependencySet = configuration.getDependencies();
 
 		return dependencySet.stream(
 		).filter(
-			dependency -> {
-				String name = dependency.getName();
-
-				return name.contains("com.liferay.gradle.plugins.workspace");
-			}
-		).findFirst(
+			dependency -> Objects.equals(
+				dependency.getName(), "com.liferay.gradle.plugins.workspace")
 		).map(
 			Dependency::getVersion
+		).filter(
+			Objects::nonNull
+		).findFirst(
 		).orElse(
 			null
 		);
