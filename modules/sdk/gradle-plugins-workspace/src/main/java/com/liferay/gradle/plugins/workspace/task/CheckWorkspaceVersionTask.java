@@ -119,11 +119,9 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		}
 
 		try {
-			long currentTime = System.currentTimeMillis();
-
-			String currentTimeString = String.valueOf(currentTime);
-
-			Files.write(_cacheFile.toPath(), currentTimeString.getBytes());
+			Files.writeString(
+				_cacheFile.toPath(),
+				String.valueOf(System.currentTimeMillis()));
 		}
 		catch (Exception exception) {
 			Logger logger = getLogger();
