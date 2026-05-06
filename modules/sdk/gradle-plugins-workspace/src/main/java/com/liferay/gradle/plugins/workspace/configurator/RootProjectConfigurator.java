@@ -1680,16 +1680,16 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 	private void _configureCheckWorkspaceVersionTask(
 		Project project, WorkspaceExtension workspaceExtension,
-		CheckWorkspaceVersionTask workspaceVersionTask) {
+		CheckWorkspaceVersionTask checkWorkspaceVersionTask) {
 
 		Property<String> currentVersionProperty =
-			workspaceVersionTask.getCurrentVersionProperty();
+			checkWorkspaceVersionTask.getCurrentVersionProperty();
 
 		currentVersionProperty.convention(
 			workspaceExtension.getCurrentWorkspaceVersion());
 
 		Property<String> latestVersionProperty =
-			workspaceVersionTask.getLatestVersionProperty();
+			checkWorkspaceVersionTask.getLatestVersionProperty();
 
 		latestVersionProperty.convention(
 			project.provider(
