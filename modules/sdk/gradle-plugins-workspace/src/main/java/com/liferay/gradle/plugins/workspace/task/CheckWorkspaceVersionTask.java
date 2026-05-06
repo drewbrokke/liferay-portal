@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -39,17 +41,15 @@ import org.osgi.framework.Version;
  */
 public class CheckWorkspaceVersionTask extends DefaultTask {
 
-	public CheckWorkspaceVersionTask() throws Exception {
-		Project project = getProject();
+	@Inject
+	public CheckWorkspaceVersionTask(
+		ObjectFactory objects, ProjectLayout projectLayout) {
 
-		ObjectFactory objects = project.getObjects();
-
+		_checkIntervalProperty = objects.property(String.class);
 		_currentVersionProperty = objects.property(String.class);
 		_latestVersionProperty = objects.property(String.class);
 
 		_cacheFileProperty = objects.fileProperty();
-
-		ProjectLayout projectLayout = project.getLayout();
 
 		Directory projectDirectory = projectLayout.getProjectDirectory();
 
