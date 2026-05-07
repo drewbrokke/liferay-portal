@@ -99,7 +99,10 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			logger.lifecycle("Current Workspace Version: " + currentVersion);
 			logger.lifecycle("Latest Workspace Version: " + latestVersion);
 		}
+	}
 
+	@TaskAction
+	public void updateCacheFile() {
 		try {
 			RegularFile regularFile = _cacheFileProperty.get();
 
@@ -111,7 +114,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		catch (Exception exception) {
 			Logger logger = getLogger();
 
-			logger.lifecycle("Failed to write to cache file.");
+			logger.warn("Failed to write to cache file", exception);
 		}
 	}
 
