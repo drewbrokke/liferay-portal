@@ -102,8 +102,8 @@ public class WorkspaceExtension {
 			settings, "node.package.manager", _NODE_PACKAGE_MANAGER);
 		_targetPlatformVersion = _getProperty(
 			settings, "target.platform.version");
-		_versionCheckInterval = _getProperty(
-			settings, "version.check.interval");
+		_versionCheckIntervalDays = _getProperty(
+			settings, "version.check.interval.days");
 		_virtualInstanceId = GradleUtil.getProperty(
 			settings, "liferay.virtual.instance.id");
 
@@ -323,8 +323,8 @@ public class WorkspaceExtension {
 		return GradleUtil.toString(_targetPlatformVersion);
 	}
 
-	public String getVersionCheckInterval() {
-		return GradleUtil.toString(_versionCheckInterval);
+	public Integer getVersionCheckIntervalDays() {
+		return GradleUtil.toInteger(_versionCheckIntervalDays);
 	}
 
 	public String getVirtualInstanceId() {
@@ -435,8 +435,8 @@ public class WorkspaceExtension {
 		_targetPlatformVersion = targetPlatformVersion;
 	}
 
-	public void setVersionCheckInterval(Object versionCheckInterval) {
-		_versionCheckInterval = versionCheckInterval;
+	public void setVersionCheckIntervalDays(Object versionCheckIntervalDays) {
+		_versionCheckIntervalDays = versionCheckIntervalDays;
 	}
 
 	public void setVirtualInstanceId(Object virtualInstanceId) {
@@ -546,7 +546,7 @@ public class WorkspaceExtension {
 		new LinkedHashSet<>();
 	private final Plugin<Project> _rootProjectConfigurator;
 	private Object _targetPlatformVersion;
-	private Object _versionCheckInterval;
+	private Object _versionCheckIntervalDays;
 	private Object _virtualInstanceId;
 
 }

@@ -1695,11 +1695,11 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		cacheFileProperty.convention(
 			directory.file(".gradle/liferay-workspace/.workspacecheck"));
 
-		Property<String> checkIntervalProperty =
-			checkWorkspaceVersionTask.getCheckIntervalProperty();
+		Property<Integer> checkIntervalDaysProperty =
+			checkWorkspaceVersionTask.getCheckIntervalDaysProperty();
 
-		checkIntervalProperty.convention(
-			project.provider(workspaceExtension::getVersionCheckInterval));
+		checkIntervalDaysProperty.convention(
+			project.provider(workspaceExtension::getVersionCheckIntervalDays));
 
 		Property<String> currentVersionProperty =
 			checkWorkspaceVersionTask.getCurrentVersionProperty();

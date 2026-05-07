@@ -8,12 +8,9 @@ package com.liferay.gradle.plugins.workspace.task;
 import java.io.File;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -39,7 +36,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 	@Inject
 	public CheckWorkspaceVersionTask(ObjectFactory objects) {
 		_cacheFileProperty = objects.fileProperty();
-		_checkIntervalProperty = objects.property(String.class);
+		_checkIntervalDaysProperty = objects.property(Integer.class);
 		_currentVersionProperty = objects.property(String.class);
 		_forceProperty = objects.property(
 			Boolean.class
@@ -65,8 +62,8 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 
 	@Input
 	@Optional
-	public Property<String> getCheckIntervalProperty() {
-		return _checkIntervalProperty;
+	public Property<Integer> getCheckIntervalDaysProperty() {
+		return _checkIntervalDaysProperty;
 	}
 
 	@Input
@@ -116,49 +113,6 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		}
 	}
 
-	private long _parseCheckInterval(String time) {
-		if ((time == null) || time.equals("0")) {
-			return 0;
-		}
-
-		if (time.equals("-1")) {
-			return -1;
-		}
-
-		Matcher matcher = _workspaceCheckIntervalPattern.matcher(time.trim());
-
-		if (matcher.matches()) {
-			long value = Long.parseLong(matcher.group(1));
-
-			String unit = matcher.group(2);
-
-			if (unit == null) {
-				return TimeUnit.SECONDS.toMillis(value);
-			}
-
-			if (unit.equalsIgnoreCase("s")) {
-				return TimeUnit.SECONDS.toMillis(value);
-			}
-			else if (unit.equalsIgnoreCase("m")) {
-				return TimeUnit.MINUTES.toMillis(value);
-			}
-			else if (unit.equalsIgnoreCase("h")) {
-				return TimeUnit.HOURS.toMillis(value);
-			}
-			else if (unit.equalsIgnoreCase("d")) {
-				return TimeUnit.DAYS.toMillis(value);
-			}
-		}
-
-		Logger logger = getLogger();
-
-		if (logger.isWarnEnabled()) {
-			logger.warn("Invalid workspace check interval: {}", time);
-		}
-
-		return 0;
-	}
-
 	private long _readLastCheckedTime() {
 		RegularFile regularFile = _cacheFileProperty.get();
 
@@ -181,32 +135,28 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			return true;
 		}
 
-		long checkInterval = _parseCheckInterval(
-			_checkIntervalProperty.getOrNull());
+		int checkIntervalDays = _checkIntervalDaysProperty.getOrElse(7);
 
-		if (checkInterval == -1) {
+		if (checkIntervalDays < 0) {
 			return false;
 		}
 
-		if (checkInterval == 0) {
+		if (checkIntervalDays == 0) {
 			return true;
 		}
 
 		long timeDifference =
 			System.currentTimeMillis() - _readLastCheckedTime();
 
-		if (timeDifference >= checkInterval) {
+		if (timeDifference >= TimeUnit.DAYS.toMillis(checkIntervalDays)) {
 			return true;
 		}
 
 		return false;
 	}
 
-	private static final Pattern _workspaceCheckIntervalPattern =
-		Pattern.compile("(\\d+)([smhd])?", Pattern.CASE_INSENSITIVE);
-
 	private final RegularFileProperty _cacheFileProperty;
-	private final Property<String> _checkIntervalProperty;
+	private final Property<Integer> _checkIntervalDaysProperty;
 	private final Property<String> _currentVersionProperty;
 	private final Property<Boolean> _forceProperty;
 	private final Property<String> _latestVersionProperty;
