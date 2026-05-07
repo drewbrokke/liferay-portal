@@ -36,7 +36,11 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 	@Inject
 	public CheckWorkspaceVersionTask(ObjectFactory objects) {
 		_cacheFileProperty = objects.fileProperty();
-		_checkIntervalDaysProperty = objects.property(Integer.class);
+		_checkIntervalDaysProperty = objects.property(
+			Integer.class
+		).convention(
+			7
+		);
 		_currentVersionProperty = objects.property(String.class);
 		_forceProperty = objects.property(
 			Boolean.class
@@ -140,7 +144,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 			return true;
 		}
 
-		int checkIntervalDays = _checkIntervalDaysProperty.getOrElse(7);
+		int checkIntervalDays = _checkIntervalDaysProperty.get();
 
 		if (checkIntervalDays < 0) {
 			return false;
