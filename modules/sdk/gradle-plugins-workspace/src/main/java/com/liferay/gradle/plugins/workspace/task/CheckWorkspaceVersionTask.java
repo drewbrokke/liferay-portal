@@ -153,7 +153,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		Logger logger = getLogger();
 
 		if (logger.isWarnEnabled()) {
-			logger.warn("Invalid workspace check interval: " + time);
+			logger.warn("Invalid workspace check interval: {}", time);
 		}
 
 		return 0;
