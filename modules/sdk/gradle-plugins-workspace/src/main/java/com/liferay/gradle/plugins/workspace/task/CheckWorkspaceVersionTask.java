@@ -46,12 +46,6 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 
 		_latestVersionProperty = objects.property(String.class);
 
-		onlyIf(
-			"Current version is set",
-			task -> _currentVersionProperty.isPresent());
-		onlyIf(
-			"Latest version is set",
-			task -> _latestVersionProperty.isPresent());
 		onlyIf("The version check interval has elapsed", task -> _shouldRun());
 	}
 
@@ -67,6 +61,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 	}
 
 	@Input
+	@Optional
 	public Property<String> getCurrentVersionProperty() {
 		return _currentVersionProperty;
 	}
@@ -78,12 +73,19 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 	}
 
 	@Input
+	@Optional
 	public Property<String> getLatestVersionProperty() {
 		return _latestVersionProperty;
 	}
 
 	@TaskAction
 	public void printVersionInfo() {
+		if (!_currentVersionProperty.isPresent() ||
+			!_latestVersionProperty.isPresent()) {
+
+			return;
+		}
+
 		Version currentVersion = Version.parseVersion(
 			_currentVersionProperty.get());
 		Version latestVersion = Version.parseVersion(
