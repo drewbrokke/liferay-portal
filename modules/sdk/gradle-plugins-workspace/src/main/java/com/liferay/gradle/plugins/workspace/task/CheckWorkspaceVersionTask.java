@@ -111,6 +111,14 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 
 			File cacheFile = regularFile.getAsFile();
 
+			if (!cacheFile.exists()) {
+				File parentFile = cacheFile.getParentFile();
+
+				parentFile.mkdirs();
+
+				cacheFile.createNewFile();
+			}
+
 			Files.writeString(
 				cacheFile.toPath(), String.valueOf(System.currentTimeMillis()));
 		}
