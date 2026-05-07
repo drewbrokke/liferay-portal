@@ -89,7 +89,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		Version latestVersion = Version.parseVersion(
 			_latestVersionProperty.get());
 
-		if (currentVersion.compareTo(latestVersion) > 0) {
+		if (currentVersion.compareTo(latestVersion) < 0) {
 			Logger logger = getLogger();
 
 			logger.lifecycle(
