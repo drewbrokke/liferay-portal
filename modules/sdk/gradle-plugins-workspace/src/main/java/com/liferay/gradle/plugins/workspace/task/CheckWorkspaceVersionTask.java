@@ -5,13 +5,12 @@
 
 package com.liferay.gradle.plugins.workspace.task;
 
-import com.liferay.gradle.plugins.workspace.WorkspaceExtension;
-import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
-
 import java.io.File;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,20 +18,16 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 
 import org.gradle.api.DefaultTask;
-import org.gradle.api.Project;
-import org.gradle.api.Task;
-import org.gradle.api.file.Directory;
-import org.gradle.api.file.ProjectLayout;
 import org.gradle.api.file.RegularFile;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.model.ObjectFactory;
-import org.gradle.api.plugins.ExtensionAware;
 import org.gradle.api.provider.Property;
-import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.LocalState;
+import org.gradle.api.tasks.Internal;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.options.Option;
 
 import org.osgi.framework.Version;
 
@@ -42,37 +37,17 @@ import org.osgi.framework.Version;
 public class CheckWorkspaceVersionTask extends DefaultTask {
 
 	@Inject
-	public CheckWorkspaceVersionTask(
-		ObjectFactory objects, ProjectLayout projectLayout) {
-
+	public CheckWorkspaceVersionTask(ObjectFactory objects) {
+		_cacheFileProperty = objects.fileProperty();
 		_checkIntervalProperty = objects.property(String.class);
 		_currentVersionProperty = objects.property(String.class);
+		_forceProperty = objects.property(
+			Boolean.class
+		).convention(
+			false
+		);
+
 		_latestVersionProperty = objects.property(String.class);
-
-		_cacheFileProperty = objects.fileProperty();
-
-		Directory projectDirectory = projectLayout.getProjectDirectory();
-
-		_cacheFileProperty.convention(projectDirectory.file(".workspacecheck"));
-
-		RegularFile regularFile = _cacheFileProperty.get();
-
-		File cacheFile = regularFile.getAsFile();
-
-		if (cacheFile.exists()) {
-			try {
-				_lastCheckedTime = Long.parseLong(
-					Files.readString(cacheFile.toPath()));
-			}
-			catch (Exception exception) {
-				throw new Exception("Failed to read from .workspacecheck file");
-			}
-		}
-		else {
-			_lastCheckedTime = 0;
-		}
-
-		_checkInterval = _getWorkspaceCheckInterval();
 
 		onlyIf(
 			"Current version is set",
@@ -80,39 +55,29 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		onlyIf(
 			"Latest version is set",
 			task -> _latestVersionProperty.isPresent());
-
-		onlyIf(
-			new Spec<Task>() {
-
-				@Override
-				public boolean isSatisfiedBy(Task task) {
-					if (_checkInterval == -1) {
-						return false;
-					}
-
-					long timeDifference =
-						System.currentTimeMillis() - _lastCheckedTime;
-
-					if ((_checkInterval == 0) ||
-						(timeDifference >= _checkInterval)) {
-
-						return true;
-					}
-
-					return false;
-				}
-
-			});
+		onlyIf("The version check interval has elapsed", task -> _shouldRun());
 	}
 
-	@LocalState
+	@Internal
 	public RegularFileProperty getCacheFileProperty() {
 		return _cacheFileProperty;
 	}
 
 	@Input
+	@Optional
+	public Property<String> getCheckIntervalProperty() {
+		return _checkIntervalProperty;
+	}
+
+	@Input
 	public Property<String> getCurrentVersionProperty() {
 		return _currentVersionProperty;
+	}
+
+	@Input
+	@Option(description = "Ignore the version check interval", option = "force")
+	public Property<Boolean> getForce() {
+		return _forceProperty;
 	}
 
 	@Input
@@ -151,14 +116,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		}
 	}
 
-	private long _getWorkspaceCheckInterval() {
-		Project project = getProject();
-
-		WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
-			(ExtensionAware)project.getGradle(), WorkspaceExtension.class);
-
-		String time = workspaceExtension.getVersionCheckInterval();
-
+	private long _parseCheckInterval(String time) {
 		if ((time == null) || time.equals("0")) {
 			return 0;
 		}
@@ -201,13 +159,56 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 		return 0;
 	}
 
+	private long _readLastCheckedTime() {
+		RegularFile regularFile = _cacheFileProperty.get();
+
+		File cacheFile = regularFile.getAsFile();
+
+		if (!cacheFile.exists()) {
+			return 0;
+		}
+
+		try {
+			return Long.parseLong(Files.readString(cacheFile.toPath()));
+		}
+		catch (Exception exception) {
+			return 0;
+		}
+	}
+
+	private boolean _shouldRun() {
+		if (Objects.equals(Boolean.TRUE, _forceProperty.get())) {
+			return true;
+		}
+
+		long checkInterval = _parseCheckInterval(
+			_checkIntervalProperty.getOrNull());
+
+		if (checkInterval == -1) {
+			return false;
+		}
+
+		if (checkInterval == 0) {
+			return true;
+		}
+
+		long timeDifference =
+			System.currentTimeMillis() - _readLastCheckedTime();
+
+		if (timeDifference >= checkInterval) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private static final Pattern _workspaceCheckIntervalPattern =
 		Pattern.compile("(\\d+)([smhd])?", Pattern.CASE_INSENSITIVE);
 
 	private final RegularFileProperty _cacheFileProperty;
-	private final long _checkInterval;
+	private final Property<String> _checkIntervalProperty;
 	private final Property<String> _currentVersionProperty;
-	private final long _lastCheckedTime;
+	private final Property<Boolean> _forceProperty;
 	private final Property<String> _latestVersionProperty;
 
 }
