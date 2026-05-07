@@ -68,7 +68,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 
 	@Input
 	@Option(description = "Ignore the version check interval", option = "force")
-	public Property<Boolean> getForce() {
+	public Property<Boolean> getForceProperty() {
 		return _forceProperty;
 	}
 
