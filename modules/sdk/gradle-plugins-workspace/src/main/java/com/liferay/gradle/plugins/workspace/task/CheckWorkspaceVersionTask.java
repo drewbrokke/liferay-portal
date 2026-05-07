@@ -9,7 +9,6 @@ import java.io.File;
 
 import java.nio.file.Files;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -140,7 +139,7 @@ public class CheckWorkspaceVersionTask extends DefaultTask {
 	}
 
 	private boolean _shouldRun() {
-		if (Objects.equals(Boolean.TRUE, _forceProperty.get())) {
+		if (_forceProperty.get()) {
 			return true;
 		}
 
