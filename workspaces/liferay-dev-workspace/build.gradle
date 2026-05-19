@@ -1,0 +1,26 @@
+configurations {
+	foo
+}
+dependencies {
+	foo "com.liferay.workspace:com.liferay.sample.workspace.copyright-test:latest.release"
+}
+repositories {
+	maven {
+		url "https://repository.liferay.com/nexus/content/repositories/xanadu"
+		credentials {
+			username = project.findProperty("xanaduRepositoryUsername") ?: System.getenv("SONATYPE_USERNAME")
+			password = project.findProperty("xanaduRepositoryPassword") ?: System.getenv("SONATYPE_PASSWORD")
+		}
+	}
+}
+
+task getFoo {
+	doLast {
+		println configurations.foo.files
+
+		copy {
+			from zipTree(configurations.foo.files.first())
+			into "."
+		}
+	}
+}
