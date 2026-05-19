@@ -446,24 +446,6 @@ public class FileUtil {
 		}
 	}
 
-	private static String _buildMirrorsUrl(
-		String url, String mirrorsHostname, boolean ssl) {
-
-		if ((mirrorsHostname == null) || mirrorsHostname.isEmpty()) {
-			return null;
-		}
-
-		String scheme = "http://";
-
-		if (ssl) {
-			scheme = "https://";
-		}
-
-		return url.replaceFirst(
-			"https?://",
-			Matcher.quoteReplacement(scheme + mirrorsHostname + "/"));
-	}
-
 	private static File _createClasspathJarFile(
 		Project project, List<File> files, File jarDir) {
 
@@ -612,11 +594,19 @@ public class FileUtil {
 		if (mirrorsHostname == null) {
 			mirrorsHostname = "mirrors.lax.liferay.com";
 		}
+		else if (mirrorsHostname.isEmpty()) {
+			return null;
+		}
 
-		boolean ssl = Boolean.parseBoolean(
-			_getMirrorsProperty(project, "mirrors.ssl"));
+		String scheme = "http://";
 
-		return _buildMirrorsUrl(url, mirrorsHostname, ssl);
+		if (Boolean.parseBoolean(_getMirrorsProperty(project, "mirrors.ssl"))) {
+			scheme = "https://";
+		}
+
+		return url.replaceFirst(
+			"https?://",
+			Matcher.quoteReplacement(scheme + mirrorsHostname + "/"));
 	}
 
 	private static void _invokeAntMethod(
