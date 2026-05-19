@@ -9,4 +9,5 @@ tasks.eclipse {
 
 dependencies {
 	compileOnly fileTree(builtBy: [rootProject.tasks.getByName("extractGradleApi" + gradleVersion.replace(".", ""))], dir: new File(rootProject.buildDir, "gradle-${gradleVersion}"))
+	testImplementation group: "junit", name: "junit", version: "4.13.1"
 }

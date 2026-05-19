@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Matcher;
 
 import org.gradle.api.AntBuilder;
 import org.gradle.api.GradleException;
@@ -153,19 +154,21 @@ public class FileUtil {
 		if (!mirrorsCacheArtifactFile.exists()) {
 			mirrorsCacheArtifactDir.mkdirs();
 
-			String mirrorsUrl = _getMirrorsUrl(url);
+			String mirrorsUrl = _getMirrorsUrl(project, url);
 
 			if (tryLocalNetwork && (mirrorsUrl != null)) {
-				String mirrorsUsername = System.getProperty("mirrors.username");
+				String mirrorsUsername = username;
 
 				if (mirrorsUsername == null) {
-					mirrorsUsername = username;
+					mirrorsUsername = _getMirrorsProperty(
+						project, "mirrors.username");
 				}
 
-				String mirrorsPassword = System.getProperty("mirrors.password");
+				String mirrorsPassword = password;
 
 				if (mirrorsPassword == null) {
-					mirrorsPassword = password;
+					mirrorsPassword = _getMirrorsProperty(
+						project, "mirrors.password");
 				}
 
 				try {
@@ -455,6 +458,24 @@ public class FileUtil {
 		}
 	}
 
+	private static String _buildMirrorsUrl(
+		String url, String mirrorsHostname, boolean ssl) {
+
+		if ((mirrorsHostname == null) || mirrorsHostname.isEmpty()) {
+			return null;
+		}
+
+		String scheme = "http://";
+
+		if (ssl) {
+			scheme = "https://";
+		}
+
+		return url.replaceFirst(
+			"https?://",
+			Matcher.quoteReplacement(scheme + mirrorsHostname + "/"));
+	}
+
 	private static File _createClasspathJarFile(
 		Project project, List<File> files, File jarDir) {
 
@@ -586,25 +607,28 @@ public class FileUtil {
 		return new File(userHome, ".liferay/mirrors");
 	}
 
-	private static String _getMirrorsUrl(String url) {
-		String mirrorsHostname = System.getProperty("mirrors.hostname");
+	private static String _getMirrorsProperty(Project project, String name) {
+		Object value = project.findProperty(name);
+
+		if (value != null) {
+			return value.toString();
+		}
+
+		return System.getProperty(name);
+	}
+
+	private static String _getMirrorsUrl(Project project, String url) {
+		String mirrorsHostname = _getMirrorsProperty(
+			project, "mirrors.hostname");
 
 		if (mirrorsHostname == null) {
 			mirrorsHostname = "mirrors.lax.liferay.com";
 		}
 
-		if (mirrorsHostname.isEmpty()) {
-			return null;
-		}
+		boolean ssl = Boolean.parseBoolean(
+			_getMirrorsProperty(project, "mirrors.ssl"));
 
-		String scheme = "http://";
-
-		if (Boolean.parseBoolean(System.getProperty("mirrors.ssl"))) {
-			scheme = "https://";
-		}
-
-		return url.replaceFirst(
-			"https?:\\/\\/", scheme + mirrorsHostname + "/");
+		return _buildMirrorsUrl(url, mirrorsHostname, ssl);
 	}
 
 	private static void _invokeAntMethod(
