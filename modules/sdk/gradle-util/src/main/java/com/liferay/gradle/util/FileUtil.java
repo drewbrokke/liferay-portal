@@ -157,23 +157,11 @@ public class FileUtil {
 			String mirrorsUrl = _getMirrorsUrl(project, url);
 
 			if (tryLocalNetwork && (mirrorsUrl != null)) {
-				String mirrorsUsername = username;
-
-				if (mirrorsUsername == null) {
-					mirrorsUsername = _getMirrorsProperty(
-						project, "mirrors.username");
-				}
-
-				String mirrorsPassword = password;
-
-				if (mirrorsPassword == null) {
-					mirrorsPassword = _getMirrorsProperty(
-						project, "mirrors.password");
-				}
-
 				try {
 					_get(
-						project, mirrorsUrl, mirrorsUsername, mirrorsPassword,
+						project, mirrorsUrl,
+						_getMirrorsProperty(project, "mirrors.username"),
+						_getMirrorsProperty(project, "mirrors.password"),
 						mirrorsCacheArtifactFile, ignoreErrors);
 				}
 				catch (Exception exception) {
