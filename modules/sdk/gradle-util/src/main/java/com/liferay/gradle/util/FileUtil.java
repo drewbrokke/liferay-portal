@@ -153,13 +153,24 @@ public class FileUtil {
 		if (!mirrorsCacheArtifactFile.exists()) {
 			mirrorsCacheArtifactDir.mkdirs();
 
-			String mirrorsUrl = url.replaceFirst(
-				"https?:\\/\\/", "http://mirrors.lax.liferay.com/");
+			String mirrorsUrl = _getMirrorsUrl(url);
 
-			if (tryLocalNetwork) {
+			if (tryLocalNetwork && (mirrorsUrl != null)) {
+				String mirrorsUsername = System.getProperty("mirrors.username");
+
+				if (mirrorsUsername == null) {
+					mirrorsUsername = username;
+				}
+
+				String mirrorsPassword = System.getProperty("mirrors.password");
+
+				if (mirrorsPassword == null) {
+					mirrorsPassword = password;
+				}
+
 				try {
 					_get(
-						project, mirrorsUrl, null, null,
+						project, mirrorsUrl, mirrorsUsername, mirrorsPassword,
 						mirrorsCacheArtifactFile, ignoreErrors);
 				}
 				catch (Exception exception) {
@@ -573,6 +584,27 @@ public class FileUtil {
 		String userHome = System.getProperty("user.home");
 
 		return new File(userHome, ".liferay/mirrors");
+	}
+
+	private static String _getMirrorsUrl(String url) {
+		String mirrorsHostname = System.getProperty("mirrors.hostname");
+
+		if (mirrorsHostname == null) {
+			mirrorsHostname = "mirrors.lax.liferay.com";
+		}
+
+		if (mirrorsHostname.isEmpty()) {
+			return null;
+		}
+
+		String scheme = "http://";
+
+		if (Boolean.parseBoolean(System.getProperty("mirrors.ssl"))) {
+			scheme = "https://";
+		}
+
+		return url.replaceFirst(
+			"https?:\\/\\/", scheme + mirrorsHostname + "/");
 	}
 
 	private static void _invokeAntMethod(
