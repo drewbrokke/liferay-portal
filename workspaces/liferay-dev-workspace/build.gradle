@@ -2,7 +2,7 @@ configurations {
 	foo
 }
 dependencies {
-	foo "com.liferay.workspace:com.liferay.sample.workspace.copyright-test:latest.release"
+	foo "com.liferay.workspace:com.liferay.sample.workspace.agent.context.files:latest.release"
 }
 repositories {
 	maven {
@@ -17,6 +17,10 @@ repositories {
 task getFoo {
 	doLast {
 		println configurations.foo.files
+
+		zipTree(configurations.foo.files.first()).files.each {
+			println "FILE: ${it}"
+		}
 
 		copy {
 			from zipTree(configurations.foo.files.first())
