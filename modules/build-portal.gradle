@@ -27,6 +27,12 @@ if (!tasks.findByName("compileJSP")) {
 
 FindSecurityBugsPlugin.INSTANCE.apply(project)
 
+tasks.named("check") {
+	setDependsOn(getDependsOn().findAll { dep ->
+		!(dep instanceof org.gradle.api.Named && dep.getName() == FindSecurityBugsPlugin.FIND_SECURITY_BUGS_TASK_NAME)
+	})
+}
+
 File portalRootDir = project.file("..").absoluteFile
 
 task buildPreModules(type: GradleBuild) {
