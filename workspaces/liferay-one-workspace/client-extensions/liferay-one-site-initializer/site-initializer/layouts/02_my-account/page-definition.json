@@ -9,7 +9,7 @@
 					"indexed": true,
 					"layout": {
 						"contentDisplay": "Block",
-						"widthType": "Fixed"
+						"widthType": "Fluid"
 					}
 				},
 				"pageElements": [
