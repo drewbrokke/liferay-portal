@@ -170,7 +170,7 @@ nav.public-sites-navigation .language-selector-container .language-selector {
 }
 
 nav.public-sites-navigation .language-selector-container .dropdown-menu {
-	box-shadow: var(--elevation-fluffy-1) color-mix(in srgb, var(--color-neutral-10) 12%, transparent);
+	box-shadow: var(--elevation-fluffy-1) rgba(19, 20, 31, 0.12);
 	padding: 0;
 }
 
@@ -354,7 +354,7 @@ nav.public-sites-navigation
 	.language-dropdown-list
 	.language-nav-item
 	.language-entry-long-text:hover {
-	color: var(--color-action-primary-hover);
+	color: var(--black);
 	text-decoration: none;
 }
 
@@ -444,9 +444,9 @@ nav.public-sites-navigation
 	.account
 	.account-dropdown
 	.account-menu-item:focus {
-	background: var(--color-action-primary-hover-lighten) !important;
+	background: #edf3fe !important;
 	border-radius: var(--border-radius);
-	color: var(--color-action-primary-hover) !important;
+	color: #0053f0 !important;
 }
 
 nav.public-sites-navigation
@@ -599,7 +599,7 @@ nav.public-sites-navigation
 nav.public-sites-navigation .liferay-sites-dropdown {
 	background: var(--white);
 	border-radius: 10px;
-	box-shadow: var(--elevation-fluffy-1) color-mix(in srgb, var(--color-neutral-10) 12%, transparent);
+	box-shadow: var(--elevation-fluffy-1) rgba(19, 20, 31, 0.12);
 	margin-top: 2.75rem;
 	max-height: 600px;
 	position: absolute;
@@ -726,7 +726,7 @@ nav.public-sites-navigation .liferay-logo .logo-text:hover {
 
 nav.public-sites-navigation .liferay-logo .logo-text {
 	color: var(--black);
-	font-size: 1rem;
+	font-size: var(--h1-font-size, 1.625rem);
 	font-weight: var(--h1-font-weight);
 }
 
@@ -790,14 +790,23 @@ nav.public-sites-navigation .opacity-80 {
 	opacity: 0.8;
 }
 
+nav.public-sites-navigation .primary-nav,
+nav.public-sites-navigation .utility-nav {
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+}
+
 nav.public-sites-navigation .menu-button-group {
 	display: none;
 }
 
 .utility-nav-container {
-	border-bottom: 1px solid var(--color-neutral-3);
 	text-align: -webkit-center;
 	text-align: -moz-center;
+}
+
+.utility-nav-container .utility-nav {
+	border-bottom: 1px solid var(--color-neutral-3);
 }
 
 .utility-nav-container .sites-languages-container {
@@ -828,19 +837,10 @@ nav.public-sites-navigation .nav-items-wrapper {
 
 nav.public-sites-navigation
 	.nav-items-wrapper
-	.adt-nav-item.selected
+	.adt-nav-item.show
 	.adt-nav-text::after {
 	left: 0;
 	width: 100%;
-}
-
-.adt-nav-item.selected .adt-nav-text .adt-nav-title {
-	color: var(--color-action-primary-hover);
-}
-
-.adt-nav-item.selected .adt-nav-caret-bottom-icon {
-	color: var(--color-action-primary-hover);
-	opacity: 1;
 }
 
 nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-nav-text {
@@ -871,7 +871,7 @@ nav.public-sites-navigation
 	.nav-items-wrapper
 	.adt-nav-item
 	.adt-nav-text::after {
-	background: var(--color-action-primary-hover);
+	background: var(--btn-link-hover-color);
 	border-radius: 2px;
 	bottom: -5px;
 	content: '';
@@ -900,6 +900,7 @@ nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-submenu {
 .adt-nav-item {
 	border-radius: var(--border-radius-sm);
 	cursor: pointer;
+	margin-left: 1rem;
 	outline: 0 solid transparent;
 	position: static;
 }
@@ -907,7 +908,7 @@ nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-submenu {
 .adt-nav-item .adt-nav-text {
 	background-color: transparent;
 	border-width: 0;
-	font-weight: var(--font-weight-semi-bold);
+	font-weight: 600;
 	position: relative;
 	text-decoration: none;
 	transition-duration: 0.2s, 0.2s;
@@ -924,7 +925,7 @@ nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-submenu {
 }
 
 .adt-nav-item .adt-nav-text .adt-nav-caret-bottom-icon {
-	color: var(--color-neutral-7);
+	color: transparent;
 }
 
 .adt-nav-item .adt-nav-text:focus {
@@ -987,7 +988,7 @@ nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-submenu {
 	background-clip: padding-box;
 	background-color: var(--white);
 	border-top: 1px solid var(--color-neutral-2);
-	box-shadow: var(--elevation-fluffy-1) color-mix(in srgb, var(--color-neutral-10) 22%, transparent);
+	box-shadow: var(--elevation-fluffy-1) rgba(19, 20, 31, 0.22);
 	display: block;
 	left: 0;
 	list-style: none;
@@ -997,7 +998,7 @@ nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-submenu {
 	min-height: auto;
 	opacity: 0;
 	overflow: auto;
-	padding: 1rem 0 4.5rem;
+	padding: 1rem 1.5rem 4.5rem;
 	position: fixed;
 	right: 0;
 	top: 8rem;
@@ -1012,13 +1013,6 @@ nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-submenu {
 }
 
 .adt-nav-item .adt-submenu .adt-submenu-outer-wrapper {
-	margin-left: auto;
-	margin-right: auto;
-	max-width: calc(
-		var(--content-max-width, 1280px) + 2 * var(--content-gutter, 1.5rem)
-	);
-	padding-left: var(--content-gutter, 1.5rem);
-	padding-right: var(--content-gutter, 1.5rem);
 	width: 100%;
 }
 
@@ -1038,7 +1032,7 @@ nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-submenu {
 	border-bottom: 1px solid var(--color-neutral-2);
 	color: var(--color-neutral-8);
 	font-size: 14px;
-	font-weight: var(--font-weight-semi-bold);
+	font-weight: 600;
 	-ms-grid-row: span 1;
 	grid-row-end: span 1;
 	-ms-grid-row-span: 1;
@@ -1059,10 +1053,8 @@ nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-submenu {
 }
 
 .adt-nav-item .adt-submenu-item-content .adt-submenu-item-link {
-	align-items: flex-start;
 	color: var(--color-neutral-10);
 	display: flex;
-	gap: 0.5rem;
 	transition:
 		box-shadow 0.1s linear,
 		background-color 0.1s linear;
@@ -1102,14 +1094,15 @@ nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-submenu {
 	.adt-submenu-item-description {
 	color: var(--color-neutral-8);
 	font-weight: 400;
-	margin-top: 0.25rem;
+	margin-top: 0.5rem;
 	padding-right: 0.5rem;
 }
 
 .adt-nav-item .adt-submenu-item-image {
-	height: 1.25rem;
-	margin-top: 0.125rem;
-	width: 1.25rem;
+	border-radius: var(--border-radius-xs);
+	height: 2rem;
+	margin: 0.6rem 1rem 0rem 0.25rem;
+	width: 2rem;
 }
 
 .adt-nav-item .adt-submenu-header-image {
@@ -1545,7 +1538,7 @@ nav.public-sites-navigation .nav-items-wrapper .adt-nav-item .adt-submenu {
 }
 
 .search-wrapper .suggestions .suggested-text {
-	color: var(--color-neutral-0);
+	color: #fff;
 	display: none;
 	font-size: var(--text-small-caps-font-size);
 	letter-spacing: 0.05em;
@@ -1696,6 +1689,7 @@ nav.public-sites-navigation .liferay-one-search-form {
 }
 
 nav.public-sites-navigation .liferay-one-search {
+	background-color: var(--color-neutral-1);
 	border: 1px solid var(--color-neutral-3);
 	border-radius: var(--border-radius);
 	padding: 0.5rem 0.75rem;
@@ -1747,7 +1741,7 @@ nav.public-sites-navigation
 	.language-selector-container
 	.language-dropdown-list {
 	border-radius: 10px;
-	box-shadow: 0 5px 15px color-mix(in srgb, var(--color-neutral-10) 10%, transparent);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper {
@@ -1755,9 +1749,9 @@ nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper {
 }
 
 nav.public-sites-navigation .liferay-sites-dropdown .f-navigation-menu-item p {
-	color: var(--color-neutral-8);
+	color: #54555f;
 	font-size: 0.8125rem;
-	font-weight: var(--font-weight-semi-bold);
+	font-weight: 600;
 	margin-bottom: var(--spacer-1, 0.25rem);
 	margin-left: var(--spacer-3, 1rem);
 	margin-top: var(--spacer-3, 1rem);
@@ -1773,20 +1767,14 @@ nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-ite
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item:hover,
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item:active,
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item:focus {
-	background: var(--color-action-primary-hover-lighten);
-	color: var(--color-action-primary-hover);
-}
-
-nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item:hover .menu-item-text,
-nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item:active .menu-item-text,
-nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item:focus .menu-item-text {
-	color: var(--color-action-primary-hover);
+	background: #0053f012;
+	color: #0b5fff;
 }
 
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item .menu-item-text {
-	color: var(--color-neutral-10);
+	color: #272833;
 	font-size: 16px;
-	font-weight: var(--font-weight-semi-bold);
+	font-weight: 600;
 }
 
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .lexicon-icon {
@@ -1794,33 +1782,33 @@ nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .lexicon-
 }
 
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item-icon-liferay {
-	background: var(--color-brand-primary);
+	background: #0b5fff;
 	border-radius: 4px;
 }
 
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item-icon-customer-portal {
-	background: var(--accent-accent-3, var(--color-accent-3));
+	background: var(--accent-accent-3, #e55e75);
 	border-radius: 4px;
 }
 
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item-icon-partner-portal {
-	background: var(--status-info-lighten-2, var(--color-accent-2));
+	background: var(--status-info-lighten-2, #42bfc2);
 	border-radius: 4px;
 }
 
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item-icon-community {
-	background: var(--color-accent-5);
+	background: #503690;
 	border-radius: 4px;
 }
 
 nav.public-sites-navigation .liferay-sites-dropdown .menu-item-wrapper .menu-item-icon-liferay-learn {
-	background: var(--color-chart-2, var(--color-accent-6));
+	background: var(--color-chart-2, #fdcc4a);
 	border-radius: 4px;
 }
 
 nav.public-sites-navigation .account-selection-dropdown {
 	--account-selection-dropdown-color-bg-default: var(--color-neutral-1);
-	--account-selection-dropdown-color-bg-light: var(--color-action-primary-hover-lighten);
+	--account-selection-dropdown-color-bg-light: var(--color-action-primary-hover-10);
 	--account-selection-dropdown-color-primary: var(--color-action-primary-hover);
 	--account-selection-dropdown-color-secondary: var(--color-neutral-7);
 	--account-selection-dropdown-transition: all 0.3s
@@ -1881,7 +1869,7 @@ nav.public-sites-navigation .account-selection-dropdown .dropdown-arrow svg {
 nav.public-sites-navigation .account-selection-dropdown .dropdown-menu-container {
 	background: var(--color-neutral-0);
 	border-radius: 10px;
-	box-shadow: 0 5px 15px color-mix(in srgb, var(--color-neutral-10) 10%, transparent);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 	min-width: 280px;
 	opacity: 0;
 	pointer-events: none;
@@ -1980,7 +1968,7 @@ nav.public-sites-navigation .liferay-one-search-form {
 }
 
 nav.public-sites-navigation .adt-nav-item .adt-submenu-item-content .adt-submenu-item-link {
-	align-items: flex-start;
+	align-items: center;
 }
 
 nav.public-sites-navigation .primary-nav-right .account-selection-dropdown {
