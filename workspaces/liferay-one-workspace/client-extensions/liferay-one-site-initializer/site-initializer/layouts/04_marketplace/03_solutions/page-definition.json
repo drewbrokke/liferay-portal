@@ -37,22 +37,6 @@
 											},
 											"fragmentFields": [
 												{
-													"id": "backgroundImage",
-													"value": {
-														"backgroundFragmentImage": {
-															"url": {
-																"mapping": {
-																	"fieldKey": "FileEntry_previewImage",
-																	"itemReference": {
-																		"className": "com.liferay.portal.kernel.repository.model.FileEntry",
-																		"classPK": "[#DOCUMENT_FILE_ENTRY_ID:/site-initializer/documents/group/hero_banner_solutions_catalog.png#]"
-																	}
-																}
-															}
-														}
-													}
-												},
-												{
 													"id": "breadcrumb-current",
 													"value": {
 														"text": {
@@ -93,6 +77,19 @@
 													}
 												}
 											],
+											"fragmentStyle": {
+												"backgroundFragmentImage": {
+													"url": {
+														"mapping": {
+															"fieldKey": "FileEntry_previewImage",
+															"itemReference": {
+																"className": "com.liferay.portal.kernel.repository.model.FileEntry",
+																"classPK": "[#DOCUMENT_FILE_ENTRY_ID:/site-initializer/documents/group/hero_banner_solutions_catalog.png#]"
+															}
+														}
+													}
+												}
+											},
 											"indexed": true
 										},
 										"type": "Fragment"
@@ -108,9 +105,10 @@
 			},
 			{
 				"definition": {
+					"cssClass": "container-fluid container-fluid-max-xl",
 					"indexed": true,
 					"layout": {
-						"widthType": "Fixed"
+						"widthType": "Fluid"
 					}
 				},
 				"pageElements": [
@@ -183,6 +181,9 @@
 									},
 									{
 										"definition": {
+											"fragmentStyle": {
+												"hidden": true
+											},
 											"widgetInstance": {
 												"widgetConfig": {
 													"boost": "",
@@ -292,6 +293,22 @@
 											}
 										},
 										"pageElements": [
+											{
+												"definition": {
+													"fragmentStyle": {
+														"hidden": true
+													},
+													"widgetInstance": {
+														"widgetConfig": {
+															"destination": "",
+															"federatedSearchKey": "",
+															"scope": "everything"
+														},
+														"widgetName": "com_liferay_portal_search_web_search_bar_portlet_SearchBarPortlet"
+													}
+												},
+												"type": "Widget"
+											},
 											{
 												"definition": {
 													"widgetInstance": {
