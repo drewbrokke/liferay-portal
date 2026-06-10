@@ -15,6 +15,14 @@ import org.gradle.api.GradleException;
  */
 public class VersionUtil {
 
+	public static boolean isFooBar(String s) {
+		if (Objects.equals(s, "foobar")) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public static boolean isDXPVersion(String targetPlatformVersion) {
 		Matcher dxpQuarterlyVersionMatcher =
 			_dxpQuarterlyVersionPattern.matcher(targetPlatformVersion);
