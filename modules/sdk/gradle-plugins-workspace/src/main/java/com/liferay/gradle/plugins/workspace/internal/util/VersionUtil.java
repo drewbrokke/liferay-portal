@@ -5,6 +5,7 @@
 
 package com.liferay.gradle.plugins.workspace.internal.util;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,14 +15,6 @@ import org.gradle.api.GradleException;
  * @author Gregory Amerson
  */
 public class VersionUtil {
-
-	public static boolean isFooBar(String s) {
-		if (Objects.equals(s, "foobar")) {
-			return true;
-		}
-
-		return false;
-	}
 
 	public static boolean isDXPVersion(String targetPlatformVersion) {
 		Matcher dxpQuarterlyVersionMatcher =
@@ -35,6 +28,10 @@ public class VersionUtil {
 			targetPlatformVersion);
 
 		return dxpVersionMatcher.matches();
+	}
+
+	public static boolean isFooBar(String string) {
+		return Objects.equals(string, "foobar");
 	}
 
 	public static String normalizeTargetPlatformVersion(
