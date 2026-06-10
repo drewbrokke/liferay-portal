@@ -37,22 +37,6 @@
 											},
 											"fragmentFields": [
 												{
-													"id": "backgroundImage",
-													"value": {
-														"backgroundFragmentImage": {
-															"url": {
-																"mapping": {
-																	"fieldKey": "FileEntry_previewImage",
-																	"itemReference": {
-																		"className": "com.liferay.portal.kernel.repository.model.FileEntry",
-																		"classPK": "[#DOCUMENT_FILE_ENTRY_ID:/site-initializer/documents/group/hero_banner_gradient_bubbles.png#]"
-																	}
-																}
-															}
-														}
-													}
-												},
-												{
 													"id": "breadcrumb-current",
 													"value": {
 														"text": {
@@ -93,6 +77,19 @@
 													}
 												}
 											],
+											"fragmentStyle": {
+												"backgroundFragmentImage": {
+													"url": {
+														"mapping": {
+															"fieldKey": "FileEntry_previewImage",
+															"itemReference": {
+																"className": "com.liferay.portal.kernel.repository.model.FileEntry",
+																"classPK": "[#DOCUMENT_FILE_ENTRY_ID:/site-initializer/documents/group/hero_banner_gradient_bubbles.png#]"
+															}
+														}
+													}
+												}
+											},
 											"indexed": true
 										},
 										"type": "Fragment"
@@ -119,11 +116,14 @@
 				"pageElements": [
 					{
 						"definition": {
-							"customCSS": ".[$FRAGMENT_CLASS$] > .row {\n\talign-items: stretch !important;\n\trow-gap: 24px;\n}",
+							"customCSS": ".[$FRAGMENT_CLASS$] > .row {\n\talign-items: stretch !important;\n}",
 							"gutters": true,
 							"indexed": true,
+							"layout": {
+								"marginBottom": "4"
+							},
 							"modulesPerRow": 3,
-							"numberOfColumns": 6,
+							"numberOfColumns": 3,
 							"reverseOrder": false,
 							"rowViewports": [
 								{
@@ -479,7 +479,7 @@
 											"fragmentLink": {
 												"href": {
 													"value_i18n": {
-														"en_US": "https://learn.liferay.com"
+														"en_US": "https://learn.liferay.com/"
 													}
 												}
 											},
@@ -511,7 +511,7 @@
 																			"fieldKey": "FileEntry_previewImage",
 																			"itemReference": {
 																				"className": "com.liferay.portal.kernel.repository.model.FileEntry",
-																				"classPK": "[#DOCUMENT_FILE_ENTRY_ID:/site-initializer/documents/group/submit_a_request.svg#]"
+																				"classPK": "[#DOCUMENT_FILE_ENTRY_ID:/site-initializer/documents/group/support_tools.svg#]"
 																			}
 																		}
 																	}
@@ -595,7 +595,39 @@
 									}
 								],
 								"type": "Column"
-							},
+							}
+						],
+						"type": "Row"
+					},
+					{
+						"definition": {
+							"customCSS": ".[$FRAGMENT_CLASS$] > .row {\n\talign-items: stretch !important;\n}",
+							"gutters": true,
+							"indexed": true,
+							"modulesPerRow": 3,
+							"numberOfColumns": 3,
+							"reverseOrder": false,
+							"rowViewports": [
+								{
+									"id": "landscapeMobile",
+									"rowViewportDefinition": {
+										"modulesPerRow": 1
+									}
+								},
+								{
+									"id": "portraitMobile",
+									"rowViewportDefinition": {
+										"modulesPerRow": 1
+									}
+								},
+								{
+									"id": "tablet",
+									"rowViewportDefinition": {
+									}
+								}
+							]
+						},
+						"pageElements": [
 							{
 								"definition": {
 									"columnViewports": [
@@ -779,7 +811,7 @@
 											"fragmentLink": {
 												"href": {
 													"value_i18n": {
-														"en_US": "https://learn.liferay.com"
+														"en_US": "https://learn.liferay.com/"
 													}
 												}
 											},
