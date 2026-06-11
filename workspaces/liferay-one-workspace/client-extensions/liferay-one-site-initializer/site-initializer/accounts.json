@@ -1,112 +1,117 @@
 [
 	{
-		"externalReferenceCode": "ACCNT-001",
+		"externalReferenceCode": "ERC-001",
 		"name": "Omni Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-002",
+		"externalReferenceCode": "ERC-002",
 		"name": "SaaS Experience Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-003",
+		"externalReferenceCode": "ERC-003",
 		"name": "SaaS Legacy Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-004",
+		"externalReferenceCode": "ERC-004",
 		"name": "PaaS Experience Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-005",
+		"externalReferenceCode": "ERC-005",
 		"name": "PaaS Legacy Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-006",
+		"externalReferenceCode": "ERC-006",
 		"name": "DXP Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-007",
+		"externalReferenceCode": "ERC-007",
 		"name": "Cloud Native Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-008",
+		"externalReferenceCode": "ERC-008",
 		"name": "Business Plan Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-009",
+		"externalReferenceCode": "ERC-009",
 		"name": "Pro Plan Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-010",
+		"externalReferenceCode": "ERC-010",
 		"name": "Enterprise Plan Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-011",
+		"externalReferenceCode": "ERC-011",
 		"name": "Self-Hosted Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-012",
+		"externalReferenceCode": "ERC-012",
 		"name": "Commerce Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-013",
+		"externalReferenceCode": "ERC-013",
 		"name": "Analytics Cloud Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-014",
+		"externalReferenceCode": "ERC-014",
 		"name": "Enterprise Search Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-015",
+		"externalReferenceCode": "ERC-015",
 		"name": "Portal Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-016",
+		"externalReferenceCode": "ERC-016",
 		"name": "Partner Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-017",
+		"externalReferenceCode": "ERC-017",
 		"name": "Partner FLS Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-018",
+		"externalReferenceCode": "ERC-018",
 		"name": "Partner OEM Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-019",
+		"externalReferenceCode": "ERC-019",
 		"name": "EWSA Test Account",
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "ACCNT-020",
-		"name": "Liferay, Inc.",
+		"externalReferenceCode": "SUP-ACME",
+		"name": "Acme Apps Inc.",
 		"type": "supplier"
 	},
 	{
-		"externalReferenceCode": "ACCNT-021",
-		"name": "Test Supplier",
+		"externalReferenceCode": "SUP-DATABRIDGE",
+		"name": "DataBridge Solutions",
 		"type": "supplier"
 	},
 	{
-		"externalReferenceCode": "ACCNT-022",
-		"name": "No Project Test Account",
-		"type": "business"
+		"externalReferenceCode": "SUP-FORMFLOW",
+		"name": "FormFlow Labs",
+		"type": "supplier"
+	},
+	{
+		"externalReferenceCode": "SUP-NIMBUS",
+		"name": "NimbusWorks",
+		"type": "supplier"
 	}
 ]
