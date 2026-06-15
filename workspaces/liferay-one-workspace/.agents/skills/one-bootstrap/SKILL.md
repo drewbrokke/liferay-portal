@@ -10,11 +10,13 @@ name: one-bootstrap
 
 Manage the local Liferay Docker environment via `scripts/bootstrap.sh`. Run from `workspaces/liferay-one-workspace/`.
 
+The `up` bootstrap also builds the `liferay-one-etc-spring-boot:local` image, so the `liferay-one-etc-spring-boot` client extension comes up as a Docker Compose service alongside the portal and database rather than being started separately.
+
 ## Commands
 
 | Command | What it does |
 |---------|-------------|
-| `up` (default) | Extract hotfix/license → build image → tag → `docker compose up` → wait for health → deploy client extensions |
+| `up` (default) | Extract hotfix/license → build image → tag → build `liferay-one-etc-spring-boot:local` image → `docker compose up` → wait for health → deploy client extensions |
 | `start` | `docker compose start` |
 | `stop` | `docker compose stop` |
 | `down` | `docker compose down` |

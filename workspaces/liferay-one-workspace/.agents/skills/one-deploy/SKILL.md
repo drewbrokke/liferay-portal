@@ -36,4 +36,6 @@ Check `git diff --name-only` and pick every touched `client-extensions/liferay-o
     -Ddeploy.docker.container.id=$(docker compose -f ~/repos/lfris-www/docker-compose.yml ps -q liferay)
 ```
 
+Deploy also rebuilds the `liferay-one-etc-spring-boot:local` image and recreates the `liferay-one-etc-spring-boot` container, so the deployed `liferay-one-etc-spring-boot` client extension picks up code changes.
+
 Report: what was deployed, Gradle result, and log evidence of pickup.

@@ -23,7 +23,7 @@ docker image inspect liferay:local &>/dev/null
 
 ## 2. First Run (Bootstrap)
 
-Run `scripts/bootstrap.sh`. It builds the Docker image, tags it, starts the containers, waits for Liferay to be healthy, and deploys the client extensions.
+Run `scripts/bootstrap.sh`. It builds the Docker image, tags it, builds the `liferay-one-etc-spring-boot:local` image, starts the containers, waits for Liferay to be healthy, and deploys the client extensions.
 
 ```bash
 scripts/bootstrap.sh
@@ -33,10 +33,16 @@ Liferay is ready when it prints `Done. Liferay is running at http://localhost:80
 
 ## 3. Day-to-Day Start
 
-Start the existing containers in the background:
+Start the existing containers in the background. This brings up the portal, the database, and the `liferay-one-etc-spring-boot` client extension together:
 
 ```bash
 docker compose up --detach
 ```
 
-Wait until `http://localhost:8080/c/portal/status` returns HTTP 200, then report success.
+Wait until `http://localhost:8080/c/portal/status` returns HTTP 200. Then confirm the client extension is serving on port 58081:
+
+```bash
+curl --fail --silent http://localhost:58081/ready
+```
+
+Report success once both respond.
