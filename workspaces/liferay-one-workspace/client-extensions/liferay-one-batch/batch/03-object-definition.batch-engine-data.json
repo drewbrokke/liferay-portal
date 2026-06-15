@@ -2998,82 +2998,6 @@
 		},
 		{
 			"active": true,
-			"className": "com.liferay.object.model.ObjectDefinition#C_PROJECT_MEMBERSHIP",
-			"enableCategorization": false,
-			"enableComments": false,
-			"enableObjectEntryHistory": false,
-			"externalReferenceCode": "C_PROJECT_MEMBERSHIP",
-			"label": {
-				"en_US": "Project Membership"
-			},
-			"name": "ProjectMembership",
-			"objectFields": [
-				{
-					"DBType": "String",
-					"businessType": "Text",
-					"externalReferenceCode": "C_PROJECT_MEMBERSHIP_ROLE_EXTERNAL_REFERENCE_CODE",
-					"indexed": true,
-					"indexedAsKeyword": true,
-					"indexedLanguageId": "",
-					"label": {
-						"en_US": "Role ERC"
-					},
-					"name": "roleExternalReferenceCode",
-					"objectFieldSettings": [
-					],
-					"required": true,
-					"state": false,
-					"system": false,
-					"type": "String"
-				}
-			],
-			"objectFolderExternalReferenceCode": "C_LIFERAY_ONE_FOLDER",
-			"objectRelationships": [
-			],
-			"objectValidationRules": [
-			],
-			"objectViews": [
-				{
-					"defaultObjectView": true,
-					"name": {
-						"en_US": "Default View"
-					},
-					"objectDefinitionExternalReferenceCode": "C_PROJECT_MEMBERSHIP",
-					"objectViewColumns": [
-						{
-							"label": {
-								"en_US": "ERC"
-							},
-							"objectFieldName": "externalReferenceCode",
-							"priority": 0
-						},
-						{
-							"label": {
-								"en_US": "Role ERC"
-							},
-							"objectFieldName": "roleExternalReferenceCode",
-							"priority": 1
-						}
-					]
-				}
-			],
-			"panelCategoryKey": "applications_menu.applications.content",
-			"pluralLabel": {
-				"en_US": "Project Memberships"
-			},
-			"portlet": true,
-			"restContextPath": "/o/c/projectmemberships",
-			"scope": "company",
-			"status": {
-				"code": 0,
-				"label": "approved",
-				"label_i18n": "Approved"
-			},
-			"system": false,
-			"titleObjectFieldName": "roleExternalReferenceCode"
-		},
-		{
-			"active": true,
 			"className": "com.liferay.object.model.ObjectDefinition#C_PROPERTY",
 			"enableCategorization": false,
 			"enableComments": false,
@@ -3475,16 +3399,16 @@
 			"enableCategorization": false,
 			"enableComments": false,
 			"enableObjectEntryHistory": false,
-			"externalReferenceCode": "C_PUBLISHER_ASSET",
+			"externalReferenceCode": "C_PUBLISHER_ASSETS",
 			"label": {
-				"en_US": "Publisher Asset"
+				"en_US": "Publisher Assets"
 			},
-			"name": "PublisherAsset",
+			"name": "PublisherAssets",
 			"objectFields": [
 				{
 					"DBType": "String",
 					"businessType": "Text",
-					"externalReferenceCode": "C_PUBLISHER_ASSET_VERSION",
+					"externalReferenceCode": "C_PUBLISHER_ASSETS_VERSION",
 					"indexed": true,
 					"indexedAsKeyword": false,
 					"indexedLanguageId": "en_US",
@@ -3750,7 +3674,7 @@
 					"indexedAsKeyword": false,
 					"indexedLanguageId": "",
 					"label": {
-						"en_US": "PayPal Account"
+						"en_US": "Paypal Account"
 					},
 					"name": "paypalAccount",
 					"objectFieldSettings": [
