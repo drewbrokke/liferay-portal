@@ -1,0 +1,68 @@
+{
+	"object-entries": [
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Liferay AI Hub",
+			"externalReferenceCode": "C_ENT_DEF_AIHUB",
+			"grantType": "fixed",
+			"name": "licenseGeneration",
+			"unit": "boolean"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Liferay Analytics Cloud",
+			"externalReferenceCode": "C_ENT_DEF_ANALYTICS_CLOUD",
+			"grantType": "fixed",
+			"name": "licenseGeneration",
+			"unit": "boolean"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Liferay Customer Management Platform",
+			"externalReferenceCode": "C_ENT_DEF_CMP",
+			"grantType": "fixed",
+			"name": "licenseGeneration",
+			"unit": "boolean"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Liferay Commerce",
+			"externalReferenceCode": "C_ENT_DEF_COMMERCE",
+			"grantType": "fixed",
+			"name": "licenseGeneration",
+			"unit": "boolean"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Liferay DXP",
+			"externalReferenceCode": "C_ENT_DEF_DXP",
+			"grantType": "fixed",
+			"name": "licenseGeneration",
+			"unit": "boolean"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Smart Forms Builder",
+			"externalReferenceCode": "C_ENT_DEF_FORMS",
+			"grantType": "fixed",
+			"name": "licenseGeneration",
+			"unit": "boolean"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Sample Marketplace App",
+			"externalReferenceCode": "C_ENT_DEF_SAMPLE_APP",
+			"grantType": "fixed",
+			"name": "licenseGeneration",
+			"unit": "boolean"
+		}
+	],
+	"objectDefinitionName": "EntitlementDefinition"
+}

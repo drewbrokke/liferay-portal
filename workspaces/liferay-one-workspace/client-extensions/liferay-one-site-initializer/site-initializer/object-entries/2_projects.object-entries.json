@@ -1,0 +1,110 @@
+{
+	"object-entries": [
+		{
+			"externalReferenceCode": "ERC-001_proj",
+			"name": "Omni Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-001"
+		},
+		{
+			"externalReferenceCode": "ERC-002_proj",
+			"name": "SaaS Experience Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-002"
+		},
+		{
+			"externalReferenceCode": "ERC-003_proj",
+			"name": "SaaS Legacy Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-003"
+		},
+		{
+			"externalReferenceCode": "ERC-004_proj",
+			"name": "PaaS Experience Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-004"
+		},
+		{
+			"externalReferenceCode": "ERC-005_proj",
+			"name": "PaaS Legacy Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-005"
+		},
+		{
+			"externalReferenceCode": "ERC-006_proj",
+			"name": "DXP Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-006"
+		},
+		{
+			"externalReferenceCode": "ERC-007_proj",
+			"name": "Cloud Native Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-007"
+		},
+		{
+			"externalReferenceCode": "ERC-008_proj",
+			"name": "Business Plan Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-008"
+		},
+		{
+			"externalReferenceCode": "ERC-009_proj",
+			"name": "Pro Plan Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-009"
+		},
+		{
+			"externalReferenceCode": "ERC-010_proj",
+			"name": "Enterprise Plan Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-010"
+		},
+		{
+			"externalReferenceCode": "ERC-011_proj",
+			"name": "Self-Hosted Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-011"
+		},
+		{
+			"externalReferenceCode": "ERC-012_proj",
+			"name": "Commerce Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-012"
+		},
+		{
+			"externalReferenceCode": "ERC-013_proj",
+			"name": "Analytics Cloud Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-013"
+		},
+		{
+			"externalReferenceCode": "ERC-014_proj",
+			"name": "Enterprise Search Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-014"
+		},
+		{
+			"externalReferenceCode": "ERC-015_proj",
+			"name": "Portal Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-015"
+		},
+		{
+			"externalReferenceCode": "ERC-016_proj",
+			"name": "Partner Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-016"
+		},
+		{
+			"externalReferenceCode": "ERC-017_proj",
+			"name": "Partner FLS Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-017"
+		},
+		{
+			"externalReferenceCode": "ERC-018_proj",
+			"name": "Partner OEM Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-018"
+		},
+		{
+			"externalReferenceCode": "ERC-019_proj",
+			"name": "EWSA Project",
+			"r_accountEntryToProject_accountEntryERC": "ERC-019"
+		},
+		{
+			"externalReferenceCode": "SUP-LIFERAY_proj",
+			"name": "Liferay Supplier Project",
+			"r_accountEntryToProject_accountEntryERC": "SUP-LIFERAY"
+		},
+		{
+			"externalReferenceCode": "SUP-TEST_proj",
+			"name": "Test Supplier Project",
+			"r_accountEntryToProject_accountEntryERC": "SUP-TEST"
+		}
+	],
+	"objectDefinitionName": "Project"
+}

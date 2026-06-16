@@ -23,16 +23,24 @@
 		"sku": "LO_PRODUCT_AIHUB",
 		"specificationOptions": [
 			{
+				"key": "app-documentation-url",
+				"value": "https://learn.liferay.com"
+			},
+			{
+				"key": "app-usage-terms-url",
+				"value": "https://www.liferay.com/legal/customer-agreements"
+			},
+			{
 				"key": "developer-name",
 				"value": "Liferay"
 			},
 			{
 				"key": "liferay-products-capabilities",
-				"value": "Prebuilt AI assistants and copilots"
+				"value": "Generative AI-powered search"
 			},
 			{
 				"key": "liferay-products-capabilities",
-				"value": "Generative AI-powered search"
+				"value": "Prebuilt AI assistants and copilots"
 			},
 			{
 				"key": "liferay-products-capabilities",
@@ -53,6 +61,22 @@
 			{
 				"key": "publisher-name",
 				"value": "Liferay"
+			},
+			{
+				"key": "publisher-web-site-url",
+				"value": "https://www.liferay.com"
+			},
+			{
+				"key": "support-email-address",
+				"value": "support@liferay.com"
+			},
+			{
+				"key": "support-phone",
+				"value": "+1 877 437 3329"
+			},
+			{
+				"key": "support-url",
+				"value": "https://www.liferay.com/support"
 			}
 		]
 	},
@@ -80,12 +104,16 @@
 		"sku": "LO_PRODUCT_ANALYTICS_CLOUD",
 		"specificationOptions": [
 			{
-				"key": "developer-name",
-				"value": "Liferay"
+				"key": "app-documentation-url",
+				"value": "https://learn.liferay.com"
 			},
 			{
-				"key": "liferay-products-capabilities",
-				"value": "Real-time behavior dashboards"
+				"key": "app-usage-terms-url",
+				"value": "https://www.liferay.com/legal/customer-agreements"
+			},
+			{
+				"key": "developer-name",
+				"value": "Liferay"
 			},
 			{
 				"key": "liferay-products-capabilities",
@@ -94,6 +122,10 @@
 			{
 				"key": "liferay-products-capabilities",
 				"value": "Cross-channel conversion insights"
+			},
+			{
+				"key": "liferay-products-capabilities",
+				"value": "Real-time behavior dashboards"
 			},
 			{
 				"key": "liferay-products-categories",
@@ -106,6 +138,22 @@
 			{
 				"key": "publisher-name",
 				"value": "Liferay"
+			},
+			{
+				"key": "publisher-web-site-url",
+				"value": "https://www.liferay.com"
+			},
+			{
+				"key": "support-email-address",
+				"value": "support@liferay.com"
+			},
+			{
+				"key": "support-phone",
+				"value": "+1 877 437 3329"
+			},
+			{
+				"key": "support-url",
+				"value": "https://www.liferay.com/support"
 			}
 		]
 	},
@@ -133,12 +181,16 @@
 		"sku": "LO_PRODUCT_CMP",
 		"specificationOptions": [
 			{
-				"key": "developer-name",
-				"value": "Liferay"
+				"key": "app-documentation-url",
+				"value": "https://learn.liferay.com"
 			},
 			{
-				"key": "liferay-products-capabilities",
-				"value": "Unified customer profiles"
+				"key": "app-usage-terms-url",
+				"value": "https://www.liferay.com/legal/customer-agreements"
+			},
+			{
+				"key": "developer-name",
+				"value": "Liferay"
 			},
 			{
 				"key": "liferay-products-capabilities",
@@ -147,6 +199,10 @@
 			{
 				"key": "liferay-products-capabilities",
 				"value": "Engagement and activity tracking"
+			},
+			{
+				"key": "liferay-products-capabilities",
+				"value": "Unified customer profiles"
 			},
 			{
 				"key": "liferay-products-categories",
@@ -159,6 +215,22 @@
 			{
 				"key": "publisher-name",
 				"value": "Liferay"
+			},
+			{
+				"key": "publisher-web-site-url",
+				"value": "https://www.liferay.com"
+			},
+			{
+				"key": "support-email-address",
+				"value": "support@liferay.com"
+			},
+			{
+				"key": "support-phone",
+				"value": "+1 877 437 3329"
+			},
+			{
+				"key": "support-url",
+				"value": "https://www.liferay.com/support"
 			}
 		]
 	},
@@ -185,6 +257,14 @@
 		"price": 0,
 		"sku": "LO_PRODUCT_COMMERCE",
 		"specificationOptions": [
+			{
+				"key": "app-documentation-url",
+				"value": "https://learn.liferay.com"
+			},
+			{
+				"key": "app-usage-terms-url",
+				"value": "https://www.liferay.com/legal/customer-agreements"
+			},
 			{
 				"key": "developer-name",
 				"value": "Liferay"
@@ -216,6 +296,22 @@
 			{
 				"key": "publisher-name",
 				"value": "Liferay"
+			},
+			{
+				"key": "publisher-web-site-url",
+				"value": "https://www.liferay.com"
+			},
+			{
+				"key": "support-email-address",
+				"value": "support@liferay.com"
+			},
+			{
+				"key": "support-phone",
+				"value": "+1 877 437 3329"
+			},
+			{
+				"key": "support-url",
+				"value": "https://www.liferay.com/support"
 			}
 		]
 	},
@@ -243,12 +339,16 @@
 		"sku": "LO_PRODUCT_DXP",
 		"specificationOptions": [
 			{
-				"key": "developer-name",
-				"value": "Liferay"
+				"key": "app-documentation-url",
+				"value": "https://learn.liferay.com"
 			},
 			{
-				"key": "liferay-products-capabilities",
-				"value": "Portals, sites, and intranets"
+				"key": "app-usage-terms-url",
+				"value": "https://www.liferay.com/legal/customer-agreements"
+			},
+			{
+				"key": "developer-name",
+				"value": "Liferay"
 			},
 			{
 				"key": "liferay-products-capabilities",
@@ -257,6 +357,10 @@
 			{
 				"key": "liferay-products-capabilities",
 				"value": "Low-code, extensible platform"
+			},
+			{
+				"key": "liferay-products-capabilities",
+				"value": "Portals, sites, and intranets"
 			},
 			{
 				"key": "liferay-products-categories",
@@ -269,6 +373,22 @@
 			{
 				"key": "publisher-name",
 				"value": "Liferay"
+			},
+			{
+				"key": "publisher-web-site-url",
+				"value": "https://www.liferay.com"
+			},
+			{
+				"key": "support-email-address",
+				"value": "support@liferay.com"
+			},
+			{
+				"key": "support-phone",
+				"value": "+1 877 437 3329"
+			},
+			{
+				"key": "support-url",
+				"value": "https://www.liferay.com/support"
 			}
 		]
 	},
@@ -295,6 +415,34 @@
 		"price": 0,
 		"sku": "LO_PRODUCT_SAMPLE_APP",
 		"specificationOptions": [
+			{
+				"key": "app-documentation-url",
+				"value": "https://learn.liferay.com"
+			},
+			{
+				"key": "app-usage-terms-url",
+				"value": "https://www.liferay.com/legal/customer-agreements"
+			},
+			{
+				"key": "publisher-name",
+				"value": "Liferay"
+			},
+			{
+				"key": "publisher-web-site-url",
+				"value": "https://www.liferay.com"
+			},
+			{
+				"key": "support-email-address",
+				"value": "support@liferay.com"
+			},
+			{
+				"key": "support-phone",
+				"value": "+1 877 437 3329"
+			},
+			{
+				"key": "support-url",
+				"value": "https://www.liferay.com/support"
+			}
 		]
 	},
 	{
@@ -321,6 +469,14 @@
 		"sku": "LO_PRODUCT_TEST_APP_FORMS",
 		"specificationOptions": [
 			{
+				"key": "app-documentation-url",
+				"value": "https://docs.acmeapps.com"
+			},
+			{
+				"key": "app-usage-terms-url",
+				"value": "https://www.acmeapps.com/eula"
+			},
+			{
 				"key": "developer-name",
 				"value": "Acme Apps"
 			},
@@ -335,6 +491,22 @@
 			{
 				"key": "publisher-name",
 				"value": "Acme Apps"
+			},
+			{
+				"key": "publisher-web-site-url",
+				"value": "https://www.acmeapps.com"
+			},
+			{
+				"key": "support-email-address",
+				"value": "support@acmeapps.com"
+			},
+			{
+				"key": "support-phone",
+				"value": "+1 267 862 7172"
+			},
+			{
+				"key": "support-url",
+				"value": "https://support.acmeapps.com"
 			}
 		]
 	},

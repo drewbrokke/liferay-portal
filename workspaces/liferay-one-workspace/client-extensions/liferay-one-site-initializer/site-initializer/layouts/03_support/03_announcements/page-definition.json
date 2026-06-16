@@ -220,7 +220,7 @@
 													"maxTerms": "10",
 													"order": "key:asc",
 													"parameterName": "Type",
-													"vocabularyIds": "[$TAXONOMY_VOCABULARY_ID:Announcement Type$]"
+													"vocabularyIds": "[$TAXONOMY_VOCABULARY_ID:Article Categories$]"
 												},
 												"widgetName": "com_liferay_portal_search_web_category_facet_portlet_CategoryFacetPortlet"
 											}

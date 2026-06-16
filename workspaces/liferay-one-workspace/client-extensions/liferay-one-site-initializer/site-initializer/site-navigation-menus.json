@@ -93,7 +93,7 @@
 							"en_US": "Support Policies"
 						},
 						"type": "url",
-						"url": "/support/support-policies",
+						"url": "/web/one/search?category=[$TAXONOMY_CATEGORY_ID:/site-initializer/taxonomy-vocabularies/group/article-categories/support-policies.json$]",
 						"useNewTab": false
 					}
 				],
@@ -371,7 +371,7 @@
 									"pt_BR": "Políticas de Suporte"
 								},
 								"type": "url",
-								"url": "/support/support-policies",
+								"url": "/web/one/search?category=[$TAXONOMY_CATEGORY_ID:/site-initializer/taxonomy-vocabularies/group/article-categories/support-policies.json$]",
 								"useNewTab": false
 							}
 						],

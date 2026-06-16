@@ -95,23 +95,13 @@
 		"type": "business"
 	},
 	{
-		"externalReferenceCode": "SUP-ACME",
-		"name": "Acme Apps Inc.",
+		"externalReferenceCode": "SUP-LIFERAY",
+		"name": "Liferay Supplier Account",
 		"type": "supplier"
 	},
 	{
-		"externalReferenceCode": "SUP-DATABRIDGE",
-		"name": "DataBridge Solutions",
-		"type": "supplier"
-	},
-	{
-		"externalReferenceCode": "SUP-FORMFLOW",
-		"name": "FormFlow Labs",
-		"type": "supplier"
-	},
-	{
-		"externalReferenceCode": "SUP-NIMBUS",
-		"name": "NimbusWorks",
+		"externalReferenceCode": "SUP-TEST",
+		"name": "Test Supplier Account",
 		"type": "supplier"
 	}
 ]

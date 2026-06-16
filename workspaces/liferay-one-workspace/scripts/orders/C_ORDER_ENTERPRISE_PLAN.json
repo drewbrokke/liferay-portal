@@ -1,0 +1,97 @@
+{
+	"entitlements": [
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_ENTERPRISE_PLAN_ANALYTICS_CLOUD",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Liferay Analytics Cloud",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_ENTERPRISE_PLAN_ANALYTICS_CLOUD",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_ENTERPRISE_PLAN",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_ANALYTICS_CLOUD",
+			"startDate": "2026-08-09T00:00:00Z"
+		},
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_ENTERPRISE_PLAN_COMMERCE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Liferay Commerce",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_ENTERPRISE_PLAN_COMMERCE",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_ENTERPRISE_PLAN",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_COMMERCE",
+			"startDate": "2026-08-09T00:00:00Z"
+		},
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_ENTERPRISE_PLAN_DXP",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Liferay DXP",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_ENTERPRISE_PLAN_DXP",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_ENTERPRISE_PLAN",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_DXP",
+			"startDate": "2026-08-09T00:00:00Z"
+		},
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_ENTERPRISE_PLAN_FORMS",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Smart Forms Builder",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_ENTERPRISE_PLAN_FORMS",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_ENTERPRISE_PLAN",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_FORMS",
+			"startDate": "2026-08-09T00:00:00Z"
+		}
+	],
+	"licenseKeys": [
+		{
+			"externalReferenceCode": "C_LICENSE_KEY_EP_PRODUCTION",
+			"r_entitlementToLicenseKey_c_entitlementERC": "C_ENT_ENTERPRISE_PLAN_DXP"
+		}
+	],
+	"order": {
+		"accountExternalReferenceCode": "ERC-010",
+		"channelExternalReferenceCode": "LIFERAY_ONE_CHANNEL",
+		"contractExternalReferenceCode": "C_CONTRACT_ENTERPRISE_PLAN",
+		"currencyCode": "USD",
+		"externalReferenceCode": "C_ORDER_ENTERPRISE_PLAN",
+		"orderItems": [
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_ENTERPRISE_PLAN_ANALYTICS_CLOUD",
+				"name": "Liferay Analytics Cloud",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_ANALYTICS_CLOUD",
+				"unitPrice": 0
+			},
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_ENTERPRISE_PLAN_COMMERCE",
+				"name": "Liferay Commerce",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_COMMERCE",
+				"unitPrice": 0
+			},
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_ENTERPRISE_PLAN_DXP",
+				"name": "Liferay DXP",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_DXP",
+				"unitPrice": 0
+			},
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_ENTERPRISE_PLAN_FORMS",
+				"name": "Smart Forms Builder",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_TEST_APP_FORMS",
+				"unitPrice": 0
+			}
+		],
+		"orderStatus": 5,
+		"orderTypeExternalReferenceCode": "DXP"
+	}
+}

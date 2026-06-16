@@ -4615,33 +4615,33 @@
 		},
 		{
 			"active": true,
-			"className": "com.liferay.object.model.ObjectDefinition#C_USER_PROJECT_ASSOCIATION",
+			"className": "com.liferay.object.model.ObjectDefinition#C_PROJECT_MEMBERSHIP",
 			"enableCategorization": false,
 			"enableComments": false,
 			"enableObjectEntryHistory": false,
-			"externalReferenceCode": "C_USER_PROJECT_ASSOCIATION",
+			"externalReferenceCode": "C_PROJECT_MEMBERSHIP",
 			"label": {
-				"en_US": "User Project Association"
+				"en_US": "Project Membership"
 			},
-			"name": "UserProjectAssociation",
+			"name": "ProjectMembership",
 			"objectFields": [
 				{
-					"DBType": "Long",
-					"businessType": "LongInteger",
-					"externalReferenceCode": "C_USER_PROJECT_ASSOCIATION_ROLE_ID",
+					"DBType": "String",
+					"businessType": "Text",
+					"externalReferenceCode": "C_PROJECT_MEMBERSHIP_ROLE_EXTERNAL_REFERENCE_CODE",
 					"indexed": true,
-					"indexedAsKeyword": false,
+					"indexedAsKeyword": true,
 					"indexedLanguageId": "",
 					"label": {
-						"en_US": "Role ID"
+						"en_US": "Role ERC"
 					},
-					"name": "roleId",
+					"name": "roleExternalReferenceCode",
 					"objectFieldSettings": [
 					],
 					"required": true,
 					"state": false,
 					"system": false,
-					"type": "Long"
+					"type": "String"
 				}
 			],
 			"objectFolderExternalReferenceCode": "C_LIFERAY_ONE_FOLDER",
@@ -4655,7 +4655,7 @@
 					"name": {
 						"en_US": "Default View"
 					},
-					"objectDefinitionExternalReferenceCode": "C_USER_PROJECT_ASSOCIATION",
+					"objectDefinitionExternalReferenceCode": "C_PROJECT_MEMBERSHIP",
 					"objectViewColumns": [
 						{
 							"label": {
@@ -4666,9 +4666,9 @@
 						},
 						{
 							"label": {
-								"en_US": "Role ID"
+								"en_US": "Role ERC"
 							},
-							"objectFieldName": "roleId",
+							"objectFieldName": "roleExternalReferenceCode",
 							"priority": 1
 						}
 					]
@@ -4676,10 +4676,10 @@
 			],
 			"panelCategoryKey": "applications_menu.applications.content",
 			"pluralLabel": {
-				"en_US": "User Project Associations"
+				"en_US": "Project Memberships"
 			},
 			"portlet": true,
-			"restContextPath": "/o/c/userprojectassociations",
+			"restContextPath": "/o/c/projectmemberships",
 			"scope": "company",
 			"status": {
 				"code": 0,
@@ -4687,7 +4687,7 @@
 				"label_i18n": "Approved"
 			},
 			"system": false,
-			"titleObjectFieldName": "roleId"
+			"titleObjectFieldName": "roleExternalReferenceCode"
 		}
 	]
 }

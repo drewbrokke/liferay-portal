@@ -46,6 +46,17 @@
 		},
 		{
 			"deletionType": "cascade",
+			"externalReferenceCode": "R_ACCOUNT_ENTRY_TO_OAUTH2_DXP_AUTHORIZATION",
+			"label": {
+				"en_US": "Account Entry to OAuth2 DXP Authorization"
+			},
+			"name": "accountEntryToOAuth2DxpAuthorization",
+			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
+			"objectDefinitionExternalReferenceCode2": "C_OAUTH2_DXP_AUTHORIZATION",
+			"type": "oneToMany"
+		},
+		{
+			"deletionType": "cascade",
 			"externalReferenceCode": "R_ACCOUNT_ENTRY_TO_PROJECT",
 			"label": {
 				"en_US": "Account Entry to Project"
@@ -64,6 +75,17 @@
 			"name": "accountEntryToProperty",
 			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
 			"objectDefinitionExternalReferenceCode2": "C_PROPERTY",
+			"type": "oneToMany"
+		},
+		{
+			"deletionType": "cascade",
+			"externalReferenceCode": "R_ACCOUNT_ENTRY_TO_PUBLISHER",
+			"label": {
+				"en_US": "Account Entry to Publisher"
+			},
+			"name": "accountEntryToPublisher",
+			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
+			"objectDefinitionExternalReferenceCode2": "C_PUBLISHER_SALES_SUMMARY",
 			"type": "oneToMany"
 		},
 		{
@@ -101,46 +123,24 @@
 		},
 		{
 			"deletionType": "cascade",
-			"externalReferenceCode": "R_ACCOUNT_ENTRY_TO_USER_PROJECT_ASSOCIATION",
+			"externalReferenceCode": "R_ACCOUNT_ENTRY_TO_TRIAL_EXTENSION_REQUEST",
 			"label": {
-				"en_US": "Account Entry to User Project Association"
+				"en_US": "Account Entry to Trial Extension Request"
 			},
-			"name": "accountEntryToUserProjectAssociation",
-			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
-			"objectDefinitionExternalReferenceCode2": "C_USER_PROJECT_ASSOCIATION",
-			"type": "oneToMany"
-		},
-		{
-			"deletionType": "cascade",
-			"externalReferenceCode": "R_ACCOUNT_TO_OAUTH2_DXP_AUTHORIZATION",
-			"label": {
-				"en_US": "Account to OAuth2 DXP Authorization"
-			},
-			"name": "accountToOAuth2DxpAuthorization",
-			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
-			"objectDefinitionExternalReferenceCode2": "C_OAUTH2_DXP_AUTHORIZATION",
-			"type": "oneToMany"
-		},
-		{
-			"deletionType": "cascade",
-			"externalReferenceCode": "R_ACCOUNT_TO_PUBLISHER",
-			"label": {
-				"en_US": "Account to Publisher"
-			},
-			"name": "accountToPublisher",
-			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
-			"objectDefinitionExternalReferenceCode2": "C_PUBLISHER_SALES_SUMMARY",
-			"type": "oneToMany"
-		},
-		{
-			"deletionType": "cascade",
-			"externalReferenceCode": "R_ACCOUNT_TO_TRIAL_EXTENSION_REQUEST",
-			"label": {
-				"en_US": "Account to Trial Extension Request"
-			},
-			"name": "accountToTrialExtensionRequest",
+			"name": "accountEntryToTrialExtensionRequest",
 			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
 			"objectDefinitionExternalReferenceCode2": "C_TRIAL_EXTENSION_REQUEST",
+			"type": "oneToMany"
+		},
+		{
+			"deletionType": "cascade",
+			"externalReferenceCode": "R_ACCOUNT_ENTRY_TO_PROJECT_MEMBERSHIP",
+			"label": {
+				"en_US": "Account Entry to Project Membership"
+			},
+			"name": "accountEntryToProjectMembership",
+			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
+			"objectDefinitionExternalReferenceCode2": "C_PROJECT_MEMBERSHIP",
 			"type": "oneToMany"
 		},
 		{
@@ -185,6 +185,17 @@
 			"name": "commerceProductToLicenseKey",
 			"objectDefinitionExternalReferenceCode1": "L_COMMERCE_PRODUCT_DEFINITION",
 			"objectDefinitionExternalReferenceCode2": "C_LICENSE_KEY",
+			"type": "oneToMany"
+		},
+		{
+			"deletionType": "disassociate",
+			"externalReferenceCode": "R_CONTRACT_TO_COMMERCE_ORDER",
+			"label": {
+				"en_US": "Contract to Commerce Order"
+			},
+			"name": "contractToCommerceOrder",
+			"objectDefinitionExternalReferenceCode1": "C_CONTRACT",
+			"objectDefinitionExternalReferenceCode2": "L_COMMERCE_ORDER",
 			"type": "oneToMany"
 		},
 		{
@@ -321,13 +332,13 @@
 		},
 		{
 			"deletionType": "cascade",
-			"externalReferenceCode": "R_PROJECT_TO_USER_PROJECT_ASSOCIATION",
+			"externalReferenceCode": "R_PROJECT_TO_PROJECT_MEMBERSHIP",
 			"label": {
-				"en_US": "Project to User Project Association"
+				"en_US": "Project to Project Membership"
 			},
-			"name": "projectToUserProjectAssociation",
+			"name": "projectToProjectMembership",
 			"objectDefinitionExternalReferenceCode1": "C_PROJECT",
-			"objectDefinitionExternalReferenceCode2": "C_USER_PROJECT_ASSOCIATION",
+			"objectDefinitionExternalReferenceCode2": "C_PROJECT_MEMBERSHIP",
 			"type": "oneToMany"
 		},
 		{
@@ -376,13 +387,13 @@
 		},
 		{
 			"deletionType": "cascade",
-			"externalReferenceCode": "R_USER_TO_USER_PROJECT_ASSOCIATION",
+			"externalReferenceCode": "R_USER_TO_PROJECT_MEMBERSHIP",
 			"label": {
-				"en_US": "User to User Project Association"
+				"en_US": "User to Project Membership"
 			},
-			"name": "userToUserProjectAssociation",
+			"name": "userToProjectMembership",
 			"objectDefinitionExternalReferenceCode1": "L_USER",
-			"objectDefinitionExternalReferenceCode2": "C_USER_PROJECT_ASSOCIATION",
+			"objectDefinitionExternalReferenceCode2": "C_PROJECT_MEMBERSHIP",
 			"type": "oneToMany"
 		}
 	]

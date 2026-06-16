@@ -1,0 +1,148 @@
+{
+	"entitlements": [
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_OMNI_AIHUB",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Liferay AI Hub",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_OMNI_AIHUB",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_OMNI",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_AIHUB",
+			"startDate": "2026-08-09T00:00:00Z"
+		},
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_OMNI_ANALYTICS_CLOUD",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Liferay Analytics Cloud",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_OMNI_ANALYTICS_CLOUD",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_OMNI",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_ANALYTICS_CLOUD",
+			"startDate": "2026-08-09T00:00:00Z"
+		},
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_OMNI_CMP",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Liferay Customer Management Platform",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_OMNI_CMP",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_OMNI",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_CMP",
+			"startDate": "2026-08-09T00:00:00Z"
+		},
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_OMNI_COMMERCE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Liferay Commerce",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_OMNI_COMMERCE",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_OMNI",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_COMMERCE",
+			"startDate": "2026-08-09T00:00:00Z"
+		},
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_OMNI_DXP",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Liferay DXP",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_OMNI_DXP",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_OMNI",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_DXP",
+			"startDate": "2026-08-09T00:00:00Z"
+		},
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_OMNI_FORMS",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Smart Forms Builder",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_OMNI_FORMS",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_OMNI",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_FORMS",
+			"startDate": "2026-08-09T00:00:00Z"
+		},
+		{
+			"endDate": "2027-08-09T00:00:00Z",
+			"externalReferenceCode": "C_ENT_OMNI_SAMPLE_APP",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "Sample Marketplace App",
+			"quantity": 1,
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_OMNI_SAMPLE_APP",
+			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_OMNI",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_SAMPLE_APP",
+			"startDate": "2026-08-09T00:00:00Z"
+		}
+	],
+	"order": {
+		"accountExternalReferenceCode": "ERC-001",
+		"channelExternalReferenceCode": "LIFERAY_ONE_CHANNEL",
+		"contractExternalReferenceCode": "C_CONTRACT_OMNI",
+		"currencyCode": "USD",
+		"externalReferenceCode": "C_ORDER_OMNI",
+		"orderItems": [
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_OMNI_AIHUB",
+				"name": "Liferay AI Hub",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_AIHUB",
+				"unitPrice": 0
+			},
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_OMNI_ANALYTICS_CLOUD",
+				"name": "Liferay Analytics Cloud",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_ANALYTICS_CLOUD",
+				"unitPrice": 0
+			},
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_OMNI_CMP",
+				"name": "Liferay Customer Management Platform",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_CMP",
+				"unitPrice": 0
+			},
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_OMNI_COMMERCE",
+				"name": "Liferay Commerce",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_COMMERCE",
+				"unitPrice": 0
+			},
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_OMNI_DXP",
+				"name": "Liferay DXP",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_DXP",
+				"unitPrice": 0
+			},
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_OMNI_FORMS",
+				"name": "Smart Forms Builder",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_TEST_APP_FORMS",
+				"unitPrice": 0
+			},
+			{
+				"externalReferenceCode": "C_ORDER_ITEM_OMNI_SAMPLE_APP",
+				"name": "Sample Marketplace App",
+				"quantity": 1,
+				"skuExternalReferenceCode": "LO_PRODUCT_SAMPLE_APP",
+				"unitPrice": 0
+			}
+		],
+		"orderStatus": 5,
+		"orderTypeExternalReferenceCode": "DXP"
+	}
+}
