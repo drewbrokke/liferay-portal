@@ -5,6 +5,7 @@
 ```
 one.liferay.com
 ├─ HOME                                    LANDING PAGE
+├─ SEARCH                                  HIDDEN PAGE
 ├─ MY ACCOUNT                              SPA
 │  ├─ Subscriptions                        ROUTE
 │  │  ├─ Subscription Details              ROUTE
