@@ -107,6 +107,59 @@ function _link_license_keys {
 	done < <(_read_array "${file}" "licenseKeys")
 }
 
+# The My Projects UI reads order fields that the order placement payload does
+# not accept: the projectName and cloudProjectName custom fields (used to scope
+# the project's Orders and Environment tabs) and the standard purchaseOrderNumber
+# (shown as the purchase number on the product details). They are applied with a
+# follow-up PATCH from the customFields object and purchaseOrderNumber in the
+# order file once the order exists.
+
+function _set_order_fields {
+	local file="${1}"
+	local order_id="${2}"
+
+	local payload
+
+	payload=$(python3 -c "
+import json
+import sys
+
+with open(sys.argv[1]) as file:
+	data = json.load(file)
+
+patch = {}
+
+if data.get('customFields'):
+	patch['customFields'] = data['customFields']
+
+if data.get('purchaseOrderNumber'):
+	patch['purchaseOrderNumber'] = data['purchaseOrderNumber']
+
+print(json.dumps(patch))
+" "${file}")
+
+	[[ ${payload} == "{}" ]] && return 0
+
+	local status
+
+	status=$(curl \
+		--data "${payload}" \
+		--header "Content-Type: application/json" \
+		--output /dev/null \
+		--request PATCH \
+		--silent \
+		--user "${LIFERAY_ADMIN_EMAIL}:${LIFERAY_ADMIN_PASSWORD}" \
+		--write-out "%{http_code}" \
+		"${LIFERAY_URL}/o/headless-commerce-admin-order/v1.0/orders/${order_id}" || true)
+
+	if [[ ${status} == 2* ]]
+	then
+		echo "Set fields for order ${order_id}."
+	else
+		echo "Unable to set fields for order ${order_id}." >&2
+	fi
+}
+
 function _populate_order {
 	local file="${1}"
 	local channel_id="${2}"
@@ -132,19 +185,21 @@ function _populate_order {
 	# are still being imported by the site initializer.
 
 	local attempt
+	local response
 	local status
 
 	for ((attempt = 1; attempt <= 60; attempt++))
 	do
-		status=$(curl \
+		response=$(curl \
 			--data "${payload}" \
 			--header "Content-Type: application/json" \
-			--output /dev/null \
 			--request POST \
 			--silent \
 			--user "${LIFERAY_ADMIN_EMAIL}:${LIFERAY_ADMIN_PASSWORD}" \
-			--write-out "%{http_code}" \
+			--write-out "\n%{http_code}" \
 			"${LIFERAY_URL}/o/headless-commerce-admin-order/v1.0/orders" || true)
+
+		status=$(echo "${response}" | tail -n 1)
 
 		if [[ ${status} == 2* ]]
 		then
@@ -163,6 +218,11 @@ function _populate_order {
 
 	echo "Created order ${order_external_reference_code}."
 
+	local order_id
+
+	order_id=$(echo "${response}" | sed '$d' | _read_field "id")
+
+	_set_order_fields "${file}" "${order_id}"
 	_upsert_entitlements "${file}"
 	_link_license_keys "${file}"
 }

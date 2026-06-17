@@ -1,15 +1,19 @@
 {
+	"customFields": {
+		"projectName": "Partner OEM Project"
+	},
 	"entitlements": [
 		{
 			"endDate": "2027-08-09T00:00:00Z",
-			"externalReferenceCode": "C_ENT_PARTNER_OEM_CMP",
+			"externalReferenceCode": "C_ENT_PARTNER_OEM_CONTENT_MARKETING",
 			"grantType": "fixed",
 			"maxQuantity": 1,
-			"name": "Liferay Customer Management Platform",
+			"name": "Content Marketing Platform",
 			"quantity": 1,
-			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_PARTNER_OEM_CMP",
+			"r_accountEntryToEntitlement_accountEntryERC": "ACCNT-018",
+			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_PARTNER_OEM_CONTENT_MARKETING",
 			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_PARTNER_OEM",
-			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_CMP",
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_CONTENT_MARKETING",
 			"startDate": "2026-08-09T00:00:00Z"
 		},
 		{
@@ -19,6 +23,7 @@
 			"maxQuantity": 1,
 			"name": "Liferay DXP",
 			"quantity": 1,
+			"r_accountEntryToEntitlement_accountEntryERC": "ACCNT-018",
 			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_PARTNER_OEM_DXP",
 			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_PARTNER_OEM",
 			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_DXP",
@@ -26,28 +31,29 @@
 		}
 	],
 	"order": {
-		"accountExternalReferenceCode": "ERC-018",
+		"accountExternalReferenceCode": "ACCNT-018",
 		"channelExternalReferenceCode": "LIFERAY_ONE_CHANNEL",
 		"contractExternalReferenceCode": "C_CONTRACT_PARTNER_OEM",
 		"currencyCode": "USD",
 		"externalReferenceCode": "C_ORDER_PARTNER_OEM",
 		"orderItems": [
 			{
-				"externalReferenceCode": "C_ORDER_ITEM_PARTNER_OEM_CMP",
-				"name": "Liferay Customer Management Platform",
+				"externalReferenceCode": "C_ORDER_ITEM_PARTNER_OEM_CONTENT_MARKETING",
+				"name": "Content Marketing Platform",
 				"quantity": 1,
-				"skuExternalReferenceCode": "LO_PRODUCT_CMP",
+				"skuExternalReferenceCode": "PRDCT-CONTENT-MARKETING",
 				"unitPrice": 0
 			},
 			{
 				"externalReferenceCode": "C_ORDER_ITEM_PARTNER_OEM_DXP",
 				"name": "Liferay DXP",
 				"quantity": 1,
-				"skuExternalReferenceCode": "LO_PRODUCT_DXP",
+				"skuExternalReferenceCode": "PRDCT-DXP",
 				"unitPrice": 0
 			}
 		],
 		"orderStatus": 5,
 		"orderTypeExternalReferenceCode": "DXP"
-	}
+	},
+	"purchaseOrderNumber": "PO-PARTNER-OEM"
 }

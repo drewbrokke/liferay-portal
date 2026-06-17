@@ -165,7 +165,7 @@
 		"description": "",
 		"facetable": false,
 		"key": "publisher-web-site-url",
-		"title": "Publisher Web Site URL"
+		"title": "Publisher Web site URL"
 	},
 	{
 		"categoryKey": "resource-requirements",

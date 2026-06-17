@@ -37,6 +37,22 @@
 											},
 											"fragmentFields": [
 												{
+													"id": "backgroundImage",
+													"value": {
+														"backgroundFragmentImage": {
+															"url": {
+																"mapping": {
+																	"fieldKey": "FileEntry_previewImage",
+																	"itemReference": {
+																		"className": "com.liferay.portal.kernel.repository.model.FileEntry",
+																		"classPK": "[#DOCUMENT_FILE_ENTRY_ID:/site-initializer/documents/group/hero_banner_gradient_bubbles.png#]"
+																	}
+																}
+															}
+														}
+													}
+												},
+												{
 													"id": "breadcrumb-current",
 													"value": {
 														"text": {
@@ -77,19 +93,6 @@
 													}
 												}
 											],
-											"fragmentStyle": {
-												"backgroundFragmentImage": {
-													"url": {
-														"mapping": {
-															"fieldKey": "FileEntry_previewImage",
-															"itemReference": {
-																"className": "com.liferay.portal.kernel.repository.model.FileEntry",
-																"classPK": "[#DOCUMENT_FILE_ENTRY_ID:/site-initializer/documents/group/hero_banner_gradient_bubbles.png#]"
-															}
-														}
-													}
-												}
-											},
 											"indexed": true
 										},
 										"type": "Fragment"
@@ -217,7 +220,7 @@
 													"frequenciesVisible": "true",
 													"frequencyThreshold": "1",
 													"groupVocabularyExternalReferenceCodes": "",
-													"maxTerms": "10",
+													"maxTerms": "20",
 													"order": "key:asc",
 													"parameterName": "Type",
 													"vocabularyIds": "[$TAXONOMY_VOCABULARY_ID:Article Categories$]"

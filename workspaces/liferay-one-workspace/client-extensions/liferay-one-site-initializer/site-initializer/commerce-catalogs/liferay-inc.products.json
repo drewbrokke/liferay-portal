@@ -3,7 +3,7 @@
 		"categories": [
 			"liferay-product"
 		],
-		"description": "Discover, learn, and test CMS, DAM, Commerce, Sites, Low Code, and more.",
+		"description": "Discover, learn, and test CMS, DAM, Commerce, Sites, Low-Code, and more.",
 		"displayAvailability": true,
 		"displayStockQuantity": true,
 		"externalReferenceCode": "PRDCT-DXP",
@@ -84,7 +84,7 @@
 		"categories": [
 			"app"
 		],
-		"description": "Integrate Liferay DXP with OpenSearch 2, an open source search engine offering lexical search, vector search, and enterprise grade scalability.",
+		"description": "Integrate Liferay DXP with OpenSearch 2, an open-source search engine offering lexical search, vector search, and enterprise-grade scalability.",
 		"displayAvailability": true,
 		"displayStockQuantity": true,
 		"externalReferenceCode": "PRDCT-OPENSEARCH",
@@ -210,14 +210,14 @@
 		"categories": [
 			"solution"
 		],
-		"description": "Take a journey through our exclusive example Liferay SaaS solution to see how easy it is to use Liferay's low code and no code capabilities to build exactly what you need for your business.",
+		"description": "Take a journey through our exclusive example Liferay SaaS solution to see how easy it is to use Liferay's low-code and no-code capabilities to build exactly what you need for your business.",
 		"displayAvailability": true,
 		"displayStockQuantity": true,
 		"externalReferenceCode": "PRDCT-TRIAL",
 		"images": [
 			"sample-marketplace-app.png"
 		],
-		"name": "Liferay Prebuilt 7 Day Trial",
+		"name": "Liferay Pre-Built 7 Day Trial",
 		"options": [
 			{
 				"key": "base-license-usage-type",
@@ -267,11 +267,11 @@
 			},
 			{
 				"key": "solution-header-description",
-				"value": "Take a journey through our exclusive example Liferay SaaS solution to see how easy it is to use Liferay's low code and no code capabilities to build exactly what you need for your business."
+				"value": "Take a journey through our exclusive example Liferay SaaS solution to see how easy it is to use Liferay's low-code and no-code capabilities to build exactly what you need for your business."
 			},
 			{
 				"key": "solution-header-title",
-				"value": "Liferay Prebuilt 7 Day Trial"
+				"value": "Liferay Pre-Built 7 Day Trial"
 			},
 			{
 				"key": "solution-type",

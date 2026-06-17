@@ -37,6 +37,22 @@
 											},
 											"fragmentFields": [
 												{
+													"id": "backgroundImage",
+													"value": {
+														"backgroundFragmentImage": {
+															"url": {
+																"mapping": {
+																	"fieldKey": "FileEntry_previewImage",
+																	"itemReference": {
+																		"className": "com.liferay.portal.kernel.repository.model.FileEntry",
+																		"classPK": "[#DOCUMENT_FILE_ENTRY_ID:/site-initializer/documents/group/hero_banner_gradient_bubbles.png#]"
+																	}
+																}
+															}
+														}
+													}
+												},
+												{
 													"id": "breadcrumb-current",
 													"value": {
 														"text": {
@@ -77,19 +93,6 @@
 													}
 												}
 											],
-											"fragmentStyle": {
-												"backgroundFragmentImage": {
-													"url": {
-														"mapping": {
-															"fieldKey": "FileEntry_previewImage",
-															"itemReference": {
-																"className": "com.liferay.portal.kernel.repository.model.FileEntry",
-																"classPK": "[#DOCUMENT_FILE_ENTRY_ID:/site-initializer/documents/group/hero_banner_gradient_bubbles.png#]"
-															}
-														}
-													}
-												}
-											},
 											"indexed": true
 										},
 										"type": "Fragment"
@@ -228,7 +231,7 @@
 													"frequenciesVisible": "true",
 													"frequencyThreshold": "1",
 													"groupVocabularyExternalReferenceCodes": "",
-													"maxTerms": "10",
+													"maxTerms": "20",
 													"order": "key:desc",
 													"parameterName": "DXP Versions",
 													"vocabularyIds": "[$TAXONOMY_VOCABULARY_ID:Marketplace Liferay Version$]"
@@ -250,7 +253,7 @@
 													"frequenciesVisible": "true",
 													"frequencyThreshold": "1",
 													"groupVocabularyExternalReferenceCodes": "",
-													"maxTerms": "10",
+													"maxTerms": "20",
 													"order": "key:asc",
 													"parameterName": "Availability",
 													"vocabularyIds": "[$TAXONOMY_VOCABULARY_ID:Marketplace Availability$]"
@@ -273,7 +276,7 @@
 													"displayStyleGroupId": "[$GROUP_ID$]",
 													"frequenciesVisible": "true",
 													"frequencyThreshold": "1",
-													"maxTerms": "10",
+													"maxTerms": "20",
 													"order": "key:asc",
 													"parameterName": "App Category",
 													"vocabularyIds": "[$TAXONOMY_VOCABULARY_ID:Marketplace App Category$]"
@@ -297,7 +300,7 @@
 													"frequenciesVisible": "true",
 													"frequencyThreshold": "1",
 													"groupVocabularyExternalReferenceCodes": "",
-													"maxTerms": "10",
+													"maxTerms": "20",
 													"order": "key:asc",
 													"parameterName": "Category",
 													"vocabularyIds": "[$TAXONOMY_VOCABULARY_ID:Marketplace Category$]"
@@ -320,7 +323,7 @@
 													"displayStyleGroupId": "[$GROUP_ID$]",
 													"frequenciesVisible": "true",
 													"frequencyThreshold": "1",
-													"maxTerms": "10",
+													"maxTerms": "20",
 													"order": "count:desc",
 													"parameterName": "Deployment Method",
 													"vocabularyIds": "[$TAXONOMY_VOCABULARY_ID:Marketplace Liferay Platform Offering$]"
@@ -338,7 +341,7 @@
 													"displayStyleGroupId": "[$GROUP_ID$]",
 													"frequenciesVisible": "true",
 													"frequencyThreshold": "1",
-													"maxTerms": "10"
+													"maxTerms": "20"
 												},
 												"widgetName": "com_liferay_commerce_product_content_search_web_internal_portlet_CPSpecificationOptionFacetsPortlet"
 											}

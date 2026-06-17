@@ -1,4 +1,7 @@
 {
+	"customFields": {
+		"projectName": "Portal Project"
+	},
 	"entitlements": [
 		{
 			"endDate": "2027-08-09T00:00:00Z",
@@ -7,6 +10,7 @@
 			"maxQuantity": 1,
 			"name": "Liferay DXP",
 			"quantity": 1,
+			"r_accountEntryToEntitlement_accountEntryERC": "ACCNT-015",
 			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_PORTAL_DXP",
 			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_PORTAL",
 			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_DXP",
@@ -14,7 +18,7 @@
 		}
 	],
 	"order": {
-		"accountExternalReferenceCode": "ERC-015",
+		"accountExternalReferenceCode": "ACCNT-015",
 		"channelExternalReferenceCode": "LIFERAY_ONE_CHANNEL",
 		"contractExternalReferenceCode": "C_CONTRACT_PORTAL",
 		"currencyCode": "USD",
@@ -24,11 +28,12 @@
 				"externalReferenceCode": "C_ORDER_ITEM_PORTAL_DXP",
 				"name": "Liferay DXP",
 				"quantity": 1,
-				"skuExternalReferenceCode": "LO_PRODUCT_DXP",
+				"skuExternalReferenceCode": "PRDCT-DXP",
 				"unitPrice": 0
 			}
 		],
 		"orderStatus": 5,
 		"orderTypeExternalReferenceCode": "DXP"
-	}
+	},
+	"purchaseOrderNumber": "PO-PORTAL"
 }

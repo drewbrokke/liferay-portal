@@ -1,36 +1,51 @@
 {
+	"masterPage": {
+		"key": "liferay-one"
+	},
 	"pageElement": {
 		"pageElements": [
 			{
 				"definition": {
+					"fragmentStyle": {
+						"paddingTop": "3"
+					},
 					"indexed": true,
 					"layout": {
-						"align": "Center",
-						"borderWidth": 0,
-						"contentDisplay": "FlexColumn",
-						"justify": "Center",
-						"marginBottom": 0,
-						"marginLeft": 0,
-						"marginRight": 0,
-						"marginTop": 0,
-						"paddingBottom": 0,
-						"paddingLeft": 0,
-						"paddingRight": 0,
-						"paddingTop": 0,
-						"widthType": "Fluid"
+						"widthType": "Fixed"
 					}
 				},
 				"pageElements": [
 					{
 						"definition": {
-							"widgetInstance": {
-								"widgetConfig": {
-									"properties": "route=support"
-								},
-								"widgetName": "[$CLIENT_EXTENSION_ENTRY_ERC:LXC:liferay-one-custom-element$]"
-							}
+							"gutters": true,
+							"indexed": true,
+							"modulesPerRow": 1,
+							"numberOfColumns": 1,
+							"reverseOrder": false,
+							"verticalAlignment": "top"
 						},
-						"type": "Widget"
+						"pageElements": [
+							{
+								"definition": {
+									"size": 12
+								},
+								"pageElements": [
+									{
+										"definition": {
+											"widgetInstance": {
+												"widgetConfig": {
+													"properties": "route=ticket-attachments"
+												},
+												"widgetName": "[$CLIENT_EXTENSION_ENTRY_ERC:LXC:liferay-one-custom-element$]"
+											}
+										},
+										"type": "Widget"
+									}
+								],
+								"type": "Column"
+							}
+						],
+						"type": "Row"
 					}
 				],
 				"type": "Section"
@@ -40,8 +55,7 @@
 	},
 	"settings": {
 		"masterPage": {
-			"key": "main"
+			"key": "liferay-one"
 		}
-	},
-	"version": 1.1
+	}
 }

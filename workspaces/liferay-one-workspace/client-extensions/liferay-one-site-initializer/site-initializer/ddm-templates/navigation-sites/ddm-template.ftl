@@ -22,8 +22,6 @@
 
 <#if (navigationMenu.navigationMenuItems)??>
 	<div class="f-navigation-menu-item">
-		<p>${languageUtil.get(locale, "sites", "Sites")}</p>
-
 		<#list navigationMenu.navigationMenuItems as sitesNavItem>
 			<#assign icon = getCustomFieldData(sitesNavItem, "Menu Item Icon") />
 

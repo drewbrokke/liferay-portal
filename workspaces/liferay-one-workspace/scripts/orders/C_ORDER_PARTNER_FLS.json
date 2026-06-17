@@ -1,4 +1,7 @@
 {
+	"customFields": {
+		"projectName": "Partner FLS Project"
+	},
 	"entitlements": [
 		{
 			"endDate": "2027-08-09T00:00:00Z",
@@ -7,6 +10,7 @@
 			"maxQuantity": 1,
 			"name": "Liferay DXP",
 			"quantity": 1,
+			"r_accountEntryToEntitlement_accountEntryERC": "ACCNT-017",
 			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_PARTNER_FLS_DXP",
 			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_PARTNER_FLS",
 			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_DXP",
@@ -14,7 +18,7 @@
 		}
 	],
 	"order": {
-		"accountExternalReferenceCode": "ERC-017",
+		"accountExternalReferenceCode": "ACCNT-017",
 		"channelExternalReferenceCode": "LIFERAY_ONE_CHANNEL",
 		"contractExternalReferenceCode": "C_CONTRACT_PARTNER_FLS",
 		"currencyCode": "USD",
@@ -24,11 +28,12 @@
 				"externalReferenceCode": "C_ORDER_ITEM_PARTNER_FLS_DXP",
 				"name": "Liferay DXP",
 				"quantity": 1,
-				"skuExternalReferenceCode": "LO_PRODUCT_DXP",
+				"skuExternalReferenceCode": "PRDCT-DXP",
 				"unitPrice": 0
 			}
 		],
 		"orderStatus": 5,
 		"orderTypeExternalReferenceCode": "DXP"
-	}
+	},
+	"purchaseOrderNumber": "PO-PARTNER-FLS"
 }

@@ -12,8 +12,8 @@
 		{
 			"active": true,
 			"defaultQuantity": 1,
-			"displayName": "Liferay Analytics Cloud",
-			"externalReferenceCode": "C_ENT_DEF_ANALYTICS_CLOUD",
+			"displayName": "Content Marketing Platform",
+			"externalReferenceCode": "C_ENT_DEF_CONTENT_MARKETING",
 			"grantType": "fixed",
 			"name": "licenseGeneration",
 			"unit": "boolean"
@@ -21,8 +21,8 @@
 		{
 			"active": true,
 			"defaultQuantity": 1,
-			"displayName": "Liferay Customer Management Platform",
-			"externalReferenceCode": "C_ENT_DEF_CMP",
+			"displayName": "Liferay Data Platform",
+			"externalReferenceCode": "C_ENT_DEF_DATA_PLATFORM",
 			"grantType": "fixed",
 			"name": "licenseGeneration",
 			"unit": "boolean"
@@ -30,8 +30,8 @@
 		{
 			"active": true,
 			"defaultQuantity": 1,
-			"displayName": "Liferay Commerce",
-			"externalReferenceCode": "C_ENT_DEF_COMMERCE",
+			"displayName": "Digital Sales Room",
+			"externalReferenceCode": "C_ENT_DEF_DSR",
 			"grantType": "fixed",
 			"name": "licenseGeneration",
 			"unit": "boolean"
@@ -41,24 +41,6 @@
 			"defaultQuantity": 1,
 			"displayName": "Liferay DXP",
 			"externalReferenceCode": "C_ENT_DEF_DXP",
-			"grantType": "fixed",
-			"name": "licenseGeneration",
-			"unit": "boolean"
-		},
-		{
-			"active": true,
-			"defaultQuantity": 1,
-			"displayName": "Smart Forms Builder",
-			"externalReferenceCode": "C_ENT_DEF_FORMS",
-			"grantType": "fixed",
-			"name": "licenseGeneration",
-			"unit": "boolean"
-		},
-		{
-			"active": true,
-			"defaultQuantity": 1,
-			"displayName": "Sample Marketplace App",
-			"externalReferenceCode": "C_ENT_DEF_SAMPLE_APP",
 			"grantType": "fixed",
 			"name": "licenseGeneration",
 			"unit": "boolean"

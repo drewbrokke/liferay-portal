@@ -17,18 +17,16 @@ source _common.sh
 # Keep sorted.
 
 COMMERCE_PRODUCT_RELATIONSHIPS=(
-	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_AIHUB LO_PRODUCT_AIHUB"
-	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_ANALYTICS_CLOUD LO_PRODUCT_ANALYTICS_CLOUD"
-	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_CMP LO_PRODUCT_CMP"
-	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_COMMERCE LO_PRODUCT_COMMERCE"
-	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_DXP LO_PRODUCT_DXP"
-	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_FORMS LO_PRODUCT_TEST_APP_FORMS"
-	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_SAMPLE_APP LO_PRODUCT_SAMPLE_APP"
-	"/o/c/licensekeys r_commerceProductToLicenseKey_CProductERC C_LICENSE_KEY_BASIC_TIER LO_PRODUCT_DXP"
-	"/o/c/licensekeys r_commerceProductToLicenseKey_CProductERC C_LICENSE_KEY_EP_PRODUCTION LO_PRODUCT_DXP"
-	"/o/c/licensekeys r_commerceProductToLicenseKey_CProductERC C_LICENSE_KEY_FOUNDATION LO_PRODUCT_DXP"
-	"/o/c/licensekeys r_commerceProductToLicenseKey_CProductERC C_LICENSE_KEY_MAIN_INSTANCE LO_PRODUCT_DXP"
-	"/o/c/licensekeys r_commerceProductToLicenseKey_CProductERC C_LICENSE_KEY_PRIMARY LO_PRODUCT_DXP"
+	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_AIHUB PRDCT-AI-HUB"
+	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_CONTENT_MARKETING PRDCT-CONTENT-MARKETING"
+	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_DATA_PLATFORM PRDCT-DATA-PLATFORM"
+	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_DSR PRDCT-DSR"
+	"/o/c/entitlementdefinitions r_commerceProductToEntitlementDefinition_CProductERC C_ENT_DEF_DXP PRDCT-DXP"
+	"/o/c/licensekeys r_commerceProductToLicenseKey_CProductERC C_LICENSE_KEY_BASIC_TIER PRDCT-DXP"
+	"/o/c/licensekeys r_commerceProductToLicenseKey_CProductERC C_LICENSE_KEY_EP_PRODUCTION PRDCT-DXP"
+	"/o/c/licensekeys r_commerceProductToLicenseKey_CProductERC C_LICENSE_KEY_FOUNDATION PRDCT-DXP"
+	"/o/c/licensekeys r_commerceProductToLicenseKey_CProductERC C_LICENSE_KEY_MAIN_INSTANCE PRDCT-DXP"
+	"/o/c/licensekeys r_commerceProductToLicenseKey_CProductERC C_LICENSE_KEY_PRIMARY PRDCT-DXP"
 )
 
 LIFERAY_URL="${LIFERAY_URL:-http://localhost:8080}"

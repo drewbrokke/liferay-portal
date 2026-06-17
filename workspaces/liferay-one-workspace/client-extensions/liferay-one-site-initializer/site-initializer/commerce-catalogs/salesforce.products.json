@@ -161,7 +161,7 @@
 		"categories": [
 			"liferay-product"
 		],
-		"description": "Turn customer data into personalized experiences with a unified, real time view of every customer.",
+		"description": "Turn customer data into personalized experiences with a unified, real-time view of every customer.",
 		"displayAvailability": true,
 		"displayStockQuantity": true,
 		"externalReferenceCode": "PRDCT-DATA-PLATFORM",
@@ -198,7 +198,7 @@
 			},
 			{
 				"key": "liferay-products-capabilities",
-				"value": "Real time data activation"
+				"value": "Real-time data activation"
 			},
 			{
 				"key": "liferay-products-capabilities",

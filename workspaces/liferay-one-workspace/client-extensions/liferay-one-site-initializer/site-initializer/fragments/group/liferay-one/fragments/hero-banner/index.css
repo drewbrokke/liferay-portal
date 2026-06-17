@@ -2,7 +2,7 @@
 	background-color: var(--white);
 	background-position: right top;
 	background-repeat: no-repeat;
-	background-size: auto 100%;
+	background-size: auto 100% !important;
 	min-height: 272px;
 }
 

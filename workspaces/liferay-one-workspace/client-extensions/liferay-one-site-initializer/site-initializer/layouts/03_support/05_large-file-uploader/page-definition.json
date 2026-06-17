@@ -25,7 +25,7 @@
 						"definition": {
 							"widgetInstance": {
 								"widgetConfig": {
-									"properties": "route=support"
+									"properties": "route=ticket-attachments"
 								},
 								"widgetName": "[$CLIENT_EXTENSION_ENTRY_ERC:LXC:liferay-one-custom-element$]"
 							}

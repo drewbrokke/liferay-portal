@@ -1,6 +1,6 @@
 {
 	"friendlyURL": "/support/ticket-attachments",
-	"hidden": true,
+	"hidden": false,
 	"name": "Ticket Attachments",
 	"name_i18n": {
 		"en_US": "Ticket Attachments"

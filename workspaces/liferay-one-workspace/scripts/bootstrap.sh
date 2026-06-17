@@ -63,6 +63,9 @@ function main {
 	echo "Linking object entries to commerce products."
 	bash scripts/link_commerce_products.sh
 
+	echo "Linking supplier accounts to commerce catalogs."
+	bash scripts/link_commerce_catalogs.sh
+
 	echo "Populating orders, order items, and entitlements."
 	bash scripts/populate_orders.sh
 

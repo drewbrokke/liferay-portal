@@ -17,6 +17,16 @@
 		},
 		{
 			"accountEntryRestricted": true,
+			"accountEntryRestrictedObjectFieldName": "r_accountEntryToContract_accountEntryId",
+			"externalReferenceCode": "C_CONTRACT"
+		},
+		{
+			"accountEntryRestricted": true,
+			"accountEntryRestrictedObjectFieldName": "r_accountEntryToEntitlement_accountEntryId",
+			"externalReferenceCode": "C_ENTITLEMENT"
+		},
+		{
+			"accountEntryRestricted": true,
 			"accountEntryRestrictedObjectFieldName": "r_accountEntryToOAuth2DxpAuthorization_accountEntryId",
 			"externalReferenceCode": "C_OAUTH2_DXP_AUTHORIZATION"
 		},

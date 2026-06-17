@@ -34,6 +34,17 @@
 			"type": "oneToMany"
 		},
 		{
+			"deletionType": "prevent",
+			"externalReferenceCode": "R_ACCOUNT_ENTRY_TO_ENTITLEMENT",
+			"label": {
+				"en_US": "Account Entry to Entitlement"
+			},
+			"name": "accountEntryToEntitlement",
+			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
+			"objectDefinitionExternalReferenceCode2": "C_ENTITLEMENT",
+			"type": "oneToMany"
+		},
+		{
 			"deletionType": "disassociate",
 			"externalReferenceCode": "R_ACCOUNT_ENTRY_TO_LICENSE_KEY",
 			"label": {

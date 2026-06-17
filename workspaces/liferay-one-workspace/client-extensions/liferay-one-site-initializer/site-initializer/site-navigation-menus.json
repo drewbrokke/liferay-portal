@@ -278,15 +278,27 @@
 						"externalReferenceCode": "LO_NAV_SUPPORT_SUPPORT",
 						"menuItems": [
 							{
-								"externalReferenceCode": "LO_NAV_SUPPORT_TOOLS",
+								"externalReferenceCode": "LO_NAV_SUPPORT_SUBMIT_REQUEST",
 								"name_i18n": {
-									"en_US": "Support Tools",
-									"es_ES": "Herramientas de Soporte",
-									"ja_JP": "サポートツール",
-									"pt_BR": "Ferramentas de Suporte"
+									"en_US": "Submit a Request",
+									"es_ES": "Enviar una Solicitud",
+									"ja_JP": "リクエストを送信",
+									"pt_BR": "Enviar uma Solicitação"
 								},
 								"type": "url",
 								"url": "https://liferay.atlassian.net/servicedesk/customer/portals",
+								"useNewTab": true
+							},
+							{
+								"externalReferenceCode": "LO_NAV_SUPPORT_MY_TICKETS",
+								"name_i18n": {
+									"en_US": "View My Tickets",
+									"es_ES": "Ver Mis Tickets",
+									"ja_JP": "マイチケットを表示",
+									"pt_BR": "Ver Meus Tickets"
+								},
+								"type": "url",
+								"url": "https://liferay.atlassian.net/servicedesk/customer/user/requests",
 								"useNewTab": true
 							},
 							{
@@ -300,18 +312,6 @@
 								"type": "url",
 								"url": "/web/one/support/business-events",
 								"useNewTab": false
-							},
-							{
-								"externalReferenceCode": "LO_NAV_SUPPORT_DOWNLOADS",
-								"name_i18n": {
-									"en_US": "Downloads",
-									"es_ES": "Descargas",
-									"ja_JP": "ダウンロード",
-									"pt_BR": "Downloads"
-								},
-								"type": "url",
-								"url": "https://learn.liferay.com/downloads",
-								"useNewTab": true
 							},
 							{
 								"externalReferenceCode": "LO_NAV_SUPPORT_TICKETS_ATTACHMENTS",
@@ -409,6 +409,18 @@
 								},
 								"type": "url",
 								"url": "https://learn.liferay.com/release-notes",
+								"useNewTab": true
+							},
+							{
+								"externalReferenceCode": "LO_NAV_SUPPORT_DOWNLOADS",
+								"name_i18n": {
+									"en_US": "Downloads",
+									"es_ES": "Descargas",
+									"ja_JP": "ダウンロード",
+									"pt_BR": "Downloads"
+								},
+								"type": "url",
+								"url": "https://learn.liferay.com/downloads",
 								"useNewTab": true
 							},
 							{

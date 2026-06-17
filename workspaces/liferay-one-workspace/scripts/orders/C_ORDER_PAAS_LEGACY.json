@@ -1,4 +1,7 @@
 {
+	"customFields": {
+		"projectName": "PaaS Legacy Project"
+	},
 	"entitlements": [
 		{
 			"endDate": "2027-08-09T00:00:00Z",
@@ -7,6 +10,7 @@
 			"maxQuantity": 1,
 			"name": "Liferay DXP",
 			"quantity": 1,
+			"r_accountEntryToEntitlement_accountEntryERC": "ACCNT-005",
 			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_PAAS_LEGACY_DXP",
 			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_PAAS_LEGACY",
 			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_DXP",
@@ -14,7 +18,7 @@
 		}
 	],
 	"order": {
-		"accountExternalReferenceCode": "ERC-005",
+		"accountExternalReferenceCode": "ACCNT-005",
 		"channelExternalReferenceCode": "LIFERAY_ONE_CHANNEL",
 		"contractExternalReferenceCode": "C_CONTRACT_PAAS_LEGACY",
 		"currencyCode": "USD",
@@ -24,11 +28,12 @@
 				"externalReferenceCode": "C_ORDER_ITEM_PAAS_LEGACY_DXP",
 				"name": "Liferay DXP",
 				"quantity": 1,
-				"skuExternalReferenceCode": "LO_PRODUCT_DXP",
+				"skuExternalReferenceCode": "PRDCT-DXP",
 				"unitPrice": 0
 			}
 		],
 		"orderStatus": 5,
 		"orderTypeExternalReferenceCode": "DXP"
-	}
+	},
+	"purchaseOrderNumber": "PO-PAAS-LEGACY"
 }

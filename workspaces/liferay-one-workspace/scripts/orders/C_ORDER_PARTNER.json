@@ -1,17 +1,8 @@
 {
+	"customFields": {
+		"projectName": "Partner Project"
+	},
 	"entitlements": [
-		{
-			"endDate": "2027-08-09T00:00:00Z",
-			"externalReferenceCode": "C_ENT_PARTNER_COMMERCE",
-			"grantType": "fixed",
-			"maxQuantity": 1,
-			"name": "Liferay Commerce",
-			"quantity": 1,
-			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_PARTNER_COMMERCE",
-			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_PARTNER",
-			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_COMMERCE",
-			"startDate": "2026-08-09T00:00:00Z"
-		},
 		{
 			"endDate": "2027-08-09T00:00:00Z",
 			"externalReferenceCode": "C_ENT_PARTNER_DXP",
@@ -19,54 +10,30 @@
 			"maxQuantity": 1,
 			"name": "Liferay DXP",
 			"quantity": 1,
+			"r_accountEntryToEntitlement_accountEntryERC": "ACCNT-016",
 			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_PARTNER_DXP",
 			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_PARTNER",
 			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_DXP",
 			"startDate": "2026-08-09T00:00:00Z"
-		},
-		{
-			"endDate": "2027-08-09T00:00:00Z",
-			"externalReferenceCode": "C_ENT_PARTNER_SAMPLE_APP",
-			"grantType": "fixed",
-			"maxQuantity": 1,
-			"name": "Sample Marketplace App",
-			"quantity": 1,
-			"r_commerceOrderItemToEntitlement_commerceOrderItemERC": "C_ORDER_ITEM_PARTNER_SAMPLE_APP",
-			"r_contractToEntitlement_c_contractERC": "C_CONTRACT_PARTNER",
-			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionERC": "C_ENT_DEF_SAMPLE_APP",
-			"startDate": "2026-08-09T00:00:00Z"
 		}
 	],
 	"order": {
-		"accountExternalReferenceCode": "ERC-016",
+		"accountExternalReferenceCode": "ACCNT-016",
 		"channelExternalReferenceCode": "LIFERAY_ONE_CHANNEL",
 		"contractExternalReferenceCode": "C_CONTRACT_PARTNER",
 		"currencyCode": "USD",
 		"externalReferenceCode": "C_ORDER_PARTNER",
 		"orderItems": [
 			{
-				"externalReferenceCode": "C_ORDER_ITEM_PARTNER_COMMERCE",
-				"name": "Liferay Commerce",
-				"quantity": 1,
-				"skuExternalReferenceCode": "LO_PRODUCT_COMMERCE",
-				"unitPrice": 0
-			},
-			{
 				"externalReferenceCode": "C_ORDER_ITEM_PARTNER_DXP",
 				"name": "Liferay DXP",
 				"quantity": 1,
-				"skuExternalReferenceCode": "LO_PRODUCT_DXP",
-				"unitPrice": 0
-			},
-			{
-				"externalReferenceCode": "C_ORDER_ITEM_PARTNER_SAMPLE_APP",
-				"name": "Sample Marketplace App",
-				"quantity": 1,
-				"skuExternalReferenceCode": "LO_PRODUCT_SAMPLE_APP",
+				"skuExternalReferenceCode": "PRDCT-DXP",
 				"unitPrice": 0
 			}
 		],
 		"orderStatus": 5,
 		"orderTypeExternalReferenceCode": "DXP"
-	}
+	},
+	"purchaseOrderNumber": "PO-PARTNER"
 }

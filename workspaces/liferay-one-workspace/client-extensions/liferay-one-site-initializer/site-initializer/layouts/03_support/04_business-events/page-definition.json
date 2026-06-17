@@ -34,7 +34,7 @@
 										"definition": {
 											"widgetInstance": {
 												"widgetConfig": {
-													"properties": "route=support"
+													"properties": "route=business-events"
 												},
 												"widgetName": "[$CLIENT_EXTENSION_ENTRY_ERC:LXC:liferay-one-custom-element$]"
 											}
