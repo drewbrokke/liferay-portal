@@ -33,7 +33,7 @@
 
 		<#if priceModels?has_content>
 		  	<#list priceModels as priceModel>
-				<div class="bg-neutral-8">${priceModel.value}</div>
+				<div>${priceModel.value}</div>
 		  	</#list>
 		</#if>
 	</#if>

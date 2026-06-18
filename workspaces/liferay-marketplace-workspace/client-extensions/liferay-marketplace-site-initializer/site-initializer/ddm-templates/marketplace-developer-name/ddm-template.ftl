@@ -33,7 +33,7 @@
 
 		<#if developerNames?has_content>
 			<#list developerNames as developerName>
-				<a class="bg-neutral-8" href="q=${developerName}">
+				<a href="q=${developerName}">
 					${developerName.value}
 				</a>
 			</#list>

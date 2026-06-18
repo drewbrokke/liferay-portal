@@ -434,6 +434,23 @@
 	{
 		"accountBriefs": [
 			{
+				"externalReferenceCode": "ACCNT-021",
+				"roleBriefs": [
+				]
+			}
+		],
+		"alternateName": "publisheradmin",
+		"emailAddress": "admin@publisher.com",
+		"externalReferenceCode": "USER_PUBLISHER_ADMIN",
+		"familyName": "Admin",
+		"givenName": "Publisher",
+		"name": "Publisher Admin",
+		"password": "test",
+		"status": "Active"
+	},
+	{
+		"accountBriefs": [
+			{
 				"externalReferenceCode": "ACCNT-001",
 				"roleBriefs": [
 					{

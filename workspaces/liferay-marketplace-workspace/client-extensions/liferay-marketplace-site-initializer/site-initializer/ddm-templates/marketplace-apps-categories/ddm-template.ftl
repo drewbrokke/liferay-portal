@@ -101,7 +101,7 @@
 			<#if stringUtil.equals(marketplaceCategory.name, "Other")>
 				<div></div>
 			<#else>
-				<span class="app-type-badge ${badgeType} d-flex align-items-center bg-neutral-8 border-radius-small mb-1 mr-2 px-3 rounded-lg" title="${marketplaceCategory.name}">
+				<span class="app-type-badge ${badgeType} d-flex align-items-center border-radius-small mb-1 mr-2 px-3 rounded-lg" title="${marketplaceCategory.name}">
 					${marketplaceCategory.name}
 				</span>
 			</#if>
@@ -117,7 +117,7 @@
 			</#if>
 
 			<#list marketplaceAppCategories as marketplaceAppCategory>
-				<span class="app-category bg-neutral-8 border-radius-small mb-1 mr-2 px-3 rounded-lg" title="${marketplaceAppCategory.name}">
+				<span class="app-category border-radius-small mb-1 mr-2 px-3 rounded-lg" title="${marketplaceAppCategory.name}">
 					${marketplaceAppCategory.name}
 				</span>
 			</#list>

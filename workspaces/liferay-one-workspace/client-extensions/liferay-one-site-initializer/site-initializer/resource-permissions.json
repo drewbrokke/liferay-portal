@@ -27,6 +27,24 @@
 	},
 	{
 		"actionIds": [
+			"VIEW"
+		],
+		"primKey": "0",
+		"resourceName": "[$OBJECT_DEFINITION_CLASS_NAME:PublisherDetails$]",
+		"roleName": "Guest",
+		"scope": "1"
+	},
+	{
+		"actionIds": [
+			"VIEW"
+		],
+		"primKey": "0",
+		"resourceName": "[$OBJECT_DEFINITION_CLASS_NAME:PublisherDetails$]",
+		"roleName": "User",
+		"scope": "1"
+	},
+	{
+		"actionIds": [
 			"MANAGE_USERS",
 			"VIEW_ACCOUNT_ROLES"
 		],

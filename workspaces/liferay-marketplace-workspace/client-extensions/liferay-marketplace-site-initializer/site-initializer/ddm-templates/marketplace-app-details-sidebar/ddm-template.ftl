@@ -43,11 +43,11 @@
 >
 <@section title = languageUtil.get(locale, "developer")>
 	<#if publisherDetails?has_content>
-		<a class = "bg-neutral-8" href = "${redirectPath}/${publisherDetails.id}">
+		<a href = "${redirectPath}/${publisherDetails.id}">
 			${developerName}
 		</a>
 	<#else>
-		<a class = "bg-neutral-8" href = "/?developer-name=${developerName}">
+		<a href = "/?developer-name=${developerName}">
 			${developerName}
 		</a>
 	</#if>
@@ -133,7 +133,7 @@
 		</#list>
 
 		<#if standardSku.price?? && standardSku.price.price?eval gt 0>
-			<div class="bg-neutral-8">${standardSku.price.priceFormatted!""}</div>
+			<div>${standardSku.price.priceFormatted!""}</div>
 		<#else>
 			${languageUtil.get(locale, "free", "Free")}
 		</#if>

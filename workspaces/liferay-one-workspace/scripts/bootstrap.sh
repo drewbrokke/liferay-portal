@@ -66,6 +66,9 @@ function main {
 	echo "Linking supplier accounts to commerce catalogs."
 	bash scripts/link_commerce_catalogs.sh
 
+	echo "Creating publisher details."
+	bash scripts/create_publisher_details.sh
+
 	echo "Populating orders, order items, and entitlements."
 	bash scripts/populate_orders.sh
 

@@ -191,10 +191,10 @@
 		"classPk": "[#SITE_NAVIGATION_MENU_ITEM_ID:LO_NAV_SUPPORT_MY_TICKETS#]",
 		"columnName": "Menu Item Image URL",
 		"data": {
-			"en_US": "/documents/d/one/tickets_attachments-svg",
-			"es_ES": "/documents/d/one/tickets_attachments-svg",
-			"ja_JP": "/documents/d/one/tickets_attachments-svg",
-			"pt_BR": "/documents/d/one/tickets_attachments-svg"
+			"en_US": "/documents/d/one/my_tickets-svg",
+			"es_ES": "/documents/d/one/my_tickets-svg",
+			"ja_JP": "/documents/d/one/my_tickets-svg",
+			"pt_BR": "/documents/d/one/my_tickets-svg"
 		}
 	},
 	{
@@ -303,10 +303,10 @@
 		"classPk": "[#SITE_NAVIGATION_MENU_ITEM_ID:LO_NAV_SUPPORT_SUBMIT_REQUEST#]",
 		"columnName": "Menu Item Image URL",
 		"data": {
-			"en_US": "/documents/d/one/support_tools-svg",
-			"es_ES": "/documents/d/one/support_tools-svg",
-			"ja_JP": "/documents/d/one/support_tools-svg",
-			"pt_BR": "/documents/d/one/support_tools-svg"
+			"en_US": "/documents/d/one/submit_a_request-svg",
+			"es_ES": "/documents/d/one/submit_a_request-svg",
+			"ja_JP": "/documents/d/one/submit_a_request-svg",
+			"pt_BR": "/documents/d/one/submit_a_request-svg"
 		}
 	},
 	{
