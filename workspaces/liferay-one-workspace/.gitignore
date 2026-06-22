@@ -1,4 +1,5 @@
 .DS_Store
+/.env.local
 /.idea
 /bundles
 /client-extensions/liferay-one-etc-spring-boot/liferay-release-tool-ee

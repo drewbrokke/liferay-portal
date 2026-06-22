@@ -58,6 +58,8 @@ services:
                 condition: service_healthy
         env_file:
             -   ./client-extensions/liferay-one-etc-spring-boot/build/local.env
+            -   path: ./.env.local
+                required: false
         environment:
             LIFERAY_JAR_RUNNER_JAVA_OPTS: --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED
             LIFERAY_ROUTES_CLIENT_EXTENSION: /opt/liferay/routes/default/liferay-one-etc-spring-boot
