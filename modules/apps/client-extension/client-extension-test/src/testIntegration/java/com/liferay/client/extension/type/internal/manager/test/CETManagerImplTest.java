@@ -13,6 +13,9 @@ import com.liferay.client.extension.type.CET;
 import com.liferay.client.extension.type.GlobalCSSCET;
 import com.liferay.client.extension.type.manager.CETManager;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.cache.PortalCache;
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -65,6 +68,35 @@ public class CETManagerImplTest {
 					externalReferenceCode,
 				logEntry.getMessage());
 		}
+	}
+
+	@Test
+	public void testGetCETCacheInvalidated() throws Exception {
+		PortalCache<Long, Object> portalCache =
+			PortalCacheHelperUtil.getPortalCache(
+				PortalCacheManagerNames.MULTI_VM,
+				"com.liferay.client.extension.type.internal.manager." +
+					"CETManagerImpl");
+
+		ClientExtensionEntry clientExtensionEntry = _addClientExtensionEntry(
+			ClientExtensionEntryConstants.TYPE_GLOBAL_CSS,
+			"http://example.com/a.css");
+
+		Assert.assertNull(
+			portalCache.get(clientExtensionEntry.getClientExtensionEntryId()));
+
+		_cetManager.getCET(
+			TestPropsValues.getCompanyId(),
+			clientExtensionEntry.getExternalReferenceCode());
+
+		Assert.assertNotNull(
+			portalCache.get(clientExtensionEntry.getClientExtensionEntryId()));
+
+		_clientExtensionEntryLocalService.deleteClientExtensionEntry(
+			clientExtensionEntry);
+
+		Assert.assertNull(
+			portalCache.get(clientExtensionEntry.getClientExtensionEntryId()));
 	}
 
 	@Test
