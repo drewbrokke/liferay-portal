@@ -14,8 +14,9 @@ import com.liferay.client.extension.type.deployer.CETDeployer;
 import com.liferay.client.extension.type.factory.CETFactory;
 import com.liferay.client.extension.type.manager.CETManager;
 import com.liferay.petra.function.transform.TransformUtil;
-import com.liferay.portal.kernel.cache.MultiVMPool;
 import com.liferay.portal.kernel.cache.PortalCache;
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
@@ -36,7 +37,6 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
@@ -135,18 +135,9 @@ public class CETManagerImpl implements CETManager {
 		return cets.size();
 	}
 
-	@Activate
-	protected void activate() {
-		_portalCache =
-			(PortalCache<Long, CETHolder>)_multiVMPool.getPortalCache(
-				CETManagerImpl.class.getName());
-	}
-
 	@Deactivate
 	protected void deactivate() {
-		if (_portalCache != null) {
-			_portalCache.removeAll();
-		}
+		_portalCache.removeAll();
 
 		for (Map.Entry<Long, Map<String, CET>> entry1 : _cetsMaps.entrySet()) {
 			Map<String, CET> cetsMap = entry1.getValue();
@@ -328,10 +319,9 @@ public class CETManagerImpl implements CETManager {
 	@Reference
 	private ClientExtensionEntryLocalService _clientExtensionEntryLocalService;
 
-	@Reference
-	private MultiVMPool _multiVMPool;
-
-	private PortalCache<Long, CETHolder> _portalCache;
+	private final PortalCache<Long, CETHolder> _portalCache =
+		PortalCacheHelperUtil.getPortalCache(
+			PortalCacheManagerNames.MULTI_VM, CETManagerImpl.class.getName());
 	private final Map<Long, Map<String, List<ServiceRegistration<?>>>>
 		_serviceRegistrationsMaps = new ConcurrentHashMap<>();
 
