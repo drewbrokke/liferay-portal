@@ -14,8 +14,8 @@ import com.liferay.client.extension.type.deployer.CETDeployer;
 import com.liferay.client.extension.type.factory.CETFactory;
 import com.liferay.client.extension.type.manager.CETManager;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.cache.MultiVMPool;
 import com.liferay.portal.kernel.cache.PortalCache;
-import com.liferay.portal.kernel.cache.SingleVMPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.vulcan.pagination.Pagination;
+
+import java.io.Serializable;
 
 import java.util.List;
 import java.util.Map;
@@ -136,7 +138,7 @@ public class CETManagerImpl implements CETManager {
 	@Activate
 	protected void activate() {
 		_portalCache =
-			(PortalCache<Long, CETHolder>)_singleVMPool.getPortalCache(
+			(PortalCache<Long, CETHolder>)_multiVMPool.getPortalCache(
 				CETManagerImpl.class.getName());
 	}
 
@@ -326,14 +328,14 @@ public class CETManagerImpl implements CETManager {
 	@Reference
 	private ClientExtensionEntryLocalService _clientExtensionEntryLocalService;
 
+	@Reference
+	private MultiVMPool _multiVMPool;
+
 	private PortalCache<Long, CETHolder> _portalCache;
 	private final Map<Long, Map<String, List<ServiceRegistration<?>>>>
 		_serviceRegistrationsMaps = new ConcurrentHashMap<>();
 
-	@Reference
-	private SingleVMPool _singleVMPool;
-
-	private static class CETHolder {
+	private static class CETHolder implements Serializable {
 
 		private CETHolder(CET cet, long mvccVersion) {
 			_cet = cet;

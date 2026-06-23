@@ -11,6 +11,8 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 
+import java.io.Serializable;
+
 import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
@@ -18,7 +20,7 @@ import java.util.Properties;
 /**
  * @author Brian Wing Shun Chan
  */
-public abstract class BaseCETImpl implements CET, Cloneable {
+public abstract class BaseCETImpl implements CET, Cloneable, Serializable {
 
 	public BaseCETImpl(
 		String baseURL, long companyId, Date createDate, String description,
