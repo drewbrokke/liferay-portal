@@ -146,7 +146,7 @@ public class AdminRestController extends OneBaseRestController {
 	@Autowired
 	private AdminPermission _adminPermission;
 
-	@Autowired
+	@Autowired(required = false)
 	private List<BasePubsubSubscriber> _basePubsubSubscribers;
 
 }
