@@ -142,9 +142,9 @@ public class CETManagerImpl implements CETManager {
 
 	@Deactivate
 	protected void deactivate() {
-		if (_portalCache != null) {
-			_portalCache.removeAll();
-		}
+		_portalCache.removeAll();
+
+		_singleVMPool.removePortalCache(CETManagerImpl.class.getName());
 
 		for (Map.Entry<Long, Map<String, CET>> entry1 : _cetsMaps.entrySet()) {
 			Map<String, CET> cetsMap = entry1.getValue();
