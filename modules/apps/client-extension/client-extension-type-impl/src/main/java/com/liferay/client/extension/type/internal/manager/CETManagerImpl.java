@@ -134,6 +134,7 @@ public class CETManagerImpl implements CETManager {
 	}
 
 	@Activate
+	@SuppressWarnings("unchecked")
 	protected void activate() {
 		_portalCache =
 			(PortalCache<Long, CETHolder>)_singleVMPool.getPortalCache(
