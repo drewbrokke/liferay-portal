@@ -8,6 +8,9 @@ package com.liferay.one.service;
 import com.liferay.headless.admin.user.client.dto.v1_0.Account;
 import com.liferay.headless.admin.user.client.problem.Problem;
 import com.liferay.headless.admin.user.client.resource.v1_0.AccountResource;
+import com.liferay.headless.admin.user.client.serdes.v1_0.AccountSerDes;
+
+import java.util.List;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -20,12 +23,8 @@ import org.springframework.stereotype.Component;
 public class AccountService extends OneBaseService {
 
 	public Account fetchAccount(long accountId) throws Exception {
-		AccountResource accountResource = AccountResource.builder(
-		).endpoint(
-			lxcDXPMainDomain, lxcDXPServerProtocol
-		).header(
-			HttpHeaders.AUTHORIZATION, getAuthorization()
-		).build();
+		AccountResource accountResource = _getAccountResource(
+			getAuthorization());
 
 		try {
 			return accountResource.getAccount(accountId);
@@ -44,15 +43,26 @@ public class AccountService extends OneBaseService {
 	public Account getAccount(String externalReferenceCode, Jwt jwt)
 		throws Exception {
 
-		AccountResource accountResource = AccountResource.builder(
-		).endpoint(
-			lxcDXPMainDomain, lxcDXPServerProtocol
-		).header(
-			HttpHeaders.AUTHORIZATION, "Bearer " + jwt.getTokenValue()
-		).build();
+		AccountResource accountResource = _getAccountResource(
+			"Bearer " + jwt.getTokenValue());
 
 		return accountResource.getAccountByExternalReferenceCode(
 			externalReferenceCode);
+	}
+
+	public List<Account> getAccounts(String filterString) throws Exception {
+		return getAllItems(
+			"/o/headless-admin-user/v1.0/accounts", filterString,
+			jsonObject -> AccountSerDes.toDTO(jsonObject.toString()));
+	}
+
+	private AccountResource _getAccountResource(String authorization) {
+		return AccountResource.builder(
+		).endpoint(
+			lxcDXPMainDomain, lxcDXPServerProtocol
+		).header(
+			HttpHeaders.AUTHORIZATION, authorization
+		).build();
 	}
 
 }

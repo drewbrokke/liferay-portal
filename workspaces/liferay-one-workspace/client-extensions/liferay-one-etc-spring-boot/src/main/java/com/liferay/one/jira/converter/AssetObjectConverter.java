@@ -30,6 +30,12 @@ public abstract class AssetObjectConverter {
 			getObjectSchemaName(), getObjectTypeName());
 	}
 
+	protected String getAttributeId(String attributeName) {
+		Map<String, String> attributeIds = getAttributeIds();
+
+		return attributeIds.get(attributeName);
+	}
+
 	protected Map<String, String> getAttributeIds() {
 		return _assetSchemaService.getAttributeIds(
 			getObjectSchemaName(), getObjectTypeName());

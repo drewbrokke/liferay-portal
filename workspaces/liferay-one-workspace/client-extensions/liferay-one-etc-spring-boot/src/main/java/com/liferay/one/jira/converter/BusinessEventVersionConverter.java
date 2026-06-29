@@ -5,6 +5,7 @@
 
 package com.liferay.one.jira.converter;
 
+import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.constants.BusinessEventConstants;
 import com.liferay.one.jira.model.BusinessEventVersion;
 
@@ -15,39 +16,31 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 /**
+ * Maps a JSM "Business Event Version" asset object to a
+ * {@link BusinessEventVersion}. A pure, read-only mapper -- see
+ * {@link BusinessEventConverter} for the conventions.
+ *
  * @author Amos Fong
  */
 @Component
-public class BusinessEventVersionConverter extends AssetObjectConverter {
+public class BusinessEventVersionConverter {
 
 	public BusinessEventVersion toBusinessEventVersion(
-		JSONObject jiraAssetObjectJSONObject) {
+		JSONObject jiraAssetObjectJSONObject,
+		Map<String, String> attributeIds) {
 
-		Map<String, String> attributeIds = getAttributeIds();
+		JiraAssetObject jiraAssetObject = new JiraAssetObject(
+			jiraAssetObjectJSONObject, attributeIds);
 
 		return new BusinessEventVersion(
-			getAttributeValue(
-				attributeIds.get(BusinessEventConstants.ATTRIBUTE_NAME_AUTHOR),
-				jiraAssetObjectJSONObject),
-			getAttributeValue(
-				attributeIds.get(BusinessEventConstants.ATTRIBUTE_NAME_CHANGE),
-				jiraAssetObjectJSONObject),
-			getAttributeValue(
-				attributeIds.get(BusinessEventConstants.ATTRIBUTE_NAME_COMMENT),
-				jiraAssetObjectJSONObject),
-			getAttributeKey(
-				attributeIds.get(BusinessEventConstants.ATTRIBUTE_NAME_CREATED),
-				jiraAssetObjectJSONObject));
-	}
-
-	@Override
-	protected String getObjectSchemaName() {
-		return BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS;
-	}
-
-	@Override
-	protected String getObjectTypeName() {
-		return BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT_VERSION;
+			jiraAssetObject.getValue(
+				BusinessEventConstants.ATTRIBUTE_NAME_AUTHOR),
+			jiraAssetObject.getValue(
+				BusinessEventConstants.ATTRIBUTE_NAME_CHANGE),
+			jiraAssetObject.getValue(
+				BusinessEventConstants.ATTRIBUTE_NAME_COMMENT),
+			jiraAssetObject.getKey(
+				BusinessEventConstants.ATTRIBUTE_NAME_CREATED));
 	}
 
 }

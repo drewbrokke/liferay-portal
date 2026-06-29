@@ -5,8 +5,10 @@
 
 package com.liferay.one;
 
+import com.liferay.headless.admin.user.client.dto.v1_0.Account;
 import com.liferay.one.jira.service.JiraService;
 import com.liferay.one.permission.BusinessEventPermission;
+import com.liferay.one.service.AccountService;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 
 import org.apache.commons.logging.Log;
@@ -19,6 +21,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,8 +56,26 @@ public class AccountsRestController extends OneBaseRestController {
 		}
 	}
 
+	@PostMapping("/sync-to-jsm")
+	public void postSyncToJSM() throws Exception {
+		for (Account account : _accountService.getAccounts(null)) {
+			try {
+				_jiraService.syncAccount(account);
+			}
+			catch (Exception exception) {
+				_log.error(
+					"Unable to sync account " +
+						account.getExternalReferenceCode() + " to JSM",
+					exception);
+			}
+		}
+	}
+
 	private static final Log _log = LogFactory.getLog(
 		AccountsRestController.class);
+
+	@Autowired
+	private AccountService _accountService;
 
 	@Autowired
 	private BusinessEventPermission _businessEventPermission;
