@@ -37,18 +37,19 @@ public class JiraAssetObject {
 	 * {@link #getValue(String)} / {@link #getKey(String)}.
 	 */
 	public JiraAssetObject(
-		JSONObject jsonObject, Map<String, String> attributeIds) {
+		JSONObject jsonObject, Map<String, String> attributeNameToIdsMap) {
 
 		_jsonObject = jsonObject;
-		_attributeIds = attributeIds;
+
+		_attributeIds = attributeNameToIdsMap;
 	}
 
 	/**
 	 * For writing: starts empty, populate with {@link #set(String, Object)}.
-	 * {@code attributeIds} maps human-readable attribute names to JSM ids.
+	 * {@code attributeNameToIdsMap} maps human-readable attribute names to JSM ids.
 	 */
-	public JiraAssetObject(Map<String, String> attributeIds) {
-		this(new JSONObject(), attributeIds);
+	public JiraAssetObject(Map<String, String> attributeNameToIdsMap) {
+		this(new JSONObject(), attributeNameToIdsMap);
 	}
 
 	/**

@@ -27,10 +27,10 @@ public class BusinessEventVersionConverter {
 
 	public BusinessEventVersion toBusinessEventVersion(
 		JSONObject jiraAssetObjectJSONObject,
-		Map<String, String> attributeIds) {
+		Map<String, String> attributeNameToIdsMap) {
 
 		JiraAssetObject jiraAssetObject = new JiraAssetObject(
-			jiraAssetObjectJSONObject, attributeIds);
+			jiraAssetObjectJSONObject, attributeNameToIdsMap);
 
 		return new BusinessEventVersion(
 			jiraAssetObject.getValue(

@@ -23,13 +23,13 @@ public class AssetSchemaService {
 	public Map<String, String> getAttributeIds(
 		String schemaName, String objectTypeName) {
 
-		return _assetSchemaLoader.getAttributeIds(
+		return _assetSchemaLoader.getAttributeNameToIdsMap(
 			getObjectTypeId(schemaName, objectTypeName));
 	}
 
 	public String getObjectTypeId(String schemaName, String objectTypeName) {
-		Map<String, String> objectTypeIds = _assetSchemaLoader.getObjectTypeIds(
-			schemaName);
+		Map<String, String> objectTypeIds =
+			_assetSchemaLoader.getObjectTypeNameToIdsMap(schemaName);
 
 		String objectTypeId = objectTypeIds.get(objectTypeName);
 

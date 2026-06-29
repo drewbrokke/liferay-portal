@@ -58,20 +58,35 @@ public class JiraAssetsClient extends BaseService {
 		delete(_getAuthorization(), StringPool.BLANK, _objectURI(objectId));
 	}
 
-	public String findObjectKey(String aql) throws Exception {
-		JSONArray valuesJSONArray = searchObjects(aql);
-
-		if ((valuesJSONArray == null) || valuesJSONArray.isEmpty()) {
-			return null;
-		}
-
-		JSONObject objectJSONObject = valuesJSONArray.getJSONObject(0);
-
-		return objectJSONObject.optString("objectKey");
-	}
-
 	public JSONObject getObject(String objectId) throws Exception {
 		return new JSONObject(get(_getAuthorization(), _objectURI(objectId)));
+	}
+
+	public JSONArray getObjectSchemas() throws Exception {
+		JSONArray itemsJSONArray = new JSONArray();
+
+		boolean last = false;
+		int startAt = 0;
+
+		while (!last) {
+			JSONObject resultsJSONObject = _getObjectSchemasPageJSONObject(
+				startAt);
+
+			JSONArray valuesJSONArray = resultsJSONObject.optJSONArray(
+				"values");
+
+			if ((valuesJSONArray == null) || valuesJSONArray.isEmpty()) {
+				break;
+			}
+
+			itemsJSONArray.putAll(valuesJSONArray);
+
+			last = resultsJSONObject.optBoolean("isLast");
+
+			startAt += _MAX_RESULTS;
+		}
+
+		return itemsJSONArray;
 	}
 
 	public JSONArray getObjectTypeAttributes(String objectTypeId)
@@ -83,6 +98,15 @@ public class JiraAssetsClient extends BaseService {
 				_v1URI(
 					StringBundler.concat(
 						"objecttype/", objectTypeId, "/attributes"))));
+	}
+
+	public JSONArray getObjectTypes(String schemaId) throws Exception {
+		return new JSONArray(
+			get(
+				_getAuthorization(),
+				_v1URI(
+					StringBundler.concat(
+						"objectschema/", schemaId, "/objecttypes"))));
 	}
 
 	public JSONArray searchObjects(String aql) throws Exception {
@@ -131,9 +155,31 @@ public class JiraAssetsClient extends BaseService {
 		String credentials =
 			_jiraAPIEmailAddress + StringPool.COLON + _jiraAPIToken;
 
-		return "Basic " +
-			encoder.encodeToString(
-				credentials.getBytes(StandardCharsets.UTF_8));
+		String encodedString = encoder.encodeToString(
+			credentials.getBytes(StandardCharsets.UTF_8));
+
+		return "Basic " + encodedString;
+	}
+
+	private JSONObject _getObjectSchemasPageJSONObject(int startAt)
+		throws Exception {
+
+		String response = get(
+			_getAuthorization(),
+			UriComponentsBuilder.fromUri(
+				_v1URI("objectschema/list")
+			).queryParam(
+				"maxResults", _MAX_RESULTS
+			).queryParam(
+				"startAt", startAt
+			).build(
+			).toUri());
+
+		if (Validator.isNull(response)) {
+			return new JSONObject();
+		}
+
+		return new JSONObject(response);
 	}
 
 	private Map<String, String> _headers() {

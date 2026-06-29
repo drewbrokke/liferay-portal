@@ -5,144 +5,109 @@
 
 package com.liferay.one.jira.service;
 
-import com.liferay.client.extension.util.spring.boot3.service.BaseService;
+import com.liferay.one.jira.client.JiraAssetsClient;
 import com.liferay.one.jira.exception.JiraAssetSchemaException;
-import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
-import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 /**
+ * Caches and resolves JSM Assets schema metadata to attribute name-to-id maps.
+ * A thin resolver over {@link JiraAssetsClient}: the client owns all transport,
+ * this owns the caching and the name-to-id mapping.
+ *
  * @author Drew Brokke
  */
 @Component
-public class AssetSchemaLoader extends BaseService {
+public class AssetSchemaLoader {
 
 	@Cacheable("assetObjectTypeAttributeIds")
-	public Map<String, String> getAttributeIds(String objectTypeId) {
-		return _toNameIdMap(
-			new JSONArray(
-				_get(
-					StringBundler.concat(
-						"objecttype/", objectTypeId, "/attributes"))));
+	public Map<String, String> getAttributeNameToIdsMap(String objectTypeId) {
+		return _toNameIdMap(_getObjectTypeAttributesJSONArray(objectTypeId));
 	}
 
 	@Cacheable("assetObjectTypeIds")
-	public Map<String, String> getObjectTypeIds(String schemaName) {
-		String schemaId = _resolveSchemaId(schemaName);
-
+	public Map<String, String> getObjectTypeNameToIdsMap(String schemaName) {
 		return _toNameIdMap(
-			new JSONArray(
-				_get(
-					StringBundler.concat(
-						"objectschema/", schemaId, "/objecttypes"))));
+			_getObjectTypesJSONArray(_resolveSchemaId(schemaName)));
 	}
 
-	private String _get(String path) {
+	private JSONArray _getObjectSchemasJSONArray() {
 		try {
-			return get(
-				_getAuthorization(),
-				UriComponentsBuilder.fromUriString(
-					StringBundler.concat(
-						_JIRA_CLOUD_API_URL, "/jsm/assets/workspace/",
-						_jiraWorkspaceId, "/v1/", path)
-				).build(
-				).toUri());
+			return _jiraAssetsClient.getObjectSchemas();
 		}
 		catch (Exception exception) {
 			throw new JiraAssetSchemaException(
-				"Unable to complete JSM Assets request for " + path, exception);
+				"Unable to load object schemas", exception);
 		}
 	}
 
-	private String _getAuthorization() {
-		Base64.Encoder encoder = Base64.getEncoder();
+	private JSONArray _getObjectTypeAttributesJSONArray(String objectTypeId) {
+		try {
+			return _jiraAssetsClient.getObjectTypeAttributes(objectTypeId);
+		}
+		catch (Exception exception) {
+			throw new JiraAssetSchemaException(
+				"Unable to load attributes for object type " + objectTypeId,
+				exception);
+		}
+	}
 
-		String credentials =
-			_jiraAPIEmailAddress + StringPool.COLON + _jiraAPIToken;
-
-		return "Basic " + encoder.encodeToString(credentials.getBytes());
+	private JSONArray _getObjectTypesJSONArray(String schemaId) {
+		try {
+			return _jiraAssetsClient.getObjectTypes(schemaId);
+		}
+		catch (Exception exception) {
+			throw new JiraAssetSchemaException(
+				"Unable to load object types for schema id " + schemaId,
+				exception);
+		}
 	}
 
 	private String _resolveSchemaId(String schemaName) {
-		int startAt = 0;
+		JSONArray objectSchemasJSONArray = _getObjectSchemasJSONArray();
 
-		while (true) {
-			JSONObject responseJSONObject = new JSONObject(
-				_get(
-					StringBundler.concat(
-						"objectschema/list?maxResults=", _MAX_RESULTS,
-						"&startAt=", startAt)));
+		for (int i = 0; i < objectSchemasJSONArray.length(); i++) {
+			JSONObject schemaJSONObject = objectSchemasJSONArray.getJSONObject(
+				i);
 
-			JSONArray valuesJSONArray = responseJSONObject.optJSONArray(
-				"values");
-
-			if ((valuesJSONArray == null) || valuesJSONArray.isEmpty()) {
-				break;
+			if (schemaName.equals(schemaJSONObject.optString("name"))) {
+				return schemaJSONObject.getString("id");
 			}
-
-			for (int i = 0; i < valuesJSONArray.length(); i++) {
-				JSONObject schemaJSONObject = valuesJSONArray.getJSONObject(i);
-
-				if (schemaName.equals(schemaJSONObject.optString("name"))) {
-					return schemaJSONObject.getString("id");
-				}
-			}
-
-			if (responseJSONObject.optBoolean("isLast")) {
-				break;
-			}
-
-			startAt += _MAX_RESULTS;
 		}
 
 		throw new JiraAssetSchemaException(
 			"Object schema \"" + schemaName + "\" not found");
 	}
 
-	private Map<String, String> _toNameIdMap(JSONArray attributesJSONArray) {
-		Map<String, String> attributeIds = new LinkedHashMap<>();
+	private Map<String, String> _toNameIdMap(JSONArray jsonArray) {
+		Map<String, String> nameIdMap = new LinkedHashMap<>();
 
-		for (int i = 0; i < attributesJSONArray.length(); i++) {
-			JSONObject attributeJSONObject = attributesJSONArray.getJSONObject(
-				i);
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-			String name = attributeJSONObject.optString("name");
-			String id = attributeJSONObject.optString("id");
+			String name = jsonObject.optString("name");
+			String id = jsonObject.optString("id");
 
 			if (Validator.isNull(name) || Validator.isNull(id)) {
 				continue;
 			}
 
-			attributeIds.put(name, id);
+			nameIdMap.put(name, id);
 		}
 
-		return attributeIds;
+		return nameIdMap;
 	}
 
-	private static final String _JIRA_CLOUD_API_URL =
-		"https://api.atlassian.com";
-
-	private static final int _MAX_RESULTS = 100;
-
-	@Value("${liferay.one.jira.api.email.address}")
-	private String _jiraAPIEmailAddress;
-
-	@Value("${liferay.one.jira.api.token}")
-	private String _jiraAPIToken;
-
-	@Value("${liferay.one.jira.workspace.id}")
-	private String _jiraWorkspaceId;
+	@Autowired
+	private JiraAssetsClient _jiraAssetsClient;
 
 }

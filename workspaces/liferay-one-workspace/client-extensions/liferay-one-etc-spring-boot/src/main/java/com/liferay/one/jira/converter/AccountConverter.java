@@ -16,19 +16,12 @@ import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.constants.AccountConstants;
 import com.liferay.one.service.AccountService;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.Validator;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,17 +44,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AccountConverter {
-
-	public Date getExternalUpdatedAtDate(
-		JSONObject assetObjectJSONObject, Map<String, String> attributeIds) {
-
-		JiraAssetObject jiraAssetObject = new JiraAssetObject(
-			assetObjectJSONObject, attributeIds);
-
-		return _parse(
-			jiraAssetObject.getValue(
-				AccountConstants.ATTRIBUTE_NAME_EXTERNAL_UPDATED_AT));
-	}
 
 	public JiraAssetObject toAssetObject(
 			Account account, Map<String, String> attributeIds)
@@ -256,23 +238,6 @@ public class AccountConverter {
 		return webUrl.getUrl();
 	}
 
-	private Date _parse(String value) {
-		if (Validator.isNull(value)) {
-			return null;
-		}
-
-		try {
-			SimpleDateFormat simpleDateFormat = _simpleDateFormat();
-
-			return simpleDateFormat.parse(value);
-		}
-		catch (ParseException parseException) {
-			_log.error("Could not parse date: " + value, parseException);
-
-			return null;
-		}
-	}
-
 	private SimpleDateFormat _simpleDateFormat() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd'T'HH:mm:ssXX");
@@ -300,8 +265,6 @@ public class AccountConverter {
 	private static final String _CUSTOM_FIELD_NAME_ACCOUNT_CODE = "accountCode";
 
 	private static final String _CUSTOM_FIELD_NAME_ACCOUNT_TIER = "accountTier";
-
-	private static final Log _log = LogFactory.getLog(AccountConverter.class);
 
 	@Autowired
 	private AccountService _accountService;

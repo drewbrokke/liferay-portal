@@ -33,9 +33,10 @@ public class BusinessEventConverter {
 
 	public JiraAssetObject toAssetObject(
 		String accountObjectKey, BusinessEvent businessEvent,
-		Map<String, String> attributeIds) {
+		Map<String, String> attributeNameToIdsMap) {
 
-		JiraAssetObject jiraAssetObject = new JiraAssetObject(attributeIds);
+		JiraAssetObject jiraAssetObject = new JiraAssetObject(
+			attributeNameToIdsMap);
 
 		jiraAssetObject.set(
 			BusinessEventConstants.ATTRIBUTE_NAME_ACTUAL_EVENT_DATE,
@@ -89,10 +90,10 @@ public class BusinessEventConverter {
 	public BusinessEvent toBusinessEvent(
 		String accountExternalReferenceCode,
 		JSONObject jiraAssetObjectJSONObject,
-		Map<String, String> attributeIds) {
+		Map<String, String> attributeNameToIdsMap) {
 
 		JiraAssetObject jiraAssetObject = new JiraAssetObject(
-			jiraAssetObjectJSONObject, attributeIds);
+			jiraAssetObjectJSONObject, attributeNameToIdsMap);
 
 		return new BusinessEvent(
 			accountExternalReferenceCode,
