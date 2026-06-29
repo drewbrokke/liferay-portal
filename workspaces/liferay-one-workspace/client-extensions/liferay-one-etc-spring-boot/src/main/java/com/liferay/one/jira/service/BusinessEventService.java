@@ -51,8 +51,8 @@ public class BusinessEventService {
 			_objectTypeId(),
 			_businessEventConverter.toAssetObject(
 				_getAccountObjectKey(
-					businessEvent.getAccountExternalReferenceCode()), businessEvent,
-				_getBusinessEventAttributeIds()));
+					businessEvent.getAccountExternalReferenceCode()),
+				businessEvent, _getBusinessEventAttributeIds()));
 	}
 
 	public void deleteBusinessEvent(String id) throws Exception {
@@ -163,7 +163,8 @@ public class BusinessEventService {
 	public List<AssetObject> getProductVersions() throws Exception {
 		List<AssetObject> assetObjects = new ArrayList<>();
 
-		JSONArray assetObjectsJSONArray = _jiraAssetsClient.searchObjects(_productVersionAssetObjectType.getBaseAQL());
+		JSONArray assetObjectsJSONArray = _jiraAssetsClient.searchObjects(
+			_productVersionAssetObjectType.getBaseAQL());
 
 		for (int i = 0; i < assetObjectsJSONArray.length(); i++) {
 			assetObjects.add(
@@ -233,6 +234,19 @@ public class BusinessEventService {
 			BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT);
 	}
 
+	private static final AssetObjectType _businessEventAssetObjectType =
+		new AssetObjectType(
+			BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS,
+			BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT);
+	private static final AssetObjectType _businessEventVersionAssetObjectType =
+		new AssetObjectType(
+			BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS,
+			BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT_VERSION);
+	private static final AssetObjectType _productVersionAssetObjectType =
+		new AssetObjectType(
+			BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS,
+			BusinessEventConstants.OBJECT_TYPE_PRODUCT_VERSION);
+
 	@Autowired
 	private AssetSchemaService _assetSchemaService;
 
@@ -241,13 +255,6 @@ public class BusinessEventService {
 
 	@Autowired
 	private BusinessEventVersionConverter _businessEventVersionConverter;
-
-	private static final AssetObjectType _businessEventAssetObjectType= new AssetObjectType(
-		BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS, BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT);
-	private static final AssetObjectType _businessEventVersionAssetObjectType= new AssetObjectType(
-		BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS, BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT_VERSION);
-	private static final AssetObjectType _productVersionAssetObjectType= new AssetObjectType(
-		BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS, BusinessEventConstants.OBJECT_TYPE_PRODUCT_VERSION);
 
 	@Autowired
 	private JiraAssetSchema _jiraAssetSchema;
