@@ -6,11 +6,13 @@
 package com.liferay.one.jira.service;
 
 import com.liferay.one.jira.client.JiraAssetsClient;
+import com.liferay.one.jira.constants.AccountConstants;
 import com.liferay.one.jira.constants.BusinessEventConstants;
 import com.liferay.one.jira.converter.BusinessEventConverter;
 import com.liferay.one.jira.converter.BusinessEventVersionConverter;
 import com.liferay.one.jira.model.AssetObject;
 import com.liferay.one.jira.model.AssetObjectFieldOption;
+import com.liferay.one.jira.model.AssetObjectType;
 import com.liferay.one.jira.model.BusinessEvent;
 import com.liferay.one.jira.model.BusinessEventVersion;
 import com.liferay.one.jira.util.AQLUtil;
@@ -25,7 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -46,13 +47,11 @@ public class BusinessEventService {
 	public void createBusinessEvent(BusinessEvent businessEvent)
 		throws Exception {
 
-		String accountObjectKey = _getAccountObjectKey(
-			businessEvent.getAccountExternalReferenceCode());
-
 		_jiraAssetsClient.createObject(
 			_objectTypeId(),
 			_businessEventConverter.toAssetObject(
-				accountObjectKey, businessEvent,
+				_getAccountObjectKey(
+					businessEvent.getAccountExternalReferenceCode()), businessEvent,
 				_getBusinessEventAttributeIds()));
 	}
 
@@ -73,9 +72,7 @@ public class BusinessEventService {
 		List<BusinessEvent> businessEvents = new ArrayList<>();
 
 		String aql = AQLUtil.builder(
-			AQLUtil.getBaseAQL(
-				BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS,
-				BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT)
+			_businessEventAssetObjectType.getBaseAQL()
 		).andEquals(
 			accountExternalReferenceCode,
 			BusinessEventConstants.ATTRIBUTE_NAME_ACCOUNT, "External Key"
@@ -106,9 +103,7 @@ public class BusinessEventService {
 		}
 
 		String aql = AQLUtil.builder(
-			AQLUtil.getBaseAQL(
-				BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS,
-				BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT_VERSION)
+			_businessEventVersionAssetObjectType.getBaseAQL()
 		).andEqualsObject(
 			businessEventId, BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT
 		).orderByDescending(
@@ -166,13 +161,9 @@ public class BusinessEventService {
 
 	@Cacheable("assetObjects")
 	public List<AssetObject> getProductVersions() throws Exception {
-		String aql = AQLUtil.getBaseAQL(
-			BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS,
-			BusinessEventConstants.OBJECT_TYPE_PRODUCT_VERSION);
-
 		List<AssetObject> assetObjects = new ArrayList<>();
 
-		JSONArray assetObjectsJSONArray = _jiraAssetsClient.searchObjects(aql);
+		JSONArray assetObjectsJSONArray = _jiraAssetsClient.searchObjects(_productVersionAssetObjectType.getBaseAQL());
 
 		for (int i = 0; i < assetObjectsJSONArray.length(); i++) {
 			assetObjects.add(
@@ -204,8 +195,11 @@ public class BusinessEventService {
 	private String _getAccountObjectKey(String accountExternalReferenceCode)
 		throws Exception {
 
+		AssetObjectType accountObjectType = _jiraAssetSchema.objectType(
+			AccountConstants.OBJECT_TYPE_NAME);
+
 		String aql = AQLUtil.builder(
-			AQLUtil.getBaseAQL(_accountSchemaName, "Account")
+			accountObjectType.getBaseAQL()
 		).andEquals(
 			accountExternalReferenceCode, "External Key"
 		).build();
@@ -239,9 +233,6 @@ public class BusinessEventService {
 			BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT);
 	}
 
-	@Value("${liferay.one.jira.account.schema:Koroneiki}")
-	private String _accountSchemaName;
-
 	@Autowired
 	private AssetSchemaService _assetSchemaService;
 
@@ -250,6 +241,16 @@ public class BusinessEventService {
 
 	@Autowired
 	private BusinessEventVersionConverter _businessEventVersionConverter;
+
+	private static final AssetObjectType _businessEventAssetObjectType= new AssetObjectType(
+		BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS, BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT);
+	private static final AssetObjectType _businessEventVersionAssetObjectType= new AssetObjectType(
+		BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS, BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT_VERSION);
+	private static final AssetObjectType _productVersionAssetObjectType= new AssetObjectType(
+		BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS, BusinessEventConstants.OBJECT_TYPE_PRODUCT_VERSION);
+
+	@Autowired
+	private JiraAssetSchema _jiraAssetSchema;
 
 	@Autowired
 	private JiraAssetsClient _jiraAssetsClient;
