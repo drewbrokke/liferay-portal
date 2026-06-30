@@ -1,0 +1,188 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2026 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.one.jira.service;
+
+import com.liferay.one.jira.client.JiraAssetObject;
+import com.liferay.one.jira.client.JiraAssetsClient;
+import com.liferay.one.jira.constants.BusinessEventConstants;
+import com.liferay.one.jira.converter.AccountConverter;
+import com.liferay.one.jira.converter.BusinessEventConverter;
+import com.liferay.one.jira.converter.BusinessEventVersionConverter;
+import com.liferay.one.jira.model.AssetObject;
+import com.liferay.one.jira.model.AssetObjectFieldOption;
+import com.liferay.one.jira.model.BusinessEvent;
+import com.liferay.one.jira.model.BusinessEventVersion;
+import com.liferay.one.jira.util.AQLUtil;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.util.Validator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+/**
+ * @author Jenny Chen
+ * @author Drew Brokke
+ */
+@Component
+public class BusinessEventService {
+
+	public void createBusinessEvent(BusinessEvent businessEvent)
+		throws Exception {
+
+		_jiraAssetsClient.createObject(
+			_businessEventConverter.getObjectTypeId(),
+			_businessEventConverter.toAssetObject(
+				_getAccountObjectKey(
+					businessEvent.getAccountExternalReferenceCode()),
+				businessEvent));
+	}
+
+	public void deleteBusinessEvent(String id) throws Exception {
+		_jiraAssetsClient.deleteObject(id);
+	}
+
+	public BusinessEvent getBusinessEvent(String id) throws Exception {
+		return _businessEventConverter.toBusinessEvent(
+			StringPool.BLANK, _jiraAssetsClient.getObject(id));
+	}
+
+	public List<BusinessEvent> getBusinessEvents(
+			String accountExternalReferenceCode)
+		throws Exception {
+
+		return _jiraAssetsClient.searchObjects(
+			_businessEventConverter.getAQLWithBuilder(
+				aqlBuilder -> aqlBuilder.andEquals(
+					accountExternalReferenceCode,
+					BusinessEventConstants.ATTRIBUTE_NAME_ACCOUNT,
+					"External Key")),
+			jsonObject -> _businessEventConverter.toBusinessEvent(
+				accountExternalReferenceCode, jsonObject));
+	}
+
+	public List<BusinessEventVersion> getBusinessEventVersions(
+			String businessEventId)
+		throws Exception {
+
+		if (!Validator.isNumber(businessEventId)) {
+			return new ArrayList<>();
+		}
+
+		return _jiraAssetsClient.searchObjects(
+			_businessEventVersionConverter.getAQLWithBuilder(
+				aqlBuilder -> aqlBuilder.andEqualsObject(
+					businessEventId,
+					BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT
+				).orderByDescending(
+					"Updated"
+				)),
+			_businessEventVersionConverter::toBusinessEventVersion);
+	}
+
+	@Cacheable("assetObjectFieldOptions")
+	public List<AssetObjectFieldOption> getFieldOptions(String fieldName)
+		throws Exception {
+
+		List<AssetObjectFieldOption> assetObjectFieldOptions =
+			new ArrayList<>();
+
+		JSONArray objectTypeAttributesJSONArray =
+			_jiraAssetsClient.getObjectTypeAttributes(
+				_businessEventConverter.getObjectTypeId());
+
+		for (int i = 0; i < objectTypeAttributesJSONArray.length(); i++) {
+			JSONObject objectTypeAttributeJSONObject =
+				objectTypeAttributesJSONArray.getJSONObject(i);
+
+			if (!fieldName.equals(
+					objectTypeAttributeJSONObject.optString("name"))) {
+
+				continue;
+			}
+
+			String options = objectTypeAttributeJSONObject.optString("options");
+
+			if (Validator.isNotNull(options)) {
+				for (String option : options.split(",")) {
+					assetObjectFieldOptions.add(
+						new AssetObjectFieldOption(option, option));
+				}
+			}
+
+			break;
+		}
+
+		return assetObjectFieldOptions;
+	}
+
+	@Cacheable("assetObjects")
+	public List<AssetObject> getProductVersions() throws Exception {
+		return _jiraAssetsClient.searchObjects(
+			AQLUtil.getBaseAQL(
+				BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS,
+				BusinessEventConstants.OBJECT_TYPE_PRODUCT_VERSION),
+			AssetObject::new);
+	}
+
+	@CacheEvict(
+		allEntries = true, value = {"assetObjectFieldOptions", "assetObjects"}
+	)
+	@Scheduled(cron = "0 0 0 * * *")
+	public void scheduledAssetObjectsCacheEviction() throws Exception {
+	}
+
+	public BusinessEvent updateBusinessEvent(
+			BusinessEvent businessEvent, String id)
+		throws Exception {
+
+		_jiraAssetsClient.updateObject(
+			id, _businessEventConverter.toAssetObject(null, businessEvent));
+
+		return getBusinessEvent(id);
+	}
+
+	private String _getAccountObjectKey(String accountExternalReferenceCode)
+		throws Exception {
+
+		String aql = _accountConverter.getAQLWithBuilder(
+			aqlBuilder -> aqlBuilder.andEquals(
+				accountExternalReferenceCode, "External Key"));
+
+		List<JiraAssetObject> jiraAssetObjects =
+			_jiraAssetsClient.searchObjects(
+				aql, _accountConverter::toJiraAssetObject);
+
+		if (jiraAssetObjects.isEmpty()) {
+			return null;
+		}
+
+		JiraAssetObject jiraAssetObject = jiraAssetObjects.get(0);
+
+		return jiraAssetObject.getObjectKey();
+	}
+
+	@Autowired
+	private AccountConverter _accountConverter;
+
+	@Autowired
+	private BusinessEventConverter _businessEventConverter;
+
+	@Autowired
+	private BusinessEventVersionConverter _businessEventVersionConverter;
+
+	@Autowired
+	private JiraAssetsClient _jiraAssetsClient;
+
+}
