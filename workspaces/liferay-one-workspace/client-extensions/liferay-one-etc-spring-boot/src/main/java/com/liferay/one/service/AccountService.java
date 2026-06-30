@@ -103,7 +103,7 @@ public class AccountService extends OneBaseService {
 			return null;
 		}
 
-		JiraAssetObject jiraAssetObject = objects.getFirst();
+		JiraAssetObject jiraAssetObject = objects.get(0);
 
 		return jiraAssetObject.getObjectKey();
 	}
