@@ -14,7 +14,6 @@ import com.liferay.headless.admin.user.client.dto.v1_0.Phone;
 import com.liferay.headless.admin.user.client.dto.v1_0.WebUrl;
 import com.liferay.one.jira.constants.AccountConstants;
 import com.liferay.one.jira.model.JiraAssetObject;
-import com.liferay.one.jira.model.JiraAssetSchemaNameProvider;
 import com.liferay.portal.kernel.util.ArrayUtil;
 
 import java.text.SimpleDateFormat;
@@ -22,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -83,7 +82,7 @@ public class AccountConverter extends BaseAssetObjectConverter {
 
 	@Override
 	protected String getObjectSchemaName() {
-		return _jiraAssetSchemaNameProvider.getSchemaName();
+		return _schemaName;
 	}
 
 	@Override
@@ -236,7 +235,7 @@ public class AccountConverter extends BaseAssetObjectConverter {
 
 	private static final String _CUSTOM_FIELD_NAME_ACCOUNT_TIER = "accountTier";
 
-	@Autowired
-	private JiraAssetSchemaNameProvider _jiraAssetSchemaNameProvider;
+	@Value("${liferay.one.jira.asset.schema.name}")
+	private String _schemaName;
 
 }
