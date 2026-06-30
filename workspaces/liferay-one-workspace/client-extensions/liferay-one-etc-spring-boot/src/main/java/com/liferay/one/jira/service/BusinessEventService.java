@@ -5,7 +5,6 @@
 
 package com.liferay.one.jira.service;
 
-import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.constants.BusinessEventConstants;
 import com.liferay.one.jira.converter.AccountConverter;
 import com.liferay.one.jira.converter.BusinessEventConverter;
@@ -14,6 +13,7 @@ import com.liferay.one.jira.model.AssetObject;
 import com.liferay.one.jira.model.AssetObjectFieldOption;
 import com.liferay.one.jira.model.BusinessEvent;
 import com.liferay.one.jira.model.BusinessEventVersion;
+import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.util.AQLUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.Validator;

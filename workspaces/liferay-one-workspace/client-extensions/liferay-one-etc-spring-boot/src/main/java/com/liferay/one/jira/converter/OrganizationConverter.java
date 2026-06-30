@@ -5,8 +5,8 @@
 
 package com.liferay.one.jira.converter;
 
-import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.constants.AccountConstants;
+import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.model.JiraAssetSchemaNameProvider;
 import com.liferay.one.jira.model.Organization;
 

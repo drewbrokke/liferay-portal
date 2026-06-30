@@ -9,8 +9,8 @@ import com.liferay.headless.admin.user.client.dto.v1_0.Account;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.headless.admin.user.client.problem.Problem;
 import com.liferay.headless.admin.user.client.resource.v1_0.AccountResource;
-import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.converter.AccountConverter;
+import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.service.JiraAssetsService;
 
 import java.util.List;
