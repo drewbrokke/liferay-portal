@@ -16,6 +16,9 @@ import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.headless.admin.user.client.dto.v1_0.WebUrl;
 import com.liferay.headless.admin.user.client.problem.Problem;
 import com.liferay.headless.admin.user.client.resource.v1_0.AccountResource;
+import com.liferay.one.jira.client.JiraAssetObject;
+import com.liferay.one.jira.client.JiraAssetsClient;
+import com.liferay.one.jira.converter.AccountConverter;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -100,6 +103,23 @@ public class AccountService extends OneBaseService {
 		return accountResource.getAccountByExternalReferenceCode(
 			externalReferenceCode);
 	}
+
+	public String getAccountObjectKey(String externalKey) {
+		List<JiraAssetObject> objects = _jiraAssetsClient.searchObjects(
+			_accountConverter.getAQLWithBuilder(
+				aqlBuilder -> aqlBuilder.andEquals(
+					externalKey, "External Key")),
+			_accountConverter::toJiraAssetObject);
+
+		if (objects.isEmpty()) {
+			return null;
+		}
+
+		JiraAssetObject jiraAssetObject = objects.getFirst();
+
+		return jiraAssetObject.getObjectKey();
+	}
+
 
 	public void upsertAccount(
 			com.liferay.one.salesforce.model.Account salesforceAccount)
@@ -359,6 +379,12 @@ public class AccountService extends OneBaseService {
 			}
 		}
 	}
+
+	@Autowired
+	private AccountConverter _accountConverter;
+
+	@Autowired
+	private JiraAssetsClient _jiraAssetsClient;
 
 	@Autowired
 	private UserAccountService _userAccountService;
