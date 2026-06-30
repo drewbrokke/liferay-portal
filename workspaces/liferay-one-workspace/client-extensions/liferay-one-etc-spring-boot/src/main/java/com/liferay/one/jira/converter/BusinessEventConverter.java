@@ -15,8 +15,6 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 /**
- * Maps between a {@link BusinessEvent} and a JSM "Business Event" asset object.
- *
  * @author Amos Fong
  */
 @Component
