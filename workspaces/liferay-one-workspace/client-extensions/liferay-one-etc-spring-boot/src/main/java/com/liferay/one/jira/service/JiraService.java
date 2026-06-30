@@ -6,7 +6,6 @@
 package com.liferay.one.jira.service;
 
 import com.liferay.one.jira.client.JiraAssetObject;
-import com.liferay.one.jira.client.JiraAssetsClient;
 import com.liferay.one.jira.constants.IssueConstants;
 import com.liferay.one.jira.converter.OrganizationConverter;
 import com.liferay.one.jira.exception.OrganizationNotFoundException;
@@ -176,7 +175,7 @@ public class JiraService extends BaseJiraService {
 					jsonArray.getJSONObject(0));
 
 			return _organizationConverter.toOrganization(
-				_jiraAssetsClient.getObject(jiraAssetObject.getObjectId()));
+				_jiraAssetsService.getObject(jiraAssetObject.getObjectId()));
 		}
 		catch (Exception exception) {
 			throw new OrganizationNotFoundException(exception);
@@ -225,7 +224,7 @@ public class JiraService extends BaseJiraService {
 	private static final Log _log = LogFactory.getLog(JiraService.class);
 
 	@Autowired
-	private JiraAssetsClient _jiraAssetsClient;
+	private JiraAssetsService _jiraAssetsService;
 
 	@Value("${liferay.one.jira.support.fls.portal.url}")
 	private String _jiraSupportFLSPortalURL;

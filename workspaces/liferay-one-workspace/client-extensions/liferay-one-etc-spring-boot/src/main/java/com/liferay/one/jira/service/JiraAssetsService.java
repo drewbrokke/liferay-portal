@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.liferay.one.jira.client;
+package com.liferay.one.jira.service;
 
-import com.liferay.one.jira.service.BaseJiraService;
+import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -31,7 +31,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author Drew Brokke
  */
 @Component
-public class JiraAssetsClient extends BaseJiraService {
+public class JiraAssetsService extends BaseJiraService {
 
 	public void createObject(
 		String objectTypeId, JiraAssetObject jiraAssetObject) {

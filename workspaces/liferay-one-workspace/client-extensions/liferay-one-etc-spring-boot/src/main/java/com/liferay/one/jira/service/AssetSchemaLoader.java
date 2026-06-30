@@ -5,7 +5,6 @@
 
 package com.liferay.one.jira.service;
 
-import com.liferay.one.jira.client.JiraAssetsClient;
 import com.liferay.one.jira.exception.JiraAssetSchemaException;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -30,18 +29,19 @@ public class AssetSchemaLoader {
 	@Cacheable("assetObjectTypeAttributeIds")
 	public Map<String, String> getAttributeIds(String objectTypeId) {
 		return _toNameIdMap(
-			_jiraAssetsClient.getObjectTypeAttributes(objectTypeId));
+			_jiraAssetsService.getObjectTypeAttributes(objectTypeId));
 	}
 
 	@Cacheable("assetObjectTypeIds")
 	public Map<String, String> getObjectTypeIds(String schemaName) {
 		String schemaId = _resolveSchemaId(schemaName);
 
-		return _toNameIdMap(_jiraAssetsClient.getObjectTypes(schemaId));
+		return _toNameIdMap(_jiraAssetsService.getObjectTypes(schemaId));
 	}
 
 	private String _resolveSchemaId(String schemaName) {
-		JSONArray objectSchemasJSONArray = _jiraAssetsClient.getObjectSchemas();
+		JSONArray objectSchemasJSONArray =
+			_jiraAssetsService.getObjectSchemas();
 
 		for (int i = 0; i < objectSchemasJSONArray.length(); i++) {
 			JSONObject schemaJSONObject = objectSchemasJSONArray.getJSONObject(
@@ -77,6 +77,6 @@ public class AssetSchemaLoader {
 	}
 
 	@Autowired
-	private JiraAssetsClient _jiraAssetsClient;
+	private JiraAssetsService _jiraAssetsService;
 
 }
