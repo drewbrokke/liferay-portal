@@ -5,6 +5,10 @@
 
 package com.liferay.one;
 
+import com.liferay.headless.admin.user.client.dto.v1_0.Account;
+import com.liferay.one.jira.converter.AccountConverter;
+import com.liferay.one.jira.model.JiraAssetObject;
+import com.liferay.one.jira.service.JiraService;
 import com.liferay.one.permission.BusinessEventPermission;
 import com.liferay.one.service.AccountService;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -17,10 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * @author Jenny Chen
@@ -52,6 +54,36 @@ public class AccountsRestController extends OneBaseRestController {
 				exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@PostMapping("/sync-to-jsm")
+	public ResponseEntity<Void> postSyncToJSM() throws Exception {
+		try {
+			for (Account account : _accountService.getAllAccounts()) {
+//				_syncAccount(_accountService.fetchAccount(account.getId()));
+				_syncAccount(account);
+
+				break;
+			}
+		} catch (Exception exception) {
+			throw new ResponseStatusException(
+				HttpStatus.INTERNAL_SERVER_ERROR,
+				"There was a problem synchronizing the JIRA object keys", exception);
+		}
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	private void _syncAccount(Account account) throws Exception {
+		System.out.println("account = " + account);
+
+		JiraAssetObject assetObject = _accountConverter.toAssetObject(account);
+
+		System.out.println("assetObject = " + assetObject);
+		System.out.println("assetObject.toAttributesJSONArray() = " + assetObject.toAttributesJSONArray());
+	}
+
+	@Autowired
+	private AccountConverter _accountConverter;
 
 	private static final Log _log = LogFactory.getLog(
 		AccountsRestController.class);

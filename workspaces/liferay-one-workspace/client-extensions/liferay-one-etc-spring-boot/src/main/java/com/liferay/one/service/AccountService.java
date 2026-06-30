@@ -7,6 +7,8 @@ package com.liferay.one.service;
 
 import com.liferay.headless.admin.user.client.dto.v1_0.Account;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
+import com.liferay.headless.admin.user.client.pagination.Page;
+import com.liferay.headless.admin.user.client.pagination.Pagination;
 import com.liferay.headless.admin.user.client.problem.Problem;
 import com.liferay.headless.admin.user.client.resource.v1_0.AccountResource;
 import com.liferay.one.jira.converter.AccountConverter;
@@ -14,6 +16,7 @@ import com.liferay.one.jira.exception.AccountNotFoundException;
 import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.service.JiraAssetsService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +61,7 @@ public class AccountService extends OneBaseService {
 	}
 
 	public Account fetchAccount(long accountId) throws Exception {
-		AccountResource accountResource = AccountResource.builder(
-		).endpoint(
-			lxcDXPMainDomain, lxcDXPServerProtocol
-		).header(
-			HttpHeaders.AUTHORIZATION, getAuthorization()
-		).build();
+		AccountResource accountResource = getAccountResource(getAuthorization());
 
 		try {
 			return accountResource.getAccount(accountId);
@@ -79,22 +77,49 @@ public class AccountService extends OneBaseService {
 		}
 	}
 
-	public Account getAccount(String externalReferenceCode, Jwt jwt)
-		throws Exception {
-
-		AccountResource accountResource = AccountResource.builder(
+	private AccountResource getAccountResource(String authorization) {
+		return AccountResource.builder(
 		).endpoint(
 			lxcDXPMainDomain, lxcDXPServerProtocol
 		).header(
-			HttpHeaders.AUTHORIZATION, "Bearer " + jwt.getTokenValue()
+			HttpHeaders.AUTHORIZATION, authorization
 		).build();
+	}
+
+	public Account getAccount(String externalReferenceCode, Jwt jwt)
+		throws Exception {
+
+		AccountResource accountResource = getAccountResource("Bearer " + jwt.getTokenValue());
 
 		return accountResource.getAccountByExternalReferenceCode(
 			externalReferenceCode);
 	}
 
-	public String getAccountObjectKey(String externalKey) throws Exception {
-		List<JiraAssetObject> objects = _jiraAssetsService.searchObjects(
+	public List<Account> getAllAccounts() throws Exception {
+		AccountResource accountResource = getAccountResource(getAuthorization());
+
+		int page = 1;
+
+		List<Account> accounts = new ArrayList<>();
+
+		while (true) {
+			Page<Account> accountsPage = accountResource.getAccountsPage(
+				null, null, Pagination.of(page, 50), null);
+
+			accounts.addAll(accountsPage.getItems());
+
+			if (page >= accountsPage.getLastPage()) {
+				break;
+			}
+
+			page++;
+		}
+
+		return accounts;
+	}
+
+	public String getAccountObjectKey(String externalKey) {
+		List<JiraAssetObject> objects = _jiraAssetsClient.searchObjects(
 			_accountConverter.getAQLWithBuilder(
 				aqlBuilder -> aqlBuilder.andEquals(
 					externalKey, "External Key")),
