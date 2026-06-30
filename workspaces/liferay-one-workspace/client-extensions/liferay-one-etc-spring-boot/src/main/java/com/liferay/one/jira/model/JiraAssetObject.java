@@ -64,7 +64,7 @@ public class JiraAssetObject {
 	 * The object's own id (top-level {@code id}), not an attribute value.
 	 */
 	public String getObjectId() {
-		return _jsonObject.optString("id");
+		return _jsonObject.getString("id");
 	}
 
 	/**
@@ -72,14 +72,14 @@ public class JiraAssetObject {
 	 * value.
 	 */
 	public String getObjectKey() {
-		return _jsonObject.optString("objectKey");
+		return _jsonObject.getString("objectKey");
 	}
 
 	/**
 	 * The object's own name (top-level {@code name}), not an attribute value.
 	 */
 	public String getObjectName() {
-		return _jsonObject.optString("name");
+		return _jsonObject.getString("name");
 	}
 
 	public void setAttributeValue(String attributeName, Object value) {
