@@ -6,7 +6,6 @@
 package com.liferay.one.jira.service;
 
 import com.liferay.one.jira.client.JiraAssetObject;
-import com.liferay.one.jira.client.JiraAssetsClient;
 import com.liferay.one.jira.constants.BusinessEventConstants;
 import com.liferay.one.jira.converter.AccountConverter;
 import com.liferay.one.jira.converter.BusinessEventConverter;
@@ -41,7 +40,7 @@ public class BusinessEventService {
 	public void createBusinessEvent(BusinessEvent businessEvent)
 		throws Exception {
 
-		_jiraAssetsClient.createObject(
+		_jiraAssetsService.createObject(
 			_businessEventConverter.getObjectTypeId(),
 			_businessEventConverter.toAssetObject(
 				_getAccountObjectKey(
@@ -50,19 +49,19 @@ public class BusinessEventService {
 	}
 
 	public void deleteBusinessEvent(String id) throws Exception {
-		_jiraAssetsClient.deleteObject(id);
+		_jiraAssetsService.deleteObject(id);
 	}
 
 	public BusinessEvent getBusinessEvent(String id) throws Exception {
 		return _businessEventConverter.toBusinessEvent(
-			StringPool.BLANK, _jiraAssetsClient.getObject(id));
+			StringPool.BLANK, _jiraAssetsService.getObject(id));
 	}
 
 	public List<BusinessEvent> getBusinessEvents(
 			String accountExternalReferenceCode)
 		throws Exception {
 
-		return _jiraAssetsClient.searchObjects(
+		return _jiraAssetsService.searchObjects(
 			_businessEventConverter.getAQLWithBuilder(
 				aqlBuilder -> aqlBuilder.andEquals(
 					accountExternalReferenceCode,
@@ -80,7 +79,7 @@ public class BusinessEventService {
 			return new ArrayList<>();
 		}
 
-		return _jiraAssetsClient.searchObjects(
+		return _jiraAssetsService.searchObjects(
 			_businessEventVersionConverter.getAQLWithBuilder(
 				aqlBuilder -> aqlBuilder.andEqualsObject(
 					businessEventId,
@@ -99,7 +98,7 @@ public class BusinessEventService {
 			new ArrayList<>();
 
 		JSONArray objectTypeAttributesJSONArray =
-			_jiraAssetsClient.getObjectTypeAttributes(
+			_jiraAssetsService.getObjectTypeAttributes(
 				_businessEventConverter.getObjectTypeId());
 
 		for (int i = 0; i < objectTypeAttributesJSONArray.length(); i++) {
@@ -129,7 +128,7 @@ public class BusinessEventService {
 
 	@Cacheable("assetObjects")
 	public List<AssetObject> getProductVersions() throws Exception {
-		return _jiraAssetsClient.searchObjects(
+		return _jiraAssetsService.searchObjects(
 			AQLUtil.getBaseAQL(
 				BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS,
 				BusinessEventConstants.OBJECT_TYPE_PRODUCT_VERSION),
@@ -147,7 +146,7 @@ public class BusinessEventService {
 			BusinessEvent businessEvent, String id)
 		throws Exception {
 
-		_jiraAssetsClient.updateObject(
+		_jiraAssetsService.updateObject(
 			id, _businessEventConverter.toAssetObject(null, businessEvent));
 
 		return getBusinessEvent(id);
@@ -161,7 +160,7 @@ public class BusinessEventService {
 				accountExternalReferenceCode, "External Key"));
 
 		List<JiraAssetObject> jiraAssetObjects =
-			_jiraAssetsClient.searchObjects(
+			_jiraAssetsService.searchObjects(
 				aql, _accountConverter::toJiraAssetObject);
 
 		if (jiraAssetObjects.isEmpty()) {
@@ -183,6 +182,6 @@ public class BusinessEventService {
 	private BusinessEventVersionConverter _businessEventVersionConverter;
 
 	@Autowired
-	private JiraAssetsClient _jiraAssetsClient;
+	private JiraAssetsService _jiraAssetsService;
 
 }

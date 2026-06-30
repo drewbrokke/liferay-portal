@@ -10,8 +10,8 @@ import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.headless.admin.user.client.problem.Problem;
 import com.liferay.headless.admin.user.client.resource.v1_0.AccountResource;
 import com.liferay.one.jira.client.JiraAssetObject;
-import com.liferay.one.jira.client.JiraAssetsClient;
 import com.liferay.one.jira.converter.AccountConverter;
+import com.liferay.one.jira.service.JiraAssetsService;
 
 import java.util.List;
 
@@ -93,7 +93,7 @@ public class AccountService extends OneBaseService {
 	}
 
 	public String getAccountObjectKey(String externalKey) {
-		List<JiraAssetObject> objects = _jiraAssetsClient.searchObjects(
+		List<JiraAssetObject> objects = _jiraAssetsService.searchObjects(
 			_accountConverter.getAQLWithBuilder(
 				aqlBuilder -> aqlBuilder.andEquals(
 					externalKey, "External Key")),
@@ -112,7 +112,7 @@ public class AccountService extends OneBaseService {
 	private AccountConverter _accountConverter;
 
 	@Autowired
-	private JiraAssetsClient _jiraAssetsClient;
+	private JiraAssetsService _jiraAssetsService;
 
 	@Autowired
 	private UserAccountService _userAccountService;

@@ -94,7 +94,7 @@ public class JiraAssetObject {
 
 	/**
 	 * Serializes this object into the JSM's {@code attributes} JSON shape.
-	 * This method is used by the {@link JiraAssetsClient}.
+	 * This method is used by the {@link JiraAssetsService}.
 	 */
 	public JSONArray toAttributesJSONArray() {
 		JSONArray attributesJSONArray = new JSONArray();
