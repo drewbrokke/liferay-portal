@@ -5,16 +5,18 @@
 
 package com.liferay.one.jira.converter;
 
+import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.constants.BusinessEventConstants;
 import com.liferay.one.jira.model.BusinessEventVersion;
-
-import java.util.Map;
 
 import org.json.JSONObject;
 
 import org.springframework.stereotype.Component;
 
 /**
+ * Maps a JSM "Business Event Version" asset object to a
+ * {@link BusinessEventVersion}.
+ *
  * @author Amos Fong
  */
 @Component
@@ -23,21 +25,18 @@ public class BusinessEventVersionConverter extends AssetObjectConverter {
 	public BusinessEventVersion toBusinessEventVersion(
 		JSONObject jiraAssetObjectJSONObject) {
 
-		Map<String, String> attributeIds = getAttributeIds();
+		JiraAssetObject jiraAssetObject = new JiraAssetObject(
+			jiraAssetObjectJSONObject, getAttributeIds());
 
 		return new BusinessEventVersion(
-			getAttributeValue(
-				attributeIds.get(BusinessEventConstants.ATTRIBUTE_NAME_AUTHOR),
-				jiraAssetObjectJSONObject),
-			getAttributeValue(
-				attributeIds.get(BusinessEventConstants.ATTRIBUTE_NAME_CHANGE),
-				jiraAssetObjectJSONObject),
-			getAttributeValue(
-				attributeIds.get(BusinessEventConstants.ATTRIBUTE_NAME_COMMENT),
-				jiraAssetObjectJSONObject),
-			getAttributeKey(
-				attributeIds.get(BusinessEventConstants.ATTRIBUTE_NAME_CREATED),
-				jiraAssetObjectJSONObject));
+			jiraAssetObject.getAttributeDisplayValue(
+				BusinessEventConstants.ATTRIBUTE_NAME_AUTHOR),
+			jiraAssetObject.getAttributeDisplayValue(
+				BusinessEventConstants.ATTRIBUTE_NAME_CHANGE),
+			jiraAssetObject.getAttributeDisplayValue(
+				BusinessEventConstants.ATTRIBUTE_NAME_COMMENT),
+			jiraAssetObject.getAttributeValue(
+				BusinessEventConstants.ATTRIBUTE_NAME_CREATED));
 	}
 
 	@Override

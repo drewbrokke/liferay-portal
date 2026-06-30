@@ -5,12 +5,14 @@
 
 package com.liferay.one.jira.converter;
 
+import com.liferay.one.jira.client.JiraAssetObject;
+import com.liferay.one.jira.constants.AccountConstants;
+import com.liferay.one.jira.model.JiraAssetSchemaNameProvider;
 import com.liferay.one.jira.model.Organization;
-import com.liferay.petra.string.StringPool;
 
 import org.json.JSONObject;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,25 +22,26 @@ import org.springframework.stereotype.Component;
 public class OrganizationConverter extends AssetObjectConverter {
 
 	public Organization toOrganization(JSONObject assetObjectJSONObject) {
+		JiraAssetObject jiraAssetObject = new JiraAssetObject(
+			assetObjectJSONObject, getAttributeIds());
+
 		return new Organization(
-			getAttributeValue(_externalKeyAttributeId, assetObjectJSONObject),
-			assetObjectJSONObject.optString("id"),
-			assetObjectJSONObject.optString("name"));
+			jiraAssetObject.getAttributeValue(
+				AccountConstants.ATTRIBUTE_NAME_EXTERNAL_KEY),
+			jiraAssetObject.getObjectId(), jiraAssetObject.getObjectName());
 	}
 
 	@Override
 	protected String getObjectSchemaName() {
-		return StringPool.BLANK;
+		return _jiraAssetSchemaNameProvider.getSchemaName();
 	}
 
 	@Override
 	protected String getObjectTypeName() {
-		return StringPool.BLANK;
+		return AccountConstants.OBJECT_TYPE_NAME;
 	}
 
-	@Value(
-		"${liferay.one.jira.organization.asset.object.type.attribute.external.key}"
-	)
-	private String _externalKeyAttributeId;
+	@Autowired
+	private JiraAssetSchemaNameProvider _jiraAssetSchemaNameProvider;
 
 }
