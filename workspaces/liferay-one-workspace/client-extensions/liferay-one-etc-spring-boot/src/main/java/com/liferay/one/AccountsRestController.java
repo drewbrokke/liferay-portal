@@ -7,6 +7,7 @@ package com.liferay.one;
 
 import com.liferay.one.jira.service.JiraService;
 import com.liferay.one.permission.BusinessEventPermission;
+import com.liferay.one.service.AccountService;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 
 import org.apache.commons.logging.Log;
@@ -40,7 +41,7 @@ public class AccountsRestController extends OneBaseRestController {
 				externalReferenceCode, ActionKeys.VIEW, jwt);
 
 			return new ResponseEntity<>(
-				_jiraService.getAccountObjectKey(externalReferenceCode),
+				_accountService.getAccountObjectKey(externalReferenceCode),
 				HttpStatus.OK);
 		}
 		catch (Exception exception) {
@@ -55,6 +56,9 @@ public class AccountsRestController extends OneBaseRestController {
 
 	private static final Log _log = LogFactory.getLog(
 		AccountsRestController.class);
+
+	@Autowired
+	private AccountService _accountService;
 
 	@Autowired
 	private BusinessEventPermission _businessEventPermission;

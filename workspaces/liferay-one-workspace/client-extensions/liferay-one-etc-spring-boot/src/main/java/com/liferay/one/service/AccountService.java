@@ -9,12 +9,16 @@ import com.liferay.headless.admin.user.client.dto.v1_0.Account;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.headless.admin.user.client.problem.Problem;
 import com.liferay.headless.admin.user.client.resource.v1_0.AccountResource;
+import com.liferay.one.jira.client.JiraAssetObject;
+import com.liferay.one.jira.client.JiraAssetsClient;
+import com.liferay.one.jira.converter.AccountConverter;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * @author Amos Fong
@@ -86,6 +90,28 @@ public class AccountService extends OneBaseService {
 		return accountResource.getAccountByExternalReferenceCode(
 			externalReferenceCode);
 	}
+
+	public String getAccountObjectKey(String externalKey) {
+		List<JiraAssetObject> objects = _jiraAssetsClient.searchObjects(
+			_accountConverter.getAQLWithBuilder(
+				aqlBuilder -> aqlBuilder.andEquals(
+					externalKey, "External Key")),
+			_accountConverter::toJiraAssetObject);
+
+		if (objects.isEmpty()) {
+			return null;
+		}
+
+		JiraAssetObject jiraAssetObject = objects.getFirst();
+
+		return jiraAssetObject.getObjectKey();
+	}
+
+	@Autowired
+	private AccountConverter _accountConverter;
+
+	@Autowired
+	private JiraAssetsClient _jiraAssetsClient;
 
 	@Autowired
 	private UserAccountService _userAccountService;
