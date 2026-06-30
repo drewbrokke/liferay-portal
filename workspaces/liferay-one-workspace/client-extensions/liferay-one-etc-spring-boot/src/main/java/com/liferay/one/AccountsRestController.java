@@ -5,7 +5,7 @@
 
 package com.liferay.one;
 
-import com.liferay.one.jira.service.JiraService;
+import com.liferay.one.jira.service.JiraIssuesService;
 import com.liferay.one.permission.BusinessEventPermission;
 import com.liferay.one.service.AccountService;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -64,6 +64,6 @@ public class AccountsRestController extends OneBaseRestController {
 	private BusinessEventPermission _businessEventPermission;
 
 	@Autowired
-	private JiraService _jiraService;
+	private JiraIssuesService _jiraIssuesService;
 
 }
