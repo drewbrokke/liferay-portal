@@ -5,7 +5,6 @@
 
 package com.liferay.one.jira.service;
 
-import com.liferay.client.extension.util.spring.boot3.service.BaseService;
 import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.client.JiraAssetsClient;
 import com.liferay.one.jira.constants.IssueConstants;
@@ -21,7 +20,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -41,13 +39,13 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author Jenny Chen
  */
 @Component
-public class JiraService extends BaseService {
+public class JiraService extends BaseJiraService {
 
 	public void addComment(String body, String issueKey) {
 		post(
 			body,
 			HashMapBuilder.put(
-				HttpHeaders.AUTHORIZATION, _getAuthorization()
+				HttpHeaders.AUTHORIZATION, getAuthorization()
 			).put(
 				HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE
 			).build(),
@@ -64,7 +62,7 @@ public class JiraService extends BaseService {
 		try {
 			JSONObject issueJSONObject = new JSONObject(
 				get(
-					_getAuthorization(),
+					getAuthorization(),
 					UriComponentsBuilder.fromUriString(
 						StringBundler.concat(
 							_jiraURL, _URL_REST_API_3, "/issue/", issueKey)
@@ -166,15 +164,6 @@ public class JiraService extends BaseService {
 		return supportIssues;
 	}
 
-	private String _getAuthorization() {
-		Base64.Encoder encoder = Base64.getEncoder();
-
-		String credentials =
-			_jiraAPIEmailAddress + StringPool.COLON + _jiraAPIToken;
-
-		return "Basic " + encoder.encodeToString(credentials.getBytes());
-	}
-
 	private Organization _getOrganization(JSONObject jsonObject)
 		throws OrganizationNotFoundException {
 
@@ -202,7 +191,7 @@ public class JiraService extends BaseService {
 		try {
 			return new JSONObject(
 				get(
-					_getAuthorization(),
+					getAuthorization(),
 					UriComponentsBuilder.fromUriString(
 						StringBundler.concat(
 							_jiraURL, _URL_REST_API_3, "/search/jql")
@@ -234,12 +223,6 @@ public class JiraService extends BaseService {
 	private static final String _URL_REST_API_3 = "/rest/api/3";
 
 	private static final Log _log = LogFactory.getLog(JiraService.class);
-
-	@Value("${liferay.one.jira.api.email.address}")
-	private String _jiraAPIEmailAddress;
-
-	@Value("${liferay.one.jira.api.token}")
-	private String _jiraAPIToken;
 
 	@Autowired
 	private JiraAssetsClient _jiraAssetsClient;

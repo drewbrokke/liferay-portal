@@ -5,7 +5,7 @@
 
 package com.liferay.one.jira.client;
 
-import com.liferay.client.extension.util.spring.boot3.service.BaseService;
+import com.liferay.one.jira.service.BaseJiraService;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -13,10 +13,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.net.URI;
 
-import java.nio.charset.StandardCharsets;
-
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -34,7 +31,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author Drew Brokke
  */
 @Component
-public class JiraAssetsClient extends BaseService {
+public class JiraAssetsClient extends BaseJiraService {
 
 	public void createObject(
 		String objectTypeId, JiraAssetObject jiraAssetObject) {
@@ -52,11 +49,11 @@ public class JiraAssetsClient extends BaseService {
 	}
 
 	public void deleteObject(String objectId) {
-		delete(_getAuthorization(), StringPool.BLANK, _objectURI(objectId));
+		delete(getAuthorization(), StringPool.BLANK, _objectURI(objectId));
 	}
 
 	public JSONObject getObject(String objectId) {
-		return new JSONObject(get(_getAuthorization(), _objectURI(objectId)));
+		return new JSONObject(get(getAuthorization(), _objectURI(objectId)));
 	}
 
 	public JSONArray getObjectSchemas() {
@@ -89,7 +86,7 @@ public class JiraAssetsClient extends BaseService {
 	public JSONArray getObjectTypeAttributes(String objectTypeId) {
 		return new JSONArray(
 			get(
-				_getAuthorization(),
+				getAuthorization(),
 				_v1URI(
 					StringBundler.concat(
 						"objecttype/", objectTypeId, "/attributes"))));
@@ -98,7 +95,7 @@ public class JiraAssetsClient extends BaseService {
 	public JSONArray getObjectTypes(String schemaId) {
 		return new JSONArray(
 			get(
-				_getAuthorization(),
+				getAuthorization(),
 				_v1URI(
 					StringBundler.concat(
 						"objectschema/", schemaId, "/objecttypes"))));
@@ -155,21 +152,9 @@ public class JiraAssetsClient extends BaseService {
 		new JSONObject(response);
 	}
 
-	private String _getAuthorization() {
-		Base64.Encoder encoder = Base64.getEncoder();
-
-		String credentials =
-			_jiraAPIEmailAddress + StringPool.COLON + _jiraAPIToken;
-
-		String encodedString = encoder.encodeToString(
-			credentials.getBytes(StandardCharsets.UTF_8));
-
-		return "Basic " + encodedString;
-	}
-
 	private JSONObject _getObjectSchemasPageJSONObject(int startAt) {
 		String response = get(
-			_getAuthorization(),
+			getAuthorization(),
 			UriComponentsBuilder.fromUri(
 				_v1URI("objectschema/list")
 			).queryParam(
@@ -188,7 +173,7 @@ public class JiraAssetsClient extends BaseService {
 
 	private Map<String, String> _headers() {
 		return HashMapBuilder.put(
-			HttpHeaders.AUTHORIZATION, _getAuthorization()
+			HttpHeaders.AUTHORIZATION, getAuthorization()
 		).put(
 			HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE
 		).build();
@@ -234,12 +219,6 @@ public class JiraAssetsClient extends BaseService {
 		"https://api.atlassian.com";
 
 	private static final int _MAX_RESULTS = 100;
-
-	@Value("${liferay.one.jira.api.email.address}")
-	private String _jiraAPIEmailAddress;
-
-	@Value("${liferay.one.jira.api.token}")
-	private String _jiraAPIToken;
 
 	@Value("${liferay.one.jira.workspace.id}")
 	private String _jiraWorkspaceId;
