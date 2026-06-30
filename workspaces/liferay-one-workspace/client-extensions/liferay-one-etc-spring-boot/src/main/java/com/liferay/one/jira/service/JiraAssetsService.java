@@ -5,7 +5,7 @@
 
 package com.liferay.one.jira.service;
 
-import com.liferay.one.jira.client.JiraAssetObject;
+import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.HashMapBuilder;

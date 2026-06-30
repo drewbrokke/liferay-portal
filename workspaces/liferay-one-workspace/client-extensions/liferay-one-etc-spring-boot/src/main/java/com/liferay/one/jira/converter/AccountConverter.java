@@ -12,8 +12,8 @@ import com.liferay.headless.admin.user.client.dto.v1_0.AccountContactInformation
 import com.liferay.headless.admin.user.client.dto.v1_0.EmailAddress;
 import com.liferay.headless.admin.user.client.dto.v1_0.Phone;
 import com.liferay.headless.admin.user.client.dto.v1_0.WebUrl;
-import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.constants.AccountConstants;
+import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.model.JiraAssetSchemaNameProvider;
 import com.liferay.portal.kernel.util.ArrayUtil;
 

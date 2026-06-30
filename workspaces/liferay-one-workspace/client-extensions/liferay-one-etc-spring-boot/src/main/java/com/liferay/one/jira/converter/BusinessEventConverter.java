@@ -5,9 +5,9 @@
 
 package com.liferay.one.jira.converter;
 
-import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.constants.BusinessEventConstants;
 import com.liferay.one.jira.model.BusinessEvent;
+import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.petra.string.StringPool;
 
 import org.json.JSONObject;

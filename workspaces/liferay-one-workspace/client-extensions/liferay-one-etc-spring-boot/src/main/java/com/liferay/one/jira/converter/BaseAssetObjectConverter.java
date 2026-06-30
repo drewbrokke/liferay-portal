@@ -5,7 +5,7 @@
 
 package com.liferay.one.jira.converter;
 
-import com.liferay.one.jira.client.JiraAssetObject;
+import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.service.AssetSchemaService;
 import com.liferay.one.jira.util.AQLUtil;
 

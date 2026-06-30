@@ -5,6 +5,7 @@
 
 package com.liferay.one.jira.client;
 
+import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 
 import java.util.Map;

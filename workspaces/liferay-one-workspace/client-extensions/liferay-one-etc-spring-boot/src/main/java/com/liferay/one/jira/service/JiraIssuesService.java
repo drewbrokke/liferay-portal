@@ -5,10 +5,10 @@
 
 package com.liferay.one.jira.service;
 
-import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.constants.IssueConstants;
 import com.liferay.one.jira.converter.OrganizationConverter;
 import com.liferay.one.jira.exception.OrganizationNotFoundException;
+import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.model.Organization;
 import com.liferay.one.jira.model.SupportIssue;
 import com.liferay.petra.string.StringBundler;
