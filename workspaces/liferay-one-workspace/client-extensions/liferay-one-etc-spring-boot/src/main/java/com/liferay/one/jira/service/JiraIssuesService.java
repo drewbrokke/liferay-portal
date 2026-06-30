@@ -38,7 +38,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author Jenny Chen
  */
 @Component
-public class JiraService extends BaseJiraService {
+public class JiraIssuesService extends BaseJiraService {
 
 	public void addComment(String body, String issueKey) {
 		post(
@@ -221,7 +221,7 @@ public class JiraService extends BaseJiraService {
 
 	private static final String _URL_REST_API_3 = "/rest/api/3";
 
-	private static final Log _log = LogFactory.getLog(JiraService.class);
+	private static final Log _log = LogFactory.getLog(JiraIssuesService.class);
 
 	@Autowired
 	private JiraAssetsService _jiraAssetsService;
