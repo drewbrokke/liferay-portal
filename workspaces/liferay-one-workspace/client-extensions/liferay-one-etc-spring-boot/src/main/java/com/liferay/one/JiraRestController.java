@@ -74,7 +74,4 @@ public class JiraRestController extends OneBaseRestController {
 	@Autowired
 	private JiraService _jiraService;
 
-	@Autowired
-	private UserAccountService _userAccountService;
-
 }
