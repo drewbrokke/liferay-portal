@@ -217,9 +217,6 @@ public class AccountConverter extends BaseAssetObjectConverter {
 	}
 
 	private String _status(Integer status) {
-
-		// Best-guess mapping; adjust to the real Liferay account status codes.
-
 		if (status == null) {
 			return null;
 		}
