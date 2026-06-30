@@ -92,6 +92,18 @@ public class JiraAssetObject {
 		_values.put(attributeId, value);
 	}
 
+	private String getAttributeName(String attributeId) {
+		for (Map.Entry<String, String> entry : _attributeIds.entrySet()) {
+			String id = entry.getValue();
+
+			if (id.equals(attributeId)) {
+				return entry.getKey();
+			}
+		}
+
+		return null;
+	}
+
 	/**
 	 * Serializes this object into the JSM's {@code attributes} JSON shape.
 	 * This method is used by the {@link com.liferay.one.jira.service.JiraAssetsService}.
@@ -109,6 +121,8 @@ public class JiraAssetObject {
 						new JSONObject(
 						).put(
 							"value", entry.getValue()
+						).put(
+							"displayName", getAttributeName(entry.getKey())
 						)
 					)
 				).put(

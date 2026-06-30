@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.Validator;
 import java.net.URI;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -46,6 +47,19 @@ public class JiraAssetsService extends BaseJiraService {
 			_headers(), _objectURI("create"));
 
 		new JSONObject(response);
+	}
+
+	public void createOrUpdateObject(String objectTypeId, String searchAQL, JiraAssetObject jiraAssetObject) {
+		JSONArray jsonArray = searchObjects(searchAQL);
+
+		if (jsonArray.isEmpty()) {
+			createObject(objectTypeId, jiraAssetObject);
+		}
+		else {
+			JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+			updateObject(jsonObject.getString("id"), jiraAssetObject);
+		}
 	}
 
 	public void deleteObject(String objectId) {

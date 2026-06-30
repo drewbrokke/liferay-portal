@@ -8,7 +8,7 @@ package com.liferay.one;
 import com.liferay.headless.admin.user.client.dto.v1_0.Account;
 import com.liferay.one.jira.converter.AccountConverter;
 import com.liferay.one.jira.model.JiraAssetObject;
-import com.liferay.one.jira.service.JiraService;
+import com.liferay.one.jira.service.JiraAssetsService;
 import com.liferay.one.permission.BusinessEventPermission;
 import com.liferay.one.service.AccountService;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -80,7 +80,12 @@ public class AccountsRestController extends OneBaseRestController {
 
 		System.out.println("assetObject = " + assetObject);
 		System.out.println("assetObject.toAttributesJSONArray() = " + assetObject.toAttributesJSONArray());
+
+		_accountService.syncJSMAccount(account.getExternalReferenceCode(), assetObject);
 	}
+
+	@Autowired
+	private JiraAssetsService _jiraAssetsService;
 
 	@Autowired
 	private AccountConverter _accountConverter;

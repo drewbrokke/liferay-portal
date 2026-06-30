@@ -31,6 +31,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class AccountService extends OneBaseService {
 
+	private final int _PAGE_SIZE = 500;
+
 	public void addAccountUserAccount(
 			long accountId, long userId, Long accountRoleId)
 		throws Exception {
@@ -104,7 +106,7 @@ public class AccountService extends OneBaseService {
 
 		while (true) {
 			Page<Account> accountsPage = accountResource.getAccountsPage(
-				null, null, Pagination.of(page, 50), null);
+				null, null, Pagination.of(page, _PAGE_SIZE), null);
 
 			accounts.addAll(accountsPage.getItems());
 
@@ -118,20 +120,47 @@ public class AccountService extends OneBaseService {
 		return accounts;
 	}
 
-	public String getAccountObjectKey(String externalKey) {
-		List<JiraAssetObject> objects = _jiraAssetsClient.searchObjects(
+	public void syncJSMAccount(String externalKey, JiraAssetObject payload) {
+		JiraAssetObject jiraAssetObject = fetchAccountJiraAssetObjectByExternalKey(externalKey);
+
+		if (jiraAssetObject != null) {
+			System.out.println("Account found for key " + externalKey);
+			_jiraAssetsService.updateObject(jiraAssetObject.getObjectId(), payload);
+		}
+		else {
+			System.out.println("Account not found for key " + externalKey);
+			_jiraAssetsService.createObject(_accountConverter.getObjectTypeId(), payload);
+		}
+	}
+
+	public String getAccountObjectKey(String externalKey) throws Exception {
+		JiraAssetObject jiraAssetObject = getAccountJiraAssetObjectByExternalKey(externalKey);
+
+		return jiraAssetObject.getObjectKey();
+	}
+
+	private JiraAssetObject fetchAccountJiraAssetObjectByExternalKey(String externalKey) {
+		List<JiraAssetObject> objects = _jiraAssetsService.searchObjects(
 			_accountConverter.getAQLWithBuilder(
 				aqlBuilder -> aqlBuilder.andEquals(
 					externalKey, "External Key")),
 			_accountConverter::toJiraAssetObject);
 
 		if (objects.isEmpty()) {
+			return null;
+		}
+
+		return objects.get(0);
+	}
+
+	private JiraAssetObject getAccountJiraAssetObjectByExternalKey(String externalKey) throws Exception {
+		JiraAssetObject jiraAssetObject = fetchAccountJiraAssetObjectByExternalKey(externalKey);
+
+		if (jiraAssetObject == null) {
 			throw new AccountNotFoundException();
 		}
 
-		JiraAssetObject jiraAssetObject = objects.get(0);
-
-		return jiraAssetObject.getObjectKey();
+		return jiraAssetObject;
 	}
 
 	@Autowired

@@ -18,8 +18,10 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 
 import java.text.SimpleDateFormat;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -148,35 +150,31 @@ public class AccountConverter extends BaseAssetObjectConverter {
 	private String _getFaxNumber(
 		AccountContactInformation accountContactInformation) {
 
-		Phone[] telephones = accountContactInformation.getTelephones();
+		Phone[] telephones = ArrayUtil.filter(
+			accountContactInformation.getTelephones(),
+			telephone -> "fax".equalsIgnoreCase(telephone.getPhoneType()));
 
-		if (telephones == null) {
+		if (ArrayUtil.isEmpty(telephones)) {
 			return null;
 		}
 
-		for (Phone telephone : telephones) {
-			if ("fax".equalsIgnoreCase(telephone.getPhoneType())) {
-				return telephone.getPhoneNumber();
-			}
-		}
+		Phone telephone = telephones[0];
 
-		return null;
+		return telephone.getPhoneNumber();
 	}
 
 	private String _getPhoneNumber(
 		AccountContactInformation accountContactInformation) {
 
-		Phone[] telephones = accountContactInformation.getTelephones();
+		Phone[] telephones = ArrayUtil.filter(
+			accountContactInformation.getTelephones(),
+			telephone -> !"fax".equalsIgnoreCase(telephone.getPhoneType()));
 
 		if (ArrayUtil.isEmpty(telephones)) {
 			return null;
 		}
 
 		for (Phone telephone : telephones) {
-			if ("fax".equalsIgnoreCase(telephone.getPhoneType())) {
-				continue;
-			}
-
 			if (Boolean.TRUE.equals(telephone.getPrimary())) {
 				return telephone.getPhoneNumber();
 			}
