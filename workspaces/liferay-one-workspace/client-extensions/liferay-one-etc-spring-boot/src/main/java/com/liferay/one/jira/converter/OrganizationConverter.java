@@ -7,12 +7,11 @@ package com.liferay.one.jira.converter;
 
 import com.liferay.one.jira.constants.AccountConstants;
 import com.liferay.one.jira.model.JiraAssetObject;
-import com.liferay.one.jira.model.JiraAssetSchemaNameProvider;
 import com.liferay.one.jira.model.Organization;
 
 import org.json.JSONObject;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,7 +32,7 @@ public class OrganizationConverter extends BaseAssetObjectConverter {
 
 	@Override
 	protected String getObjectSchemaName() {
-		return _jiraAssetSchemaNameProvider.getSchemaName();
+		return _schemaName;
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class OrganizationConverter extends BaseAssetObjectConverter {
 		return AccountConstants.OBJECT_TYPE_NAME;
 	}
 
-	@Autowired
-	private JiraAssetSchemaNameProvider _jiraAssetSchemaNameProvider;
+	@Value("${liferay.one.jira.asset.schema.name}")
+	private String _schemaName;
 
 }
