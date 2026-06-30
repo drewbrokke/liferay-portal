@@ -138,7 +138,7 @@ public class JiraAssetsClient extends BaseService {
 		JSONArray jsonArray = searchObjects(aql);
 
 		for (int i = 0; i < jsonArray.length(); i++) {
-			results.add(transformFunction.apply(jsonArray.getJSONObject(0)));
+			results.add(transformFunction.apply(jsonArray.getJSONObject(i)));
 		}
 
 		return results;
