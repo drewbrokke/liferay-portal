@@ -149,7 +149,7 @@ public class BusinessEventConverter extends BaseAssetObjectConverter {
 
 	@Override
 	protected String getObjectTypeName() {
-		return BusinessEventConstants.OBJECT_TYPE_PRODUCT_VERSION;
+		return BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT;
 	}
 
 }
