@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Amos Fong
  * @author Drew Brokke
  */
-public abstract class AssetObjectConverter {
+public abstract class BaseAssetObjectConverter {
 
 	public String getAQLWithBuilder(Consumer<AQLUtil.Builder> consumer) {
 		AQLUtil.Builder builder = AQLUtil.builder(getBaseAQL());
