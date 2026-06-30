@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  * @author Felipe Franca
  */
 @Component
-public class OrganizationConverter extends AssetObjectConverter {
+public class OrganizationConverter extends BaseAssetObjectConverter {
 
 	public Organization toOrganization(JSONObject assetObjectJSONObject) {
 		JiraAssetObject jiraAssetObject = new JiraAssetObject(

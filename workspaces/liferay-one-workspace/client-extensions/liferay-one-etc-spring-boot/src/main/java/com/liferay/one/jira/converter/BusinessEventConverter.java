@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  * @author Amos Fong
  */
 @Component
-public class BusinessEventConverter extends AssetObjectConverter {
+public class BusinessEventConverter extends BaseAssetObjectConverter {
 
 	public JiraAssetObject toAssetObject(
 		String accountObjectKey, BusinessEvent businessEvent) {
