@@ -6,15 +6,14 @@
 package com.liferay.one.jira.service;
 
 import com.liferay.one.jira.constants.BusinessEventConstants;
-import com.liferay.one.jira.converter.AccountConverter;
 import com.liferay.one.jira.converter.BusinessEventConverter;
 import com.liferay.one.jira.converter.BusinessEventVersionConverter;
 import com.liferay.one.jira.model.AssetObject;
 import com.liferay.one.jira.model.AssetObjectFieldOption;
 import com.liferay.one.jira.model.BusinessEvent;
 import com.liferay.one.jira.model.BusinessEventVersion;
-import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.util.AQLUtil;
+import com.liferay.one.service.AccountService;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -43,7 +42,7 @@ public class BusinessEventService {
 		_jiraAssetsService.createObject(
 			_businessEventConverter.getObjectTypeId(),
 			_businessEventConverter.toAssetObject(
-				_getAccountObjectKey(
+				_accountService.getAccountObjectKey(
 					businessEvent.getAccountExternalReferenceCode()),
 				businessEvent));
 	}
@@ -152,28 +151,8 @@ public class BusinessEventService {
 		return getBusinessEvent(id);
 	}
 
-	private String _getAccountObjectKey(String accountExternalReferenceCode)
-		throws Exception {
-
-		String aql = _accountConverter.getAQLWithBuilder(
-			aqlBuilder -> aqlBuilder.andEquals(
-				accountExternalReferenceCode, "External Key"));
-
-		List<JiraAssetObject> jiraAssetObjects =
-			_jiraAssetsService.searchObjects(
-				aql, _accountConverter::toJiraAssetObject);
-
-		if (jiraAssetObjects.isEmpty()) {
-			return null;
-		}
-
-		JiraAssetObject jiraAssetObject = jiraAssetObjects.get(0);
-
-		return jiraAssetObject.getObjectKey();
-	}
-
 	@Autowired
-	private AccountConverter _accountConverter;
+	private AccountService _accountService;
 
 	@Autowired
 	private BusinessEventConverter _businessEventConverter;
