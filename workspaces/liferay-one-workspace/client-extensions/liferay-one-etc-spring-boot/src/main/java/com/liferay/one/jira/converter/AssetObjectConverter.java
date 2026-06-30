@@ -5,24 +5,31 @@
 
 package com.liferay.one.jira.converter;
 
+import com.liferay.one.jira.client.JiraAssetObject;
 import com.liferay.one.jira.service.AssetSchemaService;
 import com.liferay.one.jira.util.AQLUtil;
-import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Amos Fong
+ * @author Drew Brokke
  */
 public abstract class AssetObjectConverter {
 
-	public String getBaseAQL() {
-		return AQLUtil.getBaseAQL(getObjectSchemaName(), getObjectTypeName());
+	public String getAQLWithBuilder(Consumer<AQLUtil.Builder> consumer) {
+		AQLUtil.Builder builder = AQLUtil.builder(getBaseAQL());
+
+		if (consumer != null) {
+			consumer.accept(builder);
+		}
+
+		return builder.build();
 	}
 
 	public String getObjectTypeId() {
@@ -30,9 +37,17 @@ public abstract class AssetObjectConverter {
 			getObjectSchemaName(), getObjectTypeName());
 	}
 
+	public JiraAssetObject toJiraAssetObject(JSONObject jsonObject) {
+		return new JiraAssetObject(jsonObject, getAttributeIds());
+	}
+
 	protected Map<String, String> getAttributeIds() {
 		return _assetSchemaService.getAttributeIds(
 			getObjectSchemaName(), getObjectTypeName());
+	}
+
+	protected String getBaseAQL() {
+		return AQLUtil.getBaseAQL(getObjectSchemaName(), getObjectTypeName());
 	}
 
 	protected abstract String getObjectSchemaName();
