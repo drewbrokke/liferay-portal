@@ -14,7 +14,7 @@ import com.liferay.one.constants.RoleConstants;
 import com.liferay.one.jira.exception.OrganizationNotFoundException;
 import com.liferay.one.jira.model.Organization;
 import com.liferay.one.jira.model.SupportIssue;
-import com.liferay.one.jira.service.JiraIssuesService;
+import com.liferay.one.jira.service.JiraIssueService;
 import com.liferay.one.service.AccountService;
 import com.liferay.one.service.UserAccountService;
 import com.liferay.petra.string.StringPool;
@@ -82,8 +82,7 @@ public class TicketsTicketAttachmentsRestController
 			boolean allowClosedTicket, Jwt jwt, String ticketId)
 		throws Exception {
 
-		SupportIssue supportIssue = _jiraIssuesService.getSupportIssue(
-			ticketId);
+		SupportIssue supportIssue = _jiraIssueService.getSupportIssue(ticketId);
 
 		if (supportIssue == null) {
 			return new ResponseEntity<>(
@@ -159,7 +158,7 @@ public class TicketsTicketAttachmentsRestController
 	private AccountService _accountService;
 
 	@Autowired
-	private JiraIssuesService _jiraIssuesService;
+	private JiraIssueService _jiraIssueService;
 
 	@Autowired
 	private UserAccountService _userAccountService;

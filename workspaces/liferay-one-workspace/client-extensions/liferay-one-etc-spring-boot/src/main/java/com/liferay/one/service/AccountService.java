@@ -121,7 +121,6 @@ public class AccountService extends OneBaseService {
 		return jiraAssetObject.getObjectKey();
 	}
 
-
 	public void upsertAccount(
 			com.liferay.one.salesforce.model.Account salesforceAccount)
 		throws Exception {

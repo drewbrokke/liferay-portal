@@ -15,7 +15,7 @@ import com.liferay.one.jira.constants.IssueConstants;
 import com.liferay.one.jira.exception.OrganizationNotFoundException;
 import com.liferay.one.jira.model.Organization;
 import com.liferay.one.jira.model.SupportIssue;
-import com.liferay.one.jira.service.JiraIssuesService;
+import com.liferay.one.jira.service.JiraIssueService;
 import com.liferay.one.model.TicketAttachment;
 import com.liferay.one.service.GoogleCloudStorageService;
 import com.liferay.one.service.NotificationQueueEntryService;
@@ -219,7 +219,7 @@ public class TicketAttachmentsRestController extends OneBaseRestController {
 			jsonObject.optString("commentBody"), jwt, ticketAttachment);
 
 		try {
-			_jiraIssuesService.addComment(
+			_jiraIssueService.addComment(
 				jiraIssueCommentBody, ticketAttachment.getJiraIssueKey());
 
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -251,8 +251,7 @@ public class TicketAttachmentsRestController extends OneBaseRestController {
 
 		String ticketId = jsonObject.getString("ticketId");
 
-		SupportIssue supportIssue = _jiraIssuesService.getSupportIssue(
-			ticketId);
+		SupportIssue supportIssue = _jiraIssueService.getSupportIssue(ticketId);
 
 		if (supportIssue == null) {
 			return new ResponseEntity<>(
@@ -327,7 +326,7 @@ public class TicketAttachmentsRestController extends OneBaseRestController {
 		sb.append(StringUtil.merge(IssueConstants.STATUSES_CLOSED, "', '"));
 		sb.append("') after -8d before -7d)");
 
-		List<SupportIssue> supportIssues = _jiraIssuesService.search(
+		List<SupportIssue> supportIssues = _jiraIssueService.search(
 			sb.toString(), new String[] {"key"});
 
 		for (SupportIssue supportIssue : supportIssues) {
@@ -379,7 +378,7 @@ public class TicketAttachmentsRestController extends OneBaseRestController {
 
 		for (TicketAttachment ticketAttachment : ticketAttachments) {
 			try {
-				_jiraIssuesService.addComment(
+				_jiraIssueService.addComment(
 					ticketAttachment.getDraftCommentBody(),
 					ticketAttachment.getJiraIssueKey());
 
@@ -637,7 +636,7 @@ public class TicketAttachmentsRestController extends OneBaseRestController {
 	private GoogleCloudStorageService _googleCloudStorageService;
 
 	@Autowired
-	private JiraIssuesService _jiraIssuesService;
+	private JiraIssueService _jiraIssueService;
 
 	@Value("${liferay.one.jira.support.fls.project}")
 	private String _jiraSupportFLSProject;
