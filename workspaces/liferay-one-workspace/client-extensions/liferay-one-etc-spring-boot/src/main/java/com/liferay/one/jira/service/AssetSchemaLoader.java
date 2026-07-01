@@ -29,19 +29,18 @@ public class AssetSchemaLoader {
 	@Cacheable("assetObjectTypeAttributeIds")
 	public Map<String, String> getAttributeIds(String objectTypeId) {
 		return _toNameIdMap(
-			_jiraAssetsService.getObjectTypeAttributes(objectTypeId));
+			_jiraAssetService.getObjectTypeAttributes(objectTypeId));
 	}
 
 	@Cacheable("assetObjectTypeIds")
 	public Map<String, String> getObjectTypeIds(String schemaName) {
 		String schemaId = _resolveSchemaId(schemaName);
 
-		return _toNameIdMap(_jiraAssetsService.getObjectTypes(schemaId));
+		return _toNameIdMap(_jiraAssetService.getObjectTypes(schemaId));
 	}
 
 	private String _resolveSchemaId(String schemaName) {
-		JSONArray objectSchemasJSONArray =
-			_jiraAssetsService.getObjectSchemas();
+		JSONArray objectSchemasJSONArray = _jiraAssetService.getObjectSchemas();
 
 		for (int i = 0; i < objectSchemasJSONArray.length(); i++) {
 			JSONObject schemaJSONObject = objectSchemasJSONArray.getJSONObject(
@@ -77,6 +76,6 @@ public class AssetSchemaLoader {
 	}
 
 	@Autowired
-	private JiraAssetsService _jiraAssetsService;
+	private JiraAssetService _jiraAssetService;
 
 }

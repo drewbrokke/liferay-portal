@@ -31,7 +31,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author Drew Brokke
  */
 @Component
-public class JiraAssetsService extends BaseJiraService {
+public class JiraAssetService extends BaseJiraService {
 
 	public void createObject(
 		String objectTypeId, JiraAssetObject jiraAssetObject) {

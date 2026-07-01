@@ -19,7 +19,7 @@ import com.liferay.headless.admin.user.client.resource.v1_0.AccountResource;
 import com.liferay.one.jira.converter.AccountConverter;
 import com.liferay.one.jira.exception.AccountNotFoundException;
 import com.liferay.one.jira.model.JiraAssetObject;
-import com.liferay.one.jira.service.JiraAssetsService;
+import com.liferay.one.jira.service.JiraAssetService;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -106,7 +106,7 @@ public class AccountService extends OneBaseService {
 	}
 
 	public String getAccountObjectKey(String externalKey) throws Exception {
-		List<JiraAssetObject> objects = _jiraAssetsService.searchObjects(
+		List<JiraAssetObject> objects = _jiraAssetService.searchObjects(
 			_accountConverter.getAQLWithBuilder(
 				aqlBuilder -> aqlBuilder.andEquals(
 					externalKey, "External Key")),
@@ -384,7 +384,7 @@ public class AccountService extends OneBaseService {
 	private AccountConverter _accountConverter;
 
 	@Autowired
-	private JiraAssetsService _jiraAssetsService;
+	private JiraAssetService _jiraAssetService;
 
 	@Autowired
 	private UserAccountService _userAccountService;

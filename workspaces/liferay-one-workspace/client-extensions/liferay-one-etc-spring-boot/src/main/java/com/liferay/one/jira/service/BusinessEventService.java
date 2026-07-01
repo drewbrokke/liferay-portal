@@ -39,7 +39,7 @@ public class BusinessEventService {
 	public void createBusinessEvent(BusinessEvent businessEvent)
 		throws Exception {
 
-		_jiraAssetsService.createObject(
+		_jiraAssetService.createObject(
 			_businessEventConverter.getObjectTypeId(),
 			_businessEventConverter.toAssetObject(
 				_accountService.getAccountObjectKey(
@@ -48,19 +48,19 @@ public class BusinessEventService {
 	}
 
 	public void deleteBusinessEvent(String id) throws Exception {
-		_jiraAssetsService.deleteObject(id);
+		_jiraAssetService.deleteObject(id);
 	}
 
 	public BusinessEvent getBusinessEvent(String id) throws Exception {
 		return _businessEventConverter.toBusinessEvent(
-			StringPool.BLANK, _jiraAssetsService.getObject(id));
+			StringPool.BLANK, _jiraAssetService.getObject(id));
 	}
 
 	public List<BusinessEvent> getBusinessEvents(
 			String accountExternalReferenceCode)
 		throws Exception {
 
-		return _jiraAssetsService.searchObjects(
+		return _jiraAssetService.searchObjects(
 			_businessEventConverter.getAQLWithBuilder(
 				aqlBuilder -> aqlBuilder.andEquals(
 					accountExternalReferenceCode,
@@ -78,7 +78,7 @@ public class BusinessEventService {
 			return new ArrayList<>();
 		}
 
-		return _jiraAssetsService.searchObjects(
+		return _jiraAssetService.searchObjects(
 			_businessEventVersionConverter.getAQLWithBuilder(
 				aqlBuilder -> aqlBuilder.andEqualsObject(
 					businessEventId,
@@ -97,7 +97,7 @@ public class BusinessEventService {
 			new ArrayList<>();
 
 		JSONArray objectTypeAttributesJSONArray =
-			_jiraAssetsService.getObjectTypeAttributes(
+			_jiraAssetService.getObjectTypeAttributes(
 				_businessEventConverter.getObjectTypeId());
 
 		for (int i = 0; i < objectTypeAttributesJSONArray.length(); i++) {
@@ -127,7 +127,7 @@ public class BusinessEventService {
 
 	@Cacheable("assetObjects")
 	public List<AssetObject> getProductVersions() throws Exception {
-		return _jiraAssetsService.searchObjects(
+		return _jiraAssetService.searchObjects(
 			AQLUtil.getBaseAQL(
 				BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS,
 				BusinessEventConstants.OBJECT_TYPE_PRODUCT_VERSION),
@@ -145,7 +145,7 @@ public class BusinessEventService {
 			BusinessEvent businessEvent, String id)
 		throws Exception {
 
-		_jiraAssetsService.updateObject(
+		_jiraAssetService.updateObject(
 			id, _businessEventConverter.toAssetObject(null, businessEvent));
 
 		return getBusinessEvent(id);
@@ -161,6 +161,6 @@ public class BusinessEventService {
 	private BusinessEventVersionConverter _businessEventVersionConverter;
 
 	@Autowired
-	private JiraAssetsService _jiraAssetsService;
+	private JiraAssetService _jiraAssetService;
 
 }

@@ -175,7 +175,7 @@ public class JiraIssueService extends BaseJiraService {
 					jsonArray.getJSONObject(0));
 
 			return _organizationConverter.toOrganization(
-				_jiraAssetsService.getObject(jiraAssetObject.getObjectId()));
+				_jiraAssetService.getObject(jiraAssetObject.getObjectId()));
 		}
 		catch (Exception exception) {
 			throw new OrganizationNotFoundException(exception);
@@ -224,7 +224,7 @@ public class JiraIssueService extends BaseJiraService {
 	private static final Log _log = LogFactory.getLog(JiraIssueService.class);
 
 	@Autowired
-	private JiraAssetsService _jiraAssetsService;
+	private JiraAssetService _jiraAssetService;
 
 	@Value("${liferay.one.jira.support.fls.portal.url}")
 	private String _jiraSupportFLSPortalURL;
