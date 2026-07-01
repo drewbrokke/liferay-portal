@@ -8,10 +8,10 @@ package com.liferay.one.jira.service;
 import com.liferay.one.jira.constants.BusinessEventConstants;
 import com.liferay.one.jira.converter.BusinessEventConverter;
 import com.liferay.one.jira.converter.BusinessEventVersionConverter;
-import com.liferay.one.jira.model.AssetObject;
 import com.liferay.one.jira.model.AssetObjectFieldOption;
 import com.liferay.one.jira.model.BusinessEvent;
 import com.liferay.one.jira.model.BusinessEventVersion;
+import com.liferay.one.jira.model.ProductVersion;
 import com.liferay.one.jira.util.AQLUtil;
 import com.liferay.one.service.AccountService;
 import com.liferay.petra.string.StringPool;
@@ -125,17 +125,18 @@ public class BusinessEventService {
 		return assetObjectFieldOptions;
 	}
 
-	@Cacheable("assetObjects")
-	public List<AssetObject> getProductVersions() throws Exception {
+	@Cacheable("productVersions")
+	public List<ProductVersion> getProductVersions() throws Exception {
 		return _jiraAssetService.searchObjects(
 			AQLUtil.getBaseAQL(
 				BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS,
 				BusinessEventConstants.OBJECT_TYPE_PRODUCT_VERSION),
-			AssetObject::new);
+			ProductVersion::new);
 	}
 
 	@CacheEvict(
-		allEntries = true, value = {"assetObjectFieldOptions", "assetObjects"}
+		allEntries = true,
+		value = {"assetObjectFieldOptions", "productVersions"}
 	)
 	@Scheduled(cron = "0 0 0 * * *")
 	public void scheduledAssetObjectsCacheEviction() throws Exception {

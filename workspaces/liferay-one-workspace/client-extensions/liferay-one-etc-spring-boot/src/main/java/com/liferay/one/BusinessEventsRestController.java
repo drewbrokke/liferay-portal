@@ -7,10 +7,10 @@ package com.liferay.one;
 
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.one.jira.converter.BusinessEventConverter;
-import com.liferay.one.jira.model.AssetObject;
 import com.liferay.one.jira.model.AssetObjectFieldOption;
 import com.liferay.one.jira.model.BusinessEvent;
 import com.liferay.one.jira.model.BusinessEventVersion;
+import com.liferay.one.jira.model.ProductVersion;
 import com.liferay.one.jira.service.BusinessEventService;
 import com.liferay.one.permission.BusinessEventPermission;
 import com.liferay.one.service.UserAccountService;
@@ -129,7 +129,7 @@ public class BusinessEventsRestController extends OneBaseRestController {
 	public ResponseEntity<String> getProductVersions() throws Exception {
 		return _getResponseEntity(
 			_businessEventService.getProductVersions(),
-			AssetObject::toJSONObject);
+			ProductVersion::toJSONObject);
 	}
 
 	@PostMapping("/accounts/{externalReferenceCode}/business-events")
