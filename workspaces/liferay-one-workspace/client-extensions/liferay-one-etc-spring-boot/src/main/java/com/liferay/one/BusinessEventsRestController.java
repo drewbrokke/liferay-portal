@@ -17,14 +17,8 @@ import com.liferay.one.service.UserAccountService;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 
-import java.util.List;
-import java.util.function.Function;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,7 +68,7 @@ public class BusinessEventsRestController extends OneBaseRestController {
 		_businessEventPermission.check(
 			externalReferenceCode, ActionKeys.VIEW, jwt);
 
-		return _getResponseEntity(
+		return getResponseEntity(
 			_businessEventService.getBusinessEvents(externalReferenceCode),
 			BusinessEvent::toJSONObject);
 	}
@@ -110,7 +104,7 @@ public class BusinessEventsRestController extends OneBaseRestController {
 		_businessEventPermission.check(
 			externalReferenceCode, ActionKeys.VIEW, jwt);
 
-		return _getResponseEntity(
+		return getResponseEntity(
 			_businessEventService.getBusinessEventVersions(id),
 			BusinessEventVersion::toJSONObject);
 	}
@@ -120,14 +114,14 @@ public class BusinessEventsRestController extends OneBaseRestController {
 			@PathVariable("fieldName") String fieldName)
 		throws Exception {
 
-		return _getResponseEntity(
+		return getResponseEntity(
 			_businessEventService.getFieldOptions(fieldName),
 			AssetObjectFieldOption::toJSONObject);
 	}
 
 	@GetMapping("/product-versions")
 	public ResponseEntity<String> getProductVersions() throws Exception {
-		return _getResponseEntity(
+		return getResponseEntity(
 			_businessEventService.getProductVersions(),
 			ProductVersion::toJSONObject);
 	}
@@ -148,7 +142,7 @@ public class BusinessEventsRestController extends OneBaseRestController {
 			_businessEventConverter.toBusinessEvent(
 				externalReferenceCode, json, userAccount.getEmailAddress()));
 
-		return _getResponseEntity(
+		return getResponseEntity(
 			_businessEventService.getBusinessEvents(externalReferenceCode),
 			BusinessEvent::toJSONObject);
 	}
@@ -192,23 +186,6 @@ public class BusinessEventsRestController extends OneBaseRestController {
 
 			throw new PrincipalException();
 		}
-	}
-
-	private <T> ResponseEntity<String> _getResponseEntity(
-		List<T> items, Function<T, JSONObject> transformFunction) {
-
-		JSONObject responseJSONObject = new JSONObject();
-
-		JSONArray itemsJSONArray = new JSONArray();
-
-		for (T item : items) {
-			itemsJSONArray.put(transformFunction.apply(item));
-		}
-
-		responseJSONObject.put("items", itemsJSONArray);
-
-		return new ResponseEntity<>(
-			responseJSONObject.toString(), HttpStatus.OK);
 	}
 
 	private static final Log _log = LogFactory.getLog(

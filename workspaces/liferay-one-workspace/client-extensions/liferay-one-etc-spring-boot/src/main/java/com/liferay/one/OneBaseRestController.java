@@ -10,8 +10,14 @@ import com.liferay.portal.kernel.security.auth.PrincipalException;
 
 import java.security.Principal;
 
+import java.util.List;
+import java.util.function.Function;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -60,6 +66,23 @@ public abstract class OneBaseRestController extends BaseRestController {
 		return new ResponseEntity<>(
 			responseStatusException.getBody(),
 			responseStatusException.getStatusCode());
+	}
+
+	protected <T> ResponseEntity<String> getResponseEntity(
+		List<T> items, Function<T, JSONObject> transformFunction) {
+
+		JSONObject responseJSONObject = new JSONObject();
+
+		JSONArray itemsJSONArray = new JSONArray();
+
+		for (T item : items) {
+			itemsJSONArray.put(transformFunction.apply(item));
+		}
+
+		responseJSONObject.put("items", itemsJSONArray);
+
+		return new ResponseEntity<>(
+			responseJSONObject.toString(), HttpStatus.OK);
 	}
 
 	private ResponseEntity<ProblemDetail> _toResponseEntity(
