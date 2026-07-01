@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 /**
  * @author Drew Brokke
  */
-public class BaseJiraService extends BaseService {
+public abstract class BaseJiraService extends BaseService {
 
 	protected String getAuthorization() {
 		Base64.Encoder encoder = Base64.getEncoder();
