@@ -5,6 +5,7 @@
 
 package com.liferay.one;
 
+import com.liferay.one.jira.exception.AccountNotFoundException;
 import com.liferay.one.permission.BusinessEventPermission;
 import com.liferay.one.service.AccountService;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -48,8 +49,13 @@ public class AccountsRestController extends OneBaseRestController {
 				"Unable to get Jira object key for " + externalReferenceCode,
 				exception);
 
-			return new ResponseEntity<>(
-				exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+
+			if (exception instanceof AccountNotFoundException) {
+				httpStatus = HttpStatus.NOT_FOUND;
+			}
+
+			return new ResponseEntity<>(exception.getMessage(), httpStatus);
 		}
 	}
 
