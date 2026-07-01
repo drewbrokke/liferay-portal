@@ -13,8 +13,6 @@ import com.liferay.one.jira.model.BusinessEventVersion;
 import com.liferay.one.jira.model.ProductVersion;
 import com.liferay.one.jira.service.BusinessEventService;
 import com.liferay.one.permission.BusinessEventPermission;
-import com.liferay.one.service.UserAccountService;
-import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 
 import org.apache.commons.logging.Log;
@@ -136,7 +134,7 @@ public class BusinessEventsRestController extends OneBaseRestController {
 		_businessEventPermission.check(
 			externalReferenceCode, ActionKeys.UPDATE, jwt);
 
-		UserAccount userAccount = _getMyUserAccount(jwt);
+		UserAccount userAccount = getMyUserAccount(jwt);
 
 		_businessEventService.createBusinessEvent(
 			_businessEventConverter.toBusinessEvent(
@@ -161,7 +159,7 @@ public class BusinessEventsRestController extends OneBaseRestController {
 		_businessEventPermission.check(
 			externalReferenceCode, ActionKeys.UPDATE, jwt);
 
-		UserAccount userAccount = _getMyUserAccount(jwt);
+		UserAccount userAccount = getMyUserAccount(jwt);
 
 		BusinessEvent businessEvent = _businessEventConverter.toBusinessEvent(
 			externalReferenceCode, json, userAccount.getEmailAddress());
@@ -175,19 +173,6 @@ public class BusinessEventsRestController extends OneBaseRestController {
 			HttpStatus.OK);
 	}
 
-	private UserAccount _getMyUserAccount(Jwt jwt) throws Exception {
-		try {
-			return _userAccountService.getMyUserAccount(jwt);
-		}
-		catch (Exception exception) {
-			if (_log.isWarnEnabled()) {
-				_log.warn("Unable to get user account", exception);
-			}
-
-			throw new PrincipalException();
-		}
-	}
-
 	private static final Log _log = LogFactory.getLog(
 		BusinessEventsRestController.class);
 
@@ -199,8 +184,5 @@ public class BusinessEventsRestController extends OneBaseRestController {
 
 	@Autowired
 	private BusinessEventService _businessEventService;
-
-	@Autowired
-	private UserAccountService _userAccountService;
 
 }

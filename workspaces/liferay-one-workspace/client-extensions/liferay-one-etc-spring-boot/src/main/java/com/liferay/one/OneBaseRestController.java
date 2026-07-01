@@ -6,6 +6,8 @@
 package com.liferay.one;
 
 import com.liferay.client.extension.util.spring.boot3.BaseRestController;
+import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
+import com.liferay.one.service.UserAccountService;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 
 import java.security.Principal;
@@ -19,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +71,19 @@ public abstract class OneBaseRestController extends BaseRestController {
 			responseStatusException.getStatusCode());
 	}
 
+	protected UserAccount getMyUserAccount(Jwt jwt) throws Exception {
+		try {
+			return _userAccountService.getMyUserAccount(jwt);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to get user account", exception);
+			}
+
+			throw new PrincipalException();
+		}
+	}
+
 	protected <T> ResponseEntity<String> getResponseEntity(
 		List<T> items, Function<T, JSONObject> transformFunction) {
 
@@ -94,5 +110,8 @@ public abstract class OneBaseRestController extends BaseRestController {
 
 	private static final Log _log = LogFactory.getLog(
 		OneBaseRestController.class);
+
+	@Autowired
+	private UserAccountService _userAccountService;
 
 }
