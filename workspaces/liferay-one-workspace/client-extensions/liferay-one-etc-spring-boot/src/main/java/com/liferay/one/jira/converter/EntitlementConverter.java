@@ -6,6 +6,8 @@
 package com.liferay.one.jira.converter;
 
 import com.liferay.one.jira.constants.EntitlementConstants;
+import com.liferay.one.jira.model.JiraAssetObject;
+import com.liferay.one.model.EntitlementDefinition;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,21 @@ public class EntitlementConverter extends BaseAssetObjectConverter {
 	@Override
 	public String getObjectTypeName() {
 		return EntitlementConstants.OBJECT_TYPE_NAME;
+	}
+
+	public JiraAssetObject toAssetObject(
+		EntitlementDefinition entitlementDefinition) {
+
+		JiraAssetObject jiraAssetObject = createJiraAssetObject();
+
+		jiraAssetObject.setAttributeValue(
+			EntitlementConstants.ATTRIBUTE_NAME_NAME,
+			entitlementDefinition.getName());
+		jiraAssetObject.setAttributeValue(
+			EntitlementConstants.ATTRIBUTE_NAME_ENTITLEMENT_DEFINITION_KEY,
+			entitlementDefinition.getExternalReferenceCode());
+
+		return jiraAssetObject;
 	}
 
 	@Override
