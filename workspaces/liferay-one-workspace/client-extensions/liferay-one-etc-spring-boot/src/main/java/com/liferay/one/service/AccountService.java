@@ -147,6 +147,34 @@ public class AccountService extends OneBaseService {
 		return null;
 	}
 
+	public List<Account> getAllAccounts() throws Exception {
+		AccountResource accountResource = AccountResource.builder(
+		).endpoint(
+			lxcDXPMainDomain, lxcDXPServerProtocol
+		).header(
+			HttpHeaders.AUTHORIZATION, getAuthorization()
+		).build();
+
+		int page = 1;
+
+		List<Account> accounts = new ArrayList<>();
+
+		while (true) {
+			Page<Account> accountsPage = accountResource.getAccountsPage(
+				null, null, Pagination.of(page, 500), null);
+
+			accounts.addAll(accountsPage.getItems());
+
+			if (page >= accountsPage.getLastPage()) {
+				break;
+			}
+
+			page++;
+		}
+
+		return accounts;
+	}
+
 	public void removeAccountUserAccount(
 			String externalReferenceCode, Jwt jwt, long userId)
 		throws Exception {
