@@ -32,6 +32,14 @@ public abstract class BaseAssetObjectConverter {
 		return builder.build();
 	}
 
+	/**
+	 * The name of the attribute that acts as an external key for this object
+	 * type. Defaults to "External Key".
+	 */
+	public String getExternalKeyAttributeName() {
+		return _ATTRIBUTE_NAME_EXTERNAL_KEY;
+	}
+
 	public String getObjectTypeId() {
 		return _assetSchemaService.getObjectTypeId(
 			getObjectSchemaName(), getObjectTypeName());
@@ -53,6 +61,8 @@ public abstract class BaseAssetObjectConverter {
 	protected abstract String getObjectSchemaName();
 
 	protected abstract String getObjectTypeName();
+
+	private static final String _ATTRIBUTE_NAME_EXTERNAL_KEY = "External Key";
 
 	@Autowired
 	private AssetSchemaService _assetSchemaService;
