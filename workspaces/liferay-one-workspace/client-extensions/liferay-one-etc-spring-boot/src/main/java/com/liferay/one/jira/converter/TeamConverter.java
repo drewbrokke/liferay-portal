@@ -5,7 +5,9 @@
 
 package com.liferay.one.jira.converter;
 
+import com.liferay.headless.admin.user.client.dto.v1_0.Organization;
 import com.liferay.one.jira.constants.TeamConstants;
+import com.liferay.one.jira.model.JiraAssetObject;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,24 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TeamConverter extends BaseAssetObjectConverter {
+
+	public JiraAssetObject toAssetObject(Organization organization) {
+		JiraAssetObject jiraAssetObject = createJiraAssetObject();
+
+		jiraAssetObject.setAttributeValue(
+			TeamConstants.ATTRIBUTE_NAME_EXTERNAL_KEY,
+			organization.getExternalReferenceCode());
+		jiraAssetObject.setAttributeValue(
+			TeamConstants.ATTRIBUTE_NAME_NAME, organization.getName());
+		jiraAssetObject.setAttributeValue(
+			TeamConstants.ATTRIBUTE_NAME_EXTERNAL_CREATED_AT,
+			formatDate(organization.getDateCreated()));
+		jiraAssetObject.setAttributeValue(
+			TeamConstants.ATTRIBUTE_NAME_EXTERNAL_UPDATED_AT,
+			formatDate(organization.getDateModified()));
+
+		return jiraAssetObject;
+	}
 
 	@Override
 	protected String getObjectSchemaName() {
