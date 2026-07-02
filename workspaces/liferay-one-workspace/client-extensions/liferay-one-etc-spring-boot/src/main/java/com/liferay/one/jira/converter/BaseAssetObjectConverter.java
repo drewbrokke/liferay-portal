@@ -27,6 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public abstract class BaseAssetObjectConverter {
 
+	public JiraAssetObject createJiraAssetObject() {
+		return new JiraAssetObject(_getAttributeIds(), _getAttributeOptions());
+	}
+
 	public String getAQLWithBuilder(Consumer<AQLUtil.Builder> consumer) {
 		AQLUtil.Builder builder = AQLUtil.builder(getBaseAQL());
 
@@ -51,10 +55,6 @@ public abstract class BaseAssetObjectConverter {
 	public JiraAssetObject toJiraAssetObject(JSONObject jsonObject) {
 		return new JiraAssetObject(
 			jsonObject, _getAttributeIds(), _getAttributeOptions());
-	}
-
-	protected JiraAssetObject createJiraAssetObject() {
-		return new JiraAssetObject(_getAttributeIds(), _getAttributeOptions());
 	}
 
 	protected String formatDate(Date date) {

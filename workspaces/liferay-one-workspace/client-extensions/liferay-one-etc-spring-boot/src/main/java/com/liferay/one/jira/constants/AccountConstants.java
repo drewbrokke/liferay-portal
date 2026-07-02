@@ -96,6 +96,4 @@ public interface AccountConstants {
 
 	public static final String OBJECT_TYPE_NAME = "Account";
 
-	public static final String SCHEMA_NAME = "One Liferay";
-
 }

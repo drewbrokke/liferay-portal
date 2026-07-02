@@ -12,17 +12,33 @@ public interface ContactConstants {
 
 	public static final String ATTRIBUTE_NAME_ACCOUNT = "Account";
 
+	public static final String ATTRIBUTE_NAME_AGENT_SUPPORT_REGION =
+		"Agent Support Region";
+
+	public static final String ATTRIBUTE_NAME_CONTACT_ROLES = "Contact Roles";
+
 	public static final String ATTRIBUTE_NAME_EMAIL_ADDRESS = "Email Address";
+
+	public static final String ATTRIBUTE_NAME_EMAIL_ADDRESS_VERIFIED =
+		"Email Address Verified";
+
+	public static final String ATTRIBUTE_NAME_ENTITLEMENTS = "Entitlements";
 
 	public static final String ATTRIBUTE_NAME_EXTERNAL_CREATED_AT =
 		"External Created At";
 
 	public static final String ATTRIBUTE_NAME_EXTERNAL_KEY = "External Key";
 
+	public static final String ATTRIBUTE_NAME_EXTERNAL_LINKS = "External Links";
+
 	public static final String ATTRIBUTE_NAME_EXTERNAL_UPDATED_AT =
 		"External Updated At";
 
 	public static final String ATTRIBUTE_NAME_FIRST_NAME = "First Name";
+
+	public static final String ATTRIBUTE_NAME_FLS_PARTNER = "FLS Partner";
+
+	public static final String ATTRIBUTE_NAME_GROUPS = "Groups";
 
 	public static final String ATTRIBUTE_NAME_LANGUAGE_ID = "Language ID";
 
@@ -31,6 +47,21 @@ public interface ContactConstants {
 	public static final String ATTRIBUTE_NAME_MIDDLE_NAME = "Middle Name";
 
 	public static final String ATTRIBUTE_NAME_NAME = "Name";
+
+	public static final String ATTRIBUTE_NAME_PHONES = "Phones";
+
+	public static final String ATTRIBUTE_NAME_SKILLS = "Skills";
+
+	public static final String ATTRIBUTE_NAME_SLACK_ID = "Slack ID";
+
+	public static final String ATTRIBUTE_NAME_SUBORGANIZATION =
+		"Sub-Organization";
+
+	public static final String ATTRIBUTE_NAME_SUPPORT_GROUPS = "Support Groups";
+
+	public static final String ATTRIBUTE_NAME_TEAMS = "Teams";
+
+	public static final String ATTRIBUTE_NAME_UUID = "UUID";
 
 	public static final String OBJECT_TYPE_NAME = "Contact";
 

@@ -88,6 +88,13 @@ public class AssetReferenceResolverService {
 		return objectId;
 	}
 
+	/**
+	 * Returns null when the entities collection is null, so that
+	 * {@link JiraAssetObject#setAttributeValue(
+	 * String, Object)} skips the attribute entirely. An empty entities
+	 * collection resolves to an empty list, which clears the reference
+	 * values.
+	 */
 	public <T> List<String> resolveOrCreateObjectIds(
 		BaseAssetObjectConverter converter, Collection<T> entities,
 		Function<T, String> externalKeyFunction,
@@ -95,19 +102,21 @@ public class AssetReferenceResolverService {
 
 		Objects.requireNonNull(createAssetObjectFunction);
 
+		if (entities == null) {
+			return null;
+		}
+
 		Map<String, T> entitiesMap = new LinkedHashMap<>();
 
-		if (entities != null) {
-			for (T entity : entities) {
-				if (entity == null) {
-					continue;
-				}
+		for (T entity : entities) {
+			if (entity == null) {
+				continue;
+			}
 
-				String externalKey = externalKeyFunction.apply(entity);
+			String externalKey = externalKeyFunction.apply(entity);
 
-				if (Validator.isNotNull(externalKey)) {
-					entitiesMap.putIfAbsent(externalKey, entity);
-				}
+			if (Validator.isNotNull(externalKey)) {
+				entitiesMap.putIfAbsent(externalKey, entity);
 			}
 		}
 
