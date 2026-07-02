@@ -9,7 +9,11 @@ import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.service.AssetSchemaService;
 import com.liferay.one.jira.util.AQLUtil;
 
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.function.Consumer;
 
 import org.json.JSONObject;
@@ -47,6 +51,19 @@ public abstract class BaseAssetObjectConverter {
 
 	public JiraAssetObject toJiraAssetObject(JSONObject jsonObject) {
 		return new JiraAssetObject(jsonObject, getAttributeIds());
+	}
+
+	protected String formatDate(Date date) {
+		if (date == null) {
+			return null;
+		}
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+			"yyyy-MM-dd'T'HH:mm:ssXX");
+
+		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+		return simpleDateFormat.format(date);
 	}
 
 	protected Map<String, String> getAttributeIds() {
