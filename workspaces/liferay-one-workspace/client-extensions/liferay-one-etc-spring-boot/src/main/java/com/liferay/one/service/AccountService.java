@@ -14,6 +14,8 @@ import com.liferay.headless.admin.user.client.dto.v1_0.Phone;
 import com.liferay.headless.admin.user.client.dto.v1_0.PostalAddress;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.headless.admin.user.client.dto.v1_0.WebUrl;
+import com.liferay.headless.admin.user.client.pagination.Page;
+import com.liferay.headless.admin.user.client.pagination.Pagination;
 import com.liferay.headless.admin.user.client.problem.Problem;
 import com.liferay.headless.admin.user.client.resource.v1_0.AccountResource;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -99,6 +101,34 @@ public class AccountService extends OneBaseService {
 
 		return accountResource.getAccountByExternalReferenceCode(
 			externalReferenceCode);
+	}
+
+	public List<Account> getAllAccounts() throws Exception {
+		AccountResource accountResource = AccountResource.builder(
+		).endpoint(
+			lxcDXPMainDomain, lxcDXPServerProtocol
+		).header(
+			HttpHeaders.AUTHORIZATION, getAuthorization()
+		).build();
+
+		int page = 1;
+
+		List<Account> accounts = new ArrayList<>();
+
+		while (true) {
+			Page<Account> accountsPage = accountResource.getAccountsPage(
+				null, null, Pagination.of(page, 500), null);
+
+			accounts.addAll(accountsPage.getItems());
+
+			if (page >= accountsPage.getLastPage()) {
+				break;
+			}
+
+			page++;
+		}
+
+		return accounts;
 	}
 
 	public void upsertAccount(
