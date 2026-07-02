@@ -20,6 +20,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class BusinessEventConverter extends BaseAssetObjectConverter {
 
+	@Override
+	public String getObjectTypeName() {
+		return BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT;
+	}
+
 	public JiraAssetObject toAssetObject(
 		String accountObjectKey, BusinessEvent businessEvent) {
 
@@ -142,11 +147,6 @@ public class BusinessEventConverter extends BaseAssetObjectConverter {
 	@Override
 	protected String getObjectSchemaName() {
 		return BusinessEventConstants.OBJECT_SCHEMA_BUSINESS_EVENTS;
-	}
-
-	@Override
-	protected String getObjectTypeName() {
-		return BusinessEventConstants.OBJECT_TYPE_BUSINESS_EVENT;
 	}
 
 }

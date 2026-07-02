@@ -37,10 +37,6 @@ public abstract class BaseAssetObjectConverter {
 		return builder.build();
 	}
 
-	/**
-	 * The name of the attribute that acts as an external key for this object
-	 * type. Defaults to "External Key".
-	 */
 	public String getExternalKeyAttributeName() {
 		return _ATTRIBUTE_NAME_EXTERNAL_KEY;
 	}
@@ -49,6 +45,8 @@ public abstract class BaseAssetObjectConverter {
 		return _assetSchemaService.getObjectTypeId(
 			getObjectSchemaName(), getObjectTypeName());
 	}
+
+	public abstract String getObjectTypeName();
 
 	public JiraAssetObject toJiraAssetObject(JSONObject jsonObject) {
 		return new JiraAssetObject(
@@ -77,8 +75,6 @@ public abstract class BaseAssetObjectConverter {
 	}
 
 	protected abstract String getObjectSchemaName();
-
-	protected abstract String getObjectTypeName();
 
 	private Map<String, String> _getAttributeIds() {
 		return _assetSchemaService.getAttributeIds(

@@ -24,6 +24,11 @@ public class PhoneConverter extends BaseAssetObjectConverter {
 		return PhoneConstants.ATTRIBUTE_NAME_NUMBER;
 	}
 
+	@Override
+	public String getObjectTypeName() {
+		return PhoneConstants.OBJECT_TYPE_NAME;
+	}
+
 	public JiraAssetObject toAssetObject(Phone phone) {
 		JiraAssetObject jiraAssetObject = createJiraAssetObject();
 
@@ -42,11 +47,6 @@ public class PhoneConverter extends BaseAssetObjectConverter {
 	@Override
 	protected String getObjectSchemaName() {
 		return _schemaName;
-	}
-
-	@Override
-	protected String getObjectTypeName() {
-		return PhoneConstants.OBJECT_TYPE_NAME;
 	}
 
 	private String _getType(String phoneType) {

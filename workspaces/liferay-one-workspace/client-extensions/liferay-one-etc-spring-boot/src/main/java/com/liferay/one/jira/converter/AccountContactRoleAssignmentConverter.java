@@ -24,6 +24,11 @@ public class AccountContactRoleAssignmentConverter
 		return AccountContactRoleAssignmentConstants.ATTRIBUTE_NAME_NAME;
 	}
 
+	@Override
+	public String getObjectTypeName() {
+		return AccountContactRoleAssignmentConstants.OBJECT_TYPE_NAME;
+	}
+
 	public JiraAssetObject toAssetObject(
 		String contactRoleExternalKey, String contactExternalKey,
 		String accountExternalKey, boolean deleted) {
@@ -57,11 +62,6 @@ public class AccountContactRoleAssignmentConverter
 	@Override
 	protected String getObjectSchemaName() {
 		return _schemaName;
-	}
-
-	@Override
-	protected String getObjectTypeName() {
-		return AccountContactRoleAssignmentConstants.OBJECT_TYPE_NAME;
 	}
 
 	private String _getName(

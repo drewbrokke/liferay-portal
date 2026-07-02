@@ -24,6 +24,11 @@ public class TeamContactRoleAssignmentConverter
 		return TeamContactRoleAssignmentConstants.ATTRIBUTE_NAME_NAME;
 	}
 
+	@Override
+	public String getObjectTypeName() {
+		return TeamContactRoleAssignmentConstants.OBJECT_TYPE_NAME;
+	}
+
 	public JiraAssetObject toAssetObject(
 		String contactRoleExternalKey, String contactExternalKey,
 		String teamExternalKey, boolean deleted) {
@@ -54,11 +59,6 @@ public class TeamContactRoleAssignmentConverter
 	@Override
 	protected String getObjectSchemaName() {
 		return _schemaName;
-	}
-
-	@Override
-	protected String getObjectTypeName() {
-		return TeamContactRoleAssignmentConstants.OBJECT_TYPE_NAME;
 	}
 
 	private String _getName(

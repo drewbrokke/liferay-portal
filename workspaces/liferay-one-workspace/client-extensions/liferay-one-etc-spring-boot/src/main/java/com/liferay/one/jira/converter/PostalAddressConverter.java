@@ -28,6 +28,11 @@ public class PostalAddressConverter extends BaseAssetObjectConverter {
 		return PostalAddressConstants.ATTRIBUTE_NAME_ID;
 	}
 
+	@Override
+	public String getObjectTypeName() {
+		return PostalAddressConstants.OBJECT_TYPE_NAME;
+	}
+
 	public JiraAssetObject toAssetObject(PostalAddress postalAddress) {
 		JiraAssetObject jiraAssetObject = createJiraAssetObject();
 
@@ -75,11 +80,6 @@ public class PostalAddressConverter extends BaseAssetObjectConverter {
 	@Override
 	protected String getObjectSchemaName() {
 		return _schemaName;
-	}
-
-	@Override
-	protected String getObjectTypeName() {
-		return PostalAddressConstants.OBJECT_TYPE_NAME;
 	}
 
 	private String _getName(PostalAddress postalAddress) {

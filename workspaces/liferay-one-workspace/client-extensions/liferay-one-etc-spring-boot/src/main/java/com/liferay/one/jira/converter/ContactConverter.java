@@ -18,6 +18,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContactConverter extends BaseAssetObjectConverter {
 
+	@Override
+	public String getObjectTypeName() {
+		return ContactConstants.OBJECT_TYPE_NAME;
+	}
+
 	public JiraAssetObject toAssetObject(UserAccount userAccount) {
 		JiraAssetObject jiraAssetObject = createJiraAssetObject();
 
@@ -54,11 +59,6 @@ public class ContactConverter extends BaseAssetObjectConverter {
 	@Override
 	protected String getObjectSchemaName() {
 		return _schemaName;
-	}
-
-	@Override
-	protected String getObjectTypeName() {
-		return ContactConstants.OBJECT_TYPE_NAME;
 	}
 
 	@Value("${liferay.one.jira.asset.schema.name}")

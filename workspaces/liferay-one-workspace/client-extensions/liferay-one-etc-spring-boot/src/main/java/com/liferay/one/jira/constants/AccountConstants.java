@@ -54,6 +54,9 @@ public interface AccountConstants {
 
 	public static final String ATTRIBUTE_NAME_PHONE_NUMBER = "Phone Number";
 
+	public static final String ATTRIBUTE_NAME_POSTAL_ADDRESSES =
+		"Postal Addresses";
+
 	public static final String ATTRIBUTE_NAME_PREMIUM_SERVICE =
 		"Premium Service";
 
