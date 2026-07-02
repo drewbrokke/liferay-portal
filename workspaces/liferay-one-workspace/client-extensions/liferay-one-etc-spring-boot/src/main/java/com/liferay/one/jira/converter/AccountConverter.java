@@ -27,8 +27,7 @@ import org.springframework.stereotype.Component;
 public class AccountConverter extends BaseAssetObjectConverter {
 
 	public JiraAssetObject toAssetObject(Account account) {
-		JiraAssetObject jiraAssetObject = new JiraAssetObject(
-			getAttributeIds());
+		JiraAssetObject jiraAssetObject = createJiraAssetObject();
 
 		jiraAssetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_EXTERNAL_KEY,
@@ -79,8 +78,7 @@ public class AccountConverter extends BaseAssetObjectConverter {
 	public JiraAssetObject toAssetObjectFromAccountBrief(
 		AccountBrief accountBrief) {
 
-		JiraAssetObject jiraAssetObject = new JiraAssetObject(
-			getAttributeIds());
+		JiraAssetObject jiraAssetObject = createJiraAssetObject();
 
 		jiraAssetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_EXTERNAL_KEY,

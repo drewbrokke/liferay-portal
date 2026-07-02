@@ -5,11 +5,13 @@
 
 package com.liferay.one.jira.model;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,15 +25,21 @@ import org.json.JSONObject;
 public class JiraAssetObject {
 
 	public JiraAssetObject(
-		JSONObject jsonObject, Map<String, String> attributeNameToIdsMap) {
+		JSONObject jsonObject, Map<String, String> attributeNameToIdsMap,
+		Map<String, Set<String>> attributeNameToOptionsMap) {
 
 		_jsonObject = jsonObject;
 
 		_attributeIds = attributeNameToIdsMap;
+		_attributeOptions = attributeNameToOptionsMap;
 	}
 
-	public JiraAssetObject(Map<String, String> attributeNameToIdsMap) {
-		this(new JSONObject(), attributeNameToIdsMap);
+	public JiraAssetObject(
+		Map<String, String> attributeNameToIdsMap,
+		Map<String, Set<String>> attributeNameToOptionsMap) {
+
+		this(
+			new JSONObject(), attributeNameToIdsMap, attributeNameToOptionsMap);
 	}
 
 	/**
@@ -90,6 +98,15 @@ public class JiraAssetObject {
 			return;
 		}
 
+		if (value instanceof Collection<?> collection) {
+			for (Object object : collection) {
+				_checkOption(attributeName, object);
+			}
+		}
+		else {
+			_checkOption(attributeName, value);
+		}
+
 		_values.put(attributeId, value);
 	}
 
@@ -130,6 +147,24 @@ public class JiraAssetObject {
 		}
 
 		return attributesJSONArray;
+	}
+
+	private void _checkOption(String attributeName, Object value) {
+		Set<String> options = _attributeOptions.get(attributeName);
+
+		if ((options == null) || (value == null) ||
+			options.contains(String.valueOf(value))) {
+
+			return;
+		}
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				StringBundler.concat(
+					"Value \"", value, "\" for attribute \"", attributeName,
+					"\" does not match any of the schema's options ", options,
+					"; the option list has likely drifted"));
+		}
 	}
 
 	private String _getAttributeId(String attributeName) {
@@ -211,6 +246,7 @@ public class JiraAssetObject {
 	private static final Log _log = LogFactory.getLog(JiraAssetObject.class);
 
 	private final Map<String, String> _attributeIds;
+	private final Map<String, Set<String>> _attributeOptions;
 	private final JSONObject _jsonObject;
 	private final Map<String, Object> _values = new LinkedHashMap<>();
 

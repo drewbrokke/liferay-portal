@@ -21,8 +21,8 @@ import org.springframework.stereotype.Component;
 public class OrganizationConverter extends BaseAssetObjectConverter {
 
 	public Organization toOrganization(JSONObject assetObjectJSONObject) {
-		JiraAssetObject jiraAssetObject = new JiraAssetObject(
-			assetObjectJSONObject, getAttributeIds());
+		JiraAssetObject jiraAssetObject = toJiraAssetObject(
+			assetObjectJSONObject);
 
 		return new Organization(
 			jiraAssetObject.getAttributeValue(

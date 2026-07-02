@@ -19,8 +19,7 @@ import org.springframework.stereotype.Component;
 public class ContactConverter extends BaseAssetObjectConverter {
 
 	public JiraAssetObject toAssetObject(UserAccount userAccount) {
-		JiraAssetObject jiraAssetObject = new JiraAssetObject(
-			getAttributeIds());
+		JiraAssetObject jiraAssetObject = createJiraAssetObject();
 
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_EXTERNAL_KEY,

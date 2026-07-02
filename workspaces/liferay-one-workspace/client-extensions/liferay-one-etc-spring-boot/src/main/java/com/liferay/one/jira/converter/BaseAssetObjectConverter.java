@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.function.Consumer;
 
@@ -50,7 +51,12 @@ public abstract class BaseAssetObjectConverter {
 	}
 
 	public JiraAssetObject toJiraAssetObject(JSONObject jsonObject) {
-		return new JiraAssetObject(jsonObject, getAttributeIds());
+		return new JiraAssetObject(
+			jsonObject, _getAttributeIds(), _getAttributeOptions());
+	}
+
+	protected JiraAssetObject createJiraAssetObject() {
+		return new JiraAssetObject(_getAttributeIds(), _getAttributeOptions());
 	}
 
 	protected String formatDate(Date date) {
@@ -66,11 +72,6 @@ public abstract class BaseAssetObjectConverter {
 		return simpleDateFormat.format(date);
 	}
 
-	protected Map<String, String> getAttributeIds() {
-		return _assetSchemaService.getAttributeIds(
-			getObjectSchemaName(), getObjectTypeName());
-	}
-
 	protected String getBaseAQL() {
 		return AQLUtil.getBaseAQL(getObjectSchemaName(), getObjectTypeName());
 	}
@@ -78,6 +79,16 @@ public abstract class BaseAssetObjectConverter {
 	protected abstract String getObjectSchemaName();
 
 	protected abstract String getObjectTypeName();
+
+	private Map<String, String> _getAttributeIds() {
+		return _assetSchemaService.getAttributeIds(
+			getObjectSchemaName(), getObjectTypeName());
+	}
+
+	private Map<String, Set<String>> _getAttributeOptions() {
+		return _assetSchemaService.getAttributeOptions(
+			getObjectSchemaName(), getObjectTypeName());
+	}
 
 	private static final String _ATTRIBUTE_NAME_EXTERNAL_KEY = "External Key";
 

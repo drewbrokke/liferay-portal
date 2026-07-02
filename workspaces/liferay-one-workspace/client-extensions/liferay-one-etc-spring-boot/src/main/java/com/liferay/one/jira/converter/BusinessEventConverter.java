@@ -23,8 +23,7 @@ public class BusinessEventConverter extends BaseAssetObjectConverter {
 	public JiraAssetObject toAssetObject(
 		String accountObjectKey, BusinessEvent businessEvent) {
 
-		JiraAssetObject jiraAssetObject = new JiraAssetObject(
-			getAttributeIds());
+		JiraAssetObject jiraAssetObject = createJiraAssetObject();
 
 		jiraAssetObject.setAttributeValue(
 			BusinessEventConstants.ATTRIBUTE_NAME_ACTUAL_EVENT_DATE,
@@ -79,8 +78,8 @@ public class BusinessEventConverter extends BaseAssetObjectConverter {
 		String accountExternalReferenceCode,
 		JSONObject jiraAssetObjectJSONObject) {
 
-		JiraAssetObject jiraAssetObject = new JiraAssetObject(
-			jiraAssetObjectJSONObject, getAttributeIds());
+		JiraAssetObject jiraAssetObject = toJiraAssetObject(
+			jiraAssetObjectJSONObject);
 
 		return new BusinessEvent(
 			accountExternalReferenceCode,

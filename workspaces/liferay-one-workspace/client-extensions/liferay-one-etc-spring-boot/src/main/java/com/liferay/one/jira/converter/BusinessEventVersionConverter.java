@@ -22,8 +22,8 @@ public class BusinessEventVersionConverter extends BaseAssetObjectConverter {
 	public BusinessEventVersion toBusinessEventVersion(
 		JSONObject jiraAssetObjectJSONObject) {
 
-		JiraAssetObject jiraAssetObject = new JiraAssetObject(
-			jiraAssetObjectJSONObject, getAttributeIds());
+		JiraAssetObject jiraAssetObject = toJiraAssetObject(
+			jiraAssetObjectJSONObject);
 
 		return new BusinessEventVersion(
 			jiraAssetObject.getAttributeDisplayValue(
