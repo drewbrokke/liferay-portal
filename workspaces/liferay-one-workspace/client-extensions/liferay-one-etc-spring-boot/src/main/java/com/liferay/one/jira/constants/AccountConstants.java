@@ -15,6 +15,11 @@ public interface AccountConstants {
 
 	public static final String ATTRIBUTE_NAME_ARR = "ARR";
 
+	public static final String ATTRIBUTE_NAME_ASSIGNED_TEAMS = "Assigned Teams";
+
+	public static final String ATTRIBUTE_NAME_BUSINESS_EVENTS =
+		"Business Events";
+
 	public static final String ATTRIBUTE_NAME_CODE = "Code";
 
 	public static final String ATTRIBUTE_NAME_CONTACT_EMAIL_ADDRESS =
@@ -23,12 +28,19 @@ public interface AccountConstants {
 	public static final String ATTRIBUTE_NAME_CUSTOMER_CONTACTS =
 		"Customer Contacts";
 
+	public static final String ATTRIBUTE_NAME_CUSTOMER_CONTACTS_PREVIOUS =
+		"Customer Contacts (previous)";
+
 	public static final String ATTRIBUTE_NAME_DATA_REGION = "Data Region";
 
 	public static final String ATTRIBUTE_NAME_DESCRIPTION = "Description";
 
+	public static final String ATTRIBUTE_NAME_DXP_VERSION = "DXP Version";
+
 	public static final String ATTRIBUTE_NAME_DXP_VERSION_CONFIRMED_DATE =
 		"DXP Version Confirmed Date";
+
+	public static final String ATTRIBUTE_NAME_ENTITLEMENTS = "Entitlements";
 
 	public static final String ATTRIBUTE_NAME_EXPIRED = "Expired";
 
@@ -36,6 +48,8 @@ public interface AccountConstants {
 		"External Created At";
 
 	public static final String ATTRIBUTE_NAME_EXTERNAL_KEY = "External Key";
+
+	public static final String ATTRIBUTE_NAME_EXTERNAL_LINKS = "External Links";
 
 	public static final String ATTRIBUTE_NAME_EXTERNAL_UPDATED_AT =
 		"External Updated At";
@@ -76,6 +90,9 @@ public interface AccountConstants {
 	public static final String ATTRIBUTE_NAME_TIER = "Tier";
 
 	public static final String ATTRIBUTE_NAME_WEBSITE = "Website";
+
+	public static final String ATTRIBUTE_NAME_WORKER_CONTACTS =
+		"Worker Contacts";
 
 	public static final String OBJECT_TYPE_NAME = "Account";
 
