@@ -7,6 +7,7 @@ package com.liferay.one.jira.model;
 
 import com.liferay.portal.kernel.util.Validator;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -94,23 +95,35 @@ public class JiraAssetObject {
 
 	/**
 	 * Serializes this object into the JSM's {@code attributes} JSON shape.
-	 * This method is used by the {@link JiraAssetService}.
+	 * This method is used by the {@link com.liferay.one.jira.service.JiraAssetService}.
 	 */
 	public JSONArray toAttributesJSONArray() {
 		JSONArray attributesJSONArray = new JSONArray();
 
 		for (Map.Entry<String, Object> entry : _values.entrySet()) {
+			JSONArray objectAttributeValuesJSONArray = new JSONArray();
+
+			Object value = entry.getValue();
+
+			if (value instanceof Collection<?> collection) {
+				for (Object object : collection) {
+					if (object == null) {
+						continue;
+					}
+
+					objectAttributeValuesJSONArray.put(
+						_toAttrbuteValueJSONObject(object));
+				}
+			}
+			else {
+				objectAttributeValuesJSONArray.put(
+					_toAttrbuteValueJSONObject(value));
+			}
+
 			attributesJSONArray.put(
 				new JSONObject(
 				).put(
-					"objectAttributeValues",
-					new JSONArray(
-					).put(
-						new JSONObject(
-						).put(
-							"value", entry.getValue()
-						)
-					)
+					"objectAttributeValues", objectAttributeValuesJSONArray
 				).put(
 					"objectTypeAttributeId", entry.getKey()
 				));
@@ -185,6 +198,14 @@ public class JiraAssetObject {
 		}
 
 		return value;
+	}
+
+	private JSONObject _toAttrbuteValueJSONObject(Object attributeValue) {
+		JSONObject jsonObject = new JSONObject();
+
+		jsonObject.put("value", attributeValue);
+
+		return jsonObject;
 	}
 
 	private static final Log _log = LogFactory.getLog(JiraAssetObject.class);
