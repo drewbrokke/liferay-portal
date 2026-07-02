@@ -57,6 +57,4 @@ public interface BusinessEventConstants {
 	public static final String OBJECT_TYPE_BUSINESS_EVENT_VERSION =
 		"Business Event Version";
 
-	public static final String OBJECT_TYPE_PRODUCT_VERSION = "Product Version";
-
 }
