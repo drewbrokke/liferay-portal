@@ -8,7 +8,7 @@ package com.liferay.one;
 import com.liferay.client.extension.util.spring.boot3.BaseRestController;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.one.jira.exception.AccountNotFoundException;
-import com.liferay.one.jira.exception.JiraAssetObjectNotFoundException;
+import com.liferay.one.jira.exception.JiraAssetObjectException;
 import com.liferay.one.service.UserAccountService;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 
@@ -55,16 +55,14 @@ public abstract class OneBaseRestController extends BaseRestController {
 			HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
 	}
 
-	@ExceptionHandler(JiraAssetObjectNotFoundException.class)
+	@ExceptionHandler(JiraAssetObjectException.class)
 	public ResponseEntity<?> handleException(
-		JiraAssetObjectNotFoundException jiraAssetObjectNotFoundException) {
+		JiraAssetObjectException jiraAssetObjectException) {
 
-		_log.error(
-			"The asset object was not found", jiraAssetObjectNotFoundException);
+		_log.error("The asset object was not found", jiraAssetObjectException);
 
 		return _toResponseEntity(
-			HttpStatus.NOT_FOUND,
-			jiraAssetObjectNotFoundException.getMessage());
+			HttpStatus.NOT_FOUND, jiraAssetObjectException.getMessage());
 	}
 
 	@ExceptionHandler(PrincipalException.class)
