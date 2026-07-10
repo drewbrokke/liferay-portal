@@ -5,7 +5,10 @@
 
 package com.liferay.one;
 
-import com.liferay.headless.admin.user.client.dto.v1_0.*;
+import com.liferay.headless.admin.user.client.dto.v1_0.Account;
+import com.liferay.headless.admin.user.client.dto.v1_0.Organization;
+import com.liferay.headless.admin.user.client.dto.v1_0.PostalAddress;
+import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.one.jira.constants.AccountConstants;
 import com.liferay.one.jira.constants.PostalAddressConstants;
 import com.liferay.one.jira.converter.AccountConverter;
@@ -16,26 +19,26 @@ import com.liferay.one.jira.converter.ProductVersionConverter;
 import com.liferay.one.jira.converter.TeamConverter;
 import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.service.AccountAssetService;
+<<<<<<< HEAD
+import com.liferay.one.permission.AccountPermission;
+=======
 import com.liferay.one.jira.service.AssetReferenceResolverService;
 import com.liferay.one.model.Entitlement;
 import com.liferay.one.model.EntitlementDefinition;
-import com.liferay.one.model.SiteLanguage;
-import com.liferay.one.permission.AccountPermission;
 import com.liferay.one.permission.BusinessEventPermission;
+>>>>>>> 64a6d8c29807d (LPD-90495 initial sync logic for Accounts and UserAccoutns)
 import com.liferay.one.service.AccountService;
 import com.liferay.one.service.EntitlementDefinitionService;
 import com.liferay.one.service.EntitlementService;
-import com.liferay.one.service.SiteLanguageService;
 import com.liferay.one.service.UserAccountService;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
-import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -101,6 +104,32 @@ public class AccountsRestController extends OneBaseRestController {
 			HttpStatus.OK);
 	}
 
+	@PostMapping("/{externalReferenceCode}/user-accounts/{userId}")
+	public void postUserAccounts(
+			@AuthenticationPrincipal Jwt jwt,
+			@PathVariable("externalReferenceCode") String externalReferenceCode,
+			@PathVariable("userId") long userId)
+		throws Exception {
+
+		_accountService.addAccountUserAccount(
+			externalReferenceCode, jwt, userId);
+	}
+
+	@PostMapping(
+		"/{externalReferenceCode}/user-accounts/{userId}/account-roles" +
+			"/{accountRoleId}"
+	)
+	public void postUserAccountsAccountRole(
+			@AuthenticationPrincipal Jwt jwt,
+			@PathVariable("externalReferenceCode") String externalReferenceCode,
+			@PathVariable("userId") long userId,
+			@PathVariable("accountRoleId") long accountRoleId)
+		throws Exception {
+
+		_accountService.addAccountUserAccountRole(
+			accountRoleId, externalReferenceCode, jwt, userId);
+	}
+
 	@PostMapping("/sync-to-jsm")
 	public ResponseEntity<Void> postSyncToJSM() throws Exception {
 		try {
@@ -126,168 +155,6 @@ public class AccountsRestController extends OneBaseRestController {
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	private <T> T _findFirst(T[] arr, Predicate<T> predicate) {
-		return _findFirst(Arrays.asList(arr), predicate);
-	}
-
-	private <T> T _findFirst(List<T> list, Predicate<T> predicate) {
-		if (list == null || list.isEmpty()) {
-			return null;
-		}
-
-		for (T t : list) {
-			if (predicate.test(t)) {
-				return t;
-			}
-		}
-
-		return null;
-	}
-
-	private enum EmployeeRoles {
-
-		CUSTOMER_EXPERIENCE_MANAGER(
-			"C_CUSTOMER_EXPERIENCE_MANAGER", "Customer Experience Manager",
-			"account"),
-		LIFERAY_SALES("C_LIFERAY_SALES", "Liferay Sales", "account"),
-		PRIMARY_CONTACT("C_PRIMARY_CONTACT", "Primary Contact", "account"),
-		SECONDARY_CONTACT(
-			"C_SECONDARY_CONTACT", "Secondary Contact", "account"),
-		SOLUTION_ARCHITECT(
-			"C_SOLUTION_ARCHITECT", "Solution Architect", "account");
-
-		public static List<String> getNames() {
-			List<String> names = new ArrayList<>();
-
-			for (EmployeeRoles employeeRole : values()) {
-				names.add(employeeRole.getName());
-			}
-
-			return names;
-		}
-
-		public String getExternalReferenceCode() {
-			return _externalReferenceCode;
-		}
-
-		public String getName() {
-			return _name;
-		}
-
-		public String getRoleType() {
-			return _roleType;
-		}
-
-		private EmployeeRoles(
-			String externalReferenceCode, String name, String roleType) {
-
-			_externalReferenceCode = externalReferenceCode;
-			_name = name;
-			_roleType = roleType;
-		}
-
-		private final String _externalReferenceCode;
-		private final String _name;
-		private final String _roleType;
-
-	}
-
-	private final List<String> employeeRoleNames = EmployeeRoles.getNames();
-
-	private static class AccountUserAccountBucket {
-		public void addEmployeeUserAccount(UserAccount userAccount) {
-			_employeeUserAccounts.add(userAccount);
-		}
-		public void addCustomerUserAccount(UserAccount userAccount) {
-			_customerUserAccounts.add(userAccount);
-		}
-
-		public List<UserAccount> getEmployeeUserAccounts() {
-			return _employeeUserAccounts;
-		}
-
-		public List<UserAccount> getCustomerUserAccounts() {
-			return _customerUserAccounts;
-		}
-
-		private final List<UserAccount> _employeeUserAccounts = new ArrayList<>();
-		private final List<UserAccount> _customerUserAccounts = new ArrayList<>();
-	}
-	@PostMapping("/{externalReferenceCode}/sync-to-jsm")
-	public ResponseEntity<Void> postSyncToJSM(@PathVariable("externalReferenceCode") String externalReferenceCode) throws Exception {
-		try {
-			Account account = _accountService.getAccount(externalReferenceCode);
-
-			AccountUserAccountBucket accountUserAccountBucket = getAccountUserAccountBucket(account);
-
-			System.out.println("accountUserAccountBucket = " + accountUserAccountBucket);
-		}
-		catch (Exception exception) {
-			throw new ResponseStatusException(
-				HttpStatus.INTERNAL_SERVER_ERROR,
-				"There was a problem synchronizing the JIRA object keys",
-				exception);
-		}
-
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	private AccountUserAccountBucket getAccountUserAccountBucket(Account account) throws Exception {
-		List<UserAccount> accountUserAccounts = _userAccountService.getAccountUserAccounts(account.getId());
-
-		AccountUserAccountBucket accountUserAccountBucket = new AccountUserAccountBucket();
-
-		for (UserAccount accountUserAccount : accountUserAccounts) {
-			AccountBrief accountBrief = _findFirst(
-				Arrays.asList(accountUserAccount.getAccountBriefs()),
-				accountBrief1 -> Objects.equals(account.getExternalReferenceCode(), accountBrief1.getExternalReferenceCode()));
-			if (accountBrief == null) {
-				_log.error("accountBrief is null for user account = " + accountUserAccount);
-				continue;
-			}
-
-			RoleBrief[] roleBriefs = accountBrief.getRoleBriefs();
-
-			RoleBrief roleBrief = _findFirst(
-				roleBriefs, roleBrief1 -> employeeRoleNames.contains(roleBrief1.getName()));
-
-			if (roleBrief != null) {
-				accountUserAccountBucket.addEmployeeUserAccount(accountUserAccount);
-			}
-			else {
-				accountUserAccountBucket.addCustomerUserAccount(accountUserAccount);
-			}
-		}
-
-		return accountUserAccountBucket;
-	}
-
-	@PostMapping("/{externalReferenceCode}/user-accounts/{userId}")
-	public void postUserAccounts(
-			@AuthenticationPrincipal Jwt jwt,
-			@PathVariable("externalReferenceCode") String externalReferenceCode,
-			@PathVariable("userId") long userId)
-		throws Exception {
-
-		_accountService.addAccountUserAccount(
-			externalReferenceCode, jwt, userId);
-	}
-
-	@PostMapping(
-		"/{externalReferenceCode}/user-accounts/{userId}/account-roles" +
-			"/{accountRoleId}"
-	)
-	public void postUserAccountsAccountRole(
-			@AuthenticationPrincipal Jwt jwt,
-			@PathVariable("externalReferenceCode") String externalReferenceCode,
-			@PathVariable("userId") long userId,
-			@PathVariable("accountRoleId") long accountRoleId)
-		throws Exception {
-
-		_accountService.addAccountUserAccountRole(
-			accountRoleId, externalReferenceCode, jwt, userId);
 	}
 
 	private Boolean _getAIPublicComments(Account account) {
@@ -388,48 +255,7 @@ public class AccountsRestController extends OneBaseRestController {
 	}
 
 	private String _getLanguage(Account account) {
-		AccountContactInformation accountContactInformation =
-			account.getAccountContactInformation();
-
-		if (accountContactInformation == null) {
-			return null;
-		}
-
-		PostalAddress[] postalAddresses =
-			accountContactInformation.getPostalAddresses();
-
-		if (ArrayUtil.isEmpty(postalAddresses)) {
-			return null;
-		}
-
-		PostalAddress primaryPostalAddress = postalAddresses[0];
-
-		for (PostalAddress postalAddress : postalAddresses) {
-			if (Boolean.TRUE.equals(postalAddress.getPrimary())) {
-				primaryPostalAddress = postalAddress;
-
-				break;
-			}
-		}
-
-		try {
-			SiteLanguage siteLanguage = _getSiteLanguageByCountryName(
-				primaryPostalAddress.getAddressCountry());
-
-			if (siteLanguage == null) {
-				return null;
-			}
-
-			return siteLanguage.getName();
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Unable to get site language for account " +
-					account.getExternalReferenceCode(),
-				exception);
-
-			return null;
-		}
+		return null;
 	}
 
 	private Boolean _getMailing(PostalAddress postalAddress) {
@@ -450,41 +276,6 @@ public class AccountsRestController extends OneBaseRestController {
 
 	private String _getProfileEmailAddress(Account account) {
 		return null;
-	}
-
-	private SiteLanguage _getSiteLanguageByCountryName(String countryName)
-		throws Exception {
-
-		if (Validator.isNull(countryName)) {
-			return null;
-		}
-
-		List<SiteLanguage> siteLanguages = ListUtil.filter(
-			_siteLanguageService.getSiteLanguages(),
-			siteLanguage -> StringUtil.equalsIgnoreCase(
-				countryName, siteLanguage.getCountryName()));
-
-		if (siteLanguages.isEmpty()) {
-			return null;
-		}
-
-		// A country can have several site languages (e.g. Spain has "ca-ES"
-		// and "es-ES"). Prefer the country's own language, where the language
-		// code mirrors the country code.
-
-		for (SiteLanguage siteLanguage : siteLanguages) {
-			String[] languageIdParts = StringUtil.split(
-				siteLanguage.getId(), '-');
-
-			if ((languageIdParts.length == 2) &&
-				StringUtil.equalsIgnoreCase(
-					languageIdParts[0], languageIdParts[1])) {
-
-				return siteLanguage;
-			}
-		}
-
-		return siteLanguages.get(0);
 	}
 
 	private String _getSuborganization(Account account) {
@@ -520,6 +311,9 @@ public class AccountsRestController extends OneBaseRestController {
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_BUSINESS_EVENTS,
 			_getBusinessEvents(account));
+		assetObject.setAttributeValue(
+			AccountConstants.ATTRIBUTE_NAME_DATA_REGION,
+			_getDataRegion(account));
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_DXP_VERSION_CONFIRMED_DATE,
 			_getDXPVersionConfirmedDate(account));
@@ -619,10 +413,13 @@ public class AccountsRestController extends OneBaseRestController {
 	private AccountAssetService _accountAssetService;
 
 	@Autowired
-	private AccountConverter _accountConverter;
+<<<<<<< HEAD
+	private AccountPermission _accountPermission;
 
 	@Autowired
-	private AccountPermission _accountPermission;
+	private AccountService _accountService;
+=======
+	private AccountConverter _accountConverter;
 
 	@Autowired
 	private AccountService _accountService;
@@ -632,6 +429,7 @@ public class AccountsRestController extends OneBaseRestController {
 
 	@Autowired
 	private BusinessEventPermission _businessEventPermission;
+>>>>>>> 64a6d8c29807d (LPD-90495 initial sync logic for Accounts and UserAccoutns)
 
 	@Autowired
 	private ContactConverter _contactConverter;
@@ -650,9 +448,6 @@ public class AccountsRestController extends OneBaseRestController {
 
 	@Autowired
 	private ProductVersionConverter _productVersionConverter;
-
-	@Autowired
-	private SiteLanguageService _siteLanguageService;
 
 	@Autowired
 	private TeamConverter _teamConverter;
