@@ -31,8 +31,6 @@ public interface AccountConstants {
 	public static final String ATTRIBUTE_NAME_CUSTOMER_CONTACTS_PREVIOUS =
 		"Customer Contacts (previous)";
 
-	public static final String ATTRIBUTE_NAME_DATA_REGION = "Data Region";
-
 	public static final String ATTRIBUTE_NAME_DESCRIPTION = "Description";
 
 	public static final String ATTRIBUTE_NAME_DXP_VERSION = "DXP Version";

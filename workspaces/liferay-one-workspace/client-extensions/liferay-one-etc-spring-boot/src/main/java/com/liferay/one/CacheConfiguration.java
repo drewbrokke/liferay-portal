@@ -23,7 +23,7 @@ public class CacheConfiguration {
 		CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager(
 			"assetObjectFieldOptions", "assetObjectTypeAttributeIds",
 			"assetObjectTypeAttributeOptions", "assetObjectTypeIds",
-			"productVersions");
+			"productVersions", "siteLanguages");
 
 		caffeineCacheManager.setCaffeine(
 			Caffeine.newBuilder(
