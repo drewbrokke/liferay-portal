@@ -18,15 +18,32 @@ import org.springframework.stereotype.Component;
 @Component
 public class PropertyService extends OneBaseService {
 
-	public String getPropertyValue(long accountId, String name)
+	public List<Property> getAccountProperties(long accountId) throws Exception {
+
+		return getAllItems(
+			"/o/c/properties",
+			StringBundler.concat(
+				"(r_accountEntryToProperty_accountEntryId eq '", accountId,
+				"')"),
+			Property::new);
+	}
+
+	public List<Property> getAccountPropertiesByName(
+			long accountId, String name)
 		throws Exception {
 
-		List<Property> properties = getAllItems(
+		return getAllItems(
 			"/o/c/properties",
 			StringBundler.concat(
 				"(r_accountEntryToProperty_accountEntryId eq '", accountId,
 				"') and (name eq '", name, "')"),
 			Property::new);
+	}
+
+	public String getPropertyValue(long accountId, String name)
+		throws Exception {
+
+		List<Property> properties = getAccountPropertiesByName(accountId, name);
 
 		if (properties.isEmpty()) {
 			return null;
