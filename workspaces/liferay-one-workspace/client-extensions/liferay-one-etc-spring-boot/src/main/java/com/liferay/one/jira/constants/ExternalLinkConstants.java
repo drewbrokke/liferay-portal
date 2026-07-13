@@ -20,8 +20,6 @@ public interface ExternalLinkConstants {
 
 	public static final String ATTRIBUTE_NAME_NAME = "Name";
 
-	public static final String ATTRIBUTE_NAME_URL = "URL";
-
 	public static final String OBJECT_TYPE_NAME = "External Link";
 
 }

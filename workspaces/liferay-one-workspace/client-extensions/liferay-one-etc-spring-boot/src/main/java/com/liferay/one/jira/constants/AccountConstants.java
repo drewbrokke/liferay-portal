@@ -10,11 +10,6 @@ package com.liferay.one.jira.constants;
  */
 public interface AccountConstants {
 
-	public static final String ATTRIBUTE_NAME_AI_PUBLIC_COMMENTS =
-		"AI Public Comments";
-
-	public static final String ATTRIBUTE_NAME_ARR = "ARR";
-
 	public static final String ATTRIBUTE_NAME_ASSIGNED_TEAMS = "Assigned Teams";
 
 	public static final String ATTRIBUTE_NAME_BUSINESS_EVENTS =
@@ -28,19 +23,9 @@ public interface AccountConstants {
 	public static final String ATTRIBUTE_NAME_CUSTOMER_CONTACTS =
 		"Customer Contacts";
 
-	public static final String ATTRIBUTE_NAME_CUSTOMER_CONTACTS_PREVIOUS =
-		"Customer Contacts (previous)";
-
 	public static final String ATTRIBUTE_NAME_DESCRIPTION = "Description";
 
-	public static final String ATTRIBUTE_NAME_DXP_VERSION = "DXP Version";
-
-	public static final String ATTRIBUTE_NAME_DXP_VERSION_CONFIRMED_DATE =
-		"DXP Version Confirmed Date";
-
 	public static final String ATTRIBUTE_NAME_ENTITLEMENTS = "Entitlements";
-
-	public static final String ATTRIBUTE_NAME_EXPIRED = "Expired";
 
 	public static final String ATTRIBUTE_NAME_EXTERNAL_CREATED_AT =
 		"External Created At";
@@ -54,10 +39,6 @@ public interface AccountConstants {
 
 	public static final String ATTRIBUTE_NAME_FAX_NUMBER = "Fax Number";
 
-	public static final String ATTRIBUTE_NAME_GS_OPPORTUNITY = "GS Opportunity";
-
-	public static final String ATTRIBUTE_NAME_INTERNAL = "Internal";
-
 	public static final String ATTRIBUTE_NAME_LANGUAGE = "Language";
 
 	public static final String ATTRIBUTE_NAME_NAME = "Name";
@@ -69,19 +50,7 @@ public interface AccountConstants {
 	public static final String ATTRIBUTE_NAME_POSTAL_ADDRESSES =
 		"Postal Addresses";
 
-	public static final String ATTRIBUTE_NAME_PREMIUM_SERVICE =
-		"Premium Service";
-
-	public static final String ATTRIBUTE_NAME_PROFILE_EMAIL_ADDRESS =
-		"Profile Email Address";
-
 	public static final String ATTRIBUTE_NAME_STATUS = "Status";
-
-	public static final String ATTRIBUTE_NAME_SUBORGANIZATION =
-		"Sub-Organization";
-
-	public static final String ATTRIBUTE_NAME_SUBORGANIZATION_IMPORTED =
-		"Sub-Organization-Imported";
 
 	public static final String ATTRIBUTE_NAME_SUPPORT_REGION = "Support Region";
 

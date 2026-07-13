@@ -68,6 +68,39 @@ public class AssetReferenceResolverService {
 		return objectId;
 	}
 
+	/**
+	 * Returns null when the entities collection is null, so that
+	 * {@link JiraAssetObject#setAttributeValue(
+	 * String, Object)} skips the attribute entirely. An empty entities
+	 * collection resolves to an empty list, which clears the reference
+	 * values. Unresolved external keys are skipped rather than causing an
+	 * asset object to be created.
+	 */
+	public <T> List<String> resolveObjectIds(
+		BaseAssetObjectConverter converter, Collection<T> entities,
+		Function<T, String> externalKeyFunction) {
+
+		if (entities == null) {
+			return null;
+		}
+
+		Set<String> externalKeys = new LinkedHashSet<>();
+
+		for (T entity : entities) {
+			if (entity == null) {
+				continue;
+			}
+
+			String externalKey = externalKeyFunction.apply(entity);
+
+			if (Validator.isNotNull(externalKey)) {
+				externalKeys.add(externalKey);
+			}
+		}
+
+		return _resolveToObjectIds(converter, externalKeys, null);
+	}
+
 	public String resolveOrCreateObjectId(
 		BaseAssetObjectConverter converter, String externalKey,
 		Function<String, JiraAssetObject> createAssetObjectFunction) {
@@ -187,7 +220,7 @@ public class AssetReferenceResolverService {
 
 	private List<String> _resolveToObjectIds(
 		BaseAssetObjectConverter converter, Collection<String> externalKeys,
-		Function<String, JiraAssetObject> function) {
+		Function<String, JiraAssetObject> createAssetObjectFunction) {
 
 		List<String> resolvedObjectIds = new ArrayList<>();
 
@@ -220,8 +253,9 @@ public class AssetReferenceResolverService {
 		for (String externalKey : uniqueExternalKeysList) {
 			String objectId = externalKeyToObjectIdMap.get(externalKey);
 
-			if (objectId == null) {
-				objectId = _createObject(converter, externalKey, function);
+			if ((objectId == null) && (createAssetObjectFunction != null)) {
+				objectId = _createObject(
+					converter, externalKey, createAssetObjectFunction);
 			}
 
 			if (objectId == null) {

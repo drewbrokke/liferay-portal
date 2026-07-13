@@ -8,25 +8,17 @@ package com.liferay.one;
 import com.liferay.headless.admin.user.client.dto.v1_0.*;
 import com.liferay.one.jira.constants.AccountConstants;
 import com.liferay.one.jira.constants.PostalAddressConstants;
-import com.liferay.one.jira.converter.AccountConverter;
-import com.liferay.one.jira.converter.ContactConverter;
-import com.liferay.one.jira.converter.EntitlementConverter;
-import com.liferay.one.jira.converter.PostalAddressConverter;
-import com.liferay.one.jira.converter.ProductVersionConverter;
-import com.liferay.one.jira.converter.TeamConverter;
+import com.liferay.one.jira.converter.*;
 import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.service.AccountAssetService;
 import com.liferay.one.jira.service.AssetReferenceResolverService;
 import com.liferay.one.model.Entitlement;
 import com.liferay.one.model.EntitlementDefinition;
+import com.liferay.one.model.Property;
 import com.liferay.one.model.SiteLanguage;
 import com.liferay.one.permission.AccountPermission;
-import com.liferay.one.permission.BusinessEventPermission;
-import com.liferay.one.service.AccountService;
-import com.liferay.one.service.EntitlementDefinitionService;
-import com.liferay.one.service.EntitlementService;
-import com.liferay.one.service.SiteLanguageService;
-import com.liferay.one.service.UserAccountService;
+import com.liferay.one.service.*;
+import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -128,101 +120,19 @@ public class AccountsRestController extends OneBaseRestController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	private <T> T _findFirst(T[] arr, Predicate<T> predicate) {
-		return _findFirst(Arrays.asList(arr), predicate);
-	}
-
-	private <T> T _findFirst(List<T> list, Predicate<T> predicate) {
-		if (list == null || list.isEmpty()) {
-			return null;
-		}
-
-		for (T t : list) {
-			if (predicate.test(t)) {
-				return t;
-			}
-		}
-
-		return null;
-	}
-
-	private enum EmployeeRoles {
-
-		CUSTOMER_EXPERIENCE_MANAGER(
-			"C_CUSTOMER_EXPERIENCE_MANAGER", "Customer Experience Manager",
-			"account"),
-		LIFERAY_SALES("C_LIFERAY_SALES", "Liferay Sales", "account"),
-		PRIMARY_CONTACT("C_PRIMARY_CONTACT", "Primary Contact", "account"),
-		SECONDARY_CONTACT(
-			"C_SECONDARY_CONTACT", "Secondary Contact", "account"),
-		SOLUTION_ARCHITECT(
-			"C_SOLUTION_ARCHITECT", "Solution Architect", "account");
-
-		public static List<String> getNames() {
-			List<String> names = new ArrayList<>();
-
-			for (EmployeeRoles employeeRole : values()) {
-				names.add(employeeRole.getName());
-			}
-
-			return names;
-		}
-
-		public String getExternalReferenceCode() {
-			return _externalReferenceCode;
-		}
-
-		public String getName() {
-			return _name;
-		}
-
-		public String getRoleType() {
-			return _roleType;
-		}
-
-		private EmployeeRoles(
-			String externalReferenceCode, String name, String roleType) {
-
-			_externalReferenceCode = externalReferenceCode;
-			_name = name;
-			_roleType = roleType;
-		}
-
-		private final String _externalReferenceCode;
-		private final String _name;
-		private final String _roleType;
-
-	}
-
-	private final List<String> employeeRoleNames = EmployeeRoles.getNames();
-
-	private static class AccountUserAccountBucket {
-		public void addEmployeeUserAccount(UserAccount userAccount) {
-			_employeeUserAccounts.add(userAccount);
-		}
-		public void addCustomerUserAccount(UserAccount userAccount) {
-			_customerUserAccounts.add(userAccount);
-		}
-
-		public List<UserAccount> getEmployeeUserAccounts() {
-			return _employeeUserAccounts;
-		}
-
-		public List<UserAccount> getCustomerUserAccounts() {
-			return _customerUserAccounts;
-		}
-
-		private final List<UserAccount> _employeeUserAccounts = new ArrayList<>();
-		private final List<UserAccount> _customerUserAccounts = new ArrayList<>();
-	}
 	@PostMapping("/{externalReferenceCode}/sync-to-jsm")
-	public ResponseEntity<Void> postSyncToJSM(@PathVariable("externalReferenceCode") String externalReferenceCode) throws Exception {
+	public ResponseEntity<Void> postSyncToJSM(
+			@PathVariable("externalReferenceCode") String externalReferenceCode)
+		throws Exception {
+
 		try {
 			Account account = _accountService.getAccount(externalReferenceCode);
 
-			AccountUserAccountBucket accountUserAccountBucket = getAccountUserAccountBucket(account);
+			AccountUserAccountBucket accountUserAccountBucket =
+				getAccountUserAccountBucket(account);
 
-			System.out.println("accountUserAccountBucket = " + accountUserAccountBucket);
+			System.out.println(
+				"accountUserAccountBucket = " + accountUserAccountBucket);
 		}
 		catch (Exception exception) {
 			throw new ResponseStatusException(
@@ -232,36 +142,6 @@ public class AccountsRestController extends OneBaseRestController {
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	private AccountUserAccountBucket getAccountUserAccountBucket(Account account) throws Exception {
-		List<UserAccount> accountUserAccounts = _userAccountService.getAccountUserAccounts(account.getId());
-
-		AccountUserAccountBucket accountUserAccountBucket = new AccountUserAccountBucket();
-
-		for (UserAccount accountUserAccount : accountUserAccounts) {
-			AccountBrief accountBrief = _findFirst(
-				Arrays.asList(accountUserAccount.getAccountBriefs()),
-				accountBrief1 -> Objects.equals(account.getExternalReferenceCode(), accountBrief1.getExternalReferenceCode()));
-			if (accountBrief == null) {
-				_log.error("accountBrief is null for user account = " + accountUserAccount);
-				continue;
-			}
-
-			RoleBrief[] roleBriefs = accountBrief.getRoleBriefs();
-
-			RoleBrief roleBrief = _findFirst(
-				roleBriefs, roleBrief1 -> employeeRoleNames.contains(roleBrief1.getName()));
-
-			if (roleBrief != null) {
-				accountUserAccountBucket.addEmployeeUserAccount(accountUserAccount);
-			}
-			else {
-				accountUserAccountBucket.addCustomerUserAccount(accountUserAccount);
-			}
-		}
-
-		return accountUserAccountBucket;
 	}
 
 	@PostMapping("/{externalReferenceCode}/user-accounts/{userId}")
@@ -290,12 +170,22 @@ public class AccountsRestController extends OneBaseRestController {
 			accountRoleId, externalReferenceCode, jwt, userId);
 	}
 
-	private Boolean _getAIPublicComments(Account account) {
+	private <T> T _findFirst(List<T> list, Predicate<T> predicate) {
+		if ((list == null) || list.isEmpty()) {
+			return null;
+		}
+
+		for (T t : list) {
+			if (predicate.test(t)) {
+				return t;
+			}
+		}
+
 		return null;
 	}
 
-	private Double _getARR(Account account) {
-		return null;
+	private <T> T _findFirst(T[] arr, Predicate<T> predicate) {
+		return _findFirst(Arrays.asList(arr), predicate);
 	}
 
 	private List<Organization> _getAssignedTeamOrganizations(Account account) {
@@ -303,18 +193,6 @@ public class AccountsRestController extends OneBaseRestController {
 	}
 
 	private String _getBusinessEvents(Account account) {
-		return null;
-	}
-
-	private String _getDataRegion(Account account) {
-		return null;
-	}
-
-	private String _getDXPVersionConfirmedDate(Account account) {
-		return null;
-	}
-
-	private String _getDXPVersionName(Account account) {
 		return null;
 	}
 
@@ -371,20 +249,28 @@ public class AccountsRestController extends OneBaseRestController {
 		}
 	}
 
-	private String _getExpired(Account account) {
-		return null;
-	}
+	private List<Property> _getExternalLinkProperties(Account account) {
+		List<Property> externalLinkProperties = new ArrayList<>();
 
-	private List<String> _getExternalLinkObjectIds(Account account) {
-		return null;
-	}
+		try {
+			List<Property> properties =
+				_propertyService.getAccountProperties(
+					account.getId());
 
-	private String _getGSOpportunity(Account account) {
-		return null;
-	}
 
-	private Boolean _getInternal(Account account) {
-		return null;
+			for (Property property : properties) {
+				String[] split = StringUtil.split(property.getName(), CharPool.COLON);
+
+				if (split.length == 2) {
+					externalLinkProperties.add(property);
+				}
+			}
+		}
+		catch (Exception exception) {
+			_log.error("Could not find External Link", exception);
+		}
+
+		return externalLinkProperties;
 	}
 
 	private String _getLanguage(Account account) {
@@ -440,18 +326,6 @@ public class AccountsRestController extends OneBaseRestController {
 		return null;
 	}
 
-	private String _getPremiumService(Account account) {
-		return null;
-	}
-
-	private List<String> _getPreviousCustomerContactObjectIds(Account account) {
-		return null;
-	}
-
-	private String _getProfileEmailAddress(Account account) {
-		return null;
-	}
-
 	private SiteLanguage _getSiteLanguageByCountryName(String countryName)
 		throws Exception {
 
@@ -487,19 +361,7 @@ public class AccountsRestController extends OneBaseRestController {
 		return siteLanguages.get(0);
 	}
 
-	private String _getSuborganization(Account account) {
-		return null;
-	}
-
-	private Boolean _getSuborganizationImported(Account account) {
-		return null;
-	}
-
 	private String _getSupportRegion(Account account) {
-		return null;
-	}
-
-	private List<UserAccount> _getWorkerUserAccounts(Account account) {
 		return null;
 	}
 
@@ -512,49 +374,46 @@ public class AccountsRestController extends OneBaseRestController {
 
 		JiraAssetObject assetObject = _accountConverter.toAssetObject(account);
 
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_AI_PUBLIC_COMMENTS,
-			_getAIPublicComments(account));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_ARR, _getARR(account));
+		// TODO:
+
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_BUSINESS_EVENTS,
 			_getBusinessEvents(account));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_DXP_VERSION_CONFIRMED_DATE,
-			_getDXPVersionConfirmedDate(account));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_EXPIRED, _getExpired(account));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_GS_OPPORTUNITY,
-			_getGSOpportunity(account));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_INTERNAL, _getInternal(account));
+
+		// TODO:
+
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_LANGUAGE, _getLanguage(account));
+
+		// TODO:
+
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_ORGANIZATION,
 			_getOrganization(account));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_PREMIUM_SERVICE,
-			_getPremiumService(account));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_PROFILE_EMAIL_ADDRESS,
-			_getProfileEmailAddress(account));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_SUBORGANIZATION,
-			_getSuborganization(account));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_SUBORGANIZATION_IMPORTED,
-			_getSuborganizationImported(account));
+
+		// TODO:
+
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_SUPPORT_REGION,
 			_getSupportRegion(account));
 
+		AccountUserAccountBucket accountUserAccountBucket =
+			getAccountUserAccountBucket(account);
+
 		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_DXP_VERSION,
-			_assetReferenceResolverService.resolveObjectId(
-				_productVersionConverter, _getDXPVersionName(account)));
+			AccountConstants.ATTRIBUTE_NAME_CUSTOMER_CONTACTS,
+			_assetReferenceResolverService.resolveObjectIds(
+				_contactConverter,
+				accountUserAccountBucket.getCustomerUserAccounts(),
+				UserAccount::getExternalReferenceCode));
+		assetObject.setAttributeValue(
+			AccountConstants.ATTRIBUTE_NAME_WORKER_CONTACTS,
+			_assetReferenceResolverService.resolveObjectIds(
+				_contactConverter,
+				accountUserAccountBucket.getWorkerUserAccounts(),
+				UserAccount::getExternalReferenceCode));
+
+		// TODO:
 
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_ASSIGNED_TEAMS,
@@ -562,25 +421,23 @@ public class AccountsRestController extends OneBaseRestController {
 				_teamConverter, _getAssignedTeamOrganizations(account),
 				Organization::getExternalReferenceCode,
 				_teamConverter::toAssetObject));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_CUSTOMER_CONTACTS,
-			_assetReferenceResolverService.resolveOrCreateObjectIds(
-				_contactConverter,
-				_userAccountService.getAccountUserAccounts(account.getId()),
-				UserAccount::getExternalReferenceCode,
-				_contactConverter::toAssetObject));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_CUSTOMER_CONTACTS_PREVIOUS,
-			_getPreviousCustomerContactObjectIds(account));
+
+		// TODO: needs testing
+
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_ENTITLEMENTS,
 			_assetReferenceResolverService.resolveOrCreateObjectIds(
 				_entitlementConverter, _getEntitlementDefinitions(account),
 				EntitlementDefinition::getName,
 				_entitlementConverter::toAssetObject));
+
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_EXTERNAL_LINKS,
-			_getExternalLinkObjectIds(account));
+			_assetReferenceResolverService.resolveOrCreateObjectIds(
+				_externalLinkConverter, _getExternalLinkProperties(account),
+				Property::getExternalReferenceCode,
+				_externalLinkConverter::toAssetObject));
+
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_POSTAL_ADDRESSES,
 			_assetReferenceResolverService.resolveOrCreateObjectIds(
@@ -588,16 +445,13 @@ public class AccountsRestController extends OneBaseRestController {
 				ListUtil.fromArray(account.getPostalAddresses()),
 				postalAddress -> String.valueOf(postalAddress.getId()),
 				this::_toPostalAddressAssetObject));
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_WORKER_CONTACTS,
-			_assetReferenceResolverService.resolveOrCreateObjectIds(
-				_contactConverter, _getWorkerUserAccounts(account),
-				UserAccount::getExternalReferenceCode,
-				_contactConverter::toAssetObject));
 
 		_accountAssetService.upsertJSMAccount(
 			account.getExternalReferenceCode(), assetObject);
 	}
+
+	@Autowired
+	private ExternalLinkConverter _externalLinkConverter;
 
 	private JiraAssetObject _toPostalAddressAssetObject(
 		PostalAddress postalAddress) {
@@ -610,6 +464,50 @@ public class AccountsRestController extends OneBaseRestController {
 			_getMailing(postalAddress));
 
 		return jiraAssetObject;
+	}
+
+	private AccountUserAccountBucket getAccountUserAccountBucket(
+			Account account)
+		throws Exception {
+
+		List<UserAccount> accountUserAccounts =
+			_userAccountService.getAccountUserAccounts(account.getId());
+
+		AccountUserAccountBucket accountUserAccountBucket =
+			new AccountUserAccountBucket();
+
+		for (UserAccount accountUserAccount : accountUserAccounts) {
+			AccountBrief accountBrief = _findFirst(
+				Arrays.asList(accountUserAccount.getAccountBriefs()),
+				accountBrief1 -> Objects.equals(
+					account.getExternalReferenceCode(),
+					accountBrief1.getExternalReferenceCode()));
+
+			if (accountBrief == null) {
+				_log.error(
+					"accountBrief is null for user account = " +
+						accountUserAccount);
+
+				continue;
+			}
+
+			RoleBrief[] roleBriefs = accountBrief.getRoleBriefs();
+
+			RoleBrief roleBrief = _findFirst(
+				roleBriefs,
+				roleBrief1 -> employeeRoleNames.contains(roleBrief1.getName()));
+
+			if (roleBrief != null) {
+				accountUserAccountBucket.addWorkerUserAccount(
+					accountUserAccount);
+			}
+			else {
+				accountUserAccountBucket.addCustomerUserAccount(
+					accountUserAccount);
+			}
+		}
+
+		return accountUserAccountBucket;
 	}
 
 	private static final Log _log = LogFactory.getLog(
@@ -631,9 +529,6 @@ public class AccountsRestController extends OneBaseRestController {
 	private AssetReferenceResolverService _assetReferenceResolverService;
 
 	@Autowired
-	private BusinessEventPermission _businessEventPermission;
-
-	@Autowired
 	private ContactConverter _contactConverter;
 
 	@Autowired
@@ -649,7 +544,7 @@ public class AccountsRestController extends OneBaseRestController {
 	private PostalAddressConverter _postalAddressConverter;
 
 	@Autowired
-	private ProductVersionConverter _productVersionConverter;
+	private PropertyService _propertyService;
 
 	@Autowired
 	private SiteLanguageService _siteLanguageService;
@@ -659,5 +554,81 @@ public class AccountsRestController extends OneBaseRestController {
 
 	@Autowired
 	private UserAccountService _userAccountService;
+
+	private final List<String> employeeRoleNames = EmployeeRoles.getNames();
+
+	private static class AccountUserAccountBucket {
+
+		public void addCustomerUserAccount(UserAccount userAccount) {
+			_customerUserAccounts.add(userAccount);
+		}
+
+		public void addWorkerUserAccount(UserAccount userAccount) {
+			_workerUserAccounts.add(userAccount);
+		}
+
+		public List<UserAccount> getCustomerUserAccounts() {
+			return _customerUserAccounts;
+		}
+
+		public List<UserAccount> getWorkerUserAccounts() {
+			return _workerUserAccounts;
+		}
+
+		private final List<UserAccount> _customerUserAccounts =
+			new ArrayList<>();
+		private final List<UserAccount> _workerUserAccounts = new ArrayList<>();
+
+	}
+
+	private enum EmployeeRoles {
+
+		CUSTOMER_EXPERIENCE_MANAGER(
+			"C_CUSTOMER_EXPERIENCE_MANAGER", "Customer Experience Manager",
+			"account"),
+		LIFERAY_SALES("C_LIFERAY_SALES", "Liferay Sales", "account"),
+		PRIMARY_CONTACT("C_PRIMARY_CONTACT", "Primary Contact", "account"),
+		SECONDARY_CONTACT(
+			"C_SECONDARY_CONTACT", "Secondary Contact", "account"),
+		SOLUTION_ARCHITECT(
+			"C_SOLUTION_ARCHITECT", "Solution Architect", "account");
+
+		public static List<String> getNames() {
+			List<String> names = new ArrayList<>();
+
+			for (EmployeeRoles employeeRole : values()) {
+				names.add(employeeRole.getName());
+			}
+
+			return names;
+		}
+
+		@SuppressWarnings("unused")
+		public String getExternalReferenceCode() {
+			return _externalReferenceCode;
+		}
+
+		public String getName() {
+			return _name;
+		}
+
+		@SuppressWarnings("unused")
+		public String getRoleType() {
+			return _roleType;
+		}
+
+		EmployeeRoles(
+			String externalReferenceCode, String name, String roleType) {
+
+			_externalReferenceCode = externalReferenceCode;
+			_name = name;
+			_roleType = roleType;
+		}
+
+		private final String _externalReferenceCode;
+		private final String _name;
+		private final String _roleType;
+
+	}
 
 }
