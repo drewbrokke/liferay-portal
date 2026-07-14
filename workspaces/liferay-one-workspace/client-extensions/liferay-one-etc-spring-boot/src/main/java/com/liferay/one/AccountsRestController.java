@@ -9,9 +9,11 @@ import com.liferay.headless.admin.user.client.dto.v1_0.*;
 import com.liferay.one.jira.constants.AccountConstants;
 import com.liferay.one.jira.constants.PostalAddressConstants;
 import com.liferay.one.jira.converter.*;
+import com.liferay.one.jira.model.BusinessEvent;
 import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.service.AccountAssetService;
 import com.liferay.one.jira.service.AssetReferenceResolverService;
+import com.liferay.one.jira.service.BusinessEventService;
 import com.liferay.one.model.Entitlement;
 import com.liferay.one.model.EntitlementDefinition;
 import com.liferay.one.model.Property;
@@ -44,6 +46,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
  * @author Jenny Chen
@@ -51,6 +54,9 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/accounts")
 @RestController
 public class AccountsRestController extends OneBaseRestController {
+
+	@Autowired
+	private HandlerExceptionResolver handlerExceptionResolver;
 
 	@DeleteMapping("/{externalReferenceCode}/user-accounts/{userId}")
 	public void deleteUserAccounts(
@@ -170,6 +176,16 @@ public class AccountsRestController extends OneBaseRestController {
 			accountRoleId, externalReferenceCode, jwt, userId);
 	}
 
+	private void _addBusinessEventLine(
+		List<String> lines, String fieldName, String value) {
+
+		if (Validator.isNull(value)) {
+			return;
+		}
+
+		lines.add(fieldName + ": " + value);
+	}
+
 	private <T> T _findFirst(List<T> list, Predicate<T> predicate) {
 		if ((list == null) || list.isEmpty()) {
 			return null;
@@ -192,9 +208,8 @@ public class AccountsRestController extends OneBaseRestController {
 		return null;
 	}
 
-	private String _getBusinessEvents(Account account) {
-		return null;
-	}
+	@Autowired
+	private BusinessEventService _businessEventService;
 
 	private List<EntitlementDefinition> _getEntitlementDefinitions(
 		Account account) {
@@ -365,6 +380,43 @@ public class AccountsRestController extends OneBaseRestController {
 		return null;
 	}
 
+	private String _toBusinessEventFieldValuePart(BusinessEvent businessEvent) {
+		List<String> lines = new ArrayList<>();
+
+		_addBusinessEventLine(lines, "name", businessEvent.getName());
+		_addBusinessEventLine(lines, "targetGoLiveDateTime", businessEvent.getPlannedEventDate());
+		_addBusinessEventLine(lines, "description", businessEvent.getDescription());
+		_addBusinessEventLine(lines, "type", businessEvent.getEventTypeName());
+		_addBusinessEventLine(lines, "currentVersion", businessEvent.getCurrentLiferayVersionName());
+		_addBusinessEventLine(lines, "newVersion", businessEvent.getNewLiferayVersionName());
+
+		return StringUtil.merge(lines, ",\n");
+	}
+
+	private String _toBusinessEventsFieldValue(Account account) {
+		try {
+			List<String> parts = new ArrayList<>();
+
+			List<BusinessEvent> businessEvents =
+				_businessEventService.getBusinessEvents(
+					account.getExternalReferenceCode());
+
+			for (BusinessEvent businessEvent : businessEvents) {
+				String part = _toBusinessEventFieldValuePart(businessEvent);
+
+				if (Validator.isNotNull(part)) {
+					parts.add(part);
+				}
+			}
+
+			return StringUtil.merge(parts, "\n\n");
+		} catch (Exception exception) {
+			_log.error("Unable to get business events", exception);
+
+			return null;
+		}
+	}
+
 	private void _syncAccount(Account account) throws Exception {
 		if (_log.isInfoEnabled()) {
 			_log.info(
@@ -374,11 +426,9 @@ public class AccountsRestController extends OneBaseRestController {
 
 		JiraAssetObject assetObject = _accountConverter.toAssetObject(account);
 
-		// TODO:
-
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_BUSINESS_EVENTS,
-			_getBusinessEvents(account));
+			_toBusinessEventsFieldValue(account));
 
 		// TODO:
 
