@@ -5,10 +5,21 @@
 
 package com.liferay.one;
 
-import com.liferay.headless.admin.user.client.dto.v1_0.*;
+import com.liferay.headless.admin.user.client.dto.v1_0.Account;
+import com.liferay.headless.admin.user.client.dto.v1_0.AccountBrief;
+import com.liferay.headless.admin.user.client.dto.v1_0.AccountContactInformation;
+import com.liferay.headless.admin.user.client.dto.v1_0.Organization;
+import com.liferay.headless.admin.user.client.dto.v1_0.PostalAddress;
+import com.liferay.headless.admin.user.client.dto.v1_0.RoleBrief;
+import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.one.jira.constants.AccountConstants;
 import com.liferay.one.jira.constants.PostalAddressConstants;
-import com.liferay.one.jira.converter.*;
+import com.liferay.one.jira.converter.AccountConverter;
+import com.liferay.one.jira.converter.ContactConverter;
+import com.liferay.one.jira.converter.EntitlementConverter;
+import com.liferay.one.jira.converter.ExternalLinkConverter;
+import com.liferay.one.jira.converter.PostalAddressConverter;
+import com.liferay.one.jira.converter.TeamConverter;
 import com.liferay.one.jira.model.BusinessEvent;
 import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.service.AccountAssetService;
@@ -19,7 +30,14 @@ import com.liferay.one.model.EntitlementDefinition;
 import com.liferay.one.model.Property;
 import com.liferay.one.model.SiteLanguage;
 import com.liferay.one.permission.AccountPermission;
-import com.liferay.one.service.*;
+import com.liferay.one.service.AccountService;
+import com.liferay.one.service.CommerceOrderService;
+import com.liferay.one.service.EntitlementDefinitionService;
+import com.liferay.one.service.EntitlementService;
+import com.liferay.one.service.OrganizationService;
+import com.liferay.one.service.PropertyService;
+import com.liferay.one.service.SiteLanguageService;
+import com.liferay.one.service.UserAccountService;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -28,7 +46,13 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.apache.commons.logging.Log;
@@ -129,10 +153,9 @@ public class AccountsRestController extends OneBaseRestController {
 		throws Exception {
 
 		try {
-			Account account = _accountService.getAccount(externalReferenceCode);
-
 			AccountUserAccountBucket accountUserAccountBucket =
-				getAccountUserAccountBucket(account);
+				_getAccountUserAccountBucket(
+					_accountService.getAccount(externalReferenceCode));
 
 			System.out.println(
 				"accountUserAccountBucket = " + accountUserAccountBucket);
@@ -184,7 +207,7 @@ public class AccountsRestController extends OneBaseRestController {
 	}
 
 	private <T> T _findFirst(List<T> list, Predicate<T> predicate) {
-		if ((list == null) || list.isEmpty()) {
+		if (ListUtil.isEmpty(list)) {
 			return null;
 		}
 
@@ -199,6 +222,48 @@ public class AccountsRestController extends OneBaseRestController {
 
 	private <T> T _findFirst(T[] arr, Predicate<T> predicate) {
 		return _findFirst(Arrays.asList(arr), predicate);
+	}
+
+	private AccountUserAccountBucket _getAccountUserAccountBucket(
+			Account account)
+		throws Exception {
+
+		AccountUserAccountBucket accountUserAccountBucket =
+			new AccountUserAccountBucket();
+
+		for (UserAccount accountUserAccount :
+				_userAccountService.getAccountUserAccounts(account.getId())) {
+
+			AccountBrief accountBrief = _findFirst(
+				Arrays.asList(accountUserAccount.getAccountBriefs()),
+				accountBrief1 -> Objects.equals(
+					account.getExternalReferenceCode(),
+					accountBrief1.getExternalReferenceCode()));
+
+			if (accountBrief == null) {
+				_log.error(
+					"accountBrief is null for user account = " +
+						accountUserAccount);
+
+				continue;
+			}
+
+			RoleBrief roleBrief = _findFirst(
+				accountBrief.getRoleBriefs(),
+				roleBrief1 -> _employeeRoleNames.contains(
+					roleBrief1.getName()));
+
+			if (roleBrief != null) {
+				accountUserAccountBucket.addWorkerUserAccount(
+					accountUserAccount);
+			}
+			else {
+				accountUserAccountBucket.addCustomerUserAccount(
+					accountUserAccount);
+			}
+		}
+
+		return accountUserAccountBucket;
 	}
 
 	private List<Organization> _getAssignedTeamOrganizations(Account account) {
@@ -408,7 +473,7 @@ public class AccountsRestController extends OneBaseRestController {
 			_getSupportRegion(account));
 
 		AccountUserAccountBucket accountUserAccountBucket =
-			getAccountUserAccountBucket(account);
+			_getAccountUserAccountBucket(account);
 
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_CUSTOMER_CONTACTS,
@@ -514,50 +579,6 @@ public class AccountsRestController extends OneBaseRestController {
 		return jiraAssetObject;
 	}
 
-	private AccountUserAccountBucket getAccountUserAccountBucket(
-			Account account)
-		throws Exception {
-
-		List<UserAccount> accountUserAccounts =
-			_userAccountService.getAccountUserAccounts(account.getId());
-
-		AccountUserAccountBucket accountUserAccountBucket =
-			new AccountUserAccountBucket();
-
-		for (UserAccount accountUserAccount : accountUserAccounts) {
-			AccountBrief accountBrief = _findFirst(
-				Arrays.asList(accountUserAccount.getAccountBriefs()),
-				accountBrief1 -> Objects.equals(
-					account.getExternalReferenceCode(),
-					accountBrief1.getExternalReferenceCode()));
-
-			if (accountBrief == null) {
-				_log.error(
-					"accountBrief is null for user account = " +
-						accountUserAccount);
-
-				continue;
-			}
-
-			RoleBrief[] roleBriefs = accountBrief.getRoleBriefs();
-
-			RoleBrief roleBrief = _findFirst(
-				roleBriefs,
-				roleBrief1 -> employeeRoleNames.contains(roleBrief1.getName()));
-
-			if (roleBrief != null) {
-				accountUserAccountBucket.addWorkerUserAccount(
-					accountUserAccount);
-			}
-			else {
-				accountUserAccountBucket.addCustomerUserAccount(
-					accountUserAccount);
-			}
-		}
-
-		return accountUserAccountBucket;
-	}
-
 	private static final Log _log = LogFactory.getLog(
 		AccountsRestController.class);
 
@@ -585,6 +606,8 @@ public class AccountsRestController extends OneBaseRestController {
 	@Autowired
 	private ContactConverter _contactConverter;
 
+	private final List<String> _employeeRoleNames = EmployeeRoles.getNames();
+
 	@Autowired
 	private EntitlementConverter _entitlementConverter;
 
@@ -598,7 +621,7 @@ public class AccountsRestController extends OneBaseRestController {
 	private ExternalLinkConverter _externalLinkConverter;
 
 	@Autowired
-	private OrganizationService _organizationService;
+	private HandlerExceptionResolver _handlerExceptionResolver;
 
 	@Autowired
 	private OrganizationService _organizationService;
@@ -617,11 +640,6 @@ public class AccountsRestController extends OneBaseRestController {
 
 	@Autowired
 	private UserAccountService _userAccountService;
-
-	private final List<String> employeeRoleNames = EmployeeRoles.getNames();
-
-	@Autowired
-	private HandlerExceptionResolver handlerExceptionResolver;
 
 	private static class AccountUserAccountBucket {
 
@@ -683,7 +701,7 @@ public class AccountsRestController extends OneBaseRestController {
 			return _roleType;
 		}
 
-		EmployeeRoles(
+		private EmployeeRoles(
 			String externalReferenceCode, String name, String roleType) {
 
 			_externalReferenceCode = externalReferenceCode;

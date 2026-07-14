@@ -19,7 +19,8 @@ public class Property {
 		_classNameId = jsonObject.optLong("classNameId");
 		_classPK = jsonObject.optLong("classPK");
 		_externalReferenceCode = jsonObject.optString("externalReferenceCode");
-		_metadataJSON = new JSONObject(jsonObject.optString("metadataJson"));
+		_metadataJSONObject = new JSONObject(
+			jsonObject.optString("metadataJson"));
 		_name = jsonObject.optString("name");
 		_propertyId = jsonObject.getLong("id");
 		_value = jsonObject.optString("value");
@@ -45,8 +46,8 @@ public class Property {
 		return _externalReferenceCode;
 	}
 
-	public JSONObject getMetadataJSON() {
-		return _metadataJSON;
+	public JSONObject getMetadataJSONObject() {
+		return _metadataJSONObject;
 	}
 
 	public String getName() {
@@ -66,7 +67,7 @@ public class Property {
 	private final long _classNameId;
 	private final long _classPK;
 	private final String _externalReferenceCode;
-	private final JSONObject _metadataJSON;
+	private final JSONObject _metadataJSONObject;
 	private final String _name;
 	private final long _propertyId;
 	private final String _value;

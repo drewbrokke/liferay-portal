@@ -5,6 +5,5 @@
 		<suppress checks="UnusedParameterCheck" files="src/main/java/com/liferay/one/AccountsRestController\.java" />
 		<suppress checks="UnusedParameterCheck" files="src/main/java/com/liferay/one/JSMSyncCatchAllController\.java" />
 		<suppress checks="UnusedParameterCheck" files="src/main/java/com/liferay/one/OrganizationsRestController\.java" />
-		<suppress checks="UnusedParameterCheck" files="src/main/java/com/liferay/one/UserAccountsRestController\.java" />
 	</checkstyle>
 </suppressions>
