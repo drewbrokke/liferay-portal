@@ -43,8 +43,6 @@ public interface AccountConstants {
 
 	public static final String ATTRIBUTE_NAME_NAME = "Name";
 
-	public static final String ATTRIBUTE_NAME_ORGANIZATION = "Organization";
-
 	public static final String ATTRIBUTE_NAME_PHONE_NUMBER = "Phone Number";
 
 	public static final String ATTRIBUTE_NAME_POSTAL_ADDRESSES =

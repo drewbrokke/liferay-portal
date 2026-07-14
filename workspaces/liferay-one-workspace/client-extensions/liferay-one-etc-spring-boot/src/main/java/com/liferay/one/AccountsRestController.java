@@ -55,9 +55,6 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @RestController
 public class AccountsRestController extends OneBaseRestController {
 
-	@Autowired
-	private HandlerExceptionResolver handlerExceptionResolver;
-
 	@DeleteMapping("/{externalReferenceCode}/user-accounts/{userId}")
 	public void deleteUserAccounts(
 			@AuthenticationPrincipal Jwt jwt,
@@ -205,11 +202,17 @@ public class AccountsRestController extends OneBaseRestController {
 	}
 
 	private List<Organization> _getAssignedTeamOrganizations(Account account) {
-		return null;
+		try {
+			return _organizationService.getAccountOrganizations(account.getId());
+		} catch (Exception exception) {
+			_log.error("Could not retrieve organizations", exception);
+
+			return null;
+		}
 	}
 
 	@Autowired
-	private BusinessEventService _businessEventService;
+	private OrganizationService _organizationService;
 
 	private List<EntitlementDefinition> _getEntitlementDefinitions(
 		Account account) {
@@ -268,13 +271,12 @@ public class AccountsRestController extends OneBaseRestController {
 		List<Property> externalLinkProperties = new ArrayList<>();
 
 		try {
-			List<Property> properties =
-				_propertyService.getAccountProperties(
-					account.getId());
-
+			List<Property> properties = _propertyService.getAccountProperties(
+				account.getId());
 
 			for (Property property : properties) {
-				String[] split = StringUtil.split(property.getName(), CharPool.COLON);
+				String[] split = StringUtil.split(
+					property.getName(), CharPool.COLON);
 
 				if (split.length == 2) {
 					externalLinkProperties.add(property);
@@ -337,10 +339,6 @@ public class AccountsRestController extends OneBaseRestController {
 		return null;
 	}
 
-	private Integer _getOrganization(Account account) {
-		return null;
-	}
-
 	private SiteLanguage _getSiteLanguageByCountryName(String countryName)
 		throws Exception {
 
@@ -377,45 +375,17 @@ public class AccountsRestController extends OneBaseRestController {
 	}
 
 	private String _getSupportRegion(Account account) {
-		return null;
-	}
-
-	private String _toBusinessEventFieldValuePart(BusinessEvent businessEvent) {
-		List<String> lines = new ArrayList<>();
-
-		_addBusinessEventLine(lines, "name", businessEvent.getName());
-		_addBusinessEventLine(lines, "targetGoLiveDateTime", businessEvent.getPlannedEventDate());
-		_addBusinessEventLine(lines, "description", businessEvent.getDescription());
-		_addBusinessEventLine(lines, "type", businessEvent.getEventTypeName());
-		_addBusinessEventLine(lines, "currentVersion", businessEvent.getCurrentLiferayVersionName());
-		_addBusinessEventLine(lines, "newVersion", businessEvent.getNewLiferayVersionName());
-
-		return StringUtil.merge(lines, ",\n");
-	}
-
-	private String _toBusinessEventsFieldValue(Account account) {
 		try {
-			List<String> parts = new ArrayList<>();
-
-			List<BusinessEvent> businessEvents =
-				_businessEventService.getBusinessEvents(
-					account.getExternalReferenceCode());
-
-			for (BusinessEvent businessEvent : businessEvents) {
-				String part = _toBusinessEventFieldValuePart(businessEvent);
-
-				if (Validator.isNotNull(part)) {
-					parts.add(part);
-				}
-			}
-
-			return StringUtil.merge(parts, "\n\n");
+			return _commerceOrderService.getSupportRegion(account.getId(), account.getDefaultBillingAddressId());
 		} catch (Exception exception) {
-			_log.error("Unable to get business events", exception);
+			_log.error("Unable to get support region", exception);
 
 			return null;
 		}
 	}
+
+	@Autowired
+	private CommerceOrderService _commerceOrderService;
 
 	private void _syncAccount(Account account) throws Exception {
 		if (_log.isInfoEnabled()) {
@@ -434,14 +404,6 @@ public class AccountsRestController extends OneBaseRestController {
 
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_LANGUAGE, _getLanguage(account));
-
-		// TODO:
-
-		assetObject.setAttributeValue(
-			AccountConstants.ATTRIBUTE_NAME_ORGANIZATION,
-			_getOrganization(account));
-
-		// TODO:
 
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_SUPPORT_REGION,
@@ -462,8 +424,6 @@ public class AccountsRestController extends OneBaseRestController {
 				_contactConverter,
 				accountUserAccountBucket.getWorkerUserAccounts(),
 				UserAccount::getExternalReferenceCode));
-
-		// TODO:
 
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_ASSIGNED_TEAMS,
@@ -500,8 +460,48 @@ public class AccountsRestController extends OneBaseRestController {
 			account.getExternalReferenceCode(), assetObject);
 	}
 
-	@Autowired
-	private ExternalLinkConverter _externalLinkConverter;
+	private String _toBusinessEventFieldValuePart(BusinessEvent businessEvent) {
+		List<String> lines = new ArrayList<>();
+
+		_addBusinessEventLine(lines, "name", businessEvent.getName());
+		_addBusinessEventLine(
+			lines, "targetGoLiveDateTime", businessEvent.getPlannedEventDate());
+		_addBusinessEventLine(
+			lines, "description", businessEvent.getDescription());
+		_addBusinessEventLine(lines, "type", businessEvent.getEventTypeName());
+		_addBusinessEventLine(
+			lines, "currentVersion",
+			businessEvent.getCurrentLiferayVersionName());
+		_addBusinessEventLine(
+			lines, "newVersion", businessEvent.getNewLiferayVersionName());
+
+		return StringUtil.merge(lines, ",\n");
+	}
+
+	private String _toBusinessEventsFieldValue(Account account) {
+		try {
+			List<String> parts = new ArrayList<>();
+
+			List<BusinessEvent> businessEvents =
+				_businessEventService.getBusinessEvents(
+					account.getExternalReferenceCode());
+
+			for (BusinessEvent businessEvent : businessEvents) {
+				String part = _toBusinessEventFieldValuePart(businessEvent);
+
+				if (Validator.isNotNull(part)) {
+					parts.add(part);
+				}
+			}
+
+			return StringUtil.merge(parts, "\n\n");
+		}
+		catch (Exception exception) {
+			_log.error("Unable to get business events", exception);
+
+			return null;
+		}
+	}
 
 	private JiraAssetObject _toPostalAddressAssetObject(
 		PostalAddress postalAddress) {
@@ -579,6 +579,9 @@ public class AccountsRestController extends OneBaseRestController {
 	private AssetReferenceResolverService _assetReferenceResolverService;
 
 	@Autowired
+	private BusinessEventService _businessEventService;
+
+	@Autowired
 	private ContactConverter _contactConverter;
 
 	@Autowired
@@ -589,6 +592,12 @@ public class AccountsRestController extends OneBaseRestController {
 
 	@Autowired
 	private EntitlementService _entitlementService;
+
+	@Autowired
+	private ExternalLinkConverter _externalLinkConverter;
+
+	@Autowired
+	private OrganizationService _organizationService;
 
 	@Autowired
 	private PostalAddressConverter _postalAddressConverter;
@@ -606,6 +615,9 @@ public class AccountsRestController extends OneBaseRestController {
 	private UserAccountService _userAccountService;
 
 	private final List<String> employeeRoleNames = EmployeeRoles.getNames();
+
+	@Autowired
+	private HandlerExceptionResolver handlerExceptionResolver;
 
 	private static class AccountUserAccountBucket {
 
