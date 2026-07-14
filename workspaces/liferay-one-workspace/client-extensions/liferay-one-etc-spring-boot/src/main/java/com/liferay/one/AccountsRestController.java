@@ -203,16 +203,15 @@ public class AccountsRestController extends OneBaseRestController {
 
 	private List<Organization> _getAssignedTeamOrganizations(Account account) {
 		try {
-			return _organizationService.getAccountOrganizations(account.getId());
-		} catch (Exception exception) {
+			return _organizationService.getAccountOrganizations(
+				account.getId());
+		}
+		catch (Exception exception) {
 			_log.error("Could not retrieve organizations", exception);
 
 			return null;
 		}
 	}
-
-	@Autowired
-	private OrganizationService _organizationService;
 
 	private List<EntitlementDefinition> _getEntitlementDefinitions(
 		Account account) {
@@ -376,16 +375,15 @@ public class AccountsRestController extends OneBaseRestController {
 
 	private String _getSupportRegion(Account account) {
 		try {
-			return _commerceOrderService.getSupportRegion(account.getId(), account.getDefaultBillingAddressId());
-		} catch (Exception exception) {
+			return _commerceOrderService.getSupportRegion(
+				account.getId(), account.getDefaultBillingAddressId());
+		}
+		catch (Exception exception) {
 			_log.error("Unable to get support region", exception);
 
 			return null;
 		}
 	}
-
-	@Autowired
-	private CommerceOrderService _commerceOrderService;
 
 	private void _syncAccount(Account account) throws Exception {
 		if (_log.isInfoEnabled()) {
@@ -582,6 +580,9 @@ public class AccountsRestController extends OneBaseRestController {
 	private BusinessEventService _businessEventService;
 
 	@Autowired
+	private CommerceOrderService _commerceOrderService;
+
+	@Autowired
 	private ContactConverter _contactConverter;
 
 	@Autowired
@@ -595,6 +596,9 @@ public class AccountsRestController extends OneBaseRestController {
 
 	@Autowired
 	private ExternalLinkConverter _externalLinkConverter;
+
+	@Autowired
+	private OrganizationService _organizationService;
 
 	@Autowired
 	private OrganizationService _organizationService;
