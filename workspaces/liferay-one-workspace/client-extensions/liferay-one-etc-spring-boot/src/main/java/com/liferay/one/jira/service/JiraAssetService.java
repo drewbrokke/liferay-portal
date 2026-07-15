@@ -18,7 +18,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -87,7 +91,7 @@ public class JiraAssetService extends BaseJiraService {
 	}
 
 	public JSONArray getObjectTypeAttributes(String objectTypeId) {
-		return new JSONArray(
+		return _toJSONArray(
 			get(
 				getAuthorization(),
 				_v1URI(
@@ -96,7 +100,7 @@ public class JiraAssetService extends BaseJiraService {
 	}
 
 	public JSONArray getObjectTypes(String schemaId) {
-		return new JSONArray(
+		return _toJSONArray(
 			get(
 				getAuthorization(),
 				_v1URI(
@@ -203,12 +207,39 @@ public class JiraAssetService extends BaseJiraService {
 		return _toJSONObject(response);
 	}
 
+	private JSONArray _toJSONArray(String response) {
+		if (Validator.isNull(response)) {
+			return new JSONArray();
+		}
+
+		try {
+			return new JSONArray(response);
+		}
+		catch (JSONException jsonException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to parse JSON array response", jsonException);
+			}
+
+			return new JSONArray();
+		}
+	}
+
 	private JSONObject _toJSONObject(String response) {
 		if (Validator.isNull(response)) {
 			return new JSONObject();
 		}
 
-		return new JSONObject(response);
+		try {
+			return new JSONObject(response);
+		}
+		catch (JSONException jsonException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to parse JSON object response", jsonException);
+			}
+
+			return new JSONObject();
+		}
 	}
 
 	private URI _v1URI(String path) {
@@ -224,6 +255,8 @@ public class JiraAssetService extends BaseJiraService {
 		"https://api.atlassian.com";
 
 	private static final int _MAX_RESULTS = 100;
+
+	private static final Log _log = LogFactory.getLog(JiraAssetService.class);
 
 	@Value("${liferay.one.jira.workspace.id}")
 	private String _jiraWorkspaceId;
