@@ -43,7 +43,9 @@ public class PropertyService extends OneBaseService {
 		return new Property(new JSONObject(response));
 	}
 
-	public List<Property> getAccountProperties(long accountId) throws Exception {
+	public List<Property> getAccountProperties(long accountId)
+		throws Exception {
+
 		return getProperties(
 			StringBundler.concat(
 				"(r_accountEntryToProperty_accountEntryId eq '", accountId,
@@ -58,7 +60,6 @@ public class PropertyService extends OneBaseService {
 			StringBundler.concat(
 				"(r_accountEntryToProperty_accountEntryId eq '", accountId,
 				"') and (name eq '", name, "')"));
-
 	}
 
 	public List<Property> getProperties(String filterString) throws Exception {

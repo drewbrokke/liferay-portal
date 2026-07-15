@@ -7,7 +7,6 @@ package com.liferay.one;
 
 import com.liferay.headless.admin.user.client.dto.v1_0.Account;
 import com.liferay.headless.admin.user.client.dto.v1_0.AccountBrief;
-import com.liferay.headless.admin.user.client.dto.v1_0.AccountContactInformation;
 import com.liferay.headless.admin.user.client.dto.v1_0.Organization;
 import com.liferay.headless.admin.user.client.dto.v1_0.PostalAddress;
 import com.liferay.headless.admin.user.client.dto.v1_0.RoleBrief;
@@ -28,7 +27,6 @@ import com.liferay.one.jira.service.BusinessEventService;
 import com.liferay.one.model.Entitlement;
 import com.liferay.one.model.EntitlementDefinition;
 import com.liferay.one.model.Property;
-import com.liferay.one.model.SiteLanguage;
 import com.liferay.one.permission.AccountPermission;
 import com.liferay.one.service.AccountService;
 import com.liferay.one.service.CommerceOrderService;
@@ -36,12 +34,10 @@ import com.liferay.one.service.EntitlementDefinitionService;
 import com.liferay.one.service.EntitlementService;
 import com.liferay.one.service.OrganizationService;
 import com.liferay.one.service.PropertyService;
-import com.liferay.one.service.SiteLanguageService;
 import com.liferay.one.service.UserAccountService;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
-import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -355,45 +351,12 @@ public class AccountsRestController extends OneBaseRestController {
 	}
 
 	private String _getLanguage(Account account) {
-		AccountContactInformation accountContactInformation =
-			account.getAccountContactInformation();
-
-		if (accountContactInformation == null) {
-			return null;
-		}
-
-		PostalAddress[] postalAddresses =
-			accountContactInformation.getPostalAddresses();
-
-		if (ArrayUtil.isEmpty(postalAddresses)) {
-			return null;
-		}
-
-		PostalAddress primaryPostalAddress = postalAddresses[0];
-
-		for (PostalAddress postalAddress : postalAddresses) {
-			if (Boolean.TRUE.equals(postalAddress.getPrimary())) {
-				primaryPostalAddress = postalAddress;
-
-				break;
-			}
-		}
-
 		try {
-			SiteLanguage siteLanguage = _getSiteLanguageByCountryName(
-				primaryPostalAddress.getAddressCountry());
-
-			if (siteLanguage == null) {
-				return null;
-			}
-
-			return siteLanguage.getName();
+			return _commerceOrderService.getSupportLanguage(
+				account.getId(), account.getDefaultBillingAddressId());
 		}
 		catch (Exception exception) {
-			_log.error(
-				"Unable to get site language for account " +
-					account.getExternalReferenceCode(),
-				exception);
+			_log.error("Unable to get support language", exception);
 
 			return null;
 		}
@@ -401,41 +364,6 @@ public class AccountsRestController extends OneBaseRestController {
 
 	private Boolean _getMailing(PostalAddress postalAddress) {
 		return null;
-	}
-
-	private SiteLanguage _getSiteLanguageByCountryName(String countryName)
-		throws Exception {
-
-		if (Validator.isNull(countryName)) {
-			return null;
-		}
-
-		List<SiteLanguage> siteLanguages = ListUtil.filter(
-			_siteLanguageService.getSiteLanguages(),
-			siteLanguage -> StringUtil.equalsIgnoreCase(
-				countryName, siteLanguage.getCountryName()));
-
-		if (siteLanguages.isEmpty()) {
-			return null;
-		}
-
-		// A country can have several site languages (e.g. Spain has "ca-ES"
-		// and "es-ES"). Prefer the country's own language, where the language
-		// code mirrors the country code.
-
-		for (SiteLanguage siteLanguage : siteLanguages) {
-			String[] languageIdParts = StringUtil.split(
-				siteLanguage.getId(), '-');
-
-			if ((languageIdParts.length == 2) &&
-				StringUtil.equalsIgnoreCase(
-					languageIdParts[0], languageIdParts[1])) {
-
-				return siteLanguage;
-			}
-		}
-
-		return siteLanguages.get(0);
 	}
 
 	private String _getSupportRegion(Account account) {
@@ -631,9 +559,6 @@ public class AccountsRestController extends OneBaseRestController {
 
 	@Autowired
 	private PropertyService _propertyService;
-
-	@Autowired
-	private SiteLanguageService _siteLanguageService;
 
 	@Autowired
 	private TeamConverter _teamConverter;
