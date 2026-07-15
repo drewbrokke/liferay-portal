@@ -8,11 +8,9 @@ package com.liferay.one;
 import com.liferay.headless.admin.user.client.dto.v1_0.Account;
 import com.liferay.headless.admin.user.client.dto.v1_0.AccountBrief;
 import com.liferay.headless.admin.user.client.dto.v1_0.Organization;
-import com.liferay.headless.admin.user.client.dto.v1_0.PostalAddress;
 import com.liferay.headless.admin.user.client.dto.v1_0.RoleBrief;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.one.jira.constants.AccountConstants;
-import com.liferay.one.jira.constants.PostalAddressConstants;
 import com.liferay.one.jira.converter.AccountConverter;
 import com.liferay.one.jira.converter.ContactConverter;
 import com.liferay.one.jira.converter.EntitlementConverter;
@@ -66,7 +64,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
  * @author Jenny Chen
@@ -117,7 +114,7 @@ public class AccountsRestController extends OneBaseRestController {
 	}
 
 	@PostMapping("/sync-to-jsm")
-	public ResponseEntity<Void> postSyncToJSM() throws Exception {
+	public ResponseEntity<Void> postSyncToJSM() {
 		try {
 			List<Account> accounts = _accountService.getAllAccounts();
 
@@ -362,10 +359,6 @@ public class AccountsRestController extends OneBaseRestController {
 		}
 	}
 
-	private Boolean _getMailing(PostalAddress postalAddress) {
-		return null;
-	}
-
 	private String _getSupportRegion(Account account) {
 		try {
 			return _commerceOrderService.getSupportRegion(
@@ -390,8 +383,6 @@ public class AccountsRestController extends OneBaseRestController {
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_BUSINESS_EVENTS,
 			_toBusinessEventsFieldValue(account));
-
-		// TODO:
 
 		assetObject.setAttributeValue(
 			AccountConstants.ATTRIBUTE_NAME_LANGUAGE, _getLanguage(account));
@@ -445,7 +436,7 @@ public class AccountsRestController extends OneBaseRestController {
 				_postalAddressConverter,
 				ListUtil.fromArray(account.getPostalAddresses()),
 				postalAddress -> String.valueOf(postalAddress.getId()),
-				this::_toPostalAddressAssetObject));
+				_postalAddressConverter::toAssetObject));
 
 		_accountAssetService.upsertJSMAccount(
 			account.getExternalReferenceCode(), assetObject);
@@ -494,19 +485,6 @@ public class AccountsRestController extends OneBaseRestController {
 		}
 	}
 
-	private JiraAssetObject _toPostalAddressAssetObject(
-		PostalAddress postalAddress) {
-
-		JiraAssetObject jiraAssetObject = _postalAddressConverter.toAssetObject(
-			postalAddress);
-
-		jiraAssetObject.setAttributeValue(
-			PostalAddressConstants.ATTRIBUTE_NAME_MAILING,
-			_getMailing(postalAddress));
-
-		return jiraAssetObject;
-	}
-
 	private static final Log _log = LogFactory.getLog(
 		AccountsRestController.class);
 
@@ -547,9 +525,6 @@ public class AccountsRestController extends OneBaseRestController {
 
 	@Autowired
 	private ExternalLinkConverter _externalLinkConverter;
-
-	@Autowired
-	private HandlerExceptionResolver _handlerExceptionResolver;
 
 	@Autowired
 	private OrganizationService _organizationService;

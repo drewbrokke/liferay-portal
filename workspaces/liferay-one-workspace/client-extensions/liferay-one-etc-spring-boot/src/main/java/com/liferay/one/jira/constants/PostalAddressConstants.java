@@ -22,8 +22,6 @@ public interface PostalAddressConstants {
 
 	public static final String ATTRIBUTE_NAME_ID = "ID";
 
-	public static final String ATTRIBUTE_NAME_MAILING = "Mailing";
-
 	public static final String ATTRIBUTE_NAME_NAME = "Name";
 
 	public static final String ATTRIBUTE_NAME_POSTAL_CODE = "Postal Code";
