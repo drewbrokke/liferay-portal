@@ -11,31 +11,73 @@ import com.liferay.one.jira.model.JiraAssetObject;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
  * @author Amos Fong
+ * @author Drew Brokke
  */
 @Component
 public class AccountAssetService {
 
-	public String getAccountObjectKey(String externalKey) throws Exception {
-		List<JiraAssetObject> jiraAssetObjects =
-			_jiraAssetService.searchObjects(
-				_accountConverter.getAQLWithBuilder(
-					aqlBuilder -> aqlBuilder.andEquals(
-						externalKey, "External Key")),
-				_accountConverter::toJiraAssetObject);
+	public JiraAssetObject fetchAccountJiraAssetObjectByExternalKey(
+		String externalKey) {
 
-		if (jiraAssetObjects.isEmpty()) {
+		List<JiraAssetObject> objects = _jiraAssetService.searchObjects(
+			_accountConverter.getAQLWithBuilder(
+				aqlBuilder -> aqlBuilder.andEquals(
+					externalKey,
+					_accountConverter.getExternalKeyAttributeName())),
+			_accountConverter::toJiraAssetObject);
+
+		if (objects.isEmpty()) {
+			return null;
+		}
+
+		return objects.get(0);
+	}
+
+	public String getAccountObjectKey(String externalKey) throws Exception {
+		JiraAssetObject jiraAssetObject =
+			fetchAccountJiraAssetObjectByExternalKey(externalKey);
+
+		if (jiraAssetObject == null) {
 			throw new AccountNotFoundException();
 		}
 
-		JiraAssetObject jiraAssetObject = jiraAssetObjects.get(0);
-
 		return jiraAssetObject.getObjectKey();
 	}
+
+	public void upsertJSMAccount(String externalKey, JiraAssetObject payload) {
+		JiraAssetObject jiraAssetObject =
+			fetchAccountJiraAssetObjectByExternalKey(externalKey);
+
+		if (jiraAssetObject != null) {
+			if (_log.isInfoEnabled()) {
+				_log.info(
+					"Updating JSM account for external key " + externalKey);
+			}
+
+			_jiraAssetService.updateObject(
+				jiraAssetObject.getObjectId(), payload);
+		}
+		else {
+			if (_log.isInfoEnabled()) {
+				_log.info(
+					"Creating JSM account for external key " + externalKey);
+			}
+
+			_jiraAssetService.createObject(
+				_accountConverter.getObjectTypeId(), payload);
+		}
+	}
+
+	private static final Log _log = LogFactory.getLog(
+		AccountAssetService.class);
 
 	@Autowired
 	private AccountConverter _accountConverter;
