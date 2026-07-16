@@ -6,6 +6,7 @@
 package com.liferay.one;
 
 import com.liferay.one.jira.service.AccountAssetService;
+import com.liferay.one.jira.service.AccountSyncService;
 import com.liferay.one.permission.AccountPermission;
 import com.liferay.one.service.AccountService;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -70,6 +71,20 @@ public class AccountsRestController extends OneBaseRestController {
 			HttpStatus.OK);
 	}
 
+	@PostMapping("/{externalReferenceCode}/sync-to-jsm")
+	public ResponseEntity<Void> postSyncToJSM(
+			@AuthenticationPrincipal Jwt jwt,
+			@PathVariable("externalReferenceCode") String externalReferenceCode)
+		throws Exception {
+
+		_accountPermission.check(externalReferenceCode, ActionKeys.UPDATE, jwt);
+
+		_accountSyncService.syncAccount(
+			_accountService.getAccount(externalReferenceCode));
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	@PostMapping("/{externalReferenceCode}/user-accounts/{userId}")
 	public void postUserAccounts(
 			@AuthenticationPrincipal Jwt jwt,
@@ -104,5 +119,8 @@ public class AccountsRestController extends OneBaseRestController {
 
 	@Autowired
 	private AccountService _accountService;
+
+	@Autowired
+	private AccountSyncService _accountSyncService;
 
 }
