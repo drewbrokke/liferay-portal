@@ -22,13 +22,11 @@ import com.liferay.one.jira.exception.AccountNotFoundException;
 import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.model.JiraBusinessEvent;
 import com.liferay.one.model.AccountSupportInfo;
-import com.liferay.one.model.Entitlement;
 import com.liferay.one.model.EntitlementDefinition;
 import com.liferay.one.model.Project;
 import com.liferay.one.model.Property;
 import com.liferay.one.service.AccountService;
 import com.liferay.one.service.CommerceOrderService;
-import com.liferay.one.service.EntitlementDefinitionService;
 import com.liferay.one.service.EntitlementService;
 import com.liferay.one.service.OrganizationService;
 import com.liferay.one.service.ProjectService;
@@ -43,12 +41,9 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import org.apache.commons.logging.Log;
@@ -176,7 +171,9 @@ public class AccountSyncService {
 		).put(
 			AccountConstants.ATTRIBUTE_NAME_ENTITLEMENTS,
 			_assetReferenceObjectService.getOrCreateReferenceObjectIds(
-				_entitlementConverter, _getEntitlementDefinitions(account),
+				_entitlementConverter,
+				_entitlementService.getActiveEntitlementDefinitions(
+					account.getId()),
 				EntitlementDefinition::getDisplayName,
 				_entitlementConverter::toAssetObject)
 		).put(
@@ -258,37 +255,6 @@ public class AccountSyncService {
 		}
 
 		return accountUserAccountBucket;
-	}
-
-	private List<EntitlementDefinition> _getEntitlementDefinitions(
-			Account account)
-		throws Exception {
-
-		List<Entitlement> entitlements =
-			_entitlementService.getActiveEntitlements(account.getId());
-
-		Set<Long> entitlementDefinitionIds = new LinkedHashSet<>();
-
-		for (Entitlement entitlement : entitlements) {
-			long entitlementDefinitionId =
-				entitlement.getEntitlementDefinitionId();
-
-			if (entitlementDefinitionId > 0) {
-				entitlementDefinitionIds.add(entitlementDefinitionId);
-			}
-		}
-
-		if (entitlementDefinitionIds.isEmpty()) {
-			return Collections.emptyList();
-		}
-
-		List<String> statements = TransformUtil.transform(
-			entitlementDefinitionIds,
-			entitlementDefinitionId ->
-				"(id eq '" + entitlementDefinitionId + "')");
-
-		return _entitlementDefinitionService.getEntitlementDefinitions(
-			StringUtil.merge(statements, " or "));
 	}
 
 	private List<Property> _getExternalLinkProperties(Account account)
@@ -389,9 +355,6 @@ public class AccountSyncService {
 
 	@Autowired
 	private EntitlementConverter _entitlementConverter;
-
-	@Autowired
-	private EntitlementDefinitionService _entitlementDefinitionService;
 
 	@Autowired
 	private EntitlementService _entitlementService;
