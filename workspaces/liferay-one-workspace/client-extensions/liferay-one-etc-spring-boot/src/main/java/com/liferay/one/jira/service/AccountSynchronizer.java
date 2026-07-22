@@ -56,7 +56,7 @@ import org.springframework.stereotype.Component;
  * @author Drew Brokke
  */
 @Component
-public class AccountSyncService {
+public class AccountSynchronizer {
 
 	public void syncAccount(Account account) throws Exception {
 		if (_log.isInfoEnabled()) {
@@ -331,7 +331,8 @@ public class AccountSyncService {
 		return StringUtil.merge(parts, "\n\n");
 	}
 
-	private static final Log _log = LogFactory.getLog(AccountSyncService.class);
+	private static final Log _log = LogFactory.getLog(
+		AccountSynchronizer.class);
 
 	@Autowired
 	private AccountConverter _accountConverter;
