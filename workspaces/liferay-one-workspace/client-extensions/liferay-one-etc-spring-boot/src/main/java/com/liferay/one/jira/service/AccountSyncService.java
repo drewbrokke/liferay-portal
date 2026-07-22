@@ -34,7 +34,7 @@ import com.liferay.one.service.OrganizationService;
 import com.liferay.one.service.ProjectService;
 import com.liferay.one.service.PropertyService;
 import com.liferay.one.service.UserAccountService;
-import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.one.util.role.EmployeeRoles;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -441,56 +441,6 @@ public class AccountSyncService {
 		private final List<UserAccount> _customerUserAccounts =
 			new ArrayList<>();
 		private final List<UserAccount> _workerUserAccounts = new ArrayList<>();
-
-	}
-
-	private enum EmployeeRoles {
-
-		CUSTOMER_EXPERIENCE_MANAGER(
-			"C_CUSTOMER_EXPERIENCE_MANAGER", "Customer Experience Manager",
-			"account"),
-		LIFERAY_SALES("C_LIFERAY_SALES", "Liferay Sales", "account"),
-		PRIMARY_CONTACT("C_PRIMARY_CONTACT", "Primary Contact", "account"),
-		SECONDARY_CONTACT(
-			"C_SECONDARY_CONTACT", "Secondary Contact", "account"),
-		SOLUTION_ARCHITECT(
-			"C_SOLUTION_ARCHITECT", "Solution Architect", "account");
-
-		public static List<String> getNames() {
-			List<String> names = new ArrayList<>();
-
-			for (EmployeeRoles employeeRole : values()) {
-				names.add(employeeRole.getName());
-			}
-
-			return names;
-		}
-
-		@SuppressWarnings("unused")
-		public String getExternalReferenceCode() {
-			return _externalReferenceCode;
-		}
-
-		public String getName() {
-			return _name;
-		}
-
-		@SuppressWarnings("unused")
-		public String getRoleType() {
-			return _roleType;
-		}
-
-		private EmployeeRoles(
-			String externalReferenceCode, String name, String roleType) {
-
-			_externalReferenceCode = externalReferenceCode;
-			_name = name;
-			_roleType = roleType;
-		}
-
-		private final String _externalReferenceCode;
-		private final String _name;
-		private final String _roleType;
 
 	}
 
