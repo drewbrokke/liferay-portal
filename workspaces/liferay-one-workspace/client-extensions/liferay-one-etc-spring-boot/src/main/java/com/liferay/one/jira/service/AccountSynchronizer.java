@@ -33,6 +33,7 @@ import com.liferay.one.service.ProjectService;
 import com.liferay.one.service.PropertyService;
 import com.liferay.one.service.UserAccountService;
 import com.liferay.one.util.role.EmployeeRoles;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -65,12 +66,17 @@ public class AccountSynchronizer {
 					" to JSM");
 		}
 
+		List<UserAccount> accountUserAccounts =
+			_userAccountService.getAccountUserAccounts(account.getId());
+
 		Map<String, Object> attributeValues = _getAccountAttributeValues(
-			account);
+			account, accountUserAccounts);
 
 		_syncAccountAsset(
 			account, attributeValues, account.getExternalReferenceCode(),
 			account.getName());
+
+		_syncContactRoleAssignments(account, accountUserAccounts);
 
 		for (Project project : _projectService.getProjects(account.getId())) {
 			try {
@@ -107,7 +113,10 @@ public class AccountSynchronizer {
 			accountExternalReferenceCode);
 
 		_syncAccountAsset(
-			account, _getAccountAttributeValues(account),
+			account,
+			_getAccountAttributeValues(
+				account,
+				_userAccountService.getAccountUserAccounts(account.getId())),
 			project.getExternalReferenceCode(), project.getName());
 	}
 
@@ -143,11 +152,12 @@ public class AccountSynchronizer {
 		return _findFirst(Arrays.asList(arr), predicate);
 	}
 
-	private Map<String, Object> _getAccountAttributeValues(Account account)
+	private Map<String, Object> _getAccountAttributeValues(
+			Account account, List<UserAccount> accountUserAccounts)
 		throws Exception {
 
 		AccountUserAccountBucket accountUserAccountBucket =
-			_getAccountUserAccountBucket(account);
+			_getAccountUserAccountBucket(account, accountUserAccounts);
 
 		AccountSupportInfo accountSupportInfo =
 			_commerceOrderService.getAccountSupportInfo(
@@ -216,15 +226,12 @@ public class AccountSynchronizer {
 	}
 
 	private AccountUserAccountBucket _getAccountUserAccountBucket(
-			Account account)
-		throws Exception {
+		Account account, List<UserAccount> accountUserAccounts) {
 
 		AccountUserAccountBucket accountUserAccountBucket =
 			new AccountUserAccountBucket();
 
-		for (UserAccount accountUserAccount :
-				_userAccountService.getAccountUserAccounts(account.getId())) {
-
+		for (UserAccount accountUserAccount : accountUserAccounts) {
 			AccountBrief accountBrief = _findFirst(
 				Arrays.asList(accountUserAccount.getAccountBriefs()),
 				accountBrief1 -> Objects.equals(
@@ -289,6 +296,45 @@ public class AccountSynchronizer {
 		_assetObjectUpsertService.upsert(_accountConverter, assetObject);
 	}
 
+	private void _syncContactRoleAssignments(
+		Account account, List<UserAccount> accountUserAccounts) {
+
+		for (UserAccount accountUserAccount : accountUserAccounts) {
+			AccountBrief accountBrief = _findFirst(
+				Arrays.asList(accountUserAccount.getAccountBriefs()),
+				accountBrief1 -> Objects.equals(
+					account.getExternalReferenceCode(),
+					accountBrief1.getExternalReferenceCode()));
+
+			if (accountBrief == null) {
+				continue;
+			}
+
+			RoleBrief[] roleBriefs = accountBrief.getRoleBriefs();
+
+			if (roleBriefs == null) {
+				continue;
+			}
+
+			for (RoleBrief roleBrief : roleBriefs) {
+				try {
+					_accountContactRoleAssignmentSynchronizer.
+						syncAssignContactRole(
+							roleBrief.getExternalReferenceCode(),
+							accountUserAccount.getExternalReferenceCode(),
+							account.getExternalReferenceCode());
+				}
+				catch (Exception exception) {
+					_log.error(
+						StringBundler.concat(
+							"Unable to sync account contact role assignment ",
+							"for role ", roleBrief.getExternalReferenceCode()),
+						exception);
+				}
+			}
+		}
+	}
+
 	private String _toBusinessEventFieldValuePart(
 		JiraBusinessEvent jiraBusinessEvent) {
 
@@ -333,6 +379,10 @@ public class AccountSynchronizer {
 
 	private static final Log _log = LogFactory.getLog(
 		AccountSynchronizer.class);
+
+	@Autowired
+	private AccountContactRoleAssignmentSynchronizer
+		_accountContactRoleAssignmentSynchronizer;
 
 	@Autowired
 	private AccountConverter _accountConverter;

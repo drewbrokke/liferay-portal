@@ -24,6 +24,7 @@ import com.liferay.one.model.EntitlementDefinition;
 import com.liferay.one.model.Property;
 import com.liferay.one.service.EntitlementService;
 import com.liferay.one.service.PropertyService;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.ListUtil;
 
 import java.util.ArrayList;
@@ -91,6 +92,8 @@ public class UserAccountSynchronizer {
 				Phone::getPhoneNumber, _phoneConverter::toAssetObject));
 
 		_assetObjectUpsertService.upsert(_contactConverter, jiraAssetObject);
+
+		_syncContactRoleAssignments(userAccount, accountBriefs);
 	}
 
 	private List<EntitlementDefinition> _getEntitlementDefinitions(
@@ -151,8 +154,41 @@ public class UserAccountSynchronizer {
 			userAccountContactInformation.getTelephones());
 	}
 
+	private void _syncContactRoleAssignments(
+		UserAccount userAccount, List<AccountBrief> accountBriefs) {
+
+		for (AccountBrief accountBrief : accountBriefs) {
+			RoleBrief[] roleBriefs = accountBrief.getRoleBriefs();
+
+			if (roleBriefs == null) {
+				continue;
+			}
+
+			for (RoleBrief roleBrief : roleBriefs) {
+				try {
+					_accountContactRoleAssignmentSynchronizer.
+						syncAssignContactRole(
+							roleBrief.getExternalReferenceCode(),
+							userAccount.getExternalReferenceCode(),
+							accountBrief.getExternalReferenceCode());
+				}
+				catch (Exception exception) {
+					_log.error(
+						StringBundler.concat(
+							"Unable to sync account contact role assignment ",
+							"for role ", roleBrief.getExternalReferenceCode()),
+						exception);
+				}
+			}
+		}
+	}
+
 	private static final Log _log = LogFactory.getLog(
 		UserAccountSynchronizer.class);
+
+	@Autowired
+	private AccountContactRoleAssignmentSynchronizer
+		_accountContactRoleAssignmentSynchronizer;
 
 	@Autowired
 	private AccountConverter _accountConverter;
