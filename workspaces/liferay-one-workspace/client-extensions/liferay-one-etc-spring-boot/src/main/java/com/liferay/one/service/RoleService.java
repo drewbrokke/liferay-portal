@@ -27,6 +27,10 @@ public class RoleService extends OneBaseService {
 		return _getRoles(RoleConstants.TYPE_ACCOUNT);
 	}
 
+	public List<Role> getOrganizationRoles() throws Exception {
+		return _getRoles(RoleConstants.TYPE_ORGANIZATION);
+	}
+
 	private RoleResource _buildRoleResource() {
 		return RoleResource.builder(
 		).endpoint(

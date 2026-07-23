@@ -1,0 +1,111 @@
+Object Type	Attribute	Type	Options	Cardinality	Referenced Type	Data Source	Best Guess	On Miss (forge)
+Account	Name	Text		1..1		AccountConverter: Account.getName()
+Account	External Key	Text		0..1		AccountConverter: Account.getExternalReferenceCode()
+Account	Code	Text		0..1		AccountConverter: Account custom field "accountCode"
+Account	Contact Email Address	Email		0..1		AccountConverter: AccountContactInformation emailAddresses (primary, else first)
+Account	Fax Number	Text		0..1		AccountConverter: AccountContactInformation telephones (phoneType "fax", first)
+Account	Internal	Boolean		0..1		TBD (discussions still in progress about how internal accounts are handled)	Forge app (Koroneiki sync)
+Account	Language	Text		0..1		derived from postalAddress country https://github.com/liferay-one/liferay-portal-ee/blob/2e89911409f20665d23afd8c0fc403c0424a0f42/modules/dxp/apps/osb/osb-provisioning/osb-provisioning-distributed-messaging/src/main/java/com/liferay/osb/provisioning/distributed/messaging/internal/subscribing/OpportunityMessageSubscriber.java#L843	Forge app (Koroneiki sync)
+Account	Phone Number	Text		0..1		AccountConverter: AccountContactInformation telephones (non-fax; primary, else first)
+Account	Support Region	Select	Australia,Brazil,China,Global,Hungary,India,Japan,Spain,United States	0..1		derived from soldBy field https://github.com/liferay-one/liferay-portal-ee/blob/2e89911409f20665d23afd8c0fc403c0424a0f42/modules/dxp/apps/osb/osb-provisioning/osb-provisioning-distributed-messaging/src/main/java/com/liferay/osb/provisioning/distributed/messaging/internal/subscribing/OpportunityMessageSubscriber.java#L1572	Forge app (Koroneiki region; forge config still calls it "Region")
+Account	Status	Select	Active,Closed	0..1		AccountConverter: Account.getStatus() (0 -> Active, else Closed)
+Account	Tier	Select	T1,T2,T3,T4	0..1		AccountConverter: Account custom field "accountTier"
+Account	Website	Text		0..1		AccountConverter: AccountContactInformation webUrls (primary, else first)
+Account	Assigned Teams	Reference		0..2000	Team (Reference)	FLS assigned Orgnanizations	Account organizations -> resolveOrCreateObjectIds(TeamConverter)	Ignore (getObjectIds; missing keys drop out)
+Account	Entitlements	Reference		0..2000	Entitlement (Reference)	Entitlement object	Liferay EntitlementService -> resolveOrCreateObjectIds(EntitlementConverter)	Create (saveWithRetryAndGetIds)
+Account	External Links	Reference		0..2000	External Link (Reference)	External Link (Reference)	Forge app (Koroneiki sync); no Liferay source	Create (saveWithRetryAndGetIds)
+Account	Postal Addresses	Reference		0..2000	Postal Address (Reference)	ExamplesRestController (example): Account.getPostalAddresses() -> resolveOrCreateObjectIds(PostalAddressConverter)		Create (saveWithRetryAndGetIds)
+Account	Worker Contacts	Reference		0..2000	Contact (Reference)	Assigned users with a worker type Role	Account worker user accounts -> resolveOrCreateObjectIds(ContactConverter)	Ignore (getObjectIds; missing keys drop out)
+Account	External Created At	Text		0..1		AccountConverter: formatDate(Account.getDateCreated())
+Account	External Updated At	Text		0..1		AccountConverter: formatDate(Account.getDateModified())
+Account	Description	Textarea		0..1		AccountConverter: Account.getDescription()
+Account	Business Events	Textarea		0..1		Forge app / Business Events flow	Forge app / Business Events flow
+Account	Customer Contacts	Reference		0..2000	Contact (Reference)	AccountsRestController: UserAccountService.getAccountUserAccounts() -> resolveOrCreateObjectIds(ContactConverter)		Ignore (getObjectIds; missing keys drop out)
+Account Contact Role Assignment	Name	Text		1..1		AccountContactRoleAssignmentConverter: _getName() = "Contact Role;Contact;Account" external keys
+Account Contact Role Assignment	Contact Role	Reference		1..1	Contact Role (Reference)	ExamplesRestController (example): resolveObjectIdOrThrow(ContactRoleConverter)		Throw (getObjectOrThrow -> nack + Pub/Sub redelivery)
+Account Contact Role Assignment	Contact	Reference		1..1	Contact (Reference)	ExamplesRestController (example): resolveObjectIdOrThrow(ContactConverter)		Throw (getObjectOrThrow -> nack + Pub/Sub redelivery)
+Account Contact Role Assignment	Account	Reference		1..1	Account (Reference)	ExamplesRestController (example): resolveObjectIdOrThrow(AccountConverter)		Throw (getObjectOrThrow -> nack + Pub/Sub redelivery)
+Account Contact Role Assignment	Contact Role External Key	Text		0..1		AccountContactRoleAssignmentConverter: toAssetObject tuple parameter
+Account Contact Role Assignment	Contact External Key	Text		0..1		AccountContactRoleAssignmentConverter: toAssetObject tuple parameter
+Account Contact Role Assignment	Account External Key	Text		0..1		AccountContactRoleAssignmentConverter: toAssetObject tuple parameter
+Account Contact Role Assignment	Deleted	Boolean		0..1		AccountContactRoleAssignmentConverter: toAssetObject "deleted" parameter
+Account Contact Role Assignment	External Updated At	Text		0..1		Caller-set sync timestamp (forge uses message timestamp)	Caller-set sync timestamp (forge uses message timestamp)
+Account Team Role Assignment	Name	Text		1..1		AccountTeamRoleAssignmentConverter: _getName() = "Team Role;Team;Account" external keys
+Account Team Role Assignment	Team Role	Reference		1..1	Team Role (Reference)	Liferay Organization Role assignment	resolveObjectIdOrThrow(TeamRoleConverter) per ExamplesRestController pattern	Throw (getObjectOrThrow -> nack + Pub/Sub redelivery)
+Account Team Role Assignment	Team	Reference		1..1	Team (Reference)	Liferay Organization	resolveObjectIdOrThrow(TeamConverter) per ExamplesRestController pattern	Throw (getObjectOrThrow -> nack + Pub/Sub redelivery)
+Account Team Role Assignment	Account	Reference		1..1	Account (Reference)	Liferay Organization to AccountEntry relationship	resolveObjectIdOrThrow(AccountConverter) per ExamplesRestController pattern	Throw (getObjectOrThrow -> nack + Pub/Sub redelivery)
+Account Team Role Assignment	Team Role External Key	Text		0..1		AccountTeamRoleAssignmentConverter: toAssetObject tuple parameter
+Account Team Role Assignment	Team External Key	Text		0..1		AccountTeamRoleAssignmentConverter: toAssetObject tuple parameter
+Account Team Role Assignment	Account External Key	Text		0..1		AccountTeamRoleAssignmentConverter: toAssetObject tuple parameter
+Account Team Role Assignment	Deleted	Boolean		0..1		AccountTeamRoleAssignmentConverter: toAssetObject "deleted" parameter
+Account Team Role Assignment	External Updated At	Text		0..1		Caller-set sync timestamp (forge uses message timestamp)	Caller-set sync timestamp (forge uses message timestamp)
+Contact	Name	Text		1..1		ContactConverter: UserAccount.getName()
+Contact	Email Address	Email		0..1		ContactConverter: UserAccount.getEmailAddress()
+Contact	Email Address Verified	Boolean		0..1		UserAccount custom field "verified"	Forge app (Koroneiki sync)
+Contact	First Name	Text		0..1		ContactConverter: UserAccount.getGivenName()
+Contact	Last Name	Text		0..1		ContactConverter: UserAccount.getFamilyName()
+Contact	Middle Name	Text		0..1		ContactConverter: UserAccount.getAdditionalName()
+Contact	UUID	Text		0..1		UserAccount custom field "uuid_"	Forge app (Koroneiki contact.uuid)
+Contact	Language ID	Text		0..1		ContactConverter: UserAccount.getLanguageId()
+Contact	Account	Reference		0..2000	Account (Reference)	UserAccount.getAccountBriefs() -> resolveObjectId(AccountConverter)	UserAccount.getAccountBriefs() -> resolveObjectId(AccountConverter)	Ignore (getObjectIds; missing keys drop out)
+Contact	Contact Roles	Reference		0..2000	Contact Role (Reference)	Liferay account roles -> resolveOrCreateObjectIds(ContactRoleConverter)	Liferay account roles -> resolveOrCreateObjectIds(ContactRoleConverter)	Ignore (getObjectIds; missing keys drop out)
+Contact	Entitlements	Reference		0..2000	Entitlement (Reference)	Liferay EntitlementService -> resolveOrCreateObjectIds(EntitlementConverter)	Liferay EntitlementService -> resolveOrCreateObjectIds(EntitlementConverter)	Create (saveWithRetryAndGetIds)
+Contact	External Links	Reference		0..2000	External Link (Reference)	External Links are stored in Property (custom object)	Forge app (Koroneiki sync); no Liferay source	Create (saveWithRetryAndGetIds)
+Contact	Teams	Reference		0..2000	Team (Reference)	UserAccount organizations -> resolveOrCreateObjectIds(TeamConverter)	UserAccount organizations -> resolveOrCreateObjectIds(TeamConverter)	Ignore (getObjectIds; missing keys drop out)
+Contact	Phones	Reference		0..2000	Phone (Reference)	UserAccountContactInformation.getTelephones() -> resolveOrCreateObjectIds(PhoneConverter)	UserAccountContactInformation.getTelephones() -> resolveOrCreateObjectIds(PhoneConverter)	Ignore (getObjectIds; missing keys drop out) - saveAndGetPhoneIds is misnamed, never saves; likely forge bug
+Contact	External Created At	Text		0..1		ContactConverter: formatDate(UserAccount.getDateCreated())
+Contact	External Updated At	Text		0..1		ContactConverter: formatDate(UserAccount.getDateModified())
+Contact	External Key	Text		0..1		ContactConverter: UserAccount.getExternalReferenceCode()
+Contact Role	Name	Text		1..1		Liferay account role: name	Liferay account roles via future ContactRoleConverter.toAssetObject
+Contact Role	External Key	Text		0..1		Liferay account role: ERC	Liferay account role name/ERC via future ContactRoleConverter
+Contact Role	Description	Textarea		0..1		Liferay account role	Liferay account role description via future ContactRoleConverter
+Contact Role	System	Boolean		0..1		Liferay account role	Forge app (Koroneiki sync)
+Contact Role	Type	Select	Account Customer,Account Worker,Team	0..1		hardcode worker roles for now: https://liferay.slack.com/archives/C0AUG7NJQFR/p1783018443082539?thread_ts=1783013612.386569&cid=C0AUG7NJQFR	Forge app (Account Customer / Account Worker / Team)
+Contact Role	External Created At	Text		0..1		Liferay account role	Future ContactRoleConverter: formatDate(dateCreated)
+Contact Role	External Updated At	Text		0..1		Liferay account role	Future ContactRoleConverter: formatDate(dateModified)
+Entitlement	Name	Text		1..1		Liferay EntitlementService entitlement name via future EntitlementConverter.toAssetObject	Liferay EntitlementService entitlement name via future EntitlementConverter.toAssetObject
+Entitlement	Entitlement Definition Key	Text		0..1		Liferay EntitlementDefinitionService key (soft reference)	Liferay EntitlementDefinitionService key (soft reference)
+External Link	Name	Text		1..1		Property Custom Object: className	Forge app (Koroneiki entityName)
+External Link	External Key	Text		0..1		Property Custom Object: ERC	Forge app (Koroneiki key)
+External Link	Domain	Text		0..1		Property Custom Object: name {domain}:{entityName}	Forge app (Koroneiki sync); no Liferay source
+External Link	Entity Id	Text		0..1		Property Custom Object: value	Forge app (Koroneiki sync); no Liferay source
+External Link	Entity Name	Text		0..1		Property Custom Object: name {domain}:{entityName}	Forge app (Koroneiki sync); no Liferay source
+Phone	Name	Text		1..1		PhoneConverter: Phone.getPhoneNumber()
+Phone	Number	Text		0..1		PhoneConverter: Phone.getPhoneNumber()
+Phone	Primary	Boolean		0..1		PhoneConverter: Phone.getPrimary()
+Phone	Type	Select	Mobile,Other	0..1		PhoneConverter: Phone.getPhoneType() (contains "mobile" -> Mobile, else Other)
+Postal Address	Name	Text		1..1		PostalAddressConverter: street lines 1-3, locality, region, country, postal code joined ", "
+Postal Address	ID	Text		0..1		PostalAddressConverter: String.valueOf(PostalAddress.getId())
+Postal Address	Address Country	Text		0..1		PostalAddressConverter: PostalAddress.getAddressCountry()
+Postal Address	Address Locality	Text		0..1		PostalAddressConverter: PostalAddress.getAddressLocality()
+Postal Address	Address Region	Text		0..1		PostalAddressConverter: PostalAddress.getAddressRegion()
+Postal Address	Address Type	Text		0..1		PostalAddressConverter: PostalAddress.getAddressType()
+Postal Address	Mailing	Boolean		0..1		not available in PostalAddress rest API, can remove	No Liferay DTO field (forge maps Koroneiki mailing)
+Postal Address	Postal Code	Text		0..1		PostalAddressConverter: PostalAddress.getPostalCode()
+Postal Address	Primary	Boolean		0..1		PostalAddressConverter: PostalAddress.getPrimary()
+Postal Address	Street Address Line 1	Text		0..1		PostalAddressConverter: PostalAddress.getStreetAddressLine1()
+Postal Address	Street Address Line 2	Text		0..1		PostalAddressConverter: PostalAddress.getStreetAddressLine2()
+Postal Address	Street Address Line 3	Text		0..1		PostalAddressConverter: PostalAddress.getStreetAddressLine3()
+Team	Name	Text		1..1		TeamConverter: Organization.getName()
+Team	External Key	Text		0..1		TeamConverter: Organization.getExternalReferenceCode()
+Team	Account	Reference		0..1	Account (Reference)	ExamplesRestController (example): resolveObjectIdOrThrow(AccountConverter)		Throw (getObjectOrThrow -> nack + Pub/Sub redelivery)
+Team	External Links	Reference		0..2000	External Link (Reference)	ExternalLinks are now Properties (custom object)	Forge app (Koroneiki sync); no Liferay source	Create (saveWithRetryAndGetIds)
+Team	Team Roles	Reference		0..2000	Team Role (Reference)	Liferay organization roles	Liferay organization roles -> resolveOrCreateObjectIds(TeamRoleConverter)	Ignore (getObjectIds; missing keys drop out)
+Team	Contacts	Reference		0..2000	Contact (Reference)	Liferay organization users	Organization user accounts -> resolveOrCreateObjectIds(ContactConverter)	Ignore (getObjectIds; missing keys drop out)
+Team	External Created At	Text		0..1		TeamConverter: formatDate(Organization.getDateCreated())
+Team	External Updated At	Text		0..1		TeamConverter: formatDate(Organization.getDateModified())
+Team Contact Role Assignment	Name	Text		1..1		TeamContactRoleAssignmentConverter: _getName() = "Contact Role;Contact;Team" external keys
+Team Contact Role Assignment	Team	Reference		1..1	Team (Reference)	Liferay Organization	resolveObjectIdOrThrow(TeamConverter) per ExamplesRestController pattern	Throw (getObjectOrThrow -> nack + Pub/Sub redelivery)
+Team Contact Role Assignment	Contact	Reference		1..1	Contact (Reference)	User Account	resolveObjectIdOrThrow(ContactConverter) per ExamplesRestController pattern	Throw (getObjectOrThrow -> nack + Pub/Sub redelivery)
+Team Contact Role Assignment	Contact Role	Reference		1..1	Contact Role (Reference)	Organization Role	resolveObjectIdOrThrow(ContactRoleConverter) per ExamplesRestController pattern	Throw (getObjectOrThrow -> nack + Pub/Sub redelivery)
+Team Contact Role Assignment	Contact Role External Key	Text		0..1		TeamContactRoleAssignmentConverter: toAssetObject tuple parameter
+Team Contact Role Assignment	Contact External Key	Text		0..1		TeamContactRoleAssignmentConverter: toAssetObject tuple parameter
+Team Contact Role Assignment	Team External Key	Text		0..1		TeamContactRoleAssignmentConverter: toAssetObject tuple parameter
+Team Contact Role Assignment	Deleted	Boolean		0..1		TeamContactRoleAssignmentConverter: toAssetObject "deleted" parameter
+Team Contact Role Assignment	External Updated At	Text		0..1		Caller-set sync timestamp (forge uses message timestamp)	Caller-set sync timestamp (forge uses message timestamp)
+Team Role	Name	Text		1..1		Liferay Organization Role name	Liferay organization roles via future TeamRoleConverter.toAssetObject
+Team Role	External Key	Text		0..1		Liferay Organization Role ERC	Liferay organization role name/ERC via future TeamRoleConverter
+Team Role	Description	Textarea		0..1		Liferay Organization Role	Liferay organization role description via future TeamRoleConverter
+Team Role	Type	Select	Account,Regular	0..1		Liferay Organization Role type	Forge app (Account / Regular)
+Team Role	External Created At	Text		0..1		Liferay organization createdDate	Future TeamRoleConverter: formatDate(dateCreated)
+Team Role	External Updated At	Text		0..1		Liferay organization modifiedDate	Future TeamRoleConverter: formatDate(dateModified)

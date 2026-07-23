@@ -7,6 +7,7 @@ package com.liferay.one.service;
 
 import com.liferay.one.model.Property;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.User;
 
 import java.util.List;
@@ -61,6 +62,15 @@ public class PropertyService extends OneBaseService {
 			StringBundler.concat(
 				"(r_accountEntryToProperty_accountEntryId eq '", accountId,
 				"') and (name eq '", name, "')"));
+	}
+
+	public List<Property> getOrganizationProperties(long organizationId)
+		throws Exception {
+
+		return getProperties(
+			StringBundler.concat(
+				"(className eq '", Organization.class.getName(),
+				"') and (classPK eq ", organizationId, ")"));
 	}
 
 	public List<Property> getProperties(String filterString) throws Exception {

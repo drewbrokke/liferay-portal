@@ -43,8 +43,18 @@ liferay-one-etc-spring-boot-object-action-commerce-order-item-update:
     oAuth2ApplicationExternalReferenceCode: liferay-one-etc-spring-boot-oaua
     resourcePath: /object/action/commerce/order/item/update
     type: objectAction
+liferay-one-etc-spring-boot-object-action-organization-update:
+    name: Liferay One Etc Spring Boot Object Action Organization Update
+    oAuth2ApplicationExternalReferenceCode: liferay-one-etc-spring-boot-oaua
+    resourcePath: /object/action/organization/update
+    type: objectAction
 liferay-one-etc-spring-boot-object-action-user-delete:
     name: Liferay One Etc Spring Boot Object Action User Delete
     oAuth2ApplicationExternalReferenceCode: liferay-one-etc-spring-boot-oaua
     resourcePath: /object/action/user/delete
+    type: objectAction
+liferay-one-etc-spring-boot-object-action-user-update:
+    name: Liferay One Etc Spring Boot Object Action User Update
+    oAuth2ApplicationExternalReferenceCode: liferay-one-etc-spring-boot-oaua
+    resourcePath: /object/action/user/update
     type: objectAction
