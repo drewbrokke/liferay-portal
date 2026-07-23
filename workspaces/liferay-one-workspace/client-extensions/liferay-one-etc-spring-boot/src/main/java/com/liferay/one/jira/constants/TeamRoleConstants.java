@@ -24,6 +24,10 @@ public interface TeamRoleConstants {
 
 	public static final String ATTRIBUTE_NAME_TYPE = "Type";
 
+	public static final String EXTERNAL_KEY_FIRST_LINE_SUPPORT = "KOR-594575";
+
+	public static final String NAME_FIRST_LINE_SUPPORT = "First Line Support";
+
 	public static final String OBJECT_TYPE_NAME = "Team Role";
 
 }

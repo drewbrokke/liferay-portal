@@ -7,9 +7,9 @@ package com.liferay.one.jira.service;
 
 import com.liferay.headless.admin.user.client.dto.v1_0.AccountBrief;
 import com.liferay.headless.admin.user.client.dto.v1_0.Organization;
-import com.liferay.headless.admin.user.client.dto.v1_0.RoleBrief;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.one.jira.constants.TeamConstants;
+import com.liferay.one.jira.constants.TeamRoleConstants;
 import com.liferay.one.jira.converter.AccountConverter;
 import com.liferay.one.jira.converter.ContactConverter;
 import com.liferay.one.jira.converter.ExternalLinkConverter;
@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.ListUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,12 +63,21 @@ public class OrganizationSynchronizer {
 					accountBrief.getExternalReferenceCode()));
 		}
 
+		List<String> teamRoleObjectIds = Collections.emptyList();
+
+		if (!accountBriefs.isEmpty()) {
+			teamRoleObjectIds =
+				_assetReferenceObjectService.getOrCreateReferenceObjectIds(
+					_teamRoleConverter,
+					Collections.singletonList(
+						TeamRoleConstants.EXTERNAL_KEY_FIRST_LINE_SUPPORT),
+					Function.identity(),
+					externalKey ->
+						_teamRoleConverter.toFirstLineSupportAssetObject());
+		}
+
 		jiraAssetObject.setAttributeValue(
-			TeamConstants.ATTRIBUTE_NAME_TEAM_ROLES,
-			_assetReferenceObjectService.getOrCreateReferenceObjectIds(
-				_teamRoleConverter, _getRoleBriefs(accountBriefs),
-				RoleBrief::getExternalReferenceCode,
-				_teamRoleConverter::toAssetObject));
+			TeamConstants.ATTRIBUTE_NAME_TEAM_ROLES, teamRoleObjectIds);
 		jiraAssetObject.setAttributeValue(
 			TeamConstants.ATTRIBUTE_NAME_EXTERNAL_LINKS,
 			_assetReferenceObjectService.getOrCreateReferenceObjectIds(
@@ -85,7 +95,7 @@ public class OrganizationSynchronizer {
 
 		_assetObjectUpsertService.upsert(_teamConverter, jiraAssetObject);
 
-		_syncTeamRoleAssignments(organization, accountBriefs);
+		_syncOrganizationAssignments(organization, accountBriefs);
 	}
 
 	private List<Property> _getExternalLinkProperties(Organization organization)
@@ -105,44 +115,21 @@ public class OrganizationSynchronizer {
 		return externalLinkProperties;
 	}
 
-	private List<RoleBrief> _getRoleBriefs(List<AccountBrief> accountBriefs) {
-		List<RoleBrief> roleBriefs = new ArrayList<>();
-
-		for (AccountBrief accountBrief : accountBriefs) {
-			RoleBrief[] accountRoleBriefs = accountBrief.getRoleBriefs();
-
-			if (accountRoleBriefs != null) {
-				Collections.addAll(roleBriefs, accountRoleBriefs);
-			}
-		}
-
-		return roleBriefs;
-	}
-
-	private void _syncTeamRoleAssignments(
+	private void _syncOrganizationAssignments(
 		Organization organization, List<AccountBrief> accountBriefs) {
 
 		for (AccountBrief accountBrief : accountBriefs) {
-			RoleBrief[] roleBriefs = accountBrief.getRoleBriefs();
-
-			if (roleBriefs == null) {
-				continue;
+			try {
+				_accountOrganizationSynchronizer.syncAssignOrganization(
+					organization.getExternalReferenceCode(),
+					accountBrief.getExternalReferenceCode());
 			}
-
-			for (RoleBrief roleBrief : roleBriefs) {
-				try {
-					_accountTeamRoleAssignmentSynchronizer.syncAssignTeamRole(
-						roleBrief.getExternalReferenceCode(),
-						organization.getExternalReferenceCode(),
-						accountBrief.getExternalReferenceCode());
-				}
-				catch (Exception exception) {
-					_log.error(
-						StringBundler.concat(
-							"Unable to sync account team role assignment for ",
-							"role ", roleBrief.getExternalReferenceCode()),
-						exception);
-				}
+			catch (Exception exception) {
+				_log.error(
+					StringBundler.concat(
+						"Unable to sync account organization assignment for ",
+						"account ", accountBrief.getExternalReferenceCode()),
+					exception);
 			}
 		}
 	}
@@ -154,8 +141,7 @@ public class OrganizationSynchronizer {
 	private AccountConverter _accountConverter;
 
 	@Autowired
-	private AccountTeamRoleAssignmentSynchronizer
-		_accountTeamRoleAssignmentSynchronizer;
+	private AccountOrganizationSynchronizer _accountOrganizationSynchronizer;
 
 	@Autowired
 	private AssetObjectUpsertService _assetObjectUpsertService;

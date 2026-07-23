@@ -9,8 +9,8 @@ import com.liferay.headless.admin.user.client.dto.v1_0.Account;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.one.constants.EntitlementConstants;
 import com.liferay.one.jira.service.AccountAssetService;
-import com.liferay.one.jira.service.AccountContactRoleAssignmentSynchronizer;
 import com.liferay.one.jira.service.AccountSynchronizer;
+import com.liferay.one.jira.service.AccountUserAccountRoleSynchronizer;
 import com.liferay.one.okta.service.OktaService;
 import com.liferay.one.permission.AccountPermission;
 import com.liferay.one.service.AccountService;
@@ -286,7 +286,7 @@ public class AccountsRestController extends OneBaseRestController {
 			UserAccount userAccount = _userAccountService.getUserAccount(
 				userId);
 
-			_accountContactRoleAssignmentSynchronizer.syncAssignContactRole(
+			_accountUserAccountRoleSynchronizer.syncAssignRole(
 				accountRoleExternalReferenceCode,
 				userAccount.getExternalReferenceCode(),
 				account.getExternalReferenceCode());
@@ -374,7 +374,7 @@ public class AccountsRestController extends OneBaseRestController {
 			UserAccount userAccount = _userAccountService.getUserAccount(
 				userId);
 
-			_accountContactRoleAssignmentSynchronizer.syncUnassignContactRole(
+			_accountUserAccountRoleSynchronizer.syncUnassignRole(
 				accountRoleExternalReferenceCode,
 				userAccount.getExternalReferenceCode(),
 				account.getExternalReferenceCode());
@@ -394,10 +394,6 @@ public class AccountsRestController extends OneBaseRestController {
 	private AccountAssetService _accountAssetService;
 
 	@Autowired
-	private AccountContactRoleAssignmentSynchronizer
-		_accountContactRoleAssignmentSynchronizer;
-
-	@Autowired
 	private AccountPermission _accountPermission;
 
 	@Autowired
@@ -405,6 +401,10 @@ public class AccountsRestController extends OneBaseRestController {
 
 	@Autowired
 	private AccountSynchronizer _accountSynchronizer;
+
+	@Autowired
+	private AccountUserAccountRoleSynchronizer
+		_accountUserAccountRoleSynchronizer;
 
 	@Autowired
 	private EmailAddressValidatorService _emailAddressValidatorService;

@@ -25,55 +25,53 @@ import org.springframework.stereotype.Component;
  * @author Drew Brokke
  */
 @Component
-public class AccountContactRoleAssignmentSynchronizer {
+public class AccountUserAccountRoleSynchronizer {
 
-	public void syncAssignContactRole(
-			String contactRoleExternalKey, String contactExternalKey,
+	public void syncAssignRole(
+			String roleExternalKey, String userAccountExternalKey,
 			String accountExternalKey)
 		throws Exception {
 
 		_syncAssignment(
-			contactRoleExternalKey, contactExternalKey, accountExternalKey,
-			false);
+			roleExternalKey, userAccountExternalKey, accountExternalKey, false);
 	}
 
-	public void syncUnassignContactRole(
-			String contactRoleExternalKey, String contactExternalKey,
+	public void syncUnassignRole(
+			String roleExternalKey, String userAccountExternalKey,
 			String accountExternalKey)
 		throws Exception {
 
 		_syncAssignment(
-			contactRoleExternalKey, contactExternalKey, accountExternalKey,
-			true);
+			roleExternalKey, userAccountExternalKey, accountExternalKey, true);
 	}
 
 	private void _syncAssignment(
-			String contactRoleExternalKey, String contactExternalKey,
+			String roleExternalKey, String userAccountExternalKey,
 			String accountExternalKey, boolean deleted)
 		throws Exception {
 
 		if (_log.isInfoEnabled()) {
 			_log.info(
 				StringBundler.concat(
-					deleted ? "Unassigning" : "Assigning",
-					" account contact role ", contactRoleExternalKey,
-					" for contact ", contactExternalKey, " on account ",
+					deleted ? "Unassigning" : "Assigning", " role ",
+					roleExternalKey, " for user account ",
+					userAccountExternalKey, " on account ",
 					accountExternalKey));
 		}
 
 		JiraAssetObject jiraAssetObject =
 			_accountContactRoleAssignmentConverter.toAssetObject(
-				contactRoleExternalKey, contactExternalKey, accountExternalKey,
+				roleExternalKey, userAccountExternalKey, accountExternalKey,
 				deleted, new Date());
 
 		jiraAssetObject.setAttributeValue(
 			AccountContactRoleAssignmentConstants.ATTRIBUTE_NAME_CONTACT_ROLE,
 			_assetReferenceObjectService.getReferenceObjectId(
-				_contactRoleConverter, contactRoleExternalKey));
+				_contactRoleConverter, roleExternalKey));
 		jiraAssetObject.setAttributeValue(
 			AccountContactRoleAssignmentConstants.ATTRIBUTE_NAME_CONTACT,
 			_assetReferenceObjectService.getReferenceObjectId(
-				_contactConverter, contactExternalKey));
+				_contactConverter, userAccountExternalKey));
 		jiraAssetObject.setAttributeValue(
 			AccountContactRoleAssignmentConstants.ATTRIBUTE_NAME_ACCOUNT,
 			_assetReferenceObjectService.getReferenceObjectId(
@@ -84,7 +82,7 @@ public class AccountContactRoleAssignmentSynchronizer {
 	}
 
 	private static final Log _log = LogFactory.getLog(
-		AccountContactRoleAssignmentSynchronizer.class);
+		AccountUserAccountRoleSynchronizer.class);
 
 	@Autowired
 	private AccountContactRoleAssignmentConverter

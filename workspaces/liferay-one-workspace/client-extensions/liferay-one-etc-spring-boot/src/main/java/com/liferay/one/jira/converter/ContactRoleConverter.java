@@ -11,6 +11,7 @@ import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.util.role.EmployeeRoles;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -55,6 +56,10 @@ public class ContactRoleConverter extends BaseJiraAssetObjectConverter {
 	}
 
 	private String _getType(Role role) {
+		if (Objects.equals(role.getRoleType(), "organization")) {
+			return "Team";
+		}
+
 		if (_employeeRoleNames.contains(role.getName())) {
 			return "Account Worker";
 		}

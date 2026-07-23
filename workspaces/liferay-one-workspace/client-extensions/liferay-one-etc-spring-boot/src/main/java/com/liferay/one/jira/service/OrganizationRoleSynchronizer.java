@@ -6,7 +6,7 @@
 package com.liferay.one.jira.service;
 
 import com.liferay.headless.admin.user.client.dto.v1_0.Role;
-import com.liferay.one.jira.converter.TeamRoleConverter;
+import com.liferay.one.jira.converter.ContactRoleConverter;
 import com.liferay.one.service.RoleService;
 
 import java.util.List;
@@ -51,11 +51,12 @@ public class OrganizationRoleSynchronizer {
 		for (Role role : roles) {
 			try {
 				_assetObjectUpsertService.upsert(
-					_teamRoleConverter, _teamRoleConverter.toAssetObject(role),
+					_contactRoleConverter,
+					_contactRoleConverter.toAssetObject(role),
 					(existingJiraAssetObject, jiraAssetObject) ->
 						_assetObjectUpsertService.
 							isUnchangedByExternalUpdatedAt(
-								_teamRoleConverter, existingJiraAssetObject,
+								_contactRoleConverter, existingJiraAssetObject,
 								jiraAssetObject));
 			}
 			catch (Exception exception) {
@@ -74,9 +75,9 @@ public class OrganizationRoleSynchronizer {
 	private AssetObjectUpsertService _assetObjectUpsertService;
 
 	@Autowired
-	private RoleService _roleService;
+	private ContactRoleConverter _contactRoleConverter;
 
 	@Autowired
-	private TeamRoleConverter _teamRoleConverter;
+	private RoleService _roleService;
 
 }

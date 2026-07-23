@@ -5,8 +5,6 @@
 
 package com.liferay.one.jira.converter;
 
-import com.liferay.headless.admin.user.client.dto.v1_0.Role;
-import com.liferay.headless.admin.user.client.dto.v1_0.RoleBrief;
 import com.liferay.one.jira.constants.TeamRoleConstants;
 import com.liferay.one.jira.model.JiraAssetObject;
 
@@ -24,43 +22,17 @@ public class TeamRoleConverter extends BaseJiraAssetObjectConverter {
 		return TeamRoleConstants.OBJECT_TYPE_NAME;
 	}
 
-	public JiraAssetObject toAssetObject(Role role) {
+	public JiraAssetObject toFirstLineSupportAssetObject() {
 		JiraAssetObject jiraAssetObject = createJiraAssetObject();
 
 		jiraAssetObject.setAttributeValue(
 			TeamRoleConstants.ATTRIBUTE_NAME_EXTERNAL_KEY,
-			role.getExternalReferenceCode());
+			TeamRoleConstants.EXTERNAL_KEY_FIRST_LINE_SUPPORT);
 		jiraAssetObject.setAttributeValue(
-			TeamRoleConstants.ATTRIBUTE_NAME_NAME, role.getName());
+			TeamRoleConstants.ATTRIBUTE_NAME_NAME,
+			TeamRoleConstants.NAME_FIRST_LINE_SUPPORT);
 		jiraAssetObject.setAttributeValue(
-			TeamRoleConstants.ATTRIBUTE_NAME_DESCRIPTION,
-			role.getDescription());
-		jiraAssetObject.setAttributeValue(
-			TeamRoleConstants.ATTRIBUTE_NAME_EXTERNAL_CREATED_AT,
-			formatDate(role.getDateCreated()));
-		jiraAssetObject.setAttributeValue(
-			TeamRoleConstants.ATTRIBUTE_NAME_EXTERNAL_UPDATED_AT,
-			formatDate(role.getDateModified()));
-
-		return jiraAssetObject;
-	}
-
-	/**
-	 * Builds a sparse asset object from a {@link RoleBrief}, used only as the
-	 * create fallback when a Team's Team Roles reference doesn't resolve yet.
-	 * A RoleBrief carries no description or dates; those get backfilled the
-	 * next time {@link
-	 * com.liferay.one.jira.service.OrganizationRoleSynchronizer} syncs the
-	 * full catalog.
-	 */
-	public JiraAssetObject toAssetObject(RoleBrief roleBrief) {
-		JiraAssetObject jiraAssetObject = createJiraAssetObject();
-
-		jiraAssetObject.setAttributeValue(
-			TeamRoleConstants.ATTRIBUTE_NAME_EXTERNAL_KEY,
-			roleBrief.getExternalReferenceCode());
-		jiraAssetObject.setAttributeValue(
-			TeamRoleConstants.ATTRIBUTE_NAME_NAME, roleBrief.getName());
+			TeamRoleConstants.ATTRIBUTE_NAME_TYPE, "Account");
 
 		return jiraAssetObject;
 	}

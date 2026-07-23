@@ -52,9 +52,16 @@ public class UserAccountSynchronizer {
 
 		List<AccountBrief> accountBriefs = ListUtil.fromArray(
 			userAccount.getAccountBriefs());
+		List<OrganizationBrief> organizationBriefs = ListUtil.fromArray(
+			userAccount.getOrganizationBriefs());
 
 		JiraAssetObject jiraAssetObject = _contactConverter.toAssetObject(
 			userAccount);
+
+		List<RoleBrief> roleBriefs = new ArrayList<>(
+			_getAccountRoleBriefs(accountBriefs));
+
+		roleBriefs.addAll(_getOrganizationRoleBriefs(organizationBriefs));
 
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_ACCOUNT,
@@ -64,7 +71,7 @@ public class UserAccountSynchronizer {
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_CONTACT_ROLES,
 			_assetReferenceObjectService.fetchReferenceObjectIds(
-				_contactRoleConverter, _getRoleBriefs(accountBriefs),
+				_contactRoleConverter, roleBriefs,
 				RoleBrief::getExternalReferenceCode));
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_ENTITLEMENTS,
@@ -82,8 +89,7 @@ public class UserAccountSynchronizer {
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_TEAMS,
 			_assetReferenceObjectService.fetchReferenceObjectIds(
-				_teamConverter,
-				ListUtil.fromArray(userAccount.getOrganizationBriefs()),
+				_teamConverter, organizationBriefs,
 				OrganizationBrief::getExternalReferenceCode));
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_PHONES,
@@ -94,6 +100,23 @@ public class UserAccountSynchronizer {
 		_assetObjectUpsertService.upsert(_contactConverter, jiraAssetObject);
 
 		_syncContactRoleAssignments(userAccount, accountBriefs);
+		_syncOrganizationRoleAssignments(userAccount, organizationBriefs);
+	}
+
+	private List<RoleBrief> _getAccountRoleBriefs(
+		List<AccountBrief> accountBriefs) {
+
+		List<RoleBrief> roleBriefs = new ArrayList<>();
+
+		for (AccountBrief accountBrief : accountBriefs) {
+			RoleBrief[] accountRoleBriefs = accountBrief.getRoleBriefs();
+
+			if (accountRoleBriefs != null) {
+				Collections.addAll(roleBriefs, accountRoleBriefs);
+			}
+		}
+
+		return roleBriefs;
 	}
 
 	private List<EntitlementDefinition> _getEntitlementDefinitions(
@@ -128,14 +151,17 @@ public class UserAccountSynchronizer {
 		return externalLinkProperties;
 	}
 
-	private List<RoleBrief> _getRoleBriefs(List<AccountBrief> accountBriefs) {
+	private List<RoleBrief> _getOrganizationRoleBriefs(
+		List<OrganizationBrief> organizationBriefs) {
+
 		List<RoleBrief> roleBriefs = new ArrayList<>();
 
-		for (AccountBrief accountBrief : accountBriefs) {
-			RoleBrief[] accountRoleBriefs = accountBrief.getRoleBriefs();
+		for (OrganizationBrief organizationBrief : organizationBriefs) {
+			RoleBrief[] organizationRoleBriefs =
+				organizationBrief.getRoleBriefs();
 
-			if (accountRoleBriefs != null) {
-				Collections.addAll(roleBriefs, accountRoleBriefs);
+			if (organizationRoleBriefs != null) {
+				Collections.addAll(roleBriefs, organizationRoleBriefs);
 			}
 		}
 
@@ -166,11 +192,10 @@ public class UserAccountSynchronizer {
 
 			for (RoleBrief roleBrief : roleBriefs) {
 				try {
-					_accountContactRoleAssignmentSynchronizer.
-						syncAssignContactRole(
-							roleBrief.getExternalReferenceCode(),
-							userAccount.getExternalReferenceCode(),
-							accountBrief.getExternalReferenceCode());
+					_accountUserAccountRoleSynchronizer.syncAssignRole(
+						roleBrief.getExternalReferenceCode(),
+						userAccount.getExternalReferenceCode(),
+						accountBrief.getExternalReferenceCode());
 				}
 				catch (Exception exception) {
 					_log.error(
@@ -183,15 +208,44 @@ public class UserAccountSynchronizer {
 		}
 	}
 
+	private void _syncOrganizationRoleAssignments(
+		UserAccount userAccount, List<OrganizationBrief> organizationBriefs) {
+
+		for (OrganizationBrief organizationBrief : organizationBriefs) {
+			RoleBrief[] roleBriefs = organizationBrief.getRoleBriefs();
+
+			if (roleBriefs == null) {
+				continue;
+			}
+
+			for (RoleBrief roleBrief : roleBriefs) {
+				try {
+					_organizationUserAccountRoleSynchronizer.syncAssignRole(
+						roleBrief.getExternalReferenceCode(),
+						userAccount.getExternalReferenceCode(),
+						organizationBrief.getExternalReferenceCode());
+				}
+				catch (Exception exception) {
+					_log.error(
+						StringBundler.concat(
+							"Unable to sync organization contact role ",
+							"assignment for role ",
+							roleBrief.getExternalReferenceCode()),
+						exception);
+				}
+			}
+		}
+	}
+
 	private static final Log _log = LogFactory.getLog(
 		UserAccountSynchronizer.class);
 
 	@Autowired
-	private AccountContactRoleAssignmentSynchronizer
-		_accountContactRoleAssignmentSynchronizer;
+	private AccountConverter _accountConverter;
 
 	@Autowired
-	private AccountConverter _accountConverter;
+	private AccountUserAccountRoleSynchronizer
+		_accountUserAccountRoleSynchronizer;
 
 	@Autowired
 	private AssetObjectUpsertService _assetObjectUpsertService;
@@ -213,6 +267,10 @@ public class UserAccountSynchronizer {
 
 	@Autowired
 	private ExternalLinkConverter _externalLinkConverter;
+
+	@Autowired
+	private OrganizationUserAccountRoleSynchronizer
+		_organizationUserAccountRoleSynchronizer;
 
 	@Autowired
 	private PhoneConverter _phoneConverter;

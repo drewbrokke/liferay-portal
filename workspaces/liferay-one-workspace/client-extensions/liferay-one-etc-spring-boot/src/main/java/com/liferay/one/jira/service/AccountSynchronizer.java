@@ -9,6 +9,7 @@ import com.liferay.headless.admin.user.client.dto.v1_0.Account;
 import com.liferay.headless.admin.user.client.dto.v1_0.AccountBrief;
 import com.liferay.headless.admin.user.client.dto.v1_0.AccountContactInformation;
 import com.liferay.headless.admin.user.client.dto.v1_0.Organization;
+import com.liferay.headless.admin.user.client.dto.v1_0.Role;
 import com.liferay.headless.admin.user.client.dto.v1_0.RoleBrief;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.one.jira.constants.AccountConstants;
@@ -24,13 +25,16 @@ import com.liferay.one.jira.model.JiraBusinessEvent;
 import com.liferay.one.model.AccountSupportInfo;
 import com.liferay.one.model.EntitlementDefinition;
 import com.liferay.one.model.Project;
+import com.liferay.one.model.ProjectMembership;
 import com.liferay.one.model.Property;
 import com.liferay.one.service.AccountService;
 import com.liferay.one.service.CommerceOrderService;
 import com.liferay.one.service.EntitlementService;
 import com.liferay.one.service.OrganizationService;
+import com.liferay.one.service.ProjectMembershipService;
 import com.liferay.one.service.ProjectService;
 import com.liferay.one.service.PropertyService;
+import com.liferay.one.service.RoleService;
 import com.liferay.one.service.UserAccountService;
 import com.liferay.one.util.role.EmployeeRoles;
 import com.liferay.petra.string.StringBundler;
@@ -42,6 +46,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -78,11 +83,19 @@ public class AccountSynchronizer {
 
 		_syncContactRoleAssignments(account, accountUserAccounts);
 
+		Map<String, Role> accountRolesByExternalReferenceCode =
+			_getAccountRolesByExternalReferenceCode();
+
 		for (Project project : _projectService.getProjects(account.getId())) {
 			try {
 				_syncAccountAsset(
-					account, attributeValues,
+					account,
+					_getProjectAttributeValues(
+						project, attributeValues,
+						accountRolesByExternalReferenceCode),
 					project.getExternalReferenceCode(), project.getName());
+
+				_syncProjectMemberships(project);
 			}
 			catch (Exception exception) {
 				_log.error(
@@ -114,10 +127,16 @@ public class AccountSynchronizer {
 
 		_syncAccountAsset(
 			account,
-			_getAccountAttributeValues(
-				account,
-				_userAccountService.getAccountUserAccounts(account.getId())),
+			_getProjectAttributeValues(
+				project,
+				_getAccountAttributeValues(
+					account,
+					_userAccountService.getAccountUserAccounts(
+						account.getId())),
+				_getAccountRolesByExternalReferenceCode()),
 			project.getExternalReferenceCode(), project.getName());
+
+		_syncProjectMemberships(project);
 	}
 
 	private void _addJiraBusinessEventLine(
@@ -225,6 +244,20 @@ public class AccountSynchronizer {
 		).build();
 	}
 
+	private Map<String, Role> _getAccountRolesByExternalReferenceCode()
+		throws Exception {
+
+		Map<String, Role> accountRolesByExternalReferenceCode =
+			new LinkedHashMap<>();
+
+		for (Role role : _roleService.getAccountRoles()) {
+			accountRolesByExternalReferenceCode.put(
+				role.getExternalReferenceCode(), role);
+		}
+
+		return accountRolesByExternalReferenceCode;
+	}
+
 	private AccountUserAccountBucket _getAccountUserAccountBucket(
 		Account account, List<UserAccount> accountUserAccounts) {
 
@@ -281,6 +314,47 @@ public class AccountSynchronizer {
 		return externalLinkProperties;
 	}
 
+	private Map<String, Object> _getProjectAttributeValues(
+			Project project, Map<String, Object> accountAttributeValues,
+			Map<String, Role> accountRolesByExternalReferenceCode)
+		throws Exception {
+
+		List<UserAccount> customerUserAccounts = new ArrayList<>();
+		List<UserAccount> workerUserAccounts = new ArrayList<>();
+
+		for (ProjectMembership projectMembership :
+				_projectMembershipService.getProjectMemberships(
+					project.getExternalReferenceCode())) {
+
+			UserAccount userAccount = _userAccountService.getUserAccount(
+				projectMembership.getUserId());
+
+			Role role = accountRolesByExternalReferenceCode.get(
+				projectMembership.getRoleExternalReferenceCode());
+
+			if ((role != null) && _employeeRoleNames.contains(role.getName())) {
+				workerUserAccounts.add(userAccount);
+			}
+			else {
+				customerUserAccounts.add(userAccount);
+			}
+		}
+
+		return LinkedHashMapBuilder.<String, Object>putAll(
+			accountAttributeValues
+		).put(
+			AccountConstants.ATTRIBUTE_NAME_CUSTOMER_CONTACTS,
+			_assetReferenceObjectService.fetchReferenceObjectIds(
+				_contactConverter, customerUserAccounts,
+				UserAccount::getExternalReferenceCode)
+		).put(
+			AccountConstants.ATTRIBUTE_NAME_WORKER_CONTACTS,
+			_assetReferenceObjectService.fetchReferenceObjectIds(
+				_contactConverter, workerUserAccounts,
+				UserAccount::getExternalReferenceCode)
+		).build();
+	}
+
 	private void _syncAccountAsset(
 			Account account, Map<String, Object> attributeValues,
 			String externalKey, String name)
@@ -318,11 +392,10 @@ public class AccountSynchronizer {
 
 			for (RoleBrief roleBrief : roleBriefs) {
 				try {
-					_accountContactRoleAssignmentSynchronizer.
-						syncAssignContactRole(
-							roleBrief.getExternalReferenceCode(),
-							accountUserAccount.getExternalReferenceCode(),
-							account.getExternalReferenceCode());
+					_accountUserAccountRoleSynchronizer.syncAssignRole(
+						roleBrief.getExternalReferenceCode(),
+						accountUserAccount.getExternalReferenceCode(),
+						account.getExternalReferenceCode());
 				}
 				catch (Exception exception) {
 					_log.error(
@@ -331,6 +404,29 @@ public class AccountSynchronizer {
 							"for role ", roleBrief.getExternalReferenceCode()),
 						exception);
 				}
+			}
+		}
+	}
+
+	private void _syncProjectMemberships(Project project) throws Exception {
+		for (ProjectMembership projectMembership :
+				_projectMembershipService.getProjectMemberships(
+					project.getExternalReferenceCode())) {
+
+			try {
+				UserAccount userAccount = _userAccountService.getUserAccount(
+					projectMembership.getUserId());
+
+				_accountUserAccountRoleSynchronizer.syncAssignRole(
+					projectMembership.getRoleExternalReferenceCode(),
+					userAccount.getExternalReferenceCode(),
+					project.getExternalReferenceCode());
+			}
+			catch (Exception exception) {
+				_log.error(
+					"Unable to sync project membership " +
+						projectMembership.getExternalReferenceCode(),
+					exception);
 			}
 		}
 	}
@@ -381,14 +477,14 @@ public class AccountSynchronizer {
 		AccountSynchronizer.class);
 
 	@Autowired
-	private AccountContactRoleAssignmentSynchronizer
-		_accountContactRoleAssignmentSynchronizer;
-
-	@Autowired
 	private AccountConverter _accountConverter;
 
 	@Autowired
 	private AccountService _accountService;
+
+	@Autowired
+	private AccountUserAccountRoleSynchronizer
+		_accountUserAccountRoleSynchronizer;
 
 	@Autowired
 	private AssetObjectUpsertService _assetObjectUpsertService;
@@ -423,10 +519,16 @@ public class AccountSynchronizer {
 	private PostalAddressConverter _postalAddressConverter;
 
 	@Autowired
+	private ProjectMembershipService _projectMembershipService;
+
+	@Autowired
 	private ProjectService _projectService;
 
 	@Autowired
 	private PropertyService _propertyService;
+
+	@Autowired
+	private RoleService _roleService;
 
 	@Autowired
 	private TeamConverter _teamConverter;
