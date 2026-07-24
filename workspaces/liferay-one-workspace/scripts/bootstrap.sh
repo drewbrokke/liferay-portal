@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
@@ -43,8 +43,8 @@ function main {
 
 	./gradlew clean
 
-	bash scripts/bootstrap/extract_hotfix.sh
-	bash scripts/bootstrap/extract_license.sh
+	./scripts/bootstrap/extract_hotfix.sh
+	./scripts/bootstrap/extract_license.sh
 
 	echo "Building Docker image."
 	./gradlew buildDockerImage
@@ -67,16 +67,16 @@ function main {
 	done
 
 	echo "Deploying artifacts to Liferay container."
-	bash scripts/bootstrap/deploy_client_extensions.sh
+	./scripts/bootstrap/deploy_client_extensions.sh
 
 	echo "Setting virtual hosts."
-	bash scripts/bootstrap/set_virtual_hosts.sh
+	./scripts/bootstrap/set_virtual_hosts.sh
 
 	echo "Re-provisioning etc-spring-boot OAuth redirect URIs."
-	bash scripts/bootstrap/reprovision_etc_spring_boot_oauth.sh
+	./scripts/bootstrap/reprovision_etc_spring_boot_oauth.sh
 
 	echo "Seeding data."
-	bash scripts/seed.sh
+	./scripts/seed.sh
 
 	echo "Done. Liferay is running at http://localhost."
 }
