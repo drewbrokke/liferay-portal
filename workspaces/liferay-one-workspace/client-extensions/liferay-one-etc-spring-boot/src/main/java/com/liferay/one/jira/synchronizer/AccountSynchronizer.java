@@ -354,14 +354,16 @@ public class AccountSynchronizer {
 			accountAttributeValues
 		).put(
 			AccountConstants.ATTRIBUTE_NAME_CUSTOMER_CONTACTS,
-			_jiraAssetService.fetchReferenceObjectIds(
+			_jiraAssetService.getOrCreateReferenceObjectIds(
 				_contactConverter, customerUserAccounts,
-				UserAccount::getExternalReferenceCode)
+				UserAccount::getExternalReferenceCode,
+				_contactConverter::toAssetObject)
 		).put(
 			AccountConstants.ATTRIBUTE_NAME_WORKER_CONTACTS,
-			_jiraAssetService.fetchReferenceObjectIds(
+			_jiraAssetService.getOrCreateReferenceObjectIds(
 				_contactConverter, workerUserAccounts,
-				UserAccount::getExternalReferenceCode)
+				UserAccount::getExternalReferenceCode,
+				_contactConverter::toAssetObject)
 		).build();
 	}
 
