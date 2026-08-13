@@ -8,14 +8,8 @@ package com.liferay.one.service;
 import com.liferay.one.exception.TicketAttachmentAlreadyApprovedException;
 import com.liferay.one.exception.TicketAttachmentNotFoundException;
 import com.liferay.one.model.TicketAttachment;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-
-import java.net.URI;
-import java.net.URLEncoder;
-
-import java.nio.charset.StandardCharsets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +77,7 @@ public class TicketAttachmentService extends OneBaseService {
 			post(
 				authorization, requestJSONObject.toString(),
 				UriComponentsBuilder.fromPath(
-					"/o/c/ticketattachments"
+					_PATH
 				).build(
 				).toUri()));
 
@@ -113,7 +107,7 @@ public class TicketAttachmentService extends OneBaseService {
 			patch(
 				authorization, requestJSONObject.toString(),
 				UriComponentsBuilder.fromPath(
-					"/o/c/ticketattachments/" + ticketAttachmentId
+					_PATH + "/" + ticketAttachmentId
 				).build(
 				).toUri()));
 
@@ -127,7 +121,7 @@ public class TicketAttachmentService extends OneBaseService {
 		delete(
 			authorization, StringPool.BLANK,
 			UriComponentsBuilder.fromPath(
-				"/o/c/ticketattachments/" + ticketAttachmentId
+				_PATH + "/" + ticketAttachmentId
 			).build(
 			).toUri());
 	}
@@ -137,25 +131,21 @@ public class TicketAttachmentService extends OneBaseService {
 			String md5Checksum)
 		throws Exception {
 
-		StringBundler sb = new StringBundler(8);
-
-		sb.append("fileName eq '");
-		sb.append(fileName);
-		sb.append("' and jiraIssueKey eq '");
-		sb.append(jiraIssueKey);
-		sb.append("'");
+		String filterString = and(
+			eq("fileName", fileName), eq("jiraIssueKey", jiraIssueKey));
 
 		if (Validator.isNotNull(md5Checksum)) {
-			sb.append(" and md5Checksum eq '");
-			sb.append(md5Checksum);
-			sb.append("'");
+			filterString = and(filterString, eq("md5Checksum", md5Checksum));
 		}
 
-		String uriString =
-			"/o/c/ticketattachments?filter=" +
-				URLEncoder.encode(sb.toString(), StandardCharsets.UTF_8.name());
-
-		String response = get(authorization, new URI(uriString));
+		String response = get(
+			authorization,
+			UriComponentsBuilder.fromPath(
+				_PATH
+			).queryParam(
+				"filter", filterString
+			).build(
+			).toUri());
 
 		if (Validator.isNull(response)) {
 			return null;
@@ -181,7 +171,7 @@ public class TicketAttachmentService extends OneBaseService {
 				get(
 					authorization,
 					UriComponentsBuilder.fromPath(
-						"/o/c/ticketattachments/" + ticketAttachmentId
+						_PATH + "/" + ticketAttachmentId
 					).build(
 					).toUri()));
 
@@ -220,7 +210,7 @@ public class TicketAttachmentService extends OneBaseService {
 				get(
 					authorization,
 					UriComponentsBuilder.fromPath(
-						"/o/c/ticketattachments/by-external-reference-code/" +
+						_PATH + "/by-external-reference-code/" +
 							externalReferenceCode
 					).build(
 					).toUri()));
@@ -261,7 +251,7 @@ public class TicketAttachmentService extends OneBaseService {
 			get(
 				authorization,
 				UriComponentsBuilder.fromPath(
-					"/o/c/ticketattachments"
+					_PATH
 				).queryParam(
 					"filter", filterString
 				).queryParam(
@@ -294,7 +284,7 @@ public class TicketAttachmentService extends OneBaseService {
 			patch(
 				authorization, requestJSONObject.toString(),
 				UriComponentsBuilder.fromPath(
-					"/o/c/ticketattachments/" + ticketAttachmentId
+					_PATH + "/" + ticketAttachmentId
 				).build(
 				).toUri()));
 
@@ -313,12 +303,14 @@ public class TicketAttachmentService extends OneBaseService {
 			patch(
 				authorization, requestJSONObject.toString(),
 				UriComponentsBuilder.fromPath(
-					"/o/c/ticketattachments/" + ticketAttachmentId
+					_PATH + "/" + ticketAttachmentId
 				).build(
 				).toUri()));
 
 		return new TicketAttachment(jsonObject);
 	}
+
+	private static final String _PATH = "/o/c/ticketattachments";
 
 	private static final Log _log = LogFactory.getLog(
 		TicketAttachmentService.class);

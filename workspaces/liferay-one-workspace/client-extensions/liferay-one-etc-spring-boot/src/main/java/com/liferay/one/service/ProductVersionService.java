@@ -79,9 +79,9 @@ public class ProductVersionService extends OneBaseService {
 		throws Exception {
 
 		List<ProductVersion> productVersions = _getProductVersions(
-			StringBundler.concat(
-				"(productGroup eq '", productGroup,
-				"') and (productVersion eq '", version, "')"));
+			and(
+				eq("productGroup", productGroup),
+				eq("productVersion", version)));
 
 		if (productVersions.isEmpty()) {
 			return null;
@@ -93,8 +93,7 @@ public class ProductVersionService extends OneBaseService {
 	public List<ProductVersion> getProductVersions(String productGroup)
 		throws Exception {
 
-		return _getProductVersions(
-			StringBundler.concat("productGroup eq '", productGroup, "'"));
+		return _getProductVersions(eq("productGroup", productGroup));
 	}
 
 	public List<ProductVersion> getProductVersions(
@@ -102,9 +101,7 @@ public class ProductVersionService extends OneBaseService {
 		throws Exception {
 
 		return _getProductVersions(
-			StringBundler.concat(
-				"(productGroup eq '", productGroup, "') and (supported eq ",
-				supported, ")"));
+			and(eq("productGroup", productGroup), eq("supported", supported)));
 	}
 
 	@EventListener(ApplicationReadyEvent.class)
@@ -147,8 +144,7 @@ public class ProductVersionService extends OneBaseService {
 	private List<ProductVersion> _getProductVersions(String filterString)
 		throws Exception {
 
-		return getAllItems(
-			"/o/c/productversions", filterString, ProductVersion::new);
+		return getAllItems(_PATH, filterString, ProductVersion::new);
 	}
 
 	private boolean _isRetryable(Throwable throwable) {
@@ -268,8 +264,7 @@ public class ProductVersionService extends OneBaseService {
 				"productVersion");
 
 			URI uri = UriComponentsBuilder.fromPath(
-				"/o/c/productversions/by-external-reference-code/" +
-					externalReferenceCode
+				_PATH + "/by-external-reference-code/" + externalReferenceCode
 			).build(
 			).encode(
 			).toUri();
@@ -328,7 +323,7 @@ public class ProductVersionService extends OneBaseService {
 		}
 
 		URI uri = UriComponentsBuilder.fromPath(
-			"/o/c/productversions"
+			_PATH
 		).queryParam(
 			"pageSize", 1
 		).build(
@@ -350,6 +345,8 @@ public class ProductVersionService extends OneBaseService {
 			)
 		).block();
 	}
+
+	private static final String _PATH = "/o/c/productversions";
 
 	private static final long _READINESS_MAX_RETRIES = 6;
 

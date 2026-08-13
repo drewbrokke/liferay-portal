@@ -6,7 +6,6 @@
 package com.liferay.one.service;
 
 import com.liferay.one.model.Property;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.User;
 
@@ -38,7 +37,7 @@ public class PropertyService extends OneBaseService {
 		String response = post(
 			getAuthorization(), propertyJSONObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/properties"
+				_PATH
 			).build(
 			).toUri());
 
@@ -48,10 +47,7 @@ public class PropertyService extends OneBaseService {
 	public List<Property> getAccountProperties(long accountId)
 		throws Exception {
 
-		return getProperties(
-			StringBundler.concat(
-				"(r_accountEntryToProperty_accountEntryId eq '", accountId,
-				"')"));
+		return getProperties(_eqAccountEntryId(accountId));
 	}
 
 	public List<Property> getAccountPropertiesByName(
@@ -59,22 +55,20 @@ public class PropertyService extends OneBaseService {
 		throws Exception {
 
 		return getProperties(
-			StringBundler.concat(
-				"(r_accountEntryToProperty_accountEntryId eq '", accountId,
-				"') and (name eq '", name, "')"));
+			and(_eqAccountEntryId(accountId), eq("name", name)));
 	}
 
 	public List<Property> getOrganizationProperties(long organizationId)
 		throws Exception {
 
 		return getProperties(
-			StringBundler.concat(
-				"(className eq '", Organization.class.getName(),
-				"') and (classPK eq ", organizationId, ")"));
+			and(
+				eq("className", Organization.class.getName()),
+				eq("classPK", organizationId)));
 	}
 
 	public List<Property> getProperties(String filterString) throws Exception {
-		return getAllItems("/o/c/properties", filterString, Property::new);
+		return getAllItems(_PATH, filterString, Property::new);
 	}
 
 	public String getPropertyValue(long accountId, String name)
@@ -94,12 +88,10 @@ public class PropertyService extends OneBaseService {
 	public String getPropertyValue(String className, long classPK, String name)
 		throws Exception {
 
-		List<Property> properties = getAllItems(
-			"/o/c/properties",
-			StringBundler.concat(
-				"(className eq '", className, "') and (classPK eq ", classPK,
-				") and (name eq '", name, "')"),
-			Property::new);
+		List<Property> properties = getProperties(
+			and(
+				eq("className", className), eq("classPK", classPK),
+				eq("name", name)));
 
 		if (properties.isEmpty()) {
 			return null;
@@ -114,9 +106,13 @@ public class PropertyService extends OneBaseService {
 		throws Exception {
 
 		return getProperties(
-			StringBundler.concat(
-				"(className eq '", User.class.getName(), "') and (classPK eq ",
-				userId, ")"));
+			and(eq("className", User.class.getName()), eq("classPK", userId)));
 	}
+
+	private String _eqAccountEntryId(long accountEntryId) {
+		return eq("r_accountEntryToProperty_accountEntryId", accountEntryId);
+	}
+
+	private static final String _PATH = "/o/c/properties";
 
 }

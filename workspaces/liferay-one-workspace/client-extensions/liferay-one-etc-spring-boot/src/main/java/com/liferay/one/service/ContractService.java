@@ -55,7 +55,7 @@ public class ContractService extends OneBaseService {
 		patch(
 			getAuthorization(), jsonObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/contracts/" + contractId
+				_PATH + "/" + contractId
 			).build(
 			).toUri());
 	}
@@ -70,8 +70,8 @@ public class ContractService extends OneBaseService {
 			response = get(
 				getAuthorization(),
 				UriComponentsBuilder.fromPath(
-					"/o/c/contracts/by-external-reference-code" +
-						"/{externalReferenceCode}"
+					_PATH +
+						"/by-external-reference-code/{externalReferenceCode}"
 				).buildAndExpand(
 					externalReferenceCode
 				).toUri());
@@ -98,9 +98,9 @@ public class ContractService extends OneBaseService {
 		String response = get(
 			getAuthorization(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/contracts"
+				_PATH
 			).queryParam(
-				"filter", "opportunityId eq '" + opportunityId + "'"
+				"filter", eq("opportunityId", opportunityId)
 			).queryParam(
 				"page", 1
 			).queryParam(
@@ -211,8 +211,7 @@ public class ContractService extends OneBaseService {
 		}
 
 		URI uri = UriComponentsBuilder.fromPath(
-			"/o/c/contracts/by-external-reference-code/" +
-				salesforceContract.getId()
+			_PATH + "/by-external-reference-code/" + salesforceContract.getId()
 		).build(
 		).toUri();
 
@@ -267,7 +266,7 @@ public class ContractService extends OneBaseService {
 		patch(
 			getAuthorization(), jsonObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/contracts/" + contractId
+				_PATH + "/" + contractId
 			).build(
 			).toUri());
 	}
@@ -350,7 +349,7 @@ public class ContractService extends OneBaseService {
 		String response = get(
 			getAuthorization(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/contracts"
+				_PATH
 			).queryParam(
 				"filter", filter
 			).queryParam(
@@ -395,10 +394,9 @@ public class ContractService extends OneBaseService {
 		}
 
 		return _fetchChainContract(
-			StringBundler.concat(
-				"renewalOpportunityId eq '", opportunityId,
-				"' and externalReferenceCode ne '", salesforceContract.getId(),
-				"'"),
+			and(
+				eq("renewalOpportunityId", opportunityId),
+				ne("externalReferenceCode", salesforceContract.getId())),
 			salesforceContract.getId());
 	}
 
@@ -414,10 +412,9 @@ public class ContractService extends OneBaseService {
 		}
 
 		return _fetchChainContract(
-			StringBundler.concat(
-				"opportunityId eq '", renewalOpportunityId,
-				"' and externalReferenceCode ne '", salesforceContract.getId(),
-				"'"),
+			and(
+				eq("opportunityId", renewalOpportunityId),
+				ne("externalReferenceCode", salesforceContract.getId())),
 			salesforceContract.getId());
 	}
 
@@ -449,9 +446,9 @@ public class ContractService extends OneBaseService {
 		for (OrderItem orderItem : orderItems) {
 			List<Entitlement> entitlements =
 				_entitlementService.getEntitlements(
-					StringBundler.concat(
-						"r_commerceOrderItemToEntitlement_commerceOrderItemId ",
-						"eq '", orderItem.getId(), "'"));
+					eq(
+						"r_commerceOrderItemToEntitlement_commerceOrderItemId",
+						orderItem.getId()));
 
 			for (Entitlement entitlement : entitlements) {
 				if (entitlement.getContractId() <= 0) {
@@ -520,6 +517,8 @@ public class ContractService extends OneBaseService {
 
 		return patch(getAuthorization(), jsonObject.toString(), uri);
 	}
+
+	private static final String _PATH = "/o/c/contracts";
 
 	private static final Log _log = LogFactory.getLog(ContractService.class);
 

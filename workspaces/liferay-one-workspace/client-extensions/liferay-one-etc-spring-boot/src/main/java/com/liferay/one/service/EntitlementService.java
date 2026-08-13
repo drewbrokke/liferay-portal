@@ -14,7 +14,6 @@ import com.liferay.one.util.OrderItemUtil;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.time.Instant;
@@ -106,7 +105,7 @@ public class EntitlementService extends OneBaseService {
 		String response = post(
 			getAuthorization(), entitlementJSONObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/entitlements"
+				_PATH
 			).build(
 			).toUri());
 
@@ -118,11 +117,9 @@ public class EntitlementService extends OneBaseService {
 		throws Exception {
 
 		List<Entitlement> entitlements = getEntitlements(
-			StringBundler.concat(
-				"(r_commerceOrderItemToEntitlement_commerceOrderItemId eq '",
-				commerceOrderItemId, "') and ",
-				"(r_entitlementDefinitionToEntitlement_c_",
-				"entitlementDefinitionId eq '", entitlementDefinitionId, "')"));
+			and(
+				_eqCommerceOrderItemId(commerceOrderItemId),
+				_eqEntitlementDefinitionId(entitlementDefinitionId)));
 
 		if (entitlements.isEmpty()) {
 			return null;
@@ -156,9 +153,11 @@ public class EntitlementService extends OneBaseService {
 
 		List<EntitlementDefinition> entitlementDefinitions =
 			_entitlementDefinitionService.getEntitlementDefinitions(
-				StringBundler.concat(
-					"(r_commerceProductToEntitlementDefinition_CProductId eq '",
-					orderItem.getProductId(), "') and (active eq true)"),
+				and(
+					eq(
+						"r_commerceProductToEntitlementDefinition_CProductId",
+						orderItem.getProductId()),
+					eq("active", true)),
 				OrderItemUtil.getProductOptions(orderItem));
 
 		if (entitlementDefinitions.isEmpty()) {
@@ -260,20 +259,15 @@ public class EntitlementService extends OneBaseService {
 		}
 
 		List<String> statements = TransformUtil.transform(
-			accountEntryIds,
-			accountEntryId ->
-				"r_accountEntryToEntitlement_accountEntryId eq '" +
-					accountEntryId + "'");
+			accountEntryIds, this::_eqAccountEntryId);
 
-		return _getActiveEntitlements(StringUtil.merge(statements, " or "));
+		return _getActiveEntitlements(or(statements.toArray(new String[0])));
 	}
 
 	public List<Entitlement> getActiveEntitlements(long accountEntryId)
 		throws Exception {
 
-		return _getActiveEntitlements(
-			"r_accountEntryToEntitlement_accountEntryId eq '" + accountEntryId +
-				"'");
+		return _getActiveEntitlements(_eqAccountEntryId(accountEntryId));
 	}
 
 	public List<Entitlement> getActiveEntitlements(
@@ -281,17 +275,13 @@ public class EntitlementService extends OneBaseService {
 		throws Exception {
 
 		return _getActiveEntitlements(
-			"r_projectToEntitlement_c_projectERC eq '" +
-				projectExternalReferenceCode + "'");
+			_eqProjectERC(projectExternalReferenceCode));
 	}
 
 	public List<Entitlement> getEntitlements(long commerceOrderItemId)
 		throws Exception {
 
-		return getEntitlements(
-			StringBundler.concat(
-				"r_commerceOrderItemToEntitlement_commerceOrderItemId eq '",
-				commerceOrderItemId, "'"));
+		return getEntitlements(_eqCommerceOrderItemId(commerceOrderItemId));
 	}
 
 	public List<Entitlement> getEntitlements(String filterString)
@@ -305,9 +295,7 @@ public class EntitlementService extends OneBaseService {
 	public boolean hasEntitlement(long accountId, String... entitlementNames)
 		throws Exception {
 
-		return _hasEntitlement(
-			"r_accountEntryToEntitlement_accountEntryId eq '" + accountId + "'",
-			entitlementNames);
+		return _hasEntitlement(_eqAccountEntryId(accountId), entitlementNames);
 	}
 
 	public boolean hasEntitlement(
@@ -315,9 +303,7 @@ public class EntitlementService extends OneBaseService {
 		throws Exception {
 
 		return _hasEntitlement(
-			"r_projectToEntitlement_c_projectERC eq '" +
-				projectExternalReferenceCode + "'",
-			entitlementNames);
+			_eqProjectERC(projectExternalReferenceCode), entitlementNames);
 	}
 
 	public void trimEntitlements(long commerceOrderItemId, String endDate)
@@ -430,6 +416,28 @@ public class EntitlementService extends OneBaseService {
 		}
 	}
 
+	private String _eqAccountEntryId(long accountEntryId) {
+		return eq("r_accountEntryToEntitlement_accountEntryId", accountEntryId);
+	}
+
+	private String _eqCommerceOrderItemId(long commerceOrderItemId) {
+		return eq(
+			"r_commerceOrderItemToEntitlement_commerceOrderItemId",
+			commerceOrderItemId);
+	}
+
+	private String _eqEntitlementDefinitionId(long entitlementDefinitionId) {
+		return eq(
+			"r_entitlementDefinitionToEntitlement_c_entitlementDefinitionId",
+			entitlementDefinitionId);
+	}
+
+	private String _eqProjectERC(String projectExternalReferenceCode) {
+		return eq(
+			"r_projectToEntitlement_c_projectERC",
+			projectExternalReferenceCode);
+	}
+
 	private long _getAccountEntryId(Order order) {
 		if (order == null) {
 			return 0;
@@ -447,10 +455,9 @@ public class EntitlementService extends OneBaseService {
 		);
 
 		return getEntitlements(
-			StringBundler.concat(
-				"(endDate eq null or endDate ge ", instant, ") and (",
-				filterString, ") and (startDate eq null or startDate le ",
-				instant, ")"));
+			and(
+				or(eq("endDate", null), ge("endDate", instant)), filterString,
+				or(eq("startDate", null), le("startDate", instant))));
 	}
 
 	private long _getContractId(Order order) {
@@ -523,25 +530,14 @@ public class EntitlementService extends OneBaseService {
 			return false;
 		}
 
-		StringBundler sb = new StringBundler();
-
-		sb.append("(");
-		sb.append(filterString);
-		sb.append(") and (");
-
-		for (int i = 0; i < entitlementNames.length; i++) {
-			if (i > 0) {
-				sb.append(" or ");
-			}
-
-			sb.append("name eq '");
-			sb.append(entitlementNames[i]);
-			sb.append("'");
-		}
-
-		sb.append(")");
-
-		List<Entitlement> entitlements = getEntitlements(sb.toString());
+		List<Entitlement> entitlements = getEntitlements(
+			and(
+				filterString,
+				or(
+					TransformUtil.transform(
+						entitlementNames,
+						entitlementName -> eq("name", entitlementName),
+						String.class))));
 
 		for (Entitlement entitlement : entitlements) {
 			if (!entitlement.isExpired()) {
@@ -559,13 +555,15 @@ public class EntitlementService extends OneBaseService {
 		patch(
 			getAuthorization(), entitlementJSONObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/entitlements/" + entitlementId
+				_PATH + "/" + entitlementId
 			).build(
 			).toUri());
 	}
 
 	private static final String _NESTED_FIELDS_ENTITLEMENT_DEFINITION =
 		"entitlementDefinitionToEntitlement";
+
+	private static final String _PATH = "/o/c/entitlements";
 
 	private static final Log _log = LogFactory.getLog(EntitlementService.class);
 

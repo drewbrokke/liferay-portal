@@ -12,7 +12,6 @@ import com.liferay.one.constants.ProductGroupConstants;
 import com.liferay.one.model.LicenseKey;
 import com.liferay.one.model.SubscriptionEntry;
 import com.liferay.one.util.LocaleUtil;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -67,7 +66,7 @@ public class SubscriptionEntryService extends OneBaseService {
 		String response = post(
 			getAuthorization(jwt), subscriptionEntryJSONObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/subscriptionentries"
+				_PATH
 			).build(
 			).toUri());
 
@@ -79,9 +78,7 @@ public class SubscriptionEntryService extends OneBaseService {
 		throws Exception {
 
 		List<LicenseKey> licenseKeys = _licenseKeyService.getLicenseKeys(
-			StringBundler.concat(
-				"r_accountEntryToLicenseKey_accountEntryId eq '", accountId,
-				"'"));
+			eq("r_accountEntryToLicenseKey_accountEntryId", accountId));
 
 		for (LicenseKey licenseKey : licenseKeys) {
 			deleteSubscriptionEntry(
@@ -92,7 +89,7 @@ public class SubscriptionEntryService extends OneBaseService {
 
 	public void deleteSubscriptionEntries(long userId) throws Exception {
 		List<SubscriptionEntry> subscriptionEntries = getSubscriptionEntries(
-			"(customUserId eq " + userId + ")");
+			eq("customUserId", userId));
 
 		for (SubscriptionEntry subscriptionEntry : subscriptionEntries) {
 			_deleteSubscriptionEntry(
@@ -121,9 +118,9 @@ public class SubscriptionEntryService extends OneBaseService {
 
 		List<SubscriptionEntry> subscriptionEntries = getSubscriptionEntries(
 			jwt,
-			StringBundler.concat(
-				"(className eq '", className, "') and (classPK eq ", classPK,
-				") and (customUserId eq ", userId, ")"));
+			and(
+				eq("className", className), eq("classPK", classPK),
+				eq("customUserId", userId)));
 
 		if (subscriptionEntries.isEmpty()) {
 			return null;
@@ -136,9 +133,7 @@ public class SubscriptionEntryService extends OneBaseService {
 			Jwt jwt, String filterString)
 		throws Exception {
 
-		return getAllItems(
-			"/o/c/subscriptionentries", filterString, SubscriptionEntry::new,
-			jwt);
+		return getAllItems(_PATH, filterString, SubscriptionEntry::new, jwt);
 	}
 
 	public List<SubscriptionEntry> getSubscriptionEntries(String filterString)
@@ -160,7 +155,7 @@ public class SubscriptionEntryService extends OneBaseService {
 		delete(
 			getAuthorization(jwt), StringPool.BLANK,
 			UriComponentsBuilder.fromPath(
-				"/o/c/subscriptionentries/" + subscriptionEntryId
+				_PATH + "/" + subscriptionEntryId
 			).build(
 			).toUri());
 	}
@@ -281,12 +276,15 @@ public class SubscriptionEntryService extends OneBaseService {
 			Calendar.DATE, licenseKeyExpirationDateOffset - 60);
 
 		List<LicenseKey> licenseKeys = _licenseKeyService.getLicenseKeys(
-			StringBundler.concat(
-				"(active eq true) and (customExpirationDate gt ",
-				expirationDateGTCalendar.toInstant(),
-				") and (customExpirationDate lt ",
-				expirationDateLTCalendar.toInstant(), ") and (startDate lt ",
-				startDateLTCalendar.toInstant(), ")"));
+			and(
+				eq("active", true),
+				gt(
+					"customExpirationDate",
+					expirationDateGTCalendar.toInstant()),
+				lt(
+					"customExpirationDate",
+					expirationDateLTCalendar.toInstant()),
+				lt("startDate", startDateLTCalendar.toInstant())));
 
 		for (LicenseKey licenseKey : licenseKeys) {
 			Account account = _accountService.fetchAccount(
@@ -298,10 +296,9 @@ public class SubscriptionEntryService extends OneBaseService {
 
 			List<SubscriptionEntry> subscriptionEntries =
 				getSubscriptionEntries(
-					StringBundler.concat(
-						"(className eq '", ClassNameConstants.LICENSE_KEY,
-						"') and (classPK eq ", licenseKey.getLicenseKeyId(),
-						")"));
+					and(
+						eq("className", ClassNameConstants.LICENSE_KEY),
+						eq("classPK", licenseKey.getLicenseKeyId())));
 
 			for (SubscriptionEntry subscriptionEntry : subscriptionEntries) {
 				_sendExpiringLicenseKeyEmail(
@@ -312,6 +309,8 @@ public class SubscriptionEntryService extends OneBaseService {
 	}
 
 	private static final String _DEFAULT_LANGUAGE_ID = "en_US";
+
+	private static final String _PATH = "/o/c/subscriptionentries";
 
 	private static final Set<String> _supportedLanguageIds = SetUtil.fromArray(
 		"en_US", "es_ES", "ja_JP", "pt_BR");

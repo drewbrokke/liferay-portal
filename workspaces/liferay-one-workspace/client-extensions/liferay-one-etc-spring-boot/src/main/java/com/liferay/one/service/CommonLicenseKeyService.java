@@ -89,7 +89,7 @@ public class CommonLicenseKeyService extends OneBaseService {
 		delete(
 			getAuthorization(), StringPool.BLANK,
 			UriComponentsBuilder.fromPath(
-				"/o/c/commonlicensekeys/" + commonLicenseKeyId
+				_PATH + "/" + commonLicenseKeyId
 			).build(
 			).toUri());
 	}
@@ -101,7 +101,7 @@ public class CommonLicenseKeyService extends OneBaseService {
 			get(
 				getAuthorization(),
 				UriComponentsBuilder.fromPath(
-					"/o/c/commonlicensekeys/" + commonLicenseKeyId
+					_PATH + "/" + commonLicenseKeyId
 				).build(
 				).toUri()));
 	}
@@ -113,12 +113,12 @@ public class CommonLicenseKeyService extends OneBaseService {
 		String response = get(
 			getAuthorization(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/commonlicensekeys"
+				_PATH
 			).queryParam(
 				"filter",
-				"productFamily eq '" +
-					CommonLicenseKeyConstants.toProductFamily(productGroup) +
-						"'"
+				eq(
+					"productFamily",
+					CommonLicenseKeyConstants.toProductFamily(productGroup))
 			).queryParam(
 				"page", page
 			).queryParam(
@@ -176,7 +176,7 @@ public class CommonLicenseKeyService extends OneBaseService {
 		post(
 			getAuthorization(), jsonObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/commonlicensekeys"
+				_PATH
 			).build(
 			).toUri());
 	}
@@ -185,9 +185,7 @@ public class CommonLicenseKeyService extends OneBaseService {
 		throws Exception {
 
 		return getAllItems(
-			"/o/c/commonlicensekeys",
-			"fileName eq '" + StringUtil.replace(fileName, '\'', "''") + "'",
-			jsonObject -> jsonObject);
+			_PATH, eq("fileName", fileName), jsonObject -> jsonObject);
 	}
 
 	private String _toEnvironmentTypeKey(String productEnvironment) {
@@ -200,6 +198,8 @@ public class CommonLicenseKeyService extends OneBaseService {
 
 		return productEnvironment;
 	}
+
+	private static final String _PATH = "/o/c/commonlicensekeys";
 
 	@Autowired
 	private CommonLicenseKeyParser _commonLicenseKeyParser;

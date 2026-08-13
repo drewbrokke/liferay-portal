@@ -23,9 +23,7 @@ public class EntitlementDefinitionService extends OneBaseService {
 			String filterString)
 		throws Exception {
 
-		return getAllItems(
-			"/o/c/entitlementdefinitions", filterString,
-			EntitlementDefinition::new);
+		return getAllItems(_PATH, filterString, EntitlementDefinition::new);
 	}
 
 	public List<EntitlementDefinition> getEntitlementDefinitions(
@@ -68,5 +66,7 @@ public class EntitlementDefinitionService extends OneBaseService {
 
 		return true;
 	}
+
+	private static final String _PATH = "/o/c/entitlementdefinitions";
 
 }

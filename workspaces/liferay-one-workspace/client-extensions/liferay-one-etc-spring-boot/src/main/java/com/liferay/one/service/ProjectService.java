@@ -44,8 +44,7 @@ public class ProjectService extends OneBaseService {
 		String response = get(
 			getAuthorization(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/projects/by-external-reference-code" +
-					"/{externalReferenceCode}"
+				_PATH + "/by-external-reference-code/{externalReferenceCode}"
 			).buildAndExpand(
 				externalReferenceCode
 			).toUri());
@@ -55,8 +54,7 @@ public class ProjectService extends OneBaseService {
 
 	public List<Project> getProjects(long accountId) throws Exception {
 		return getAllItems(
-			"/o/c/projects",
-			"r_accountEntryToProject_accountEntryId eq '" + accountId + "'",
+			_PATH, eq("r_accountEntryToProject_accountEntryId", accountId),
 			Project::new);
 	}
 
@@ -137,8 +135,7 @@ public class ProjectService extends OneBaseService {
 		}
 
 		URI uri = UriComponentsBuilder.fromPath(
-			"/o/c/projects/by-external-reference-code/" +
-				salesforceProject.getId()
+			_PATH + "/by-external-reference-code/" + salesforceProject.getId()
 		).build(
 		).toUri();
 
@@ -167,8 +164,8 @@ public class ProjectService extends OneBaseService {
 			response = get(
 				authorization,
 				UriComponentsBuilder.fromPath(
-					"/o/c/projects/by-external-reference-code" +
-						"/{externalReferenceCode}"
+					_PATH +
+						"/by-external-reference-code/{externalReferenceCode}"
 				).buildAndExpand(
 					externalReferenceCode
 				).toUri());
@@ -188,6 +185,8 @@ public class ProjectService extends OneBaseService {
 
 		return new Project(new JSONObject(response));
 	}
+
+	private static final String _PATH = "/o/c/projects";
 
 	private static final Log _log = LogFactory.getLog(ProjectService.class);
 

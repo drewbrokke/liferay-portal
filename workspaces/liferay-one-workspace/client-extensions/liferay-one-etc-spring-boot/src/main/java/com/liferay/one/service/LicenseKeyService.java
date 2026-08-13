@@ -13,10 +13,8 @@ import com.liferay.one.license.LicenseKeyGenerator;
 import com.liferay.one.license.LicenseKeyValidator;
 import com.liferay.one.model.LicenseKey;
 import com.liferay.one.model.SubscriptionEntry;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.ee.license.shared.LicenseConstants;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.text.DateFormat;
@@ -140,7 +138,7 @@ public class LicenseKeyService extends OneBaseService {
 		String response = post(
 			getAuthorization(), jsonObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/licensekeys"
+				_PATH
 			).build(
 			).toUri());
 
@@ -214,7 +212,7 @@ public class LicenseKeyService extends OneBaseService {
 		String response = post(
 			getAuthorization(), jsonObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/licensekeys"
+				_PATH
 			).build(
 			).toUri());
 
@@ -230,9 +228,9 @@ public class LicenseKeyService extends OneBaseService {
 
 		List<SubscriptionEntry> subscriptionEntries =
 			_subscriptionEntryService.getSubscriptionEntries(
-				StringBundler.concat(
-					"(className eq '", ClassNameConstants.LICENSE_KEY,
-					"') and (classPK eq ", licenseKeyId, ")"));
+				and(
+					eq("className", ClassNameConstants.LICENSE_KEY),
+					eq("classPK", licenseKeyId)));
 
 		for (SubscriptionEntry subscriptionEntry : subscriptionEntries) {
 			_subscriptionEntryService.addSubscriptionEntry(
@@ -249,10 +247,9 @@ public class LicenseKeyService extends OneBaseService {
 		throws Exception {
 
 		return getLicenseKeys(
-			StringBundler.concat(
-				"(active eq ", active, ") and (complimentary eq ",
-				complimentary, ") and (orderId eq '",
-				_escapeODataString(orderId), "')"));
+			and(
+				eq("active", active), eq("complimentary", complimentary),
+				eq("orderId", orderId)));
 	}
 
 	public int getAssetReceiptLicenseLicenseKeysCount(
@@ -260,10 +257,9 @@ public class LicenseKeyService extends OneBaseService {
 		throws Exception {
 
 		return _getCount(
-			StringBundler.concat(
-				"(active eq ", active, ") and (complimentary eq ",
-				complimentary, ") and (orderId eq '",
-				_escapeODataString(orderId), "')"));
+			and(
+				eq("active", active), eq("complimentary", complimentary),
+				eq("orderId", orderId)));
 	}
 
 	public LicenseKey getLicenseKey(Jwt jwt, long licenseKeyId)
@@ -273,7 +269,7 @@ public class LicenseKeyService extends OneBaseService {
 			String response = get(
 				getAuthorization(jwt),
 				UriComponentsBuilder.fromPath(
-					"/o/c/licensekeys/{licenseKeyId}"
+					_PATH + "/{licenseKeyId}"
 				).buildAndExpand(
 					licenseKeyId
 				).toUri());
@@ -297,7 +293,7 @@ public class LicenseKeyService extends OneBaseService {
 		String response = get(
 			getAuthorization(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/licensekeys/{id}"
+				_PATH + "/{id}"
 			).buildAndExpand(
 				licenseKeyId
 			).toUri());
@@ -310,9 +306,7 @@ public class LicenseKeyService extends OneBaseService {
 		throws Exception {
 
 		List<LicenseKey> licenseKeys = getLicenseKeys(
-			StringBundler.concat(
-				"externalReferenceCode eq '",
-				_escapeODataString(externalReferenceCode), "'"));
+			eq("externalReferenceCode", externalReferenceCode));
 
 		if (licenseKeys.isEmpty()) {
 			throw new NoSuchLicenseKeyException(
@@ -352,10 +346,9 @@ public class LicenseKeyService extends OneBaseService {
 		throws Exception {
 
 		return getLicenseKeys(
-			StringBundler.concat(
-				"(active eq ", active, ") and (complimentary eq ",
-				complimentary, ") and (entitlementId eq '", entitlementId,
-				"')"));
+			and(
+				eq("active", active), eq("complimentary", complimentary),
+				eq("entitlementId", entitlementId)));
 	}
 
 	public List<LicenseKey> getLicenseKeys(
@@ -364,17 +357,16 @@ public class LicenseKeyService extends OneBaseService {
 		throws Exception {
 
 		return getLicenseKeys(
-			StringBundler.concat(
-				"(active eq ", active, ") and (orderId eq '",
-				_escapeODataString(orderId), "') and (productExternalId eq '",
-				_escapeODataString(productExternalId), "') and (serverId eq '",
-				_escapeODataString(serverId), "')"));
+			and(
+				eq("active", active), eq("orderId", orderId),
+				eq("productExternalId", productExternalId),
+				eq("serverId", serverId)));
 	}
 
 	public List<LicenseKey> getLicenseKeys(String filterString)
 		throws Exception {
 
-		return getAllItems("/o/c/licensekeys", filterString, LicenseKey::new);
+		return getAllItems(_PATH, filterString, LicenseKey::new);
 	}
 
 	public List<LicenseKey> getLicenseKeys(
@@ -382,10 +374,9 @@ public class LicenseKeyService extends OneBaseService {
 		throws Exception {
 
 		return getLicenseKeys(
-			StringBundler.concat(
-				"(productExternalId eq '",
-				_escapeODataString(productExternalId), "') and (serverId eq '",
-				_escapeODataString(serverId), "')"));
+			and(
+				eq("productExternalId", productExternalId),
+				eq("serverId", serverId)));
 	}
 
 	public List<LicenseKey> getLicenseKeys(
@@ -393,10 +384,9 @@ public class LicenseKeyService extends OneBaseService {
 		throws Exception {
 
 		return getLicenseKeys(
-			StringBundler.concat(
-				"(domains eq '", _escapeODataString(domains),
-				"') and (licenseType eq '", _escapeODataString(licenseType),
-				"') and (owner eq '", _escapeODataString(owner), "')"));
+			and(
+				eq("domains", domains), eq("licenseType", licenseType),
+				eq("owner", owner)));
 	}
 
 	public List<LicenseKey> getLicenseKeysByName(
@@ -404,10 +394,9 @@ public class LicenseKeyService extends OneBaseService {
 		throws Exception {
 
 		return getLicenseKeys(
-			StringBundler.concat(
-				"(active eq ", active, ") and (productName eq '",
-				_escapeODataString(productName), "') and (serverId eq '",
-				_escapeODataString(serverId), "')"));
+			and(
+				eq("active", active), eq("productName", productName),
+				eq("serverId", serverId)));
 	}
 
 	public boolean hasValidLicenseKeyTypeFree(String domains, String owner)
@@ -494,7 +483,7 @@ public class LicenseKeyService extends OneBaseService {
 		String response = patch(
 			getAuthorization(), jsonObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/licensekeys/{id}"
+				_PATH + "/{id}"
 			).buildAndExpand(
 				licenseKeyId
 			).toUri());
@@ -513,7 +502,7 @@ public class LicenseKeyService extends OneBaseService {
 		String response = patch(
 			getAuthorization(), jsonObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/licensekeys/{id}"
+				_PATH + "/{id}"
 			).buildAndExpand(
 				licenseKeyId
 			).toUri());
@@ -555,59 +544,46 @@ public class LicenseKeyService extends OneBaseService {
 		List<String> conditions = new ArrayList<>();
 
 		if (active != null) {
-			conditions.add("(active eq " + active + ")");
+			conditions.add(eq("active", active));
 		}
 
 		if (Validator.isNotNull(description)) {
-			conditions.add(
-				"(description eq '" + _escapeODataString(description) + "')");
+			conditions.add(eq("description", description));
 		}
 
 		if (Validator.isNotNull(hostName)) {
-			conditions.add(
-				"(hostName eq '" + _escapeODataString(hostName) + "')");
+			conditions.add(eq("hostName", hostName));
 		}
 
 		if (Validator.isNotNull(ipAddress)) {
-			conditions.add(
-				"(ipAddresses eq '" + _escapeODataString(ipAddress) + "')");
+			conditions.add(eq("ipAddresses", ipAddress));
 		}
 
 		if (Validator.isNotNull(licenseType)) {
-			conditions.add(
-				"(licenseType eq '" + _escapeODataString(licenseType) + "')");
+			conditions.add(eq("licenseType", licenseType));
 		}
 
 		if (Validator.isNotNull(macAddress)) {
-			conditions.add(
-				"(macAddresses eq '" + _escapeODataString(macAddress) + "')");
+			conditions.add(eq("macAddresses", macAddress));
 		}
 
 		if (Validator.isNotNull(owner)) {
-			conditions.add("(owner eq '" + _escapeODataString(owner) + "')");
+			conditions.add(eq("owner", owner));
 		}
 
 		if (Validator.isNotNull(productExternalId)) {
-			conditions.add(
-				"(productExternalId eq '" +
-					_escapeODataString(productExternalId) + "')");
+			conditions.add(eq("productExternalId", productExternalId));
 		}
 
 		if (Validator.isNotNull(productName)) {
-			conditions.add(
-				"(productName eq '" + _escapeODataString(productName) + "')");
+			conditions.add(eq("productName", productName));
 		}
 
 		if (Validator.isNotNull(serverId)) {
-			conditions.add(
-				"(serverId eq '" + _escapeODataString(serverId) + "')");
+			conditions.add(eq("serverId", serverId));
 		}
 
-		if (conditions.isEmpty()) {
-			return null;
-		}
-
-		return String.join(" and ", conditions);
+		return and(conditions.toArray(new String[0]));
 	}
 
 	private LicenseKey _copyLicenseKey(
@@ -629,18 +605,10 @@ public class LicenseKeyService extends OneBaseService {
 			licenseKey.getServerId(), licenseKey.getSizing(), startDate);
 	}
 
-	private String _escapeODataString(String value) {
-		if (value == null) {
-			return null;
-		}
-
-		return StringUtil.replace(value, '\'', "''");
-	}
-
 	private int _getCount(String filterString) throws Exception {
 		UriComponentsBuilder uriComponentsBuilder =
 			UriComponentsBuilder.fromPath(
-				"/o/c/licensekeys"
+				_PATH
 			).queryParam(
 				"pageSize", 1
 			);
@@ -691,6 +659,8 @@ public class LicenseKeyService extends OneBaseService {
 	private static final String _FREE_TIER_PRODUCT_VERSION = "7.4";
 
 	private static final int _FREE_TIER_RENEWAL_THRESHOLD_DAYS = 90;
+
+	private static final String _PATH = "/o/c/licensekeys";
 
 	private static final Log _log = LogFactory.getLog(LicenseKeyService.class);
 

@@ -357,7 +357,7 @@ public class LicenseKeyServiceTest {
 			null, null, null, null, null, null, "O'Connor", null, null, null);
 
 		Assertions.assertEquals(
-			"(owner eq 'O''Connor')", _filterCaptor.getValue());
+			"owner eq 'O''Connor'", _filterCaptor.getValue());
 	}
 
 	@Test

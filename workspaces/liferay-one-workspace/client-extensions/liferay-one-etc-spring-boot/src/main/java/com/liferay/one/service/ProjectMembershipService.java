@@ -7,7 +7,6 @@ package com.liferay.one.service;
 
 import com.liferay.one.model.Project;
 import com.liferay.one.model.ProjectMembership;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -71,7 +70,7 @@ public class ProjectMembershipService extends OneBaseService {
 		post(
 			getAuthorization(jwt), jsonObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/projectmemberships"
+				_PATH
 			).build(
 			).toUri());
 	}
@@ -90,13 +89,10 @@ public class ProjectMembershipService extends OneBaseService {
 			String roleExternalReferenceCode, long userId)
 		throws Exception {
 
-		List<ProjectMembership> projectMemberships = getAllItems(
-			"/o/c/projectmemberships",
-			StringBundler.concat(
-				"r_userToProjectMembership_userId eq '", userId,
-				"' and r_projectToProjectMembership_c_projectERC eq '",
-				projectExternalReferenceCode, "'"),
-			ProjectMembership::new);
+		List<ProjectMembership> projectMemberships = _getAllItems(
+			and(
+				_eqProjectERC(projectExternalReferenceCode),
+				_eqUserId(userId)));
 
 		if (!projectMemberships.isEmpty()) {
 			return;
@@ -126,7 +122,7 @@ public class ProjectMembershipService extends OneBaseService {
 		post(
 			getAuthorization(), jsonObject.toString(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/projectmemberships"
+				_PATH
 			).build(
 			).toUri());
 	}
@@ -144,8 +140,8 @@ public class ProjectMembershipService extends OneBaseService {
 			delete(
 				getAuthorization(jwt), StringPool.BLANK,
 				UriComponentsBuilder.fromPath(
-					"/o/c/projectmemberships/by-external-reference-code" +
-						"/{externalReferenceCode}"
+					_PATH +
+						"/by-external-reference-code/{externalReferenceCode}"
 				).buildAndExpand(
 					projectMembership.getExternalReferenceCode()
 				).toUri());
@@ -156,17 +152,15 @@ public class ProjectMembershipService extends OneBaseService {
 			String projectExternalReferenceCode, long userId)
 		throws Exception {
 
-		String filterString = StringBundler.concat(
-			"(r_projectToProjectMembership_c_projectERC eq '",
-			projectExternalReferenceCode,
-			"') and (r_userToProjectMembership_userId eq '", userId, "')");
-
 		String response = get(
 			getAuthorization(),
 			UriComponentsBuilder.fromPath(
-				"/o/c/projectmemberships"
+				_PATH
 			).queryParam(
-				"filter", filterString
+				"filter",
+				and(
+					_eqProjectERC(projectExternalReferenceCode),
+					_eqUserId(userId))
 			).queryParam(
 				"page", 1
 			).queryParam(
@@ -189,28 +183,56 @@ public class ProjectMembershipService extends OneBaseService {
 		return new ProjectMembership(jsonArray.getJSONObject(0));
 	}
 
+	public List<ProjectMembership> getProjectMemberships(long userId)
+		throws Exception {
+
+		return _getAllItems(_eqUserId(userId));
+	}
+
 	public List<ProjectMembership> getProjectMemberships(
 			long accountId, long userId)
 		throws Exception {
 
-		return getAllItems(
-			"/o/c/projectmemberships",
-			StringBundler.concat(
-				"r_accountEntryToProjectMembership_accountEntryId eq '",
-				accountId, "' and r_userToProjectMembership_userId eq '",
-				userId, "'"),
-			ProjectMembership::new);
+		return _getAllItems(
+			and(_eqAccountEntryId(accountId), _eqUserId(userId)));
 	}
 
 	public List<ProjectMembership> getProjectMemberships(
 			String projectExternalReferenceCode)
 		throws Exception {
 
-		return getAllItems(
-			"/o/c/projectmemberships",
-			"r_projectToProjectMembership_c_projectERC eq '" +
-				projectExternalReferenceCode + "'",
-			ProjectMembership::new);
+		return _getAllItems(_eqProjectERC(projectExternalReferenceCode));
+	}
+
+	private String _eqAccountEntryId(long accountEntryId) {
+		return eq(
+			"r_accountEntryToProjectMembership_accountEntryId", accountEntryId);
+	}
+
+	private String _eqProjectERC(String projectExternalReferenceCode) {
+		return eq(
+			"r_projectToProjectMembership_c_projectERC",
+			projectExternalReferenceCode);
+	}
+
+	private String _eqRoleERC(String roleExternalReferenceCode) {
+		return eq("roleExternalReferenceCode", roleExternalReferenceCode);
+	}
+
+	private String _eqUserId(long userId) {
+		return eq("r_userToProjectMembership_userId", userId);
+	}
+
+	private List<ProjectMembership> _getAllItems(String filterString)
+		throws Exception {
+
+		return _getAllItems(filterString, null);
+	}
+
+	private List<ProjectMembership> _getAllItems(String filterString, Jwt jwt)
+		throws Exception {
+
+		return getAllItems(_PATH, filterString, ProjectMembership::new, jwt);
 	}
 
 	private List<ProjectMembership> _getProjectMemberships(
@@ -218,21 +240,18 @@ public class ProjectMembershipService extends OneBaseService {
 			String roleExternalReferenceCode, long userId)
 		throws Exception {
 
-		String filterString = StringBundler.concat(
-			"r_userToProjectMembership_userId eq '", userId,
-			"' and r_projectToProjectMembership_c_projectERC eq '",
-			projectExternalReferenceCode, "'");
+		String filterString = and(
+			_eqProjectERC(projectExternalReferenceCode), _eqUserId(userId));
 
 		if (roleExternalReferenceCode != null) {
-			filterString = StringBundler.concat(
-				filterString, " and roleExternalReferenceCode eq '",
-				roleExternalReferenceCode, "'");
+			filterString = and(
+				filterString, _eqRoleERC(roleExternalReferenceCode));
 		}
 
-		return getAllItems(
-			"/o/c/projectmemberships", filterString, ProjectMembership::new,
-			jwt);
+		return _getAllItems(filterString, jwt);
 	}
+
+	private static final String _PATH = "/o/c/projectmemberships";
 
 	private static final String _PROJECT_USER_ROLE_EXTERNAL_REFERENCE_CODE =
 		"C_PROJECT_USER";

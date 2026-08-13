@@ -205,7 +205,7 @@ public class AccountService extends OneBaseService {
 		List<Long> accountRoleIds = getAllItems(
 			"/o/headless-admin-user/v1.0/accounts/" + accountId +
 				"/account-roles",
-			"name eq '" + name + "'", jsonObject -> jsonObject.getLong("id"));
+			eq("name", name), jsonObject -> jsonObject.getLong("id"));
 
 		if (accountRoleIds.isEmpty()) {
 			return null;
@@ -315,8 +315,7 @@ public class AccountService extends OneBaseService {
 		}
 
 		List<String> externalReferenceCodes = getAllItems(
-			"/o/headless-admin-user/v1.0/accounts",
-			"name eq '" + StringUtil.replace(name, '\'', "''") + "'",
+			"/o/headless-admin-user/v1.0/accounts", eq("name", name),
 			jsonObject -> jsonObject.optString("externalReferenceCode"));
 
 		for (String otherExternalReferenceCode : externalReferenceCodes) {

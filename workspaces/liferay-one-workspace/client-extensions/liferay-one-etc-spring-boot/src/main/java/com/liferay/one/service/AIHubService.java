@@ -38,9 +38,10 @@ public class AIHubService extends OneBaseService {
 				get(
 					getAuthorization(),
 					UriComponentsBuilder.fromPath(
-						"/o/c/aihubapplications/by-external-reference-code/" +
-							externalReferenceCode +
-								"?nestedFields=orderToAIHubApplication"
+						_PATH + "/by-external-reference-code/" +
+							externalReferenceCode
+					).queryParam(
+						"nestedFields", "orderToAIHubApplication"
 					).build(
 					).toUri()));
 		}
@@ -109,7 +110,7 @@ public class AIHubService extends OneBaseService {
 				put(
 					getAuthorization(), jsonObject.toString(),
 					UriComponentsBuilder.fromPath(
-						"/o/c/aihubapplications/by-external-reference-code/" +
+						_PATH + "/by-external-reference-code/" +
 							externalReferenceCode
 					).build(
 					).toUri()));
@@ -143,6 +144,8 @@ public class AIHubService extends OneBaseService {
 			)
 		);
 	}
+
+	private static final String _PATH = "/o/c/aihubapplications";
 
 	private static final long _RETRY_MAX_ATTEMPTS = 3;
 

@@ -15,6 +15,8 @@ import java.net.URI;
 
 import java.nio.charset.StandardCharsets;
 
+import java.time.Instant;
+
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -39,6 +41,18 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author Amos Fong
  */
 public abstract class OneBaseService extends BaseService {
+
+	protected String and(String... filterStrings) {
+		return _merge(" and ", filterStrings);
+	}
+
+	protected String eq(String key, Object value) {
+		return _compare(key, "eq", value);
+	}
+
+	protected String ge(String key, Object value) {
+		return _compare(key, "ge", value);
+	}
 
 	protected <T> List<T> getAllItems(
 			String path, String filterString, Function<JSONObject, T> function)
@@ -153,8 +167,33 @@ public abstract class OneBaseService extends BaseService {
 		);
 	}
 
+	protected String gt(String key, Object value) {
+		return _compare(key, "gt", value);
+	}
+
 	protected boolean isNotFound(String status) {
 		return Objects.equals(HttpStatus.NOT_FOUND.name(), status);
+	}
+
+	protected String le(String key, Object value) {
+		return _compare(key, "le", value);
+	}
+
+	protected String lt(String key, Object value) {
+		return _compare(key, "lt", value);
+	}
+
+	protected String ne(String key, Object value) {
+		return _compare(key, "ne", value);
+	}
+
+	protected String or(String... filterStrings) {
+		return _merge(" or ", filterStrings);
+	}
+
+	private String _compare(String key, String operator, Object value) {
+		return StringBundler.concat(
+			key, " ", operator, " ", _toFilterValue(value));
 	}
 
 	private String _getObjectScope(URI uri) {
@@ -249,6 +288,49 @@ public abstract class OneBaseService extends BaseService {
 					"Received a 403 from ", uri, ". The token scopes are ",
 					tokenScope));
 		}
+	}
+
+	private String _merge(String delimiter, String... filterStrings) {
+		List<String> list = new ArrayList<>();
+
+		for (String filterString : filterStrings) {
+			if (Validator.isNotNull(filterString)) {
+				list.add(filterString);
+			}
+		}
+
+		if (list.isEmpty()) {
+			return null;
+		}
+
+		if (list.size() == 1) {
+			return list.get(0);
+		}
+
+		StringBundler sb = new StringBundler((list.size() * 4) - 1);
+
+		for (int i = 0; i < list.size(); i++) {
+			if (i > 0) {
+				sb.append(delimiter);
+			}
+
+			sb.append("(");
+			sb.append(list.get(i));
+			sb.append(")");
+		}
+
+		return sb.toString();
+	}
+
+	private String _toFilterValue(Object value) {
+		if ((value == null) || (value instanceof Boolean) ||
+			(value instanceof Instant)) {
+
+			return String.valueOf(value);
+		}
+
+		return StringBundler.concat(
+			"'", StringUtil.replace(String.valueOf(value), '\'', "''"), "'");
 	}
 
 	private static final int _PAGE_SIZE = 500;

@@ -10,7 +10,6 @@ import com.liferay.headless.admin.user.client.dto.v1_0.OrganizationBrief;
 import com.liferay.headless.admin.user.client.dto.v1_0.Phone;
 import com.liferay.headless.admin.user.client.dto.v1_0.RoleBrief;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
-import com.liferay.headless.admin.user.client.dto.v1_0.UserAccountContactInformation;
 import com.liferay.one.jira.constants.ContactConstants;
 import com.liferay.one.jira.converter.AccountConverter;
 import com.liferay.one.jira.converter.ContactConverter;
@@ -23,14 +22,15 @@ import com.liferay.one.jira.model.JiraAssetObject;
 import com.liferay.one.jira.service.JiraAssetService;
 import com.liferay.one.jira.util.JiraSyncLock;
 import com.liferay.one.model.EntitlementDefinition;
+import com.liferay.one.model.Project;
 import com.liferay.one.model.Property;
 import com.liferay.one.service.EntitlementService;
+import com.liferay.one.service.ProjectMembershipService;
+import com.liferay.one.service.ProjectService;
 import com.liferay.one.service.PropertyService;
 import com.liferay.petra.string.StringBundler;
-import com.liferay.portal.kernel.util.ListUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -89,7 +89,7 @@ public class UserAccountSynchronizer {
 	public void syncUserAccount(UserAccount userAccount) throws Exception {
 		_jiraSyncLock.withLock(
 			userAccount.getExternalReferenceCode(),
-			() -> _syncUserAccount(userAccount));
+			() -> _syncUserAccount(_createUserAccountSyncModel(userAccount)));
 	}
 
 	public void syncUserAccountAccounts(UserAccount userAccount) {
@@ -99,14 +99,16 @@ public class UserAccountSynchronizer {
 					userAccount.getExternalReferenceCode() + " to JSM");
 		}
 
+		UserAccountSyncModel userAccountSyncModel = _createUserAccountSyncModel(
+			userAccount);
+
 		JiraAssetObject jiraAssetObject = _contactConverter.toAssetObject(
 			userAccount);
 
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_ACCOUNT,
 			_jiraAssetService.fetchReferenceObjectIds(
-				_accountConverter,
-				ListUtil.fromArray(userAccount.getAccountBriefs()),
+				_accountConverter, userAccountSyncModel.getAccountBriefs(),
 				AccountBrief::getExternalReferenceCode));
 
 		_jiraSyncLock.withLock(
@@ -121,14 +123,16 @@ public class UserAccountSynchronizer {
 					userAccount.getExternalReferenceCode() + " to JSM");
 		}
 
+		UserAccountSyncModel userAccountSyncModel = _createUserAccountSyncModel(
+			userAccount);
+
 		JiraAssetObject jiraAssetObject = _contactConverter.toAssetObject(
 			userAccount);
 
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_TEAMS,
 			_jiraAssetService.fetchReferenceObjectIds(
-				_teamConverter,
-				ListUtil.fromArray(userAccount.getOrganizationBriefs()),
+				_teamConverter, userAccountSyncModel.getOrganizationBriefs(),
 				OrganizationBrief::getExternalReferenceCode));
 
 		_jiraSyncLock.withLock(
@@ -143,13 +147,16 @@ public class UserAccountSynchronizer {
 					userAccount.getExternalReferenceCode() + " to JSM");
 		}
 
+		UserAccountSyncModel userAccountSyncModel = _createUserAccountSyncModel(
+			userAccount);
+
 		JiraAssetObject jiraAssetObject = _contactConverter.toAssetObject(
 			userAccount);
 
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_CONTACT_ROLES,
 			_jiraAssetService.fetchReferenceObjectIds(
-				_contactRoleConverter, _getRoleBriefs(userAccount),
+				_contactRoleConverter, userAccountSyncModel.getRoleBriefs(),
 				RoleBrief::getExternalReferenceCode));
 
 		_jiraSyncLock.withLock(
@@ -157,81 +164,23 @@ public class UserAccountSynchronizer {
 			() -> _jiraAssetService.upsert(_contactConverter, jiraAssetObject));
 	}
 
-	private List<EntitlementDefinition> _getEntitlementDefinitions(
-			List<AccountBrief> accountBriefs)
-		throws Exception {
+	private UserAccountSyncModel _createUserAccountSyncModel(
+		UserAccount userAccount) {
 
-		List<EntitlementDefinition> entitlementDefinitions = new ArrayList<>();
-
-		for (AccountBrief accountBrief : accountBriefs) {
-			entitlementDefinitions.addAll(
-				_entitlementService.getActiveEntitlementDefinitions(
-					accountBrief.getId()));
-		}
-
-		return entitlementDefinitions;
-	}
-
-	private List<Property> _getExternalLinkProperties(UserAccount userAccount)
-		throws Exception {
-
-		List<Property> externalLinkProperties = new ArrayList<>();
-
-		List<Property> properties = _propertyService.getUserAccountProperties(
-			userAccount.getId());
-
-		for (Property property : properties) {
-			if (_externalLinkConverter.isExternalLinkProperty(property)) {
-				externalLinkProperties.add(property);
-			}
-		}
-
-		return externalLinkProperties;
-	}
-
-	private List<RoleBrief> _getRoleBriefs(UserAccount userAccount) {
-		List<RoleBrief> roleBriefs = new ArrayList<>();
-
-		for (AccountBrief accountBrief :
-				ListUtil.fromArray(userAccount.getAccountBriefs())) {
-
-			RoleBrief[] accountRoleBriefs = accountBrief.getRoleBriefs();
-
-			if (accountRoleBriefs != null) {
-				Collections.addAll(roleBriefs, accountRoleBriefs);
-			}
-		}
-
-		for (OrganizationBrief organizationBrief :
-				ListUtil.fromArray(userAccount.getOrganizationBriefs())) {
-
-			RoleBrief[] organizationRoleBriefs =
-				organizationBrief.getRoleBriefs();
-
-			if (organizationRoleBriefs != null) {
-				Collections.addAll(roleBriefs, organizationRoleBriefs);
-			}
-		}
-
-		return roleBriefs;
-	}
-
-	private List<Phone> _getTelephones(UserAccount userAccount) {
-		UserAccountContactInformation userAccountContactInformation =
-			userAccount.getUserAccountContactInformation();
-
-		if (userAccountContactInformation == null) {
-			return Collections.emptyList();
-		}
-
-		return ListUtil.fromArray(
-			userAccountContactInformation.getTelephones());
+		return new UserAccountSyncModel(
+			_entitlementService, _externalLinkConverter,
+			_projectMembershipService, _projectService, _propertyService,
+			userAccount);
 	}
 
 	private void _syncContactRoleAssignments(
-		UserAccount userAccount, List<AccountBrief> accountBriefs) {
+		UserAccountSyncModel userAccountSyncModel) {
 
-		for (AccountBrief accountBrief : accountBriefs) {
+		UserAccount userAccount = userAccountSyncModel.getUserAccount();
+
+		for (AccountBrief accountBrief :
+				userAccountSyncModel.getAccountBriefs()) {
+
 			RoleBrief[] roleBriefs = accountBrief.getRoleBriefs();
 
 			if (roleBriefs == null) {
@@ -257,9 +206,13 @@ public class UserAccountSynchronizer {
 	}
 
 	private void _syncOrganizationRoleAssignments(
-		UserAccount userAccount, List<OrganizationBrief> organizationBriefs) {
+		UserAccountSyncModel userAccountSyncModel) {
 
-		for (OrganizationBrief organizationBrief : organizationBriefs) {
+		UserAccount userAccount = userAccountSyncModel.getUserAccount();
+
+		for (OrganizationBrief organizationBrief :
+				userAccountSyncModel.getOrganizationBriefs()) {
+
 			RoleBrief[] roleBriefs = organizationBrief.getRoleBriefs();
 
 			if (roleBriefs == null) {
@@ -285,59 +238,67 @@ public class UserAccountSynchronizer {
 		}
 	}
 
-	private void _syncUserAccount(UserAccount userAccount) throws Exception {
+	private void _syncUserAccount(UserAccountSyncModel userAccountSyncModel)
+		throws Exception {
+
+		UserAccount userAccount = userAccountSyncModel.getUserAccount();
+
 		if (_log.isInfoEnabled()) {
 			_log.info(
 				"Syncing user account " +
 					userAccount.getExternalReferenceCode() + " to JSM");
 		}
 
-		List<AccountBrief> accountBriefs = ListUtil.fromArray(
-			userAccount.getAccountBriefs());
-		List<OrganizationBrief> organizationBriefs = ListUtil.fromArray(
-			userAccount.getOrganizationBriefs());
-
 		JiraAssetObject jiraAssetObject = _contactConverter.toAssetObject(
 			userAccount);
 
-		jiraAssetObject.setAttributeValue(
-			ContactConstants.ATTRIBUTE_NAME_ACCOUNT,
+		List<String> objectIds = new ArrayList<>(
 			_jiraAssetService.fetchReferenceObjectIds(
-				_accountConverter, accountBriefs,
+				_accountConverter, userAccountSyncModel.getAccountBriefs(),
 				AccountBrief::getExternalReferenceCode));
+
+		objectIds.addAll(
+			_jiraAssetService.fetchReferenceObjectIds(
+				_accountConverter, userAccountSyncModel.getProjects(),
+				Project::getExternalReferenceCode));
+
+		jiraAssetObject.setAttributeValue(
+			ContactConstants.ATTRIBUTE_NAME_ACCOUNT, objectIds);
+
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_CONTACT_ROLES,
 			_jiraAssetService.fetchReferenceObjectIds(
-				_contactRoleConverter, _getRoleBriefs(userAccount),
+				_contactRoleConverter, userAccountSyncModel.getRoleBriefs(),
 				RoleBrief::getExternalReferenceCode));
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_ENTITLEMENTS,
 			_jiraAssetService.getOrCreateReferenceObjectIds(
 				_entitlementConverter,
-				_getEntitlementDefinitions(accountBriefs),
+				userAccountSyncModel.getEntitlementDefinitions(),
 				EntitlementDefinition::getDisplayName,
 				_entitlementConverter::toAssetObject));
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_EXTERNAL_LINKS,
 			_jiraAssetService.getOrCreateReferenceObjectIds(
-				_externalLinkConverter, _getExternalLinkProperties(userAccount),
+				_externalLinkConverter,
+				userAccountSyncModel.getExternalLinkProperties(),
 				Property::getExternalReferenceCode,
 				_externalLinkConverter::toAssetObject));
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_TEAMS,
 			_jiraAssetService.fetchReferenceObjectIds(
-				_teamConverter, organizationBriefs,
+				_teamConverter, userAccountSyncModel.getOrganizationBriefs(),
 				OrganizationBrief::getExternalReferenceCode));
 		jiraAssetObject.setAttributeValue(
 			ContactConstants.ATTRIBUTE_NAME_PHONES,
 			_jiraAssetService.getOrCreateReferenceObjectIds(
-				_phoneConverter, _getTelephones(userAccount),
+				_phoneConverter, userAccountSyncModel.getTelephones(),
 				Phone::getPhoneNumber, _phoneConverter::toAssetObject));
 
 		_jiraAssetService.upsert(_contactConverter, jiraAssetObject);
 
-		_syncContactRoleAssignments(userAccount, accountBriefs);
-		_syncOrganizationRoleAssignments(userAccount, organizationBriefs);
+		_syncContactRoleAssignments(userAccountSyncModel);
+		_syncOrganizationRoleAssignments(userAccountSyncModel);
 	}
 
 	private static final Log _log = LogFactory.getLog(
@@ -377,6 +338,12 @@ public class UserAccountSynchronizer {
 
 	@Autowired
 	private PhoneConverter _phoneConverter;
+
+	@Autowired
+	private ProjectMembershipService _projectMembershipService;
+
+	@Autowired
+	private ProjectService _projectService;
 
 	@Autowired
 	private PropertyService _propertyService;
