@@ -1,0 +1,23 @@
+task runGradleTest
+
+gradle.liferayWorkspace {
+	File bundleFile = file("bundle.zip")
+
+	URL bundleURL = bundleFile.toURL()
+
+	bundleUrl = bundleURL.toExternalForm()
+
+	bundleChecksumSHA512 = "6a92a5fce4177bb8f35329a5f1b5c7e7"
+
+	product = "dxp-2023.q4.6"
+}
+
+runGradleTest {
+	dependsOn initBundle
+
+	doLast {
+		assert tasks.downloadHotfix.state.skipped
+		assert tasks.prepareHotfix.state.skipped
+		assert !new File(projectDir, "configs").exists()
+	}
+}

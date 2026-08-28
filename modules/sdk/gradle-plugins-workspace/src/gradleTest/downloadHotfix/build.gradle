@@ -1,0 +1,31 @@
+task runGradleTest
+
+gradle.liferayWorkspace {
+	File bundleFile = file("bundle.zip")
+
+	URL bundleURL = bundleFile.toURL()
+
+	bundleUrl = bundleURL.toExternalForm()
+
+	bundleChecksumSHA512 = "6a92a5fce4177bb8f35329a5f1b5c7e7"
+
+	File hotfixFile = file("hotfix.zip")
+
+	URL hotfixURL = hotfixFile.toURL()
+
+	hotfixUrl = hotfixURL.toExternalForm() + "?token=abc"
+
+	product = "dxp-2023.q4.6"
+}
+
+runGradleTest {
+	dependsOn dockerDeploy
+	dependsOn initBundle
+
+	doLast {
+		assert new File(buildDir, "downloadHotfix/hotfix.zip").exists()
+		assert new File(projectDir, "configs/common/patching/hotfix.zip").exists()
+		assert new File(gradle.liferayWorkspace.dockerDir, "configs/local/patching/hotfix.zip").exists()
+		assert new File(gradle.liferayWorkspace.homeDir, "patching/hotfix.zip").exists()
+	}
+}
