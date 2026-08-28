@@ -20,7 +20,6 @@ function main {
 
 	../../gradlew --project-dir ../.. clean
 
-	./extract_hotfix.sh
 	./extract_license.sh
 
 	echo "Building Docker image."
