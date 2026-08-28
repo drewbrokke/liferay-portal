@@ -1287,8 +1287,28 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 				@Override
 				public boolean isSatisfiedBy(Task task) {
-					return Validator.isNotNull(
-						workspaceExtension.getHotfixUrl());
+					if (Validator.isNull(workspaceExtension.getHotfixUrl())) {
+						return false;
+					}
+
+					File downloadFile = downloadHotfixTask.getDest();
+
+					File hotfixFile = new File(
+						copy.getDestinationDir(), downloadFile.getName());
+
+					if (hotfixFile.exists()) {
+						Logger logger = task.getLogger();
+
+						if (logger.isInfoEnabled()) {
+							logger.info(
+								"Hotfix file is already present at {}",
+								hotfixFile);
+						}
+
+						return false;
+					}
+
+					return true;
 				}
 
 			});
