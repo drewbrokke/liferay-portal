@@ -169,6 +169,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 	public static final String LOGS_DOCKER_CONTAINER_TASK_NAME =
 		"logsDockerContainer";
 
+	public static final String PREPARE_HOTFIX_TASK_NAME = "prepareHotfix";
+
 	public static final String PROVIDED_MODULES_CONFIGURATION_NAME =
 		"providedModules";
 
@@ -265,7 +267,10 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		_addTaskVerifyBundle(project, downloadBundleTask, workspaceExtension);
 
-		_addTaskDownloadHotfix(project, workspaceExtension);
+		Download downloadHotfixTask = _addTaskDownloadHotfix(
+			project, workspaceExtension);
+
+		_addTaskPrepareHotfix(project, downloadHotfixTask, workspaceExtension);
 
 		_addTaskInitBundle(
 			project, downloadBundleTask, workspaceExtension,
@@ -901,6 +906,7 @@ public class RootProjectConfigurator implements Plugin<Project> {
 				"Docker build directory.");
 		copy.setGroup(DOCKER_GROUP);
 
+		copy.dependsOn(PREPARE_HOTFIX_TASK_NAME);
 		copy.setDestinationDir(workspaceExtension.getDockerDir());
 		copy.setDuplicatesStrategy(DuplicatesStrategy.INCLUDE);
 
@@ -1152,7 +1158,7 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		initBundleTask.dependsOn(
 			VERIFY_PRODUCT_TASK_NAME, downloadBundleTask,
-			VERIFY_BUNDLE_TASK_NAME);
+			VERIFY_BUNDLE_TASK_NAME, PREPARE_HOTFIX_TASK_NAME);
 
 		_configureFixTargetTomcatConfigs(
 			initBundleTask::getDestinationDir, initBundleTask);
@@ -1242,6 +1248,52 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			});
 
 		return dockerLogsContainer;
+	}
+
+	private Copy _addTaskPrepareHotfix(
+		Project project, Download downloadHotfixTask,
+		final WorkspaceExtension workspaceExtension) {
+
+		Copy copy = GradleUtil.addTask(
+			project, PREPARE_HOTFIX_TASK_NAME, Copy.class);
+
+		copy.dependsOn(downloadHotfixTask);
+
+		copy.from(
+			new Callable<File>() {
+
+				@Override
+				public File call() throws Exception {
+					return downloadHotfixTask.getDest();
+				}
+
+			});
+		copy.into(
+			new Callable<File>() {
+
+				@Override
+				public File call() throws Exception {
+					return new File(
+						workspaceExtension.getConfigsDir(), "common/patching");
+				}
+
+			});
+		copy.onlyIf(
+			new Spec<Task>() {
+
+				@Override
+				public boolean isSatisfiedBy(Task task) {
+					return Validator.isNotNull(
+						workspaceExtension.getHotfixUrl());
+				}
+
+			});
+		copy.setDescription(
+			"Copies the downloaded Liferay hotfix zip file into the common " +
+				"patching directory.");
+		copy.setGroup(BUNDLE_GROUP);
+
+		return copy;
 	}
 
 	private DockerPullImage _addTaskPullDockerImage(
