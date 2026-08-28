@@ -18,6 +18,16 @@ gradle.liferayWorkspace {
 	product = "dxp-2023.q4.6"
 }
 
+prepareHotfix {
+	doFirst {
+		File staleDockerHotfixFile = new File(gradle.liferayWorkspace.dockerDir, "configs/local/patching/liferay-dxp-old-hotfix-1.zip")
+
+		staleDockerHotfixFile.parentFile.mkdirs()
+
+		staleDockerHotfixFile.text = "stale"
+	}
+}
+
 runGradleTest {
 	dependsOn dockerDeploy
 	dependsOn initBundle
@@ -27,5 +37,8 @@ runGradleTest {
 		assert new File(projectDir, "configs/common/patching/hotfix.zip").exists()
 		assert new File(gradle.liferayWorkspace.dockerDir, "configs/local/patching/hotfix.zip").exists()
 		assert new File(gradle.liferayWorkspace.homeDir, "patching/hotfix.zip").exists()
+
+		assert !new File(projectDir, "configs/common/patching/liferay-dxp-old-hotfix-1.zip").exists()
+		assert !new File(gradle.liferayWorkspace.dockerDir, "configs/local/patching/liferay-dxp-old-hotfix-1.zip").exists()
 	}
 }

@@ -78,6 +78,7 @@ import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.execution.TaskExecutionGraph;
+import org.gradle.api.file.ConfigurableFileTree;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.Directory;
 import org.gradle.api.file.DirectoryProperty;
@@ -141,6 +142,9 @@ public class RootProjectConfigurator implements Plugin<Project> {
 	public static final String CREATE_DOCKERFILE_TASK_NAME = "createDockerfile";
 
 	public static final String CREATE_TOKEN_TASK_NAME = "createToken";
+
+	public static final String DELETE_STALE_HOTFIXES_TASK_NAME =
+		"deleteStaleHotfixes";
 
 	public static final String DIST_BUNDLE_TAR_ALL_TASK_NAME =
 		"distBundleTarAll";
@@ -270,7 +274,11 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		Download downloadHotfixTask = _addTaskDownloadHotfix(
 			project, workspaceExtension);
 
-		_addTaskPrepareHotfix(project, downloadHotfixTask, workspaceExtension);
+		Copy prepareHotfixTask = _addTaskPrepareHotfix(
+			project, downloadHotfixTask, workspaceExtension);
+
+		_addTaskDeleteStaleHotfixes(
+			project, downloadHotfixTask, prepareHotfixTask, workspaceExtension);
 
 		_addTaskInitBundle(
 			project, downloadBundleTask, workspaceExtension,
@@ -763,6 +771,51 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		return createTokenTask;
 	}
 
+	private Task _addTaskDeleteStaleHotfixes(
+		final Project project, Download downloadHotfixTask,
+		Copy prepareHotfixTask, final WorkspaceExtension workspaceExtension) {
+
+		Task task = GradleUtil.addTask(
+			project, DELETE_STALE_HOTFIXES_TASK_NAME, DefaultTask.class);
+
+		task.doLast(
+			new Action<Task>() {
+
+				@Override
+				public void execute(Task task) {
+					File downloadFile = downloadHotfixTask.getDest();
+
+					_deleteStaleHotfixFiles(
+						project, prepareHotfixTask.getDestinationDir(),
+						downloadFile.getName());
+					_deleteStaleHotfixFiles(
+						project,
+						new File(
+							workspaceExtension.getDockerDir(),
+							LIFERAY_CONFIGS_DIR_NAME),
+						downloadFile.getName());
+				}
+
+			});
+		task.mustRunAfter(prepareHotfixTask);
+		task.onlyIf(
+			new Spec<Task>() {
+
+				@Override
+				public boolean isSatisfiedBy(Task task) {
+					return Validator.isNotNull(
+						workspaceExtension.getHotfixUrl());
+				}
+
+			});
+		task.setDescription(
+			"Deletes hotfix zip files that do not match the configured " +
+				"hotfix URL.");
+		task.setGroup(BUNDLE_GROUP);
+
+		return task;
+	}
+
 	private Copy _addTaskDistBundle(
 		Project project, Download downloadBundleTask, String taskName,
 		WorkspaceExtension workspaceExtension,
@@ -906,7 +959,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 				"Docker build directory.");
 		copy.setGroup(DOCKER_GROUP);
 
-		copy.dependsOn(PREPARE_HOTFIX_TASK_NAME);
+		copy.dependsOn(
+			DELETE_STALE_HOTFIXES_TASK_NAME, PREPARE_HOTFIX_TASK_NAME);
 		copy.setDestinationDir(workspaceExtension.getDockerDir());
 		copy.setDuplicatesStrategy(DuplicatesStrategy.INCLUDE);
 
@@ -1158,7 +1212,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 		initBundleTask.dependsOn(
 			VERIFY_PRODUCT_TASK_NAME, downloadBundleTask,
-			VERIFY_BUNDLE_TASK_NAME, PREPARE_HOTFIX_TASK_NAME);
+			VERIFY_BUNDLE_TASK_NAME, DELETE_STALE_HOTFIXES_TASK_NAME,
+			PREPARE_HOTFIX_TASK_NAME);
 
 		_configureFixTargetTomcatConfigs(
 			initBundleTask::getDestinationDir, initBundleTask);
@@ -2164,6 +2219,32 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		File file = new File(dir, ".touch");
 
 		file.createNewFile();
+	}
+
+	private void _deleteStaleHotfixFiles(
+		Project project, File dir, String hotfixFileName) {
+
+		if (!dir.exists()) {
+			return;
+		}
+
+		ConfigurableFileTree fileTree = project.fileTree(dir);
+
+		fileTree.include("**/*hotfix*.zip");
+
+		for (File file : fileTree.getFiles()) {
+			if (Objects.equals(file.getName(), hotfixFileName)) {
+				continue;
+			}
+
+			Logger logger = project.getLogger();
+
+			if (logger.isLifecycleEnabled()) {
+				logger.lifecycle("Deleting stale hotfix file {}", file);
+			}
+
+			file.delete();
+		}
 	}
 
 	private String _getDockerContainerId(Project project) {
