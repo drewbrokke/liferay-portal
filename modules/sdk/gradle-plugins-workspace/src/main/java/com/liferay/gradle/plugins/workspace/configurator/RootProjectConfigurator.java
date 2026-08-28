@@ -160,6 +160,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 	public static final String DOWNLOAD_BUNDLE_TASK_NAME = "downloadBundle";
 
+	public static final String DOWNLOAD_HOTFIX_TASK_NAME = "downloadHotfix";
+
 	public static final String INIT_BUNDLE_TASK_NAME = "initBundle";
 
 	public static final String LIFERAY_CONFIGS_DIR_NAME = "configs";
@@ -262,6 +264,8 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			project, verifyProductTask, workspaceExtension);
 
 		_addTaskVerifyBundle(project, downloadBundleTask, workspaceExtension);
+
+		_addTaskDownloadHotfix(project, workspaceExtension);
 
 		_addTaskInitBundle(
 			project, downloadBundleTask, workspaceExtension,
@@ -1086,6 +1090,57 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		return download;
 	}
 
+	private Download _addTaskDownloadHotfix(
+		final Project project, final WorkspaceExtension workspaceExtension) {
+
+		final Download download = GradleUtil.addTask(
+			project, DOWNLOAD_HOTFIX_TASK_NAME, Download.class);
+
+		download.onlyIf(
+			new Spec<Task>() {
+
+				@Override
+				public boolean isSatisfiedBy(Task task) {
+					if (Validator.isNull(workspaceExtension.getHotfixUrl())) {
+						return false;
+					}
+
+					File downloadFile = download.getDest();
+
+					if (downloadFile.exists()) {
+						Logger logger = task.getLogger();
+
+						if (logger.isInfoEnabled()) {
+							logger.info(
+								"Hotfix file is already downloaded at {}",
+								downloadFile);
+						}
+
+						return false;
+					}
+
+					return true;
+				}
+
+			});
+
+		download.onlyIfNewer(true);
+		download.setDescription("Downloads the Liferay hotfix zip file.");
+
+		project.afterEvaluate(
+			new Action<Project>() {
+
+				@Override
+				public void execute(Project project) {
+					_configureTaskDownloadHotfix(
+						project, download, workspaceExtension);
+				}
+
+			});
+
+		return download;
+	}
+
 	private InitBundleTask _addTaskInitBundle(
 		Project project, Download downloadBundleTask,
 		final WorkspaceExtension workspaceExtension,
@@ -1747,41 +1802,7 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			return;
 		}
 
-		try {
-			if (bundleURLString.startsWith("file:")) {
-				URL url = new URL(bundleURLString);
-
-				Path bundleFilePath = Path.path(url.getPath());
-
-				File file = null;
-
-				if (bundleFilePath.isAbsolute()) {
-					file = new File(url.getFile());
-
-					file = file.getAbsoluteFile();
-				}
-				else {
-					file = project.file(url.getFile());
-				}
-
-				if (Objects.isNull(file)) {
-					return;
-				}
-
-				URI uri = file.toURI();
-
-				bundleURLString = uri.toASCIIString();
-			}
-			else {
-				bundleURLString = bundleURLString.replace(" ", "%20");
-			}
-
-			download.src(bundleURLString);
-		}
-		catch (MalformedURLException malformedURLException) {
-			throw new GradleException(
-				malformedURLException.getMessage(), malformedURLException);
-		}
+		download.src(_getDownloadURLString(project, bundleURLString));
 	}
 
 	private void _configureFixTargetTomcatConfigs(
@@ -1950,6 +1971,42 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			});
 	}
 
+	private void _configureTaskDownloadHotfix(
+		Project project, Download download,
+		WorkspaceExtension workspaceExtension) {
+
+		String hotfixURLString = workspaceExtension.getHotfixUrl();
+
+		if (Objects.isNull(hotfixURLString)) {
+			return;
+		}
+
+		hotfixURLString = _getDownloadURLString(project, hotfixURLString);
+
+		try {
+			URL url = new URL(hotfixURLString);
+
+			String fileName = FilenameUtils.getName(url.getPath());
+
+			if (Validator.isNull(fileName)) {
+				throw new GradleException(
+					"Unable to get the hotfix file name from " +
+						hotfixURLString);
+			}
+
+			download.dest(
+				new File(
+					project.getBuildDir(),
+					DOWNLOAD_HOTFIX_TASK_NAME + "/" + fileName));
+		}
+		catch (MalformedURLException malformedURLException) {
+			throw new GradleException(
+				malformedURLException.getMessage(), malformedURLException);
+		}
+
+		download.src(hotfixURLString);
+	}
+
 	private void _configureTaskUpdateWorkspace(Task task) {
 		final Project project = task.getProject();
 
@@ -2070,6 +2127,37 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		return new File(
 			download.getDest(),
 			fileName.substring(fileName.lastIndexOf('/') + 1));
+	}
+
+	private String _getDownloadURLString(Project project, String urlString) {
+		if (!urlString.startsWith("file:")) {
+			return urlString.replace(" ", "%20");
+		}
+
+		try {
+			URL url = new URL(urlString);
+
+			Path filePath = Path.path(url.getPath());
+
+			File file = null;
+
+			if (filePath.isAbsolute()) {
+				file = new File(url.getFile());
+
+				file = file.getAbsoluteFile();
+			}
+			else {
+				file = project.file(url.getFile());
+			}
+
+			URI uri = file.toURI();
+
+			return uri.toASCIIString();
+		}
+		catch (MalformedURLException malformedURLException) {
+			throw new GradleException(
+				malformedURLException.getMessage(), malformedURLException);
+		}
 	}
 
 	private String _getEnvVarOverride(String string) {
