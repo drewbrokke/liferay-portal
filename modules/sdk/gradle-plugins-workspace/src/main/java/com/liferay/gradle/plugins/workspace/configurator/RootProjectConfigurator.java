@@ -1264,6 +1264,10 @@ public class RootProjectConfigurator implements Plugin<Project> {
 
 				@Override
 				public File call() throws Exception {
+					if (Validator.isNull(workspaceExtension.getHotfixUrl())) {
+						return null;
+					}
+
 					return downloadHotfixTask.getDest();
 				}
 
@@ -2194,12 +2198,12 @@ public class RootProjectConfigurator implements Plugin<Project> {
 			File file = null;
 
 			if (filePath.isAbsolute()) {
-				file = new File(url.getFile());
+				file = new File(url.getPath());
 
 				file = file.getAbsoluteFile();
 			}
 			else {
-				file = project.file(url.getFile());
+				file = project.file(url.getPath());
 			}
 
 			URI uri = file.toURI();
