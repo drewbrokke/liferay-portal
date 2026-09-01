@@ -1,1 +1,6 @@
 apply from: "../modules/build-portal.gradle"
+
+tasks.named("writeFindBugsProject") {
+//	auxClasspath(file("../portal-kernel/classes"))
+	classpath(file("../portal-kernel/classes"))
+}
