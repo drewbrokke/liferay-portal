@@ -30,6 +30,15 @@
 		},
 		{
 			"aggregationType": "count",
+			"externalReferenceCode": "ldp-events-monthly",
+			"overageCurrency": "USD",
+			"overageRate": 0.0001,
+			"period": "per month",
+			"quantity": 1000000,
+			"unit": "events"
+		},
+		{
+			"aggregationType": "count",
 			"externalReferenceCode": "page-views-monthly",
 			"overageCurrency": "USD",
 			"overageRate": 0.001,
