@@ -644,7 +644,7 @@ public class BatchEnginePortletDataHandlerTest {
 			ObjectDefinitionConstants.SCOPE_COMPANY);
 
 		ObjectEntry[] objectEntries = _addObjectEntries(
-			3, 0L, objectDefinition);
+			DLTestUtil.randomTextFileBytes(), 3, 0L, objectDefinition);
 
 		File larFile = new ExportImportExecutor(
 		).withGroupId(
@@ -660,6 +660,7 @@ public class BatchEnginePortletDataHandlerTest {
 		Map<String, Serializable> values = objectEntry.getValues();
 
 		ObjectEntry duplicateObjectEntry = _addObjectEntry(
+			DLTestUtil.randomTextFileBytes(),
 			GroupConstants.DEFAULT_PARENT_GROUP_ID, objectDefinition,
 			values.get(_OBJECT_FIELD_NAME_TEXT));
 
@@ -763,8 +764,10 @@ public class BatchEnginePortletDataHandlerTest {
 		ObjectDefinition objectDefinition = _addObjectDefinition(
 			ObjectDefinitionConstants.SCOPE_COMPANY);
 
+		byte[] bytes = DLTestUtil.randomTextFileBytes();
+
 		ObjectEntry[] objectEntries = _addObjectEntries(
-			3, GroupConstants.DEFAULT_PARENT_GROUP_ID, objectDefinition);
+			bytes, 3, GroupConstants.DEFAULT_PARENT_GROUP_ID, objectDefinition);
 
 		File larFile1 = new ExportImportExecutor(
 		).withGroupId(
@@ -814,7 +817,8 @@ public class BatchEnginePortletDataHandlerTest {
 		).executeImport();
 
 		_assertObjectEntries(
-			false, objectDefinition.getObjectDefinitionId(), objectEntries);
+			bytes, false, objectDefinition.getObjectDefinitionId(),
+			objectEntries);
 
 		new ExportImportExecutor(
 		).withGroupId(
@@ -826,7 +830,8 @@ public class BatchEnginePortletDataHandlerTest {
 		).executeImport();
 
 		_assertObjectEntries(
-			false, objectDefinition.getObjectDefinitionId(), objectEntries);
+			bytes, false, objectDefinition.getObjectDefinitionId(),
+			objectEntries);
 
 		new ExportImportExecutor(
 		).withDeletions(
@@ -839,7 +844,8 @@ public class BatchEnginePortletDataHandlerTest {
 		).executeImport();
 
 		_assertObjectEntries(
-			false, objectDefinition.getObjectDefinitionId(), objectEntries[2]);
+			bytes, false, objectDefinition.getObjectDefinitionId(),
+			objectEntries[2]);
 		_assertNull(
 			objectDefinition.getObjectDefinitionId(), objectEntries[0],
 			objectEntries[1]);
@@ -2187,7 +2193,8 @@ public class BatchEnginePortletDataHandlerTest {
 			ObjectDefinitionConstants.SCOPE_SITE);
 
 		ObjectEntry[] objectEntries = _addObjectEntries(
-			3, group1.getGroupId(), objectDefinition);
+			DLTestUtil.randomTextFileBytes(), 3, group1.getGroupId(),
+			objectDefinition);
 
 		File larFile = new ExportImportExecutor(
 		).withGroupId(
@@ -2312,7 +2319,8 @@ public class BatchEnginePortletDataHandlerTest {
 		Group group1 = GroupTestUtil.addGroup();
 
 		ObjectEntry[] objectEntries = _addObjectEntries(
-			3, group1.getGroupId(), objectDefinition);
+			DLTestUtil.randomTextFileBytes(), 3, group1.getGroupId(),
+			objectDefinition);
 
 		File larFile = new ExportImportExecutor(
 		).withGroupId(
@@ -2358,8 +2366,10 @@ public class BatchEnginePortletDataHandlerTest {
 		ObjectDefinition objectDefinition = _addObjectDefinition(
 			ObjectDefinitionConstants.SCOPE_SITE);
 
+		byte[] bytes = DLTestUtil.randomTextFileBytes();
+
 		ObjectEntry[] objectEntries = _addObjectEntries(
-			3, group.getGroupId(), objectDefinition);
+			bytes, 3, group.getGroupId(), objectDefinition);
 
 		File larFile1 = new ExportImportExecutor(
 		).withGroupId(
@@ -2409,7 +2419,8 @@ public class BatchEnginePortletDataHandlerTest {
 		).executeImport();
 
 		_assertObjectEntries(
-			false, objectDefinition.getObjectDefinitionId(), objectEntries);
+			bytes, false, objectDefinition.getObjectDefinitionId(),
+			objectEntries);
 
 		new ExportImportExecutor(
 		).withGroupId(
@@ -2421,7 +2432,8 @@ public class BatchEnginePortletDataHandlerTest {
 		).executeImport();
 
 		_assertObjectEntries(
-			false, objectDefinition.getObjectDefinitionId(), objectEntries);
+			bytes, false, objectDefinition.getObjectDefinitionId(),
+			objectEntries);
 
 		new ExportImportExecutor(
 		).withDeletions(
@@ -2434,7 +2446,8 @@ public class BatchEnginePortletDataHandlerTest {
 		).executeImport();
 
 		_assertObjectEntries(
-			false, objectDefinition.getObjectDefinitionId(), objectEntries[2]);
+			bytes, false, objectDefinition.getObjectDefinitionId(),
+			objectEntries[2]);
 		_assertNull(
 			objectDefinition.getObjectDefinitionId(), objectEntries[0],
 			objectEntries[1]);
@@ -2806,7 +2819,9 @@ public class BatchEnginePortletDataHandlerTest {
 		ObjectDefinition objectDefinition = _addObjectDefinition(
 			ObjectDefinitionConstants.SCOPE_SITE);
 
-		_addObjectEntries(3, group1.getGroupId(), objectDefinition);
+		_addObjectEntries(
+			DLTestUtil.randomTextFileBytes(), 3, group1.getGroupId(),
+			objectDefinition);
 
 		File larFile = new ExportImportExecutor(
 		).withGroupId(
@@ -3599,17 +3614,50 @@ public class BatchEnginePortletDataHandlerTest {
 	}
 
 	private ObjectEntry[] _addObjectEntries(
-			int count, long groupId, ObjectDefinition objectDefinition)
+			byte[] bytes, int count, long groupId,
+			ObjectDefinition objectDefinition)
 		throws Exception {
 
 		ObjectEntry[] objectEntries = new ObjectEntry[count];
 
 		for (int i = 0; i < count; i++) {
 			objectEntries[i] = _addObjectEntry(
-				groupId, objectDefinition, RandomTestUtil.randomString());
+				bytes, groupId, objectDefinition,
+				RandomTestUtil.randomString());
 		}
 
 		return objectEntries;
+	}
+
+	private ObjectEntry _addObjectEntry(
+			byte[] bytes, long groupId, ObjectDefinition objectDefinition,
+			Serializable objectFieldValue)
+		throws Exception {
+
+		Company company = _companyLocalService.getCompany(
+			TestPropsValues.getCompanyId());
+
+		DLFileEntry dlFileEntry = _addDLFileEntry(
+			DLTestUtil.randomTextFileBytes(), company.getGroupId());
+
+		FileEntry tempFileEntry1 = _addTempFileEntry(
+			DLTestUtil.randomTextFileBytes(), objectDefinition);
+		FileEntry tempFileEntry2 = _addTempFileEntry(bytes, objectDefinition);
+
+		return _addObjectEntry(
+			groupId, objectDefinition,
+			(Map)HashMapBuilder.<String, Serializable>put(
+				_OBJECT_FIELD_NAME_ATTACHMENT_DOCS_AND_MEDIA,
+				dlFileEntry.getFileEntryId()
+			).put(
+				_OBJECT_FIELD_NAME_ATTACHMENT_SHOW_FILES_IN_DOCS_AND_MEDIA,
+				tempFileEntry1.getFileEntryId()
+			).put(
+				_OBJECT_FIELD_NAME_ATTACHMENT_USER_COMPUTER,
+				tempFileEntry2.getFileEntryId()
+			).put(
+				_OBJECT_FIELD_NAME_TEXT, objectFieldValue
+			).build());
 	}
 
 	private ObjectEntry _addObjectEntry(
@@ -3642,40 +3690,6 @@ public class BatchEnginePortletDataHandlerTest {
 			objectDefinition.getObjectDefinitionId(),
 			ObjectEntryFolderConstants.PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
 			null, values, serviceContext);
-	}
-
-	private ObjectEntry _addObjectEntry(
-			long groupId, ObjectDefinition objectDefinition,
-			Serializable objectFieldValue)
-		throws Exception {
-
-		Company company = _companyLocalService.getCompany(
-			TestPropsValues.getCompanyId());
-
-		DLFileEntry dlFileEntry = _addDLFileEntry(
-			_OBJECT_FIELD_VALUE_ATTACHMENT_DOCS_AND_MEDIA,
-			company.getGroupId());
-
-		FileEntry tempFileEntry1 = _addTempFileEntry(
-			_OBJECT_FIELD_VALUE_ATTACHMENT_SHOW_FILES_IN_DOCS_AND_MEDIA,
-			objectDefinition);
-		FileEntry tempFileEntry2 = _addTempFileEntry(
-			_OBJECT_FIELD_VALUE_ATTACHMENT_USER_COMPUTER, objectDefinition);
-
-		return _addObjectEntry(
-			groupId, objectDefinition,
-			(Map)HashMapBuilder.<String, Serializable>put(
-				_OBJECT_FIELD_NAME_ATTACHMENT_DOCS_AND_MEDIA,
-				dlFileEntry.getFileEntryId()
-			).put(
-				_OBJECT_FIELD_NAME_ATTACHMENT_SHOW_FILES_IN_DOCS_AND_MEDIA,
-				tempFileEntry1.getFileEntryId()
-			).put(
-				_OBJECT_FIELD_NAME_ATTACHMENT_USER_COMPUTER,
-				tempFileEntry2.getFileEntryId()
-			).put(
-				_OBJECT_FIELD_NAME_TEXT, objectFieldValue
-			).build());
 	}
 
 	private ObjectField[] _addObjectFields(
@@ -4007,7 +4021,7 @@ public class BatchEnginePortletDataHandlerTest {
 	}
 
 	private void _assertObjectEntries(
-			boolean empty, long objectDefinitionId,
+			byte[] bytes, boolean empty, long objectDefinitionId,
 			ObjectEntry... objectEntries)
 		throws Exception {
 
@@ -4050,9 +4064,7 @@ public class BatchEnginePortletDataHandlerTest {
 
 			String content = StringUtil.read(dlFileEntry.getContentStream());
 
-			Assert.assertArrayEquals(
-				_OBJECT_FIELD_VALUE_ATTACHMENT_USER_COMPUTER,
-				content.getBytes());
+			Assert.assertArrayEquals(bytes, content.getBytes());
 		}
 	}
 
@@ -4554,8 +4566,10 @@ public class BatchEnginePortletDataHandlerTest {
 
 		ObjectDefinition objectDefinition = _addObjectDefinition(scope);
 
+		byte[] bytes = DLTestUtil.randomTextFileBytes();
+
 		ObjectEntry[] objectEntries = _addObjectEntries(
-			3, _getObjectEntryGroupId(group.getGroupId(), scope),
+			bytes, 3, _getObjectEntryGroupId(group.getGroupId(), scope),
 			objectDefinition);
 
 		File larFile = new ExportImportExecutor(
@@ -4577,7 +4591,8 @@ public class BatchEnginePortletDataHandlerTest {
 		).executeImport();
 
 		_assertObjectEntries(
-			false, objectDefinition.getObjectDefinitionId(), objectEntries);
+			bytes, false, objectDefinition.getObjectDefinitionId(),
+			objectEntries);
 	}
 
 	private void _testExportImportObjectEntriesWithComments(
@@ -4678,6 +4693,7 @@ public class BatchEnginePortletDataHandlerTest {
 		ObjectDefinition objectDefinition = _addObjectDefinition(scope);
 
 		ObjectEntry objectEntry = _addObjectEntry(
+			DLTestUtil.randomTextFileBytes(),
 			_getObjectEntryGroupId(group.getGroupId(), scope), objectDefinition,
 			StringUtil.randomString());
 
@@ -4832,14 +4848,16 @@ public class BatchEnginePortletDataHandlerTest {
 
 		ObjectDefinition objectDefinition1 = _addObjectDefinition(scope);
 
+		byte[] bytes = DLTestUtil.randomTextFileBytes();
+
 		ObjectEntry[] objectEntries1 = _addObjectEntries(
-			3, _getObjectEntryGroupId(group.getGroupId(), scope),
+			bytes, 3, _getObjectEntryGroupId(group.getGroupId(), scope),
 			objectDefinition1);
 
 		ObjectDefinition objectDefinition2 = _addObjectDefinition(scope);
 
 		ObjectEntry[] objectEntries2 = _addObjectEntries(
-			3, _getObjectEntryGroupId(group.getGroupId(), scope),
+			bytes, 3, _getObjectEntryGroupId(group.getGroupId(), scope),
 			objectDefinition2);
 
 		ObjectRelationship objectRelationship =
@@ -4940,10 +4958,10 @@ public class BatchEnginePortletDataHandlerTest {
 			).executeImport();
 
 			_assertObjectEntries(
-				true, objectDefinition1.getObjectDefinitionId(),
+				bytes, true, objectDefinition1.getObjectDefinitionId(),
 				objectEntries1);
 			_assertObjectEntries(
-				false, objectDefinition2.getObjectDefinitionId(),
+				bytes, false, objectDefinition2.getObjectDefinitionId(),
 				objectEntries2);
 
 			new ExportImportExecutor(
@@ -4956,7 +4974,7 @@ public class BatchEnginePortletDataHandlerTest {
 			).executeImport();
 
 			_assertObjectEntries(
-				false, objectDefinition1.getObjectDefinitionId(),
+				bytes, false, objectDefinition1.getObjectDefinitionId(),
 				objectEntries1);
 		}
 		else {
@@ -4970,14 +4988,14 @@ public class BatchEnginePortletDataHandlerTest {
 			).executeImport();
 
 			_assertObjectEntries(
-				false, objectDefinition1.getObjectDefinitionId(),
+				bytes, false, objectDefinition1.getObjectDefinitionId(),
 				objectEntries1);
 
 			if (Objects.equals(
 					ObjectRelationshipConstants.TYPE_MANY_TO_MANY, type)) {
 
 				_assertObjectEntries(
-					true, objectDefinition2.getObjectDefinitionId(),
+					bytes, true, objectDefinition2.getObjectDefinitionId(),
 					objectEntries2);
 			}
 			else if (Objects.equals(
@@ -5011,7 +5029,7 @@ public class BatchEnginePortletDataHandlerTest {
 			).executeImport();
 
 			_assertObjectEntries(
-				false, objectDefinition2.getObjectDefinitionId(),
+				bytes, false, objectDefinition2.getObjectDefinitionId(),
 				objectEntries2);
 		}
 	}
@@ -5178,7 +5196,7 @@ public class BatchEnginePortletDataHandlerTest {
 					portletDataHandler)));
 
 		ObjectEntry[] siteScopedObjectEntries = _addObjectEntries(
-			3, groupId, objectDefinition);
+			DLTestUtil.randomTextFileBytes(), 3, groupId, objectDefinition);
 
 		Assert.assertEquals(
 			siteScopedObjectEntries.length,
@@ -5265,16 +5283,6 @@ public class BatchEnginePortletDataHandlerTest {
 
 	private static final String _OBJECT_FIELD_NAME_TEXT =
 		"xText" + RandomTestUtil.randomString();
-
-	private static final byte[] _OBJECT_FIELD_VALUE_ATTACHMENT_DOCS_AND_MEDIA =
-		DLTestUtil.randomTextFileBytes();
-
-	private static final byte[]
-		_OBJECT_FIELD_VALUE_ATTACHMENT_SHOW_FILES_IN_DOCS_AND_MEDIA =
-			DLTestUtil.randomTextFileBytes();
-
-	private static final byte[] _OBJECT_FIELD_VALUE_ATTACHMENT_USER_COMPUTER =
-		DLTestUtil.randomTextFileBytes();
 
 	private static BundleContext _bundleContext;
 	private static final BiFunction
