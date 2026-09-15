@@ -26,7 +26,45 @@ public class TestIntegrationTomcatExtension {
 	}
 
 	public File getDir() {
-		return GradleUtil.toFile(_project, _dir);
+		File dir = GradleUtil.toFile(_project, _dir);
+
+		if ((dir != null) && dir.exists()) {
+			return dir;
+		}
+
+		File liferayHome = getLiferayHome();
+
+		if (liferayHome == null) {
+			return dir;
+		}
+
+		File[] liferayHomeFiles = liferayHome.listFiles(
+			new FileFilter() {
+
+				@Override
+				public boolean accept(File file) {
+					if (!file.isDirectory()) {
+						return false;
+					}
+
+					String fileName = file.getName();
+
+					if (fileName.equals("tomcat") ||
+						fileName.startsWith("tomcat-")) {
+
+						return true;
+					}
+
+					return false;
+				}
+
+			});
+
+		if ((liferayHomeFiles != null) && (liferayHomeFiles.length == 1)) {
+			return liferayHomeFiles[0];
+		}
+
+		return dir;
 	}
 
 	public String getHostName() {
