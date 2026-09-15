@@ -8,6 +8,7 @@ package com.liferay.gradle.plugins.test.integration;
 import com.liferay.gradle.plugins.test.integration.internal.util.GradleUtil;
 
 import java.io.File;
+import java.io.FileFilter;
 
 import org.gradle.api.Project;
 
@@ -34,6 +35,10 @@ public class TestIntegrationTomcatExtension {
 
 	public int getJmxRemotePort() {
 		return GradleUtil.toInteger(_jmxRemotePort);
+	}
+
+	public File getLicenseFile() {
+		return GradleUtil.toFile(_project, _licenseFile);
 	}
 
 	public File getLiferayHome() {
@@ -82,6 +87,10 @@ public class TestIntegrationTomcatExtension {
 		_jmxRemotePort = jmxRemotePort;
 	}
 
+	public void setLicenseFile(Object licenseFile) {
+		_licenseFile = licenseFile;
+	}
+
 	public void setLiferayHome(Object liferayHome) {
 		_liferayHome = liferayHome;
 	}
@@ -106,6 +115,7 @@ public class TestIntegrationTomcatExtension {
 	private Object _dir;
 	private Object _hostName = "localhost";
 	private Object _jmxRemotePort = 8099;
+	private Object _licenseFile;
 	private Object _liferayHome;
 	private Object _managerPassword = "tomcat";
 	private Object _managerUserName = "tomcat";
