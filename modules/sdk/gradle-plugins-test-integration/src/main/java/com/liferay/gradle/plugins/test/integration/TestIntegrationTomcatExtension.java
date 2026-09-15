@@ -76,7 +76,18 @@ public class TestIntegrationTomcatExtension {
 	}
 
 	public File getLicenseFile() {
-		return GradleUtil.toFile(_project, _licenseFile);
+		if (_licenseFile != null) {
+			return GradleUtil.toFile(_project, _licenseFile);
+		}
+
+		Project rootProject = _project.getRootProject();
+
+		if (!rootProject.hasProperty(_LICENSE_FILE_PROPERTY_NAME)) {
+			return null;
+		}
+
+		return rootProject.file(
+			rootProject.property(_LICENSE_FILE_PROPERTY_NAME));
 	}
 
 	public File getLiferayHome() {
@@ -148,6 +159,9 @@ public class TestIntegrationTomcatExtension {
 	public void setPortNumber(Object portNumber) {
 		_portNumber = portNumber;
 	}
+
+	private static final String _LICENSE_FILE_PROPERTY_NAME =
+		"integration.test.license.file";
 
 	private Object _checkPath = "/web/guest";
 	private Object _dir;
