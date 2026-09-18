@@ -5,6 +5,7 @@
 
 package com.liferay.layout.page.template.admin.web.internal.display.context;
 
+import com.liferay.design.library.util.DesignLibraryUtil;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemListBuilder;
 import com.liferay.layout.page.template.constants.LayoutPageTemplateConstants;
@@ -16,9 +17,11 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.staging.StagingGroupHelper;
 import com.liferay.staging.StagingGroupHelperUtil;
@@ -47,12 +50,16 @@ public class LayoutPageTemplatesAdminDisplayContext {
 			liferayPortletRequest);
 		_themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
+
+		_updatePortletDisplay();
 	}
 
 	public List<NavigationItem> getNavigationItems() {
 		Group group = _themeDisplay.getScopeGroup();
 
-		if (group.isCompany()) {
+		if (group.isCompany() ||
+			DesignLibraryUtil.isDesignLibraryScope(group)) {
+
 			return Collections.emptyList();
 		}
 
@@ -114,7 +121,9 @@ public class LayoutPageTemplatesAdminDisplayContext {
 
 		Group group = _themeDisplay.getScopeGroup();
 
-		if (group.isCompany()) {
+		if (group.isCompany() ||
+			DesignLibraryUtil.isDesignLibraryScope(group)) {
+
 			_tabs1 = "page-templates";
 
 			return _tabs1;
@@ -143,6 +152,28 @@ public class LayoutPageTemplatesAdminDisplayContext {
 		}
 
 		return false;
+	}
+
+	private void _updatePortletDisplay() {
+		Group group = _themeDisplay.getScopeGroup();
+
+		if (!DesignLibraryUtil.isDesignLibraryScope(group)) {
+			return;
+		}
+
+		PortletDisplay portletDisplay = _themeDisplay.getPortletDisplay();
+
+		portletDisplay.setPortletDecoratorId("barebone");
+		portletDisplay.setShowBackIcon(true);
+
+		String backURL = ParamUtil.getString(_httpServletRequest, "backURL");
+
+		if (Validator.isNull(backURL)) {
+			backURL = DesignLibraryUtil.getDesignLibraryResourcesURL(
+				group, _httpServletRequest);
+		}
+
+		portletDisplay.setURLBack(backURL);
 	}
 
 	private final HttpServletRequest _httpServletRequest;

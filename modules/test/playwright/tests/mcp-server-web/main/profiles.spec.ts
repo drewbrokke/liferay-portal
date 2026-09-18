@@ -584,9 +584,9 @@ test.describe('Profiles - Data Masks tab', () => {
 
 			await profilesPage.deselectAllButton.click();
 
-			await expect(
-				profilesPage.dialog.getByText(/Items? Selected/)
-			).toBeHidden();
+			await expect(profilesPage.dialog.getByRole('status')).toHaveText(
+				'Nothing Selected'
+			);
 			await expect(
 				profilesPage.maskCheckbox(firstMaskName)
 			).not.toBeChecked();
@@ -959,7 +959,7 @@ test.describe('Profiles - Tools tab', () => {
 			await profilesPage.deselectAllButton.click();
 
 			await expect(profilesPage.dialog.getByRole('status')).toHaveText(
-				'0 Items Selected'
+				'Nothing Selected'
 			);
 			await expect(profilesPage.addToolsSubmitButton).toBeDisabled();
 		}
@@ -979,7 +979,7 @@ test.describe('Profiles - Tools tab', () => {
 
 			await profilesPage.gotoToolsTab(name);
 
-			await profilesPage.removeToolButton('getToolSetsPage').click();
+			await profilesPage.clickAction('getToolSetsPage', 'Remove');
 
 			await profilesPage.dialog
 				.getByRole('button', {exact: true, name: 'Remove'})
@@ -1003,7 +1003,7 @@ test.describe('Profiles - Tools tab', () => {
 
 			await profilesPage.gotoToolsTab(name);
 
-			await profilesPage.removeToolButton('getToolSetsPage').click();
+			await profilesPage.clickAction('getToolSetsPage', 'Remove');
 
 			await profilesPage.dialog
 				.getByRole('button', {name: 'Cancel'})
@@ -1011,6 +1011,72 @@ test.describe('Profiles - Tools tab', () => {
 
 			await expect(profilesPage.dialog).toBeHidden();
 			await expect(profilesPage.row('getToolSetsPage')).toBeVisible();
+		}
+	);
+
+	test(
+		'Opens the Restrict Fields modal for a tool and closes it',
+		{tag: '@LPD-104967'},
+		async ({apiHelpers, profilesPage}) => {
+			const name = profileName();
+			const profile = await createProfile(apiHelpers, name);
+			await createProfileTool(
+				apiHelpers,
+				profile.externalReferenceCode,
+				'getToolSetsPage'
+			);
+
+			await profilesPage.gotoToolsTab(name);
+
+			await profilesPage.clickAction(
+				'getToolSetsPage',
+				'Restrict Fields'
+			);
+
+			await expect(
+				profilesPage.dialog.getByText(
+					'Restrict Fields: getToolSetsPage'
+				)
+			).toBeVisible();
+			await expect(
+				profilesPage.dialog.getByRole('button', {name: 'Save'})
+			).toBeVisible();
+
+			await profilesPage.dialog
+				.getByRole('button', {name: 'Cancel'})
+				.click();
+
+			await expect(profilesPage.dialog).toBeHidden();
+			await expect(profilesPage.row('getToolSetsPage')).toBeVisible();
+		}
+	);
+
+	test(
+		'Shows the item fields of a tool that returns a page',
+		{tag: '@LPD-104967'},
+		async ({apiHelpers, profilesPage}) => {
+			const name = profileName();
+			const profile = await createProfile(apiHelpers, name);
+			await createProfileTool(
+				apiHelpers,
+				profile.externalReferenceCode,
+				'getToolSetsPage'
+			);
+
+			await profilesPage.gotoToolsTab(name);
+
+			await profilesPage.clickAction(
+				'getToolSetsPage',
+				'Restrict Fields'
+			);
+
+			await expect(
+				profilesPage.fieldTreeItem('description')
+			).toBeVisible();
+			await expect(profilesPage.fieldTreeItem('name')).toBeVisible();
+
+			await expect(profilesPage.fieldTreeItem('items')).toBeHidden();
+			await expect(profilesPage.fieldTreeItem('totalCount')).toBeHidden();
 		}
 	);
 

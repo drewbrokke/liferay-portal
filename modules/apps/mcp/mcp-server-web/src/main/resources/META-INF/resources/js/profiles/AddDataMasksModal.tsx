@@ -6,14 +6,13 @@
 import ClayButton from '@clayui/button';
 import {TreeView} from '@clayui/core';
 import {ClayCheckbox} from '@clayui/form';
-import ClayManagementToolbar, {
-	ClayResultsBar,
-} from '@clayui/management-toolbar';
-import ClayModal, {useModal} from '@clayui/modal';
+import ClayManagementToolbar from '@clayui/management-toolbar';
+import ClayModal from '@clayui/modal';
 import React, {useMemo, useState} from 'react';
 
 import AutoSearch from '../components/AutoSearch';
 import Highlight from '../components/Highlight';
+import SelectedItemsBar from '../components/SelectedItemsBar';
 import {postProfileDataMask} from '../services/postProfileDataMask';
 import {DataMask, DataMaskTreeItem} from '../types';
 import {
@@ -47,8 +46,6 @@ export default function AddDataMasksModal({
 	const [query, setQuery] = useState('');
 	const [saving, setSaving] = useState(false);
 	const [selectedKeys, setSelectedKeys] = useState<Set<React.Key>>(new Set());
-
-	const {observer} = useModal({onClose});
 
 	const items = useMemo(
 		() => filterDataMaskTree(tree, query).items,
@@ -115,7 +112,7 @@ export default function AddDataMasksModal({
 	};
 
 	return (
-		<ClayModal observer={observer} size="lg">
+		<>
 			<ClayModal.Header
 				closeButtonAriaLabel={Liferay.Language.get('close')}
 			>
@@ -123,46 +120,22 @@ export default function AddDataMasksModal({
 			</ClayModal.Header>
 
 			<ClayModal.Body className="pt-0 px-0">
-				<ClayManagementToolbar>
-					<ClayManagementToolbar.Search
-						onSubmit={(event) => event.preventDefault()}
-					>
-						<AutoSearch onSearch={onSearch} query={query} />
-					</ClayManagementToolbar.Search>
-				</ClayManagementToolbar>
+				<div className="sticky-top">
+					<ClayManagementToolbar>
+						<ClayManagementToolbar.Search
+							onSubmit={(event) => event.preventDefault()}
+						>
+							<AutoSearch onSearch={onSearch} query={query} />
+						</ClayManagementToolbar.Search>
+					</ClayManagementToolbar>
 
-				{!!selectedExternalReferenceCodes.length && (
-					<ClayResultsBar>
-						<ClayResultsBar.Item expand>
-							<span
-								className="component-text text-truncate-inline"
-								role="status"
-							>
-								<span className="text-truncate">
-									{selectedExternalReferenceCodes.length}
-									&nbsp;
-									{selectedExternalReferenceCodes.length === 1
-										? Liferay.Language.get('item-selected')
-										: Liferay.Language.get(
-												'items-selected'
-											)}
-								</span>
-							</span>
-						</ClayResultsBar.Item>
+					<SelectedItemsBar
+						count={selectedExternalReferenceCodes.length}
+						onDeselectAll={() => setSelectedKeys(new Set())}
+					/>
+				</div>
 
-						<ClayResultsBar.Item>
-							<ClayButton
-								className="component-link tbar-link"
-								displayType="unstyled"
-								onClick={() => setSelectedKeys(new Set())}
-							>
-								{Liferay.Language.get('deselect-all')}
-							</ClayButton>
-						</ClayResultsBar.Item>
-					</ClayResultsBar>
-				)}
-
-				<div className="cadmin container-fluid container-fluid-max-xl px-4 py-2">
+				<div className="px-4 py-2">
 					{items.length ? (
 						<TreeView
 							className="bg-transparent"
@@ -242,6 +215,6 @@ export default function AddDataMasksModal({
 					</ClayButton.Group>
 				}
 			/>
-		</ClayModal>
+		</>
 	);
 }

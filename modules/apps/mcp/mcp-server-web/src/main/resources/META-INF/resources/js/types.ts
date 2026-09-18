@@ -101,9 +101,10 @@ export type ProfilePayload = {
 };
 
 export type ProfileTool = {
-	externalReferenceCode?: string;
+	externalReferenceCode: string;
 	id?: number;
 	r_mcpServerProfileToTools_l_mcpServerProfileId?: number;
+	restrictFields?: string;
 	toolName: string;
 	toolSetName: string;
 };
@@ -117,6 +118,22 @@ export type ProfileToolPayload = {
 	r_mcpServerProfileToTools_l_mcpServerProfileERC: string;
 	toolName: string;
 	toolSetName: string;
+};
+
+export type JSONSchema = {
+	additionalProperties?: JSONSchema | boolean;
+	items?: JSONSchema;
+	properties?: Record<string, JSONSchema>;
+	readOnly?: boolean;
+	type?: string;
+	writeOnly?: boolean;
+};
+
+export type Tool = {
+	description?: string;
+	inputSchema?: JSONSchema;
+	name: string;
+	outputSchema?: JSONSchema;
 };
 
 export type ToolSet = {

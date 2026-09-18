@@ -246,4 +246,4 @@ public class ExternalScopedTestEntitySerDes {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:-532177492
+// LIFERAY-REST-BUILDER-HASH:-240560954

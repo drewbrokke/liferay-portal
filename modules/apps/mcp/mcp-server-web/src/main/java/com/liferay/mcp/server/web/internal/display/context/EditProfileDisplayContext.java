@@ -56,7 +56,7 @@ public class EditProfileDisplayContext {
 	public String getAPIURL() {
 		String apiURL = HttpComponentsUtil.addParameter(
 			"/o/mcp/server-profile-tools", "fields",
-			"externalReferenceCode,toolName,toolSetName");
+			"externalReferenceCode,restrictFields,toolName,toolSetName");
 
 		return HttpComponentsUtil.addParameter(
 			apiURL, "filter",
@@ -102,6 +102,10 @@ public class EditProfileDisplayContext {
 
 	public List<FDSActionDropdownItem> getFDSActionDropdownItems() {
 		return List.of(
+			new FDSActionDropdownItem(
+				"#", "low-vision", "restrict-fields",
+				LanguageUtil.get(_httpServletRequest, "restrict-fields"), "get",
+				null, null),
 			new FDSActionDropdownItem(
 				"#", "times-circle", "remove",
 				LanguageUtil.get(_httpServletRequest, "remove"), "get", null,

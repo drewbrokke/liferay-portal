@@ -94,6 +94,10 @@ export class ProfilesPage extends FDSTablePage {
 		return this.page.getByRole('link', {exact: true, name: 'Data Masks'});
 	}
 
+	fieldTreeItem(name: string): Locator {
+		return this.treeItem(name);
+	}
+
 	get formHeading(): Locator {
 		return this.page.locator('.control-menu-level-1-heading');
 	}
@@ -104,12 +108,6 @@ export class ProfilesPage extends FDSTablePage {
 
 	maskRow(name: string): Locator {
 		return this.masksRows.filter({hasText: name});
-	}
-
-	removeToolButton(name: string): Locator {
-		return this.rows
-			.filter({has: this.page.getByRole('cell', {exact: true, name})})
-			.getByLabel('Remove');
 	}
 
 	toolCheckbox(name: string): Locator {

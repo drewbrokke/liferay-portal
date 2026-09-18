@@ -308,3 +308,137 @@ test(
 		);
 	}
 );
+
+test(
+	'A CSV requested delivery date is previewed and stored on the imported items',
+	{tag: ['@LPD-106266']},
+	async ({apiHelpers, commerceLayoutsPage, page, pendingOrdersPage}) => {
+		await performUserSwitch(page, buyerScreenName);
+
+		const cart = await apiHelpers.headlessCommerceDeliveryCart.postCart(
+			{accountId: account.id},
+			channel.id
+		);
+
+		await pendingOrdersPage.gotoOrder(site.friendlyUrlPath, cart.id);
+
+		await pendingOrdersPage.openImportFromCSV();
+
+		await commerceLayoutsPage.importCsvFile(
+			path.join(
+				__dirname,
+				'/dependencies/commerce_valid_requested_delivery_date.csv'
+			)
+		);
+
+		await commerceLayoutsPage.expectImportCsvPreviewRow('U-Joint', {
+			importStatus: 'OK',
+			quantity: 1,
+			requestedDeliveryDate: '2022-12-04',
+			sku: 'MIN55861',
+		});
+		await commerceLayoutsPage.expectImportCsvPreviewRow('Mount', {
+			importStatus: 'OK',
+			quantity: 2,
+			requestedDeliveryDate: '2023-09-30',
+			sku: 'MIN55857',
+		});
+		await commerceLayoutsPage.expectImportCsvPreviewRow(
+			'Torque Converters',
+			{
+				importStatus: 'OK',
+				quantity: 3,
+				requestedDeliveryDate: '2022-02-23',
+				sku: 'MIN55859',
+			}
+		);
+
+		await commerceLayoutsPage.importCsvSubmitButton.click();
+
+		await expect(async () => {
+			const cartItems =
+				await apiHelpers.headlessCommerceDeliveryCart.getCartItems(
+					cart.id
+				);
+
+			expect(cartItems.totalCount).toBe(3);
+
+			for (const [sku, requestedDeliveryDate] of [
+				['MIN55861', '2022-12-04'],
+				['MIN55857', '2023-09-30'],
+				['MIN55859', '2022-02-23'],
+			]) {
+				const cartItem = cartItems.items.find(
+					(item: {sku: string}) => item.sku === sku
+				);
+
+				expect(cartItem.requestedDeliveryDate).toContain(
+					requestedDeliveryDate
+				);
+			}
+		}).toPass({timeout: 30000});
+	}
+);
+
+test(
+	'An invalid CSV requested delivery date is reported and left unset on the imported items',
+	{tag: ['@LPD-106266']},
+	async ({apiHelpers, commerceLayoutsPage, page, pendingOrdersPage}) => {
+		await performUserSwitch(page, buyerScreenName);
+
+		const cart = await apiHelpers.headlessCommerceDeliveryCart.postCart(
+			{accountId: account.id},
+			channel.id
+		);
+
+		await pendingOrdersPage.gotoOrder(site.friendlyUrlPath, cart.id);
+
+		await pendingOrdersPage.openImportFromCSV();
+
+		await commerceLayoutsPage.importCsvFile(
+			path.join(
+				__dirname,
+				'/dependencies/commerce_invalid_requested_delivery_date.csv'
+			)
+		);
+
+		const invalidDateMessage = 'The requested delivery date is invalid.';
+
+		await commerceLayoutsPage.expectImportCsvPreviewRow('U-Joint', {
+			importStatus: 'OK',
+			quantity: 1,
+			requestedDeliveryDate: invalidDateMessage,
+			sku: 'MIN55861',
+		});
+		await commerceLayoutsPage.expectImportCsvPreviewRow('Mount', {
+			importStatus: 'OK',
+			quantity: 2,
+			requestedDeliveryDate: invalidDateMessage,
+			sku: 'MIN55857',
+		});
+		await commerceLayoutsPage.expectImportCsvPreviewRow(
+			'Torque Converters',
+			{
+				importStatus: 'OK',
+				quantity: 3,
+				requestedDeliveryDate: invalidDateMessage,
+				sku: 'MIN55859',
+			}
+		);
+
+		await commerceLayoutsPage.importCsvSubmitButton.click();
+
+		await expect(async () => {
+			const cartItems =
+				await apiHelpers.headlessCommerceDeliveryCart.getCartItems(
+					cart.id
+				);
+
+			expect(cartItems.totalCount).toBe(3);
+
+			for (const cartItem of cartItems.items) {
+				expect(cartItem.requestedDeliveryDate).toBeFalsy();
+			}
+		}).toPass({timeout: 30000});
+	}
+);
