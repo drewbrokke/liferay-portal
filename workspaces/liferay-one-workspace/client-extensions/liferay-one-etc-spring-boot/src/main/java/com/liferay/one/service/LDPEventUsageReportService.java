@@ -8,7 +8,6 @@ package com.liferay.one.service;
 import com.liferay.one.constants.EntitlementConstants;
 import com.liferay.one.exception.GoogleCloudFunctionUnavailableException;
 import com.liferay.one.exception.InvalidUsageParameterException;
-import com.liferay.one.model.Contract;
 import com.liferay.one.model.Entitlement;
 import com.liferay.one.model.EntitlementDefinition;
 import com.liferay.one.model.LDPEventAllotment;
@@ -202,27 +201,6 @@ public class LDPEventUsageReportService {
 		return entitlementDefinition;
 	}
 
-	private String _fetchContractExternalReferenceCode(
-			List<Entitlement> entitlements)
-		throws Exception {
-
-		for (Entitlement entitlement : entitlements) {
-			long contractId = entitlement.getContractId();
-
-			if (contractId <= 0) {
-				continue;
-			}
-
-			Contract contract = _contractService.fetchContract(contractId);
-
-			if (contract != null) {
-				return contract.getExternalReferenceCode();
-			}
-		}
-
-		return null;
-	}
-
 	private LDPEventSummary _fetchLDPEventSummary(
 			String projectExternalReferenceCode, YearMonth yearMonth)
 		throws Exception {
@@ -318,7 +296,7 @@ public class LDPEventUsageReportService {
 
 		UsageReport usageReport = _usageReportService.addUsageReport(
 			ldpEventSummary.getTotalEventsCount(),
-			_fetchContractExternalReferenceCode(entitlements), startInstant,
+			_getContractExternalReferenceCode(entitlements), startInstant,
 			endInstant.minusMillis(1), ldpEventAllotment.getEntitledQuantity(),
 			externalReferenceCode, project, skuExternalReferenceCode,
 			usageDefinition);
@@ -334,6 +312,21 @@ public class LDPEventUsageReportService {
 		}
 
 		return true;
+	}
+
+	private String _getContractExternalReferenceCode(
+		List<Entitlement> entitlements) {
+
+		for (Entitlement entitlement : entitlements) {
+			String contractExternalReferenceCode =
+				entitlement.getContractExternalReferenceCode();
+
+			if (Validator.isNotNull(contractExternalReferenceCode)) {
+				return contractExternalReferenceCode;
+			}
+		}
+
+		return null;
 	}
 
 	private Map<String, List<Entitlement>> _getEntitlementsByProject(
@@ -393,9 +386,6 @@ public class LDPEventUsageReportService {
 		EntitlementConstants.NAME_EVENTS_ADD_ON_BUCKET);
 	private static final DateTimeFormatter _yearMonthDateTimeFormatter =
 		DateTimeFormatter.ofPattern("yyyy_MM");
-
-	@Autowired
-	private ContractService _contractService;
 
 	@Autowired
 	private EntitlementDefinitionService _entitlementDefinitionService;

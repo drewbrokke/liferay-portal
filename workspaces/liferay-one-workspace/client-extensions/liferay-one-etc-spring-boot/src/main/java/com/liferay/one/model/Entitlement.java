@@ -21,6 +21,8 @@ public class Entitlement {
 			"r_accountEntryToEntitlement_accountEntryId");
 		_commerceOrderItemId = jsonObject.optLong(
 			"r_commerceOrderItemToEntitlement_commerceOrderItemId");
+		_contractExternalReferenceCode = jsonObject.optString(
+			"r_contractToEntitlement_c_contractERC");
 		_contractId = jsonObject.optLong(
 			"r_contractToEntitlement_c_contractId");
 		_entitlementDefinitionId = jsonObject.optLong(
@@ -69,6 +71,10 @@ public class Entitlement {
 
 	public long getCommerceOrderItemId() {
 		return _commerceOrderItemId;
+	}
+
+	public String getContractExternalReferenceCode() {
+		return _contractExternalReferenceCode;
 	}
 
 	public long getContractId() {
@@ -125,6 +131,7 @@ public class Entitlement {
 
 	private final long _accountEntryId;
 	private final long _commerceOrderItemId;
+	private final String _contractExternalReferenceCode;
 	private final long _contractId;
 	private final Instant _endDateInstant;
 	private final EntitlementDefinition _entitlementDefinition;

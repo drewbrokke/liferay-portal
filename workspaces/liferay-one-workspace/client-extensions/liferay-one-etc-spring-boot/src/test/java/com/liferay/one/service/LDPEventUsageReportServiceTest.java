@@ -7,7 +7,6 @@ package com.liferay.one.service;
 
 import com.liferay.one.constants.EntitlementConstants;
 import com.liferay.one.exception.InvalidUsageParameterException;
-import com.liferay.one.model.Contract;
 import com.liferay.one.model.Entitlement;
 import com.liferay.one.model.EntitlementDefinition;
 import com.liferay.one.model.Project;
@@ -43,8 +42,6 @@ public class LDPEventUsageReportServiceTest {
 		_ldpEventUsageReportService = new LDPEventUsageReportService();
 
 		ReflectionTestUtils.setField(
-			_ldpEventUsageReportService, "_contractService", _contractService);
-		ReflectionTestUtils.setField(
 			_ldpEventUsageReportService, "_entitlementDefinitionService",
 			_entitlementDefinitionService);
 		ReflectionTestUtils.setField(
@@ -61,18 +58,6 @@ public class LDPEventUsageReportServiceTest {
 		ReflectionTestUtils.setField(
 			_ldpEventUsageReportService, "_usageReportService",
 			_usageReportService);
-
-		Mockito.when(
-			_contractService.fetchContract(_CONTRACT_ID)
-		).thenReturn(
-			new Contract(
-				new JSONObject(
-				).put(
-					"externalReferenceCode", _CONTRACT_EXTERNAL_REFERENCE_CODE
-				).put(
-					"id", _CONTRACT_ID
-				))
-		);
 
 		Mockito.when(
 			_entitlementDefinitionService.fetchEntitlementDefinition(
@@ -359,7 +344,8 @@ public class LDPEventUsageReportServiceTest {
 		).put(
 			"name", name
 		).put(
-			"r_contractToEntitlement_c_contractId", _CONTRACT_ID
+			"r_contractToEntitlement_c_contractERC",
+			_CONTRACT_EXTERNAL_REFERENCE_CODE
 		).put(
 			"r_projectToEntitlement_c_projectERC", projectExternalReferenceCode
 		);
@@ -447,8 +433,6 @@ public class LDPEventUsageReportServiceTest {
 	private static final String _CONTRACT_EXTERNAL_REFERENCE_CODE =
 		"C_CONTRACT_001";
 
-	private static final long _CONTRACT_ID = 11;
-
 	private static final double _OVERAGE_BUCKET_SIZE = 200000;
 
 	private static final double _OVERAGE_RATE = 20;
@@ -473,8 +457,6 @@ public class LDPEventUsageReportServiceTest {
 
 	private static final YearMonth _YEAR_MONTH = YearMonth.of(2026, 8);
 
-	private final ContractService _contractService = Mockito.mock(
-		ContractService.class);
 	private final EntitlementDefinitionService _entitlementDefinitionService =
 		Mockito.mock(EntitlementDefinitionService.class);
 	private final EntitlementService _entitlementService = Mockito.mock(
