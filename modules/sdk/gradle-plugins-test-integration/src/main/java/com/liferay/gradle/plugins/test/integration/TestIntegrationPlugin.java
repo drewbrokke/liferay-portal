@@ -332,6 +332,16 @@ public class TestIntegrationPlugin implements Plugin<Project> {
 
 		startTestableTomcatTask.dependsOn(setUpTestableTomcatTask);
 
+		startTestableTomcatTask.setLicenseFile(
+			new Callable<File>() {
+
+				@Override
+				public File call() throws Exception {
+					return testIntegrationTomcatExtension.getLicenseFile();
+				}
+
+			});
+
 		Action<Task> action = new Action<Task>() {
 
 			@Override
