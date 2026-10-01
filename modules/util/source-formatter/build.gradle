@@ -4,8 +4,8 @@ apply plugin: "com.liferay.maven.plugin.builder"
 
 task installDistCache(type: Copy)
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "17"
+targetCompatibility = "17"
 
 File userHomeDistDir = new File(System.getProperty("user.home"), ".liferay/install/dist")
 
@@ -45,8 +45,8 @@ dependencies {
 	api group: "org.reflections", name: "reflections", version: "0.10.2"
 	api group: "xerces", name: "xercesImpl", version: "2.12.2"
 
-	compileInclude group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "6.4.0"
-	compileInclude group: "biz.aQute.bnd", name: "biz.aQute.bnd.util", version: "6.4.0"
+	compileInclude group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "7.2.1"
+	compileInclude group: "biz.aQute.bnd", name: "biz.aQute.bnd.util", version: "7.2.1"
 	compileInclude group: "com.liferay", name: "com.liferay.petra.function", version: "5.5.0"
 	compileInclude group: "com.liferay", name: "com.liferay.petra.io", version: "5.0.6"
 	compileInclude group: "com.liferay", name: "com.liferay.petra.lang", version: "1.0.0"
@@ -67,6 +67,7 @@ dependencies {
 	compileOnly group: "com.liferay.portal", name: "com.liferay.util.java", version: "2.5.0"
 	compileOnly group: "jakarta.servlet", name: "jakarta.servlet-api", version: "6.0.0"
 	compileOnly group: "org.apache.maven", name: "maven-plugin-api", transitive: false, version: "3.0.4"
+	compileOnly group: "org.osgi", name: "osgi.core", version: "6.0.0"
 
 	constraints {
 		compileOnly(group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "109.0.0") {
