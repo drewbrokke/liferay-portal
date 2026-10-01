@@ -10,8 +10,8 @@ task testAPIJar(type: Jar, dependsOn: testClasses)
 task uploadProjectTemplateArchives
 task writeProjectTemplateVersions
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "17"
+targetCompatibility = "17"
 
 Set<Project> projectTemplateProjects = project.parent.subprojects.findAll {
 	(!it.name.equals("project-templates-extensions")) && it.name.startsWith("project-templates")
@@ -64,7 +64,7 @@ dependencies {
 	compileInclude group: "com.beust", name: "jcommander", version: "1.82"
 	compileInclude group: "com.liferay", name: "com.liferay.project.templates.extensions", version: "1.0.146"
 
-	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "6.4.0"
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "7.2.1"
 	compileOnly group: "org.apache.maven.archetype", name: "archetype-common", version: "2.4"
 
 	projectTemplates group: "com.liferay", name: "com.liferay.project.templates.api", version: "1.0.203"
