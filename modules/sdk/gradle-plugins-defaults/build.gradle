@@ -1,7 +1,7 @@
 import com.liferay.gradle.util.GradleUtil
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "17"
+targetCompatibility = "17"
 
 String gradleVersion = "8.5"
 
@@ -16,9 +16,9 @@ tasks.eclipse {
 dependencies {
 	api group: "com.github.jk1", name: "gradle-license-report", version: "2.0"
 	api group: "com.gradle.publish", name: "plugin-publish-plugin", version: "0.11.0"
-	api group: "com.liferay", name: "com.liferay.gradle.plugins", version: "16.1.249"
+	api group: "com.liferay", name: "com.liferay.gradle.plugins", version: "17.0.0"
 	api group: "com.liferay", name: "com.liferay.gradle.plugins.app.javadoc.builder", version: "1.2.7"
-	api group: "com.liferay", name: "com.liferay.gradle.plugins.baseline", version: "7.0.9"
+	api group: "com.liferay", name: "com.liferay.gradle.plugins.baseline", version: "8.0.0"
 	api group: "com.liferay", name: "com.liferay.gradle.plugins.cache", version: "1.0.22"
 	api group: "com.liferay", name: "com.liferay.gradle.plugins.change.log.builder", version: "1.1.9"
 	api group: "com.liferay", name: "com.liferay.gradle.plugins.dependency.checker", version: "1.0.8"
