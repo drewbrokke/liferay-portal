@@ -23,7 +23,6 @@ import aQute.bnd.header.Parameters;
 import aQute.bnd.make.metatype.MetaTypeReader;
 import aQute.bnd.osgi.Analyzer;
 import aQute.bnd.osgi.Clazz;
-import aQute.bnd.osgi.Constants;
 import aQute.bnd.osgi.Jar;
 import aQute.bnd.service.AnalyzerPlugin;
 
@@ -37,7 +36,7 @@ public class MetatypePlugin implements AnalyzerPlugin {
 	@Override
 	public boolean analyzeJar(Analyzer analyzer) throws Exception {
 		Parameters parameters = analyzer.parseHeader(
-			analyzer.getProperty(Constants.METATYPE));
+			analyzer.getProperty(_METATYPE));
 
 		Jar jar = analyzer.getJar();
 
@@ -61,5 +60,7 @@ public class MetatypePlugin implements AnalyzerPlugin {
 	public String toString() {
 		return "MetatypePlugin";
 	}
+
+	private static final String _METATYPE = "-metatype";
 
 }

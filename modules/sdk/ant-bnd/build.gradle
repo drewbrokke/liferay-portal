@@ -1,5 +1,5 @@
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "17"
+targetCompatibility = "17"
 
 clean {
 	ext {
@@ -8,8 +8,8 @@ clean {
 }
 
 dependencies {
-	api group: "biz.aQute.bnd", name: "aQute.libg", version: "6.4.0"
-	api group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "6.4.0"
+	api group: "biz.aQute.bnd", name: "aQute.libg", version: "7.2.1"
+	api group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "7.2.1"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
 	compileOnly group: "org.apache.ant", name: "ant", transitive: false, version: "1.10.14"
 	testImplementation project(":core:petra:petra-function")
