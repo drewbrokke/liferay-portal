@@ -1,7 +1,7 @@
 apply plugin: "com.gradle.plugin-publish"
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "17"
+targetCompatibility = "17"
 
 String gradleVersion = "8.5"
 
@@ -14,7 +14,7 @@ tasks.eclipse {
 }
 
 dependencies {
-	api group: "com.liferay", name: "com.liferay.ant.bnd", version: "3.2.19"
+	api group: "com.liferay", name: "com.liferay.ant.bnd", version: "4.0.0"
 	api group: "com.liferay", name: "com.liferay.gradle.util", version: "1.0.53"
 	compileOnly fileTree(builtBy: [rootProject.tasks.getByName("extractGradleApi" + gradleVersion.replace(".", ""))], dir: new File(rootProject.buildDir, "gradle-${gradleVersion}"))
 }
