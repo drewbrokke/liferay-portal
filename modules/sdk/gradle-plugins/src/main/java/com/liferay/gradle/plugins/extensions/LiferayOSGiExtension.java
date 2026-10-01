@@ -48,7 +48,7 @@ public class LiferayOSGiExtension {
 	public static final String BUNDLE_DEFAULT_INSTRUCTION_LIFERAY_SERVICE_XML =
 		"-liferay-service-xml";
 
-	public static final String DONOTCOPY_DEFAULT = ".*\\.wsdd";
+	public static final String DONOTCOPY_DEFAULT = ".*\\\\.wsdd";
 
 	public LiferayOSGiExtension(Project project) {
 		_project = project;
