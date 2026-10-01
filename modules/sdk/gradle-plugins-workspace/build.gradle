@@ -4,8 +4,8 @@ apply plugin: "de.undercouch.download"
 
 task downloadNodeInfo(type: Download)
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "17"
+targetCompatibility = "17"
 
 String gradleVersion = "8.5"
 
@@ -35,12 +35,12 @@ configurations {
 dependencies {
 	compileOnly fileTree(builtBy: [rootProject.tasks.getByName("extractGradleApi" + gradleVersion.replace(".", ""))], dir: new File(rootProject.buildDir, "gradle-${gradleVersion}"))
 
-	implementation group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "6.4.0"
+	implementation group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "7.2.1"
 	implementation group: "com.bmuschko", name: "gradle-docker-plugin", version: "9.4.0"
 	implementation group: "com.fasterxml.jackson.dataformat", name: "jackson-dataformat-yaml", version: "2.18.1"
-	implementation group: "com.liferay", name: "com.liferay.gradle.plugins", version: "16.1.249"
+	implementation group: "com.liferay", name: "com.liferay.gradle.plugins", version: "17.0.0"
 	implementation group: "com.liferay", name: "com.liferay.gradle.plugins.poshi.runner", version: "4.0.30"
-	implementation group: "com.liferay", name: "com.liferay.gradle.plugins.target.platform", version: "4.0.5"
+	implementation group: "com.liferay", name: "com.liferay.gradle.plugins.target.platform", version: "5.0.0"
 	implementation group: "com.liferay", name: "com.liferay.gradle.plugins.theme.builder", version: "2.0.30"
 	implementation group: "com.liferay", name: "com.liferay.portal.tools.bundle.support", version: "3.7.7"
 
@@ -55,7 +55,7 @@ dependencies {
 	implementation group: "de.undercouch", name: "gradle-download-task", version: "5.4.0"
 	implementation group: "net.saliman", name: "gradle-properties-plugin", version: "1.4.6"
 
-	runtimeOnly group: "com.liferay", name: "com.liferay.ant.bnd", version: "3.2.19"
+	runtimeOnly group: "com.liferay", name: "com.liferay.ant.bnd", version: "4.0.0"
 	runtimeOnly group: "org.ow2.asm", name: "asm", version: "9.7"
 }
 
