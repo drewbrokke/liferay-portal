@@ -53,6 +53,7 @@ public class LiferayOSGiExtension {
 	public LiferayOSGiExtension(Project project) {
 		_project = project;
 
+		_bundleDefaultInstructions.put(_METATYPE, "*");
 		_bundleDefaultInstructions.put(
 			Constants.BUNDLE_SYMBOLICNAME, project.getName());
 		_bundleDefaultInstructions.put(Constants.CDIANNOTATIONS, "");
@@ -69,7 +70,6 @@ public class LiferayOSGiExtension {
 		_bundleDefaultInstructions.put(
 			Constants.FIXUPMESSAGES + ".unicode.string",
 			"Invalid unicode string");
-		_bundleDefaultInstructions.put(Constants.METATYPE, "*");
 		_bundleDefaultInstructions.put(Constants.NOCLASSFORNAME, Boolean.TRUE);
 		_bundleDefaultInstructions.put(
 			Constants.PLUGIN + ".liferay",
@@ -195,6 +195,8 @@ public class LiferayOSGiExtension {
 		SpringDependencyAnalyzerPlugin.class.getName(),
 		EnterpriseAnalyzerPlugin.class.getName()
 	};
+
+	private static final String _METATYPE = "-metatype";
 
 	private boolean _autoUpdateXml = true;
 	private final Map<String, Object> _bundleDefaultInstructions =
