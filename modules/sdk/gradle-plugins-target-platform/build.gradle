@@ -1,5 +1,5 @@
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "17"
+targetCompatibility = "17"
 
 String gradleVersion = "8.5"
 
@@ -12,10 +12,10 @@ tasks.eclipse {
 }
 
 dependencies {
-	api group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "6.4.0"
-	api group: "biz.aQute.bnd", name: "biz.aQute.bnd.gradle", version: "6.4.0"
-	api group: "biz.aQute.bnd", name: "biz.aQute.repository", version: "6.4.0"
-	api group: "biz.aQute.bnd", name: "biz.aQute.resolve", version: "6.4.0"
+	api group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "7.2.1"
+	api group: "biz.aQute.bnd", name: "biz.aQute.bnd.gradle", version: "7.2.1"
+	api group: "biz.aQute.bnd", name: "biz.aQute.repository", version: "7.2.1"
+	api group: "biz.aQute.bnd", name: "biz.aQute.resolve", version: "7.2.1"
 	api group: "com.liferay", name: "com.liferay.gradle.util", version: "1.0.53"
 	api group: "org.json", name: "json", version: "20231013"
 	compileOnly fileTree(builtBy: [rootProject.tasks.getByName("extractGradleApi" + gradleVersion.replace(".", ""))], dir: new File(rootProject.buildDir, "gradle-${gradleVersion}"), exclude: "lib/plugins/bndlib-*.jar")
