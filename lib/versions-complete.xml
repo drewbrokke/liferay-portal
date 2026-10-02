@@ -8014,18 +8014,6 @@
 				<comments>Older versions required removing testdata.* because it conflicted with JBoss 5.1.</comments>
 			</library>
 			<library>
-				<file-name>lib/development/bnd-repository.jar</file-name>
-				<version>6.4.0</version>
-				<project-name>Bndtools</project-name>
-				<project-url>https://bnd.bndtools.org</project-url>
-				<licenses>
-					<license>
-						<license-name>Apache License 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
 				<file-name>lib/development/bsh.jar</file-name>
 				<version>2.0 B4</version>
 				<project-name>BeanShell</project-name>
