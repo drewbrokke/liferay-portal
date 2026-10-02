@@ -98,7 +98,8 @@ public class Baseline {
 			packageFilter.add("*");
 
 			Set<Info> infos = baseline.baseline(
-				newJar, oldJar, new Instructions(packageFilter));
+				newJar, oldJar,
+				new Instructions(String.join(",", packageFilter)));
 
 			if (infos.isEmpty()) {
 				return true;
