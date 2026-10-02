@@ -71,6 +71,7 @@ public class LiferayOSGiExtension {
 		_bundleDefaultInstructions.put(
 			Constants.FIXUPMESSAGES + ".unicode.string",
 			"Invalid unicode string");
+		_bundleDefaultInstructions.put(Constants.METAINF_SERVICES, "none");
 		_bundleDefaultInstructions.put(Constants.NOCLASSFORNAME, Boolean.TRUE);
 		_bundleDefaultInstructions.put(Constants.NOIMPORTJAVA, Boolean.TRUE);
 		_bundleDefaultInstructions.put(
