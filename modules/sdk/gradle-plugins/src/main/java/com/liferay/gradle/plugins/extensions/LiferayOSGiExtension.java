@@ -9,6 +9,7 @@ import aQute.bnd.osgi.Constants;
 
 import aQute.lib.spring.SpringComponent;
 
+import com.liferay.ant.bnd.capability.CapabilityDirectiveManifestPlugin;
 import com.liferay.ant.bnd.enterprise.EnterpriseAnalyzerPlugin;
 import com.liferay.ant.bnd.jsp.JspAnalyzerPlugin;
 import com.liferay.ant.bnd.metatype.MetatypePlugin;
@@ -187,6 +188,7 @@ public class LiferayOSGiExtension {
 
 	private static final String[] _BND_PLUGIN_CLASS_NAMES = {
 		AddResourceVerifierPlugin.class.getName(),
+		CapabilityDirectiveManifestPlugin.class.getName(),
 		JspAnalyzerPlugin.class.getName(), MetatypePlugin.class.getName(),
 		NpmAnalyzerPlugin.class.getName(),
 		ResourceBundleLoaderAnalyzerPlugin.class.getName(),
