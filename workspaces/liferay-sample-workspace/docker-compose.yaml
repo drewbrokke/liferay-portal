@@ -1,7 +1,5 @@
-name: liferay-stack
 services:
     database:
-        container_name: database
         environment:
             POSTGRES_DB: lportal
             POSTGRES_HOST_AUTH_METHOD: trust
@@ -18,7 +16,6 @@ services:
         ports:
             -   5432:5432
     liferay:
-        container_name: liferay
         depends_on:
             database:
                 condition: service_healthy
@@ -37,7 +34,7 @@ services:
                 --silent
                 http://localhost:8080/c/portal/status
             timeout: 10s
-        image: liferay:local
+        image: ${LIFERAY_IMAGE:-liferay:local}
         mem_limit: 10g
         mem_reservation: 8g
         ports:

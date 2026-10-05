@@ -7,7 +7,7 @@ source ../_common.sh
 function main {
 	echo "Deploying client extensions."
 
-	../../gradlew --project-dir ../.. deploy -Ddeploy.docker.container.id="$(docker ps --filter name=liferay --quiet)"
+	../../gradlew --project-dir ../.. deploy -Ddeploy.docker.container.id="$(docker_compose ps --quiet liferay)"
 }
 
 main "${@}"

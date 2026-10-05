@@ -54,7 +54,35 @@ function docker_compose {
 		compose_files+=(--file "${dir}/docker-compose-env.yaml")
 	fi
 
-	docker compose "${compose_files[@]}" "${@}"
+	LIFERAY_IMAGE="$(get_liferay_image)" \
+		docker compose \
+			--project-name "$(get_workspace_name)" \
+			"${compose_files[@]}" \
+			"${@}"
+}
+
+#
+# The image tag this workspace builds and runs. docker-compose.yaml falls back
+# to "liferay:local" when the variable is unset, so a bare "docker compose up"
+# still works; build.sh tags both.
+#
+function get_liferay_image {
+	echo "$(get_workspace_name)-liferay:local"
+}
+
+#
+# The workspace directory name, normalized the same way Docker Compose derives
+# a default project name from a directory, so an explicit --project-name and a
+# bare "docker compose" in the workspace root resolve to the same project.
+#
+function get_workspace_name {
+	local workspace_dir
+
+	workspace_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+	basename "${workspace_dir}" | \
+		tr "[:upper:]" "[:lower:]" | \
+		sed --expression "s/[^a-z0-9_-]//g" --expression "s/^[_-]*//"
 }
 
 function get_gradle_property {

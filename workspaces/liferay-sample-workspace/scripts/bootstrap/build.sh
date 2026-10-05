@@ -27,13 +27,24 @@ function main {
 
 	../../gradlew --project-dir ../.. buildDockerImage
 
-	local workspace_name
+	local built_image
 
-	workspace_name=$(basename "$(dirname "$(dirname "${PWD}")")")
+	built_image="$(basename "$(dirname "$(dirname "${PWD}")")")-liferay:${version_tag}"
 
-	echo "Tagging ${workspace_name}-liferay:${version_tag} as liferay:local."
+	local liferay_image
 
-	docker tag "${workspace_name}-liferay:${version_tag}" "liferay:local"
+	liferay_image=$(get_liferay_image)
+
+	echo "Tagging ${built_image} as ${liferay_image} and liferay:local."
+
+	docker tag "${built_image}" "${liferay_image}"
+
+	#
+	# Convenience alias for running "docker compose up" without these scripts.
+	# It points at whichever workspace built last; a running stack keeps the
+	# workspace specific tag it was created from.
+	#
+	docker tag "${built_image}" "liferay:local"
 
 	if [[ -f post-build.sh ]]
 	then
