@@ -1,6 +1,8 @@
 .DS_Store
 /.idea
 /bundles
+/playwright/playwright-report
+/playwright/test-results
 /poshi/poshi-ext.properties
 /poshi/test-results
 /poshi/tests

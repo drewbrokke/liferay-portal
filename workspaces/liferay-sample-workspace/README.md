@@ -217,3 +217,21 @@ For `liferay-sample-etc-cron` and `liferay-sample-etc-spring-boot` the third typ
 - *liferay-sample-theme-spritemap-2*
 
 	Replace a theme's spritemap with a single SVG file that is built from multiple smaller SVG files.
+
+## Functional Tests
+
+The Playwright tests in `playwright` check that each sample client extension works against the Liferay version declared by `liferay.workspace.product` in `gradle.properties`. To check the samples against another version, change that property and run the tests again.
+
+To stand up the environment and run every test, go to `liferay-sample-workspace` and type `./gradlew testFunctional`.
+
+The first run builds the Liferay Docker image, starts PostgreSQL, Liferay, and the `liferay-sample-etc-node` and `liferay-sample-etc-spring-boot` microservices, and deploys every client extension. Later runs reuse the running environment and redeploy only the client extensions that changed. When `liferay.workspace.product` changes, the environment is recreated with an empty database.
+
+The environment runs as its own Docker Compose project, so it does not touch the containers started by `scripts/bootstrap.sh`. Liferay is published at http://localhost:18080. Set `LIFERAY_FUNCTIONAL_TEST_PORT` to use another port.
+
+- To pass arguments to Playwright, type `./gradlew testFunctional -Pplaywright.args="--grep 'Custom Element'"`.
+
+- To rebuild the Liferay Docker image, for example after changing `configs/local`, type `./gradlew testFunctional -PrebuildDockerImage`.
+
+- To remove the environment and its data, type `./gradlew stopTestEnvironment`.
+
+To run the microservices next to the development environment, set `LIFERAY_COMPOSE_OVERRIDES=microservices` before running `scripts/bootstrap.sh`.

@@ -1,0 +1,50 @@
+services:
+    liferay:
+        ports:
+            -   3001:3001
+    liferay-sample-etc-node:
+        build:
+            context: ./client-extensions/liferay-sample-etc-node/build/liferay-client-extension-build
+        depends_on:
+            liferay:
+                condition: service_healthy
+        environment:
+            LIFERAY_ROUTES_CLIENT_EXTENSION: /opt/liferay/routes/default/liferay-sample-etc-node
+            LIFERAY_ROUTES_DXP: /opt/liferay/routes/default/dxp
+        healthcheck:
+            interval: 5s
+            retries: 60
+            start_period: 10s
+            test: >
+                curl
+                --fail
+                --silent
+                http://localhost:3001/ready
+            timeout: 5s
+        network_mode: service:liferay
+        volumes:
+            -   liferay_routes:/opt/liferay/routes:ro
+            -   ./scripts/microservices/wait_for_routes.sh:/usr/local/bin/liferay_node_runner_set_up.sh:ro
+    liferay-sample-etc-spring-boot:
+        build:
+            context: ./client-extensions/liferay-sample-etc-spring-boot/build/liferay-client-extension-build
+        depends_on:
+            liferay:
+                condition: service_healthy
+        environment:
+            LIFERAY_ROUTES_CLIENT_EXTENSION: /opt/liferay/routes/default/liferay-sample-etc-spring-boot
+            LIFERAY_ROUTES_DXP: /opt/liferay/routes/default/dxp
+        healthcheck:
+            interval: 5s
+            retries: 60
+            start_period: 30s
+            test: >
+                curl
+                --fail
+                --silent
+                http://localhost:58081/ready
+            timeout: 5s
+        network_mode: service:liferay
+        volumes:
+            -   liferay_routes:/opt/liferay/routes:ro
+            -   ./scripts/microservices/wait_for_routes.sh:/usr/local/bin/liferay_jar_runner_set_up.sh:ro

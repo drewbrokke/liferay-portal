@@ -1,0 +1,8 @@
+{
+	"devDependencies": {
+		"@playwright/test": "1.54.2"
+	},
+	"name": "@liferay/liferay-sample-workspace-playwright",
+	"private": true,
+	"version": "0.0.0"
+}

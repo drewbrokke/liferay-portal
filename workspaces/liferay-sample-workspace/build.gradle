@@ -1,9 +1,13 @@
 apply plugin: "com.liferay.node"
 
-createDockerContainer {
-	hostConfig.network = "host"
+allprojects {
+	pluginManager.withPlugin("com.liferay.node") {
+		node {
+			nodeVersion = "22.23.3"
+		}
+	}
 }
 
-node {
-	nodeVersion = "16.15.1"
+createDockerContainer {
+	hostConfig.network = "host"
 }
