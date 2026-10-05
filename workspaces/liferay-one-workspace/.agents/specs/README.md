@@ -10,6 +10,8 @@ Target workspace: `workspaces/liferay-one-workspace/`
 
 1. [`data-model.md`](./data-model.md) — full entity index, ERC + FriendlyURL registry, field mappings
 
+1. [`consumable-products.md`](./consumable-products.md) — how a metered product gets its monthly usage reports, and what adding a new one takes
+
 For the API surface, page/route map, and integration contracts, read the code
 directly — the Spring Boot controllers under
 `client-extensions/liferay-one-etc-spring-boot`, the frontend service layer and
