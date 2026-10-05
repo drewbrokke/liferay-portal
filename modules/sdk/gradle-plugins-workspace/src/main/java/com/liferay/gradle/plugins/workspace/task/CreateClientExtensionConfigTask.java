@@ -74,9 +74,6 @@ import org.gradle.api.tasks.TaskOutputs;
 public class CreateClientExtensionConfigTask extends DefaultTask {
 
 	public CreateClientExtensionConfigTask() {
-		_buildDir =
-			ClientExtensionProjectConfigurator.getClientExtensionBuildDir(
-				_project);
 		_clientExtensionConfigFile = _addTaskOutputFile(
 			_project.getName() + ".client-extension-config.json");
 
@@ -323,10 +320,15 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		DirectoryProperty buildDirectoryProperty =
 			projectLayout.getBuildDirectory();
 
-		Path buildFilePath = Paths.get(_buildDir, path);
+		ProviderFactory providerFactory = _project.getProviders();
 
 		Provider<RegularFile> buildFileProvider = buildDirectoryProperty.file(
-			buildFilePath.toString());
+			providerFactory.provider(
+				() -> {
+					Path buildFilePath = Paths.get(_getBuildDir(), path);
+
+					return buildFilePath.toString();
+				}));
 
 		TaskOutputs taskOutputs = getOutputs();
 
@@ -395,7 +397,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 	private void _expandWildcards(Map<String, Object> typeSettings) {
 		File clientExtensionBuildDir = new File(
-			_project.getBuildDir(), _buildDir);
+			_project.getBuildDir(), _getBuildDir());
 
 		File staticDir = new File(clientExtensionBuildDir, "static");
 
@@ -436,6 +438,11 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 				entry.setValue(values);
 			}
 		}
+	}
+
+	private String _getBuildDir() {
+		return ClientExtensionProjectConfigurator.getClientExtensionBuildDir(
+			_virtualInstanceId);
 	}
 
 	private String _getFileContent(File file) {
@@ -511,7 +518,8 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 
 				logger.info(
 					"See {}/{}/LCP.json for the merged file",
-					projectDirPath.relativize(buildDir.toPath()), _buildDir);
+					projectDirPath.relativize(buildDir.toPath()),
+					_getBuildDir());
 			}
 
 			return content;
@@ -773,7 +781,7 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 		Path relativeTargetFilePath = projectDirPath.relativize(file.toPath());
 
 		Path cxBuildDirPath = Paths.get(
-			String.valueOf(_project.getBuildDir()), _buildDir);
+			String.valueOf(_project.getBuildDir()), _getBuildDir());
 
 		Path resolvedTargetPath = cxBuildDirPath.resolve(
 			relativeTargetFilePath);
@@ -950,7 +958,6 @@ public class CreateClientExtensionConfigTask extends DefaultTask {
 			};
 
 	private final Base64.Encoder _base64Encoder = Base64.getEncoder();
-	private final String _buildDir;
 	private final Object _clientExtensionConfigFile;
 	private final Set<ClientExtension> _clientExtensions = new HashSet<>();
 	private Object _dockerFile;

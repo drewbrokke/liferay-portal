@@ -129,9 +129,13 @@ public class ClientExtensionProjectConfigurator
 		WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
 			(ExtensionAware)project.getGradle(), WorkspaceExtension.class);
 
-		return StringUtil.suffixIfNotBlank(
-			"liferay-client-extension-build",
+		return getClientExtensionBuildDir(
 			workspaceExtension.getVirtualInstanceId());
+	}
+
+	public static String getClientExtensionBuildDir(String virtualInstanceId) {
+		return StringUtil.suffixIfNotBlank(
+			"liferay-client-extension-build", virtualInstanceId);
 	}
 
 	public ClientExtensionProjectConfigurator(Settings settings) {
@@ -148,6 +152,8 @@ public class ClientExtensionProjectConfigurator
 	public void apply(Project project) {
 		WorkspaceExtension workspaceExtension = GradleUtil.getExtension(
 			(ExtensionAware)project.getGradle(), WorkspaceExtension.class);
+
+		String virtualInstanceId = _getVirtualInstanceId(workspaceExtension);
 
 		TaskProvider<CreateClientExtensionConfigTask>
 			createClientExtensionConfigTaskProvider =
@@ -181,7 +187,8 @@ public class ClientExtensionProjectConfigurator
 			buildSiteInitializerZipTaskProvider,
 			createClientExtensionConfigTaskProvider,
 			validateClientExtensionIdsTaskProvider,
-			validateClientExtensionTaskProvider, workspaceExtension);
+			validateClientExtensionTaskProvider, virtualInstanceId,
+			workspaceExtension);
 
 		AtomicBoolean hasThemeCSSClientExtension = new AtomicBoolean(false);
 
@@ -214,7 +221,7 @@ public class ClientExtensionProjectConfigurator
 					if (Objects.equals(fieldName, "assemble")) {
 						_configureAssembleClientExtensionTask(
 							project, assembleClientExtensionTaskProvider,
-							fieldJsonNode, profileName);
+							fieldJsonNode, profileName, virtualInstanceId);
 
 						return;
 					}
@@ -255,11 +262,6 @@ public class ClientExtensionProjectConfigurator
 								if (!_isActiveProfile(project, profileName)) {
 									return;
 								}
-
-								createClientExtensionConfigTask.
-									setVirtualInstanceId(
-										workspaceExtension.
-											getVirtualInstanceId());
 
 								createClientExtensionConfigTask.
 									addClientExtension(clientExtension);
@@ -314,7 +316,7 @@ public class ClientExtensionProjectConfigurator
 			project, assembleClientExtensionTaskProvider,
 			createClientExtensionConfigTaskProvider, workspaceExtension);
 
-		_configureLiferayRoutes(project, workspaceExtension);
+		_configureLiferayRoutes(project, virtualInstanceId, workspaceExtension);
 
 		if (_isLanguageProject(project)) {
 			GradleUtil.applyPlugin(project, LangBuilderPlugin.class);
@@ -484,7 +486,7 @@ public class ClientExtensionProjectConfigurator
 			createClientExtensionConfigTaskProvider,
 		TaskProvider<Task> validateClientExtensionIdsTaskProvider,
 		TaskProvider<Task> validateClientExtensionTaskProvider,
-		WorkspaceExtension workspaceExtension) {
+		String virtualInstanceId, WorkspaceExtension workspaceExtension) {
 
 		if (isDefaultRepositoryEnabled()) {
 			GradleUtil.addDefaultRepositories(project);
@@ -512,7 +514,7 @@ public class ClientExtensionProjectConfigurator
 			buildSiteInitializerZipTaskProvider,
 			createClientExtensionConfigTaskProvider,
 			validateClientExtensionIdsTaskProvider,
-			validateClientExtensionTaskProvider, workspaceExtension);
+			validateClientExtensionTaskProvider, virtualInstanceId);
 
 		addTaskDockerDeploy(
 			project, buildClientExtensionZipTaskProvider,
@@ -538,7 +540,8 @@ public class ClientExtensionProjectConfigurator
 
 	private void _configureAssembleClientExtensionTask(
 		Project project, TaskProvider<Copy> assembleClientExtensionTaskProvider,
-		JsonNode assembleJsonNode, String profileName) {
+		JsonNode assembleJsonNode, String profileName,
+		String virtualInstanceId) {
 
 		if (assembleJsonNode.isNull()) {
 			return;
@@ -549,6 +552,9 @@ public class ClientExtensionProjectConfigurator
 		if (assembleArrayNode.isEmpty()) {
 			return;
 		}
+
+		String clientExtensionBuildDir = getClientExtensionBuildDir(
+			virtualInstanceId);
 
 		assembleClientExtensionTaskProvider.configure(
 			assembleClientExtensionCopy -> {
@@ -588,8 +594,7 @@ public class ClientExtensionProjectConfigurator
 								}
 
 								copySpec.exclude(
-									"**/" +
-										getClientExtensionBuildDir(project));
+									"**/" + clientExtensionBuildDir);
 
 								if (includeJsonNode instanceof ArrayNode) {
 									ArrayNode arrayNode =
@@ -704,7 +709,7 @@ public class ClientExtensionProjectConfigurator
 			createClientExtensionConfigTaskProvider,
 		TaskProvider<Task> validateClientExtensionIdsTaskProvider,
 		TaskProvider<Task> validateClientExtensionTaskProvider,
-		WorkspaceExtension workspaceExtension) {
+		String virtualInstanceId) {
 
 		File clientExtensionYamlFile = project.file(_CLIENT_EXTENSION_YAML);
 
@@ -714,6 +719,8 @@ public class ClientExtensionProjectConfigurator
 					ASSEMBLE_CLIENT_EXTENSION_TASK_NAME,
 					VALIDATE_CLIENT_EXTENSION_IDS_TASK_NAME,
 					VALIDATE_CLIENT_EXTENSIONS_TASK_NAME);
+				createClientExtensionConfigTask.setVirtualInstanceId(
+					virtualInstanceId);
 
 				if (clientExtensionYamlFile.exists()) {
 					TaskInputs taskInputs =
@@ -729,7 +736,8 @@ public class ClientExtensionProjectConfigurator
 			projectLayout.getBuildDirectory();
 
 		Provider<Directory> clientExtensionBuildDirProvider =
-			buildDirectoryProperty.dir(getClientExtensionBuildDir(project));
+			buildDirectoryProperty.dir(
+				getClientExtensionBuildDir(virtualInstanceId));
 
 		assembleClientExtensionTaskProvider.configure(
 			copy -> {
@@ -791,17 +799,8 @@ public class ClientExtensionProjectConfigurator
 					zip.getArchiveBaseName();
 
 				archiveBaseNameProperty.set(
-					project.provider(
-						new Callable<String>() {
-
-							@Override
-							public String call() throws Exception {
-								return StringUtil.suffixIfNotBlank(
-									project.getName(),
-									workspaceExtension.getVirtualInstanceId());
-							}
-
-						}));
+					StringUtil.suffixIfNotBlank(
+						project.getName(), virtualInstanceId));
 
 				Property<String> archiveVersion = zip.getArchiveVersion();
 
@@ -999,12 +998,12 @@ public class ClientExtensionProjectConfigurator
 	}
 
 	private void _configureLiferayRoutes(
-		Project project, WorkspaceExtension workspaceExtension) {
+		Project project, String virtualInstanceId,
+		WorkspaceExtension workspaceExtension) {
 
 		Map<String, String> environmentVariables = new HashMap<>();
 
-		String liferayVirtualInstanceId =
-			workspaceExtension.getVirtualInstanceId();
+		String liferayVirtualInstanceId = virtualInstanceId;
 
 		if (StringUtil.isBlank(liferayVirtualInstanceId)) {
 			liferayVirtualInstanceId = "default";
@@ -1223,6 +1222,12 @@ public class ClientExtensionProjectConfigurator
 		}
 
 		return (Map<String, Object>)value;
+	}
+
+	private String _getVirtualInstanceId(
+		WorkspaceExtension workspaceExtension) {
+
+		return workspaceExtension.getVirtualInstanceId();
 	}
 
 	private boolean _isActiveProfile(Project project, String profileName) {
