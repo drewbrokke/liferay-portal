@@ -20,21 +20,16 @@ copyCSS {
 }
 
 dependencies {
+	api group: "com.liferay", name: "com.liferay.portal.tools.java.parser", version: "1.0.59"
 	api group: "com.liferay", name: "org.freemarker", transitive: false, version: "2.3.33.LIFERAY-PATCHED-4"
 
-	api(group: "com.puppycrawl.tools", name: "checkstyle", version: "10.18.0") {
-		exclude group: "org.apache.maven.doxia"
-	}
-
 	api group: "commons-io", name: "commons-io", version: "2.19.0"
-	api group: "org.antlr", name: "antlr4-runtime", version: "4.13.2"
 	compileInclude group: "com.beust", name: "jcommander", version: "1.82"
 	compileInclude group: "org.yaml", name: "snakeyaml", version: "2.3"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.function", version: "5.5.0"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.io", version: "5.0.5"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.lang", version: "1.0.0"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.string", version: "5.0.1"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.tools.java.parser", version: "1.0.59"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compileOnly group: "com.liferay", name: "jakarta.ws.rs", version: "3.1.0.LIFERAY-PATCHED-1"
