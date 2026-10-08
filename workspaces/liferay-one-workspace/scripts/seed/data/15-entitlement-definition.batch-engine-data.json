@@ -623,10 +623,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 100,
 			"name": "database",
+			"overageSkuExternalReferenceCode": "PRDCT-PAAS-DATABASE-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-database-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkpYAD",
 			"unit": "GiB"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Database Overage",
+			"externalReferenceCode": "C_ENT_DEF_PAAS_DATABASE_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "database-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-database-monthly",
+			"skuExternalReferenceCode": "PRDCT-PAAS-DATABASE-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -636,10 +649,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 2,
 			"name": "extensions-ram",
+			"overageSkuExternalReferenceCode": "PRDCT-PAAS-EXTENSIONS-RAM-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-extensions-ram-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkpYAD",
 			"unit": "GiB"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Extensions RAM Overage",
+			"externalReferenceCode": "C_ENT_DEF_PAAS_EXTENSIONS_RAM_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "extensions-ram-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-extensions-ram-monthly",
+			"skuExternalReferenceCode": "PRDCT-PAAS-EXTENSIONS-RAM-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -649,10 +675,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 3,
 			"name": "extensions-vcpus",
+			"overageSkuExternalReferenceCode": "PRDCT-PAAS-EXTENSIONS-VCPUS-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-extensions-vcpus-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkpYAD",
 			"unit": "vCPU"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Extensions vCPUs Overage",
+			"externalReferenceCode": "C_ENT_DEF_PAAS_EXTENSIONS_VCPUS_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "extensions-vcpus-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-extensions-vcpus-monthly",
+			"skuExternalReferenceCode": "PRDCT-PAAS-EXTENSIONS-VCPUS-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -673,10 +712,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 300,
 			"name": "logs",
+			"overageSkuExternalReferenceCode": "PRDCT-PAAS-LOGS-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-logs-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkpYAD",
 			"unit": "GiB"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Logs Overage",
+			"externalReferenceCode": "C_ENT_DEF_PAAS_LOGS_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "logs-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-logs-monthly",
+			"skuExternalReferenceCode": "PRDCT-PAAS-LOGS-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -686,10 +738,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 1,
 			"name": "storage",
+			"overageSkuExternalReferenceCode": "PRDCT-PAAS-STORAGE-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-storage-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkpYAD",
 			"unit": "TiB"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Storage Overage",
+			"externalReferenceCode": "C_ENT_DEF_PAAS_STORAGE_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "storage-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-storage-monthly",
+			"skuExternalReferenceCode": "PRDCT-PAAS-STORAGE-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -699,10 +764,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 1,
 			"name": "traffic-networking",
+			"overageSkuExternalReferenceCode": "PRDCT-PAAS-TRAFFIC-NETWORKING-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-traffic-networking-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkpYAD",
 			"unit": "TiB"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Traffic Networking Overage",
+			"externalReferenceCode": "C_ENT_DEF_PAAS_TRAFFIC_NETWORKING_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "traffic-networking-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-traffic-networking-monthly",
+			"skuExternalReferenceCode": "PRDCT-PAAS-TRAFFIC-NETWORKING-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -1011,10 +1089,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 100,
 			"name": "database",
+			"overageSkuExternalReferenceCode": "PRDCT-SAAS-DATABASE-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-database-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkoYAD",
 			"unit": "GiB"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Database Overage",
+			"externalReferenceCode": "C_ENT_DEF_SAAS_DATABASE_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "database-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-database-monthly",
+			"skuExternalReferenceCode": "PRDCT-SAAS-DATABASE-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -1090,10 +1181,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 2,
 			"name": "extensions-ram",
+			"overageSkuExternalReferenceCode": "PRDCT-SAAS-EXTENSIONS-RAM-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-extensions-ram-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkoYAD",
 			"unit": "GiB"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Extensions RAM Overage",
+			"externalReferenceCode": "C_ENT_DEF_SAAS_EXTENSIONS_RAM_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "extensions-ram-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-extensions-ram-monthly",
+			"skuExternalReferenceCode": "PRDCT-SAAS-EXTENSIONS-RAM-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -1103,10 +1207,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 3,
 			"name": "extensions-vcpus",
+			"overageSkuExternalReferenceCode": "PRDCT-SAAS-EXTENSIONS-VCPUS-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-extensions-vcpus-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkoYAD",
 			"unit": "vCPU"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Extensions vCPUs Overage",
+			"externalReferenceCode": "C_ENT_DEF_SAAS_EXTENSIONS_VCPUS_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "extensions-vcpus-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-extensions-vcpus-monthly",
+			"skuExternalReferenceCode": "PRDCT-SAAS-EXTENSIONS-VCPUS-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -1139,10 +1256,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 300,
 			"name": "logs",
+			"overageSkuExternalReferenceCode": "PRDCT-SAAS-LOGS-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-logs-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkoYAD",
 			"unit": "GiB"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Logs Overage",
+			"externalReferenceCode": "C_ENT_DEF_SAAS_LOGS_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "logs-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-logs-monthly",
+			"skuExternalReferenceCode": "PRDCT-SAAS-LOGS-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -1218,10 +1348,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 1,
 			"name": "storage",
+			"overageSkuExternalReferenceCode": "PRDCT-SAAS-STORAGE-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-storage-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkoYAD",
 			"unit": "TiB"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Storage Overage",
+			"externalReferenceCode": "C_ENT_DEF_SAAS_STORAGE_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "storage-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-storage-monthly",
+			"skuExternalReferenceCode": "PRDCT-SAAS-STORAGE-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
@@ -1231,10 +1374,23 @@
 			"grantType": "fixed",
 			"maxQuantity": 1,
 			"name": "traffic-networking",
+			"overageSkuExternalReferenceCode": "PRDCT-SAAS-TRAFFIC-NETWORKING-OVERAGE",
 			"productOptions": "{\"machineType\": \"standard\"}",
 			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-traffic-networking-monthly",
 			"skuExternalReferenceCode": "01tVO00000QYrkoYAD",
 			"unit": "TiB"
+		},
+		{
+			"active": true,
+			"defaultQuantity": 1,
+			"displayName": "Traffic Networking Overage",
+			"externalReferenceCode": "C_ENT_DEF_SAAS_TRAFFIC_NETWORKING_OVERAGE",
+			"grantType": "fixed",
+			"maxQuantity": 1,
+			"name": "traffic-networking-overage",
+			"r_usageDefinitionToEntitlementDefinition_c_usageDefinitionERC": "experience-traffic-networking-monthly",
+			"skuExternalReferenceCode": "PRDCT-SAAS-TRAFFIC-NETWORKING-OVERAGE",
+			"unit": "count"
 		},
 		{
 			"active": true,
