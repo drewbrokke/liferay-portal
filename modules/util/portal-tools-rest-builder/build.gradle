@@ -3,6 +3,8 @@ apply plugin: "com.liferay.maven.plugin.builder"
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
+apply from: "../../build-portal-tool.gradle"
+
 buildPluginDescriptor {
 	ext {
 		autoClean = false
@@ -25,6 +27,7 @@ dependencies {
 	}
 
 	api group: "commons-io", name: "commons-io", version: "2.19.0"
+	api group: "org.antlr", name: "antlr4-runtime", version: "4.13.2"
 	compileInclude group: "com.beust", name: "jcommander", version: "1.82"
 	compileInclude group: "org.yaml", name: "snakeyaml", version: "2.3"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.function", version: "5.5.0"
@@ -48,18 +51,6 @@ dependencies {
 			because "Java 8 runtime support is required"
 		}
 	}
-}
-
-deployDependencies {
-	from (configurations.compileClasspath) {
-		include "antlr4-runtime-*.jar"
-		include "checkstyle-*.jar"
-		include "org.freemarker-*.jar"
-	}
-
-	rename(/antlr4-runtime-(.+)\.jar/, "antlr4-runtime" + renameSuffix)
-	rename(/checkstyle-(.+)\.jar/, "checkstyle" + renameSuffix)
-	rename(/org.freemarker-(.+)\.jar/, "org.freemarker" + renameSuffix)
 }
 
 liferay {

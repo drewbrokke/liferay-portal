@@ -1,0 +1,15 @@
+import com.liferay.gradle.util.copy.RenameDependencyClosure
+
+deploy {
+	doFirst {
+		delete liferay.deployDir
+	}
+}
+
+deployDependencies {
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+	from configurations.runtimeClasspath
+
+	rename new RenameDependencyClosure(project, "runtimeClasspath")
+}
