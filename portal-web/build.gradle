@@ -1,0 +1,22 @@
+apply from: "../modules/build-portal.gradle"
+
+task compileJSPAnt(type: Exec) {
+	commandLine "ant", "compile-tomcat"
+}
+
+tasks.named("writeFindBugsProject") {
+	dependsOn compileJSPAnt
+
+	classpath(file("classes/tomcat"))
+
+	// portal-web depends on many things
+	auxClasspath(file("../portal-kernel/classes"))
+	auxClasspath(file("../portal-impl/classes"))
+	auxClasspath(file("../util-java/classes"))
+	auxClasspath(file("../util-taglib/classes"))
+	auxClasspath(file("../util-bridges/classes"))
+	auxClasspath(file("../util-slf4j/classes"))
+
+	auxClasspath(fileTree(dir: "../lib/portal", include: "*.jar"))
+	auxClasspath(fileTree(dir: "../lib/development", include: "*.jar"))
+}

@@ -349,6 +349,30 @@ public class FindSecurityBugsPlugin implements Plugin<Project> {
 						JavaBasePlugin.VERIFICATION_GROUP);
 					findSecurityBugsJavaExec.setIgnoreExitValue(true);
 
+					String xms = System.getProperty("findSecurityBugs.Xms");
+					if (xms != null) {
+						findSecurityBugsJavaExec.setMinHeapSize(xms);
+					}
+
+					String xmx = System.getProperty("findSecurityBugs.Xmx");
+					if (xmx != null) {
+						findSecurityBugsJavaExec.setMaxHeapSize(xmx);
+					}
+
+					if (Boolean.getBoolean("findSecurityBugs.useZGC")) {
+						findSecurityBugsJavaExec.jvmArgs(
+							"-XX:+UseZGC",
+							"-XX:ReservedCodeCacheSize=512m",
+							"-XX:+AlwaysPreTouch");
+
+					} else {
+						findSecurityBugsJavaExec.jvmArgs(
+							"-XX:+UseStringDeduplication",
+							"-XX:MaxGCPauseMillis=1000",
+							"-XX:ReservedCodeCacheSize=512m",
+							"-XX:+AlwaysPreTouch");
+					}
+
 					findSecurityBugsJavaExec.systemProperty(
 						"findsecbugs.injection.customconfigfile." +
 							"PathTraversalDetector",
@@ -379,7 +403,7 @@ public class FindSecurityBugsPlugin implements Plugin<Project> {
 
 					findSecurityBugsJavaExec.systemProperty(
 						"findsecbugs.taint.outputconfigs", "true");
-
+					
 					String customConfigFile = "liferay-config/liferay.txt";
 
 					File directoryFile = project.file(".");
