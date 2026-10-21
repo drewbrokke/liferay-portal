@@ -15,6 +15,8 @@ source _functional_test_common.sh
 
 CLIENT_EXTENSIONS_DIR=/opt/liferay/osgi/client-extensions
 
+CLIENT_EXTENSIONS_REDEPLOYED=false
+
 function check_image {
 	if ! docker image inspect "${LIFERAY_DOCKER_IMAGE}" > /dev/null 2>&1
 	then
@@ -63,6 +65,8 @@ function deploy_client_extensions {
 		return
 	fi
 
+	CLIENT_EXTENSIONS_REDEPLOYED=true
+
 	wait_for_portal_log_quiet
 }
 
@@ -106,9 +110,22 @@ function start_microservices {
 		return
 	fi
 
+	local up_args=(--build --detach --wait --wait-timeout 300)
+
+	#
+	# Redeploying a client extension gives its OAuth application a new client
+	# ID, and a running microservice only reads the routes at startup, so
+	# recreate the microservices after any redeploy.
+	#
+
+	if [[ ${CLIENT_EXTENSIONS_REDEPLOYED} == true ]]
+	then
+		up_args+=(--force-recreate)
+	fi
+
 	echo "Starting ${microservice_names[*]}."
 
-	docker_compose up --build --detach --wait --wait-timeout 300 "${microservice_names[@]}"
+	docker_compose up "${up_args[@]}" "${microservice_names[@]}"
 }
 
 #
