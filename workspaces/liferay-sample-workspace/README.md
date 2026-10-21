@@ -217,3 +217,45 @@ For `liferay-sample-etc-cron` and `liferay-sample-etc-spring-boot` the third typ
 - *liferay-sample-theme-spritemap-2*
 
 	Replace a theme's spritemap with a single SVG file that is built from multiple smaller SVG files.
+
+## Functional Tests
+
+The Playwright tests in `playwright` check that each sample client extension works against the Liferay version declared by `liferay.workspace.product` in `gradle.properties`. To check the samples against another version, change that property and run the tests again.
+
+To stand up the environment and run every test, go to `liferay-sample-workspace` and type `./gradlew testFunctional`.
+
+The first run builds the Liferay Docker image, starts PostgreSQL, Liferay, and the `liferay-sample-etc-node` and `liferay-sample-etc-spring-boot` microservices, and deploys every client extension. Later runs reuse the running environment and redeploy only the client extensions that changed. When `liferay.workspace.product` changes, the environment is recreated with an empty database.
+
+The environment runs as its own Docker Compose project, so it does not touch the containers started by `scripts/bootstrap.sh`. Liferay is published at http://localhost:18080. Set `LIFERAY_FUNCTIONAL_TEST_PORT` to use another port.
+
+- To pass arguments to Playwright, type `./gradlew testFunctional -Pplaywright.args="--grep 'Custom Element'"`.
+
+- To rebuild the Liferay Docker image, for example after changing `configs/local`, type `./gradlew testFunctional -PrebuildDockerImage`.
+
+- To remove the environment and its data, type `./gradlew stopTestEnvironment`.
+
+To run the microservices next to the development environment, set `LIFERAY_COMPOSE_OVERRIDES=microservices` before running `scripts/bootstrap.sh`.
+
+### Shared and Workspace-Owned Files
+
+`workspaces/refresh_other_workspaces.sh` copies `playwright` to every other workspace, so the Gradle tasks, the Playwright configuration, and the shared `fixtures` and `helpers` are the same everywhere. Change them here, in `liferay-sample-workspace`.
+
+Everything under `playwright/workspace` belongs to the workspace it lives in, and the sync never touches it:
+
+- `workspace/tests` holds the workspace's specs.
+
+- `workspace/fixtures/test.ts` extends the shared test with the workspace's own fixtures. Specs import `test` and `expect` from it.
+
+- `workspace/helpers` holds the workspace's own helpers and page objects.
+
+The Docker Compose override files follow the same split. `docker-compose.<name>.yaml` is shared and syncs; `docker-compose-<name>.yaml` belongs to the workspace. The functional test scripts include both `docker-compose.functional-test.yaml` and, when it exists, `docker-compose-functional-test.yaml`, so a workspace adds a service its tests need, such as an SMTP server, in the second file. The `microservices` override is included when the workspace has one, and every service it adds on top of `docker-compose.yaml` is started as a microservice.
+
+### Configuration
+
+`playwright/helpers/environment.ts` reads `playwright/.env`, then `playwright/.env.local`, then the environment, and later sources win. `.env.local` is ignored by Git. The variables are:
+
+- `PORTAL_URL`: the Liferay to test against. Defaults to `http://localhost:${LIFERAY_FUNCTIONAL_TEST_PORT}`, with the port defaulting to 18080.
+
+- `LIFERAY_ADMIN_EMAIL_ADDRESS` and `LIFERAY_ADMIN_PASSWORD`: the user the browser signs in as. Default to `test@liferay.com` and `test`.
+
+- `LIFERAY_API_EMAIL_ADDRESS` and `LIFERAY_API_PASSWORD`: the administrator the API client authenticates as. `playwright/global-setup.ts` creates this user before the first test. It is separate from the browser's user because a basic authentication request as the browser's user signs that browser session out on some Liferay versions.

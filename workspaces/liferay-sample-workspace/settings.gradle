@@ -25,4 +25,4 @@ if (providers.gradleProperty("liferay.workspace.use.test.boms").map(Boolean::par
 	apply from: "unit-tests.gradle"
 }
 
-include "poshi"
+include "playwright", "poshi"

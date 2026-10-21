@@ -1,0 +1,14 @@
+name: liferay-sample-workspace-functional-test
+services:
+    database:
+        container_name: !reset null
+        ports: !reset []
+    liferay:
+        container_name: !reset null
+        environment:
+            LIFERAY_JVM_OPTS: ${LIFERAY_FUNCTIONAL_TEST_JVM_OPTS:--XX:MaxMetaspaceSize=768m -Xms2g -Xmx4g}
+        image: ${LIFERAY_DOCKER_IMAGE:?Set LIFERAY_DOCKER_IMAGE to the image built by buildDockerImage}
+        mem_limit: 6g
+        mem_reservation: !reset null
+        ports: !override
+            -   ${LIFERAY_FUNCTIONAL_TEST_PORT:-18080}:8080

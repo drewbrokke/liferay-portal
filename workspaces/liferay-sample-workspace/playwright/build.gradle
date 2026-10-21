@@ -1,0 +1,119 @@
+import com.liferay.gradle.plugins.node.task.PackageRunTask
+
+import org.apache.tools.ant.types.Commandline
+
+apply plugin: "com.liferay.node"
+
+//
+// This project downloads its own Node, so it never depends on the version the
+// workspace's root build.gradle pins. That file does not sync to other
+// workspaces. The workspace plugin's setUpYarn task adds every package.json
+// under the workspace to the root yarn workspaces, so the packages install
+// through the root and the scripts below run through yarn, which resolves the
+// hoisted Playwright binary.
+//
+
+node {
+	global = false
+	nodeVersion = "22.23.3"
+}
+
+String playwrightProjectPath = project.path
+
+Provider<String> portalURLProvider = providers.environmentVariable("PORTAL_URL").orElse(
+	providers.environmentVariable("LIFERAY_FUNCTIONAL_TEST_PORT").orElse("18080").map {
+		"http://localhost:${it}"
+	})
+
+TaskProvider<Task> buildDockerImageTaskProvider = rootProject.tasks.named("buildDockerImage")
+
+Provider<String> liferayDockerImageProvider = buildDockerImageTaskProvider.flatMap {
+	it.images.map {
+		it.first()
+	}
+}
+
+List<String> clientExtensionAssembleTaskPaths = rootProject.subprojects.findAll {
+	it.path.startsWith(":client-extensions:")
+}.collect {
+	"${it.path}:assemble"
+}
+
+Closure<Boolean> isLiferayDockerImageMissing = {
+	ExecResult execResult = project.exec {
+		commandLine "docker", "image", "inspect", liferayDockerImageProvider.get()
+		errorOutput = OutputStream.nullOutputStream()
+		ignoreExitValue = true
+		standardOutput = OutputStream.nullOutputStream()
+	}
+
+	execResult.exitValue != 0
+}
+
+tasks.register("extractHotfix", Exec) {
+	commandLine rootProject.file("scripts/bootstrap/extract_hotfix.sh")
+	description = "Downloads the hotfix set by liferay.workspace.hotfix.url into the Docker build."
+	group = "functional test"
+}
+
+tasks.register("extractLicense", Exec) {
+	commandLine rootProject.file("scripts/bootstrap/extract_license.sh")
+	description = "Extracts a trial license into the Docker build."
+	group = "functional test"
+}
+
+buildDockerImageTaskProvider.configure {
+	mustRunAfter "${playwrightProjectPath}:extractHotfix", "${playwrightProjectPath}:extractLicense"
+
+	onlyIf("the Liferay image does not exist, or rebuildDockerImage is set") {
+		!gradle.taskGraph.hasTask("${playwrightProjectPath}:startTestEnvironment") ||
+		project.hasProperty("rebuildDockerImage") ||
+		isLiferayDockerImageMissing()
+	}
+}
+
+tasks.register("installPlaywrightBrowsers", PackageRunTask) {
+	dependsOn "npmInstall"
+	description = "Downloads the browser the functional tests run in."
+	group = "functional test"
+	outputs.upToDateWhen {
+		false
+	}
+	scriptName = "install-browsers"
+}
+
+tasks.register("startTestEnvironment", Exec) {
+	commandLine rootProject.file("scripts/functional_test/start.sh")
+	dependsOn clientExtensionAssembleTaskPaths
+	dependsOn "extractHotfix", "extractLicense", buildDockerImageTaskProvider
+	description = "Starts Liferay and the microservice client extensions in Docker, and deploys every client extension."
+	group = "functional test"
+
+	doFirst {
+		environment "LIFERAY_DOCKER_IMAGE", liferayDockerImageProvider.get()
+	}
+}
+
+tasks.register("stopTestEnvironment", Exec) {
+	commandLine rootProject.file("scripts/functional_test/stop.sh")
+	description = "Removes the functional test containers and volumes."
+	group = "functional test"
+}
+
+tasks.register("testFunctional", PackageRunTask) {
+	if (project.hasProperty("playwright.args")) {
+		args Commandline.translateCommandline(project.property("playwright.args"))
+	}
+
+	dependsOn "installPlaywrightBrowsers", "startTestEnvironment"
+	description = "Runs the Playwright tests against the functional test stack."
+	group = "functional test"
+	outputs.upToDateWhen {
+		false
+	}
+	scriptName = "test"
+
+	doFirst {
+		environment "PORTAL_URL", portalURLProvider.get()
+	}
+}
