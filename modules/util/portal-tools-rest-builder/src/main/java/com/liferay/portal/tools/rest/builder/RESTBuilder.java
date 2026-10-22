@@ -269,6 +269,7 @@ public class RESTBuilder {
 		boolean createClientCustomFieldFiles = true;
 		boolean createClientScopeFiles = true;
 		boolean createLiberalPermissionCheckerFile = true;
+		List<String> clientJSYAMLStrings = new ArrayList<>();
 		List<String> validationErrorMessages = new ArrayList<>();
 
 		for (File openAPIYAMLFile :
@@ -473,14 +474,15 @@ public class RESTBuilder {
 					});
 			}
 
-			if (!_configYAML.isGenerateClientJS() ||
-				Validator.isNull(_configYAML.getClientDir())) {
+			clientJSYAMLStrings.add(yamlString);
+		}
 
-				continue;
-			}
+		if (_configYAML.isGenerateClientJS() &&
+			Validator.isNotNull(_configYAML.getClientDir()) &&
+			!clientJSYAMLStrings.isEmpty()) {
 
 			TypeScriptClientUtil.generateTypeScriptClient(
-				_configDir, _configYAML, _copyrightFile, yamlString);
+				_configDir, _configYAML, _copyrightFile, clientJSYAMLStrings);
 		}
 
 		if (!validationErrorMessages.isEmpty()) {
