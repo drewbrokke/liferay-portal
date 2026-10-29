@@ -1,5 +1,7 @@
 import com.liferay.gradle.plugins.baseline.BaselinePlugin
 import com.liferay.gradle.plugins.baseline.BaselineTask
+import com.liferay.gradle.plugins.defaults.internal.FindSecurityBugsPlugin
+import com.liferay.gradle.plugins.jasper.jspc.JspCPlugin
 
 import org.gradle.util.GUtil
 
@@ -9,11 +11,70 @@ buildscript {
 
 apply plugin: BaselinePlugin
 
-Properties bndProperties = GUtil.loadProperties(file("bnd.bnd"))
+if (!tasks.findByName("generateJSPJava")) {
+	tasks.register("generateJSPJava", com.liferay.gradle.plugins.jasper.jspc.CompileJSPTask) {
+		enabled = false
+	}
+}
+
+if (!tasks.findByName("compileJSP")) {
+	tasks.register("compileJSP", JavaCompile) {
+		destinationDirectory = file("build/classes/jsp/main")
+		enabled = false
+		source = fileTree("build/generated/jsp/main")
+	}
+}
+
+FindSecurityBugsPlugin.INSTANCE.apply(project)
+
+tasks.named("check") {
+	setDependsOn(getDependsOn().findAll { dep ->
+		!(dep instanceof org.gradle.api.Named && dep.getName() == FindSecurityBugsPlugin.FIND_SECURITY_BUGS_TASK_NAME)
+	})
+}
+
+File portalRootDir = project.file("..").absoluteFile
+
+task buildPreModules(type: GradleBuild) {
+	buildFile = new File(portalRootDir, "modules/build.gradle")
+	dir = new File(portalRootDir, "modules/core")
+	startParameter.projectProperties = [
+		"forced.deploy.dir": new File(portalRootDir, "tmp/lib-pre").absolutePath
+	]
+	startParameter.systemPropertiesArgs = [
+		"build.profile": "portal-pre"
+	]
+	tasks = ["deploy"]
+}
+
+tasks.named("findSecurityBugs") {
+	dependsOn buildPreModules
+}
+
+tasks.named("writeFindBugsProject") {
+	dependsOn buildPreModules
+
+	File rootDir = project.file("..").absoluteFile
+
+	classpath(file("classes"))
+
+	// Minimal universal core dependencies for ALL core projects
+	auxClasspath(fileTree(dir: new File(rootDir, "tmp/lib-pre"), include: "*.jar"))
+	auxClasspath(fileTree(dir: new File(rootDir, "lib/development"), include: "*.jar"))
+    auxClasspath(fileTree(dir: new File(rootDir, "lib/portal"), include: "*.jar"))
+}
 
 archivesBaseName = "com.liferay." + name.replace('-' as char, '.' as char)
 group = "com.liferay.portal"
-version = bndProperties.getProperty("Bundle-Version")
+
+if (file("bnd.bnd").exists()) {
+	Properties bndProperties = GUtil.loadProperties(file("bnd.bnd"))
+
+	version = bndProperties.getProperty("Bundle-Version")
+}
+else {
+	version = "1.0.0"
+}
 
 classes {
 	dependsOn = []
@@ -29,11 +90,13 @@ jar {
 	enabled = false
 }
 
-reporting {
-	baseDir = "../baseline-reports"
-}
+//reporting {
+//	baseDir = "reports"
+//}
 
 repositories {
+	mavenLocal()
+
 	maven {
 		url System.properties["repository.url"] ?: "https://repository-cdn.liferay.com/nexus/content/groups/public"
 	}
