@@ -33,6 +33,7 @@ import com.liferay.gradle.plugins.workspace.internal.util.GradleUtil;
 import com.liferay.gradle.plugins.workspace.internal.util.StringUtil;
 import com.liferay.gradle.plugins.workspace.task.CreateTokenTask;
 import com.liferay.gradle.plugins.workspace.task.InitBundleTask;
+import com.liferay.gradle.plugins.workspace.task.UpdateWorkspaceTask;
 import com.liferay.gradle.plugins.workspace.task.UpgradeJakartaTask;
 import com.liferay.gradle.plugins.workspace.task.UpgradeSourceCodeTask;
 import com.liferay.gradle.plugins.workspace.task.VerifyBundleTask;
@@ -75,9 +76,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.DependencySet;
-import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.execution.TaskExecutionGraph;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.Directory;
@@ -292,9 +291,7 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		_configureTaskUpgradeSourceCode(
 			upgradeSourceCodeTask, workspaceExtension);
 
-		Task updateWorkspaceTask = _addTaskUpdateWorkspace(project);
-
-		_configureTaskUpdateWorkspace(updateWorkspaceTask);
+		_addTaskUpdateWorkspace(project);
 
 		_addTaskUpgradeJakarta(project);
 	}
@@ -1420,15 +1417,13 @@ public class RootProjectConfigurator implements Plugin<Project> {
 		return dockerStopContainer;
 	}
 
-	private Task _addTaskUpdateWorkspace(Project project) {
-		Task task = GradleUtil.addTask(
-			project, _UPDATE_WORKSPACE_TASK_NAME, DefaultTask.class);
+	private void _addTaskUpdateWorkspace(Project project) {
+		UpdateWorkspaceTask updateWorkspaceTask = GradleUtil.addTask(
+			project, _UPDATE_WORKSPACE_TASK_NAME, UpdateWorkspaceTask.class);
 
-		task.setDescription(
+		updateWorkspaceTask.setDescription(
 			"Updates Liferay Workspace and supporting files to the latest " +
 				"version.");
-
-		return task;
 	}
 
 	private void _addTaskUpgradeJakarta(Project project) {
@@ -1956,46 +1951,6 @@ public class RootProjectConfigurator implements Plugin<Project> {
 				@Override
 				public boolean isSatisfiedBy(Task task) {
 					return false;
-				}
-
-			});
-	}
-
-	private void _configureTaskUpdateWorkspace(Task task) {
-		final Project project = task.getProject();
-
-		task.doLast(
-			new Action<Task>() {
-
-				@Override
-				public void execute(Task task) {
-					ConfigurationContainer configurationContainer =
-						project.getConfigurations();
-
-					DependencyHandler dependencyHandler =
-						project.getDependencies();
-
-					Configuration configuration =
-						configurationContainer.detachedConfiguration(
-							dependencyHandler.create(
-								"com.liferay.workspace:" +
-									"com.liferay.sample.workspace.evergreen:" +
-										"latest.release"));
-
-					configuration.setTransitive(false);
-
-					project.copy(
-						new Action<CopySpec>() {
-
-							@Override
-							public void execute(CopySpec copySpec) {
-								copySpec.from(
-									project.zipTree(
-										configuration.getSingleFile()));
-								copySpec.into(project.getProjectDir());
-							}
-
-						});
 				}
 
 			});
