@@ -8,6 +8,7 @@ package com.liferay.gradle.plugins.test.integration;
 import com.liferay.gradle.plugins.test.integration.internal.util.GradleUtil;
 
 import java.io.File;
+import java.io.FileFilter;
 
 import org.gradle.api.Project;
 
@@ -25,7 +26,45 @@ public class TestIntegrationTomcatExtension {
 	}
 
 	public File getDir() {
-		return GradleUtil.toFile(_project, _dir);
+		File dir = GradleUtil.toFile(_project, _dir);
+
+		if ((dir != null) && dir.exists()) {
+			return dir;
+		}
+
+		File liferayHome = getLiferayHome();
+
+		if (liferayHome == null) {
+			return dir;
+		}
+
+		File[] liferayHomeFiles = liferayHome.listFiles(
+			new FileFilter() {
+
+				@Override
+				public boolean accept(File file) {
+					if (!file.isDirectory()) {
+						return false;
+					}
+
+					String fileName = file.getName();
+
+					if (fileName.equals("tomcat") ||
+						fileName.startsWith("tomcat-")) {
+
+						return true;
+					}
+
+					return false;
+				}
+
+			});
+
+		if ((liferayHomeFiles != null) && (liferayHomeFiles.length == 1)) {
+			return liferayHomeFiles[0];
+		}
+
+		return dir;
 	}
 
 	public String getHostName() {
@@ -34,6 +73,21 @@ public class TestIntegrationTomcatExtension {
 
 	public int getJmxRemotePort() {
 		return GradleUtil.toInteger(_jmxRemotePort);
+	}
+
+	public File getLicenseFile() {
+		if (_licenseFile != null) {
+			return GradleUtil.toFile(_project, _licenseFile);
+		}
+
+		Project rootProject = _project.getRootProject();
+
+		if (!rootProject.hasProperty(_LICENSE_FILE_PROPERTY_NAME)) {
+			return null;
+		}
+
+		return rootProject.file(
+			rootProject.property(_LICENSE_FILE_PROPERTY_NAME));
 	}
 
 	public File getLiferayHome() {
@@ -82,6 +136,10 @@ public class TestIntegrationTomcatExtension {
 		_jmxRemotePort = jmxRemotePort;
 	}
 
+	public void setLicenseFile(Object licenseFile) {
+		_licenseFile = licenseFile;
+	}
+
 	public void setLiferayHome(Object liferayHome) {
 		_liferayHome = liferayHome;
 	}
@@ -102,10 +160,14 @@ public class TestIntegrationTomcatExtension {
 		_portNumber = portNumber;
 	}
 
+	private static final String _LICENSE_FILE_PROPERTY_NAME =
+		"integration.test.license.file";
+
 	private Object _checkPath = "/web/guest";
 	private Object _dir;
 	private Object _hostName = "localhost";
 	private Object _jmxRemotePort = 8099;
+	private Object _licenseFile;
 	private Object _liferayHome;
 	private Object _managerPassword = "tomcat";
 	private Object _managerUserName = "tomcat";
