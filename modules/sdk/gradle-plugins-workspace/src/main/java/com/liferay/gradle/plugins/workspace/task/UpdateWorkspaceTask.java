@@ -44,9 +44,22 @@ public class UpdateWorkspaceTask extends DefaultTask {
 
 		ObjectFactory objectFactory = project.getObjects();
 
+		_checkProperty = objectFactory.property(Boolean.class);
+
+		_checkProperty.convention(false);
+
 		_toVersionProperty = objectFactory.property(String.class);
 
 		_toVersionProperty.convention("latest.release");
+	}
+
+	@Input
+	@Option(
+		description = "Report what would change without writing any files.",
+		option = "check"
+	)
+	public Property<Boolean> getCheck() {
+		return _checkProperty;
 	}
 
 	@Input
@@ -93,9 +106,18 @@ public class UpdateWorkspaceTask extends DefaultTask {
 
 		Logger logger = getLogger();
 
-		logger.lifecycle(
-			"Updating workspace to {} version {}", _EVERGREEN_ARTIFACT_ID,
-			moduleVersionIdentifier.getVersion());
+		boolean check = _checkProperty.get();
+
+		if (check) {
+			logger.lifecycle(
+				"Check: workspace would be updated to {} version {}",
+				_EVERGREEN_ARTIFACT_ID, moduleVersionIdentifier.getVersion());
+		}
+		else {
+			logger.lifecycle(
+				"Updating workspace to {} version {}", _EVERGREEN_ARTIFACT_ID,
+				moduleVersionIdentifier.getVersion());
+		}
 
 		File file = resolvedArtifact.getFile();
 
@@ -109,6 +131,10 @@ public class UpdateWorkspaceTask extends DefaultTask {
 			copySpec -> {
 				copySpec.eachFile(
 					fileCopyDetails -> {
+						if (check) {
+							fileCopyDetails.exclude();
+						}
+
 						RelativePath relativePath =
 							fileCopyDetails.getRelativePath();
 
@@ -182,6 +208,7 @@ public class UpdateWorkspaceTask extends DefaultTask {
 
 	private static final String _EVERGREEN_GROUP = "com.liferay.workspace";
 
+	private final Property<Boolean> _checkProperty;
 	private final Property<String> _toVersionProperty;
 
 }
