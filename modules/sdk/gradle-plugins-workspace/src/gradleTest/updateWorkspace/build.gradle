@@ -1,4 +1,7 @@
+import com.liferay.gradle.plugins.workspace.task.UpdateWorkspaceTask
+
 task runGradleTest
+task updateWorkspaceToVersion(type: UpdateWorkspaceTask)
 
 repositories {
 	maven {
@@ -13,9 +16,24 @@ runGradleTest {
 		File file = new File(projectDir, "evergreen-marker.txt")
 
 		assert file.exists()
+		assert file.text == "updateWorkspace gradleTest fixture marker."
 
 		File nestedFile = new File(projectDir, "nested/evergreen-marker.txt")
 
 		assert nestedFile.exists()
+	}
+}
+
+updateWorkspace {
+	dependsOn updateWorkspaceToVersion
+}
+
+updateWorkspaceToVersion {
+	toVersion = "99999999.9998"
+
+	doLast {
+		File file = new File(projectDir, "evergreen-marker.txt")
+
+		assert file.text == "updateWorkspace gradleTest fixture marker 99999999.9998."
 	}
 }
