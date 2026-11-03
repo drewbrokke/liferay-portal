@@ -5,5 +5,5 @@
 	<groupId>com.liferay.workspace</groupId>
 	<artifactId>com.liferay.sample.workspace.evergreen</artifactId>
 	<version>99999999.9998</version>
-	<packaging>jar</packaging>
+	<packaging>zip</packaging>
 </project>
