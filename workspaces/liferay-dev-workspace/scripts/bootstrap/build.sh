@@ -20,6 +20,8 @@ function main {
 
 	../../gradlew --project-dir ../.. clean
 
+	../../gradlew --project-dir ../.. dockerDeploy
+
 	./extract_hotfix.sh
 	./extract_license.sh
 
@@ -31,9 +33,11 @@ function main {
 
 	workspace_name=$(basename "$(dirname "$(dirname "${PWD}")")")
 
-	echo "Tagging ${workspace_name}-liferay:${version_tag} as liferay:local."
+	local liferay_image=${LIFERAY_IMAGE:-liferay:local}
 
-	docker tag "${workspace_name}-liferay:${version_tag}" "liferay:local"
+	echo "Tagging ${workspace_name}-liferay:${version_tag} as ${liferay_image}."
+
+	docker tag "${workspace_name}-liferay:${version_tag}" "${liferay_image}"
 
 	if [[ -f post-build.sh ]]
 	then
