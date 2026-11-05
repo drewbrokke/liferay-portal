@@ -12,10 +12,16 @@ import java.io.OutputStream;
 
 import java.util.concurrent.Callable;
 
+import org.gradle.api.Action;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.Project;
+import org.gradle.api.file.CopySpec;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.Internal;
+import org.gradle.api.tasks.Optional;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 
 import org.zeroturnaround.exec.StartedProcess;
 
@@ -23,6 +29,13 @@ import org.zeroturnaround.exec.StartedProcess;
  * @author Andrea Di Giorgi
  */
 public class StartTestableTomcatTask extends StartAppServerTask {
+
+	@InputFile
+	@Optional
+	@PathSensitive(PathSensitivity.RELATIVE)
+	public File getLicenseFile() {
+		return GradleUtil.toFile(getProject(), _licenseFile);
+	}
 
 	@Internal
 	public File getLiferayHome() {
@@ -38,6 +51,10 @@ public class StartTestableTomcatTask extends StartAppServerTask {
 		_deleteLiferayHome = deleteLiferayHome;
 	}
 
+	public void setLicenseFile(Object licenseFile) {
+		_licenseFile = licenseFile;
+	}
+
 	public void setLiferayHome(Object liferayHome) {
 		_liferayHome = liferayHome;
 	}
@@ -47,6 +64,8 @@ public class StartTestableTomcatTask extends StartAppServerTask {
 		if (isDeleteLiferayHome()) {
 			_deleteLiferayHome();
 		}
+
+		_deployLicense();
 
 		super.startAppServer();
 	}
@@ -84,7 +103,35 @@ public class StartTestableTomcatTask extends StartAppServerTask {
 			new File(liferayHome, "portal-setup-wizard.properties"));
 	}
 
+	private void _deployLicense() {
+		final File licenseFile = getLicenseFile();
+
+		if (licenseFile == null) {
+			return;
+		}
+
+		final File liferayHome = getLiferayHome();
+
+		if (liferayHome == null) {
+			return;
+		}
+
+		Project project = getProject();
+
+		project.copy(
+			new Action<CopySpec>() {
+
+				@Override
+				public void execute(CopySpec copySpec) {
+					copySpec.from(licenseFile);
+					copySpec.into(new File(liferayHome, "deploy"));
+				}
+
+			});
+	}
+
 	private boolean _deleteLiferayHome = true;
+	private Object _licenseFile;
 	private Object _liferayHome;
 
 }
